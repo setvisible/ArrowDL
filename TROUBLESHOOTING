@@ -1,0 +1,6 @@
+===========================================================
+                  Build Trouble Shooting
+===========================================================
+
+ - Since the binary of DownZemAll! is not signed, Windows SmartScreen might scream at runtime.
+
