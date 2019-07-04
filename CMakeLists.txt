@@ -57,6 +57,7 @@ set(CMAKE_DEBUG_POSTFIX "d")
 # build options
 ##############################################################################
 #TODO: enable_testing()
+#option(ENABLE_TESTS   "Set to ON to build test applications (default)" OFF)
 option(ENABLE_TESTS   "Set to ON to build test applications (default)" ON)
 
 
@@ -66,6 +67,7 @@ option(ENABLE_TESTS   "Set to ON to build test applications (default)" ON)
 # https://cmake.org/cmake/help/v3.0/manual/cmake-qt.7.html
 # find_package(Qt5Core    REQUIRED)
 # find_package(Qt5Gui     REQUIRED)
+# find_package(Qt5Network REQUIRED)
 # find_package(Qt5Widgets REQUIRED)
 
 find_package(Qt5 5.1 COMPONENTS Core)
@@ -135,9 +137,31 @@ qt5_use_modules(${DownZemAll_NAME} Core Gui Widgets Network )
 
 if(ENABLE_TESTS)
 
+    enable_testing()
+
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/mask/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/regex/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/resourceitem/CMakeLists.txt)
+
+    # Copy the dlls to run the tests
+    # Or
+    # Add the directory to the DLLs to the PATH environment temporarly
+
+    ## Qt Libraries
+    get_target_property(QtCore_LOCATION Qt5::Core LOCATION)
+    get_filename_component(QT_DLL_DIR ${QtCore_LOCATION} PATH)
+    set(MY_QT_ENVIRONMENT_PATH ${QT_DLL_DIR}/..)
+
+    # set any extra environment variables to use during the execution of the script here:
+    set_tests_properties(  # use TESTS from cmake 3.12.0
+        tst_mask
+        tst_regex
+        tst_resourceitem
+    PROPERTIES ENVIRONMENT  
+        # The following line must escape semi-colons ";" with "\;"
+        "PATH=%PATH%\;${MY_QT_ENVIRONMENT_PATH}/bin\;${MY_QT_ENVIRONMENT_PATH}/plugins"
+    )
+
 
 endif(ENABLE_TESTS)
 

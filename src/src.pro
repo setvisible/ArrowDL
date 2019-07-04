@@ -26,6 +26,7 @@ lessThan(QT_VERSION, 5.0) {
 #-------------------------------------------------
 # Dependancies
 #-------------------------------------------------
+include($$PWD/../DownZemAll_config.pri)
 include($$PWD/../3rd/3rd.pri)
 
 
@@ -51,12 +52,36 @@ INCLUDEPATH += $$PWD/../include/
 #-------------------------------------------------
 # SOURCES
 #-------------------------------------------------
+include($$PWD/core/core.pri)
+include($$PWD/dialogs/dialogs.pri)
+include($$PWD/widgets/widgets.pri)
+
+HEADERS += \
+    $$PWD/about.h \
+    $$PWD/builddefs.h \
+    $$PWD/globals.h \
+    $$PWD/mainwindow.h \
+    $$PWD/version.h
+
+
+SOURCES += \
+    $$PWD/mainwindow.cpp \
+    $$PWD/main.cpp
+
+FORMS += \
+    $$PWD/mainwindow.ui
 
 
 
 #-------------------------------------------------
 # RESOURCES
 #-------------------------------------------------
+RESOURCES += $$PWD/resources.qrc
+#RESOURCES += $$PWD/examples/examples.qrc
+
+win32|unix {
+    RC_FILE += $$PWD/resources_win.rc
+}
 
 
 #-------------------------------------------------

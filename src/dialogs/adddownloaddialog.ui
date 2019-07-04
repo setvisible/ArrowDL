@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AddDownloadDialog</class>
+ <widget class="QDialog" name="AddDownloadDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>700</width>
+    <height>319</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>DownZemAll - Add Downloads</string>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0">
+   <item>
+    <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,1">
+     <item row="15" column="1">
+      <widget class="QLabel" name="label_7">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <italic>true</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Checksum (Hash):</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" rowspan="6">
+      <widget class="QWidget" name="logo" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">image: url(:/icons/logo/dza_128x128.png);</string>
+       </property>
+      </widget>
+     </item>
+     <item row="14" column="2" colspan="2">
+      <widget class="MaskWidget" name="maskWidget" native="true"/>
+     </item>
+     <item row="10" column="1">
+      <widget class="QLabel" name="label_3">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <italic>true</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Referring page:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="1">
+      <widget class="QLabel" name="label_4">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <italic>true</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Description:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="2" colspan="2">
+      <widget class="QLineEdit" name="filenameLineEdit">
+       <property name="placeholderText">
+        <string>Enter new file name</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="1" rowspan="2">
+      <widget class="QLabel" name="label_5">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Save files in:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="14" column="1">
+      <widget class="QLabel" name="label_6">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Mask:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QLabel" name="label_2">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <italic>true</italic>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Custom filename:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2" rowspan="2" colspan="2">
+      <widget class="QLabel" name="label_8">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Enter the download URL and (optionally) the referring page. You can also use batch descriptors to download multiple files at one time.</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2" colspan="2">
+      <widget class="QLabel" name="label_10">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Examples:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="15" column="2" colspan="2">
+      <widget class="QLineEdit" name="hashLineEdit"/>
+     </item>
+     <item row="11" column="2" colspan="2">
+      <widget class="QLineEdit" name="descriptionLineEdit"/>
+     </item>
+     <item row="10" column="2" colspan="2">
+      <widget class="QLineEdit" name="referrerLineEdit">
+       <property name="placeholderText">
+        <string>Enter referrer URI</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="2" rowspan="2" colspan="2">
+      <widget class="BrowserWidget" name="browserWidget" native="true"/>
+     </item>
+     <item row="8" column="1">
+      <widget class="QLabel" name="label">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Download:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="2" colspan="2">
+      <widget class="QLineEdit" name="downloadLineEdit">
+       <property name="placeholderText">
+        <string>Enter download URI</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1" rowspan="2" colspan="3">
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2" rowspan="3" colspan="2">
+      <widget class="QLabel" name="label_9">
+       <property name="font">
+        <font>
+         <family>Courier New</family>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>   .../mygallery[A:C]/photo[001:100:2].jpg
+   .../mygallery[1:3]/photo[01:10][3:01:-1].jpg</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>184</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="buttonBox" stretch="1,0,0,0">
+     <property name="spacing">
+      <number>9</number>
+     </property>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="startButton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>&amp;Start!</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="addPausedButton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Add &amp;paused</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>BrowserWidget</class>
+   <extends>QWidget</extends>
+   <header>Widgets\BrowserWidget</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MaskWidget</class>
+   <extends>QWidget</extends>
+   <header>Widgets\MaskWidget</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>downloadLineEdit</tabstop>
+  <tabstop>filenameLineEdit</tabstop>
+  <tabstop>referrerLineEdit</tabstop>
+  <tabstop>browserWidget</tabstop>
+  <tabstop>maskWidget</tabstop>
+  <tabstop>maskWidget</tabstop>
+  <tabstop>hashLineEdit</tabstop>
+  <tabstop>startButton</tabstop>
+  <tabstop>addPausedButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>startButton</sender>
+   <signal>released()</signal>
+   <receiver>AddDownloadDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>678</x>
+     <y>499</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>79</x>
+     <y>509</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>addPausedButton</sender>
+   <signal>released()</signal>
+   <receiver>AddDownloadDialog</receiver>
+   <slot>acceptPaused()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>762</x>
+     <y>499</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>644</x>
+     <y>509</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancelButton</sender>
+   <signal>released()</signal>
+   <receiver>AddDownloadDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>846</x>
+     <y>499</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>762</x>
+     <y>509</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>acceptPaused()</slot>
+ </slots>
+</ui>
