@@ -341,3 +341,17 @@ void DownloadEngine::oneFewerSegment()
         downloadItem->setMaxConnectionSegments(segments);
     }
 }
+
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * \brief Reimplement this method allows the Engine to make Items; like a factory.
+ *
+ * That makes the unit tests of this class easier, allowing dummy items.
+ *
+ * Optional
+ */
+IDownloadItem* DownloadEngine::createItem(const QUrl &/*url*/)
+{
+    return Q_NULLPTR;
+}

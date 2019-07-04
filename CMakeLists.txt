@@ -123,6 +123,7 @@ include_directories(./include/)
 include(${CMAKE_CURRENT_SOURCE_DIR}/src/CMakeLists.txt)
 include(${CMAKE_CURRENT_SOURCE_DIR}/src/core/CMakeLists.txt)
 include(${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/CMakeLists.txt)
+include(${CMAKE_CURRENT_SOURCE_DIR}/src/io/CMakeLists.txt)
 include(${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/CMakeLists.txt)
 
 

@@ -17,6 +17,7 @@
 #include "downloadmanager.h"
 
 #include <Core/DownloadItem>
+#include <Core/ResourceItem>
 #include <Core/Session>
 #include <Core/Settings>
 
@@ -160,3 +161,11 @@ QNetworkAccessManager* DownloadManager::networkManager()
 
 /******************************************************************************
  ******************************************************************************/
+IDownloadItem* DownloadManager::createItem(const QUrl &url)
+{
+    ResourceItem *resource = new ResourceItem();
+    resource->setUrl(url.toString().toUtf8());
+    DownloadItem *item = new DownloadItem(this);
+    item->setResource(resource);
+    return item;
+}

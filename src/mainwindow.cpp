@@ -33,9 +33,6 @@
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QTimer>
-#include <QtCore/QJsonArray>
-#include <QtCore/QJsonDocument>
-#include <QtCore/QJsonObject>
 #include <QtCore/QMimeData>
 #include <QtCore/QSettings>
 #include <QtCore/QStandardPaths>
@@ -297,23 +294,20 @@ void MainWindow::handleMessage(const QString &message)
  ******************************************************************************/
 void MainWindow::importFromFile()
 {
-    QString filePath = askOpenFileName(tr("Data File (*.json);;All files (*.*)"));
+    const QString filePath = askOpenFileName(FileReader::supportedFormats());
     if (!filePath.isEmpty()) {
-        if (loadFile(filePath)) {
-            this->refreshTitleAndStatus();
-            this->refreshMenus();
-        }
+        setWorkingDirectory(filePath);
+        loadFile(filePath);
     }
 }
 
 void MainWindow::exportSelectedToFile()
 {
-    QString filePath = askSaveFileName(QStringLiteral("Data File (*.json)"),
-                                       tr("Data File"));
-    if (filePath.isEmpty()) {
-        return;
+    const QString filePath = askSaveFileName(FileWriter::supportedFormats());
+    if (!filePath.isEmpty()) {
+        setWorkingDirectory(filePath);
+        saveFile(filePath);
     }
-    saveFile(filePath);
 }
 
 void MainWindow::selectAll()
@@ -730,25 +724,19 @@ void MainWindow::refreshMenus()
 
 /******************************************************************************
  ******************************************************************************/
-QString MainWindow::askSaveFileName(const QString &fileFilter, const QString &title)
+void MainWindow::setWorkingDirectory(const QString &path)
 {
-    QString suggestedPath;
-    const QString dir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-    suggestedPath = dir + QDir::separator() + m_currentFile.fileName();
-    suggestedPath = QDir::toNativeSeparators(suggestedPath);
-
-    return QFileDialog::getSaveFileName(this, title, suggestedPath, fileFilter);
+    const QFileInfo fi(path); // in case it's a file
+    const QString directory =  fi.isFile() ? fi.absolutePath() : fi.absoluteFilePath();
+    QDir dir(directory);
+    if (!dir.exists()) {
+        dir = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+    }
+    if (!dir.exists()) {
+        dir = QDir::homePath();
+    }
+    QDir::setCurrent(dir.absolutePath());
 }
-
-QString MainWindow::askOpenFileName(const QString &fileFilter, const QString &title)
-{
-    QString currentDir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-
-    currentDir = m_currentFile.absolutePath();
-
-    return QFileDialog::getOpenFileName(this, title, currentDir, fileFilter);
-}
-
 
 /******************************************************************************
  ******************************************************************************/
@@ -774,6 +762,7 @@ void MainWindow::readSettings()
         this->resize(size);
     }
     this->setWindowState( (Qt::WindowStates)settings.value("WindowState", 0).toInt() );
+    setWorkingDirectory(settings.value("WorkingDirectory").toString());
     ui->downloadQueueView->setColumnWidths(settings.value("ColumnWidths").value<QList<int> >());
 
     m_settings->readSettings();
@@ -787,6 +776,7 @@ void MainWindow::writeSettings()
         settings.setValue("Size", this->size());
     }
     settings.setValue("WindowState", (int)this->windowState()); // minimized, maximized, active, fullscreen...
+    settings.setValue("WorkingDirectory", QDir::currentPath());
     settings.setValue("ColumnWidths", QVariant::fromValue(ui->downloadQueueView->columnWidths()));
 
     // --------------------------------------------------------------
@@ -810,12 +800,22 @@ inline QUrl MainWindow::urlFromClipboard() const
 
 /******************************************************************************
  ******************************************************************************/
+QString MainWindow::askOpenFileName(const QString &fileFilter, const QString &title)
+{
+    return QFileDialog::getOpenFileName(this, title, QDir::currentPath(), fileFilter);
+}
+
+QString MainWindow::askSaveFileName(const QString &fileFilter, const QString &title)
+{
+    return QFileDialog::getSaveFileName(this, title, QDir::currentPath(), fileFilter);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 bool MainWindow::saveFile(const QString &path)
 {
-    QDir::setCurrent(path);
     QFile file(path);
-
-    if (!file.open(QIODevice::WriteOnly)) {
+    if (!writer.write(m_downloadManager)) {
         qWarning("Couldn't open save file.");
         QMessageBox::warning(this, tr("Cannot save file"),
                              tr("Cannot write to file %1:\n%2.")
@@ -823,15 +823,9 @@ bool MainWindow::saveFile(const QString &path)
                              .arg(file.errorString()));
         return false;
     }
-
-    QJsonObject json;
-    // m_downloadManager->write(json);
-    QJsonDocument saveDoc(json);
-    file.write( saveDoc.toJson() );
-
-    m_currentFile.setFile(path);
-    this->statusBar()->showMessage(tr("File saved"), 2000);
     this->refreshTitleAndStatus();
+    this->refreshMenus();
+    this->statusBar()->showMessage(tr("File saved"), 2000);
     return true;
 }
 
@@ -840,7 +834,7 @@ bool MainWindow::saveFile(const QString &path)
 bool MainWindow::loadFile(const QString &path)
 {
     QFile file(path);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    if (!reader.read(m_downloadManager)) {
         qWarning("Couldn't open file.");
         QMessageBox::warning(this, tr("Error"),
                              tr("Cannot read file %1:\n%2.")
@@ -848,26 +842,8 @@ bool MainWindow::loadFile(const QString &path)
                              .arg(file.errorString()));
         return false;
     }
-    QByteArray saveData = file.readAll();
-    QJsonParseError ok;
-    QJsonDocument loadDoc( QJsonDocument::fromJson(saveData, &ok) );
-
-    if (ok.error != QJsonParseError::NoError) {
-        qCritical("Couldn't parse JSON file.");
-        QMessageBox::warning(this, tr("Error"),
-                             tr("Cannot parse the JSON file:\n"
-                                "%1\n\n"
-                                "At character %2, %3.\n\n"
-                                "Operation canceled.")
-                             .arg(path)
-                             .arg(ok.offset)
-                             .arg(ok.errorString()));
-        return false;
-    }
-
-    // m_downloadManager->read(loadDoc.object());
-    m_currentFile = path;
-    this->statusBar()->showMessage(tr("File loaded"), 5000);
     this->refreshTitleAndStatus();
+    this->refreshMenus();
+    this->statusBar()->showMessage(tr("File loaded"), 5000);
     return true;
 }
