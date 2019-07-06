@@ -28,6 +28,8 @@
 #include <Dialogs/InformationDialog>
 #include <Dialogs/PreferenceDialog>
 #include <Dialogs/WizardDialog>
+#include <Io/FileReader>
+#include <Io/FileWriter>
 #include <Widgets/DownloadQueueView>
 
 #include <QtCore/QDir>
@@ -814,13 +816,13 @@ QString MainWindow::askSaveFileName(const QString &fileFilter, const QString &ti
  ******************************************************************************/
 bool MainWindow::saveFile(const QString &path)
 {
-    QFile file(path);
+    FileWriter writer(path);
     if (!writer.write(m_downloadManager)) {
         qWarning("Couldn't open save file.");
         QMessageBox::warning(this, tr("Cannot save file"),
                              tr("Cannot write to file %1:\n%2.")
                              .arg(path)
-                             .arg(file.errorString()));
+                             .arg(writer.errorString()));
         return false;
     }
     this->refreshTitleAndStatus();
@@ -833,13 +835,13 @@ bool MainWindow::saveFile(const QString &path)
  ******************************************************************************/
 bool MainWindow::loadFile(const QString &path)
 {
-    QFile file(path);
+    FileReader reader(path);
     if (!reader.read(m_downloadManager)) {
         qWarning("Couldn't open file.");
         QMessageBox::warning(this, tr("Error"),
                              tr("Cannot read file %1:\n%2.")
                              .arg(path)
-                             .arg(file.errorString()));
+                             .arg(reader.errorString()));
         return false;
     }
     this->refreshTitleAndStatus();
