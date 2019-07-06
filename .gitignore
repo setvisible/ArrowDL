@@ -11,6 +11,7 @@
 !/src
 !/test
 !/.gitignore
+!/.appveyor.yml
 !/.travis.yml
 !/CMakeLists.txt
 !/DownZemAll.pro
