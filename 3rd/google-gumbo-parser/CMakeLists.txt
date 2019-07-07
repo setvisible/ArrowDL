@@ -1,6 +1,6 @@
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rd/google-gumbo-parser/gumbo-0.10.1/src/)
 
-set(MY_SOURCES ${MY_SOURCES}
+set(GUMBO_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/3rd/google-gumbo-parser/gumbo-0.10.1/src/attribute.c
     ${CMAKE_CURRENT_SOURCE_DIR}/3rd/google-gumbo-parser/gumbo-0.10.1/src/char_ref.c
     ${CMAKE_CURRENT_SOURCE_DIR}/3rd/google-gumbo-parser/gumbo-0.10.1/src/error.c
@@ -14,7 +14,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/3rd/google-gumbo-parser/gumbo-0.10.1/src/vector.c
     )
 
-set(MY_HEADERS ${MY_HEADERS}
+set(GUMBO_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/3rd/google-gumbo-parser/gumbo-0.10.1/src/attribute.h
     ${CMAKE_CURRENT_SOURCE_DIR}/3rd/google-gumbo-parser/gumbo-0.10.1/src/char_ref.h
     ${CMAKE_CURRENT_SOURCE_DIR}/3rd/google-gumbo-parser/gumbo-0.10.1/src/error.h
