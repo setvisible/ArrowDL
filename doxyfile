@@ -1,0 +1,27 @@
+# GENERAL
+PROJECT_NAME           = "DownZemAll"
+OUTPUT_DIRECTORY       = "../../doxy-DownZemAll/"
+OUTPUT_LANGUAGE        = English
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+HTML_OUTPUT            = html
+
+# Input
+INPUT                  = ./LICENSE \
+                         ./README.md \
+                         ./src
+RECURSIVE              = YES
+
+# Build
+EXTRACT_ALL            = NO
+EXTRACT_PRIVATE        = YES
+EXTRACT_PACKAGE        = YES
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = YES
+EXTRACT_LOCAL_METHODS  = YES
+EXTRACT_ANON_NSPACES   = NO
+
+EXCLUDE_PATTERNS       = */test/* \
+                         */tests/* \
+                         */temp/* \
+                         */tempo/*

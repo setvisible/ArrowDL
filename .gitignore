@@ -1,3 +1,37 @@
+# ==============================================================================
+# Below we forbid everything and only allow what we know, that's much easier
+# than blocking about 500 different test files and bug report outputs.
+# ==============================================================================
+/.*
+/*
+!/3rd
+!/data
+!/doc
+!/include
+!/src
+!/test
+!/.gitignore
+!/.appveyor.yml
+!/.travis.yml
+!/CMakeLists.txt
+!/DownZemAll.pro
+!/DownZemAll_config.pri
+!/doxyfile
+!/doxygenMain.cpp
+!/LICENSE
+!/README.md
+!/TROUBLESHOOTING
+!/version
+
+
+# =======================================
+# Reject some generic files
+# =======================================
+*~
+*.rej
+*.orig
+*.bak
+
 # C++ objects and libs
 *.slo
 *.lo
@@ -6,7 +40,7 @@
 *.la
 *.lai
 *.so
-*.dll
+# *.dll
 *.dylib
 
 # Qt-es
@@ -41,3 +75,9 @@ target_wrapper.*
 
 # QtCreator CMake
 CMakeLists.txt.user*
+
+# =======================================
+# And reject some specific files
+# =======================================
+/scripts
+
