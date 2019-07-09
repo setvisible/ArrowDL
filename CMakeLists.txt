@@ -80,6 +80,7 @@ endif(ENABLE_TESTS)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 
@@ -126,6 +127,11 @@ add_executable(${DownZemAll_NAME}
     ${MY_SOURCES}
     ${configwin}
     ${MY_RESOURCES}
+    )
+
+# Gumbo
+target_link_libraries(${DownZemAll_NAME}
+    gumbo_static_lib
     )
 
 # Qt5
