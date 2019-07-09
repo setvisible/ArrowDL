@@ -183,6 +183,16 @@ void InitLeakDetection(GumboOptions* options, MallocStats* stats) {
     options->userdata = stats;
 }
 
+GumboTest::GumboTest()
+{
+    init();
+}
+
+GumboTest::~GumboTest()
+{
+    cleanup();
+}
+
 void GumboTest::init()
 {
     options_ = kGumboDefaultOptions;

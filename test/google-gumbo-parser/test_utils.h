@@ -69,6 +69,10 @@ class GumboTest : public QObject
 {
     Q_OBJECT
 
+protected:
+    GumboTest();
+    virtual ~GumboTest();
+
 protected slots:
     void init();
     void cleanup();
