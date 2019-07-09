@@ -80,6 +80,7 @@ endif(ENABLE_TESTS)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 
@@ -128,6 +129,11 @@ add_executable(${DownZemAll_NAME}
     ${MY_RESOURCES}
     )
 
+# Gumbo
+target_link_libraries(${DownZemAll_NAME}
+    gumbo_static_lib
+    )
+
 # Qt5
 qt5_use_modules(${DownZemAll_NAME} Core Gui Widgets Network )
 
@@ -138,6 +144,15 @@ qt5_use_modules(${DownZemAll_NAME} Core Gui Widgets Network )
 if(ENABLE_TESTS)
 
     enable_testing()
+
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/attribute/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/charref/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/parser/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/stringbuffer/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/stringpiece/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/tokenizer/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/utf8/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/vector/CMakeLists.txt)
 
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/mask/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/regex/CMakeLists.txt)
@@ -154,9 +169,22 @@ if(ENABLE_TESTS)
 
     # set any extra environment variables to use during the execution of the script here:
     set_tests_properties(  # use TESTS from cmake 3.12.0
+
+        # tests of Gumbo
+        tst_attribute
+        tst_charref
+        tst_parser
+        tst_stringbuffer
+        tst_stringpiece
+        tst_tokenizer
+        tst_utf8
+        tst_vector
+
+        # tests of DownZemAll
         tst_mask
         tst_regex
         tst_resourceitem
+
     PROPERTIES ENVIRONMENT  
         # The following line must escape semi-colons ";" with "\;"
         "PATH=%PATH%\;${MY_QT_ENVIRONMENT_PATH}/bin\;${MY_QT_ENVIRONMENT_PATH}/plugins"
