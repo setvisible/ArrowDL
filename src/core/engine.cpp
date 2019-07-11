@@ -41,10 +41,14 @@ Engine::Engine(QObject *parent) : QObject(parent)
   , m_currentSimultaneousDownloads(0)
   , m_maxSimultaneousDownloads(4)
 {
+    connect(this, SIGNAL(jobAppended(JobClient*)), this, SLOT(onQueueChanged(JobClient*)));
+    connect(this, SIGNAL(jobRemoved(JobClient*)), this, SLOT(onQueueChanged(JobClient*)));
+    connect(this, SIGNAL(jobStateChanged(JobClient*)), this, SLOT(onQueueChanged(JobClient*)));
 }
 
 Engine::~Engine()
 {
+    clear();
 }
 
 /******************************************************************************
@@ -98,6 +102,7 @@ void Engine::remove(JobClient *job)
 void Engine::onQueueChanged(JobClient */*job*/)
 {
     if (m_currentSimultaneousDownloads < m_maxSimultaneousDownloads) {
+
         foreach (auto job, m_jobs) {
             if (job->state() == JobClient::Idle) {
                 m_currentSimultaneousDownloads++;
@@ -111,6 +116,7 @@ void Engine::onQueueChanged(JobClient */*job*/)
 inline void Engine::start(JobClient *job)
 {
     qDebug() << Q_FUNC_INFO << job->localFullFileName();
+
     /* Ensure the destination directory exists */
     job->setState(JobClient::Preparing);
     emit jobStateChanged(job);
@@ -215,6 +221,7 @@ void Engine::onMetaDataChanged()
 
 void Engine::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
+    qDebug() << Q_FUNC_INFO << bytesReceived << bytesTotal;
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
     JobClient *job = getJob(reply);
     job->setBytesReceived(bytesReceived);
@@ -250,6 +257,7 @@ void Engine::onFinished()
 
     m_currentSimultaneousDownloads--;
     emit jobStateChanged(job);
+    emit downloadFinished(true);
 }
 
 void Engine::onError(QNetworkReply::NetworkError error)
@@ -260,10 +268,12 @@ void Engine::onError(QNetworkReply::NetworkError error)
     job->setError(error);
     job->setState(JobClient::NetworkError);
     emit jobStateChanged(job);
+    emit downloadFinished(false);
 }
 
 void Engine::onReadyRead()
 {
+    qDebug() << Q_FUNC_INFO;
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
     qint64 bytes = reply->bytesAvailable();

@@ -34,7 +34,7 @@ class Engine : public QObject
     Q_OBJECT
 
 public:
-    Engine(QObject *parent = 0);
+    explicit Engine(QObject *parent = 0);
     ~Engine();
 
     void clear();
@@ -57,6 +57,8 @@ signals:
     void jobAppended(JobClient *job);
     void jobRemoved(JobClient *job);
     void jobStateChanged(JobClient *job);
+
+    void downloadFinished(bool success);
 
 private slots:
     void onMetaDataChanged();

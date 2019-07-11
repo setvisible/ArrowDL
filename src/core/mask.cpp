@@ -47,9 +47,16 @@ QString Mask::interpret(const QUrl &url,
                         const QString &customeFileName,
                         const QString &mask)
 {
-    if (!url.isValid() || mask.isNull() || mask.isEmpty()) {
+    if (!url.isValid()) {
         return QString();
     }
+    QString decodedMask = QString("%0.%1").arg(NAME).arg(EXT);
+    if (mask.isNull() || mask.isEmpty()) {
+        decodedMask = QString("%0/%1/%2.%3").arg(URL).arg(SUBDIRS).arg(NAME).arg(EXT);
+    } else {
+        decodedMask = mask;
+    }
+
     const QString host = url.host();
     const QString path = url.path();
     const QString filename = url.fileName();
@@ -81,7 +88,6 @@ QString Mask::interpret(const QUrl &url,
     flatSubdirs.replace(QChar('/'), QChar('-'));
 
     // Renaming Tags
-    QString decodedMask = mask;
     decodedMask.replace(QChar('\\'), QChar('/'));
 
     decodedMask.replace( NAME         , basename      );
