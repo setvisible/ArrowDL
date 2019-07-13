@@ -14,8 +14,8 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <Core/Engine>
-#include <Core/JobClient>
+#include <Core/DownloadManager>
+#include <Core/DownloadItem>
 #include <Core/Mask>
 #include <Core/ResourceItem>
 
@@ -29,7 +29,7 @@
 #  include <QtCore/QDebug>
 #endif
 
-class tst_Engine : public QObject
+class tst_DownloadManager : public QObject
 {
     Q_OBJECT
 
@@ -38,13 +38,15 @@ private slots:
     void appendJobPaused();
 
 private:
-    JobClient *createDummyJob(const QString url, const QString mask);
+    DownloadItem *createDummyJob(
+            DownloadManager *downloadManager, const QString url, const QString mask);
     QTemporaryDir m_tempDir;
 };
 
 /******************************************************************************
  ******************************************************************************/
-JobClient *tst_Engine::createDummyJob(const QString url, const QString mask)
+DownloadItem *tst_DownloadManager::createDummyJob(
+        DownloadManager *downloadManager, const QString url, const QString mask)
 {
     Q_ASSERT(m_tempDir.isValid());
     qDebug() << "Directory for tests: " << m_tempDir.path();
@@ -52,30 +54,31 @@ JobClient *tst_Engine::createDummyJob(const QString url, const QString mask)
     resource1->setUrl(url);
     resource1->setDestination(m_tempDir.path());
     resource1->setMask(mask);
-    JobClient *job = new JobClient(this);
-    job->setResource(resource1);
-    return job;
+    DownloadItem *item = new DownloadItem(downloadManager);
+    item->setResource(resource1);
+    return item;
 }
 
 /******************************************************************************
  ******************************************************************************/
-void tst_Engine::appendJob()
+void tst_DownloadManager::appendJob()
 {
     // Given
-    Engine *target = new Engine( this);
+    DownloadManager *target = new DownloadManager( this);
 
-    qRegisterMetaType<JobClient*>();
-    QSignalSpy spyJobAppended(target, SIGNAL(jobAppended(JobClient*)));
-    QSignalSpy spyJobRemoved(target, SIGNAL(jobRemoved(JobClient*)));
-    QSignalSpy spyJobStateChanged(target, SIGNAL(jobStateChanged(JobClient*)));
+    qRegisterMetaType<DownloadItem*>();
+    QSignalSpy spyJobAppended(target, SIGNAL(jobAppended(DownloadItem*)));
+    QSignalSpy spyJobRemoved(target, SIGNAL(jobRemoved(DownloadItem*)));
+    QSignalSpy spyJobStateChanged(target, SIGNAL(jobStateChanged(DownloadItem*)));
     QSignalSpy spyDownloadFinished(target, SIGNAL(downloadFinished(bool)));
 
-    JobClient *job = createDummyJob(
+    DownloadItem *item = createDummyJob(
+                target,
                 "https://avatars3.githubusercontent.com/u/20563751?s=460&v=4",
                 "*name*.png");
 
     // When
-    target->append(job, true);
+    target->append(item, true);
 
     // Then
     QVERIFY(spyDownloadFinished.wait(5000)); // wait for 5 seconds max
@@ -85,38 +88,39 @@ void tst_Engine::appendJob()
     QCOMPARE(spyJobStateChanged.count(), 6);
     QCOMPARE(spyDownloadFinished.count(), 1);
 
-    QCOMPARE(job->state(), JobClient::Completed);
-    QCOMPARE(job->bytesReceived(), 35493);
-    QCOMPARE(job->bytesReceived(), 35493);
+    QCOMPARE(item->state(), DownloadItem::Completed);
+    QCOMPARE(item->bytesReceived(), 35493);
+    QCOMPARE(item->bytesReceived(), 35493);
 
-    QFile localFile(job->localFullFileName());
+    QFile localFile(item->localFullFileName());
     QVERIFY(localFile.exists());
     QCOMPARE(localFile.size(), 35493);
 
-    job->deleteLater();
+    item->deleteLater();
     target->deleteLater();
 }
 
 /******************************************************************************
  ******************************************************************************/
-void tst_Engine::appendJobPaused()
+void tst_DownloadManager::appendJobPaused()
 {
     // Given
-    Engine *target = new Engine( this);
+    DownloadManager *target = new DownloadManager( this);
 
-    qRegisterMetaType<JobClient*>();
-    QSignalSpy spyJobAppended(target, SIGNAL(jobAppended(JobClient*)));
-    QSignalSpy spyJobRemoved(target, SIGNAL(jobRemoved(JobClient*)));
-    QSignalSpy spyJobStateChanged(target, SIGNAL(jobStateChanged(JobClient*)));
+    qRegisterMetaType<DownloadItem*>();
+    QSignalSpy spyJobAppended(target, SIGNAL(jobAppended(DownloadItem*)));
+    QSignalSpy spyJobRemoved(target, SIGNAL(jobRemoved(DownloadItem*)));
+    QSignalSpy spyJobStateChanged(target, SIGNAL(jobStateChanged(DownloadItem*)));
     QSignalSpy spyDownloadFinished(target, SIGNAL(downloadFinished(bool)));
 
-    JobClient *job = createDummyJob(
+    DownloadItem *item = createDummyJob(
+                target,
                 "https://raw.githubusercontent.com/setvisible/nastran-pch2csv/"
                 "master/doc/320px-Blue-punch-card-front-horiz.png",
                 "*name*.png");
 
     // When
-    target->append(job, false);
+    target->append(item, false);
 
     // Then
     QCOMPARE(spyJobAppended.count(), 1);
@@ -125,7 +129,7 @@ void tst_Engine::appendJobPaused()
     QCOMPARE(spyDownloadFinished.count(), 0);
 
     // When
-    target->resume(job);
+    target->resume(item);
 
     // Then
     QVERIFY(spyDownloadFinished.wait(5000)); // wait for 5 seconds max
@@ -135,15 +139,15 @@ void tst_Engine::appendJobPaused()
     QCOMPARE(spyJobStateChanged.count(), 7);
     QCOMPARE(spyDownloadFinished.count(), 1);
 
-    QCOMPARE(job->state(), JobClient::Completed);
-    QCOMPARE(job->bytesReceived(), 89588);
-    QCOMPARE(job->bytesReceived(), 89588);
+    QCOMPARE(item->state(), DownloadItem::Completed);
+    QCOMPARE(item->bytesReceived(), 89588);
+    QCOMPARE(item->bytesReceived(), 89588);
 
-    QFile localFile(job->localFullFileName());
+    QFile localFile(item->localFullFileName());
     QVERIFY(localFile.exists());
     QCOMPARE(localFile.size(), 89588);
 
-    job->deleteLater();
+    item->deleteLater();
     target->deleteLater();
 }
 
@@ -154,7 +158,7 @@ void tst_Engine::appendJobPaused()
  * QSignalSpy::wait() requires QTEST_MAIN instead of QTEST_APPLESS_MAIN,
  * otherwise we get QEventLoop: Cannot be used without QApplication
  */
-QTEST_MAIN(tst_Engine)
-/* QTEST_APPLESS_MAIN(tst_Engine) */
+QTEST_MAIN(tst_DownloadManager)
+/* QTEST_APPLESS_MAIN(tst_DownloadManager) */
 
-#include "tst_engine.moc"
+#include "tst_downloadmanager.moc"

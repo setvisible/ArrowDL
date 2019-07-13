@@ -14,8 +14,8 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_JOB_CLIENT_H
-#define CORE_JOB_CLIENT_H
+#ifndef CORE_DOWNLOAD_ITEM_H
+#define CORE_DOWNLOAD_ITEM_H
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
@@ -24,9 +24,10 @@
 
 class ResourceItem;
 
-class JobClientPrivate;
+class DownloadManager;
+class DownloadItemPrivate;
 
-class JobClient : public QObject
+class DownloadItem : public QObject
 {
     Q_OBJECT
 
@@ -44,8 +45,8 @@ public:
         NetworkError,
         FileError};
 
-    JobClient(QObject *parent = 0);
-    ~JobClient();
+    DownloadItem(DownloadManager *downloadManager);
+    ~DownloadItem();
 
     /* Resource to download */
     ResourceItem* resource() const;
@@ -55,6 +56,8 @@ public:
     State state() const;
     void setState(const State state);
 
+
+    double speed() const;
     qint64 bytesReceived() const;
     void setBytesReceived(qint64 bytesReceived);
 
@@ -86,10 +89,37 @@ public:
     bool isResumable() const;
     bool isPausable() const;
     bool isCancelable() const;
+    bool isDownloading() const;
+
+    QTime remainingTime();
+
+    static QString remaingTimeToString(QTime time);
+    static QString currentSpeedToString(double speed);
+    static QString fileSizeToString(qint64 size);
+
+signals:
+    void changed();
+
+public slots:
+    void resume();
+    void pause();
+    void stop();
+
+private slots:
+    void onMetaDataChanged();
+    void onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void onRedirected(const QUrl &url);
+    void onFinished();
+    void onError(QNetworkReply::NetworkError error);
+    void onReadyRead();
+    void onAboutToClose();
+
+    void updateInfo();
 
 private:
-    JobClientPrivate *d;
-    friend class JobClientPrivate;
+    DownloadItemPrivate *d;
+    friend class DownloadItemPrivate;
+
 };
 
-#endif // CORE_JOB_CLIENT_H
+#endif // CORE_DOWNLOAD_ITEM_H

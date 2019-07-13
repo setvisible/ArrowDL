@@ -18,8 +18,8 @@
 #include "ui_wizarddialog.h"
 
 #include <Core/HtmlParser>
-#include <Core/JobClient>
-#include <Core/JobManager>
+#include <Core/DownloadItem>
+#include <Core/DownloadManager>
 #include <Core/Model>
 #include <Core/ResourceItem>
 #include <Core/ResourceModel>
@@ -34,11 +34,11 @@
 #  include <QtCore/QDebug>
 #endif
 
-WizardDialog::WizardDialog(const QUrl &url, JobManager *jobManager, QWidget *parent)
+WizardDialog::WizardDialog(const QUrl &url, DownloadManager *downloadManager, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::WizardDialog)
-    , m_jobManager(jobManager)
-    , m_model(new Model())
+    , m_downloadManager(downloadManager)
+    , m_model(new Model(this))
     , m_networkAccessManager(new QNetworkAccessManager(this))
 {
     ui->setupUi(this);
@@ -68,8 +68,8 @@ void WizardDialog::closeEvent(QCloseEvent *event)
 
 void WizardDialog::accept()
 {
-    if (m_jobManager) {
-        m_jobManager->append(m_model->selection(), true);
+    if (m_downloadManager) {
+        m_downloadManager->append(m_model->selection(), true);
     }
     writeSettings();
     QDialog::accept();
@@ -77,8 +77,8 @@ void WizardDialog::accept()
 
 void WizardDialog::acceptPaused()
 {
-    if (m_jobManager) {
-        m_jobManager->append(m_model->selection()); /* false */
+    if (m_downloadManager) {
+        m_downloadManager->append(m_model->selection()); /* false */
     }
     writeSettings();
     QDialog::accept();

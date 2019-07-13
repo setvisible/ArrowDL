@@ -14,42 +14,41 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef WIDGETS_JOB_VIEW_H
-#define WIDGETS_JOB_VIEW_H
+#ifndef WIDGETS_DOWNLOAD_QUEUE_VIEW_H
+#define WIDGETS_DOWNLOAD_QUEUE_VIEW_H
 
-#include <QtCore/QMap>
 #include <QtWidgets/QWidget>
 #include <QtCore/QModelIndex>
 
-class JobClient;
-class JobManager;
-
+class DownloadItem;
+class DownloadManager;
+class QueueItem;
 class QueueView;
-class QTreeWidgetItem;
-class QMenu;
 
-class JobView : public QWidget
+class QMenu;
+class DownloadQueueView : public QWidget
 {
     Q_OBJECT
 public:
-    explicit JobView(QWidget *parent = 0);
-    ~JobView();
+    explicit DownloadQueueView(QWidget *parent);
+    ~DownloadQueueView();
 
-    const JobManager* jobManager() const;
-    void setManager(JobManager *jobManager);
+    const DownloadManager* downloadManager() const;
+    void setDownloadManager(DownloadManager *downloadManager);
 
+    QMenu* contextMenu() const;
     void setContextMenu(QMenu *contextMenu);
 
     QSize sizeHint() const override;
 
 signals:
-    void doubleClicked(JobClient *job);
+    void doubleClicked(DownloadItem *item);
     void selectionChanged();
 
 private slots:
-    void onJobAdded(JobClient *job);
-    void onJobRemoved(JobClient *job);    
-    void onJobStateChanged(JobClient *job);
+    void onJobAdded(DownloadItem *downloadItem);
+    void onJobRemoved(DownloadItem *downloadItem);
+    void onJobStateChanged(DownloadItem *downloadItem);
     void onSelectionChanged();
 
     void onQueueViewDoubleClicked(const QModelIndex &index);
@@ -58,17 +57,12 @@ private slots:
     void showContextMenu(const QPoint &pos) ;
 
 private:
-    JobManager *m_jobManager;
+    DownloadManager *m_downloadManager;
     QueueView *m_queueView;
     QMenu *m_contextMenu;
 
-    void addItem(QTreeWidgetItem* item, JobClient *job);
-    void removeItem(QTreeWidgetItem* item);
-    QTreeWidgetItem* getItem(JobClient *job);
-    JobClient* getJob(QTreeWidgetItem* item);
-    QMap<QTreeWidgetItem*, JobClient* > m_map;
-
-    void updateItem(QTreeWidgetItem* item, JobClient *job);
+    int getIndex(DownloadItem *downloadItem) const;
+    QueueItem* getQueueItem(DownloadItem *downloadItem);
 };
 
-#endif // WIDGETS_JOB_VIEW_H
+#endif // WIDGETS_DOWNLOAD_QUEUE_VIEW_H

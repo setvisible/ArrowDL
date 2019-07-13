@@ -20,8 +20,8 @@
 #include <QtCore/QFileInfo>
 #include <QtWidgets/QMainWindow>
 
-class JobClient;
-class JobManager;
+class DownloadItem;
+class DownloadManager;
 class Settings;
 
 class QLabel;
@@ -35,7 +35,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = Q_NULLPTR);
     ~MainWindow();
 
 
@@ -65,7 +65,7 @@ public slots:
     // View
     void showInformation();
     void openFile();
-    void openFile(JobClient *job);
+    void openFile(DownloadItem *downloadItem);
     void renameFile();
     void deleteFile();
     void openDirectory();
@@ -98,13 +98,13 @@ public slots:
     void about();
 
 private slots:
-    void onJobAddedOrRemoved(JobClient *job);
-    void onJobStateChanged(JobClient*);
+    void onJobAddedOrRemoved(DownloadItem *downloadItem);
+    void onJobStateChanged(DownloadItem *downloadItem);
     void onSelectionChanged();
 
 private:
     Ui::MainWindow *ui;
-    JobManager *m_jobManager;
+    DownloadManager *m_downloadManager;
     Settings *m_settings;
     QLabel *m_statusBarLabel;
 

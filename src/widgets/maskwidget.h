@@ -27,7 +27,7 @@ class MaskWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit MaskWidget(QWidget *parent = 0);
+    explicit MaskWidget(QWidget *parent);
     ~MaskWidget();
 
     QString text() const;
