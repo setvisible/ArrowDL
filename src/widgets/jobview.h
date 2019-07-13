@@ -37,6 +37,7 @@ public:
 
     const JobManager* jobManager() const;
     void setManager(JobManager *jobManager);
+
     void setContextMenu(QMenu *contextMenu);
 
     QSize sizeHint() const override;
