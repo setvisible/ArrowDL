@@ -30,7 +30,7 @@ class PreferenceDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit PreferenceDialog(Settings *settings, QWidget *parent = 0);
+    explicit PreferenceDialog(Settings *settings, QWidget *parent);
     ~PreferenceDialog();
 
 protected:

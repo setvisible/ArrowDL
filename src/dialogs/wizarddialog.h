@@ -24,7 +24,7 @@
 
 
 class Model;
-class JobManager;
+class DownloadManager;
 
 namespace Ui {
 class WizardDialog;
@@ -35,7 +35,7 @@ class WizardDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit WizardDialog(const QUrl &url, JobManager *jobManager, QWidget *parent = 0);
+    explicit WizardDialog(const QUrl &url, DownloadManager *downloadManager, QWidget *parent);
     ~WizardDialog();
 
 protected:
@@ -51,7 +51,7 @@ private slots:
 
 private:
     Ui::WizardDialog *ui;
-    JobManager *m_jobManager;
+    DownloadManager *m_downloadManager;
     Model *m_model;
     QNetworkAccessManager *m_networkAccessManager;
     QUrl m_url;

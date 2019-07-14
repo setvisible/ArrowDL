@@ -14,23 +14,34 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_JOB_CLIENT_P_H
-#define CORE_JOB_CLIENT_P_H
+#ifndef CORE_DOWNLOAD_ITEM_P_H
+#define CORE_DOWNLOAD_ITEM_P_H
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
+#include <QtCore/QTime>
+#include <QtCore/QTimer>
 
-#include "jobclient.h"
-#include <Core/ResourceItem>
+#include "downloaditem.h"
 
-class JobClientPrivate
+class ResourceItem;
+class QNetworkAccessManager;
+class QNetworkReply;
+class QSaveFile;
+
+class DownloadItemPrivate
 {    
 public:
-    JobClientPrivate(JobClient *qq);
+    DownloadItemPrivate(DownloadItem *qq);
 
-    ResourceItem *resource;
+    QNetworkAccessManager *networkManager;
+    ResourceItem* resource;
+    QNetworkReply* reply;
+    QSaveFile* file;
 
-    JobClient::State state;
+    DownloadItem::State state;
+
+    double speed;
     qint64 bytesReceived;
     qint64 bytesTotal;
 
@@ -39,7 +50,11 @@ public:
     int maxConnectionSegments;
     int maxConnections;
 
-    JobClient *q;
+    QTime downloadTime;
+    QTime remainingTime;
+    QTimer updateInfoTimer;
+
+    DownloadItem *q;
 };
 
-#endif // CORE_JOB_CLIENT_P_H
+#endif // CORE_DOWNLOAD_ITEM_P_H

@@ -21,14 +21,14 @@
 #include "version.h"
 #include "globals.h"
 
-#include <Core/JobClient>
-#include <Core/JobManager>
+#include <Core/DownloadItem>
+#include <Core/DownloadManager>
 #include <Core/Settings>
 #include <Dialogs/AddDownloadDialog>
 #include <Dialogs/InformationDialog>
 #include <Dialogs/PreferenceDialog>
 #include <Dialogs/WizardDialog>
-#include <Widgets/JobView>
+#include <Widgets/DownloadQueueView>
 
 #include <QtCore/QDir>
 #include <QtCore/QFile>
@@ -59,14 +59,14 @@
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
-  , m_jobManager(new JobManager(this))
+  , m_downloadManager(new DownloadManager(this))
   , m_settings(new Settings(this))
   , m_statusBarLabel(new QLabel(this))
   , m_showMessageBox(true)
 {
     ui->setupUi(this);
 
-    m_jobManager->setSettings(m_settings);
+    m_downloadManager->setSettings(m_settings);
 
     this->setWindowIcon(QIcon(":/icons/logo/maps-pin-place.ico"));
     this->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
@@ -75,18 +75,18 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     this->setUnifiedTitleAndToolBarOnMac(true);
 #endif
 
-    /* Connect the GUI to the JobManager. */
-    ui->jobView->setManager(m_jobManager);
+    /* Connect the GUI to the DownloadManager. */
+    ui->downloadQueueView->setDownloadManager(m_downloadManager);
 
     /* Connect the SceneManager to the MainWindow. */
     /* The SceneManager centralizes the changes. */
-    QObject::connect(m_jobManager, SIGNAL(jobAppended(JobClient*)), this, SLOT(onJobAddedOrRemoved(JobClient*)));
-    QObject::connect(m_jobManager, SIGNAL(jobRemoved(JobClient*)), this, SLOT(onJobAddedOrRemoved(JobClient*)));
-    QObject::connect(m_jobManager, SIGNAL(jobStateChanged(JobClient*)), this, SLOT(onJobStateChanged(JobClient*)));
-    QObject::connect(m_jobManager, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
+    QObject::connect(m_downloadManager, SIGNAL(jobAppended(DownloadItem*)), this, SLOT(onJobAddedOrRemoved(DownloadItem*)));
+    QObject::connect(m_downloadManager, SIGNAL(jobRemoved(DownloadItem*)), this, SLOT(onJobAddedOrRemoved(DownloadItem*)));
+    QObject::connect(m_downloadManager, SIGNAL(jobStateChanged(DownloadItem*)), this, SLOT(onJobStateChanged(DownloadItem*)));
+    QObject::connect(m_downloadManager, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 
 
-    connect(ui->jobView, SIGNAL(doubleClicked(JobClient*)), this, SLOT(openFile(JobClient*)));
+    connect(ui->downloadQueueView, SIGNAL(doubleClicked(DownloadItem*)), this, SLOT(openFile(DownloadItem*)));
 
     /* Connect the rest of the GUI widgets together (selection, focus, etc.) */
     createActions();
@@ -244,7 +244,7 @@ void MainWindow::createContextMenu()
     advanced->addAction(ui->actionExportSelectedToFile);
     advanced->addAction(ui->actionAddDomainSpecificLimit);
 
-    ui->jobView->setContextMenu(contextMenu);
+    ui->downloadQueueView->setContextMenu(contextMenu);
 }
 
 void MainWindow::createStatusbar()
@@ -277,7 +277,7 @@ void MainWindow::openWizard()
 
 void MainWindow::openWizard(const QUrl &url)
 {
-    WizardDialog dialog(url, m_jobManager, this);
+    WizardDialog dialog(url, m_downloadManager, this);
     dialog.exec();
 }
 
@@ -304,28 +304,28 @@ void MainWindow::exportSelectedToFile()
 
 void MainWindow::selectAll()
 {
-    m_jobManager->setSelection(m_jobManager->jobs());
+    m_downloadManager->setSelection(m_downloadManager->downloadItems());
 }
 
 void MainWindow::selectNone()
 {
-    m_jobManager->clearSelection();
+    m_downloadManager->clearSelection();
 }
 
 void MainWindow::invertSelection()
 {
-    QList<JobClient*> inverted;
-    foreach (auto job, m_jobManager->jobs()) {
-        if (!m_jobManager->isSelected(job)) {
-            inverted.append(job);
+    QList<DownloadItem*> inverted;
+    foreach (auto item, m_downloadManager->downloadItems()) {
+        if (!m_downloadManager->isSelected(item)) {
+            inverted.append(item);
         }
     }
-    m_jobManager->setSelection(inverted);
+    m_downloadManager->setSelection(inverted);
 }
 
 void MainWindow::selectCompleted()
 {
-    m_jobManager->setSelection(m_jobManager->completedJobs());
+    m_downloadManager->setSelection(m_downloadManager->completedJobs());
 }
 
 void MainWindow::manageMirrors()
@@ -335,44 +335,44 @@ void MainWindow::manageMirrors()
 
 void MainWindow::oneMoreSegment()
 {
-    foreach (auto job, m_jobManager->selection()) {
-        int segments = job->maxConnectionSegments();
+    foreach (auto item, m_downloadManager->selection()) {
+        int segments = item->maxConnectionSegments();
         segments++;
-        job->setMaxConnectionSegments(segments);
+        item->setMaxConnectionSegments(segments);
     }
 }
 
 void MainWindow::oneFewerSegment()
 {
-    foreach (auto job, m_jobManager->selection()) {
-        int segments = job->maxConnectionSegments();
+    foreach (auto item, m_downloadManager->selection()) {
+        int segments = item->maxConnectionSegments();
         segments--;
-        job->setMaxConnectionSegments(segments);
+        item->setMaxConnectionSegments(segments);
     }
 }
 
 void MainWindow::showInformation()
 {
-    if (!m_jobManager->selection().isEmpty()) {
-        InformationDialog dialog(m_jobManager->selection(), this);
+    if (!m_downloadManager->selection().isEmpty()) {
+        InformationDialog dialog(m_downloadManager->selection(), this);
         dialog.exec();
     }
 }
 
 void MainWindow::openFile()
 {
-    if (!m_jobManager->selection().isEmpty()) {
-        auto job = m_jobManager->selection().first();
-        if (job->state() == JobClient::Completed) {
-            openFile(job);
+    if (!m_downloadManager->selection().isEmpty()) {
+        auto item = m_downloadManager->selection().first();
+        if (item->state() == DownloadItem::Completed) {
+            openFile(item);
             return;
         }
     }
 }
 
-void MainWindow::openFile(JobClient *job)
+void MainWindow::openFile(DownloadItem *downloadItem)
 {
-    auto url = job->localFileUrl();
+    auto url = downloadItem->localFileUrl();
     if (!QDesktopServices::openUrl(url)) {
         QMessageBox::information(
                     this, tr("Error"),
@@ -388,8 +388,8 @@ void MainWindow::renameFile()
 
 void MainWindow::deleteFile()
 {
-    if (!m_jobManager->selection().isEmpty()) {
-        QString text = m_jobManager->selectionToString();
+    if (!m_downloadManager->selection().isEmpty()) {
+        QString text = m_downloadManager->selectionToString();
 
         QMessageBox msgbox(this);
         msgbox.setWindowTitle(tr("Remove Downloads"));
@@ -409,9 +409,9 @@ void MainWindow::deleteFile()
 
 void MainWindow::openDirectory()
 {
-    if (!m_jobManager->selection().isEmpty()) {
-        auto job = m_jobManager->selection().first();
-        auto url = job->localDirUrl();
+    if (!m_downloadManager->selection().isEmpty()) {
+        auto item = m_downloadManager->selection().first();
+        auto url = item->localDirUrl();
         if (!QDesktopServices::openUrl(url)) {
             QMessageBox::information(
                         this, tr("Error"),
@@ -448,21 +448,21 @@ bool MainWindow::askConfirmation(const QString &text)
 void MainWindow::cleanGoneFiles()
 {
     if (askConfirmation(tr("waiting"))) {
-        m_jobManager->remove(m_jobManager->waitingJobs());
+        m_downloadManager->remove(m_downloadManager->waitingJobs());
     }
 }
 
 void MainWindow::removeAll()
 {    
     if (askConfirmation(tr("ALL"))) {
-        m_jobManager->clear();
+        m_downloadManager->clear();
     }
 }
 
 void MainWindow::removeCompletedDownloads()
 {
     if (askConfirmation(tr("completed"))) {
-        m_jobManager->remove(m_jobManager->completedJobs());
+        m_downloadManager->remove(m_downloadManager->completedJobs());
     }
 }
 
@@ -474,7 +474,7 @@ void MainWindow::removeDownloads()
 void MainWindow::removeSelected()
 {
     if (askConfirmation(tr("selected"))) {
-        m_jobManager->remove(m_jobManager->selection());
+        m_downloadManager->remove(m_downloadManager->selection());
     }
 }
 
@@ -486,41 +486,41 @@ void MainWindow::removeDuplicates()
 void MainWindow::removeFailed()
 {
     if (askConfirmation(tr("failed"))) {
-        m_jobManager->remove(m_jobManager->failedJobs());
+        m_downloadManager->remove(m_downloadManager->failedJobs());
     }
 }
 
 void MainWindow::removePaused()
 {
     if (askConfirmation(tr("paused"))) {
-        m_jobManager->remove(m_jobManager->pausedJobs());
+        m_downloadManager->remove(m_downloadManager->pausedJobs());
     }
 }
 
 void MainWindow::add()
 {
-    AddDownloadDialog dialog(urlFromClipboard(), m_jobManager, this);
+    AddDownloadDialog dialog(urlFromClipboard(), m_downloadManager, this);
     dialog.exec();
 }
 
 void MainWindow::resume()
 {
-    foreach (auto job, m_jobManager->selection()) {
-        m_jobManager->resume(job);
+    foreach (auto item, m_downloadManager->selection()) {
+        m_downloadManager->resume(item);
     }
 }
 
 void MainWindow::cancel()
 {
-    foreach (auto job, m_jobManager->selection()) {
-        m_jobManager->cancel(job);
+    foreach (auto item, m_downloadManager->selection()) {
+        m_downloadManager->cancel(item);
     }
 }
 
 void MainWindow::pause()
 {
-    foreach (auto job, m_jobManager->selection()) {
-        m_jobManager->pause(job);
+    foreach (auto item, m_downloadManager->selection()) {
+        m_downloadManager->pause(item);
     }
 }
 
@@ -558,10 +558,10 @@ void MainWindow::forceStart()
 {
     qDebug() << Q_FUNC_INFO << "TODO";
 
-    foreach (auto job, m_jobManager->selection()) {
-        /// todo Maybe run the job instantly (in a higher priority queue?)
-        m_jobManager->cancel(job);
-        m_jobManager->resume(job);
+    foreach (auto item, m_downloadManager->selection()) {
+        /// todo Maybe run the item instantly (in a higher priority queue?)
+        m_downloadManager->cancel(item);
+        m_downloadManager->resume(item);
     }
 }
 
@@ -579,14 +579,14 @@ void MainWindow::about()
 
 /******************************************************************************
  ******************************************************************************/
-void MainWindow::onJobAddedOrRemoved(JobClient *)
+void MainWindow::onJobAddedOrRemoved(DownloadItem */*downloadItem*/)
 {
     refreshTitleAndStatus();
 }
 
-void MainWindow::onJobStateChanged(JobClient *job)
+void MainWindow::onJobStateChanged(DownloadItem *downloadItem)
 {
-    if (m_jobManager->isSelected(job)) {
+    if (m_downloadManager->isSelected(downloadItem)) {
         refreshMenus();
     }
     refreshTitleAndStatus();
@@ -599,10 +599,10 @@ void MainWindow::onSelectionChanged()
 
 void MainWindow::refreshTitleAndStatus()
 {
-    const QString totalSpeed = m_jobManager->totalSpeed();
-    const int completedCount = m_jobManager->completedJobs().count();
-    const int runningCount = m_jobManager->runningJobs().count();
-    const int count = m_jobManager->count();
+    const QString totalSpeed = m_downloadManager->totalSpeed();
+    const int completedCount = m_downloadManager->completedJobs().count();
+    const int runningCount = m_downloadManager->runningJobs().count();
+    const int count = m_downloadManager->count();
 
     this->setWindowTitle(QString("%0 %1/%2 - %3 v%4")
                          .arg(totalSpeed)
@@ -622,19 +622,19 @@ void MainWindow::refreshTitleAndStatus()
 
 void MainWindow::refreshMenus()
 {
-    const bool hasJobs = !m_jobManager->jobs().isEmpty();
-    const bool hasSelection = !m_jobManager->selection().isEmpty();
-    const bool hasOnlyOneSelected = m_jobManager->selection().count() == 1;
+    const bool hasJobs = !m_downloadManager->downloadItems().isEmpty();
+    const bool hasSelection = !m_downloadManager->selection().isEmpty();
+    const bool hasOnlyOneSelected = m_downloadManager->selection().count() == 1;
     bool hasOnlyCompletedSelected = hasSelection;
-    foreach (auto job, m_jobManager->selection()) {
-        if (job->state() != JobClient::Completed) {
+    foreach (auto item, m_downloadManager->selection()) {
+        if (item->state() != DownloadItem::Completed) {
             hasOnlyCompletedSelected = false;
             continue;
         }
     }
     bool hasAtLeastOneUncompletedSelected = false;
-    foreach (auto job, m_jobManager->selection()) {
-        if (job->state() != JobClient::Completed) {
+    foreach (auto item, m_downloadManager->selection()) {
+        if (item->state() != DownloadItem::Completed) {
             hasAtLeastOneUncompletedSelected = true;
             continue;
         }
@@ -642,14 +642,14 @@ void MainWindow::refreshMenus()
     bool hasResumableSelection = false;
     bool hasPausableSelection = false;
     bool hasCancelableSelection = false;
-    foreach (auto job, m_jobManager->selection()) {
-        if (job->isResumable()) {
+    foreach (auto item, m_downloadManager->selection()) {
+        if (item->isResumable()) {
             hasResumableSelection = true;
         }
-        if (job->isPausable()) {
+        if (item->isPausable()) {
             hasPausableSelection = true;
         }
-        if (job->isCancelable()) {
+        if (item->isCancelable()) {
             hasCancelableSelection = true;
         }
     }
@@ -803,7 +803,7 @@ bool MainWindow::saveFile(const QString &path)
     }
 
     QJsonObject json;
-    // m_jobManager->write(json);
+    // m_downloadManager->write(json);
     QJsonDocument saveDoc(json);
     file.write( saveDoc.toJson() );
 
@@ -843,7 +843,7 @@ bool MainWindow::loadFile(const QString &path)
         return false;
     }
 
-    // m_jobManager->read(loadDoc.object());
+    // m_downloadManager->read(loadDoc.object());
     m_currentFile = path;
     this->statusBar()->showMessage(tr("File loaded"), 5000);
     this->refreshTitleAndStatus();

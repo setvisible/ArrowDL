@@ -15,7 +15,6 @@
 !/.travis.yml
 !/CMakeLists.txt
 !/DownZemAll.pro
-!/DownZemAll_config.pri
 !/doxyfile
 !/doxygenMain.cpp
 !/LICENSE

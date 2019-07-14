@@ -21,12 +21,12 @@
 
 class ResourceItem;
 
-class ResourceModel : public  QAbstractTableModel
+class ResourceModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
-    explicit ResourceModel(QObject *parent = 0);
+    explicit ResourceModel(QObject *parent);
     ~ResourceModel();
 
     void clear();

@@ -30,7 +30,7 @@ class Model : public QObject
 public:
     enum Tab{LINK, CONTENT};
 
-    explicit Model(QObject *parent = 0);
+    explicit Model(QObject *parent);
     ~Model();
 
     void setCurrentTab(const Tab tab);

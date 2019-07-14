@@ -17,7 +17,7 @@
 #include "adddownloaddialog.h"
 #include "ui_adddownloaddialog.h"
 
-#include <Core/JobManager>
+#include <Core/DownloadManager>
 #include <Core/Regex>
 #include <Core/ResourceItem>
 
@@ -45,10 +45,10 @@ static const QList<ResourceItem*> createJobs(const Ui::AddDownloadDialog *ui)
     return list;
 }
 
-AddDownloadDialog::AddDownloadDialog(const QUrl &url, JobManager *jobManager, QWidget *parent)
+AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadManager, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddDownloadDialog)
-    , m_jobManager(jobManager)
+    , m_downloadManager(downloadManager)
 
 {
     ui->setupUi(this);
@@ -63,13 +63,13 @@ AddDownloadDialog::~AddDownloadDialog()
 
 void AddDownloadDialog::accept()
 {
-    m_jobManager->append(createJobs(ui), true);
+    m_downloadManager->append(createJobs(ui), true);
     QDialog::accept();
 }
 
 void AddDownloadDialog::acceptPaused()
 {
-    m_jobManager->append(createJobs(ui), false);
+    m_downloadManager->append(createJobs(ui), false);
     QDialog::accept();
 }
 
