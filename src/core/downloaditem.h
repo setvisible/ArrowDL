@@ -99,6 +99,7 @@ public:
 
 signals:
     void changed();
+    void finished();
 
 public slots:
     void resume();

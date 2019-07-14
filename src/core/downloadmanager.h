@@ -87,6 +87,7 @@ signals:
     void jobAppended(DownloadItem *item);
     void jobRemoved(DownloadItem *item);
     void jobStateChanged(DownloadItem *item);
+    void jobFinished(DownloadItem *item);
 
     void selectionChanged();
 
@@ -95,8 +96,12 @@ public slots:
 private slots:
     void onSettingsChanged();
     void onQueueChanged(DownloadItem *item);
+    void onChanged();
+    void onFinished();
+
     void loadQueue();
     void saveQueue();
+    void startNext(DownloadItem *item);
 
 private:
     QNetworkAccessManager *m_networkManager;
@@ -105,7 +110,6 @@ private:
     // Pool
     int m_maxSimultaneousDownloads;
     int downloadingCount() const;
-    void startNext();
 
     QList<DownloadItem*> m_selectedItems;
     Settings *m_settings;

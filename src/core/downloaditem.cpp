@@ -134,7 +134,13 @@ void DownloadItem::resume()
 
 void DownloadItem::pause()
 {
+    // TO DO
+    // https://kunalmaemo.blogspot.com/2011/07/simple-download-manager-with-pause.html
+
+    stop();
+
     d->state = DownloadItem::Paused;
+    emit changed();
 }
 
 void DownloadItem::stop()
@@ -158,6 +164,7 @@ void DownloadItem::stop()
     d->bytesTotal = 0;
 
     emit changed();
+    emit finished();
 }
 
 /******************************************************************************
@@ -186,10 +193,6 @@ void DownloadItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
     d->speed = bytesReceived * 1000.0 / d->downloadTime.elapsed();
 
     //emit changed();
-
-    if (d->reply->isFinished()) {
-        onFinished();
-    }
 }
 
 void DownloadItem::onRedirected(const QUrl &url)
@@ -219,6 +222,7 @@ void DownloadItem::onFinished()
     }
 
     emit changed();
+    emit finished();
 }
 
 void DownloadItem::onError(QNetworkReply::NetworkError error)
@@ -227,10 +231,7 @@ void DownloadItem::onError(QNetworkReply::NetworkError error)
     d->error = error;
     d->state = DownloadItem::NetworkError;
     emit changed();
-
-    if (d->reply && d->reply->error() != QNetworkReply::NoError) {
-        stop();
-    }
+    emit finished();
 }
 
 void DownloadItem::onReadyRead()

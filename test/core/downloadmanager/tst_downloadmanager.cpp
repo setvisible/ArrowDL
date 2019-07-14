@@ -19,6 +19,7 @@
 #include <Core/Mask>
 #include <Core/ResourceItem>
 
+#include <QtCore/QFile>
 #include <QtCore/QThread>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QTemporaryDir>
@@ -34,7 +35,6 @@ class tst_DownloadManager : public QObject
     Q_OBJECT
 
 private slots:
-    void appendJob();
     void appendJobPaused();
 
 private:
@@ -59,46 +59,6 @@ DownloadItem *tst_DownloadManager::createDummyJob(
     return item;
 }
 
-/******************************************************************************
- ******************************************************************************/
-void tst_DownloadManager::appendJob()
-{
-    // Given
-    DownloadManager *target = new DownloadManager( this);
-
-    qRegisterMetaType<DownloadItem*>();
-    QSignalSpy spyJobAppended(target, SIGNAL(jobAppended(DownloadItem*)));
-    QSignalSpy spyJobRemoved(target, SIGNAL(jobRemoved(DownloadItem*)));
-    QSignalSpy spyJobStateChanged(target, SIGNAL(jobStateChanged(DownloadItem*)));
-    QSignalSpy spyDownloadFinished(target, SIGNAL(downloadFinished(bool)));
-
-    DownloadItem *item = createDummyJob(
-                target,
-                "https://avatars3.githubusercontent.com/u/20563751?s=460&v=4",
-                "*name*.png");
-
-    // When
-    target->append(item, true);
-
-    // Then
-    QVERIFY(spyDownloadFinished.wait(5000)); // wait for 5 seconds max
-
-    QCOMPARE(spyJobAppended.count(), 1);
-    QCOMPARE(spyJobRemoved.count(), 0);
-    QCOMPARE(spyJobStateChanged.count(), 6);
-    QCOMPARE(spyDownloadFinished.count(), 1);
-
-    QCOMPARE(item->state(), DownloadItem::Completed);
-    QCOMPARE(item->bytesReceived(), 35493);
-    QCOMPARE(item->bytesReceived(), 35493);
-
-    QFile localFile(item->localFullFileName());
-    QVERIFY(localFile.exists());
-    QCOMPARE(localFile.size(), 35493);
-
-    item->deleteLater();
-    target->deleteLater();
-}
 
 /******************************************************************************
  ******************************************************************************/
@@ -111,7 +71,7 @@ void tst_DownloadManager::appendJobPaused()
     QSignalSpy spyJobAppended(target, SIGNAL(jobAppended(DownloadItem*)));
     QSignalSpy spyJobRemoved(target, SIGNAL(jobRemoved(DownloadItem*)));
     QSignalSpy spyJobStateChanged(target, SIGNAL(jobStateChanged(DownloadItem*)));
-    QSignalSpy spyDownloadFinished(target, SIGNAL(downloadFinished(bool)));
+    QSignalSpy spyJobFinished(target, SIGNAL(jobFinished(DownloadItem*)));
 
     DownloadItem *item = createDummyJob(
                 target,
@@ -126,18 +86,18 @@ void tst_DownloadManager::appendJobPaused()
     QCOMPARE(spyJobAppended.count(), 1);
     QCOMPARE(spyJobRemoved.count(), 0);
     QCOMPARE(spyJobStateChanged.count(), 0);
-    QCOMPARE(spyDownloadFinished.count(), 0);
+    QCOMPARE(spyJobFinished.count(), 0);
 
     // When
     target->resume(item);
 
     // Then
-    QVERIFY(spyDownloadFinished.wait(5000)); // wait for 5 seconds max
+    QVERIFY(spyJobFinished.wait(5000)); // wait for 5 seconds max
 
     QCOMPARE(spyJobAppended.count(), 1);
     QCOMPARE(spyJobRemoved.count(), 0);
-    QCOMPARE(spyJobStateChanged.count(), 7);
-    QCOMPARE(spyDownloadFinished.count(), 1);
+    QCOMPARE(spyJobStateChanged.count(), 5);
+    QCOMPARE(spyJobFinished.count(), 1);
 
     QCOMPARE(item->state(), DownloadItem::Completed);
     QCOMPARE(item->bytesReceived(), 89588);

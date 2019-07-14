@@ -40,11 +40,14 @@ DownloadManager::DownloadManager(QObject *parent) : QObject(parent)
   , m_maxSimultaneousDownloads(4)
   , m_settings(Q_NULLPTR)
   , m_dirtyQueueTimer(Q_NULLPTR)
+  , m_queueFile(QString())
 {
     /* Auto save of the queue */
     connect(this, SIGNAL(jobAppended(DownloadItem*)), this, SLOT(onQueueChanged(DownloadItem*)));
     connect(this, SIGNAL(jobRemoved(DownloadItem*)), this, SLOT(onQueueChanged(DownloadItem*)));
     connect(this, SIGNAL(jobStateChanged(DownloadItem*)), this, SLOT(onQueueChanged(DownloadItem*)));
+
+    connect(this, SIGNAL(jobFinished(DownloadItem*)), this, SLOT(startNext(DownloadItem*)));
 }
 
 DownloadManager::~DownloadManager()
@@ -91,17 +94,21 @@ void DownloadManager::onSettingsChanged()
  ******************************************************************************/
 void DownloadManager::loadQueue()
 {
-    QList<DownloadItem *> downloadItems;
-    Session::read(downloadItems, m_queueFile, this);
-    clear();
-    foreach (auto item, downloadItems) {
-        append(item, false);
+    if (!m_queueFile.isEmpty()) {
+        QList<DownloadItem *> downloadItems;
+        Session::read(downloadItems, m_queueFile, this);
+        clear();
+        foreach (auto item, downloadItems) {
+            append(item, false);
+        }
     }
 }
 
 void DownloadManager::saveQueue()
 {
-    Session::write(downloadItems(), m_queueFile);
+    if (!m_queueFile.isEmpty()) {
+        Session::write(downloadItems(), m_queueFile);
+    }
 }
 
 void DownloadManager::onQueueChanged(DownloadItem */*item*/)
@@ -114,7 +121,6 @@ void DownloadManager::onQueueChanged(DownloadItem */*item*/)
     if (!m_dirtyQueueTimer->isActive()) {
         m_dirtyQueueTimer->start(3000);
     }
-    startNext();
 }
 
 /******************************************************************************
@@ -130,7 +136,7 @@ int DownloadManager::downloadingCount() const
     return count;
 }
 
-void DownloadManager::startNext()
+void DownloadManager::startNext(DownloadItem */*item*/)
 {
     if (downloadingCount() < m_maxSimultaneousDownloads) {
         foreach (auto item, m_items) {
@@ -141,6 +147,7 @@ void DownloadManager::startNext()
         }
     }
 }
+
 /******************************************************************************
  ******************************************************************************/
 int DownloadManager::count() const
@@ -164,12 +171,16 @@ QNetworkAccessManager* DownloadManager::networkManager()
 }
 
 void DownloadManager::append(DownloadItem *downloadItem, const bool started)
-{
+{    
+    connect(downloadItem, SIGNAL(changed()), this, SLOT(onChanged()));
+    connect(downloadItem, SIGNAL(finished()), this, SLOT(onFinished()));
     if (started) {
+        //        downloadItem->resume();
         if (downloadItem->isResumable()) {
             downloadItem->setState(DownloadItem::Idle);
         }
     } else {
+        //        downloadItem->pause();
         if (downloadItem->isPausable()) {
             downloadItem->setState(DownloadItem::Paused);
         }
@@ -272,7 +283,6 @@ QList<DownloadItem*> DownloadManager::runningJobs() const
 
 /******************************************************************************
  ******************************************************************************/
-
 QString DownloadManager::totalSpeed() const
 {
     /// \todo // "750.35 MB/s"
@@ -300,6 +310,20 @@ void DownloadManager::cancel(DownloadItem *item)
     if (item->isCancelable()) {
         item->stop();
     }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void DownloadManager::onChanged()
+{
+    DownloadItem *downloadItem = qobject_cast<DownloadItem *>(sender());
+    emit jobStateChanged(downloadItem);
+}
+
+void DownloadManager::onFinished()
+{
+    DownloadItem *downloadItem = qobject_cast<DownloadItem *>(sender());
+    emit jobFinished(downloadItem);
 }
 
 /******************************************************************************
