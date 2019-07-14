@@ -20,15 +20,16 @@
 #include <QtCore/QList>
 #include <QtCore/QString>
 
-class JobClient;
+class DownloadItem;
+class DownloadManager;
 
 class Session
 {
 public:
     Session() {}
 
-    static void read(QList<JobClient *> &jobs, const QString &filename);
-    static void write(const QList<JobClient *> jobs, const QString &filename);
+    static void read(QList<DownloadItem *> &downloadItems, const QString &filename, DownloadManager *downloadManager);
+    static void write(const QList<DownloadItem *> downloadItems, const QString &filename);
 
 };
 

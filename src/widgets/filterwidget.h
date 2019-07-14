@@ -27,7 +27,7 @@ class FilterWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit FilterWidget(QWidget *parent = 0);
+    explicit FilterWidget(QWidget *parent);
     ~FilterWidget();
 
     uint state() const;

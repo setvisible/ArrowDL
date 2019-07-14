@@ -17,11 +17,11 @@
 #include "informationdialog.h"
 #include "ui_informationdialog.h"
 
-#include <Core/JobClient>
+#include <Core/DownloadItem>
 
 #include <QtCore/QDir>
 
-InformationDialog::InformationDialog(const QList<JobClient*> &jobs, QWidget *parent) : QDialog(parent)
+InformationDialog::InformationDialog(const QList<DownloadItem*> &jobs, QWidget *parent) : QDialog(parent)
   , ui(new Ui::InformationDialog)
 {
     ui->setupUi(this);
@@ -38,21 +38,21 @@ void InformationDialog::accept()
     QDialog::accept();
 }
 
-void InformationDialog::init(const QList<JobClient*> &selection)
+void InformationDialog::init(const QList<DownloadItem*> &selection)
 {
     if (selection.isEmpty()) {
         return;
     }
-    JobClient *job = selection.first();
+    DownloadItem *item = selection.first();
 
-    QUrl url = job->localFileUrl();
+    QUrl url = item->localFileUrl();
     QString filename = QDir::toNativeSeparators(url.toLocalFile());
 
     ui->filenameLabel->setText(filename);
-    ui->urlLabel->setText(job->sourceUrl().toString());
+    ui->urlLabel->setText(item->sourceUrl().toString());
 
-    QString bytes = job->bytesTotal() > 0
-            ? tr("%0 bytes").arg(job->bytesTotal())
+    QString bytes = item->bytesTotal() > 0
+            ? tr("%0 bytes").arg(item->bytesTotal())
             : tr("Unknown");
     ui->sizeLabel->setText(bytes);
 }

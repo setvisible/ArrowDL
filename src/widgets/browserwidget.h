@@ -30,7 +30,7 @@ class BrowserWidget : public QWidget
 public:
     enum Type { File, Directory };
 
-    explicit BrowserWidget(QWidget *parent = 0);
+    explicit BrowserWidget(QWidget *parent);
     ~BrowserWidget();
 
     QString text() const;

@@ -1,9 +1,8 @@
 HEADERS += \
-    $$PWD/engine.h \
+    $$PWD/downloaditem.h \
+    $$PWD/downloaditem_p.h \
+    $$PWD/downloadmanager.h \
     $$PWD/htmlparser.h \
-    $$PWD/jobclient.h \
-    $$PWD/jobclient_p.h \
-    $$PWD/jobmanager.h \
     $$PWD/mask.h \
     $$PWD/model.h \
     $$PWD/regex.h \
@@ -13,10 +12,9 @@ HEADERS += \
     $$PWD/settings.h
 
 SOURCES += \
-    $$PWD/engine.cpp \
+    $$PWD/downloaditem.cpp \
+    $$PWD/downloadmanager.cpp \
     $$PWD/htmlparser.cpp \
-    $$PWD/jobclient.cpp \
-    $$PWD/jobmanager.cpp \
     $$PWD/mask.cpp \
     $$PWD/model.cpp \
     $$PWD/regex.cpp \

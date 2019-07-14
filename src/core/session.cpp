@@ -17,7 +17,8 @@
 #include "session.h"
 
 
-#include <Core/JobClient>
+#include <Core/DownloadItem>
+#include <Core/DownloadManager>
 #include <Core/ResourceItem>
 
 #include <QtCore/QFile>
@@ -30,68 +31,67 @@
 #  include <QtCore/QDebug>
 #endif
 
-
-static void readJob(JobClient *job, const QJsonObject &json)
+static void readJob(DownloadItem *item, const QJsonObject &json)
 {
-    job->resource()->setUrl(json["url"].toString());
-    job->resource()->setDestination(json["destination"].toString());
-    job->resource()->setMask(json["mask"].toString());
-    job->resource()->setCustomFileName(json["customFileName"].toString());
-    job->resource()->setReferringPage(json["referringPage"].toString());
-    job->resource()->setDescription(json["description"].toString());
-    job->resource()->setCheckSum(json["checkSum"].toString());
+    item->resource()->setUrl(json["url"].toString());
+    item->resource()->setDestination(json["destination"].toString());
+    item->resource()->setMask(json["mask"].toString());
+    item->resource()->setCustomFileName(json["customFileName"].toString());
+    item->resource()->setReferringPage(json["referringPage"].toString());
+    item->resource()->setDescription(json["description"].toString());
+    item->resource()->setCheckSum(json["checkSum"].toString());
 
 
-    job->setState((JobClient::State) json["state"].toInt());
-    job->setBytesReceived(json["bytesReceived"].toInt());
-    job->setBytesTotal(json["bytesTotal"].toInt());
-    job->setError((QNetworkReply::NetworkError) json["error"].toInt());
-    job->setMaxConnectionSegments(json["maxConnectionSegments"].toInt());
-    job->setMaxConnections(json["maxConnections"].toInt());
+    item->setState((DownloadItem::State) json["state"].toInt());
+    item->setBytesReceived(json["bytesReceived"].toInt());
+    item->setBytesTotal(json["bytesTotal"].toInt());
+    item->setError((QNetworkReply::NetworkError) json["error"].toInt());
+    item->setMaxConnectionSegments(json["maxConnectionSegments"].toInt());
+    item->setMaxConnections(json["maxConnections"].toInt());
 
 }
 
-static void writeJob(const JobClient *job, QJsonObject &json)
+static void writeJob(const DownloadItem *item, QJsonObject &json)
 {
-    json["url"] = job->resource()->url();
-    json["destination"] = job->resource()->destination();
-    json["mask"] = job->resource()->mask();
-    json["customFileName"] = job->resource()->customFileName();
-    json["referringPage"] = job->resource()->referringPage();
-    json["description"] = job->resource()->description();
-    json["checkSum"] = job->resource()->checkSum();
+    json["url"] = item->resource()->url();
+    json["destination"] = item->resource()->destination();
+    json["mask"] = item->resource()->mask();
+    json["customFileName"] = item->resource()->customFileName();
+    json["referringPage"] = item->resource()->referringPage();
+    json["description"] = item->resource()->description();
+    json["checkSum"] = item->resource()->checkSum();
 
 
-    json["state"] = (int) job->state();
-    json["bytesReceived"] = job->bytesReceived();
-    json["bytesTotal"] = job->bytesTotal();
-    json["error"] = (int) job->error();
-    json["maxConnectionSegments"] = job->maxConnectionSegments();
-    json["maxConnections"] = job->maxConnections();
+    json["state"] = (int) item->state();
+    json["bytesReceived"] = item->bytesReceived();
+    json["bytesTotal"] = item->bytesTotal();
+    json["error"] = (int) item->error();
+    json["maxConnectionSegments"] = item->maxConnectionSegments();
+    json["maxConnections"] = item->maxConnections();
 
 }
 
 
 /******************************************************************************
  ******************************************************************************/
-static void readList(QList<JobClient *> &jobs, const QJsonObject &json)
+static void readList(QList<DownloadItem *> &downloadItems, const QJsonObject &json, DownloadManager *downloadManager)
 {
     QJsonArray jobsArray = json["jobs"].toArray();
     for (int i = 0; i < jobsArray.size(); ++i) {
         QJsonObject jobObject = jobsArray[i].toObject();
-        JobClient *job = new JobClient(); // BUG parent ??
-        job->setResource(new ResourceItem()); // weird
-        readJob(job, jobObject);
-        jobs.append(job);
+        DownloadItem *item = new DownloadItem(downloadManager); // BUG parent ??
+        item->setResource(new ResourceItem()); // weird
+        readJob(item, jobObject);
+        downloadItems.append(item);
     }
 }
 
-static void writeList(const QList<JobClient *> jobs, QJsonObject &json)
+static void writeList(const QList<DownloadItem *> downloadItems, QJsonObject &json)
 {
     QJsonArray jobsArray;
-    foreach (auto job, jobs) {
+    foreach (auto item, downloadItems) {
         QJsonObject jobObject;
-        writeJob(job, jobObject);
+        writeJob(item, jobObject);
         jobsArray.append(jobObject);
     }
     json["jobs"] = jobsArray;
@@ -100,7 +100,7 @@ static void writeList(const QList<JobClient *> jobs, QJsonObject &json)
 
 /******************************************************************************
  ******************************************************************************/
-void Session::read(QList<JobClient *> &jobs, const QString &filename)
+void Session::read(QList<DownloadItem *> &downloadItems, const QString &filename, DownloadManager *downloadManager)
 {
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -116,13 +116,11 @@ void Session::read(QList<JobClient *> &jobs, const QString &filename)
         return;
     }
 
-
-    readList(jobs, loadDoc.object());
+    readList(downloadItems, loadDoc.object(), downloadManager);
 }
 
-void Session::write(const QList<JobClient *> jobs, const QString &filename)
+void Session::write(const QList<DownloadItem *> downloadItems, const QString &filename)
 {
-    qDebug() << Q_FUNC_INFO << filename;
     QFile file(filename);
 
     if (!file.open(QIODevice::WriteOnly)) {
@@ -131,7 +129,7 @@ void Session::write(const QList<JobClient *> jobs, const QString &filename)
     }
 
     QJsonObject json;
-    writeList(jobs, json);
+    writeList(downloadItems, json);
     QJsonDocument saveDoc(json);
     file.write( saveDoc.toJson() );
 }

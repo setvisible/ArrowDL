@@ -1,14 +1,14 @@
 HEADERS += \
     $$PWD/browserwidget.h \
+    $$PWD/downloadqueueview.h \
     $$PWD/filterwidget.h \
-    $$PWD/jobview.h \
     $$PWD/linkwidget.h \
     $$PWD/maskwidget.h
 
 SOURCES += \
     $$PWD/browserwidget.cpp \
+    $$PWD/downloadqueueview.cpp \
     $$PWD/filterwidget.cpp \
-    $$PWD/jobview.cpp \
     $$PWD/linkwidget.cpp \
     $$PWD/maskwidget.cpp
 

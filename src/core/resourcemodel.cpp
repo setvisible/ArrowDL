@@ -24,7 +24,6 @@ ResourceModel::ResourceModel(QObject *parent) : QAbstractTableModel(parent)
 
 ResourceModel::~ResourceModel()
 {
-    qDeleteAll(m_items);
 }
 
 /******************************************************************************

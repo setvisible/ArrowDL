@@ -31,7 +31,7 @@ class LinkWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit LinkWidget(QWidget *parent = 0);
+    explicit LinkWidget(QWidget *parent);
     ~LinkWidget();
 
     Model* model() const;

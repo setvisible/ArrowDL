@@ -24,9 +24,8 @@ lessThan(QT_VERSION, 5.0) {
 
 
 #-------------------------------------------------
-# Dependancies
+# Dependencies
 #-------------------------------------------------
-include($$PWD/../DownZemAll_config.pri)
 include($$PWD/../3rd/3rd.pri)
 
 

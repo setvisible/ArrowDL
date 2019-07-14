@@ -19,7 +19,7 @@
 
 #include <QtWidgets/QDialog>
 
-class JobManager;
+class DownloadManager;
 class ResourceItem;
 
 namespace Ui {
@@ -31,7 +31,7 @@ class AddDownloadDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddDownloadDialog(const QUrl &url, JobManager *jobManager, QWidget *parent = 0);
+    explicit AddDownloadDialog(const QUrl &url, DownloadManager *downloadManager, QWidget *parent);
     ~AddDownloadDialog();
 
 public slots:
@@ -41,7 +41,7 @@ public slots:
 
 private:
     Ui::AddDownloadDialog *ui;    
-    JobManager *m_jobManager;
+    DownloadManager *m_downloadManager;
 };
 
 #endif // DIALOGS_ADD_DOWNLOAD_DIALOG_H

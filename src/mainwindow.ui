@@ -28,7 +28,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="JobView" name="jobView" native="true"/>
+     <widget class="DownloadQueueView" name="downloadQueueView" native="true"/>
     </item>
    </layout>
   </widget>
@@ -621,9 +621,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>JobView</class>
+   <class>DownloadQueueView</class>
    <extends>QWidget</extends>
-   <header>Widgets/JobView</header>
+   <header>Widgets/DownloadQueueView</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

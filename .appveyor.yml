@@ -284,10 +284,7 @@ build_script:
   - echo Building executables (application and tests)
   - echo ****************************************************
   - cmake --version         # version 3.12.2
-  - cmake .\..\DownZemAll -G "%CMAKE_GENERATOR%" 
-  - cmake .\..\DownZemAll -DCMAKE_PREFIX_PATH="%QT5%"
-  - cmake .\..\DownZemAll -DCMAKE_INSTALL_PREFIX=".\..\install-DownZemAll-cmake"
-  - cmake .\..\DownZemAll -DENABLE_TESTS=ON
+  - cmake .\..\DownZemAll -G "%CMAKE_GENERATOR%" -DCMAKE_PREFIX_PATH="%QT5%" -DCMAKE_INSTALL_PREFIX=".\..\install-DownZemAll-cmake" -DENABLE_TESTS=ON
   - cmake --build .
 
 
