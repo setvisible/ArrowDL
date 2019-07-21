@@ -26,24 +26,6 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QMessageBox>
 
-static const QList<ResourceItem*> createJobs(const Ui::AddDownloadDialog *ui)
-{
-    QList<ResourceItem*> list;
-    const QString text = ui->downloadLineEdit->text();
-    const QStringList downloads = Regex::interpret(text);
-    foreach (auto download, downloads) {
-        ResourceItem *item = new ResourceItem();
-        item->setUrl(download);
-        item->setCustomFileName(ui->filenameLineEdit->text());
-        item->setReferringPage(ui->referrerLineEdit->text());
-        item->setDescription(ui->descriptionLineEdit->text());
-        item->setDestination(ui->browserWidget->text());
-        item->setMask(ui->maskWidget->text());
-        item->setCheckSum(ui->hashLineEdit->text());
-        list << item;
-    }
-    return list;
-}
 
 AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadManager, QWidget *parent)
     : QDialog(parent)
@@ -63,17 +45,84 @@ AddDownloadDialog::~AddDownloadDialog()
 
 void AddDownloadDialog::accept()
 {
-    m_downloadManager->append(createJobs(ui), true);
-    QDialog::accept();
+    doAccept(true);
 }
 
 void AddDownloadDialog::acceptPaused()
 {
-    m_downloadManager->append(createJobs(ui), false);
-    QDialog::accept();
+    doAccept(false);
 }
 
 void AddDownloadDialog::reject()
 {
     QDialog::reject();
+}
+
+void AddDownloadDialog::doAccept(const bool started)
+{
+    const QString text = ui->downloadLineEdit->text();
+
+    if (Regex::hasBatchDescriptors(text)) {
+        const QList<ResourceItem*> items = createItems();
+        QMessageBox msgBox(this);
+        msgBox.setModal(true);
+        msgBox.setIcon(QMessageBox::Question);
+        msgBox.setWindowTitle(tr("Download Batch"));
+        msgBox.setText(tr("It seems that you are using some batch descriptors."));
+        msgBox.setInformativeText(
+                    tr("Do you really want to start %0 downloads?\n"
+                       "\n"
+                       "%1\n"
+                       "...\n"
+                       "%2")
+                    .arg(items.count())
+                    .arg(items.first()->url())
+                    .arg(items.last()->url()));
+
+        QPushButton *batchButton = msgBox.addButton(tr("Download Batch"), QMessageBox::ActionRole);
+        QPushButton *singleButton = msgBox.addButton(tr("Single Download"), QMessageBox::ActionRole);
+        QPushButton *cancelButton = msgBox.addButton(QMessageBox::Cancel);
+
+        msgBox.exec();
+
+        if (msgBox.clickedButton() == batchButton) {
+            m_downloadManager->append(items, started);
+            QDialog::accept();
+
+        } else if (msgBox.clickedButton() == singleButton) {
+            m_downloadManager->append(createItem(text), started);
+            QDialog::accept();
+
+        } else if (msgBox.clickedButton() == cancelButton) {
+            return;
+        }
+
+    } else {
+        m_downloadManager->append(createItem(text), started);
+        QDialog::accept();
+    }
+}
+
+const QList<ResourceItem*> AddDownloadDialog::createItems()
+{
+    QList<ResourceItem*> list;
+    const QString text = ui->downloadLineEdit->text();
+    const QStringList urls = Regex::interpret(text);
+    foreach (auto url, urls) {
+        list << createItem(url);
+    }
+    return list;
+}
+
+ResourceItem* AddDownloadDialog::createItem(const QString &url)
+{
+    ResourceItem *item = new ResourceItem();
+    item->setUrl(url);
+    item->setCustomFileName(ui->filenameLineEdit->text());
+    item->setReferringPage(ui->referrerLineEdit->text());
+    item->setDescription(ui->descriptionLineEdit->text());
+    item->setDestination(ui->browserWidget->text());
+    item->setMask(ui->maskWidget->text());
+    item->setCheckSum(ui->hashLineEdit->text());
+    return item;
 }

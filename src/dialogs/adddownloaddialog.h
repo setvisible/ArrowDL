@@ -40,8 +40,12 @@ public slots:
     virtual void reject() Q_DECL_OVERRIDE;
 
 private:
-    Ui::AddDownloadDialog *ui;    
+    Ui::AddDownloadDialog *ui;
     DownloadManager *m_downloadManager;
+
+    void doAccept(const bool started);
+    const QList<ResourceItem*> createItems();
+    ResourceItem* createItem(const QString &url);
 };
 
 #endif // DIALOGS_ADD_DOWNLOAD_DIALOG_H
