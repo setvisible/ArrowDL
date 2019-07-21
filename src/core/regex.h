@@ -23,6 +23,7 @@
 class Regex
 {
 public:
+    static bool hasBatchDescriptors(const QString &str);
     static const QStringList interpret(const QString &str);
 
 };
