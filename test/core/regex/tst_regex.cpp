@@ -37,7 +37,6 @@ void tst_Regex::interpret_data()
     QTest::addColumn<QString>("url");
     QTest::addColumn<QStringList>("expected");
 
-
     QTest::newRow("no regex")
             << "https://www.myweb.com/images/01/myimage.png"
             << QStringList{ "https://www.myweb.com/images/01/myimage.png" };
@@ -56,7 +55,19 @@ void tst_Regex::interpret_data()
                "https://www.myweb.com/images/02/myimage.png",
                "https://www.myweb.com/images/03/myimage.png"};
 
+    QTest::newRow("several : and -")
+            << "https://www.myweb.com/images_[1:2]/myimage_[01-03].png"
+            << QStringList{
+               "https://www.myweb.com/images_1/myimage_01.png",
+               "https://www.myweb.com/images_1/myimage_02.png",
+               "https://www.myweb.com/images_1/myimage_03.png",
+               "https://www.myweb.com/images_2/myimage_01.png",
+               "https://www.myweb.com/images_2/myimage_02.png",
+               "https://www.myweb.com/images_2/myimage_03.png"};
 
+    QTest::newRow("no http") << "image01" << QStringList{"image01"};
+    QTest::newRow("no padding") << "image_[9-10]" << QStringList{"image_9", "image_10"};
+    QTest::newRow("padding") << "image_[009-010]" << QStringList{"image_009", "image_010"};
 }
 
 void tst_Regex::interpret()
