@@ -39,6 +39,13 @@ public slots:
     virtual void acceptPaused();
     virtual void reject() Q_DECL_OVERRIDE;
 
+private slots:
+    void showContextMenu(const QPoint &pos);
+    void insert_1_to_10();
+    void insert_1_to_100();
+    void insert_01_to_10();
+    void insert_001_to_100();
+
 private:
     Ui::AddDownloadDialog *ui;
     DownloadManager *m_downloadManager;

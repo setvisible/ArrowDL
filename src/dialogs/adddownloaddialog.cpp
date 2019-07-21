@@ -23,7 +23,9 @@
 
 #include <QtCore/QList>
 #include <QtCore/QUrl>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMessageBox>
 
 
@@ -36,6 +38,10 @@ AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadM
     ui->setupUi(this);
     ui->downloadLineEdit->setText(url.toString());
     ui->downloadLineEdit->setFocus();
+    ui->downloadLineEdit->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    connect(ui->downloadLineEdit, SIGNAL(customContextMenuRequested(const QPoint &)),
+            this, SLOT(showContextMenu(const QPoint &)));
 }
 
 AddDownloadDialog::~AddDownloadDialog()
@@ -56,6 +62,53 @@ void AddDownloadDialog::acceptPaused()
 void AddDownloadDialog::reject()
 {
     QDialog::reject();
+}
+
+void AddDownloadDialog::showContextMenu(const QPoint &/*pos*/)
+{
+    QMenu *contextMenu = ui->downloadLineEdit->createStandardContextMenu();
+    QAction *first = contextMenu->actions().first();
+
+    QAction action_1_to_10(tr("[ 1 -> 10 ]"), contextMenu);
+    QAction action_1_to_100(tr("[ 1 -> 100 ]"), contextMenu);
+    QAction action_01_to_10(tr("[ 01 -> 10 ]"), contextMenu);
+    QAction action_001_to_100(tr("[ 001 -> 100 ]"), contextMenu);
+
+    connect(&action_1_to_10, SIGNAL(triggered()), this, SLOT(insert_1_to_10()));
+    connect(&action_1_to_100, SIGNAL(triggered()), this, SLOT(insert_1_to_100()));
+    connect(&action_01_to_10, SIGNAL(triggered()), this, SLOT(insert_01_to_10()));
+    connect(&action_001_to_100, SIGNAL(triggered()), this, SLOT(insert_001_to_100()));
+
+    contextMenu->insertAction(first, &action_1_to_10);
+    contextMenu->insertAction(first, &action_1_to_100);
+    contextMenu->insertSeparator(first);
+    contextMenu->insertAction(first, &action_01_to_10);
+    contextMenu->insertAction(first, &action_001_to_100);
+    contextMenu->insertSeparator(first);
+
+    contextMenu->exec(QCursor::pos());
+
+    contextMenu->deleteLater();
+}
+
+void AddDownloadDialog::insert_1_to_10()
+{
+    ui->downloadLineEdit->insert("[1:10]");
+}
+
+void AddDownloadDialog::insert_01_to_10()
+{
+    ui->downloadLineEdit->insert("[01:10]");
+}
+
+void AddDownloadDialog::insert_1_to_100()
+{
+    ui->downloadLineEdit->insert("[1:100]");
+}
+
+void AddDownloadDialog::insert_001_to_100()
+{
+    ui->downloadLineEdit->insert("[001:100]");
 }
 
 void AddDownloadDialog::doAccept(const bool started)
