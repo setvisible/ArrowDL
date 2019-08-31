@@ -106,8 +106,8 @@ public:
             //  progressBarOption.palette.setColor();
 
             // Set the progress and text values of the style option.
-            const DownloadQueueView *jobView = qobject_cast<const DownloadQueueView *>(parent());
-            const DownloadManager *manager = jobView->downloadManager();
+            const DownloadQueueView *downloadQueueView = qobject_cast<const DownloadQueueView *>(parent());
+            const DownloadManager *manager = downloadQueueView->downloadManager();
             const DownloadItem *item = manager->clientForRow(index.row());
 
 
