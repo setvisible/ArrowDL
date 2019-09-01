@@ -39,12 +39,29 @@ public:
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
+    virtual void keyPressEvent(QKeyEvent *event);
 
 public slots:
 
 private slots:
     void onCurrentTabChanged(int index);
     void onResourceChanged();
+
+    void showContextMenu(const QPoint &pos);
+
+    void checkSelected();
+    void uncheckSelected();
+    void toggleCheck();
+    // --
+    void customizeMask();
+    // --
+    void selectAll();
+    void selectFiltered();
+    void invertSelection();
+    // --
+    void copyLinks();
+    // --
+    void open();
 
 private:
     Ui::LinkWidget *ui;
@@ -53,6 +70,10 @@ private:
     void setup(QTableView *view);
     void resize();
     void resize(QTableView *view);
+
+    inline QString textForOpenAction() const;
+    inline QModelIndexList selectedIndexesAtColumn(int column);
+    inline QTableView* currentTableView() const;
 };
 
 #endif // WIDGETS_LINK_WIDGET_H

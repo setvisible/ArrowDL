@@ -45,7 +45,7 @@ WizardDialog::WizardDialog(const QUrl &url, DownloadManager *downloadManager, QW
     ui->linkWidget->setModel(m_model);
     connect(ui->browserWidget, SIGNAL(textChanged(QString)), m_model, SLOT(setMask(QString)));
     connect(ui->maskWidget,    SIGNAL(textChanged(QString)), m_model, SLOT(setMask(QString)));
-    connect(ui->filterWidget,  SIGNAL(filterChanged(QString)), m_model, SLOT(onFilterChanged(QString)));
+    connect(ui->filterWidget,  SIGNAL(regexChanged(QRegExp)), m_model, SLOT(select(QRegExp)));
 
     connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onFinished(QNetworkReply*)));
 
@@ -117,6 +117,7 @@ void WizardDialog::onFinished(QNetworkReply *reply)
     // Force update
     m_model->setDestination(ui->browserWidget->text());
     m_model->setMask(ui->maskWidget->text());
+    m_model->select(ui->filterWidget->regex());
 }
 
 /******************************************************************************
