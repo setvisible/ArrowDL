@@ -46,6 +46,7 @@ public:
 public slots:
     void setDestination(const QString &destination);
     void setMask(const QString &mask);
+    void select(const QRegExp &regex);
 
 signals:
     void resourceChanged();

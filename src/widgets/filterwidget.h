@@ -30,14 +30,17 @@ public:
     explicit FilterWidget(QWidget *parent);
     ~FilterWidget();
 
+    QRegExp regex() const;
+
     uint state() const;
     void setState(uint code);
 
+    /* Custom filter */
     QString text() const;
     void setText(const QString &text);
 
 signals:
-    void filterChanged(QString text);
+    void regexChanged(QRegExp regex);
 
 private slots:
     void onFilterChanged(int);
@@ -45,8 +48,6 @@ private slots:
 
 private:
     Ui::FilterWidget *ui;
-
-    QString filter() const;
 };
 
 #endif // WIDGETS_FILTER_WIDGET_H

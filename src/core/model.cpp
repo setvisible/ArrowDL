@@ -69,11 +69,10 @@ void Model::setMask(const QString &mask)
     m_contentModel->setMask(mask);
 }
 
-/******************************************************************************
- ******************************************************************************/
-void Model::onFilterChanged(const QString &filter)
+void Model::select(const QRegExp &regex)
 {
-    qDebug() << Q_FUNC_INFO << filter;
+    m_linkModel->select(regex);
+    m_contentModel->select(regex);
 }
 
 /******************************************************************************

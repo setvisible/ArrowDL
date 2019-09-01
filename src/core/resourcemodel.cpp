@@ -87,6 +87,16 @@ void ResourceModel::setMask(const QString &mask)
     emit resourceChanged();
 }
 
+/******************************************************************************
+ ******************************************************************************/
+void ResourceModel::select(const QRegExp &regex)
+{
+    beginResetModel();
+    foreach (auto item, m_items) {
+        item->setSelected(!regex.isEmpty() && regex.indexIn(item->url(), 0) != -1);
+    }
+    endResetModel();
+}
 
 /******************************************************************************
  ******************************************************************************/
