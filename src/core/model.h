@@ -45,7 +45,7 @@ signals:
 public slots:
     void setDestination(const QString &destination);
     void setMask(const QString &mask);
-    void onFilterChanged(const QString &filter);
+    void select(const QRegExp &regex);
 
 private:
     ResourceModel *m_linkModel;

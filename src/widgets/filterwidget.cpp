@@ -125,7 +125,7 @@ void FilterWidget::setText(const QString &text)
 {
     if (ui->fastFilteringComboBox->currentText() != text) {
         ui->fastFilteringComboBox->setCurrentText(text);
-        emit filterChanged(filter());
+        emit regexChanged(regex());
     }
 }
 
@@ -133,35 +133,49 @@ void FilterWidget::setText(const QString &text)
  ******************************************************************************/
 void FilterWidget::onFilterChanged(int)
 {
-    emit filterChanged(filter());
+    emit regexChanged(regex());
 }
 
 void FilterWidget::onFilterChanged(const QString &)
 {
-    emit filterChanged(filter());
+    emit regexChanged(regex());
 }
 
-
-QString FilterWidget::filter() const
+/******************************************************************************
+ ******************************************************************************/
+QRegExp FilterWidget::regex() const
 {
-    QString filter = ui->fastFilteringComboBox->currentText();
+    const QString text = ui->fastFilteringComboBox->currentText();
+    QStringList parts = text.split(QRegExp("\\W+"), QString::SkipEmptyParts);
+
     if (!ui->fastFilteringOnlyCheckBox->isChecked()) {
         bool all = ui->checkBox_all->isChecked();
         if (all || ui->checkBox_allImages->isChecked()) {
-            filter += QLatin1String(" *.gif *.jpg *.jpeg *.png *.bmp");
+            parts << ".gif" << ".jpg" << ".jpeg" << ".png" << ".bmp";
         }
         if (all || ui->checkBox_allVideo->isChecked()) {
-            filter += QLatin1String(" *.mpeg *.avi *.divx *.mp4 *.flv");
+            parts << ".mpeg" << ".avi" << ".divx" << ".mp4" << ".flv";
         }
         if (all || ui->checkBox_gif->isChecked()) {
-            filter += QLatin1String(" *.gif");
+            parts << ".gif";
         }
         if (all || ui->checkBox_jpeg->isChecked()) {
-            filter += QLatin1String(" *.jpeg *.jpg");
+            parts << ".jpeg" << ".jpg";
         }
         if (all || ui->checkBox_png->isChecked()) {
-            filter += QLatin1String(" *.png");
+            parts << ".png";
         }
     }
-    return filter;
+
+    QString filter;
+    foreach (auto part, parts) {
+        filter += QRegExp::escape(part) + "|";
+    }
+    if (filter.endsWith('|')) {
+        filter.chop(1);
+    }
+
+    QRegExp regex(filter);
+    regex.setPatternSyntax(QRegExp::RegExp);
+    return regex;
 }

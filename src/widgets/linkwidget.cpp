@@ -18,11 +18,18 @@
 #include "ui_linkwidget.h"
 
 #include <Core/Model>
+#include <Core/ResourceItem>
 #include <Core/ResourceModel>
 
 #include <QtCore/QModelIndex>
+#include <QtGui/QClipboard>
+#include <QtGui/QDesktopServices>
+#include <QtGui/QIcon>
+#include <QtGui/QKeyEvent>
 #include <QtGui/QPainter>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QItemDelegate>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QStyledItemDelegate>
 #include <QtWidgets/QTableView>
 #ifdef QT_DEBUG
@@ -106,7 +113,7 @@ QSize LinkWidgetItemDelegate::sizeHint(const QStyleOptionViewItem &, const QMode
 bool LinkWidgetItemDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
                                          const QStyleOptionViewItem &option, const QModelIndex &index)
 {
-    if (event->type() == QEvent::MouseButtonPress &&  index.column() == 0) {
+    if (event->type() == QEvent::MouseButtonPress && index.column() == 0) {
         const bool selected = index.model()->data(index, Qt::UserRole).toBool();
         model->setData(index, !selected, Qt::UserRole);
         return true;
@@ -134,10 +141,37 @@ LinkWidget::~LinkWidget()
     delete ui;
 }
 
+/******************************************************************************
+ ******************************************************************************/
 void LinkWidget::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
     resize();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void LinkWidget::keyPressEvent(QKeyEvent *event)
+{
+    QKeySequence sequence(event->key() | event->modifiers());
+    if (sequence == QKeySequence(QKeySequence::SelectAll)) {
+        selectAll();
+
+    } else if (sequence == QKeySequence(Qt::CTRL + Qt::Key_F)) {
+        selectFiltered();
+
+    } else if (sequence == QKeySequence(Qt::CTRL + Qt::Key_I)) {
+        invertSelection();
+
+    } else if (sequence == QKeySequence(QKeySequence::Copy)) {
+        copyLinks();
+
+    } else if (sequence == QKeySequence(QKeySequence::Open)) {
+        open();
+
+    } else {
+        QWidget::keyPressEvent(event); // important!
+    }
 }
 
 /******************************************************************************
@@ -148,8 +182,11 @@ void LinkWidget::setup(QTableView *view)
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     view->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-    // Item Delegate
     view->setItemDelegate(new LinkWidgetItemDelegate(view));
+
+    view->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(view, SIGNAL(customContextMenuRequested(const QPoint &)),
+            this, SLOT(showContextMenu(const QPoint &)));
 }
 
 /******************************************************************************
@@ -214,6 +251,203 @@ void LinkWidget::onResourceChanged()
 {
     ui->tabWidget->setTabText(0, tr("Links (%0)").arg(m_model->linkModel()->rowCount()));
     ui->tabWidget->setTabText(1, tr("Pictures and Media (%0)").arg(m_model->contentModel()->rowCount()));
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void LinkWidget::showContextMenu(const QPoint &/*pos*/)
+{
+    QMenu *contextMenu = new QMenu(this);
+
+    QAction actionCheckSelected(tr("Check Selected Items"), contextMenu);
+    actionCheckSelected.setIcon(QIcon(":/icons/menu/check_ok_16x16.png"));
+    connect(&actionCheckSelected, SIGNAL(triggered()), this, SLOT(checkSelected()));
+
+    QAction actionUncheckSelected(tr("Uncheck Selected Items"), contextMenu);
+    actionUncheckSelected.setIcon(QIcon(":/icons/menu/check_nok_16x16.png"));
+    connect(&actionUncheckSelected, SIGNAL(triggered()), this, SLOT(uncheckSelected()));
+
+    QAction actionToggleCheck(tr("Toggle Check for Selected Items"), contextMenu);
+    actionToggleCheck.setIcon(QIcon(":/icons/menu/check_progress_16x16.png"));
+    connect(&actionToggleCheck, SIGNAL(triggered()), this, SLOT(toggleCheck()));
+    // --
+    QAction actionMask(tr("Mask..."), contextMenu);
+    actionMask.setIcon(QIcon(":/icons/menu/icon_mask_16x16.png"));
+    connect(&actionMask, SIGNAL(triggered()), this, SLOT(customizeMask()));
+    // --
+    QAction actionSelectAll(tr("Select All"), contextMenu);
+    actionSelectAll.setIcon(QIcon(":/icons/menu/select_all_32x32.png"));
+    actionSelectAll.setShortcut(QKeySequence::SelectAll);
+    connect(&actionSelectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
+
+    QAction actionSelectFiltered(tr("Select Filtered"), contextMenu);
+    actionSelectFiltered.setIcon(QIcon(":/icons/menu/select_completed_32x32.png"));
+    actionSelectFiltered.setShortcut(QKeySequence(Qt::CTRL + Qt::Key_F));
+    connect(&actionSelectFiltered, SIGNAL(triggered()), this, SLOT(selectFiltered()));
+
+    QAction actionInvertSelection(tr("Invert Selection "), contextMenu);
+    actionInvertSelection.setIcon(QIcon(":/icons/menu/select_invert_32x32.png"));
+    actionInvertSelection.setShortcut(QKeySequence(Qt::CTRL + Qt::Key_I));
+    connect(&actionInvertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
+    // --
+    QAction actionCopyLinks(tr("Copy Links"), contextMenu);
+    actionCopyLinks.setShortcut(QKeySequence::Copy);
+    connect(&actionCopyLinks, SIGNAL(triggered()), this, SLOT(copyLinks()));
+    // --
+    QAction actionOpen(textForOpenAction(), contextMenu);
+    actionOpen.setIcon(QIcon(":/icons/menu/icon_open_file_16x16.png"));
+    actionOpen.setShortcut(QKeySequence::Open);
+    connect(&actionOpen, SIGNAL(triggered()), this, SLOT(open()));
+
+    contextMenu->addAction(&actionCheckSelected);
+    contextMenu->addAction(&actionUncheckSelected);
+    contextMenu->addAction(&actionToggleCheck);
+    contextMenu->addSeparator();
+    contextMenu->addAction(&actionMask);
+    contextMenu->addSeparator();
+    contextMenu->addAction(&actionSelectAll);
+    contextMenu->addAction(&actionSelectFiltered);
+    contextMenu->addAction(&actionInvertSelection);
+    contextMenu->addSeparator();
+    contextMenu->addAction(&actionCopyLinks);
+    contextMenu->addSeparator();
+    contextMenu->addAction(&actionOpen);
+
+    contextMenu->exec(QCursor::pos());
+    contextMenu->deleteLater();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void LinkWidget::checkSelected()
+{
+    foreach (auto index, selectedIndexesAtColumn(0)) {
+        QAbstractItemModel *model = const_cast<QAbstractItemModel*>(index.model());
+        model->setData(index, true, Qt::UserRole);
+    }
+}
+
+void LinkWidget::uncheckSelected()
+{
+    foreach (auto index, selectedIndexesAtColumn(0)) {
+        QAbstractItemModel *model = const_cast<QAbstractItemModel*>(index.model());
+        model->setData(index, false, Qt::UserRole);
+    }
+}
+
+void LinkWidget::toggleCheck()
+{
+    foreach (auto index, selectedIndexesAtColumn(0)) {
+        const bool selected = index.model()->data(index, Qt::UserRole).toBool();
+        QAbstractItemModel *model = const_cast<QAbstractItemModel*>(index.model());
+        model->setData(index, !selected, Qt::UserRole);
+    }
+}
+
+void LinkWidget::customizeMask()
+{
+    /// \todo
+}
+
+void LinkWidget::selectAll()
+{
+    currentTableView()->selectAll();
+}
+
+void LinkWidget::selectFiltered()
+{
+    currentTableView()->selectionModel()->clearSelection();
+
+    const int rowCount = currentTableView()->model()->rowCount();
+    const int colCount = currentTableView()->model()->columnCount();
+    for (int i = 0; i < rowCount; ++i) {
+
+        const QModelIndex &index = currentTableView()->model()->index(i, 0);
+        const bool selected = index.model()->data(index, Qt::UserRole).toBool();
+
+        if (selected) {
+            for (int j = 0; j < colCount; ++j) {
+                const QModelIndex &selectedIndex = currentTableView()->model()->index(i, j);
+                currentTableView()->selectionModel()->select(selectedIndex, QItemSelectionModel::Select);
+            }
+        }
+    }
+}
+
+void LinkWidget::invertSelection()
+{
+    const int rowCount = currentTableView()->model()->rowCount();
+    const int colCount = currentTableView()->model()->columnCount();
+    for (int i = 0; i < rowCount; ++i) {
+        for (int j = 0; j < colCount; ++j) {
+            const QModelIndex &index = currentTableView()->model()->index(i, j);
+            currentTableView()->selectionModel()->select(index, QItemSelectionModel::Toggle);
+        }
+    }
+}
+
+void LinkWidget::copyLinks()
+{
+    QString input;
+    foreach (auto index, selectedIndexesAtColumn(1)) {
+        const QString text = index.model()->data(index, Qt::DisplayRole).toString();
+        input.append(text);
+        input.append('\n');
+    }
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(input);
+}
+
+void LinkWidget::open()
+{
+    foreach (auto index, selectedIndexesAtColumn(1)) {
+        const QString text = index.model()->data(index, Qt::DisplayRole).toString();
+        QUrl url(text);
+        QDesktopServices::openUrl(url);
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+inline QString LinkWidget::textForOpenAction() const
+{
+    const QModelIndexList indexes = currentTableView()->selectionModel()->selectedIndexes();
+    QModelIndexList urlIndexes;
+    foreach (auto index, indexes) {
+        if (index.column() == 1) {
+            urlIndexes.append(index);
+        }
+    }
+    if (urlIndexes.count() == 0) {
+        return tr("-");
+
+    } else if (urlIndexes.count() == 1) {
+        const QModelIndex urlIndex = urlIndexes.first();
+        const QString text = urlIndex.model()->data(urlIndex, Qt::DisplayRole).toString();
+        return tr("Open %0").arg(text);
+    } else {
+        return tr("Open %0 Links").arg(urlIndexes.count());
+    }
+}
+
+inline QModelIndexList LinkWidget::selectedIndexesAtColumn(int column)
+{
+    QModelIndexList indexes;
+    foreach (auto index, currentTableView()->selectionModel()->selectedIndexes()) {
+        if (index.column() == column) {
+            indexes.append(index);
+        }
+    }
+    return indexes;
+}
+
+inline QTableView* LinkWidget::currentTableView() const
+{
+    if (ui->tabWidget->currentIndex() == 0) {
+        return ui->linkTableView;
+    } else {
+        return ui->contentTableView;
+    }
 }
 
 #include "linkwidget.moc"

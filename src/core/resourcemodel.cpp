@@ -87,6 +87,16 @@ void ResourceModel::setMask(const QString &mask)
     emit resourceChanged();
 }
 
+/******************************************************************************
+ ******************************************************************************/
+void ResourceModel::select(const QRegExp &regex)
+{
+    beginResetModel();
+    foreach (auto item, m_items) {
+        item->setSelected(!regex.isEmpty() && regex.indexIn(item->url(), 0) != -1);
+    }
+    endResetModel();
+}
 
 /******************************************************************************
  ******************************************************************************/
@@ -137,7 +147,7 @@ bool ResourceModel::setData(const QModelIndex &index, const QVariant &value, int
     if (!index.isValid()) {
         return false;
     }
-    if (role == Qt::UserRole) {
+    if (index.column() == 0 && role == Qt::UserRole) {
         const bool selected = value.toBool();
 
         auto item = m_items.at(index.row());
