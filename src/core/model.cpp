@@ -25,6 +25,8 @@ Model::Model(QObject *parent) : QObject(parent)
     , m_linkModel(new ResourceModel(this))
     , m_contentModel(new ResourceModel(this))
 {
+    connect(m_linkModel, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
+    connect(m_contentModel, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 }
 
 Model::~Model()
@@ -35,7 +37,10 @@ Model::~Model()
  ******************************************************************************/
 void Model::setCurrentTab(const Tab currentTab)
 {
-    m_currentTab = currentTab;
+    if (m_currentTab != currentTab) {
+        m_currentTab = currentTab;
+        emit selectionChanged();
+    }
 }
 
 QList<ResourceItem*> Model::selection() const
@@ -53,6 +58,13 @@ ResourceModel* Model::linkModel() const
 ResourceModel* Model::contentModel() const
 {
     return m_contentModel;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void Model::onSelectionChanged()
+{
+    emit selectionChanged();
 }
 
 /******************************************************************************

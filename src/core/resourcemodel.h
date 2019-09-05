@@ -49,6 +49,7 @@ public:
 
 signals:
     void resourceChanged();
+    void selectionChanged();
 
 public slots:
     void setDestination(const QString &destination);

@@ -47,6 +47,8 @@ WizardDialog::WizardDialog(const QUrl &url, DownloadManager *downloadManager, QW
     connect(ui->maskWidget,    SIGNAL(textChanged(QString)), m_model, SLOT(setMask(QString)));
     connect(ui->filterWidget,  SIGNAL(regexChanged(QRegExp)), m_model, SLOT(select(QRegExp)));
 
+    connect(m_model, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
+
     connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onFinished(QNetworkReply*)));
 
     readSettings();
@@ -118,6 +120,22 @@ void WizardDialog::onFinished(QNetworkReply *reply)
     m_model->setDestination(ui->browserWidget->text());
     m_model->setMask(ui->maskWidget->text());
     m_model->select(ui->filterWidget->regex());
+
+    onSelectionChanged();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void WizardDialog::onSelectionChanged()
+{
+    const ResourceModel *currentModel = m_model->currentModel();
+    const int selectionCount = currentModel->selectedResourceItems().count();
+    if (selectionCount == 0) {
+        ui->tipLabel->setText(tr("After selecting links, click on Start!"));
+    } else {
+        const int count = currentModel->resourceItems().count();
+        ui->tipLabel->setText(tr("Selected links: %0 of %1").arg(selectionCount).arg(count));
+    }
 }
 
 /******************************************************************************

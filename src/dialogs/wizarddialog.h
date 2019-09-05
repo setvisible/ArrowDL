@@ -48,6 +48,7 @@ public slots:
 
 private slots:
     void onFinished(QNetworkReply* reply);
+    void onSelectionChanged();
 
 private:
     Ui::WizardDialog *ui;

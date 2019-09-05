@@ -96,6 +96,7 @@ void ResourceModel::select(const QRegExp &regex)
         item->setSelected(!regex.isEmpty() && regex.indexIn(item->url(), 0) != -1);
     }
     endResetModel();
+    emit selectionChanged();
 }
 
 /******************************************************************************
@@ -151,6 +152,8 @@ bool ResourceModel::setData(const QModelIndex &index, const QVariant &value, int
 
         auto item = m_items.at(index.row());
         item->setSelected(selected);
+
+        emit selectionChanged();
 
         QModelIndex topLeft = index;
         QModelIndex bottomRight = index.model()->index(index.row(), index.model()->columnCount());

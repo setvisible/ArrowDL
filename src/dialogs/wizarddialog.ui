@@ -198,7 +198,7 @@ QGroupBox {
      <item>
       <widget class="QLabel" name="tipLabel">
        <property name="text">
-        <string>After selecting links, click on Start!</string>
+        <string>tipLabel</string>
        </property>
       </widget>
      </item>
