@@ -145,14 +145,6 @@ LinkWidget::~LinkWidget()
 
 /******************************************************************************
  ******************************************************************************/
-void LinkWidget::resizeEvent(QResizeEvent *event)
-{
-    Q_UNUSED(event);
-    resize();
-}
-
-/******************************************************************************
- ******************************************************************************/
 void LinkWidget::keyPressEvent(QKeyEvent *event)
 {
     QKeySequence sequence(event->key() | event->modifiers());
@@ -196,6 +188,12 @@ void LinkWidget::setup(QTableView *view)
     horizontalHeader->setDefaultAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     horizontalHeader->setHighlightSections(false);
 
+    connect(view->horizontalHeader(), SIGNAL(sectionCountChanged(int,int)),
+            this, SLOT(onSectionCountChanged(int,int)));
+
+    connect(view->horizontalHeader(), SIGNAL(sectionResized(int,int,int)),
+            this, SLOT(onSectionResized(int,int,int)));
+
     view->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(view, SIGNAL(customContextMenuRequested(const QPoint &)),
             this, SLOT(showContextMenu(const QPoint &)));
@@ -203,23 +201,36 @@ void LinkWidget::setup(QTableView *view)
 
 /******************************************************************************
  ******************************************************************************/
-void LinkWidget::resize()
+void LinkWidget::onSectionCountChanged(int /*oldCount*/, int newCount)
 {
-    ui->tabWidget->setCurrentIndex(0);
-    resize(ui->linkTableView);
-    ui->tabWidget->setCurrentIndex(1);
-    resize(ui->contentTableView);
-    ui->tabWidget->setCurrentIndex(0);
+    QHeaderView *header = qobject_cast<QHeaderView *>(sender());
+    if (newCount > 0) {
+        header->setSectionResizeMode(0, QHeaderView::Fixed);
+        QTableView *parent = qobject_cast<QTableView *>(header->parent());
+        if (parent) {
+            parent->setColumnWidth(0, C_CHECKBOX_COLUMN_WIDTH);
+        }
+    }
 }
 
-void LinkWidget::resize(QTableView *view)
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * \brief Synchronize the column resize event.
+ * All the QTableView have the same column sizes.
+ */
+void LinkWidget::onSectionResized(int logicalIndex, int /*oldSize*/, int newSize)
 {
-    view->setColumnWidth(0, C_CHECKBOX_WIDTH);
-    const int width = view->width() - C_CHECKBOX_WIDTH;
-    view->setColumnWidth(1, width*0.5);
-    view->setColumnWidth(2, width*0.2);
-    view->setColumnWidth(3, width*0.2);
-    view->setColumnWidth(4, width*0.1);
+    resizeSection(ui->linkTableView, logicalIndex, newSize);
+    resizeSection(ui->contentTableView, logicalIndex, newSize);
+}
+
+void LinkWidget::resizeSection(QTableView *view, int logicalIndex, int newSize)
+{
+    QHeaderView *header = view->horizontalHeader();
+    const bool isblocked =  header->blockSignals(true);
+    header->resizeSection(logicalIndex, newSize);
+    header->blockSignals(isblocked);
 }
 
 /******************************************************************************

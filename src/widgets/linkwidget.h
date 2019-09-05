@@ -41,12 +41,13 @@ public:
     void setColumnWidths(const QList<int> &widths);
 
 protected:
-    virtual void resizeEvent(QResizeEvent *event);
     virtual void keyPressEvent(QKeyEvent *event);
 
 private slots:
     void onCurrentTabChanged(int index);
     void onResourceChanged();
+    void onSectionCountChanged(int oldCount, int newCount);
+    void onSectionResized(int logicalIndex, int oldSize, int newSize);
 
     void showContextMenu(const QPoint &pos);
 
@@ -69,8 +70,7 @@ private:
     Model *m_model;
 
     void setup(QTableView *view);
-    void resize();
-    void resize(QTableView *view);
+    void resizeSection(QTableView *view, int logicalIndex, int newSize);
 
     inline QString textForOpenAction() const;
     inline QModelIndexList selectedIndexesAtColumn(int column);
