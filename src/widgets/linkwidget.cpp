@@ -37,6 +37,8 @@
 #endif
 
 #define C_CHECKBOX_WIDTH 16   /* check_ok_16x16.png */
+#define C_CHECKBOX_COLUMN_WIDTH 16
+#define C_COLUMN_DEFAULT_WIDTH 100
 
 /*!
  * LinkWidgetItemDelegate is used to draw the check icons.
@@ -233,6 +235,40 @@ void LinkWidget::setModel(Model *model)
 
         ui->linkTableView->setModel(m_model->linkModel());
         ui->contentTableView->setModel(m_model->contentModel());
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QList<int> LinkWidget::columnWidths() const
+{
+    QAbstractItemModel *model = ui->linkTableView->model();
+    Q_ASSERT(model);
+    QList<int> widths;
+    if (model) {
+        for (int column = 0; column < model->columnCount(); ++column) {
+            const int width = ui->linkTableView->columnWidth(column);
+           widths.append(width);
+        }
+    }
+    return widths;
+}
+
+void LinkWidget::setColumnWidths(const QList<int> &widths)
+{
+    QAbstractItemModel *model = ui->linkTableView->model();
+    Q_ASSERT(model);
+    if (model) {
+        for (int column = 0; column < model->columnCount(); ++column) {
+            if (column == 0) {
+                ui->linkTableView->setColumnWidth(column, C_CHECKBOX_COLUMN_WIDTH);
+            } else if (column > 0 && column < widths.count()) {
+                const int width = widths.at(column);
+                ui->linkTableView->setColumnWidth(column, width);
+            } else {
+                ui->linkTableView->setColumnWidth(column, C_COLUMN_DEFAULT_WIDTH);
+            }
+        }
     }
 }
 

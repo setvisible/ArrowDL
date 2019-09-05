@@ -129,6 +129,7 @@ void WizardDialog::readSettings()
     resize(settings.value("DialogSize", QSize(800, 600)).toSize());
     ui->filterWidget->setState(settings.value("FilterState", 0).toUInt());
     ui->filterWidget->setText(settings.value("FilterText", "*.htm *.html").toString());
+    ui->linkWidget->setColumnWidths(settings.value("ColumnWidths").value<QList<int> >());
     settings.endGroup();
 }
 
@@ -139,5 +140,6 @@ void WizardDialog::writeSettings()
     settings.setValue("DialogSize", size());
     settings.setValue("FilterState", ui->filterWidget->state());
     settings.setValue("FilterText", ui->filterWidget->text());
+    settings.setValue("ColumnWidths", QVariant::fromValue(ui->linkWidget->columnWidths()));
     settings.endGroup();
 }

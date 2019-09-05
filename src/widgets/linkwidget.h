@@ -37,6 +37,9 @@ public:
     Model* model() const;
     void setModel(Model *model);
 
+    QList<int> columnWidths() const;
+    void setColumnWidths(const QList<int> &widths);
+
 protected:
     virtual void resizeEvent(QResizeEvent *event);
     virtual void keyPressEvent(QKeyEvent *event);
