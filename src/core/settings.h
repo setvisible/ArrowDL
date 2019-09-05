@@ -22,6 +22,12 @@
 
 class SettingsItem;
 
+/*!
+  \class Settings
+ * \brief The Settings class manages the persistence of the User preferences
+ *
+ * User preferences are edited with the 'Preferences' dialog.
+ */
 class Settings : public QObject
 {
     Q_OBJECT

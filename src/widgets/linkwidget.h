@@ -44,8 +44,6 @@ protected:
     virtual void resizeEvent(QResizeEvent *event);
     virtual void keyPressEvent(QKeyEvent *event);
 
-public slots:
-
 private slots:
     void onCurrentTabChanged(int index);
     void onResourceChanged();

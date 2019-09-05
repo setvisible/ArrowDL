@@ -102,16 +102,6 @@ static ResourceItem* createResourceItem(const GumboElement &element, const QUrl 
 
     QString description = !alts.isEmpty() ? alts : titles;
 
-    qDebug() << ": "
-                //            << content
-             << " fullfilename=" << fullfilename
-             << " NAME=" << fileName
-             << " extension=" << extension
-             << " URL=" << url
-             << " TITLE=" << titles
-             << " ALT=" << alts
-             << " description=" << description;
-
     ResourceItem *item = new ResourceItem();
     item->setUrl(url);
     item->setCustomFileName(fileName);

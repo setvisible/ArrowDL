@@ -36,7 +36,7 @@
 #  include <QtCore/QDebug>
 #endif
 
-#define C_CHECKBOX_WIDTH 16   /* check_ok_16x16.png */
+#define C_CHECKBOX_WIDTH 12   /* check_ok_16x16.png */
 #define C_CHECKBOX_COLUMN_WIDTH 16
 #define C_COLUMN_DEFAULT_WIDTH 100
 
@@ -85,7 +85,7 @@ void LinkWidgetItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     const bool selected = index.model()->data(index, Qt::UserRole).toBool();
 
     if (selected) {
-        painter->fillRect(option.rect, QColor(255,255,179)); // light yellow
+        painter->fillRect(option.rect, QColor(255, 255, 179)); // light yellow
     }
     if (option.state & QStyle::State_Selected) {
         painter->fillRect(option.rect, option.palette.highlight());
@@ -107,9 +107,9 @@ void LinkWidgetItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     }
 }
 
-QSize LinkWidgetItemDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const
+QSize LinkWidgetItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    return QSize(C_CHECKBOX_WIDTH,C_CHECKBOX_WIDTH);
+    return QStyledItemDelegate::sizeHint(option, index);
 }
 
 bool LinkWidgetItemDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
@@ -180,11 +180,21 @@ void LinkWidget::keyPressEvent(QKeyEvent *event)
  ******************************************************************************/
 void LinkWidget::setup(QTableView *view)
 {
+    view->setShowGrid(false);
+
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     view->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     view->setItemDelegate(new LinkWidgetItemDelegate(view));
+    QHeaderView *verticalHeader = view->verticalHeader();
+    verticalHeader->setSectionResizeMode(QHeaderView::Fixed);
+    verticalHeader->setDefaultSectionSize(22);
+    verticalHeader->setVisible(false);
+
+    QHeaderView *horizontalHeader = view->horizontalHeader();
+    horizontalHeader->setDefaultAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    horizontalHeader->setHighlightSections(false);
 
     view->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(view, SIGNAL(customContextMenuRequested(const QPoint &)),
