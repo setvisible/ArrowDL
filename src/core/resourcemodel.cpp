@@ -119,14 +119,13 @@ QVariant ResourceModel::data(const QModelIndex &index, int role) const
     }
 
     ResourceItem *item = m_items.at(index.row());
-    const int col = index.column();
 
-    // Shows the checkbox
-    if (role == Qt::UserRole) {
-        return m_items.at(index.row())->isSelected();
+    if (role == IsSelectedRole) {
+        return item->isSelected();
     }
 
     if (role == Qt::DisplayRole) {
+        const int col = index.column();
         if (col == 0) {
             return QVariant();
         } else if (col == 1) {
@@ -147,7 +146,7 @@ bool ResourceModel::setData(const QModelIndex &index, const QVariant &value, int
     if (!index.isValid()) {
         return false;
     }
-    if (index.column() == 0 && role == Qt::UserRole) {
+    if (index.column() == 0 && role == IsSelectedRole) {
         const bool selected = value.toBool();
 
         auto item = m_items.at(index.row());

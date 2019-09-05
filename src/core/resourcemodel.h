@@ -26,6 +26,10 @@ class ResourceModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
+    enum {
+        IsSelectedRole = Qt::UserRole + 1
+    };
+
     explicit ResourceModel(QObject *parent);
     ~ResourceModel();
 

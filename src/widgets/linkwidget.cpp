@@ -82,7 +82,7 @@ LinkWidgetItemDelegate::LinkWidgetItemDelegate(QObject *parent) : QStyledItemDel
 void LinkWidgetItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                                    const QModelIndex &index) const
 {
-    const bool selected = index.model()->data(index, Qt::UserRole).toBool();
+    const bool selected = index.model()->data(index, ResourceModel::IsSelectedRole).toBool();
 
     if (selected) {
         painter->fillRect(option.rect, QColor(255, 255, 179)); // light yellow
@@ -116,8 +116,8 @@ bool LinkWidgetItemDelegate::editorEvent(QEvent *event, QAbstractItemModel *mode
                                          const QStyleOptionViewItem &option, const QModelIndex &index)
 {
     if (event->type() == QEvent::MouseButtonPress && index.column() == 0) {
-        const bool selected = index.model()->data(index, Qt::UserRole).toBool();
-        model->setData(index, !selected, Qt::UserRole);
+        const bool selected = index.model()->data(index, ResourceModel::IsSelectedRole).toBool();
+        model->setData(index, !selected, ResourceModel::IsSelectedRole);
         return true;
     }
     return QStyledItemDelegate::editorEvent(event,model,option, index);
@@ -380,7 +380,7 @@ void LinkWidget::checkSelected()
 {
     foreach (auto index, selectedIndexesAtColumn(0)) {
         QAbstractItemModel *model = const_cast<QAbstractItemModel*>(index.model());
-        model->setData(index, true, Qt::UserRole);
+        model->setData(index, true, ResourceModel::IsSelectedRole);
     }
 }
 
@@ -388,16 +388,16 @@ void LinkWidget::uncheckSelected()
 {
     foreach (auto index, selectedIndexesAtColumn(0)) {
         QAbstractItemModel *model = const_cast<QAbstractItemModel*>(index.model());
-        model->setData(index, false, Qt::UserRole);
+        model->setData(index, false, ResourceModel::IsSelectedRole);
     }
 }
 
 void LinkWidget::toggleCheck()
 {
     foreach (auto index, selectedIndexesAtColumn(0)) {
-        const bool selected = index.model()->data(index, Qt::UserRole).toBool();
+        const bool selected = index.model()->data(index, ResourceModel::IsSelectedRole).toBool();
         QAbstractItemModel *model = const_cast<QAbstractItemModel*>(index.model());
-        model->setData(index, !selected, Qt::UserRole);
+        model->setData(index, !selected, ResourceModel::IsSelectedRole);
     }
 }
 
@@ -420,7 +420,7 @@ void LinkWidget::selectFiltered()
     for (int i = 0; i < rowCount; ++i) {
 
         const QModelIndex &index = currentTableView()->model()->index(i, 0);
-        const bool selected = index.model()->data(index, Qt::UserRole).toBool();
+        const bool selected = index.model()->data(index, ResourceModel::IsSelectedRole).toBool();
 
         if (selected) {
             for (int j = 0; j < colCount; ++j) {
