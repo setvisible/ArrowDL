@@ -40,6 +40,8 @@
 #define C_COL_9_SAVE_PATH          9  /* hidden */
 #define C_COL_10_CHECKSUM         10  /* hidden */
 
+#define C_COLUMN_DEFAULT_WIDTH 100
+
 
 /*!
  * QueueView extends QTreeWidget to allow drag and drop.
@@ -310,6 +312,30 @@ QSize DownloadQueueView::sizeHint() const
         width += header->sectionSize(i);
 
     return QSize(width, QWidget::sizeHint().height()).expandedTo(QApplication::globalStrut());
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QList<int> DownloadQueueView::columnWidths() const
+{
+    QList<int> widths;
+    for (int column = 0; column < m_queueView->columnCount(); ++column) {
+        const int width = m_queueView->columnWidth(column);
+        widths.append(width);
+    }
+    return widths;
+}
+
+void DownloadQueueView::setColumnWidths(const QList<int> &widths)
+{
+    for (int column = 0; column < m_queueView->columnCount(); ++column) {
+        if (column < widths.count()) {
+            const int width = widths.at(column);
+            m_queueView->setColumnWidth(column, width);
+        } else {
+            m_queueView->setColumnWidth(column, C_COLUMN_DEFAULT_WIDTH);
+        }
+    }
 }
 
 /******************************************************************************
