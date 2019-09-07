@@ -25,6 +25,7 @@
 
 class Model;
 class DownloadManager;
+class Settings;
 
 namespace Ui {
 class WizardDialog;
@@ -35,7 +36,8 @@ class WizardDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit WizardDialog(const QUrl &url, DownloadManager *downloadManager, QWidget *parent);
+    explicit WizardDialog(const QUrl &url, DownloadManager *downloadManager,
+                          Settings *settings, QWidget *parent);
     ~WizardDialog();
 
 protected:
@@ -49,12 +51,14 @@ public slots:
 private slots:
     void onFinished(QNetworkReply* reply);
     void onSelectionChanged();
+    void refreshFilters();
 
 private:
     Ui::WizardDialog *ui;
     DownloadManager *m_downloadManager;
     Model *m_model;
     QNetworkAccessManager *m_networkAccessManager;
+    Settings *m_settings;
     QUrl m_url;
 
     void loadUrl(const QUrl &url);

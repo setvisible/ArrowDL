@@ -19,6 +19,8 @@
 
 #include <QtWidgets/QWidget>
 
+class QCheckBox;
+
 namespace Ui {
 class FilterWidget;
 }
@@ -29,6 +31,9 @@ class FilterWidget : public QWidget
 public:
     explicit FilterWidget(QWidget *parent);
     ~FilterWidget();
+
+    void clearFilters();
+    void addFilter(const QString &title, const QString &regexp);
 
     QRegExp regex() const;
 
@@ -48,6 +53,8 @@ private slots:
 
 private:
     Ui::FilterWidget *ui;
+
+    inline QList<QCheckBox*> allCheckBoxes() const;
 };
 
 #endif // WIDGETS_FILTER_WIDGET_H

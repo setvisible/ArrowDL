@@ -23,6 +23,7 @@
 #include <Core/Model>
 #include <Core/ResourceItem>
 #include <Core/ResourceModel>
+#include <Core/Settings>
 
 #include <QtCore/QList>
 #include <QtCore/QUrl>
@@ -34,15 +35,21 @@
 #  include <QtCore/QDebug>
 #endif
 
-WizardDialog::WizardDialog(const QUrl &url, DownloadManager *downloadManager, QWidget *parent)
+WizardDialog::WizardDialog(const QUrl &url, DownloadManager *downloadManager,
+                           Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::WizardDialog)
     , m_downloadManager(downloadManager)
     , m_model(new Model(this))
     , m_networkAccessManager(new QNetworkAccessManager(this))
+    , m_settings(settings)
 {
     ui->setupUi(this);
+
     ui->linkWidget->setModel(m_model);
+
+    connect(m_settings, SIGNAL(changed()), this, SLOT(refreshFilters()));
+
     connect(ui->browserWidget, SIGNAL(textChanged(QString)), m_model, SLOT(setMask(QString)));
     connect(ui->maskWidget,    SIGNAL(textChanged(QString)), m_model, SLOT(setMask(QString)));
     connect(ui->filterWidget,  SIGNAL(regexChanged(QRegExp)), m_model, SLOT(select(QRegExp)));
@@ -50,6 +57,8 @@ WizardDialog::WizardDialog(const QUrl &url, DownloadManager *downloadManager, QW
     connect(m_model, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 
     connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onFinished(QNetworkReply*)));
+
+    refreshFilters();
 
     readSettings();
     loadUrl(url);
@@ -140,13 +149,24 @@ void WizardDialog::onSelectionChanged()
 
 /******************************************************************************
  ******************************************************************************/
+void WizardDialog::refreshFilters()
+{
+    QList<Filter> filters = m_settings->filters();
+    ui->filterWidget->clearFilters();
+    foreach (auto filter, filters) {
+        ui->filterWidget->addFilter(filter.title, filter.regexp);
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void WizardDialog::readSettings()
 {
     QSettings settings;
     settings.beginGroup("Wizard");
     resize(settings.value("DialogSize", QSize(800, 600)).toSize());
     ui->filterWidget->setState(settings.value("FilterState", 0).toUInt());
-    ui->filterWidget->setText(settings.value("FilterText", "*.htm *.html").toString());
+    ui->filterWidget->setText(settings.value("FilterText", QString()).toString());
     ui->linkWidget->setColumnWidths(settings.value("ColumnWidths").value<QList<int> >());
     settings.endGroup();
 }

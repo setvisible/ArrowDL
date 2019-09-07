@@ -17,6 +17,7 @@
 #ifndef DIALOGS_PREFERENCE_DIALOG_H
 #define DIALOGS_PREFERENCE_DIALOG_H
 
+#include <Core/Settings>
 #include <QtWidgets/QDialog>
 
 class Settings;
@@ -41,6 +42,10 @@ public slots:
     virtual void reject() Q_DECL_OVERRIDE;
     virtual void restoreDefaultSettings();
 
+private slots:
+    void filterSelectionChanged();
+    void filterTextChanged();
+
 private:
     Ui::PreferenceDialog *ui;
     Settings *m_settings;
@@ -50,6 +55,9 @@ private:
     void write();
     void readSettings();
     void writeSettings();
+
+    QList<Filter> filters() const;
+    void setFilters(const QList<Filter> &filters);
 };
 
 #endif // DIALOGS_PREFERENCE_DIALOG_H

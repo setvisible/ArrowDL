@@ -277,7 +277,7 @@ void MainWindow::openWizard()
 
 void MainWindow::openWizard(const QUrl &url)
 {
-    WizardDialog dialog(url, m_downloadManager, this);
+    WizardDialog dialog(url, m_downloadManager, m_settings, this);
     dialog.exec();
 }
 
