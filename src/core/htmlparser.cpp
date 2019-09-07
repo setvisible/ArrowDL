@@ -104,7 +104,6 @@ static ResourceItem* createResourceItem(const GumboElement &element, const QUrl 
 
     ResourceItem *item = new ResourceItem();
     item->setUrl(url);
-    item->setCustomFileName(fileName);
     item->setDescription(description);
     return item;
 }
