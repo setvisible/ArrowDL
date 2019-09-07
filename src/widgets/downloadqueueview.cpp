@@ -22,11 +22,11 @@
 
 #include <QtGui/QPainter>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QItemDelegate>
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMenu>
+#include <QtWidgets/QStyledItemDelegate>
 
 #define C_COL_0_FILE_NAME          0
 #define C_COL_1_WEBSITE_DOMAIN     1
@@ -67,6 +67,8 @@ public:
 QueueView::QueueView(QWidget *parent)
     : QTreeWidget(parent)
 {
+    setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     //#if QT_CONFIG(draganddrop)
     //    setAcceptDrops(true);
     //#endif
@@ -77,12 +79,12 @@ QueueView::QueueView(QWidget *parent)
 /*!
  * QueueViewItemDelegate is used to draw the progress bars.
  */
-class QueueViewItemDelegate : public QItemDelegate
+class QueueViewItemDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 
 public:
-    inline QueueViewItemDelegate(DownloadQueueView *parent) : QItemDelegate(parent) {}
+    inline QueueViewItemDelegate(DownloadQueueView *parent) : QStyledItemDelegate(parent) {}
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index ) const override
@@ -90,7 +92,7 @@ public:
         if (index.column() == 0) {
 
             // todo : add icon + text
-            QItemDelegate::paint(painter, option, index);
+            QStyledItemDelegate::paint(painter, option, index);
 
         } else if (index.column() == 2) {
 
@@ -121,7 +123,7 @@ public:
 
 
         } else {
-            QItemDelegate::paint(painter, option, index);
+            QStyledItemDelegate::paint(painter, option, index);
         }
     }
 };

@@ -16,7 +16,7 @@
 
 #include "resourcemodel.h"
 
-#include <core/ResourceItem>
+#include <Core/ResourceItem>
 
 ResourceModel::ResourceModel(QObject *parent) : QAbstractTableModel(parent)
 {

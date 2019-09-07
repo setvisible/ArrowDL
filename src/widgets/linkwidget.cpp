@@ -174,6 +174,8 @@ void LinkWidget::setup(QTableView *view)
 {
     view->setShowGrid(false);
 
+    view->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    view->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     view->setSelectionBehavior(QAbstractItemView::SelectRows);
