@@ -23,7 +23,7 @@
 #  include <QtCore/QDebug>
 #endif
 
-static const uint encode(const QList<QCheckBox*> checkboxes)
+static uint encode(const QList<QCheckBox*> checkboxes)
 {
     uint code = 0;
     for (int i = 0; i < checkboxes.count(); ++i) {

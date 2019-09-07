@@ -260,8 +260,6 @@ DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
             << tr("Progress")
             << tr("Percent")
             << tr("Size")
-
-
             << tr("Est. time")      /* Hidden by default */
             << tr("Speed")          /* Hidden by default */
                // << tr("Segments")    /* hidden */
