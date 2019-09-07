@@ -36,7 +36,9 @@
 #  include <QtCore/QDebug>
 #endif
 
-#define C_CHECKBOX_WIDTH 16   /* check_ok_16x16.png */
+#define C_CHECKBOX_WIDTH 12   /* check_ok_16x16.png */
+#define C_CHECKBOX_COLUMN_WIDTH 16
+#define C_COLUMN_DEFAULT_WIDTH 100
 
 /*!
  * LinkWidgetItemDelegate is used to draw the check icons.
@@ -80,10 +82,10 @@ LinkWidgetItemDelegate::LinkWidgetItemDelegate(QObject *parent) : QStyledItemDel
 void LinkWidgetItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                                    const QModelIndex &index) const
 {
-    const bool selected = index.model()->data(index, Qt::UserRole).toBool();
+    const bool selected = index.model()->data(index, ResourceModel::IsSelectedRole).toBool();
 
     if (selected) {
-        painter->fillRect(option.rect, QColor(255,255,179)); // light yellow
+        painter->fillRect(option.rect, QColor(255, 255, 179)); // light yellow
     }
     if (option.state & QStyle::State_Selected) {
         painter->fillRect(option.rect, option.palette.highlight());
@@ -105,17 +107,17 @@ void LinkWidgetItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     }
 }
 
-QSize LinkWidgetItemDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const
+QSize LinkWidgetItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    return QSize(C_CHECKBOX_WIDTH,C_CHECKBOX_WIDTH);
+    return QStyledItemDelegate::sizeHint(option, index);
 }
 
 bool LinkWidgetItemDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
                                          const QStyleOptionViewItem &option, const QModelIndex &index)
 {
     if (event->type() == QEvent::MouseButtonPress && index.column() == 0) {
-        const bool selected = index.model()->data(index, Qt::UserRole).toBool();
-        model->setData(index, !selected, Qt::UserRole);
+        const bool selected = index.model()->data(index, ResourceModel::IsSelectedRole).toBool();
+        model->setData(index, !selected, ResourceModel::IsSelectedRole);
         return true;
     }
     return QStyledItemDelegate::editorEvent(event,model,option, index);
@@ -139,14 +141,6 @@ LinkWidget::LinkWidget(QWidget *parent) : QWidget(parent)
 LinkWidget::~LinkWidget()
 {
     delete ui;
-}
-
-/******************************************************************************
- ******************************************************************************/
-void LinkWidget::resizeEvent(QResizeEvent *event)
-{
-    Q_UNUSED(event);
-    resize();
 }
 
 /******************************************************************************
@@ -178,11 +172,29 @@ void LinkWidget::keyPressEvent(QKeyEvent *event)
  ******************************************************************************/
 void LinkWidget::setup(QTableView *view)
 {
+    view->setShowGrid(false);
+
+    view->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    view->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     view->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     view->setItemDelegate(new LinkWidgetItemDelegate(view));
+    QHeaderView *verticalHeader = view->verticalHeader();
+    verticalHeader->setSectionResizeMode(QHeaderView::Fixed);
+    verticalHeader->setDefaultSectionSize(22);
+    verticalHeader->setVisible(false);
+
+    QHeaderView *horizontalHeader = view->horizontalHeader();
+    horizontalHeader->setDefaultAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    horizontalHeader->setHighlightSections(false);
+
+    connect(view->horizontalHeader(), SIGNAL(sectionCountChanged(int,int)),
+            this, SLOT(onSectionCountChanged(int,int)));
+
+    connect(view->horizontalHeader(), SIGNAL(sectionResized(int,int,int)),
+            this, SLOT(onSectionResized(int,int,int)));
 
     view->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(view, SIGNAL(customContextMenuRequested(const QPoint &)),
@@ -191,23 +203,36 @@ void LinkWidget::setup(QTableView *view)
 
 /******************************************************************************
  ******************************************************************************/
-void LinkWidget::resize()
+void LinkWidget::onSectionCountChanged(int /*oldCount*/, int newCount)
 {
-    ui->tabWidget->setCurrentIndex(0);
-    resize(ui->linkTableView);
-    ui->tabWidget->setCurrentIndex(1);
-    resize(ui->contentTableView);
-    ui->tabWidget->setCurrentIndex(0);
+    QHeaderView *header = qobject_cast<QHeaderView *>(sender());
+    if (newCount > 0) {
+        header->setSectionResizeMode(0, QHeaderView::Fixed);
+        QTableView *parent = qobject_cast<QTableView *>(header->parent());
+        if (parent) {
+            parent->setColumnWidth(0, C_CHECKBOX_COLUMN_WIDTH);
+        }
+    }
 }
 
-void LinkWidget::resize(QTableView *view)
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * \brief Synchronize the column resize event.
+ * All the QTableView have the same column sizes.
+ */
+void LinkWidget::onSectionResized(int logicalIndex, int /*oldSize*/, int newSize)
 {
-    view->setColumnWidth(0, C_CHECKBOX_WIDTH);
-    const int width = view->width() - C_CHECKBOX_WIDTH;
-    view->setColumnWidth(1, width*0.5);
-    view->setColumnWidth(2, width*0.2);
-    view->setColumnWidth(3, width*0.2);
-    view->setColumnWidth(4, width*0.1);
+    resizeSection(ui->linkTableView, logicalIndex, newSize);
+    resizeSection(ui->contentTableView, logicalIndex, newSize);
+}
+
+void LinkWidget::resizeSection(QTableView *view, int logicalIndex, int newSize)
+{
+    QHeaderView *header = view->horizontalHeader();
+    const bool isblocked =  header->blockSignals(true);
+    header->resizeSection(logicalIndex, newSize);
+    header->blockSignals(isblocked);
 }
 
 /******************************************************************************
@@ -233,6 +258,40 @@ void LinkWidget::setModel(Model *model)
 
         ui->linkTableView->setModel(m_model->linkModel());
         ui->contentTableView->setModel(m_model->contentModel());
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QList<int> LinkWidget::columnWidths() const
+{
+    QAbstractItemModel *model = ui->linkTableView->model();
+    Q_ASSERT(model);
+    QList<int> widths;
+    if (model) {
+        for (int column = 0; column < model->columnCount(); ++column) {
+            const int width = ui->linkTableView->columnWidth(column);
+           widths.append(width);
+        }
+    }
+    return widths;
+}
+
+void LinkWidget::setColumnWidths(const QList<int> &widths)
+{
+    QAbstractItemModel *model = ui->linkTableView->model();
+    Q_ASSERT(model);
+    if (model) {
+        for (int column = 0; column < model->columnCount(); ++column) {
+            if (column == 0) {
+                ui->linkTableView->setColumnWidth(column, C_CHECKBOX_COLUMN_WIDTH);
+            } else if (column > 0 && column < widths.count()) {
+                const int width = widths.at(column);
+                ui->linkTableView->setColumnWidth(column, width);
+            } else {
+                ui->linkTableView->setColumnWidth(column, C_COLUMN_DEFAULT_WIDTH);
+            }
+        }
     }
 }
 
@@ -323,7 +382,7 @@ void LinkWidget::checkSelected()
 {
     foreach (auto index, selectedIndexesAtColumn(0)) {
         QAbstractItemModel *model = const_cast<QAbstractItemModel*>(index.model());
-        model->setData(index, true, Qt::UserRole);
+        model->setData(index, true, ResourceModel::IsSelectedRole);
     }
 }
 
@@ -331,16 +390,16 @@ void LinkWidget::uncheckSelected()
 {
     foreach (auto index, selectedIndexesAtColumn(0)) {
         QAbstractItemModel *model = const_cast<QAbstractItemModel*>(index.model());
-        model->setData(index, false, Qt::UserRole);
+        model->setData(index, false, ResourceModel::IsSelectedRole);
     }
 }
 
 void LinkWidget::toggleCheck()
 {
     foreach (auto index, selectedIndexesAtColumn(0)) {
-        const bool selected = index.model()->data(index, Qt::UserRole).toBool();
+        const bool selected = index.model()->data(index, ResourceModel::IsSelectedRole).toBool();
         QAbstractItemModel *model = const_cast<QAbstractItemModel*>(index.model());
-        model->setData(index, !selected, Qt::UserRole);
+        model->setData(index, !selected, ResourceModel::IsSelectedRole);
     }
 }
 
@@ -363,7 +422,7 @@ void LinkWidget::selectFiltered()
     for (int i = 0; i < rowCount; ++i) {
 
         const QModelIndex &index = currentTableView()->model()->index(i, 0);
-        const bool selected = index.model()->data(index, Qt::UserRole).toBool();
+        const bool selected = index.model()->data(index, ResourceModel::IsSelectedRole).toBool();
 
         if (selected) {
             for (int j = 0; j < colCount; ++j) {

@@ -18,8 +18,11 @@
 #include "mainwindow.h"
 
 #include <QtCore/QCommandLineParser>
+#include <QtCore/QMetaType>
 #include <QtCore/QUrl>
 #include <QtWidgets/QApplication>
+
+Q_DECLARE_METATYPE(QList<int>)
 
 int main(int argc, char *argv[])
 {
@@ -28,6 +31,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName(STR_APPLICATION_NAME);
     QCoreApplication::setOrganizationName(STR_APPLICATION_ORGANIZATION);
     QCoreApplication::setApplicationVersion(STR_APPLICATION_VERSION);
+
+    qRegisterMetaTypeStreamOperators<QList<int> >("QList<int>");
 
     QCommandLineParser parser;
     parser.setApplicationDescription(QT_TRANSLATE_NOOP("main", "\nAnother Download Manager"));

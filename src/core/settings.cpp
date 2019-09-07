@@ -39,7 +39,33 @@ struct SettingsItem
 Settings::Settings(QObject *parent) : QObject(parent)
   , m_default(false)
 {
-    addSetting("Database", tr("%0/queue.json").arg(qApp->applicationDirPath()));
+    addDefaultSetting("Database", QString("%0/queue.json").arg(qApp->applicationDirPath()));
+
+    addDefaultListSetting(
+                "FilterKey", QStringList()
+                << "All Files"
+                << "Archives (zip, rar...)"
+                << "Application (exe, xpi...)"
+                << "Audio (mp3, wav...)"
+                << "Documents (pdf, odf...)"
+                << "Images (jpg, png...)"
+                << "Images JPEG"
+                << "Images PNG"
+                << "Video (mpeg, avi...)"
+                );
+
+    addDefaultListSetting(
+                "FilterValue", QStringList()
+                << "^.*$"
+                << "^.*\\.(?:z(?:ip|[0-9]{2})|r(?:ar|[0-9]{2})|jar|bz2|gz|tar|rpm|7z(?:ip)?|lzma|xz)$"
+                << "^.*\\.(?:exe|msi|dmg|bin|xpi|iso)$"
+                << "^.*\\.(?:mp3|wav|og(?:g|a)|flac|midi?|rm|aac|wma|mka|ape)$"
+                << "^.*\\.(?:pdf|xlsx?|docx?|odf|odt|rtf)$"
+                << "^.*\\.(?:jp(?:e?g|e|2)|gif|png|tiff?|bmp|ico)$"
+                << "^.*\\.jp(e?g|e|2)$"
+                << "^.*\\.png$"
+                << "^.*\\.(?:mpeg|ra?m|avi|mp(?:g|e|4)|mov|divx|asf|qt|wmv|m\\dv|rv|vob|asx|ogm|ogv|webm|flv|mkv)$"
+                );
 }
 
 Settings::~Settings()
@@ -56,7 +82,38 @@ QString Settings::database() const
 
 void Settings::setDatabase(const QString &value)
 {
-    return setSetting("Database", value);
+    setSetting("Database", value);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QList<Filter> Settings::filters() const
+{
+    QList<Filter> filters;
+    QStringList keys = getListSetting("FilterKey");
+    QStringList values = getListSetting("FilterValue");
+    const int count = qMin(keys.count(), values.count());
+    for (int i = 0; i < count; ++i) {
+        Filter filter;
+        filter.title = keys.at(i);
+        filter.regexp = values.at(i);
+        if (!filter.title.isEmpty()) {
+            filters.append(filter);
+        }
+    }
+    return filters;
+}
+
+void Settings::setFilters(const QList<Filter> &filters)
+{
+    QStringList keys;
+    QStringList values;
+    foreach (auto filter, filters) {
+        keys.append(filter.title);
+        values.append(filter.regexp);
+    }
+    setListSetting("FilterKey", keys);
+    setListSetting("FilterValue", values);
 }
 
 /******************************************************************************
@@ -110,7 +167,7 @@ QString Settings::getSetting(const QString &key) const
     Q_UNREACHABLE(); // must find the entry!
 }
 
-void Settings::addSetting(const QString &key, const QString &defaultValue)
+void Settings::addDefaultSetting(const QString &key, const QString &defaultValue)
 {
     foreach (auto item, m_items) {
         if (item->key == key) {
@@ -137,4 +194,38 @@ void Settings::setSetting(const QString &key, const QString &value)
         }
     }
     Q_UNREACHABLE(); // must find the entry!
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QStringList Settings::getListSetting(const QString &key) const
+{
+    QStringList ret;
+    for (int i = 0; i < m_items.count(); ++i) {
+        const QString subkey = QString("%0%1").arg(key).arg(i);
+        foreach (auto item, m_items) {
+            if (item->key == subkey) {
+                ret << (m_default ? item->defaultValue : item->value);
+            }
+        }
+    }
+    return ret;
+}
+
+void Settings::addDefaultListSetting(const QString &key, const QStringList &defaultValue)
+{
+    for (int i = 0; i < defaultValue.count(); ++i) {
+        const QString subkey = QString("%0%1").arg(key).arg(i);
+        const QString subvalue = defaultValue.at(i);
+        addDefaultSetting(subkey, subvalue);
+    }
+}
+
+void Settings::setListSetting(const QString &key, const QStringList &value)
+{
+    for (int i = 0; i < value.count(); ++i) {
+        const QString subkey = QString("%0%1").arg(key).arg(i);
+        const QString subvalue = value.at(i);
+        setSetting(subkey, subvalue);
+    }
 }

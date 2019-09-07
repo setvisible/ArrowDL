@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>362</width>
-    <height>132</height>
+    <width>550</width>
+    <height>160</height>
    </rect>
   </property>
   <property name="styleSheet">
@@ -30,50 +30,71 @@ QGroupBox {
     <number>0</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="checkBoxGroup">
      <property name="title">
       <string>Filters</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="checkBoxApplication">
+        <property name="text">
+         <string>Application (exe, xpi...)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="checkBoxDocument">
+        <property name="text">
+         <string>Documents (pdf, odf...)</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
-       <widget class="QCheckBox" name="checkBox_all">
+       <widget class="QCheckBox" name="checkBoxAll">
         <property name="text">
          <string>All Files</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QCheckBox" name="checkBox_allImages">
+      <item row="2" column="1">
+       <widget class="QCheckBox" name="checkBoxAudio">
         <property name="text">
-         <string>Images (jpg, png...)</string>
+         <string>Audio (mp3, wav...)</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QCheckBox" name="checkBox_png">
+      <item row="0" column="2">
+       <widget class="QCheckBox" name="checkBoxArchive">
         <property name="text">
-         <string>Images PNG</string>
+         <string>Archives (zip, rar...)</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QCheckBox" name="checkBox_jpeg">
+      <item row="1" column="2">
+       <widget class="QCheckBox" name="checkBoxImageJpeg">
         <property name="text">
          <string>Images JPEG</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
-       <widget class="QCheckBox" name="checkBox_gif">
+      <item row="1" column="1">
+       <widget class="QCheckBox" name="checkBoxVideo">
         <property name="text">
-         <string>Images GIF</string>
+         <string>Videos (mpeg, avi...)</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
-       <widget class="QCheckBox" name="checkBox_allVideo">
+      <item row="0" column="1">
+       <widget class="QCheckBox" name="checkBoxImage">
         <property name="text">
-         <string>Videos (mpeg, avi...)</string>
+         <string>Images (jpg, png...)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QCheckBox" name="checkBoxImagePng">
+        <property name="text">
+         <string>Images PNG</string>
         </property>
        </widget>
       </item>
@@ -81,7 +102,7 @@ QGroupBox {
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
+    <widget class="QGroupBox" name="fastFilteringGroup">
      <property name="title">
       <string>Fast Filtering</string>
      </property>
@@ -91,19 +112,22 @@ QGroupBox {
         <property name="editable">
          <bool>true</bool>
         </property>
+        <property name="currentText">
+         <string>^.*\.(java|f77|c(?:pp))$</string>
+        </property>
         <item>
          <property name="text">
-          <string>*.pdf, *.cpp, *.java</string>
+          <string>^.*\.(java|f77|c(?:pp))$</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>*.mp3</string>
+          <string>^.*\.(htm(l?))$</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>*.html, *.htm, *.rtf, *.doc, *.pdf</string>
+          <string>^.*\.(js)$</string>
          </property>
         </item>
        </widget>
@@ -121,5 +145,22 @@ QGroupBox {
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>fastFilteringOnlyCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBoxGroup</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>448</x>
+     <y>140</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>344</x>
+     <y>92</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

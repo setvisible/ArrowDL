@@ -17,56 +17,42 @@
 #include "filterwidget.h"
 #include "ui_filterwidget.h"
 
-#include <cstdarg> /* C++ Variadic arguments */
-
 #include <QtCore/QtMath>
-#include <QtCore/QDebug>
+#include <QtWidgets/QCheckBox>
+#ifdef QT_DEBUG
+#  include <QtCore/QDebug>
+#endif
 
-#define C_CHECKBOX_COUNT 7
-
-static const uint encode(int count, ...)
+static uint encode(const QList<QCheckBox*> checkboxes)
 {
-    qDebug() << Q_FUNC_INFO;
     uint code = 0;
-    va_list args;
-    va_start(args, count);
-    for (int i = 0; i < count; ++i) {
-        QCheckBox *checkBox = va_arg(args, QCheckBox*);
+    for (int i = 0; i < checkboxes.count(); ++i) {
+        const QCheckBox *checkBox = checkboxes.at(i);
         if (checkBox->isChecked()) {
             code |= (1 << i);
         }
     }
-    va_end(args);
     return code;
 }
 
-static void decode(uint code, int count, ...)
+static void decode(const uint code, QList<QCheckBox*> checkboxes)
 {
-    qDebug() << Q_FUNC_INFO;
-
-    va_list args;
-    va_start(args, count);
-    for (int i = 0; i < count; ++i) {
-        QCheckBox *checkBox = va_arg(args, QCheckBox*);
+    for (int i = 0; i < checkboxes.count(); ++i) {
+        QCheckBox *checkBox = checkboxes.at(i);
         checkBox->setChecked(code & (1 << i));
     }
-    va_end(args);
 }
-
 
 FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::FilterWidget)
 {
     ui->setupUi(this);
 
-    connect(ui->checkBox_all, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));
-    connect(ui->checkBox_allImages, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));
-    connect(ui->checkBox_allVideo, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));
-    connect(ui->checkBox_gif, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));
-    connect(ui->checkBox_jpeg, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));
-    connect(ui->checkBox_png, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));
+    clearFilters();
+
     connect(ui->fastFilteringOnlyCheckBox, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));
-    connect(ui->fastFilteringComboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(onFilterChanged(QString)));
+    connect(ui->fastFilteringComboBox, SIGNAL(currentTextChanged(QString)),
+            this, SLOT(onFilterChanged(QString)));
 }
 
 FilterWidget::~FilterWidget()
@@ -85,14 +71,7 @@ FilterWidget::~FilterWidget()
  */
 uint FilterWidget::state() const
 {
-    return encode(C_CHECKBOX_COUNT,
-                  ui->checkBox_all,
-                  ui->checkBox_allImages,
-                  ui->checkBox_allVideo,
-                  ui->checkBox_gif,
-                  ui->checkBox_jpeg,
-                  ui->checkBox_png,
-                  ui->fastFilteringOnlyCheckBox);
+    return encode(allCheckBoxes());
 }
 
 /*!
@@ -103,15 +82,14 @@ uint FilterWidget::state() const
  */
 void FilterWidget::setState(uint code)
 {
-    decode(code,
-           C_CHECKBOX_COUNT,
-           ui->checkBox_all,
-           ui->checkBox_allImages,
-           ui->checkBox_allVideo,
-           ui->checkBox_gif,
-           ui->checkBox_jpeg,
-           ui->checkBox_png,
-           ui->fastFilteringOnlyCheckBox);
+    decode(code, allCheckBoxes());
+}
+
+inline QList<QCheckBox*> FilterWidget::allCheckBoxes() const
+{
+    QList<QCheckBox*> checkboxes = ui->checkBoxGroup->findChildren<QCheckBox*>();
+    checkboxes.prepend(ui->fastFilteringOnlyCheckBox);
+    return checkboxes;
 }
 
 /******************************************************************************
@@ -125,7 +103,6 @@ void FilterWidget::setText(const QString &text)
 {
     if (ui->fastFilteringComboBox->currentText() != text) {
         ui->fastFilteringComboBox->setCurrentText(text);
-        emit regexChanged(regex());
     }
 }
 
@@ -143,38 +120,73 @@ void FilterWidget::onFilterChanged(const QString &)
 
 /******************************************************************************
  ******************************************************************************/
+void FilterWidget::clearFilters()
+{
+    const QList<QCheckBox*> checkboxes = ui->checkBoxGroup->findChildren<QCheckBox*>();
+    foreach (auto checkbox, checkboxes) {
+        ui->checkBoxGroup->layout()->removeWidget(checkbox);
+        checkbox->setParent(0);
+        delete checkbox;
+    }
+}
+
+void FilterWidget::addFilter(const QString &title, const QString &regexp)
+{
+    const QList<QCheckBox*> checkboxes = ui->checkBoxGroup->findChildren<QCheckBox*>();
+    const int count = checkboxes.count();
+    const std::div_t dv = std::div(count, 3);
+    const int row = dv.quot;
+    const int column = dv.rem;
+
+    QCheckBox *checkbox = new QCheckBox(title, ui->checkBoxGroup);
+    checkbox->setToolTip(QString("%0\n%1").arg(title).arg(regexp));
+    checkbox->setProperty("regexp", regexp);
+
+    connect(checkbox, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));
+
+    QGridLayout *layout = (QGridLayout*) ui->checkBoxGroup->layout();
+    layout->addWidget(checkbox, row, column);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 QRegExp FilterWidget::regex() const
 {
+    ui->fastFilteringComboBox->setStyleSheet(QString());
+    QString filter;
+
     const QString text = ui->fastFilteringComboBox->currentText();
-    QStringList parts = text.split(QRegExp("\\W+"), QString::SkipEmptyParts);
+    if (!text.isEmpty()) {
+        filter += "(" + text + ")";
+
+        QRegExp regexTest(filter);
+        if (!regexTest.isValid()) {
+            ui->fastFilteringComboBox->setStyleSheet(QLatin1String("color: rgb(255, 0, 0);"));
+        }
+    }
 
     if (!ui->fastFilteringOnlyCheckBox->isChecked()) {
-        bool all = ui->checkBox_all->isChecked();
-        if (all || ui->checkBox_allImages->isChecked()) {
-            parts << ".gif" << ".jpg" << ".jpeg" << ".png" << ".bmp";
+        QStringList parts;
+        const QList<QCheckBox*> checkboxes = ui->checkBoxGroup->findChildren<QCheckBox*>();
+        foreach (auto checkbox, checkboxes) {
+            if (checkbox->isChecked()) {
+                parts << checkbox->property("regexp").toString();
+            }
         }
-        if (all || ui->checkBox_allVideo->isChecked()) {
-            parts << ".mpeg" << ".avi" << ".divx" << ".mp4" << ".flv";
-        }
-        if (all || ui->checkBox_gif->isChecked()) {
-            parts << ".gif";
-        }
-        if (all || ui->checkBox_jpeg->isChecked()) {
-            parts << ".jpeg" << ".jpg";
-        }
-        if (all || ui->checkBox_png->isChecked()) {
-            parts << ".png";
+        if (!parts.isEmpty()) {
+            if (!filter.isEmpty()) {
+                filter += "|";
+            }
+            foreach (auto part, parts) {
+                filter += "(";
+                filter += part;
+                filter += ")|";
+            }
+            if (filter.endsWith('|')) {
+                filter.chop(1);
+            }
         }
     }
-
-    QString filter;
-    foreach (auto part, parts) {
-        filter += QRegExp::escape(part) + "|";
-    }
-    if (filter.endsWith('|')) {
-        filter.chop(1);
-    }
-
     QRegExp regex(filter);
     regex.setPatternSyntax(QRegExp::RegExp);
     return regex;

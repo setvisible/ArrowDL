@@ -44,7 +44,7 @@ static const QStringList s_tags
 };
 
 QString Mask::interpret(const QUrl &url,
-                        const QString &customeFileName,
+                        const QString &customFileName,
                         const QString &mask)
 {
     if (!url.isValid()) {
@@ -66,8 +66,8 @@ QString Mask::interpret(const QUrl &url,
     QString basename = fi.completeBaseName();
     QString suffix = fi.suffix();
 
-    if (!customeFileName.isNull() && !customeFileName.isEmpty()) {
-        basename = customeFileName;
+    if (!customFileName.isEmpty()) {
+        basename = customFileName;
     }
 
     QString subdirs = path;

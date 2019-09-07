@@ -33,6 +33,8 @@ public:
     explicit Model(QObject *parent);
     ~Model();
 
+    ResourceModel* currentModel() const;
+
     void setCurrentTab(const Tab tab);
 
     QList<ResourceItem*> selection() const;
@@ -41,18 +43,20 @@ public:
     ResourceModel* contentModel() const;
 
 signals:
+    void selectionChanged();
 
 public slots:
     void setDestination(const QString &destination);
     void setMask(const QString &mask);
     void select(const QRegExp &regex);
 
+private slots:
+    void onSelectionChanged();
+
 private:
     ResourceModel *m_linkModel;
     ResourceModel *m_contentModel;
     Tab m_currentTab = LINK;
-
-    ResourceModel* currentModel() const;
 };
 
 #endif // CORE_MODEL_H

@@ -25,7 +25,7 @@ class Mask
 {
 public:
     static QString interpret(const QUrl &url,
-                             const QString &customeFileName,
+                             const QString &customFileName,
                              const QString &mask);
 
     static QStringList tags();

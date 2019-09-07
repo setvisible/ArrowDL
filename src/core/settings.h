@@ -22,6 +22,18 @@
 
 class SettingsItem;
 
+struct Filter
+{
+    QString title;
+    QString regexp;
+};
+
+/*!
+  \class Settings
+ * \brief The Settings class manages the persistence of the User preferences
+ *
+ * User preferences are edited with the 'Preferences' dialog.
+ */
 class Settings : public QObject
 {
     Q_OBJECT
@@ -32,6 +44,9 @@ public:
 
     QString database() const;
     void setDatabase(const QString &value);
+
+    QList<Filter> filters() const;
+    void setFilters(const QList<Filter> &filters);
 
     void beginRestoreDefault();
     void endRestoreDefault();
@@ -47,8 +62,12 @@ private:
     bool m_default;
 
     inline QString getSetting(const QString &key) const;
-    inline void addSetting(const QString &key, const QString &defaultValue);
+    inline void addDefaultSetting(const QString &key, const QString &defaultValue);
     inline void setSetting(const QString &key, const QString &value);
+
+    inline QStringList getListSetting(const QString &key) const;
+    inline void addDefaultListSetting(const QString &key, const QStringList &defaultValue);
+    inline void setListSetting(const QString &key, const QStringList &value);
 };
 
 #endif // CORE_SETTINGS_H

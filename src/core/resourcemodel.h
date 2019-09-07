@@ -26,6 +26,10 @@ class ResourceModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
+    enum {
+        IsSelectedRole = Qt::UserRole + 1
+    };
+
     explicit ResourceModel(QObject *parent);
     ~ResourceModel();
 
@@ -43,13 +47,14 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
     Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
 
+signals:
+    void resourceChanged();
+    void selectionChanged();
+
 public slots:
     void setDestination(const QString &destination);
     void setMask(const QString &mask);
     void select(const QRegExp &regex);
-
-signals:
-    void resourceChanged();
 
 private:
     QList<ResourceItem*> m_items;
