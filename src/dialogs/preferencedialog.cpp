@@ -78,6 +78,44 @@ void PreferenceDialog::initializeGui()
     ui->browseDatabaseFile->setType(BrowserWidget::File);
     ui->browseDatabaseFile->setExtensionName("Queue Database");
     ui->browseDatabaseFile->setExtensionType(".json");
+
+    ui->filterTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->filterTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->filterTableWidget->setHorizontalHeaderLabels(QStringList() << tr("Caption") << tr("Extensions"));
+    ui->filterTableWidget->setColumnWidth(0, ui->filterTableWidget->width() * 0.25);
+
+    connect(ui->filterTableWidget, SIGNAL(itemSelectionChanged()), this, SLOT(filterSelectionChanged()));
+    connect(ui->filterCaptionLineEdit, SIGNAL(editingFinished()), this, SLOT(filterTextChanged()));
+    connect(ui->filterRegexLineEdit, SIGNAL(editingFinished()), this, SLOT(filterTextChanged()));
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void PreferenceDialog::filterSelectionChanged()
+{
+    ui->filterCaptionLineEdit->clear();
+    ui->filterRegexLineEdit->clear();
+
+    QList<QTableWidgetItem *> items = ui->filterTableWidget->selectedItems();
+    foreach (auto item, items) {
+        if (item->column() == 0) {
+            ui->filterCaptionLineEdit->setText(item->text());
+        } else if (item->column() == 1) {
+            ui->filterRegexLineEdit->setText(item->text());
+        }
+    }
+}
+
+void PreferenceDialog::filterTextChanged()
+{
+    QList<QTableWidgetItem *> items = ui->filterTableWidget->selectedItems();
+    foreach (auto item, items) {
+        if (item->column() == 0) {
+            item->setText(ui->filterCaptionLineEdit->text());
+        } else if (item->column() == 1) {
+            item->setText(ui->filterRegexLineEdit->text());
+        }
+    }
 }
 
 /******************************************************************************
@@ -92,11 +130,49 @@ void PreferenceDialog::restoreDefaultSettings()
 void PreferenceDialog::read()
 {
     ui->browseDatabaseFile->setText(m_settings->database());
+    setFilters(m_settings->filters());
 }
 
 void PreferenceDialog::write()
 {
     m_settings->setDatabase(ui->browseDatabaseFile->text());
+    m_settings->setFilters(filters());
+}
+
+
+/******************************************************************************
+ ******************************************************************************/
+void PreferenceDialog::setFilters(const QList<Filter> &filters)
+{
+    ui->filterTableWidget->clearContents();
+    while (ui->filterTableWidget->rowCount()>0) {
+        ui->filterTableWidget->removeRow(0);
+    }
+
+    foreach (auto filter, filters) {
+        const int row = ui->filterTableWidget->rowCount();
+        QTableWidgetItem *item0 = new QTableWidgetItem(filter.title);
+        QTableWidgetItem *item1 = new QTableWidgetItem(filter.regexp);
+
+        ui->filterTableWidget->insertRow(row);
+
+        ui->filterTableWidget->setItem(row, 0, item0);
+        ui->filterTableWidget->setItem(row, 1, item1);
+    }
+}
+
+QList<Filter> PreferenceDialog::filters() const
+{
+    QList<Filter> filters;
+    for (int row = 0; row < ui->filterTableWidget->rowCount(); ++row) {
+        const QString title = ui->filterTableWidget->item(row, 0)->text();
+        const QString regexp = ui->filterTableWidget->item(row, 1)->text();
+        Filter filter;
+        filter.title = title;
+        filter.regexp = regexp;
+        filters.append(filter);
+    }
+    return filters;
 }
 
 /******************************************************************************

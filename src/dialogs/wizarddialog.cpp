@@ -23,6 +23,7 @@
 #include <Core/Model>
 #include <Core/ResourceItem>
 #include <Core/ResourceModel>
+#include <Core/Settings>
 
 #include <QtCore/QList>
 #include <QtCore/QUrl>
@@ -34,20 +35,30 @@
 #  include <QtCore/QDebug>
 #endif
 
-WizardDialog::WizardDialog(const QUrl &url, DownloadManager *downloadManager, QWidget *parent)
+WizardDialog::WizardDialog(const QUrl &url, DownloadManager *downloadManager,
+                           Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::WizardDialog)
     , m_downloadManager(downloadManager)
     , m_model(new Model(this))
     , m_networkAccessManager(new QNetworkAccessManager(this))
+    , m_settings(settings)
 {
     ui->setupUi(this);
+
     ui->linkWidget->setModel(m_model);
+
+    connect(m_settings, SIGNAL(changed()), this, SLOT(refreshFilters()));
+
     connect(ui->browserWidget, SIGNAL(textChanged(QString)), m_model, SLOT(setMask(QString)));
     connect(ui->maskWidget,    SIGNAL(textChanged(QString)), m_model, SLOT(setMask(QString)));
     connect(ui->filterWidget,  SIGNAL(regexChanged(QRegExp)), m_model, SLOT(select(QRegExp)));
 
+    connect(m_model, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
+
     connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onFinished(QNetworkReply*)));
+
+    refreshFilters();
 
     readSettings();
     loadUrl(url);
@@ -118,6 +129,33 @@ void WizardDialog::onFinished(QNetworkReply *reply)
     m_model->setDestination(ui->browserWidget->text());
     m_model->setMask(ui->maskWidget->text());
     m_model->select(ui->filterWidget->regex());
+
+    onSelectionChanged();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void WizardDialog::onSelectionChanged()
+{
+    const ResourceModel *currentModel = m_model->currentModel();
+    const int selectionCount = currentModel->selectedResourceItems().count();
+    if (selectionCount == 0) {
+        ui->tipLabel->setText(tr("After selecting links, click on Start!"));
+    } else {
+        const int count = currentModel->resourceItems().count();
+        ui->tipLabel->setText(tr("Selected links: %0 of %1").arg(selectionCount).arg(count));
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void WizardDialog::refreshFilters()
+{
+    QList<Filter> filters = m_settings->filters();
+    ui->filterWidget->clearFilters();
+    foreach (auto filter, filters) {
+        ui->filterWidget->addFilter(filter.title, filter.regexp);
+    }
 }
 
 /******************************************************************************
@@ -128,7 +166,8 @@ void WizardDialog::readSettings()
     settings.beginGroup("Wizard");
     resize(settings.value("DialogSize", QSize(800, 600)).toSize());
     ui->filterWidget->setState(settings.value("FilterState", 0).toUInt());
-    ui->filterWidget->setText(settings.value("FilterText", "*.htm *.html").toString());
+    ui->filterWidget->setText(settings.value("FilterText", QString()).toString());
+    ui->linkWidget->setColumnWidths(settings.value("ColumnWidths").value<QList<int> >());
     settings.endGroup();
 }
 
@@ -139,5 +178,6 @@ void WizardDialog::writeSettings()
     settings.setValue("DialogSize", size());
     settings.setValue("FilterState", ui->filterWidget->state());
     settings.setValue("FilterText", ui->filterWidget->text());
+    settings.setValue("ColumnWidths", QVariant::fromValue(ui->linkWidget->columnWidths()));
     settings.endGroup();
 }

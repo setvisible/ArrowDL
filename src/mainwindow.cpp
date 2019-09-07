@@ -277,7 +277,7 @@ void MainWindow::openWizard()
 
 void MainWindow::openWizard(const QUrl &url)
 {
-    WizardDialog dialog(url, m_downloadManager, this);
+    WizardDialog dialog(url, m_downloadManager, m_settings, this);
     dialog.exec();
 }
 
@@ -754,6 +754,7 @@ void MainWindow::readSettings()
         this->resize(settings.value("Size", QSize(350, 350)).toSize());
     }
     this->setWindowState( (Qt::WindowStates)settings.value("WindowState", 0).toInt() );
+    ui->downloadQueueView->setColumnWidths(settings.value("ColumnWidths").value<QList<int> >());
 
     m_settings->readSettings();
 }
@@ -766,6 +767,7 @@ void MainWindow::writeSettings()
         settings.setValue("Size", this->size());
     }
     settings.setValue("WindowState", (int)this->windowState()); // minimized, maximized, active, fullscreen...
+    settings.setValue("ColumnWidths", QVariant::fromValue(ui->downloadQueueView->columnWidths()));
 
     // --------------------------------------------------------------
     // Write also the current version of application in the settings,

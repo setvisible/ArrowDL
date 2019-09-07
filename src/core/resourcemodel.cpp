@@ -16,7 +16,7 @@
 
 #include "resourcemodel.h"
 
-#include <core/ResourceItem>
+#include <Core/ResourceItem>
 
 ResourceModel::ResourceModel(QObject *parent) : QAbstractTableModel(parent)
 {
@@ -96,6 +96,7 @@ void ResourceModel::select(const QRegExp &regex)
         item->setSelected(!regex.isEmpty() && regex.indexIn(item->url(), 0) != -1);
     }
     endResetModel();
+    emit selectionChanged();
 }
 
 /******************************************************************************
@@ -119,14 +120,13 @@ QVariant ResourceModel::data(const QModelIndex &index, int role) const
     }
 
     ResourceItem *item = m_items.at(index.row());
-    const int col = index.column();
 
-    // Shows the checkbox
-    if (role == Qt::UserRole) {
-        return m_items.at(index.row())->isSelected();
+    if (role == IsSelectedRole) {
+        return item->isSelected();
     }
 
     if (role == Qt::DisplayRole) {
+        const int col = index.column();
         if (col == 0) {
             return QVariant();
         } else if (col == 1) {
@@ -147,11 +147,13 @@ bool ResourceModel::setData(const QModelIndex &index, const QVariant &value, int
     if (!index.isValid()) {
         return false;
     }
-    if (index.column() == 0 && role == Qt::UserRole) {
+    if (index.column() == 0 && role == IsSelectedRole) {
         const bool selected = value.toBool();
 
         auto item = m_items.at(index.row());
         item->setSelected(selected);
+
+        emit selectionChanged();
 
         QModelIndex topLeft = index;
         QModelIndex bottomRight = index.model()->index(index.row(), index.model()->columnCount());

@@ -41,6 +41,9 @@ public:
 
     QSize sizeHint() const override;
 
+    QList<int> columnWidths() const;
+    void setColumnWidths(const QList<int> &widths);
+
 signals:
     void doubleClicked(DownloadItem *item);
     void selectionChanged();

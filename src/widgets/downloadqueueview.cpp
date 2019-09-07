@@ -22,11 +22,11 @@
 
 #include <QtGui/QPainter>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QItemDelegate>
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMenu>
+#include <QtWidgets/QStyledItemDelegate>
 
 #define C_COL_0_FILE_NAME          0
 #define C_COL_1_WEBSITE_DOMAIN     1
@@ -39,6 +39,8 @@
 #define C_COL_8_MASK               8  /* hidden */
 #define C_COL_9_SAVE_PATH          9  /* hidden */
 #define C_COL_10_CHECKSUM         10  /* hidden */
+
+#define C_COLUMN_DEFAULT_WIDTH 100
 
 
 /*!
@@ -65,6 +67,8 @@ public:
 QueueView::QueueView(QWidget *parent)
     : QTreeWidget(parent)
 {
+    setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     //#if QT_CONFIG(draganddrop)
     //    setAcceptDrops(true);
     //#endif
@@ -75,12 +79,12 @@ QueueView::QueueView(QWidget *parent)
 /*!
  * QueueViewItemDelegate is used to draw the progress bars.
  */
-class QueueViewItemDelegate : public QItemDelegate
+class QueueViewItemDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 
 public:
-    inline QueueViewItemDelegate(DownloadQueueView *parent) : QItemDelegate(parent) {}
+    inline QueueViewItemDelegate(DownloadQueueView *parent) : QStyledItemDelegate(parent) {}
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index ) const override
@@ -88,7 +92,7 @@ public:
         if (index.column() == 0) {
 
             // todo : add icon + text
-            QItemDelegate::paint(painter, option, index);
+            QStyledItemDelegate::paint(painter, option, index);
 
         } else if (index.column() == 2) {
 
@@ -119,7 +123,7 @@ public:
 
 
         } else {
-            QItemDelegate::paint(painter, option, index);
+            QStyledItemDelegate::paint(painter, option, index);
         }
     }
 };
@@ -256,8 +260,6 @@ DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
             << tr("Progress")
             << tr("Percent")
             << tr("Size")
-
-
             << tr("Est. time")      /* Hidden by default */
             << tr("Speed")          /* Hidden by default */
                // << tr("Segments")    /* hidden */
@@ -310,6 +312,30 @@ QSize DownloadQueueView::sizeHint() const
         width += header->sectionSize(i);
 
     return QSize(width, QWidget::sizeHint().height()).expandedTo(QApplication::globalStrut());
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QList<int> DownloadQueueView::columnWidths() const
+{
+    QList<int> widths;
+    for (int column = 0; column < m_queueView->columnCount(); ++column) {
+        const int width = m_queueView->columnWidth(column);
+        widths.append(width);
+    }
+    return widths;
+}
+
+void DownloadQueueView::setColumnWidths(const QList<int> &widths)
+{
+    for (int column = 0; column < m_queueView->columnCount(); ++column) {
+        if (column < widths.count()) {
+            const int width = widths.at(column);
+            m_queueView->setColumnWidth(column, width);
+        } else {
+            m_queueView->setColumnWidth(column, C_COLUMN_DEFAULT_WIDTH);
+        }
+    }
 }
 
 /******************************************************************************
