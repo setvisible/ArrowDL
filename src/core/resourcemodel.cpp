@@ -20,6 +20,7 @@
 
 ResourceModel::ResourceModel(QObject *parent) : QAbstractTableModel(parent)
 {
+    connect(this, SIGNAL(resourceChanged()), this, SLOT(onResourceChanged()));
 }
 
 ResourceModel::~ResourceModel()
@@ -101,6 +102,16 @@ void ResourceModel::select(const QRegExp &regex)
 
 /******************************************************************************
  ******************************************************************************/
+void ResourceModel::onResourceChanged()
+{
+    // just ensure dataChanged() too;
+    QModelIndex topLeft = this->index(0, 0);
+    QModelIndex bottomRight = this->index(rowCount(), columnCount());
+    emit dataChanged(topLeft, bottomRight);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 int ResourceModel::rowCount(const QModelIndex &) const
 {
     return m_items.count();
@@ -156,7 +167,7 @@ bool ResourceModel::setData(const QModelIndex &index, const QVariant &value, int
         emit selectionChanged();
 
         QModelIndex topLeft = index;
-        QModelIndex bottomRight = index.model()->index(index.row(), index.model()->columnCount());
+        QModelIndex bottomRight = this->index(index.row(), columnCount());
         emit dataChanged(topLeft, bottomRight);
         return true;
     }

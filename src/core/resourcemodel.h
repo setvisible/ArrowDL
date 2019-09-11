@@ -56,6 +56,9 @@ public slots:
     void setMask(const QString &mask);
     void select(const QRegExp &regex);
 
+private slots:
+    void onResourceChanged();
+
 private:
     QList<ResourceItem*> m_items;
 };

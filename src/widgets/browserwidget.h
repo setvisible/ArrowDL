@@ -28,25 +28,30 @@ class BrowserWidget : public QWidget
     Q_OBJECT
 
 public:
-    enum Type { File, Directory };
+    enum PathType { File, Directory };
 
     explicit BrowserWidget(QWidget *parent);
     ~BrowserWidget();
 
-    QString text() const;
-    void setText(const QString &text);
+    QString currentPath() const;
+    void setCurrentPath(const QString &path);
 
-    Type type() const;
-    void setType(Type type);
+    void removePathfromHistory(const QString &path);
 
-    QString extensionType() const;
-    void setExtensionType(const QString &extensionType);
+    QStringList pathHistory() const;
+    void setPathHistory(const QStringList &paths);
 
-    QString extensionName() const;
-    void setExtensionName(const QString &extensionName);
+    PathType pathType() const;
+    void setPathType(PathType type);
+
+    QString suffix() const;
+    void setSuffix(const QString &suffix);
+
+    QString suffixName() const;
+    void setSuffixName(const QString &suffixName);
 
 signals:
-    void textChanged(QString text);
+    void currentPathChanged(QString path);
 
 private slots:
     void onBrowseButtonReleased();
@@ -54,9 +59,9 @@ private slots:
 
 private:
     Ui::BrowserWidget *ui;
-    Type m_type;
-    QString m_extensionType;
-    QString m_extensionName;
+    PathType m_pathType;
+    QString m_suffix;
+    QString m_suffixName;
 };
 
 #endif // WIDGETS_BROWSER_WIDGET_H

@@ -46,13 +46,14 @@ WizardDialog::WizardDialog(const QUrl &url, DownloadManager *downloadManager,
 {
     ui->setupUi(this);
 
+    ui->pathBrowser->setPathType(BrowserWidget::Directory);
     ui->linkWidget->setModel(m_model);
 
     connect(m_settings, SIGNAL(changed()), this, SLOT(refreshFilters()));
 
-    connect(ui->browserWidget, SIGNAL(textChanged(QString)), m_model, SLOT(setMask(QString)));
-    connect(ui->maskWidget,    SIGNAL(textChanged(QString)), m_model, SLOT(setMask(QString)));
-    connect(ui->filterWidget,  SIGNAL(regexChanged(QRegExp)), m_model, SLOT(select(QRegExp)));
+    connect(ui->pathBrowser, SIGNAL(currentPathChanged(QString)), m_model, SLOT(setDestination(QString)));
+    connect(ui->maskWidget, SIGNAL(currentMaskChanged(QString)), m_model, SLOT(setMask(QString)));
+    connect(ui->filterWidget, SIGNAL(regexChanged(QRegExp)), m_model, SLOT(select(QRegExp)));
 
     connect(m_model, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 
@@ -126,8 +127,8 @@ void WizardDialog::onFinished(QNetworkReply *reply)
     htmlParser.parse(downloadedData, m_url, m_model);
 
     // Force update
-    m_model->setDestination(ui->browserWidget->text());
-    m_model->setMask(ui->maskWidget->text());
+    m_model->setDestination(ui->pathBrowser->currentPath());
+    m_model->setMask(ui->maskWidget->currentMask());
     m_model->select(ui->filterWidget->regex());
 
     onSelectionChanged();
@@ -168,6 +169,9 @@ void WizardDialog::readSettings()
     ui->filterWidget->setState(settings.value("FilterState", 0).toUInt());
     ui->filterWidget->setText(settings.value("FilterText", QString()).toString());
     ui->linkWidget->setColumnWidths(settings.value("ColumnWidths").value<QList<int> >());
+    ui->pathBrowser->setCurrentPath(settings.value("Path", QString()).toString());
+    ui->pathBrowser->setPathHistory(settings.value("PathHistory").toStringList());
+    ui->maskWidget->setCurrentMask(settings.value("Mask", QString()).toString());
     settings.endGroup();
 }
 
@@ -179,5 +183,8 @@ void WizardDialog::writeSettings()
     settings.setValue("FilterState", ui->filterWidget->state());
     settings.setValue("FilterText", ui->filterWidget->text());
     settings.setValue("ColumnWidths", QVariant::fromValue(ui->linkWidget->columnWidths()));
+    settings.setValue("Path", ui->pathBrowser->currentPath());
+    settings.setValue("PathHistory", ui->pathBrowser->pathHistory());
+    settings.setValue("Mask", ui->maskWidget->currentMask());
     settings.endGroup();
 }

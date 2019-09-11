@@ -64,7 +64,7 @@ QGroupBox {
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="BrowserWidget" name="browserWidget" native="true">
+           <widget class="BrowserWidget" name="pathBrowser" native="true">
             <property name="minimumSize">
              <size>
               <width>0</width>
