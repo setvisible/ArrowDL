@@ -174,8 +174,8 @@ ResourceItem* AddDownloadDialog::createItem(const QString &url)
     item->setCustomFileName(ui->filenameLineEdit->text());
     item->setReferringPage(ui->referrerLineEdit->text());
     item->setDescription(ui->descriptionLineEdit->text());
-    item->setDestination(ui->browserWidget->text());
-    item->setMask(ui->maskWidget->text());
+    item->setDestination(ui->browserWidget->currentPath());
+    item->setMask(ui->maskWidget->currentMask());
     item->setCheckSum(ui->hashLineEdit->text());
     return item;
 }

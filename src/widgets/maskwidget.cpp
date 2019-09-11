@@ -17,12 +17,17 @@
 #include "maskwidget.h"
 #include "ui_maskwidget.h"
 
+#define MAX_HISTORY_COUNT 10
+
 MaskWidget::MaskWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::MaskWidget)
 {
     ui->setupUi(this);
-    connect(ui->comboBox, SIGNAL(currentTextChanged(QString)),
-            this, SLOT(onCurrentTextChanged(QString)));
+
+    ui->comboBox->setDuplicatesEnabled(false);
+    ui->comboBox->setMaxCount(MAX_HISTORY_COUNT);
+
+    connect(ui->comboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
 }
 
 MaskWidget::~MaskWidget()
@@ -32,19 +37,23 @@ MaskWidget::~MaskWidget()
 
 /******************************************************************************
  ******************************************************************************/
-QString MaskWidget::text() const
+QString MaskWidget::currentMask() const
 {
     return ui->comboBox->currentText();
 }
 
-void MaskWidget::setText(const QString &text)
-{    
-    ui->comboBox->setCurrentText(text);
+void MaskWidget::setCurrentMask(const QString &text)
+{
+    if (text.isEmpty() && ui->comboBox->count() > 0) {
+        ui->comboBox->setCurrentIndex(0);
+    } else {
+        ui->comboBox->setCurrentText(text);
+    }
 }
 
 /******************************************************************************
  ******************************************************************************/
 void MaskWidget::onCurrentTextChanged(const QString &text)
 {
-    emit textChanged(text);
+    emit currentMaskChanged(text);
 }

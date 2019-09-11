@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>MaskWidget</class>
  <widget class="QWidget" name="MaskWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>229</width>
+    <height>22</height>
+   </rect>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="sizeConstraint">
     <enum>QLayout::SetMinimumSize</enum>
@@ -22,7 +30,7 @@
     <widget class="QComboBox" name="comboBox">
      <property name="minimumSize">
       <size>
-       <width>150</width>
+       <width>200</width>
        <height>0</height>
       </size>
      </property>
@@ -32,6 +40,26 @@
      <property name="currentText">
       <string>*url*\*subdirs*\*name*.*ext*</string>
      </property>
+     <item>
+      <property name="text">
+       <string>*url*\*subdirs*\*name*.*ext*</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>*name*.*ext*</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>*flatsubdirs*</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>*curl*</string>
+      </property>
+     </item>
     </widget>
    </item>
    <item>

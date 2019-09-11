@@ -75,9 +75,9 @@ void PreferenceDialog::initializeGui()
     ui->tabWidget->setAutoFillBackground(true);
     ui->tabWidget->tabBar()->setAutoFillBackground(true);
 
-    ui->browseDatabaseFile->setType(BrowserWidget::File);
-    ui->browseDatabaseFile->setExtensionName("Queue Database");
-    ui->browseDatabaseFile->setExtensionType(".json");
+    ui->browseDatabaseFile->setPathType(BrowserWidget::File);
+    ui->browseDatabaseFile->setSuffixName("Queue Database");
+    ui->browseDatabaseFile->setSuffix(".json");
 
     ui->filterTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->filterTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -129,13 +129,13 @@ void PreferenceDialog::restoreDefaultSettings()
 
 void PreferenceDialog::read()
 {
-    ui->browseDatabaseFile->setText(m_settings->database());
+    ui->browseDatabaseFile->setCurrentPath(m_settings->database());
     setFilters(m_settings->filters());
 }
 
 void PreferenceDialog::write()
 {
-    m_settings->setDatabase(ui->browseDatabaseFile->text());
+    m_settings->setDatabase(ui->browseDatabaseFile->currentPath());
     m_settings->setFilters(filters());
 }
 
