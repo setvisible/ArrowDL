@@ -19,7 +19,10 @@
 
 #include <QtCore/QDir>
 #include <QtCore/QStandardPaths>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QFileDialog>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QMenu>
 
 #define MAX_HISTORY_COUNT 10
 
@@ -38,6 +41,10 @@ BrowserWidget::BrowserWidget(QWidget *parent) : QWidget(parent)
     connect(ui->browseButton, SIGNAL(released()), this, SLOT(onBrowseButtonReleased()));
     connect(ui->comboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
     connect(ui->comboBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
+
+    ui->comboBox->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->comboBox, SIGNAL(customContextMenuRequested(const QPoint &)),
+            this, SLOT(showContextMenu(const QPoint &)));
 }
 
 BrowserWidget::~BrowserWidget()
@@ -66,19 +73,6 @@ void BrowserWidget::setCurrentPath(const QString &path)
 
 /******************************************************************************
  ******************************************************************************/
-void BrowserWidget::removePathfromHistory(const QString &path)
-{
-    int i = ui->comboBox->count();
-    while (i > 0) {
-        i--;
-        if (ui->comboBox->itemText(i) == QDir::toNativeSeparators(path)) {
-            ui->comboBox->removeItem(i);
-        }
-    }
-}
-
-/******************************************************************************
- ******************************************************************************/
 QStringList BrowserWidget::pathHistory() const
 {
     QStringList ret;
@@ -90,15 +84,13 @@ QStringList BrowserWidget::pathHistory() const
 
 void BrowserWidget::setPathHistory(const QStringList &paths)
 {
-    const QString path = currentPath();
-    ui->comboBox->clear();
+    clearHistory();
     const int count = qMin(MAX_HISTORY_COUNT, paths.count());
     for (int i = 0; i < count; ++i) {
         const QString nativePath = QDir::toNativeSeparators(paths.at(i));
         removePathfromHistory(nativePath);
         ui->comboBox->addItem(nativePath);
     }
-    setCurrentPath(path);
 }
 
 /******************************************************************************
@@ -155,6 +147,28 @@ void BrowserWidget::setSuffixName(const QString &suffixName)
 
 /******************************************************************************
  ******************************************************************************/
+void BrowserWidget::clearHistory()
+{
+    const QString path = currentPath();
+    ui->comboBox->clear();
+    setCurrentPath(path);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void BrowserWidget::removePathfromHistory(const QString &path)
+{
+    int i = ui->comboBox->count();
+    while (i > 0) {
+        i--;
+        if (ui->comboBox->itemText(i) == QDir::toNativeSeparators(path)) {
+            ui->comboBox->removeItem(i);
+        }
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void BrowserWidget::onBrowseButtonReleased()
 {
     QString path = ui->comboBox->currentText();
@@ -172,7 +186,23 @@ void BrowserWidget::onBrowseButtonReleased()
     }
 }
 
+/******************************************************************************
+ ******************************************************************************/
 void BrowserWidget::onCurrentTextChanged(const QString &text)
 {
     emit currentPathChanged(text);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void BrowserWidget::showContextMenu(const QPoint &/*pos*/)
+{
+    QMenu *contextMenu = ui->comboBox->lineEdit()->createStandardContextMenu();
+
+    contextMenu->addSeparator();
+    QAction *clearAction = contextMenu->addAction(tr("Clear History"));
+    connect(clearAction, SIGNAL(triggered()), this, SLOT(clearHistory()));
+
+    contextMenu->exec(QCursor::pos());
+    contextMenu->deleteLater();
 }

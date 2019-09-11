@@ -36,8 +36,6 @@ public:
     QString currentPath() const;
     void setCurrentPath(const QString &path);
 
-    void removePathfromHistory(const QString &path);
-
     QStringList pathHistory() const;
     void setPathHistory(const QStringList &paths);
 
@@ -53,9 +51,14 @@ public:
 signals:
     void currentPathChanged(QString path);
 
+public slots:
+    void clearHistory();
+    void removePathfromHistory(const QString &path);
+
 private slots:
     void onBrowseButtonReleased();
     void onCurrentTextChanged(const QString &text);
+    void showContextMenu(const QPoint &pos);
 
 private:
     Ui::BrowserWidget *ui;
