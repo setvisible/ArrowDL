@@ -30,11 +30,11 @@ public:
     explicit MaskWidget(QWidget *parent);
     ~MaskWidget();
 
-    QString text() const;
-    void setText(const QString &text);
+    QString currentMask() const;
+    void setCurrentMask(const QString &currentMask);
 
 signals:
-    void textChanged(QString text);
+    void currentMaskChanged(QString mask);
 
 private slots:
     void onCurrentTextChanged(const QString &text);

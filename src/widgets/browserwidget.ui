@@ -37,11 +37,6 @@
      <property name="editable">
       <bool>true</bool>
      </property>
-     <item>
-      <property name="text">
-       <string>C:\Temp\</string>
-      </property>
-     </item>
     </widget>
    </item>
    <item>

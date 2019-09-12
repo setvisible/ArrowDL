@@ -40,6 +40,9 @@ QGroupBox {
    </property>
    <item>
     <layout class="QVBoxLayout" name="mainVerticalLayout" stretch="1,0,0,0,0">
+     <property name="spacing">
+      <number>6</number>
+     </property>
      <property name="leftMargin">
       <number>9</number>
      </property>
@@ -57,6 +60,9 @@ QGroupBox {
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,0">
+       <property name="spacing">
+        <number>6</number>
+       </property>
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
@@ -64,7 +70,7 @@ QGroupBox {
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="BrowserWidget" name="browserWidget" native="true">
+           <widget class="BrowserWidget" name="pathBrowser" native="true">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -79,7 +85,7 @@ QGroupBox {
        <item>
         <widget class="QGroupBox" name="groupBox_2">
          <property name="title">
-          <string>Mask:</string>
+          <string>Default Mask:</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>

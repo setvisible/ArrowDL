@@ -17,21 +17,34 @@
 #include "browserwidget.h"
 #include "ui_browserwidget.h"
 
-#include <QDir>
-#include <QFileDialog>
+#include <QtCore/QDir>
+#include <QtCore/QStandardPaths>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QMenu>
+
+#define MAX_HISTORY_COUNT 10
+
 
 BrowserWidget::BrowserWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::BrowserWidget)
-  , m_type(File)
-  , m_extensionType(".txt")
-  , m_extensionName("Text Files")
+  , m_pathType(File)
+  , m_suffix(QString())
+  , m_suffixName(QString())
 {
     ui->setupUi(this);
 
-    connect(ui->browseButton, SIGNAL(released()),
-            this, SLOT(onBrowseButtonReleased()));
-    connect(ui->comboBox, SIGNAL(currentTextChanged(QString)),
-            this, SLOT(onCurrentTextChanged(QString)));
+    ui->comboBox->setDuplicatesEnabled(false);
+    ui->comboBox->setMaxCount(MAX_HISTORY_COUNT);
+
+    connect(ui->browseButton, SIGNAL(released()), this, SLOT(onBrowseButtonReleased()));
+    connect(ui->comboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
+    connect(ui->comboBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
+
+    ui->comboBox->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->comboBox, SIGNAL(customContextMenuRequested(const QPoint &)),
+            this, SLOT(showContextMenu(const QPoint &)));
 }
 
 BrowserWidget::~BrowserWidget()
@@ -41,41 +54,77 @@ BrowserWidget::~BrowserWidget()
 
 /******************************************************************************
  ******************************************************************************/
-QString BrowserWidget::text() const
+QString BrowserWidget::currentPath() const
 {
     return QDir::toNativeSeparators(ui->comboBox->currentText());
 }
 
-void BrowserWidget::setText(const QString &text)
+void BrowserWidget::setCurrentPath(const QString &path)
 {
-    ui->comboBox->setCurrentText(QDir::toNativeSeparators(text));
+    if (path.isEmpty() && ui->comboBox->count() > 0) {
+        ui->comboBox->setCurrentIndex(0);
+    } else {
+        const QString nativePath = QDir::toNativeSeparators(path);
+        removePathfromHistory(nativePath);
+        ui->comboBox->insertItem(0, nativePath);
+        ui->comboBox->setCurrentText(nativePath);
+    }
 }
 
 /******************************************************************************
  ******************************************************************************/
-BrowserWidget::Type BrowserWidget::type() const
+QStringList BrowserWidget::pathHistory() const
 {
-    return m_type;
+    QStringList ret;
+    for (int i = 0; i < ui->comboBox->count(); ++i) {
+        ret.append(QDir::toNativeSeparators(ui->comboBox->itemText(i)));
+    }
+    return ret;
 }
 
-void BrowserWidget::setType(Type type)
+void BrowserWidget::setPathHistory(const QStringList &paths)
 {
-    m_type = type;
+    clearHistory();
+    const int count = qMin(MAX_HISTORY_COUNT, paths.count());
+    for (int i = 0; i < count; ++i) {
+        const QString nativePath = QDir::toNativeSeparators(paths.at(i));
+        removePathfromHistory(nativePath);
+        ui->comboBox->addItem(nativePath);
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+BrowserWidget::PathType BrowserWidget::pathType() const
+{
+    return m_pathType;
+}
+
+void BrowserWidget::setPathType(PathType type)
+{
+    m_pathType = type;
 }
 
 /******************************************************************************
  ******************************************************************************/
 /*!
+ * Get the suffix (file's extension prepended with '.') of the selectable file.
+ *
  * Example: ".txt"
  */
-QString BrowserWidget::extensionType() const
+QString BrowserWidget::suffix() const
 {
-    return m_extensionType;
+    return m_suffix;
 }
 
-void BrowserWidget::setExtensionType(const QString &extension)
+/*!
+ * Set the suffix (file's extension prepended with '.') of the selectable file.
+ *
+ * Example: ".txt"
+ */
+void BrowserWidget::setSuffix(const QString &suffix)
 {
-    m_extensionType = extension;
+    m_suffix = suffix;
 }
 
 /******************************************************************************
@@ -83,42 +132,77 @@ void BrowserWidget::setExtensionType(const QString &extension)
 /*!
  * Example: "Text Files"
  */
-QString BrowserWidget::extensionName() const
+QString BrowserWidget::suffixName() const
 {
-    return m_extensionName;
+    return m_suffixName;
 }
 
-void BrowserWidget::setExtensionName(const QString &extensionName)
+/*!
+ * Example: "Text Files"
+ */
+void BrowserWidget::setSuffixName(const QString &suffixName)
 {
-    m_extensionName = extensionName;
+    m_suffixName = suffixName;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void BrowserWidget::clearHistory()
+{
+    const QString path = currentPath();
+    ui->comboBox->clear();
+    setCurrentPath(path);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void BrowserWidget::removePathfromHistory(const QString &path)
+{
+    int i = ui->comboBox->count();
+    while (i > 0) {
+        i--;
+        if (ui->comboBox->itemText(i) == QDir::toNativeSeparators(path)) {
+            ui->comboBox->removeItem(i);
+        }
+    }
 }
 
 /******************************************************************************
  ******************************************************************************/
 void BrowserWidget::onBrowseButtonReleased()
 {
-    if (m_type == File) {
-        QString filter = tr("All Files (*);;%0 (*%1)")
-                .arg(m_extensionName)
-                .arg(m_extensionType);
-        QString fileName
-                = QFileDialog::getOpenFileName(
-                    this, tr("Select File"), ui->comboBox->currentText(), filter);
-        if (!fileName.isEmpty()) {
-            setText(fileName);
-        }
-
+    QString path = ui->comboBox->currentText();
+    if (m_pathType == File) {
+        const QString filter = tr("All Files (*);;%0 (*%1)").arg(m_suffixName).arg(m_suffix);
+        path = QFileDialog::getOpenFileName(this, tr("Please select a file"), path, filter);
     } else {
-        QString directory
-                = QFileDialog::getExistingDirectory(
-                    this, tr("Directory"), ui->comboBox->currentText());
-        if (!directory.isEmpty()) {
-            setText(directory);
+        if (path.isEmpty()) {
+            path = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
         }
+        path = QFileDialog::getExistingDirectory(this, tr("Please select a directory"), path);
+    }
+    if (!path.isEmpty()) {
+        setCurrentPath(path);
     }
 }
 
+/******************************************************************************
+ ******************************************************************************/
 void BrowserWidget::onCurrentTextChanged(const QString &text)
 {
-    emit textChanged(text);
+    emit currentPathChanged(text);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void BrowserWidget::showContextMenu(const QPoint &/*pos*/)
+{
+    QMenu *contextMenu = ui->comboBox->lineEdit()->createStandardContextMenu();
+
+    contextMenu->addSeparator();
+    QAction *clearAction = contextMenu->addAction(tr("Clear History"));
+    connect(clearAction, SIGNAL(triggered()), this, SLOT(clearHistory()));
+
+    contextMenu->exec(QCursor::pos());
+    contextMenu->deleteLater();
 }

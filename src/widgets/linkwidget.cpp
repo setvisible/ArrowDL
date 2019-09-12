@@ -40,6 +40,8 @@
 #define C_CHECKBOX_COLUMN_WIDTH 16
 #define C_COLUMN_DEFAULT_WIDTH 100
 
+#define C_ELIDE_CHAR_COUNT         30
+
 /*!
  * LinkWidgetItemDelegate is used to draw the check icons.
  */
@@ -468,6 +470,15 @@ void LinkWidget::open()
 
 /******************************************************************************
  ******************************************************************************/
+static inline QString elide(const QString &text)
+{
+    if (text.length() > 2 * C_ELIDE_CHAR_COUNT) {
+        return QString("%0...%1").arg(text.left(C_ELIDE_CHAR_COUNT)).arg(text.right(C_ELIDE_CHAR_COUNT));
+    } else {
+        return text;
+    }
+}
+
 inline QString LinkWidget::textForOpenAction() const
 {
     const QModelIndexList indexes = currentTableView()->selectionModel()->selectedIndexes();
@@ -483,7 +494,7 @@ inline QString LinkWidget::textForOpenAction() const
     } else if (urlIndexes.count() == 1) {
         const QModelIndex urlIndex = urlIndexes.first();
         const QString text = urlIndex.model()->data(urlIndex, Qt::DisplayRole).toString();
-        return tr("Open %0").arg(text);
+        return tr("Open %0").arg(elide(text));
     } else {
         return tr("Open %0 Links").arg(urlIndexes.count());
     }
