@@ -21,6 +21,7 @@
 
 MaskWidget::MaskWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::MaskWidget)
+  , m_colorizeErrorsEnabled(true)
 {
     ui->setupUi(this);
 
@@ -53,7 +54,32 @@ void MaskWidget::setCurrentMask(const QString &text)
 
 /******************************************************************************
  ******************************************************************************/
+bool MaskWidget::colorizeErrors() const
+{
+    return m_colorizeErrorsEnabled;
+}
+
+void MaskWidget::setColorizeErrors(bool enabled)
+{
+    m_colorizeErrorsEnabled = enabled;
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void MaskWidget::onCurrentTextChanged(const QString &text)
 {
+    colorizeErrors(text);
     emit currentMaskChanged(text);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+inline void MaskWidget::colorizeErrors(const QString &text)
+{
+    if (m_colorizeErrorsEnabled && text.isEmpty()) {
+        ui->comboBox->setStyleSheet(
+                    QLatin1String("QComboBox { background-color: rgb(255, 100, 100); }"));
+    } else {
+        ui->comboBox->setStyleSheet(QString());
+    }
 }

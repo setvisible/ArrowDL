@@ -33,6 +33,9 @@ public:
     QString currentMask() const;
     void setCurrentMask(const QString &currentMask);
 
+    bool colorizeErrors() const;
+    void setColorizeErrors(bool enabled);
+
 signals:
     void currentMaskChanged(QString mask);
 
@@ -41,6 +44,9 @@ private slots:
 
 private:
     Ui::MaskWidget *ui;
+    bool m_colorizeErrorsEnabled;
+
+    inline void colorizeErrors(const QString &text);
 };
 
 #endif // WIDGETS_MASK_WIDGET_H

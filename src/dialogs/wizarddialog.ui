@@ -70,7 +70,7 @@ QGroupBox {
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="BrowserWidget" name="pathBrowser" native="true">
+           <widget class="PathWidget" name="pathWidget" native="true">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -241,21 +241,21 @@ QGroupBox {
  </widget>
  <customwidgets>
   <customwidget>
-   <class>BrowserWidget</class>
+   <class>PathWidget</class>
    <extends>QWidget</extends>
-   <header>Widgets/BrowserWidget</header>
+   <header>Widgets\PathWidget</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MaskWidget</class>
+   <extends>QWidget</extends>
+   <header>Widgets\MaskWidget</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>LinkWidget</class>
    <extends>QWidget</extends>
    <header>Widgets/LinkWidget</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>MaskWidget</class>
-   <extends>QWidget</extends>
-   <header>Widgets/MaskWidget</header>
    <container>1</container>
   </customwidget>
   <customwidget>
