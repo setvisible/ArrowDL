@@ -45,6 +45,7 @@ private slots:
     void insert_1_to_100();
     void insert_01_to_10();
     void insert_001_to_100();
+    void onChanged(QString);
 
 private:
     Ui::AddDownloadDialog *ui;
@@ -53,6 +54,9 @@ private:
     void doAccept(const bool started);
     const QList<ResourceItem*> createItems();
     ResourceItem* createItem(const QString &url);
+
+    void readSettings();
+    void writeSettings();
 };
 
 #endif // DIALOGS_ADD_DOWNLOAD_DIALOG_H

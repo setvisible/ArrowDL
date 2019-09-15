@@ -278,7 +278,7 @@ QTabBar::tab:hover:!selected {
            </widget>
           </item>
           <item>
-           <widget class="BrowserWidget" name="browseDatabaseFile" native="true"/>
+           <widget class="PathWidget" name="browseDatabaseFile" native="true"/>
           </item>
          </layout>
         </widget>
@@ -518,9 +518,9 @@ QTabBar::tab:hover:!selected {
  </widget>
  <customwidgets>
   <customwidget>
-   <class>BrowserWidget</class>
+   <class>PathWidget</class>
    <extends>QWidget</extends>
-   <header>Widgets/BrowserWidget</header>
+   <header>Widgets/PathWidget</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
