@@ -18,7 +18,7 @@
 #include "ui_preferencedialog.h"
 
 #include <Core/Settings>
-#include <Widgets/BrowserWidget>
+#include <Widgets/PathWidget>
 
 #include <QtCore/QSettings>
 #include <QtGui/QCloseEvent>
@@ -75,7 +75,7 @@ void PreferenceDialog::initializeGui()
     ui->tabWidget->setAutoFillBackground(true);
     ui->tabWidget->tabBar()->setAutoFillBackground(true);
 
-    ui->browseDatabaseFile->setPathType(BrowserWidget::File);
+    ui->browseDatabaseFile->setPathType(PathWidget::File);
     ui->browseDatabaseFile->setSuffixName("Queue Database");
     ui->browseDatabaseFile->setSuffix(".json");
 

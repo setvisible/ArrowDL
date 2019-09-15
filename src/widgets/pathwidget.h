@@ -14,24 +14,24 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef WIDGETS_BROWSER_WIDGET_H
-#define WIDGETS_BROWSER_WIDGET_H
+#ifndef WIDGETS_PATH_WIDGET_H
+#define WIDGETS_PATH_WIDGET_H
 
 #include <QtWidgets/QWidget>
 
 namespace Ui {
-class BrowserWidget;
+class PathWidget;
 }
 
-class BrowserWidget : public QWidget
+class PathWidget : public QWidget
 {
     Q_OBJECT
 
 public:
     enum PathType { File, Directory };
 
-    explicit BrowserWidget(QWidget *parent);
-    ~BrowserWidget();
+    explicit PathWidget(QWidget *parent);
+    ~PathWidget();
 
     QString currentPath() const;
     void setCurrentPath(const QString &path);
@@ -61,10 +61,10 @@ private slots:
     void showContextMenu(const QPoint &pos);
 
 private:
-    Ui::BrowserWidget *ui;
+    Ui::PathWidget *ui;
     PathType m_pathType;
     QString m_suffix;
     QString m_suffixName;
 };
 
-#endif // WIDGETS_BROWSER_WIDGET_H
+#endif // WIDGETS_PATH_WIDGET_H

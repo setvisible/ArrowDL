@@ -14,8 +14,8 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "browserwidget.h"
-#include "ui_browserwidget.h"
+#include "pathwidget.h"
+#include "ui_pathwidget.h"
 
 #include <QtCore/QDir>
 #include <QtCore/QStandardPaths>
@@ -27,8 +27,8 @@
 #define MAX_HISTORY_COUNT 10
 
 
-BrowserWidget::BrowserWidget(QWidget *parent) : QWidget(parent)
-  , ui(new Ui::BrowserWidget)
+PathWidget::PathWidget(QWidget *parent) : QWidget(parent)
+  , ui(new Ui::PathWidget)
   , m_pathType(File)
   , m_suffix(QString())
   , m_suffixName(QString())
@@ -47,19 +47,19 @@ BrowserWidget::BrowserWidget(QWidget *parent) : QWidget(parent)
             this, SLOT(showContextMenu(const QPoint &)));
 }
 
-BrowserWidget::~BrowserWidget()
+PathWidget::~PathWidget()
 {
     delete ui;
 }
 
 /******************************************************************************
  ******************************************************************************/
-QString BrowserWidget::currentPath() const
+QString PathWidget::currentPath() const
 {
     return QDir::toNativeSeparators(ui->comboBox->currentText());
 }
 
-void BrowserWidget::setCurrentPath(const QString &path)
+void PathWidget::setCurrentPath(const QString &path)
 {
     if (path.isEmpty() && ui->comboBox->count() > 0) {
         ui->comboBox->setCurrentIndex(0);
@@ -73,7 +73,7 @@ void BrowserWidget::setCurrentPath(const QString &path)
 
 /******************************************************************************
  ******************************************************************************/
-QStringList BrowserWidget::pathHistory() const
+QStringList PathWidget::pathHistory() const
 {
     QStringList ret;
     for (int i = 0; i < ui->comboBox->count(); ++i) {
@@ -82,7 +82,7 @@ QStringList BrowserWidget::pathHistory() const
     return ret;
 }
 
-void BrowserWidget::setPathHistory(const QStringList &paths)
+void PathWidget::setPathHistory(const QStringList &paths)
 {
     clearHistory();
     const int count = qMin(MAX_HISTORY_COUNT, paths.count());
@@ -95,12 +95,12 @@ void BrowserWidget::setPathHistory(const QStringList &paths)
 
 /******************************************************************************
  ******************************************************************************/
-BrowserWidget::PathType BrowserWidget::pathType() const
+PathWidget::PathType PathWidget::pathType() const
 {
     return m_pathType;
 }
 
-void BrowserWidget::setPathType(PathType type)
+void PathWidget::setPathType(PathType type)
 {
     m_pathType = type;
 }
@@ -112,7 +112,7 @@ void BrowserWidget::setPathType(PathType type)
  *
  * Example: ".txt"
  */
-QString BrowserWidget::suffix() const
+QString PathWidget::suffix() const
 {
     return m_suffix;
 }
@@ -122,7 +122,7 @@ QString BrowserWidget::suffix() const
  *
  * Example: ".txt"
  */
-void BrowserWidget::setSuffix(const QString &suffix)
+void PathWidget::setSuffix(const QString &suffix)
 {
     m_suffix = suffix;
 }
@@ -132,7 +132,7 @@ void BrowserWidget::setSuffix(const QString &suffix)
 /*!
  * Example: "Text Files"
  */
-QString BrowserWidget::suffixName() const
+QString PathWidget::suffixName() const
 {
     return m_suffixName;
 }
@@ -140,14 +140,14 @@ QString BrowserWidget::suffixName() const
 /*!
  * Example: "Text Files"
  */
-void BrowserWidget::setSuffixName(const QString &suffixName)
+void PathWidget::setSuffixName(const QString &suffixName)
 {
     m_suffixName = suffixName;
 }
 
 /******************************************************************************
  ******************************************************************************/
-void BrowserWidget::clearHistory()
+void PathWidget::clearHistory()
 {
     const QString path = currentPath();
     ui->comboBox->clear();
@@ -156,7 +156,7 @@ void BrowserWidget::clearHistory()
 
 /******************************************************************************
  ******************************************************************************/
-void BrowserWidget::removePathfromHistory(const QString &path)
+void PathWidget::removePathfromHistory(const QString &path)
 {
     int i = ui->comboBox->count();
     while (i > 0) {
@@ -169,7 +169,7 @@ void BrowserWidget::removePathfromHistory(const QString &path)
 
 /******************************************************************************
  ******************************************************************************/
-void BrowserWidget::onBrowseButtonReleased()
+void PathWidget::onBrowseButtonReleased()
 {
     QString path = ui->comboBox->currentText();
     if (m_pathType == File) {
@@ -188,14 +188,14 @@ void BrowserWidget::onBrowseButtonReleased()
 
 /******************************************************************************
  ******************************************************************************/
-void BrowserWidget::onCurrentTextChanged(const QString &text)
+void PathWidget::onCurrentTextChanged(const QString &text)
 {
     emit currentPathChanged(text);
 }
 
 /******************************************************************************
  ******************************************************************************/
-void BrowserWidget::showContextMenu(const QPoint &/*pos*/)
+void PathWidget::showContextMenu(const QPoint &/*pos*/)
 {
     QMenu *contextMenu = ui->comboBox->lineEdit()->createStandardContextMenu();
 

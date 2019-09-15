@@ -64,15 +64,17 @@ void AddDownloadDialog::reject()
     QDialog::reject();
 }
 
+/******************************************************************************
+ ******************************************************************************/
 void AddDownloadDialog::showContextMenu(const QPoint &/*pos*/)
 {
     QMenu *contextMenu = ui->downloadLineEdit->createStandardContextMenu();
     QAction *first = contextMenu->actions().first();
 
-    QAction action_1_to_10(tr("[ 1 -> 10 ]"), contextMenu);
-    QAction action_1_to_100(tr("[ 1 -> 100 ]"), contextMenu);
-    QAction action_01_to_10(tr("[ 01 -> 10 ]"), contextMenu);
-    QAction action_001_to_100(tr("[ 001 -> 100 ]"), contextMenu);
+    QAction action_1_to_10(tr("Insert [ 1 -> 10 ]"), contextMenu);
+    QAction action_1_to_100(tr("Insert [ 1 -> 100 ]"), contextMenu);
+    QAction action_01_to_10(tr("Insert [ 01 -> 10 ]"), contextMenu);
+    QAction action_001_to_100(tr("Insert [ 001 -> 100 ]"), contextMenu);
 
     connect(&action_1_to_10, SIGNAL(triggered()), this, SLOT(insert_1_to_10()));
     connect(&action_1_to_100, SIGNAL(triggered()), this, SLOT(insert_1_to_100()));
@@ -81,13 +83,11 @@ void AddDownloadDialog::showContextMenu(const QPoint &/*pos*/)
 
     contextMenu->insertAction(first, &action_1_to_10);
     contextMenu->insertAction(first, &action_1_to_100);
-    contextMenu->insertSeparator(first);
     contextMenu->insertAction(first, &action_01_to_10);
     contextMenu->insertAction(first, &action_001_to_100);
     contextMenu->insertSeparator(first);
 
     contextMenu->exec(QCursor::pos());
-
     contextMenu->deleteLater();
 }
 
@@ -111,6 +111,8 @@ void AddDownloadDialog::insert_001_to_100()
     ui->downloadLineEdit->insert("[001:100]");
 }
 
+/******************************************************************************
+ ******************************************************************************/
 void AddDownloadDialog::doAccept(const bool started)
 {
     const QString text = ui->downloadLineEdit->text();
@@ -174,7 +176,7 @@ ResourceItem* AddDownloadDialog::createItem(const QString &url)
     item->setCustomFileName(ui->filenameLineEdit->text());
     item->setReferringPage(ui->referrerLineEdit->text());
     item->setDescription(ui->descriptionLineEdit->text());
-    item->setDestination(ui->browserWidget->currentPath());
+    item->setDestination(ui->pathWidget->currentPath());
     item->setMask(ui->maskWidget->currentMask());
     item->setCheckSum(ui->hashLineEdit->text());
     return item;
