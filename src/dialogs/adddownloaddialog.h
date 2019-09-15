@@ -53,6 +53,9 @@ private:
     void doAccept(const bool started);
     const QList<ResourceItem*> createItems();
     ResourceItem* createItem(const QString &url);
+
+    void readSettings();
+    void writeSettings();
 };
 
 #endif // DIALOGS_ADD_DOWNLOAD_DIALOG_H

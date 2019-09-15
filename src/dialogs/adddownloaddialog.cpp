@@ -22,11 +22,16 @@
 #include <Core/ResourceItem>
 
 #include <QtCore/QList>
+#include <QtCore/QSettings>
 #include <QtCore/QUrl>
+#include <QtGui/QCloseEvent>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMessageBox>
+#ifdef QT_DEBUG
+#  include <QtCore/QDebug>
+#endif
 
 
 AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadManager, QWidget *parent)
@@ -36,12 +41,17 @@ AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadM
 
 {
     ui->setupUi(this);
+
+    ui->pathWidget->setPathType(PathWidget::Directory);
+
     ui->downloadLineEdit->setText(url.toString());
     ui->downloadLineEdit->setFocus();
     ui->downloadLineEdit->setContextMenuPolicy(Qt::CustomContextMenu);
 
     connect(ui->downloadLineEdit, SIGNAL(customContextMenuRequested(const QPoint &)),
             this, SLOT(showContextMenu(const QPoint &)));
+
+    readSettings();
 }
 
 AddDownloadDialog::~AddDownloadDialog()
@@ -49,6 +59,8 @@ AddDownloadDialog::~AddDownloadDialog()
     delete ui;
 }
 
+/******************************************************************************
+ ******************************************************************************/
 void AddDownloadDialog::accept()
 {
     doAccept(true);
@@ -156,6 +168,7 @@ void AddDownloadDialog::doAccept(const bool started)
         m_downloadManager->append(createItem(text), started);
         QDialog::accept();
     }
+    writeSettings();
 }
 
 const QList<ResourceItem*> AddDownloadDialog::createItems()
@@ -181,3 +194,26 @@ ResourceItem* AddDownloadDialog::createItem(const QString &url)
     item->setCheckSum(ui->hashLineEdit->text());
     return item;
 }
+
+/******************************************************************************
+ ******************************************************************************/
+void AddDownloadDialog::readSettings()
+{
+    QSettings settings;
+    settings.beginGroup("Wizard");
+    ui->pathWidget->setCurrentPath(settings.value("Path", QString()).toString());
+    ui->pathWidget->setPathHistory(settings.value("PathHistory").toStringList());
+    ui->maskWidget->setCurrentMask(settings.value("Mask", QString()).toString());
+    settings.endGroup();
+}
+
+void AddDownloadDialog::writeSettings()
+{
+    QSettings settings;
+    settings.beginGroup("Wizard");
+    settings.setValue("Path", ui->pathWidget->currentPath());
+    settings.setValue("PathHistory", ui->pathWidget->pathHistory());
+    settings.setValue("Mask", ui->maskWidget->currentMask());
+    settings.endGroup();
+}
+
