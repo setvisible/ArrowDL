@@ -85,13 +85,15 @@ QStringList PathWidget::pathHistory() const
 
 void PathWidget::setPathHistory(const QStringList &paths)
 {
-    clearHistory();
+    const QString text = ui->comboBox->currentText();
+    ui->comboBox->clear();
     const int count = qMin(MAX_HISTORY_COUNT, paths.count());
     for (int i = 0; i < count; ++i) {
         const QString nativePath = QDir::toNativeSeparators(paths.at(i));
         removePathfromHistory(nativePath);
         ui->comboBox->addItem(nativePath);
     }
+    ui->comboBox->setCurrentText(text);
 }
 
 /******************************************************************************
@@ -162,9 +164,9 @@ void PathWidget::setColorizeErrors(bool enabled)
  ******************************************************************************/
 void PathWidget::clearHistory()
 {
-    const QString path = currentPath();
+    const QString text = ui->comboBox->currentText();
     ui->comboBox->clear();
-    setCurrentPath(path);
+    ui->comboBox->setCurrentText(text);
 }
 
 /******************************************************************************
