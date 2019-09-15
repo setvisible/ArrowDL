@@ -52,7 +52,11 @@ WizardDialog::WizardDialog(const QUrl &url, DownloadManager *downloadManager,
     connect(m_settings, SIGNAL(changed()), this, SLOT(refreshFilters()));
 
     connect(ui->pathWidget, SIGNAL(currentPathChanged(QString)), m_model, SLOT(setDestination(QString)));
+    connect(ui->pathWidget, SIGNAL(currentPathChanged(QString)), this, SLOT(onChanged(QString)));
+
     connect(ui->maskWidget, SIGNAL(currentMaskChanged(QString)), m_model, SLOT(setMask(QString)));
+    connect(ui->maskWidget, SIGNAL(currentMaskChanged(QString)), this, SLOT(onChanged(QString)));
+
     connect(ui->filterWidget, SIGNAL(regexChanged(QRegExp)), m_model, SLOT(select(QRegExp)));
 
     connect(m_model, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
@@ -146,6 +150,21 @@ void WizardDialog::onSelectionChanged()
         const int count = currentModel->resourceItems().count();
         ui->tipLabel->setText(tr("Selected links: %0 of %1").arg(selectionCount).arg(count));
     }
+    onChanged(QString());
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void WizardDialog::onChanged(QString)
+{
+    const ResourceModel *currentModel = m_model->currentModel();
+    const int selectionCount = currentModel->selectedResourceItems().count();
+    const bool enabled =
+            !ui->pathWidget->currentPath().isEmpty() &&
+            !ui->maskWidget->currentMask().isEmpty() &&
+            selectionCount > 0;
+    ui->startButton->setEnabled(enabled);
+    ui->addPausedButton->setEnabled(enabled);
 }
 
 /******************************************************************************

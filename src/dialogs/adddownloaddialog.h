@@ -45,6 +45,7 @@ private slots:
     void insert_1_to_100();
     void insert_01_to_10();
     void insert_001_to_100();
+    void onChanged(QString);
 
 private:
     Ui::AddDownloadDialog *ui;

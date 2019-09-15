@@ -51,6 +51,10 @@ AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadM
     connect(ui->downloadLineEdit, SIGNAL(customContextMenuRequested(const QPoint &)),
             this, SLOT(showContextMenu(const QPoint &)));
 
+    connect(ui->downloadLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onChanged(QString)));
+    connect(ui->pathWidget, SIGNAL(currentPathChanged(QString)), this, SLOT(onChanged(QString)));
+    connect(ui->maskWidget, SIGNAL(currentMaskChanged(QString)), this, SLOT(onChanged(QString)));
+
     readSettings();
 }
 
@@ -121,6 +125,18 @@ void AddDownloadDialog::insert_1_to_100()
 void AddDownloadDialog::insert_001_to_100()
 {
     ui->downloadLineEdit->insert("[001:100]");
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void AddDownloadDialog::onChanged(QString)
+{
+    const bool enabled =
+            !ui->downloadLineEdit->text().isEmpty() &&
+            !ui->pathWidget->currentPath().isEmpty() &&
+            !ui->maskWidget->currentMask().isEmpty();
+    ui->startButton->setEnabled(enabled);
+    ui->addPausedButton->setEnabled(enabled);
 }
 
 /******************************************************************************

@@ -6,14 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>329</width>
+    <width>338</width>
     <height>22</height>
    </rect>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
-   <property name="sizeConstraint">
-    <enum>QLayout::SetMinimumSize</enum>
-   </property>
+  <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
    <property name="leftMargin">
     <number>0</number>
    </property>

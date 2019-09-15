@@ -32,6 +32,7 @@ PathWidget::PathWidget(QWidget *parent) : QWidget(parent)
   , m_pathType(File)
   , m_suffix(QString())
   , m_suffixName(QString())
+  , m_colorizeErrorsEnabled(true)
 {
     ui->setupUi(this);
 
@@ -147,6 +148,18 @@ void PathWidget::setSuffixName(const QString &suffixName)
 
 /******************************************************************************
  ******************************************************************************/
+bool PathWidget::colorizeErrors() const
+{
+    return m_colorizeErrorsEnabled;
+}
+
+void PathWidget::setColorizeErrors(bool enabled)
+{
+    m_colorizeErrorsEnabled = enabled;
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void PathWidget::clearHistory()
 {
     const QString path = currentPath();
@@ -190,6 +203,7 @@ void PathWidget::onBrowseButtonReleased()
  ******************************************************************************/
 void PathWidget::onCurrentTextChanged(const QString &text)
 {
+    colorizeErrors(text);
     emit currentPathChanged(text);
 }
 
@@ -205,4 +219,16 @@ void PathWidget::showContextMenu(const QPoint &/*pos*/)
 
     contextMenu->exec(QCursor::pos());
     contextMenu->deleteLater();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+inline void PathWidget::colorizeErrors(const QString &text)
+{
+    if (m_colorizeErrorsEnabled && text.isEmpty()) {
+        ui->comboBox->setStyleSheet(
+                    QLatin1String("QComboBox { background-color: rgb(255, 100, 100); }"));
+    } else {
+        ui->comboBox->setStyleSheet(QString());
+    }
 }

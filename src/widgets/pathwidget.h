@@ -30,7 +30,7 @@ class PathWidget : public QWidget
 public:
     enum PathType { File, Directory };
 
-    explicit PathWidget(QWidget *parent);
+    explicit PathWidget(QWidget *parent = Q_NULLPTR);
     ~PathWidget();
 
     QString currentPath() const;
@@ -47,6 +47,9 @@ public:
 
     QString suffixName() const;
     void setSuffixName(const QString &suffixName);
+
+    bool colorizeErrors() const;
+    void setColorizeErrors(bool enabled);
 
 signals:
     void currentPathChanged(QString path);
@@ -65,6 +68,9 @@ private:
     PathType m_pathType;
     QString m_suffix;
     QString m_suffixName;
+    bool m_colorizeErrorsEnabled;
+
+    inline void colorizeErrors(const QString &text);
 };
 
 #endif // WIDGETS_PATH_WIDGET_H

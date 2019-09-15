@@ -51,6 +51,7 @@ public slots:
 private slots:
     void onFinished(QNetworkReply* reply);
     void onSelectionChanged();
+    void onChanged(QString);
     void refreshFilters();
 
 private:
