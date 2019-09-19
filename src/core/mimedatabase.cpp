@@ -27,9 +27,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFileIconProvider>
 #include <QtWidgets/QStyle>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
+#include <QtCore/QDebug>
 
 
 class MimeDatabaseSingleton
