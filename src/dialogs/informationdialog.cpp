@@ -18,6 +18,8 @@
 #include "ui_informationdialog.h"
 
 #include <Core/DownloadItem>
+#include <Core/ResourceItem>
+#include <Core/MimeDatabase>
 
 #include <QtCore/QDir>
 
@@ -55,4 +57,10 @@ void InformationDialog::init(const QList<DownloadItem*> &selection)
             ? tr("%0 bytes").arg(item->bytesTotal())
             : tr("Unknown");
     ui->sizeLabel->setText(bytes);
+
+    if (item->resource()) {
+        const QString url = item->resource()->url();
+        const QPixmap pixmap = MimeDatabase::fileIcon(url, 256);
+        ui->fileIcon->setPixmap(pixmap);
+    }
 }

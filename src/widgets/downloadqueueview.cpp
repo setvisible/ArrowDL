@@ -18,6 +18,7 @@
 
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
+#include <Core/MimeDatabase>
 #include <Core/ResourceItem>
 
 #include <QtGui/QPainter>
@@ -40,7 +41,7 @@
 #define C_COL_9_SAVE_PATH          9  /* hidden */
 #define C_COL_10_CHECKSUM         10  /* hidden */
 
-#define C_COLUMN_DEFAULT_WIDTH 100
+#define C_COLUMN_DEFAULT_WIDTH   100
 
 
 /*!
@@ -91,8 +92,18 @@ public:
     {
         if (index.column() == 0) {
 
-            // todo : add icon + text
-            QStyledItemDelegate::paint(painter, option, index);
+            QStyleOptionViewItem myOption = option;
+            initStyleOption(&myOption, index);
+
+            const QString url = myOption.text;
+            const QPixmap pixmap = MimeDatabase::fileIcon(url, 16);
+
+            myOption.icon.addPixmap(pixmap);
+            myOption.decorationAlignment = Qt::AlignHCenter |Qt::AlignVCenter;
+            myOption.decorationPosition = QStyleOptionViewItem::Left;
+            myOption.features = myOption.features | QStyleOptionViewItem::HasDecoration;
+
+            QStyledItemDelegate::paint(painter, myOption, index);
 
         } else if (index.column() == 2) {
 

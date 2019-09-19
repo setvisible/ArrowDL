@@ -17,6 +17,7 @@
 #include "linkwidget.h"
 #include "ui_linkwidget.h"
 
+#include <Core/MimeDatabase>
 #include <Core/Model>
 #include <Core/ResourceItem>
 #include <Core/ResourceModel>
@@ -24,9 +25,9 @@
 #include <QtCore/QModelIndex>
 #include <QtGui/QClipboard>
 #include <QtGui/QDesktopServices>
-#include <QtGui/QIcon>
 #include <QtGui/QKeyEvent>
 #include <QtGui/QPainter>
+#include <QtGui/QPixmap>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QItemDelegate>
 #include <QtWidgets/QMenu>
@@ -36,11 +37,19 @@
 #  include <QtCore/QDebug>
 #endif
 
-#define C_CHECKBOX_WIDTH 12   /* check_ok_16x16.png */
-#define C_CHECKBOX_COLUMN_WIDTH 16
-#define C_COLUMN_DEFAULT_WIDTH 100
+#define C_COLUMN_DEFAULT_WIDTH    100
+
+#define C_CHECKBOX_SIZE            12
+#define C_CHECKBOX_WIDTH           16
 
 #define C_ELIDE_CHAR_COUNT         30
+
+static const QColor s_black         = QColor(0, 0, 0);
+static const QColor s_darkYellow    = QColor(210, 210, 100);
+static const QColor s_lightBlue     = QColor(205, 232, 255);
+static const QColor s_lightGreen    = QColor(236, 255, 179);
+static const QColor s_lightYellow   = QColor(255, 255, 179);
+
 
 /*!
  * LinkWidgetItemDelegate is used to draw the check icons.
@@ -48,6 +57,7 @@
 class LinkWidgetItemDelegate : public QStyledItemDelegate
 {
     /*
+     * Remark:
      * If use Q_OBJECT, signals and slots in nested classes, add
      * <code>
      * #include "linkwidget.moc"
@@ -72,40 +82,57 @@ public:
     bool editorEvent(QEvent *event, QAbstractItemModel *model,
                      const QStyleOptionViewItem &option, const QModelIndex &index) Q_DECL_OVERRIDE;
 private:
-    QIcon m_icon;
+    QIcon m_checkIcon;
 };
 
 LinkWidgetItemDelegate::LinkWidgetItemDelegate(QObject *parent) : QStyledItemDelegate(parent)
 {
-    m_icon.addPixmap(QPixmap(":/icons/menu/check_ok_16x16.png"), QIcon::Normal, QIcon::On);
-    m_icon.addPixmap(QPixmap(":/icons/menu/check_progress_16x16.png"), QIcon::Disabled, QIcon::On);
+    m_checkIcon.addPixmap(QPixmap(":/icons/menu/check_ok_16x16.png"), QIcon::Normal, QIcon::On);
+    m_checkIcon.addPixmap(QPixmap(":/icons/menu/check_progress_16x16.png"), QIcon::Disabled, QIcon::On);
 }
 
 void LinkWidgetItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                                    const QModelIndex &index) const
 {
+    QStyleOptionViewItem myOption = option;
+    initStyleOption(&myOption, index);
+
     const bool selected = index.model()->data(index, ResourceModel::IsSelectedRole).toBool();
 
     if (selected) {
-        painter->fillRect(option.rect, QColor(255, 255, 179)); // light yellow
-    }
-    if (option.state & QStyle::State_Selected) {
-        painter->fillRect(option.rect, option.palette.highlight());
-        QFont font = painter->font();
-        font.setBold(true);
-        painter->setFont(font);
+        painter->fillRect(option.rect, s_lightYellow);
+        myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_darkYellow);
+    } else {
+        myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
     }
 
-    QStyledItemDelegate::paint(painter, option, index);
+    if (myOption.state & QStyle::State_Selected) {
+        myOption.font.setBold(true);
+    }
+
+    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
 
     if (index.column() == 0) {
         QStyleOptionButton button;
-        button.rect = option.rect;
-        button.iconSize = QSize(C_CHECKBOX_WIDTH, C_CHECKBOX_WIDTH);
-        button.icon = m_icon;
+        button.rect = myOption.rect;
+        button.palette = myOption.palette;
+        button.iconSize = QSize(C_CHECKBOX_SIZE, C_CHECKBOX_SIZE);
+        button.icon = m_checkIcon;
         button.features |= QStyleOptionButton::Flat;
         button.state |= selected ? QStyle::State_Enabled : QStyle::State_None;
         QApplication::style()->drawControl(QStyle::CE_PushButton, &button, painter);
+
+    } else {
+        if (index.column() == 1) {
+            const QString url = myOption.text;
+            const QPixmap pixmap = MimeDatabase::fileIcon(url, 16);
+
+            myOption.icon.addPixmap(pixmap);
+            myOption.decorationAlignment = Qt::AlignHCenter |Qt::AlignVCenter;
+            myOption.decorationPosition = QStyleOptionViewItem::Left;
+            myOption.features |= QStyleOptionViewItem::HasDecoration;
+        }
+        QStyledItemDelegate::paint(painter, myOption, index);
     }
 }
 
@@ -182,6 +209,10 @@ void LinkWidget::setup(QTableView *view)
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     view->setSelectionBehavior(QAbstractItemView::SelectRows);
 
+    view->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    view->setAlternatingRowColors(false);
+    view->setMidLineWidth(3);
+
     view->setItemDelegate(new LinkWidgetItemDelegate(view));
     QHeaderView *verticalHeader = view->verticalHeader();
     verticalHeader->setSectionResizeMode(QHeaderView::Fixed);
@@ -212,7 +243,7 @@ void LinkWidget::onSectionCountChanged(int /*oldCount*/, int newCount)
         header->setSectionResizeMode(0, QHeaderView::Fixed);
         QTableView *parent = qobject_cast<QTableView *>(header->parent());
         if (parent) {
-            parent->setColumnWidth(0, C_CHECKBOX_COLUMN_WIDTH);
+            parent->setColumnWidth(0, C_CHECKBOX_WIDTH);
         }
     }
 }
@@ -273,7 +304,7 @@ QList<int> LinkWidget::columnWidths() const
     if (model) {
         for (int column = 0; column < model->columnCount(); ++column) {
             const int width = ui->linkTableView->columnWidth(column);
-           widths.append(width);
+            widths.append(width);
         }
     }
     return widths;
@@ -286,7 +317,7 @@ void LinkWidget::setColumnWidths(const QList<int> &widths)
     if (model) {
         for (int column = 0; column < model->columnCount(); ++column) {
             if (column == 0) {
-                ui->linkTableView->setColumnWidth(column, C_CHECKBOX_COLUMN_WIDTH);
+                ui->linkTableView->setColumnWidth(column, C_CHECKBOX_WIDTH);
             } else if (column > 0 && column < widths.count()) {
                 const int width = widths.at(column);
                 ui->linkTableView->setColumnWidth(column, width);

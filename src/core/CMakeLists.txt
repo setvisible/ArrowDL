@@ -3,6 +3,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadmanager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/htmlparser.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/mask.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/mimedatabase.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/model.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/regex.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/resourceitem.cpp
@@ -18,6 +19,7 @@ set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadmanager.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/htmlparser.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/mask.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/mimedatabase.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/model.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/regex.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/resourceitem.h
