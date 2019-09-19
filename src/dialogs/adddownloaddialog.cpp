@@ -143,9 +143,12 @@ void AddDownloadDialog::onChanged(QString)
  ******************************************************************************/
 void AddDownloadDialog::doAccept(const bool started)
 {
-    const QString text = ui->downloadLineEdit->text();
+    const QUrl url(ui->downloadLineEdit->text());
 
-    if (Regex::hasBatchDescriptors(text)) {
+    // Remove trailing / and \ and .
+    const QString adjusted = url.adjusted(QUrl::StripTrailingSlash).toString();
+
+    if (Regex::hasBatchDescriptors(adjusted)) {
         const QList<ResourceItem*> items = createItems();
         QMessageBox msgBox(this);
         msgBox.setModal(true);
@@ -173,7 +176,7 @@ void AddDownloadDialog::doAccept(const bool started)
             QDialog::accept();
 
         } else if (msgBox.clickedButton() == singleButton) {
-            m_downloadManager->append(createItem(text), started);
+            m_downloadManager->append(createItem(adjusted), started);
             QDialog::accept();
 
         } else if (msgBox.clickedButton() == cancelButton) {
@@ -181,7 +184,7 @@ void AddDownloadDialog::doAccept(const bool started)
         }
 
     } else {
-        m_downloadManager->append(createItem(text), started);
+        m_downloadManager->append(createItem(adjusted), started);
         QDialog::accept();
     }
     writeSettings();
