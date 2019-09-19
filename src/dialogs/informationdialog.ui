@@ -86,7 +86,7 @@
       </widget>
      </item>
      <item row="0" column="0" rowspan="3">
-      <widget class="QFrame" name="fileIcon">
+      <widget class="QLabel" name="fileIcon">
        <property name="minimumSize">
         <size>
          <width>64</width>
@@ -99,14 +99,14 @@
          <height>64</height>
         </size>
        </property>
-       <property name="styleSheet">
-        <string notr="true">image: url(:/icons/logo/dza_128x128.png);</string>
+       <property name="text">
+        <string/>
        </property>
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
+       <property name="pixmap">
+        <pixmap resource="../resources.qrc">:/icons/logo/dza_128x128.png</pixmap>
        </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
+       <property name="scaledContents">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -141,7 +141,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>
