@@ -38,23 +38,32 @@ void tst_Mask::interpret_data()
     QTest::addColumn<QString>("mask");
     QTest::addColumn<QString>("expected");
 
-    QString url1 = "https://www.myweb.com/images/01/myimage.tar.gz?id=1345&lang=eng";
+    const QString url = "https://www.myweb.com/images/01/myimage.tar.gz?id=1345&lang=eng";
+    const QString mask = "*url*/*subdirs*/*name*.*ext*";
 
     /* Simples */
-    QTest::newRow("simple ext") << url1 << "*ext*" << "gz";
-    QTest::newRow("simple name") << url1 << "*name*" << "myimage.tar";
-    QTest::newRow("simple url") << url1 << "*url*" << "www.myweb.com";
-    QTest::newRow("simple curl") << url1 << "*curl*" << "www.myweb.com/images/01/myimage.tar.gz";
-    QTest::newRow("simple flaturl") << url1 << "*flaturl*" << "www.myweb.com-images-01-myimage.tar.gz";
-    QTest::newRow("simple subdirs") << url1 << "*subdirs*" << "images/01";
-    QTest::newRow("simple flatsubdirs") << url1 << "*flatsubdirs*" << "images-01";
-    QTest::newRow("simple qstring") << url1 << "*qstring*" << "id=1345&lang=eng";
+    QTest::newRow("simple ext") << url << "*ext*" << "gz";
+    QTest::newRow("simple name") << url << "*name*" << "myimage.tar";
+    QTest::newRow("simple url") << url << "*url*" << "www.myweb.com";
+    QTest::newRow("simple curl") << url << "*curl*" << "www.myweb.com/images/01/myimage.tar.gz";
+    QTest::newRow("simple flaturl") << url << "*flaturl*" << "www.myweb.com-images-01-myimage.tar.gz";
+    QTest::newRow("simple subdirs") << url << "*subdirs*" << "images/01";
+    QTest::newRow("simple flatsubdirs") << url << "*flatsubdirs*" << "images-01";
+    QTest::newRow("simple qstring") << url << "*qstring*" << "id=1345&lang=eng";
 
     /* Composites */
-    QTest::newRow("composite") << url1 << "*name*.*ext*" << "myimage.tar.gz";
-    QTest::newRow("file separator /") << url1 << "*url*/*subdirs*/*name*.*ext*" << "www.myweb.com/images/01/myimage.tar.gz";
-    QTest::newRow("file separator \\") << url1 << "*url*\\*subdirs*\\*name*.*ext*" << "www.myweb.com/images/01/myimage.tar.gz";
+    QTest::newRow("composite") << url << "*name*.*ext*" << "myimage.tar.gz";
+    QTest::newRow("file separator /") << url << "*url*/*subdirs*/*name*.*ext*" << "www.myweb.com/images/01/myimage.tar.gz";
+    QTest::newRow("file separator \\") << url << "*url*\\*subdirs*\\*name*.*ext*" << "www.myweb.com/images/01/myimage.tar.gz";
 
+    /* Limit cases */
+    QTest::newRow("no file")   << "https://www.myweb.com/images/" << mask << "www.myweb.com/images";
+    QTest::newRow("no suffix") << "https://www.myweb.com/images/myimage" << mask << "www.myweb.com/images/myimage";
+    QTest::newRow("no subdir") << "https://www.myweb.com/myimage.png" << mask << "www.myweb.com/myimage.png";
+    QTest::newRow("no host")   << "https://myimage.png" << mask << "myimage.png";
+    QTest::newRow("no prefix") << "myimage.png" << mask << "myimage.png";
+    QTest::newRow("no host/suffix") << "image" << mask << "image";
+    QTest::newRow("no basename") << "https://www.myweb.com/.image" << mask << "www.myweb.com/.image";
 }
 
 void tst_Mask::interpret()
@@ -63,11 +72,10 @@ void tst_Mask::interpret()
     QFETCH(QString, mask);
     QFETCH(QString, expected);
 
-    QString actual = Mask::interpret(url, QString(), mask);
+    const QString actual = Mask::interpret(url, QString(), mask);
 
     QCOMPARE(actual, expected);
 }
-
 
 /******************************************************************************
 ******************************************************************************/
