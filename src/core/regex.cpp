@@ -17,9 +17,14 @@
 #include "regex.h"
 
 #include <QtCore/QRegExp>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
+#include <QtCore/QDebug>
+
+
+static QString pattern            = "[\\[\\(]\\d+[:-\\s]\\d+[\\]\\)]";
+static QString patternWithGroups  = "[\\[\\(](\\d+)[:-\\s](\\d+)[\\]\\)]";
+static int firstGroupPosition     = 1; // 0 is reseved to full string
+static int secondGroupPosition    = 2;
+
 
 struct Capture
 {
@@ -32,11 +37,11 @@ struct Capture
 static const QList<Capture> capture(const QString &str)
 {
     QList<Capture> captures;
-    const QRegExp rx("(\\[\\d+[:-]\\d+\\])");
+    const QRegExp rx(pattern);
     int pos = 0;
     while ((pos = rx.indexIn(str, pos)) != -1) {
         Capture cap;
-        cap.capture = rx.cap(1);
+        cap.capture = rx.cap(0);
         cap.pos = pos;
         cap.len = cap.capture.length();
 
@@ -54,26 +59,43 @@ bool Regex::hasBatchDescriptors(const QString &str)
 
 const QStringList Regex::interpret(const QString &str)
 {
+    /*
+     * First, we detect and capture each batch.
+     * Indeed, the incoming string can contains more than 1 batch:
+     * Ex:
+     * "https://www.mysite.com/pic/[2015:2019]/[01:12]/DSC_[001:999].jpg"
+     *                              ^^^^^^^^^   ^^^^^       ^^^^^^^
+     *                               batch 1    batch2      batch 3
+     */
     QList<Capture> captures = capture(str);
 
+    /* If no batch, return the incoming string. */
     if (captures.isEmpty()) {
         QStringList list;
         list << str;
         return list;
     }
 
+    /*
+     * For each batch, we interpret the batch:
+     * Ex:
+     * "[2015:2019]" is interpreted {2015 2016 2017 2018 2019}
+     * "[001:003]" is interpreted {001 002 003}
+     * "[8:11]" is interpreted {8 9 10 11}
+     *
+     */
     for (int index = 0; index < captures.count(); ++index) {
         Capture &cap = captures[index];
 
-        const QRegExp rx("\\[(\\d+)[:-](\\d+)\\]");
+        const QRegExp rx(patternWithGroups);
         int start = rx.indexIn(cap.capture, 0);
         if (start != 0) {
             Q_ASSERT(false);
         } else {
 
-            int fieldWidth = rx.cap(1).length();
-            int begin = rx.cap(1).toInt();
-            int end = rx.cap(2).toInt();
+            int fieldWidth = rx.cap(firstGroupPosition).length();
+            int begin = rx.cap(firstGroupPosition).toInt();
+            int end = rx.cap(secondGroupPosition).toInt();
 
             if (begin > end) {
                 int t = end;
@@ -87,6 +109,9 @@ const QStringList Regex::interpret(const QString &str)
         }
     }
 
+    /*
+     * Finally, we join each interpreted capture recursively.
+     */
     QStringList list;
     list << str;
     for (int i = captures.count() - 1; i >= 0; --i) {

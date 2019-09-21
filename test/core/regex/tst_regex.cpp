@@ -55,6 +55,21 @@ void tst_Regex::interpret_data()
                "https://www.myweb.com/images/02/myimage.png",
                "https://www.myweb.com/images/03/myimage.png"};
 
+    QTest::newRow("simple space")
+            << "https://www.myweb.com/images/[01 03]/myimage.png"
+            << QStringList{
+               "https://www.myweb.com/images/01/myimage.png",
+               "https://www.myweb.com/images/02/myimage.png",
+               "https://www.myweb.com/images/03/myimage.png"};
+
+
+    QTest::newRow("simple : with parenthesis")
+            << "https://www.myweb.com/images/(1:3)/myimage.png"
+            << QStringList{
+               "https://www.myweb.com/images/1/myimage.png",
+               "https://www.myweb.com/images/2/myimage.png",
+               "https://www.myweb.com/images/3/myimage.png"};
+
     QTest::newRow("several : and -")
             << "https://www.myweb.com/images_[1:2]/myimage_[01-03].png"
             << QStringList{
@@ -68,6 +83,8 @@ void tst_Regex::interpret_data()
     QTest::newRow("no http") << "image01" << QStringList{"image01"};
     QTest::newRow("no padding") << "image_[9-10]" << QStringList{"image_9", "image_10"};
     QTest::newRow("padding") << "image_[009-010]" << QStringList{"image_009", "image_010"};
+    QTest::newRow("no end bracket") << "image_[00009-00010" << QStringList{"image_[00009-00010"};
+    QTest::newRow("no space but %20") << "file://[01%2003].png" << QStringList{"file://[01%2003].png"};
 }
 
 void tst_Regex::interpret()

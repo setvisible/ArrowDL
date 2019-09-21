@@ -64,9 +64,12 @@
          <pointsize>9</pointsize>
         </font>
        </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Batch descriptors:&lt;/p&gt;&lt;p&gt;- Must start with '[' or '('&lt;/p&gt;&lt;p&gt;- Must contain two numbers, separated by ':', '-' or a space character&lt;/p&gt;&lt;p&gt;- Must end with ']' or ')'&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
        <property name="text">
         <string>   .../mygallery[A:C]/photo[001:100:2].jpg
-   .../mygallery[1:3]/photo[01:10][3:01:-1].jpg</string>
+   .../mygallery[1:3]/(2010 2019)/(01 12)/photo[01:10][3-01].jpg</string>
        </property>
       </widget>
      </item>
