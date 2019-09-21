@@ -80,11 +80,15 @@ void tst_Regex::interpret_data()
                "https://www.myweb.com/images_2/myimage_02.png",
                "https://www.myweb.com/images_2/myimage_03.png"};
 
+    QTest::newRow("inversed") << "[10:8]" << QStringList{"8", "9", "10"};
+
     QTest::newRow("no http") << "image01" << QStringList{"image01"};
     QTest::newRow("no padding") << "image_[9-10]" << QStringList{"image_9", "image_10"};
-    QTest::newRow("padding") << "image_[009-010]" << QStringList{"image_009", "image_010"};
     QTest::newRow("no end bracket") << "image_[00009-00010" << QStringList{"image_[00009-00010"};
     QTest::newRow("no space but %20") << "file://[01%2003].png" << QStringList{"file://[01%2003].png"};
+
+    QTest::newRow("padding 100") << "image_[009-010]" << QStringList{"image_009", "image_010"};
+    QTest::newRow("padding 10000") << "image_[00009-00010]" << QStringList{"image_00009", "image_00010"};
 }
 
 void tst_Regex::interpret()

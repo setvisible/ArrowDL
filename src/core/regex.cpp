@@ -101,6 +101,7 @@ const QStringList Regex::interpret(const QString &str)
                 int t = end;
                 end = begin;
                 begin = t;
+                fieldWidth = rx.cap(secondGroupPosition).length();
             }
 
             for (int i = begin; i <= end; ++i) {
