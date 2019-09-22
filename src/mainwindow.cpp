@@ -47,6 +47,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QCheckBox>
+#include <QtWidgets/QDesktopWidget>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QLabel>
@@ -747,11 +748,21 @@ QString MainWindow::askOpenFileName(const QString &fileFilter, const QString &ti
 /******************************************************************************
  ******************************************************************************/
 void MainWindow::readSettings()
-{        
+{
     QSettings settings;
     if ( !isMaximized() ) {
-        this->move(settings.value("Position", QPoint(100, 100)).toPoint());
-        this->resize(settings.value("Size", QSize(350, 350)).toSize());
+        const QPoint defaultPosition(100, 100);
+        const QSize defaultSize(350, 350);
+        QPoint position = settings.value("Position", defaultPosition).toPoint();
+        QSize size = settings.value("Size", defaultSize).toSize();
+
+        const QRect availableGeometry = QApplication::desktop()->availableGeometry();
+        if (!availableGeometry.intersects(QRect(position, size))) {
+            position = defaultPosition;
+            size = defaultSize;
+        }
+        this->move(position);
+        this->resize(size);
     }
     this->setWindowState( (Qt::WindowStates)settings.value("WindowState", 0).toInt() );
     ui->downloadQueueView->setColumnWidths(settings.value("ColumnWidths").value<QList<int> >());
