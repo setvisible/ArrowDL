@@ -282,6 +282,15 @@ void MainWindow::openWizard(const QUrl &url)
     dialog.exec();
 }
 
+void MainWindow::handleMessage(const QString &message)
+{
+    if (!message.isEmpty()) {
+        openWizard(QUrl(message));
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void MainWindow::importFromFile()
 {
     QString filePath = askOpenFileName(tr("Data File (*.json);;All files (*.*)"));

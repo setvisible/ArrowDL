@@ -62,6 +62,14 @@ option(ENABLE_TESTS   "Set to ON to build test applications (default)" ON)
 
 
 ##############################################################################
+# definitions
+##############################################################################
+# Make sure that Unicode is defined
+# Note: at least needed for QtSingleApplication on Windows...
+add_definitions(-DUNICODE)
+
+
+##############################################################################
 ## Qt5
 ##############################################################################
 # https://cmake.org/cmake/help/v3.0/manual/cmake-qt.7.html
@@ -109,15 +117,20 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/CMakeLists.txt)
 ##############################################################################
 # Qt -- Run the MOC, resource, etc.
 ##############################################################################
-qt5_wrap_cpp(       downzemall_HEADERS_MOC    ${MY_HEADERS}   )
-qt5_wrap_ui(        downzemall_FORMS_HEADERS  ${MY_FORMS}     )
+qt5_wrap_cpp(downzemall_HEADERS_MOC    
+    ${MY_HEADERS}
+    ${QTSINGLEAPPLICATION_HEADERS}
+    )
+qt5_wrap_ui(downzemall_FORMS_HEADERS
+    ${MY_FORMS}
+    )
 
 add_library(configwin
     ${downzemall_HEADERS_MOC}
     ${downzemall_FORMS_HEADERS}
     )
 
-qt5_use_modules(configwin Widgets)
+qt5_use_modules(configwin Widgets Network)
 
 ##############################################################################
 # Linking the executable
@@ -125,6 +138,7 @@ qt5_use_modules(configwin Widgets)
 add_executable(${DownZemAll_NAME}
     WIN32
     ${MY_SOURCES}
+    ${QTSINGLEAPPLICATION_SOURCES}
     ${configwin}
     ${MY_RESOURCES}
     )
@@ -135,7 +149,7 @@ target_link_libraries(${DownZemAll_NAME}
     )
 
 # Qt5
-qt5_use_modules(${DownZemAll_NAME} Core Gui Widgets Network )
+qt5_use_modules(${DownZemAll_NAME} Core Gui Widgets Network)
 
 ##############################################################################
 # Unit Tests
