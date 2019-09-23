@@ -50,6 +50,8 @@ public slots:
     // File
     void openWizard();
     void openWizard(const QUrl &url);
+    void handleMessage(const QString &message);
+
     void importFromFile();
     void exportSelectedToFile();
 

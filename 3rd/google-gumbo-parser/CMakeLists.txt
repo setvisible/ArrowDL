@@ -34,3 +34,7 @@ set(GUMBO_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/3rd/google-gumbo-parser/0.10.1/src/util.h
     ${CMAKE_CURRENT_SOURCE_DIR}/3rd/google-gumbo-parser/0.10.1/src/vector.h
     )
+
+add_library(gumbo_static_lib STATIC
+    ${GUMBO_SOURCES}            
+    )
