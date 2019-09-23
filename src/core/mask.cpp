@@ -99,6 +99,11 @@ QString Mask::interpret(const QUrl &url,
     decodedMask.replace( FLATSUBDIRS  , flatSubdirs   );
     decodedMask.replace( QSTRING      , query         );
 
+    /* Remove the trailing '.' and duplicated '/' */
+    decodedMask.replace(QRegExp("/+"), "/");
+    decodedMask.replace(QRegExp("^/"), "");
+    decodedMask.replace(QRegExp("[/\\.]*$"), "");
+
     return decodedMask;
 }
 

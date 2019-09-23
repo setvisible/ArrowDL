@@ -17,16 +17,17 @@
 #include "globals.h"
 #include "mainwindow.h"
 
+#include <QtSingleApplication>
+
 #include <QtCore/QCommandLineParser>
 #include <QtCore/QMetaType>
 #include <QtCore/QUrl>
-#include <QtWidgets/QApplication>
 
 Q_DECLARE_METATYPE(QList<int>)
 
 int main(int argc, char *argv[])
 {
-    QApplication application(argc, argv);
+    QtSingleApplication application(argc, argv);
 
     QCoreApplication::setApplicationName(STR_APPLICATION_NAME);
     QCoreApplication::setOrganizationName(STR_APPLICATION_ORGANIZATION);
@@ -42,15 +43,31 @@ int main(int argc, char *argv[])
 
     parser.process(application);
 
+    const QStringList positionalArguments = parser.positionalArguments();
+    const QString arg = !positionalArguments.isEmpty() ? positionalArguments.first() : QString();
+
+    if (application.isRunning()) {
+        qInfo("Another instance is running...");
+        /*
+         * Rem: Even if 'arg' is empty, the message is still sent to activates the window.
+         */
+        bool ok = application.sendMessage(arg, 2000);
+        if (!ok) {
+            qCritical("Message sending failed; the application may be frozen.");
+        }
+        return EXIT_SUCCESS;
+    }
+
     MainWindow window;
     window.show();
 
-    const QStringList positionalArguments = parser.positionalArguments();
-    if (!positionalArguments.isEmpty()) {
-        QUrl url(positionalArguments.first());
-        window.openWizard(url);
+    if (!arg.isEmpty()) {
+        window.openWizard(QUrl(arg));
     }
+
+    application.setActivationWindow(&window);
+    QObject::connect(&application, SIGNAL(messageReceived(const QString&)),
+                     &window, SLOT(handleMessage(const QString&)));
 
     return application.exec();
 }
-
