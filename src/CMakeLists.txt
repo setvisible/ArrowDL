@@ -5,11 +5,7 @@ set(MY_SOURCES ${MY_SOURCES}
 
 # Rem: set here the headers related to the Qt MOC (i.e., with associated *.ui)
 set(MY_HEADERS ${MY_HEADERS}
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/about.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/builddefs.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/globals.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/mainwindow.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/version.h
     )
 
 set(MY_FORMS ${MY_FORMS}

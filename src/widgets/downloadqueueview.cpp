@@ -29,6 +29,8 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QStyledItemDelegate>
 
+#include <QtCore/QDebug>
+
 #define C_COL_0_FILE_NAME          0
 #define C_COL_1_WEBSITE_DOMAIN     1
 #define C_COL_2_PROGRESS_BAR       2

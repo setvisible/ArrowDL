@@ -15,15 +15,8 @@ set(MY_SOURCES ${MY_SOURCES}
 # Rem: set here the headers related to the Qt MOC (i.e., with associated *.ui)
 set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloaditem.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloaditem_p.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadmanager.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/htmlparser.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/mask.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/mimedatabase.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/model.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/regex.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/resourceitem.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/resourcemodel.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/session.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/settings.h
     )

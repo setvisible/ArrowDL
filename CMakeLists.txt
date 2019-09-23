@@ -64,6 +64,19 @@ option(ENABLE_TESTS   "Set to ON to build test applications (default)" ON)
 ##############################################################################
 # definitions
 ##############################################################################
+# Some build settings that depend on whether we want a release or a
+# debug version
+if(RELEASE_MODE)
+    # Make sure that debugging is disabled in Qt
+    add_definitions(-DQT_NO_DEBUG)
+else()
+    # Make sure that debugging is enabled in Qt
+    add_definitions(-DQT_DEBUG)
+endif()
+
+# Ask for Qt deprecated uses to be reported
+add_definitions(-DQT_DEPRECATED_WARNINGS)
+
 # Make sure that Unicode is defined
 # Note: at least needed for QtSingleApplication on Windows...
 add_definitions(-DUNICODE)
