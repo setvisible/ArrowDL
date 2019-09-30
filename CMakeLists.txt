@@ -230,7 +230,7 @@ endif(ENABLE_TESTS)
 ##############################################################################
 set(MY_RELEASE_DOCS
     ./LICENSE
-    ./TROUBLESHOOTING
+    ./TROUBLESHOOTING.md
     )
 install (
     FILES ${MY_RELEASE_DOCS}

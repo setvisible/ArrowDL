@@ -67,6 +67,11 @@ After approval, *DownZemAll!* collects the resources at the page address.
 todo
 
 
+## ![logo](/src/icons/logo/dza_32x32.png) Troubleshooting
+
+[Troubleshooting page](TROUBLESHOOTING.md "TROUBLESHOOTING.md")
+
+
 ## ![logo](/src/icons/logo/dza_32x32.png) Credits and Resources
 
 Thanks to Andy Portmen for the `native-client` plugin.
