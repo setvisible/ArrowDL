@@ -1,4 +1,5 @@
 HEADERS += \
+    $$PWD/combobox.h \
     $$PWD/downloadqueueview.h \
     $$PWD/filterwidget.h \
     $$PWD/linkwidget.h \
@@ -6,6 +7,7 @@ HEADERS += \
     $$PWD/pathwidget.h
 
 SOURCES += \
+    $$PWD/combobox.cpp \
     $$PWD/downloadqueueview.cpp \
     $$PWD/filterwidget.cpp \
     $$PWD/linkwidget.cpp \

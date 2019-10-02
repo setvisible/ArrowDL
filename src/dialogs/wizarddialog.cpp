@@ -186,7 +186,8 @@ void WizardDialog::readSettings()
     settings.beginGroup("Wizard");
     resize(settings.value("DialogSize", QSize(800, 600)).toSize());
     ui->filterWidget->setState(settings.value("FilterState", 0).toUInt());
-    ui->filterWidget->setText(settings.value("FilterText", QString()).toString());
+    ui->filterWidget->setCurrentFilter(settings.value("Filter", QString()).toString());
+    ui->filterWidget->setFilterHistory(settings.value("FilterHistory", QString()).toStringList());
     ui->linkWidget->setColumnWidths(settings.value("ColumnWidths").value<QList<int> >());
     ui->pathWidget->setCurrentPath(settings.value("Path", QString()).toString());
     ui->pathWidget->setPathHistory(settings.value("PathHistory").toStringList());
@@ -200,7 +201,8 @@ void WizardDialog::writeSettings()
     settings.beginGroup("Wizard");
     settings.setValue("DialogSize", size());
     settings.setValue("FilterState", ui->filterWidget->state());
-    settings.setValue("FilterText", ui->filterWidget->text());
+    settings.setValue("Filter", ui->filterWidget->currentFilter());
+    settings.setValue("FilterHistory", ui->filterWidget->filterHistory());
     settings.setValue("ColumnWidths", QVariant::fromValue(ui->linkWidget->columnWidths()));
     settings.setValue("Path", ui->pathWidget->currentPath());
     settings.setValue("PathHistory", ui->pathWidget->pathHistory());

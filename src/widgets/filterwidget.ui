@@ -108,7 +108,7 @@ QGroupBox {
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
       <item>
-       <widget class="QComboBox" name="fastFilteringComboBox">
+       <widget class="ComboBox" name="fastFilteringComboBox">
         <property name="editable">
          <bool>true</bool>
         </property>
@@ -144,7 +144,16 @@ QGroupBox {
    </item>
   </layout>
  </widget>
- <resources/>
+ <customwidgets>
+  <customwidget>
+   <class>ComboBox</class>
+   <extends>QComboBox</extends>
+   <header>Widgets/ComboBox</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>fastFilteringOnlyCheckBox</sender>

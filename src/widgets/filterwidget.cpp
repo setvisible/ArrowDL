@@ -48,6 +48,9 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
 {
     ui->setupUi(this);
 
+    auto colorizePtr = [=](QString t) { QRegExp regex(t); return !regex.isValid(); };
+    ui->fastFilteringComboBox->setColorizeErrorWhen( colorizePtr );
+
     clearFilters();
 
     connect(ui->fastFilteringOnlyCheckBox, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));
@@ -94,16 +97,28 @@ inline QList<QCheckBox*> FilterWidget::allCheckBoxes() const
 
 /******************************************************************************
  ******************************************************************************/
-QString FilterWidget::text() const
+QString FilterWidget::currentFilter() const
 {
     return ui->fastFilteringComboBox->currentText();
 }
 
-void FilterWidget::setText(const QString &text)
+void FilterWidget::setCurrentFilter(const QString &text)
 {
     if (ui->fastFilteringComboBox->currentText() != text) {
         ui->fastFilteringComboBox->setCurrentText(text);
     }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QStringList FilterWidget::filterHistory() const
+{
+    return ui->fastFilteringComboBox->history();
+}
+
+void FilterWidget::setFilterHistory(const QStringList &filters)
+{
+    ui->fastFilteringComboBox->setHistory(filters);
 }
 
 /******************************************************************************
@@ -152,17 +167,11 @@ void FilterWidget::addFilter(const QString &title, const QString &regexp)
  ******************************************************************************/
 QRegExp FilterWidget::regex() const
 {
-    ui->fastFilteringComboBox->setStyleSheet(QString());
     QString filter;
 
     const QString text = ui->fastFilteringComboBox->currentText();
     if (!text.isEmpty()) {
         filter += "(" + text + ")";
-
-        QRegExp regexTest(filter);
-        if (!regexTest.isValid()) {
-            ui->fastFilteringComboBox->setStyleSheet(QLatin1String("color: rgb(255, 0, 0);"));
-        }
     }
 
     if (!ui->fastFilteringOnlyCheckBox->isChecked()) {
