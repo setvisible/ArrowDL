@@ -129,6 +129,7 @@ void PreferenceDialog::restoreDefaultSettings()
 
 void PreferenceDialog::read()
 {
+    ui->startMinimizedCheckBox->setChecked(m_settings->isStartMinimizedEnabled());
     ui->confirmRemovalCheckBox->setChecked(m_settings->isConfirmRemovalEnabled());
     ui->browseDatabaseFile->setCurrentPath(m_settings->database());
     setFilters(m_settings->filters());
@@ -136,6 +137,7 @@ void PreferenceDialog::read()
 
 void PreferenceDialog::write()
 {
+    m_settings->setStartMinimizedEnabled(ui->startMinimizedCheckBox->isChecked());
     m_settings->setConfirmRemovalEnabled(ui->confirmRemovalCheckBox->isChecked());
     m_settings->setDatabase(ui->browseDatabaseFile->currentPath());
     m_settings->setFilters(filters());

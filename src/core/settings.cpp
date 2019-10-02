@@ -26,6 +26,7 @@ static const QString REGISTRY_CONFIRM_REMOVAL = "ConfirmRemoval";
 static const QString REGISTRY_DATABASE = "Database";
 static const QString REGISTRY_FILTER_KEY = "FilterKey";
 static const QString REGISTRY_FILTER_VALUE = "FilterValue";
+static const QString REGISTRY_START_MINIMIZED = "StartMinimized";
 
 Settings::Settings(QObject *parent) : AbstractSettings(parent)
 {
@@ -57,6 +58,8 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
                 << "^.*\\.png$"
                 << "^.*\\.(?:mpeg|ra?m|avi|mp(?:g|e|4)|mov|divx|asf|qt|wmv|m\\dv|rv|vob|asx|ogm|ogv|webm|flv|mkv)$"
                 );
+
+    addDefaultSetting(REGISTRY_START_MINIMIZED, false);
 }
 
 Settings::~Settings()
@@ -116,4 +119,16 @@ bool Settings::isConfirmRemovalEnabled() const
 void Settings::setConfirmRemovalEnabled(bool enabled)
 {
     setSetting(REGISTRY_CONFIRM_REMOVAL, enabled);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+bool Settings::isStartMinimizedEnabled() const
+{
+    return getSettingBool(REGISTRY_START_MINIMIZED);
+}
+
+void Settings::setStartMinimizedEnabled(bool enabled)
+{
+    setSetting(REGISTRY_START_MINIMIZED, enabled);
 }

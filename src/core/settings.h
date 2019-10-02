@@ -45,6 +45,8 @@ public:
     bool isConfirmRemovalEnabled() const;
     void setConfirmRemovalEnabled(bool enabled);
 
+    bool isStartMinimizedEnabled() const;
+    void setStartMinimizedEnabled(bool enabled);
 
 };
 
