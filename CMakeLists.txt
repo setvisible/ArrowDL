@@ -262,6 +262,13 @@ if (MSVC OR MSYS OR MINGW) # for detecting Windows compilers
         DESTINATION ${CMAKE_INSTALL_PREFIX}/platforms
     )
 
+    ## OpenSSL
+    install(FILES
+        ./3rd/openssl/v1.0.2/windows_x86_32bits/libeay32.dll
+        ./3rd/openssl/v1.0.2/windows_x86_32bits/ssleay32.dll
+        DESTINATION ${CMAKE_INSTALL_PREFIX}
+    )
+
 endif(MSVC OR MSYS OR MINGW)
 
 
