@@ -14,33 +14,43 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef WIDGETS_MASK_WIDGET_H
-#define WIDGETS_MASK_WIDGET_H
+#ifndef WIDGETS_COMBOBOX_H
+#define WIDGETS_COMBOBOX_H
 
-#include <QtWidgets/QWidget>
+#include <QtWidgets/QComboBox>
 
-namespace Ui {
-class MaskWidget;
-}
+typedef bool (*ColorizePtr)(QString);   /* function pointer */
 
-class MaskWidget : public QWidget
+class ComboBox : public QComboBox
 {
     Q_OBJECT
+
 public:
-    explicit MaskWidget(QWidget *parent);
-    ~MaskWidget();
+    explicit ComboBox(QWidget *parent = Q_NULLPTR);
+    ~ComboBox();
 
-    QString currentMask() const;
-    void setCurrentMask(const QString &currentMask);
+    QStringList history() const;
+    void setHistory(const QStringList &paths);
 
-signals:
-    void currentMaskChanged(QString mask);
+    void removePathfromHistory(const QString &path);
+
+    QString currentText() const;
+
+    void setColorizeErrorWhen(ColorizePtr functor);
+
+public slots:
+    void setStyleSheet(const QString& styleSheet);
+    void setCurrentText(const QString &text);
+    void clearHistory();
 
 private slots:
     void onCurrentTextChanged(const QString &text);
+    void showContextMenu(const QPoint &pos);
 
 private:
-    Ui::MaskWidget *ui;
+    ColorizePtr m_colorizePtr;
+
+    inline void colorizeErrors(const QString &text);
 };
 
-#endif // WIDGETS_MASK_WIDGET_H
+#endif // WIDGETS_COMBOBOX_H
