@@ -9,6 +9,9 @@ SOURCES     += tst_downloadmanager.cpp
 INCLUDEPATH += ../../../include
 
 # Resources:
+HEADERS     += $$PWD/../../../src/core/abstractsettings.h
+SOURCES     += $$PWD/../../../src/core/abstractsettings.cpp
+
 HEADERS     += $$PWD/../../../src/core/downloadmanager.h
 SOURCES     += $$PWD/../../../src/core/downloadmanager.cpp
 

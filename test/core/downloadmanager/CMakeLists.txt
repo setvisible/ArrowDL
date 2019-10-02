@@ -2,6 +2,7 @@
 set(MY_TEST_TARGET tst_downloadmanager)
 
 set(MY_TEST_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/abstractsettings.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloaditem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadmanager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/resourceitem.cpp

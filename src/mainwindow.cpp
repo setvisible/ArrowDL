@@ -63,7 +63,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , m_downloadManager(new DownloadManager(this))
   , m_settings(new Settings(this))
   , m_statusBarLabel(new QLabel(this))
-  , m_showMessageBox(true)
 {
     ui->setupUi(this);
 
@@ -433,7 +432,7 @@ void MainWindow::openDirectory()
 
 bool MainWindow::askConfirmation(const QString &text)
 {
-    if (m_showMessageBox) {
+    if (m_settings->isConfirmRemovalEnabled()) {
         QCheckBox *cb = new QCheckBox("Don't ask again");
         QMessageBox msgbox(this);
         msgbox.setWindowTitle(tr("Remove Downloads"));
@@ -446,7 +445,7 @@ bool MainWindow::askConfirmation(const QString &text)
 
         QObject::connect(cb, &QCheckBox::stateChanged, [this](int state){
             if (static_cast<Qt::CheckState>(state) == Qt::CheckState::Checked) {
-                m_showMessageBox = false;
+                m_settings->setConfirmRemovalEnabled(false);
             }
         });
         int response = msgbox.exec();

@@ -122,7 +122,6 @@ private:
     void refreshTitleAndStatus();
     void refreshMenus();
 
-    bool m_showMessageBox;
     inline bool askConfirmation(const QString &text);
 
     inline QUrl urlFromClipboard() const;
