@@ -561,10 +561,13 @@
      <normaloff>:/icons/menu/wizard_add_16x16.png</normaloff>:/icons/menu/wizard_add_16x16.png</iconset>
    </property>
    <property name="text">
-    <string>Import Wizard...</string>
+    <string>Import Wizard... </string>
+   </property>
+   <property name="toolTip">
+    <string>Import Wizard  (Ctrl+X)</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+O</string>
+    <string>Ctrl+X</string>
    </property>
   </action>
   <action name="actionRemoveAll1">

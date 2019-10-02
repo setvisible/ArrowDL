@@ -26,6 +26,8 @@
 #  include <QtCore/QDebug>
 #endif
 
+#define C_COLUMN_WIDTH  200
+
 PreferenceDialog::PreferenceDialog(Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::PreferenceDialog)
@@ -82,7 +84,7 @@ void PreferenceDialog::initializeGui()
     ui->filterTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->filterTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->filterTableWidget->setHorizontalHeaderLabels(QStringList() << tr("Caption") << tr("Extensions"));
-    ui->filterTableWidget->setColumnWidth(0, ui->filterTableWidget->width() * 0.25);
+    ui->filterTableWidget->setColumnWidth(0, C_COLUMN_WIDTH);
 
     connect(ui->filterTableWidget, SIGNAL(itemSelectionChanged()), this, SLOT(filterSelectionChanged()));
     connect(ui->filterCaptionLineEdit, SIGNAL(editingFinished()), this, SLOT(filterTextChanged()));
@@ -120,6 +122,9 @@ void PreferenceDialog::filterTextChanged()
 
 /******************************************************************************
  ******************************************************************************/
+/**
+ * Application Settings
+ */
 void PreferenceDialog::restoreDefaultSettings()
 {
     m_settings->beginRestoreDefault();
@@ -129,18 +134,44 @@ void PreferenceDialog::restoreDefaultSettings()
 
 void PreferenceDialog::read()
 {
+    // Tab General
+
+    // Tab Interface
     ui->startMinimizedCheckBox->setChecked(m_settings->isStartMinimizedEnabled());
     ui->confirmRemovalCheckBox->setChecked(m_settings->isConfirmRemovalEnabled());
+
+    // Tab Network
+
+    // Tab Privacy
     ui->browseDatabaseFile->setCurrentPath(m_settings->database());
+
+    // Tab Filters
     setFilters(m_settings->filters());
+
+    // Tab Schedule
+
+    // Tab Advanced
 }
 
 void PreferenceDialog::write()
 {
+    // Tab General
+
+    // Tab Interface
     m_settings->setStartMinimizedEnabled(ui->startMinimizedCheckBox->isChecked());
     m_settings->setConfirmRemovalEnabled(ui->confirmRemovalCheckBox->isChecked());
+
+    // Tab Network
+
+    // Tab Privacy
     m_settings->setDatabase(ui->browseDatabaseFile->currentPath());
+
+    // Tab Filters
     m_settings->setFilters(filters());
+
+    // Tab Schedule
+
+    // Tab Advanced
 }
 
 
@@ -181,6 +212,9 @@ QList<Filter> PreferenceDialog::filters() const
 
 /******************************************************************************
  ******************************************************************************/
+/**
+ * Preference Dialog Settings
+ */
 void PreferenceDialog::readSettings()
 {
     QSettings settings;
