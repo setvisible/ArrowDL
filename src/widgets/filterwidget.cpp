@@ -97,16 +97,28 @@ inline QList<QCheckBox*> FilterWidget::allCheckBoxes() const
 
 /******************************************************************************
  ******************************************************************************/
-QString FilterWidget::text() const
+QString FilterWidget::currentFilter() const
 {
     return ui->fastFilteringComboBox->currentText();
 }
 
-void FilterWidget::setText(const QString &text)
+void FilterWidget::setCurrentFilter(const QString &text)
 {
     if (ui->fastFilteringComboBox->currentText() != text) {
         ui->fastFilteringComboBox->setCurrentText(text);
     }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QStringList FilterWidget::filterHistory() const
+{
+    return ui->fastFilteringComboBox->history();
+}
+
+void FilterWidget::setFilterHistory(const QStringList &filters)
+{
+    ui->fastFilteringComboBox->setHistory(filters);
 }
 
 /******************************************************************************

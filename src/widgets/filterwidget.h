@@ -40,9 +40,11 @@ public:
     uint state() const;
     void setState(uint code);
 
-    /* Custom filter */
-    QString text() const;
-    void setText(const QString &text);
+    QString currentFilter() const;
+    void setCurrentFilter(const QString &currentFilter);
+
+    QStringList filterHistory() const;
+    void setFilterHistory(const QStringList &filters);
 
 signals:
     void regexChanged(QRegExp regex);
