@@ -129,12 +129,14 @@ void PreferenceDialog::restoreDefaultSettings()
 
 void PreferenceDialog::read()
 {
+    ui->confirmRemovalCheckBox->setChecked(m_settings->isConfirmRemovalEnabled());
     ui->browseDatabaseFile->setCurrentPath(m_settings->database());
     setFilters(m_settings->filters());
 }
 
 void PreferenceDialog::write()
 {
+    m_settings->setConfirmRemovalEnabled(ui->confirmRemovalCheckBox->isChecked());
     m_settings->setDatabase(ui->browseDatabaseFile->currentPath());
     m_settings->setFilters(filters());
 }

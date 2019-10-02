@@ -42,6 +42,8 @@ public:
     QList<Filter> filters() const;
     void setFilters(const QList<Filter> &filters);
 
+    bool isConfirmRemovalEnabled() const;
+    void setConfirmRemovalEnabled(bool enabled);
 
 
 };

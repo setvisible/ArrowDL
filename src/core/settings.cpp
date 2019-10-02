@@ -22,12 +22,14 @@
 /*!
  * Registry Keys. They must be unique
  */
+static const QString REGISTRY_CONFIRM_REMOVAL = "ConfirmRemoval";
 static const QString REGISTRY_DATABASE = "Database";
 static const QString REGISTRY_FILTER_KEY = "FilterKey";
 static const QString REGISTRY_FILTER_VALUE = "FilterValue";
 
 Settings::Settings(QObject *parent) : AbstractSettings(parent)
 {
+    addDefaultSetting(REGISTRY_CONFIRM_REMOVAL, true);
     addDefaultSetting(REGISTRY_DATABASE, QString("%0/queue.json").arg(qApp->applicationDirPath()));
 
     addDefaultListSetting(
@@ -102,4 +104,16 @@ void Settings::setFilters(const QList<Filter> &filters)
     }
     setListSetting(REGISTRY_FILTER_KEY, keys);
     setListSetting(REGISTRY_FILTER_VALUE, values);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+bool Settings::isConfirmRemovalEnabled() const
+{
+    return getSettingBool(REGISTRY_CONFIRM_REMOVAL);
+}
+
+void Settings::setConfirmRemovalEnabled(bool enabled)
+{
+    setSetting(REGISTRY_CONFIRM_REMOVAL, enabled);
 }
