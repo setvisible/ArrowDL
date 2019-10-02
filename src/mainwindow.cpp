@@ -765,7 +765,11 @@ void MainWindow::readSettings()
         QPoint position = settings.value("Position", defaultPosition).toPoint();
         QSize size = settings.value("Size", defaultSize).toSize();
 
-        const QRect availableGeometry = QApplication::desktop()->availableGeometry();
+        QRect availableGeometry(0, 0, 0, 0);
+        for (int screen = 0; screen < QApplication::desktop()->screenCount(); ++screen) {
+            availableGeometry = availableGeometry.united(QApplication::desktop()->availableGeometry(screen));
+        }
+
         if (!availableGeometry.intersects(QRect(position, size))) {
             position = defaultPosition;
             size = defaultSize;
