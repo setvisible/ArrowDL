@@ -1,4 +1,5 @@
 HEADERS += \
+    $$PWD/abstractsettings.h \
     $$PWD/downloaditem.h \
     $$PWD/downloaditem_p.h \
     $$PWD/downloadmanager.h \
@@ -13,6 +14,7 @@ HEADERS += \
     $$PWD/settings.h
 
 SOURCES += \
+    $$PWD/abstractsettings.cpp \
     $$PWD/downloaditem.cpp \
     $$PWD/downloadmanager.cpp \
     $$PWD/htmlparser.cpp \
