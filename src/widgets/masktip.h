@@ -14,35 +14,34 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef WIDGETS_MASK_WIDGET_H
-#define WIDGETS_MASK_WIDGET_H
+#ifndef WIDGETS_MASK_TIP_H
+#define WIDGETS_MASK_TIP_H
 
-#include <QtWidgets/QWidget>
+#include <QtWidgets/QFrame>
+
 
 namespace Ui {
-class MaskWidget;
+class MaskTip;
 }
 
-class MaskWidget : public QWidget
+class MaskTip : public QFrame
 {
     Q_OBJECT
-public:
-    explicit MaskWidget(QWidget *parent);
-    ~MaskWidget();
 
-    QString currentMask() const;
-    void setCurrentMask(const QString &currentMask);
+public:
+    explicit MaskTip(QWidget *parent);
+    ~MaskTip();
+
+    void add(const QString &text, const QString &link);
 
 signals:
-    void currentMaskChanged(QString mask);
+    void linkActivated(const QString& link);
 
 private slots:
-    void onCurrentTextChanged(const QString &text);
-    void onTipButtonReleased();
-    void onTipButtonLinkActivated(const QString& link);
+    void onLinkActivated(const QString& link);
 
 private:
-    Ui::MaskWidget *ui;
+    Ui::MaskTip *ui;
 };
 
-#endif // WIDGETS_MASK_WIDGET_H
+#endif // WIDGETS_MASK_TIP_H

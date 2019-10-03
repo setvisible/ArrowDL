@@ -14,35 +14,22 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef WIDGETS_MASK_WIDGET_H
-#define WIDGETS_MASK_WIDGET_H
+#ifndef WIDGETS_AUTO_CLOSE_DIALOG_H
+#define WIDGETS_AUTO_CLOSE_DIALOG_H
 
-#include <QtWidgets/QWidget>
+#include <QtWidgets/QDialog>
 
-namespace Ui {
-class MaskWidget;
-}
+class QFrame;
 
-class MaskWidget : public QWidget
+class AutoCloseDialog : public QDialog
 {
     Q_OBJECT
+
 public:
-    explicit MaskWidget(QWidget *parent);
-    ~MaskWidget();
+    explicit AutoCloseDialog(QFrame *content, QWidget *parent = Q_NULLPTR);
 
-    QString currentMask() const;
-    void setCurrentMask(const QString &currentMask);
-
-signals:
-    void currentMaskChanged(QString mask);
-
-private slots:
-    void onCurrentTextChanged(const QString &text);
-    void onTipButtonReleased();
-    void onTipButtonLinkActivated(const QString& link);
-
-private:
-    Ui::MaskWidget *ui;
+protected:
+    virtual void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
 };
 
-#endif // WIDGETS_MASK_WIDGET_H
+#endif // WIDGETS_AUTO_CLOSE_DIALOG_H

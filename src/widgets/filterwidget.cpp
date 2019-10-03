@@ -17,11 +17,14 @@
 #include "filterwidget.h"
 #include "ui_filterwidget.h"
 
+#include <Widgets/AutoCloseDialog>
+#include <Widgets/FilterTip>
+
 #include <QtCore/QtMath>
 #include <QtWidgets/QCheckBox>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
+#include <QtWidgets/QMessageBox>
+#include <QtCore/QDebug>
+
 
 static uint encode(const QList<QCheckBox*> checkboxes)
 {
@@ -56,6 +59,10 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
     connect(ui->fastFilteringOnlyCheckBox, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));
     connect(ui->fastFilteringComboBox, SIGNAL(currentTextChanged(QString)),
             this, SLOT(onFilterChanged(QString)));
+
+    connect(ui->fastFilteringTipToolButton, SIGNAL(released()),
+            this, SLOT(onFilterTipToolReleased()));
+
 }
 
 FilterWidget::~FilterWidget()
@@ -131,6 +138,24 @@ void FilterWidget::onFilterChanged(int)
 void FilterWidget::onFilterChanged(const QString &)
 {
     emit regexChanged(regex());
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void FilterWidget::onFilterTipToolReleased()
+{
+    FilterTip *tip = new FilterTip(this);
+
+    connect(tip, SIGNAL(linkActivated(QString)),
+            this, SLOT(onFilterTipToolLinkActivated(QString)));
+
+    AutoCloseDialog dialog(tip, ui->fastFilteringTipToolButton);
+    dialog.exec();
+}
+
+void FilterWidget::onFilterTipToolLinkActivated(const QString& link)
+{
+    ui->fastFilteringComboBox->setCurrentText(link);
 }
 
 /******************************************************************************
