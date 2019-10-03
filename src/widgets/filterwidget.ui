@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>550</width>
-    <height>155</height>
+    <height>157</height>
    </rect>
   </property>
   <property name="styleSheet">
@@ -106,7 +106,7 @@ QGroupBox {
      <property name="title">
       <string>Fast Filtering</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0,0">
       <item>
        <widget class="ComboBox" name="fastFilteringComboBox">
         <property name="editable">
@@ -130,6 +130,20 @@ QGroupBox {
           <string>^.*\.(js)$</string>
          </property>
         </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="fastFilteringTipToolButton">
+        <property name="toolTip">
+         <string>Fast Filtering Tips...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources.qrc">
+          <normaloff>:/icons/menu/button_help_16x16.png</normaloff>:/icons/menu/button_help_16x16.png</iconset>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item>

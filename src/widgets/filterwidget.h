@@ -52,6 +52,8 @@ signals:
 private slots:
     void onFilterChanged(int);
     void onFilterChanged(const QString &);
+    void onFilterTipToolReleased();
+    void onFilterTipToolLinkActivated(const QString& link);
 
 private:
     Ui::FilterWidget *ui;

@@ -2,6 +2,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/autoclosedialog.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/combobox.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/downloadqueueview.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/filtertip.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/filterwidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/linkwidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/masktip.cpp
@@ -14,6 +15,7 @@ set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/autoclosedialog.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/combobox.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/downloadqueueview.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/filtertip.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/filterwidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/linkwidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/masktip.h
@@ -22,6 +24,7 @@ set(MY_HEADERS ${MY_HEADERS}
     )
 
 set(MY_FORMS ${MY_FORMS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/filtertip.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/filterwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/linkwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/masktip.ui
