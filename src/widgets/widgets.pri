@@ -1,4 +1,5 @@
 HEADERS += \
+    $$PWD/autoclosedialog.h \
     $$PWD/combobox.h \
     $$PWD/downloadqueueview.h \
     $$PWD/filterwidget.h \
@@ -7,6 +8,7 @@ HEADERS += \
     $$PWD/pathwidget.h
 
 SOURCES += \
+    $$PWD/autoclosedialog.cpp \
     $$PWD/combobox.cpp \
     $$PWD/downloadqueueview.cpp \
     $$PWD/filterwidget.cpp \
