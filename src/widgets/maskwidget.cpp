@@ -17,6 +17,8 @@
 #include "maskwidget.h"
 #include "ui_maskwidget.h"
 
+#include <Widgets/AutoCloseDialog>
+#include <Widgets/MaskTip>
 
 MaskWidget::MaskWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::MaskWidget)
@@ -26,6 +28,7 @@ MaskWidget::MaskWidget(QWidget *parent) : QWidget(parent)
     ui->comboBox->setColorizeErrorWhen( [=](QString t) { return t.isEmpty(); } );
 
     connect(ui->comboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
+    connect(ui->tipButton, SIGNAL(released()), this, SLOT(onTipButtonReleased()));
 }
 
 MaskWidget::~MaskWidget()
@@ -54,4 +57,24 @@ void MaskWidget::setCurrentMask(const QString &text)
 void MaskWidget::onCurrentTextChanged(const QString &text)
 {
     emit currentMaskChanged(text);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void MaskWidget::onTipButtonReleased()
+{
+    MaskTip *tip = new MaskTip(this);
+
+    connect(tip, SIGNAL(linkActivated(QString)),
+            this, SLOT(onTipButtonLinkActivated(QString)));
+
+    AutoCloseDialog dialog(tip, ui->tipButton);
+    dialog.exec();
+}
+
+void MaskWidget::onTipButtonLinkActivated(const QString& link)
+{
+    QString text = ui->comboBox->currentText();
+    text.append(link);
+    ui->comboBox->setCurrentText(text);
 }

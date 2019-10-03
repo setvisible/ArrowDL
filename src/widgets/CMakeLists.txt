@@ -4,6 +4,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/downloadqueueview.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/filterwidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/linkwidget.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/masktip.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/maskwidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/pathwidget.cpp
     )
@@ -15,6 +16,7 @@ set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/downloadqueueview.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/filterwidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/linkwidget.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/masktip.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/maskwidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/pathwidget.h
     )
@@ -22,6 +24,7 @@ set(MY_HEADERS ${MY_HEADERS}
 set(MY_FORMS ${MY_FORMS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/filterwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/linkwidget.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/masktip.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/maskwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/pathwidget.ui
     )
