@@ -62,27 +62,35 @@ QStringList ComboBox::history() const
     return history;
 }
 
-void ComboBox::setHistory(const QStringList &paths)
+void ComboBox::setHistory(const QStringList &history)
 {
     const QString text = currentText();
     clear();
-    const int count = qMin(MAX_HISTORY_COUNT, paths.count());
-    for (int i = 0; i < count; ++i) {
-        const QString path = paths.at(i);
-        removePathfromHistory(path);
-        addItem(path);
+    int i = qMin(MAX_HISTORY_COUNT, history.count());
+    while (i > 0) {
+        i--;
+        const QString item = history.at(i);
+        addToHistory(item);
     }
     setCurrentText(text);
 }
 
 /******************************************************************************
  ******************************************************************************/
-void ComboBox::removePathfromHistory(const QString &path)
+void ComboBox::addToHistory(const QString &text)
+{
+    removeFromHistory(text);
+    if (!text.isEmpty()) {
+        insertItem(0, text);
+    }
+}
+
+void ComboBox::removeFromHistory(const QString &text)
 {
     int i = count();
     while (i > 0) {
         i--;
-        if (itemText(i) == path) {
+        if (itemText(i) == text) {
             removeItem(i);
         }
     }
@@ -100,8 +108,7 @@ void ComboBox::setCurrentText(const QString &text)
     if (text.isEmpty() && count() > 0) {
         setCurrentIndex(0);
     } else {
-        removePathfromHistory(text);
-        insertItem(0, text);
+        addToHistory(text);
         QComboBox::setCurrentText(text);
     }
 }
