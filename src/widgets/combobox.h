@@ -30,9 +30,10 @@ public:
     ~ComboBox();
 
     QStringList history() const;
-    void setHistory(const QStringList &paths);
+    void setHistory(const QStringList &history);
 
-    void removePathfromHistory(const QString &path);
+    void addToHistory(const QString &text);
+    void removeFromHistory(const QString &text);
 
     QString currentText() const;
 
