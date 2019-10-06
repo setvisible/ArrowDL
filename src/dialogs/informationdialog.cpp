@@ -17,12 +17,12 @@
 #include "informationdialog.h"
 #include "ui_informationdialog.h"
 
-#include <Core/DownloadItem>
+#include <Core/IDownloadItem>
 #include <Core/MimeDatabase>
 
 #include <QtCore/QDir>
 
-InformationDialog::InformationDialog(const QList<DownloadItem*> &jobs, QWidget *parent) : QDialog(parent)
+InformationDialog::InformationDialog(const QList<IDownloadItem*> &jobs, QWidget *parent) : QDialog(parent)
   , ui(new Ui::InformationDialog)
 {
     ui->setupUi(this);
@@ -39,12 +39,12 @@ void InformationDialog::accept()
     QDialog::accept();
 }
 
-void InformationDialog::init(const QList<DownloadItem *> &selection)
+void InformationDialog::init(const QList<IDownloadItem *> &selection)
 {
     if (selection.isEmpty()) {
         return;
     }
-    const DownloadItem *item = selection.first();
+    const IDownloadItem *item = selection.first();
 
     const QUrl localFileUrl = item->localFileUrl();
     const QString filename = QDir::toNativeSeparators(localFileUrl.toLocalFile());

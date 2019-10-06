@@ -20,7 +20,7 @@
 #include <QtCore/QFileInfo>
 #include <QtWidgets/QMainWindow>
 
-class DownloadItem;
+class IDownloadItem;
 class DownloadManager;
 class Settings;
 
@@ -67,7 +67,7 @@ public slots:
     // View
     void showInformation();
     void openFile();
-    void openFile(DownloadItem *downloadItem);
+    void openFile(IDownloadItem *downloadItem);
     void renameFile();
     void deleteFile();
     void openDirectory();
@@ -100,8 +100,8 @@ public slots:
     void about();
 
 private slots:
-    void onJobAddedOrRemoved(DownloadItem *downloadItem);
-    void onJobStateChanged(DownloadItem *downloadItem);
+    void onJobAddedOrRemoved(IDownloadItem *downloadItem);
+    void onJobStateChanged(IDownloadItem *downloadItem);
     void onSelectionChanged();
 
 private:
