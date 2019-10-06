@@ -18,7 +18,6 @@
 #include "ui_informationdialog.h"
 
 #include <Core/DownloadItem>
-#include <Core/ResourceItem>
 #include <Core/MimeDatabase>
 
 #include <QtCore/QDir>
@@ -40,27 +39,26 @@ void InformationDialog::accept()
     QDialog::accept();
 }
 
-void InformationDialog::init(const QList<DownloadItem*> &selection)
+void InformationDialog::init(const QList<DownloadItem *> &selection)
 {
     if (selection.isEmpty()) {
         return;
     }
-    DownloadItem *item = selection.first();
+    const DownloadItem *item = selection.first();
 
-    QUrl url = item->localFileUrl();
-    QString filename = QDir::toNativeSeparators(url.toLocalFile());
+    const QUrl localFileUrl = item->localFileUrl();
+    const QString filename = QDir::toNativeSeparators(localFileUrl.toLocalFile());
 
     ui->filenameLabel->setText(filename);
     ui->urlLabel->setText(item->sourceUrl().toString());
 
-    QString bytes = item->bytesTotal() > 0
+    const QString bytes = item->bytesTotal() > 0
             ? tr("%0 bytes").arg(item->bytesTotal())
             : tr("Unknown");
     ui->sizeLabel->setText(bytes);
 
-    if (item->resource()) {
-        const QString url = item->resource()->url();
-        const QPixmap pixmap = MimeDatabase::fileIcon(url, 256);
-        ui->fileIcon->setPixmap(pixmap);
-    }
+    const QString url = item->sourceUrl().toString();
+    const QPixmap pixmap = MimeDatabase::fileIcon(url, 256);
+    ui->fileIcon->setPixmap(pixmap);
+
 }

@@ -1,10 +1,12 @@
 HEADERS += \
+    $$PWD/abstractdownloaditem.h \
     $$PWD/abstractsettings.h \
     $$PWD/downloaditem.h \
     $$PWD/downloaditem_p.h \
     $$PWD/downloadmanager.h \
     $$PWD/format.h \
     $$PWD/htmlparser.h \
+    $$PWD/idownloaditem.h \
     $$PWD/mask.h \
     $$PWD/mimedatabase.h \
     $$PWD/model.h \
@@ -15,6 +17,7 @@ HEADERS += \
     $$PWD/settings.h
 
 SOURCES += \
+    $$PWD/abstractdownloaditem.cpp \
     $$PWD/abstractsettings.cpp \
     $$PWD/downloaditem.cpp \
     $$PWD/downloadmanager.cpp \

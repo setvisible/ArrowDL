@@ -231,7 +231,7 @@ void QueueItem::updateItem()
         /*
          * See QNetworkReply::NetworkError Documentation for conversion
          */
-        int httpErrorNumber = (int) m_downloadItem->error();
+        int httpErrorNumber = m_downloadItem->httpErrorNumber();
         if (httpErrorNumber == 201) httpErrorNumber = 401;
         if (httpErrorNumber == 203) httpErrorNumber = 404;
         estTime += tr("(%0)").arg(httpErrorNumber);
