@@ -57,7 +57,7 @@ void InformationDialog::init(const QList<IDownloadItem *> &selection)
             : tr("Unknown");
     ui->sizeLabel->setText(bytes);
 
-    const QString url = item->sourceUrl().toString();
+    const QUrl url = item->sourceUrl();
     const QPixmap pixmap = MimeDatabase::fileIcon(url, 256);
     ui->fileIcon->setPixmap(pixmap);
 

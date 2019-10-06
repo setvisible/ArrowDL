@@ -97,7 +97,7 @@ public:
             QStyleOptionViewItem myOption = option;
             initStyleOption(&myOption, index);
 
-            const QString url = myOption.text;
+            const QUrl url(myOption.text);
             const QPixmap pixmap = MimeDatabase::fileIcon(url, 16);
 
             myOption.icon.addPixmap(pixmap);

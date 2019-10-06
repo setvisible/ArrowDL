@@ -124,7 +124,7 @@ void LinkWidgetItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 
     } else {
         if (index.column() == 1) {
-            const QString url = myOption.text;
+            const QUrl url(myOption.text);
             const QPixmap pixmap = MimeDatabase::fileIcon(url, 16);
 
             myOption.icon.addPixmap(pixmap);

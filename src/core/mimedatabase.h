@@ -29,7 +29,7 @@
 class MimeDatabase
 {
 public:
-    static QPixmap fileIcon(const QString &url, int extend = 32);
+    static QPixmap fileIcon(const QUrl &url, int extend = 32);
 
 };
 
