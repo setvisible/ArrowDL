@@ -3,6 +3,7 @@ HEADERS += \
     $$PWD/downloaditem.h \
     $$PWD/downloaditem_p.h \
     $$PWD/downloadmanager.h \
+    $$PWD/format.h \
     $$PWD/htmlparser.h \
     $$PWD/mask.h \
     $$PWD/mimedatabase.h \
@@ -17,6 +18,7 @@ SOURCES += \
     $$PWD/abstractsettings.cpp \
     $$PWD/downloaditem.cpp \
     $$PWD/downloadmanager.cpp \
+    $$PWD/format.cpp \
     $$PWD/htmlparser.cpp \
     $$PWD/mask.cpp \
     $$PWD/mimedatabase.cpp \

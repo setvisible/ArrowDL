@@ -440,51 +440,6 @@ QTime DownloadItem::remainingTime()
     return d->remainingTime;
 }
 
-QString DownloadItem::remaingTimeToString(QTime time)
-{
-    if (time < QTime(0, 0, 1)) {
-        return "--:--";
-    } else if (time < QTime(1, 0)) {
-        return time.toString("mm:ss");
-    } else {
-        return time.toString("hh:mm:ss");
-    }
-}
-
-QString DownloadItem::fileSizeToString(qint64 size)
-{
-    if (size < 0) {
-        return tr("Unknown");
-    }
-    double correctSize = size / 1024.0; // KB
-    if (correctSize < 1000) {
-        return QString::number(correctSize > 1 ? correctSize : 1, 'f', 0) + " KB";
-    }
-    correctSize /= 1024; // MB
-    if (correctSize < 1000) {
-        return QString::number(correctSize, 'f', 1) + " MB";
-    }
-    correctSize /= 1024; // GB
-    return QString::number(correctSize, 'f', 2) + " GB";
-}
-
-QString DownloadItem::currentSpeedToString(double speed)
-{
-    if (speed < 0) {
-        return tr("-");
-    }
-    speed /= 1024; // kB
-    if (speed < 1000) {
-        return QString::number(speed, 'f', 0) + " KB/s";
-    }
-    speed /= 1024; //MB
-    if (speed < 1000) {
-        return QString::number(speed, 'f', 2) + " MB/s";
-    }
-    speed /= 1024; //GB
-    return QString::number(speed, 'f', 2) + " GB/s";
-}
-
 void DownloadItem::updateInfo()
 {
     int estimatedTime = ((d->bytesTotal - d->bytesReceived) / 1024) / (d->speed / 1024);

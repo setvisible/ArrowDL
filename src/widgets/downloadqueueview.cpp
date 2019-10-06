@@ -18,6 +18,7 @@
 
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
+#include <Core/Format>
 #include <Core/MimeDatabase>
 #include <Core/ResourceItem>
 
@@ -219,8 +220,8 @@ void QueueItem::updateItem()
     QString size;
     if (m_downloadItem->bytesTotal() > 0) {
         size = tr("%0 of %1")
-                .arg(DownloadItem::fileSizeToString(m_downloadItem->bytesReceived()))
-                .arg(DownloadItem::fileSizeToString(m_downloadItem->bytesTotal()));
+                .arg(Format::fileSizeToString(m_downloadItem->bytesReceived()))
+                .arg(Format::fileSizeToString(m_downloadItem->bytesTotal()));
     } else {
         size = tr("Unknown");
     }
@@ -236,10 +237,10 @@ void QueueItem::updateItem()
         estTime += tr("(%0)").arg(httpErrorNumber);
 
     } else if (m_downloadItem->state() == DownloadItem::Downloading) {
-        estTime = DownloadItem::remaingTimeToString(m_downloadItem->remainingTime());
+        estTime = Format::remaingTimeToString(m_downloadItem->remainingTime());
     }
 
-    QString speed = DownloadItem::currentSpeedToString(m_downloadItem->speed());
+    QString speed = Format::currentSpeedToString(m_downloadItem->speed());
 
     this->setText(C_COL_0_FILE_NAME       , m_downloadItem->localFileName());
     this->setText(C_COL_1_WEBSITE_DOMAIN  , m_downloadItem->sourceUrl().host()); // todo domain only
