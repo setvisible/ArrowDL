@@ -65,38 +65,27 @@ DownloadItem *tst_DownloadManager::createDummyJob(
 void tst_DownloadManager::appendJobPaused()
 {
     // Given
-    DownloadManager *target = new DownloadManager( this);
+    DownloadManager *target = new DownloadManager(this);
 
     qRegisterMetaType<DownloadItem*>();
-    QSignalSpy spyJobAppended(target, SIGNAL(jobAppended(DownloadItem*)));
-    QSignalSpy spyJobRemoved(target, SIGNAL(jobRemoved(DownloadItem*)));
-    QSignalSpy spyJobStateChanged(target, SIGNAL(jobStateChanged(DownloadItem*)));
-    QSignalSpy spyJobFinished(target, SIGNAL(jobFinished(DownloadItem*)));
 
-    DownloadItem *item = createDummyJob(
-                target,
-                "https://raw.githubusercontent.com/setvisible/nastran-pch2csv/"
-                "master/doc/320px-Blue-punch-card-front-horiz.png",
-                "*name*.png");
+    QSignalSpy spyJobFinished(target, SIGNAL(jobFinished(IDownloadItem*)));
+
+    QString address =
+            "https://raw.githubusercontent.com/setvisible/nastran-pch2csv/"
+            "master/doc/320px-Blue-punch-card-front-horiz.png";
+
+    DownloadItem *item = createDummyJob(target, address, "*name*.png");
 
     // When
     target->append(item, false);
-
-    // Then
-    QCOMPARE(spyJobAppended.count(), 1);
-    QCOMPARE(spyJobRemoved.count(), 0);
-    QCOMPARE(spyJobStateChanged.count(), 0);
-    QCOMPARE(spyJobFinished.count(), 0);
-
-    // When
     target->resume(item);
 
     // Then
-    QVERIFY(spyJobFinished.wait(5000)); // wait for 5 seconds max
+    QVERIFY2(spyJobFinished.wait(5000),
+             QString("\n\nConnection Timeout\nCan't reach:\n%0\n\n")
+             .arg(address).toStdString().c_str()); // wait for 5 seconds max
 
-    QCOMPARE(spyJobAppended.count(), 1);
-    QCOMPARE(spyJobRemoved.count(), 0);
-    QCOMPARE(spyJobStateChanged.count(), 5);
     QCOMPARE(spyJobFinished.count(), 1);
 
     QCOMPARE(item->state(), DownloadItem::Completed);
