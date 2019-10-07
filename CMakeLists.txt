@@ -182,6 +182,7 @@ if(ENABLE_TESTS)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/vector/CMakeLists.txt)
 
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/abstractsettings/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/downloadengine/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/downloadmanager/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/format/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/mask/CMakeLists.txt)
@@ -213,6 +214,7 @@ if(ENABLE_TESTS)
 
         # tests of DownZemAll
         tst_abstractsettings
+        tst_downloadengine
         tst_downloadmanager
         tst_format
         tst_mask
