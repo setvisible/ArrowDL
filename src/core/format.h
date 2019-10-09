@@ -14,23 +14,19 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_MIME_DATABASE_H
-#define CORE_MIME_DATABASE_H
+#ifndef CORE_FORMAT_H
+#define CORE_FORMAT_H
 
-
+#include <QtCore/QObject>
 #include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtGui/QPixmap>
+#include <QtCore/QTime>
 
-/*!
- * \class MimeDatabase
- * \brief Internal GUI helper methods related to file mime types.
- */
-class MimeDatabase
+class Format
 {
 public:
-    static QPixmap fileIcon(const QUrl &url, int extend = 32);
-
+    static QString remaingTimeToString(QTime time);
+    static QString currentSpeedToString(double speed);
+    static QString fileSizeToString(qint64 size);
 };
 
-#endif // CORE_MIME_DATABASE_H
+#endif // CORE_FORMAT_H

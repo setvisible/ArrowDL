@@ -17,14 +17,10 @@
 #ifndef CORE_DOWNLOAD_ITEM_P_H
 #define CORE_DOWNLOAD_ITEM_P_H
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
-#include <QtCore/QTime>
-#include <QtCore/QTimer>
-
 #include "downloaditem.h"
 
 class ResourceItem;
+
 class QNetworkAccessManager;
 class QNetworkReply;
 class QSaveFile;
@@ -35,24 +31,9 @@ public:
     DownloadItemPrivate(DownloadItem *qq);
 
     QNetworkAccessManager *networkManager;
-    ResourceItem* resource;
-    QNetworkReply* reply;
-    QSaveFile* file;
-
-    DownloadItem::State state;
-
-    double speed;
-    qint64 bytesReceived;
-    qint64 bytesTotal;
-
-    QNetworkReply::NetworkError error;
-
-    int maxConnectionSegments;
-    int maxConnections;
-
-    QTime downloadTime;
-    QTime remainingTime;
-    QTimer updateInfoTimer;
+    ResourceItem *resource;
+    QNetworkReply *reply;
+    QSaveFile *file;
 
     DownloadItem *q;
 };

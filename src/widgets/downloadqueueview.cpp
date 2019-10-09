@@ -16,11 +16,12 @@
 
 #include "downloadqueueview.h"
 
-#include <Core/DownloadItem>
-#include <Core/DownloadManager>
+#include <Core/AbstractDownloadItem>
+#include <Core/DownloadEngine>
+#include <Core/Format>
 #include <Core/MimeDatabase>
-#include <Core/ResourceItem>
 
+#include <QtCore/QDebug>
 #include <QtGui/QPainter>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QTreeWidget>
@@ -29,7 +30,6 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QStyledItemDelegate>
 
-#include <QtCore/QDebug>
 
 #define C_COL_0_FILE_NAME          0
 #define C_COL_1_WEBSITE_DOMAIN     1
@@ -97,7 +97,7 @@ public:
             QStyleOptionViewItem myOption = option;
             initStyleOption(&myOption, index);
 
-            const QString url = myOption.text;
+            const QUrl url(myOption.text);
             const QPixmap pixmap = MimeDatabase::fileIcon(url, 16);
 
             myOption.icon.addPixmap(pixmap);
@@ -124,8 +124,8 @@ public:
 
             // Set the progress and text values of the style option.
             const DownloadQueueView *downloadQueueView = qobject_cast<const DownloadQueueView *>(parent());
-            const DownloadManager *manager = downloadQueueView->downloadManager();
-            const DownloadItem *item = manager->clientForRow(index.row());
+            const DownloadEngine *engine= downloadQueueView->engine();
+            const IDownloadItem *item = engine->clientForRow(index.row());
 
 
             progressBarOption.progress = item->progress();
@@ -148,19 +148,19 @@ class QueueItem : public QObject, public QTreeWidgetItem
     Q_OBJECT
 
 public:
-    explicit QueueItem(DownloadItem *downloadItem, QTreeWidget *view);
+    explicit QueueItem(AbstractDownloadItem *downloadItem, QTreeWidget *view);
 
-    DownloadItem* downloadItem() const { return m_downloadItem; }
+    AbstractDownloadItem* downloadItem() const { return m_downloadItem; }
 
 public slots:
     void updateItem();
 
 private:
-    DownloadItem *m_downloadItem;
+    AbstractDownloadItem *m_downloadItem;
 };
 
 
-QueueItem::QueueItem(DownloadItem *downloadItem, QTreeWidget *view)
+QueueItem::QueueItem(AbstractDownloadItem *downloadItem, QTreeWidget *view)
     : QObject(view)
     , QTreeWidgetItem(view, QTreeWidgetItem::UserType)
     , m_downloadItem(downloadItem)
@@ -170,41 +170,41 @@ QueueItem::QueueItem(DownloadItem *downloadItem, QTreeWidget *view)
 }
 
 
-static inline QString stateToString(DownloadItem::State state)
+static inline QString stateToString(IDownloadItem::State state)
 {
     QString stateString;
     switch (state) {
-    case DownloadItem::Idle:
+    case IDownloadItem::Idle:
         stateString = QT_TRANSLATE_NOOP(DownloadItem, "Idle");
         break;
-    case DownloadItem::Paused:
+    case IDownloadItem::Paused:
         stateString = QT_TRANSLATE_NOOP(DownloadItem, "Paused");
         break;
-    case DownloadItem::Stopped:
+    case IDownloadItem::Stopped:
         stateString = QT_TRANSLATE_NOOP(DownloadItem, "Canceled");
         break;
-    case DownloadItem::Preparing:
+    case IDownloadItem::Preparing:
         stateString = QT_TRANSLATE_NOOP(DownloadItem, "Preparing");
         break;
-    case DownloadItem::Connecting:
+    case IDownloadItem::Connecting:
         stateString = QT_TRANSLATE_NOOP(DownloadItem, "Connecting");
         break;
-    case DownloadItem::Downloading:
+    case IDownloadItem::Downloading:
         stateString = QT_TRANSLATE_NOOP(DownloadItem, "Downloading");
         break;
-    case DownloadItem::Endgame:
+    case IDownloadItem::Endgame:
         stateString = QT_TRANSLATE_NOOP(DownloadItem, "Finishing");
         break;
-    case DownloadItem::Completed:
+    case IDownloadItem::Completed:
         stateString = QT_TRANSLATE_NOOP(DownloadItem, "Complete");
         break;
-    case DownloadItem::Skipped:
+    case IDownloadItem::Skipped:
         stateString = QT_TRANSLATE_NOOP(DownloadItem, "Skipped");
         break;
-    case DownloadItem::NetworkError:
+    case IDownloadItem::NetworkError:
         stateString = QT_TRANSLATE_NOOP(DownloadItem, "Server error");
         break;
-    case DownloadItem::FileError:
+    case IDownloadItem::FileError:
         stateString = QT_TRANSLATE_NOOP(DownloadItem, "File error");
         break;
     default:
@@ -219,27 +219,27 @@ void QueueItem::updateItem()
     QString size;
     if (m_downloadItem->bytesTotal() > 0) {
         size = tr("%0 of %1")
-                .arg(DownloadItem::fileSizeToString(m_downloadItem->bytesReceived()))
-                .arg(DownloadItem::fileSizeToString(m_downloadItem->bytesTotal()));
+                .arg(Format::fileSizeToString(m_downloadItem->bytesReceived()))
+                .arg(Format::fileSizeToString(m_downloadItem->bytesTotal()));
     } else {
         size = tr("Unknown");
     }
 
     QString estTime = stateToString(m_downloadItem->state());
-    if (m_downloadItem->state() == DownloadItem::NetworkError) {
+    if (m_downloadItem->state() == IDownloadItem::NetworkError) {
         /*
          * See QNetworkReply::NetworkError Documentation for conversion
          */
-        int httpErrorNumber = (int) m_downloadItem->error();
+        int httpErrorNumber = m_downloadItem->httpErrorNumber();
         if (httpErrorNumber == 201) httpErrorNumber = 401;
         if (httpErrorNumber == 203) httpErrorNumber = 404;
         estTime += tr("(%0)").arg(httpErrorNumber);
 
-    } else if (m_downloadItem->state() == DownloadItem::Downloading) {
-        estTime = DownloadItem::remaingTimeToString(m_downloadItem->remainingTime());
+    } else if (m_downloadItem->state() == IDownloadItem::Downloading) {
+        estTime = Format::remaingTimeToString(m_downloadItem->remainingTime());
     }
 
-    QString speed = DownloadItem::currentSpeedToString(m_downloadItem->speed());
+    QString speed = Format::currentSpeedToString(m_downloadItem->speed());
 
     this->setText(C_COL_0_FILE_NAME       , m_downloadItem->localFileName());
     this->setText(C_COL_1_WEBSITE_DOMAIN  , m_downloadItem->sourceUrl().host()); // todo domain only
@@ -259,7 +259,7 @@ void QueueItem::updateItem()
 /******************************************************************************
  ******************************************************************************/
 DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
-  , m_downloadManager(Q_NULLPTR)
+  , m_downloadEngine(Q_NULLPTR)
   , m_contextMenu(Q_NULLPTR)
 {
     this->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -353,47 +353,48 @@ void DownloadQueueView::setColumnWidths(const QList<int> &widths)
 
 /******************************************************************************
  ******************************************************************************/
-const DownloadManager* DownloadQueueView::downloadManager() const
+const DownloadEngine *DownloadQueueView::engine() const
 {
-    return m_downloadManager;
+    return m_downloadEngine;
 }
 
-void DownloadQueueView::setDownloadManager(DownloadManager *downloadManager)
+void DownloadQueueView::setEngine(DownloadEngine *downloadEngine)
 {
-    if (m_downloadManager) {
-        this->disconnect(m_downloadManager, SIGNAL(jobAppended(DownloadItem*)),
-                         this, SLOT(onJobAdded(DownloadItem*)));
-        this->disconnect(m_downloadManager, SIGNAL(jobRemoved(DownloadItem*)),
-                         this, SLOT(onJobRemoved(DownloadItem*)));
-        this->disconnect(m_downloadManager, SIGNAL(jobStateChanged(DownloadItem*)),
-                         this, SLOT(onJobStateChanged(DownloadItem*)));
-        this->disconnect(m_downloadManager, SIGNAL(selectionChanged()),
+    if (m_downloadEngine) {
+        this->disconnect(m_downloadEngine, SIGNAL(jobAppended(IDownloadItem*)),
+                         this, SLOT(onJobAdded(IDownloadItem*)));
+        this->disconnect(m_downloadEngine, SIGNAL(jobRemoved(IDownloadItem*)),
+                         this, SLOT(onJobRemoved(IDownloadItem*)));
+        this->disconnect(m_downloadEngine, SIGNAL(jobStateChanged(IDownloadItem*)),
+                         this, SLOT(onJobStateChanged(IDownloadItem*)));
+        this->disconnect(m_downloadEngine, SIGNAL(selectionChanged()),
                          this, SLOT(onSelectionChanged()));
     }
-    m_downloadManager = downloadManager;
-    if (m_downloadManager) {
-        this->connect(m_downloadManager, SIGNAL(jobAppended(DownloadItem*)),
-                      this, SLOT(onJobAdded(DownloadItem*)));
-        this->connect(m_downloadManager, SIGNAL(jobRemoved(DownloadItem*)),
-                      this, SLOT(onJobRemoved(DownloadItem*)));
-        this->connect(m_downloadManager, SIGNAL(jobStateChanged(DownloadItem*)),
-                      this, SLOT(onJobStateChanged(DownloadItem*)));
-        this->connect(m_downloadManager, SIGNAL(selectionChanged()),
+    m_downloadEngine = downloadEngine;
+    if (m_downloadEngine) {
+        this->connect(m_downloadEngine, SIGNAL(jobAppended(IDownloadItem*)),
+                      this, SLOT(onJobAdded(IDownloadItem*)));
+        this->connect(m_downloadEngine, SIGNAL(jobRemoved(IDownloadItem*)),
+                      this, SLOT(onJobRemoved(IDownloadItem*)));
+        this->connect(m_downloadEngine, SIGNAL(jobStateChanged(IDownloadItem*)),
+                      this, SLOT(onJobStateChanged(IDownloadItem*)));
+        this->connect(m_downloadEngine, SIGNAL(selectionChanged()),
                       this, SLOT(onSelectionChanged()));
     }
 }
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadQueueView::onJobAdded(DownloadItem *downloadItem)
+void DownloadQueueView::onJobAdded(IDownloadItem *item)
 {
+    AbstractDownloadItem* downloadItem = static_cast<AbstractDownloadItem*>(item);
     QueueItem* queueItem = new QueueItem(downloadItem, m_queueView);
     m_queueView->addTopLevelItem(queueItem);
 }
 
-void DownloadQueueView::onJobRemoved(DownloadItem *downloadItem)
+void DownloadQueueView::onJobRemoved(IDownloadItem *item)
 {
-    const int index = getIndex(downloadItem);
+    const int index = getIndex(item);
     if (index >= 0) {
         QTreeWidgetItem *treeItem = m_queueView->takeTopLevelItem(index);
         if (treeItem) {
@@ -402,9 +403,9 @@ void DownloadQueueView::onJobRemoved(DownloadItem *downloadItem)
     }
 }
 
-void DownloadQueueView::onJobStateChanged(DownloadItem *downloadItem)
+void DownloadQueueView::onJobStateChanged(IDownloadItem *item)
 {
-    QueueItem* queueItem = getQueueItem(downloadItem);
+    QueueItem* queueItem = getQueueItem(item);
     if (queueItem) {
         queueItem->updateItem();
     }
@@ -414,7 +415,7 @@ void DownloadQueueView::onJobStateChanged(DownloadItem *downloadItem)
  ******************************************************************************/
 void DownloadQueueView::onSelectionChanged()
 {
-    const QList<DownloadItem*> selection = m_downloadManager->selection();
+    const QList<IDownloadItem *> selection = m_downloadEngine->selection();
     const int count = m_queueView->topLevelItemCount();
     for (int index = 0; index < count; ++index) {
         QTreeWidgetItem* treeItem = m_queueView->topLevelItem(index);
@@ -426,7 +427,7 @@ void DownloadQueueView::onSelectionChanged()
 
 /******************************************************************************
  ******************************************************************************/
-int DownloadQueueView::getIndex(DownloadItem *downloadItem) const
+int DownloadQueueView::getIndex(IDownloadItem *downloadItem) const
 {
     const int count = m_queueView->topLevelItemCount();
     for (int index = 0; index < count; ++index) {
@@ -441,7 +442,7 @@ int DownloadQueueView::getIndex(DownloadItem *downloadItem) const
     return -1;
 }
 
-QueueItem* DownloadQueueView::getQueueItem(DownloadItem *downloadItem)
+QueueItem* DownloadQueueView::getQueueItem(IDownloadItem *downloadItem)
 {
     const int index = getIndex(downloadItem);
     if (index >= 0) {
@@ -467,12 +468,12 @@ void DownloadQueueView::onQueueViewDoubleClicked(const QModelIndex &index)
 
 void DownloadQueueView::onQueueViewItemSelectionChanged()
 {
-    QList<DownloadItem*> selection;
+    QList<IDownloadItem *> selection;
     foreach (auto treeItem, m_queueView->selectedItems()) {
         const QueueItem *queueItem = static_cast<const QueueItem *>(treeItem);
         selection << queueItem->downloadItem();
     }
-    m_downloadManager->setSelection(selection);
+    m_downloadEngine->setSelection(selection);
 }
 
 /******************************************************************************

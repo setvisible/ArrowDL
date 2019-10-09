@@ -17,14 +17,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QtCore/QFileInfo>
 #include <QtWidgets/QMainWindow>
 
+class FakeDownloadManager;
 class IDownloadItem;
-class DownloadManager;
-class Settings;
-
-class QLabel;
 
 namespace Ui {
 class MainWindow;
@@ -38,22 +34,9 @@ public:
     explicit MainWindow(QWidget *parent = Q_NULLPTR);
     ~MainWindow();
 
-
-    bool saveFile(const QString &path);
-    bool loadFile(const QString &path);
-
-protected:
-    virtual void closeEvent(QCloseEvent *event);
-
 public slots:
 
     // File
-    void openWizard();
-    void openWizard(const QUrl &url);
-    void handleMessage(const QString &message);
-
-    void importFromFile();
-    void exportSelectedToFile();
 
     // Edit
     void selectAll();
@@ -65,12 +48,12 @@ public slots:
     void oneFewerSegment();
 
     // View
-    void showInformation();
-    void openFile();
-    void openFile(IDownloadItem *downloadItem);
-    void renameFile();
-    void deleteFile();
-    void openDirectory();
+//    void showInformation();
+//    void openFile();
+//    void openFile(FakeDownloadItem *downloadItem);
+//    void renameFile();
+//    void deleteFile();
+//    void openDirectory();
     void cleanGoneFiles();
     void removeAll();
     void removeCompletedDownloads();
@@ -94,10 +77,10 @@ public slots:
     void speedLimit();
     void addDomainSpecificLimit();
     void forceStart();
-    void showPreferences();
+//    void showPreferences();
 
     // Help
-    void about();
+//    void about();
 
 private slots:
     void onJobAddedOrRemoved(IDownloadItem *downloadItem);
@@ -106,28 +89,13 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    DownloadManager *m_downloadManager;
-    Settings *m_settings;
-    QLabel *m_statusBarLabel;
-
-    QFileInfo m_currentFile;
-
-    void readSettings();
-    void writeSettings();
+    FakeDownloadManager *m_downloadManager;
 
     void createActions();
     void createContextMenu();
-    void createStatusbar();
 
     void refreshTitleAndStatus();
     void refreshMenus();
-
-    inline bool askConfirmation(const QString &text);
-
-    inline QUrl urlFromClipboard() const;
-
-    QString askSaveFileName(const QString &fileFilter, const QString &title = tr("Save As"));
-    QString askOpenFileName(const QString &fileFilter, const QString &title = tr("Open"));
 };
 
 #endif // MAINWINDOW_H

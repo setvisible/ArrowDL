@@ -14,23 +14,16 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_MIME_DATABASE_H
-#define CORE_MIME_DATABASE_H
+#include "mainwindow.h"
 
+#include <QApplication>
 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtGui/QPixmap>
-
-/*!
- * \class MimeDatabase
- * \brief Internal GUI helper methods related to file mime types.
- */
-class MimeDatabase
+int main(int argc, char *argv[])
 {
-public:
-    static QPixmap fileIcon(const QUrl &url, int extend = 32);
+    QApplication app(argc, argv);
 
-};
+    MainWindow window;
+    window.show();
 
-#endif // CORE_MIME_DATABASE_H
+    return app.exec();
+}

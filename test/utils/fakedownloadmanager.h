@@ -14,23 +14,21 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_MIME_DATABASE_H
-#define CORE_MIME_DATABASE_H
+#ifndef FAKE_DOWNLOAD_MANAGER_H
+#define FAKE_DOWNLOAD_MANAGER_H
 
+#include <Core/DownloadEngine>
 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtGui/QPixmap>
-
-/*!
- * \class MimeDatabase
- * \brief Internal GUI helper methods related to file mime types.
- */
-class MimeDatabase
+class FakeDownloadManager : public DownloadEngine
 {
+    Q_OBJECT
+
 public:
-    static QPixmap fileIcon(const QUrl &url, int extend = 32);
+    explicit FakeDownloadManager(QObject *parent);
+    ~FakeDownloadManager();
+
+    void createFakeJobs();
 
 };
 
-#endif // CORE_MIME_DATABASE_H
+#endif // FAKE_DOWNLOAD_MANAGER_H

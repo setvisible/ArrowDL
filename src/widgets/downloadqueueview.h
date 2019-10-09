@@ -20,8 +20,8 @@
 #include <QtWidgets/QWidget>
 #include <QtCore/QModelIndex>
 
-class DownloadItem;
-class DownloadManager;
+class IDownloadItem;
+class DownloadEngine;
 class QueueItem;
 class QueueView;
 
@@ -33,8 +33,8 @@ public:
     explicit DownloadQueueView(QWidget *parent);
     ~DownloadQueueView();
 
-    const DownloadManager* downloadManager() const;
-    void setDownloadManager(DownloadManager *downloadManager);
+    const DownloadEngine* engine() const;
+    void setEngine(DownloadEngine *downloadEngine);
 
     QMenu* contextMenu() const;
     void setContextMenu(QMenu *contextMenu);
@@ -45,13 +45,13 @@ public:
     void setColumnWidths(const QList<int> &widths);
 
 signals:
-    void doubleClicked(DownloadItem *item);
+    void doubleClicked(IDownloadItem *item);
     void selectionChanged();
 
 private slots:
-    void onJobAdded(DownloadItem *downloadItem);
-    void onJobRemoved(DownloadItem *downloadItem);
-    void onJobStateChanged(DownloadItem *downloadItem);
+    void onJobAdded(IDownloadItem *item);
+    void onJobRemoved(IDownloadItem *item);
+    void onJobStateChanged(IDownloadItem *item);
     void onSelectionChanged();
 
     void onQueueViewDoubleClicked(const QModelIndex &index);
@@ -60,12 +60,12 @@ private slots:
     void showContextMenu(const QPoint &pos) ;
 
 private:
-    DownloadManager *m_downloadManager;
+    DownloadEngine *m_downloadEngine;
     QueueView *m_queueView;
     QMenu *m_contextMenu;
 
-    int getIndex(DownloadItem *downloadItem) const;
-    QueueItem* getQueueItem(DownloadItem *downloadItem);
+    int getIndex(IDownloadItem *downloadItem) const;
+    QueueItem* getQueueItem(IDownloadItem *downloadItem);
 };
 
 #endif // WIDGETS_DOWNLOAD_QUEUE_VIEW_H
