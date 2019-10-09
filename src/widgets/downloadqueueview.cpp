@@ -46,6 +46,52 @@
 #define C_COLUMN_DEFAULT_WIDTH   100
 
 
+static inline QString stateToString(IDownloadItem::State state)
+{
+    QString stateString;
+    switch (state) {
+    case IDownloadItem::Idle:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Idle");
+        break;
+    case IDownloadItem::Paused:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Paused");
+        break;
+    case IDownloadItem::Stopped:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Canceled");
+        break;
+    case IDownloadItem::Preparing:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Preparing");
+        break;
+    case IDownloadItem::Connecting:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Connecting");
+        break;
+    case IDownloadItem::Downloading:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Downloading");
+        break;
+    case IDownloadItem::Endgame:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Finishing");
+        break;
+    case IDownloadItem::Completed:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Complete");
+        break;
+    case IDownloadItem::Skipped:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Skipped");
+        break;
+    case IDownloadItem::NetworkError:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Server error");
+        break;
+    case IDownloadItem::FileError:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "File error");
+        break;
+    default:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "????");
+        break;
+    }
+    return stateString ;
+}
+
+/******************************************************************************
+ ******************************************************************************/
 /*!
  * QueueView extends QTreeWidget to allow drag and drop.
  */
@@ -167,51 +213,6 @@ QueueItem::QueueItem(AbstractDownloadItem *downloadItem, QTreeWidget *view)
 {
     connect(m_downloadItem, SIGNAL(changed()), this, SLOT(updateItem()));
     updateItem();
-}
-
-
-static inline QString stateToString(IDownloadItem::State state)
-{
-    QString stateString;
-    switch (state) {
-    case IDownloadItem::Idle:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Idle");
-        break;
-    case IDownloadItem::Paused:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Paused");
-        break;
-    case IDownloadItem::Stopped:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Canceled");
-        break;
-    case IDownloadItem::Preparing:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Preparing");
-        break;
-    case IDownloadItem::Connecting:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Connecting");
-        break;
-    case IDownloadItem::Downloading:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Downloading");
-        break;
-    case IDownloadItem::Endgame:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Finishing");
-        break;
-    case IDownloadItem::Completed:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Complete");
-        break;
-    case IDownloadItem::Skipped:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Skipped");
-        break;
-    case IDownloadItem::NetworkError:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Server error");
-        break;
-    case IDownloadItem::FileError:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "File error");
-        break;
-    default:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "????");
-        break;
-    }
-    return stateString ;
 }
 
 void QueueItem::updateItem()
