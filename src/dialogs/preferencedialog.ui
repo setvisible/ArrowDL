@@ -68,7 +68,7 @@ QTabBar::tab:hover:!selected {
 }</string>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>1</number>
      </property>
      <property name="iconSize">
       <size>
@@ -185,9 +185,9 @@ QTabBar::tab:hover:!selected {
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <widget class="QLabel" name="label_2">
+           <widget class="QCheckBox" name="startMinimizedCheckBox">
             <property name="text">
-             <string>TextLabel</string>
+             <string>Start minimized</string>
             </property>
            </widget>
           </item>
@@ -197,8 +197,17 @@ QTabBar::tab:hover:!selected {
        <item>
         <widget class="QGroupBox" name="groupBox_2">
          <property name="title">
-          <string>Integration</string>
+          <string>Confirmation</string>
          </property>
+         <layout class="QVBoxLayout" name="verticalLayout_10">
+          <item>
+           <widget class="QCheckBox" name="confirmRemovalCheckBox">
+            <property name="text">
+             <string>Confirm removal of downloads</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>

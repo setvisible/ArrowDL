@@ -16,22 +16,36 @@
 
 #include "session.h"
 
-
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
 #include <Core/ResourceItem>
 
+#include <QtCore/QDebug>
 #include <QtCore/QFile>
-
 #include <QtCore/QJsonArray>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
 
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
+static inline IDownloadItem::State intToState(int value)
+{
+    return (IDownloadItem::State)value;
+}
 
-static void readJob(DownloadItem *item, const QJsonObject &json)
+static inline int stateToInt(IDownloadItem::State state)
+{
+    /* Do not store error states and intermediary states. */
+    switch (state) {
+    case IDownloadItem::Stopped:
+    case IDownloadItem::Completed:
+        return (int) state;
+        break;
+    default:
+        return (int) IDownloadItem::Paused;
+        break;
+    }
+}
+
+static inline void readJob(DownloadItem *item, const QJsonObject &json)
 {
     item->resource()->setUrl(json["url"].toString());
     item->resource()->setDestination(json["destination"].toString());
@@ -41,17 +55,15 @@ static void readJob(DownloadItem *item, const QJsonObject &json)
     item->resource()->setDescription(json["description"].toString());
     item->resource()->setCheckSum(json["checkSum"].toString());
 
-
-    item->setState((DownloadItem::State) json["state"].toInt());
+    item->setState(intToState(json["state"].toInt()));
     item->setBytesReceived(json["bytesReceived"].toInt());
     item->setBytesTotal(json["bytesTotal"].toInt());
-    item->setError((QNetworkReply::NetworkError) json["error"].toInt());
     item->setMaxConnectionSegments(json["maxConnectionSegments"].toInt());
     item->setMaxConnections(json["maxConnections"].toInt());
 
 }
 
-static void writeJob(const DownloadItem *item, QJsonObject &json)
+static inline void writeJob(const DownloadItem *item, QJsonObject &json)
 {
     json["url"] = item->resource()->url();
     json["destination"] = item->resource()->destination();
@@ -61,20 +73,16 @@ static void writeJob(const DownloadItem *item, QJsonObject &json)
     json["description"] = item->resource()->description();
     json["checkSum"] = item->resource()->checkSum();
 
-
-    json["state"] = (int) item->state();
+    json["state"] = stateToInt(item->state());
     json["bytesReceived"] = item->bytesReceived();
     json["bytesTotal"] = item->bytesTotal();
-    json["error"] = (int) item->error();
     json["maxConnectionSegments"] = item->maxConnectionSegments();
     json["maxConnections"] = item->maxConnections();
-
 }
-
 
 /******************************************************************************
  ******************************************************************************/
-static void readList(QList<DownloadItem *> &downloadItems, const QJsonObject &json, DownloadManager *downloadManager)
+static inline void readList(QList<DownloadItem *> &downloadItems, const QJsonObject &json, DownloadManager *downloadManager)
 {
     QJsonArray jobsArray = json["jobs"].toArray();
     for (int i = 0; i < jobsArray.size(); ++i) {
@@ -86,7 +94,7 @@ static void readList(QList<DownloadItem *> &downloadItems, const QJsonObject &js
     }
 }
 
-static void writeList(const QList<DownloadItem *> downloadItems, QJsonObject &json)
+static inline void writeList(const QList<DownloadItem *> downloadItems, QJsonObject &json)
 {
     QJsonArray jobsArray;
     foreach (auto item, downloadItems) {

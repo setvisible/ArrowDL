@@ -32,25 +32,13 @@ DownloadItemPrivate::DownloadItemPrivate(DownloadItem *qq)
     resource = Q_NULLPTR;
     reply = Q_NULLPTR;
     file = Q_NULLPTR;
-
-    state = DownloadItem::State::Idle;
-
-    speed = 0;
-    bytesReceived = 0;
-    bytesTotal = 0;
-
-    error = QNetworkReply::NoError;
-
-    maxConnectionSegments = 4;
-    maxConnections = 1;
 }
 
 /******************************************************************************
  ******************************************************************************/
-DownloadItem::DownloadItem(DownloadManager *downloadManager) : QObject(downloadManager)
+DownloadItem::DownloadItem(DownloadManager *downloadManager) : AbstractDownloadItem(downloadManager)
   , d(new DownloadItemPrivate(this))
 {
-    connect(&d->updateInfoTimer, SIGNAL(timeout()), this, SLOT(updateInfo()));
     d->networkManager = downloadManager->networkManager();
 }
 
@@ -63,7 +51,7 @@ DownloadItem::~DownloadItem()
 
     if (d->reply) {
         d->reply->abort();
-        d->reply->deleteLater(); // ???
+        d->reply->deleteLater();
         d->reply = Q_NULLPTR;
     }
 }
@@ -74,18 +62,11 @@ void DownloadItem::resume()
 {
     qDebug() << Q_FUNC_INFO << localFullFileName() << d->resource->url();
 
-    d->state = DownloadItem::Idle;
-    emit changed();
-
-    d->downloadTime.start();
-
-    /* Ensure the destination directory exists */
-    d->state = DownloadItem::Preparing;
-    emit changed();
+    this->beginResume();
 
     QDir().mkpath(localFilePath());
 
-    /// \todo options
+    /// \todo Add more options
     if (QFile::exists(localFullFileName())) {
         QFile::remove(localFullFileName());
     }
@@ -96,40 +77,32 @@ void DownloadItem::resume()
     }
     d->file = new QSaveFile(this);
     d->file->setFileName(localFullFileName());
-    if (!d->file->isOpen() && !d->file->open(QIODevice::WriteOnly)) {
-        d->state = DownloadItem::FileError;
-        emit changed();
-        return;
-    }
+    const bool connected = d->file->isOpen() || d->file->open(QIODevice::WriteOnly);
 
     /* Prepare the connection, try to contact the server */
-    d->state = DownloadItem::Connecting;
-    emit changed();
+    if (this->checkResume(connected)) {
 
-    QNetworkRequest request;
-    request.setUrl(d->resource->url());
+        QNetworkRequest request;
+        request.setUrl(d->resource->url());
 
-    d->reply = d->networkManager->get(request);
-    d->reply->setParent(this);
+        d->reply = d->networkManager->get(request);
+        d->reply->setParent(this);
 
-    /* Signals/Slots of QNetworkReply */
-    connect(d->reply, SIGNAL(metaDataChanged()), this, SLOT(onMetaDataChanged()));
-    connect(d->reply, SIGNAL(downloadProgress(qint64,qint64)),
-            this, SLOT(onDownloadProgress(qint64,qint64)));
-    connect(d->reply, SIGNAL(redirected(QUrl)), this, SLOT(onRedirected(QUrl)));
-    connect(d->reply, SIGNAL(error(QNetworkReply::NetworkError)),
-            this, SLOT(onError(QNetworkReply::NetworkError)));
-    connect(d->reply, SIGNAL(finished()), this, SLOT(onFinished()));
+        /* Signals/Slots of QNetworkReply */
+        connect(d->reply, SIGNAL(metaDataChanged()), this, SLOT(onMetaDataChanged()));
+        connect(d->reply, SIGNAL(downloadProgress(qint64,qint64)),
+                this, SLOT(onDownloadProgress(qint64,qint64)));
+        connect(d->reply, SIGNAL(redirected(QUrl)), this, SLOT(onRedirected(QUrl)));
+        connect(d->reply, SIGNAL(error(QNetworkReply::NetworkError)),
+                this, SLOT(onError(QNetworkReply::NetworkError)));
+        connect(d->reply, SIGNAL(finished()), this, SLOT(onFinished()));
 
-    /* Signals/Slots of QIODevice */
-    connect(d->reply, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
-    connect(d->reply, SIGNAL(aboutToClose()), this, SLOT(onAboutToClose()));
+        /* Signals/Slots of QIODevice */
+        connect(d->reply, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
+        connect(d->reply, SIGNAL(aboutToClose()), this, SLOT(onAboutToClose()));
 
-    d->updateInfoTimer.start(1000);
-
-    /* The download starts to download */
-    d->state = DownloadItem::Downloading;
-    emit changed();
+        this->tearDownResume();
+    }
 }
 
 void DownloadItem::pause()
@@ -137,16 +110,11 @@ void DownloadItem::pause()
     // TO DO
     // https://kunalmaemo.blogspot.com/2011/07/simple-download-manager-with-pause.html
 
-    stop();
-
-    d->state = DownloadItem::Paused;
-    emit changed();
+    AbstractDownloadItem::pause();
 }
 
 void DownloadItem::stop()
 {
-    d->updateInfoTimer.stop();
-
     if (d->file) {
         d->file->cancelWriting();
         d->file = Q_NULLPTR;
@@ -154,17 +122,11 @@ void DownloadItem::stop()
 
     if (d->reply) {
         d->reply->abort();
-        d->reply->deleteLater(); // ???
+        d->reply->deleteLater();
         d->reply = Q_NULLPTR;
     }
 
-    d->state = DownloadItem::Stopped;
-    d->speed = 0;
-    d->bytesReceived = 0;
-    d->bytesTotal = 0;
-
-    emit changed();
-    emit finished();
+    AbstractDownloadItem::stop();
 }
 
 /******************************************************************************
@@ -187,12 +149,7 @@ void DownloadItem::onMetaDataChanged()
 
 void DownloadItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
-    qDebug() << Q_FUNC_INFO << bytesReceived << bytesTotal;
-    d->bytesReceived = bytesReceived;
-    d->bytesTotal = bytesTotal;
-    d->speed = bytesReceived * 1000.0 / d->downloadTime.elapsed();
-
-    //emit changed();
+    updateInfo(bytesReceived, bytesTotal);
 }
 
 void DownloadItem::onRedirected(const QUrl &url)
@@ -203,15 +160,12 @@ void DownloadItem::onRedirected(const QUrl &url)
 void DownloadItem::onFinished()
 {
     qDebug() << Q_FUNC_INFO;
-    d->updateInfoTimer.stop();
 
-    if (d->state == DownloadItem::Downloading) {
-        d->state = DownloadItem::Endgame;
-        if (d->file->commit()) {
-            d->state = DownloadItem::Completed;
-        } else {
-            d->state = DownloadItem::FileError;
-        }
+    /* Here, finish the operation if downloading. */
+    /* If network error or file error, just ignore */
+    if (state() == Downloading) {
+        const bool commited = d->file->commit();
+        this->preFinish(commited);
     }
     d->file->deleteLater();
     d->file = Q_NULLPTR;
@@ -221,17 +175,14 @@ void DownloadItem::onFinished()
         d->reply = Q_NULLPTR;
     }
 
-    emit changed();
-    emit finished();
+    this->finish();
 }
 
 void DownloadItem::onError(QNetworkReply::NetworkError error)
 {
     qDebug() << Q_FUNC_INFO;
-    d->error = error;
-    d->state = DownloadItem::NetworkError;
-    emit changed();
-    emit finished();
+    setHttpErrorNumber((int) error);
+    setState(NetworkError);
 }
 
 void DownloadItem::onReadyRead()
@@ -242,11 +193,17 @@ void DownloadItem::onReadyRead()
     }
     QByteArray data = d->reply->readAll();
     d->file->write(data);
+
 }
 
 void DownloadItem::onAboutToClose()
 {
     qDebug() << Q_FUNC_INFO;
+
+
+
+
+
 }
 
 /******************************************************************************
@@ -263,98 +220,12 @@ void DownloadItem::setResource(ResourceItem *resource)
 
 /******************************************************************************
  ******************************************************************************/
-DownloadItem::State DownloadItem::state() const
-{
-    return d->state;
-}
-
-void DownloadItem::setState(const State status)
-{
-    d->state = status;
-}
-
-/******************************************************************************
- ******************************************************************************/
-double DownloadItem::speed() const
-{
-    return d->state == DownloadItem::Downloading ? d->speed : -1;
-}
-
-qint64 DownloadItem::bytesReceived() const
-{
-    return d->bytesReceived;
-}
-
-void DownloadItem::setBytesReceived(qint64 bytesReceived)
-{
-    d->bytesReceived = bytesReceived;
-}
-
-qint64 DownloadItem::bytesTotal() const
-{
-    return d->bytesTotal;
-}
-
-void DownloadItem::setBytesTotal(qint64 bytesTotal)
-{
-    d->bytesTotal = bytesTotal;
-}
-
-int DownloadItem::progress() const
-{
-    if (d->bytesTotal > 0) {
-        return (int)((qreal)d->bytesReceived / (qreal)d->bytesTotal * 100.0);
-    } else {
-        return 0;
-    }
-}
-
-/******************************************************************************
- ******************************************************************************/
-QNetworkReply::NetworkError DownloadItem::error() const
-{
-    return d->error;
-}
-
-void DownloadItem::setError(QNetworkReply::NetworkError error)
-{
-    d->error = error;
-}
-
-/******************************************************************************
- ******************************************************************************/
-int DownloadItem::maxConnectionSegments() const
-{
-    return d->maxConnectionSegments;
-}
-
-void DownloadItem::setMaxConnectionSegments(int connectionSegments)
-{
-    if (connectionSegments > 0 && connectionSegments <= 10) {
-        d->maxConnectionSegments = connectionSegments;
-    }
-}
-
-/******************************************************************************
- ******************************************************************************/
-int DownloadItem::maxConnections() const
-{
-    return d->maxConnections;
-}
-
-void DownloadItem::setMaxConnections(int connections)
-{
-    d->maxConnections = connections;
-}
-
-/******************************************************************************
- ******************************************************************************/
 /**
  * The source Url
  */
 QUrl DownloadItem::sourceUrl() const
 {
-    return d->resource->url();
+    return QUrl(d->resource->url());
 }
 
 /**
@@ -394,102 +265,4 @@ QUrl DownloadItem::localFileUrl() const
 QUrl DownloadItem::localDirUrl() const
 {
     return QUrl::fromLocalFile(localFilePath());
-}
-
-/******************************************************************************
- ******************************************************************************/
-bool DownloadItem::isResumable() const
-{
-    return d->state == DownloadItem::Idle ||
-            d->state == DownloadItem::Paused ||
-            d->state == DownloadItem::Stopped ||
-            d->state == DownloadItem::Skipped ||
-            d->state == DownloadItem::NetworkError ||
-            d->state == DownloadItem::FileError;
-}
-
-bool DownloadItem::isPausable() const
-{
-    return d->state == DownloadItem::Idle ||
-            d->state == DownloadItem::Preparing ||
-            d->state == DownloadItem::Connecting ||
-            d->state == DownloadItem::Downloading ||
-            d->state == DownloadItem::Endgame;
-}
-
-bool DownloadItem::isCancelable() const
-{
-    return d->state == DownloadItem::Idle ||
-            d->state == DownloadItem::Paused ||
-            d->state == DownloadItem::Preparing ||
-            d->state == DownloadItem::Connecting ||
-            d->state == DownloadItem::Downloading ||
-            d->state == DownloadItem::Endgame ||
-            d->state == DownloadItem::Completed;
-}
-
-bool DownloadItem::isDownloading() const
-{
-    return isPausable();
-}
-
-/******************************************************************************
- ******************************************************************************/
-QTime DownloadItem::remainingTime()
-{
-    return d->remainingTime;
-}
-
-QString DownloadItem::remaingTimeToString(QTime time)
-{
-    if (time < QTime(0, 0, 1)) {
-        return "--:--";
-    } else if (time < QTime(1, 0)) {
-        return time.toString("mm:ss");
-    } else {
-        return time.toString("hh:mm:ss");
-    }
-}
-
-QString DownloadItem::fileSizeToString(qint64 size)
-{
-    if (size < 0) {
-        return tr("Unknown");
-    }
-    double correctSize = size / 1024.0; // KB
-    if (correctSize < 1000) {
-        return QString::number(correctSize > 1 ? correctSize : 1, 'f', 0) + " KB";
-    }
-    correctSize /= 1024; // MB
-    if (correctSize < 1000) {
-        return QString::number(correctSize, 'f', 1) + " MB";
-    }
-    correctSize /= 1024; // GB
-    return QString::number(correctSize, 'f', 2) + " GB";
-}
-
-QString DownloadItem::currentSpeedToString(double speed)
-{
-    if (speed < 0) {
-        return tr("-");
-    }
-    speed /= 1024; // kB
-    if (speed < 1000) {
-        return QString::number(speed, 'f', 0) + " KB/s";
-    }
-    speed /= 1024; //MB
-    if (speed < 1000) {
-        return QString::number(speed, 'f', 2) + " MB/s";
-    }
-    speed /= 1024; //GB
-    return QString::number(speed, 'f', 2) + " GB/s";
-}
-
-void DownloadItem::updateInfo()
-{
-    int estimatedTime = ((d->bytesTotal - d->bytesReceived) / 1024) / (d->speed / 1024);
-    QTime time;
-    time = time.addSecs(estimatedTime);
-    d->remainingTime = time;
-    emit changed();
 }

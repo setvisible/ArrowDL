@@ -48,29 +48,18 @@ public:
     QString suffixName() const;
     void setSuffixName(const QString &suffixName);
 
-    bool colorizeErrors() const;
-    void setColorizeErrors(bool enabled);
-
 signals:
     void currentPathChanged(QString path);
-
-public slots:
-    void clearHistory();
-    void removePathfromHistory(const QString &path);
 
 private slots:
     void onBrowseButtonReleased();
     void onCurrentTextChanged(const QString &text);
-    void showContextMenu(const QPoint &pos);
 
 private:
     Ui::PathWidget *ui;
     PathType m_pathType;
     QString m_suffix;
     QString m_suffixName;
-    bool m_colorizeErrorsEnabled;
-
-    inline void colorizeErrors(const QString &text);
 };
 
 #endif // WIDGETS_PATH_WIDGET_H

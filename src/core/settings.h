@@ -17,10 +17,7 @@
 #ifndef CORE_SETTINGS_H
 #define CORE_SETTINGS_H
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
-
-class SettingsItem;
+#include <Core/AbstractSettings>
 
 struct Filter
 {
@@ -29,12 +26,9 @@ struct Filter
 };
 
 /*!
-  \class Settings
- * \brief The Settings class manages the persistence of the User preferences
- *
  * User preferences are edited with the 'Preferences' dialog.
  */
-class Settings : public QObject
+class Settings : public AbstractSettings
 {
     Q_OBJECT
 
@@ -48,26 +42,12 @@ public:
     QList<Filter> filters() const;
     void setFilters(const QList<Filter> &filters);
 
-    void beginRestoreDefault();
-    void endRestoreDefault();
+    bool isConfirmRemovalEnabled() const;
+    void setConfirmRemovalEnabled(bool enabled);
 
-    void readSettings();
-    void writeSettings();
+    bool isStartMinimizedEnabled() const;
+    void setStartMinimizedEnabled(bool enabled);
 
-signals:
-    void changed();
-
-private:
-    QList<SettingsItem*> m_items;
-    bool m_default;
-
-    inline QString getSetting(const QString &key) const;
-    inline void addDefaultSetting(const QString &key, const QString &defaultValue);
-    inline void setSetting(const QString &key, const QString &value);
-
-    inline QStringList getListSetting(const QString &key) const;
-    inline void addDefaultListSetting(const QString &key, const QStringList &defaultValue);
-    inline void setListSetting(const QString &key, const QStringList &value);
 };
 
 #endif // CORE_SETTINGS_H

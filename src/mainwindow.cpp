@@ -21,7 +21,7 @@
 #include "version.h"
 #include "globals.h"
 
-#include <Core/DownloadItem>
+#include <Core/IDownloadItem>
 #include <Core/DownloadManager>
 #include <Core/Settings>
 #include <Dialogs/AddDownloadDialog>
@@ -63,7 +63,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , m_downloadManager(new DownloadManager(this))
   , m_settings(new Settings(this))
   , m_statusBarLabel(new QLabel(this))
-  , m_showMessageBox(true)
 {
     ui->setupUi(this);
 
@@ -77,17 +76,22 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 #endif
 
     /* Connect the GUI to the DownloadManager. */
-    ui->downloadQueueView->setDownloadManager(m_downloadManager);
+    ui->downloadQueueView->setEngine(m_downloadManager);
 
     /* Connect the SceneManager to the MainWindow. */
     /* The SceneManager centralizes the changes. */
-    QObject::connect(m_downloadManager, SIGNAL(jobAppended(DownloadItem*)), this, SLOT(onJobAddedOrRemoved(DownloadItem*)));
-    QObject::connect(m_downloadManager, SIGNAL(jobRemoved(DownloadItem*)), this, SLOT(onJobAddedOrRemoved(DownloadItem*)));
-    QObject::connect(m_downloadManager, SIGNAL(jobStateChanged(DownloadItem*)), this, SLOT(onJobStateChanged(DownloadItem*)));
-    QObject::connect(m_downloadManager, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
+    QObject::connect(m_downloadManager, SIGNAL(jobAppended(IDownloadItem*)),
+                     this, SLOT(onJobAddedOrRemoved(IDownloadItem*)));
+    QObject::connect(m_downloadManager, SIGNAL(jobRemoved(IDownloadItem*)),
+                     this, SLOT(onJobAddedOrRemoved(IDownloadItem*)));
+    QObject::connect(m_downloadManager, SIGNAL(jobStateChanged(IDownloadItem*)),
+                     this, SLOT(onJobStateChanged(IDownloadItem*)));
+    QObject::connect(m_downloadManager, SIGNAL(selectionChanged()),
+                     this, SLOT(onSelectionChanged()));
 
 
-    connect(ui->downloadQueueView, SIGNAL(doubleClicked(DownloadItem*)), this, SLOT(openFile(DownloadItem*)));
+    connect(ui->downloadQueueView, SIGNAL(doubleClicked(IDownloadItem*)),
+            this, SLOT(openFile(IDownloadItem*)));
 
     /* Connect the rest of the GUI widgets together (selection, focus, etc.) */
     createActions();
@@ -324,7 +328,7 @@ void MainWindow::selectNone()
 
 void MainWindow::invertSelection()
 {
-    QList<DownloadItem*> inverted;
+    QList<IDownloadItem *> inverted;
     foreach (auto item, m_downloadManager->downloadItems()) {
         if (!m_downloadManager->isSelected(item)) {
             inverted.append(item);
@@ -345,20 +349,12 @@ void MainWindow::manageMirrors()
 
 void MainWindow::oneMoreSegment()
 {
-    foreach (auto item, m_downloadManager->selection()) {
-        int segments = item->maxConnectionSegments();
-        segments++;
-        item->setMaxConnectionSegments(segments);
-    }
+    m_downloadManager->oneMoreSegment();
 }
 
 void MainWindow::oneFewerSegment()
 {
-    foreach (auto item, m_downloadManager->selection()) {
-        int segments = item->maxConnectionSegments();
-        segments--;
-        item->setMaxConnectionSegments(segments);
-    }
+    m_downloadManager->oneFewerSegment();
 }
 
 void MainWindow::showInformation()
@@ -373,14 +369,14 @@ void MainWindow::openFile()
 {
     if (!m_downloadManager->selection().isEmpty()) {
         auto item = m_downloadManager->selection().first();
-        if (item->state() == DownloadItem::Completed) {
+        if (item->state() == IDownloadItem::Completed) {
             openFile(item);
             return;
         }
     }
 }
 
-void MainWindow::openFile(DownloadItem *downloadItem)
+void MainWindow::openFile(IDownloadItem *downloadItem)
 {
     auto url = downloadItem->localFileUrl();
     if (!QDesktopServices::openUrl(url)) {
@@ -433,7 +429,7 @@ void MainWindow::openDirectory()
 
 bool MainWindow::askConfirmation(const QString &text)
 {
-    if (m_showMessageBox) {
+    if (m_settings->isConfirmRemovalEnabled()) {
         QCheckBox *cb = new QCheckBox("Don't ask again");
         QMessageBox msgbox(this);
         msgbox.setWindowTitle(tr("Remove Downloads"));
@@ -446,7 +442,7 @@ bool MainWindow::askConfirmation(const QString &text)
 
         QObject::connect(cb, &QCheckBox::stateChanged, [this](int state){
             if (static_cast<Qt::CheckState>(state) == Qt::CheckState::Checked) {
-                m_showMessageBox = false;
+                m_settings->setConfirmRemovalEnabled(false);
             }
         });
         int response = msgbox.exec();
@@ -589,12 +585,12 @@ void MainWindow::about()
 
 /******************************************************************************
  ******************************************************************************/
-void MainWindow::onJobAddedOrRemoved(DownloadItem */*downloadItem*/)
+void MainWindow::onJobAddedOrRemoved(IDownloadItem */*downloadItem*/)
 {
     refreshTitleAndStatus();
 }
 
-void MainWindow::onJobStateChanged(DownloadItem *downloadItem)
+void MainWindow::onJobStateChanged(IDownloadItem *downloadItem)
 {
     if (m_downloadManager->isSelected(downloadItem)) {
         refreshMenus();
@@ -637,14 +633,14 @@ void MainWindow::refreshMenus()
     const bool hasOnlyOneSelected = m_downloadManager->selection().count() == 1;
     bool hasOnlyCompletedSelected = hasSelection;
     foreach (auto item, m_downloadManager->selection()) {
-        if (item->state() != DownloadItem::Completed) {
+        if (item->state() != IDownloadItem::Completed) {
             hasOnlyCompletedSelected = false;
             continue;
         }
     }
     bool hasAtLeastOneUncompletedSelected = false;
     foreach (auto item, m_downloadManager->selection()) {
-        if (item->state() != DownloadItem::Completed) {
+        if (item->state() != IDownloadItem::Completed) {
             hasAtLeastOneUncompletedSelected = true;
             continue;
         }
@@ -765,7 +761,11 @@ void MainWindow::readSettings()
         QPoint position = settings.value("Position", defaultPosition).toPoint();
         QSize size = settings.value("Size", defaultSize).toSize();
 
-        const QRect availableGeometry = QApplication::desktop()->availableGeometry();
+        QRect availableGeometry(0, 0, 0, 0);
+        for (int screen = 0; screen < QApplication::desktop()->screenCount(); ++screen) {
+            availableGeometry = availableGeometry.united(QApplication::desktop()->availableGeometry(screen));
+        }
+
         if (!availableGeometry.intersects(QRect(position, size))) {
             position = defaultPosition;
             size = defaultSize;

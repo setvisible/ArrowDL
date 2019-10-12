@@ -181,7 +181,10 @@ if(ENABLE_TESTS)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/utf8/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/vector/CMakeLists.txt)
 
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/abstractsettings/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/downloadengine/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/downloadmanager/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/format/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/mask/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/regex/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/resourceitem/CMakeLists.txt)
@@ -210,7 +213,10 @@ if(ENABLE_TESTS)
         tst_vector
 
         # tests of DownZemAll
+        tst_abstractsettings
+        tst_downloadengine
         tst_downloadmanager
+        tst_format
         tst_mask
         tst_regex
         tst_resourceitem
@@ -230,7 +236,7 @@ endif(ENABLE_TESTS)
 ##############################################################################
 set(MY_RELEASE_DOCS
     ./LICENSE
-    ./TROUBLESHOOTING
+    ./TROUBLESHOOTING.md
     )
 install (
     FILES ${MY_RELEASE_DOCS}
@@ -260,6 +266,13 @@ if (MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     install(FILES
         ${QT_DLL_DIR}/../plugins/platforms/qwindows.dll
         DESTINATION ${CMAKE_INSTALL_PREFIX}/platforms
+    )
+
+    ## OpenSSL
+    install(FILES
+        ./3rd/openssl/v1.0.2/windows_x86_32bits/libeay32.dll
+        ./3rd/openssl/v1.0.2/windows_x86_32bits/ssleay32.dll
+        DESTINATION ${CMAKE_INSTALL_PREFIX}
     )
 
 endif(MSVC OR MSYS OR MINGW)

@@ -148,3 +148,11 @@ win32{
     }
 }
 
+# install OpenSSL (for Windows only)
+win32{
+    libs_openssl_to_copy.files += $$PWD/../3rd/openssl/v1.0.2/windows_x86_32bits/libeay32.dll
+    libs_openssl_to_copy.files += $$PWD/../3rd/openssl/v1.0.2/windows_x86_32bits/ssleay32.dll
+    libs_openssl_to_copy.path = $${DESTDIR}
+    INSTALLS += libs_openssl_to_copy
+}
+

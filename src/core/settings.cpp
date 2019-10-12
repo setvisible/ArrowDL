@@ -17,32 +17,24 @@
 #include "settings.h"
 
 #include <QtCore/QCoreApplication>
-#include <QtCore/QSettings>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
+#include <QtCore/QDebug>
 
 /*!
- * Characters that are unlikely to be used as value for data or directory path.
- * If a collision appears, the only risk is to reset the faulty parameter
- * to its default value.
+ * Registry Keys. They must be unique
  */
-static const QString UNDEFINED = "<UNDEFINED>";
+static const QString REGISTRY_CONFIRM_REMOVAL = "ConfirmRemoval";
+static const QString REGISTRY_DATABASE = "Database";
+static const QString REGISTRY_FILTER_KEY = "FilterKey";
+static const QString REGISTRY_FILTER_VALUE = "FilterValue";
+static const QString REGISTRY_START_MINIMIZED = "StartMinimized";
 
-struct SettingsItem
+Settings::Settings(QObject *parent) : AbstractSettings(parent)
 {
-    QString key;
-    QString value;
-    QString defaultValue;
-};
-
-Settings::Settings(QObject *parent) : QObject(parent)
-  , m_default(false)
-{
-    addDefaultSetting("Database", QString("%0/queue.json").arg(qApp->applicationDirPath()));
+    addDefaultSetting(REGISTRY_CONFIRM_REMOVAL, true);
+    addDefaultSetting(REGISTRY_DATABASE, QString("%0/queue.json").arg(qApp->applicationDirPath()));
 
     addDefaultListSetting(
-                "FilterKey", QStringList()
+                REGISTRY_FILTER_KEY, QStringList()
                 << "All Files"
                 << "Archives (zip, rar...)"
                 << "Application (exe, xpi...)"
@@ -55,7 +47,7 @@ Settings::Settings(QObject *parent) : QObject(parent)
                 );
 
     addDefaultListSetting(
-                "FilterValue", QStringList()
+                REGISTRY_FILTER_VALUE, QStringList()
                 << "^.*$"
                 << "^.*\\.(?:z(?:ip|[0-9]{2})|r(?:ar|[0-9]{2})|jar|bz2|gz|tar|rpm|7z(?:ip)?|lzma|xz)$"
                 << "^.*\\.(?:exe|msi|dmg|bin|xpi|iso)$"
@@ -66,23 +58,24 @@ Settings::Settings(QObject *parent) : QObject(parent)
                 << "^.*\\.png$"
                 << "^.*\\.(?:mpeg|ra?m|avi|mp(?:g|e|4)|mov|divx|asf|qt|wmv|m\\dv|rv|vob|asx|ogm|ogv|webm|flv|mkv)$"
                 );
+
+    addDefaultSetting(REGISTRY_START_MINIMIZED, false);
 }
 
 Settings::~Settings()
 {
-    qDeleteAll(m_items);
 }
 
 /******************************************************************************
  ******************************************************************************/
 QString Settings::database() const
 {
-    return getSetting("Database");
+    return getSetting(REGISTRY_DATABASE);
 }
 
 void Settings::setDatabase(const QString &value)
 {
-    setSetting("Database", value);
+    setSetting(REGISTRY_DATABASE, value);
 }
 
 /******************************************************************************
@@ -90,8 +83,8 @@ void Settings::setDatabase(const QString &value)
 QList<Filter> Settings::filters() const
 {
     QList<Filter> filters;
-    QStringList keys = getListSetting("FilterKey");
-    QStringList values = getListSetting("FilterValue");
+    QStringList keys = getListSetting(REGISTRY_FILTER_KEY);
+    QStringList values = getListSetting(REGISTRY_FILTER_VALUE);
     const int count = qMin(keys.count(), values.count());
     for (int i = 0; i < count; ++i) {
         Filter filter;
@@ -112,120 +105,30 @@ void Settings::setFilters(const QList<Filter> &filters)
         keys.append(filter.title);
         values.append(filter.regexp);
     }
-    setListSetting("FilterKey", keys);
-    setListSetting("FilterValue", values);
+    setListSetting(REGISTRY_FILTER_KEY, keys);
+    setListSetting(REGISTRY_FILTER_VALUE, values);
 }
 
 /******************************************************************************
  ******************************************************************************/
-/*!
- * \brief Restore the default settings
- */
-void Settings::beginRestoreDefault()
+bool Settings::isConfirmRemovalEnabled() const
 {
-    m_default = true;
+    return getSettingBool(REGISTRY_CONFIRM_REMOVAL);
 }
 
-void Settings::endRestoreDefault()
+void Settings::setConfirmRemovalEnabled(bool enabled)
 {
-    m_default = false;
-}
-
-void Settings::readSettings()
-{
-    QSettings settings;
-    settings.beginGroup("Preference");
-    foreach (auto item, m_items) {
-        const QString value = settings.value(item->key, UNDEFINED).toString();
-        item->value = (value != UNDEFINED) ? value : item->defaultValue;
-    }
-    settings.endGroup();
-    emit changed();
-}
-
-void Settings::writeSettings()
-{
-    QSettings settings;
-    settings.beginGroup("Preference");
-    foreach (auto item, m_items) {
-        if (item->value != item->defaultValue) {
-            settings.setValue(item->key, item->value);
-        }
-    }
-    settings.endGroup();
+    setSetting(REGISTRY_CONFIRM_REMOVAL, enabled);
 }
 
 /******************************************************************************
  ******************************************************************************/
-QString Settings::getSetting(const QString &key) const
+bool Settings::isStartMinimizedEnabled() const
 {
-    foreach (auto item, m_items) {
-        if (item->key == key) {
-            return m_default ? item->defaultValue : item->value;
-        }
-    }
-    Q_UNREACHABLE(); // must find the entry!
+    return getSettingBool(REGISTRY_START_MINIMIZED);
 }
 
-void Settings::addDefaultSetting(const QString &key, const QString &defaultValue)
+void Settings::setStartMinimizedEnabled(bool enabled)
 {
-    foreach (auto item, m_items) {
-        if (item->key == key) {
-            item->defaultValue = defaultValue;
-            return;
-        }
-    }
-    SettingsItem *item = new SettingsItem();
-    item->key = key;
-    item->defaultValue = defaultValue;
-    m_items.append(item);
-}
-
-void Settings::setSetting(const QString &key, const QString &value)
-{
-    Q_ASSERT(value != UNDEFINED);
-    foreach (auto item, m_items) {
-        if (item->key == key) {
-            if (item->value != value) {
-                item->value = value;
-                emit changed();
-            }
-            return;
-        }
-    }
-    Q_UNREACHABLE(); // must find the entry!
-}
-
-/******************************************************************************
- ******************************************************************************/
-QStringList Settings::getListSetting(const QString &key) const
-{
-    QStringList ret;
-    for (int i = 0; i < m_items.count(); ++i) {
-        const QString subkey = QString("%0%1").arg(key).arg(i);
-        foreach (auto item, m_items) {
-            if (item->key == subkey) {
-                ret << (m_default ? item->defaultValue : item->value);
-            }
-        }
-    }
-    return ret;
-}
-
-void Settings::addDefaultListSetting(const QString &key, const QStringList &defaultValue)
-{
-    for (int i = 0; i < defaultValue.count(); ++i) {
-        const QString subkey = QString("%0%1").arg(key).arg(i);
-        const QString subvalue = defaultValue.at(i);
-        addDefaultSetting(subkey, subvalue);
-    }
-}
-
-void Settings::setListSetting(const QString &key, const QStringList &value)
-{
-    for (int i = 0; i < value.count(); ++i) {
-        const QString subkey = QString("%0%1").arg(key).arg(i);
-        const QString subvalue = value.at(i);
-        setSetting(subkey, subvalue);
-    }
+    setSetting(REGISTRY_START_MINIMIZED, enabled);
 }

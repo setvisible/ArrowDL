@@ -33,20 +33,16 @@ public:
     QString currentMask() const;
     void setCurrentMask(const QString &currentMask);
 
-    bool colorizeErrors() const;
-    void setColorizeErrors(bool enabled);
-
 signals:
     void currentMaskChanged(QString mask);
 
 private slots:
     void onCurrentTextChanged(const QString &text);
+    void onTipButtonReleased();
+    void onTipButtonLinkActivated(const QString& link);
 
 private:
     Ui::MaskWidget *ui;
-    bool m_colorizeErrorsEnabled;
-
-    inline void colorizeErrors(const QString &text);
 };
 
 #endif // WIDGETS_MASK_WIDGET_H

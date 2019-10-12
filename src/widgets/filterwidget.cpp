@@ -17,11 +17,14 @@
 #include "filterwidget.h"
 #include "ui_filterwidget.h"
 
+#include <Widgets/AutoCloseDialog>
+#include <Widgets/FilterTip>
+
 #include <QtCore/QtMath>
 #include <QtWidgets/QCheckBox>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
+#include <QtWidgets/QMessageBox>
+#include <QtCore/QDebug>
+
 
 static uint encode(const QList<QCheckBox*> checkboxes)
 {
@@ -48,11 +51,18 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
 {
     ui->setupUi(this);
 
+    auto colorizePtr = [=](QString t) { QRegExp regex(t); return !regex.isValid(); };
+    ui->fastFilteringComboBox->setColorizeErrorWhen( colorizePtr );
+
     clearFilters();
 
     connect(ui->fastFilteringOnlyCheckBox, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));
     connect(ui->fastFilteringComboBox, SIGNAL(currentTextChanged(QString)),
             this, SLOT(onFilterChanged(QString)));
+
+    connect(ui->fastFilteringTipToolButton, SIGNAL(released()),
+            this, SLOT(onFilterTipToolReleased()));
+
 }
 
 FilterWidget::~FilterWidget()
@@ -94,16 +104,28 @@ inline QList<QCheckBox*> FilterWidget::allCheckBoxes() const
 
 /******************************************************************************
  ******************************************************************************/
-QString FilterWidget::text() const
+QString FilterWidget::currentFilter() const
 {
     return ui->fastFilteringComboBox->currentText();
 }
 
-void FilterWidget::setText(const QString &text)
+void FilterWidget::setCurrentFilter(const QString &text)
 {
     if (ui->fastFilteringComboBox->currentText() != text) {
         ui->fastFilteringComboBox->setCurrentText(text);
     }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QStringList FilterWidget::filterHistory() const
+{
+    return ui->fastFilteringComboBox->history();
+}
+
+void FilterWidget::setFilterHistory(const QStringList &filters)
+{
+    ui->fastFilteringComboBox->setHistory(filters);
 }
 
 /******************************************************************************
@@ -116,6 +138,24 @@ void FilterWidget::onFilterChanged(int)
 void FilterWidget::onFilterChanged(const QString &)
 {
     emit regexChanged(regex());
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void FilterWidget::onFilterTipToolReleased()
+{
+    FilterTip *tip = new FilterTip(this);
+
+    connect(tip, SIGNAL(linkActivated(QString)),
+            this, SLOT(onFilterTipToolLinkActivated(QString)));
+
+    AutoCloseDialog dialog(tip, ui->fastFilteringTipToolButton);
+    dialog.exec();
+}
+
+void FilterWidget::onFilterTipToolLinkActivated(const QString& link)
+{
+    ui->fastFilteringComboBox->setCurrentText(link);
 }
 
 /******************************************************************************
@@ -152,17 +192,11 @@ void FilterWidget::addFilter(const QString &title, const QString &regexp)
  ******************************************************************************/
 QRegExp FilterWidget::regex() const
 {
-    ui->fastFilteringComboBox->setStyleSheet(QString());
     QString filter;
 
     const QString text = ui->fastFilteringComboBox->currentText();
     if (!text.isEmpty()) {
         filter += "(" + text + ")";
-
-        QRegExp regexTest(filter);
-        if (!regexTest.isValid()) {
-            ui->fastFilteringComboBox->setStyleSheet(QLatin1String("color: rgb(255, 0, 0);"));
-        }
     }
 
     if (!ui->fastFilteringOnlyCheckBox->isChecked()) {

@@ -27,7 +27,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QComboBox" name="comboBox">
+    <widget class="ComboBox" name="comboBox">
      <property name="minimumSize">
       <size>
        <width>200</width>
@@ -81,6 +81,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ComboBox</class>
+   <extends>QComboBox</extends>
+   <header>Widgets/ComboBox</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../resources.qrc"/>
  </resources>

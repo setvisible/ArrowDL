@@ -40,7 +40,7 @@ class MimeDatabaseSingleton
 public:
     static MimeDatabaseSingleton& getInstance();
 
-    QPixmap fileIcon(const QString &url, int extend);
+    QPixmap fileIcon(const QUrl &url, int extend);
 
 private:
     MimeDatabaseSingleton() { init(); }
@@ -78,21 +78,21 @@ void MimeDatabaseSingleton::init()
      * Construction of QFileIconProvider is heavy
      */
     m_fileIconProvider.setOptions(QFileIconProvider::DontUseCustomDirectoryIcons);
-    m_defaultPixmap = fileIcon("page.html", 32);
+    m_defaultPixmap = fileIcon(QUrl("page.html"), 32);
 }
 
 /******************************************************************************
 ******************************************************************************/
-QPixmap MimeDatabase::fileIcon(const QString &url, int extend)
+QPixmap MimeDatabase::fileIcon(const QUrl &url, int extend)
 {
     return MimeDatabaseSingleton::getInstance().fileIcon(url, extend);
 }
 
-QPixmap MimeDatabaseSingleton::fileIcon(const QString &url, int extend)
+QPixmap MimeDatabaseSingleton::fileIcon(const QUrl &url, int extend)
 {
     QPixmap pixmap;
 
-    QFileInfo fileInfo(url);
+    QFileInfo fileInfo(url.toString());
 
     if (fileInfo.suffix().isEmpty() ||
             (fileInfo.suffix() == "exe" && fileInfo.exists())) {
@@ -108,8 +108,7 @@ QPixmap MimeDatabaseSingleton::fileIcon(const QString &url, int extend)
 
     if (!m_pixmapCache.find(key, &pixmap)) {
 
-        const QUrl realUrl(url);
-        const QString nativeName = realUrl.fileName();
+        const QString nativeName = url.fileName();
 
         const QDir dir(QDir::tempPath());
         if (!dir.exists()) {

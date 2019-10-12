@@ -17,6 +17,8 @@
 #ifndef CORE_DOWNLOAD_ITEM_H
 #define CORE_DOWNLOAD_ITEM_H
 
+#include <Core/AbstractDownloadItem>
+
 #include <QtCore/QObject>
 #include <QtCore/QString>
 #include <QtCore/QUrl>
@@ -27,24 +29,11 @@ class ResourceItem;
 class DownloadManager;
 class DownloadItemPrivate;
 
-class DownloadItem : public QObject
+class DownloadItem : public AbstractDownloadItem
 {
     Q_OBJECT
 
 public:
-    enum State {
-        Idle,
-        Paused,
-        Stopped,
-        Preparing,
-        Connecting,
-        Downloading,
-        Endgame,
-        Completed,
-        Skipped,
-        NetworkError,
-        FileError};
-
     DownloadItem(DownloadManager *downloadManager);
     ~DownloadItem();
 
@@ -52,59 +41,17 @@ public:
     ResourceItem* resource() const;
     void setResource(ResourceItem *resource);
 
-    /* State */
-    State state() const;
-    void setState(const State state);
-
-
-    double speed() const;
-    qint64 bytesReceived() const;
-    void setBytesReceived(qint64 bytesReceived);
-
-    qint64 bytesTotal() const;
-    void setBytesTotal(qint64 bytesTotal);
-
-    int progress() const;
-
-    QNetworkReply::NetworkError error() const;
-    void setError(QNetworkReply::NetworkError error);
-
-    /* Options */
-    int maxConnectionSegments() const;
-    void setMaxConnectionSegments(int connectionSegments);
-
-    int maxConnections() const;
-    void setMaxConnections(int connections);
-
     /* Convenient */
-    QUrl sourceUrl() const;
-
+    virtual QUrl sourceUrl() const Q_DECL_OVERRIDE;
+    virtual QString localFileName() const Q_DECL_OVERRIDE;
     QString localFullFileName() const;
-    QString localFileName() const;
     QString localFilePath() const;
-
     QUrl localFileUrl() const;
     QUrl localDirUrl() const;
 
-    bool isResumable() const;
-    bool isPausable() const;
-    bool isCancelable() const;
-    bool isDownloading() const;
-
-    QTime remainingTime();
-
-    static QString remaingTimeToString(QTime time);
-    static QString currentSpeedToString(double speed);
-    static QString fileSizeToString(qint64 size);
-
-signals:
-    void changed();
-    void finished();
-
-public slots:
-    void resume();
-    void pause();
-    void stop();
+    virtual void resume() Q_DECL_OVERRIDE;
+    virtual void pause() Q_DECL_OVERRIDE;
+    virtual void stop() Q_DECL_OVERRIDE;
 
 private slots:
     void onMetaDataChanged();
@@ -115,12 +62,9 @@ private slots:
     void onReadyRead();
     void onAboutToClose();
 
-    void updateInfo();
-
 private:
     DownloadItemPrivate *d;
     friend class DownloadItemPrivate;
-
 };
 
 #endif // CORE_DOWNLOAD_ITEM_H

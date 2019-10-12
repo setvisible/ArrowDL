@@ -40,9 +40,11 @@ public:
     uint state() const;
     void setState(uint code);
 
-    /* Custom filter */
-    QString text() const;
-    void setText(const QString &text);
+    QString currentFilter() const;
+    void setCurrentFilter(const QString &currentFilter);
+
+    QStringList filterHistory() const;
+    void setFilterHistory(const QStringList &filters);
 
 signals:
     void regexChanged(QRegExp regex);
@@ -50,6 +52,8 @@ signals:
 private slots:
     void onFilterChanged(int);
     void onFilterChanged(const QString &);
+    void onFilterTipToolReleased();
+    void onFilterTipToolLinkActivated(const QString& link);
 
 private:
     Ui::FilterWidget *ui;

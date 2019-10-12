@@ -16,11 +16,14 @@
 
 #include "downloadqueueview.h"
 
-#include <Core/DownloadItem>
-#include <Core/DownloadManager>
+#include <Core/AbstractDownloadItem>
+#include <Core/DownloadEngine>
+#include <Core/Format>
 #include <Core/MimeDatabase>
-#include <Core/ResourceItem>
+#include <Widgets/CustomStyle>
+#include <Widgets/CustomStyleOptionProgressBar>
 
+#include <QtCore/QDebug>
 #include <QtGui/QPainter>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QTreeWidget>
@@ -29,7 +32,6 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QStyledItemDelegate>
 
-#include <QtCore/QDebug>
 
 #define C_COL_0_FILE_NAME          0
 #define C_COL_1_WEBSITE_DOMAIN     1
@@ -44,8 +46,69 @@
 #define C_COL_10_CHECKSUM         10  /* hidden */
 
 #define C_COLUMN_DEFAULT_WIDTH   100
+#define C_ROW_DEFAULT_HEIGHT      22
 
+/* Constant */
+static const QColor s_black         = QColor(0, 0, 0);
+static const QColor s_lightBlue     = QColor(205, 232, 255);
+static const QColor s_darkGrey      = QColor(160, 160, 160);
+static const QColor s_green         = QColor(170, 224, 97);
+static const QColor s_darkGreen     = QColor(0, 143, 0);
+static const QColor s_darkYellow    = QColor(255, 204, 0);
+static const QColor s_darkRed       = QColor(177, 40, 1);
 
+static inline QString stateToString(IDownloadItem::State state)
+{
+    QString stateString;
+    switch (state) {
+    case IDownloadItem::Idle:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Idle");
+        break;
+    case IDownloadItem::Paused:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Paused");
+        break;
+    case IDownloadItem::Stopped:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Canceled");
+        break;
+    case IDownloadItem::Preparing:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Preparing");
+        break;
+    case IDownloadItem::Connecting:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Connecting");
+        break;
+    case IDownloadItem::Downloading:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Downloading");
+        break;
+    case IDownloadItem::Endgame:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Finishing");
+        break;
+    case IDownloadItem::Completed:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Complete");
+        break;
+    case IDownloadItem::Skipped:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Skipped");
+        break;
+    case IDownloadItem::NetworkError:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Server error");
+        break;
+    case IDownloadItem::FileError:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "File error");
+        break;
+    default:
+        Q_UNREACHABLE();
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "????");
+        break;
+    }
+    return stateString ;
+}
+
+enum ProgressBar {
+    StateRole = Qt::UserRole + 1,
+    ProgressRole
+};
+
+/******************************************************************************
+ ******************************************************************************/
 /*!
  * QueueView extends QTreeWidget to allow drag and drop.
  */
@@ -87,59 +150,148 @@ class QueueViewItemDelegate : public QStyledItemDelegate
     Q_OBJECT
 
 public:
-    inline QueueViewItemDelegate(DownloadQueueView *parent) : QStyledItemDelegate(parent) {}
+    inline QueueViewItemDelegate(DownloadQueueView *parent);
 
+    // painting
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index ) const override
-    {
-        if (index.column() == 0) {
-
-            QStyleOptionViewItem myOption = option;
-            initStyleOption(&myOption, index);
-
-            const QString url = myOption.text;
-            const QPixmap pixmap = MimeDatabase::fileIcon(url, 16);
-
-            myOption.icon.addPixmap(pixmap);
-            myOption.decorationAlignment = Qt::AlignHCenter |Qt::AlignVCenter;
-            myOption.decorationPosition = QStyleOptionViewItem::Left;
-            myOption.features = myOption.features | QStyleOptionViewItem::HasDecoration;
-
-            QStyledItemDelegate::paint(painter, myOption, index);
-
-        } else if (index.column() == 2) {
-
-            // Set up a QStyleOptionProgressBar to precisely mimic the
-            // environment of a progress bar.
-            QStyleOptionProgressBar progressBarOption;
-            progressBarOption.state = QStyle::State_Enabled;
-            progressBarOption.direction = QApplication::layoutDirection();
-            progressBarOption.rect = option.rect;
-            progressBarOption.fontMetrics = QApplication::fontMetrics();
-            progressBarOption.minimum = 0;
-            progressBarOption.maximum = 100;
-            progressBarOption.textAlignment = Qt::AlignCenter;
-            progressBarOption.textVisible = false;
-            //  progressBarOption.palette.setColor();
-
-            // Set the progress and text values of the style option.
-            const DownloadQueueView *downloadQueueView = qobject_cast<const DownloadQueueView *>(parent());
-            const DownloadManager *manager = downloadQueueView->downloadManager();
-            const DownloadItem *item = manager->clientForRow(index.row());
+               const QModelIndex &index ) const Q_DECL_OVERRIDE;
 
 
-            progressBarOption.progress = item->progress();
 
-            //   painter->drawi
-            // Draw the progress bar onto the view.
-            QApplication::style()->drawControl(QStyle::CE_ProgressBar, &progressBarOption, painter);
+private:
+    QIcon m_idleIcon;
+    QIcon m_resumeIcon;
+    QIcon m_pauseIcon;
+    QIcon m_stopIcon;
+    QIcon m_completedIcon;
 
-
-        } else {
-            QStyledItemDelegate::paint(painter, option, index);
-        }
-    }
+    QColor stateColor(IDownloadItem::State state) const;
+    QIcon stateIcon(IDownloadItem::State state) const;
 };
+
+QueueViewItemDelegate::QueueViewItemDelegate(DownloadQueueView *parent) : QStyledItemDelegate(parent)
+{
+    m_idleIcon.addPixmap(QPixmap(":/icons/menu/icon_idle_16x16.png"), QIcon::Normal, QIcon::On);
+    m_resumeIcon.addPixmap(QPixmap(":/icons/menu/icon_resume_16x16.png"), QIcon::Normal, QIcon::On);
+    m_pauseIcon.addPixmap(QPixmap(":/icons/menu/icon_pause_16x16.png"), QIcon::Normal, QIcon::On);
+    m_stopIcon.addPixmap(QPixmap(":/icons/menu/icon_cancel_16x16.png"), QIcon::Normal, QIcon::On);
+    m_completedIcon.addPixmap(QPixmap(":/icons/menu/icon_remove_completed_16x16.png"), QIcon::Normal, QIcon::On);
+
+}
+
+void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
+                                  const QModelIndex &index ) const
+{
+    QStyleOptionViewItem myOption = option;
+    initStyleOption(&myOption, index);
+
+    if (myOption.state & QStyle::State_Selected) {
+        myOption.font.setBold(true);
+    }
+
+    myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
+    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
+
+    if (index.column() == 0) {
+
+        const QUrl url(myOption.text);
+        const QPixmap pixmap = MimeDatabase::fileIcon(url, 16);
+
+        myOption.icon.addPixmap(pixmap);
+        myOption.decorationAlignment = Qt::AlignHCenter |Qt::AlignVCenter;
+        myOption.decorationPosition = QStyleOptionViewItem::Left;
+        myOption.features = myOption.features | QStyleOptionViewItem::HasDecoration;
+
+        QStyledItemDelegate::paint(painter, myOption, index);
+
+    } else if (index.column() == 2) {
+
+        const int progress = index.data(ProgressBar::ProgressRole).toInt();
+        const IDownloadItem::State state = (IDownloadItem::State)index.data(ProgressBar::StateRole).toInt();
+
+        CustomStyleOptionProgressBar progressBarOption;
+        progressBarOption.state = QStyle::State_Enabled;
+        progressBarOption.direction = QApplication::layoutDirection();
+        progressBarOption.rect = myOption.rect;
+        progressBarOption.fontMetrics = QApplication::fontMetrics();
+        progressBarOption.minimum = 0;
+        progressBarOption.maximum = 100;
+        progressBarOption.textAlignment = Qt::AlignCenter;
+        progressBarOption.textVisible = false;
+        progressBarOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
+        progressBarOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
+        progressBarOption.progress = progress;
+        progressBarOption.color = stateColor(state);
+        progressBarOption.icon = stateIcon(state);
+
+        QApplication::style()->drawControl(QStyle::CE_ProgressBar, &progressBarOption, painter);
+    } else {
+        QStyledItemDelegate::paint(painter, option, index);
+    }
+}
+
+
+QColor QueueViewItemDelegate::stateColor(IDownloadItem::State state) const
+{
+    switch (state) {
+    case IDownloadItem::Idle:
+        return s_darkGrey;
+        break;
+    case IDownloadItem::Paused:
+        return s_darkYellow;
+        break;
+    case IDownloadItem::Preparing:
+    case IDownloadItem::Connecting:
+    case IDownloadItem::Downloading:
+    case IDownloadItem::Endgame:
+        return s_green;
+        break;
+    case IDownloadItem::Completed:
+        return s_darkGreen;
+        break;
+    case IDownloadItem::Stopped:
+    case IDownloadItem::Skipped:
+    case IDownloadItem::NetworkError:
+    case IDownloadItem::FileError:
+        return s_darkRed;
+        break;
+    default:
+        Q_UNREACHABLE();
+        break;
+    }
+    return Qt::black;
+}
+
+QIcon QueueViewItemDelegate::stateIcon(IDownloadItem::State state) const
+{
+    switch (state) {
+    case IDownloadItem::Idle:
+        return m_idleIcon;
+        break;
+    case IDownloadItem::Paused:
+        return m_pauseIcon;
+        break;
+    case IDownloadItem::Preparing:
+    case IDownloadItem::Connecting:
+    case IDownloadItem::Downloading:
+    case IDownloadItem::Endgame:
+        return m_resumeIcon;
+        break;
+    case IDownloadItem::Completed:
+        return m_completedIcon;
+        break;
+    case IDownloadItem::Stopped:
+    case IDownloadItem::Skipped:
+    case IDownloadItem::NetworkError:
+    case IDownloadItem::FileError:
+        return m_stopIcon;
+        break;
+    default:
+        Q_UNREACHABLE();
+        break;
+    }
+    return QIcon();
+}
 
 /******************************************************************************
  ******************************************************************************/
@@ -148,70 +300,25 @@ class QueueItem : public QObject, public QTreeWidgetItem
     Q_OBJECT
 
 public:
-    explicit QueueItem(DownloadItem *downloadItem, QTreeWidget *view);
+    explicit QueueItem(AbstractDownloadItem *downloadItem, QTreeWidget *view);
 
-    DownloadItem* downloadItem() const { return m_downloadItem; }
+    AbstractDownloadItem* downloadItem() const { return m_downloadItem; }
 
 public slots:
     void updateItem();
 
 private:
-    DownloadItem *m_downloadItem;
+    AbstractDownloadItem *m_downloadItem;
 };
 
-
-QueueItem::QueueItem(DownloadItem *downloadItem, QTreeWidget *view)
+QueueItem::QueueItem(AbstractDownloadItem *downloadItem, QTreeWidget *view)
     : QObject(view)
     , QTreeWidgetItem(view, QTreeWidgetItem::UserType)
     , m_downloadItem(downloadItem)
 {
+    setSizeHint(C_COL_2_PROGRESS_BAR, QSize(C_COLUMN_DEFAULT_WIDTH, C_ROW_DEFAULT_HEIGHT));
     connect(m_downloadItem, SIGNAL(changed()), this, SLOT(updateItem()));
     updateItem();
-}
-
-
-static inline QString stateToString(DownloadItem::State state)
-{
-    QString stateString;
-    switch (state) {
-    case DownloadItem::Idle:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Idle");
-        break;
-    case DownloadItem::Paused:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Paused");
-        break;
-    case DownloadItem::Stopped:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Canceled");
-        break;
-    case DownloadItem::Preparing:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Preparing");
-        break;
-    case DownloadItem::Connecting:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Connecting");
-        break;
-    case DownloadItem::Downloading:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Downloading");
-        break;
-    case DownloadItem::Endgame:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Finishing");
-        break;
-    case DownloadItem::Completed:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Complete");
-        break;
-    case DownloadItem::Skipped:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Skipped");
-        break;
-    case DownloadItem::NetworkError:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Server error");
-        break;
-    case DownloadItem::FileError:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "File error");
-        break;
-    default:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "????");
-        break;
-    }
-    return stateString ;
 }
 
 void QueueItem::updateItem()
@@ -219,35 +326,35 @@ void QueueItem::updateItem()
     QString size;
     if (m_downloadItem->bytesTotal() > 0) {
         size = tr("%0 of %1")
-                .arg(DownloadItem::fileSizeToString(m_downloadItem->bytesReceived()))
-                .arg(DownloadItem::fileSizeToString(m_downloadItem->bytesTotal()));
+                .arg(Format::fileSizeToString(m_downloadItem->bytesReceived()))
+                .arg(Format::fileSizeToString(m_downloadItem->bytesTotal()));
     } else {
         size = tr("Unknown");
     }
 
     QString estTime = stateToString(m_downloadItem->state());
-    if (m_downloadItem->state() == DownloadItem::NetworkError) {
+    if (m_downloadItem->state() == IDownloadItem::NetworkError) {
         /*
          * See QNetworkReply::NetworkError Documentation for conversion
          */
-        int httpErrorNumber = (int) m_downloadItem->error();
+        int httpErrorNumber = m_downloadItem->httpErrorNumber();
         if (httpErrorNumber == 201) httpErrorNumber = 401;
         if (httpErrorNumber == 203) httpErrorNumber = 404;
         estTime += tr("(%0)").arg(httpErrorNumber);
 
-    } else if (m_downloadItem->state() == DownloadItem::Downloading) {
-        estTime = DownloadItem::remaingTimeToString(m_downloadItem->remainingTime());
+    } else if (m_downloadItem->state() == IDownloadItem::Downloading) {
+        estTime = Format::remaingTimeToString(m_downloadItem->remainingTime());
     }
 
-    QString speed = DownloadItem::currentSpeedToString(m_downloadItem->speed());
+    QString speed = Format::currentSpeedToString(m_downloadItem->speed());
 
     this->setText(C_COL_0_FILE_NAME       , m_downloadItem->localFileName());
     this->setText(C_COL_1_WEBSITE_DOMAIN  , m_downloadItem->sourceUrl().host()); // todo domain only
 
-    //item->setText(C_OL_2_PROGRESS_BAR    , QString());
-    this->setSizeHint(C_COL_2_PROGRESS_BAR, QSize(100, 22));
+    this->setData(C_COL_2_PROGRESS_BAR, ProgressBar::StateRole, m_downloadItem->state());
+    this->setData(C_COL_2_PROGRESS_BAR, ProgressBar::ProgressRole, m_downloadItem->progress());
 
-    this->setText(C_COL_3_PERCENT         , QString::asprintf("%d%%", m_downloadItem->progress()));
+    this->setText(C_COL_3_PERCENT         , QString::asprintf("%d%%", qMax(0, m_downloadItem->progress())));
     this->setText(C_COL_4_SIZE            , size);
     this->setText(C_COL_5_ESTIMATED_TIME  , estTime);
     this->setText(C_COL_6_SPEED           , speed);
@@ -259,7 +366,7 @@ void QueueItem::updateItem()
 /******************************************************************************
  ******************************************************************************/
 DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
-  , m_downloadManager(Q_NULLPTR)
+  , m_downloadEngine(Q_NULLPTR)
   , m_contextMenu(Q_NULLPTR)
 {
     this->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -353,47 +460,48 @@ void DownloadQueueView::setColumnWidths(const QList<int> &widths)
 
 /******************************************************************************
  ******************************************************************************/
-const DownloadManager* DownloadQueueView::downloadManager() const
+const DownloadEngine *DownloadQueueView::engine() const
 {
-    return m_downloadManager;
+    return m_downloadEngine;
 }
 
-void DownloadQueueView::setDownloadManager(DownloadManager *downloadManager)
+void DownloadQueueView::setEngine(DownloadEngine *downloadEngine)
 {
-    if (m_downloadManager) {
-        this->disconnect(m_downloadManager, SIGNAL(jobAppended(DownloadItem*)),
-                         this, SLOT(onJobAdded(DownloadItem*)));
-        this->disconnect(m_downloadManager, SIGNAL(jobRemoved(DownloadItem*)),
-                         this, SLOT(onJobRemoved(DownloadItem*)));
-        this->disconnect(m_downloadManager, SIGNAL(jobStateChanged(DownloadItem*)),
-                         this, SLOT(onJobStateChanged(DownloadItem*)));
-        this->disconnect(m_downloadManager, SIGNAL(selectionChanged()),
+    if (m_downloadEngine) {
+        this->disconnect(m_downloadEngine, SIGNAL(jobAppended(IDownloadItem*)),
+                         this, SLOT(onJobAdded(IDownloadItem*)));
+        this->disconnect(m_downloadEngine, SIGNAL(jobRemoved(IDownloadItem*)),
+                         this, SLOT(onJobRemoved(IDownloadItem*)));
+        this->disconnect(m_downloadEngine, SIGNAL(jobStateChanged(IDownloadItem*)),
+                         this, SLOT(onJobStateChanged(IDownloadItem*)));
+        this->disconnect(m_downloadEngine, SIGNAL(selectionChanged()),
                          this, SLOT(onSelectionChanged()));
     }
-    m_downloadManager = downloadManager;
-    if (m_downloadManager) {
-        this->connect(m_downloadManager, SIGNAL(jobAppended(DownloadItem*)),
-                      this, SLOT(onJobAdded(DownloadItem*)));
-        this->connect(m_downloadManager, SIGNAL(jobRemoved(DownloadItem*)),
-                      this, SLOT(onJobRemoved(DownloadItem*)));
-        this->connect(m_downloadManager, SIGNAL(jobStateChanged(DownloadItem*)),
-                      this, SLOT(onJobStateChanged(DownloadItem*)));
-        this->connect(m_downloadManager, SIGNAL(selectionChanged()),
+    m_downloadEngine = downloadEngine;
+    if (m_downloadEngine) {
+        this->connect(m_downloadEngine, SIGNAL(jobAppended(IDownloadItem*)),
+                      this, SLOT(onJobAdded(IDownloadItem*)));
+        this->connect(m_downloadEngine, SIGNAL(jobRemoved(IDownloadItem*)),
+                      this, SLOT(onJobRemoved(IDownloadItem*)));
+        this->connect(m_downloadEngine, SIGNAL(jobStateChanged(IDownloadItem*)),
+                      this, SLOT(onJobStateChanged(IDownloadItem*)));
+        this->connect(m_downloadEngine, SIGNAL(selectionChanged()),
                       this, SLOT(onSelectionChanged()));
     }
 }
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadQueueView::onJobAdded(DownloadItem *downloadItem)
+void DownloadQueueView::onJobAdded(IDownloadItem *item)
 {
+    AbstractDownloadItem* downloadItem = static_cast<AbstractDownloadItem*>(item);
     QueueItem* queueItem = new QueueItem(downloadItem, m_queueView);
     m_queueView->addTopLevelItem(queueItem);
 }
 
-void DownloadQueueView::onJobRemoved(DownloadItem *downloadItem)
+void DownloadQueueView::onJobRemoved(IDownloadItem *item)
 {
-    const int index = getIndex(downloadItem);
+    const int index = getIndex(item);
     if (index >= 0) {
         QTreeWidgetItem *treeItem = m_queueView->takeTopLevelItem(index);
         if (treeItem) {
@@ -402,9 +510,9 @@ void DownloadQueueView::onJobRemoved(DownloadItem *downloadItem)
     }
 }
 
-void DownloadQueueView::onJobStateChanged(DownloadItem *downloadItem)
+void DownloadQueueView::onJobStateChanged(IDownloadItem *item)
 {
-    QueueItem* queueItem = getQueueItem(downloadItem);
+    QueueItem* queueItem = getQueueItem(item);
     if (queueItem) {
         queueItem->updateItem();
     }
@@ -414,7 +522,7 @@ void DownloadQueueView::onJobStateChanged(DownloadItem *downloadItem)
  ******************************************************************************/
 void DownloadQueueView::onSelectionChanged()
 {
-    const QList<DownloadItem*> selection = m_downloadManager->selection();
+    const QList<IDownloadItem *> selection = m_downloadEngine->selection();
     const int count = m_queueView->topLevelItemCount();
     for (int index = 0; index < count; ++index) {
         QTreeWidgetItem* treeItem = m_queueView->topLevelItem(index);
@@ -426,7 +534,7 @@ void DownloadQueueView::onSelectionChanged()
 
 /******************************************************************************
  ******************************************************************************/
-int DownloadQueueView::getIndex(DownloadItem *downloadItem) const
+int DownloadQueueView::getIndex(IDownloadItem *downloadItem) const
 {
     const int count = m_queueView->topLevelItemCount();
     for (int index = 0; index < count; ++index) {
@@ -441,7 +549,7 @@ int DownloadQueueView::getIndex(DownloadItem *downloadItem) const
     return -1;
 }
 
-QueueItem* DownloadQueueView::getQueueItem(DownloadItem *downloadItem)
+QueueItem* DownloadQueueView::getQueueItem(IDownloadItem *downloadItem)
 {
     const int index = getIndex(downloadItem);
     if (index >= 0) {
@@ -467,12 +575,12 @@ void DownloadQueueView::onQueueViewDoubleClicked(const QModelIndex &index)
 
 void DownloadQueueView::onQueueViewItemSelectionChanged()
 {
-    QList<DownloadItem*> selection;
+    QList<IDownloadItem *> selection;
     foreach (auto treeItem, m_queueView->selectedItems()) {
         const QueueItem *queueItem = static_cast<const QueueItem *>(treeItem);
         selection << queueItem->downloadItem();
     }
-    m_downloadManager->setSelection(selection);
+    m_downloadEngine->setSelection(selection);
 }
 
 /******************************************************************************
