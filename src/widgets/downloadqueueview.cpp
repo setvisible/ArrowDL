@@ -205,7 +205,6 @@ private:
     AbstractDownloadItem *m_downloadItem;
 };
 
-
 QueueItem::QueueItem(AbstractDownloadItem *downloadItem, QTreeWidget *view)
     : QObject(view)
     , QTreeWidgetItem(view, QTreeWidgetItem::UserType)
