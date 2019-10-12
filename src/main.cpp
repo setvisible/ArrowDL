@@ -19,6 +19,8 @@
 
 #include <QtSingleApplication>
 
+#include <Widgets/CustomStyle>
+
 #include <QtCore/QCommandLineParser>
 #include <QtCore/QMetaType>
 #include <QtCore/QUrl>
@@ -28,6 +30,8 @@ Q_DECLARE_METATYPE(QList<int>)
 int main(int argc, char *argv[])
 {
     QtSingleApplication application(argc, argv);
+
+    application.setStyle(new CustomStyle);
 
     QCoreApplication::setApplicationName(STR_APPLICATION_NAME);
     QCoreApplication::setOrganizationName(STR_APPLICATION_ORGANIZATION);

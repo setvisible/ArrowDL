@@ -20,6 +20,8 @@
 #include <Core/DownloadEngine>
 #include <Core/Format>
 #include <Core/MimeDatabase>
+#include <Widgets/CustomStyle>
+#include <Widgets/CustomStyleOptionProgressBar>
 
 #include <QtCore/QDebug>
 #include <QtGui/QPainter>
@@ -44,7 +46,16 @@
 #define C_COL_10_CHECKSUM         10  /* hidden */
 
 #define C_COLUMN_DEFAULT_WIDTH   100
+#define C_ROW_DEFAULT_HEIGHT      22
 
+/* Constant */
+static const QColor s_black         = QColor(0, 0, 0);
+static const QColor s_lightBlue     = QColor(205, 232, 255);
+static const QColor s_darkGrey      = QColor(160, 160, 160);
+static const QColor s_green         = QColor(170, 224, 97);
+static const QColor s_darkGreen     = QColor(0, 143, 0);
+static const QColor s_darkYellow    = QColor(255, 204, 0);
+static const QColor s_darkRed       = QColor(177, 40, 1);
 
 static inline QString stateToString(IDownloadItem::State state)
 {
@@ -84,11 +95,17 @@ static inline QString stateToString(IDownloadItem::State state)
         stateString = QT_TRANSLATE_NOOP(DownloadItem, "File error");
         break;
     default:
+        Q_UNREACHABLE();
         stateString = QT_TRANSLATE_NOOP(DownloadItem, "????");
         break;
     }
     return stateString ;
 }
+
+enum ProgressBar {
+    StateRole = Qt::UserRole + 1,
+    ProgressRole
+};
 
 /******************************************************************************
  ******************************************************************************/
@@ -133,59 +150,148 @@ class QueueViewItemDelegate : public QStyledItemDelegate
     Q_OBJECT
 
 public:
-    inline QueueViewItemDelegate(DownloadQueueView *parent) : QStyledItemDelegate(parent) {}
+    inline QueueViewItemDelegate(DownloadQueueView *parent);
 
+    // painting
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index ) const override
-    {
-        if (index.column() == 0) {
-
-            QStyleOptionViewItem myOption = option;
-            initStyleOption(&myOption, index);
-
-            const QUrl url(myOption.text);
-            const QPixmap pixmap = MimeDatabase::fileIcon(url, 16);
-
-            myOption.icon.addPixmap(pixmap);
-            myOption.decorationAlignment = Qt::AlignHCenter |Qt::AlignVCenter;
-            myOption.decorationPosition = QStyleOptionViewItem::Left;
-            myOption.features = myOption.features | QStyleOptionViewItem::HasDecoration;
-
-            QStyledItemDelegate::paint(painter, myOption, index);
-
-        } else if (index.column() == 2) {
-
-            // Set up a QStyleOptionProgressBar to precisely mimic the
-            // environment of a progress bar.
-            QStyleOptionProgressBar progressBarOption;
-            progressBarOption.state = QStyle::State_Enabled;
-            progressBarOption.direction = QApplication::layoutDirection();
-            progressBarOption.rect = option.rect;
-            progressBarOption.fontMetrics = QApplication::fontMetrics();
-            progressBarOption.minimum = 0;
-            progressBarOption.maximum = 100;
-            progressBarOption.textAlignment = Qt::AlignCenter;
-            progressBarOption.textVisible = false;
-            //  progressBarOption.palette.setColor();
-
-            // Set the progress and text values of the style option.
-            const DownloadQueueView *downloadQueueView = qobject_cast<const DownloadQueueView *>(parent());
-            const DownloadEngine *engine= downloadQueueView->engine();
-            const IDownloadItem *item = engine->clientForRow(index.row());
+               const QModelIndex &index ) const Q_DECL_OVERRIDE;
 
 
-            progressBarOption.progress = item->progress();
 
-            //   painter->drawi
-            // Draw the progress bar onto the view.
-            QApplication::style()->drawControl(QStyle::CE_ProgressBar, &progressBarOption, painter);
+private:
+    QIcon m_idleIcon;
+    QIcon m_resumeIcon;
+    QIcon m_pauseIcon;
+    QIcon m_stopIcon;
+    QIcon m_completedIcon;
 
-
-        } else {
-            QStyledItemDelegate::paint(painter, option, index);
-        }
-    }
+    QColor stateColor(IDownloadItem::State state) const;
+    QIcon stateIcon(IDownloadItem::State state) const;
 };
+
+QueueViewItemDelegate::QueueViewItemDelegate(DownloadQueueView *parent) : QStyledItemDelegate(parent)
+{
+    m_idleIcon.addPixmap(QPixmap(":/icons/menu/icon_idle_16x16.png"), QIcon::Normal, QIcon::On);
+    m_resumeIcon.addPixmap(QPixmap(":/icons/menu/icon_resume_16x16.png"), QIcon::Normal, QIcon::On);
+    m_pauseIcon.addPixmap(QPixmap(":/icons/menu/icon_pause_16x16.png"), QIcon::Normal, QIcon::On);
+    m_stopIcon.addPixmap(QPixmap(":/icons/menu/icon_cancel_16x16.png"), QIcon::Normal, QIcon::On);
+    m_completedIcon.addPixmap(QPixmap(":/icons/menu/icon_remove_completed_16x16.png"), QIcon::Normal, QIcon::On);
+
+}
+
+void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
+                                  const QModelIndex &index ) const
+{
+    QStyleOptionViewItem myOption = option;
+    initStyleOption(&myOption, index);
+
+    if (myOption.state & QStyle::State_Selected) {
+        myOption.font.setBold(true);
+    }
+
+    myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
+    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
+
+    if (index.column() == 0) {
+
+        const QUrl url(myOption.text);
+        const QPixmap pixmap = MimeDatabase::fileIcon(url, 16);
+
+        myOption.icon.addPixmap(pixmap);
+        myOption.decorationAlignment = Qt::AlignHCenter |Qt::AlignVCenter;
+        myOption.decorationPosition = QStyleOptionViewItem::Left;
+        myOption.features = myOption.features | QStyleOptionViewItem::HasDecoration;
+
+        QStyledItemDelegate::paint(painter, myOption, index);
+
+    } else if (index.column() == 2) {
+
+        const int progress = index.data(ProgressBar::ProgressRole).toInt();
+        const IDownloadItem::State state = (IDownloadItem::State)index.data(ProgressBar::StateRole).toInt();
+
+        CustomStyleOptionProgressBar progressBarOption;
+        progressBarOption.state = QStyle::State_Enabled;
+        progressBarOption.direction = QApplication::layoutDirection();
+        progressBarOption.rect = myOption.rect;
+        progressBarOption.fontMetrics = QApplication::fontMetrics();
+        progressBarOption.minimum = 0;
+        progressBarOption.maximum = 100;
+        progressBarOption.textAlignment = Qt::AlignCenter;
+        progressBarOption.textVisible = false;
+        progressBarOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
+        progressBarOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
+        progressBarOption.progress = progress;
+        progressBarOption.color = stateColor(state);
+        progressBarOption.icon = stateIcon(state);
+
+        QApplication::style()->drawControl(QStyle::CE_ProgressBar, &progressBarOption, painter);
+    } else {
+        QStyledItemDelegate::paint(painter, option, index);
+    }
+}
+
+
+QColor QueueViewItemDelegate::stateColor(IDownloadItem::State state) const
+{
+    switch (state) {
+    case IDownloadItem::Idle:
+        return s_darkGrey;
+        break;
+    case IDownloadItem::Paused:
+        return s_darkYellow;
+        break;
+    case IDownloadItem::Preparing:
+    case IDownloadItem::Connecting:
+    case IDownloadItem::Downloading:
+    case IDownloadItem::Endgame:
+        return s_green;
+        break;
+    case IDownloadItem::Completed:
+        return s_darkGreen;
+        break;
+    case IDownloadItem::Stopped:
+    case IDownloadItem::Skipped:
+    case IDownloadItem::NetworkError:
+    case IDownloadItem::FileError:
+        return s_darkRed;
+        break;
+    default:
+        Q_UNREACHABLE();
+        break;
+    }
+    return Qt::black;
+}
+
+QIcon QueueViewItemDelegate::stateIcon(IDownloadItem::State state) const
+{
+    switch (state) {
+    case IDownloadItem::Idle:
+        return m_idleIcon;
+        break;
+    case IDownloadItem::Paused:
+        return m_pauseIcon;
+        break;
+    case IDownloadItem::Preparing:
+    case IDownloadItem::Connecting:
+    case IDownloadItem::Downloading:
+    case IDownloadItem::Endgame:
+        return m_resumeIcon;
+        break;
+    case IDownloadItem::Completed:
+        return m_completedIcon;
+        break;
+    case IDownloadItem::Stopped:
+    case IDownloadItem::Skipped:
+    case IDownloadItem::NetworkError:
+    case IDownloadItem::FileError:
+        return m_stopIcon;
+        break;
+    default:
+        Q_UNREACHABLE();
+        break;
+    }
+    return QIcon();
+}
 
 /******************************************************************************
  ******************************************************************************/
@@ -210,6 +316,7 @@ QueueItem::QueueItem(AbstractDownloadItem *downloadItem, QTreeWidget *view)
     , QTreeWidgetItem(view, QTreeWidgetItem::UserType)
     , m_downloadItem(downloadItem)
 {
+    setSizeHint(C_COL_2_PROGRESS_BAR, QSize(C_COLUMN_DEFAULT_WIDTH, C_ROW_DEFAULT_HEIGHT));
     connect(m_downloadItem, SIGNAL(changed()), this, SLOT(updateItem()));
     updateItem();
 }
@@ -244,10 +351,10 @@ void QueueItem::updateItem()
     this->setText(C_COL_0_FILE_NAME       , m_downloadItem->localFileName());
     this->setText(C_COL_1_WEBSITE_DOMAIN  , m_downloadItem->sourceUrl().host()); // todo domain only
 
-    //item->setText(C_OL_2_PROGRESS_BAR    , QString());
-    this->setSizeHint(C_COL_2_PROGRESS_BAR, QSize(100, 22));
+    this->setData(C_COL_2_PROGRESS_BAR, ProgressBar::StateRole, m_downloadItem->state());
+    this->setData(C_COL_2_PROGRESS_BAR, ProgressBar::ProgressRole, m_downloadItem->progress());
 
-    this->setText(C_COL_3_PERCENT         , QString::asprintf("%d%%", m_downloadItem->progress()));
+    this->setText(C_COL_3_PERCENT         , QString::asprintf("%d%%", qMax(0, m_downloadItem->progress())));
     this->setText(C_COL_4_SIZE            , size);
     this->setText(C_COL_5_ESTIMATED_TIME  , estTime);
     this->setText(C_COL_6_SPEED           , speed);

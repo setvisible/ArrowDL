@@ -100,8 +100,18 @@ int AbstractDownloadItem::progress() const
 {
     if (m_bytesTotal > 0) {
         return qMin(qFloor(100.0 * m_bytesReceived / m_bytesTotal), 100);
-    } else {
+
+    } else if (m_state == Idle) {
         return 0;
+
+    } else if (m_state == Stopped ||
+               m_state == Skipped ||
+               m_state == NetworkError ||
+               m_state == FileError) {
+        return 100;
+
+    } else {
+        return -1; // Undefined
     }
 }
 
