@@ -14,20 +14,23 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mainwindow.h"
+#ifndef WIDGETS_CUSTOM_STYLE_H
+#define WIDGETS_CUSTOM_STYLE_H
 
-#include <Widgets/CustomStyle>
+#include <QtWidgets/QProxyStyle>
+#include <QtGui/QPixmap>
 
-#include <QtWidgets/QApplication>
-
-int main(int argc, char *argv[])
+class CustomStyle : public QProxyStyle
 {
-    QApplication app(argc, argv);
+public:
+    CustomStyle();
+    ~CustomStyle();
 
-    app.setStyle(new CustomStyle);
+    void drawControl(ControlElement element, const QStyleOption *option,
+                     QPainter *painter, const QWidget *widget = Q_NULLPTR) const;
 
-    MainWindow window;
-    window.show();
+private:
+    QImage m_textureImage;
+};
 
-    return app.exec();
-}
+#endif // WIDGETS_CUSTOM_STYLE_H

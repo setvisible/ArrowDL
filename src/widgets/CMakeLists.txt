@@ -1,6 +1,8 @@
 set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/autoclosedialog.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/combobox.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/customstyle.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/customstyleoptionprogressbar.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/downloadqueueview.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/filtertip.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/filterwidget.cpp

@@ -27,6 +27,8 @@ HEADERS += \
     $$PWD/../../../src/core/format.h \
     $$PWD/../../../src/core/idownloaditem.h\
     $$PWD/../../../src/core/mimedatabase.h \
+    $$PWD/../../../src/widgets/customstyle.h \
+    $$PWD/../../../src/widgets/customstyleoptionprogressbar.h \
     $$PWD/../../../src/widgets/downloadqueueview.h
 
 SOURCES += \
@@ -34,7 +36,10 @@ SOURCES += \
     $$PWD/../../../src/core/downloadengine.cpp \
     $$PWD/../../../src/core/format.cpp \
     $$PWD/../../../src/core/mimedatabase.cpp \
+    $$PWD/../../../src/widgets/customstyle.cpp \
+    $$PWD/../../../src/widgets/customstyleoptionprogressbar.cpp \
     $$PWD/../../../src/widgets/downloadqueueview.cpp
+
 
 #-------------------------------------------------
 # INCLUDE
