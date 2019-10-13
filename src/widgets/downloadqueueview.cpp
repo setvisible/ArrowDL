@@ -119,15 +119,6 @@ class QueueView : public QTreeWidget
 
 public:
     QueueView(QWidget *parent);
-
-    //#if QT_CONFIG(draganddrop)
-    //signals:
-    //    void fileDropped(const QString &fileName);
-    //
-    //protected:
-    //    void dragMoveEvent(QDragMoveEvent *event) override;
-    //    void dropEvent(QDropEvent *event) override;
-    //#endif
 };
 
 QueueView::QueueView(QWidget *parent)
@@ -135,9 +126,6 @@ QueueView::QueueView(QWidget *parent)
 {
     setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-    //#if QT_CONFIG(draganddrop)
-    //    setAcceptDrops(true);
-    //#endif
 }
 
 /******************************************************************************
@@ -155,8 +143,6 @@ public:
     // painting
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index ) const Q_DECL_OVERRIDE;
-
-
 
 private:
     QIcon m_idleIcon;
@@ -382,10 +368,6 @@ DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
             << tr("Size")
             << tr("Est. time")      /* Hidden by default */
             << tr("Speed")          /* Hidden by default */
-               // << tr("Segments")    /* hidden */
-               // << tr("Mask")        /* hidden */
-               // << tr("Save path")   /* hidden */
-               // << tr("Checksum")    /* hidden */
                ;
 
     // Main queue list
