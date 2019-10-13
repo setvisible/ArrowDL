@@ -385,7 +385,7 @@ void MainWindow::openFile(IDownloadItem *downloadItem)
 
 void MainWindow::renameFile()
 {
-    qDebug() << Q_FUNC_INFO << "TODO rename File";
+    ui->downloadQueueView->rename();
 }
 
 void MainWindow::deleteFile()
