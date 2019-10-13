@@ -69,6 +69,9 @@ public:
 
     QString selectionToString() const;
 
+    void beginSelectionChange(); // BUGFIX
+    void endSelectionChange();
+
     /* Segments */
     void oneMoreSegment();
     void oneFewerSegment();
@@ -96,6 +99,7 @@ private:
     int downloadingCount() const;
 
     QList<IDownloadItem *> m_selectedItems;
+    bool m_selectionAboutToChange;
 };
 
 #endif // CORE_DOWNLOAD_ENGINE_H

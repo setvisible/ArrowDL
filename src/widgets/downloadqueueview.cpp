@@ -522,6 +522,8 @@ void DownloadQueueView::onJobStateChanged(IDownloadItem *item)
  ******************************************************************************/
 void DownloadQueueView::onSelectionChanged()
 {
+    m_downloadEngine->beginSelectionChange();
+
     const QList<IDownloadItem *> selection = m_downloadEngine->selection();
     const int count = m_queueView->topLevelItemCount();
     for (int index = 0; index < count; ++index) {
@@ -530,6 +532,8 @@ void DownloadQueueView::onSelectionChanged()
         const bool isSelected = selection.contains(queueItem->downloadItem());
         treeItem->setSelected(isSelected);
     }
+
+    m_downloadEngine->endSelectionChange();
 }
 
 /******************************************************************************

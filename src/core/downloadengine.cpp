@@ -22,6 +22,7 @@
 
 DownloadEngine::DownloadEngine(QObject *parent) : QObject(parent)
   , m_maxSimultaneousDownloads(4)
+  , m_selectionAboutToChange(false)
 {
     connect(this, SIGNAL(jobFinished(IDownloadItem*)),
             this, SLOT(startNext(IDownloadItem*)));
@@ -266,6 +267,9 @@ QList<IDownloadItem *> DownloadEngine::selection() const
 
 void DownloadEngine::setSelection(const QList<IDownloadItem*> &selection)
 {
+    if (m_selectionAboutToChange) {
+        return;
+    }
     m_selectedItems.clear();
     m_selectedItems.append(selection);
     emit selectionChanged();
@@ -298,6 +302,18 @@ QString DownloadEngine::selectionToString() const
         }
     }
     return ret;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void DownloadEngine::beginSelectionChange()
+{
+    m_selectionAboutToChange = true;
+}
+
+void DownloadEngine::endSelectionChange()
+{
+    m_selectionAboutToChange = false;
 }
 
 /******************************************************************************
