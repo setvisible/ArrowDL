@@ -27,6 +27,7 @@ static const QString REGISTRY_DATABASE = "Database";
 static const QString REGISTRY_FILTER_KEY = "FilterKey";
 static const QString REGISTRY_FILTER_VALUE = "FilterValue";
 static const QString REGISTRY_START_MINIMIZED = "StartMinimized";
+static const QString REGISTRY_MAX_SIMULTANEOUS = "MaxSimultaneous";
 
 Settings::Settings(QObject *parent) : AbstractSettings(parent)
 {
@@ -60,6 +61,7 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
                 );
 
     addDefaultSetting(REGISTRY_START_MINIMIZED, false);
+    addDefaultSetting(REGISTRY_MAX_SIMULTANEOUS, 4);
 }
 
 Settings::~Settings()
@@ -131,4 +133,16 @@ bool Settings::isStartMinimizedEnabled() const
 void Settings::setStartMinimizedEnabled(bool enabled)
 {
     setSetting(REGISTRY_START_MINIMIZED, enabled);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+int Settings::maxSimultaneousDownloads() const
+{
+    return getSettingInt(REGISTRY_MAX_SIMULTANEOUS);
+}
+
+void Settings::setMaxSimultaneousDownloads(int number)
+{
+    setSetting(REGISTRY_MAX_SIMULTANEOUS, number);
 }

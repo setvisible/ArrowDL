@@ -29,7 +29,7 @@
 class AbstractSettings : public QObject
 {
     Q_OBJECT
-    enum KeyType { BOOL, STRING };
+    enum KeyType { BOOL, INTEGER, STRING };
     class SettingsItem;
 
 public:
@@ -53,6 +53,10 @@ protected:
     void addDefaultSetting(const QString &key, bool defaultValue);
     void setSetting(const QString &key, bool value);
     bool getSettingBool(const QString &key) const;
+
+    void addDefaultSetting(const QString &key, int defaultValue);
+    void setSetting(const QString &key, int value);
+    int getSettingInt(const QString &key) const;
 
     void addDefaultSetting(const QString &key, const QString &defaultValue);
     void setSetting(const QString &key, const QString &value);

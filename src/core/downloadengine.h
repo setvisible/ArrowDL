@@ -41,6 +41,9 @@ public:
 
     const IDownloadItem* clientForRow(int row) const;
 
+    int maxSimultaneousDownloads() const;
+    void setMaxSimultaneousDownloads(int number);
+
     /* Statistics */
     QList<IDownloadItem *> downloadItems() const;
     QList<IDownloadItem *> waitingJobs() const;

@@ -141,6 +141,18 @@ const IDownloadItem* DownloadEngine::clientForRow(int row) const
 
 /******************************************************************************
  ******************************************************************************/
+int DownloadEngine::maxSimultaneousDownloads() const
+{
+    return m_maxSimultaneousDownloads;
+}
+
+void DownloadEngine::setMaxSimultaneousDownloads(int number)
+{
+    m_maxSimultaneousDownloads = number;
+}
+
+/******************************************************************************
+ ******************************************************************************/
 QList<IDownloadItem *> DownloadEngine::downloadItems() const
 {
     return m_items;

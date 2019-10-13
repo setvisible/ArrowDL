@@ -36,6 +36,9 @@ static const QLatin1String VALUE_FALSE ("<FALSE>");
 static const QString boolToString(bool b) { return b ? VALUE_TRUE : VALUE_FALSE; }
 static bool stringToBool(const QString &str) { return str == VALUE_TRUE ? true : false; }
 
+static const QString intToString(int value) { return QString::asprintf("%d", value); }
+static int stringToInt(const QString &str) { return str.toInt(); }
+
 
 struct AbstractSettings::SettingsItem
 {
@@ -112,6 +115,22 @@ void AbstractSettings::setSetting(const QString &key, bool value)
     _q_setSetting(key, boolToString(value), KeyType::BOOL);
 }
 
+/******************************************************************************
+ ******************************************************************************/
+void AbstractSettings::addDefaultSetting(const QString &key, int defaultValue)
+{
+    _q_addDefaultSetting(key, intToString(defaultValue), KeyType::INTEGER);
+}
+
+int AbstractSettings::getSettingInt(const QString &key) const
+{
+    return stringToInt(_q_getSetting(key, KeyType::INTEGER));
+}
+
+void AbstractSettings::setSetting(const QString &key, int value)
+{
+    _q_setSetting(key, intToString(value), KeyType::INTEGER);
+}
 
 /******************************************************************************
  ******************************************************************************/
