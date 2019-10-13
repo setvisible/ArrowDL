@@ -56,11 +56,11 @@ protected:
 
     void addDefaultSetting(const QString &key, const QString &defaultValue);
     void setSetting(const QString &key, const QString &value);
-    QString getSetting(const QString &key) const;
+    QString getSettingString(const QString &key) const;
 
-    void addDefaultListSetting(const QString &key, const QStringList &defaultValue);
-    void setListSetting(const QString &key, const QStringList &value);
-    QStringList getListSetting(const QString &key) const;
+    void addDefaultSettingStringList(const QString &key, const QStringList &defaultValue);
+    void setSettingStringList(const QString &key, const QStringList &value);
+    QStringList getSettingStringList(const QString &key) const;
 
 private:
     QList<SettingsItem*> m_items;

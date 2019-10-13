@@ -33,7 +33,7 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     addDefaultSetting(REGISTRY_CONFIRM_REMOVAL, true);
     addDefaultSetting(REGISTRY_DATABASE, QString("%0/queue.json").arg(qApp->applicationDirPath()));
 
-    addDefaultListSetting(
+    addDefaultSettingStringList(
                 REGISTRY_FILTER_KEY, QStringList()
                 << "All Files"
                 << "Archives (zip, rar...)"
@@ -46,7 +46,7 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
                 << "Video (mpeg, avi...)"
                 );
 
-    addDefaultListSetting(
+    addDefaultSettingStringList(
                 REGISTRY_FILTER_VALUE, QStringList()
                 << "^.*$"
                 << "^.*\\.(?:z(?:ip|[0-9]{2})|r(?:ar|[0-9]{2})|jar|bz2|gz|tar|rpm|7z(?:ip)?|lzma|xz)$"
@@ -70,7 +70,7 @@ Settings::~Settings()
  ******************************************************************************/
 QString Settings::database() const
 {
-    return getSetting(REGISTRY_DATABASE);
+    return getSettingString(REGISTRY_DATABASE);
 }
 
 void Settings::setDatabase(const QString &value)
@@ -83,8 +83,8 @@ void Settings::setDatabase(const QString &value)
 QList<Filter> Settings::filters() const
 {
     QList<Filter> filters;
-    QStringList keys = getListSetting(REGISTRY_FILTER_KEY);
-    QStringList values = getListSetting(REGISTRY_FILTER_VALUE);
+    QStringList keys = getSettingStringList(REGISTRY_FILTER_KEY);
+    QStringList values = getSettingStringList(REGISTRY_FILTER_VALUE);
     const int count = qMin(keys.count(), values.count());
     for (int i = 0; i < count; ++i) {
         Filter filter;
@@ -105,8 +105,8 @@ void Settings::setFilters(const QList<Filter> &filters)
         keys.append(filter.title);
         values.append(filter.regexp);
     }
-    setListSetting(REGISTRY_FILTER_KEY, keys);
-    setListSetting(REGISTRY_FILTER_VALUE, values);
+    setSettingStringList(REGISTRY_FILTER_KEY, keys);
+    setSettingStringList(REGISTRY_FILTER_VALUE, values);
 }
 
 /******************************************************************************

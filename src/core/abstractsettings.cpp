@@ -33,8 +33,8 @@ static const QLatin1String VALUE_FALSE ("<FALSE>");
 /*
  * Helper methods
  */
-static const QString toString(bool b) { return b ? VALUE_TRUE : VALUE_FALSE; }
-static bool toBool(const QString &str) { return str == VALUE_TRUE ? true : false; }
+static const QString boolToString(bool b) { return b ? VALUE_TRUE : VALUE_FALSE; }
+static bool stringToBool(const QString &str) { return str == VALUE_TRUE ? true : false; }
 
 
 struct AbstractSettings::SettingsItem
@@ -99,17 +99,17 @@ void AbstractSettings::writeSettings()
  ******************************************************************************/
 void AbstractSettings::addDefaultSetting(const QString &key, bool defaultValue)
 {
-    _q_addDefaultSetting(key, toString(defaultValue), KeyType::BOOL);
+    _q_addDefaultSetting(key, boolToString(defaultValue), KeyType::BOOL);
 }
 
 bool AbstractSettings::getSettingBool(const QString &key) const
 {
-    return toBool(_q_getSetting(key, KeyType::BOOL));
+    return stringToBool(_q_getSetting(key, KeyType::BOOL));
 }
 
 void AbstractSettings::setSetting(const QString &key, bool value)
 {
-    _q_setSetting(key, toString(value), KeyType::BOOL);
+    _q_setSetting(key, boolToString(value), KeyType::BOOL);
 }
 
 
@@ -120,7 +120,7 @@ void AbstractSettings::addDefaultSetting(const QString &key, const QString &defa
     _q_addDefaultSetting(key, defaultValue, KeyType::STRING);
 }
 
-QString AbstractSettings::getSetting(const QString &key) const
+QString AbstractSettings::getSettingString(const QString &key) const
 {
     return _q_getSetting(key, KeyType::STRING);
 }
@@ -133,7 +133,7 @@ void AbstractSettings::setSetting(const QString &key, const QString &value)
 
 /******************************************************************************
  ******************************************************************************/
-QStringList AbstractSettings::getListSetting(const QString &key) const
+QStringList AbstractSettings::getSettingStringList(const QString &key) const
 {
     QStringList ret;
     for (int i = 0; i < m_items.count(); ++i) {
@@ -147,7 +147,7 @@ QStringList AbstractSettings::getListSetting(const QString &key) const
     return ret;
 }
 
-void AbstractSettings::addDefaultListSetting(const QString &key, const QStringList &defaultValue)
+void AbstractSettings::addDefaultSettingStringList(const QString &key, const QStringList &defaultValue)
 {
     for (int i = 0; i < defaultValue.count(); ++i) {
         const QString subkey = QString("%0%1").arg(key).arg(i);
@@ -156,7 +156,7 @@ void AbstractSettings::addDefaultListSetting(const QString &key, const QStringLi
     }
 }
 
-void AbstractSettings::setListSetting(const QString &key, const QStringList &value)
+void AbstractSettings::setSettingStringList(const QString &key, const QStringList &value)
 {
     for (int i = 0; i < value.count(); ++i) {
         const QString subkey = QString("%0%1").arg(key).arg(i);

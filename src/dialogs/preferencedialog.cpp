@@ -32,7 +32,6 @@ PreferenceDialog::PreferenceDialog(Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::PreferenceDialog)
     , m_settings(settings)
-
 {
     Q_ASSERT(m_settings);
     ui->setupUi(this);
