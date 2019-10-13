@@ -467,26 +467,36 @@ const DownloadEngine *DownloadQueueView::engine() const
 
 void DownloadQueueView::setEngine(DownloadEngine *downloadEngine)
 {
+    struct Cx {
+        const char *signal;
+        const char *slot;
+    };
+    static const Cx connections[] = {
+        { SIGNAL(jobAppended(IDownloadItem*)),
+          SLOT(onJobAdded(IDownloadItem*)) },
+        { SIGNAL(jobRemoved(IDownloadItem*)),
+          SLOT(onJobRemoved(IDownloadItem*)) },
+        { SIGNAL(jobStateChanged(IDownloadItem*)),
+          SLOT(onJobStateChanged(IDownloadItem*)) },
+        { SIGNAL(selectionChanged()),
+          SLOT(onSelectionChanged()) },
+        { 0, 0 }
+    };
+
+    if (m_downloadEngine == downloadEngine) {
+        return;
+    }
+
     if (m_downloadEngine) {
-        this->disconnect(m_downloadEngine, SIGNAL(jobAppended(IDownloadItem*)),
-                         this, SLOT(onJobAdded(IDownloadItem*)));
-        this->disconnect(m_downloadEngine, SIGNAL(jobRemoved(IDownloadItem*)),
-                         this, SLOT(onJobRemoved(IDownloadItem*)));
-        this->disconnect(m_downloadEngine, SIGNAL(jobStateChanged(IDownloadItem*)),
-                         this, SLOT(onJobStateChanged(IDownloadItem*)));
-        this->disconnect(m_downloadEngine, SIGNAL(selectionChanged()),
-                         this, SLOT(onSelectionChanged()));
+        for (const Cx *cx = &connections[0]; cx->signal; cx++) {
+            QObject::disconnect(m_downloadEngine, cx->signal, this, cx->slot);
+        }
     }
     m_downloadEngine = downloadEngine;
     if (m_downloadEngine) {
-        this->connect(m_downloadEngine, SIGNAL(jobAppended(IDownloadItem*)),
-                      this, SLOT(onJobAdded(IDownloadItem*)));
-        this->connect(m_downloadEngine, SIGNAL(jobRemoved(IDownloadItem*)),
-                      this, SLOT(onJobRemoved(IDownloadItem*)));
-        this->connect(m_downloadEngine, SIGNAL(jobStateChanged(IDownloadItem*)),
-                      this, SLOT(onJobStateChanged(IDownloadItem*)));
-        this->connect(m_downloadEngine, SIGNAL(selectionChanged()),
-                      this, SLOT(onSelectionChanged()));
+        for (const Cx *cx = &connections[0]; cx->signal; cx++) {
+            QObject::connect(m_downloadEngine, cx->signal, this, cx->slot);
+        }
     }
 }
 
