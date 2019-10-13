@@ -31,8 +31,8 @@ static const QString REGISTRY_MAX_SIMULTANEOUS = "MaxSimultaneous";
 
 Settings::Settings(QObject *parent) : AbstractSettings(parent)
 {
-    addDefaultSetting(REGISTRY_CONFIRM_REMOVAL, true);
-    addDefaultSetting(REGISTRY_DATABASE, QString("%0/queue.json").arg(qApp->applicationDirPath()));
+    addDefaultSettingBool(REGISTRY_CONFIRM_REMOVAL, true);
+    addDefaultSettingString(REGISTRY_DATABASE, QString("%0/queue.json").arg(qApp->applicationDirPath()));
 
     addDefaultSettingStringList(
                 REGISTRY_FILTER_KEY, QStringList()
@@ -60,8 +60,8 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
                 << "^.*\\.(?:mpeg|ra?m|avi|mp(?:g|e|4)|mov|divx|asf|qt|wmv|m\\dv|rv|vob|asx|ogm|ogv|webm|flv|mkv)$"
                 );
 
-    addDefaultSetting(REGISTRY_START_MINIMIZED, false);
-    addDefaultSetting(REGISTRY_MAX_SIMULTANEOUS, 4);
+    addDefaultSettingBool(REGISTRY_START_MINIMIZED, false);
+    addDefaultSettingInt(REGISTRY_MAX_SIMULTANEOUS, 4);
 }
 
 Settings::~Settings()
@@ -77,7 +77,7 @@ QString Settings::database() const
 
 void Settings::setDatabase(const QString &value)
 {
-    setSetting(REGISTRY_DATABASE, value);
+    setSettingString(REGISTRY_DATABASE, value);
 }
 
 /******************************************************************************
@@ -120,7 +120,7 @@ bool Settings::isConfirmRemovalEnabled() const
 
 void Settings::setConfirmRemovalEnabled(bool enabled)
 {
-    setSetting(REGISTRY_CONFIRM_REMOVAL, enabled);
+    setSettingBool(REGISTRY_CONFIRM_REMOVAL, enabled);
 }
 
 /******************************************************************************
@@ -132,7 +132,7 @@ bool Settings::isStartMinimizedEnabled() const
 
 void Settings::setStartMinimizedEnabled(bool enabled)
 {
-    setSetting(REGISTRY_START_MINIMIZED, enabled);
+    setSettingBool(REGISTRY_START_MINIMIZED, enabled);
 }
 
 /******************************************************************************
@@ -144,5 +144,5 @@ int Settings::maxSimultaneousDownloads() const
 
 void Settings::setMaxSimultaneousDownloads(int number)
 {
-    setSetting(REGISTRY_MAX_SIMULTANEOUS, number);
+    setSettingInt(REGISTRY_MAX_SIMULTANEOUS, number);
 }
