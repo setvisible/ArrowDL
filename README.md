@@ -1,6 +1,8 @@
 # ![logo](/src/icons/logo/dza_32x32.png) DownZemAll!
 
 [![Build status](https://ci.appveyor.com/api/projects/status/l9g9iegiugv72k23?svg=true)](https://ci.appveyor.com/project/setvisible/downzemall)
+[![Build status](https://api.travis-ci.org/setvisible/DownZemAll.svg?branch=master)](https://travis-ci.org/setvisible/DownZemAll)
+
 
 *DownZemAll!* is a rewrite of the legacy software [DownThemAll!](https://en.wikipedia.org/wiki/DownThemAll! "https://en.wikipedia.org/wiki/DownThemAll!") which was an extension for Mozilla Firefox, but whose development stopped around 2016, when Mozilla Firefox migrated to WebExtensions.
 
