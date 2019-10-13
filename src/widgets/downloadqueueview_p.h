@@ -54,6 +54,15 @@ class QueueView : public QTreeWidget
 public:
     QueueView(QWidget *parent);
 
+signals:
+    void dropped(QueueItem *queueItem);
+
+protected:
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+
+private:
+    QPoint dragStartPosition;
 };
 
 #endif // WIDGETS_DOWNLOAD_QUEUE_VIEW_P_H
