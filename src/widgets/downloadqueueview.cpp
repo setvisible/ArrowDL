@@ -472,10 +472,10 @@ void DownloadQueueView::setEngine(DownloadEngine *downloadEngine)
         const char *slot;
     };
     static const Cx connections[] = {
-        { SIGNAL(jobAppended(IDownloadItem*)),
-          SLOT(onJobAdded(IDownloadItem*)) },
-        { SIGNAL(jobRemoved(IDownloadItem*)),
-          SLOT(onJobRemoved(IDownloadItem*)) },
+        { SIGNAL(jobAppended(DownloadRange)),
+          SLOT(onJobAdded(DownloadRange)) },
+        { SIGNAL(jobRemoved(DownloadRange)),
+          SLOT(onJobRemoved(DownloadRange)) },
         { SIGNAL(jobStateChanged(IDownloadItem*)),
           SLOT(onJobStateChanged(IDownloadItem*)) },
         { SIGNAL(selectionChanged()),
@@ -502,20 +502,26 @@ void DownloadQueueView::setEngine(DownloadEngine *downloadEngine)
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadQueueView::onJobAdded(IDownloadItem *item)
+void DownloadQueueView::onJobAdded(DownloadRange range)
 {
-    AbstractDownloadItem* downloadItem = static_cast<AbstractDownloadItem*>(item);
-    QueueItem* queueItem = new QueueItem(downloadItem, m_queueView);
-    m_queueView->addTopLevelItem(queueItem);
+    foreach (auto item, range) {
+        AbstractDownloadItem* downloadItem = static_cast<AbstractDownloadItem*>(item);
+        QueueItem* queueItem = new QueueItem(downloadItem, m_queueView);
+        m_queueView->addTopLevelItem(queueItem);
+    }
 }
 
-void DownloadQueueView::onJobRemoved(IDownloadItem *item)
+void DownloadQueueView::onJobRemoved(DownloadRange range)
 {
-    const int index = getIndex(item);
-    if (index >= 0) {
-        QTreeWidgetItem *treeItem = m_queueView->takeTopLevelItem(index);
-        if (treeItem) {
-            delete treeItem;
+    foreach (auto item, range) {
+        const int index = getIndex(item);
+        if (index >= 0) {
+            QTreeWidgetItem *treeItem = m_queueView->takeTopLevelItem(index);
+            QueueItem *queueItem = static_cast<QueueItem*>(treeItem);
+            Q_ASSERT(queueItem);
+            if (queueItem) {
+                queueItem->deleteLater();
+            }
         }
     }
 }
@@ -532,6 +538,7 @@ void DownloadQueueView::onJobStateChanged(IDownloadItem *item)
  ******************************************************************************/
 void DownloadQueueView::onSelectionChanged()
 {
+    const QSignalBlocker blocker(m_downloadEngine);
     m_downloadEngine->beginSelectionChange();
 
     const QList<IDownloadItem *> selection = m_downloadEngine->selection();

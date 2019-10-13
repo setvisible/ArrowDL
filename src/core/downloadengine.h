@@ -23,6 +23,8 @@
 
 class IDownloadItem;
 
+typedef QList<IDownloadItem*> DownloadRange;
+
 class DownloadEngine : public QObject
 {
     Q_OBJECT
@@ -35,9 +37,8 @@ public:
     int count() const;
     void clear();
 
-    virtual void append(IDownloadItem *item, const bool started = false);
-    void remove(IDownloadItem *item);
-    void remove(const QList<IDownloadItem *> &downloadItems);
+    virtual void append(QList<IDownloadItem*> items, bool started = false);
+    virtual void remove(QList<IDownloadItem*> items);
 
     const IDownloadItem* clientForRow(int row) const;
 
@@ -77,8 +78,8 @@ public:
     void oneFewerSegment();
 
 signals:
-    void jobAppended(IDownloadItem *item);
-    void jobRemoved(IDownloadItem *item);
+    void jobAppended(DownloadRange range);
+    void jobRemoved(DownloadRange range);
     void jobStateChanged(IDownloadItem *item);
     void jobFinished(IDownloadItem *item);
 

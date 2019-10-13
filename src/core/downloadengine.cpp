@@ -77,59 +77,61 @@ int DownloadEngine::count() const
 void DownloadEngine::clear()
 {
     clearSelection();
-    foreach (auto item, m_items) {
-        remove(item);
-    }
+    remove(m_items);
 }
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadEngine::append(IDownloadItem *item, const bool started)
-{
-    AbstractDownloadItem *downloadItem = static_cast<AbstractDownloadItem*>(item);
-    if (!downloadItem) {
-        return;
+void DownloadEngine::append(QList<IDownloadItem*> items, bool started)
+{    
+    foreach (auto item, items) {
+        AbstractDownloadItem *downloadItem = static_cast<AbstractDownloadItem*>(item);
+        if (!downloadItem) {
+            return;
+        }
+
+        connect(downloadItem, SIGNAL(changed()), this, SLOT(onChanged()));
+        connect(downloadItem, SIGNAL(finished()), this, SLOT(onFinished()));
+
+        if (started) {
+            if (downloadItem->isResumable()) {
+                downloadItem->setState(IDownloadItem::Idle);
+            }
+        } else {
+            if (downloadItem->isPausable()) {
+                downloadItem->setState(IDownloadItem::Paused);
+            }
+        }
+        m_items.append(downloadItem);
     }
 
-    connect(downloadItem, SIGNAL(changed()), this, SLOT(onChanged()));
-    connect(downloadItem, SIGNAL(finished()), this, SLOT(onFinished()));
-    if (started) {
-        if (downloadItem->isResumable()) {
-            downloadItem->setState(IDownloadItem::Idle);
-        }
-    } else {
-        if (downloadItem->isPausable()) {
-            downloadItem->setState(IDownloadItem::Paused);
-        }
-    }
-    m_items.append(downloadItem);
-    emit jobAppended(downloadItem);
+    emit jobAppended(items);
 
     if (started) {
         startNext(0);
     }
 }
 
-void DownloadEngine::remove(IDownloadItem *item)
+void DownloadEngine::remove(QList<IDownloadItem*> items)
 {
-    AbstractDownloadItem *downloadItem = static_cast<AbstractDownloadItem*>(item);
-    if (!downloadItem) {
-        return;
+
+    /* First, deselect */
+    beginSelectionChange();
+    foreach (auto item, items) {
+        setSelected(item, false);
     }
+    endSelectionChange();
 
-    setSelected(item, false);
-    cancel(item); // stop the reply first
-    m_items.removeAll(item);
-    emit jobRemoved(item);
-
-    downloadItem->deleteLater();
-}
-
-void DownloadEngine::remove(const QList<IDownloadItem *> &downloadItems)
-{
-    foreach (auto item, downloadItems) {
-        remove(item);
+    /* Then, remove */
+    foreach (auto item, items) {
+        cancel(item); // stop the reply first
+        m_items.removeAll(item);
+        AbstractDownloadItem *downloadItem = static_cast<AbstractDownloadItem*>(item);
+        if (!downloadItem) {
+            downloadItem->deleteLater();
+        }
     }
+    emit jobRemoved(items);
 }
 
 /******************************************************************************
@@ -267,12 +269,11 @@ QList<IDownloadItem *> DownloadEngine::selection() const
 
 void DownloadEngine::setSelection(const QList<IDownloadItem*> &selection)
 {
-    if (m_selectionAboutToChange) {
-        return;
-    }
     m_selectedItems.clear();
     m_selectedItems.append(selection);
-    emit selectionChanged();
+    if (!m_selectionAboutToChange) {
+        emit selectionChanged();
+    }
 }
 
 bool DownloadEngine::isSelected(IDownloadItem *item) const
@@ -286,7 +287,9 @@ void DownloadEngine::setSelected(IDownloadItem* item, bool isSelected)
     if (isSelected) {
         m_selectedItems.append(item);
     }
-    emit selectionChanged();
+    if (!m_selectionAboutToChange) {
+        emit selectionChanged();
+    }
 }
 
 QString DownloadEngine::selectionToString() const
@@ -314,6 +317,7 @@ void DownloadEngine::beginSelectionChange()
 void DownloadEngine::endSelectionChange()
 {
     m_selectionAboutToChange = false;
+    emit selectionChanged();
 }
 
 /******************************************************************************

@@ -17,7 +17,6 @@
 #include "downloadmanager.h"
 
 #include <Core/DownloadItem>
-#include <Core/ResourceItem>
 #include <Core/Session>
 #include <Core/Settings>
 
@@ -47,8 +46,8 @@ DownloadManager::DownloadManager(QObject *parent) : DownloadEngine(parent)
   , m_queueFile(QString())
 {
     /* Auto save of the queue */
-    connect(this, SIGNAL(jobAppended(IDownloadItem*)), this, SLOT(onQueueChanged(IDownloadItem*)));
-    connect(this, SIGNAL(jobRemoved(IDownloadItem*)), this, SLOT(onQueueChanged(IDownloadItem*)));
+    connect(this, SIGNAL(jobAppended(DownloadRange)), this, SLOT(onQueueChanged(DownloadRange)));
+    connect(this, SIGNAL(jobRemoved(DownloadRange)), this, SLOT(onQueueChanged(DownloadRange)));
     connect(this, SIGNAL(jobStateChanged(IDownloadItem*)), this, SLOT(onQueueChanged(IDownloadItem*)));
 }
 
@@ -99,10 +98,15 @@ void DownloadManager::loadQueue()
     if (!m_queueFile.isEmpty()) {
         QList<DownloadItem*> downloadItems;
         Session::read(downloadItems, m_queueFile, this);
-        clear();
-        foreach (IDownloadItem* item, downloadItems) {
-            DownloadEngine::append(item, false);
+
+        /// \todo remove it
+        QList<IDownloadItem *> abstractItems;
+        foreach (auto item, downloadItems) {
+            abstractItems.append(item);
         }
+
+        clear();
+        append(abstractItems, false);
     }
 }
 
@@ -112,20 +116,30 @@ void DownloadManager::saveQueue()
         QList<DownloadItem *> items;
 
         /// \todo remove it
-        QList<IDownloadItem *> abstratItems = downloadItems();
-        foreach (auto abstratItem, abstratItems) {
-            DownloadItem* item = static_cast<DownloadItem*>(abstratItem);
+        QList<IDownloadItem *> abstractItems = downloadItems();
+        foreach (auto abstractItem, abstractItems) {
+            DownloadItem* item = static_cast<DownloadItem*>(abstractItem);
             if (item) {
                 items.append(item);
             }
         }
 
-
         Session::write(items, m_queueFile);
     }
 }
 
-void DownloadManager::onQueueChanged(IDownloadItem */*item*/)
+
+void DownloadManager::onQueueChanged(DownloadRange /*range*/)
+{
+    onQueueChanged();
+}
+
+void DownloadManager::onQueueChanged(IDownloadItem* /*item*/)
+{
+    onQueueChanged();
+}
+
+void DownloadManager::onQueueChanged()
 {
     if (!m_dirtyQueueTimer) {
         m_dirtyQueueTimer = new QTimer(this);
@@ -146,21 +160,3 @@ QNetworkAccessManager* DownloadManager::networkManager()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadManager::append(IDownloadItem *item, const bool started)
-{
-    DownloadEngine::append(item, started);
-}
-
-void DownloadManager::append(ResourceItem *item, const bool started)
-{
-    DownloadItem *downloadItem = new DownloadItem(this);
-    downloadItem->setResource(item);
-    DownloadEngine::append(downloadItem, started);
-}
-
-void DownloadManager::append(const QList<ResourceItem *> &downloadItems, const bool started)
-{
-    foreach (auto item, downloadItems) {
-        append(item, started);
-    }
-}

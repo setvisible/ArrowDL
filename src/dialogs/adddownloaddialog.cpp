@@ -17,6 +17,7 @@
 #include "adddownloaddialog.h"
 #include "ui_adddownloaddialog.h"
 
+#include <Core/DownloadItem>
 #include <Core/DownloadManager>
 #include <Core/Regex>
 #include <Core/ResourceItem>
@@ -149,7 +150,10 @@ void AddDownloadDialog::doAccept(const bool started)
     const QString adjusted = url.adjusted(QUrl::StripTrailingSlash).toString();
 
     if (Regex::hasBatchDescriptors(adjusted)) {
-        const QList<ResourceItem*> items = createItems();
+        QList<IDownloadItem*> items = createItems();
+        DownloadItem *firstItem = static_cast<DownloadItem*>(items.first());
+        DownloadItem *lastItem = static_cast<DownloadItem*>(items.last());
+
         QMessageBox msgBox(this);
         msgBox.setModal(true);
         msgBox.setIcon(QMessageBox::Question);
@@ -162,8 +166,8 @@ void AddDownloadDialog::doAccept(const bool started)
                        "...\n"
                        "%2")
                     .arg(items.count())
-                    .arg(items.first()->url())
-                    .arg(items.last()->url()));
+                    .arg(firstItem->resource()->url())
+                    .arg(lastItem->resource()->url()));
 
         QPushButton *batchButton = msgBox.addButton(tr("Download Batch"), QMessageBox::ActionRole);
         QPushButton *singleButton = msgBox.addButton(tr("Single Download"), QMessageBox::ActionRole);
@@ -176,7 +180,7 @@ void AddDownloadDialog::doAccept(const bool started)
             QDialog::accept();
 
         } else if (msgBox.clickedButton() == singleButton) {
-            m_downloadManager->append(createItem(adjusted), started);
+            m_downloadManager->append(toList(createItem(adjusted)), started);
             QDialog::accept();
 
         } else if (msgBox.clickedButton() == cancelButton) {
@@ -184,34 +188,44 @@ void AddDownloadDialog::doAccept(const bool started)
         }
 
     } else {
-        m_downloadManager->append(createItem(adjusted), started);
+        m_downloadManager->append(toList(createItem(adjusted)), started);
         QDialog::accept();
     }
     writeSettings();
 }
 
-const QList<ResourceItem*> AddDownloadDialog::createItems()
+QList<IDownloadItem*> AddDownloadDialog::createItems() const
 {
-    QList<ResourceItem*> list;
+    QList<IDownloadItem*> items;
     const QString text = ui->downloadLineEdit->text();
     const QStringList urls = Regex::interpret(text);
     foreach (auto url, urls) {
-        list << createItem(url);
+        items << createItem(url);
     }
-    return list;
+    return items;
 }
 
-ResourceItem* AddDownloadDialog::createItem(const QString &url)
+IDownloadItem* AddDownloadDialog::createItem(const QString &url) const
 {
-    ResourceItem *item = new ResourceItem();
-    item->setUrl(url);
-    item->setCustomFileName(ui->filenameLineEdit->text());
-    item->setReferringPage(ui->referrerLineEdit->text());
-    item->setDescription(ui->descriptionLineEdit->text());
-    item->setDestination(ui->pathWidget->currentPath());
-    item->setMask(ui->maskWidget->currentMask());
-    item->setCheckSum(ui->hashLineEdit->text());
+    ResourceItem *resource = new ResourceItem();
+    resource->setUrl(url);
+    resource->setCustomFileName(ui->filenameLineEdit->text());
+    resource->setReferringPage(ui->referrerLineEdit->text());
+    resource->setDescription(ui->descriptionLineEdit->text());
+    resource->setDestination(ui->pathWidget->currentPath());
+    resource->setMask(ui->maskWidget->currentMask());
+    resource->setCheckSum(ui->hashLineEdit->text());
+
+    DownloadItem* item = new DownloadItem(m_downloadManager);
+    item->setResource(resource);
     return item;
+}
+
+QList<IDownloadItem*> AddDownloadDialog::toList(IDownloadItem *item) const
+{
+    QList<IDownloadItem*> items;
+    items << item;
+    return items;
 }
 
 /******************************************************************************

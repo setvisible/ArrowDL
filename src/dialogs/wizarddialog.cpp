@@ -35,6 +35,18 @@
 #  include <QtCore/QDebug>
 #endif
 
+static QList<IDownloadItem*> createItems( QList<ResourceItem*> resources, DownloadManager *downloadManager)
+{
+    QList<IDownloadItem*> items;
+    foreach (auto resource, resources) {
+        DownloadItem* item = new DownloadItem(downloadManager);
+        item->setResource(resource);
+        items << item;
+    }
+    return items;
+}
+
+
 WizardDialog::WizardDialog(const QUrl &url, DownloadManager *downloadManager,
                            Settings *settings, QWidget *parent)
     : QDialog(parent)
@@ -85,7 +97,8 @@ void WizardDialog::closeEvent(QCloseEvent *event)
 void WizardDialog::accept()
 {
     if (m_downloadManager) {
-        m_downloadManager->append(m_model->selection(), true);
+        QList<IDownloadItem*> items = createItems(m_model->selection(), m_downloadManager);
+        m_downloadManager->append(items, true);
     }
     writeSettings();
     QDialog::accept();
@@ -94,7 +107,8 @@ void WizardDialog::accept()
 void WizardDialog::acceptPaused()
 {
     if (m_downloadManager) {
-        m_downloadManager->append(m_model->selection()); /* false */
+        QList<IDownloadItem*> items = createItems(m_model->selection(), m_downloadManager);
+        m_downloadManager->append(items); /* false */
     }
     writeSettings();
     QDialog::accept();

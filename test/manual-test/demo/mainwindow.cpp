@@ -47,10 +47,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     /* Connect the SceneManager to the MainWindow. */
     /* The SceneManager centralizes the changes. */
-    QObject::connect(m_downloadManager, SIGNAL(jobAppended(IDownloadItem*)),
-                     this, SLOT(onJobAddedOrRemoved(IDownloadItem*)));
-    QObject::connect(m_downloadManager, SIGNAL(jobRemoved(IDownloadItem*)),
-                     this, SLOT(onJobAddedOrRemoved(IDownloadItem*)));
+    QObject::connect(m_downloadManager, SIGNAL(jobAppended(DownloadRange)),
+                     this, SLOT(onJobAddedOrRemoved(DownloadRange)));
+    QObject::connect(m_downloadManager, SIGNAL(jobRemoved(DownloadRange)),
+                     this, SLOT(onJobAddedOrRemoved(DownloadRange)));
     QObject::connect(m_downloadManager, SIGNAL(jobStateChanged(IDownloadItem*)),
                      this, SLOT(onJobStateChanged(IDownloadItem*)));
     QObject::connect(m_downloadManager, SIGNAL(selectionChanged()),
@@ -325,7 +325,7 @@ void MainWindow::forceStart()
 
 /******************************************************************************
  ******************************************************************************/
-void MainWindow::onJobAddedOrRemoved(IDownloadItem */*downloadItem*/)
+void MainWindow::onJobAddedOrRemoved(DownloadRange /*range*/)
 {
     refreshTitleAndStatus();
 }
