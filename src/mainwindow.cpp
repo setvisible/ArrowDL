@@ -590,11 +590,11 @@ void MainWindow::onJobAddedOrRemoved(IDownloadItem */*downloadItem*/)
     refreshTitleAndStatus();
 }
 
-void MainWindow::onJobStateChanged(IDownloadItem *downloadItem)
+void MainWindow::onJobStateChanged(IDownloadItem */*downloadItem*/)
 {
-    if (m_downloadManager->isSelected(downloadItem)) {
-        refreshMenus();
-    }
+    // if (m_downloadManager->isSelected(downloadItem)) {
+    refreshMenus();
+    // }
     refreshTitleAndStatus();
 }
 

@@ -29,10 +29,12 @@ FakeDownloadManager::~FakeDownloadManager()
 {
 }
 
-void FakeDownloadManager::createFakeJobs()
+void FakeDownloadManager::createFakeJobs(int count)
 {
-    for (int i = 0; i < 20; ++i) {
+    QList<IDownloadItem*> items;
+    for (int i = 0; i < count; ++i) {
         FakeDownloadItem *item = new FakeDownloadItem(this);
-        DownloadEngine::append(item, false);
+        items.append(item);
     }
+    DownloadEngine::append(items, false);
 }

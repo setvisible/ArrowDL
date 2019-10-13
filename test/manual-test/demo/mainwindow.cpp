@@ -258,9 +258,7 @@ void MainWindow::removePaused()
 
 void MainWindow::add()
 {
-    qDebug() << Q_FUNC_INFO;
-//    AddDownloadDialog dialog(urlFromClipboard(), m_downloadManager, this);
-//    dialog.exec();
+    m_downloadManager->createFakeJobs(100);
 }
 
 void MainWindow::resume()
@@ -332,11 +330,9 @@ void MainWindow::onJobAddedOrRemoved(IDownloadItem */*downloadItem*/)
     refreshTitleAndStatus();
 }
 
-void MainWindow::onJobStateChanged(IDownloadItem *downloadItem)
+void MainWindow::onJobStateChanged(IDownloadItem */*downloadItem*/)
 {
-    if (m_downloadManager->isSelected(downloadItem)) {
-        refreshMenus();
-    }
+    refreshMenus();
     refreshTitleAndStatus();
 }
 
