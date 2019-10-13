@@ -21,6 +21,7 @@
 #include <QtCore/QModelIndex>
 
 class IDownloadItem;
+typedef QList<IDownloadItem*> DownloadRange;
 class DownloadEngine;
 class QueueItem;
 class QueueView;
@@ -49,8 +50,8 @@ signals:
     void selectionChanged();
 
 private slots:
-    void onJobAdded(IDownloadItem *item);
-    void onJobRemoved(IDownloadItem *item);
+    void onJobAdded(DownloadRange range);
+    void onJobRemoved(DownloadRange range);
     void onJobStateChanged(IDownloadItem *item);
     void onSelectionChanged();
 

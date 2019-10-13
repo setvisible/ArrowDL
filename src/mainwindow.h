@@ -23,6 +23,7 @@
 class IDownloadItem;
 class DownloadManager;
 class Settings;
+typedef QList<IDownloadItem*> DownloadRange;
 
 class QLabel;
 
@@ -100,7 +101,7 @@ public slots:
     void about();
 
 private slots:
-    void onJobAddedOrRemoved(IDownloadItem *downloadItem);
+    void onJobAddedOrRemoved(DownloadRange range);
     void onJobStateChanged(IDownloadItem *downloadItem);
     void onSelectionChanged();
 

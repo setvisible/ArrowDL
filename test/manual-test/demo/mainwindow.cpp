@@ -47,10 +47,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     /* Connect the SceneManager to the MainWindow. */
     /* The SceneManager centralizes the changes. */
-    QObject::connect(m_downloadManager, SIGNAL(jobAppended(IDownloadItem*)),
-                     this, SLOT(onJobAddedOrRemoved(IDownloadItem*)));
-    QObject::connect(m_downloadManager, SIGNAL(jobRemoved(IDownloadItem*)),
-                     this, SLOT(onJobAddedOrRemoved(IDownloadItem*)));
+    QObject::connect(m_downloadManager, SIGNAL(jobAppended(DownloadRange)),
+                     this, SLOT(onJobAddedOrRemoved(DownloadRange)));
+    QObject::connect(m_downloadManager, SIGNAL(jobRemoved(DownloadRange)),
+                     this, SLOT(onJobAddedOrRemoved(DownloadRange)));
     QObject::connect(m_downloadManager, SIGNAL(jobStateChanged(IDownloadItem*)),
                      this, SLOT(onJobStateChanged(IDownloadItem*)));
     QObject::connect(m_downloadManager, SIGNAL(selectionChanged()),
@@ -258,9 +258,7 @@ void MainWindow::removePaused()
 
 void MainWindow::add()
 {
-    qDebug() << Q_FUNC_INFO;
-//    AddDownloadDialog dialog(urlFromClipboard(), m_downloadManager, this);
-//    dialog.exec();
+    m_downloadManager->createFakeJobs(100);
 }
 
 void MainWindow::resume()
@@ -327,16 +325,14 @@ void MainWindow::forceStart()
 
 /******************************************************************************
  ******************************************************************************/
-void MainWindow::onJobAddedOrRemoved(IDownloadItem */*downloadItem*/)
+void MainWindow::onJobAddedOrRemoved(DownloadRange /*range*/)
 {
     refreshTitleAndStatus();
 }
 
-void MainWindow::onJobStateChanged(IDownloadItem *downloadItem)
+void MainWindow::onJobStateChanged(IDownloadItem */*downloadItem*/)
 {
-    if (m_downloadManager->isSelected(downloadItem)) {
-        refreshMenus();
-    }
+    refreshMenus();
     refreshTitleAndStatus();
 }
 

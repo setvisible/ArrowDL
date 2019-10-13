@@ -43,8 +43,8 @@ void tst_DownloadEngine::append()
 
     qRegisterMetaType<FakeDownloadItem*>();
 
-    QSignalSpy spyJobAppended(target, SIGNAL(jobAppended(IDownloadItem*)));
-    QSignalSpy spyJobRemoved(target, SIGNAL(jobRemoved(IDownloadItem*)));
+    QSignalSpy spyJobAppended(target, SIGNAL(jobAppended(DownloadRange)));
+    QSignalSpy spyJobRemoved(target, SIGNAL(jobRemoved(DownloadRange)));
     QSignalSpy spyJobStateChanged(target, SIGNAL(jobStateChanged(IDownloadItem*)));
     QSignalSpy spyJobFinished(target, SIGNAL(jobFinished(IDownloadItem*)));
 
@@ -56,8 +56,11 @@ void tst_DownloadEngine::append()
                 QUrl("http://www.example.com/favicon.png"), QLatin1String("favicon.png"),
                 bytesTotal, timeIncrement, duration);
 
+    QList<IDownloadItem*> items;
+    items.append(item);
+
     // When
-    target->append(item, false);
+    target->append(items, false);
 
     // Then
     QCOMPARE(spyJobAppended.count(), 1);

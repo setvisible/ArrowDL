@@ -27,7 +27,7 @@ public:
     explicit FakeDownloadManager(QObject *parent);
     ~FakeDownloadManager();
 
-    void createFakeJobs();
+    void createFakeJobs(int count = 100);
 
 };
 
