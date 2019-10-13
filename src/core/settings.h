@@ -48,6 +48,8 @@ public:
     bool isStartMinimizedEnabled() const;
     void setStartMinimizedEnabled(bool enabled);
 
+    int maxSimultaneousDownloads() const;
+    void setMaxSimultaneousDownloads(int number);
 };
 
 #endif // CORE_SETTINGS_H

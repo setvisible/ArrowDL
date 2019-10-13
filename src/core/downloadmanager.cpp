@@ -84,6 +84,7 @@ void DownloadManager::setSettings(Settings *settings)
 
 void DownloadManager::onSettingsChanged()
 {
+    setMaxSimultaneousDownloads(m_settings->maxSimultaneousDownloads());
     // reload the queue here
     if (m_queueFile != m_settings->database()) {
         m_queueFile = m_settings->database();
