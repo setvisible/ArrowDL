@@ -18,15 +18,19 @@
 
 #include "fakedownloaditem.h"
 
-#include <QtCore/QDebug>
-
-
 FakeDownloadManager::FakeDownloadManager(QObject *parent) : DownloadEngine(parent)
 {
 }
 
 FakeDownloadManager::~FakeDownloadManager()
 {
+}
+
+IDownloadItem* FakeDownloadManager::createItem(const QUrl &url)
+{
+    FakeDownloadItem *item = new FakeDownloadItem(this);
+    item->setSourceUrl(url);
+    return item;
 }
 
 void FakeDownloadManager::createFakeJobs(int count)
@@ -36,5 +40,14 @@ void FakeDownloadManager::createFakeJobs(int count)
         FakeDownloadItem *item = new FakeDownloadItem(this);
         items.append(item);
     }
+    DownloadEngine::append(items, false);
+}
+
+void FakeDownloadManager::appendFakeJob(const QUrl &url)
+{
+    IDownloadItem *item = createItem(url);
+
+    QList<IDownloadItem*> items;
+    items.append(item);
     DownloadEngine::append(items, false);
 }

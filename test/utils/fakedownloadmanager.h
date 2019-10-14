@@ -24,10 +24,14 @@ class FakeDownloadManager : public DownloadEngine
     Q_OBJECT
 
 public:
-    explicit FakeDownloadManager(QObject *parent);
+    explicit FakeDownloadManager(QObject *parent = Q_NULLPTR);
     ~FakeDownloadManager();
 
+    virtual IDownloadItem* createItem(const QUrl &url) Q_DECL_OVERRIDE;
+
+    /* Utility */
     void createFakeJobs(int count = 100);
+    void appendFakeJob(const QUrl &url);
 
 };
 

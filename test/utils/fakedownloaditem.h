@@ -37,6 +37,8 @@ public:
     ~FakeDownloadItem();
 
     virtual QUrl sourceUrl() const Q_DECL_OVERRIDE;
+    void setSourceUrl(const QUrl &resourceUrl);
+
     virtual QString localFileName() const Q_DECL_OVERRIDE;
 
     virtual QString localFullFileName() const Q_DECL_OVERRIDE;
