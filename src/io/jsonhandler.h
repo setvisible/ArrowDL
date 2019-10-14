@@ -14,41 +14,23 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef IO_FORMAT_H
-#define IO_FORMAT_H
+#ifndef IO_JSON_HANDLER_H
+#define IO_JSON_HANDLER_H
 
 #include <Io/IFileHandler>
-#include <Io/JsonHandler>
-#include <Io/TextHandler>
 
-#include <QtCore/QString>
-
-namespace Io {
-
-struct FileFormat {
-    const char *suffix;
-    const char *text;
-    const IFileHandler* handler;
-};
-
-static const FileFormat formats[] = {
-    { "txt", "Text Files", new TextHandler() },
-    { "json", "Json Files", new JsonHandler() },
-    { 0, 0, 0 }
-};
-
-static IFileHandler* findHandlerFromSuffix(const QString &suffix)
+class JsonHandler : public IFileHandler
 {
-    IFileHandler *handler = Q_NULLPTR;
-    for (const FileFormat *fmt = &formats[0]; fmt->handler; fmt++) {
-        if (suffix == fmt->suffix) {            
-            handler = const_cast<IFileHandler *>(fmt->handler);
-            break;
-        }
-    }
-    return handler;
-}
+public:
+    explicit JsonHandler();
 
-}
+    virtual bool canRead() const Q_DECL_OVERRIDE;
+    virtual bool canWrite() const Q_DECL_OVERRIDE;
 
-#endif // IO_FORMAT_H
+    virtual bool read(DownloadEngine *engine) Q_DECL_OVERRIDE;
+    virtual bool write(const DownloadEngine &engine) Q_DECL_OVERRIDE;
+
+private:
+};
+
+#endif // IO_JSON_HANDLER_H
