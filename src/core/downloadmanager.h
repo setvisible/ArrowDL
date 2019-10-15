@@ -42,6 +42,8 @@ public:
     /* Queue Management */
     QNetworkAccessManager *networkManager();
 
+    /* Utility */
+    virtual IDownloadItem* createItem(const QUrl &url);
 
 private slots:
     void onSettingsChanged();

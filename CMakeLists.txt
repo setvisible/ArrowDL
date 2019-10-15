@@ -123,6 +123,7 @@ include_directories(./include/)
 include(${CMAKE_CURRENT_SOURCE_DIR}/src/CMakeLists.txt)
 include(${CMAKE_CURRENT_SOURCE_DIR}/src/core/CMakeLists.txt)
 include(${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/CMakeLists.txt)
+include(${CMAKE_CURRENT_SOURCE_DIR}/src/io/CMakeLists.txt)
 include(${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/CMakeLists.txt)
 
 
@@ -188,6 +189,8 @@ if(ENABLE_TESTS)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/mask/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/regex/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/resourceitem/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/io/jsonhandler/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/io/texthandler/CMakeLists.txt)
 # TODO include(${CMAKE_CURRENT_SOURCE_DIR}/test/widgets/pathwidget/CMakeLists.txt)
 
     # Copy the dlls to run the tests
@@ -220,6 +223,8 @@ if(ENABLE_TESTS)
         tst_mask
         tst_regex
         tst_resourceitem
+        tst_jsonhandler
+        tst_texthandler
 # TODO  tst_pathwidget
 
     PROPERTIES ENVIRONMENT  

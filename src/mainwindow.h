@@ -17,7 +17,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QtCore/QFileInfo>
 #include <QtWidgets/QMainWindow>
 
 class IDownloadItem;
@@ -38,7 +37,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = Q_NULLPTR);
     ~MainWindow();
-
 
     bool saveFile(const QString &path);
     bool loadFile(const QString &path);
@@ -111,8 +109,6 @@ private:
     Settings *m_settings;
     QLabel *m_statusBarLabel;
 
-    QFileInfo m_currentFile;
-
     void readSettings();
     void writeSettings();
 
@@ -126,6 +122,8 @@ private:
     inline bool askConfirmation(const QString &text);
 
     inline QUrl urlFromClipboard() const;
+
+    inline void setWorkingDirectory(const QString &path);
 
     QString askSaveFileName(const QString &fileFilter, const QString &title = tr("Save As"));
     QString askOpenFileName(const QString &fileFilter, const QString &title = tr("Open"));

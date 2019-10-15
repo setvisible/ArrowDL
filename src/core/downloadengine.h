@@ -77,6 +77,9 @@ public:
     void oneMoreSegment();
     void oneFewerSegment();
 
+    /* Utility */
+    virtual IDownloadItem* createItem(const QUrl &url);
+
 signals:
     void jobAppended(DownloadRange range);
     void jobRemoved(DownloadRange range);
