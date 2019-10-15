@@ -189,6 +189,7 @@ if(ENABLE_TESTS)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/mask/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/regex/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/resourceitem/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/io/jsonhandler/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/io/texthandler/CMakeLists.txt)
 # TODO include(${CMAKE_CURRENT_SOURCE_DIR}/test/widgets/pathwidget/CMakeLists.txt)
 
@@ -222,6 +223,7 @@ if(ENABLE_TESTS)
         tst_mask
         tst_regex
         tst_resourceitem
+        tst_jsonhandler
         tst_texthandler
 # TODO  tst_pathwidget
 
