@@ -123,6 +123,11 @@ QUrl FakeDownloadItem::sourceUrl() const
     return m_resourceUrl;
 }
 
+void FakeDownloadItem::setSourceUrl(const QUrl &resourceUrl)
+{
+    m_resourceUrl = resourceUrl;
+}
+
 /**
  * The destination's full file name
  */

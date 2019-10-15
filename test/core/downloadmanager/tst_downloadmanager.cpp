@@ -75,10 +75,12 @@ void tst_DownloadManager::appendJobPaused()
             "https://raw.githubusercontent.com/setvisible/nastran-pch2csv/"
             "master/doc/320px-Blue-punch-card-front-horiz.png";
 
+    QList<IDownloadItem*> items;
     DownloadItem *item = createDummyJob(target, address, "*name*.png");
+    items.append(item);
 
     // When
-    target->append(item, false);
+    target->append(items, false);
     target->resume(item);
 
     // Then

@@ -19,8 +19,8 @@
 
 #include <QtWidgets/QDialog>
 
+class IDownloadItem;
 class DownloadManager;
-class ResourceItem;
 
 namespace Ui {
 class AddDownloadDialog;
@@ -52,8 +52,9 @@ private:
     DownloadManager *m_downloadManager;
 
     void doAccept(const bool started);
-    const QList<ResourceItem*> createItems();
-    ResourceItem* createItem(const QString &url);
+    QList<IDownloadItem *> createItems() const;
+    IDownloadItem* createItem(const QString &url) const;
+    QList<IDownloadItem*> toList(IDownloadItem *item) const;
 
     void readSettings();
     void writeSettings();

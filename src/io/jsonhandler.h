@@ -14,25 +14,23 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FAKE_DOWNLOAD_MANAGER_H
-#define FAKE_DOWNLOAD_MANAGER_H
+#ifndef IO_JSON_HANDLER_H
+#define IO_JSON_HANDLER_H
 
-#include <Core/DownloadEngine>
+#include <Io/IFileHandler>
 
-class FakeDownloadManager : public DownloadEngine
+class JsonHandler : public IFileHandler
 {
-    Q_OBJECT
-
 public:
-    explicit FakeDownloadManager(QObject *parent = Q_NULLPTR);
-    ~FakeDownloadManager();
+    explicit JsonHandler();
 
-    virtual IDownloadItem* createItem(const QUrl &url) Q_DECL_OVERRIDE;
+    virtual bool canRead() const Q_DECL_OVERRIDE;
+    virtual bool canWrite() const Q_DECL_OVERRIDE;
 
-    /* Utility */
-    void createFakeJobs(int count = 100);
-    void appendFakeJob(const QUrl &url);
+    virtual bool read(DownloadEngine *engine) Q_DECL_OVERRIDE;
+    virtual bool write(const DownloadEngine &engine) Q_DECL_OVERRIDE;
 
+private:
 };
 
-#endif // FAKE_DOWNLOAD_MANAGER_H
+#endif // IO_JSON_HANDLER_H

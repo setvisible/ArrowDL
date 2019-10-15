@@ -46,6 +46,7 @@ DownloadItem::~DownloadItem()
 {
     if (d->file) {
         d->file->cancelWriting();
+        d->file->deleteLater();
         d->file = Q_NULLPTR;
     }
 
@@ -117,6 +118,7 @@ void DownloadItem::stop()
 {
     if (d->file) {
         d->file->cancelWriting();
+        d->file->deleteLater();
         d->file = Q_NULLPTR;
     }
 
@@ -181,6 +183,16 @@ void DownloadItem::onFinished()
 void DownloadItem::onError(QNetworkReply::NetworkError error)
 {
     qDebug() << Q_FUNC_INFO;
+
+    if (d->file) {
+        d->file->cancelWriting();
+        d->file->deleteLater();
+        d->file = Q_NULLPTR;
+    }
+
+    setBytesReceived(0);
+    setBytesTotal(0);
+
     setHttpErrorNumber((int) error);
     setState(NetworkError);
 }

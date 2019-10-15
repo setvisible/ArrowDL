@@ -45,6 +45,7 @@ public slots:
 private slots:
     void filterSelectionChanged();
     void filterTextChanged();
+    void maxSimultaneousDownloadSlided(int value);
 
 private:
     Ui::PreferenceDialog *ui;

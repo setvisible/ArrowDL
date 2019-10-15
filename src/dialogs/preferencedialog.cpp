@@ -32,10 +32,12 @@ PreferenceDialog::PreferenceDialog(Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::PreferenceDialog)
     , m_settings(settings)
-
 {
     Q_ASSERT(m_settings);
     ui->setupUi(this);
+
+    connect(ui->maxSimultaneousDownloadSlider, SIGNAL(valueChanged(int)),
+            this, SLOT(maxSimultaneousDownloadSlided(int)));
 
     initializeGui();
     read();
@@ -120,6 +122,11 @@ void PreferenceDialog::filterTextChanged()
     }
 }
 
+void PreferenceDialog::maxSimultaneousDownloadSlided(int value)
+{
+    ui->maxSimultaneousDownloadLabel->setText(QString::asprintf("%d", value));
+}
+
 /******************************************************************************
  ******************************************************************************/
 /**
@@ -141,6 +148,7 @@ void PreferenceDialog::read()
     ui->confirmRemovalCheckBox->setChecked(m_settings->isConfirmRemovalEnabled());
 
     // Tab Network
+    ui->maxSimultaneousDownloadSlider->setValue(m_settings->maxSimultaneousDownloads());
 
     // Tab Privacy
     ui->browseDatabaseFile->setCurrentPath(m_settings->database());
@@ -162,6 +170,7 @@ void PreferenceDialog::write()
     m_settings->setConfirmRemovalEnabled(ui->confirmRemovalCheckBox->isChecked());
 
     // Tab Network
+    m_settings->setMaxSimultaneousDownloads(ui->maxSimultaneousDownloadSlider->value());
 
     // Tab Privacy
     m_settings->setDatabase(ui->browseDatabaseFile->currentPath());

@@ -22,7 +22,6 @@
 #include <QtCore/QList>
 #include <QtCore/QString>
 
-class ResourceItem;
 class Settings;
 
 class QTimer;
@@ -43,14 +42,16 @@ public:
     /* Queue Management */
     QNetworkAccessManager *networkManager();
 
-    virtual void append(IDownloadItem *item, const bool started = false) Q_DECL_OVERRIDE;
-    virtual void append(ResourceItem *item, const bool started = false);
-    virtual void append(const QList<ResourceItem *> &downloadItems, const bool started = false);
+    /* Utility */
+    virtual IDownloadItem* createItem(const QUrl &url);
 
 private slots:
     void onSettingsChanged();
 
-    void onQueueChanged(IDownloadItem *item);
+    void onQueueChanged(DownloadRange range);
+    void onQueueChanged(IDownloadItem* item);
+    void onQueueChanged();
+
     void loadQueue();
     void saveQueue();
 

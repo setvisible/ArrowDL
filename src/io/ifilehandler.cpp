@@ -14,25 +14,33 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FAKE_DOWNLOAD_MANAGER_H
-#define FAKE_DOWNLOAD_MANAGER_H
+#include "ifilehandler.h"
 
-#include <Core/DownloadEngine>
+#include <QtCore/QIODevice>
 
-class FakeDownloadManager : public DownloadEngine
+/*!
+ * \class IFileHandler
+ * \brief The IFileHandler class defines the common file I/O interface
+ * for all file formats in DZA.
+ */
+
+IFileHandler::IFileHandler()
+    : m_device(0)
 {
-    Q_OBJECT
+}
 
-public:
-    explicit FakeDownloadManager(QObject *parent = Q_NULLPTR);
-    ~FakeDownloadManager();
+void IFileHandler::setDevice(QIODevice *device)
+{
+    m_device = device;
+}
 
-    virtual IDownloadItem* createItem(const QUrl &url) Q_DECL_OVERRIDE;
+QIODevice *IFileHandler::device() const
+{
+    return m_device;
+}
 
-    /* Utility */
-    void createFakeJobs(int count = 100);
-    void appendFakeJob(const QUrl &url);
-
-};
-
-#endif // FAKE_DOWNLOAD_MANAGER_H
+bool IFileHandler::write(const DownloadEngine &engine)
+{
+    Q_UNUSED(engine);
+    return false;
+}

@@ -29,7 +29,7 @@
 class AbstractSettings : public QObject
 {
     Q_OBJECT
-    enum KeyType { BOOL, STRING };
+    enum KeyType { BOOL, INTEGER, STRING };
     class SettingsItem;
 
 public:
@@ -47,20 +47,26 @@ signals:
 
 protected:
     /* Exceptions */
+    class IllegalKeyException : public std::exception {};
     class IllegalValueException : public std::exception {};
     class MissingKeyException : public std::exception {};
+    class WrongTypeException : public std::exception {};
 
-    void addDefaultSetting(const QString &key, bool defaultValue);
-    void setSetting(const QString &key, bool value);
+    void addDefaultSettingBool(const QString &key, bool defaultValue);
+    void setSettingBool(const QString &key, bool value);
     bool getSettingBool(const QString &key) const;
 
-    void addDefaultSetting(const QString &key, const QString &defaultValue);
-    void setSetting(const QString &key, const QString &value);
-    QString getSetting(const QString &key) const;
+    void addDefaultSettingInt(const QString &key, int defaultValue);
+    void setSettingInt(const QString &key, int value);
+    int getSettingInt(const QString &key) const;
 
-    void addDefaultListSetting(const QString &key, const QStringList &defaultValue);
-    void setListSetting(const QString &key, const QStringList &value);
-    QStringList getListSetting(const QString &key) const;
+    void addDefaultSettingString(const QString &key, const QString &defaultValue);
+    void setSettingString(const QString &key, const QString &value);
+    QString getSettingString(const QString &key) const;
+
+    void addDefaultSettingStringList(const QString &key, const QStringList &defaultValue);
+    void setSettingStringList(const QString &key, const QStringList &value);
+    QStringList getSettingStringList(const QString &key) const;
 
 private:
     QList<SettingsItem*> m_items;
@@ -70,7 +76,7 @@ private:
     void _q_setSetting(const QString &key, const QString &defaultValue, KeyType keyType);
     QString _q_getSetting(const QString &key, KeyType keyType) const;
 
-    QString _q_unique_name(const AbstractSettings::SettingsItem *item) const;
+    QString uniqueRegisterKey(const AbstractSettings::SettingsItem *item) const;
 };
 
 #endif // CORE_ABSTRACT_SETTINGS_H

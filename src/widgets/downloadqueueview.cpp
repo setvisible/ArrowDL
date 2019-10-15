@@ -119,15 +119,6 @@ class QueueView : public QTreeWidget
 
 public:
     QueueView(QWidget *parent);
-
-    //#if QT_CONFIG(draganddrop)
-    //signals:
-    //    void fileDropped(const QString &fileName);
-    //
-    //protected:
-    //    void dragMoveEvent(QDragMoveEvent *event) override;
-    //    void dropEvent(QDropEvent *event) override;
-    //#endif
 };
 
 QueueView::QueueView(QWidget *parent)
@@ -135,9 +126,6 @@ QueueView::QueueView(QWidget *parent)
 {
     setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-    //#if QT_CONFIG(draganddrop)
-    //    setAcceptDrops(true);
-    //#endif
 }
 
 /******************************************************************************
@@ -155,8 +143,6 @@ public:
     // painting
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index ) const Q_DECL_OVERRIDE;
-
-
 
 private:
     QIcon m_idleIcon;
@@ -382,10 +368,6 @@ DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
             << tr("Size")
             << tr("Est. time")      /* Hidden by default */
             << tr("Speed")          /* Hidden by default */
-               // << tr("Segments")    /* hidden */
-               // << tr("Mask")        /* hidden */
-               // << tr("Save path")   /* hidden */
-               // << tr("Checksum")    /* hidden */
                ;
 
     // Main queue list
@@ -467,45 +449,61 @@ const DownloadEngine *DownloadQueueView::engine() const
 
 void DownloadQueueView::setEngine(DownloadEngine *downloadEngine)
 {
+    struct Cx {
+        const char *signal;
+        const char *slot;
+    };
+    static const Cx connections[] = {
+        { SIGNAL(jobAppended(DownloadRange)),
+          SLOT(onJobAdded(DownloadRange)) },
+        { SIGNAL(jobRemoved(DownloadRange)),
+          SLOT(onJobRemoved(DownloadRange)) },
+        { SIGNAL(jobStateChanged(IDownloadItem*)),
+          SLOT(onJobStateChanged(IDownloadItem*)) },
+        { SIGNAL(selectionChanged()),
+          SLOT(onSelectionChanged()) },
+        { 0, 0 }
+    };
+
+    if (m_downloadEngine == downloadEngine) {
+        return;
+    }
+
     if (m_downloadEngine) {
-        this->disconnect(m_downloadEngine, SIGNAL(jobAppended(IDownloadItem*)),
-                         this, SLOT(onJobAdded(IDownloadItem*)));
-        this->disconnect(m_downloadEngine, SIGNAL(jobRemoved(IDownloadItem*)),
-                         this, SLOT(onJobRemoved(IDownloadItem*)));
-        this->disconnect(m_downloadEngine, SIGNAL(jobStateChanged(IDownloadItem*)),
-                         this, SLOT(onJobStateChanged(IDownloadItem*)));
-        this->disconnect(m_downloadEngine, SIGNAL(selectionChanged()),
-                         this, SLOT(onSelectionChanged()));
+        for (const Cx *cx = &connections[0]; cx->signal; cx++) {
+            QObject::disconnect(m_downloadEngine, cx->signal, this, cx->slot);
+        }
     }
     m_downloadEngine = downloadEngine;
     if (m_downloadEngine) {
-        this->connect(m_downloadEngine, SIGNAL(jobAppended(IDownloadItem*)),
-                      this, SLOT(onJobAdded(IDownloadItem*)));
-        this->connect(m_downloadEngine, SIGNAL(jobRemoved(IDownloadItem*)),
-                      this, SLOT(onJobRemoved(IDownloadItem*)));
-        this->connect(m_downloadEngine, SIGNAL(jobStateChanged(IDownloadItem*)),
-                      this, SLOT(onJobStateChanged(IDownloadItem*)));
-        this->connect(m_downloadEngine, SIGNAL(selectionChanged()),
-                      this, SLOT(onSelectionChanged()));
+        for (const Cx *cx = &connections[0]; cx->signal; cx++) {
+            QObject::connect(m_downloadEngine, cx->signal, this, cx->slot);
+        }
     }
 }
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadQueueView::onJobAdded(IDownloadItem *item)
+void DownloadQueueView::onJobAdded(DownloadRange range)
 {
-    AbstractDownloadItem* downloadItem = static_cast<AbstractDownloadItem*>(item);
-    QueueItem* queueItem = new QueueItem(downloadItem, m_queueView);
-    m_queueView->addTopLevelItem(queueItem);
+    foreach (auto item, range) {
+        AbstractDownloadItem* downloadItem = static_cast<AbstractDownloadItem*>(item);
+        QueueItem* queueItem = new QueueItem(downloadItem, m_queueView);
+        m_queueView->addTopLevelItem(queueItem);
+    }
 }
 
-void DownloadQueueView::onJobRemoved(IDownloadItem *item)
+void DownloadQueueView::onJobRemoved(DownloadRange range)
 {
-    const int index = getIndex(item);
-    if (index >= 0) {
-        QTreeWidgetItem *treeItem = m_queueView->takeTopLevelItem(index);
-        if (treeItem) {
-            delete treeItem;
+    foreach (auto item, range) {
+        const int index = getIndex(item);
+        if (index >= 0) {
+            QTreeWidgetItem *treeItem = m_queueView->takeTopLevelItem(index);
+            QueueItem *queueItem = static_cast<QueueItem*>(treeItem);
+            Q_ASSERT(queueItem);
+            if (queueItem) {
+                queueItem->deleteLater();
+            }
         }
     }
 }
@@ -522,6 +520,9 @@ void DownloadQueueView::onJobStateChanged(IDownloadItem *item)
  ******************************************************************************/
 void DownloadQueueView::onSelectionChanged()
 {
+    const QSignalBlocker blocker(m_downloadEngine);
+    m_downloadEngine->beginSelectionChange();
+
     const QList<IDownloadItem *> selection = m_downloadEngine->selection();
     const int count = m_queueView->topLevelItemCount();
     for (int index = 0; index < count; ++index) {
@@ -530,6 +531,8 @@ void DownloadQueueView::onSelectionChanged()
         const bool isSelected = selection.contains(queueItem->downloadItem());
         treeItem->setSelected(isSelected);
     }
+
+    m_downloadEngine->endSelectionChange();
 }
 
 /******************************************************************************

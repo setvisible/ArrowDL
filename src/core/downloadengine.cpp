@@ -22,6 +22,7 @@
 
 DownloadEngine::DownloadEngine(QObject *parent) : QObject(parent)
   , m_maxSimultaneousDownloads(4)
+  , m_selectionAboutToChange(false)
 {
     connect(this, SIGNAL(jobFinished(IDownloadItem*)),
             this, SLOT(startNext(IDownloadItem*)));
@@ -76,59 +77,61 @@ int DownloadEngine::count() const
 void DownloadEngine::clear()
 {
     clearSelection();
-    foreach (auto item, m_items) {
-        remove(item);
-    }
+    remove(m_items);
 }
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadEngine::append(IDownloadItem *item, const bool started)
-{
-    AbstractDownloadItem *downloadItem = static_cast<AbstractDownloadItem*>(item);
-    if (!downloadItem) {
-        return;
+void DownloadEngine::append(QList<IDownloadItem*> items, bool started)
+{    
+    foreach (auto item, items) {
+        AbstractDownloadItem *downloadItem = static_cast<AbstractDownloadItem*>(item);
+        if (!downloadItem) {
+            return;
+        }
+
+        connect(downloadItem, SIGNAL(changed()), this, SLOT(onChanged()));
+        connect(downloadItem, SIGNAL(finished()), this, SLOT(onFinished()));
+
+        if (started) {
+            if (downloadItem->isResumable()) {
+                downloadItem->setState(IDownloadItem::Idle);
+            }
+        } else {
+            if (downloadItem->isPausable()) {
+                downloadItem->setState(IDownloadItem::Paused);
+            }
+        }
+        m_items.append(downloadItem);
     }
 
-    connect(downloadItem, SIGNAL(changed()), this, SLOT(onChanged()));
-    connect(downloadItem, SIGNAL(finished()), this, SLOT(onFinished()));
-    if (started) {
-        if (downloadItem->isResumable()) {
-            downloadItem->setState(IDownloadItem::Idle);
-        }
-    } else {
-        if (downloadItem->isPausable()) {
-            downloadItem->setState(IDownloadItem::Paused);
-        }
-    }
-    m_items.append(downloadItem);
-    emit jobAppended(downloadItem);
+    emit jobAppended(items);
 
     if (started) {
         startNext(0);
     }
 }
 
-void DownloadEngine::remove(IDownloadItem *item)
+void DownloadEngine::remove(QList<IDownloadItem*> items)
 {
-    AbstractDownloadItem *downloadItem = static_cast<AbstractDownloadItem*>(item);
-    if (!downloadItem) {
-        return;
+
+    /* First, deselect */
+    beginSelectionChange();
+    foreach (auto item, items) {
+        setSelected(item, false);
     }
+    endSelectionChange();
 
-    setSelected(item, false);
-    cancel(item); // stop the reply first
-    m_items.removeAll(item);
-    emit jobRemoved(item);
-
-    downloadItem->deleteLater();
-}
-
-void DownloadEngine::remove(const QList<IDownloadItem *> &downloadItems)
-{
-    foreach (auto item, downloadItems) {
-        remove(item);
+    /* Then, remove */
+    foreach (auto item, items) {
+        cancel(item); // stop the reply first
+        m_items.removeAll(item);
+        AbstractDownloadItem *downloadItem = static_cast<AbstractDownloadItem*>(item);
+        if (!downloadItem) {
+            downloadItem->deleteLater();
+        }
     }
+    emit jobRemoved(items);
 }
 
 /******************************************************************************
@@ -137,6 +140,18 @@ const IDownloadItem* DownloadEngine::clientForRow(int row) const
 {
     Q_ASSERT(row >=0 && row < m_items.count());
     return m_items.at(row);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+int DownloadEngine::maxSimultaneousDownloads() const
+{
+    return m_maxSimultaneousDownloads;
+}
+
+void DownloadEngine::setMaxSimultaneousDownloads(int number)
+{
+    m_maxSimultaneousDownloads = number;
 }
 
 /******************************************************************************
@@ -256,7 +271,9 @@ void DownloadEngine::setSelection(const QList<IDownloadItem*> &selection)
 {
     m_selectedItems.clear();
     m_selectedItems.append(selection);
-    emit selectionChanged();
+    if (!m_selectionAboutToChange) {
+        emit selectionChanged();
+    }
 }
 
 bool DownloadEngine::isSelected(IDownloadItem *item) const
@@ -270,7 +287,9 @@ void DownloadEngine::setSelected(IDownloadItem* item, bool isSelected)
     if (isSelected) {
         m_selectedItems.append(item);
     }
-    emit selectionChanged();
+    if (!m_selectionAboutToChange) {
+        emit selectionChanged();
+    }
 }
 
 QString DownloadEngine::selectionToString() const
@@ -286,6 +305,19 @@ QString DownloadEngine::selectionToString() const
         }
     }
     return ret;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void DownloadEngine::beginSelectionChange()
+{
+    m_selectionAboutToChange = true;
+}
+
+void DownloadEngine::endSelectionChange()
+{
+    m_selectionAboutToChange = false;
+    emit selectionChanged();
 }
 
 /******************************************************************************
@@ -308,4 +340,18 @@ void DownloadEngine::oneFewerSegment()
         segments--;
         downloadItem->setMaxConnectionSegments(segments);
     }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * \brief Reimplement this method allows the Engine to make Items; like a factory.
+ *
+ * That makes the unit tests of this class easier, allowing dummy items.
+ *
+ * Optional
+ */
+IDownloadItem* DownloadEngine::createItem(const QUrl &/*url*/)
+{
+    return Q_NULLPTR;
 }

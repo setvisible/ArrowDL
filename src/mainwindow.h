@@ -17,12 +17,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QtCore/QFileInfo>
 #include <QtWidgets/QMainWindow>
 
 class IDownloadItem;
 class DownloadManager;
 class Settings;
+typedef QList<IDownloadItem*> DownloadRange;
 
 class QLabel;
 
@@ -37,7 +37,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = Q_NULLPTR);
     ~MainWindow();
-
 
     bool saveFile(const QString &path);
     bool loadFile(const QString &path);
@@ -100,7 +99,7 @@ public slots:
     void about();
 
 private slots:
-    void onJobAddedOrRemoved(IDownloadItem *downloadItem);
+    void onJobAddedOrRemoved(DownloadRange range);
     void onJobStateChanged(IDownloadItem *downloadItem);
     void onSelectionChanged();
 
@@ -109,8 +108,6 @@ private:
     DownloadManager *m_downloadManager;
     Settings *m_settings;
     QLabel *m_statusBarLabel;
-
-    QFileInfo m_currentFile;
 
     void readSettings();
     void writeSettings();
@@ -125,6 +122,8 @@ private:
     inline bool askConfirmation(const QString &text);
 
     inline QUrl urlFromClipboard() const;
+
+    inline void setWorkingDirectory(const QString &path);
 
     QString askSaveFileName(const QString &fileFilter, const QString &title = tr("Save As"));
     QString askOpenFileName(const QString &fileFilter, const QString &title = tr("Open"));
