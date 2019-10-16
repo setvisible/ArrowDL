@@ -151,6 +151,8 @@ void DownloadItem::onMetaDataChanged()
 
 void DownloadItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
+    qDebug() << Q_FUNC_INFO << bytesReceived << "/" << bytesTotal;
+
     updateInfo(bytesReceived, bytesTotal);
 }
 
@@ -161,17 +163,47 @@ void DownloadItem::onRedirected(const QUrl &url)
 
 void DownloadItem::onFinished()
 {
-    qDebug() << Q_FUNC_INFO;
+    qDebug() << Q_FUNC_INFO << state();
 
-    /* Here, finish the operation if downloading. */
-    /* If network error or file error, just ignore */
-    if (state() == Downloading) {
-        const bool commited = d->file->commit();
-        this->preFinish(commited);
+    switch (state()) {
+    case Idle:
+    case Preparing:
+    case Connecting:
+        break;
+
+    case Downloading:
+    case Endgame:
+    case Completed:
+    {
+        /* Here, finish the operation if downloading. */
+        /* If network error or file error, just ignore */
+        if (d->file) {
+            bool commited = d->file->commit();
+            preFinish(commited);
+        }
     }
-    d->file->deleteLater();
-    d->file = Q_NULLPTR;
+        break;
 
+    case Paused:
+    case Stopped:
+    case Skipped:
+    case NetworkError:
+    case FileError:
+        if (d->file) {
+            d->file->cancelWriting();
+        }
+        setBytesReceived(0);
+        setBytesTotal(0);
+        break;
+
+    default:
+        Q_UNREACHABLE();
+        break;
+    }
+    if (d->file) {
+        d->file->deleteLater();
+        d->file = Q_NULLPTR;
+    }
     if (d->reply) {
         d->reply->deleteLater();
         d->reply = Q_NULLPTR;
@@ -189,10 +221,6 @@ void DownloadItem::onError(QNetworkReply::NetworkError error)
         d->file->deleteLater();
         d->file = Q_NULLPTR;
     }
-
-    setBytesReceived(0);
-    setBytesTotal(0);
-
     setHttpErrorNumber((int) error);
     setState(NetworkError);
 }
@@ -200,6 +228,7 @@ void DownloadItem::onError(QNetworkReply::NetworkError error)
 void DownloadItem::onReadyRead()
 {
     qDebug() << Q_FUNC_INFO;
+
     if (!d->reply || !d->file) {
         return;
     }
@@ -211,11 +240,6 @@ void DownloadItem::onReadyRead()
 void DownloadItem::onAboutToClose()
 {
     qDebug() << Q_FUNC_INFO;
-
-
-
-
-
 }
 
 /******************************************************************************
