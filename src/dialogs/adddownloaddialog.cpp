@@ -21,6 +21,7 @@
 #include <Core/DownloadManager>
 #include <Core/Regex>
 #include <Core/ResourceItem>
+#include <Core/Settings>
 
 #include <QtCore/QList>
 #include <QtCore/QSettings>
@@ -35,7 +36,8 @@
 #endif
 
 
-AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadManager, QWidget *parent)
+AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadManager,
+                                     Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddDownloadDialog)
     , m_downloadManager(downloadManager)
@@ -49,8 +51,21 @@ AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadM
     ui->downloadLineEdit->setFocus();
     ui->downloadLineEdit->setContextMenuPolicy(Qt::CustomContextMenu);
 
+    if (settings && settings->isCustomBatchEnabled()) {
+        ui->tagButton_Custom->setText(settings->customBatchButtonLabel());
+        ui->tagButton_Custom->setToolTip(settings->customBatchRange());
+    } else {
+        ui->tagButton_Custom->setVisible(false);
+    }
+
     connect(ui->downloadLineEdit, SIGNAL(customContextMenuRequested(const QPoint &)),
             this, SLOT(showContextMenu(const QPoint &)));
+
+    connect(ui->tagButton_1_10, SIGNAL(released()), this, SLOT(insert_1_to_10()));
+    connect(ui->tagButton_1_100, SIGNAL(released()), this, SLOT(insert_1_to_100()));
+    connect(ui->tagButton_01_10, SIGNAL(released()), this, SLOT(insert_01_to_10()));
+    connect(ui->tagButton_001_100, SIGNAL(released()), this, SLOT(insert_001_to_100()));
+    connect(ui->tagButton_Custom, SIGNAL(released()), this, SLOT(insert_custom()));
 
     connect(ui->downloadLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onChanged(QString)));
     connect(ui->pathWidget, SIGNAL(currentPathChanged(QString)), this, SLOT(onChanged(QString)));
@@ -92,16 +107,21 @@ void AddDownloadDialog::showContextMenu(const QPoint &/*pos*/)
     QAction action_1_to_100(tr("Insert [ 1 -> 100 ]"), contextMenu);
     QAction action_01_to_10(tr("Insert [ 01 -> 10 ]"), contextMenu);
     QAction action_001_to_100(tr("Insert [ 001 -> 100 ]"), contextMenu);
+    QAction action_custom(tr("Insert [ %0 ]").arg(ui->tagButton_Custom->text()), contextMenu);
 
     connect(&action_1_to_10, SIGNAL(triggered()), this, SLOT(insert_1_to_10()));
     connect(&action_1_to_100, SIGNAL(triggered()), this, SLOT(insert_1_to_100()));
     connect(&action_01_to_10, SIGNAL(triggered()), this, SLOT(insert_01_to_10()));
     connect(&action_001_to_100, SIGNAL(triggered()), this, SLOT(insert_001_to_100()));
+    connect(&action_custom, SIGNAL(triggered()), this, SLOT(insert_custom()));
 
     contextMenu->insertAction(first, &action_1_to_10);
     contextMenu->insertAction(first, &action_1_to_100);
     contextMenu->insertAction(first, &action_01_to_10);
     contextMenu->insertAction(first, &action_001_to_100);
+    if (ui->tagButton_Custom->isVisible()) {
+        contextMenu->insertAction(first, &action_custom);
+    }
     contextMenu->insertSeparator(first);
 
     contextMenu->exec(QCursor::pos());
@@ -126,6 +146,11 @@ void AddDownloadDialog::insert_1_to_100()
 void AddDownloadDialog::insert_001_to_100()
 {
     ui->downloadLineEdit->insert("[001:100]");
+}
+
+void AddDownloadDialog::insert_custom()
+{
+    ui->downloadLineEdit->insert(ui->tagButton_Custom->toolTip());
 }
 
 /******************************************************************************
