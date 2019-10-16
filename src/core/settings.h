@@ -36,20 +36,32 @@ public:
     explicit Settings(QObject *parent);
     virtual ~Settings();
 
-    QString database() const;
-    void setDatabase(const QString &value);
+    // Tab General
 
-    QList<Filter> filters() const;
-    void setFilters(const QList<Filter> &filters);
+    // Tab Interface
+    bool isStartMinimizedEnabled() const;
+    void setStartMinimizedEnabled(bool enabled);
 
     bool isConfirmRemovalEnabled() const;
     void setConfirmRemovalEnabled(bool enabled);
 
-    bool isStartMinimizedEnabled() const;
-    void setStartMinimizedEnabled(bool enabled);
-
+    // Tab Network
     int maxSimultaneousDownloads() const;
     void setMaxSimultaneousDownloads(int number);
+
+
+    // Tab Privacy
+    QString database() const;
+    void setDatabase(const QString &value);
+
+    // Tab Filters
+    QList<Filter> filters() const;
+    void setFilters(const QList<Filter> &filters);
+
+    // Tab Schedule
+
+    // Tab Advanced
+
 };
 
 #endif // CORE_SETTINGS_H
