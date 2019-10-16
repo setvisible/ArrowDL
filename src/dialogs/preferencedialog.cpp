@@ -148,6 +148,10 @@ void PreferenceDialog::read()
     // Tab Network
     ui->maxSimultaneousDownloadSlider->setValue(m_settings->maxSimultaneousDownloads());
 
+    ui->customBatchGroupBox->setChecked(m_settings->isCustomBatchEnabled());
+    ui->customBatchButtonLabelLineEdit->setText(m_settings->customBatchButtonLabel());
+    ui->customBatchRangeLineEdit->setText(m_settings->customBatchRange());
+
     // Tab Privacy
     ui->privacyRemoveCompletedCheckBox->setChecked(m_settings->isRemoveCompletedEnabled());
     ui->privacyRemoveCanceledCheckBox->setChecked(m_settings->isRemoveCanceledEnabled());
@@ -173,6 +177,10 @@ void PreferenceDialog::write()
 
     // Tab Network
     m_settings->setMaxSimultaneousDownloads(ui->maxSimultaneousDownloadSlider->value());
+
+    m_settings->setCustomBatchEnabled(ui->customBatchGroupBox->isChecked());
+    m_settings->setCustomBatchButtonLabel(ui->customBatchButtonLabelLineEdit->text());
+    m_settings->setCustomBatchRange(ui->customBatchRangeLineEdit->text());
 
     // Tab Privacy
     m_settings->setRemoveCompletedEnabled(ui->privacyRemoveCompletedCheckBox->isChecked());

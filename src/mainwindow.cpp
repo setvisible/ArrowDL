@@ -501,7 +501,7 @@ void MainWindow::removePaused()
 
 void MainWindow::add()
 {
-    AddDownloadDialog dialog(urlFromClipboard(), m_downloadManager, this);
+    AddDownloadDialog dialog(urlFromClipboard(), m_downloadManager, m_settings, this);
     dialog.exec();
 }
 

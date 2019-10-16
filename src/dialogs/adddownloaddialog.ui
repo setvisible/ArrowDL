@@ -308,7 +308,7 @@ color: rgb(205, 230, 255);
            </font>
           </property>
           <property name="text">
-           <string>insert:</string>
+           <string>Insert batch range:</string>
           </property>
          </widget>
         </item>
@@ -349,6 +349,16 @@ color: rgb(205, 230, 255);
           </property>
           <property name="text">
            <string>001 -&gt; 100</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="tagButton_Custom">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Custom</string>
           </property>
          </widget>
         </item>

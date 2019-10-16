@@ -21,6 +21,7 @@
 
 class IDownloadItem;
 class DownloadManager;
+class Settings;
 
 namespace Ui {
 class AddDownloadDialog;
@@ -31,7 +32,8 @@ class AddDownloadDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddDownloadDialog(const QUrl &url, DownloadManager *downloadManager, QWidget *parent);
+    explicit AddDownloadDialog(const QUrl &url, DownloadManager *downloadManager,
+                               Settings *settings, QWidget *parent = Q_NULLPTR);
     ~AddDownloadDialog();
 
 public slots:
@@ -45,6 +47,7 @@ private slots:
     void insert_1_to_100();
     void insert_01_to_10();
     void insert_001_to_100();
+    void insert_custom();
     void onChanged(QString);
 
 private:

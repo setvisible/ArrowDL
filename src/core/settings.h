@@ -49,6 +49,15 @@ public:
     int maxSimultaneousDownloads() const;
     void setMaxSimultaneousDownloads(int number);
 
+    bool isCustomBatchEnabled() const;
+    void setCustomBatchEnabled(bool enabled);
+
+    QString customBatchButtonLabel() const;
+    void setCustomBatchButtonLabel(const QString &text);
+
+    QString customBatchRange() const;
+    void setCustomBatchRange(const QString &text);
+
 
     // Tab Privacy
     bool isRemoveCompletedEnabled() const;

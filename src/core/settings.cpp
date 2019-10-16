@@ -30,6 +30,9 @@ static const QString REGISTRY_CONFIRM_REMOVAL  = "ConfirmRemoval";
 
 // Tab Network
 static const QString REGISTRY_MAX_SIMULTANEOUS = "MaxSimultaneous";
+static const QString REGISTRY_CUSTOM_BATCH     = "CustomBatchEnabled";
+static const QString REGISTRY_CUSTOM_BATCH_BL  = "CustomBatchButtonLabel";
+static const QString REGISTRY_CUSTOM_BATCH_RGE = "CustomBatchRange";
 
 // Tab Privacy
 static const QString REGISTRY_REMOVE_COMPLETED = "PrivacyRemoveCompleted";
@@ -57,6 +60,9 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
 
     // Tab Network
     addDefaultSettingInt(REGISTRY_MAX_SIMULTANEOUS, 4);
+    addDefaultSettingBool(REGISTRY_CUSTOM_BATCH, true);
+    addDefaultSettingString(REGISTRY_CUSTOM_BATCH_BL, QLatin1String("1 -> 25"));
+    addDefaultSettingString(REGISTRY_CUSTOM_BATCH_RGE, QLatin1String("[1:25]"));
 
     // Tab Privacy
     addDefaultSettingBool(REGISTRY_REMOVE_COMPLETED, false);
@@ -143,6 +149,36 @@ int Settings::maxSimultaneousDownloads() const
 void Settings::setMaxSimultaneousDownloads(int number)
 {
     setSettingInt(REGISTRY_MAX_SIMULTANEOUS, number);
+}
+
+bool Settings::isCustomBatchEnabled() const
+{
+    return getSettingBool(REGISTRY_CUSTOM_BATCH);
+}
+
+void Settings::setCustomBatchEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_CUSTOM_BATCH, enabled);
+}
+
+QString Settings::customBatchButtonLabel() const
+{
+    return getSettingString(REGISTRY_CUSTOM_BATCH_BL);
+}
+
+void Settings::setCustomBatchButtonLabel(const QString &text)
+{
+    setSettingString(REGISTRY_CUSTOM_BATCH_BL, text);
+}
+
+QString Settings::customBatchRange() const
+{
+    return getSettingString(REGISTRY_CUSTOM_BATCH_RGE);
+}
+
+void Settings::setCustomBatchRange(const QString &text)
+{
+    setSettingString(REGISTRY_CUSTOM_BATCH_RGE, text);
 }
 
 /******************************************************************************
