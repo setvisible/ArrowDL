@@ -20,11 +20,9 @@
 #include <Core/Settings>
 #include <Widgets/PathWidget>
 
+#include <QtCore/QDebug>
 #include <QtCore/QSettings>
 #include <QtGui/QCloseEvent>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
 
 #define C_COLUMN_WIDTH  200
 
@@ -151,6 +149,10 @@ void PreferenceDialog::read()
     ui->maxSimultaneousDownloadSlider->setValue(m_settings->maxSimultaneousDownloads());
 
     // Tab Privacy
+    ui->privacyRemoveCompletedCheckBox->setChecked(m_settings->isRemoveCompletedEnabled());
+    ui->privacyRemoveCanceledCheckBox->setChecked(m_settings->isRemoveCanceledEnabled());
+    ui->privacyRemovePausedCheckBox->setChecked(m_settings->isRemovePausedEnabled());
+
     ui->browseDatabaseFile->setCurrentPath(m_settings->database());
 
     // Tab Filters
@@ -173,6 +175,10 @@ void PreferenceDialog::write()
     m_settings->setMaxSimultaneousDownloads(ui->maxSimultaneousDownloadSlider->value());
 
     // Tab Privacy
+    m_settings->setRemoveCompletedEnabled(ui->privacyRemoveCompletedCheckBox->isChecked());
+    m_settings->setRemoveCanceledEnabled(ui->privacyRemoveCanceledCheckBox->isChecked());
+    m_settings->setRemovePausedEnabled(ui->privacyRemovePausedCheckBox->isChecked());
+
     m_settings->setDatabase(ui->browseDatabaseFile->currentPath());
 
     // Tab Filters

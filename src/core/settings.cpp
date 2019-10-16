@@ -32,6 +32,9 @@ static const QString REGISTRY_CONFIRM_REMOVAL  = "ConfirmRemoval";
 static const QString REGISTRY_MAX_SIMULTANEOUS = "MaxSimultaneous";
 
 // Tab Privacy
+static const QString REGISTRY_REMOVE_COMPLETED = "PrivacyRemoveCompleted";
+static const QString REGISTRY_REMOVE_CANCELED  = "PrivacyRemoveCanceled";
+static const QString REGISTRY_REMOVE_PAUSED    = "PrivacyRemovePaused";
 static const QString REGISTRY_DATABASE         = "Database";
 
 // Tab Filters
@@ -56,6 +59,9 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     addDefaultSettingInt(REGISTRY_MAX_SIMULTANEOUS, 4);
 
     // Tab Privacy
+    addDefaultSettingBool(REGISTRY_REMOVE_COMPLETED, false);
+    addDefaultSettingBool(REGISTRY_REMOVE_CANCELED, false);
+    addDefaultSettingBool(REGISTRY_REMOVE_PAUSED, false);
     addDefaultSettingString(
                 REGISTRY_DATABASE,
                 QString("%0/queue.json").arg(qApp->applicationDirPath()));
@@ -142,6 +148,36 @@ void Settings::setMaxSimultaneousDownloads(int number)
 /******************************************************************************
  ******************************************************************************/
 // Tab Privacy
+bool Settings::isRemoveCompletedEnabled() const
+{
+    return getSettingBool(REGISTRY_REMOVE_COMPLETED);
+}
+
+void Settings::setRemoveCompletedEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_REMOVE_COMPLETED, enabled);
+}
+
+bool Settings::isRemoveCanceledEnabled() const
+{
+    return getSettingBool(REGISTRY_REMOVE_CANCELED);
+}
+
+void Settings::setRemoveCanceledEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_REMOVE_CANCELED, enabled);
+}
+
+bool Settings::isRemovePausedEnabled() const
+{
+    return getSettingBool(REGISTRY_REMOVE_PAUSED);
+}
+
+void Settings::setRemovePausedEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_REMOVE_PAUSED, enabled);
+}
+
 QString Settings::database() const
 {
     return getSettingString(REGISTRY_DATABASE);

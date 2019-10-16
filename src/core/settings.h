@@ -51,6 +51,15 @@ public:
 
 
     // Tab Privacy
+    bool isRemoveCompletedEnabled() const;
+    void setRemoveCompletedEnabled(bool enabled);
+
+    bool isRemoveCanceledEnabled() const;
+    void setRemoveCanceledEnabled(bool enabled);
+
+    bool isRemovePausedEnabled() const;
+    void setRemovePausedEnabled(bool enabled);
+
     QString database() const;
     void setDatabase(const QString &value);
 

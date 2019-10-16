@@ -100,12 +100,11 @@ void DownloadManager::loadQueue()
         QList<DownloadItem*> downloadItems;
         Session::read(downloadItems, m_queueFile, this);
 
-        /// \todo remove it
-        QList<IDownloadItem *> abstractItems;
+        QList<IDownloadItem*> abstractItems;
         foreach (auto item, downloadItems) {
-            abstractItems.append(item);
+            // Cast items of the list
+            abstractItems.append((IDownloadItem*)item);
         }
-
         clear();
         append(abstractItems, false);
     }
@@ -116,15 +115,42 @@ void DownloadManager::saveQueue()
     if (!m_queueFile.isEmpty()) {
         QList<DownloadItem *> items;
 
-        /// \todo remove it
+        const bool skipCompleted = m_settings->isRemoveCompletedEnabled();
+        const bool skipCanceled = m_settings->isRemoveCanceledEnabled();
+        const bool skipPaused = m_settings->isRemovePausedEnabled();
+
         QList<IDownloadItem *> abstractItems = downloadItems();
         foreach (auto abstractItem, abstractItems) {
             DownloadItem* item = static_cast<DownloadItem*>(abstractItem);
             if (item) {
+                switch (item->state()) {
+                case IDownloadItem::Idle:
+                case IDownloadItem::Paused:
+                case IDownloadItem::Preparing:
+                case IDownloadItem::Connecting:
+                case IDownloadItem::Downloading:
+                case IDownloadItem::Endgame:
+                    if (skipPaused) continue;
+                    break;
+
+                case IDownloadItem::Completed:
+                    if (skipCompleted) continue;
+                    break;
+
+                case IDownloadItem::Stopped:
+                case IDownloadItem::Skipped:
+                case IDownloadItem::NetworkError:
+                case IDownloadItem::FileError:
+                    if (skipCanceled) continue;
+                    break;
+
+                default:
+                    Q_UNREACHABLE();
+                    break;
+                }
                 items.append(item);
             }
         }
-
         Session::write(items, m_queueFile);
     }
 }
