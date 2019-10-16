@@ -324,21 +324,21 @@ QTabBar::tab:hover:!selected {
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_6">
           <item>
-           <widget class="QCheckBox" name="checkBox">
+           <widget class="QCheckBox" name="privacyRemoveCompletedCheckBox">
             <property name="text">
              <string>Remove completed downloads</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_2">
+           <widget class="QCheckBox" name="privacyRemoveCanceledCheckBox">
             <property name="text">
              <string>Remove canceled/failed downloads</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_3">
+           <widget class="QCheckBox" name="privacyRemovePausedCheckBox">
             <property name="text">
              <string>Remove unfinished (paused) downloads</string>
             </property>
