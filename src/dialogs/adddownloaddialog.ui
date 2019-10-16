@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>700</width>
-    <height>357</height>
+    <height>398</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -56,6 +56,26 @@
        </property>
       </widget>
      </item>
+     <item row="3" column="0" colspan="2">
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="downloadLineEdit">
+       <property name="font">
+        <font>
+         <family>Courier New</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="placeholderText">
+        <string>Enter download URI</string>
+       </property>
+      </widget>
+     </item>
      <item row="2" column="1">
       <widget class="QLabel" name="label_9">
        <property name="font">
@@ -73,10 +93,19 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0" colspan="2">
-      <widget class="Line" name="line">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <italic>true</italic>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Custom filename:</string>
        </property>
       </widget>
      </item>
@@ -95,37 +124,26 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QLineEdit" name="downloadLineEdit">
-       <property name="placeholderText">
-        <string>Enter download URI</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_2">
+     <item row="8" column="0">
+      <widget class="QLabel" name="label_4">
        <property name="font">
         <font>
          <family>Segoe UI</family>
          <pointsize>9</pointsize>
-         <weight>75</weight>
+         <weight>50</weight>
          <italic>true</italic>
-         <bold>true</bold>
+         <bold>false</bold>
         </font>
        </property>
        <property name="text">
-        <string>Custom filename:</string>
+        <string>Description:</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
-      <widget class="QLineEdit" name="filenameLineEdit">
-       <property name="placeholderText">
-        <string>Enter new file name</string>
-       </property>
-      </widget>
+     <item row="8" column="1">
+      <widget class="QLineEdit" name="descriptionLineEdit"/>
      </item>
-     <item row="6" column="0">
+     <item row="7" column="0">
       <widget class="QLabel" name="label_3">
        <property name="font">
         <font>
@@ -142,32 +160,20 @@
       </widget>
      </item>
      <item row="6" column="1">
+      <widget class="QLineEdit" name="filenameLineEdit">
+       <property name="placeholderText">
+        <string>Enter new file name</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
       <widget class="QLineEdit" name="referrerLineEdit">
        <property name="placeholderText">
         <string>Enter referrer URI</string>
        </property>
       </widget>
      </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>9</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Description:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QLineEdit" name="descriptionLineEdit"/>
-     </item>
-     <item row="8" column="0">
+     <item row="9" column="0">
       <widget class="QLabel" name="label_5">
        <property name="font">
         <font>
@@ -183,17 +189,7 @@
        </property>
       </widget>
      </item>
-     <item row="8" column="1">
-      <widget class="PathWidget" name="pathWidget" native="true">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>20</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="0">
+     <item row="10" column="0">
       <widget class="QLabel" name="label_6">
        <property name="font">
         <font>
@@ -209,17 +205,7 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="1">
-      <widget class="MaskWidget" name="maskWidget" native="true">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>20</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="0">
+     <item row="11" column="0">
       <widget class="QLabel" name="label_7">
        <property name="font">
         <font>
@@ -235,7 +221,27 @@
        </property>
       </widget>
      </item>
+     <item row="9" column="1">
+      <widget class="PathWidget" name="pathWidget" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>20</height>
+        </size>
+       </property>
+      </widget>
+     </item>
      <item row="10" column="1">
+      <widget class="MaskWidget" name="maskWidget" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>20</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="1">
       <widget class="QLineEdit" name="hashLineEdit"/>
      </item>
      <item row="0" column="0" rowspan="3">
@@ -255,6 +261,98 @@
        <property name="styleSheet">
         <string notr="true">image: url(:/icons/logo/dza_128x128.png);</string>
        </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QWidget" name="tagWidget" native="true">
+       <property name="styleSheet">
+        <string notr="true">QToolButton {
+border: 2px solid;
+border-radius: 8px;
+border-color: rgb(54, 108, 162);
+background-color: rgb(85, 170, 255);
+color: rgb(205, 230, 255);
+ }A</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_11">
+          <property name="font">
+           <font>
+            <italic>true</italic>
+           </font>
+          </property>
+          <property name="text">
+           <string>insert:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="tagButton_1_10">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>1 -&gt; 10</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="tagButton_1_100">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>1 -&gt; 100</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="tagButton_01_10">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>01 -&gt; 10</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="tagButton_001_100">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>001 -&gt; 100</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </item>
     </layout>
@@ -338,15 +436,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MaskWidget</class>
-   <extends>QWidget</extends>
-   <header>Widgets\MaskWidget</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>PathWidget</class>
    <extends>QWidget</extends>
    <header>Widgets/PathWidget</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MaskWidget</class>
+   <extends>QWidget</extends>
+   <header>Widgets\MaskWidget</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

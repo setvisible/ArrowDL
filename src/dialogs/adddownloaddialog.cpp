@@ -52,6 +52,11 @@ AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadM
     connect(ui->downloadLineEdit, SIGNAL(customContextMenuRequested(const QPoint &)),
             this, SLOT(showContextMenu(const QPoint &)));
 
+    connect(ui->tagButton_1_10, SIGNAL(released()), this, SLOT(insert_1_to_10()));
+    connect(ui->tagButton_1_100, SIGNAL(released()), this, SLOT(insert_1_to_100()));
+    connect(ui->tagButton_01_10, SIGNAL(released()), this, SLOT(insert_01_to_10()));
+    connect(ui->tagButton_001_100, SIGNAL(released()), this, SLOT(insert_001_to_100()));
+
     connect(ui->downloadLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onChanged(QString)));
     connect(ui->pathWidget, SIGNAL(currentPathChanged(QString)), this, SLOT(onChanged(QString)));
     connect(ui->maskWidget, SIGNAL(currentMaskChanged(QString)), this, SLOT(onChanged(QString)));
