@@ -301,8 +301,19 @@ QString DownloadEngine::selectionToString() const
         ret += "\n";
         count++;
         if (count > 10) {
-            ret += tr("... (%0 others)").arg(m_selectedItems.count()-10);
+            ret += tr("... (%0 others)").arg(m_selectedItems.count() - 10);
+            break;
         }
+    }
+    return ret;
+}
+
+QString DownloadEngine::selectionToClipboard() const
+{
+    QString ret;
+    foreach (auto item, m_selectedItems) {
+        ret += item->sourceUrl().toString();
+        ret += "\n";
     }
     return ret;
 }

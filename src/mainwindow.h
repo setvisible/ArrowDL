@@ -59,6 +59,7 @@ public slots:
     void selectNone();
     void invertSelection();
     void selectCompleted();
+    void copy();
     void manageMirrors();
     void oneMoreSegment();
     void oneFewerSegment();
