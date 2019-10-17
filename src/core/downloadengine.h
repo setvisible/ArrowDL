@@ -79,6 +79,7 @@ public:
 
     /* Utility */
     virtual IDownloadItem* createItem(const QUrl &url);
+    virtual void changeLocalFileName(IDownloadItem *item, const QString &newName);
 
 signals:
     void jobAppended(DownloadRange range);

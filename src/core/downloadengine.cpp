@@ -355,3 +355,14 @@ IDownloadItem* DownloadEngine::createItem(const QUrl &/*url*/)
 {
     return Q_NULLPTR;
 }
+
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * \brief Reimplement this method allows the Engine to rename Items.
+ */
+void DownloadEngine::changeLocalFileName(IDownloadItem *item, const QString &newName)
+{
+    Q_UNUSED(item);
+    Q_UNUSED(newName);
+}
