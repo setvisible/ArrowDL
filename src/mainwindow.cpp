@@ -137,6 +137,8 @@ void MainWindow::createActions()
     connect(ui->actionInvertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
     connect(ui->actionSelectCompleted, SIGNAL(triggered()), this, SLOT(selectCompleted()));
     // --
+    connect(ui->actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
+    // --
     connect(ui->actionManageMirrors, SIGNAL(triggered()), this, SLOT(manageMirrors()));
     connect(ui->actionOneMoreSegment, SIGNAL(triggered()), this, SLOT(oneMoreSegment()));
     connect(ui->actionOneFewerSegment, SIGNAL(triggered()), this, SLOT(oneFewerSegment()));
@@ -205,6 +207,8 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionRenameFile);
     contextMenu->addAction(ui->actionDeleteFile);
     contextMenu->addAction(ui->actionOpenDirectory);
+    contextMenu->addSeparator();
+    contextMenu->addAction(ui->actionCopy);
     contextMenu->addSeparator();
     contextMenu->addAction(ui->actionResume);
     contextMenu->addAction(ui->actionPause);
@@ -336,6 +340,13 @@ void MainWindow::invertSelection()
 void MainWindow::selectCompleted()
 {
     m_downloadManager->setSelection(m_downloadManager->completedJobs());
+}
+
+void MainWindow::copy()
+{
+    const QString text = m_downloadManager->selectionToClipboard();
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(text);
 }
 
 void MainWindow::manageMirrors()
@@ -670,6 +681,8 @@ void MainWindow::refreshMenus()
     ui->actionSelectNone->setEnabled(hasSelection);
     //ui->actionInvertSelection->setEnabled(hasSelection);
     //ui->actionSelectCompleted->setEnabled(hasSelection);
+    // --
+    ui->actionCopy->setEnabled(hasSelection);
     // --
     ui->actionManageMirrors->setEnabled(hasAtLeastOneUncompletedSelected);
     ui->actionOneMoreSegment->setEnabled(hasAtLeastOneUncompletedSelected);

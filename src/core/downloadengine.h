@@ -69,6 +69,7 @@ public:
     void setSelected(IDownloadItem *item, bool isSelected);
 
     QString selectionToString() const;
+    QString selectionToClipboard() const;
 
     void beginSelectionChange(); // BUGFIX
     void endSelectionChange();
