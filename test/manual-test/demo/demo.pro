@@ -25,7 +25,7 @@ HEADERS += \
     $$PWD/../../../src/core/abstractdownloaditem.h \
     $$PWD/../../../src/core/downloadengine.h \
     $$PWD/../../../src/core/format.h \
-    $$PWD/../../../src/core/idownloaditem.h\
+    $$PWD/../../../src/core/idownloaditem.h \
     $$PWD/../../../src/core/mimedatabase.h \
     $$PWD/../../../src/widgets/customstyle.h \
     $$PWD/../../../src/widgets/customstyleoptionprogressbar.h \
