@@ -140,6 +140,7 @@ void PreferenceDialog::restoreDefaultSettings()
 void PreferenceDialog::read()
 {
     // Tab General
+    setExistingFileOption(m_settings->existingFileOption());
 
     // Tab Interface
     ui->startMinimizedCheckBox->setChecked(m_settings->isStartMinimizedEnabled());
@@ -171,6 +172,7 @@ void PreferenceDialog::read()
 void PreferenceDialog::write()
 {
     // Tab General
+    m_settings->setExistingFileOption(existingFileOption());
 
     // Tab Interface
     m_settings->setStartMinimizedEnabled(ui->startMinimizedCheckBox->isChecked());
@@ -259,4 +261,43 @@ void PreferenceDialog::writeSettings()
     settings.setValue("DialogSize", size());
     settings.setValue("TabIndex", ui->tabWidget->currentIndex());
     settings.endGroup();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+ExistingFileOption PreferenceDialog::existingFileOption() const
+{
+    if (ui->renameRadioButton->isChecked()) {
+        return ExistingFileOption::Rename;
+    } else if (ui->overwriteRadioButton->isChecked()) {
+        return ExistingFileOption::Overwrite;
+    } else if (ui->skipRadioButton->isChecked()) {
+        return ExistingFileOption::Skip;
+    } else if (ui->askRadioButton->isChecked()) {
+        return ExistingFileOption::Ask;
+    } else {
+        Q_UNREACHABLE();
+        return ExistingFileOption::LastOption;
+    }
+}
+
+void PreferenceDialog::setExistingFileOption(ExistingFileOption option)
+{
+    switch (option) {
+    case ExistingFileOption::Rename:
+        ui->renameRadioButton->setChecked(true);
+        break;
+    case ExistingFileOption::Overwrite:
+        ui->overwriteRadioButton->setChecked(true);
+        break;
+    case ExistingFileOption::Skip:
+        ui->skipRadioButton->setChecked(true);
+        break;
+    case ExistingFileOption::Ask:
+        ui->askRadioButton->setChecked(true);
+        break;
+    default:
+        Q_UNREACHABLE();
+        break;
+    }
 }
