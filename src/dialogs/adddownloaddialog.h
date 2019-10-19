@@ -18,6 +18,7 @@
 #define DIALOGS_ADD_DOWNLOAD_DIALOG_H
 
 #include <QtWidgets/QDialog>
+#include <QtWidgets/QMessageBox>
 
 class IDownloadItem;
 class DownloadManager;
@@ -53,8 +54,11 @@ private slots:
 private:
     Ui::AddDownloadDialog *ui;
     DownloadManager *m_downloadManager;
+    Settings *m_settings;
 
     void doAccept(const bool started);
+    QMessageBox::StandardButton askBatchDownloading(QList<IDownloadItem*> items);
+
     QList<IDownloadItem *> createItems() const;
     IDownloadItem* createItem(const QString &url) const;
     QList<IDownloadItem*> toList(IDownloadItem *item) const;

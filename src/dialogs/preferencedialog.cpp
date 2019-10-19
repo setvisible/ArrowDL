@@ -144,6 +144,7 @@ void PreferenceDialog::read()
     // Tab Interface
     ui->startMinimizedCheckBox->setChecked(m_settings->isStartMinimizedEnabled());
     ui->confirmRemovalCheckBox->setChecked(m_settings->isConfirmRemovalEnabled());
+    ui->confirmBatchCheckBox->setChecked(m_settings->isConfirmBatchDownloadEnabled());
 
     // Tab Network
     ui->maxSimultaneousDownloadSlider->setValue(m_settings->maxSimultaneousDownloads());
@@ -174,6 +175,7 @@ void PreferenceDialog::write()
     // Tab Interface
     m_settings->setStartMinimizedEnabled(ui->startMinimizedCheckBox->isChecked());
     m_settings->setConfirmRemovalEnabled(ui->confirmRemovalCheckBox->isChecked());
+    m_settings->setConfirmBatchDownloadEnabled(ui->confirmBatchCheckBox->isChecked());
 
     // Tab Network
     m_settings->setMaxSimultaneousDownloads(ui->maxSimultaneousDownloadSlider->value());
