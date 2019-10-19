@@ -28,6 +28,7 @@
 #include <QtCore/QUrl>
 #include <QtGui/QCloseEvent>
 #include <QtWidgets/QAction>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMessageBox>
@@ -41,6 +42,7 @@ AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadM
     : QDialog(parent)
     , ui(new Ui::AddDownloadDialog)
     , m_downloadManager(downloadManager)
+    , m_settings(settings)
 
 {
     ui->setupUi(this);
@@ -51,9 +53,9 @@ AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadM
     ui->downloadLineEdit->setFocus();
     ui->downloadLineEdit->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    if (settings && settings->isCustomBatchEnabled()) {
-        ui->tagButton_Custom->setText(settings->customBatchButtonLabel());
-        ui->tagButton_Custom->setToolTip(settings->customBatchRange());
+    if (m_settings && m_settings->isCustomBatchEnabled()) {
+        ui->tagButton_Custom->setText(m_settings->customBatchButtonLabel());
+        ui->tagButton_Custom->setToolTip(m_settings->customBatchRange());
     } else {
         ui->tagButton_Custom->setVisible(false);
     }
@@ -176,6 +178,34 @@ void AddDownloadDialog::doAccept(const bool started)
 
     if (Regex::hasBatchDescriptors(adjusted)) {
         QList<IDownloadItem*> items = createItems();
+
+        QMessageBox::StandardButton answer = askBatchDownloading(items);
+
+        if (answer == QMessageBox::Ok) {
+            m_downloadManager->append(items, started);
+            QDialog::accept();
+
+        } else if (answer == QMessageBox::Apply) {
+            m_downloadManager->append(toList(createItem(adjusted)), started);
+            QDialog::accept();
+
+        } else {
+            return;
+        }
+
+    } else {
+        m_downloadManager->append(toList(createItem(adjusted)), started);
+        QDialog::accept();
+    }
+    writeSettings();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QMessageBox::StandardButton AddDownloadDialog::askBatchDownloading(QList<IDownloadItem*> items)
+{
+    if (!m_settings || m_settings->isConfirmBatchDownloadEnabled()) {
+
         DownloadItem *firstItem = static_cast<DownloadItem*>(items.first());
         DownloadItem *lastItem = static_cast<DownloadItem*>(items.last());
 
@@ -197,28 +227,33 @@ void AddDownloadDialog::doAccept(const bool started)
         QPushButton *batchButton = msgBox.addButton(tr("Download Batch"), QMessageBox::ActionRole);
         QPushButton *singleButton = msgBox.addButton(tr("Single Download"), QMessageBox::ActionRole);
         QPushButton *cancelButton = msgBox.addButton(QMessageBox::Cancel);
+        msgBox.setDefaultButton(batchButton);
+
+        QCheckBox *cb = new QCheckBox("Don't ask again, always download batch");
+        msgBox.setCheckBox(cb);
+        QObject::connect(cb, &QCheckBox::stateChanged, [this](int state){
+            if (static_cast<Qt::CheckState>(state) == Qt::CheckState::Checked) {
+                m_settings->setConfirmBatchDownloadEnabled(false);
+            }
+        });
 
         msgBox.exec();
 
         if (msgBox.clickedButton() == batchButton) {
-            m_downloadManager->append(items, started);
-            QDialog::accept();
+            return QMessageBox::Ok;
 
         } else if (msgBox.clickedButton() == singleButton) {
-            m_downloadManager->append(toList(createItem(adjusted)), started);
-            QDialog::accept();
+            return QMessageBox::Apply;
 
         } else if (msgBox.clickedButton() == cancelButton) {
-            return;
+            return QMessageBox::Cancel;
         }
-
-    } else {
-        m_downloadManager->append(toList(createItem(adjusted)), started);
-        QDialog::accept();
     }
-    writeSettings();
+    return QMessageBox::Ok;
 }
 
+/******************************************************************************
+ ******************************************************************************/
 QList<IDownloadItem*> AddDownloadDialog::createItems() const
 {
     QList<IDownloadItem*> items;

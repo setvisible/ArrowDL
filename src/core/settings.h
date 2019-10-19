@@ -45,6 +45,9 @@ public:
     bool isConfirmRemovalEnabled() const;
     void setConfirmRemovalEnabled(bool enabled);
 
+    bool isConfirmBatchDownloadEnabled() const;
+    void setConfirmBatchDownloadEnabled(bool enabled);
+
     // Tab Network
     int maxSimultaneousDownloads() const;
     void setMaxSimultaneousDownloads(int number);

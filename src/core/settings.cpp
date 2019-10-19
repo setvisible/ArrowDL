@@ -27,6 +27,7 @@
 // Tab Interface
 static const QString REGISTRY_START_MINIMIZED  = "StartMinimized";
 static const QString REGISTRY_CONFIRM_REMOVAL  = "ConfirmRemoval";
+static const QString REGISTRY_CONFIRM_BATCH    = "ConfirmBatchDownload";
 
 // Tab Network
 static const QString REGISTRY_MAX_SIMULTANEOUS = "MaxSimultaneous";
@@ -57,6 +58,7 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     // Tab Interface
     addDefaultSettingBool(REGISTRY_START_MINIMIZED, false);
     addDefaultSettingBool(REGISTRY_CONFIRM_REMOVAL, true);
+    addDefaultSettingBool(REGISTRY_CONFIRM_BATCH, true);
 
     // Tab Network
     addDefaultSettingInt(REGISTRY_MAX_SIMULTANEOUS, 4);
@@ -136,6 +138,16 @@ bool Settings::isConfirmRemovalEnabled() const
 void Settings::setConfirmRemovalEnabled(bool enabled)
 {
     setSettingBool(REGISTRY_CONFIRM_REMOVAL, enabled);
+}
+
+bool Settings::isConfirmBatchDownloadEnabled() const
+{
+    return getSettingBool(REGISTRY_CONFIRM_BATCH);
+}
+
+void Settings::setConfirmBatchDownloadEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_CONFIRM_BATCH, enabled);
 }
 
 /******************************************************************************

@@ -437,7 +437,6 @@ void MainWindow::openDirectory()
 bool MainWindow::askConfirmation(const QString &text)
 {
     if (m_settings->isConfirmRemovalEnabled()) {
-        QCheckBox *cb = new QCheckBox("Don't ask again");
         QMessageBox msgbox(this);
         msgbox.setWindowTitle(tr("Remove Downloads"));
         msgbox.setText(tr("Are you sure to remove %0 downloads?").arg(text));
@@ -445,13 +444,15 @@ bool MainWindow::askConfirmation(const QString &text)
         msgbox.addButton(QMessageBox::Yes);
         msgbox.addButton(QMessageBox::No);
         msgbox.setDefaultButton(QMessageBox::No);
-        msgbox.setCheckBox(cb);
 
+        QCheckBox *cb = new QCheckBox("Don't ask again");
+        msgbox.setCheckBox(cb);
         QObject::connect(cb, &QCheckBox::stateChanged, [this](int state){
             if (static_cast<Qt::CheckState>(state) == Qt::CheckState::Checked) {
                 m_settings->setConfirmRemovalEnabled(false);
             }
         });
+
         int response = msgbox.exec();
         return response == QMessageBox::Yes;
     }
