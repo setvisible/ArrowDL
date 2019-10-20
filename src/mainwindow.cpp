@@ -23,6 +23,7 @@
 
 #include <Core/IDownloadItem>
 #include <Core/DownloadManager>
+#include <Core/FileAccessManager>
 #include <Core/Settings>
 #include <Dialogs/AddDownloadDialog>
 #include <Dialogs/InformationDialog>
@@ -60,6 +61,7 @@
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
   , m_downloadManager(new DownloadManager(this))
+  , m_fileAccessManager(new FileAccessManager(this))
   , m_settings(new Settings(this))
   , m_statusBarLabel(new QLabel(this))
 {
@@ -91,6 +93,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     connect(ui->downloadQueueView, SIGNAL(doubleClicked(IDownloadItem*)),
             this, SLOT(openFile(IDownloadItem*)));
+
+
+    /* File Access Manager */
+    m_fileAccessManager->setSettings(m_settings);
 
     /* Connect the rest of the GUI widgets together (selection, focus, etc.) */
     createActions();

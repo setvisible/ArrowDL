@@ -19,11 +19,11 @@
 
 #include "downloaditem.h"
 
+class File;
 class ResourceItem;
 
 class QNetworkAccessManager;
 class QNetworkReply;
-class QSaveFile;
 
 class DownloadItemPrivate
 {    
@@ -33,7 +33,7 @@ public:
     QNetworkAccessManager *networkManager;
     ResourceItem *resource;
     QNetworkReply *reply;
-    QSaveFile *file;
+    File *file;
 
     DownloadItem *q;
 };

@@ -25,6 +25,11 @@ SOURCES     += $$PWD/../../../src/core/downloaditem.cpp
 HEADERS     += $$PWD/../../../src/core/downloadmanager.h
 SOURCES     += $$PWD/../../../src/core/downloadmanager.cpp
 
+HEADERS     += $$PWD/../../../src/core/file.h
+SOURCES     += $$PWD/../../../src/core/file.cpp
+
+HEADERS     += $$PWD/../../../src/core/ifileaccessmanager.h
+
 HEADERS     += $$PWD/../../../src/core/idownloaditem.h
 
 HEADERS     += $$PWD/../../../src/core/resourceitem.h
