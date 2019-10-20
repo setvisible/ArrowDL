@@ -23,6 +23,7 @@
  * Registry Keys. They must be unique
  */
 // Tab General
+static const QString REGISTRY_EXISTING_FILE    = "ExistingFile";
 
 // Tab Interface
 static const QString REGISTRY_START_MINIMIZED  = "StartMinimized";
@@ -54,6 +55,7 @@ static const QString REGISTRY_FILTER_VALUE     = "FilterValue";
 Settings::Settings(QObject *parent) : AbstractSettings(parent)
 {
     // Tab General
+    addDefaultSettingInt(REGISTRY_EXISTING_FILE, (int) ExistingFileOption::Skip);
 
     // Tab Interface
     addDefaultSettingBool(REGISTRY_START_MINIMIZED, false);
@@ -116,6 +118,18 @@ Settings::~Settings()
 /******************************************************************************
  ******************************************************************************/
 // Tab General
+ExistingFileOption Settings::existingFileOption() const
+{
+    int value = getSettingInt(REGISTRY_EXISTING_FILE);
+    return (value >= 0 && value < (int)ExistingFileOption::LastOption)
+            ? (ExistingFileOption) value
+            : ExistingFileOption::Skip;
+}
+
+void Settings::setExistingFileOption(ExistingFileOption option)
+{
+    setSettingInt(REGISTRY_EXISTING_FILE, (int)option);
+}
 
 /******************************************************************************
  ******************************************************************************/

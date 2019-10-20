@@ -21,7 +21,9 @@
 
 class IDownloadItem;
 class DownloadManager;
+class FileAccessManager;
 class Settings;
+
 typedef QList<IDownloadItem*> DownloadRange;
 
 class QLabel;
@@ -107,6 +109,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     DownloadManager *m_downloadManager;
+    FileAccessManager *m_fileAccessManager;
     Settings *m_settings;
     QLabel *m_statusBarLabel;
 

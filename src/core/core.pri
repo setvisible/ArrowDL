@@ -5,9 +5,12 @@ HEADERS += \
     $$PWD/downloaditem.h \
     $$PWD/downloaditem_p.h \
     $$PWD/downloadmanager.h \
+    $$PWD/file.h \
+    $$PWD/fileaccessmanager.h \
     $$PWD/format.h \
     $$PWD/htmlparser.h \
     $$PWD/idownloaditem.h \
+    $$PWD/ifileaccessmanager.h \
     $$PWD/mask.h \
     $$PWD/mimedatabase.h \
     $$PWD/model.h \
@@ -23,6 +26,8 @@ SOURCES += \
     $$PWD/downloadengine.cpp \
     $$PWD/downloaditem.cpp \
     $$PWD/downloadmanager.cpp \
+    $$PWD/file.cpp \
+    $$PWD/fileaccessmanager.cpp \
     $$PWD/format.cpp \
     $$PWD/htmlparser.cpp \
     $$PWD/mask.cpp \

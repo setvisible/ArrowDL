@@ -19,6 +19,15 @@
 
 #include <Core/AbstractSettings>
 
+enum class ExistingFileOption{
+    Rename = 0,
+    Overwrite,
+    Skip,
+    Ask,
+
+    LastOption // for safe cast
+};
+
 struct Filter
 {
     QString title;
@@ -37,6 +46,8 @@ public:
     virtual ~Settings();
 
     // Tab General
+    ExistingFileOption existingFileOption() const;
+    void setExistingFileOption(ExistingFileOption option);
 
     // Tab Interface
     bool isStartMinimizedEnabled() const;

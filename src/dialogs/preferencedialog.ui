@@ -108,21 +108,21 @@ QTabBar::tab:hover:!selected {
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QRadioButton" name="radioButton">
+           <widget class="QRadioButton" name="renameRadioButton">
             <property name="text">
              <string>Rename</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioButton_2">
+           <widget class="QRadioButton" name="overwriteRadioButton">
             <property name="text">
              <string>Overwrite</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioButton_3">
+           <widget class="QRadioButton" name="skipRadioButton">
             <property name="text">
              <string>Skip</string>
             </property>
@@ -132,7 +132,7 @@ QTabBar::tab:hover:!selected {
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioButton_4">
+           <widget class="QRadioButton" name="askRadioButton">
             <property name="text">
              <string>Ask</string>
             </property>
