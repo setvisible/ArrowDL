@@ -4,6 +4,8 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadengine.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloaditem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadmanager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/file.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/fileaccessmanager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/format.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/htmlparser.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/mask.cpp
