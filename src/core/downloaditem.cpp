@@ -163,6 +163,16 @@ void DownloadItem::onRedirected(const QUrl &url)
 
 void DownloadItem::onFinished()
 {
+    if (bytesTotal() == 0) {
+        /*
+         * Trick:
+         * Server can close invalid connection by sending an empty reply.
+         * In this case, QNetworkAccessManager triggers finished(),
+         * but doesn't trigger error().
+         * Here we verify the size of the received file and set the error.
+         */
+        setState(NetworkError);
+    }
     qDebug() << Q_FUNC_INFO << state();
 
     switch (state()) {

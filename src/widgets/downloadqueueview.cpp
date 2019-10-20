@@ -497,7 +497,6 @@ void DownloadQueueView::setColumnWidths(const QList<int> &widths)
  ******************************************************************************/
 void DownloadQueueView::rename()
 {
-    qDebug() << Q_FUNC_INFO << "TODO rename File";
     if (!m_queueView->selectedItems().isEmpty()) {
         auto treeItem = m_queueView->selectedItems().first();
         m_queueView->setCurrentItem(treeItem, C_COL_0_FILE_NAME);
