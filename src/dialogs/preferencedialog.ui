@@ -108,21 +108,21 @@ QTabBar::tab:hover:!selected {
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QRadioButton" name="radioButton">
+           <widget class="QRadioButton" name="renameRadioButton">
             <property name="text">
              <string>Rename</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioButton_2">
+           <widget class="QRadioButton" name="overwriteRadioButton">
             <property name="text">
              <string>Overwrite</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioButton_3">
+           <widget class="QRadioButton" name="skipRadioButton">
             <property name="text">
              <string>Skip</string>
             </property>
@@ -132,7 +132,7 @@ QTabBar::tab:hover:!selected {
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioButton_4">
+           <widget class="QRadioButton" name="askRadioButton">
             <property name="text">
              <string>Ask</string>
             </property>
@@ -204,6 +204,13 @@ QTabBar::tab:hover:!selected {
            <widget class="QCheckBox" name="confirmRemovalCheckBox">
             <property name="text">
              <string>Confirm removal of downloads</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="confirmBatchCheckBox">
+            <property name="text">
+             <string>Confirm download batch</string>
             </property>
            </widget>
           </item>
@@ -294,6 +301,61 @@ QTabBar::tab:hover:!selected {
         </widget>
        </item>
        <item>
+        <widget class="QGroupBox" name="customBatchGroupBox">
+         <property name="title">
+          <string>Enable Custom Batch Button in &quot;Add download&quot; Dialog</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_3" columnstretch="0,0,0">
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="customBatchButtonLabelLineEdit">
+            <property name="placeholderText">
+             <string>Ex: &quot;1 -&gt; 50&quot;, &quot;001 -&gt; 200&quot;, ...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Custom button label:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="customBatchRangeLineEdit">
+            <property name="placeholderText">
+             <string>Ex: &quot;[1:50]&quot;, &quot;[001:200]&quot;, ...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Range:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLabel" name="label_8">
+            <property name="font">
+             <font>
+              <italic>true</italic>
+             </font>
+            </property>
+            <property name="text">
+             <string>Rem: must describe a range of numbers &quot;[x:y]&quot; with x &lt; y</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer_4">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -324,21 +386,21 @@ QTabBar::tab:hover:!selected {
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_6">
           <item>
-           <widget class="QCheckBox" name="checkBox">
+           <widget class="QCheckBox" name="privacyRemoveCompletedCheckBox">
             <property name="text">
              <string>Remove completed downloads</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_2">
+           <widget class="QCheckBox" name="privacyRemoveCanceledCheckBox">
             <property name="text">
              <string>Remove canceled/failed downloads</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_3">
+           <widget class="QCheckBox" name="privacyRemovePausedCheckBox">
             <property name="text">
              <string>Remove unfinished (paused) downloads</string>
             </property>

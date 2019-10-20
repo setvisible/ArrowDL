@@ -23,6 +23,7 @@
 
 #include <Core/IDownloadItem>
 #include <Core/DownloadManager>
+#include <Core/FileAccessManager>
 #include <Core/Settings>
 #include <Dialogs/AddDownloadDialog>
 #include <Dialogs/InformationDialog>
@@ -60,6 +61,7 @@
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
   , m_downloadManager(new DownloadManager(this))
+  , m_fileAccessManager(new FileAccessManager(this))
   , m_settings(new Settings(this))
   , m_statusBarLabel(new QLabel(this))
 {
@@ -91,6 +93,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     connect(ui->downloadQueueView, SIGNAL(doubleClicked(IDownloadItem*)),
             this, SLOT(openFile(IDownloadItem*)));
+
+
+    /* File Access Manager */
+    m_fileAccessManager->setSettings(m_settings);
 
     /* Connect the rest of the GUI widgets together (selection, focus, etc.) */
     createActions();
@@ -136,6 +142,8 @@ void MainWindow::createActions()
     connect(ui->actionSelectNone, SIGNAL(triggered()), this, SLOT(selectNone()));
     connect(ui->actionInvertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
     connect(ui->actionSelectCompleted, SIGNAL(triggered()), this, SLOT(selectCompleted()));
+    // --
+    connect(ui->actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
     // --
     connect(ui->actionManageMirrors, SIGNAL(triggered()), this, SLOT(manageMirrors()));
     connect(ui->actionOneMoreSegment, SIGNAL(triggered()), this, SLOT(oneMoreSegment()));
@@ -205,6 +213,8 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionRenameFile);
     contextMenu->addAction(ui->actionDeleteFile);
     contextMenu->addAction(ui->actionOpenDirectory);
+    contextMenu->addSeparator();
+    contextMenu->addAction(ui->actionCopy);
     contextMenu->addSeparator();
     contextMenu->addAction(ui->actionResume);
     contextMenu->addAction(ui->actionPause);
@@ -338,6 +348,13 @@ void MainWindow::selectCompleted()
     m_downloadManager->setSelection(m_downloadManager->completedJobs());
 }
 
+void MainWindow::copy()
+{
+    const QString text = m_downloadManager->selectionToClipboard();
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(text);
+}
+
 void MainWindow::manageMirrors()
 {    
     qDebug() << Q_FUNC_INFO << "TODO";
@@ -385,7 +402,7 @@ void MainWindow::openFile(IDownloadItem *downloadItem)
 
 void MainWindow::renameFile()
 {
-    qDebug() << Q_FUNC_INFO << "TODO rename File";
+    ui->downloadQueueView->rename();
 }
 
 void MainWindow::deleteFile()
@@ -426,7 +443,6 @@ void MainWindow::openDirectory()
 bool MainWindow::askConfirmation(const QString &text)
 {
     if (m_settings->isConfirmRemovalEnabled()) {
-        QCheckBox *cb = new QCheckBox("Don't ask again");
         QMessageBox msgbox(this);
         msgbox.setWindowTitle(tr("Remove Downloads"));
         msgbox.setText(tr("Are you sure to remove %0 downloads?").arg(text));
@@ -434,13 +450,15 @@ bool MainWindow::askConfirmation(const QString &text)
         msgbox.addButton(QMessageBox::Yes);
         msgbox.addButton(QMessageBox::No);
         msgbox.setDefaultButton(QMessageBox::No);
-        msgbox.setCheckBox(cb);
 
+        QCheckBox *cb = new QCheckBox("Don't ask again");
+        msgbox.setCheckBox(cb);
         QObject::connect(cb, &QCheckBox::stateChanged, [this](int state){
             if (static_cast<Qt::CheckState>(state) == Qt::CheckState::Checked) {
                 m_settings->setConfirmRemovalEnabled(false);
             }
         });
+
         int response = msgbox.exec();
         return response == QMessageBox::Yes;
     }
@@ -501,7 +519,7 @@ void MainWindow::removePaused()
 
 void MainWindow::add()
 {
-    AddDownloadDialog dialog(urlFromClipboard(), m_downloadManager, this);
+    AddDownloadDialog dialog(urlFromClipboard(), m_downloadManager, m_settings, this);
     dialog.exec();
 }
 
@@ -670,6 +688,8 @@ void MainWindow::refreshMenus()
     ui->actionSelectNone->setEnabled(hasSelection);
     //ui->actionInvertSelection->setEnabled(hasSelection);
     //ui->actionSelectCompleted->setEnabled(hasSelection);
+    // --
+    ui->actionCopy->setEnabled(hasSelection);
     // --
     ui->actionManageMirrors->setEnabled(hasAtLeastOneUncompletedSelected);
     ui->actionOneMoreSegment->setEnabled(hasAtLeastOneUncompletedSelected);

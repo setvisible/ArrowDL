@@ -301,8 +301,19 @@ QString DownloadEngine::selectionToString() const
         ret += "\n";
         count++;
         if (count > 10) {
-            ret += tr("... (%0 others)").arg(m_selectedItems.count()-10);
+            ret += tr("... (%0 others)").arg(m_selectedItems.count() - 10);
+            break;
         }
+    }
+    return ret;
+}
+
+QString DownloadEngine::selectionToClipboard() const
+{
+    QString ret;
+    foreach (auto item, m_selectedItems) {
+        ret += item->sourceUrl().toString();
+        ret += "\n";
     }
     return ret;
 }
@@ -354,4 +365,15 @@ void DownloadEngine::oneFewerSegment()
 IDownloadItem* DownloadEngine::createItem(const QUrl &/*url*/)
 {
     return Q_NULLPTR;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * \brief Reimplement this method allows the Engine to rename Items.
+ */
+void DownloadEngine::changeLocalFileName(IDownloadItem *item, const QString &newName)
+{
+    Q_UNUSED(item);
+    Q_UNUSED(newName);
 }

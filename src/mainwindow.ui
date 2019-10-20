@@ -132,6 +132,8 @@
     <addaction name="actionInvertSelection"/>
     <addaction name="actionSelectCompleted"/>
     <addaction name="separator"/>
+    <addaction name="actionCopy"/>
+    <addaction name="separator"/>
     <addaction name="actionManageMirrors"/>
     <addaction name="actionOneMoreSegment"/>
     <addaction name="actionOneFewerSegment"/>
@@ -251,9 +253,6 @@
    <property name="text">
     <string>Cancel</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+C</string>
-   </property>
   </action>
   <action name="actionPause">
    <property name="icon">
@@ -262,9 +261,6 @@
    </property>
    <property name="text">
     <string>Pause</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+P</string>
    </property>
   </action>
   <action name="actionUp">
@@ -322,9 +318,6 @@
    </property>
    <property name="text">
     <string>Resume</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+R</string>
    </property>
   </action>
   <action name="actionInformation">
@@ -566,9 +559,6 @@
    <property name="toolTip">
     <string>Import Wizard  (Ctrl+X)</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+X</string>
-   </property>
   </action>
   <action name="actionRemoveAll1">
    <property name="icon">
@@ -619,6 +609,17 @@
    </property>
    <property name="text">
     <string>Remove All</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="toolTip">
+    <string>Copy Selection to Clipboard</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
    </property>
   </action>
  </widget>

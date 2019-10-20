@@ -19,6 +19,15 @@
 
 #include <Core/AbstractSettings>
 
+enum class ExistingFileOption{
+    Rename = 0,
+    Overwrite,
+    Skip,
+    Ask,
+
+    LastOption // for safe cast
+};
+
 struct Filter
 {
     QString title;
@@ -36,20 +45,55 @@ public:
     explicit Settings(QObject *parent);
     virtual ~Settings();
 
-    QString database() const;
-    void setDatabase(const QString &value);
+    // Tab General
+    ExistingFileOption existingFileOption() const;
+    void setExistingFileOption(ExistingFileOption option);
 
-    QList<Filter> filters() const;
-    void setFilters(const QList<Filter> &filters);
+    // Tab Interface
+    bool isStartMinimizedEnabled() const;
+    void setStartMinimizedEnabled(bool enabled);
 
     bool isConfirmRemovalEnabled() const;
     void setConfirmRemovalEnabled(bool enabled);
 
-    bool isStartMinimizedEnabled() const;
-    void setStartMinimizedEnabled(bool enabled);
+    bool isConfirmBatchDownloadEnabled() const;
+    void setConfirmBatchDownloadEnabled(bool enabled);
 
+    // Tab Network
     int maxSimultaneousDownloads() const;
     void setMaxSimultaneousDownloads(int number);
+
+    bool isCustomBatchEnabled() const;
+    void setCustomBatchEnabled(bool enabled);
+
+    QString customBatchButtonLabel() const;
+    void setCustomBatchButtonLabel(const QString &text);
+
+    QString customBatchRange() const;
+    void setCustomBatchRange(const QString &text);
+
+
+    // Tab Privacy
+    bool isRemoveCompletedEnabled() const;
+    void setRemoveCompletedEnabled(bool enabled);
+
+    bool isRemoveCanceledEnabled() const;
+    void setRemoveCanceledEnabled(bool enabled);
+
+    bool isRemovePausedEnabled() const;
+    void setRemovePausedEnabled(bool enabled);
+
+    QString database() const;
+    void setDatabase(const QString &value);
+
+    // Tab Filters
+    QList<Filter> filters() const;
+    void setFilters(const QList<Filter> &filters);
+
+    // Tab Schedule
+
+    // Tab Advanced
+
 };
 
 #endif // CORE_SETTINGS_H

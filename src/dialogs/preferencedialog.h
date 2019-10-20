@@ -59,6 +59,9 @@ private:
 
     QList<Filter> filters() const;
     void setFilters(const QList<Filter> &filters);
+
+    ExistingFileOption existingFileOption() const;
+    void setExistingFileOption(ExistingFileOption option);
 };
 
 #endif // DIALOGS_PREFERENCE_DIALOG_H

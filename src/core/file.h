@@ -14,28 +14,40 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_DOWNLOAD_ITEM_P_H
-#define CORE_DOWNLOAD_ITEM_P_H
+#ifndef CORE_FILE_H
+#define CORE_FILE_H
 
-#include "downloaditem.h"
+#include <QtCore/QObject>
 
-class File;
-class ResourceItem;
+class Settings;
+class IFileAccessManager;
+class QSaveFile;
 
-class QNetworkAccessManager;
-class QNetworkReply;
+class File : public QObject
+{
+    Q_OBJECT
 
-class DownloadItemPrivate
-{    
 public:
-    DownloadItemPrivate(DownloadItem *qq);
+    enum OpenFlag {
+        Open,
+        Skip,
+        Error
+    };
 
-    QNetworkAccessManager *networkManager;
-    ResourceItem *resource;
-    QNetworkReply *reply;
-    File *file;
+    explicit File(QObject *parent = Q_NULLPTR);
+    ~File();
 
-    DownloadItem *q;
+    static void setFileAccessManager(IFileAccessManager *manager);
+
+    OpenFlag open(const QString &fileName);
+    void write(const QByteArray &data);
+    bool commit();
+    void cancel();
+
+private:
+    QSaveFile *m_file;
+
+    inline QString rename(const QString &name) const;
 };
 
-#endif // CORE_DOWNLOAD_ITEM_P_H
+#endif // CORE_FILE_H

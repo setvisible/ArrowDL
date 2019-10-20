@@ -34,7 +34,7 @@ public:
     explicit DownloadQueueView(QWidget *parent);
     ~DownloadQueueView();
 
-    const DownloadEngine* engine() const;
+    DownloadEngine* engine() const;
     void setEngine(DownloadEngine *downloadEngine);
 
     QMenu* contextMenu() const;
@@ -44,6 +44,9 @@ public:
 
     QList<int> columnWidths() const;
     void setColumnWidths(const QList<int> &widths);
+
+public slots:
+    void rename();
 
 signals:
     void doubleClicked(IDownloadItem *item);
@@ -57,6 +60,7 @@ private slots:
 
     void onQueueViewDoubleClicked(const QModelIndex &index);
     void onQueueViewItemSelectionChanged();
+    void onQueueItemCommitData(QWidget *editor);
 
     void showContextMenu(const QPoint &pos) ;
 

@@ -22,18 +22,61 @@
 /*!
  * Registry Keys. They must be unique
  */
-static const QString REGISTRY_CONFIRM_REMOVAL = "ConfirmRemoval";
-static const QString REGISTRY_DATABASE = "Database";
-static const QString REGISTRY_FILTER_KEY = "FilterKey";
-static const QString REGISTRY_FILTER_VALUE = "FilterValue";
-static const QString REGISTRY_START_MINIMIZED = "StartMinimized";
+// Tab General
+static const QString REGISTRY_EXISTING_FILE    = "ExistingFile";
+
+// Tab Interface
+static const QString REGISTRY_START_MINIMIZED  = "StartMinimized";
+static const QString REGISTRY_CONFIRM_REMOVAL  = "ConfirmRemoval";
+static const QString REGISTRY_CONFIRM_BATCH    = "ConfirmBatchDownload";
+
+// Tab Network
 static const QString REGISTRY_MAX_SIMULTANEOUS = "MaxSimultaneous";
+static const QString REGISTRY_CUSTOM_BATCH     = "CustomBatchEnabled";
+static const QString REGISTRY_CUSTOM_BATCH_BL  = "CustomBatchButtonLabel";
+static const QString REGISTRY_CUSTOM_BATCH_RGE = "CustomBatchRange";
+
+// Tab Privacy
+static const QString REGISTRY_REMOVE_COMPLETED = "PrivacyRemoveCompleted";
+static const QString REGISTRY_REMOVE_CANCELED  = "PrivacyRemoveCanceled";
+static const QString REGISTRY_REMOVE_PAUSED    = "PrivacyRemovePaused";
+static const QString REGISTRY_DATABASE         = "Database";
+
+// Tab Filters
+static const QString REGISTRY_FILTER_KEY       = "FilterKey";
+static const QString REGISTRY_FILTER_VALUE     = "FilterValue";
+
+// Tab Schedule
+
+// Tab Advanced
+
+
 
 Settings::Settings(QObject *parent) : AbstractSettings(parent)
 {
-    addDefaultSettingBool(REGISTRY_CONFIRM_REMOVAL, true);
-    addDefaultSettingString(REGISTRY_DATABASE, QString("%0/queue.json").arg(qApp->applicationDirPath()));
+    // Tab General
+    addDefaultSettingInt(REGISTRY_EXISTING_FILE, (int) ExistingFileOption::Skip);
 
+    // Tab Interface
+    addDefaultSettingBool(REGISTRY_START_MINIMIZED, false);
+    addDefaultSettingBool(REGISTRY_CONFIRM_REMOVAL, true);
+    addDefaultSettingBool(REGISTRY_CONFIRM_BATCH, true);
+
+    // Tab Network
+    addDefaultSettingInt(REGISTRY_MAX_SIMULTANEOUS, 4);
+    addDefaultSettingBool(REGISTRY_CUSTOM_BATCH, true);
+    addDefaultSettingString(REGISTRY_CUSTOM_BATCH_BL, QLatin1String("1 -> 25"));
+    addDefaultSettingString(REGISTRY_CUSTOM_BATCH_RGE, QLatin1String("[1:25]"));
+
+    // Tab Privacy
+    addDefaultSettingBool(REGISTRY_REMOVE_COMPLETED, false);
+    addDefaultSettingBool(REGISTRY_REMOVE_CANCELED, false);
+    addDefaultSettingBool(REGISTRY_REMOVE_PAUSED, false);
+    addDefaultSettingString(
+                REGISTRY_DATABASE,
+                QString("%0/queue.json").arg(qApp->applicationDirPath()));
+
+    // Tab Filters
     addDefaultSettingStringList(
                 REGISTRY_FILTER_KEY, QStringList()
                 << "All Files"
@@ -50,18 +93,22 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     addDefaultSettingStringList(
                 REGISTRY_FILTER_VALUE, QStringList()
                 << "^.*$"
-                << "^.*\\.(?:z(?:ip|[0-9]{2})|r(?:ar|[0-9]{2})|jar|bz2|gz|tar|rpm|7z(?:ip)?|lzma|xz)$"
+                << "^.*\\.(?:z(?:ip|[0-9]{2})|r(?:ar|[0-9]{2})|jar|bz2"
+                   "|gz|tar|rpm|7z(?:ip)?|lzma|xz)$"
                 << "^.*\\.(?:exe|msi|dmg|bin|xpi|iso)$"
                 << "^.*\\.(?:mp3|wav|og(?:g|a)|flac|midi?|rm|aac|wma|mka|ape)$"
                 << "^.*\\.(?:pdf|xlsx?|docx?|odf|odt|rtf)$"
                 << "^.*\\.(?:jp(?:e?g|e|2)|gif|png|tiff?|bmp|ico)$"
                 << "^.*\\.jp(e?g|e|2)$"
                 << "^.*\\.png$"
-                << "^.*\\.(?:mpeg|ra?m|avi|mp(?:g|e|4)|mov|divx|asf|qt|wmv|m\\dv|rv|vob|asx|ogm|ogv|webm|flv|mkv)$"
+                << "^.*\\.(?:mpeg|ra?m|avi|mp(?:g|e|4)|mov|divx|asf|qt"
+                   "|wmv|m\\dv|rv|vob|asx|ogm|ogv|webm|flv|mkv)$"
                 );
 
-    addDefaultSettingBool(REGISTRY_START_MINIMIZED, false);
-    addDefaultSettingInt(REGISTRY_MAX_SIMULTANEOUS, 4);
+    // Tab Schedule
+
+    // Tab Advanced
+
 }
 
 Settings::~Settings()
@@ -70,6 +117,129 @@ Settings::~Settings()
 
 /******************************************************************************
  ******************************************************************************/
+// Tab General
+ExistingFileOption Settings::existingFileOption() const
+{
+    int value = getSettingInt(REGISTRY_EXISTING_FILE);
+    return (value >= 0 && value < (int)ExistingFileOption::LastOption)
+            ? (ExistingFileOption) value
+            : ExistingFileOption::Skip;
+}
+
+void Settings::setExistingFileOption(ExistingFileOption option)
+{
+    setSettingInt(REGISTRY_EXISTING_FILE, (int)option);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+// Tab Interface
+bool Settings::isStartMinimizedEnabled() const
+{
+    return getSettingBool(REGISTRY_START_MINIMIZED);
+}
+
+void Settings::setStartMinimizedEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_START_MINIMIZED, enabled);
+}
+
+bool Settings::isConfirmRemovalEnabled() const
+{
+    return getSettingBool(REGISTRY_CONFIRM_REMOVAL);
+}
+
+void Settings::setConfirmRemovalEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_CONFIRM_REMOVAL, enabled);
+}
+
+bool Settings::isConfirmBatchDownloadEnabled() const
+{
+    return getSettingBool(REGISTRY_CONFIRM_BATCH);
+}
+
+void Settings::setConfirmBatchDownloadEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_CONFIRM_BATCH, enabled);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+// Tab Network
+int Settings::maxSimultaneousDownloads() const
+{
+    return getSettingInt(REGISTRY_MAX_SIMULTANEOUS);
+}
+
+void Settings::setMaxSimultaneousDownloads(int number)
+{
+    setSettingInt(REGISTRY_MAX_SIMULTANEOUS, number);
+}
+
+bool Settings::isCustomBatchEnabled() const
+{
+    return getSettingBool(REGISTRY_CUSTOM_BATCH);
+}
+
+void Settings::setCustomBatchEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_CUSTOM_BATCH, enabled);
+}
+
+QString Settings::customBatchButtonLabel() const
+{
+    return getSettingString(REGISTRY_CUSTOM_BATCH_BL);
+}
+
+void Settings::setCustomBatchButtonLabel(const QString &text)
+{
+    setSettingString(REGISTRY_CUSTOM_BATCH_BL, text);
+}
+
+QString Settings::customBatchRange() const
+{
+    return getSettingString(REGISTRY_CUSTOM_BATCH_RGE);
+}
+
+void Settings::setCustomBatchRange(const QString &text)
+{
+    setSettingString(REGISTRY_CUSTOM_BATCH_RGE, text);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+// Tab Privacy
+bool Settings::isRemoveCompletedEnabled() const
+{
+    return getSettingBool(REGISTRY_REMOVE_COMPLETED);
+}
+
+void Settings::setRemoveCompletedEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_REMOVE_COMPLETED, enabled);
+}
+
+bool Settings::isRemoveCanceledEnabled() const
+{
+    return getSettingBool(REGISTRY_REMOVE_CANCELED);
+}
+
+void Settings::setRemoveCanceledEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_REMOVE_CANCELED, enabled);
+}
+
+bool Settings::isRemovePausedEnabled() const
+{
+    return getSettingBool(REGISTRY_REMOVE_PAUSED);
+}
+
+void Settings::setRemovePausedEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_REMOVE_PAUSED, enabled);
+}
+
 QString Settings::database() const
 {
     return getSettingString(REGISTRY_DATABASE);
@@ -82,6 +252,7 @@ void Settings::setDatabase(const QString &value)
 
 /******************************************************************************
  ******************************************************************************/
+// Tab Filters
 QList<Filter> Settings::filters() const
 {
     QList<Filter> filters;
@@ -113,36 +284,9 @@ void Settings::setFilters(const QList<Filter> &filters)
 
 /******************************************************************************
  ******************************************************************************/
-bool Settings::isConfirmRemovalEnabled() const
-{
-    return getSettingBool(REGISTRY_CONFIRM_REMOVAL);
-}
-
-void Settings::setConfirmRemovalEnabled(bool enabled)
-{
-    setSettingBool(REGISTRY_CONFIRM_REMOVAL, enabled);
-}
+// Tab Schedule
 
 /******************************************************************************
  ******************************************************************************/
-bool Settings::isStartMinimizedEnabled() const
-{
-    return getSettingBool(REGISTRY_START_MINIMIZED);
-}
+// Tab Advanced
 
-void Settings::setStartMinimizedEnabled(bool enabled)
-{
-    setSettingBool(REGISTRY_START_MINIMIZED, enabled);
-}
-
-/******************************************************************************
- ******************************************************************************/
-int Settings::maxSimultaneousDownloads() const
-{
-    return getSettingInt(REGISTRY_MAX_SIMULTANEOUS);
-}
-
-void Settings::setMaxSimultaneousDownloads(int number)
-{
-    setSettingInt(REGISTRY_MAX_SIMULTANEOUS, number);
-}

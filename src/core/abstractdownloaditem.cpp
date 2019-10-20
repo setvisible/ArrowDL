@@ -245,6 +245,7 @@ bool AbstractDownloadItem::checkResume(bool connected)
         emit changed();
     } else {
         m_state = FileError;
+        emit changed();
         finish();
     }
     return connected;

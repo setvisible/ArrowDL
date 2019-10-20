@@ -26,11 +26,12 @@
 #include <QtCore/QDebug>
 #include <QtGui/QPainter>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QStyledItemDelegate>
+#include <QtWidgets/QTreeWidget>
 
 
 #define C_COL_0_FILE_NAME          0
@@ -131,18 +132,29 @@ QueueView::QueueView(QWidget *parent)
 /******************************************************************************
  ******************************************************************************/
 /*!
- * QueueViewItemDelegate is used to draw the progress bars.
+ * QueueViewItemDelegate is used to draw the progress bars and edit the filename.
  */
 class QueueViewItemDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 
 public:
-    inline QueueViewItemDelegate(DownloadQueueView *parent);
+    explicit QueueViewItemDelegate(QObject *parent = Q_NULLPTR);
 
     // painting
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index ) const Q_DECL_OVERRIDE;
+
+    // editing
+    QWidget *createEditor(QWidget *parent,
+                          const QStyleOptionViewItem &option,
+                          const QModelIndex &index) const Q_DECL_OVERRIDE;
+
+    void setEditorData(QWidget *editor, const QModelIndex &index) const Q_DECL_OVERRIDE;
+
+    void updateEditorGeometry(QWidget *editor,
+                              const QStyleOptionViewItem &option,
+                              const QModelIndex &index) const Q_DECL_OVERRIDE;
 
 private:
     QIcon m_idleIcon;
@@ -155,7 +167,8 @@ private:
     QIcon stateIcon(IDownloadItem::State state) const;
 };
 
-QueueViewItemDelegate::QueueViewItemDelegate(DownloadQueueView *parent) : QStyledItemDelegate(parent)
+QueueViewItemDelegate::QueueViewItemDelegate(QObject *parent)
+    : QStyledItemDelegate(parent)
 {
     m_idleIcon.addPixmap(QPixmap(":/icons/menu/icon_idle_16x16.png"), QIcon::Normal, QIcon::On);
     m_resumeIcon.addPixmap(QPixmap(":/icons/menu/icon_resume_16x16.png"), QIcon::Normal, QIcon::On);
@@ -216,6 +229,37 @@ void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
     }
 }
 
+QWidget* QueueViewItemDelegate::createEditor(QWidget *parent,
+                                             const QStyleOptionViewItem &/*option*/,
+                                             const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return 0;
+
+    if (index.column() != C_COL_0_FILE_NAME)
+        return 0;
+
+    QLineEdit *editor = new QLineEdit(parent);
+    editor->setAutoFillBackground(true);
+    editor->setFocusPolicy(Qt::StrongFocus);
+    return editor;
+}
+
+void QueueViewItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
+{
+    QLineEdit *lineEdit = qobject_cast<QLineEdit*>(editor);
+    if (lineEdit) {
+        QString text = index.data(Qt::EditRole).toString();
+        lineEdit->setText(text);
+    }
+}
+
+void QueueViewItemDelegate::updateEditorGeometry(QWidget *editor,
+                                                 const QStyleOptionViewItem &option,
+                                                 const QModelIndex &/*index*/) const
+{
+    editor->setGeometry(option.rect);
+}
 
 QColor QueueViewItemDelegate::stateColor(IDownloadItem::State state) const
 {
@@ -302,8 +346,11 @@ QueueItem::QueueItem(AbstractDownloadItem *downloadItem, QTreeWidget *view)
     , QTreeWidgetItem(view, QTreeWidgetItem::UserType)
     , m_downloadItem(downloadItem)
 {
-    setSizeHint(C_COL_2_PROGRESS_BAR, QSize(C_COLUMN_DEFAULT_WIDTH, C_ROW_DEFAULT_HEIGHT));
+    this->setSizeHint(C_COL_2_PROGRESS_BAR, QSize(C_COLUMN_DEFAULT_WIDTH, C_ROW_DEFAULT_HEIGHT));
+    this->setFlags(Qt::ItemIsEditable | flags());
+
     connect(m_downloadItem, SIGNAL(changed()), this, SLOT(updateItem()));
+
     updateItem();
 }
 
@@ -380,10 +427,16 @@ DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
     m_queueView->setRootIsDecorated(false);
     m_queueView->setMidLineWidth(3);
 
+    // Edit with second click
+    m_queueView->setEditTriggers(QAbstractItemView::SelectedClicked);
+
     connect(m_queueView, SIGNAL(itemSelectionChanged()),
             this, SLOT(onQueueViewItemSelectionChanged()));
     connect(m_queueView, SIGNAL(doubleClicked(QModelIndex)),
             this, SLOT(onQueueViewDoubleClicked(QModelIndex)));
+
+    connect(m_queueView->itemDelegate(), SIGNAL(commitData(QWidget*)),
+            this, SLOT(onQueueItemCommitData(QWidget*)));
 
     QLayout* layout = new QGridLayout(this);
     layout->addWidget(m_queueView);
@@ -442,7 +495,18 @@ void DownloadQueueView::setColumnWidths(const QList<int> &widths)
 
 /******************************************************************************
  ******************************************************************************/
-const DownloadEngine *DownloadQueueView::engine() const
+void DownloadQueueView::rename()
+{
+    if (!m_queueView->selectedItems().isEmpty()) {
+        auto treeItem = m_queueView->selectedItems().first();
+        m_queueView->setCurrentItem(treeItem, C_COL_0_FILE_NAME);
+        m_queueView->editItem(treeItem, C_COL_0_FILE_NAME);
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+DownloadEngine *DownloadQueueView::engine() const
 {
     return m_downloadEngine;
 }
@@ -576,6 +640,9 @@ void DownloadQueueView::onQueueViewDoubleClicked(const QModelIndex &index)
     emit doubleClicked(queueItem->downloadItem());
 }
 
+/*!
+ * Synchronize with the selection in the Engine.
+ */
 void DownloadQueueView::onQueueViewItemSelectionChanged()
 {
     QList<IDownloadItem *> selection;
@@ -584,6 +651,30 @@ void DownloadQueueView::onQueueViewItemSelectionChanged()
         selection << queueItem->downloadItem();
     }
     m_downloadEngine->setSelection(selection);
+}
+
+/*!
+ * Update the Engine data.
+ */
+void DownloadQueueView::onQueueItemCommitData(QWidget *editor)
+{
+    QLineEdit *lineEdit = qobject_cast<QLineEdit*>(editor);
+    if (lineEdit) {
+        QString newName = lineEdit->text();
+
+        // remove extension from base name
+        int pos = newName.lastIndexOf('.');
+        if (pos != -1) {
+            newName = newName.left(pos);
+        }
+
+        QTreeWidgetItem *treeItem = m_queueView->currentItem();
+        QueueItem* queueItem = static_cast<QueueItem *>(treeItem);
+        AbstractDownloadItem* downloadItem = queueItem->downloadItem();
+
+        m_downloadEngine->changeLocalFileName(downloadItem, newName);
+        queueItem->updateItem();
+    }
 }
 
 /******************************************************************************

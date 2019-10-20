@@ -20,11 +20,9 @@
 #include <Core/Settings>
 #include <Widgets/PathWidget>
 
+#include <QtCore/QDebug>
 #include <QtCore/QSettings>
 #include <QtGui/QCloseEvent>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
 
 #define C_COLUMN_WIDTH  200
 
@@ -142,15 +140,25 @@ void PreferenceDialog::restoreDefaultSettings()
 void PreferenceDialog::read()
 {
     // Tab General
+    setExistingFileOption(m_settings->existingFileOption());
 
     // Tab Interface
     ui->startMinimizedCheckBox->setChecked(m_settings->isStartMinimizedEnabled());
     ui->confirmRemovalCheckBox->setChecked(m_settings->isConfirmRemovalEnabled());
+    ui->confirmBatchCheckBox->setChecked(m_settings->isConfirmBatchDownloadEnabled());
 
     // Tab Network
     ui->maxSimultaneousDownloadSlider->setValue(m_settings->maxSimultaneousDownloads());
 
+    ui->customBatchGroupBox->setChecked(m_settings->isCustomBatchEnabled());
+    ui->customBatchButtonLabelLineEdit->setText(m_settings->customBatchButtonLabel());
+    ui->customBatchRangeLineEdit->setText(m_settings->customBatchRange());
+
     // Tab Privacy
+    ui->privacyRemoveCompletedCheckBox->setChecked(m_settings->isRemoveCompletedEnabled());
+    ui->privacyRemoveCanceledCheckBox->setChecked(m_settings->isRemoveCanceledEnabled());
+    ui->privacyRemovePausedCheckBox->setChecked(m_settings->isRemovePausedEnabled());
+
     ui->browseDatabaseFile->setCurrentPath(m_settings->database());
 
     // Tab Filters
@@ -164,15 +172,25 @@ void PreferenceDialog::read()
 void PreferenceDialog::write()
 {
     // Tab General
+    m_settings->setExistingFileOption(existingFileOption());
 
     // Tab Interface
     m_settings->setStartMinimizedEnabled(ui->startMinimizedCheckBox->isChecked());
     m_settings->setConfirmRemovalEnabled(ui->confirmRemovalCheckBox->isChecked());
+    m_settings->setConfirmBatchDownloadEnabled(ui->confirmBatchCheckBox->isChecked());
 
     // Tab Network
     m_settings->setMaxSimultaneousDownloads(ui->maxSimultaneousDownloadSlider->value());
 
+    m_settings->setCustomBatchEnabled(ui->customBatchGroupBox->isChecked());
+    m_settings->setCustomBatchButtonLabel(ui->customBatchButtonLabelLineEdit->text());
+    m_settings->setCustomBatchRange(ui->customBatchRangeLineEdit->text());
+
     // Tab Privacy
+    m_settings->setRemoveCompletedEnabled(ui->privacyRemoveCompletedCheckBox->isChecked());
+    m_settings->setRemoveCanceledEnabled(ui->privacyRemoveCanceledCheckBox->isChecked());
+    m_settings->setRemovePausedEnabled(ui->privacyRemovePausedCheckBox->isChecked());
+
     m_settings->setDatabase(ui->browseDatabaseFile->currentPath());
 
     // Tab Filters
@@ -243,4 +261,43 @@ void PreferenceDialog::writeSettings()
     settings.setValue("DialogSize", size());
     settings.setValue("TabIndex", ui->tabWidget->currentIndex());
     settings.endGroup();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+ExistingFileOption PreferenceDialog::existingFileOption() const
+{
+    if (ui->renameRadioButton->isChecked()) {
+        return ExistingFileOption::Rename;
+    } else if (ui->overwriteRadioButton->isChecked()) {
+        return ExistingFileOption::Overwrite;
+    } else if (ui->skipRadioButton->isChecked()) {
+        return ExistingFileOption::Skip;
+    } else if (ui->askRadioButton->isChecked()) {
+        return ExistingFileOption::Ask;
+    } else {
+        Q_UNREACHABLE();
+        return ExistingFileOption::LastOption;
+    }
+}
+
+void PreferenceDialog::setExistingFileOption(ExistingFileOption option)
+{
+    switch (option) {
+    case ExistingFileOption::Rename:
+        ui->renameRadioButton->setChecked(true);
+        break;
+    case ExistingFileOption::Overwrite:
+        ui->overwriteRadioButton->setChecked(true);
+        break;
+    case ExistingFileOption::Skip:
+        ui->skipRadioButton->setChecked(true);
+        break;
+    case ExistingFileOption::Ask:
+        ui->askRadioButton->setChecked(true);
+        break;
+    default:
+        Q_UNREACHABLE();
+        break;
+    }
 }

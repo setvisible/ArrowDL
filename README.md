@@ -6,23 +6,54 @@
 
 ![logo](/src/icons/menu/logo.png)
 
-*DownZemAll!* is a free download manager for Windows, Mac OS X and Linux. 
+*DownZemAll!* is a standalone download manager for Windows, Mac OS X and Linux. 
 
 It aims to work with latest versions of Mozilla Firefox (powered by *WebExtensions*), and other web browsers (Chrome, Edge, Safari...). 
 
 *DownZemAll!* is written in C++ and based on the [Qt5](https://www.qt.io/ "https://www.qt.io/") framework.
 
 
+## ![logo](/src/icons/logo/dza_32x32.png) Goals
+
+*DownZemAll!* is a standalone application, embedding its own web engine. That is, it aims to be free and independent, and not rely on any third-party Web Browser technology.
+
+The internal web engine is currently [Google Gumbo Parser](https://github.com/google/gumbo-parser "https://github.com/google/gumbo-parser"). It's a small pure-C HTML5 parser.
+
+When we give an URL address to *DownZemAll!*, *DownZemAll!* downloads the page, parses the HTML code and collects the links contained in the page.
+
+Due to rapid evolution of web technology, *DownZemAll!* is designed to implement new parsers or add existing ones if required.
+
+
+
 ## ![logo](/src/icons/logo/dza_32x32.png) Screenshots
 
-todo
+Screenshots of version 1.
+
+![anim_01](/screenshots/anim_01.gif)
+
+![anim_02](/screenshots/anim_02.gif)
 
 
 ## ![logo](/src/icons/logo/dza_32x32.png) Installation and Usage
 
-### ![logo](/src/icons/logo/dza_32x32.png) Installation
+### ![logo](/src/icons/logo/dza_32x32.png) Install the standalone application
 
-*DownZemAll!* is currently shipped as a binary (no installer present). Just click on one of the release numbers above (probably the latest), download and uncompress the archive and run `DownZemAll.exe`.
+[Download here](https://github.com/setvisible/DownZemAll/releases "https://github.com/setvisible/DownZemAll/releases") the latest version.
+
+Unzip the archive, and run the executable.
+
+Rem1: *DownZemAll!* is currently shipped as a **portable application** (no installer present).
+
+Rem2: Configuration files will be created in the same directory as the executable.
+
+
+### ![logo](/src/icons/logo/dza_32x32.png) Install Native-Client
+
+Optionally, *NativeClient* can be installed with Firefox or Chrome, and linked to *DownZemAll!*.
+
+*NativeClient* allows you to run *DownZemAll!* from the Firefox or Chrome interface.
+
+To install it:
 
  - Install the [native-client](https://github.com/andy-portmen/native-client "https://github.com/andy-portmen/native-client") plugin of Andy Portmen in your browser.
 
@@ -51,20 +82,65 @@ This will add the addon "External Application Button" to the web browser.
 
 ### ![logo](/src/icons/logo/dza_32x32.png) Usage
 
-When web surfing, click the *DownZemAll!* Button on the web browser toolbar or context menu. 
+When surfing, click on *DownZemAll!* Button on your Firefox or Chrome toolbar (and/or context menu). 
 
-The `native-client` plugin sends the URL of the current page to *DownZemAll!* as a command line argument:
+The `native-client` plugin will send the URL of the current page to *DownZemAll!* as a command line argument:
 
 	.\DownZemAll.exe "https://www.mywebsite.com/2019-06/holidays.html"
 
-After approval, *DownZemAll!* collects the resources at the page address.
-
-
+After clicking OK, *DownZemAll!* starts to collect the resources.
 
 
 ## ![logo](/src/icons/logo/dza_32x32.png) Build
 
-todo
+### Build
+
+Use **CMake** or **QMake** (with *QtCreator*).
+
+Setup the project:
+
+	> unzip . downzemall-src.zip
+	> mkdir "build"
+	> cd ./build/
+	> make clean
+
+
+Build the application:
+
+	> make -j8
+	...
+	[ 99%] Linking CXX executable DownZemAll.exe
+	[100%] Built target DownZemAll
+
+
+Run the tests:
+
+	> ctest .
+	or
+	> ctest . --verbose
+
+
+Finally install the binary:
+
+	> make install
+
+
+### Run
+
+Launch *DownZemAll*:
+
+	> ./DownZemAll.exe
+
+
+Launch and download links from an URL:
+
+	> ./DownZemAll.exe "https://www.example.com/docs/2019/10/index.htm"
+
+
+Show more information:
+
+	> ./DownZemAll.exe -h
+	> ./DownZemAll.exe -v
 
 
 ## ![logo](/src/icons/logo/dza_32x32.png) Troubleshooting

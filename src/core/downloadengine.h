@@ -69,6 +69,7 @@ public:
     void setSelected(IDownloadItem *item, bool isSelected);
 
     QString selectionToString() const;
+    QString selectionToClipboard() const;
 
     void beginSelectionChange(); // BUGFIX
     void endSelectionChange();
@@ -79,6 +80,7 @@ public:
 
     /* Utility */
     virtual IDownloadItem* createItem(const QUrl &url);
+    virtual void changeLocalFileName(IDownloadItem *item, const QString &newName);
 
 signals:
     void jobAppended(DownloadRange range);

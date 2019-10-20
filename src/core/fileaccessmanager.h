@@ -14,28 +14,30 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_DOWNLOAD_ITEM_P_H
-#define CORE_DOWNLOAD_ITEM_P_H
+#ifndef CORE_FILE_ACCESS_MANAGER_H
+#define CORE_FILE_ACCESS_MANAGER_H
 
-#include "downloaditem.h"
+#include <Core/IFileAccessManager>
+#include <QtWidgets/QWidget>
 
-class File;
-class ResourceItem;
+#include <Core/Settings>
 
-class QNetworkAccessManager;
-class QNetworkReply;
-
-class DownloadItemPrivate
+class FileAccessManager : public QObject, public IFileAccessManager
 {    
+    Q_OBJECT
+
 public:
-    DownloadItemPrivate(DownloadItem *qq);
+    explicit FileAccessManager(QWidget *parent = Q_NULLPTR);
+    ~FileAccessManager();
 
-    QNetworkAccessManager *networkManager;
-    ResourceItem *resource;
-    QNetworkReply *reply;
-    File *file;
+    virtual Settings* settings() const Q_DECL_OVERRIDE;
+    void setSettings(Settings *settings);
 
-    DownloadItem *q;
+    virtual ExistingFileOption aboutToModify(const QString &filename) Q_DECL_OVERRIDE;
+
+private:
+    QWidget *m_parent;
+    Settings *m_settings;
 };
 
-#endif // CORE_DOWNLOAD_ITEM_P_H
+#endif // CORE_FILE_ACCESS_MANAGER_H

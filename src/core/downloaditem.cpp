@@ -17,12 +17,12 @@
 #include "downloaditem_p.h"
 
 #include <Core/DownloadManager>
+#include <Core/File>
 #include <Core/ResourceItem>
 
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
-#include <QtCore/QSaveFile>
 #include <QtNetwork/QNetworkReply>
 
 DownloadItemPrivate::DownloadItemPrivate(DownloadItem *qq)
@@ -31,7 +31,7 @@ DownloadItemPrivate::DownloadItemPrivate(DownloadItem *qq)
     networkManager = Q_NULLPTR;
     resource = Q_NULLPTR;
     reply = Q_NULLPTR;
-    file = Q_NULLPTR;
+    file = new File(qq);
 }
 
 /******************************************************************************
@@ -45,7 +45,6 @@ DownloadItem::DownloadItem(DownloadManager *downloadManager) : AbstractDownloadI
 DownloadItem::~DownloadItem()
 {
     if (d->file) {
-        d->file->cancelWriting();
         d->file->deleteLater();
         d->file = Q_NULLPTR;
     }
@@ -65,20 +64,14 @@ void DownloadItem::resume()
 
     this->beginResume();
 
-    QDir().mkpath(localFilePath());
+    File::OpenFlag flag = d->file->open(localFullFileName());
 
-    /// \todo Add more options
-    if (QFile::exists(localFullFileName())) {
-        QFile::remove(localFullFileName());
+    if (flag == File::Skip) {
+        setState(Skipped);
+        return;
     }
 
-    if (d->file) {
-        d->file->deleteLater();
-        d->file = Q_NULLPTR;
-    }
-    d->file = new QSaveFile(this);
-    d->file->setFileName(localFullFileName());
-    const bool connected = d->file->isOpen() || d->file->open(QIODevice::WriteOnly);
+    const bool connected = flag == File::Open;
 
     /* Prepare the connection, try to contact the server */
     if (this->checkResume(connected)) {
@@ -116,18 +109,12 @@ void DownloadItem::pause()
 
 void DownloadItem::stop()
 {
-    if (d->file) {
-        d->file->cancelWriting();
-        d->file->deleteLater();
-        d->file = Q_NULLPTR;
-    }
-
+    d->file->cancel();
     if (d->reply) {
         d->reply->abort();
         d->reply->deleteLater();
         d->reply = Q_NULLPTR;
     }
-
     AbstractDownloadItem::stop();
 }
 
@@ -151,6 +138,8 @@ void DownloadItem::onMetaDataChanged()
 
 void DownloadItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
+    qDebug() << Q_FUNC_INFO << bytesReceived << "/" << bytesTotal;
+
     updateInfo(bytesReceived, bytesTotal);
 }
 
@@ -161,17 +150,49 @@ void DownloadItem::onRedirected(const QUrl &url)
 
 void DownloadItem::onFinished()
 {
-    qDebug() << Q_FUNC_INFO;
-
-    /* Here, finish the operation if downloading. */
-    /* If network error or file error, just ignore */
-    if (state() == Downloading) {
-        const bool commited = d->file->commit();
-        this->preFinish(commited);
+    qDebug() << Q_FUNC_INFO << state();
+    if (bytesTotal() == 0) {
+        /*
+         * Trick:
+         * Server can close invalid connection by sending an empty reply.
+         * In this case, QNetworkAccessManager triggers finished(),
+         * but doesn't trigger error().
+         * Here we verify the size of the received file and set the error.
+         */
+        setState(NetworkError);
+        d->file->cancel();
     }
-    d->file->deleteLater();
-    d->file = Q_NULLPTR;
 
+    switch (state()) {
+    case Idle:
+    case Preparing:
+    case Connecting:
+        break;
+
+    case Downloading:
+    case Endgame:
+    case Completed:
+    {
+        /* Here, finish the operation if downloading. */
+        /* If network error or file error, just ignore */
+        bool commited = d->file->commit();
+        preFinish(commited);
+    }
+        break;
+
+    case Paused:
+    case Stopped:
+    case Skipped:
+    case NetworkError:
+    case FileError:
+        setBytesReceived(0);
+        setBytesTotal(0);
+        break;
+
+    default:
+        Q_UNREACHABLE();
+        break;
+    }
     if (d->reply) {
         d->reply->deleteLater();
         d->reply = Q_NULLPTR;
@@ -184,15 +205,7 @@ void DownloadItem::onError(QNetworkReply::NetworkError error)
 {
     qDebug() << Q_FUNC_INFO;
 
-    if (d->file) {
-        d->file->cancelWriting();
-        d->file->deleteLater();
-        d->file = Q_NULLPTR;
-    }
-
-    setBytesReceived(0);
-    setBytesTotal(0);
-
+    d->file->cancel();
     setHttpErrorNumber((int) error);
     setState(NetworkError);
 }
@@ -200,22 +213,17 @@ void DownloadItem::onError(QNetworkReply::NetworkError error)
 void DownloadItem::onReadyRead()
 {
     qDebug() << Q_FUNC_INFO;
+
     if (!d->reply || !d->file) {
         return;
     }
     QByteArray data = d->reply->readAll();
     d->file->write(data);
-
 }
 
 void DownloadItem::onAboutToClose()
 {
     qDebug() << Q_FUNC_INFO;
-
-
-
-
-
 }
 
 /******************************************************************************
