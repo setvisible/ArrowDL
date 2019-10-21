@@ -3,6 +3,7 @@ TARGET       = tst_jsonhandler
 CONFIG      += testcase
 QT           = core testlib
 
+CONFIG      += c++11
 
 #-------------------------------------------------
 # Dependencies

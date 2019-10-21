@@ -25,7 +25,7 @@ class Format
 {
 public:
     static QString remaingTimeToString(QTime time);
-    static QString currentSpeedToString(double speed);
+    static QString currentSpeedToString(qreal speed);
     static QString fileSizeToString(qint64 size);
 };
 

@@ -36,6 +36,12 @@ bool TextHandler::canWrite() const
     return true;
 }
 
+static bool readLineInto(QTextStream &in, QString *line) // for Qt 5.4.1
+{
+    *line = in.readLine();
+    return !line->isNull();
+}
+
 bool TextHandler::read(DownloadEngine *engine)
 {
     if (!engine) {
@@ -49,7 +55,7 @@ bool TextHandler::read(DownloadEngine *engine)
     }
     QList<IDownloadItem*> items;
     QString line;
-    while (in.readLineInto(&line)) {
+    while (readLineInto(in, &line)) {
         line = line.simplified();
         if (line.isEmpty()) {
             continue;

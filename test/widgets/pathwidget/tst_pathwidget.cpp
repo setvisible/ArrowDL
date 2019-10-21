@@ -48,17 +48,19 @@ void tst_PathWidget::setCurrentPath()
 void tst_PathWidget::setPathHistory()
 {
     PathWidget target;
-    const QLatin1String input("expected item");
+    const QLatin1String input("item 1");
     target.setCurrentPath(input);
 
     QStringList inputList;
     inputList << "item 1" << "item 2" << "item 3";
     target.setPathHistory(inputList);
 
+    const QString expected = input;
+
     const QString actual = target.currentPath();
     const QStringList actualList = target.pathHistory();
 
-    QCOMPARE(actual, input);
+    QCOMPARE(actual, expected);
     QCOMPARE(actualList, inputList);
 }
 

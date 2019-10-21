@@ -2,8 +2,9 @@
 TARGET       = tst_downloadmanager
 CONFIG      += testcase
 QT           = core testlib network
-
 SOURCES     += tst_downloadmanager.cpp
+
+CONFIG      += c++11
 
 # Include:
 INCLUDEPATH += ../../../include
