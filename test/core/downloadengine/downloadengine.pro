@@ -2,8 +2,9 @@
 TARGET       = tst_downloadengine
 CONFIG      += testcase
 QT           = core testlib
-
 SOURCES     += tst_downloadengine.cpp
+
+CONFIG      += c++11
 
 # Include:
 INCLUDEPATH += $$PWD/../../../include

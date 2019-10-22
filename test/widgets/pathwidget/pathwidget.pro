@@ -5,13 +5,22 @@ QT           = core testlib
 QT          += widgets
 SOURCES     += tst_pathwidget.cpp
 
+CONFIG      += c++11
+
 # Include:
-INCLUDEPATH += ../../../include
+INCLUDEPATH += ../../../include/
 
 # Resources:
-HEADERS     += $$PWD/../../../src/widgets/pathwidget.h
-SOURCES     += $$PWD/../../../src/widgets/pathwidget.cpp
-#FORMS       += $$PWD/../../../src/widgets/pathwidget.ui
+HEADERS += \
+    $$PWD/../../../src/widgets/combobox.h \
+    $$PWD/../../../src/widgets/pathwidget.h
+
+SOURCES += \
+    $$PWD/../../../src/widgets/combobox.cpp \
+    $$PWD/../../../src/widgets/pathwidget.cpp
+
+FORMS   += \
+    $$PWD/../../../src/widgets/pathwidget.ui
 
 
 #-------------------------------------------------

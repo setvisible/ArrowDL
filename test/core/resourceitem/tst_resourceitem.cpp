@@ -42,30 +42,37 @@ void tst_ResourceItem::localFileUrl_data()
     QTest::addColumn<QString>("customFileName");
     QTest::addColumn<QUrl>("expected");
 
-    QTest::newRow("")
+    QTest::newRow("linux file system")
             << "https://www.myweb.com/images/01/myimage.tar.gz"
-            << "C:\\Temp"
+            << "/home/me/documents/"
+            << "*name*.*ext*"
+            << ""
+            << QUrl("file:///home/me/documents/myimage.tar.gz");
+
+    QTest::newRow("windows file system")
+            << "https://www.myweb.com/images/01/myimage.tar.gz"
+            << "C:/Temp"
             << "*name*.*ext*"
             << ""
             << QUrl("file:///C:/Temp/myimage.tar.gz");
 
-    QTest::newRow("")
+    QTest::newRow("windows file system")
             << "https://www.myweb.com/images/01/myimage.tar.gz"
-            << "C:\\Temp"
+            << "C:/Temp"
             << "*url*\\*subdirs*\\*name*.*ext*"
             << ""
             << QUrl("file:///C:/Temp/www.myweb.com/images/01/myimage.tar.gz");
 
-    QTest::newRow("custom filename")
+    QTest::newRow("windows custom filename")
             << "https://www.myweb.com/images/01/myimage.tar.gz"
-            << "C:\\Temp"
+            << "C:/Temp"
             << "*name*.*ext*"
             << "A NEW FILE NAME"
             << QUrl("file:///C:/Temp/A NEW FILE NAME.gz");
 
-    QTest::newRow("custom filename")
+    QTest::newRow("windows custom filename")
             << "https://www.myweb.com/images/01/myimage.tar.gz"
-            << "C:\\Temp"
+            << "C:/Temp"
             << "*url*\\*subdirs*\\*name*.*ext*"
             << "A NEW FILE NAME"
             << QUrl("file:///C:/Temp/www.myweb.com/images/01/A NEW FILE NAME.gz");

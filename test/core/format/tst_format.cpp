@@ -117,7 +117,7 @@ void tst_Format::fileSizeToString()
 ******************************************************************************/
 void tst_Format::currentSpeedToString_data()
 {
-    QTest::addColumn<double>("speed");
+    QTest::addColumn<qreal>("speed");
     QTest::addColumn<QString>("expected");
 
     QTest::newRow("zero") << 0.0 << "0 KB/s";
@@ -136,15 +136,19 @@ void tst_Format::currentSpeedToString_data()
     QTest::newRow("1234567890 bytes") << 1234567890.0 << "1.15 GB/s";
     QTest::newRow("1234567890123 bytes") << 1234567890123.0 << "1149.78 GB/s";
 
-    QTest::newRow("INFINITY") << INFINITY << "-";
-    QTest::newRow("NaN") << NAN << "-";
+    QTest::newRow("INFINITY") << qInf() << "-";
     QTest::newRow("NaN") << qQNaN() << "-";
     QTest::newRow("NaN") << qSNaN() << "-";
+
+#ifdef Q_OS_WIN
+    QTest::newRow("INFINITY") << INFINITY << "-";
+    QTest::newRow("NaN") << NAN << "-";
+#endif
 }
 
 void tst_Format::currentSpeedToString()
 {
-    QFETCH(double, speed);
+    QFETCH(qreal, speed);
     QFETCH(QString, expected);
     QString actual = Format::currentSpeedToString(speed);
     QCOMPARE(actual, expected);

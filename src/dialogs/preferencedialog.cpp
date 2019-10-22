@@ -122,7 +122,7 @@ void PreferenceDialog::filterTextChanged()
 
 void PreferenceDialog::maxSimultaneousDownloadSlided(int value)
 {
-    ui->maxSimultaneousDownloadLabel->setText(QString::asprintf("%d", value));
+    ui->maxSimultaneousDownloadLabel->setText(QString::number(value));
 }
 
 /******************************************************************************
