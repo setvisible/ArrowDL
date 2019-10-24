@@ -1,20 +1,147 @@
-language: cpp
-compiler: gcc
-dist: trusty
+# https://docs.travis-ci.com/
 
+# Rem:  travis-ci.org  or  travis-ci.com  ?
+#
+# Open source projects and their build history will continue to run on travis-ci.org.
+# However, you can be included in the closed beta testing to start migrating 
+# your open source repositories to travis-ci.com.
+
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
+# branches to build
+branches:
+  # whitelist
+  only:
+    - master
+    - develop
+    - production
+    - /^v\d*\.\d*\.\d*$/
+    - /^travis.*$/
+
+  # blacklist
+  except:
+    - /^appveyor.*$/
+
+
+#---------------------------------#
+#               jobs              #
+#---------------------------------#
+
+# build and tests OK with Qt version 5.7.1
+# build and tests OK with GNU C++ Compiler version 5.3.0
+# build and tests OK with CMake version 3.11.1
+
+# Travis-CI:
+#  - GNU C++ Compiler version 5 works on Precise and Trusty
+#  - Precise ships with CMake 2.8.7
+#  - Trusty ships with CMake 3.9.2    => Use Trusty
+
+sudo: required
+language: cpp
+
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      env: QT_BASE=55 CXX_COMPILER=g++-5 C_COMPILER=gcc-5 BUILD_TYPE=Release
+      addons:
+        apt:
+          sources:
+          - ubuntu-toolchain-r-test
+          packages:
+          - gcc-5
+          - g++-5
+
+
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+before_install:
+  - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
+  - if [ "$QT_BASE" = "55"  ]; then sudo add-apt-repository ppa:beineri/opt-qt551-trusty -y; fi
+  - sudo apt-get update -qq
 
 install:
-  # Qt5
-  - sudo apt-get install -qq libqt5webkit5-dev qtdeclarative5-dev
-  - export QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
+  - if [ "$QT_BASE" = "55"  ]; then sudo apt-get install -qq qt55base qt55multimedia qt55translations qt55tools ; source /opt/qt55/bin/qt55-env.sh ; export QTHOME=/opt/qt55 ; fi
 
-# Start virtual X server, from https://docs.travis-ci.com/user/gui-and-headless-browsers/
+  # read the content of the file ./version
+  - AppVersion=`cat version`
+  - echo "Application Version = ${AppVersion}"
+
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
 before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
+# Current Directory = /home/travis/build/setvisible/DownZemAll
+  - mkdir ./../build-cmake
+  - cd ./../build-cmake
+
 
 script:
-  - qmake -qt=qt5
-  - make
+  - cmake --version             # cmake version 3.9.2
+  - ${CXX_COMPILER} --version   # g++-5 (Ubuntu 5.5.0-12ubuntu1~14.04) 5.5.0 20171010
+  - ${C_COMPILER} --version     # gcc-5 (Ubuntu 5.5.0-12ubuntu1~14.04) 5.5.0 20171010
+  - cmake ./../DownZemAll -DCMAKE_CXX_COMPILER=${CXX_COMPILER} -DCMAKE_C_COMPILER=${C_COMPILER} -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_INSTALL_PREFIX="./../install-DownZemAll-cmake" -DENABLE_TESTS=ON
+  - cmake --build .
+
+#---------------------------------#
+#            tests                #
+#---------------------------------#
+
+# to run your custom scripts instead of automatic tests
+#test_script:
+  - ctest --version
+  - ctest -N                # -N gets the list of all the tests in CTest
+  - ctest . --verbose       # <verbose> shows all the test methods
+
+
+#---------------------------------#
+#           archives              #
+#---------------------------------#
+
+# scripts to run after tests
+#after_test:
+  - cmake --build . --target install
+
+
+#---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
+
+# creating archives
+  - mkdir ./../DownZemAll/bin
+  - cd ./../DownZemAll/bin
+
+# move the file
+  - mv ./../../install-DownZemAll-cmake/DownZemAll ./DownZemAll
+
+# rename the file
+# DownZemAll_v1.2.0_Portable_linux_g++
+  - ZIP_FILE="DownZemAll_v${AppVersion}_Portable_${TRAVIS_OS_NAME}_${TRAVIS_COMPILER}"
+  - mv DownZemAll ${ZIP_FILE}
+
+
+#---------------------------------#
+#     deployment configuration    #
+#---------------------------------#
+
+#before_deploy:
+
+deploy:
+  provider: releases
+  api_key: 34bbd6a6604dabbc8b3a85b7a31b35fcb6f30530
+  file: $ZIP_FILE
+  skip_cleanup: true
+  draft: true           # Draft Release 
+  prerelease: false
+  on:
+#    branch: master      # release from master branch only
+    tags: true          # deploy on tag push only
+
+#after_deploy:
 
