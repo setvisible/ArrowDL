@@ -73,7 +73,7 @@ QString Format::fileSizeToString(qint64 size)
 /*!
  * \brief Returns a string formatting the given speed, in bytes per second.
  */
-QString Format::currentSpeedToString(double speed)
+QString Format::currentSpeedToString(qreal speed)
 {
     if (speed < 0 || !qIsFinite(speed)) {
         return QLatin1String("-");

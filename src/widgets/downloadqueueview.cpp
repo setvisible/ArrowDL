@@ -387,7 +387,7 @@ void QueueItem::updateItem()
     this->setData(C_COL_2_PROGRESS_BAR, ProgressBar::StateRole, m_downloadItem->state());
     this->setData(C_COL_2_PROGRESS_BAR, ProgressBar::ProgressRole, m_downloadItem->progress());
 
-    this->setText(C_COL_3_PERCENT         , QString::asprintf("%d%%", qMax(0, m_downloadItem->progress())));
+    this->setText(C_COL_3_PERCENT         , QString("%0%").arg(qMax(0, m_downloadItem->progress())));
     this->setText(C_COL_4_SIZE            , size);
     this->setText(C_COL_5_ESTIMATED_TIME  , estTime);
     this->setText(C_COL_6_SPEED           , speed);

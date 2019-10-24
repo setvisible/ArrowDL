@@ -27,6 +27,7 @@ branches:
     - master
     - production
     - /v\d*\.\d*\.\d*/
+    - /^appveyor.*$/
 
   # blacklist
   except:
@@ -334,26 +335,27 @@ test:
 #    - [UI]         # 1st job
 #    - [DAL, BL]    # 2nd job
 
+#---------------------------------#
+#            tests                #
+#---------------------------------#
+
 # scripts to run before tests (working directory and environment changes
 # are persisted from the previous steps such as "before_build")
 before_test:
 
 # to run your custom scripts instead of automatic tests
 test_script:
-  - echo ****************************************************
-  - echo Running Tests
-  - echo ****************************************************
   - ctest --version
   - ctest -N                # -N gets the list of all the tests in CTest
   - ctest . --verbose       # <verbose> shows all the test methods
 
 
+#---------------------------------#
+#           archives              #
+#---------------------------------#
 
 # scripts to run after tests
 after_test:
-  - echo ****************************************************
-  - echo Creating Archives
-  - echo ****************************************************
   - cmake --build . --target install
   - mkdir C:\projects\DownZemAll\bin
   - cd C:\projects\DownZemAll\bin
@@ -370,7 +372,7 @@ after_test:
 
 
 #---------------------------------#
-#      artifacts configuration    #
+#    artifacts configuration      #
 #---------------------------------#
 
 artifacts: 

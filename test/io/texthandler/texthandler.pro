@@ -3,6 +3,7 @@ TARGET       = tst_texthandler
 CONFIG      += testcase
 QT           = core testlib
 
+CONFIG      += c++11
 
 #-------------------------------------------------
 # Dependencies

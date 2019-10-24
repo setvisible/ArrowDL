@@ -243,13 +243,13 @@ QGroupBox {
   <customwidget>
    <class>PathWidget</class>
    <extends>QWidget</extends>
-   <header>Widgets\PathWidget</header>
+   <header>Widgets/PathWidget</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>MaskWidget</class>
    <extends>QWidget</extends>
-   <header>Widgets\MaskWidget</header>
+   <header>Widgets/MaskWidget</header>
    <container>1</container>
   </customwidget>
   <customwidget>

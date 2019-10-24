@@ -14,12 +14,10 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <IO/JsonHandler>
+#include <Io/JsonHandler>
 
 #include "../../utils/fakedownloaditem.h"
 #include "../../utils/fakedownloadmanager.h"
-
-#include <Io/JsonHandler>
 
 #include <QtCore/QDebug>
 #include <QtTest/QtTest>

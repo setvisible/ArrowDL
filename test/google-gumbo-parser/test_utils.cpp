@@ -190,7 +190,8 @@ GumboTest::GumboTest()
 
 GumboTest::~GumboTest()
 {
-    cleanup();
+    /// \todo fix the initialization and destruction of parser_._output->errors.data
+    // cleanup();
 }
 
 void GumboTest::init()

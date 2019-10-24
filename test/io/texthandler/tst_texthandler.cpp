@@ -14,12 +14,10 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <IO/TextHandler>
+#include <Io/TextHandler>
 
 #include "../../utils/fakedownloaditem.h"
 #include "../../utils/fakedownloadmanager.h"
-
-#include <Io/TextHandler>
 
 #include <QtCore/QDebug>
 #include <QtTest/QtTest>

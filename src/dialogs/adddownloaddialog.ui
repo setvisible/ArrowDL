@@ -454,7 +454,7 @@ color: rgb(205, 230, 255);
   <customwidget>
    <class>MaskWidget</class>
    <extends>QWidget</extends>
-   <header>Widgets\MaskWidget</header>
+   <header>Widgets/MaskWidget</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

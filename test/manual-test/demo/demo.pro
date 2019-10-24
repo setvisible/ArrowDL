@@ -9,8 +9,9 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += no_keyword
+CONFIG   += c++11
 
+QMAKE_CFLAGS += -std=c99
 QMAKE_CXXFLAGS += -std=c++11
 
 lessThan(QT_VERSION, 5.0) {

@@ -4,6 +4,8 @@ CONFIG      += testcase
 QT           = core testlib
 SOURCES     += tst_resourceitem.cpp
 
+CONFIG      += c++11
+
 # Include:
 INCLUDEPATH += ../../../include
 

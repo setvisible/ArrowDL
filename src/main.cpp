@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
     const QString arg = !positionalArguments.isEmpty() ? positionalArguments.first() : QString();
 
     if (application.isRunning()) {
-        qInfo("Another instance is running...");
+        qWarning("Another instance is running...");
         /*
          * Rem: Even if 'arg' is empty, the message is still sent to activates the window.
          */
