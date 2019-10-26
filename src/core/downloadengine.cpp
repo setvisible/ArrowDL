@@ -190,7 +190,17 @@ QList<IDownloadItem*> DownloadEngine::pausedJobs() const
 
 QList<IDownloadItem*> DownloadEngine::failedJobs() const
 {
-    return filter(downloadItems(), IDownloadItem::Stopped);
+    QList<IDownloadItem*> list;
+    foreach (auto item, downloadItems()) {
+        const IDownloadItem::State state = item->state();
+        if ( state == IDownloadItem::Stopped ||
+             state == IDownloadItem::Skipped ||
+             state == IDownloadItem::NetworkError ||
+             state == IDownloadItem::FileError) {
+            list.append(item);
+        }
+    }
+    return list;
 }
 
 QList<IDownloadItem*> DownloadEngine::runningJobs() const
