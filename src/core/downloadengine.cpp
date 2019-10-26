@@ -59,6 +59,7 @@ void DownloadEngine::startNext(IDownloadItem */*item*/)
         foreach (auto item, m_items) {
             if (item->state() == IDownloadItem::Idle) {
                 item->resume();
+                startNext(0);
                 break;
             }
         }
@@ -84,6 +85,9 @@ void DownloadEngine::clear()
  ******************************************************************************/
 void DownloadEngine::append(QList<IDownloadItem*> items, bool started)
 {    
+    if (items.isEmpty()) {
+        return;
+    }
     foreach (auto item, items) {
         AbstractDownloadItem *downloadItem = static_cast<AbstractDownloadItem*>(item);
         if (!downloadItem) {
@@ -114,7 +118,9 @@ void DownloadEngine::append(QList<IDownloadItem*> items, bool started)
 
 void DownloadEngine::remove(QList<IDownloadItem*> items)
 {
-
+    if (items.isEmpty()) {
+        return;
+    }
     /* First, deselect */
     beginSelectionChange();
     foreach (auto item, items) {
