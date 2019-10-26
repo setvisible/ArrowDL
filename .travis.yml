@@ -9,6 +9,10 @@
 #---------------------------------#
 #      general configuration      #
 #---------------------------------#
+# language: generic # VM have more languages and services available
+# language: minimal # VM optimized be faster and use less disk space, 
+language: cpp
+sudo: true
 
 # branches to build
 branches:
@@ -28,7 +32,6 @@ branches:
 #---------------------------------#
 #               jobs              #
 #---------------------------------#
-
 # build and tests OK with Qt version 5.7.1
 # build and tests OK with GNU C++ Compiler version 5.3.0
 # build and tests OK with CMake version 3.11.1
@@ -37,9 +40,6 @@ branches:
 #  - GNU C++ Compiler version 5 works on Precise and Trusty
 #  - Precise ships with CMake 2.8.7
 #  - Trusty ships with CMake 3.9.2    => Use Trusty
-
-sudo: required
-language: cpp
 
 matrix:
   include:
@@ -53,7 +53,6 @@ matrix:
           packages:
           - gcc-5
           - g++-5
-
 
 #---------------------------------#
 #    environment configuration    #
@@ -70,6 +69,14 @@ install:
   # read the content of the file ./version
   - AppVersion=`cat version`
   - echo "Application Version = ${AppVersion}"
+
+  - echo "TRAVIS_TAG = '${TRAVIS_TAG}'"
+  - echo "TRAVIS_BRANCH = '${TRAVIS_BRANCH}'"
+
+  - GCCDumpMachine=`gcc -dumpmachine`
+  - GPPDumpMachine=`g++ -dumpmachine`
+  - echo "GCC Dump Machine = '${GCCDumpMachine}'"  # x86_64-linux-gnu
+  - echo "G++ Dump Machine = '${GPPDumpMachine}'"  # x86_64-linux-gnu
 
 
 #---------------------------------#
@@ -117,14 +124,17 @@ script:
   - mkdir ./../DownZemAll/bin
   - cd ./../DownZemAll/bin
 
-# move the file
-  - mv ./../../install-DownZemAll-cmake/DownZemAll ./DownZemAll
+# zip the files
+# DownZemAll_v1.2.0_x86-windows-mingw.zip
+# DownZemAll_v1.2.0_x86_64-linux-gnu.tar.gz
+  - ZIP_FILE="DownZemAll_v${AppVersion}_${GCCDumpMachine}.tar.gz"
+  - tar -czvf ${ZIP_FILE} ./../../install-DownZemAll-cmake/*
 
-# rename the file
-# DownZemAll_v1.2.0_Portable_linux_g++
-  - ZIP_FILE="DownZemAll_v${AppVersion}_Portable_${TRAVIS_OS_NAME}_${TRAVIS_COMPILER}"
-  - mv DownZemAll ${ZIP_FILE}
 
+# .tar.bz2
+# .deb
+# .apk
+# .dmg // MacOS
 
 #---------------------------------#
 #     deployment configuration    #
@@ -134,14 +144,22 @@ script:
 
 deploy:
   provider: releases
-  api_key: 34bbd6a6604dabbc8b3a85b7a31b35fcb6f30530
+  api_key: $TOKEN       # Set in the settings page of your repository, as a secure variable
+  file_glob: true       # Enable wildcard pattern
   file: $ZIP_FILE
   skip_cleanup: true
   draft: true           # Draft Release 
   prerelease: false
   on:
-#    branch: master      # release from master branch only
+    branch: master      # release from master branch only
     tags: true          # deploy on tag push only
 
 #after_deploy:
+
+
+after_success:
+  - echo "success"
+ 
+after_failure:
+  - echo "failure"
 
