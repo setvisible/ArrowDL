@@ -212,6 +212,13 @@ install:
   - set /p AppVersion=<version
   - echo Application Version = %AppVersion%
 
+  - gcc.exe -dumpmachine > tmp
+  - set /p GCCDumpMachine=<tmp
+  - g++.exe -dumpmachine > tmp
+  - set /p GPPDumpMachine=<tmp
+  - echo "GCC Dump Machine = '${GCCDumpMachine}'"
+  - echo "G++ Dump Machine = '${GPPDumpMachine}'"
+
 #  - if [%COMPILER%]==[MinGW] set PATH=C:\MinGW\bin;%PATH%
 #  - if [%COMPILER%]==[MinGW] mingw-get update
 
@@ -359,17 +366,16 @@ after_test:
   - cmake --build . --target install
   - mkdir C:\projects\DownZemAll\bin
   - cd C:\projects\DownZemAll\bin
-  - set ZIP_FILE="DownZemAll_v%AppVersion%_Portable_%PLATFORM%_%COMPILER%.zip"
+
+# zip the files
+# DownZemAll_v1.2.0_x86-windows-mingw.zip
+# DownZemAll_v1.2.0_x86_64-linux-gnu.tar.gz
+  - set ZIP_FILE="DownZemAll_v%AppVersion%_%PLATFORM%-windows-%COMPILER%.zip"
   - 7z a %ZIP_FILE% .\..\..\install-DownZemAll-cmake\*
 
-    # Creating archive: 
-    #  - DownZemAll_v0.0.1_Win32_MinGW.zip
-    #  - DownZemAll_v0.0.1_x64_MinGW.zip
-    #  - DownZemAll_v0.0.1_Ubuntu32_MinGW.zip
 
 # to disable automatic tests
 # test: off
-
 
 #---------------------------------#
 #    artifacts configuration      #
@@ -417,9 +423,10 @@ deploy:
     artifact: myapp
     draft: true
     prerelease: false
+#    force_update: true
     on:
 #      branch: master                # release from master branch only
-      APPVEYOR_REPO_TAG: true       # deploy on tag push only
+      appveyor_repo_tag: true       # deploy on tag push only
 
 #     # FTP deployment provider settings
 #   - provider: FTP
