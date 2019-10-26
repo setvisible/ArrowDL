@@ -68,6 +68,8 @@ void DownloadItem::resume()
 
     if (flag == File::Skip) {
         setState(Skipped);
+        onAboutToClose();
+        onFinished();
         return;
     }
 
@@ -151,33 +153,33 @@ void DownloadItem::onRedirected(const QUrl &url)
 void DownloadItem::onFinished()
 {
     qDebug() << Q_FUNC_INFO << state();
-    if (bytesTotal() == 0) {
-        /*
-         * Trick:
-         * Server can close invalid connection by sending an empty reply.
-         * In this case, QNetworkAccessManager triggers finished(),
-         * but doesn't trigger error().
-         * Here we verify the size of the received file and set the error.
-         */
-        setState(NetworkError);
-        d->file->cancel();
-    }
 
     switch (state()) {
     case Idle:
     case Preparing:
     case Connecting:
-        break;
-
     case Downloading:
     case Endgame:
     case Completed:
-    {
-        /* Here, finish the operation if downloading. */
-        /* If network error or file error, just ignore */
-        bool commited = d->file->commit();
-        preFinish(commited);
-    }
+        if (bytesTotal() == 0) {
+            /*
+             * Trick:
+             * Server can close invalid connection by sending an empty reply.
+             * In this case, QNetworkAccessManager triggers finished(),
+             * but doesn't trigger error().
+             * Here we verify the size of the received file and set the error.
+             */
+            setState(NetworkError);
+            setBytesReceived(0);
+            // setBytesTotal(0);
+            d->file->cancel();
+            emit changed();
+        } else {
+            /* Here, finish the operation if downloading. */
+            /* If network error or file error, just ignore */
+            bool commited = d->file->commit();
+            preFinish(commited);
+        }
         break;
 
     case Paused:
@@ -187,6 +189,8 @@ void DownloadItem::onFinished()
     case FileError:
         setBytesReceived(0);
         setBytesTotal(0);
+        d->file->cancel();
+        emit changed();
         break;
 
     default:
