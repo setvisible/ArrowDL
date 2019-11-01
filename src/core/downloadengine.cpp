@@ -59,6 +59,7 @@ void DownloadEngine::startNext(IDownloadItem */*item*/)
         foreach (auto item, m_items) {
             if (item->state() == IDownloadItem::Idle) {
                 item->resume();
+                startNext(0);
                 break;
             }
         }
@@ -84,6 +85,9 @@ void DownloadEngine::clear()
  ******************************************************************************/
 void DownloadEngine::append(QList<IDownloadItem*> items, bool started)
 {    
+    if (items.isEmpty()) {
+        return;
+    }
     foreach (auto item, items) {
         AbstractDownloadItem *downloadItem = static_cast<AbstractDownloadItem*>(item);
         if (!downloadItem) {
@@ -114,7 +118,9 @@ void DownloadEngine::append(QList<IDownloadItem*> items, bool started)
 
 void DownloadEngine::remove(QList<IDownloadItem*> items)
 {
-
+    if (items.isEmpty()) {
+        return;
+    }
     /* First, deselect */
     beginSelectionChange();
     foreach (auto item, items) {
@@ -190,7 +196,17 @@ QList<IDownloadItem*> DownloadEngine::pausedJobs() const
 
 QList<IDownloadItem*> DownloadEngine::failedJobs() const
 {
-    return filter(downloadItems(), IDownloadItem::Stopped);
+    QList<IDownloadItem*> list;
+    foreach (auto item, downloadItems()) {
+        const IDownloadItem::State state = item->state();
+        if ( state == IDownloadItem::Stopped ||
+             state == IDownloadItem::Skipped ||
+             state == IDownloadItem::NetworkError ||
+             state == IDownloadItem::FileError) {
+            list.append(item);
+        }
+    }
+    return list;
 }
 
 QList<IDownloadItem*> DownloadEngine::runningJobs() const

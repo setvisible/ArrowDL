@@ -14,7 +14,7 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "downloadqueueview.h"
+#include "downloadqueueview_p.h"
 
 #include <Core/AbstractDownloadItem>
 #include <Core/DownloadEngine>
@@ -24,14 +24,16 @@
 #include <Widgets/CustomStyleOptionProgressBar>
 
 #include <QtCore/QDebug>
+#include <QtCore/QMimeData>
+#include <QtCore/QFileInfo>
+#include <QtGui/QDrag>
+#include <QtGui/QMouseEvent>
 #include <QtGui/QPainter>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMenu>
-#include <QtWidgets/QStyledItemDelegate>
-#include <QtWidgets/QTreeWidget>
 
 
 #define C_COL_0_FILE_NAME          0
@@ -110,23 +112,63 @@ enum ProgressBar {
 
 /******************************************************************************
  ******************************************************************************/
-/*!
- * QueueView extends QTreeWidget to allow drag and drop.
- */
-class QueueView : public QTreeWidget
-{
-    friend class DownloadQueueView; /* To acceed protected members */
-    Q_OBJECT
-
-public:
-    QueueView(QWidget *parent);
-};
-
 QueueView::QueueView(QWidget *parent)
     : QTreeWidget(parent)
 {
     setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+
+    // To enable the user to move the items around within the view,
+    // we must set the list widget's dragDropMode:
+    setDragDropMode(QAbstractItemView::DragOnly);
+}
+
+void QueueView::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        dragStartPosition = event->pos();
+    }
+    QTreeWidget::mousePressEvent(event);
+}
+
+void QueueView::mouseMoveEvent(QMouseEvent *event)
+{
+    if (!(event->buttons() & Qt::LeftButton))
+        return;
+    if ((event->pos() - dragStartPosition).manhattanLength()
+            < QApplication::startDragDistance())
+        return;
+
+    const QList<QTreeWidgetItem*> items = selectedItems();
+    if (items.isEmpty())
+        return;
+
+    QueueItem *queueItem = static_cast<QueueItem*>(items.first());
+    if (!queueItem)
+        return;
+
+    AbstractDownloadItem* downloadItem = queueItem->downloadItem();
+    if (!downloadItem)
+        return;
+
+    QFileInfo fi(downloadItem->localFullFileName());
+    if (!fi.exists())
+        return;
+
+    const QUrl url = QUrl::fromLocalFile(downloadItem->localFullFileName());
+    const QPixmap pixmap = MimeDatabase::fileIcon(url);
+
+    QDrag *drag = new QDrag(this);
+    QMimeData *mimeData = new QMimeData;
+    mimeData->setUrls(QList<QUrl>() << url);
+    drag->setMimeData(mimeData);
+    drag->setPixmap(pixmap);
+    drag->setHotSpot(QPoint(drag->pixmap().width()/2, drag->pixmap().height()/2));
+
+    Qt::DropAction dropAction = drag->exec(Qt::MoveAction);
+    if (dropAction == Qt::MoveAction) {
+        emit dropped(queueItem);
+    }
 }
 
 /******************************************************************************
@@ -191,7 +233,7 @@ void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
     myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
     myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
 
-    if (index.column() == 0) {
+    if (index.column() == C_COL_0_FILE_NAME) {
 
         const QUrl url(myOption.text);
         const QPixmap pixmap = MimeDatabase::fileIcon(url, 16);
@@ -203,7 +245,7 @@ void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
 
         QStyledItemDelegate::paint(painter, myOption, index);
 
-    } else if (index.column() == 2) {
+    } else if (index.column() == C_COL_2_PROGRESS_BAR) {
 
         const int progress = index.data(ProgressBar::ProgressRole).toInt();
         const IDownloadItem::State state = (IDownloadItem::State)index.data(ProgressBar::StateRole).toInt();
@@ -325,22 +367,6 @@ QIcon QueueViewItemDelegate::stateIcon(IDownloadItem::State state) const
 
 /******************************************************************************
  ******************************************************************************/
-class QueueItem : public QObject, public QTreeWidgetItem
-{
-    Q_OBJECT
-
-public:
-    explicit QueueItem(AbstractDownloadItem *downloadItem, QTreeWidget *view);
-
-    AbstractDownloadItem* downloadItem() const { return m_downloadItem; }
-
-public slots:
-    void updateItem();
-
-private:
-    AbstractDownloadItem *m_downloadItem;
-};
-
 QueueItem::QueueItem(AbstractDownloadItem *downloadItem, QTreeWidget *view)
     : QObject(view)
     , QTreeWidgetItem(view, QTreeWidgetItem::UserType)
@@ -438,14 +464,14 @@ DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
     connect(m_queueView->itemDelegate(), SIGNAL(commitData(QWidget*)),
             this, SLOT(onQueueItemCommitData(QWidget*)));
 
+    // Drag-n-Drop
+    connect(m_queueView, SIGNAL(dropped(QueueItem*)),
+            this, SLOT(onQueueItemDropped(QueueItem*)));
+
     QLayout* layout = new QGridLayout(this);
     layout->addWidget(m_queueView);
 
     this->setLayout(layout);
-
-    // To enable the user to move the items around within the view,
-    // we must set the list widget's dragDropMode:
-    m_queueView->setDragDropMode(QAbstractItemView::InternalMove);
 }
 
 DownloadQueueView::~DownloadQueueView()
@@ -677,6 +703,15 @@ void DownloadQueueView::onQueueItemCommitData(QWidget *editor)
     }
 }
 
+void DownloadQueueView::onQueueItemDropped(QueueItem *queueItem)
+{
+    if (queueItem) {
+        QList<IDownloadItem*> items;
+        items << queueItem->downloadItem();
+        m_downloadEngine->remove(items);
+    }
+}
+
 /******************************************************************************
  ******************************************************************************/
 QMenu* DownloadQueueView::contextMenu() const
@@ -696,4 +731,5 @@ void DownloadQueueView::showContextMenu(const QPoint &pos)
     }
 }
 
+/* Required to build the nested class QueueViewItemDelegate */
 #include "downloadqueueview.moc"
