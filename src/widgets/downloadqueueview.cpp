@@ -233,7 +233,7 @@ void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
     myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
     myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
 
-    if (index.column() == 0) {
+    if (index.column() == C_COL_0_FILE_NAME) {
 
         const QUrl url(myOption.text);
         const QPixmap pixmap = MimeDatabase::fileIcon(url, 16);
@@ -245,7 +245,7 @@ void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
 
         QStyledItemDelegate::paint(painter, myOption, index);
 
-    } else if (index.column() == 2) {
+    } else if (index.column() == C_COL_2_PROGRESS_BAR) {
 
         const int progress = index.data(ProgressBar::ProgressRole).toInt();
         const IDownloadItem::State state = (IDownloadItem::State)index.data(ProgressBar::StateRole).toInt();
