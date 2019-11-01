@@ -61,6 +61,7 @@ private slots:
     void onQueueViewDoubleClicked(const QModelIndex &index);
     void onQueueViewItemSelectionChanged();
     void onQueueItemCommitData(QWidget *editor);
+    void onQueueItemDropped(QueueItem *queueItem);
 
     void showContextMenu(const QPoint &pos) ;
 
