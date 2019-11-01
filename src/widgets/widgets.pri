@@ -4,6 +4,7 @@ HEADERS += \
     $$PWD/customstyle.h \
     $$PWD/customstyleoptionprogressbar.h \
     $$PWD/downloadqueueview.h \
+    $$PWD/downloadqueueview_p.h \
     $$PWD/filtertip.h \
     $$PWD/filterwidget.h \
     $$PWD/linkwidget.h \

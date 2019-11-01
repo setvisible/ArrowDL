@@ -14,7 +14,7 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "downloadqueueview.h"
+#include "downloadqueueview_p.h"
 
 #include <Core/AbstractDownloadItem>
 #include <Core/DownloadEngine>
@@ -30,8 +30,6 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMenu>
-#include <QtWidgets/QStyledItemDelegate>
-#include <QtWidgets/QTreeWidget>
 
 
 #define C_COL_0_FILE_NAME          0
@@ -110,18 +108,6 @@ enum ProgressBar {
 
 /******************************************************************************
  ******************************************************************************/
-/*!
- * QueueView extends QTreeWidget to allow drag and drop.
- */
-class QueueView : public QTreeWidget
-{
-    friend class DownloadQueueView; /* To acceed protected members */
-    Q_OBJECT
-
-public:
-    QueueView(QWidget *parent);
-};
-
 QueueView::QueueView(QWidget *parent)
     : QTreeWidget(parent)
 {
@@ -325,22 +311,6 @@ QIcon QueueViewItemDelegate::stateIcon(IDownloadItem::State state) const
 
 /******************************************************************************
  ******************************************************************************/
-class QueueItem : public QObject, public QTreeWidgetItem
-{
-    Q_OBJECT
-
-public:
-    explicit QueueItem(AbstractDownloadItem *downloadItem, QTreeWidget *view);
-
-    AbstractDownloadItem* downloadItem() const { return m_downloadItem; }
-
-public slots:
-    void updateItem();
-
-private:
-    AbstractDownloadItem *m_downloadItem;
-};
-
 QueueItem::QueueItem(AbstractDownloadItem *downloadItem, QTreeWidget *view)
     : QObject(view)
     , QTreeWidgetItem(view, QTreeWidgetItem::UserType)
@@ -696,4 +666,5 @@ void DownloadQueueView::showContextMenu(const QPoint &pos)
     }
 }
 
+/* Required to build the nested class QueueViewItemDelegate */
 #include "downloadqueueview.moc"
