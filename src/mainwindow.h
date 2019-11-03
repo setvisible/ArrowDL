@@ -100,6 +100,7 @@ public slots:
 
     // Help
     void about();
+    void aboutCompiler();
 
 private slots:
     void onJobAddedOrRemoved(DownloadRange range);

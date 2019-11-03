@@ -47,6 +47,7 @@
     </property>
     <addaction name="actionAbout"/>
     <addaction name="actionAboutQt"/>
+    <addaction name="actionAboutCompiler"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -620,6 +621,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionAboutCompiler">
+   <property name="text">
+    <string>Compiler Info...</string>
    </property>
   </action>
  </widget>
