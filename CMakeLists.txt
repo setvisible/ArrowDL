@@ -275,11 +275,20 @@ if (MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     )
 
     ## OpenSSL
-    install(FILES
-        ./3rd/openssl/v1.0.2/windows_x86_32bits/libeay32.dll
-        ./3rd/openssl/v1.0.2/windows_x86_32bits/ssleay32.dll
-        DESTINATION ${CMAKE_INSTALL_PREFIX}
-    )
+    if (CMAKE_SIZEOF_VOID_P EQUAL 4) # 32 bits
+        install(FILES
+            ./3rd/openssl/v1.1.1/windows_x86_32bits/libcrypto-1_1.dll
+            ./3rd/openssl/v1.1.1/windows_x86_32bits/libssl-1_1.dll
+            DESTINATION ${CMAKE_INSTALL_PREFIX}
+            )
+
+    elseif(CMAKE_SIZEOF_VOID_P EQUAL 8) # 64 bits
+        install(FILES
+            ./3rd/openssl/v1.1.1/windows_x86_64bits/libcrypto-1_1-x64.dll
+            ./3rd/openssl/v1.1.1/windows_x86_64bits/libssl-1_1-x64.dll
+            DESTINATION ${CMAKE_INSTALL_PREFIX}
+            )
+    endif()
 
 endif(MSVC OR MSYS OR MINGW)
 
