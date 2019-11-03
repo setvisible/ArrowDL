@@ -22,11 +22,11 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QString>
 
-QString buildAbout(QString paragraphDelimiter)
+static QString buildAbout(QString paragraphDelimiter)
 {
     return QString(QCoreApplication::tr(
-           "%1 - version %2 - build %3"
-           ).arg(STR_APPLICATION_NAME, STR_APPLICATION_VERSION, STR_APPLICATION_BUILD) +
+           "%0 - %1 - version %2 - build %3"
+           ).arg(STR_APPLICATION_NAME, STR_COMPILER_WORDSIZE, STR_APPLICATION_VERSION, STR_APPLICATION_BUILD) +
        paragraphDelimiter +
        QCoreApplication::tr(
            "Copyright (C) %0 %1. All rights reserved."
@@ -56,6 +56,14 @@ QString buildAbout(QString paragraphDelimiter)
            "SOFTWARE. "));
 }
 
+/**
+ * @brief Classic "About" message.
+ * The classic message can be shown from a console with classic:
+ * \code
+ *   myApp -v
+ *   myApp --version
+ * \endcode
+ */
 QString about()
 {
     return buildAbout("\n\n");

@@ -25,6 +25,7 @@ const QString STR_APPLICATION_NAME("DownZemAll!");
 const QLatin1String STR_APPLICATION_VERSION(APP_VERSION);
 const QLatin1String STR_APPLICATION_DATE("2019");
 const QString STR_APPLICATION_AUTHOR("Sébastien Vavassori");
+const QString STR_APPLICATION_WEBSITE("https://github.com/setvisible/DownZemAll");
 
 /*
  * Remark: the "Application Organization Name"
@@ -45,5 +46,60 @@ const QString STR_APPLICATION_BUILD =
         .arg(BUILD_MIN, 2, 10, QChar('0'))
         .arg(BUILD_SEC, 2, 10, QChar('0'));
 
+
+/* Compiler Infos */
+const QString STR_COMPILER_WORDSIZE(QString("%0-bit").arg(QSysInfo::WordSize));
+const QString STR_COMPILER_BUILD_ABI = QSysInfo::buildAbi();
+const QString STR_COMPILER_BUILD_CPU = QSysInfo::buildCpuArchitecture();
+
+const QString STR_COMPILER_NAME=
+#if defined(Q_CC_BOR)
+    "Borland/Turbo C++"
+#elif defined(Q_CC_CDS)
+    "Reliant C++"
+#elif defined(Q_CC_COMEAU)
+    "Comeau C++"
+#elif defined(Q_CC_DEC)
+    "DEC C++"
+#elif defined(Q_CC_EDG)
+    "Edison Design Group C++"
+#elif defined(Q_CC_GHS)
+    "Green Hills Optimizing C++ Compilers"
+#elif defined(Q_CC_GNU)
+    "GNU C++"
+#elif defined(Q_CC_HIGHC)
+    "MetaWare High C/C++"
+#elif defined(Q_CC_HPACC)
+    "HP aC++"
+#elif defined(Q_CC_INTEL)
+    "Intel C++ for Linux, Intel C++ for Windows"
+#elif defined(Q_CC_KAI)
+    "KAI C++"
+#elif defined(Q_CC_MIPS)
+    "MIPSpro C++"
+#elif defined(Q_CC_MSVC)
+    "Microsoft Visual C/C++, Intel C++ for Windows"
+#elif defined(Q_CC_OC)
+    "CenterLine C++"
+#elif defined(Q_CC_PGI)
+    "Portland Group C++"
+#elif defined(Q_CC_SUN)
+    "Forte Developer, or Sun Studio C++"
+#elif defined(Q_CC_SYM)
+    "Digital Mars C/C++ (used to be Symantec C++)"
+#elif defined(Q_CC_USLC)
+    "SCO OUDK and UDK"
+#elif defined(Q_CC_WAT)
+    "Watcom C++"
+#else
+    "UNKNOWN"
+#endif
+;
+
+const QString STR_CURRENT_PLATFORM = QSysInfo::prettyProductName();
+const QString STR_CURRENT_VERSION = QString("%0 (kernel: %1)")
+        .arg(QSysInfo::productVersion())
+        .arg(QSysInfo::kernelVersion());
+const QString STR_CURRENT_CPU = QSysInfo::currentCpuArchitecture();
 
 #endif // GLOBALS_H

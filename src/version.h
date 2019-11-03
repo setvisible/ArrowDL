@@ -22,5 +22,8 @@
 #  include "src/config.h"
 #endif
 
+/* Google Gumbo */
+#define GOOGLE_GUMBO_VERSION_STR      "0.10.1"
+
 
 #endif // VERSION_H

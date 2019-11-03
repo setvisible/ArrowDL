@@ -26,6 +26,7 @@
 #include <Core/FileAccessManager>
 #include <Core/Settings>
 #include <Dialogs/AddDownloadDialog>
+#include <Dialogs/CompilerDialog>
 #include <Dialogs/InformationDialog>
 #include <Dialogs/PreferenceDialog>
 #include <Dialogs/WizardDialog>
@@ -200,6 +201,8 @@ void MainWindow::createActions()
     ui->actionAboutQt->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_F1));
     ui->actionAboutQt->setStatusTip(tr("About Qt"));
     connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+
+    connect(ui->actionAboutCompiler, SIGNAL(triggered()), this, SLOT(aboutCompiler()));
     //! [5]
 }
 
@@ -597,6 +600,12 @@ void MainWindow::about()
     msgBox.exec();
 }
 
+void MainWindow::aboutCompiler()
+{
+    CompilerDialog dialog(this);
+    dialog.exec();
+}
+
 /******************************************************************************
  ******************************************************************************/
 void MainWindow::onJobAddedOrRemoved(DownloadRange /*range*/)
@@ -741,6 +750,7 @@ void MainWindow::refreshMenus()
     //! [5] Help
     //ui->actionAbout->setEnabled(hasSelection);
     //ui->actionAboutQt->setEnabled(hasSelection);
+    //ui->actionAboutCompiler->setEnabled(hasSelection);
     //! [5]
 }
 
