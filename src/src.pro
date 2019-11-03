@@ -27,6 +27,18 @@ include($$PWD/../3rd/3rd.pri)
 
 
 #-------------------------------------------------
+# Other
+#-------------------------------------------------
+win32{
+    # Link to system library "version.dll" on Windows
+    # Required by GetFileVersionInfo(), GetFileVersionInfoSize() and VerQueryValue()
+    LIBS += -lVersion
+}else{
+
+}
+
+
+#-------------------------------------------------
 # VERSION
 #-------------------------------------------------
 VERSION_FILENAME = $$PWD/../version

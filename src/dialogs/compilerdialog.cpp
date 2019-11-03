@@ -19,6 +19,18 @@
 
 #include <Globals>
 
+#include <QtCore/QDebug>
+#include <QtCore/QLibrary>
+#include <QtCore/QLibraryInfo>
+#include <QtCore/QString>
+#include <QtNetwork/QSslSocket>
+
+#ifdef Q_OS_WIN
+#  include <windows.h>
+#else /* POSIX */
+// \todo
+#endif
+
 CompilerDialog::CompilerDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::CompilerDialog)
@@ -44,6 +56,34 @@ CompilerDialog::CompilerDialog(QWidget *parent)
 
     ui->QtVersion->setText(QT_VERSION_STR);
     ui->googleGumboVersion->setText(GOOGLE_GUMBO_VERSION_STR);
+
+    if (!QSslSocket::supportsSsl()) {
+        ui->description->setText(QString(
+                                     "This application can't find SSL or a compatible version (SSL %0), "
+                                     "the application will fail to download with secure sockets (HTTPS, FTPS).")
+                                 .arg(STR_COMPILER_WORDSIZE));
+
+        const QString undefined("not found");
+        ui->sslLibraryVersion->setText(undefined);
+        ui->sslLibraryBuildVersion->setText(undefined);
+
+        const QString stylesheet("QLabel { font-weight:bold; color:red; }");
+        ui->description->setStyleSheet(stylesheet);
+        ui->sslLibraryVersion->setStyleSheet(stylesheet);
+        ui->sslLibraryBuildVersion->setStyleSheet(stylesheet);
+
+    } else {
+        ui->description->setText("This application supports SSL.");
+
+        ui->sslLibraryVersion->setText(QSslSocket::sslLibraryVersionString());
+        ui->sslLibraryBuildVersion->setText(QSslSocket::sslLibraryBuildVersionString());
+    }
+
+    try {
+        populateOpenSSL();
+    } catch (...) {
+        qDebug() << Q_FUNC_INFO << "Catch library exception";
+    }
 }
 
 CompilerDialog::~CompilerDialog()
@@ -57,3 +97,88 @@ void CompilerDialog::on_okButton_released()
 {
     QDialog::reject();
 }
+
+
+/******************************************************************************
+ ******************************************************************************/
+void CompilerDialog::populateOpenSSL()
+{
+    QString libSsl;
+    QString libCrypto;
+
+#if defined(Q_OS_WIN32) && !defined(Q_OS_WIN64) // 32-bit only
+    // libSsl = QLatin1String("libssl-1_1");
+    // libCrypto = QLatin1String("libcrypto-1_1");
+    libSsl = QLatin1String("ssleay32");
+    libCrypto = QLatin1String("libeay32");
+
+#elif defined(Q_OS_WIN32) && defined(Q_OS_WIN64) // 32-bit or 64-bit
+    libSsl = QLatin1String("libssl-1_1-x64");
+    libCrypto = QLatin1String("libcrypto-1_1-x64");
+
+#elif defined(Q_OS_UNIX)
+    libSsl = QLatin1String("libssl");
+    libCrypto = QLatin1String("libcrypto");
+
+#else /* POSIX */
+#endif
+
+    ui->libSsl->setText(getLibraryInfo(libSsl));
+    ui->libCrypto->setText(getLibraryInfo(libCrypto));
+}
+
+QString CompilerDialog::getLibraryInfo(const QString &libraryName)
+{
+    QLibrary library(libraryName);
+    QString libraryVersion = getVersionString(library.fileName());
+    library.load();
+    if (library.isLoaded()) {
+        return QString("%0, version %1").arg(library.fileName(), libraryVersion);
+    } else {
+        return QString("not found");
+    }
+}
+
+QString CompilerDialog::getVersionString(QString fName)
+{
+    QString ret;
+#ifdef Q_OS_WIN
+
+    // first of all, GetFileVersionInfoSize
+    DWORD dwHandle;
+    DWORD dwLen = GetFileVersionInfoSize(fName.toStdWString().c_str(), &dwHandle);
+    if (dwLen == 0) {
+        return "";
+    }
+    // GetFileVersionInfo
+    LPVOID lpData = new BYTE[dwLen];
+    if(!GetFileVersionInfo(fName.toStdWString().c_str(), dwHandle, dwLen, lpData)) {
+        delete[] lpData;
+        return "";
+    }
+
+    // VerQueryValue
+    VS_FIXEDFILEINFO *lpBuffer = nullptr;
+    dwLen = sizeof( VS_FIXEDFILEINFO );
+    // UINT uLen;
+    if (VerQueryValue(
+                lpData,
+                QString("\\").toStdWString().c_str(),
+                (LPVOID*)&lpBuffer,
+                (unsigned int*)&dwLen /*&uLen*/) ) {
+        ret = QString::number(( lpBuffer->dwFileVersionMS >> 16 ) & 0xffff ) + "." +
+                QString::number( ( lpBuffer->dwFileVersionMS) & 0xffff ) + "." +
+                QString::number( ( lpBuffer->dwFileVersionLS >> 16 ) & 0xffff ) + "." +
+                QString::number( ( lpBuffer->dwFileVersionLS) & 0xffff );
+    } else {
+        ret = QString("?.?.??");
+    }
+    delete[] lpData;
+
+#else /* POSIX */
+    // \todo
+    ret = QString("?.?.??");
+#endif
+    return ret;
+}
+
