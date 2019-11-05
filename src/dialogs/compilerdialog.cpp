@@ -153,7 +153,7 @@ QString CompilerDialog::getVersionString(QString fName)
     // GetFileVersionInfo
     LPVOID lpData = new BYTE[dwLen];
     if(!GetFileVersionInfo(fName.toStdWString().c_str(), dwHandle, dwLen, lpData)) {
-        delete[] lpData;
+        delete[] reinterpret_cast<BYTE*>(lpData);
         return "";
     }
 
@@ -164,8 +164,8 @@ QString CompilerDialog::getVersionString(QString fName)
     if (VerQueryValue(
                 lpData,
                 QString("\\").toStdWString().c_str(),
-                (LPVOID*)&lpBuffer,
-                (unsigned int*)&dwLen /*&uLen*/) ) {
+                reinterpret_cast<LPVOID*>(&lpBuffer),
+                reinterpret_cast<unsigned int*>(&dwLen /*&uLen*/)) ) {
         ret = QString::number(( lpBuffer->dwFileVersionMS >> 16 ) & 0xffff ) + "." +
                 QString::number( ( lpBuffer->dwFileVersionMS) & 0xffff ) + "." +
                 QString::number( ( lpBuffer->dwFileVersionLS >> 16 ) & 0xffff ) + "." +
@@ -173,7 +173,7 @@ QString CompilerDialog::getVersionString(QString fName)
     } else {
         ret = QString("?.?.??");
     }
-    delete[] lpData;
+    delete[] reinterpret_cast<BYTE*>(lpData);
 
 #else /* POSIX */
     // \todo
