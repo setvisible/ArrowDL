@@ -24,6 +24,10 @@ private slots:
 
 private:
     Ui::CompilerDialog *ui;
+
+    inline void populateOpenSSL();
+    inline QString getLibraryInfo(const QString &libraryName);
+    inline QString getVersionString(QString fName);
 };
 
 #endif // DIALOGS_COMPILER_DIALOG_H
