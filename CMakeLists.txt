@@ -13,6 +13,7 @@ project(DownZemAll)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
+
 ##############################################################################
 ## Versioning
 ##############################################################################
@@ -40,25 +41,36 @@ configure_file( ./src/config.h.cmake ./src/config.h )
 # Rename the executable for DEBUG and RELEASE
 ##############################################################################
 
-set(DownZemAll_NAME "DownZemAll")
-
 # Change the default build type to Release
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release CACHE STRING
         "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE)
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS None Debug Release RelWithDebInfo MinSizeRel)
 endif(NOT CMAKE_BUILD_TYPE)
 
 # to distinguish between debug and release
 set(CMAKE_DEBUG_POSTFIX "d")
 
 
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(RELEASE_MODE 1)
+else()
+    set(RELEASE_MODE 0)
+endif()
+
+
+# Rename application
+if(RELEASE_MODE)
+    set(DownZemAll_NAME "DownZemAll")
+else(RELEASE_MODE)
+    set(DownZemAll_NAME "DownZemAlld")
+endif(RELEASE_MODE)
+
 
 ##############################################################################
 # build options
 ##############################################################################
-#TODO: enable_testing()
-#option(ENABLE_TESTS   "Set to ON to build test applications (default)" OFF)
-option(ENABLE_TESTS   "Set to ON to build test applications (default)" ON)
+option(ENABLE_TESTS "Set to ON to build test applications (default)" ON)
 
 
 ##############################################################################
@@ -69,10 +81,10 @@ option(ENABLE_TESTS   "Set to ON to build test applications (default)" ON)
 if(RELEASE_MODE)
     # Make sure that debugging is disabled in Qt
     add_definitions(-DQT_NO_DEBUG)
-else()
+else(RELEASE_MODE)
     # Make sure that debugging is enabled in Qt
     add_definitions(-DQT_DEBUG)
-endif()
+endif(RELEASE_MODE)
 
 # Ask for Qt deprecated uses to be reported
 add_definitions(-DQT_DEPRECATED_WARNINGS)
@@ -116,6 +128,7 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/3rd/CMakeLists.txt)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(./include/)
 
+
 ##############################################################################
 ### Sources
 ##############################################################################
@@ -130,7 +143,7 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/CMakeLists.txt)
 # Linking the executable
 ##############################################################################
 add_executable(${DownZemAll_NAME}
-    WIN32
+    WIN32           # build a Win32 application, not a console application
     ${MY_FORMS}
     ${MY_SOURCES}
     ${QTSINGLEAPPLICATION_SOURCES}
@@ -183,7 +196,6 @@ if(ENABLE_TESTS)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/resourceitem/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/io/jsonhandler/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/io/texthandler/CMakeLists.txt)
-# TODO include(${CMAKE_CURRENT_SOURCE_DIR}/test/widgets/pathwidget/CMakeLists.txt)
 
     # Copy the dlls to run the tests
     # Or
@@ -217,7 +229,6 @@ if(ENABLE_TESTS)
         tst_resourceitem
         tst_jsonhandler
         tst_texthandler
-# TODO  tst_pathwidget
 
     PROPERTIES ENVIRONMENT  
         # The following line must escape semi-colons ";" with "\;"
@@ -288,14 +299,14 @@ if (MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     )
 
     ## OpenSSL
-    if (CMAKE_SIZEOF_VOID_P EQUAL 4) # 32 bits
+    if (CMAKE_SIZEOF_VOID_P EQUAL 4) # 32-bit
         install(FILES
             ./3rd/openssl/v1.1.1/windows_x86_32bits/libcrypto-1_1.dll
             ./3rd/openssl/v1.1.1/windows_x86_32bits/libssl-1_1.dll
             DESTINATION ${CMAKE_INSTALL_PREFIX}
             )
 
-    elseif(CMAKE_SIZEOF_VOID_P EQUAL 8) # 64 bits
+    elseif(CMAKE_SIZEOF_VOID_P EQUAL 8) # 64-bit
         install(FILES
             ./3rd/openssl/v1.1.1/windows_x86_64bits/libcrypto-1_1-x64.dll
             ./3rd/openssl/v1.1.1/windows_x86_64bits/libssl-1_1-x64.dll
