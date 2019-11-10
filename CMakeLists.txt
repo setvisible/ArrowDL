@@ -6,8 +6,7 @@
 # For conditions of distribution and use, see the disclaimer
 # and license in LICENSE
 
-cmake_minimum_required(VERSION 2.8)
-#cmake_policy(VERSION 2.8)
+cmake_minimum_required(VERSION 3.1.0)
 
 project(DownZemAll)
 
@@ -86,24 +85,23 @@ add_definitions(-DUNICODE)
 ##############################################################################
 ## Qt5
 ##############################################################################
-# https://cmake.org/cmake/help/v3.0/manual/cmake-qt.7.html
-# find_package(Qt5Core    REQUIRED)
-# find_package(Qt5Gui     REQUIRED)
-# find_package(Qt5Network REQUIRED)
-# find_package(Qt5Widgets REQUIRED)
 
-find_package(Qt5 5.1 COMPONENTS Core)
-find_package(Qt5 5.1 COMPONENTS Gui)
-find_package(Qt5 5.1 COMPONENTS Widgets)
-find_package(Qt5 5.1 COMPONENTS Network)
+set(CMAKE_AUTOMOC ON)   # To automatically run MOC when building (Meta Object Compiler)
+set(CMAKE_AUTORCC ON)   # To automatically run RCC when building (Resource Compiler)
+set(CMAKE_AUTOUIC ON)   # To automatically run UIC when building (User Interface Compiler)
+
+if(CMAKE_VERSION VERSION_LESS "3.7.0")
+    set(CMAKE_INCLUDE_CURRENT_DIR ON)
+endif()
+
+find_package(Qt5 COMPONENTS Core REQUIRED)
+find_package(Qt5 COMPONENTS Gui REQUIRED)
+find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Network REQUIRED)
+
 if(ENABLE_TESTS)
-    find_package(Qt5 5.1 COMPONENTS Test)
+    find_package(Qt5 COMPONENTS Test REQUIRED)
 endif(ENABLE_TESTS)
-
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 
 ##############################################################################
@@ -128,33 +126,14 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/src/io/CMakeLists.txt)
 include(${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/CMakeLists.txt)
 
 
-
-##############################################################################
-# Qt -- Run the MOC, resource, etc.
-##############################################################################
-qt5_wrap_cpp(downzemall_HEADERS_MOC    
-    ${MY_HEADERS}
-    ${QTSINGLEAPPLICATION_HEADERS}
-    )
-qt5_wrap_ui(downzemall_FORMS_HEADERS
-    ${MY_FORMS}
-    )
-
-add_library(configwin
-    ${downzemall_HEADERS_MOC}
-    ${downzemall_FORMS_HEADERS}
-    )
-
-qt5_use_modules(configwin Widgets Network)
-
 ##############################################################################
 # Linking the executable
 ##############################################################################
 add_executable(${DownZemAll_NAME}
     WIN32
+    ${MY_FORMS}
     ${MY_SOURCES}
     ${QTSINGLEAPPLICATION_SOURCES}
-    ${configwin}
     ${MY_RESOURCES}
     )
 
@@ -173,7 +152,10 @@ endif()
 
 
 # Qt5
-qt5_use_modules(${DownZemAll_NAME} Core Gui Widgets Network)
+target_link_libraries(${DownZemAll_NAME} Qt5::Core)
+target_link_libraries(${DownZemAll_NAME} Qt5::Gui)
+target_link_libraries(${DownZemAll_NAME} Qt5::Widgets)
+target_link_libraries(${DownZemAll_NAME} Qt5::Network)
 
 ##############################################################################
 # Unit Tests
