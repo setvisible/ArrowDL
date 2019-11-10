@@ -244,12 +244,34 @@ install (
 ## 3rd-party libraries
 if (MSVC OR MSYS OR MINGW) # for detecting Windows compilers
 
+    # ***********************************************
+    # windeployqt is not used here in order         *
+    # to control the most minimalist deployment     *
+    # ***********************************************
+
     ## Qt Libraries
     get_target_property(QtCore_LOCATION Qt5::Core LOCATION)
     get_filename_component(QT_DLL_DIR ${QtCore_LOCATION} PATH)
 
+    # Hack to find libGCC
+    #
+    # Mingw libGCC comes with 3 flavors of exception handling
+    # - DW2     Dwarf-2 Exception Handling      (32-bit only)
+    # - SJLJ    SetJump LongJump                (both 32-bit & 64-bit)
+    # - SEH     Structured Exception Handling   (64-bit)
+    #
+    if (EXISTS ${QT_DLL_DIR}/libgcc_s_dw2-1.dll)
+        set(libgcc "${QT_DLL_DIR}/libgcc_s_dw2-1.dll")
+    else()
+        if (EXISTS ${QT_DLL_DIR}/libgcc_s_seh-1.dll)
+            set(libgcc "${QT_DLL_DIR}/libgcc_s_seh-1.dll")
+        else()
+            message(FATAL_ERROR "Can't find LibGCC in path ${QT_DLL_DIR}")            
+        endif()
+    endif()
+
     install(FILES
-        ${QT_DLL_DIR}/libgcc_s_dw2-1.dll
+        ${libgcc}
         ${QT_DLL_DIR}/libstdc++-6.dll
         ${QT_DLL_DIR}/libwinpthread-1.dll
         ${QT_DLL_DIR}/Qt5Core.dll
