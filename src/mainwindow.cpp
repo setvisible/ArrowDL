@@ -44,6 +44,7 @@
 #include <QtGui/QCloseEvent>
 #include <QtGui/QClipboard>
 #include <QtGui/QDesktopServices>
+#include <QtGui/QScreen>
 #include <QtWidgets/QAbstractButton>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QAction>
@@ -765,7 +766,7 @@ void MainWindow::setWorkingDirectory(const QString &path)
         dir = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
     }
     if (!dir.exists()) {
-        dir = QDir::homePath();
+        dir.setPath(QDir::homePath());
     }
     QDir::setCurrent(dir.absolutePath());
 }
@@ -782,8 +783,8 @@ void MainWindow::readSettings()
         QSize size = settings.value("Size", defaultSize).toSize();
 
         QRect availableGeometry(0, 0, 0, 0);
-        for (int screen = 0; screen < QApplication::desktop()->screenCount(); ++screen) {
-            availableGeometry = availableGeometry.united(QApplication::desktop()->availableGeometry(screen));
+        foreach (auto screen, QApplication::screens()) {
+            availableGeometry = availableGeometry.united(screen->availableGeometry());
         }
 
         if (!availableGeometry.intersects(QRect(position, size))) {
@@ -793,7 +794,7 @@ void MainWindow::readSettings()
         this->move(position);
         this->resize(size);
     }
-    this->setWindowState( (Qt::WindowStates)settings.value("WindowState", 0).toInt() );
+    setWindowState(settings.value("WindowState", 0).value<Qt::WindowStates>());
     setWorkingDirectory(settings.value("WorkingDirectory").toString());
     ui->downloadQueueView->setColumnWidths(settings.value("ColumnWidths").value<QList<int> >());
 
@@ -807,7 +808,7 @@ void MainWindow::writeSettings()
         settings.setValue("Position", this->pos());
         settings.setValue("Size", this->size());
     }
-    settings.setValue("WindowState", (int)this->windowState()); // minimized, maximized, active, fullscreen...
+    settings.setValue("WindowState", static_cast<int>(this->windowState())); // minimized, maximized, active, fullscreen...
     settings.setValue("WorkingDirectory", QDir::currentPath());
     settings.setValue("ColumnWidths", QVariant::fromValue(ui->downloadQueueView->columnWidths()));
 

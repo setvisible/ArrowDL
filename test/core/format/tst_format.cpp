@@ -139,11 +139,6 @@ void tst_Format::currentSpeedToString_data()
     QTest::newRow("INFINITY") << qInf() << "-";
     QTest::newRow("NaN") << qQNaN() << "-";
     QTest::newRow("NaN") << qSNaN() << "-";
-
-#ifdef Q_OS_WIN
-    QTest::newRow("INFINITY") << INFINITY << "-";
-    QTest::newRow("NaN") << NAN << "-";
-#endif
 }
 
 void tst_Format::currentSpeedToString()
