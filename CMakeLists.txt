@@ -6,13 +6,13 @@
 # For conditions of distribution and use, see the disclaimer
 # and license in LICENSE
 
-cmake_minimum_required(VERSION 2.8)
-#cmake_policy(VERSION 2.8)
+cmake_minimum_required(VERSION 3.1.0)
 
 project(DownZemAll)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
 
 ##############################################################################
 ## Versioning
@@ -41,25 +41,36 @@ configure_file( ./src/config.h.cmake ./src/config.h )
 # Rename the executable for DEBUG and RELEASE
 ##############################################################################
 
-set(DownZemAll_NAME "DownZemAll")
-
 # Change the default build type to Release
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release CACHE STRING
         "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE)
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS None Debug Release RelWithDebInfo MinSizeRel)
 endif(NOT CMAKE_BUILD_TYPE)
 
 # to distinguish between debug and release
 set(CMAKE_DEBUG_POSTFIX "d")
 
 
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(RELEASE_MODE 1)
+else()
+    set(RELEASE_MODE 0)
+endif()
+
+
+# Rename application
+if(RELEASE_MODE)
+    set(DownZemAll_NAME "DownZemAll")
+else(RELEASE_MODE)
+    set(DownZemAll_NAME "DownZemAlld")
+endif(RELEASE_MODE)
+
 
 ##############################################################################
 # build options
 ##############################################################################
-#TODO: enable_testing()
-#option(ENABLE_TESTS   "Set to ON to build test applications (default)" OFF)
-option(ENABLE_TESTS   "Set to ON to build test applications (default)" ON)
+option(ENABLE_TESTS "Set to ON to build test applications (default)" ON)
 
 
 ##############################################################################
@@ -70,10 +81,10 @@ option(ENABLE_TESTS   "Set to ON to build test applications (default)" ON)
 if(RELEASE_MODE)
     # Make sure that debugging is disabled in Qt
     add_definitions(-DQT_NO_DEBUG)
-else()
+else(RELEASE_MODE)
     # Make sure that debugging is enabled in Qt
     add_definitions(-DQT_DEBUG)
-endif()
+endif(RELEASE_MODE)
 
 # Ask for Qt deprecated uses to be reported
 add_definitions(-DQT_DEPRECATED_WARNINGS)
@@ -86,24 +97,23 @@ add_definitions(-DUNICODE)
 ##############################################################################
 ## Qt5
 ##############################################################################
-# https://cmake.org/cmake/help/v3.0/manual/cmake-qt.7.html
-# find_package(Qt5Core    REQUIRED)
-# find_package(Qt5Gui     REQUIRED)
-# find_package(Qt5Network REQUIRED)
-# find_package(Qt5Widgets REQUIRED)
 
-find_package(Qt5 5.1 COMPONENTS Core)
-find_package(Qt5 5.1 COMPONENTS Gui)
-find_package(Qt5 5.1 COMPONENTS Widgets)
-find_package(Qt5 5.1 COMPONENTS Network)
+set(CMAKE_AUTOMOC ON)   # To automatically run MOC when building (Meta Object Compiler)
+set(CMAKE_AUTORCC ON)   # To automatically run RCC when building (Resource Compiler)
+set(CMAKE_AUTOUIC ON)   # To automatically run UIC when building (User Interface Compiler)
+
+if(CMAKE_VERSION VERSION_LESS "3.7.0")
+    set(CMAKE_INCLUDE_CURRENT_DIR ON)
+endif()
+
+find_package(Qt5 COMPONENTS Core REQUIRED)
+find_package(Qt5 COMPONENTS Gui REQUIRED)
+find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Network REQUIRED)
+
 if(ENABLE_TESTS)
-    find_package(Qt5 5.1 COMPONENTS Test)
+    find_package(Qt5 COMPONENTS Test REQUIRED)
 endif(ENABLE_TESTS)
-
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 
 ##############################################################################
@@ -118,6 +128,7 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/3rd/CMakeLists.txt)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(./include/)
 
+
 ##############################################################################
 ### Sources
 ##############################################################################
@@ -128,33 +139,14 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/src/io/CMakeLists.txt)
 include(${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/CMakeLists.txt)
 
 
-
-##############################################################################
-# Qt -- Run the MOC, resource, etc.
-##############################################################################
-qt5_wrap_cpp(downzemall_HEADERS_MOC    
-    ${MY_HEADERS}
-    ${QTSINGLEAPPLICATION_HEADERS}
-    )
-qt5_wrap_ui(downzemall_FORMS_HEADERS
-    ${MY_FORMS}
-    )
-
-add_library(configwin
-    ${downzemall_HEADERS_MOC}
-    ${downzemall_FORMS_HEADERS}
-    )
-
-qt5_use_modules(configwin Widgets Network)
-
 ##############################################################################
 # Linking the executable
 ##############################################################################
 add_executable(${DownZemAll_NAME}
-    WIN32
+    WIN32           # build a Win32 application, not a console application
+    ${MY_FORMS}
     ${MY_SOURCES}
     ${QTSINGLEAPPLICATION_SOURCES}
-    ${configwin}
     ${MY_RESOURCES}
     )
 
@@ -163,8 +155,20 @@ target_link_libraries(${DownZemAll_NAME}
     gumbo_static_lib
     )
 
+# Windows only: Version.dll
+if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
+    # might be "C:/Windows/System32/version.dll" or "C:/Windows/SysWOW64/version.dll"
+    target_link_libraries(${DownZemAll_NAME}
+        version.dll
+        )
+endif()
+
+
 # Qt5
-qt5_use_modules(${DownZemAll_NAME} Core Gui Widgets Network)
+target_link_libraries(${DownZemAll_NAME} Qt5::Core)
+target_link_libraries(${DownZemAll_NAME} Qt5::Gui)
+target_link_libraries(${DownZemAll_NAME} Qt5::Widgets)
+target_link_libraries(${DownZemAll_NAME} Qt5::Network)
 
 ##############################################################################
 # Unit Tests
@@ -192,7 +196,6 @@ if(ENABLE_TESTS)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/resourceitem/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/io/jsonhandler/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/io/texthandler/CMakeLists.txt)
-# TODO include(${CMAKE_CURRENT_SOURCE_DIR}/test/widgets/pathwidget/CMakeLists.txt)
 
     # Copy the dlls to run the tests
     # Or
@@ -226,7 +229,6 @@ if(ENABLE_TESTS)
         tst_resourceitem
         tst_jsonhandler
         tst_texthandler
-# TODO  tst_pathwidget
 
     PROPERTIES ENVIRONMENT  
         # The following line must escape semi-colons ";" with "\;"
@@ -253,12 +255,34 @@ install (
 ## 3rd-party libraries
 if (MSVC OR MSYS OR MINGW) # for detecting Windows compilers
 
+    # ***********************************************
+    # windeployqt is not used here in order         *
+    # to control the most minimalist deployment     *
+    # ***********************************************
+
     ## Qt Libraries
     get_target_property(QtCore_LOCATION Qt5::Core LOCATION)
     get_filename_component(QT_DLL_DIR ${QtCore_LOCATION} PATH)
 
+    # Hack to find libGCC
+    #
+    # Mingw libGCC comes with 3 flavors of exception handling
+    # - DW2     Dwarf-2 Exception Handling      (32-bit only)
+    # - SJLJ    SetJump LongJump                (both 32-bit & 64-bit)
+    # - SEH     Structured Exception Handling   (64-bit)
+    #
+    if (EXISTS ${QT_DLL_DIR}/libgcc_s_dw2-1.dll)
+        set(libgcc "${QT_DLL_DIR}/libgcc_s_dw2-1.dll")
+    else()
+        if (EXISTS ${QT_DLL_DIR}/libgcc_s_seh-1.dll)
+            set(libgcc "${QT_DLL_DIR}/libgcc_s_seh-1.dll")
+        else()
+            message(FATAL_ERROR "Can't find LibGCC in path ${QT_DLL_DIR}")            
+        endif()
+    endif()
+
     install(FILES
-        ${QT_DLL_DIR}/libgcc_s_dw2-1.dll
+        ${libgcc}
         ${QT_DLL_DIR}/libstdc++-6.dll
         ${QT_DLL_DIR}/libwinpthread-1.dll
         ${QT_DLL_DIR}/Qt5Core.dll
@@ -275,11 +299,20 @@ if (MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     )
 
     ## OpenSSL
-    install(FILES
-        ./3rd/openssl/v1.0.2/windows_x86_32bits/libeay32.dll
-        ./3rd/openssl/v1.0.2/windows_x86_32bits/ssleay32.dll
-        DESTINATION ${CMAKE_INSTALL_PREFIX}
-    )
+    if (CMAKE_SIZEOF_VOID_P EQUAL 4) # 32-bit
+        install(FILES
+            ./3rd/openssl/v1.1.1/windows_x86_32bits/libcrypto-1_1.dll
+            ./3rd/openssl/v1.1.1/windows_x86_32bits/libssl-1_1.dll
+            DESTINATION ${CMAKE_INSTALL_PREFIX}
+            )
+
+    elseif(CMAKE_SIZEOF_VOID_P EQUAL 8) # 64-bit
+        install(FILES
+            ./3rd/openssl/v1.1.1/windows_x86_64bits/libcrypto-1_1-x64.dll
+            ./3rd/openssl/v1.1.1/windows_x86_64bits/libssl-1_1-x64.dll
+            DESTINATION ${CMAKE_INSTALL_PREFIX}
+            )
+    endif()
 
 endif(MSVC OR MSYS OR MINGW)
 

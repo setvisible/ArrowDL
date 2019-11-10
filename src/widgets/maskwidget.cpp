@@ -25,7 +25,7 @@ MaskWidget::MaskWidget(QWidget *parent) : QWidget(parent)
 {
     ui->setupUi(this);
 
-    ui->comboBox->setColorizeErrorWhen( [=](QString t) { return t.isEmpty(); } );
+    ui->comboBox->setColorizeErrorWhen( [](QString t) { return t.isEmpty(); } );
 
     connect(ui->comboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
     connect(ui->tipButton, SIGNAL(released()), this, SLOT(onTipButtonReleased()));

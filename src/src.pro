@@ -27,6 +27,18 @@ include($$PWD/../3rd/3rd.pri)
 
 
 #-------------------------------------------------
+# Other
+#-------------------------------------------------
+win32{
+    # Link to system library "version.dll" on Windows
+    # Required by GetFileVersionInfo(), GetFileVersionInfoSize() and VerQueryValue()
+    LIBS += -lVersion
+}else{
+
+}
+
+
+#-------------------------------------------------
 # VERSION
 #-------------------------------------------------
 VERSION_FILENAME = $$PWD/../version
@@ -148,8 +160,18 @@ win32{
 
 # install OpenSSL (for Windows only)
 win32{
-    libs_openssl_to_copy.files += $$PWD/../3rd/openssl/v1.0.2/windows_x86_32bits/libeay32.dll
-    libs_openssl_to_copy.files += $$PWD/../3rd/openssl/v1.0.2/windows_x86_32bits/ssleay32.dll
+    contains(QT_ARCH, i386) {
+        # message("32-bit")
+        #libs_openssl_to_copy.files += $$PWD/../3rd/openssl/v1.1.1/windows_x86_32bits/libcrypto-1_1.dll
+        #libs_openssl_to_copy.files += $$PWD/../3rd/openssl/v1.1.1/windows_x86_32bits/libssl-1_1.dll
+        libs_openssl_to_copy.files += $$PWD/../3rd/openssl/v1.0.2/windows_x86_32bits/libeay32.dll
+        libs_openssl_to_copy.files += $$PWD/../3rd/openssl/v1.0.2/windows_x86_32bits/ssleay32.dll
+
+    } else {
+        # message("64-bit")
+        libs_openssl_to_copy.files += $$PWD/../3rd/openssl/v1.1.1/windows_x86_64bits/libcrypto-1_1-x64.dll
+        libs_openssl_to_copy.files += $$PWD/../3rd/openssl/v1.1.1/windows_x86_64bits/libssl-1_1-x64.dll
+    }
     libs_openssl_to_copy.path = $${DESTDIR}
     INSTALLS += libs_openssl_to_copy
 }
