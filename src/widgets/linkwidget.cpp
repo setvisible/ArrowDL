@@ -174,9 +174,28 @@ LinkWidget::~LinkWidget()
 
 /******************************************************************************
  ******************************************************************************/
+static inline QKeySequence toKeySequence(QKeyEvent *event)
+{
+    QString modifier;
+    QString key;
+
+    if (event->modifiers() & Qt::ShiftModifier)
+        modifier += "Shift+";
+    if (event->modifiers() & Qt::ControlModifier)
+        modifier += "Ctrl+";
+    if (event->modifiers() & Qt::AltModifier)
+        modifier += "Alt+";
+    if (event->modifiers() & Qt::MetaModifier)
+        modifier += "Meta+";
+
+    key = QKeySequence(event->key()).toString();
+
+    return QKeySequence(modifier + key);
+}
+
 void LinkWidget::keyPressEvent(QKeyEvent *event)
 {
-    QKeySequence sequence(event->key() | event->modifiers());
+    QKeySequence sequence(toKeySequence(event));
     if (sequence == QKeySequence(QKeySequence::SelectAll)) {
         selectAll();
 
