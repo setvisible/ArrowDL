@@ -18,13 +18,8 @@
 
 #include "vector.h"
 
-//#include "gumbo.h"
-//#include "parser.h"
-
+#include <QtCore/QDebug>
 #include <QtTest/QtTest>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
 
 
 class tst_Vector : public GumboTest

@@ -21,10 +21,8 @@
 #include "parser.h"
 #include "vector.h"
 
+#include <QtCore/QDebug>
 #include <QtTest/QtTest>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
 
 class tst_Attribute : public GumboTest
 {

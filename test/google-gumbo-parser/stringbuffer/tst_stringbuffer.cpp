@@ -19,10 +19,8 @@
 #include "string_buffer.h"
 #include "util.h"
 
+#include <QtCore/QDebug>
 #include <QtTest/QtTest>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
 
 #define INIT_GUMBO_STRING(varname, literal) \
     GumboStringPiece varname = {literal, sizeof(literal) - 1}

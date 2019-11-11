@@ -18,10 +18,8 @@
 
 #include "gumbo.h"
 
+#include <QtCore/QDebug>
 #include <QtTest/QtTest>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
 
 class tst_Parser : public GumboTest
 {

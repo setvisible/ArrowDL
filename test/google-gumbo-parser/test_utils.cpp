@@ -19,10 +19,8 @@
 #include "error.h"
 #include "util.h"
 
+#include <QtCore/QDebug>
 #include <QtTest/QtTest>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
 
 int GetChildCount(GumboNode* node) {
     if (node->type == GUMBO_NODE_DOCUMENT) {

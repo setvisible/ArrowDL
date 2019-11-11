@@ -25,15 +25,14 @@
 #include <Core/ResourceModel>
 #include <Core/Settings>
 
+#include <QtCore/QDebug>
 #include <QtCore/QList>
 #include <QtCore/QUrl>
 #include <QtCore/QSettings>
 #include <QtGui/QCloseEvent>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QMessageBox>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
+
 
 static QList<IDownloadItem*> createItems( QList<ResourceItem*> resources, DownloadManager *downloadManager)
 {

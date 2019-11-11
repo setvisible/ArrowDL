@@ -183,12 +183,12 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
         )
 endif()
 
-
 # Qt5
 target_link_libraries(${DownZemAll_NAME} Qt5::Core)
 target_link_libraries(${DownZemAll_NAME} Qt5::Gui)
 target_link_libraries(${DownZemAll_NAME} Qt5::Widgets)
 target_link_libraries(${DownZemAll_NAME} Qt5::Network)
+
 
 ##############################################################################
 # Unit Tests
@@ -250,10 +250,10 @@ if(ENABLE_TESTS)
         tst_jsonhandler
         tst_texthandler
 
-    PROPERTIES ENVIRONMENT  
+        PROPERTIES ENVIRONMENT
         # The following line must escape semi-colons ";" with "\;"
         "PATH=%PATH%\;${MY_QT_ENVIRONMENT_PATH}/bin\;${MY_QT_ENVIRONMENT_PATH}/plugins"
-    )
+        )
 
 
 endif(ENABLE_TESTS)
@@ -298,7 +298,7 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
             if (EXISTS ${QT_DLL_DIR}/libgcc_s_seh-1.dll)
                 set(libgcc "${QT_DLL_DIR}/libgcc_s_seh-1.dll")
             else()
-                message(FATAL_ERROR "Can't find LibGCC in path ${QT_DLL_DIR}")            
+                message(FATAL_ERROR "Can't find LibGCC in path ${QT_DLL_DIR}")
             endif()
         endif()
 
@@ -311,7 +311,7 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
             ${QT_DLL_DIR}/Qt5Widgets.dll
             ${QT_DLL_DIR}/Qt5Network.dll
             DESTINATION ${CMAKE_INSTALL_PREFIX}
-        )
+            )
 
     else() # MSVC
         install(FILES
@@ -320,7 +320,7 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
             ${QT_DLL_DIR}/Qt5Widgets.dll
             ${QT_DLL_DIR}/Qt5Network.dll
             DESTINATION ${CMAKE_INSTALL_PREFIX}
-        )
+            )
 
     endif()
 
@@ -328,7 +328,7 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     install(FILES
         ${QT_DLL_DIR}/../plugins/platforms/qwindows.dll
         DESTINATION ${CMAKE_INSTALL_PREFIX}/platforms
-    )
+        )
 
     ## OpenSSL
     if (CMAKE_SIZEOF_VOID_P EQUAL 4) # 32-bit
@@ -353,6 +353,6 @@ endif(MSVC OR MSYS OR MINGW)
 # Deploying executable
 ##############################################################################
 install(TARGETS ${DownZemAll_NAME}
-        RUNTIME
-        DESTINATION ${CMAKE_INSTALL_PREFIX}
+    RUNTIME
+    DESTINATION ${CMAKE_INSTALL_PREFIX}
     )
