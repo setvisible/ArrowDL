@@ -50,7 +50,7 @@ AutoCloseDialog::AutoCloseDialog(QFrame *content, QWidget *parent) : QDialog(par
     setGeometry(rect);
 }
 
-void AutoCloseDialog::leaveEvent(QEvent */*event*/)
+void AutoCloseDialog::leaveEvent(QEvent * /*event*/)
 {
     this->close();
 }

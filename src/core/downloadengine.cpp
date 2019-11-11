@@ -53,13 +53,13 @@ int DownloadEngine::downloadingCount() const
     return count;
 }
 
-void DownloadEngine::startNext(IDownloadItem */*item*/)
+void DownloadEngine::startNext(IDownloadItem * /*item*/)
 {
     if (downloadingCount() < m_maxSimultaneousDownloads) {
         foreach (auto item, m_items) {
             if (item->state() == IDownloadItem::Idle) {
                 item->resume();
-                startNext(0);
+                startNext(nullptr);
                 break;
             }
         }
@@ -112,7 +112,7 @@ void DownloadEngine::append(QList<IDownloadItem*> items, bool started)
     emit jobAppended(items);
 
     if (started) {
-        startNext(0);
+        startNext(nullptr);
     }
 }
 
@@ -390,6 +390,6 @@ IDownloadItem* DownloadEngine::createItem(const QUrl &/*url*/)
  */
 void DownloadEngine::changeLocalFileName(IDownloadItem *item, const QString &newName)
 {
-    Q_UNUSED(item);
-    Q_UNUSED(newName);
+    Q_UNUSED(item)
+    Q_UNUSED(newName)
 }

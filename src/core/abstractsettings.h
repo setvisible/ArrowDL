@@ -30,7 +30,7 @@ class AbstractSettings : public QObject
 {
     Q_OBJECT
     enum KeyType { BOOL, INTEGER, STRING };
-    class SettingsItem;
+    struct SettingsItem;
 
 public:
     explicit AbstractSettings(QObject *parent = Q_NULLPTR);

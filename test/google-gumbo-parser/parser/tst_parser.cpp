@@ -96,8 +96,6 @@ private slots:
     void FragmentWithNamespace();
 
 private:
-    MallocStats malloc_stats_;
-    GumboOptions options_;
     GumboOutput* output_;
     GumboNode* root_;
 
@@ -111,8 +109,8 @@ private:
 void tst_Parser::init()
 {
     options_ = kGumboDefaultOptions;
-    output_ = NULL;
-    root_ = NULL;
+    output_ = nullptr;
+    root_ = nullptr;
     InitLeakDetection(&options_, &malloc_stats_);
 }
 
@@ -638,8 +636,8 @@ void tst_Parser::CommentInVerbatimMode()
     GumboNode* html = GetChild(root_, 0);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, html->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HTML, GetTag(html));
-    /*EXPECT_EQ*/ QVERIFY(GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLIED |
-                          GUMBO_INSERTION_IMPLICIT_END_TAG == html->parse_flags);
+    /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLIED |
+                          GUMBO_INSERTION_IMPLICIT_END_TAG) == html->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(3, GetChildCount(html));
 
     GumboNode* body = GetChild(html, 1);
@@ -1417,15 +1415,15 @@ void tst_Parser::NestedRawtextTags()
     GumboNode* html = GetChild(root_, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, html->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HTML, GetTag(html));
-    /*EXPECT_EQ*/ QVERIFY(GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
-                          GUMBO_INSERTION_IMPLIED == html->parse_flags);
+    /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
+                          GUMBO_INSERTION_IMPLIED) == html->parse_flags);
     /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(html));
 
     GumboNode* head = GetChild(html, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, head->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HEAD, GetTag(head));
-    /*EXPECT_EQ*/ QVERIFY(GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
-                          GUMBO_INSERTION_IMPLIED == head->parse_flags);
+    /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
+                          GUMBO_INSERTION_IMPLIED) == head->parse_flags);
     /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(head));
 
     GumboNode* noscript = GetChild(head, 0);
@@ -1516,15 +1514,15 @@ void tst_Parser::AdoptionAgency1()
 
     GumboNode* html = GetChild(root_, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, html->type);
-    /*EXPECT_EQ*/ QVERIFY(GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
-                          GUMBO_INSERTION_IMPLIED == html->parse_flags);
+    /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
+                          GUMBO_INSERTION_IMPLIED) == html->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HTML, html->v.element.tag);
     /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(html));
 
     GumboNode* body = GetChild(html, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, body->type);
-    /*EXPECT_EQ*/ QVERIFY(GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
-                          GUMBO_INSERTION_IMPLIED ==body->parse_flags);
+    /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
+                          GUMBO_INSERTION_IMPLIED) == body->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_BODY, body->v.element.tag);
     /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
 
@@ -1563,9 +1561,8 @@ void tst_Parser::AdoptionAgency1()
 
     GumboNode* i2 = GetChild(p, 2);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, i2->type);
-    /*EXPECT_EQ*/ QVERIFY(GUMBO_INSERTION_BY_PARSER |
-                          GUMBO_INSERTION_RECONSTRUCTED_FORMATTING_ELEMENT
-                          == i2->parse_flags);
+    /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_BY_PARSER |
+                           GUMBO_INSERTION_RECONSTRUCTED_FORMATTING_ELEMENT) == i2->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_I, i2->v.element.tag);
     /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(i2));
 
@@ -1588,15 +1585,15 @@ void tst_Parser::AdoptionAgency2()
 
     GumboNode* html = GetChild(root_, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, html->type);
-    /*EXPECT_EQ*/ QVERIFY(GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
-                          GUMBO_INSERTION_IMPLIED == html->parse_flags);
+    /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
+                          GUMBO_INSERTION_IMPLIED) == html->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HTML, html->v.element.tag);
     /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(html));
 
     GumboNode* body = GetChild(html, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, body->type);
-    /*EXPECT_EQ*/ QVERIFY(GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
-                          GUMBO_INSERTION_IMPLIED == body->parse_flags);
+    /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
+                          GUMBO_INSERTION_IMPLIED) == body->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_BODY, body->v.element.tag);
     /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(body));
 
@@ -1619,8 +1616,8 @@ void tst_Parser::AdoptionAgency2()
 
     GumboNode* b2 = GetChild(p, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, b2->type);
-    /*EXPECT_EQ*/ QVERIFY(GUMBO_INSERTION_ADOPTION_AGENCY_CLONED |
-                          GUMBO_INSERTION_BY_PARSER == b2->parse_flags);
+    /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_ADOPTION_AGENCY_CLONED |
+                          GUMBO_INSERTION_BY_PARSER) == b2->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_B, b2->v.element.tag);
     /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(b2));
 
@@ -1761,8 +1758,8 @@ void tst_Parser::FormattingTagsInHeading()
     GumboNode* b2 = GetChild(body, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, b2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_B, GetTag(b2));
-    /*EXPECT_EQ*/ QVERIFY(GUMBO_INSERTION_IMPLICIT_END_TAG | GUMBO_INSERTION_BY_PARSER |
-                          GUMBO_INSERTION_RECONSTRUCTED_FORMATTING_ELEMENT == b2->parse_flags);
+    /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_IMPLICIT_END_TAG | GUMBO_INSERTION_BY_PARSER |
+                          GUMBO_INSERTION_RECONSTRUCTED_FORMATTING_ELEMENT) == b2->parse_flags);
     /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(b2));
 
     GumboNode* text3 = GetChild(b2, 0);
