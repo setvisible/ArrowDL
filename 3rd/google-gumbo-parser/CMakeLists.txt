@@ -1,5 +1,9 @@
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rd/google-gumbo-parser/0.10.1/src/)
 
+if(MSVC)
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rd/google-gumbo-parser/0.10.1/visualc/include/)
+endif()
+
 set(GUMBO_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/3rd/google-gumbo-parser/0.10.1/src/attribute.c
     ${CMAKE_CURRENT_SOURCE_DIR}/3rd/google-gumbo-parser/0.10.1/src/char_ref.c

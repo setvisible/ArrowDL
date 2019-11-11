@@ -23,8 +23,6 @@
 #  include <QtCore/QDebug>
 #endif
 
-extern const char* kGumboTagNames[];
-
 class tst_Tokenizer : public GumboTest
 {
     Q_OBJECT
@@ -106,7 +104,7 @@ void tst_Tokenizer::cleanup()
 void tst_Tokenizer::TagEnumIncludesAllTags()
 {
     /*EXPECT_EQ*/ QVERIFY(150 == GUMBO_TAG_UNKNOWN);
-    /*EXPECT_STREQ*/ QCOMPARE("", kGumboTagNames[GUMBO_TAG_UNKNOWN]);
+    /*EXPECT_STREQ*/ QCOMPARE("", gumbo_normalized_tagname(GUMBO_TAG_UNKNOWN));
 }
 
 void tst_Tokenizer::PartialTag()
