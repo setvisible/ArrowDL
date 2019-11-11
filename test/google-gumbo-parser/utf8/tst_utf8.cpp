@@ -17,21 +17,13 @@
 #include "../test_utils.h"
 
 #include "utf8.h"
-//#include "gumbo.h"
-//#include "parser.h"
-//#include "vector.h"
 
 #include "error.h"
 #include "gumbo.h"
 #include "parser.h"
 
-//#include <string.h>
-
+#include <QtCore/QDebug>
 #include <QtTest/QtTest>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
-
 
 class tst_Utf8 : public GumboTest
 {

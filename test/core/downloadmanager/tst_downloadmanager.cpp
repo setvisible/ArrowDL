@@ -19,16 +19,13 @@
 #include <Core/Mask>
 #include <Core/ResourceItem>
 
+#include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QThread>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QTemporaryDir>
-
 #include <QtTest/QSignalSpy>
 #include <QtTest/QtTest>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
 
 class tst_DownloadManager : public QObject
 {

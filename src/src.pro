@@ -12,8 +12,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
 
-QMAKE_CFLAGS += -std=c99
-QMAKE_CXXFLAGS += -std=c++11
+gcc|clang{
+    QMAKE_CFLAGS += -std=c99
+    QMAKE_CXXFLAGS += -std=c++11
+}
 
 lessThan(QT_VERSION, 5.0) {
     warning("prefere to build it with Qt 5.0")
@@ -86,7 +88,6 @@ FORMS += \
 # RESOURCES
 #-------------------------------------------------
 RESOURCES += $$PWD/resources.qrc
-#RESOURCES += $$PWD/examples/examples.qrc
 
 win32|unix {
     RC_FILE += $$PWD/resources_win.rc

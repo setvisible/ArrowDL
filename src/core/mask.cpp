@@ -16,11 +16,10 @@
 
 #include "mask.h"
 
+#include <QtCore/QDebug>
 #include <QtCore/QUrl>
 #include <QtCore/QFileInfo>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
+
 
 static const QString NAME          = "*name*";
 static const QString EXT           = "*ext*";

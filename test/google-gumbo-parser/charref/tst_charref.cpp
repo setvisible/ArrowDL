@@ -19,10 +19,8 @@
 #include "char_ref.h"
 #include "utf8.h"
 
+#include <QtCore/QDebug>
 #include <QtTest/QtTest>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
 
 class tst_CharRef : public GumboTest
 {
