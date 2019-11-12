@@ -253,9 +253,17 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     else() # MSVC
 
         if(USE_QT_WEBENGINE)
+            # https://doc.qt.io/qt-5/qtwebengine-deploying.html
             install(FILES
+                # Deploying Paths Config File
+                ./3rd/qtwebengine/qt.conf
+                DESTINATION ${CMAKE_INSTALL_PREFIX}
+                )
+            install(FILES
+                # Deploying Libraries
                 ${QT_DLL_DIR}/Qt5WebEngineCore.dll
                 ${QT_DLL_DIR}/Qt5WebEngineWidgets.dll
+                # Also necessary:
                 ${QT_DLL_DIR}/Qt5Positioning.dll
                 ${QT_DLL_DIR}/Qt5PrintSupport.dll
                 ${QT_DLL_DIR}/Qt5Qml.dll
@@ -263,6 +271,26 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
                 ${QT_DLL_DIR}/Qt5QuickWidgets.dll
                 ${QT_DLL_DIR}/Qt5WebChannel.dll
                 DESTINATION ${CMAKE_INSTALL_PREFIX}
+                )
+            install(FILES
+                # Deploying QML Imports
+                # Deploying Qt WebEngine Processes
+                ${QT_DLL_DIR}/QtWebEngineProcess.exe
+                DESTINATION ${CMAKE_INSTALL_PREFIX}
+                )
+            install(FILES
+                # Deploying Resources
+                ${QT_DLL_DIR}/../resources/icudtl.dat
+                ${QT_DLL_DIR}/../resources/qtwebengine_devtools_resources.pak
+                ${QT_DLL_DIR}/../resources/qtwebengine_resources.pak
+                ${QT_DLL_DIR}/../resources/qtwebengine_resources_100p.pak
+                ${QT_DLL_DIR}/../resources/qtwebengine_resources_200p.pak
+                DESTINATION ${CMAKE_INSTALL_PREFIX}/resources
+                )
+            install(FILES
+                # Deploying Translations
+                ${QT_DLL_DIR}/../translations/qtwebengine_locales/en-US.pak
+                DESTINATION ${CMAKE_INSTALL_PREFIX}/translations/qtwebengine_locales
                 )
         endif(USE_QT_WEBENGINE)
 

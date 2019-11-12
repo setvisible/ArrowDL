@@ -216,7 +216,7 @@ INSTALLS += translation_files
 
 
 # install Qt binaries (for Windows only)
-# This is a hack for 'windeployqt'
+# This is a manual install that is similar to 'windeployqt' but more minimalist
 win32{
     CONFIG(debug,debug|release){
         platform_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/platforms/qminimald.dll
