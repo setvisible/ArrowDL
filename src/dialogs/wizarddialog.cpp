@@ -27,9 +27,13 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QList>
+#include <QtCore/QtMath>
 #include <QtCore/QUrl>
 #include <QtCore/QSettings>
 #include <QtGui/QCloseEvent>
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkRequest>
+#include <QtNetwork/QNetworkReply>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QMessageBox>
 
@@ -71,8 +75,6 @@ WizardDialog::WizardDialog(const QUrl &url, DownloadManager *downloadManager,
     connect(ui->filterWidget, SIGNAL(regexChanged(QRegExp)), m_model, SLOT(select(QRegExp)));
 
     connect(m_model, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
-
-    connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onFinished(QNetworkReply*)));
 
     refreshFilters();
 
@@ -128,27 +130,81 @@ void WizardDialog::loadUrl(const QUrl &url)
                              tr("Error: The url is not valid:\n\n%0").arg(url.toString()));
     } else {
         m_url = url;
-        m_networkAccessManager->get(QNetworkRequest(m_url));
+        QNetworkReply *reply = m_networkAccessManager->get(QNetworkRequest(m_url));
+
+        connect(reply, SIGNAL(downloadProgress(qint64,qint64)),
+                this, SLOT(onDownloadProgress(qint64,qint64)));
+        connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
+
+        setProgressInfo(0, tr("Connecting..."));
     }
 }
 
-void WizardDialog::onFinished(QNetworkReply *reply)
+void WizardDialog::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
-    QByteArray downloadedData = reply->readAll();
-    reply->deleteLater();
+    /* Between 1% and 90% */
+    int percent = 1;
+    if (bytesTotal > 0) {
+        percent = qMin(qFloor(90.0 * bytesReceived / bytesTotal), 90);
+    }
+    setProgressInfo(percent, tr("Downloading..."));
+}
 
-    m_model->linkModel()->clear();
-    m_model->contentModel()->clear();
+void WizardDialog::onFinished()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
+    if (reply && reply->error() == QNetworkReply::NoError) {
 
-    HtmlParser htmlParser;
-    htmlParser.parse(downloadedData, m_url, m_model);
+        setProgressInfo(90, tr("Collecting links..."));
 
-    // Force update
-    m_model->setDestination(ui->pathWidget->currentPath());
-    m_model->setMask(ui->maskWidget->currentMask());
-    m_model->select(ui->filterWidget->regex());
+        QByteArray downloadedData = reply->readAll();
+        reply->deleteLater();
 
-    onSelectionChanged();
+        m_model->linkModel()->clear();
+        m_model->contentModel()->clear();
+
+        HtmlParser htmlParser;
+        htmlParser.parse(downloadedData, m_url, m_model);
+
+        setProgressInfo(99, tr("Finished"));
+
+        // Force update
+        m_model->setDestination(ui->pathWidget->currentPath());
+        m_model->setMask(ui->maskWidget->currentMask());
+        m_model->select(ui->filterWidget->regex());
+
+        onSelectionChanged();
+
+        setProgressInfo(100);
+
+    } else {
+        const QString message =
+                tr("The wizard can't connect to URL:\n\n"
+                   "%0\n\n"
+                   "%1")
+                .arg(m_url.toString())
+                .arg(reply->errorString());
+        setProgressInfo(0, message);
+    }
+}
+
+void WizardDialog::setProgressInfo(int percent, const QString &text)
+{
+    if (percent == 0) {
+        ui->stackedWidget->setCurrentIndex(1);
+        ui->progressBar->setValue(0);
+        ui->progressBar->setVisible(false);
+        ui->progressLabel->setText(text);
+
+    } else if (percent > 0 && percent < 100) {
+        ui->stackedWidget->setCurrentIndex(1);
+        ui->progressBar->setValue(percent);
+        ui->progressBar->setVisible(true);
+        ui->progressLabel->setText(text);
+
+    } else { // percent >= 100
+        ui->stackedWidget->setCurrentIndex(0);
+    }
 }
 
 /******************************************************************************
