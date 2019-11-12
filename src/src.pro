@@ -8,6 +8,10 @@ TARGET   = DownZemAll
 QT       += core gui
 QT       += network
 
+win32-msvc* {
+    QT   += webenginewidgets
+}
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -39,6 +43,13 @@ win32{
 
 }
 
+win32-msvc* {
+    # Build with QtWebEngine (Rem: works only with MSVC on Windows)
+    DEFINES += USE_QT_WEBENGINE
+}
+unix{
+    DEFINES += USE_QT_WEBENGINE
+}
 
 #-------------------------------------------------
 # VERSION

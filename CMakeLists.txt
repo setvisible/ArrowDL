@@ -92,6 +92,9 @@ endif(RELEASE_MODE)
 ##############################################################################
 option(ENABLE_TESTS "Set to ON to build test applications (default)" ON)
 
+if(MSVC)
+    option(USE_QT_WEBENGINE "Set to ON to use Qt WebEngine (default)" ON)
+endif()
 
 ##############################################################################
 # definitions
@@ -114,6 +117,10 @@ add_definitions(-DQT_DEPRECATED_WARNINGS)
 add_definitions(-DUNICODE)
 
 
+if(USE_QT_WEBENGINE)
+    add_definitions(-DUSE_QT_WEBENGINE)
+endif(USE_QT_WEBENGINE)
+
 ##############################################################################
 ## Qt5
 ##############################################################################
@@ -130,6 +137,9 @@ find_package(Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt5 COMPONENTS Gui REQUIRED)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt5 COMPONENTS Network REQUIRED)
+if(USE_QT_WEBENGINE)
+    find_package(Qt5 COMPONENTS WebEngineWidgets REQUIRED)
+endif(USE_QT_WEBENGINE)
 
 if(ENABLE_TESTS)
     find_package(Qt5 COMPONENTS Test REQUIRED)
@@ -188,6 +198,9 @@ target_link_libraries(${DownZemAll_NAME} Qt5::Core)
 target_link_libraries(${DownZemAll_NAME} Qt5::Gui)
 target_link_libraries(${DownZemAll_NAME} Qt5::Widgets)
 target_link_libraries(${DownZemAll_NAME} Qt5::Network)
+if(USE_QT_WEBENGINE)
+    target_link_libraries(${DownZemAll_NAME} Qt5::WebEngineWidgets)
+endif(USE_QT_WEBENGINE)
 
 
 ##############################################################################
@@ -321,6 +334,20 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
             ${QT_DLL_DIR}/Qt5Network.dll
             DESTINATION ${CMAKE_INSTALL_PREFIX}
             )
+
+        if(USE_QT_WEBENGINE)
+            install(FILES
+                ${QT_DLL_DIR}/Qt5WebEngineCore.dll
+                ${QT_DLL_DIR}/Qt5WebEngineWidgets.dll
+                ${QT_DLL_DIR}/Qt5Positioning.dll
+                ${QT_DLL_DIR}/Qt5PrintSupport.dll
+                ${QT_DLL_DIR}/Qt5Qml.dll
+                ${QT_DLL_DIR}/Qt5Quick.dll
+                ${QT_DLL_DIR}/Qt5QuickWidgets.dll
+                ${QT_DLL_DIR}/Qt5WebChannel.dll
+                DESTINATION ${CMAKE_INSTALL_PREFIX}
+                )
+        endif(USE_QT_WEBENGINE)
 
     endif()
 

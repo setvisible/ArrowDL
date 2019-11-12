@@ -31,11 +31,17 @@
 #include <QtCore/QUrl>
 #include <QtCore/QSettings>
 #include <QtGui/QCloseEvent>
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QMessageBox>
+
+#ifdef USE_QT_WEBENGINE
+#  include <QtWebEngineWidgets/QWebEngineView>
+#  include <QtWebEngineWidgets/QWebEngineSettings>
+#else
+#  include <QtNetwork/QNetworkAccessManager>
+#  include <QtNetwork/QNetworkRequest>
+#  include <QtNetwork/QNetworkReply>
+#endif
 
 
 static QList<IDownloadItem*> createItems( QList<ResourceItem*> resources, DownloadManager *downloadManager)
@@ -56,7 +62,11 @@ WizardDialog::WizardDialog(const QUrl &url, DownloadManager *downloadManager,
     , ui(new Ui::WizardDialog)
     , m_downloadManager(downloadManager)
     , m_model(new Model(this))
+    #ifdef USE_QT_WEBENGINE
+    , m_webEngineView(nullptr)
+    #else
     , m_networkAccessManager(new QNetworkAccessManager(this))
+    #endif
     , m_settings(settings)
 {
     ui->setupUi(this);
@@ -130,16 +140,70 @@ void WizardDialog::loadUrl(const QUrl &url)
                              tr("Error: The url is not valid:\n\n%0").arg(url.toString()));
     } else {
         m_url = url;
+
+#ifdef USE_QT_WEBENGINE
+        qDebug() << Q_FUNC_INFO << "GOOGLE GUMBO + QT WEB ENGINE";
+        if (!m_webEngineView) {
+            m_webEngineView = new QWebEngineView(this);
+
+            connect(m_webEngineView, SIGNAL(loadProgress(int)), SLOT(onLoadProgress(int)));
+            connect(m_webEngineView, SIGNAL(loadFinished(bool)), SLOT(onLoadFinished(bool)));
+
+            /* Only load source, not media */
+            QWebEngineSettings *settings =  m_webEngineView->settings()->globalSettings();
+            settings->setAttribute(QWebEngineSettings::AutoLoadImages, false);
+            settings->setAttribute(QWebEngineSettings::AutoLoadIconsForPage, false);
+            settings->setAttribute(QWebEngineSettings::ShowScrollBars, false);
+            settings->setAttribute(QWebEngineSettings::PdfViewerEnabled, false);
+
+            m_webEngineView->page()->setAudioMuted(true);
+        }
+        m_webEngineView->load(m_url);
+#else
+        qDebug() << Q_FUNC_INFO << "GOOGLE GUMBO";
         QNetworkReply *reply = m_networkAccessManager->get(QNetworkRequest(m_url));
-
-        connect(reply, SIGNAL(downloadProgress(qint64,qint64)),
-                this, SLOT(onDownloadProgress(qint64,qint64)));
+        connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
         connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
-
+#endif
         setProgressInfo(0, tr("Connecting..."));
     }
 }
 
+/******************************************************************************
+ ******************************************************************************/
+#ifdef USE_QT_WEBENGINE
+void WizardDialog::onLoadProgress(int progress)
+{
+    /* Between 1% and 90% */
+    progress = qMin(qFloor(0.90 * progress), 90);
+    setProgressInfo(progress, tr("Downloading..."));
+}
+
+void WizardDialog::onLoadFinished(bool finished)
+{
+    if (finished) {
+        /*
+         * Hack to retrieve the HTML page content from QWebEnginePage
+         * and send it to the Gumbo HTML5 Parser.
+         */
+        connect(this, SIGNAL(htmlReceived(QString)), this, SLOT(onHtmlReceived(QString)));
+        m_webEngineView->page()->toHtml([this](const QString &result) mutable
+        {
+            emit htmlReceived(result);
+        });
+        m_webEngineView->setVisible(false);
+
+    } else {
+        setNetworkError("");
+    }
+}
+
+void WizardDialog::onHtmlReceived(QString content)
+{
+    QByteArray downloadedData = content.toUtf8();
+    parseHtml(downloadedData);
+}
+#else
 void WizardDialog::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     /* Between 1% and 90% */
@@ -154,49 +218,65 @@ void WizardDialog::onFinished()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
     if (reply && reply->error() == QNetworkReply::NoError) {
-
-        setProgressInfo(90, tr("Collecting links..."));
-
         QByteArray downloadedData = reply->readAll();
         reply->deleteLater();
-
-        m_model->linkModel()->clear();
-        m_model->contentModel()->clear();
-
-        HtmlParser htmlParser;
-        htmlParser.parse(downloadedData, m_url, m_model);
-
-        setProgressInfo(99, tr("Finished"));
-
-        // Force update
-        m_model->setDestination(ui->pathWidget->currentPath());
-        m_model->setMask(ui->maskWidget->currentMask());
-        m_model->select(ui->filterWidget->regex());
-
-        onSelectionChanged();
-
-        setProgressInfo(100);
-
+        parseHtml(downloadedData);
     } else {
-        const QString message =
-                tr("The wizard can't connect to URL:\n\n"
-                   "%0\n\n"
-                   "%1")
-                .arg(m_url.toString())
-                .arg(reply->errorString());
-        setProgressInfo(0, message);
+        setNetworkError(reply->errorString());
     }
+}
+#endif
+
+/******************************************************************************
+ ******************************************************************************/
+void WizardDialog::parseHtml(const QByteArray &downloadedData)
+{
+    setProgressInfo(90, tr("Collecting links..."));
+
+    m_model->linkModel()->clear();
+    m_model->contentModel()->clear();
+
+    HtmlParser htmlParser;
+    htmlParser.parse(downloadedData, m_url, m_model);
+
+    setProgressInfo(99, tr("Finished"));
+
+    // Force update
+    m_model->setDestination(ui->pathWidget->currentPath());
+    m_model->setMask(ui->maskWidget->currentMask());
+    m_model->select(ui->filterWidget->regex());
+
+    onSelectionChanged();
+
+    setProgressInfo(100);
+}
+
+void WizardDialog::setNetworkError(const QString &errorString)
+{
+    const QFontMetrics fontMetrics = this->fontMetrics();
+    const QString elidedUrl =
+            fontMetrics.elidedText(m_url.toString(), Qt::ElideRight,
+                                   ui->progressPage->width() - 200);
+
+    const QString message =
+            tr("The wizard can't connect to URL:\n\n"
+               "%0\n\n"
+               "%1")
+            .arg(elidedUrl)
+            .arg(errorString);
+
+    setProgressInfo(-1, message);
 }
 
 void WizardDialog::setProgressInfo(int percent, const QString &text)
 {
-    if (percent == 0) {
+    if (percent < 0) {
         ui->stackedWidget->setCurrentIndex(1);
         ui->progressBar->setValue(0);
         ui->progressBar->setVisible(false);
         ui->progressLabel->setText(text);
 
-    } else if (percent > 0 && percent < 100) {
+    } else if (percent >= 0 && percent < 100) {
         ui->stackedWidget->setCurrentIndex(1);
         ui->progressBar->setValue(percent);
         ui->progressBar->setVisible(true);
