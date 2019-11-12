@@ -54,7 +54,13 @@ CompilerDialog::CompilerDialog(QWidget *parent)
     ui->currentVersion->setText(STR_CURRENT_VERSION);
     ui->currentCpuArchitecture->setText(STR_CURRENT_CPU);
 
+#ifdef USE_QT_WEBENGINE
+    ui->QtVersion->setText(tr("%0 with Qt WebEngine based on Chromium %1")
+                           .arg(QT_VERSION_STR)
+                           .arg("73.0.3683"));
+#else
     ui->QtVersion->setText(QT_VERSION_STR);
+#endif
     ui->googleGumboVersion->setText(GOOGLE_GUMBO_VERSION_STR);
 
     if (!QSslSocket::supportsSsl()) {

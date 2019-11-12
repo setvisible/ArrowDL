@@ -4,17 +4,15 @@
 ######################################################################
 
 TEMPLATE = app
-TARGET   = DownZemAll
-QT       += core gui
-QT       += network
+TARGET   = WebEngine
+QT      += core gui
 
-win32-msvc* {
-    QT   += webenginewidgets
-}
+QT      += webengine
+QT      += webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG   += c++11
 
 gcc|clang{
     QMAKE_CFLAGS += -std=c99
@@ -29,79 +27,58 @@ lessThan(QT_VERSION, 5.0) {
 #-------------------------------------------------
 # Dependencies
 #-------------------------------------------------
-include($$PWD/../3rd/3rd.pri)
-
-
-#-------------------------------------------------
-# Other
-#-------------------------------------------------
-win32{
-    # Link to system library "version.dll" on Windows
-    # Required by GetFileVersionInfo(), GetFileVersionInfoSize() and VerQueryValue()
-    LIBS += -lVersion
-}else{
-
-}
-
-win32-msvc* {
-    # Build with QtWebEngine (Rem: works only with MSVC on Windows)
-    DEFINES += USE_QT_WEBENGINE
-}
-unix{
-    DEFINES += USE_QT_WEBENGINE
-}
-
-#-------------------------------------------------
-# VERSION
-#-------------------------------------------------
-VERSION_FILENAME = $$PWD/../version
-
-!exists( $${VERSION_FILENAME} ) {
-    error( "Cannot find version file \"$${VERSION_FILENAME}\"" )
-}
-
-APP_VERSION = "$$cat($$VERSION_FILENAME)"
-DEFINES += APP_VERSION=\\\"$$APP_VERSION\\\"
+# HEADERS += \
+#     $$PWD/../../../src/core/abstractdownloaditem.h \
+#     $$PWD/../../../src/core/downloadengine.h \
+#     $$PWD/../../../src/core/format.h \
+#     $$PWD/../../../src/core/idownloaditem.h \
+#     $$PWD/../../../src/core/mimedatabase.h \
+#     $$PWD/../../../src/widgets/customstyle.h \
+#     $$PWD/../../../src/widgets/customstyleoptionprogressbar.h \
+#     $$PWD/../../../src/widgets/downloadqueueview.h
+# 
+# SOURCES += \
+#     $$PWD/../../../src/core/abstractdownloaditem.cpp \
+#     $$PWD/../../../src/core/downloadengine.cpp \
+#     $$PWD/../../../src/core/format.cpp \
+#     $$PWD/../../../src/core/mimedatabase.cpp \
+#     $$PWD/../../../src/widgets/customstyle.cpp \
+#     $$PWD/../../../src/widgets/customstyleoptionprogressbar.cpp \
+#     $$PWD/../../../src/widgets/downloadqueueview.cpp
 
 
 #-------------------------------------------------
 # INCLUDE
 #-------------------------------------------------
-INCLUDEPATH += $$PWD/../include/
+#INCLUDEPATH += $$PWD/../../../include/
 
 
 #-------------------------------------------------
 # SOURCES
 #-------------------------------------------------
-include($$PWD/core/core.pri)
-include($$PWD/dialogs/dialogs.pri)
-include($$PWD/io/io.pri)
-include($$PWD/widgets/widgets.pri)
-
+#    $$PWD/../../utils/fakedownloaditem.h \
+#    $$PWD/../../utils/fakedownloadmanager.h \
 HEADERS += \
-    $$PWD/about.h \
-    $$PWD/builddefs.h \
-    $$PWD/globals.h \
-    $$PWD/mainwindow.h \
-    $$PWD/version.h
+    $$PWD/mainwindow.h
 
-
+#    $$PWD/../../utils/fakedownloaditem.cpp \
+#    $$PWD/../../utils/fakedownloadmanager.cpp \
 SOURCES += \
     $$PWD/mainwindow.cpp \
     $$PWD/main.cpp
 
-FORMS += \
-    $$PWD/mainwindow.ui
-
+#FORMS += \
+#    $$PWD/mainwindow.ui
 
 
 #-------------------------------------------------
 # RESOURCES
 #-------------------------------------------------
-RESOURCES += $$PWD/resources.qrc
+#RESOURCES += $$PWD/../../../src/resources.qrc
+RESOURCES = jquery.qrc
 
 win32|unix {
-    RC_FILE += $$PWD/resources_win.rc
+    RC_FILE += $$PWD/../../../src/resources_win.rc
 }
 
 
@@ -130,13 +107,8 @@ win32{
 #-------------------------------------------------
 # Needs to define a subfolder, as the *.DLL
 # cannot be copied in the root folder.
-DESTDIR = $${OUT_PWD}/../downzemall_install
+DESTDIR = $${OUT_PWD}/../../../manual_test_install
 
-#build_pass:CONFIG(debug, debug|release) {
-#    unix: TARGET = $$join(TARGET,,,_debug)
-#    else: TARGET = $$join(TARGET,,,d)
-#}
-#
 
 #-------------------------------------------------
 # INSTALL
@@ -169,22 +141,3 @@ win32{
         INSTALLS += libs_qt_to_copy
     }
 }
-
-# install OpenSSL (for Windows only)
-win32{
-    contains(QT_ARCH, i386) {
-        # message("32-bit")
-        #libs_openssl_to_copy.files += $$PWD/../3rd/openssl/v1.1.1/windows_x86_32bits/libcrypto-1_1.dll
-        #libs_openssl_to_copy.files += $$PWD/../3rd/openssl/v1.1.1/windows_x86_32bits/libssl-1_1.dll
-        libs_openssl_to_copy.files += $$PWD/../3rd/openssl/v1.0.2/windows_x86_32bits/libeay32.dll
-        libs_openssl_to_copy.files += $$PWD/../3rd/openssl/v1.0.2/windows_x86_32bits/ssleay32.dll
-
-    } else {
-        # message("64-bit")
-        libs_openssl_to_copy.files += $$PWD/../3rd/openssl/v1.1.1/windows_x86_64bits/libcrypto-1_1-x64.dll
-        libs_openssl_to_copy.files += $$PWD/../3rd/openssl/v1.1.1/windows_x86_64bits/libssl-1_1-x64.dll
-    }
-    libs_openssl_to_copy.path = $${DESTDIR}
-    INSTALLS += libs_openssl_to_copy
-}
-

@@ -25,7 +25,11 @@ class Model;
 class DownloadManager;
 class Settings;
 
+#ifdef USE_QT_WEBENGINE
+class QWebEngineView;
+#else
 class QNetworkAccessManager;
+#endif
 
 namespace Ui {
 class WizardDialog;
@@ -43,14 +47,25 @@ public:
 protected:
     virtual void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
 
+signals:
+#ifdef USE_QT_WEBENGINE
+    void htmlReceived(QString content);
+#endif
+
 public slots:
     virtual void accept() Q_DECL_OVERRIDE;
     virtual void acceptPaused();
     virtual void reject() Q_DECL_OVERRIDE;
 
 private slots:
+#ifdef USE_QT_WEBENGINE
+    void onLoadProgress(int progress);
+    void onLoadFinished(bool finished);
+    void onHtmlReceived(QString content);
+#else
     void onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void onFinished();
+#endif
     void onSelectionChanged();
     void onChanged(QString);
     void refreshFilters();
@@ -59,12 +74,18 @@ private:
     Ui::WizardDialog *ui;
     DownloadManager *m_downloadManager;
     Model *m_model;
+#ifdef USE_QT_WEBENGINE
+    QWebEngineView *m_webEngineView;
+#else
     QNetworkAccessManager *m_networkAccessManager;
+#endif
     Settings *m_settings;
     QUrl m_url;
 
     void loadUrl(const QUrl &url);
+    void parseHtml(const QByteArray &downloadedData);
     void setProgressInfo(int percent, const QString &text = QString());
+    void setNetworkError(const QString &errorString);
 
     void readSettings();
     void writeSettings();
