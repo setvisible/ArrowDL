@@ -17,15 +17,15 @@
 #ifndef DIALOGS_SELECTIONDIALOG_H
 #define DIALOGS_SELECTIONDIALOG_H
 
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
+#include <QtCore/QUrl>
 #include <QtWidgets/QDialog>
 
 
 class Model;
 class DownloadManager;
 class Settings;
+
+class QNetworkAccessManager;
 
 namespace Ui {
 class WizardDialog;
@@ -41,7 +41,7 @@ public:
     ~WizardDialog();
 
 protected:
-    virtual void closeEvent(QCloseEvent *event);
+    virtual void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
     virtual void accept() Q_DECL_OVERRIDE;
@@ -49,7 +49,8 @@ public slots:
     virtual void reject() Q_DECL_OVERRIDE;
 
 private slots:
-    void onFinished(QNetworkReply* reply);
+    void onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void onFinished();
     void onSelectionChanged();
     void onChanged(QString);
     void refreshFilters();
@@ -63,6 +64,7 @@ private:
     QUrl m_url;
 
     void loadUrl(const QUrl &url);
+    void setProgressInfo(int percent, const QString &text = QString());
 
     void readSettings();
     void writeSettings();
