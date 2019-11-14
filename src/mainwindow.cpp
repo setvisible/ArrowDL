@@ -34,6 +34,7 @@
 #include <Io/FileWriter>
 #include <Widgets/DownloadQueueView>
 
+#include <QtCore/QDebug>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QTimer>
@@ -56,9 +57,6 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMessageBox>
 
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
@@ -614,7 +612,7 @@ void MainWindow::onJobAddedOrRemoved(DownloadRange /*range*/)
     refreshTitleAndStatus();
 }
 
-void MainWindow::onJobStateChanged(IDownloadItem */*downloadItem*/)
+void MainWindow::onJobStateChanged(IDownloadItem * /*downloadItem*/)
 {
     // if (m_downloadManager->isSelected(downloadItem)) {
     refreshMenus();
@@ -794,7 +792,11 @@ void MainWindow::readSettings()
         this->move(position);
         this->resize(size);
     }
+#if QT_VERSION >= 0x050700
     setWindowState(settings.value("WindowState", 0).value<Qt::WindowStates>());
+#else
+    setWindowState((Qt::WindowStates)settings.value("WindowState", 0).toInt() );
+#endif
     setWorkingDirectory(settings.value("WorkingDirectory").toString());
     ui->downloadQueueView->setColumnWidths(settings.value("ColumnWidths").value<QList<int> >());
 

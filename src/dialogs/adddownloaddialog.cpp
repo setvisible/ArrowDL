@@ -23,6 +23,7 @@
 #include <Core/ResourceItem>
 #include <Core/Settings>
 
+#include <QtCore/QDebug>
 #include <QtCore/QList>
 #include <QtCore/QSettings>
 #include <QtCore/QUrl>
@@ -32,9 +33,6 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMessageBox>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
 
 
 AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadManager,

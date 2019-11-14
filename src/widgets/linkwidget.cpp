@@ -22,6 +22,7 @@
 #include <Core/ResourceItem>
 #include <Core/ResourceModel>
 
+#include <QtCore/QDebug>
 #include <QtCore/QModelIndex>
 #include <QtGui/QClipboard>
 #include <QtGui/QDesktopServices>
@@ -33,9 +34,7 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QStyledItemDelegate>
 #include <QtWidgets/QTableView>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
+
 
 #define C_COLUMN_DEFAULT_WIDTH    100
 

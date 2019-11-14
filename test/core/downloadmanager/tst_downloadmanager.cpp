@@ -19,57 +19,70 @@
 #include <Core/Mask>
 #include <Core/ResourceItem>
 
+#include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QThread>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QTemporaryDir>
-
 #include <QtTest/QSignalSpy>
 #include <QtTest/QtTest>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
+
+Q_DECLARE_OPAQUE_POINTER(IDownloadItem*)
+
+
+void hideQDebugMessage(QtMsgType, const QMessageLogContext &, const QString &)
+{
+    /*
+     * Do nothing: just hide QDebug messages,
+     * to diminish visual pollution in the test
+     */
+}
 
 class tst_DownloadManager : public QObject
 {
     Q_OBJECT
 
 private slots:
+    void initTestCase() {
+        qRegisterMetaType<IDownloadItem*>("IDownloadItem*");
+        qInstallMessageHandler(hideQDebugMessage);
+    }
+
     void appendJobPaused();
 
 private:
-    DownloadItem *createDummyJob(
-            DownloadManager *downloadManager, const QString url, const QString mask);
     QTemporaryDir m_tempDir;
+
+    inline DownloadItem *createDummyJob(QSharedPointer<DownloadManager> downloadManager,
+                                        const QString url, const QString mask);
 };
 
 /******************************************************************************
  ******************************************************************************/
 DownloadItem *tst_DownloadManager::createDummyJob(
-        DownloadManager *downloadManager, const QString url, const QString mask)
+        QSharedPointer<DownloadManager> downloadManager,
+        const QString url, const QString mask)
 {
     Q_ASSERT(m_tempDir.isValid());
     qDebug() << "Directory for tests: " << m_tempDir.path();
-    ResourceItem* resource1 = new ResourceItem();
-    resource1->setUrl(url);
-    resource1->setDestination(m_tempDir.path());
-    resource1->setMask(mask);
-    DownloadItem *item = new DownloadItem(downloadManager);
-    item->setResource(resource1);
+    ResourceItem* resource = new ResourceItem();
+    resource->setUrl(url);
+    resource->setDestination(m_tempDir.path());
+    resource->setMask(mask);
+    DownloadItem *item = new DownloadItem(downloadManager.data());
+    item->setResource(resource);
     return item;
 }
-
 
 /******************************************************************************
  ******************************************************************************/
 void tst_DownloadManager::appendJobPaused()
 {
     // Given
-    DownloadManager *target = new DownloadManager(this);
+    QSharedPointer<DownloadManager> target(new DownloadManager(this));
 
-    qRegisterMetaType<DownloadItem*>();
 
-    QSignalSpy spyJobFinished(target, SIGNAL(jobFinished(IDownloadItem*)));
+    QSignalSpy spyJobFinished(target.data(), SIGNAL(jobFinished(IDownloadItem*)));
 
     QString address =
             "https://raw.githubusercontent.com/setvisible/nastran-pch2csv/"
@@ -97,9 +110,6 @@ void tst_DownloadManager::appendJobPaused()
     QFile localFile(item->localFullFileName());
     QVERIFY(localFile.exists());
     QCOMPARE(localFile.size(), 89588);
-
-    item->deleteLater();
-    target->deleteLater();
 }
 
 /******************************************************************************

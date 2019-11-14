@@ -19,10 +19,8 @@
 #include "error.h"
 #include "util.h"
 
+#include <QtCore/QDebug>
 #include <QtTest/QtTest>
-#ifdef QT_DEBUG
-#  include <QtCore/QDebug>
-#endif
 
 int GetChildCount(GumboNode* node) {
     if (node->type == GUMBO_NODE_DOCUMENT) {
@@ -127,7 +125,7 @@ void SanityCheckPointers(
         /*EXPECT_LE*/ QVERIFY(element->end_pos.offset <= input_length);
 
         const GumboVector* children = &element->children;
-        for (int i = 0; i < children->length; ++i) {
+        for (unsigned int i = 0; i < children->length; ++i) {
             const GumboNode* child = static_cast<const GumboNode*>(children->data[i]);
             // Checks on parent/child links.
             /*ASSERT_TRUE*/ QVERIFY(child != NULL);

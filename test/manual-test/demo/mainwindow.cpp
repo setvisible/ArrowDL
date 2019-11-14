@@ -330,7 +330,7 @@ void MainWindow::onJobAddedOrRemoved(DownloadRange /*range*/)
     refreshTitleAndStatus();
 }
 
-void MainWindow::onJobStateChanged(IDownloadItem */*downloadItem*/)
+void MainWindow::onJobStateChanged(IDownloadItem * /*downloadItem*/)
 {
     refreshMenus();
     refreshTitleAndStatus();
@@ -345,7 +345,7 @@ void MainWindow::refreshTitleAndStatus()
 {
     const QString totalSpeed = m_downloadManager->totalSpeed();
     const int completedCount = m_downloadManager->completedJobs().count();
-    const int runningCount = m_downloadManager->runningJobs().count();
+    // const int runningCount = m_downloadManager->runningJobs().count();
     const int count = m_downloadManager->count();
 
     this->setWindowTitle(QString("%0 %1/%2 - %3")
@@ -359,7 +359,7 @@ void MainWindow::refreshMenus()
 {
     const bool hasJobs = !m_downloadManager->downloadItems().isEmpty();
     const bool hasSelection = !m_downloadManager->selection().isEmpty();
-    const bool hasOnlyOneSelected = m_downloadManager->selection().count() == 1;
+    // const bool hasOnlyOneSelected = m_downloadManager->selection().count() == 1;
     bool hasOnlyCompletedSelected = hasSelection;
     foreach (auto item, m_downloadManager->selection()) {
         if (item->state() != IDownloadItem::Completed) {

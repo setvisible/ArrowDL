@@ -11,8 +11,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG   += c++11
 
-QMAKE_CFLAGS += -std=c99
-QMAKE_CXXFLAGS += -std=c++11
+gcc|clang{
+    QMAKE_CFLAGS += -std=c99
+    QMAKE_CXXFLAGS += -std=c++11
+}
 
 lessThan(QT_VERSION, 5.0) {
     warning("prefere to build it with Qt 5.0")
@@ -30,7 +32,8 @@ HEADERS += \
     $$PWD/../../../src/core/mimedatabase.h \
     $$PWD/../../../src/widgets/customstyle.h \
     $$PWD/../../../src/widgets/customstyleoptionprogressbar.h \
-    $$PWD/../../../src/widgets/downloadqueueview.h
+    $$PWD/../../../src/widgets/downloadqueueview.h \
+    $$PWD/../../../src/widgets/downloadqueueview_p.h
 
 SOURCES += \
     $$PWD/../../../src/core/abstractdownloaditem.cpp \

@@ -25,12 +25,18 @@
 #include <QtTest/QSignalSpy>
 #include <QtTest/QtTest>
 
+Q_DECLARE_OPAQUE_POINTER(IDownloadItem*)
+Q_DECLARE_METATYPE(DownloadRange)
 
 class tst_DownloadEngine : public QObject
 {
     Q_OBJECT
 
 private slots:
+    void initTestCase() {
+        qRegisterMetaType<IDownloadItem*>("IDownloadItem*");
+        qRegisterMetaType<DownloadRange>("DownloadRange");
+    }
     void append();
 };
 
@@ -39,20 +45,18 @@ private slots:
 void tst_DownloadEngine::append()
 {
     // Given
-    DownloadEngine *target = new DownloadEngine(this);
+    QScopedPointer<DownloadEngine> target(new DownloadEngine(this));
 
-    qRegisterMetaType<FakeDownloadItem*>();
-
-    QSignalSpy spyJobAppended(target, SIGNAL(jobAppended(DownloadRange)));
-    QSignalSpy spyJobRemoved(target, SIGNAL(jobRemoved(DownloadRange)));
-    QSignalSpy spyJobStateChanged(target, SIGNAL(jobStateChanged(IDownloadItem*)));
-    QSignalSpy spyJobFinished(target, SIGNAL(jobFinished(IDownloadItem*)));
+    QSignalSpy spyJobAppended(target.data(), SIGNAL(jobAppended(DownloadRange)));
+    QSignalSpy spyJobRemoved(target.data(), &DownloadEngine::jobRemoved);
+    QSignalSpy spyJobStateChanged(target.data(), &DownloadEngine::jobStateChanged);
+    QSignalSpy spyJobFinished(target.data(), &DownloadEngine::jobFinished);
 
     const qint64 bytesTotal = 123*1024*1024;
     const qint64 timeIncrement = 150;
     const qint64 duration = 2500;
 
-    FakeDownloadItem *item = new FakeDownloadItem(
+    FakeDownloadItem* item = new FakeDownloadItem(
                 QUrl("http://www.example.com/favicon.png"), QLatin1String("favicon.png"),
                 bytesTotal, timeIncrement, duration);
 
@@ -81,9 +85,6 @@ void tst_DownloadEngine::append()
     QCOMPARE(item->state(), IDownloadItem::Completed);
     QCOMPARE(item->bytesReceived(), bytesTotal);
     QCOMPARE(item->bytesTotal(), bytesTotal);
-
-    item->deleteLater();
-    target->deleteLater();
 }
 
 /******************************************************************************

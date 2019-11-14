@@ -5,6 +5,17 @@
 
 INCLUDEPATH += $$PWD/0.10.1/src
 
+win32-msvc* {
+    # MSVC_VER = $$(VisualStudioVersion)
+    # equals(MSVC_VER, 14.0){
+    #     message("msvc 2015")
+    # }
+    # equals(MSVC_VER, 15.0){
+    #     message("msvc 2017")
+    # }
+    INCLUDEPATH += $$PWD/0.10.1/visualc/include
+}
+
 HEADERS += \
     $$PWD/0.10.1/src/attribute.h \
     $$PWD/0.10.1/src/char_ref.h \

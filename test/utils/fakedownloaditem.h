@@ -34,7 +34,7 @@ public:
                               qint64 bytesTotal, qint64 timeIncrement, qint64 duration,
                               QObject *parent= Q_NULLPTR);
 
-    ~FakeDownloadItem();
+    ~FakeDownloadItem() Q_DECL_OVERRIDE;
 
     virtual QUrl sourceUrl() const Q_DECL_OVERRIDE;
     void setSourceUrl(const QUrl &resourceUrl);

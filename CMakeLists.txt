@@ -10,8 +10,12 @@ cmake_minimum_required(VERSION 3.1.0)
 
 project(DownZemAll)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+if(MSVC)
+    # No flags
+else(MSVC)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+endif(MSVC)
 
 
 ##############################################################################
@@ -41,21 +45,39 @@ configure_file( ./src/config.h.cmake ./src/config.h )
 # Rename the executable for DEBUG and RELEASE
 ##############################################################################
 
-# Change the default build type to Release
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release CACHE STRING
-        "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE)
-    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS None Debug Release RelWithDebInfo MinSizeRel)
-endif(NOT CMAKE_BUILD_TYPE)
+if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
 
-# to distinguish between debug and release
-set(CMAKE_DEBUG_POSTFIX "d")
+    if(MSYS OR MINGW)
+        # Change the default build type to Release
+        if(NOT CMAKE_BUILD_TYPE)
+            set(CMAKE_BUILD_TYPE Release CACHE STRING
+                "Choose the type of build, options are: Debug Release." FORCE)
+            set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS None Debug Release RelWithDebInfo MinSizeRel)
+        endif(NOT CMAKE_BUILD_TYPE)
 
+        # to distinguish between debug and release
+        set(CMAKE_DEBUG_POSTFIX "d")
 
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    set(RELEASE_MODE 1)
-else()
-    set(RELEASE_MODE 0)
+        if(CMAKE_BUILD_TYPE STREQUAL "Release")
+            set(RELEASE_MODE 1)
+        else()
+            set(RELEASE_MODE 0)
+        endif()
+
+    else() # MSVC Compiler
+        #
+        # CMAKE_BUILD_TYPE and CMAKE_CONFIGURATION_TYPES obviously only
+        # apply for Unix makefiles, not for Visual projects.
+        #
+        message(STATUS "To build a release with MSVC, there's no command in CMAKE. So use cmake --build . --config Release")
+        set(RELEASE_MODE 1)
+
+    endif()
+
+else() # MacOS or Unix Compilers
+
+    # to do
+
 endif()
 
 
@@ -72,6 +94,9 @@ endif(RELEASE_MODE)
 ##############################################################################
 option(ENABLE_TESTS "Set to ON to build test applications (default)" ON)
 
+if(MSVC)
+    option(USE_QT_WEBENGINE "Set to ON to use Qt WebEngine (default)" ON)
+endif()
 
 ##############################################################################
 # definitions
@@ -94,6 +119,10 @@ add_definitions(-DQT_DEPRECATED_WARNINGS)
 add_definitions(-DUNICODE)
 
 
+if(USE_QT_WEBENGINE)
+    add_definitions(-DUSE_QT_WEBENGINE)
+endif(USE_QT_WEBENGINE)
+
 ##############################################################################
 ## Qt5
 ##############################################################################
@@ -110,6 +139,9 @@ find_package(Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt5 COMPONENTS Gui REQUIRED)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt5 COMPONENTS Network REQUIRED)
+if(USE_QT_WEBENGINE)
+    find_package(Qt5 COMPONENTS WebEngineWidgets REQUIRED)
+endif(USE_QT_WEBENGINE)
 
 if(ENABLE_TESTS)
     find_package(Qt5 COMPONENTS Test REQUIRED)
@@ -163,12 +195,15 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
         )
 endif()
 
-
 # Qt5
 target_link_libraries(${DownZemAll_NAME} Qt5::Core)
 target_link_libraries(${DownZemAll_NAME} Qt5::Gui)
 target_link_libraries(${DownZemAll_NAME} Qt5::Widgets)
 target_link_libraries(${DownZemAll_NAME} Qt5::Network)
+if(USE_QT_WEBENGINE)
+    target_link_libraries(${DownZemAll_NAME} Qt5::WebEngineWidgets)
+endif(USE_QT_WEBENGINE)
+
 
 ##############################################################################
 # Unit Tests
@@ -183,7 +218,7 @@ if(ENABLE_TESTS)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/parser/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/stringbuffer/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/stringpiece/CMakeLists.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/tokenizer/CMakeLists.txt)
+#    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/tokenizer/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/utf8/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/vector/CMakeLists.txt)
 
@@ -215,7 +250,7 @@ if(ENABLE_TESTS)
         tst_parser
         tst_stringbuffer
         tst_stringpiece
-        tst_tokenizer
+#        tst_tokenizer
         tst_utf8
         tst_vector
 
@@ -230,10 +265,10 @@ if(ENABLE_TESTS)
         tst_jsonhandler
         tst_texthandler
 
-    PROPERTIES ENVIRONMENT  
+        PROPERTIES ENVIRONMENT
         # The following line must escape semi-colons ";" with "\;"
         "PATH=%PATH%\;${MY_QT_ENVIRONMENT_PATH}/bin\;${MY_QT_ENVIRONMENT_PATH}/plugins"
-    )
+        )
 
 
 endif(ENABLE_TESTS)
@@ -253,7 +288,7 @@ install (
     )
 
 ## 3rd-party libraries
-if (MSVC OR MSYS OR MINGW) # for detecting Windows compilers
+if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
 
     # ***********************************************
     # windeployqt is not used here in order         *
@@ -264,39 +299,65 @@ if (MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     get_target_property(QtCore_LOCATION Qt5::Core LOCATION)
     get_filename_component(QT_DLL_DIR ${QtCore_LOCATION} PATH)
 
-    # Hack to find libGCC
-    #
-    # Mingw libGCC comes with 3 flavors of exception handling
-    # - DW2     Dwarf-2 Exception Handling      (32-bit only)
-    # - SJLJ    SetJump LongJump                (both 32-bit & 64-bit)
-    # - SEH     Structured Exception Handling   (64-bit)
-    #
-    if (EXISTS ${QT_DLL_DIR}/libgcc_s_dw2-1.dll)
-        set(libgcc "${QT_DLL_DIR}/libgcc_s_dw2-1.dll")
-    else()
-        if (EXISTS ${QT_DLL_DIR}/libgcc_s_seh-1.dll)
-            set(libgcc "${QT_DLL_DIR}/libgcc_s_seh-1.dll")
+    if(MSYS OR MINGW)
+        # Hack to find libGCC
+        #
+        # Mingw libGCC comes with 3 flavors of exception handling
+        # - DW2     Dwarf-2 Exception Handling      (32-bit only)
+        # - SJLJ    SetJump LongJump                (both 32-bit & 64-bit)
+        # - SEH     Structured Exception Handling   (64-bit)
+        #
+        if (EXISTS ${QT_DLL_DIR}/libgcc_s_dw2-1.dll)
+            set(libgcc "${QT_DLL_DIR}/libgcc_s_dw2-1.dll")
         else()
-            message(FATAL_ERROR "Can't find LibGCC in path ${QT_DLL_DIR}")            
+            if (EXISTS ${QT_DLL_DIR}/libgcc_s_seh-1.dll)
+                set(libgcc "${QT_DLL_DIR}/libgcc_s_seh-1.dll")
+            else()
+                message(FATAL_ERROR "Can't find LibGCC in path ${QT_DLL_DIR}")
+            endif()
         endif()
-    endif()
 
-    install(FILES
-        ${libgcc}
-        ${QT_DLL_DIR}/libstdc++-6.dll
-        ${QT_DLL_DIR}/libwinpthread-1.dll
-        ${QT_DLL_DIR}/Qt5Core.dll
-        ${QT_DLL_DIR}/Qt5Gui.dll
-        ${QT_DLL_DIR}/Qt5Widgets.dll
-        ${QT_DLL_DIR}/Qt5Network.dll
-        DESTINATION ${CMAKE_INSTALL_PREFIX}
-    )
+        install(FILES
+            ${libgcc}
+            ${QT_DLL_DIR}/libstdc++-6.dll
+            ${QT_DLL_DIR}/libwinpthread-1.dll
+            ${QT_DLL_DIR}/Qt5Core.dll
+            ${QT_DLL_DIR}/Qt5Gui.dll
+            ${QT_DLL_DIR}/Qt5Widgets.dll
+            ${QT_DLL_DIR}/Qt5Network.dll
+            DESTINATION ${CMAKE_INSTALL_PREFIX}
+            )
+
+    else() # MSVC
+        install(FILES
+            ${QT_DLL_DIR}/Qt5Core.dll
+            ${QT_DLL_DIR}/Qt5Gui.dll
+            ${QT_DLL_DIR}/Qt5Widgets.dll
+            ${QT_DLL_DIR}/Qt5Network.dll
+            DESTINATION ${CMAKE_INSTALL_PREFIX}
+            )
+
+        if(USE_QT_WEBENGINE)
+            install(FILES
+                ${QT_DLL_DIR}/Qt5WebEngineCore.dll
+                ${QT_DLL_DIR}/Qt5WebEngineWidgets.dll
+                ${QT_DLL_DIR}/Qt5Positioning.dll
+                ${QT_DLL_DIR}/Qt5PrintSupport.dll
+                ${QT_DLL_DIR}/Qt5Qml.dll
+                ${QT_DLL_DIR}/Qt5Quick.dll
+                ${QT_DLL_DIR}/Qt5QuickWidgets.dll
+                ${QT_DLL_DIR}/Qt5WebChannel.dll
+                DESTINATION ${CMAKE_INSTALL_PREFIX}
+                )
+        endif(USE_QT_WEBENGINE)
+
+    endif()
 
     ## Qt Platform Plugin
     install(FILES
         ${QT_DLL_DIR}/../plugins/platforms/qwindows.dll
         DESTINATION ${CMAKE_INSTALL_PREFIX}/platforms
-    )
+        )
 
     ## OpenSSL
     if (CMAKE_SIZEOF_VOID_P EQUAL 4) # 32-bit
@@ -321,6 +382,6 @@ endif(MSVC OR MSYS OR MINGW)
 # Deploying executable
 ##############################################################################
 install(TARGETS ${DownZemAll_NAME}
-        RUNTIME
-        DESTINATION ${CMAKE_INSTALL_PREFIX}
+    RUNTIME
+    DESTINATION ${CMAKE_INSTALL_PREFIX}
     )
