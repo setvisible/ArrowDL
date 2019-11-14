@@ -152,11 +152,16 @@ void WizardDialog::loadUrl(const QUrl &url)
             /* Only load source, not media */
             QWebEngineSettings *settings =  m_webEngineView->settings()->globalSettings();
             settings->setAttribute(QWebEngineSettings::AutoLoadImages, false);
+#if QT_VERSION >= 0x050700
             settings->setAttribute(QWebEngineSettings::AutoLoadIconsForPage, false);
-            settings->setAttribute(QWebEngineSettings::ShowScrollBars, false);
-            settings->setAttribute(QWebEngineSettings::PdfViewerEnabled, false);
-
             m_webEngineView->page()->setAudioMuted(true);
+#endif
+#if QT_VERSION >= 0x051000
+            settings->setAttribute(QWebEngineSettings::ShowScrollBars, false);
+#endif
+#if QT_VERSION >= 0x051300
+            settings->setAttribute(QWebEngineSettings::PdfViewerEnabled, false);
+#endif
         }
         m_webEngineView->load(m_url);
 #else
