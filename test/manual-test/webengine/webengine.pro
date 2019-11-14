@@ -3,12 +3,16 @@
 # > qmake.exe -project
 ######################################################################
 
+!win32-msvc* {
+error("Can't build it without MSVC compiler!")
+}
+
 TEMPLATE = app
 TARGET   = WebEngine
 QT      += core gui
-
-QT      += webengine
 QT      += webenginewidgets
+
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

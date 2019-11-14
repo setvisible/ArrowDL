@@ -792,7 +792,11 @@ void MainWindow::readSettings()
         this->move(position);
         this->resize(size);
     }
+#if QT_VERSION >= 0x050700
     setWindowState(settings.value("WindowState", 0).value<Qt::WindowStates>());
+#else
+    setWindowState((Qt::WindowStates)settings.value("WindowState", 0).toInt() );
+#endif
     setWorkingDirectory(settings.value("WorkingDirectory").toString());
     ui->downloadQueueView->setColumnWidths(settings.value("ColumnWidths").value<QList<int> >());
 
