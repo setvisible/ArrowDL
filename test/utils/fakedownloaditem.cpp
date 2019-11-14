@@ -100,7 +100,7 @@ void FakeDownloadItem::tickFakeStream()
         updateInfo(qMin(m_simulationBytesTotal, received), m_simulationBytesTotal);
 
     } else {
-        preFinish(!m_isSimulateFileErrorAtTheEndEnabled);        
+        preFinish(!m_isSimulateFileErrorAtTheEndEnabled);
         m_fakeStreamTimer.stop();
         finish();
     }
