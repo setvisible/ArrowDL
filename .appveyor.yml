@@ -72,11 +72,13 @@ branches:
 #---------------------------------#
 
 # Build worker image (VM template)
-image: Visual Studio 2013
+image: Visual Studio 2017
 
 # scripts that are called at very beginning, before repo cloning
 init:
   - git config --global core.autocrlf input
+  # # go to hell Xamarin (see http://help.appveyor.com/discussions/problems/4569)
+  #- del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
 
 # clone directory
 clone_folder: c:\projects\DownZemAll
@@ -93,7 +95,6 @@ clone_depth: 5                      # clone entire repository history if not def
 #  db.server.com: 127.0.0.2
 
 # custom environment variables
-environment:
 #  my_var1: value1
 #  my_var2: value2
 #  # this is how to set encrypted variable. Go to "Settings" -> "Encrypt YAML" page in account menu to encrypt data.
@@ -114,44 +115,44 @@ environment:
 #    password:
 #      secure: $#(JFDA)jQ@#$
 
+
+
 # this is how to allow failing jobs in the matrix
+environment:
   matrix:
-    - CMAKE_GENERATOR: "MinGW Makefiles"
-      QT5: C:\Qt\5.7\mingw53_32
-      COMPILER: mingw
-#      platform: x86  # x86, x64, Any CPU
-#      configuration: Release
-#MinGW 5.3.0: C:\Qt\Tools\mingw530_32
-#
-# a faire: LLVM
-#PATH --> C:\Program Files\LLVM\bin
-#
+    - COMPILER: msvc
+      CMAKE_GENERATOR: "Visual Studio 15 2017"
+      QT5: C:\Qt\5.13.2\msvc2017
+      platform: x86
+      configuration: Release
 
-# - CMAKE_GENERATOR: "Visual Studio 15 2017"
-#    QT5: C:\Qt\5.12.2\mingw73_32
-# - CMAKE_GENERATOR: "Visual Studio 15 2017"
-#    QT5: C:\Qt\5.12\msvc2017
-# - CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
-#    QT5: C:\Qt\5.12\msvc2017_64
-#    - BUILD_TYPE: Release
-#      COMPILER: MinGW
-#      platform: Win32
-#    - BUILD_TYPE: Release
-#      COMPILER: MinGW-w64
-#      platform: x64
+    - COMPILER: msvc
+      CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
+      QT5: C:\Qt\5.13.2\msvc2017_64
+      platform: x64
+      configuration: Release
+
+    - COMPILER: mingw
+      CMAKE_GENERATOR: "MinGW Makefiles"
+      QT5: C:\Qt\5.13.2\mingw73_32
+      platform: x86
+      configuration: Release
+
+    - COMPILER: mingw
+      CMAKE_GENERATOR: "MinGW Makefiles"
+      QT5: C:\Qt\5.13.2\mingw73_64
+      platform: x64
+      configuration: Release
+
+# todo: LLVM (PATH is C:\Program Files\LLVM\bin)
 
 
 # this is how to allow failing jobs in the matrix
-#matrix:
-#  fast_finish: true     # set this flag to immediately finish build once one of the jobs fails.
-#  allow_failures:
-#    - platform: Any CPU
-#      configuration: Release
-#    - platform: x86
-#      configuration: Release
-#    - platform: x64
-#      configuration: Debug
-
+matrix:
+  fast_finish: true     # set this flag to immediately finish build once one of the jobs fails.
+  allow_failures:
+    - COMPILER: mingw
+    - configuration: Debug
 
 # exclude configuration from the matrix. Works similarly to 'allow_failures' 
 # but build not even being started for excluded combination.
@@ -196,11 +197,22 @@ install:
 #  - cmd: echo This is batch again
 #  - cmd: set MY_VAR=12345
 
-  - set QTDIR=C:\Qt\5.7\mingw53_32
-  - set Qt5_DIR=C:\Qt\5.7\mingw53_32\lib\cmake\Qt5
-  - set PATH=%PATH%;C:\Qt\Tools\mingw530_32\bin\
+  - set QTDIR=%QT5%
+  - set Qt5_DIR=%QT5%\lib\cmake\Qt5
+  - if "%platform%"=="x86" (set MINGW_TOOL_DIR=C:\Qt\Tools\mingw730_32\bin\)
+      else (set MINGW_TOOL_DIR=C:\Qt\Tools\mingw730_64\bin\)
+  - if [%COMPILER%]==[mingw] set PATH=%PATH%;%MINGW_TOOL_DIR%
+
+#  - dir "%QTDIR%"
+#  - dir "%Qt5_DIR%"
+
+  #
+  #- if [%COMPILER%]==[mingw] set PATH=%PATH%;C:\Qt\Tools\mingw730_64\bin\
   #- set PATH=%PATH%;C:\Qt\5.7\mingw53_32\bin\
   #- set PATH=%PATH%;C:\Qt\5.7\mingw53_32\plugins\
+  - echo "COMPILER = %COMPILER%"
+  - echo QTDIR = %QTDIR%  
+  - echo Qt5_DIR = %Qt5_DIR%  
 
   # replace all ';' by '\n' in PATH so that it's easier to read
   - echo PATH = & echo.    %PATH:;= & echo.    %  
@@ -212,12 +224,13 @@ install:
   - set /p AppVersion=<version
   - echo Application Version = %AppVersion%
 
-  - gcc.exe -dumpmachine > tmp
-  - set /p GCCDumpMachine=<tmp
-  - g++.exe -dumpmachine > tmp
-  - set /p GPPDumpMachine=<tmp
-  - echo "GCC Dump Machine = '${GCCDumpMachine}'"
-  - echo "G++ Dump Machine = '${GPPDumpMachine}'"
+# Versions of G++ and GCC:
+#  - gcc.exe -dumpmachine > tmp
+#  - set /p GCCDumpMachine=<tmp
+#  - g++.exe -dumpmachine > tmp
+#  - set /p GPPDumpMachine=<tmp
+#  - echo "GCC Dump Machine = '${GCCDumpMachine}'"
+#  - echo "G++ Dump Machine = '${GPPDumpMachine}'"
 
 #  - if [%COMPILER%]==[MinGW] set PATH=C:\MinGW\bin;%PATH%
 #  - if [%COMPILER%]==[MinGW] mingw-get update
@@ -243,25 +256,20 @@ install:
 #       build configuration       #
 #---------------------------------#
 
-# build platform, i.e. x86, x64, Any CPU. This setting is optional.
-platform: x86
-
-# to add several platforms to build matrix:
+# add several platforms to build matrix (build platform, i.e. x86, x64, Any CPU. This setting is optional.)
 #platform:
 #  - x86
-#  - Any CPU
+#  - x64
 
-# build Configuration, i.e. Debug, Release, etc.
-configuration: Release
 
-# to add several configurations to build matrix:
+# add several configurations to build matrix (Debug, Release, RelWithDebInfo, etc.)
 #configuration:
-#  - Debug
 #  - Release
+
 
 # Build settings, not to be confused with "before_build" and "after_build".
 # "project" is relative to the original build directory and not influenced by directory changes in "before_build".
-build:
+#build:
 #  parallel: true                  # enable MSBuild parallel builds
 #  project: MyTestAzureCS.sln      # path to Visual Studio solution or project
 #  publish_wap: true               # package Web Application Projects (WAP) for Web Deploy
@@ -275,9 +283,9 @@ build:
 #  publish_nuget: true             # package projects with .nuspec files and push to artifacts
 #  publish_nuget_symbols: true     # generate and publish NuGet symbol packages
 #  include_nuget_references: true  # add -IncludeReferencedProjects option while packaging NuGet artifacts
-#
-#  # MSBuild verbosity level
-#  verbosity: quiet|minimal|normal|detailed
+#  verbosity: minimal              # MSBuild verbosity level (quiet|minimal|normal|detailed)
+build:
+  verbosity: minimal
 
 
 # scripts to run before build
@@ -291,9 +299,24 @@ build_script:
   - echo ****************************************************
   - echo Building executables (application and tests)
   - echo ****************************************************
-  - cmake --version         # version 3.12.2
-  - cmake .\..\DownZemAll -G "%CMAKE_GENERATOR%" -DCMAKE_PREFIX_PATH="%QT5%" -DCMAKE_INSTALL_PREFIX=".\..\install-DownZemAll-cmake" -DENABLE_TESTS=ON
-  - cmake --build .
+#  - if "%platform%"=="x86" (set CMAKE_GENERATOR_PLATFORM="Win32")
+#      else (set CMAKE_GENERATOR_PLATFORM="%platform%")
+
+
+#  - echo "platform = %platform%"
+#  - echo "CMAKE_GENERATOR_PLATFORM = %CMAKE_GENERATOR_PLATFORM%"
+
+
+     # -DCMAKE_CONFIGURATION_TYPES="%CONFIGURATION%"
+     # -A "%CMAKE_GENERATOR_PLATFORM%"
+
+  - cmake --version         # version 3.15.5
+  - cmake .\..\DownZemAll -G "%CMAKE_GENERATOR%"
+      -DCMAKE_PREFIX_PATH="%QT5%"
+      -DCMAKE_INSTALL_PREFIX=".\..\install-DownZemAll-cmake"
+      -DENABLE_TESTS=ON
+#  - cmake --build .
+  - cmake --build . --config "%CONFIGURATION%"
 
 
 # scripts to run after build (working directory and environment changes are 
@@ -353,8 +376,8 @@ before_test:
 # to run your custom scripts instead of automatic tests
 test_script:
   - ctest --version
-  - ctest -N                # -N gets the list of all the tests in CTest
-  - ctest . --verbose       # <verbose> shows all the test methods
+  - ctest -N                        # -N gets the list of all the tests in CTest
+  - ctest . --verbose -C Release    # <verbose> shows all the test methods
 
 
 #---------------------------------#
