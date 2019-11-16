@@ -93,7 +93,11 @@ script:
   - cmake --version             # cmake version 3.9.2
   - ${CXX_COMPILER} --version   # g++-5 (Ubuntu 5.5.0-12ubuntu1~14.04) 5.5.0 20171010
   - ${C_COMPILER} --version     # gcc-5 (Ubuntu 5.5.0-12ubuntu1~14.04) 5.5.0 20171010
-  - cmake ./../DownZemAll -DCMAKE_CXX_COMPILER=${CXX_COMPILER} -DCMAKE_C_COMPILER=${C_COMPILER} -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_INSTALL_PREFIX="./../install-DownZemAll-cmake" -DENABLE_TESTS=ON
+  - cmake ./../DownZemAll -DCMAKE_CXX_COMPILER=${CXX_COMPILER}
+      -DCMAKE_C_COMPILER=${C_COMPILER}
+      -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+      -DCMAKE_INSTALL_PREFIX="./../install-DownZemAll-cmake"
+      -DENABLE_TESTS=ON
   - cmake --build .
 
 #---------------------------------#
@@ -125,7 +129,10 @@ script:
   - cd ./../DownZemAll/bin
 
 # zip the files
-# DownZemAll_v1.2.0_x86-windows-mingw.zip
+# DownZemAll_v1.2.0_windows-mingw-x86.zip
+# DownZemAll_v1.2.0_windows-mingw-x64.zip
+# DownZemAll_v1.2.0_windows-msvc-x86.zip
+# DownZemAll_v1.2.0_windows-msvc-x64.zip
 # DownZemAll_v1.2.0_x86_64-linux-gnu.tar.gz
   - ZIP_FILE="DownZemAll_v${AppVersion}_${GCCDumpMachine}.tar.gz"
   - tar -czvf ${ZIP_FILE} ./../../install-DownZemAll-cmake/*
