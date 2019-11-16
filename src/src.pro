@@ -8,7 +8,7 @@ TARGET   = DownZemAll
 QT       += core gui
 QT       += network
 
-win32-msvc* {
+unix|win32-msvc* {
     QT   += webenginewidgets
 }
 

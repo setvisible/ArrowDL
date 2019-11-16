@@ -93,8 +93,13 @@ void tst_Tokenizer::init()
 
 void tst_Tokenizer::cleanup()
 {
+#if defined(Q_CC_MSVC) || defined(Q_OS_WIN64)
+    /// \todo FIXME
+    /// maybe GumboTest::cleanup() ?
+#else
     gumbo_tokenizer_state_destroy(&parser_);
     gumbo_token_destroy(&parser_, &token_);
+#endif
 }
 
 /******************************************************************************

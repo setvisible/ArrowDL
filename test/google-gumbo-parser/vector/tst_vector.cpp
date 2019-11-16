@@ -52,7 +52,7 @@ private:
 
     // Counters for testing a custom allocator.
     int num_allocations_;
-    int bytes_allocated_;
+    size_t bytes_allocated_;
     int num_deallocations_;
 
     void* custom_gumbo_vector_allocator(void* userdata, size_t num_bytes);

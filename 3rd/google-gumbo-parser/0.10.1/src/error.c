@@ -33,7 +33,7 @@
 static int print_message(
     GumboParser* parser, GumboStringBuffer* output, const char* format, ...) {
   va_list args;
-  int remaining_capacity = output->capacity - output->length;
+  size_t remaining_capacity = output->capacity - output->length;
   va_start(args, format);
   int bytes_written = vsnprintf(
       output->data + output->length, remaining_capacity, format, args);
@@ -59,16 +59,16 @@ static int print_message(
   }
 #endif
 
-  if (bytes_written > remaining_capacity) {
+  if (bytes_written > (int)remaining_capacity) {
     gumbo_string_buffer_reserve(
-        parser, output->capacity + bytes_written, output);
+        parser, output->capacity + (size_t)(bytes_written), output);
     remaining_capacity = output->capacity - output->length;
     va_start(args, format);
     bytes_written = vsnprintf(
         output->data + output->length, remaining_capacity, format, args);
     va_end(args);
   }
-  output->length += bytes_written;
+  output->length += (size_t)bytes_written;
   return bytes_written;
 }
 
