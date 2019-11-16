@@ -33,7 +33,7 @@ inline QString toQString(const GumboStringPiece& str) {
     return QString::fromStdString(std::string(str.data, str.length));
 }
 
-int GetChildCount(GumboNode* node);
+unsigned int GetChildCount(GumboNode* node);
 GumboTag GetTag(GumboNode* node);
 GumboNode* GetChild(GumboNode* parent, int index);
 int GetAttributeCount(GumboNode* node);

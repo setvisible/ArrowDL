@@ -22,7 +22,7 @@
 #include <QtCore/QDebug>
 #include <QtTest/QtTest>
 
-int GetChildCount(GumboNode* node) {
+unsigned int GetChildCount(GumboNode* node) {
     if (node->type == GUMBO_NODE_DOCUMENT) {
         return node->v.document.children.length;
     } else {
@@ -52,8 +52,8 @@ GumboAttribute* GetAttribute(GumboNode* node, int index) {
 // document (nodes are elements, nodes have the right tags) and then return
 // the body node.
 void GetAndAssertBody(GumboNode* root, GumboNode** body) {
-    GumboNode* html = NULL;
-    for (int i = 0; i < GetChildCount(root); ++i) {
+    GumboNode* html = nullptr;
+    for (unsigned int i = 0; i < GetChildCount(root); ++i) {
         GumboNode* child = GetChild(root, i);
         if (child->type != GUMBO_NODE_ELEMENT) {
             /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_COMMENT, child->type);
@@ -69,9 +69,9 @@ void GetAndAssertBody(GumboNode* root, GumboNode** body) {
     // There may be comment/whitespace nodes; this walks through the children of
     // <html> and assigns head/body based on them, or assert-fails if there are
     // fewer/more than 2 such nodes.
-    GumboNode* head = NULL;
-    *body = NULL;
-    for (int i = 0; i < GetChildCount(html); ++i) {
+    GumboNode* head = nullptr;
+    *body = nullptr;
+    for (unsigned int i = 0; i < GetChildCount(html); ++i) {
         GumboNode* child = GetChild(html, i);
         if (child->type != GUMBO_NODE_ELEMENT) {
             continue;
@@ -93,7 +93,7 @@ void GetAndAssertBody(GumboNode* root, GumboNode** body) {
 
 void SanityCheckPointers(
         const char* input, size_t input_length, const GumboNode* node, int depth) {
-    /*ASSERT_GE*/ QVERIFY(input_length >= (size_t) 0);
+    /*ASSERT_GE*/ QVERIFY(input_length >= 0);
     /*ASSERT_TRUE*/ QVERIFY(node != NULL);
     // There are some truly pathological HTML documents out there - the
     // integration tests for this include one where the DOM "tree" is actually a
@@ -196,7 +196,7 @@ void GumboTest::init()
 {
     options_ = kGumboDefaultOptions;
     errors_are_expected_ = false;
-    text_ = "";;
+    text_ = "";
 
     InitLeakDetection(&options_, &malloc_stats_);
     options_.max_errors = 100;
