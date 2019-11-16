@@ -65,7 +65,7 @@ branches:
 #skip_branch_with_pr: true
 
 # Maximum number of concurrent jobs for the project
-#max_jobs: 1
+max_jobs: 4
 
 #---------------------------------#
 #    environment configuration    #
@@ -123,26 +123,26 @@ environment:
     - COMPILER: msvc
       CMAKE_GENERATOR: "Visual Studio 15 2017"
       QT5: C:\Qt\5.13.2\msvc2017
-      platform: x86
-      configuration: Release
+      PLATFORM: x86
+      CONFIGURATION: Release
 
     - COMPILER: msvc
       CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
       QT5: C:\Qt\5.13.2\msvc2017_64
-      platform: x64
-      configuration: Release
+      PLATFORM: x64
+      CONFIGURATION: Release
 
     - COMPILER: mingw
       CMAKE_GENERATOR: "MinGW Makefiles"
       QT5: C:\Qt\5.13.2\mingw73_32
-      platform: x86
-      configuration: Release
+      PLATFORM: x86
+      CONFIGURATION: Release
 
     - COMPILER: mingw
       CMAKE_GENERATOR: "MinGW Makefiles"
       QT5: C:\Qt\5.13.2\mingw73_64
-      platform: x64
-      configuration: Release
+      PLATFORM: x64
+      CONFIGURATION: Release
 
 # todo: LLVM (PATH is C:\Program Files\LLVM\bin)
 
@@ -152,13 +152,13 @@ matrix:
   fast_finish: true     # set this flag to immediately finish build once one of the jobs fails.
   allow_failures:
     - COMPILER: mingw
-    - configuration: Debug
+    - CONFIGURATION: Debug
 
 # exclude configuration from the matrix. Works similarly to 'allow_failures' 
 # but build not even being started for excluded combination.
 #  exclude:
-#    - platform: x86
-#      configuration: Debug
+#    - PLATFORM: x86
+#      CONFIGURATION: Debug
 
 #  MSBUILD_FLAGS: /verbosity:minimal /maxcpucount
 #
@@ -199,7 +199,7 @@ install:
 
   - set QTDIR=%QT5%
   - set Qt5_DIR=%QT5%\lib\cmake\Qt5
-  - if "%platform%"=="x86" (set MINGW_TOOL_DIR=C:\Qt\Tools\mingw730_32\bin\)
+  - if "%PLATFORM%"=="x86" (set MINGW_TOOL_DIR=C:\Qt\Tools\mingw730_32\bin\)
       else (set MINGW_TOOL_DIR=C:\Qt\Tools\mingw730_64\bin\)
   - if [%COMPILER%]==[mingw] set PATH=%PATH%;%MINGW_TOOL_DIR%
 
@@ -300,10 +300,10 @@ build_script:
   - echo Building executables (application and tests)
   - echo ****************************************************
 #  - if "%platform%"=="x86" (set CMAKE_GENERATOR_PLATFORM="Win32")
-#      else (set CMAKE_GENERATOR_PLATFORM="%platform%")
+#      else (set CMAKE_GENERATOR_PLATFORM="%PLATFORM%")
 
 
-#  - echo "platform = %platform%"
+#  - echo "PLATFORM = %PLATFORM%"
 #  - echo "CMAKE_GENERATOR_PLATFORM = %CMAKE_GENERATOR_PLATFORM%"
 
 
@@ -315,8 +315,9 @@ build_script:
       -DCMAKE_PREFIX_PATH="%QT5%"
       -DCMAKE_INSTALL_PREFIX=".\..\install-DownZemAll-cmake"
       -DENABLE_TESTS=ON
-#  - cmake --build .
-  - cmake --build . --config "%CONFIGURATION%"
+
+# To build a release with MSVC, there's no command in CMAKE. So use cmake --build . --config Release
+  - cmake --build . --config Release  
 
 
 # scripts to run after build (working directory and environment changes are 
@@ -377,7 +378,7 @@ before_test:
 test_script:
   - ctest --version
   - ctest -N                        # -N gets the list of all the tests in CTest
-  - ctest . --verbose -C Release    # <verbose> shows all the test methods
+  - ctest . --verbose --output-on-failure -C Release  # <verbose> shows all the test methods
 
 
 #---------------------------------#
@@ -386,14 +387,17 @@ test_script:
 
 # scripts to run after tests
 after_test:
-  - cmake --build . --target install
+  - cmake --build . --config Release --target install
   - mkdir C:\projects\DownZemAll\bin
   - cd C:\projects\DownZemAll\bin
 
 # zip the files
-# DownZemAll_v1.2.0_x86-windows-mingw.zip
+# DownZemAll_v1.2.0_windows-mingw-x86.zip
+# DownZemAll_v1.2.0_windows-mingw-x64.zip
+# DownZemAll_v1.2.0_windows-msvc-x86.zip
+# DownZemAll_v1.2.0_windows-msvc-x64.zip
 # DownZemAll_v1.2.0_x86_64-linux-gnu.tar.gz
-  - set ZIP_FILE="DownZemAll_v%AppVersion%_%PLATFORM%-windows-%COMPILER%.zip"
+  - set ZIP_FILE="DownZemAll_v%AppVersion%_windows-%COMPILER%-%PLATFORM%.zip"
   - 7z a %ZIP_FILE% .\..\..\install-DownZemAll-cmake\*
 
 
