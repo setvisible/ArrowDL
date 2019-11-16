@@ -71,7 +71,7 @@ void tst_StringBuffer::Reserve()
 {
     gumbo_string_buffer_reserve(&parser_, 21, &buffer_);
     /*EXPECT_EQ*/ QVERIFY(40 == buffer_.capacity);
-    strcpy(buffer_.data, "01234567890123456789");
+    qstrcpy(buffer_.data, "01234567890123456789");
     buffer_.length = 20;
     nullTerminateBuffer();
     /*EXPECT_EQ*/ QVERIFY(21 == buffer_.length);
@@ -126,7 +126,7 @@ void tst_StringBuffer::AppendCodepoint_4Bytes()
 void tst_StringBuffer::ToString()
 {
     gumbo_string_buffer_reserve(&parser_, 8, &buffer_);
-    strcpy(buffer_.data, "012345");
+    qstrcpy(buffer_.data, "012345");
     buffer_.length = 7;
 
     char* dest = gumbo_string_buffer_to_string(&parser_, &buffer_);
