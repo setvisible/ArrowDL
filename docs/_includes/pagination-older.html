@@ -1,0 +1,8 @@
+{% if paginator.next_page %}
+<div class="pagination">
+  <a class="pagination-item older"
+     href="{{ paginator.next_page_path | relative_url }}">
+    Older
+  </a>
+</div>
+{% endif %}
