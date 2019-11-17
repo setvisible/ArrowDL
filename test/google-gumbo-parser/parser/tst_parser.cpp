@@ -100,6 +100,20 @@ private:
     virtual void parse(const char* input);
     virtual void parse(const std::string& input);
     virtual void parseFragment(const char* input, GumboTag context, GumboNamespaceEnum context_ns);
+
+    int _GetChildCount(GumboNode* node) {
+        /*
+         * QCOMPARE is very strict about the types.
+         * To avoid error "undefined reference to bool QTest::qCompare<...>",
+         * we can compare
+         *      QTest::qCompare<int, int>
+         * or
+         *      QTest::qCompare<unsigned int, unsigned int>
+         * but not
+         *      QTest::qCompare<int, unsigned int>
+         */
+        return (int)(GetChildCount(node));
+    }
 };
 
 /******************************************************************************
@@ -193,7 +207,7 @@ void tst_Parser::OneChar()
     /*ASSERT_TRUE*/ QVERIFY(root_);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_DOCUMENT, root_->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_INSERTION_BY_PARSER, root_->parse_flags);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(root_));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(root_));
 
     GumboNode* html = GetChild(root_, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, html->type);
@@ -201,17 +215,17 @@ void tst_Parser::OneChar()
     /*EXPECT_TRUE*/ QVERIFY(html->parse_flags & GUMBO_INSERTION_IMPLICIT_END_TAG);
     /*EXPECT_TRUE*/ QVERIFY(html->parse_flags & GUMBO_INSERTION_IMPLIED);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HTML, html->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(html));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(html));
 
     GumboNode* head = GetChild(html, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, head->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HEAD, head->v.element.tag);
-    /*EXPECT_EQ*/ QCOMPARE(0, GetChildCount(head));
+    /*EXPECT_EQ*/ QCOMPARE(0, _GetChildCount(head));
 
     GumboNode* body = GetChild(html, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, body->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_BODY, body->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
     /*EXPECT_EQ*/ QVERIFY(1 == body->v.element.start_pos.line);
     /*EXPECT_EQ*/ QVERIFY(1 == body->v.element.start_pos.column);
     /*EXPECT_EQ*/ QVERIFY(0 == body->v.element.start_pos.offset);
@@ -233,22 +247,22 @@ void tst_Parser::TextOnly()
 {
     parse("Test");
     /*EXPECT_EQ*/ QVERIFY(1 == output_->errors.length);  // No doctype.
-    /*ASSERT_EQ*/ QVERIFY(1 == GetChildCount(root_));
+    /*ASSERT_EQ*/ QVERIFY(1 == _GetChildCount(root_));
 
     GumboNode* html = GetChild(root_, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, html->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HTML, html->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(html));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(html));
 
     GumboNode* head = GetChild(html, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, head->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HEAD, head->v.element.tag);
-    /*EXPECT_EQ*/ QCOMPARE(0, GetChildCount(head));
+    /*EXPECT_EQ*/ QCOMPARE(0, _GetChildCount(head));
 
     GumboNode* body = GetChild(html, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, body->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_BODY, body->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* text = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text->type);
@@ -269,17 +283,17 @@ void tst_Parser::UnexpectedEndBreak()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(body));
 
     GumboNode* br = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, br->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_BR, br->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(br));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(br));
 
     GumboNode* div = GetChild(body, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, div->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_DIV, div->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(div));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(div));
 }
 
 void tst_Parser::CaseSensitiveAttributes()
@@ -287,7 +301,7 @@ void tst_Parser::CaseSensitiveAttributes()
     parse("<div class=CamelCase>");
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* div = GetChild(body, 0);
     GumboVector* attributes = &div->v.element.attributes;
@@ -305,7 +319,7 @@ void tst_Parser::ExplicitHtmlStructure()
           "<head><title>Foo</title></head>\n"
           "<body><div class=bar>Test</div></body></html>");
 
-    /*ASSERT_EQ*/ QVERIFY(1 == GetChildCount(root_));
+    /*ASSERT_EQ*/ QVERIFY(1 == _GetChildCount(root_));
     /*EXPECT_EQ*/ QVERIFY(0 == output_->errors.length);
 
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_DOCUMENT, root_->type);
@@ -325,7 +339,7 @@ void tst_Parser::ExplicitHtmlStructure()
     /*EXPECT_EQ*/ QVERIFY(92 == html->v.element.end_pos.offset);
     /*EXPECT_EQ*/ QVERIFY("<html>" == ToString(html->v.element.original_tag));
     /*EXPECT_EQ*/ QVERIFY("</html>" == ToString(html->v.element.original_end_tag));
-    /*ASSERT_EQ*/ QVERIFY(3 == GetChildCount(html));
+    /*ASSERT_EQ*/ QVERIFY(3 == _GetChildCount(html));
 
     GumboNode* head = GetChild(html, 0);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_INSERTION_NORMAL, head->parse_flags);
@@ -333,7 +347,7 @@ void tst_Parser::ExplicitHtmlStructure()
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HEAD, head->v.element.tag);
     /*EXPECT_EQ*/ QCOMPARE(html, head->parent);
     /*EXPECT_EQ*/ QVERIFY(0 == head->index_within_parent);
-    /*EXPECT_EQ*/ QCOMPARE(1, GetChildCount(head));
+    /*EXPECT_EQ*/ QCOMPARE(1, _GetChildCount(head));
 
     GumboNode* body = GetChild(html, 2);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_INSERTION_NORMAL, body->parse_flags);
@@ -349,14 +363,14 @@ void tst_Parser::ExplicitHtmlStructure()
     /*EXPECT_EQ*/ QVERIFY("<body>" == ToString(body->v.element.original_tag));
     /*EXPECT_EQ*/ QVERIFY("</body>" == ToString(body->v.element.original_end_tag));
     /*EXPECT_EQ*/ QVERIFY(2 == body->index_within_parent);
-    /*ASSERT_EQ*/ QVERIFY(1 == GetChildCount(body));
+    /*ASSERT_EQ*/ QVERIFY(1 == _GetChildCount(body));
 
     GumboNode* div = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, div->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_DIV, div->v.element.tag);
     /*EXPECT_EQ*/ QCOMPARE(body, div->parent);
     /*EXPECT_EQ*/ QVERIFY(0 == div->index_within_parent);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(div));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(div));
 
     /*ASSERT_EQ*/ QCOMPARE(1, GetAttributeCount(div));
     GumboAttribute* clas = GetAttribute(div, 0);
@@ -376,12 +390,12 @@ void tst_Parser::Whitespace()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* ul = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, ul->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_UL, ul->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(ul));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(ul));
 
     GumboNode* whitespace = GetChild(ul, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_WHITESPACE, whitespace->type);
@@ -390,7 +404,7 @@ void tst_Parser::Whitespace()
     GumboNode* li = GetChild(ul, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, li->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_LI, li->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(li));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(li));
 
     GumboNode* text = GetChild(li, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text->type);
@@ -404,13 +418,13 @@ void tst_Parser::DuplicateAttributes()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* input = GetChild(body, 0);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_INSERTION_IMPLICIT_END_TAG, input->parse_flags);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, input->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_INPUT, input->v.element.tag);
-    /*EXPECT_EQ*/ QCOMPARE(0, GetChildCount(input));
+    /*EXPECT_EQ*/ QCOMPARE(0, _GetChildCount(input));
     /*ASSERT_EQ*/ QCOMPARE(2, GetAttributeCount(input));
 
     GumboAttribute* checked = GetAttribute(input, 0);
@@ -443,19 +457,19 @@ void tst_Parser::LinkTagsInHead()
           "  </head>\n"
           "  <body>Foo</body>");
 
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(root_));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(root_));
 
     GumboNode* html = GetChild(root_, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, html->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_INSERTION_IMPLICIT_END_TAG, html->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HTML, html->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(3, GetChildCount(html));
+    /*ASSERT_EQ*/ QCOMPARE(3, _GetChildCount(html));
 
     GumboNode* head = GetChild(html, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, head->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_INSERTION_NORMAL, head->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HEAD, head->v.element.tag);
-    /*EXPECT_EQ*/ QCOMPARE(7, GetChildCount(head));
+    /*EXPECT_EQ*/ QCOMPARE(7, _GetChildCount(head));
 
     GumboNode* text1 = GetChild(head, 2);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_WHITESPACE, text1->type);
@@ -465,7 +479,7 @@ void tst_Parser::LinkTagsInHead()
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, link1->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_LINK, link1->v.element.tag);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_INSERTION_IMPLICIT_END_TAG, link1->parse_flags);
-    /*EXPECT_EQ*/ QCOMPARE(0, GetChildCount(link1));
+    /*EXPECT_EQ*/ QCOMPARE(0, _GetChildCount(link1));
 
     GumboNode* text2 = GetChild(head, 4);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_WHITESPACE, text2->type);
@@ -475,7 +489,7 @@ void tst_Parser::LinkTagsInHead()
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, link2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_LINK, link2->v.element.tag);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_INSERTION_IMPLICIT_END_TAG, link2->parse_flags);
-    /*EXPECT_EQ*/ QCOMPARE(0, GetChildCount(link2));
+    /*EXPECT_EQ*/ QCOMPARE(0, _GetChildCount(link2));
 
     GumboNode* text3 = GetChild(head, 6);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_WHITESPACE, text3->type);
@@ -485,18 +499,18 @@ void tst_Parser::LinkTagsInHead()
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, body->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_INSERTION_NORMAL, body->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_BODY, body->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 }
 
 void tst_Parser::WhitespaceBeforeHtml()
 {
     parse("<!doctype html>\n<html>Test</html>");
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(root_));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(root_));
 
     GumboNode* body = GetChild(GetChild(root_, 0), 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, body->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_BODY, GetTag(body));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* text = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text->type);
@@ -511,7 +525,7 @@ void tst_Parser::TextAfterHtml()
 
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, body->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_BODY, GetTag(body));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* text = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text->type);
@@ -525,12 +539,12 @@ void tst_Parser::WhitespaceInHead()
     GumboNode* html = GetChild(root_, 0);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, html->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HTML, GetTag(html));
-    /*EXPECT_EQ*/ QCOMPARE(2, GetChildCount(html));
+    /*EXPECT_EQ*/ QCOMPARE(2, _GetChildCount(html));
 
     GumboNode* head = GetChild(html, 0);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, head->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HEAD, GetTag(head));
-    /*EXPECT_EQ*/ QCOMPARE(0, GetChildCount(head));
+    /*EXPECT_EQ*/ QCOMPARE(0, _GetChildCount(head));
 
     GumboNode* body = GetChild(html, 1);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, body->type);
@@ -570,7 +584,7 @@ void tst_Parser::InvalidDoctype()
     GetAndAssertBody(root_, &body);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, body->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_BODY, GetTag(body));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* text = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text->type);
@@ -590,7 +604,7 @@ void tst_Parser::CommentInText()
     parse("Start <!-- comment --> end");
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(3, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(3, _GetChildCount(body));
 
     GumboNode* start = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, start->type);
@@ -620,7 +634,7 @@ void tst_Parser::CommentBeforeNode()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* h1 = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, h1->type);
@@ -635,14 +649,14 @@ void tst_Parser::CommentInVerbatimMode()
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, html->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HTML, GetTag(html));
     /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLIED |
-                          GUMBO_INSERTION_IMPLICIT_END_TAG) == html->parse_flags);
-    /*EXPECT_EQ*/ QCOMPARE(3, GetChildCount(html));
+                           GUMBO_INSERTION_IMPLICIT_END_TAG) == html->parse_flags);
+    /*EXPECT_EQ*/ QCOMPARE(3, _GetChildCount(html));
 
     GumboNode* body = GetChild(html, 1);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, body->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_BODY, GetTag(body));
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_INSERTION_NORMAL, body->parse_flags);
-    /*EXPECT_EQ*/ QCOMPARE(3, GetChildCount(body));
+    /*EXPECT_EQ*/ QCOMPARE(3, _GetChildCount(body));
 
     GumboNode* comment = GetChild(html, 2);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_COMMENT, comment->type);
@@ -655,7 +669,7 @@ void tst_Parser::UnknownTag()
     parse("<foo>1<p>2</FOO>");
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* foo = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, foo->type);
@@ -674,10 +688,10 @@ void tst_Parser::UnknownTag2()
     parse("<div><sarcasm><div></div></sarcasm></div>");
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* div = GetChild(body, 0);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(div));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(div));
     GumboNode* sarcasm = GetChild(div, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, sarcasm->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_UNKNOWN, GetTag(sarcasm));
@@ -690,17 +704,17 @@ void tst_Parser::InvalidEndTag()
     parse("<a><img src=foo.jpg></img></a>");
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* a = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, a->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_A, GetTag(a));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(a));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(a));
 
     GumboNode* img = GetChild(a, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, img->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_IMG, GetTag(img));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(img));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(img));
 }
 
 void tst_Parser::Tables()
@@ -715,26 +729,26 @@ void tst_Parser::Tables()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(4, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(4, _GetChildCount(body));
 
     GumboNode* br = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, br->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_BR, GetTag(br));
     /*EXPECT_EQ*/ QCOMPARE(body, br->parent);
     /*EXPECT_EQ*/ QVERIFY(0 == br->index_within_parent);
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(br));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(br));
 
     GumboNode* iframe = GetChild(body, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, iframe->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_IFRAME, GetTag(iframe));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(iframe));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(iframe));
 
     GumboNode* table = GetChild(body, 2);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, table->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TABLE, GetTag(table));
     /*EXPECT_EQ*/ QCOMPARE(body, table->parent);
     /*EXPECT_EQ*/ QVERIFY(2 == table->index_within_parent);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(table));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(table));
 
     GumboNode* table_text = GetChild(table, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_WHITESPACE, table_text->type);
@@ -743,13 +757,13 @@ void tst_Parser::Tables()
     GumboNode* tbody = GetChild(table, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tbody->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TBODY, GetTag(tbody));
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(tbody));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(tbody));
     // Second node is whitespace.
 
     GumboNode* tr = GetChild(tbody, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tr->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TR, GetTag(tr));
-    /*ASSERT_EQ*/ QCOMPARE(5, GetChildCount(tr));  // Including whitespace.
+    /*ASSERT_EQ*/ QCOMPARE(5, _GetChildCount(tr));  // Including whitespace.
 
     GumboNode* tr_text = GetChild(tr, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_WHITESPACE, tr_text->type);
@@ -762,7 +776,7 @@ void tst_Parser::Tables()
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TH, GetTag(th));
     /*EXPECT_EQ*/ QCOMPARE(tr, th->parent);
     /*EXPECT_EQ*/ QVERIFY(1 == th->index_within_parent);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(th));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(th));
 
     GumboNode* th_text = GetChild(th, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, th_text->type);
@@ -771,7 +785,7 @@ void tst_Parser::Tables()
     GumboNode* td = GetChild(tr, 3);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, td->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TD, GetTag(td));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(td));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(td));
 
     GumboNode* td_text = GetChild(td, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, td_text->type);
@@ -784,7 +798,7 @@ void tst_Parser::Tables()
     GumboNode* div = GetChild(body, 3);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, div->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_DIV, GetTag(div));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(div));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(div));
 }
 
 void tst_Parser::StartParagraphInTable()
@@ -793,14 +807,14 @@ void tst_Parser::StartParagraphInTable()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(body));
 
     GumboNode* paragraph = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, paragraph->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_P, GetTag(paragraph));
     /*EXPECT_EQ*/ QCOMPARE(body, paragraph->parent);
     /*EXPECT_EQ*/ QVERIFY(0 == paragraph->index_within_parent);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(paragraph));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(paragraph));
 
     GumboNode* text = GetChild(paragraph, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text->type);
@@ -811,7 +825,7 @@ void tst_Parser::StartParagraphInTable()
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TABLE, GetTag(table));
     /*EXPECT_EQ*/ QCOMPARE(body, table->parent);
     /*EXPECT_EQ*/ QVERIFY(1 == table->index_within_parent);
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(table));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(table));
 }
 
 void tst_Parser::EndParagraphInTable()
@@ -820,21 +834,21 @@ void tst_Parser::EndParagraphInTable()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(body));
 
     GumboNode* paragraph = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, paragraph->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_P, GetTag(paragraph));
     /*EXPECT_EQ*/ QCOMPARE(body, paragraph->parent);
     /*EXPECT_EQ*/ QVERIFY(0 == paragraph->index_within_parent);
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(paragraph));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(paragraph));
 
     GumboNode* table = GetChild(body, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, table->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TABLE, GetTag(table));
     /*EXPECT_EQ*/ QCOMPARE(body, table->parent);
     /*EXPECT_EQ*/ QVERIFY(1 == table->index_within_parent);
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(table));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(table));
 }
 
 void tst_Parser::UnknownTagInTable()
@@ -843,7 +857,7 @@ void tst_Parser::UnknownTagInTable()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(body));
 
     GumboNode* foo = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, foo->type);
@@ -851,7 +865,7 @@ void tst_Parser::UnknownTagInTable()
     /*EXPECT_EQ*/ QVERIFY("<foo>" == ToString(foo->v.element.original_tag));
     /*EXPECT_EQ*/ QCOMPARE(body, foo->parent);
     /*EXPECT_EQ*/ QVERIFY(0 == foo->index_within_parent);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(foo));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(foo));
 
     GumboNode* bar = GetChild(foo, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, bar->type);
@@ -862,7 +876,7 @@ void tst_Parser::UnknownTagInTable()
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TABLE, GetTag(table));
     /*EXPECT_EQ*/ QCOMPARE(body, table->parent);
     /*EXPECT_EQ*/ QVERIFY(1 == table->index_within_parent);
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(table));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(table));
 }
 
 void tst_Parser::UnclosedTableTags()
@@ -878,12 +892,12 @@ void tst_Parser::UnclosedTableTags()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(body));
 
     GumboNode* table = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, table->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TABLE, GetTag(table));
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(table));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(table));
 
     GumboNode* table_text = GetChild(table, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_WHITESPACE, table_text->type);
@@ -892,12 +906,12 @@ void tst_Parser::UnclosedTableTags()
     GumboNode* tbody = GetChild(table, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tbody->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TBODY, GetTag(tbody));
-    /*ASSERT_EQ*/ QCOMPARE(3, GetChildCount(tbody));
+    /*ASSERT_EQ*/ QCOMPARE(3, _GetChildCount(tbody));
 
     GumboNode* tr = GetChild(tbody, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tr->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TR, GetTag(tr));
-    /*ASSERT_EQ*/ QCOMPARE(3, GetChildCount(tr));
+    /*ASSERT_EQ*/ QCOMPARE(3, _GetChildCount(tr));
 
     GumboNode* tr_text = GetChild(tr, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_WHITESPACE, tr_text->type);
@@ -906,7 +920,7 @@ void tst_Parser::UnclosedTableTags()
     GumboNode* td1 = GetChild(tr, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, td1->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TD, GetTag(td1));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(td1));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(td1));
 
     GumboNode* td1_text = GetChild(td1, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, td1_text->type);
@@ -915,7 +929,7 @@ void tst_Parser::UnclosedTableTags()
     GumboNode* td2 = GetChild(tr, 2);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, td2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TD, GetTag(td2));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(td2));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(td2));
 
     GumboNode* td2_text = GetChild(td2, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, td2_text->type);
@@ -924,7 +938,7 @@ void tst_Parser::UnclosedTableTags()
     GumboNode* tr3 = GetChild(tbody, 2);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tr3->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TR, GetTag(tr3));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(tr3));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(tr3));
 
     GumboNode* body_text = GetChild(body, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_WHITESPACE, body_text->type);
@@ -937,32 +951,32 @@ void tst_Parser::MisnestedTable()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(body));
 
     GumboNode* div = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, div->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_DIV, GetTag(div));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(div));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(div));
 
     GumboNode* table = GetChild(body, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, table->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TABLE, GetTag(table));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(table));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(table));
 
     GumboNode* tbody = GetChild(table, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tbody->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TBODY, GetTag(tbody));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(tbody));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(tbody));
 
     GumboNode* tr = GetChild(tbody, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tr->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TR, GetTag(tr));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(tr));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(tr));
 
     GumboNode* td = GetChild(tr, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, td->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TD, GetTag(td));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(td));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(td));
 }
 
 void tst_Parser::MisnestedTable2()
@@ -971,27 +985,27 @@ void tst_Parser::MisnestedTable2()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* table1 = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, table1->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TABLE, GetTag(table1));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(table1));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(table1));
 
     GumboNode* tbody1 = GetChild(table1, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tbody1->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TBODY, GetTag(tbody1));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(tbody1));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(tbody1));
 
     GumboNode* tr1 = GetChild(tbody1, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tr1->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TR, GetTag(tr1));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(tr1));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(tr1));
 
     GumboNode* td1 = GetChild(tr1, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, td1->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TD, GetTag(td1));
-    /*ASSERT_EQ*/ QCOMPARE(3, GetChildCount(td1));
+    /*ASSERT_EQ*/ QCOMPARE(3, _GetChildCount(td1));
 
     GumboNode* cell1 = GetChild(td1, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, cell1->type);
@@ -1005,22 +1019,22 @@ void tst_Parser::MisnestedTable2()
     GumboNode* table2 = GetChild(td1, 2);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, table2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TABLE, GetTag(table2));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(table2));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(table2));
 
     GumboNode* tbody2 = GetChild(table2, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tbody2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TBODY, GetTag(tbody2));
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(tbody2));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(tbody2));
 
     GumboNode* tr2 = GetChild(tbody2, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tr2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TR, GetTag(tr2));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(tr2));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(tr2));
 
     GumboNode* th = GetChild(tr2, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, th->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TH, GetTag(th));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(th));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(th));
 
     GumboNode* cell2 = GetChild(th, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, cell2->type);
@@ -1029,7 +1043,7 @@ void tst_Parser::MisnestedTable2()
     GumboNode* tr3 = GetChild(tbody2, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tr3->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TR, GetTag(tr3));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(tr3));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(tr3));
 }
 
 void tst_Parser::Select()
@@ -1038,27 +1052,27 @@ void tst_Parser::Select()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(body));
 
     GumboNode* select = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, select->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_SELECT, GetTag(select));
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(select));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(select));
 
     GumboNode* option1 = GetChild(select, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, option1->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_OPTION, GetTag(option1));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(option1));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(option1));
 
     GumboNode* option2 = GetChild(select, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, option2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_OPTION, GetTag(option2));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(option2));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(option2));
 
     GumboNode* div = GetChild(body, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, div->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_DIV, GetTag(div));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(div));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(div));
 }
 
 void tst_Parser::ComplicatedSelect()
@@ -1068,22 +1082,22 @@ void tst_Parser::ComplicatedSelect()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(body));
 
     GumboNode* select = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, select->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_SELECT, GetTag(select));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(select));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(select));
 
     GumboNode* optgroup = GetChild(select, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, optgroup->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_OPTGROUP, GetTag(optgroup));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(optgroup));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(optgroup));
 
     GumboNode* option = GetChild(optgroup, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, option->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_OPTION, GetTag(option));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(option));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(option));
 
     GumboNode* text = GetChild(option, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text->type);
@@ -1092,7 +1106,7 @@ void tst_Parser::ComplicatedSelect()
     GumboNode* input = GetChild(body, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, input->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_INPUT, GetTag(input));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(input));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(input));
 }
 
 void tst_Parser::DoubleSelect()
@@ -1101,17 +1115,17 @@ void tst_Parser::DoubleSelect()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(body));
 
     GumboNode* select = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, select->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_SELECT, GetTag(select));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(select));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(select));
 
     GumboNode* div = GetChild(body, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, div->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_DIV, GetTag(div));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(div));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(div));
 }
 
 void tst_Parser::InputInSelect()
@@ -1120,22 +1134,22 @@ void tst_Parser::InputInSelect()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(3, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(3, _GetChildCount(body));
 
     GumboNode* select = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, select->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_SELECT, GetTag(select));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(select));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(select));
 
     GumboNode* input = GetChild(body, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, input->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_INPUT, GetTag(input));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(input));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(input));
 
     GumboNode* div = GetChild(body, 2);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, div->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_DIV, GetTag(div));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(div));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(div));
 }
 
 void tst_Parser::SelectInTable()
@@ -1144,37 +1158,37 @@ void tst_Parser::SelectInTable()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* table = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, table->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TABLE, GetTag(table));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(table));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(table));
 
     GumboNode* tbody = GetChild(table, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tbody->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TBODY, GetTag(tbody));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(tbody));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(tbody));
 
     GumboNode* tr = GetChild(tbody, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tr->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TR, GetTag(tr));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(tr));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(tr));
 
     GumboNode* td = GetChild(tr, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, td->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TD, GetTag(td));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(td));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(td));
 
     GumboNode* select = GetChild(td, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, select->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_SELECT, GetTag(select));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(select));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(select));
 
     GumboNode* option = GetChild(select, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, option->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_OPTION, GetTag(option));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(option));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(option));
 }
 
 void tst_Parser::ImplicitColgroup()
@@ -1183,27 +1197,27 @@ void tst_Parser::ImplicitColgroup()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* table = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, table->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TABLE, GetTag(table));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(table));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(table));
 
     GumboNode* colgroup = GetChild(table, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, colgroup->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_COLGROUP, GetTag(colgroup));
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(colgroup));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(colgroup));
 
     GumboNode* col1 = GetChild(colgroup, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, col1->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_COL, GetTag(col1));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(col1));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(col1));
 
     GumboNode* col2 = GetChild(colgroup, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, col2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_COL, GetTag(col2));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(col2));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(col2));
 }
 
 void tst_Parser::Form()
@@ -1212,17 +1226,17 @@ void tst_Parser::Form()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(body));
 
     GumboNode* form = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, form->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_FORM, GetTag(form));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(form));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(form));
 
     GumboNode* input = GetChild(form, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, input->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_INPUT, GetTag(input));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(input));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(input));
 
     GumboNode* text = GetChild(body, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text->type);
@@ -1235,22 +1249,22 @@ void tst_Parser::NestedForm()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(body));
 
     GumboNode* form = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, form->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_FORM, GetTag(form));
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(form));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(form));
 
     GumboNode* label = GetChild(form, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, label->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_LABEL, GetTag(label));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(label));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(label));
 
     GumboNode* input = GetChild(form, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, input->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_INPUT, GetTag(input));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(input));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(input));
 
     GumboNode* text = GetChild(body, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text->type);
@@ -1278,52 +1292,52 @@ void tst_Parser::MisnestedFormInTable()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* table1 = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, table1->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TABLE, GetTag(table1));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(table1));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(table1));
 
     GumboNode* tbody1 = GetChild(table1, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tbody1->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TBODY, GetTag(tbody1));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(tbody1));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(tbody1));
 
     GumboNode* tr1 = GetChild(tbody1, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tr1->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TR, GetTag(tr1));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(tr1));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(tr1));
 
     GumboNode* td1 = GetChild(tr1, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, td1->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TD, GetTag(td1));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(td1));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(td1));
 
     GumboNode* form1 = GetChild(td1, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, form1->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_FORM, GetTag(form1));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(form1));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(form1));
 
     GumboNode* table2 = GetChild(form1, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, table2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TABLE, GetTag(table2));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(table2));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(table2));
 
     GumboNode* tbody2 = GetChild(table2, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tbody2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TBODY, GetTag(tbody2));
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(tbody2));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(tbody2));
 
     GumboNode* tr2 = GetChild(tbody2, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tr2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TR, GetTag(tr2));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(tr2));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(tr2));
 
     GumboNode* form2 = GetChild(tbody2, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, form2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_FORM, GetTag(form2));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(form2));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(form2));
 }
 
 void tst_Parser::IsIndex()
@@ -1331,12 +1345,12 @@ void tst_Parser::IsIndex()
     parse("<isindex id=form1 action='/action' prompt='Secret Message'>");
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* form = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, form->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_FORM, GetTag(form));
-    /*ASSERT_EQ*/ QCOMPARE(3, GetChildCount(form));
+    /*ASSERT_EQ*/ QCOMPARE(3, _GetChildCount(form));
 
     GumboAttribute* action = GetAttribute(form, 0);
     /*EXPECT_STREQ*/ QCOMPARE("action", action->name);
@@ -1345,12 +1359,12 @@ void tst_Parser::IsIndex()
     GumboNode* hr1 = GetChild(form, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, hr1->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HR, GetTag(hr1));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(hr1));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(hr1));
 
     GumboNode* label = GetChild(form, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, label->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_LABEL, GetTag(label));
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(label));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(label));
 
     GumboNode* text = GetChild(label, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text->type);
@@ -1359,7 +1373,7 @@ void tst_Parser::IsIndex()
     GumboNode* input = GetChild(label, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, input->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_INPUT, GetTag(input));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(input));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(input));
     /*ASSERT_EQ*/ QCOMPARE(2, GetAttributeCount(input));
 
     GumboAttribute* id = GetAttribute(input, 0);
@@ -1373,7 +1387,7 @@ void tst_Parser::IsIndex()
     GumboNode* hr2 = GetChild(form, 2);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, hr2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HR, GetTag(hr2));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(hr2));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(hr2));
 }
 
 void tst_Parser::IsIndexDuplicateAttribute()
@@ -1382,22 +1396,22 @@ void tst_Parser::IsIndexDuplicateAttribute()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* form = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, form->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_FORM, GetTag(form));
-    /*ASSERT_EQ*/ QCOMPARE(3, GetChildCount(form));
+    /*ASSERT_EQ*/ QCOMPARE(3, _GetChildCount(form));
 
     GumboNode* label = GetChild(form, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, label->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_LABEL, GetTag(label));
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(label));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(label));
 
     GumboNode* input = GetChild(label, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, input->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_INPUT, GetTag(input));
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(input));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(input));
     /*ASSERT_EQ*/ QCOMPARE(1, GetAttributeCount(input));
 
     GumboAttribute* name = GetAttribute(input, 0);
@@ -1414,25 +1428,25 @@ void tst_Parser::NestedRawtextTags()
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, html->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HTML, GetTag(html));
     /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
-                          GUMBO_INSERTION_IMPLIED) == html->parse_flags);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(html));
+                           GUMBO_INSERTION_IMPLIED) == html->parse_flags);
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(html));
 
     GumboNode* head = GetChild(html, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, head->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HEAD, GetTag(head));
     /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
-                          GUMBO_INSERTION_IMPLIED) == head->parse_flags);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(head));
+                           GUMBO_INSERTION_IMPLIED) == head->parse_flags);
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(head));
 
     GumboNode* noscript = GetChild(head, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, noscript->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_NOSCRIPT, GetTag(noscript));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(noscript));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(noscript));
 
     GumboNode* style = GetChild(noscript, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, style->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_STYLE, GetTag(style));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(style));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(style));
 
     GumboNode* text = GetChild(style, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text->type);
@@ -1445,7 +1459,7 @@ void tst_Parser::RawtextInBody()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* noembed = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, noembed->type);
@@ -1471,12 +1485,12 @@ void tst_Parser::NoahsArkClause()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(body));
 
     GumboNode* p1 = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, p1->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_P, p1->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(p1));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(p1));
 
     GumboNode* size1 = GetChild(p1, 0);
     GumboNode* red1 = GetChild(size1, 0);
@@ -1486,12 +1500,12 @@ void tst_Parser::NoahsArkClause()
     GumboAttribute* red1_attr = GetAttribute(red1, 0);
     /*EXPECT_STREQ*/ QCOMPARE("color", red1_attr->name);
     /*EXPECT_STREQ*/ QCOMPARE("red", red1_attr->value);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(red1));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(red1));
 
     GumboNode* p2 = GetChild(body, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, p2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_P, p2->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(p2));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(p2));
 
     GumboNode* red2 = GetChild(p2, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, red2->type);
@@ -1500,7 +1514,7 @@ void tst_Parser::NoahsArkClause()
     GumboAttribute* red2_attr = GetAttribute(red2, 0);
     /*EXPECT_STREQ*/ QCOMPARE("color", red2_attr->name);
     /*EXPECT_STREQ*/ QCOMPARE("red", red2_attr->value);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(red2));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(red2));
 }
 
 void tst_Parser::AdoptionAgency1()
@@ -1508,27 +1522,27 @@ void tst_Parser::AdoptionAgency1()
     // http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#misnested-tags:-b-i-/b-/i
     parse("<p>1<b>2<i>3</b>4</i>5</p>");
 
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(root_));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(root_));
 
     GumboNode* html = GetChild(root_, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, html->type);
     /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
-                          GUMBO_INSERTION_IMPLIED) == html->parse_flags);
+                           GUMBO_INSERTION_IMPLIED) == html->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HTML, html->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(html));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(html));
 
     GumboNode* body = GetChild(html, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, body->type);
     /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
-                          GUMBO_INSERTION_IMPLIED) == body->parse_flags);
+                           GUMBO_INSERTION_IMPLIED) == body->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_BODY, body->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* p = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, p->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_INSERTION_NORMAL, p->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_P, p->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(4, GetChildCount(p));
+    /*ASSERT_EQ*/ QCOMPARE(4, _GetChildCount(p));
 
     GumboNode* text1 = GetChild(p, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text1->type);
@@ -1539,7 +1553,7 @@ void tst_Parser::AdoptionAgency1()
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, b->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_INSERTION_NORMAL, b->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_B, b->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(b));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(b));
 
     GumboNode* text2 = GetChild(b, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text2->type);
@@ -1550,7 +1564,7 @@ void tst_Parser::AdoptionAgency1()
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, i->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_INSERTION_IMPLICIT_END_TAG, i->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_I, i->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(i));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(i));
 
     GumboNode* text3 = GetChild(i, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text3->type);
@@ -1562,7 +1576,7 @@ void tst_Parser::AdoptionAgency1()
     /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_BY_PARSER |
                            GUMBO_INSERTION_RECONSTRUCTED_FORMATTING_ELEMENT) == i2->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_I, i2->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(i2));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(i2));
 
     GumboNode* text4 = GetChild(i2, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text4->type);
@@ -1579,27 +1593,27 @@ void tst_Parser::AdoptionAgency2()
 {
     // http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#misnested-tags:-b-p-/b-/p
     parse("<b>1<p>2</b>3</p>");
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(root_));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(root_));
 
     GumboNode* html = GetChild(root_, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, html->type);
     /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
-                          GUMBO_INSERTION_IMPLIED) == html->parse_flags);
+                           GUMBO_INSERTION_IMPLIED) == html->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HTML, html->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(html));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(html));
 
     GumboNode* body = GetChild(html, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, body->type);
     /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_BY_PARSER | GUMBO_INSERTION_IMPLICIT_END_TAG |
-                          GUMBO_INSERTION_IMPLIED) == body->parse_flags);
+                           GUMBO_INSERTION_IMPLIED) == body->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_BODY, body->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(body));
 
     GumboNode* b = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, b->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_INSERTION_IMPLICIT_END_TAG, b->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_B, b->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(b));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(b));
 
     GumboNode* text1 = GetChild(b, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text1->type);
@@ -1610,14 +1624,14 @@ void tst_Parser::AdoptionAgency2()
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, p->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_INSERTION_ADOPTION_AGENCY_MOVED, p->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_P, p->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(p));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(p));
 
     GumboNode* b2 = GetChild(p, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, b2->type);
     /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_ADOPTION_AGENCY_CLONED |
-                          GUMBO_INSERTION_BY_PARSER) == b2->parse_flags);
+                           GUMBO_INSERTION_BY_PARSER) == b2->parse_flags);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_B, b2->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(b2));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(b2));
 
     GumboNode* text2 = GetChild(b2, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text2->type);
@@ -1644,12 +1658,12 @@ void tst_Parser::ImplicitlyCloseLists()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* ul = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, ul->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_UL, GetTag(ul));
-    /*ASSERT_EQ*/ QCOMPARE(3, GetChildCount(ul));
+    /*ASSERT_EQ*/ QCOMPARE(3, _GetChildCount(ul));
 
     GumboNode* text = GetChild(ul, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_WHITESPACE, text->type);
@@ -1659,12 +1673,12 @@ void tst_Parser::ImplicitlyCloseLists()
     GumboNode* li1 = GetChild(ul, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, li1->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_LI, GetTag(li1));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(li1));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(li1));
 
     GumboNode* li2 = GetChild(ul, 2);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, li2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_LI, GetTag(li2));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(li2));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(li2));
 }
 
 void tst_Parser::CData()
@@ -1673,10 +1687,10 @@ void tst_Parser::CData()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* svg = GetChild(body, 0);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(svg));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(svg));
 
     GumboNode* cdata = GetChild(svg, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_CDATA, cdata->type);
@@ -1693,10 +1707,10 @@ void tst_Parser::CDataUnsafe()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* svg = GetChild(body, 0);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(svg));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(svg));
 
     GumboNode* cdata = GetChild(svg, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_CDATA, cdata->type);
@@ -1714,10 +1728,10 @@ void tst_Parser::CDataInBody()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* div = GetChild(body, 0);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(div));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(div));
 
     GumboNode* cdata = GetChild(div, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_COMMENT, cdata->type);
@@ -1730,12 +1744,12 @@ void tst_Parser::FormattingTagsInHeading()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(body));
 
     GumboNode* h2 = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, h2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_H2, GetTag(h2));
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(h2));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(h2));
 
     GumboNode* text1 = GetChild(h2, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text1->type);
@@ -1746,7 +1760,7 @@ void tst_Parser::FormattingTagsInHeading()
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, b->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_B, GetTag(b));
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_INSERTION_IMPLICIT_END_TAG, b->parse_flags);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(b));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(b));
 
     GumboNode* text2 = GetChild(b, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text2->type);
@@ -1757,8 +1771,8 @@ void tst_Parser::FormattingTagsInHeading()
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, b2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_B, GetTag(b2));
     /*EXPECT_EQ*/ QVERIFY((GUMBO_INSERTION_IMPLICIT_END_TAG | GUMBO_INSERTION_BY_PARSER |
-                          GUMBO_INSERTION_RECONSTRUCTED_FORMATTING_ELEMENT) == b2->parse_flags);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(b2));
+                           GUMBO_INSERTION_RECONSTRUCTED_FORMATTING_ELEMENT) == b2->parse_flags);
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(b2));
 
     GumboNode* text3 = GetChild(b2, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text3->type);
@@ -1772,7 +1786,7 @@ void tst_Parser::ExtraReconstruction()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(body));
 
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_SPAN, GetTag(GetChild(body, 0)));
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_P, GetTag(GetChild(body, 1)));
@@ -1784,27 +1798,27 @@ void tst_Parser::LinkifiedHeading()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* li = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, li->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_LI, GetTag(li));
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(li));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(li));
 
     GumboNode* h3 = GetChild(li, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, h3->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_H3, GetTag(h3));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(h3));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(h3));
 
     GumboNode* anchor = GetChild(h3, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, anchor->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_A, GetTag(anchor));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(anchor));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(anchor));
 
     GumboNode* div = GetChild(li, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, div->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_DIV, GetTag(div));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(div));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(div));
 }
 
 void tst_Parser::MisnestedHeading()
@@ -1848,33 +1862,33 @@ void tst_Parser::MisnestedHeading()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(3, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(3, _GetChildCount(body));
 
     GumboNode* h1 = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, h1->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_H1, GetTag(h1));
-    /*ASSERT_EQ*/ QCOMPARE(3, GetChildCount(h1));
+    /*ASSERT_EQ*/ QCOMPARE(3, _GetChildCount(h1));
     // Child 1 is whitespace, as it is for many of these nodes.
 
     GumboNode* section = GetChild(h1, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, section->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_SECTION, GetTag(section));
-    /*ASSERT_EQ*/ QCOMPARE(3, GetChildCount(section));
+    /*ASSERT_EQ*/ QCOMPARE(3, _GetChildCount(section));
 
     GumboNode* h2 = GetChild(section, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, h2->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_H2, GetTag(h2));
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(h2));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(h2));
 
     GumboNode* dl = GetChild(h2, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, dl->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_DL, GetTag(dl));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(dl));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(dl));
 
     GumboNode* dt = GetChild(dl, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, dt->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_DT, GetTag(dt));
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(dt));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(dt));
 
     GumboNode* text1 = GetChild(dt, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text1->type);
@@ -1889,7 +1903,7 @@ void tst_Parser::MisnestedHeading()
     GumboNode* h3 = GetChild(body, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, h3->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_H3, GetTag(h3));
-    /*EXPECT_EQ*/ QCOMPARE(1, GetChildCount(h3));
+    /*EXPECT_EQ*/ QCOMPARE(1, _GetChildCount(h3));
 
     GumboNode* text3 = GetChild(h3, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text3->type);
@@ -1908,7 +1922,7 @@ void tst_Parser::DoubleBody()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
     /*ASSERT_EQ*/ QCOMPARE(2, GetAttributeCount(body));
 
     GumboAttribute* clas = GetAttribute(body, 0);
@@ -1931,37 +1945,37 @@ void tst_Parser::ThInMathMl()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* math = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, math->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_MATH, math->v.element.tag);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NAMESPACE_MATHML, math->v.element.tag_namespace);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(math));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(math));
 
     GumboNode* th = GetChild(math, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, th->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TH, th->v.element.tag);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NAMESPACE_MATHML, th->v.element.tag_namespace);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(th));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(th));
 
     GumboNode* mi = GetChild(th, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, mi->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_MI, mi->v.element.tag);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NAMESPACE_MATHML, mi->v.element.tag_namespace);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(mi));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(mi));
 
     GumboNode* table = GetChild(mi, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, table->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TABLE, table->v.element.tag);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NAMESPACE_HTML, table->v.element.tag_namespace);
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(table));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(table));
 
     GumboNode* div = GetChild(mi, 1);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, div->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_DIV, div->v.element.tag);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NAMESPACE_HTML, div->v.element.tag_namespace);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(div));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(div));
 
     GumboNode* text = GetChild(div, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEXT, text->type);
@@ -1974,43 +1988,43 @@ void tst_Parser::TdInMathml()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(body));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(body));
 
     GumboNode* table = GetChild(body, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, table->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TABLE, table->v.element.tag);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NAMESPACE_HTML, table->v.element.tag_namespace);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(table));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(table));
 
     GumboNode* tbody = GetChild(table, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tbody->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TBODY, tbody->v.element.tag);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NAMESPACE_HTML, tbody->v.element.tag_namespace);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(tbody));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(tbody));
 
     GumboNode* tr = GetChild(tbody, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, tr->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TR, tr->v.element.tag);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NAMESPACE_HTML, tr->v.element.tag_namespace);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(tr));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(tr));
 
     GumboNode* th = GetChild(tr, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, th->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TH, th->v.element.tag);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NAMESPACE_HTML, th->v.element.tag_namespace);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(th));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(th));
 
     GumboNode* math = GetChild(th, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, math->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_MATH, math->v.element.tag);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NAMESPACE_MATHML, math->v.element.tag_namespace);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(math));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(math));
 
     GumboNode* td = GetChild(math, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, td->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TD, td->v.element.tag);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NAMESPACE_MATHML, td->v.element.tag_namespace);
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(td));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(td));
 }
 
 void tst_Parser::SelectInForeignContent()
@@ -2024,30 +2038,30 @@ void tst_Parser::TemplateInForeignContent()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*EXPECT_EQ*/ QCOMPARE(0, GetChildCount(body));
+    /*EXPECT_EQ*/ QCOMPARE(0, _GetChildCount(body));
 
     GumboNode* html = GetChild(root_, 0);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(html));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(html));
 
     GumboNode* head = GetChild(html, 0);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(head));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(head));
 
     GumboNode* template_node = GetChild(head, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEMPLATE, template_node->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TEMPLATE, template_node->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(template_node));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(template_node));
 
     GumboNode* svg_node = GetChild(template_node, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, svg_node->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_SVG, svg_node->v.element.tag);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NAMESPACE_SVG, svg_node->v.element.tag_namespace);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(svg_node));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(svg_node));
 
     GumboNode* svg_template = GetChild(svg_node, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, svg_template->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TEMPLATE, svg_template->v.element.tag);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_NAMESPACE_SVG, svg_template->v.element.tag_namespace);
-    /*EXPECT_EQ*/ QCOMPARE(0, GetChildCount(svg_template));
+    /*EXPECT_EQ*/ QCOMPARE(0, _GetChildCount(svg_template));
 }
 
 void tst_Parser::TemplateNull()
@@ -2057,34 +2071,34 @@ void tst_Parser::TemplateNull()
 
     GumboNode* body;
     GetAndAssertBody(root_, &body);
-    /*EXPECT_EQ*/ QCOMPARE(0, GetChildCount(body));
+    /*EXPECT_EQ*/ QCOMPARE(0, _GetChildCount(body));
 
     GumboNode* html = GetChild(root_, 0);
-    /*ASSERT_EQ*/ QCOMPARE(2, GetChildCount(html));
+    /*ASSERT_EQ*/ QCOMPARE(2, _GetChildCount(html));
 
     GumboNode* head = GetChild(html, 0);
-    /*ASSERT_EQ*/ QCOMPARE(1, GetChildCount(head));
+    /*ASSERT_EQ*/ QCOMPARE(1, _GetChildCount(head));
 
     GumboNode* template_node = GetChild(head, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_TEMPLATE, template_node->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_TEMPLATE, template_node->v.element.tag);
-    /*ASSERT_EQ*/ QCOMPARE(0, GetChildCount(template_node));
+    /*ASSERT_EQ*/ QCOMPARE(0, _GetChildCount(template_node));
 }
 
 void tst_Parser::FragmentWithNamespace()
 {
     parseFragment("<div></div>", GUMBO_TAG_TITLE, GUMBO_NAMESPACE_SVG);
 
-    /*EXPECT_EQ*/ QCOMPARE(1, GetChildCount(root_));
+    /*EXPECT_EQ*/ QCOMPARE(1, _GetChildCount(root_));
     GumboNode* html = GetChild(root_, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, html->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_HTML, html->v.element.tag);
-    /*EXPECT_EQ*/ QCOMPARE(1, GetChildCount(html));
+    /*EXPECT_EQ*/ QCOMPARE(1, _GetChildCount(html));
 
     GumboNode* div = GetChild(html, 0);
     /*ASSERT_EQ*/ QCOMPARE(GUMBO_NODE_ELEMENT, div->type);
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_TAG_DIV, div->v.element.tag);
-    /*EXPECT_EQ*/ QCOMPARE(0, GetChildCount(div));
+    /*EXPECT_EQ*/ QCOMPARE(0, _GetChildCount(div));
 }
 
 /******************************************************************************
