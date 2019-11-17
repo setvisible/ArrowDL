@@ -1,0 +1,35 @@
+# Dependencies
+markdown:         kramdown
+highlighter:      rouge
+
+# Setup
+title:            DZA!
+tagline:          'DownZemAll!'
+description:      '<a href="http://setvisible.github.io/DownZemAll" target="_blank">DownZemAll!</a> is a download manager for Windows, Mac OS X and Linux.'
+url:              https://setvisible.github.io
+baseurl:          '/DownZemAll'
+                  # the optional subpath of your site, e.g. "/blog"
+                  # NB: This applies to all pages in your Jekyll site.
+                  # If you want to move just the blog index pages but keep
+                  # other pages at root, see the paginate_path and
+                  # sidebar_blog_link below.
+
+author:
+  name:           'SetVisible(0!=1)'
+  url:            https://setvisible.github.io
+
+paginate:         5
+# paginate_path:    '/page:num'
+                    # Or '/blog/page:num' if you want to move your index pages
+
+plugins:
+  - jekyll-feed
+  - jekyll-gist
+  - jekyll-paginate
+
+# Sidebar link settings
+sidebar_home_link:  true
+# sidebar_blog_link:  '/blog'   # By default, your home page is your blog
+                                # page. If you change your paginate_path,
+                                # set this to the root of the paginate_path
+                                # to enable a separate blog link.
