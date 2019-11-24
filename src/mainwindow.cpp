@@ -293,14 +293,36 @@ void MainWindow::openWizard()
 
 void MainWindow::openWizard(const QUrl &url)
 {
-    WizardDialog dialog(url, m_downloadManager, m_settings, this);
+    WizardDialog dialog(m_downloadManager, m_settings, this);
+    dialog.loadUrl(url);
+    dialog.exec();
+}
+
+void MainWindow::openWizard(const QStringList &list)
+{
+    WizardDialog dialog(m_downloadManager, m_settings, this);
+    dialog.loadResources(list);
     dialog.exec();
 }
 
 void MainWindow::handleMessage(const QString &message)
 {
-    if (!message.isEmpty()) {
-        openWizard(QUrl(message));
+    qDebug() << Q_FUNC_INFO << message;
+
+    const QString trimmed = message.trimmed();
+    if (!trimmed.isEmpty()) {
+
+        if (!trimmed.contains(QChar::Space, Qt::CaseInsensitive)) {
+
+            // Assume it's an unique URL, so a HTML page.
+            openWizard(QUrl(message));
+
+        } else {
+
+            // Otherwise, assume it's a list of resources.
+            const QStringList list = trimmed.split(QChar::Space, QString::SkipEmptyParts);
+            openWizard(list);
+        }
     }
 }
 
