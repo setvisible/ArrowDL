@@ -32,9 +32,9 @@ static ResourceItem* createResourceItem(const GumboElement &element, const QUrl 
 {
     const GumboVector* attributes = &element.attributes;
 
-    GumboAttribute* href = NULL;
-    GumboAttribute* alt = NULL;
-    GumboAttribute* title = NULL;
+    GumboAttribute* href = nullptr;
+    GumboAttribute* alt = nullptr;
+    GumboAttribute* title = nullptr;
 
     if (element.tag == GUMBO_TAG_A) {
         href = gumbo_get_attribute(attributes, "href");
@@ -58,13 +58,13 @@ static ResourceItem* createResourceItem(const GumboElement &element, const QUrl 
         /// \todo GUMBO_TAG_SOURCE
     }
 
-    if (href == NULL) {
-        return NULL;
+    if (href == nullptr) {
+        return nullptr;
     }
 
     QUrl url2(href->value);
     if (url2.isEmpty()) {
-        return NULL;
+        return nullptr;
     }
     QUrl url3 = baseUrl.resolved(url2);
 
