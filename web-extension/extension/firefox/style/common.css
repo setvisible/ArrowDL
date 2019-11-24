@@ -1,0 +1,41 @@
+html,
+body {
+  font-size: 10pt !important;
+}
+
+body,
+html {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", "Helvetica Neue", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font: caption;
+  font-weight: bold;
+}
+h1 {
+  font-size: 110%;
+}
+h2 {
+  font-size: 103%;
+}
+h3 {
+  font-size: 102%;
+}
+h4 {
+  font-size: 101%;
+}
+
+section {
+  margin: 0;
+  margin-bottom: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+#buttons {
+  margin-right: 1em;
+  text-align: end;
+}
