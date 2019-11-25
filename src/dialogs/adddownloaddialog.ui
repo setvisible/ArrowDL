@@ -259,7 +259,7 @@
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">image: url(:/icons/logo/dza_128x128.png);</string>
+        <string notr="true">image: url(:/icons/logo/icon128.png);</string>
        </property>
       </widget>
      </item>

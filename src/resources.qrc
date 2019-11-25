@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>icons/logo/dza.ico</file>
-        <file>icons/logo/dza_128x128.png</file>
+        <file>icons/logo/icon.ico</file>
+        <file>icons/logo/icon128.png</file>
         <file>icons/menu/button_help_16x16.png</file>
         <file>icons/menu/button_preference_16x16.png</file>
         <file>icons/menu/check_nok_16x16.png</file>
@@ -40,7 +40,6 @@
         <file>icons/menu/icon_top_16x16.png</file>
         <file>icons/menu/icon_up_16x16.png</file>
         <file>icons/menu/icon_warning_16x16.png</file>
-        <file>icons/menu/logo.png</file>
         <file>icons/menu/paused_autoretry_32x32.png</file>
         <file>icons/menu/paused_failed_32x32.png</file>
         <file>icons/menu/paused_undetermined_32x32.png</file>

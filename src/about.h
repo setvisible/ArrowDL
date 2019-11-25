@@ -72,7 +72,7 @@ QString about()
 QString aboutHtml()
 {
     return QString("<h3>" + QCoreApplication::tr("About %0").arg(STR_APPLICATION_NAME) + "</h3>" +
-                   "<p><img src=\"://icons/logo/dza_128x128.png\" /></p>" +
+                   "<p><img src=\"://icons/logo/icon128.png\" /></p>" +
                    "<p></p>" +
                    "<p>" + buildAbout("</p><p>") + "</p>");
 }
