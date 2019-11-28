@@ -10,18 +10,18 @@ ECHO .. Install directory: %INSTALL_PATH%
 
 ECHO .. Writting to Chrome Registry
 ECHO .. Key: HKCU\Software\Google\Chrome\NativeMessagingHosts\DownRightNow
-REG ADD "HKCU\Software\Google\Chrome\NativeMessagingHosts\DownRightNow" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher\manifest-chrome.json" /f
+REG ADD "HKCU\Software\Google\Chrome\NativeMessagingHosts\DownRightNow" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher-manifest-chrome.json" /f
 
 ECHO .. Writting to Firefox Registry
 ECHO .. Key: HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\DownRightNow
-REG ADD "HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\DownRightNow" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher\manifest-firefox.json" /f
+REG ADD "HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\DownRightNow" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher-manifest-firefox.json" /f
 
 ECHO .. Writting to Waterfox Registry
 ECHO .. Key: HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\DownRightNow
-REG ADD "HKCU\SOFTWARE\Waterfox\NativeMessagingHosts\DownRightNow" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher\manifest-firefox.json" /f
+REG ADD "HKCU\SOFTWARE\Waterfox\NativeMessagingHosts\DownRightNow" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher-manifest-firefox.json" /f
 
 ECHO .. Writting to Thunderbird Registry
 ECHO .. Key: HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\DownRightNow
-REG ADD "HKCU\SOFTWARE\Thunderbird\NativeMessagingHosts\DownRightNow" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher\manifest-firefox.json" /f
+REG ADD "HKCU\SOFTWARE\Thunderbird\NativeMessagingHosts\DownRightNow" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher-manifest-firefox.json" /f
 
 PAUSE
