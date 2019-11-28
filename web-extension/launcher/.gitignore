@@ -5,7 +5,7 @@
 /.*
 /*
 !/.gitignore
-!/build.bat
+!/CMakeLists.txt
 !/launcher.cpp
 !/launcher.pro
 !/launcher-manifest-chrome.json

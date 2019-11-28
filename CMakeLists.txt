@@ -81,17 +81,12 @@ else() # MacOS or Unix Compilers
 endif()
 
 
-# Rename application
-if(RELEASE_MODE)
-    set(DownZemAll_NAME "DownZemAll")
-else(RELEASE_MODE)
-    set(DownZemAll_NAME "DownZemAlld")
-endif(RELEASE_MODE)
-
-
 ##############################################################################
 # build options
 ##############################################################################
+option(ENABLE_APPLICATION "Set to ON to build the Application (default)" ON)
+option(ENABLE_LAUNCHER "Set to ON to build the Launcher (default)" ON)
+
 option(ENABLE_TESTS "Set to ON to build test applications (default)" ON)
 
 if(MSVC)
@@ -118,10 +113,10 @@ add_definitions(-DQT_DEPRECATED_WARNINGS)
 # Note: at least needed for QtSingleApplication on Windows...
 add_definitions(-DUNICODE)
 
-
 if(USE_QT_WEBENGINE)
     add_definitions(-DUSE_QT_WEBENGINE)
 endif(USE_QT_WEBENGINE)
+
 
 ##############################################################################
 ## Qt5
@@ -151,126 +146,39 @@ endif(ENABLE_TESTS)
 ##############################################################################
 ## 3RD-PARTY DEPENDENCIES
 ##############################################################################
-include(${CMAKE_CURRENT_SOURCE_DIR}/3rd/CMakeLists.txt)
+if(ENABLE_APPLICATION OR ENABLE_TESTS)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/3rd/CMakeLists.txt)
+endif(ENABLE_APPLICATION OR ENABLE_TESTS)
 
 
 ##############################################################################
 ### Include
 ##############################################################################
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
-include_directories(./include/)
+if(ENABLE_APPLICATION OR ENABLE_TESTS)
+
+    include_directories(${CMAKE_CURRENT_BINARY_DIR})
+    include_directories(./include/)
+
+endif(ENABLE_APPLICATION OR ENABLE_TESTS)
 
 
 ##############################################################################
-### Sources
+# Building
 ##############################################################################
-include(${CMAKE_CURRENT_SOURCE_DIR}/src/CMakeLists.txt)
-include(${CMAKE_CURRENT_SOURCE_DIR}/src/core/CMakeLists.txt)
-include(${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/CMakeLists.txt)
-include(${CMAKE_CURRENT_SOURCE_DIR}/src/io/CMakeLists.txt)
-include(${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/CMakeLists.txt)
+if(ENABLE_APPLICATION)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/src/CMakeLists.txt)
+endif(ENABLE_APPLICATION)
 
-
-##############################################################################
-# Linking the executable
-##############################################################################
-add_executable(${DownZemAll_NAME}
-    WIN32           # build a Win32 application, not a console application
-    ${MY_FORMS}
-    ${MY_SOURCES}
-    ${QTSINGLEAPPLICATION_SOURCES}
-    ${MY_RESOURCES}
-    )
-
-# Gumbo
-target_link_libraries(${DownZemAll_NAME}
-    gumbo_static_lib
-    )
-
-# Windows only: Version.dll
-if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
-    # might be "C:/Windows/System32/version.dll" or "C:/Windows/SysWOW64/version.dll"
-    target_link_libraries(${DownZemAll_NAME}
-        version.dll
-        )
-endif()
-
-# Qt5
-target_link_libraries(${DownZemAll_NAME} Qt5::Core)
-target_link_libraries(${DownZemAll_NAME} Qt5::Gui)
-target_link_libraries(${DownZemAll_NAME} Qt5::Widgets)
-target_link_libraries(${DownZemAll_NAME} Qt5::Network)
-if(USE_QT_WEBENGINE)
-    target_link_libraries(${DownZemAll_NAME} Qt5::WebEngineWidgets)
-endif(USE_QT_WEBENGINE)
+if(ENABLE_LAUNCHER)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/web-extension/launcher/CMakeLists.txt)
+endif(ENABLE_LAUNCHER)
 
 
 ##############################################################################
 # Unit Tests
 ##############################################################################
-
 if(ENABLE_TESTS)
-
-    enable_testing()
-
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/attribute/CMakeLists.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/charref/CMakeLists.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/parser/CMakeLists.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/stringbuffer/CMakeLists.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/stringpiece/CMakeLists.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/tokenizer/CMakeLists.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/utf8/CMakeLists.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/google-gumbo-parser/vector/CMakeLists.txt)
-
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/abstractsettings/CMakeLists.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/downloadengine/CMakeLists.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/downloadmanager/CMakeLists.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/format/CMakeLists.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/mask/CMakeLists.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/regex/CMakeLists.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/resourceitem/CMakeLists.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/io/jsonhandler/CMakeLists.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/io/texthandler/CMakeLists.txt)
-
-    # Copy the dlls to run the tests
-    # Or
-    # Add the directory to the DLLs to the PATH environment temporarly
-
-    ## Qt Libraries
-    get_target_property(QtCore_LOCATION Qt5::Core LOCATION)
-    get_filename_component(QT_DLL_DIR ${QtCore_LOCATION} PATH)
-    set(MY_QT_ENVIRONMENT_PATH ${QT_DLL_DIR}/..)
-
-    # set any extra environment variables to use during the execution of the script here:
-    set_tests_properties(  # use TESTS from cmake 3.12.0
-
-        # tests of Gumbo
-        tst_attribute
-        tst_charref
-        tst_parser
-        tst_stringbuffer
-        tst_stringpiece
-        tst_tokenizer
-        tst_utf8
-        tst_vector
-
-        # tests of DownZemAll
-        tst_abstractsettings
-        tst_downloadengine
-        tst_downloadmanager
-        tst_format
-        tst_mask
-        tst_regex
-        tst_resourceitem
-        tst_jsonhandler
-        tst_texthandler
-
-        PROPERTIES ENVIRONMENT
-        # The following line must escape semi-colons ";" with "\;"
-        "PATH=%PATH%\;${MY_QT_ENVIRONMENT_PATH}/bin\;${MY_QT_ENVIRONMENT_PATH}/plugins"
-        )
-
-
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/CMakeLists.txt)
 endif(ENABLE_TESTS)
 
 
@@ -377,11 +285,3 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
 
 endif(MSVC OR MSYS OR MINGW)
 
-
-##############################################################################
-# Deploying executable
-##############################################################################
-install(TARGETS ${DownZemAll_NAME}
-    RUNTIME
-    DESTINATION ${CMAKE_INSTALL_PREFIX}
-    )
