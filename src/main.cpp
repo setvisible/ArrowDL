@@ -18,12 +18,11 @@
 #include "mainwindow.h"
 
 #include <QtSingleApplication>
-
+#include <Ipc/InterProcessCommunication>
 #include <Widgets/CustomStyle>
 
 #include <QtCore/QCommandLineParser>
-#include <QtCore/QMetaType>
-#include <QtCore/QUrl>
+
 
 Q_DECLARE_METATYPE(QList<int>)
 
@@ -43,30 +42,44 @@ int main(int argc, char *argv[])
     parser.setApplicationDescription(QT_TRANSLATE_NOOP("main", "\nAnother Download Manager"));
     parser.addHelpOption();
     parser.addVersionOption();
+
+    QCommandLineOption interactiveOption(QStringList() << "i" << "interactive", "Interactive mode.");
+    parser.addOption(interactiveOption);
+
     parser.addPositionalArgument("url", QT_TRANSLATE_NOOP("main", "target URL to proceed."));
 
     parser.process(application);
 
-    const QStringList positionalArguments = parser.positionalArguments();
-    const QString arg = !positionalArguments.isEmpty() ? positionalArguments.first() : QString();
+    QString message;
+    const bool interactive = parser.isSet(interactiveOption);
+    if (interactive) {
+
+        message = InterProcessCommunication::readMessage();
+
+    } else {
+        const QStringList positionalArguments = parser.positionalArguments();
+        foreach (auto positionalArgument, positionalArguments) {
+            message += positionalArgument;
+            message += QChar::Space;
+        }
+    }
 
     if (application.isRunning()) {
         qWarning("Another instance is running...");
-        /*
-         * Rem: Even if 'arg' is empty, the message is still sent to activates the window.
-         */
-        bool ok = application.sendMessage(arg, 2000);
+        // Rem: Even if is empty, the message is still sent to activates the window.
+        bool ok = application.sendMessage(message, 2000);
         if (!ok) {
             qCritical("Message sending failed; the application may be frozen.");
         }
         return EXIT_SUCCESS;
     }
 
+
     MainWindow window;
     window.show();
 
-    if (!arg.isEmpty()) {
-        window.openWizard(QUrl(arg));
+    if (!message.isEmpty()) {
+        window.handleMessage(message);
     }
 
     application.setActivationWindow(&window);

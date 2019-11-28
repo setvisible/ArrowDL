@@ -262,7 +262,7 @@ int main(int /*argc*/, char* /*argv*/[])
      * with -i (--interactive) argument.
      *
      */
-    std::string arguments("Here is a dummy message");
+    std::string arguments("[LINKS] Here is a [MEDIA] dummy message [END]");
     bool ok = sendCommandToProcess(C_PROCESS, arguments);
 
     /*
