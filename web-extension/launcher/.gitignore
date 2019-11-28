@@ -7,4 +7,6 @@
 !/.gitignore
 !/build.bat
 !/launcher.cpp
-!/launcher.json
+!/launcher.pro
+!/launcher-manifest-chrome.json
+!/launcher-manifest-firefox.json

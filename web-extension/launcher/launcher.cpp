@@ -14,35 +14,65 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* C Standard Library */
 #include <iostream>     /* std::cout, std::cin */
 #include <sstream>      /* std::stringstream */
 #include <string>       /* std::string */
 #include <algorithm>    /* str.erase(std::remove(str.begin(), str.end(), 'a'), str.end()); */
 #include <fcntl.h>      /* for _O_TEXT and _O_BINARY */
 #include <math.h>       /* pow */
-#include <windows.h>
 
+/* Qt */
+#include <QtCore/QtGlobal>
+#include <QtCore/QProcess>
+#include <QtCore/QSharedMemory>
+
+#ifdef Q_OS_WIN
+#  include <qt_windows.h>   /* CREATE_BREAKAWAY_FROM_JOB */
+#endif
+
+#if defined(Q_CC_MSVC)
+#  include <io.h>           /* _setmode */
+#endif
+
+
+// To debug the Launcher, uncomment this line:
+//#define DEBUG_LAUNCHER 1
+
+#if defined(DEBUG_LAUNCHER)
+#  include <QtCore/QDebug>
+#endif
 
 /* Constants */
+static const std::string C_PROCESS = "./DownZemAll.exe";
 static const std::string C_LAUNCH("\"launch ");
-static const std::string C_PROCESS = ".\\..\\DownZemAll.exe";
+
+static const QString C_SHARED_MEMORY_KEY("org.example.QSharedMemory.DownloadManager");
+static const QString C_SHARED_MEMORY_ACK_REPLY("0K3Y_B0Y");
 
 static const std::string C_COMPRESSION_PREFIX("[CURRENT_URL]");
 static const std::string C_COMPRESSION_SUFFIX("[LINKS]");
 static const std::string C_COMPRESSION_COMMAND("[OPEN_URL] ");
 static const std::string C_COMPRESSION_ERROR("[ERROR_PARSE_URL] ");
 
-
-static std::string quote(const std::string &str)
-{
-    return "\"" + str + "\"";
-}
-
 static std::string unquote(const std::string &str)
 {
     std::string unquoted(str);
     unquoted.erase(std::remove(unquoted.begin(), unquoted.end(), '\"'), unquoted.end());
     return unquoted;
+}
+
+void mSleep(int ms)
+{
+    Q_ASSERT(ms > 0);
+#if defined(Q_OS_WINRT)
+    WaitForSingleObjectEx(GetCurrentThread(), ms, true);
+#elif defined(Q_OS_WIN)
+    Sleep(uint(ms));
+#else
+    struct timespec ts = { time_t(ms / 1000), (ms % 1000) * 1000 * 1000 };
+    nanosleep(&ts, NULL);
+#endif
 }
 
 static void sendDataToExtension(const std::string &message)
@@ -73,56 +103,134 @@ static std::string openStandardStreamIn()
 {
     std::cout.setf(std::ios_base::unitbuf);
     _setmode(_fileno(stdin), _O_BINARY);
-    int c = 0;
-    unsigned int t = 0;
-    std::size_t pos = 0;
-    std::size_t m = 0;
-    std::string inp;
-    inp = "";
-    t = 0;
+
+    int size = 0;
     for (int i = 0; i <= 3; i++) {
-        t += (unsigned int)pow(256.0f, i) * getchar();
+        size += static_cast<int>(pow(256.0f, i) * getchar());
     }
-    for (int i = 0; i < (int)t; i++) {
-        c = getchar();
-        inp += (char) c;
+
+    std::string input = "";
+    for (int i = 0; i < size; i++) {
+        input += static_cast<char>(getchar());
     }
-    return inp;
+    return input;
 }
 
-static boolean sendCommandToProcess(const std::string &process, const std::string &arguments)
+static bool startInteractiveMode(const QString &program)
 {
-    std::stringstream stream;
-    stream << quote(process)
-           << " "
-           << arguments;
+    QProcess process;
+    process.setProgram(program);
+    process.setArguments(QStringList() << "-i");
 
-    const std::string fullCommand = stream.str();
+    /// \todo Add process.setWorkingDirectory(<current dir>); ?
 
-    LPSTR szCmdline = const_cast<char *>(fullCommand.c_str());
+    process.setStandardOutputFile(QProcess::nullDevice());
+    process.setStandardErrorFile(QProcess::nullDevice());
 
-    STARTUPINFO si;
-    PROCESS_INFORMATION pi;
-    ZeroMemory( &si, sizeof(si) );
-    si.cb = sizeof(si);
-    ZeroMemory( &pi, sizeof(pi) );
+#if defined(Q_OS_WIN)
+    // Rem: Necessary on Windows
+    process.setCreateProcessArgumentsModifier(
+                [] (QProcess::CreateProcessArguments *args)
+    {
+        args->flags |= CREATE_BREAKAWAY_FROM_JOB;
+    });
+#endif
 
-    int flags = CREATE_BREAKAWAY_FROM_JOB; // Start independent process
-
-    BOOL ok = CreateProcess(
-                NULL,           // No module name (use command line)
-                szCmdline,      // Command line
-                NULL,           // Process handle not inheritable
-                NULL,           // Thread handle not inheritable
-                FALSE,          // Set handle inheritance to FALSE
-                flags,          // creation flags
-                NULL,           // Use parent's environment block
-                NULL,           // Use parent's starting directory
-                &si,            // Pointer to STARTUPINFO structure
-                &pi             // Pointer to PROCESS_INFORMATION structure
-                );
-    return ok == TRUE;
+    // Start the Application, detached from the Launcher
+    return process.startDetached();
 }
+
+static bool sendCommandToProcess(const QString &program, const QString &arguments)
+{
+    QSharedMemory sharedMemory;
+    sharedMemory.setKey(C_SHARED_MEMORY_KEY);
+
+    /*
+     * The shared memory must be large enough to contain the
+     * message and also the future reply.
+     * The reply is assumed to be less than 1024 chars.
+     */
+    int ideal_size = qMax(1024, arguments.toUtf8().size() + 10);
+
+    if (sharedMemory.create(ideal_size)) {
+
+        if (sharedMemory.isAttached()) {
+
+            if (sharedMemory.lock()) {
+                // Write the message into the shared memory
+                QByteArray bytes = arguments.toUtf8();
+
+                const char *from = bytes.constData();
+                void *to = sharedMemory.data();
+                size_t size = static_cast<size_t>(qMin(bytes.size() + 1, sharedMemory.size()));
+                memcpy(to, from, size);
+
+                char *d_ptr = static_cast<char*>(sharedMemory.data());
+                d_ptr[sharedMemory.size() - 1] = '\0';
+
+                sharedMemory.unlock();
+            }
+
+        } else {
+            /*
+             * Unable to attach to the shared memory segment.
+             *
+             * Use sharedMemory.error() and sharedMemory.errorString()
+             * to investigate the error.
+             */
+            return false;
+        }
+    } else {
+        /*
+         * Unable to create shared memory segment.
+         *
+         * Use sharedMemory.error() and sharedMemory.errorString()
+         * to investigate the error.
+         */
+        return false;
+    }
+
+    // Start the Application in -i (--interactive) mode.
+    bool started = startInteractiveMode(program);
+    if (!started) {
+        return false;
+    }
+
+    // Wait during 10 seconds for the Application replies the ACK message
+    int counter = 0;
+    while (counter < 10) {
+        counter++;
+
+        mSleep(1000);
+        QByteArray answer;
+
+        if (sharedMemory.lock()) {
+            // Reads the shared memory
+            const char* ptr = static_cast<const char*>(sharedMemory.constData());
+            uint n = static_cast<uint>(sharedMemory.size());
+            answer.setRawData(ptr, n);
+            sharedMemory.unlock();
+        }
+
+        if (QString(answer) == C_SHARED_MEMORY_ACK_REPLY) {
+            sharedMemory.detach();
+            return true;
+        }
+    }
+
+    sharedMemory.detach();
+    return false;
+}
+
+
+static bool sendCommandToProcess(const std::string &program, const std::string &arguments)
+{
+    const QString programQt = QString::fromUtf8(program.c_str());
+    const QString argumentsQt = QString::fromUtf8(arguments.c_str());
+
+    return sendCommandToProcess(programQt, argumentsQt);
+}
+
 
 std::string compress(const std::string &command)
 {
@@ -142,8 +250,35 @@ std::string compress(const std::string &command)
     return compressed;
 }
 
-int main(int argc, char* argv[])
+int main(int /*argc*/, char* /*argv*/[])
 {
+#if defined(DEBUG_LAUNCHER)
+    /*
+     * The code below permits to step-by-step debug the Launcher,
+     * launching the Application and passing a dummy message
+     * through the Shared Memory communication.
+     *
+     * Note that the Application must be started before the Launcher
+     * with -i (--interactive) argument.
+     *
+     */
+    std::string arguments("Here is a dummy message");
+    bool ok = sendCommandToProcess(C_PROCESS, arguments);
+
+    /*
+     * The code below sends the status back to the Browser
+     * and permit to verify the communication between
+     * the Launcher and the Browser.
+     */
+    if (ok) {
+        sendDataToExtension("Done");
+    } else {
+        sendDataToExtension("Error");
+    }
+
+    return 0;
+#endif
+
     std::string input = "";
     while ((input = openStandardStreamIn()) != "") {
 
