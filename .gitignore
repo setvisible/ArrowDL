@@ -11,6 +11,7 @@
 !/screenshots
 !/src
 !/test
+!/web-extension
 !/.gitignore
 !/.appveyor.yml
 !/.travis.yml

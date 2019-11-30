@@ -76,6 +76,7 @@ INCLUDEPATH += $$PWD/../include/
 include($$PWD/core/core.pri)
 include($$PWD/dialogs/dialogs.pri)
 include($$PWD/io/io.pri)
+include($$PWD/ipc/ipc.pri)
 include($$PWD/widgets/widgets.pri)
 
 HEADERS += \

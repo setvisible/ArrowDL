@@ -40,9 +40,13 @@ class WizardDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit WizardDialog(const QUrl &url, DownloadManager *downloadManager,
+    explicit WizardDialog(DownloadManager *downloadManager,
                           Settings *settings, QWidget *parent);
     ~WizardDialog();
+
+    void loadResources(const QString &message);
+    void loadUrl(const QUrl &url);
+
 
 protected:
     virtual void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
@@ -82,7 +86,7 @@ private:
     Settings *m_settings;
     QUrl m_url;
 
-    void loadUrl(const QUrl &url);
+    void parseResources(QString message);
     void parseHtml(const QByteArray &downloadedData);
     void setProgressInfo(int percent, const QString &text = QString());
     void setNetworkError(const QString &errorString);

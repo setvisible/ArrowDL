@@ -30,6 +30,7 @@
 #include <Dialogs/InformationDialog>
 #include <Dialogs/PreferenceDialog>
 #include <Dialogs/WizardDialog>
+#include <Ipc/InterProcessCommunication>
 #include <Io/FileReader>
 #include <Io/FileWriter>
 #include <Widgets/DownloadQueueView>
@@ -293,14 +294,41 @@ void MainWindow::openWizard()
 
 void MainWindow::openWizard(const QUrl &url)
 {
-    WizardDialog dialog(url, m_downloadManager, m_settings, this);
+    WizardDialog dialog(m_downloadManager, m_settings, this);
+    dialog.loadUrl(url);
+    dialog.exec();
+}
+
+void MainWindow::openWizard(const QString &message)
+{
+    WizardDialog dialog(m_downloadManager, m_settings, this);
+    dialog.loadResources(message);
     dialog.exec();
 }
 
 void MainWindow::handleMessage(const QString &message)
 {
-    if (!message.isEmpty()) {
-        openWizard(QUrl(message));
+    const QString cleaned = InterProcessCommunication::clean(message);
+    if (!cleaned.isEmpty()) {
+
+        if (InterProcessCommunication::isUrl(cleaned)) {
+            // Assume it's an unique URL, so a HTML page.
+            openWizard(QUrl(cleaned));
+
+        } else if(InterProcessCommunication::isCommandOpenUrl(cleaned)) {
+            const QUrl url = InterProcessCommunication::getCurrentUrl(cleaned);
+            openWizard(url);
+
+        } else if(InterProcessCommunication::isCommandOpenManager(cleaned)) {
+            // Do nothing
+
+        } else if(InterProcessCommunication::isCommandShowPreferences(cleaned)) {
+            showPreferences();
+
+        } else {
+            // Otherwise, assume it's a list of resources.
+            openWizard(cleaned);
+        }
     }
 }
 
