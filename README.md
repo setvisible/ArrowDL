@@ -1,4 +1,4 @@
-# ![logo](/src/icons/logo/dza_32x32.png) DownZemAll!
+# ![logo](/src/icons/logo/icon32.png) DownZemAll!
 
 [![GitHub release](https://img.shields.io/github/v/release/setvisible/downzemall.svg)](../../releases/latest)
 
@@ -9,7 +9,7 @@
 
 *DownZemAll!* is a rewrite of the legacy software [DownThemAll!](https://en.wikipedia.org/wiki/DownThemAll! "https://en.wikipedia.org/wiki/DownThemAll!") which was an extension for Mozilla Firefox, but whose development stopped around 2016, when Mozilla Firefox migrated to WebExtensions.
 
-![logo](/src/icons/menu/logo.png)
+![logo](/screenshots/logo.png)
 
 *DownZemAll!* is a standalone download manager for Windows, Mac OS X and Linux. 
 
@@ -18,7 +18,7 @@ It aims to work with latest versions of Mozilla Firefox (powered by *WebExtensio
 *DownZemAll!* is written in C++ and based on the [Qt5](https://www.qt.io/ "https://www.qt.io/") framework.
 
 
-## ![logo](/src/icons/logo/dza_32x32.png) Goals
+## ![logo](/src/icons/logo/icon32.png) Goals
 
 *DownZemAll!* is a standalone application, embedding its own web engine. That is, it aims to be free and independent, and not rely on any third-party Web Browser technology.
 
@@ -30,7 +30,7 @@ Due to rapid evolution of web technology, *DownZemAll!* is designed to implement
 
 
 
-## ![logo](/src/icons/logo/dza_32x32.png) Screenshots
+## ![logo](/src/icons/logo/icon32.png) Screenshots
 
 Screenshots of version 1.
 
@@ -39,9 +39,9 @@ Screenshots of version 1.
 ![anim_02](/screenshots/anim_02.gif)
 
 
-## ![logo](/src/icons/logo/dza_32x32.png) Installation and Usage
+## ![logo](/src/icons/logo/icon32.png) Installation and Usage
 
-### ![logo](/src/icons/logo/dza_32x32.png) Install the standalone application
+### ![logo](/src/icons/logo/icon32.png) Install the standalone application
 
 [Download here](https://github.com/setvisible/DownZemAll/releases "https://github.com/setvisible/DownZemAll/releases") the latest version.
 
@@ -52,7 +52,7 @@ Rem1: *DownZemAll!* is currently shipped as a **portable application** (no insta
 Rem2: Configuration files will be created in the same directory as the executable.
 
 
-### ![logo](/src/icons/logo/dza_32x32.png) Install Native-Client
+### ![logo](/src/icons/logo/icon32.png) Install Native-Client
 
 Optionally, *NativeClient* can be installed with Firefox or Chrome, and linked to *DownZemAll!*.
 
@@ -85,7 +85,7 @@ This will add the addon "External Application Button" to the web browser.
 
 
 
-### ![logo](/src/icons/logo/dza_32x32.png) Usage
+### ![logo](/src/icons/logo/icon32.png) Usage
 
 When surfing, click on *DownZemAll!* Button on your Firefox or Chrome toolbar (and/or context menu). 
 
@@ -96,7 +96,7 @@ The `native-client` plugin will send the URL of the current page to *DownZemAll!
 After clicking OK, *DownZemAll!* starts to collect the resources.
 
 
-## ![logo](/src/icons/logo/dza_32x32.png) Build
+## ![logo](/src/icons/logo/icon32.png) Build
 
 ### Build
 
@@ -148,12 +148,12 @@ Show more information:
 	> ./DownZemAll.exe -v
 
 
-## ![logo](/src/icons/logo/dza_32x32.png) Troubleshooting
+## ![logo](/src/icons/logo/icon32.png) Troubleshooting
 
 [Troubleshooting page](TROUBLESHOOTING.md "TROUBLESHOOTING.md")
 
 
-## ![logo](/src/icons/logo/dza_32x32.png) Credits and Resources
+## ![logo](/src/icons/logo/icon32.png) Credits and Resources
 
 Thanks to Andy Portmen for the `native-client` plugin.
 
@@ -165,6 +165,6 @@ Special thanks to the developers of the legacy plugin *DownThemAll!*, especially
  - [www.downthemall.net](https://www.downthemall.net/ "https://www.downthemall.net/")
 
 
-## ![logo](/src/icons/logo/dza_32x32.png) License
+## ![logo](/src/icons/logo/icon32.png) License
 
 The code is released under the GNU [Lesser General Public License (LGPL)](LICENSE "LICENSE").

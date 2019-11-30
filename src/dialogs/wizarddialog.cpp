@@ -24,6 +24,7 @@
 #include <Core/ResourceItem>
 #include <Core/ResourceModel>
 #include <Core/Settings>
+#include <Ipc/InterProcessCommunication>
 
 #include <QtCore/QDebug>
 #include <QtCore/QList>
@@ -56,7 +57,7 @@ static QList<IDownloadItem*> createItems( QList<ResourceItem*> resources, Downlo
 }
 
 
-WizardDialog::WizardDialog(const QUrl &url, DownloadManager *downloadManager,
+WizardDialog::WizardDialog(DownloadManager *downloadManager,
                            Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::WizardDialog)
@@ -89,7 +90,6 @@ WizardDialog::WizardDialog(const QUrl &url, DownloadManager *downloadManager,
     refreshFilters();
 
     readSettings();
-    loadUrl(url);
 }
 
 WizardDialog::~WizardDialog()
@@ -129,6 +129,13 @@ void WizardDialog::reject()
 {
     writeSettings();
     QDialog::reject();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void WizardDialog::loadResources(const QString &message)
+{
+    parseResources(message);
 }
 
 /******************************************************************************
@@ -234,12 +241,40 @@ void WizardDialog::onFinished()
 
 /******************************************************************************
  ******************************************************************************/
+void WizardDialog::parseResources(QString message)
+{
+    setProgressInfo(10, tr("Collecting links..."));
+
+    m_model->linkModel()->clear();
+    m_model->contentModel()->clear();
+
+    InterProcessCommunication::parseMessage(message, m_model);
+
+    setProgressInfo(99, tr("Finished"));
+
+    // Force update
+    m_model->setDestination(ui->pathWidget->currentPath());
+    m_model->setMask(ui->maskWidget->currentMask());
+    m_model->select(ui->filterWidget->regex());
+
+    onSelectionChanged();
+
+    setProgressInfo(100);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void WizardDialog::parseHtml(const QByteArray &downloadedData)
 {
     setProgressInfo(90, tr("Collecting links..."));
 
     m_model->linkModel()->clear();
     m_model->contentModel()->clear();
+
+    qDebug() << m_url;
+    qDebug() << "---------------------";
+    qDebug() << downloadedData;
+    qDebug() << "---------------------";
 
     HtmlParser htmlParser;
     htmlParser.parse(downloadedData, m_url, m_model);

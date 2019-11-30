@@ -51,6 +51,7 @@ public slots:
     // File
     void openWizard();
     void openWizard(const QUrl &url);
+    void openWizard(const QString &message);
     void handleMessage(const QString &message);
 
     void importFromFile();
