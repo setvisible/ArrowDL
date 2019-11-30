@@ -47,6 +47,8 @@
 #include "./../../src/ipc/constants.h"
 
 static const std::string C_PROCESS = "./DownZemAll.exe";
+static const std::string C_HAND_SHAKE_QUESTION("\"areyouthere");
+static const std::string C_HAND_SHAKE_ANSWER("somewhere");
 static const std::string C_LAUNCH("\"launch ");
 
 
@@ -54,6 +56,7 @@ static std::string unquote(const std::string &str)
 {
     std::string unquoted(str);
     unquoted.erase(std::remove(unquoted.begin(), unquoted.end(), '\"'), unquoted.end());
+    std::replace(unquoted.begin(), unquoted.end(), '\\', '/');
     return unquoted;
 }
 
@@ -249,7 +252,7 @@ std::string compress(const std::string &command)
     return compressed;
 }
 
-int main(int /*argc*/, char* /*argv*/[])
+int main(int argc, char* argv[])
 {
 #if defined(DEBUG_LAUNCHER)
     /*
@@ -282,7 +285,16 @@ int main(int /*argc*/, char* /*argv*/[])
     while ((input = openStandardStreamIn()) != "") {
 
         try {
-            if (input.compare(0, C_LAUNCH.length(), C_LAUNCH) == 0) {
+            if (input.compare(0, C_HAND_SHAKE_QUESTION.length(), C_HAND_SHAKE_QUESTION) == 0) {
+
+                if (argc > 0) {
+                    const std::string unquoted = unquote(argv[0]);
+                    sendDataToExtension(unquoted);
+                } else {
+                    sendDataToExtension(C_HAND_SHAKE_ANSWER);
+                }
+
+            } else if (input.compare(0, C_LAUNCH.length(), C_LAUNCH) == 0) {
 
                 std::string arguments(input);
                 arguments.erase(0, C_LAUNCH.length());
