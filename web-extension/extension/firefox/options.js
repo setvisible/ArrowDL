@@ -12,26 +12,30 @@ function checkConnection() {
 };
 
 function onHelloResponse(response) {
-  var connectionStatus = 'Ok'
-  var details = 'Detected path: ' + response.text
-  document.getElementById('status-message').innerHTML 
-    = '<p><span style="border:4px solid MediumSeaGreen; background-color:MediumSeaGreen; color:White;"> ' + connectionStatus + '</span>' 
-    + '<br/><br/>'
-    + details
-    + '</p>';
-}
+  var connectionStatus = 'Ok';
+  var details = 'Detected path: ' + response.text;
+  safeInneHtmlAssignment(connectionStatus, details, 'MediumSeaGreen');
+};
 
 function onHelloError(error) {
   console.log(`Error: ${error}`);
+  var connectionStatus = 'Error: Can\'t find the launcher.';
+  var details = 'Follow the Download and Install instructions below.';
+  safeInneHtmlAssignment(connectionStatus, details, 'Tomato');
+};
 
-  var connectionStatus = 'Error: Can\'t find the launcher.'
-  var details = 'Follow the Download and Install instructions below.'
-  document.getElementById('status-message').innerHTML 
-    = '<p><span style="border:4px solid Tomato; background-color:Tomato; color:White;"> ' + connectionStatus + '</span>' 
-    + '<br/><br/>'
-    + details
-    + '</p>';
-}
+function safeInneHtmlAssignment(connectionStatus, details, color) {
+  const statusTag = `<p><span style="border:4px solid ${color}; background-color:${color}; color:White;">${connectionStatus}</span><br/><br/>${details}</p>`;
+
+  const parser = new DOMParser()
+  const parsed = parser.parseFromString(statusTag, `text/html`)
+  const tags = parsed.getElementsByTagName(`body`)
+   
+  document.getElementById('status-message').innerHTML = ``
+  for (const tag of tags) {
+    document.getElementById('status-message').appendChild(tag)
+  }
+};
 
 /* ***************************** */
 /* GUI Event                     */
@@ -47,4 +51,3 @@ function checkInstallation() {
 document.addEventListener('DOMContentLoaded', checkInstallation); 
 
 document.querySelector("form").addEventListener("submit", buttonClicked);
-

@@ -18,7 +18,7 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "DownRightNow@example.org",
-      "strict_min_version": "50.0"
+      "strict_min_version": "57.0"
     }
   },
   "description": "The Right Download Manager for your browser",
