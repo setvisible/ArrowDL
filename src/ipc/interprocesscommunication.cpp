@@ -15,16 +15,22 @@
  */
 
 #include "interprocesscommunication.h"
+#include "constants.h"
+
+#include <Core/Model>
+#include <Core/ResourceItem>
+#include <Core/ResourceModel>
 
 #include <QtCore/QDebug>
 #include <QtCore/QSharedMemory>
+#include <QtCore/QString>
 
-static const QString C_SHARED_MEMORY_KEY("org.example.QSharedMemory.DownloadManager");
-static const QString C_SHARED_MEMORY_ACK_REPLY("0K3Y_B0Y");
 
-QString InterProcessCommunication::readMessage()
+QString InterProcessCommunication::readMessageFromLauncher()
 {
     QString message;
+    message += C_PACKET_BEGIN;
+    message += QChar::Space;
 
     QSharedMemory sharedMemory;
     sharedMemory.setKey(C_SHARED_MEMORY_KEY);
@@ -68,8 +74,99 @@ QString InterProcessCommunication::readMessage()
          * Use sharedMemory.error() and sharedMemory.errorString()
          * to investigate the error.
          */
-        message = "[ERROR]";
+        message = C_PACKET_ERROR;
+        message += QChar::Space;
     }
+    message += C_PACKET_END;
+    message += QChar::Space;
+
     return message;
 }
 
+
+QString InterProcessCommunication::clean(const QString &message)
+{
+    QString cleaned = message;
+    cleaned.replace('\"', "", Qt::CaseInsensitive);
+    return cleaned.trimmed();
+}
+
+bool InterProcessCommunication::isUrl(const QString &message)
+{
+    return !message.trimmed().contains(QChar::Space, Qt::CaseInsensitive);
+}
+
+bool InterProcessCommunication::isCommandOpenManager(const QString &message)
+{
+    return message.contains(C_KEYWORD_MANAGER, Qt::CaseInsensitive);
+}
+
+bool InterProcessCommunication::isCommandShowPreferences(const QString &message)
+{
+    return message.contains(C_KEYWORD_PREFS, Qt::CaseInsensitive);
+}
+
+bool InterProcessCommunication::isCommandOpenUrl(const QString &message)
+{
+    return message.contains(C_KEYWORD_OPEN_URL, Qt::CaseInsensitive);
+}
+
+QString InterProcessCommunication::getCurrentUrl(const QString &message)
+{
+    const QStringList resources = message.split(QChar::Space, QString::SkipEmptyParts);
+    for (int i = 0; i < resources.count() - 1; ++i) {
+        if (resources.at(i).trimmed() == C_KEYWORD_OPEN_URL) {
+            return resources.at(i+1).trimmed();
+        }
+    }
+    return QString();
+}
+
+void InterProcessCommunication::parseMessage(const QString &message, Model *model)
+{
+    if (model == nullptr) {
+        return;
+    }
+    if (message.contains(C_PACKET_ERROR, Qt::CaseInsensitive)) {
+        return;
+    }
+
+    const QStringList resources = message.split(QChar::Space, QString::SkipEmptyParts);
+
+    int mode = -1;
+    foreach (auto resource, resources) {
+        auto url = resource.trimmed();
+        if (url.isEmpty()) {
+            continue;
+        }
+
+        if (url == C_KEYWORD_CURRENT_URL) {
+            mode = 0;
+
+        } else if (url == C_KEYWORD_LINKS) {
+            mode = 1;
+
+        } else if (url == C_KEYWORD_MEDIA) {
+            mode = 2;
+
+        } else if (url.contains('[')) {
+            // C_PACKET_BEGIN
+            // C_PACKET_END
+            // C_KEYWORD_OPEN_URL
+            // ...
+            mode = -1;
+
+        } else {
+            if (mode == 1) {
+                ResourceItem *item = new ResourceItem();
+                item->setUrl(resource);
+                model->linkModel()->addResource(item);
+
+            } else if (mode == 2) {
+                ResourceItem *item = new ResourceItem();
+                item->setUrl(resource);
+                model->contentModel()->addResource(item);
+            }
+        }
+    }
+}

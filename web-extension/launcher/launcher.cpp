@@ -44,16 +44,11 @@
 #endif
 
 /* Constants */
+#include "./../../src/ipc/constants.h"
+
 static const std::string C_PROCESS = "./DownZemAll.exe";
 static const std::string C_LAUNCH("\"launch ");
 
-static const QString C_SHARED_MEMORY_KEY("org.example.QSharedMemory.DownloadManager");
-static const QString C_SHARED_MEMORY_ACK_REPLY("0K3Y_B0Y");
-
-static const std::string C_COMPRESSION_PREFIX("[CURRENT_URL]");
-static const std::string C_COMPRESSION_SUFFIX("[LINKS]");
-static const std::string C_COMPRESSION_COMMAND("[OPEN_URL] ");
-static const std::string C_COMPRESSION_ERROR("[ERROR_PARSE_URL] ");
 
 static std::string unquote(const std::string &str)
 {
@@ -234,18 +229,22 @@ static bool sendCommandToProcess(const std::string &program, const std::string &
 
 std::string compress(const std::string &command)
 {
-    const std::size_t start = command.find(C_COMPRESSION_PREFIX);
-    const std::size_t end = command.find(C_COMPRESSION_SUFFIX);
+    /*
+     * Try to retrieve the current Url, normally
+     * between blocks C_KEYWORD_CURRENT_URL and C_KEYWORD_LINKS
+     */
+    const std::size_t start = command.find(C_STR_CURRENT_URL);
+    const std::size_t end = command.find(C_STR_LINKS);
 
-    std::string compressed = C_COMPRESSION_COMMAND;
+    std::string compressed = C_STR_OPEN_URL;
 
     if (start != std::string::npos && end != std::string::npos) {
-        const std::size_t pos = start + C_COMPRESSION_PREFIX.length();
+        const std::size_t pos = start + C_STR_CURRENT_URL.length();
         const std::size_t n = end - pos;
         compressed += command.substr(pos, n);
 
     } else {
-        compressed += C_COMPRESSION_ERROR;
+        compressed += C_STR_ERROR;
     }
     return compressed;
 }
