@@ -400,6 +400,12 @@ after_test:
   - set ZIP_FILE="DownZemAll_v%AppVersion%_windows-%COMPILER%-%PLATFORM%.zip"
   - 7z a %ZIP_FILE% .\..\..\install-DownZemAll-cmake\*
 
+# zip the web-extension
+# DownRightNow_webextension_firefox_v1.2.0.xpi
+  - set ZIP_FIREFOX_WEB_EXTENSION="DownRightNow_firefox_v%AppVersion%.xpi"
+  - 7z a %ZIP_FIREFOX_WEB_EXTENSION% .\..\web-extension\extension\firefox\*
+
+
 
 # to disable automatic tests
 # test: off
@@ -409,9 +415,9 @@ after_test:
 #---------------------------------#
 
 artifacts: 
-   # pushing *.zip files in install directory
-  - path: 'bin\*.zip'
-    name: myapp
+   # pushing *.zip and *.xpi files in install directory
+  - path: 'bin\*.*'
+    name: myartifacts
 
 #  # pushing a single file
 #  - 'path: C:\projects\*.zip'
@@ -447,7 +453,7 @@ deploy:
     description: 'Draft release of DownZemAll version %AppVersion% (build $(appveyor_build_version))' 
     auth_token:
       secure: 8tIRAglcbx9Yw8zLDDQnrdk/Fk/az61lSIykfvzqPApy6LFxjTHoUJW8gYDGKgsq
-    artifact: myapp
+    artifact: myartifacts
     draft: true
     prerelease: false
 #    force_update: true
