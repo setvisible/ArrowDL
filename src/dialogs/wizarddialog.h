@@ -44,7 +44,7 @@ public:
                           Settings *settings, QWidget *parent);
     ~WizardDialog();
 
-    void loadResources(const QStringList &list);
+    void loadResources(const QString &message);
     void loadUrl(const QUrl &url);
 
 
@@ -86,7 +86,7 @@ private:
     Settings *m_settings;
     QUrl m_url;
 
-    void parseResources(QStringList resources);
+    void parseResources(QString message);
     void parseHtml(const QByteArray &downloadedData);
     void setProgressInfo(int percent, const QString &text = QString());
     void setNetworkError(const QString &errorString);

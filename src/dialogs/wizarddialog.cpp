@@ -24,6 +24,7 @@
 #include <Core/ResourceItem>
 #include <Core/ResourceModel>
 #include <Core/Settings>
+#include <Ipc/InterProcessCommunication>
 
 #include <QtCore/QDebug>
 #include <QtCore/QList>
@@ -42,10 +43,6 @@
 #  include <QtNetwork/QNetworkRequest>
 #  include <QtNetwork/QNetworkReply>
 #endif
-
-static const QString C_KEYWORD_CURRENT_URL("[CURRENT_URL]");
-static const QString C_KEYWORD_LINKS("[LINKS]");
-static const QString C_KEYWORD_MEDIA("[MEDIA]");
 
 
 static QList<IDownloadItem*> createItems( QList<ResourceItem*> resources, DownloadManager *downloadManager)
@@ -136,9 +133,9 @@ void WizardDialog::reject()
 
 /******************************************************************************
  ******************************************************************************/
-void WizardDialog::loadResources(const QStringList &list)
+void WizardDialog::loadResources(const QString &message)
 {
-    parseResources(list);
+    parseResources(message);
 }
 
 /******************************************************************************
@@ -244,40 +241,14 @@ void WizardDialog::onFinished()
 
 /******************************************************************************
  ******************************************************************************/
-void WizardDialog::parseResources(QStringList resources)
+void WizardDialog::parseResources(QString message)
 {
     setProgressInfo(10, tr("Collecting links..."));
 
     m_model->linkModel()->clear();
     m_model->contentModel()->clear();
 
-    int mode = -1;
-    foreach (auto resource, resources) {
-        auto url = resource.trimmed();
-
-        if (url == C_KEYWORD_CURRENT_URL) {
-            mode = 0;
-
-        } else if (url == C_KEYWORD_LINKS) {
-            mode = 1;
-
-        } else if (url == C_KEYWORD_MEDIA) {
-            mode = 2;
-
-        } else if (url.contains('[')) {
-            mode = -1;
-
-        } else {
-            ResourceItem *item = new ResourceItem();
-            item->setUrl(resource);
-
-            if (mode == 1) {
-                m_model->linkModel()->addResource(item);
-            } else if (mode == 2) {
-                m_model->contentModel()->addResource(item);
-            }
-        }
-    }
+    InterProcessCommunication::parseMessage(message, m_model);
 
     setProgressInfo(99, tr("Finished"));
 

@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     const bool interactive = parser.isSet(interactiveOption);
     if (interactive) {
 
-        message = InterProcessCommunication::readMessage();
+        message = InterProcessCommunication::readMessageFromLauncher();
 
     } else {
         const QStringList positionalArguments = parser.positionalArguments();

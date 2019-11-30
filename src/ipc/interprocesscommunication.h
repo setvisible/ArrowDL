@@ -19,10 +19,22 @@
 
 #include <QtCore/QString>
 
+class Model;
+
 class InterProcessCommunication
 {
 public:
-    static QString readMessage();
+    static QString readMessageFromLauncher();
+
+    static QString clean(const QString &message);
+
+    static bool isUrl(const QString &message);
+    static bool isCommandOpenManager(const QString &message);
+    static bool isCommandShowPreferences(const QString &message);
+    static bool isCommandOpenUrl(const QString &message);
+    static QString getCurrentUrl(const QString &message);
+
+    static void parseMessage(const QString &message, Model *model);
 
 };
 

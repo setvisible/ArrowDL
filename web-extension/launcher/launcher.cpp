@@ -44,21 +44,19 @@
 #endif
 
 /* Constants */
+#include "./../../src/ipc/constants.h"
+
 static const std::string C_PROCESS = "./DownZemAll.exe";
+static const std::string C_HAND_SHAKE_QUESTION("\"areyouthere");
+static const std::string C_HAND_SHAKE_ANSWER("somewhere");
 static const std::string C_LAUNCH("\"launch ");
 
-static const QString C_SHARED_MEMORY_KEY("org.example.QSharedMemory.DownloadManager");
-static const QString C_SHARED_MEMORY_ACK_REPLY("0K3Y_B0Y");
-
-static const std::string C_COMPRESSION_PREFIX("[CURRENT_URL]");
-static const std::string C_COMPRESSION_SUFFIX("[LINKS]");
-static const std::string C_COMPRESSION_COMMAND("[OPEN_URL] ");
-static const std::string C_COMPRESSION_ERROR("[ERROR_PARSE_URL] ");
 
 static std::string unquote(const std::string &str)
 {
     std::string unquoted(str);
     unquoted.erase(std::remove(unquoted.begin(), unquoted.end(), '\"'), unquoted.end());
+    std::replace(unquoted.begin(), unquoted.end(), '\\', '/');
     return unquoted;
 }
 
@@ -234,23 +232,27 @@ static bool sendCommandToProcess(const std::string &program, const std::string &
 
 std::string compress(const std::string &command)
 {
-    const std::size_t start = command.find(C_COMPRESSION_PREFIX);
-    const std::size_t end = command.find(C_COMPRESSION_SUFFIX);
+    /*
+     * Try to retrieve the current Url, normally
+     * between blocks C_KEYWORD_CURRENT_URL and C_KEYWORD_LINKS
+     */
+    const std::size_t start = command.find(C_STR_CURRENT_URL);
+    const std::size_t end = command.find(C_STR_LINKS);
 
-    std::string compressed = C_COMPRESSION_COMMAND;
+    std::string compressed = C_STR_OPEN_URL;
 
     if (start != std::string::npos && end != std::string::npos) {
-        const std::size_t pos = start + C_COMPRESSION_PREFIX.length();
+        const std::size_t pos = start + C_STR_CURRENT_URL.length();
         const std::size_t n = end - pos;
         compressed += command.substr(pos, n);
 
     } else {
-        compressed += C_COMPRESSION_ERROR;
+        compressed += C_STR_ERROR;
     }
     return compressed;
 }
 
-int main(int /*argc*/, char* /*argv*/[])
+int main(int argc, char* argv[])
 {
 #if defined(DEBUG_LAUNCHER)
     /*
@@ -283,7 +285,16 @@ int main(int /*argc*/, char* /*argv*/[])
     while ((input = openStandardStreamIn()) != "") {
 
         try {
-            if (input.compare(0, C_LAUNCH.length(), C_LAUNCH) == 0) {
+            if (input.compare(0, C_HAND_SHAKE_QUESTION.length(), C_HAND_SHAKE_QUESTION) == 0) {
+
+                if (argc > 0) {
+                    const std::string unquoted = unquote(argv[0]);
+                    sendDataToExtension(unquoted);
+                } else {
+                    sendDataToExtension(C_HAND_SHAKE_ANSWER);
+                }
+
+            } else if (input.compare(0, C_LAUNCH.length(), C_LAUNCH) == 0) {
 
                 std::string arguments(input);
                 arguments.erase(0, C_LAUNCH.length());
