@@ -400,11 +400,14 @@ after_test:
   - set ZIP_FILE="DownZemAll_v%AppVersion%_windows-%COMPILER%-%PLATFORM%.zip"
   - 7z a %ZIP_FILE% .\..\..\install-DownZemAll-cmake\*
 
-# zip the web-extension
+# zip the browser addons
 # DownRightNow_webextension_firefox_v1.2.0.xpi
   - set ZIP_FIREFOX_WEB_EXTENSION="DownRightNow_firefox_v%AppVersion%.xpi"
   - 7z a %ZIP_FIREFOX_WEB_EXTENSION% .\..\web-extension\extension\firefox\*
 
+# DownRightNow_webextension_chromium_v1.2.0.zip
+  - set ZIP_CHROMIUM_WEB_EXTENSION="DownRightNow_chromium_v%AppVersion%.zip"
+  - 7z a %ZIP_CHROMIUM_WEB_EXTENSION% .\..\web-extension\extension\chromium\*
 
 
 # to disable automatic tests
