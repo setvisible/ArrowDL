@@ -51,6 +51,9 @@ static const std::string C_HAND_SHAKE_QUESTION("\"areyouthere");
 static const std::string C_HAND_SHAKE_ANSWER("somewhere");
 static const std::string C_LAUNCH("\"launch ");
 
+static const std::string C_CHROMIUM_HEADER("{\"text\":");
+static const std::string C_CHROMIUM_FOOTER("}");
+
 
 static std::string unquote(const std::string &str)
 {
@@ -97,10 +100,32 @@ static void sendDataToExtension(const std::string &message)
     }
 }
 
+/*!
+ * Firefox messages are of type:
+ *
+ *      ""launch [CURRENT_URL] https://develop/ ""
+ *
+ * ...whilst Chrome messages are:
+ *
+ *      "{"text":"launch [CURRENT_URL] https://develop/ "}"
+ *       ^^^^^^^^                                        ^
+ *        header                                        footer
+ * So here we remove the Chrome header and footer
+ */
+static std::string cleanChromeMessage(const std::string &message)
+{
+    std::string cleaned(message);
+    if (cleaned.compare(0, C_CHROMIUM_HEADER.length(), C_CHROMIUM_HEADER) == 0) {
+        cleaned.erase(0, C_CHROMIUM_HEADER.length());
+        cleaned.erase(cleaned.length() - C_CHROMIUM_FOOTER.length(), C_CHROMIUM_FOOTER.length());
+    }
+    return cleaned;
+}
+
 static std::string openStandardStreamIn()
 {
     std::cout.setf(std::ios_base::unitbuf);
-    _setmode(_fileno(stdin), _O_BINARY);
+    _setmode(_fileno(stdin), _O_BINARY); /* Keep \n instead of \r\n */
 
     int size = 0;
     for (int i = 0; i <= 3; i++) {
@@ -111,6 +136,8 @@ static std::string openStandardStreamIn()
     for (int i = 0; i < size; i++) {
         input += static_cast<char>(getchar());
     }
+
+    input = cleanChromeMessage(input);
     return input;
 }
 

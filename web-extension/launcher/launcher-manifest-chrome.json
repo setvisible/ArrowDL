@@ -1,7 +1,7 @@
 {
-  "name": "DownRightNow",
+  "name": "com.setvisible.downrightnow",
   "description": "DownRightNow Launcher Host for Native Messaging",
   "path": "launcher.exe",
   "type": "stdio",
-  "allowed_extensions": [ "DownRightNow@example.org" ]
+  "allowed_origins": [ "chrome-extension://afodkgpjbniehgobgnpjpgdopfaonidl/" ]
 }
