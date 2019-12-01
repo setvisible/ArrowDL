@@ -9,8 +9,8 @@ SET INSTALL_PATH=%currentPath:~0,-1%
 ECHO .. Install directory: %INSTALL_PATH%
 
 ECHO .. Writting to Chrome Registry
-ECHO .. Key: HKCU\Software\Google\Chrome\NativeMessagingHosts\DownRightNow
-REG ADD "HKCU\Software\Google\Chrome\NativeMessagingHosts\DownRightNow" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher-manifest-chrome.json" /f
+ECHO .. Key: HKCU\Software\Google\Chrome\NativeMessagingHosts\com.setvisible.downrightnow
+REG ADD "HKCU\Software\Google\Chrome\NativeMessagingHosts\com.setvisible.downrightnow" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher-manifest-chrome.json" /f
 
 ECHO .. Writting to Firefox Registry
 ECHO .. Key: HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\DownRightNow

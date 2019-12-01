@@ -1,7 +1,7 @@
 @echo off
 
 echo .. Deleting Chrome Registry
-REG DELETE "HKCU\Software\Google\Chrome\NativeMessagingHosts\DownRightNow" /f
+REG DELETE "HKCU\Software\Google\Chrome\NativeMessagingHosts\com.setvisible.downrightnow" /f
 
 echo .. Deleting Firefox Registry
 REG DELETE "HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\DownRightNow" /f

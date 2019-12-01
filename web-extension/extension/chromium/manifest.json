@@ -1,0 +1,48 @@
+{
+  // Extension ID: afodkgpjbniehgobgnpjpgdopfaonidl
+  "author": "SetVisible(0!=1)",
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_action": { 
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "24": "icons/icon24.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "64": "icons/icon64.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "Down Right Now",
+    "default_popup": "popup.html"
+  }, 
+  "description": "The Right Download Manager for your browser",
+  "homepage_url": "https://setvisible.github.io/DownZemAll",
+  "icons": {
+    "16": "icons/icon16.png",
+    "24": "icons/icon24.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "64": "icons/icon64.png",
+    "128": "icons/icon128.png"
+  },
+  "manifest_version": 2,
+  "name": "Down Right Now",
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  },
+  "permissions": [
+    "<all_urls>",
+    "activeTab",
+    "contextMenus",
+    "http://*/*",
+    "https://*/*",
+    "ftp://*/*",
+    "nativeMessaging",
+    "storage",
+    "tabs"
+  ],
+  "short_name": "DRN!",
+  "version": "1.4.0"
+}
