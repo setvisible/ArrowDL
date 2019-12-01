@@ -1,5 +1,4 @@
 {
-  // Extension ID: afodkgpjbniehgobgnpjpgdopfaonidl
   "author": "SetVisible(0!=1)",
   "background": {
     "scripts": ["background.js"]
@@ -33,12 +32,8 @@
     "chrome_style": true
   },
   "permissions": [
-    "<all_urls>",
     "activeTab",
     "contextMenus",
-    "http://*/*",
-    "https://*/*",
-    "ftp://*/*",
     "nativeMessaging",
     "storage",
     "tabs"
