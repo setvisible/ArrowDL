@@ -3,5 +3,5 @@
   "description": "DownRightNow Launcher Host for Native Messaging",
   "path": "launcher.exe",
   "type": "stdio",
-  "allowed_origins": [ "chrome-extension://afodkgpjbniehgobgnpjpgdopfaonidl/" ]
+  "allowed_origins": [ "chrome-extension://modofbhnhlagjmejdbalnijgncppjeio/" ]
 }
