@@ -78,7 +78,11 @@ void mSleep(int ms)
 
 static void sendDataToExtension(const std::string &message)
 {
+#if defined(Q_OS_WIN)
     _setmode(_fileno(stdout), O_BINARY);
+#else
+    freopen("file_out.txt", "wb", stdout); /* w = write, b = binary */
+#endif
     try {
         std::string json = "{\"text\": \"" + message + "\"}";
         std::string::size_type length = json.length();
@@ -125,7 +129,11 @@ static std::string cleanChromeMessage(const std::string &message)
 static std::string openStandardStreamIn()
 {
     std::cout.setf(std::ios_base::unitbuf);
+#if defined(Q_OS_WIN)
     _setmode(_fileno(stdin), _O_BINARY); /* Keep \n instead of \r\n */
+#else
+    freopen("file_in.txt", "rb", stdin); /* r = read, b = binary */
+#endif
 
     int size = 0;
     for (int i = 0; i <= 3; i++) {
@@ -162,7 +170,11 @@ static bool startInteractiveMode(const QString &program)
 #endif
 
     // Start the Application, detached from the Launcher
+#if QT_VERSION_MAJOR >= 5 && QT_VERSION_MINOR >= 10 // QT_VERSION >= 0x051000
     return process.startDetached();
+#else
+    return process.startDetached(program, QStringList() << "-i");
+#endif
 }
 
 static bool sendCommandToProcess(const QString &program, const QString &arguments)

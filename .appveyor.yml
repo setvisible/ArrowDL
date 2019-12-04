@@ -401,6 +401,12 @@ after_test:
   - 7z a %ZIP_FILE% .\..\..\install-DownZemAll-cmake\*
 
 # zip the browser addons
+
+# update manifest.json versions
+  - cd C:\projects\DownZemAll\web-extension\extension
+  - .\synchronize_versions.bat
+  - cd C:\projects\DownZemAll\bin
+
 # DownRightNow_webextension_firefox_v1.2.0.xpi
   - set ZIP_FIREFOX_WEB_EXTENSION="DownRightNow_firefox_v%AppVersion%.xpi"
   - 7z a %ZIP_FIREFOX_WEB_EXTENSION% .\..\web-extension\extension\firefox\*
