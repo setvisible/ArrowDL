@@ -16,10 +16,12 @@
 !/.appveyor.yml
 !/.travis.yml
 !/CMakeLists.txt
+!/DEVELOPERS.md
 !/DownZemAll.pro
 !/doxyfile
 !/doxygenMain.cpp
 !/LICENSE
+!/NativeClient.md
 !/README.md
 !/TROUBLESHOOTING.md
 !/version
