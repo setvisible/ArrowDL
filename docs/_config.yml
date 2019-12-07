@@ -18,6 +18,9 @@ author:
   name:           'SetVisible(0!=1)'
   url:            https://setvisible.github.io
 
+github:
+  repo:           https://github.com/setvisible/DownZemAll
+
 paginate:         5
 # paginate_path:    '/page:num'
                     # Or '/blog/page:num' if you want to move your index pages
