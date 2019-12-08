@@ -22,7 +22,7 @@ function onHelloResponse(response) {
   } else {
     var connectionStatus = 'Ok';
     var details = 'Detected path: ' + response.text;
-    safeInneHtmlAssignment(connectionStatus, details, 'MediumSeaGreen');
+    safeInnerHtmlAssignment(connectionStatus, details, 'MediumSeaGreen');
   }
 };
 
@@ -30,10 +30,10 @@ function onHelloError(error) {
   console.log(`Error: ${error}`);
   var connectionStatus = 'Error: Can\'t find the launcher.';
   var details = 'Follow the Download and Install instructions below.';
-  safeInneHtmlAssignment(connectionStatus, details, 'Tomato');
+  safeInnerHtmlAssignment(connectionStatus, details, 'Tomato');
 };
 
-function safeInneHtmlAssignment(connectionStatus, details, color) {
+function safeInnerHtmlAssignment(connectionStatus, details, color) {
   const statusTag = `<p><span style="border:4px solid ${color}; background-color:${color}; color:White;">${connectionStatus}</span><br/><br/>${details}</p>`;
 
   const parser = new DOMParser()

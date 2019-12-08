@@ -10,7 +10,7 @@
 
 echo.Updating version...
 
-python substitute.py "1.4.0" .\..\..\version .\chromium\manifest.json
-python substitute.py "1.4.0" .\..\..\version  .\firefox\manifest.json
+python substitute.py "0.0.65536" .\..\..\version .\chromium\manifest.json
+python substitute.py "0.0.65536" .\..\..\version  .\firefox\manifest.json
 
 echo.Version updated. 
