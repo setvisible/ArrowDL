@@ -34,6 +34,9 @@ public:
     static bool isCommandOpenUrl(const QString &message);
     static QString getCurrentUrl(const QString &message);
 
+    static bool isCommandDownloadLink(const QString &message);
+    static QString getDownloadLink(const QString &message);
+
     static void parseMessage(const QString &message, Model *model);
 
 };

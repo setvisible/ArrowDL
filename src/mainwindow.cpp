@@ -308,6 +308,7 @@ void MainWindow::openWizard(const QString &message)
 
 void MainWindow::handleMessage(const QString &message)
 {
+    qDebug() << Q_FUNC_INFO << message;
     const QString cleaned = InterProcessCommunication::clean(message);
     if (!cleaned.isEmpty()) {
 
@@ -318,6 +319,10 @@ void MainWindow::handleMessage(const QString &message)
         } else if(InterProcessCommunication::isCommandOpenUrl(cleaned)) {
             const QUrl url = InterProcessCommunication::getCurrentUrl(cleaned);
             openWizard(url);
+
+        } else if(InterProcessCommunication::isCommandDownloadLink(cleaned)) {
+            const QUrl url = InterProcessCommunication::getDownloadLink(cleaned);
+            AddDownloadDialog::quickDownload(url, m_downloadManager);
 
         } else if(InterProcessCommunication::isCommandOpenManager(cleaned)) {
             // Do nothing

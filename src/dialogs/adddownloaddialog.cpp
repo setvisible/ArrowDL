@@ -81,6 +81,40 @@ AddDownloadDialog::~AddDownloadDialog()
 
 /******************************************************************************
  ******************************************************************************/
+/*!
+ * \brief Immediate download of the url. The Dialog GUI is not displayed.
+ */
+void AddDownloadDialog::quickDownload(const QUrl &url, DownloadManager *downloadManager)
+{
+    if (downloadManager == nullptr) {
+        return;
+    }
+    // Remove trailing / and \ and .
+    const QString adjusted = url.adjusted(QUrl::StripTrailingSlash).toString();
+
+    QSettings settings;
+    settings.beginGroup("Wizard");
+    const QString destinationPath = settings.value("Path", QString()).toString();
+    const QString mask = settings.value("Mask", QString()).toString();
+    settings.endGroup();
+
+    ResourceItem *resource = new ResourceItem();
+    resource->setUrl(adjusted);
+    resource->setCustomFileName(QString());
+    resource->setReferringPage(QString());
+    resource->setDescription(QString());
+    resource->setDestination(destinationPath);
+    resource->setMask(mask);
+    resource->setCheckSum(QString());
+
+    DownloadItem* item = new DownloadItem(downloadManager);
+    item->setResource(resource);
+
+    downloadManager->append(toList(item), true);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void AddDownloadDialog::accept()
 {
     doAccept(true);
@@ -279,7 +313,7 @@ IDownloadItem* AddDownloadDialog::createItem(const QString &url) const
     return item;
 }
 
-QList<IDownloadItem*> AddDownloadDialog::toList(IDownloadItem *item) const
+inline QList<IDownloadItem*> AddDownloadDialog::toList(IDownloadItem *item)
 {
     QList<IDownloadItem*> items;
     items << item;
