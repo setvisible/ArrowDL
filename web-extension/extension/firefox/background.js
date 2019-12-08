@@ -143,7 +143,8 @@ function save_page(info, tab) {
 
 function save_link(info, tab) {
   const safeUrl = escapeHTML(info.linkUrl);
-  sendData("[CURRENT_URL] " + safeUrl);
+  sendData("[DOWNLOAD_LINK] " + safeUrl);
+};
 };
 
 /* ***************************** */

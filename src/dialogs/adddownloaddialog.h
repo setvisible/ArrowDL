@@ -37,6 +37,8 @@ public:
                                Settings *settings, QWidget *parent = Q_NULLPTR);
     ~AddDownloadDialog();
 
+    static void quickDownload(const QUrl &url, DownloadManager *downloadManager);
+
 public slots:
     virtual void accept() Q_DECL_OVERRIDE;
     virtual void acceptPaused();
@@ -59,9 +61,9 @@ private:
     void doAccept(const bool started);
     QMessageBox::StandardButton askBatchDownloading(QList<IDownloadItem*> items);
 
-    QList<IDownloadItem *> createItems() const;
+    QList<IDownloadItem*> createItems() const;
     IDownloadItem* createItem(const QString &url) const;
-    QList<IDownloadItem*> toList(IDownloadItem *item) const;
+    static inline QList<IDownloadItem*> toList(IDownloadItem *item);
 
     void readSettings();
     void writeSettings();
