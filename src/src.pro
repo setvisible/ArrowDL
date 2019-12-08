@@ -159,15 +159,23 @@ DESTDIR = $${OUT_PWD}/../downzemall_install
 # This is a hack for 'windeployqt'
 win32{
     CONFIG(debug,debug|release){
-        libs_qt_to_copy.files += $$[QT_INSTALL_PLUGINS]/platforms/qminimald.dll
-        libs_qt_to_copy.files += $$[QT_INSTALL_PLUGINS]/platforms/qwindowsd.dll
-        libs_qt_to_copy.path = $${DESTDIR}/platforms
-        INSTALLS += libs_qt_to_copy
+        platform_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/platforms/qminimald.dll
+        platform_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/platforms/qwindowsd.dll
+        platform_plugin_to_copy.path = $${DESTDIR}/platforms
+        INSTALLS += platform_plugin_to_copy
+
+        style_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/styles/qwindowsvistastyled.dll
+        style_plugin_to_copy.path = $${DESTDIR}/styles
+        INSTALLS += style_plugin_to_copy
     }else{
-        libs_qt_to_copy.files += $$[QT_INSTALL_PLUGINS]/platforms/qminimal.dll
-        libs_qt_to_copy.files += $$[QT_INSTALL_PLUGINS]/platforms/qwindows.dll
-        libs_qt_to_copy.path = $${DESTDIR}/platforms
-        INSTALLS += libs_qt_to_copy
+        platform_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/platforms/qminimal.dll
+        platform_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/platforms/qwindows.dll
+        platform_plugin_to_copy.path = $${DESTDIR}/platforms
+        INSTALLS += platform_plugin_to_copy
+
+        style_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/styles/qwindowsvistastyle.dll
+        style_plugin_to_copy.path = $${DESTDIR}/styles
+        INSTALLS += style_plugin_to_copy
     }
 }
 

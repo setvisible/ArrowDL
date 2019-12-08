@@ -201,6 +201,7 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     # ***********************************************
     # windeployqt is not used here in order         *
     # to control the most minimalist deployment     *
+    # and reduce the size of the archive            *
     # ***********************************************
 
     ## Qt Libraries
@@ -263,8 +264,15 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
 
     ## Qt Platform Plugin
     install(FILES
+        ${QT_DLL_DIR}/../plugins/platforms/qminimal.dll
         ${QT_DLL_DIR}/../plugins/platforms/qwindows.dll
         DESTINATION ${CMAKE_INSTALL_PREFIX}/platforms
+        )
+
+    ## Qt Styles Plugin
+    install(FILES
+        ${QT_DLL_DIR}/../plugins/styles/qwindowsvistastyle.dll
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/styles
         )
 
     ## OpenSSL
