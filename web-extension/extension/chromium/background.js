@@ -75,7 +75,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
   } else if (info.menuItemId === "save-image") {
 
-    save_page(info, tab);
+    save_image(info, tab);
 
   } else if (info.menuItemId === "save-audio") {
 
@@ -108,6 +108,10 @@ function save_link(info, tab) {
   const safeUrl = escapeHTML(info.linkUrl);
   sendData("[DOWNLOAD_LINK] " + safeUrl);
 };
+
+function save_image(info, tab) {
+  const safeUrl = escapeHTML(info.srcUrl);
+  sendData("[DOWNLOAD_LINK] " + safeUrl);
 };
 
 /* ***************************** */
