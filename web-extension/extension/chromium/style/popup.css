@@ -10,6 +10,12 @@ html, body {
     padding: 0;
 }
 
+.disabled {
+    pointer-events:none; // This makes it not clickable
+    background-color: transparent;
+    color: #aaaaaa;
+}
+
 ul {
     margin: 1.5ex;
     margin-right: 2ex;
@@ -30,16 +36,22 @@ li {
     border-radius: 4px;
     cursor: default;
     white-space: nowrap;
+    transition: 0.1s;
 }
 
-li.sep {
+hr {
+    border-top: 1px solid #dddddd;
+}
+
+li.separator {
     display: inline-block;
     padding: 0;
 }
 
-li:not(.sep):hover {
+li:not(.separator):hover {
     background: Highlight;
     color: HighlightText;
+    cursor: pointer;
 }
 
 li>.icon,
@@ -50,8 +62,4 @@ li>img {
     width: 16px;
     height: 16px;
     object-fit: contain;
-}
-
-#single:not(:hover)>.icon-add {
-    color: var(--add-color);
 }
