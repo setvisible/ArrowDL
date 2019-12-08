@@ -17,3 +17,8 @@ document.getElementById("button-preference").addEventListener('click', () => {
     chrome.extension.getBackgroundPage().sendData(command);
     window.close();
 });
+
+document.getElementById("button-options-page").addEventListener('click', () => {
+    var openingPage = chrome.runtime.openOptionsPage();
+    window.close();
+});
