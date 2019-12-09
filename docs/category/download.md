@@ -5,13 +5,13 @@ title: Download
 
 ## Install Instructions
 
-1. Install the application:
+1. First, install the application:
 
-    1. Download **DownZemAll** Application [here](#download-latest-release)
+    1. Download **DownZemAll** application [here](#download-latest-release)
 
     2. Unzip
 
-2. Install the web extension:
+2. Then, install the web extension:
 
     1. Install **DownRightNow** add-on on the [web browser](#install-webextension)
 
@@ -20,20 +20,22 @@ title: Download
     3. Then, to verify the install, go to "*Options*" in the WebExtension interface in your Web Browser. It should tell you if it's correctly connected with the Application. 
 
 
-## Install the Web Browser Add-on (WebExtensions)<a name="install-webextension"></a>
+### Web Browser Add-on<a name="install-webextension"></a>
+
+Choose the browser:
 
 | ![logo](/DownZemAll/assets/images/firefox.png) | ![logo](/DownZemAll/assets/images/chrome.png) |
 |-----------------------------------|----------------------------------|
 | Click here to intall [DownRightNow for Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/down-right-now/ "https://addons.mozilla.org/en-US/firefox/addon/down-right-now/") | Click here to intall [DownRightNow for Google Chrome](https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio "https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio") |
 
 
-## Download the latest release<a name="download-latest-release"></a>
+### Download the latest release<a name="download-latest-release"></a>
 
 The latest release is available [here](https://github.com/setvisible/DownZemAll/releases/latest).
 
 [![GitHub release](https://img.shields.io/github/v/release/setvisible/downzemall.svg)](https://github.com/setvisible/DownZemAll/releases/latest)
 
-
+Choose the most relevant version for your computer. The next table explains the differences between the packages.
 
 <table>
   <thead>
@@ -78,7 +80,7 @@ The latest release is available [here](https://github.com/setvisible/DownZemAll/
 </table>
 
 
-### Last build status<a name="last-build-status"></a>
+#### Last build status<a name="last-build-status"></a>
 
 | Platform | Status |
 |---------|-----------|
@@ -87,7 +89,7 @@ The latest release is available [here](https://github.com/setvisible/DownZemAll/
 
 
 
-## Older releases<a name="older-releases"></a>
+### Older releases<a name="older-releases"></a>
 
 Click [here](https://github.com/setvisible/DownZemAll/releases).
 
