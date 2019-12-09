@@ -1,13 +1,18 @@
 ---
 layout: page
-title: About
+title: Author
 sidebar_link: true
+sidebar_sort_order: 10
 ---
 
-<p class="message">
-  <i>DownZemAll!</i> is a download manager for Windows, Mac OS X and Linux.
-</p>
+SetVisible(0!=1)
+
+[Curriculum Vitae](Curriculum_Vitae.txt "Curriculum Vitae")
+
+* GitHub: [https://github.com/setvisible](https://github.com/setvisible "https://github.com/setvisible")
+* Facebook: I'm not on Facebook
+* LinkedIn: same
+* Twitter: same
+* Pinterest: same
 
 ![logo](favicon.png)
-
-(c) 2019

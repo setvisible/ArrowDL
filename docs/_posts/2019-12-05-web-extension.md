@@ -1,10 +1,12 @@
 ---
 layout: post
-title: WebExtensions: Introducing Web Extension
+title: "WebExtensions: Introducing Web Extension"
 date:   2019-12-05 06:06:30 +0100
 categories:
   - WebExtensions
 tags:
+  - update
+  - introducing
   - webextensions
   - browser
   - launcher

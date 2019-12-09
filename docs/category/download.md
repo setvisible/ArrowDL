@@ -48,23 +48,23 @@ Choose the most relevant version for your computer. The next table explains the 
   <tbody>
     <tr>
       <td>Windows</td>
-      <td>DownZemAll_vx.x.x_windows-<b>msvc</b>-<b>x86</b></td>
-      <td>Prefer this version if you are on Windows <b>32-bit</b>. It uses the Chromium Engine and Google Gumbo.</td>
-    </tr>
-    <tr>
-      <td></td>
       <td>DownZemAll_vx.x.x_windows-<b>msvc</b>-<b>x64</b></td>
       <td>Prefer this version if you are on Windows <b>64-bit</b>. It uses the <i>Chromium</i> engine and <i>Google Gumbo</i>.</td>
     </tr>
     <tr>
       <td></td>
-      <td>DownZemAll_vx.x.x_windows-mingw-x86</td>
-      <td>Basic <b>32-bit</b> version. It does't use <i>Chromium</i>, so parses HTML but not Javascript.</td>
+      <td>DownZemAll_vx.x.x_windows-<b>msvc</b>-<b>x86</b></td>
+      <td>Prefer this version if you are on Windows <b>32-bit</b>. It uses the <i>Chromium</i> engine and <i>Google Gumbo</i>.</td>
     </tr>
     <tr>
       <td></td>
       <td>DownZemAll_vx.x.x_windows-mingw-x64</td>
       <td>Basic <b>64-bit</b> version. It does't use <i>Chromium</i>, so parses HTML but not Javascript.</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>DownZemAll_vx.x.x_windows-mingw-x86</td>
+      <td>Basic <b>32-bit</b> version. It does't use <i>Chromium</i>, so parses HTML but not Javascript.</td>
     </tr>
     <tr>
       <td>Linux</td>
