@@ -48,9 +48,13 @@ void InformationDialog::init(const QList<IDownloadItem *> &selection)
 
     const QUrl localFileUrl = item->localFileUrl();
     const QString filename = QDir::toNativeSeparators(localFileUrl.toLocalFile());
-
     ui->filenameLabel->setText(filename);
-    ui->urlLabel->setText(item->sourceUrl().toString());
+
+    const QString urlHtml = QString("<a href=\"%0\">%0</a>").arg(item->sourceUrl().toString());
+    ui->urlLabel->setText(urlHtml);
+    ui->urlLabel->setTextFormat(Qt::RichText);
+    ui->urlLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    ui->urlLabel->setOpenExternalLinks(true);
 
     const QString bytes = item->bytesTotal() > 0
             ? tr("%0 bytes").arg(item->bytesTotal())
