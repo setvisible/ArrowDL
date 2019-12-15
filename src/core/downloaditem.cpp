@@ -64,7 +64,7 @@ void DownloadItem::resume()
 
     this->beginResume();
 
-    File::OpenFlag flag = d->file->open(localFullFileName());
+    File::OpenFlag flag = d->file->open(d->resource);
 
     if (flag == File::Skip) {
         setState(Skipped);
@@ -118,6 +118,36 @@ void DownloadItem::stop()
         d->reply = Q_NULLPTR;
     }
     AbstractDownloadItem::stop();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void DownloadItem::rename(const QString &newName)
+{
+    QString newCustomFileName = newName.trimmed().isEmpty() ? QString() : newName;
+    const QString oldPath = d->resource->localFileFullPath(d->resource->customFileName());
+    const QString newPath = d->resource->localFileFullPath(newCustomFileName);
+
+    const QString oldFileName = d->resource->fileName();
+
+    if (oldPath == newPath) {
+        return;
+    }
+    bool success = true;
+    if (QFile::exists(newPath)) {
+        success = false; /* File error */
+    }
+    if (QFile::exists(oldPath) && !QFile::rename(oldPath, newPath)) {
+        success = false; /* File error */
+    }
+    if (success) {
+        d->resource->setCustomFileName(newCustomFileName);
+        if (d->file->isOpen()) {
+            d->file->rename(d->resource);
+        }
+    }
+    const QString newFileName = success ? d->resource->fileName() : newName;
+    emit renamed(oldFileName, newFileName, success);
 }
 
 /******************************************************************************

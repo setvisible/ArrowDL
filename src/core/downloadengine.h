@@ -80,13 +80,13 @@ public:
 
     /* Utility */
     virtual IDownloadItem* createItem(const QUrl &url);
-    virtual void changeLocalFileName(IDownloadItem *item, const QString &newName);
 
 signals:
     void jobAppended(DownloadRange range);
     void jobRemoved(DownloadRange range);
     void jobStateChanged(IDownloadItem *item);
     void jobFinished(IDownloadItem *item);
+    void jobRenamed(QString oldName, QString newName, bool success);
 
     void selectionChanged();
 
@@ -95,6 +95,7 @@ public slots:
 private slots:
     void onChanged();
     void onFinished();
+    void onRenamed(QString oldName, QString newName, bool success);
     void startNext(IDownloadItem *item);
 
 private:

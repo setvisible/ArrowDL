@@ -35,7 +35,7 @@ class AddDownloadDialog : public QDialog
 public:
     explicit AddDownloadDialog(const QUrl &url, DownloadManager *downloadManager,
                                Settings *settings, QWidget *parent = Q_NULLPTR);
-    ~AddDownloadDialog();
+    virtual ~AddDownloadDialog() Q_DECL_OVERRIDE;
 
     static void quickDownload(const QUrl &url, DownloadManager *downloadManager);
 

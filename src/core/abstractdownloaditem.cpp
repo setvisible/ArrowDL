@@ -294,6 +294,13 @@ void AbstractDownloadItem::finish()
 
 /******************************************************************************
  ******************************************************************************/
+void AbstractDownloadItem::rename(const QString &newName)
+{
+    Q_UNUSED(newName)
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void AbstractDownloadItem::updateInfo(qint64 bytesReceived, qint64 bytesTotal)
 {
     m_bytesReceived = bytesReceived;

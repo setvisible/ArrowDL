@@ -82,14 +82,16 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     /* Connect the SceneManager to the MainWindow. */
     /* The SceneManager centralizes the changes. */
-    QObject::connect(m_downloadManager, SIGNAL(jobAppended(DownloadRange)),
-                     this, SLOT(onJobAddedOrRemoved(DownloadRange)));
-    QObject::connect(m_downloadManager, SIGNAL(jobRemoved(DownloadRange)),
-                     this, SLOT(onJobAddedOrRemoved(DownloadRange)));
-    QObject::connect(m_downloadManager, SIGNAL(jobStateChanged(IDownloadItem*)),
-                     this, SLOT(onJobStateChanged(IDownloadItem*)));
-    QObject::connect(m_downloadManager, SIGNAL(selectionChanged()),
-                     this, SLOT(onSelectionChanged()));
+    connect(m_downloadManager, SIGNAL(jobAppended(DownloadRange)),
+            this, SLOT(onJobAddedOrRemoved(DownloadRange)));
+    connect(m_downloadManager, SIGNAL(jobRemoved(DownloadRange)),
+            this, SLOT(onJobAddedOrRemoved(DownloadRange)));
+    connect(m_downloadManager, SIGNAL(jobStateChanged(IDownloadItem*)),
+            this, SLOT(onJobStateChanged(IDownloadItem*)));
+    connect(m_downloadManager, SIGNAL(jobRenamed(QString, QString, bool)),
+            this, SLOT(onJobRenamed(QString, QString, bool)), Qt::QueuedConnection);
+    connect(m_downloadManager, SIGNAL(selectionChanged()),
+            this, SLOT(onSelectionChanged()));
 
 
     connect(ui->downloadQueueView, SIGNAL(doubleClicked(IDownloadItem*)),
@@ -656,6 +658,22 @@ void MainWindow::onJobStateChanged(IDownloadItem * /*downloadItem*/)
 void MainWindow::onSelectionChanged()
 {
     refreshMenus();
+}
+
+void MainWindow::onJobRenamed(QString oldName, QString newName, bool success)
+{
+    if (!success) {
+        const QString comment = tr("The new name might already be used, or invalid.");
+        const QString message = newName.isEmpty()
+                ? tr("Cannot rename \"%0\" to its default value.\n\n"
+                     "%1").arg(oldName, comment)
+                : tr("Cannot rename\n"
+                     "   \"%0\"\n"
+                     "to\n"
+                     "   \"%1\"\n\n"
+                     "%2").arg(oldName, newName, comment);
+        QMessageBox::information(this, tr("File Error"), message);
+    }
 }
 
 void MainWindow::refreshTitleAndStatus()

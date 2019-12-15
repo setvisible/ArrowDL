@@ -31,7 +31,7 @@ class InformationDialog : public QDialog
     Q_OBJECT
 public:
     explicit InformationDialog(const QList<IDownloadItem*> &jobs, QWidget *parent);
-    ~InformationDialog();
+    virtual ~InformationDialog() Q_DECL_OVERRIDE;
 
 public slots:
     virtual void accept() Q_DECL_OVERRIDE;

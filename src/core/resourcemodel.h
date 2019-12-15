@@ -31,7 +31,7 @@ public:
     };
 
     explicit ResourceModel(QObject *parent);
-    ~ResourceModel();
+    virtual ~ResourceModel() Q_DECL_OVERRIDE;
 
     void clear();
 

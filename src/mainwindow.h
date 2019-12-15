@@ -106,6 +106,7 @@ public slots:
 private slots:
     void onJobAddedOrRemoved(DownloadRange range);
     void onJobStateChanged(IDownloadItem *downloadItem);
+    void onJobRenamed(QString oldName, QString newName, bool success);
     void onSelectionChanged();
 
 private:
