@@ -96,6 +96,8 @@ void DownloadEngine::append(QList<IDownloadItem*> items, bool started)
 
         connect(downloadItem, SIGNAL(changed()), this, SLOT(onChanged()));
         connect(downloadItem, SIGNAL(finished()), this, SLOT(onFinished()));
+        connect(downloadItem, SIGNAL(renamed(QString, QString, bool)),
+                this, SLOT(onRenamed(QString, QString, bool)));
 
         if (started) {
             if (downloadItem->isResumable()) {
@@ -270,6 +272,11 @@ void DownloadEngine::onFinished()
     emit jobFinished(downloadItem);
 }
 
+void DownloadEngine::onRenamed(QString oldName, QString newName, bool success)
+{
+    emit jobRenamed(oldName, newName, success);
+}
+
 /******************************************************************************
  ******************************************************************************/
 void DownloadEngine::clearSelection()
@@ -385,11 +392,3 @@ IDownloadItem* DownloadEngine::createItem(const QUrl &/*url*/)
 
 /******************************************************************************
  ******************************************************************************/
-/*!
- * \brief Reimplement this method allows the Engine to rename Items.
- */
-void DownloadEngine::changeLocalFileName(IDownloadItem *item, const QString &newName)
-{
-    Q_UNUSED(item)
-    Q_UNUSED(newName)
-}

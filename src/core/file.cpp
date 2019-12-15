@@ -17,6 +17,7 @@
 #include "file.h"
 
 #include <Core/IFileAccessManager>
+#include <Core/ResourceItem>
 #include <Core/Settings>
 
 #include <QtCore/QDebug>
@@ -27,6 +28,17 @@
 
 static IFileAccessManager *s_fileAccessManager = Q_NULLPTR;
 
+static ExistingFileOption existingFileOption()
+{
+    ExistingFileOption option = ExistingFileOption::Overwrite;
+    if (s_fileAccessManager) {
+        const Settings* settings = s_fileAccessManager->settings();
+        if (settings) {
+            option = settings->existingFileOption();
+        }
+    }
+    return option;
+}
 
 File::File(QObject *parent) : QObject(parent)
   , m_file(Q_NULLPTR)
@@ -50,6 +62,17 @@ void File::setFileAccessManager(IFileAccessManager *manager)
 /*!
  * \brief Opens the given fileName, returning Open if successful; otherwise Error or Skip.
  */
+File::OpenFlag File::open(ResourceItem *resource)
+{
+    Q_ASSERT(resource);
+    const QUrl target = resource->localFileUrl();
+    const QString fileName = target.toLocalFile();
+
+    const OpenFlag flag = open(fileName);
+    resource->setCustomFileName(customFileName());
+    return flag;
+}
+
 File::OpenFlag File::open(const QString &fileName)
 {
     // Check Path
@@ -61,20 +84,14 @@ File::OpenFlag File::open(const QString &fileName)
     QString safeFileName = fileName;
     if (QFile::exists(safeFileName)) {
 
-        ExistingFileOption option = ExistingFileOption::Overwrite;
-        if (s_fileAccessManager) {
-            const Settings* settings = s_fileAccessManager->settings();
-            if (settings) {
-                option = settings->existingFileOption();
-            }
-        }
+        ExistingFileOption option = existingFileOption();
 
         while (s_fileAccessManager && option == ExistingFileOption::Ask) {
             option = s_fileAccessManager->aboutToModify(safeFileName);
         }
 
         if (option == ExistingFileOption::Rename) {
-            safeFileName = rename(fileName);
+            safeFileName = nextAvailableName(fileName);
 
         } else if (option == ExistingFileOption::Overwrite) {
             QFile::remove(safeFileName);
@@ -101,7 +118,47 @@ File::OpenFlag File::open(const QString &fileName)
 
 /******************************************************************************
  ******************************************************************************/
-QString File::rename(const QString &name) const
+bool File::isOpen() const
+{
+    return m_file && m_file->isOpen();
+}
+
+/*!
+ * \brief Rename file to the given resource file name.
+ * If rename is a success, return true. Otherwise return false.
+ */
+bool File::rename(ResourceItem *resource)
+{
+    /* Flush and close the previous temporary file */
+    QByteArray data;
+    if (m_file && m_file->isOpen()) {
+        m_file->flush();
+        m_file->commit();
+        QString oldFile = m_file->fileName();
+
+        QFile inputFile(this);
+        inputFile.setFileName(oldFile);
+        if (inputFile.open(QIODevice::ReadOnly)) {
+            data = inputFile.readAll();
+            inputFile.close();
+        }
+        m_file->deleteLater();
+        m_file = Q_NULLPTR;
+        QFile::remove(oldFile);
+    }
+    /* Open a new temporary file and append previous data */
+    File::OpenFlag flag = open(resource);
+    if (flag == Open) {
+        write(data);
+        return true;
+    }
+    return false;
+}
+
+
+/******************************************************************************
+ ******************************************************************************/
+inline QString File::nextAvailableName(const QString &name)
 {
     const QFileInfo fi(name);
 
@@ -168,4 +225,15 @@ void File::cancel()
         m_file->deleteLater();
         m_file = Q_NULLPTR;
     }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QString File::customFileName() const
+{
+    if (m_file) {
+        QFileInfo fi(m_file->fileName());
+        return fi.completeBaseName();
+    }
+    return QString();
 }

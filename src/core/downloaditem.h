@@ -53,6 +53,8 @@ public:
     virtual void pause() Q_DECL_OVERRIDE;
     virtual void stop() Q_DECL_OVERRIDE;
 
+    virtual void rename(const QString &newName) Q_DECL_OVERRIDE;
+
 private slots:
     void onMetaDataChanged();
     void onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);

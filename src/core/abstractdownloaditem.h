@@ -73,9 +73,12 @@ public:
 
     void finish();
 
+    virtual void rename(const QString &newName);
+
 signals:
     void changed();
     void finished();
+    void renamed(QString oldName, QString newName, bool success);
 
 public slots:
     void updateInfo(qint64 bytesReceived, qint64 bytesTotal);

@@ -44,7 +44,6 @@ public:
 
     /* Utility */
     virtual IDownloadItem* createItem(const QUrl &url);
-    void changeLocalFileName(IDownloadItem *item, const QString &newName);
 
 private slots:
     void onSettingsChanged();

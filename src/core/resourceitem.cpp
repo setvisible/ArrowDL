@@ -95,9 +95,7 @@ void ResourceItem::setCustomFileName(const QString &customFileName)
  ******************************************************************************/
 QUrl ResourceItem::localFileUrl() const
 {
-    const QString dirPath = m_destination;
-    const QString fileName = Mask::interpret(m_url, m_customFileName, m_mask);
-    const QString path = QDir(dirPath).filePath(fileName);
+    const QString path = localFile(m_destination, m_url, m_customFileName, m_mask);
     return QUrl::fromLocalFile(path);
 }
 
@@ -108,6 +106,11 @@ QString ResourceItem::fileName() const
         return url.fileName();
     }
     return QString();
+}
+
+QString ResourceItem::localFileFullPath(const QString &customFileName) const
+{
+    return localFile(m_destination, m_url, customFileName, m_mask);
 }
 
 /******************************************************************************
@@ -175,4 +178,13 @@ bool ResourceItem::isSelected() const
 void ResourceItem::setSelected(const bool isSelected)
 {
     m_isSelected = isSelected;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+inline QString ResourceItem::localFile(const QString &destination, const QUrl &url,
+                                       const QString &customFileName, const QString &mask)
+{
+    const QString fileName = Mask::interpret(url, customFileName, mask);
+    return QDir(destination).filePath(fileName);
 }

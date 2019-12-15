@@ -88,6 +88,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
                      this, SLOT(onJobAddedOrRemoved(DownloadRange)));
     QObject::connect(m_downloadManager, SIGNAL(jobStateChanged(IDownloadItem*)),
                      this, SLOT(onJobStateChanged(IDownloadItem*)));
+    connect(m_downloadManager, SIGNAL(jobRenamed(QString, QString, bool)),
+            this, SLOT(onJobRenamed(QString, QString, bool)), Qt::QueuedConnection);
     QObject::connect(m_downloadManager, SIGNAL(selectionChanged()),
                      this, SLOT(onSelectionChanged()));
 
@@ -656,6 +658,22 @@ void MainWindow::onJobStateChanged(IDownloadItem * /*downloadItem*/)
 void MainWindow::onSelectionChanged()
 {
     refreshMenus();
+}
+
+void MainWindow::onJobRenamed(QString oldName, QString newName, bool success)
+{
+    if (!success) {
+        const QString comment = tr("The new name might already be used, or invalid.");
+        const QString message = newName.isEmpty()
+                ? tr("Cannot rename \"%0\" to its default value.\n\n"
+                     "%1").arg(oldName, comment)
+                : tr("Cannot rename\n"
+                     "   \"%0\"\n"
+                     "to\n"
+                     "   \"%1\"\n\n"
+                     "%2").arg(oldName, newName, comment);
+        QMessageBox::information(this, tr("File Error"), message);
+    }
 }
 
 void MainWindow::refreshTitleAndStatus()

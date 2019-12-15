@@ -698,7 +698,7 @@ void DownloadQueueView::onQueueItemCommitData(QWidget *editor)
         QueueItem* queueItem = static_cast<QueueItem *>(treeItem);
         AbstractDownloadItem* downloadItem = queueItem->downloadItem();
 
-        m_downloadEngine->changeLocalFileName(downloadItem, newName);
+        downloadItem->rename(newName);
         queueItem->updateItem();
     }
 }

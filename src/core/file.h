@@ -19,6 +19,7 @@
 
 #include <QtCore/QObject>
 
+class ResourceItem;
 class Settings;
 class IFileAccessManager;
 class QSaveFile;
@@ -39,15 +40,21 @@ public:
 
     static void setFileAccessManager(IFileAccessManager *manager);
 
-    OpenFlag open(const QString &fileName);
+    OpenFlag open(ResourceItem *resource);
+
     void write(const QByteArray &data);
     bool commit();
     void cancel();
 
+    bool isOpen() const;
+    bool rename(ResourceItem *resource);
+    QString customFileName() const;
+
 private:
     QSaveFile *m_file;
 
-    inline QString rename(const QString &name) const;
+    inline OpenFlag open(const QString &fileName);
+    static inline QString nextAvailableName(const QString &name);
 };
 
 #endif // CORE_FILE_H
