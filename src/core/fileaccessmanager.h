@@ -28,7 +28,7 @@ class FileAccessManager : public QObject, public IFileAccessManager
 
 public:
     explicit FileAccessManager(QWidget *parent = Q_NULLPTR);
-    ~FileAccessManager();
+    virtual ~FileAccessManager() Q_DECL_OVERRIDE;
 
     virtual Settings* settings() const Q_DECL_OVERRIDE;
     void setSettings(Settings *settings);

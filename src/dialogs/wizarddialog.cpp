@@ -64,7 +64,7 @@ WizardDialog::WizardDialog(DownloadManager *downloadManager,
     , m_downloadManager(downloadManager)
     , m_model(new Model(this))
     #ifdef USE_QT_WEBENGINE
-    , m_webEngineView(nullptr)
+    , m_webEngineView(Q_NULLPTR)
     #else
     , m_networkAccessManager(new QNetworkAccessManager(this))
     #endif

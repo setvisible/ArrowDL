@@ -35,7 +35,7 @@ class DownloadItem : public AbstractDownloadItem
 
 public:
     DownloadItem(DownloadManager *downloadManager);
-    ~DownloadItem();
+    virtual ~DownloadItem() Q_DECL_OVERRIDE;
 
     /* Resource to download */
     ResourceItem* resource() const;
@@ -44,10 +44,10 @@ public:
     /* Convenient */
     virtual QUrl sourceUrl() const Q_DECL_OVERRIDE;
     virtual QString localFileName() const Q_DECL_OVERRIDE;
-    QString localFullFileName() const;
-    QString localFilePath() const;
-    QUrl localFileUrl() const;
-    QUrl localDirUrl() const;
+    virtual QString localFullFileName() const Q_DECL_OVERRIDE;
+    virtual QString localFilePath() const Q_DECL_OVERRIDE;
+    virtual QUrl localFileUrl() const Q_DECL_OVERRIDE;
+    virtual QUrl localDirUrl() const Q_DECL_OVERRIDE;
 
     virtual void resume() Q_DECL_OVERRIDE;
     virtual void pause() Q_DECL_OVERRIDE;

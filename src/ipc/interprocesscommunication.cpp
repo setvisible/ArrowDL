@@ -140,7 +140,7 @@ QString InterProcessCommunication::getDownloadLink(const QString &message)
 
 void InterProcessCommunication::parseMessage(const QString &message, Model *model)
 {
-    if (model == nullptr) {
+    if (model == Q_NULLPTR) {
         return;
     }
     if (message.contains(C_PACKET_ERROR, Qt::CaseInsensitive)) {

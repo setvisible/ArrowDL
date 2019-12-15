@@ -59,7 +59,7 @@ void DownloadEngine::startNext(IDownloadItem * /*item*/)
         foreach (auto item, m_items) {
             if (item->state() == IDownloadItem::Idle) {
                 item->resume();
-                startNext(nullptr);
+                startNext(Q_NULLPTR);
                 break;
             }
         }
@@ -114,7 +114,7 @@ void DownloadEngine::append(QList<IDownloadItem*> items, bool started)
     emit jobAppended(items);
 
     if (started) {
-        startNext(nullptr);
+        startNext(Q_NULLPTR);
     }
 }
 

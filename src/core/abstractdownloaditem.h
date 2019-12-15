@@ -31,7 +31,7 @@ class AbstractDownloadItem : public QObject, public IDownloadItem
 
 public:
     explicit AbstractDownloadItem(QObject *parent = Q_NULLPTR);
-    virtual ~AbstractDownloadItem() noexcept {} // IMPORTANT: virtual destructor
+    virtual ~AbstractDownloadItem() noexcept Q_DECL_OVERRIDE {} // IMPORTANT: virtual destructor
 
     virtual State state() const Q_DECL_OVERRIDE;
     void setState(const State state);
@@ -87,7 +87,6 @@ private slots:
     void updateInfo();
 
 private:
-    // todo: rendre privé, voire DownloadItemPrivate pour avoir une interface propre
     State m_state;
 
     qreal m_speed;

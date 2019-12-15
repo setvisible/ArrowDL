@@ -276,10 +276,10 @@ QWidget* QueueViewItemDelegate::createEditor(QWidget *parent,
                                              const QModelIndex &index) const
 {
     if (!index.isValid())
-        return 0;
+        return Q_NULLPTR;
 
     if (index.column() != C_COL_0_FILE_NAME)
-        return 0;
+        return Q_NULLPTR;
 
     QLineEdit *editor = new QLineEdit(parent);
     editor->setAutoFillBackground(true);
