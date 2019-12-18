@@ -327,7 +327,7 @@ void MainWindow::handleMessage(const QString &message)
             AddDownloadDialog::quickDownload(url, m_downloadManager);
 
         } else if(InterProcessCommunication::isCommandOpenManager(cleaned)) {
-            // Do nothing
+            // Do nothing, just keep the window as-is
 
         } else if(InterProcessCommunication::isCommandShowPreferences(cleaned)) {
             showPreferences();

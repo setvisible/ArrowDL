@@ -29,7 +29,7 @@
   "name": "Down Right Now",
   "options_ui": {
     "page": "options.html",
-    "chrome_style": true
+    "chrome_style": false
   },
   "permissions": [
     "activeTab",

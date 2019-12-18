@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 
     if (application.isRunning()) {
         qWarning("Another instance is running...");
-        // Rem: Even if is empty, the message is still sent to activates the window.
+        // Rem: Even if is empty, the message is still sent to activate the window.
         bool ok = application.sendMessage(message, 2000);
         if (!ok) {
             qCritical("Message sending failed; the application may be frozen.");

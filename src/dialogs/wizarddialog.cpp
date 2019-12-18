@@ -105,22 +105,33 @@ void WizardDialog::closeEvent(QCloseEvent *event)
     event->accept();
 }
 
+int WizardDialog::exec()
+{
+    switch (m_bypass) {
+    case None:
+        return QDialog::exec();
+
+    case Start:
+        start(true);
+        break;
+
+    case StartPaused:
+        start(false);
+        break;
+    }
+    return DialogCode::Accepted;
+}
+
 void WizardDialog::accept()
 {
-    if (m_downloadManager) {
-        QList<IDownloadItem*> items = createItems(m_model->selection(), m_downloadManager);
-        m_downloadManager->append(items, true);
-    }
+    start(true);
     writeSettings();
     QDialog::accept();
 }
 
 void WizardDialog::acceptPaused()
 {
-    if (m_downloadManager) {
-        QList<IDownloadItem*> items = createItems(m_model->selection(), m_downloadManager);
-        m_downloadManager->append(items); /* false */
-    }
+    start(false);
     writeSettings();
     QDialog::accept();
 }
@@ -129,6 +140,16 @@ void WizardDialog::reject()
 {
     writeSettings();
     QDialog::reject();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void WizardDialog::start(bool started)
+{
+    if (m_downloadManager) {
+        QList<IDownloadItem*> items = createItems(m_model->selection(), m_downloadManager);
+        m_downloadManager->append(items, started);
+    }
 }
 
 /******************************************************************************
@@ -248,7 +269,8 @@ void WizardDialog::parseResources(QString message)
     m_model->linkModel()->clear();
     m_model->contentModel()->clear();
 
-    InterProcessCommunication::parseMessage(message, m_model);
+    InterProcessCommunication::Options options;
+    InterProcessCommunication::parseMessage(message, m_model, &options);
 
     setProgressInfo(99, tr("Finished"));
 
@@ -260,6 +282,22 @@ void WizardDialog::parseResources(QString message)
     onSelectionChanged();
 
     setProgressInfo(100);
+
+    if (options.testFlag(InterProcessCommunication::NoOptions)) {
+        m_bypass = None;
+    } else {
+        if (options.testFlag(InterProcessCommunication::QuickLinks)) {
+            m_model->setCurrentTab(Model::LINK);
+        } else if (options.testFlag(InterProcessCommunication::QuickMedia)) {
+            m_model->setCurrentTab(Model::CONTENT);
+        }
+
+        if (options.testFlag(InterProcessCommunication::StartPaused)) {
+            m_bypass = StartPaused;
+        } else {
+            m_bypass = Start;
+        }
+    }
 }
 
 /******************************************************************************

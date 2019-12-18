@@ -23,7 +23,17 @@ class Model;
 
 class InterProcessCommunication
 {
+    enum Mode {None, Link, Media, Other};
+
 public:
+    enum Option {
+        NoOptions = 0x0,
+        QuickLinks = 0x1,
+        QuickMedia = 0x2,
+        StartPaused = 0x4
+    };
+    Q_DECLARE_FLAGS(Options, Option)
+
     static QString readMessageFromLauncher();
 
     static QString clean(const QString &message);
@@ -37,8 +47,10 @@ public:
     static bool isCommandDownloadLink(const QString &message);
     static QString getDownloadLink(const QString &message);
 
-    static void parseMessage(const QString &message, Model *model);
+    static void parseMessage(const QString &message, Model *model, Options *options = Q_NULLPTR);
 
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(InterProcessCommunication::Options)
 
 #endif // IPC_INTER_PROCESS_COMMUNICATION_H
