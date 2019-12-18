@@ -39,6 +39,8 @@ class WizardDialog : public QDialog
 {
     Q_OBJECT
 
+    enum Bypass { None, Start, StartPaused };
+
 public:
     explicit WizardDialog(DownloadManager *downloadManager,
                           Settings *settings, QWidget *parent);
@@ -57,6 +59,7 @@ signals:
 #endif
 
 public slots:
+    virtual int exec() Q_DECL_OVERRIDE;
     virtual void accept() Q_DECL_OVERRIDE;
     virtual void acceptPaused();
     virtual void reject() Q_DECL_OVERRIDE;
@@ -85,6 +88,7 @@ private:
 #endif
     Settings *m_settings;
     QUrl m_url;
+    Bypass m_bypass = None;
 
     void parseResources(QString message);
     void parseHtml(const QByteArray &downloadedData);

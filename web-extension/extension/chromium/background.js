@@ -62,12 +62,68 @@ function save_image(info, tab) {
 }
 
 /* ***************************** */
+/* Options                       */
+/* ***************************** */
+var mySettings = undefined;
+
+function getDownloadActionChoice() {
+  function onOptionResponse(response) {
+    if (chrome.runtime.lastError) {
+      console.log(chrome.runtime.lastError.message);
+      onOptionError(response);
+    }
+    if (response === undefined) {
+      onOptionError(response);
+    } else {
+      mySettings = response;
+      console.log("Settings changed: " + JSON.stringify(mySettings));
+    }
+  }
+  function onOptionError(error) {
+    console.log(`Error: ${error}`);
+  }
+  chrome.storage.local.get(onOptionResponse);
+}
+
+getDownloadActionChoice();
+
+function isSettingAskEnabled() {
+  return mySettings === undefined || mySettings.radioApplicationId === 1;
+}
+
+/* ***************************** */
 /* Collect links and media       */
 /* ***************************** */
 function collectDOMandSendData() {
 
-  function modifyDOM() {
+  function myFunction(myArgument) {
+    var restoredSettings = myArgument; // not necessary: JSON.parse(myArgument);
+    var hasLinks = true;
+    var hasMedia = true;
     var array = "";
+
+    // Options
+    if (restoredSettings.radioApplicationId === 1) {
+      array += "";
+
+    } else if (restoredSettings.radioApplicationId === 2) {
+
+      if (restoredSettings.radioMediaId === 1) {
+        hasMedia = false;
+        array += "[QUICK_LINKS]";
+        array += " ";
+
+      } else if (restoredSettings.radioMediaId === 2) {
+        hasLinks = false;
+        array += "[QUICK_MEDIA]";
+        array += " ";
+      }
+
+      if (restoredSettings.startPaused === true) {
+        array += "[STARTED_PAUSED]";
+        array += " ";
+      }
+    }
 
     // Get the current URL
     const url = document.URL;
@@ -75,33 +131,44 @@ function collectDOMandSendData() {
     array += url;
     array += " ";
 
-    // Get all elements of type <a href="..." ></a>
-    array += "[LINKS] ";
-    var links = document.getElementsByTagName("a");
-    var max = links.length;
-    var i = 0;
-    for (; i < max; i++) {
-        array += links[i].href;
-        array += " ";
+    if (hasLinks) {
+      // Get all elements of type <a href="..." ></a>
+      array += "[LINKS] ";
+      var links = document.getElementsByTagName("a");
+      var max = links.length;
+      var i = 0;
+      for (; i < max; i++) {
+          array += links[i].href;
+          array += " ";
+      }
     }
 
-    // Get all elements of type <img src="..." />
-    array += "[MEDIA] ";
-    var pictures = document.getElementsByTagName("img");
-    var max = pictures.length;
-    var i = 0;
-    for (; i < max; i++) {
-      array += pictures[i].src;
-      array += " ";
+    if (hasMedia) {
+      // Get all elements of type <img src="..." />
+      array += "[MEDIA] ";
+      var pictures = document.getElementsByTagName("img");
+      var max = pictures.length;
+      var i = 0;
+      for (; i < max; i++) {
+        array += pictures[i].src;
+        array += " ";
+      }
     }
 
     return array;
   }
 
-  // argument here is a string but function.toString() returns function's code
-  var codeToExecute = '(' + modifyDOM + ')();'; 
+  var myArgument = JSON.stringify(mySettings);
 
-  //We have permission to access the activeTab, so we can call chrome.tabs.executeScript:
+  // We have permission to access the activeTab, so we can call chrome.tabs.executeScript.
+  /* Remark:
+   * code: "<some code here>"
+   * The value of "<some code here>" is actually the function's code of myFunction.
+   * myFunction is interpreted as a string. 
+   * Indeed, "(" + myFunction + ")()" is a string, because function.toString() returns function's code.
+   */
+  var codeToExecute = "(" + myFunction + ")(" + myArgument + ");";
+
   chrome.tabs.executeScript({
       "code": codeToExecute
     }, function(results) {  
@@ -113,6 +180,26 @@ function collectDOMandSendData() {
   );
 }
 
+function collectDOMandSendDataWithWizard() {
+  // We *hack* the settings
+  var previous = mySettings.radioApplicationId;
+  mySettings.radioApplicationId = 1;
+
+  collectDOMandSendData();
+
+  mySettings.radioApplicationId = previous;
+}
+
+/* ***************************** */
+/* Message                       */
+/* ***************************** */
+function handleMessage(request, sender, sendResponse) {
+  console.log("Message from the options.js: " + JSON.stringify(request));
+  mySettings = request;
+  sendResponse({response: "ok"});
+}
+
+chrome.runtime.onMessage.addListener(handleMessage);
 
 /* ***************************** */
 /* Native Message                */

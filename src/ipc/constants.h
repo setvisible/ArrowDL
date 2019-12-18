@@ -81,6 +81,10 @@ static const QString C_KEYWORD_DOWNLOAD_LINK    ("[DOWNLOAD_LINK]");
 static const QString C_KEYWORD_MANAGER          ("[MANAGER]");
 static const QString C_KEYWORD_PREFS            ("[PREFS]");
 
+static const QString C_KEYWORD_QUICK_LINKS      ("[QUICK_LINKS]");
+static const QString C_KEYWORD_QUICK_MEDIA      ("[QUICK_MEDIA]");
+static const QString C_KEYWORD_STARTED_PAUSED   ("[STARTED_PAUSED]");
+
 static const std::string C_STR_CURRENT_URL(     C_KEYWORD_CURRENT_URL.toStdString());
 static const std::string C_STR_LINKS(           C_KEYWORD_LINKS.toStdString());
 static const std::string C_STR_OPEN_URL(        C_KEYWORD_OPEN_URL.toStdString());

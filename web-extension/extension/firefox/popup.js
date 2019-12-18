@@ -30,6 +30,7 @@ function showWarningMessage(hasError) {
     x.style.display = "none";
   }
   setDisabled("button-start", hasError);
+  setDisabled("button-open-wizard", hasError);
   setDisabled("button-manager", hasError);
   setDisabled("button-preference", hasError);
 }
@@ -42,12 +43,22 @@ function setDisabled(name, disabled) {
   }
 }
 
+function setVisible(name, visible) {  
+  if (visible) {
+    document.getElementById(name).style.display = "inline";
+  } else {
+    document.getElementById(name).style.display = "none";
+  }
+}
+
 /* ***************************** */
 /* Events                        */
 /* ***************************** */
 function checkInstallation() {
   checkConnection();
 
+  var enabled = chrome.extension.getBackgroundPage().isSettingAskEnabled();
+  setVisible("button-open-wizard", !enabled);
 }
 
 document.addEventListener('DOMContentLoaded', checkInstallation); 
@@ -55,6 +66,11 @@ document.addEventListener('DOMContentLoaded', checkInstallation);
 document.getElementById("button-start").addEventListener('click', () => {
     // Call collectDOMandSendData() from 'background.js'
     chrome.extension.getBackgroundPage().collectDOMandSendData();
+    window.close();
+});
+
+document.getElementById("button-open-wizard").addEventListener('click', () => {
+    chrome.extension.getBackgroundPage().collectDOMandSendDataWithWizard();
     window.close();
 });
 

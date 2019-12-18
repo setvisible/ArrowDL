@@ -138,7 +138,9 @@ QString InterProcessCommunication::getDownloadLink(const QString &message)
     return QString();
 }
 
-void InterProcessCommunication::parseMessage(const QString &message, Model *model)
+
+void InterProcessCommunication::parseMessage(const QString &message, Model *model,
+                                        InterProcessCommunication::Options *options)
 {
     if (model == Q_NULLPTR) {
         return;
@@ -172,6 +174,16 @@ void InterProcessCommunication::parseMessage(const QString &message, Model *mode
             // C_KEYWORD_OPEN_URL
             // ...
             mode = Other;
+
+            if (options) {
+                if (trimmed == C_KEYWORD_QUICK_LINKS) {
+                    *options |= QuickLinks;
+                } else if (trimmed == C_KEYWORD_QUICK_MEDIA) {
+                    *options |= QuickMedia;
+                } else if (trimmed == C_KEYWORD_STARTED_PAUSED) {
+                    *options |= StartPaused;
+                }
+            }
 
         } else {
             if (mode == Link) {
