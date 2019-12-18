@@ -1,23 +1,23 @@
 "use strict";
 
-const application = 'DownRightNow';
+const application = "DownRightNow";
 
 /* ***************************** */
 /* Native Message                */
 /* ***************************** */
 function checkConnection() {
+  function onResponse(response) {
+    showWarningMessage(false);
+  }
+  
+  function onError(error) {
+    showWarningMessage(true);
+  }
   var data = "areyouthere";
   var sending = browser.runtime.sendNativeMessage(application, data);
-  sending.then(onHelloResponse, onHelloError);
-};
+  sending.then(onResponse, onError);
+}
 
-function onHelloResponse(response) {
-  showWarningMessage(false);
-};
-
-function onHelloError(error) {
-  showWarningMessage(true);
-};
 
 /* ***************************** */
 /* Core                          */
@@ -32,22 +32,23 @@ function showWarningMessage(hasError) {
   setDisabled("button-start", hasError);
   setDisabled("button-manager", hasError);
   setDisabled("button-preference", hasError);
-};
+}
 
-function setDisabled(name, hasError) {
-  if (hasError) {
-    document.getElementById(name).classList.add('disabled');
+function setDisabled(name, disabled) {
+  if (disabled) {
+    document.getElementById(name).classList.add("disabled");
   } else {
-    document.getElementById(name).classList.remove('disabled');
+    document.getElementById(name).classList.remove("disabled");
   }
-};
+}
 
 /* ***************************** */
 /* Events                        */
 /* ***************************** */
 function checkInstallation() {
   checkConnection();
-};
+
+}
 
 document.addEventListener('DOMContentLoaded', checkInstallation); 
 

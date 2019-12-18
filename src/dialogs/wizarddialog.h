@@ -91,6 +91,8 @@ private:
     void setProgressInfo(int percent, const QString &text = QString());
     void setNetworkError(const QString &errorString);
 
+    void start(bool started);
+
     void readSettings();
     void writeSettings();
 };

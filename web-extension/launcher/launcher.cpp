@@ -43,16 +43,16 @@
 #  include <QtCore/QDebug>
 #endif
 
-/* Constants */
+// Constants: Launcher <-> Application
 #include "./../../src/ipc/constants.h"
 
-static const std::string C_PROCESS = "./DownZemAll.exe";
-static const std::string C_HAND_SHAKE_QUESTION("\"areyouthere");
-static const std::string C_HAND_SHAKE_ANSWER("somewhere");
-static const std::string C_LAUNCH("\"launch ");
-
-static const std::string C_CHROMIUM_HEADER("{\"text\":");
-static const std::string C_CHROMIUM_FOOTER("}");
+// Constants: Launcher <-> Browser
+static const std::string C_PROCESS              ("./DownZemAll.exe");
+static const std::string C_HAND_SHAKE_QUESTION  ("\"areyouthere");
+static const std::string C_HAND_SHAKE_ANSWER    ("somewhere");
+static const std::string C_LAUNCH               ("\"launch ");
+static const std::string C_CHROMIUM_HEADER      ("{\"text\":");
+static const std::string C_CHROMIUM_FOOTER      ("}");
 
 
 static std::string unquote(const std::string &str)
@@ -109,12 +109,12 @@ static void sendDataToExtension(const std::string &message)
  *
  *      ""launch [CURRENT_URL] https://develop/ ""
  *
- * ...whilst Chrome messages are:
+ * ...but Chrome messages are of type:
  *
  *      "{"text":"launch [CURRENT_URL] https://develop/ "}"
  *       ^^^^^^^^                                        ^
  *        header                                        footer
- * So here we remove the Chrome header and footer
+ * So here we remove the Chrome's header and footer.
  */
 static std::string cleanChromeMessage(const std::string &message)
 {

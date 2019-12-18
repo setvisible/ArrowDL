@@ -23,6 +23,8 @@ class Model;
 
 class InterProcessCommunication
 {
+    enum Mode {None, Link, Media, Other};
+
 public:
     static QString readMessageFromLauncher();
 

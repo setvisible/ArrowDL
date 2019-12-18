@@ -107,20 +107,14 @@ void WizardDialog::closeEvent(QCloseEvent *event)
 
 void WizardDialog::accept()
 {
-    if (m_downloadManager) {
-        QList<IDownloadItem*> items = createItems(m_model->selection(), m_downloadManager);
-        m_downloadManager->append(items, true);
-    }
+    start(true);
     writeSettings();
     QDialog::accept();
 }
 
 void WizardDialog::acceptPaused()
 {
-    if (m_downloadManager) {
-        QList<IDownloadItem*> items = createItems(m_model->selection(), m_downloadManager);
-        m_downloadManager->append(items); /* false */
-    }
+    start(false);
     writeSettings();
     QDialog::accept();
 }
@@ -129,6 +123,16 @@ void WizardDialog::reject()
 {
     writeSettings();
     QDialog::reject();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void WizardDialog::start(bool started)
+{
+    if (m_downloadManager) {
+        QList<IDownloadItem*> items = createItems(m_model->selection(), m_downloadManager);
+        m_downloadManager->append(items, started);
+    }
 }
 
 /******************************************************************************
