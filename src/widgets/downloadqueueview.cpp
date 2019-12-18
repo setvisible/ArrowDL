@@ -276,10 +276,10 @@ QWidget* QueueViewItemDelegate::createEditor(QWidget *parent,
                                              const QModelIndex &index) const
 {
     if (!index.isValid())
-        return 0;
+        return Q_NULLPTR;
 
     if (index.column() != C_COL_0_FILE_NAME)
-        return 0;
+        return Q_NULLPTR;
 
     QLineEdit *editor = new QLineEdit(parent);
     editor->setAutoFillBackground(true);
@@ -698,7 +698,7 @@ void DownloadQueueView::onQueueItemCommitData(QWidget *editor)
         QueueItem* queueItem = static_cast<QueueItem *>(treeItem);
         AbstractDownloadItem* downloadItem = queueItem->downloadItem();
 
-        m_downloadEngine->changeLocalFileName(downloadItem, newName);
+        downloadItem->rename(newName);
         queueItem->updateItem();
     }
 }

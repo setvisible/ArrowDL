@@ -86,7 +86,7 @@ AddDownloadDialog::~AddDownloadDialog()
  */
 void AddDownloadDialog::quickDownload(const QUrl &url, DownloadManager *downloadManager)
 {
-    if (downloadManager == nullptr) {
+    if (downloadManager == Q_NULLPTR) {
         return;
     }
     // Remove trailing / and \ and .

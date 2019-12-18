@@ -66,26 +66,30 @@
  * \endcode
  */
 
-static const QString C_SHARED_MEMORY_KEY("org.example.QSharedMemory.DownloadManager");
-static const QString C_SHARED_MEMORY_ACK_REPLY("0K3Y_B0Y");
+static const QString C_SHARED_MEMORY_KEY        ("org.example.QSharedMemory.DownloadManager");
+static const QString C_SHARED_MEMORY_ACK_REPLY  ("0K3Y_B0Y");
 
-static const QString C_PACKET_BEGIN("[IPC_BEGIN]");
-static const QString C_PACKET_END("[IPC_END]");
-static const QString C_PACKET_ERROR("[ERROR]");
+static const QString C_PACKET_BEGIN             ("[IPC_BEGIN]");
+static const QString C_PACKET_END               ("[IPC_END]");
+static const QString C_PACKET_ERROR             ("[ERROR]");
 
-static const QString C_KEYWORD_CURRENT_URL("[CURRENT_URL]");
-static const QString C_KEYWORD_LINKS("[LINKS]");
-static const QString C_KEYWORD_MEDIA("[MEDIA]");
-static const QString C_KEYWORD_OPEN_URL("[OPEN_URL]");
-static const QString C_KEYWORD_DOWNLOAD_LINK("[DOWNLOAD_LINK]");
-static const QString C_KEYWORD_MANAGER("[MANAGER]");
-static const QString C_KEYWORD_PREFS("[PREFS]");
+static const QString C_KEYWORD_CURRENT_URL      ("[CURRENT_URL]");
+static const QString C_KEYWORD_LINKS            ("[LINKS]");
+static const QString C_KEYWORD_MEDIA            ("[MEDIA]");
+static const QString C_KEYWORD_OPEN_URL         ("[OPEN_URL]");
+static const QString C_KEYWORD_DOWNLOAD_LINK    ("[DOWNLOAD_LINK]");
+static const QString C_KEYWORD_MANAGER          ("[MANAGER]");
+static const QString C_KEYWORD_PREFS            ("[PREFS]");
 
-static const std::string C_STR_CURRENT_URL(C_KEYWORD_CURRENT_URL.toStdString());
-static const std::string C_STR_LINKS(C_KEYWORD_LINKS.toStdString());
-static const std::string C_STR_OPEN_URL(C_KEYWORD_OPEN_URL.toStdString());
-static const std::string C_STR_DOWNLOAD_LINK(C_KEYWORD_DOWNLOAD_LINK.toStdString());
-static const std::string C_STR_ERROR(C_PACKET_ERROR.toStdString());
+static const QString C_KEYWORD_QUICK_LINKS      ("[QUICK_LINKS]");
+static const QString C_KEYWORD_QUICK_MEDIA      ("[QUICK_MEDIA]");
+static const QString C_KEYWORD_STARTED_PAUSED   ("[STARTED_PAUSED]");
+
+static const std::string C_STR_CURRENT_URL(     C_KEYWORD_CURRENT_URL.toStdString());
+static const std::string C_STR_LINKS(           C_KEYWORD_LINKS.toStdString());
+static const std::string C_STR_OPEN_URL(        C_KEYWORD_OPEN_URL.toStdString());
+static const std::string C_STR_DOWNLOAD_LINK(   C_KEYWORD_DOWNLOAD_LINK.toStdString());
+static const std::string C_STR_ERROR(           C_PACKET_ERROR.toStdString());
 
 
 #endif // IPC_CONSTANTS_H

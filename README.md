@@ -9,7 +9,7 @@
 
 *DownZemAll!* is a rewrite of the legacy software [DownThemAll!](https://en.wikipedia.org/wiki/DownThemAll! "https://en.wikipedia.org/wiki/DownThemAll!") which was an extension for Mozilla Firefox, but whose development stopped around 2016, when Mozilla Firefox migrated to WebExtensions.
 
-![logo](/screenshots/logo.png)
+![promotional](/screenshots/promo_330x43.png)
 
 *DownZemAll!* is a standalone download manager for Windows, Mac OS X and Linux. 
 

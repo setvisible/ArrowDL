@@ -195,18 +195,3 @@ IDownloadItem* DownloadManager::createItem(const QUrl &url)
     item->setResource(resource);
     return item;
 }
-
-/******************************************************************************
- ******************************************************************************/
-void DownloadManager::changeLocalFileName(IDownloadItem *item, const QString &newName)
-{
-    DownloadItem *downloadItem = static_cast<DownloadItem*>(item);
-    if (downloadItem) {
-       ResourceItem *resource = downloadItem->resource();
-       if (newName.trimmed().isEmpty()) {
-           resource->setCustomFileName(QString());
-       } else {
-           resource->setCustomFileName(newName);
-       }
-    }
-}

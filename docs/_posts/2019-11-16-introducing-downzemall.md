@@ -2,7 +2,9 @@
 layout: post
 title: Introducing DownZemAll!
 date:   2019-11-16 19:06:30 +0100
-categories: update intro
+tags:
+  - update
+  - introducing
 excerpt_separator:  <!--more-->
 ---
 

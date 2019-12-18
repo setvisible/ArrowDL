@@ -22,7 +22,9 @@ github:
   repo:           https://github.com/setvisible/DownZemAll
 
 paginate:         5
-# paginate_path:    '/page:num'
+                  # paginate means 5 posts max per page
+
+paginate_path:    '/news/page:num'
                     # Or '/blog/page:num' if you want to move your index pages
 
 plugins:
@@ -32,7 +34,7 @@ plugins:
 
 # Sidebar link settings
 sidebar_home_link:  true
-# sidebar_blog_link:  '/blog'   # By default, your home page is your blog
+sidebar_blog_link:  '/news'     # By default, your home page is your blog
                                 # page. If you change your paginate_path,
                                 # set this to the root of the paginate_path
                                 # to enable a separate blog link.

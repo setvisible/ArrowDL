@@ -44,6 +44,7 @@ public:
     /* Local file URL, once the file is downloaded */
     QUrl localFileUrl() const;
     QString fileName() const;
+    QString localFileFullPath(const QString &customFileName = QString()) const;
 
     /* Options */
     QString referringPage() const;
@@ -70,6 +71,9 @@ private:
     QString m_checkSum;
 
     bool m_isSelected;
+
+    inline static QString localFile(const QString &destination, const QUrl &url,
+                                    const QString &customFileName, const QString &mask);
 };
 
 #endif // CORE_RESOURCE_ITEM_H

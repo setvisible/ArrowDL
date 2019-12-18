@@ -138,47 +138,60 @@ QString InterProcessCommunication::getDownloadLink(const QString &message)
     return QString();
 }
 
-void InterProcessCommunication::parseMessage(const QString &message, Model *model)
+
+void InterProcessCommunication::parseMessage(const QString &message, Model *model,
+                                        InterProcessCommunication::Options *options)
 {
-    if (model == nullptr) {
+    if (model == Q_NULLPTR) {
         return;
     }
     if (message.contains(C_PACKET_ERROR, Qt::CaseInsensitive)) {
         return;
     }
 
+    Mode mode = None;
+
     const QStringList resources = message.split(QChar::Space, QString::SkipEmptyParts);
 
-    int mode = -1;
     foreach (auto resource, resources) {
-        auto url = resource.trimmed();
-        if (url.isEmpty()) {
+        auto trimmed = resource.trimmed();
+        if (trimmed.isEmpty()) {
             continue;
         }
 
-        if (url == C_KEYWORD_CURRENT_URL) {
-            mode = 0;
+        if (trimmed == C_KEYWORD_CURRENT_URL) {
+            mode = None;
 
-        } else if (url == C_KEYWORD_LINKS) {
-            mode = 1;
+        } else if (trimmed == C_KEYWORD_LINKS) {
+            mode = Link;
 
-        } else if (url == C_KEYWORD_MEDIA) {
-            mode = 2;
+        } else if (trimmed == C_KEYWORD_MEDIA) {
+            mode = Media;
 
-        } else if (url.contains('[')) {
+        } else if (trimmed.contains('[')) {
             // C_PACKET_BEGIN
             // C_PACKET_END
             // C_KEYWORD_OPEN_URL
             // ...
-            mode = -1;
+            mode = Other;
+
+            if (options) {
+                if (trimmed == C_KEYWORD_QUICK_LINKS) {
+                    *options |= QuickLinks;
+                } else if (trimmed == C_KEYWORD_QUICK_MEDIA) {
+                    *options |= QuickMedia;
+                } else if (trimmed == C_KEYWORD_STARTED_PAUSED) {
+                    *options |= StartPaused;
+                }
+            }
 
         } else {
-            if (mode == 1) {
+            if (mode == Link) {
                 ResourceItem *item = new ResourceItem();
                 item->setUrl(resource);
                 model->linkModel()->addResource(item);
 
-            } else if (mode == 2) {
+            } else if (mode == Media) {
                 ResourceItem *item = new ResourceItem();
                 item->setUrl(resource);
                 model->contentModel()->addResource(item);
