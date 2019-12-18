@@ -42,7 +42,7 @@ class WizardDialog : public QDialog
 public:
     explicit WizardDialog(DownloadManager *downloadManager,
                           Settings *settings, QWidget *parent);
-    ~WizardDialog();
+    virtual ~WizardDialog() Q_DECL_OVERRIDE;
 
     void loadResources(const QString &message);
     void loadUrl(const QUrl &url);
