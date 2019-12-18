@@ -147,7 +147,7 @@ function checkConnection() {
 }
 
 function safeInnerHtmlAssignment(connectionStatus, details, color) {
-  const statusTag = `<p><span style="border:4px solid ${color}; background-color:${color}; color:White;">${connectionStatus}</span><br/><br/>${details}</p>`;
+  const statusTag = `<span>Status:&nbsp;&nbsp;<span style="padding: 5px 10px 5px 10px; solid ${color}; background-color:${color}; color:White;">${connectionStatus}</span>&nbsp;&nbsp;&nbsp;&nbsp;${details}</span>`;
 
   const parser = new DOMParser()
   const parsed = parser.parseFromString(statusTag, `text/html`)

@@ -39,38 +39,59 @@
             </ul>
         </div>
         <h1>Check installation</h1>
-        <p>Verify that the application is correctly installed by clicking on button below:</p>
-        <form>
-            <button id="button-check" type="submit">Check install</button>
-        </form>
-        <p>Status: <span id="status-message">Verifying...</span></p>
-        <h1>Installation instructions</h1>
-        <h2>Download</h2>
-        <p>Download the latest version of the standalone application <i><b>DownZemAll (DownRightNow)</b></i> for your platform/OS here:
-        <br/>
-        <br/>
-        <a href="https://setvisible.github.io/DownZemAll/category/download.html">
-            https://setvisible.github.io/DownZemAll/category/download.html
-        </a>
-        </p>
-        <h2>Install</h2>
-        <h3>For Windows users:</h3>
-        <p><b>To install the application:</b></p>
-        <ul>
-            <li>Extract the downloaded ZIP file in a local directory.</li>
-            <li>Double-click on &quot;<i><b>install.bat</b></i>&quot;.</li>
-            <li>Wait for the script to display the successful message.</li>
-        </ul>
-        <p><b>To uninstall the application:</b></p>  
-        <ul>
-            <li>Double-click on &quot;<i><b>uninstall.bat</b></i>&quot;.</li>
-            <li>Wait for the script to display the successful message.</li>
-            <li>Remove the directory.</li>
-        </ul>
-        <p><u>Note:</u><br/><br/>These scripts do not need administrator permission.</p>
-        <h3>For Linux/MacOS X users:</h3>
-        <p>(Nothing yet)</p>
-        <br/>
+        <div>
+            <span>Verify that the application is correctly installed by clicking on button below</span>
+            <br/>
+            <br/>
+            <form>
+                <div class="buttonHolder">
+                    <button id="button-check" type="submit">Check install »</button>
+                </div>
+            </form>
+            <span id="status-message">Status:&nbsp;&nbsp;Verifying...</span>
+            <br/>
+        </div>
+        <div class="install-instructions">
+            <h1 class="install-instructions-h1" style="padding-top: 10px !important; background-color: #f8b124 !important;">Installation instructions</h1>
+            <div class="install-instructions-content">
+                <h2>1. Download</h2>
+                <p>Download the latest version of the standalone application <i>DownZemAll (DownRightNow)</i> for your platform/OS here: <br/>
+                    <br/>
+                    <a href="https://setvisible.github.io/DownZemAll/category/download.html">https://setvisible.github.io/DownZemAll/category/download.html </a>
+                </p>
+                <h2>2. Install</h2>
+                <h3>For Windows users:</h3>
+                <div class="instruct">
+                    <p>
+                        <b>To install the application:</b>
+                    </p>
+                    <ul>
+                        <li>Extract the downloaded ZIP file in a local directory.</li>
+                        <li>Double-click on "<i>
+                                <b>install.bat</b>
+                            </i>".</li>
+                        <li>Wait for the script to display the successful message.</li>
+                    </ul>
+                    <p>
+                        <b>To uninstall the application:</b>
+                    </p>
+                    <ul>
+                        <li>Double-click on "<i>
+                                <b>uninstall.bat</b>
+                            </i>".</li>
+                        <li>Wait for the script to display the successful message.</li>
+                        <li>Remove the directory.</li>
+                    </ul>
+                    <blockquote>
+                        <p>Note:<br/>These scripts do not need administrator permission.</p>
+                    </blockquote>
+                </div>
+                <h3>For Linux/MacOS X users:</h3>
+                <div class="instruct">
+                    <p>(Nothing yet)</p>
+                </div>
+            </div>
+        </div>
         <br/>
     </body>
 </html>
