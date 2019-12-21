@@ -31,6 +31,12 @@ private slots:
 
     void customFileName_data();
     void customFileName();
+
+    void interpretEscaped();
+    void interpretEscaped_data();
+
+    void interpretForbidden();
+    void interpretForbidden_data();
 };
 
 
@@ -133,7 +139,99 @@ void tst_Mask::interpret()
 
 /******************************************************************************
 ******************************************************************************/
+void tst_Mask::interpretEscaped_data()
+{
+    QTest::addColumn<QString>("url");
+    QTest::addColumn<QString>("customFileName");
+    QTest::addColumn<QString>("mask");
+    QTest::addColumn<QString>("expected");
 
+    const QString mask = "*name*.*ext*";
+
+    QTest::newRow("escaped bracket")
+            << "http://www.example.org/%28brackets%29.txt"
+            << QString() << mask << "(brackets).txt";
+
+}
+
+void tst_Mask::interpretEscaped()
+{
+    QFETCH(QString, url);
+    QFETCH(QString, customFileName);
+    QFETCH(QString, mask);
+    QFETCH(QString, expected);
+
+    const QString actual = Mask::interpret(url, customFileName, mask);
+
+    QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+******************************************************************************/
+void tst_Mask::interpretForbidden_data()
+{
+    QTest::addColumn<QString>("url");
+    QTest::addColumn<QString>("customFileName");
+    QTest::addColumn<QString>("mask");
+    QTest::addColumn<QString>("expected");
+
+    const QString mask = "*url*/*subdirs*/*name*.*ext*";
+    const QString nameMask = "*name*.*ext*";
+
+    QTest::newRow("question mark (%3F) encoded")
+            << "http://www.example.org/%3F/question_mark_%3F.jpg"
+            << QString() << mask << "www.example.org/_/question_mark__.jpg";
+
+    QTest::newRow("'?' is a query here")
+            << "http://www.example.org/archive.tar.gz?id=1345&lang=eng"
+            << QString() << mask << "www.example.org/archive.tar.gz";
+
+    QTest::newRow("'?' is a query here")
+            << "http://www.example.org/faq.html?#fragment"
+            << QString() << mask << "www.example.org/faq.html";
+
+    QTest::newRow("'?' is a query here")
+            << "http://www.example.org/faq.html?"
+            << QString() << mask << "www.example.org/faq.html";
+
+    QTest::newRow("'?' is not a query here, all the segments must appear")
+            << "http://www.example.org/?/data_(?).jpg"
+            << QString() << mask << "www.example.org/_/data_(_).jpg";
+
+    QTest::newRow("'#' is not a query fragment here, all the segments must appear")
+            << "http://www.example.org/data#/file(?).jpg"
+            << QString() << mask << "www.example.org/data_/file(_).jpg";
+
+    QTest::newRow("reserved chars")
+            << "http://www.example.org/data #5?/file:George_Hendrik_Breitner_(?).jpg"
+            << QString() << mask << "www.example.org/data _5_/file_George_Hendrik_Breitner_(_).jpg";
+
+
+    /* Windows reserved names */
+    QTest::newRow("reserved <") << "file://<.jpg" << QString() << nameMask << "_.jpg";
+    QTest::newRow("reserved >") << "file://>.jpg" << QString() << nameMask << "_.jpg";
+    QTest::newRow("reserved :") << "file://:.jpg" << QString() << nameMask << "_.jpg";
+    QTest::newRow("reserved \"") << "file://\".jpg" << QString() << nameMask << "_.jpg";
+    QTest::newRow("reserved |") << "file://|.jpg" << QString() << nameMask << "_.jpg";
+    QTest::newRow("reserved ?") << "file://?.jpg" << QString() << nameMask << "_.jpg";
+    QTest::newRow("reserved *") << "file://*.jpg" << QString() << nameMask << "_.jpg";
+    QTest::newRow("reserved #") << "file://#.jpg" << QString() << nameMask << "_.jpg";
+}
+
+void tst_Mask::interpretForbidden()
+{
+    QFETCH(QString, url);
+    QFETCH(QString, customFileName);
+    QFETCH(QString, mask);
+    QFETCH(QString, expected);
+
+    const QString actual = Mask::interpret(url, customFileName, mask);
+
+    QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+******************************************************************************/
 QTEST_APPLESS_MAIN(tst_Mask)
 
 #include "tst_mask.moc"
