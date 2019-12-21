@@ -87,8 +87,7 @@ bool TextHandler::write(const DownloadEngine &engine)
     foreach (auto item, engine.downloadItems()) {
         QUrl url = item->sourceUrl();
         QByteArray data = url.toString().toUtf8();
-        out << data << '\n'; // std::endl
-
+        out << data << '\n';
     }
     return true;
 }
