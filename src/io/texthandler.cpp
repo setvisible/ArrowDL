@@ -22,6 +22,9 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QUrl>
 
+static const char* s_utf_8 = "UTF-8";
+
+
 TextHandler::TextHandler() : IFileHandler()
 {
 }
@@ -50,6 +53,7 @@ bool TextHandler::read(DownloadEngine *engine)
     }
     QIODevice *d = device();
     QTextStream in(d);
+    in.setCodec(s_utf_8);
     if (!d->isReadable()) {
         return false;
     }
@@ -76,6 +80,7 @@ bool TextHandler::write(const DownloadEngine &engine)
 {
     QIODevice *d = device();
     QTextStream out(d);
+    out.setCodec(s_utf_8);
     if (!d->isWritable()) {
         return false;
     }
