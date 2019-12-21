@@ -29,7 +29,9 @@ class tst_TextHandler : public QObject
 
 private slots:
     void write();
+    void writeUTF8();
     void read();
+    void readUTF8();
 
 private:
     inline QByteArray simplify(QByteArray &str);
@@ -89,12 +91,42 @@ void tst_TextHandler::write()
 
 /******************************************************************************
 ******************************************************************************/
+void tst_TextHandler::writeUTF8()
+{
+    // Given
+    FakeDownloadManager manager;
+    manager.appendFakeJob(QUrl("http://www.exemple.fr/Capture-d’écran-2017-06-20-à-10.22.38.png"));
+    manager.appendFakeJob(QUrl("http://www.exemple.fr/Capture-d%E2%80%99e%CC%81cran-2017-06-20-a%CC%80-10.22.38.png"));
+
+    /* QIODevice::Text forces convert to \r\n on Windows */
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    buffer.open(QIODevice::WriteOnly | QIODevice::Text);
+
+    QByteArray expected =
+            "http://www.exemple.fr/Capture-d’écran-2017-06-20-à-10.22.38.png\n"
+            "http://www.exemple.fr/Capture-d’écran-2017-06-20-à-10.22.38.png\n";
+
+    TextHandler target;
+    target.setDevice(&buffer);
+
+    // When
+    bool opened = target.write(manager);
+    QByteArray actual = simplify(byteArray);
+
+    // Then
+    QVERIFY(opened);
+    QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+******************************************************************************/
 void tst_TextHandler::read()
 {
     // Given
     FakeDownloadManager manager;
 
-    QByteArray byteArray=
+    QByteArray byteArray =
             "https://www.example.com/2019/10/DSC_8045.jpg\n"
             "     https://www.example.com/2019/10/DSC_8046.jpg       \n"
             "https://www.example.com/2019/10/DSC_8047.jpg\r\n" /* Windows \r\n here */
@@ -122,6 +154,31 @@ void tst_TextHandler::read()
     QVERIFY(toString(manager.downloadItems().at(2)) == "https://www.example.com/2019/10/DSC_8047.jpg");
     QVERIFY(toString(manager.downloadItems().at(3)) == "https://www.example.com/2019/10/DSC_8048.jpg");
     QVERIFY(toString(manager.downloadItems().at(4)) == "https://www.example.com/favicon.ico");
+}
+
+/******************************************************************************
+******************************************************************************/
+void tst_TextHandler::readUTF8()
+{
+    // Given
+    FakeDownloadManager manager;
+
+    QByteArray byteArray =
+            "http://www.exemple.fr/Capture-d’écran-2017-06-20-à-10.22.38.png\n";
+
+    QBuffer buffer(&byteArray);
+    buffer.open(QIODevice::ReadOnly | QIODevice::Text);
+
+    TextHandler target;
+    target.setDevice(&buffer);
+
+    // When
+    bool opened = target.read(&manager);
+
+    // Then
+    QVERIFY(opened);
+    QCOMPARE(manager.downloadItems().count(), 1);
+    QVERIFY(toString(manager.downloadItems().at(0)) == "http://www.exemple.fr/Capture-d’écran-2017-06-20-à-10.22.38.png");
 }
 
 /******************************************************************************
