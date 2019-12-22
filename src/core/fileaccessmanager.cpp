@@ -25,13 +25,8 @@
 
 FileAccessManager::FileAccessManager(QWidget *parent) : QObject(parent)
   , m_parent(parent)
-  , m_settings(Q_NULLPTR)
 {
     File::setFileAccessManager(this);
-}
-
-FileAccessManager::~FileAccessManager()
-{
 }
 
 Settings *FileAccessManager::settings() const
@@ -61,7 +56,7 @@ ExistingFileOption FileAccessManager::aboutToModify(const QString &filename)
     static bool dontAskAgain = false;
     QCheckBox *cb = new QCheckBox("Don't ask again");
     msgBox.setCheckBox(cb);
-    QObject::connect(cb, &QCheckBox::stateChanged, [this](int state){
+    QObject::connect(cb, &QCheckBox::stateChanged, [](int state){
         dontAskAgain = (static_cast<Qt::CheckState>(state) == Qt::CheckState::Checked);
     });
 

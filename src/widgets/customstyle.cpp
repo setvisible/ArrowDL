@@ -58,13 +58,9 @@ static const char* xpm[] = {
  *
  */
 
-CustomStyle::CustomStyle() : QProxyStyle()
+CustomStyle::CustomStyle()
 {
     m_textureImage = QImage(xpm);
-}
-
-CustomStyle::~CustomStyle()
-{    
 }
 
 void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
@@ -72,8 +68,7 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
 {  
     switch (element) {
     case CE_ProgressBar:
-        if (const CustomStyleOptionProgressBar *pb
-                = qstyleoption_cast<const CustomStyleOptionProgressBar *>(opt)) {
+        if (auto pb = qstyleoption_cast<const CustomStyleOptionProgressBar *>(opt)) {
 
             /* Draw the selection background */
             if (pb->state & State_Selected) {

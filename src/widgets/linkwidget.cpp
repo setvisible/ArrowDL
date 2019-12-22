@@ -256,10 +256,10 @@ void LinkWidget::setup(QTableView *view)
  ******************************************************************************/
 void LinkWidget::onSectionCountChanged(int /*oldCount*/, int newCount)
 {
-    QHeaderView *header = qobject_cast<QHeaderView *>(sender());
+    auto header = qobject_cast<QHeaderView *>(sender());
     if (newCount > 0) {
         header->setSectionResizeMode(0, QHeaderView::Fixed);
-        QTableView *parent = qobject_cast<QTableView *>(header->parent());
+        auto parent = qobject_cast<QTableView *>(header->parent());
         if (parent) {
             parent->setColumnWidth(0, C_CHECKBOX_WIDTH);
         }
@@ -367,7 +367,7 @@ void LinkWidget::onResourceChanged()
  ******************************************************************************/
 void LinkWidget::showContextMenu(const QPoint &/*pos*/)
 {
-    QMenu *contextMenu = new QMenu(this);
+    auto contextMenu = new QMenu(this);
 
     QAction actionCheckSelected(tr("Check Selected Items"), contextMenu);
     actionCheckSelected.setIcon(QIcon(":/icons/menu/check_ok_16x16.png"));
@@ -432,7 +432,7 @@ void LinkWidget::showContextMenu(const QPoint &/*pos*/)
 void LinkWidget::checkSelected()
 {
     foreach (auto index, selectedIndexesAtColumn(0)) {
-        QAbstractItemModel *model = const_cast<QAbstractItemModel*>(index.model());
+        auto model = const_cast<QAbstractItemModel*>(index.model());
         model->setData(index, true, ResourceModel::IsSelectedRole);
     }
 }
@@ -440,7 +440,7 @@ void LinkWidget::checkSelected()
 void LinkWidget::uncheckSelected()
 {
     foreach (auto index, selectedIndexesAtColumn(0)) {
-        QAbstractItemModel *model = const_cast<QAbstractItemModel*>(index.model());
+        auto model = const_cast<QAbstractItemModel*>(index.model());
         model->setData(index, false, ResourceModel::IsSelectedRole);
     }
 }
@@ -449,7 +449,7 @@ void LinkWidget::toggleCheck()
 {
     foreach (auto index, selectedIndexesAtColumn(0)) {
         const bool selected = index.model()->data(index, ResourceModel::IsSelectedRole).toBool();
-        QAbstractItemModel *model = const_cast<QAbstractItemModel*>(index.model());
+        auto model = const_cast<QAbstractItemModel*>(index.model());
         model->setData(index, !selected, ResourceModel::IsSelectedRole);
     }
 }

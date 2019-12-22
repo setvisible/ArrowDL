@@ -20,6 +20,8 @@
 
 #include <QtCore/QDebug>
 
+#define C_SELECTION_DISPLAY_LIMIT  10
+
 DownloadEngine::DownloadEngine(QObject *parent) : QObject(parent)
   , m_maxSimultaneousDownloads(4)
   , m_selectionAboutToChange(false)
@@ -83,13 +85,13 @@ void DownloadEngine::clear()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadEngine::append(QList<IDownloadItem*> items, bool started)
+void DownloadEngine::append(const QList<IDownloadItem*> &items, bool started)
 {    
     if (items.isEmpty()) {
         return;
     }
     foreach (auto item, items) {
-        AbstractDownloadItem *downloadItem = static_cast<AbstractDownloadItem*>(item);
+        auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
         if (!downloadItem) {
             return;
         }
@@ -118,7 +120,7 @@ void DownloadEngine::append(QList<IDownloadItem*> items, bool started)
     }
 }
 
-void DownloadEngine::remove(QList<IDownloadItem*> items)
+void DownloadEngine::remove(const QList<IDownloadItem*> &items)
 {
     if (items.isEmpty()) {
         return;
@@ -134,7 +136,7 @@ void DownloadEngine::remove(QList<IDownloadItem*> items)
     foreach (auto item, items) {
         cancel(item); // stop the reply first
         m_items.removeAll(item);
-        AbstractDownloadItem *downloadItem = static_cast<AbstractDownloadItem*>(item);
+        auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
         if (!downloadItem) {
             downloadItem->deleteLater();
         }
@@ -262,13 +264,13 @@ void DownloadEngine::cancel(IDownloadItem *item)
  ******************************************************************************/
 void DownloadEngine::onChanged()
 {
-    AbstractDownloadItem *downloadItem = qobject_cast<AbstractDownloadItem *>(sender());
+    auto downloadItem = qobject_cast<AbstractDownloadItem *>(sender());
     emit jobStateChanged(downloadItem);
 }
 
 void DownloadEngine::onFinished()
 {
-    AbstractDownloadItem *downloadItem = qobject_cast<AbstractDownloadItem *>(sender());
+    auto downloadItem = qobject_cast<AbstractDownloadItem *>(sender());
     emit jobFinished(downloadItem);
 }
 
@@ -323,8 +325,8 @@ QString DownloadEngine::selectionToString() const
         ret += item->localFileName();
         ret += "\n";
         count++;
-        if (count > 10) {
-            ret += tr("... (%0 others)").arg(m_selectedItems.count() - 10);
+        if (count > C_SELECTION_DISPLAY_LIMIT) {
+            ret += tr("... (%0 others)").arg(m_selectedItems.count() - C_SELECTION_DISPLAY_LIMIT);
             break;
         }
     }
@@ -359,7 +361,7 @@ void DownloadEngine::endSelectionChange()
 void DownloadEngine::oneMoreSegment()
 {
     foreach (auto item, selection()) {
-        AbstractDownloadItem *downloadItem = static_cast<AbstractDownloadItem*>(item);
+        auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
         int segments = downloadItem->maxConnectionSegments();
         segments++;
         downloadItem->setMaxConnectionSegments(segments);
@@ -369,7 +371,7 @@ void DownloadEngine::oneMoreSegment()
 void DownloadEngine::oneFewerSegment()
 {
     foreach (auto item, selection()) {
-        AbstractDownloadItem *downloadItem = static_cast<AbstractDownloadItem*>(item);
+        auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
         int segments = downloadItem->maxConnectionSegments();
         segments--;
         downloadItem->setMaxConnectionSegments(segments);

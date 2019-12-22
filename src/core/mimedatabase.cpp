@@ -49,14 +49,13 @@ private:
      * We make sure the default copy constructors are unacceptable
      * otherwise we may accidentally get copies of our singleton appearing
      */
-    MimeDatabaseSingleton(MimeDatabaseSingleton const&);
-    void operator=(MimeDatabaseSingleton const&);
+    MimeDatabaseSingleton(MimeDatabaseSingleton const&) = delete;
+    void operator=(MimeDatabaseSingleton const&) = delete;
 
     void init();
 
     QFileIconProvider m_fileIconProvider;
     QMimeDatabase m_mimeDatabase;
-    QPixmapCache m_pixmapCache;
     QPixmap m_defaultPixmap;
 };
 
@@ -78,7 +77,7 @@ void MimeDatabaseSingleton::init()
      * Construction of QFileIconProvider is heavy
      */
     m_fileIconProvider.setOptions(QFileIconProvider::DontUseCustomDirectoryIcons);
-    m_defaultPixmap = fileIcon(QUrl("page.html"), 32);
+    m_defaultPixmap = fileIcon(QUrl("page.html"), C_DEFAULT_ICON_SIZE);
 }
 
 /******************************************************************************
@@ -106,7 +105,7 @@ QPixmap MimeDatabaseSingleton::fileIcon(const QUrl &url, int extend)
 
     const QString key = QString("%0 %1").arg(fileInfo.suffix()).arg(extend);
 
-    if (!m_pixmapCache.find(key, &pixmap)) {
+    if (!QPixmapCache::find(key, &pixmap)) {
 
         const QString nativeName = url.fileName();
 
@@ -132,7 +131,7 @@ QPixmap MimeDatabaseSingleton::fileIcon(const QUrl &url, int extend)
         }
         pixmap = icon.pixmap(extend);
         if (!pixmap.isNull()) {
-            m_pixmapCache.insert(key, pixmap);
+            QPixmapCache::insert(key, pixmap);
             qDebug() << Q_FUNC_INFO
                      << "Cached file type:"
                      << "key:" << key

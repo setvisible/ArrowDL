@@ -101,9 +101,9 @@ QString Mask::interpret(const QUrl &url,
     if (!url.isValid()) {
         return QString();
     }
-    QString decodedMask = QString("%0.%1").arg(NAME).arg(EXT);
+    QString decodedMask = QString("%0.%1").arg(NAME, EXT);
     if (mask.isNull() || mask.isEmpty()) {
-        decodedMask = QString("%0/%1/%2.%3").arg(URL).arg(SUBDIRS).arg(NAME).arg(EXT);
+        decodedMask = QString("%0/%1/%2.%3").arg(URL, SUBDIRS, NAME, EXT);
     } else {
         decodedMask = mask;
     }

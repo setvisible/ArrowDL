@@ -23,10 +23,6 @@ ResourceModel::ResourceModel(QObject *parent) : QAbstractTableModel(parent)
     connect(this, SIGNAL(resourceChanged()), this, SLOT(onResourceChanged()));
 }
 
-ResourceModel::~ResourceModel()
-{
-}
-
 /******************************************************************************
  ******************************************************************************/
 void ResourceModel::clear()

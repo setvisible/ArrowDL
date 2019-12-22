@@ -41,8 +41,8 @@ QString InterProcessCommunication::readMessageFromLauncher()
 
         if (sharedMemory.lock()) {
             // Reads the shared memory
-            const char* ptr = static_cast<const char*>(sharedMemory.constData());
-            uint n = static_cast<uint>(sharedMemory.size());
+            auto ptr = static_cast<const char*>(sharedMemory.constData());
+            auto n = static_cast<uint>(sharedMemory.size());
             bytes.setRawData(ptr, n);
             sharedMemory.unlock();
         }
@@ -187,12 +187,12 @@ void InterProcessCommunication::parseMessage(const QString &message, Model *mode
 
         } else {
             if (mode == Link) {
-                ResourceItem *item = new ResourceItem();
+                auto item = new ResourceItem();
                 item->setUrl(resource);
                 model->linkModel()->addResource(item);
 
             } else if (mode == Media) {
-                ResourceItem *item = new ResourceItem();
+                auto item = new ResourceItem();
                 item->setUrl(resource);
                 model->contentModel()->addResource(item);
             }

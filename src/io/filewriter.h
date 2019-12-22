@@ -51,15 +51,15 @@ public:
 
 private:
     /* Device */
-    QIODevice *m_device;
-    IFileHandler *m_handler;
+    QIODevice *m_device = Q_NULLPTR;
+    IFileHandler *m_handler = Q_NULLPTR;
 
     bool canWriteHelper();
     IFileHandler *createWriteHandlerHelper(QIODevice *device);
 
     /* Error */
-    FileWriter::FileWriterError m_fileWriterError;
-    QString m_errorString;    
+    FileWriter::FileWriterError m_fileWriterError = UnknownError;
+    QString m_errorString = FileWriter::tr("Unknown error");
 
     Q_DISABLE_COPY(FileWriter)
 };

@@ -25,7 +25,6 @@
  */
 
 IFileHandler::IFileHandler()
-    : m_device(0)
 {
 }
 

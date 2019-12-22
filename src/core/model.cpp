@@ -29,13 +29,9 @@ Model::Model(QObject *parent) : QObject(parent)
     connect(m_contentModel, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 }
 
-Model::~Model()
-{
-}
-
 /******************************************************************************
  ******************************************************************************/
-void Model::setCurrentTab(const Tab currentTab)
+void Model::setCurrentTab(Tab currentTab)
 {
     if (m_currentTab != currentTab) {
         m_currentTab = currentTab;

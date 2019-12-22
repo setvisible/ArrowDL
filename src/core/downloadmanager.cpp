@@ -121,7 +121,7 @@ void DownloadManager::saveQueue()
 
         QList<IDownloadItem *> abstractItems = downloadItems();
         foreach (auto abstractItem, abstractItems) {
-            DownloadItem* item = static_cast<DownloadItem*>(abstractItem);
+            auto item = dynamic_cast<DownloadItem*>(abstractItem);
             if (item) {
                 switch (item->state()) {
                 case IDownloadItem::Idle:
@@ -189,9 +189,9 @@ QNetworkAccessManager* DownloadManager::networkManager()
  ******************************************************************************/
 IDownloadItem* DownloadManager::createItem(const QUrl &url)
 {
-    ResourceItem *resource = new ResourceItem();
+    auto resource = new ResourceItem();
     resource->setUrl(url.toString().toUtf8());
-    DownloadItem *item = new DownloadItem(this);
+    auto item = new DownloadItem(this);
     item->setResource(resource);
     return item;
 }

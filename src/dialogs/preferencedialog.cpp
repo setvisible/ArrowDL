@@ -213,8 +213,8 @@ void PreferenceDialog::setFilters(const QList<Filter> &filters)
 
     foreach (auto filter, filters) {
         const int row = ui->filterTableWidget->rowCount();
-        QTableWidgetItem *item0 = new QTableWidgetItem(filter.title);
-        QTableWidgetItem *item1 = new QTableWidgetItem(filter.regexp);
+        auto item0 = new QTableWidgetItem(filter.title);
+        auto item1 = new QTableWidgetItem(filter.regexp);
 
         ui->filterTableWidget->insertRow(row);
 

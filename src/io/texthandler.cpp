@@ -25,7 +25,7 @@
 static const char* s_utf_8 = "UTF-8";
 
 
-TextHandler::TextHandler() : IFileHandler()
+TextHandler::TextHandler()
 {
 }
 

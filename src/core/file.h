@@ -36,7 +36,7 @@ public:
     };
 
     explicit File(QObject *parent = Q_NULLPTR);
-    ~File();
+    ~File() Q_DECL_OVERRIDE;
 
     static void setFileAccessManager(IFileAccessManager *manager);
 
@@ -51,7 +51,7 @@ public:
     QString customFileName() const;
 
 private:
-    QSaveFile *m_file;
+    QSaveFile *m_file = Q_NULLPTR;
 
     inline OpenFlag open(const QString &fileName);
     static inline QString nextAvailableName(const QString &name);

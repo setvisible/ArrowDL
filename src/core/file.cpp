@@ -41,7 +41,6 @@ static ExistingFileOption existingFileOption()
 }
 
 File::File(QObject *parent) : QObject(parent)
-  , m_file(Q_NULLPTR)
 {
 }
 
@@ -163,8 +162,7 @@ inline QString File::nextAvailableName(const QString &name)
     const QFileInfo fi(name);
 
     const QString prefix = QString("%0/%1 (")
-            .arg(fi.absolutePath())
-            .arg(fi.baseName());
+            .arg(fi.absolutePath(), fi.baseName());
 
     const QString suffix = QString(").%0")
             .arg(fi.completeSuffix());
