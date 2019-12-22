@@ -42,6 +42,58 @@ static const QStringList s_tags
     QSTRING
 };
 
+QString Mask::interpret(const QString &input,
+                        const QString &customFileName,
+                        const QString &mask)
+{
+    QUrl url = QUrl::fromUserInput(input);
+    if (url.isEmpty()) {
+        url = QUrl::toPercentEncoding(input);
+    }
+
+    /*
+     * REMARK
+     * When the input has no query and no fragment, replace:
+     * - "?" with "%3F"
+     * - "#" with "%23"
+     * in order to treat these characters as literal.
+     *
+     * Examples:
+     * - Query:           myfile.txt?id=123&t=abc
+     * - Fragment:        faq.html?#answer
+     * - Not a query:     myfile_(?).txt
+     * - Not a fragment:  myfile#.txt
+     */
+    if (url.hasQuery()) {
+        const QString query = url.query();
+        if ( query.isEmpty() ||
+             query.contains('=') ||
+             query.contains('#') ||
+             url.hasFragment()) {
+            // valid query, just continue.
+        } else {
+            QString encoded = input;
+            encoded.replace("?", "%3F");
+            encoded.replace("#", "%23");
+            url = QUrl::fromUserInput(encoded);
+            if (url.isEmpty()) {
+                url = QUrl::toPercentEncoding(input);
+            }
+        }
+    } else {
+        if (url.hasFragment()) {
+            QString encoded = input;
+            encoded.replace("?", "%3F");
+            encoded.replace("#", "%23");
+            url = QUrl::fromUserInput(encoded);
+            if (url.isEmpty()) {
+                url = QUrl::toPercentEncoding(input);
+            }
+        }
+    }
+    return interpret(url, customFileName, mask);
+}
+
 QString Mask::interpret(const QUrl &url,
                         const QString &customFileName,
                         const QString &mask)
@@ -103,6 +155,9 @@ QString Mask::interpret(const QUrl &url,
     decodedMask.replace(QRegExp("^/"), "");
     decodedMask.replace(QRegExp("[/\\.]*$"), "");
 
+    /* Replace reserved characters */
+    cleanNameForWindows(decodedMask);
+
     return decodedMask;
 }
 
@@ -133,4 +188,22 @@ QString Mask::description(const QString &tag)
     if (tag == FLATSUBDIRS ) return QT_TRANSLATE_NOOP(Mask, "Flat URL subdirectories");
     if (tag == QSTRING     ) return QT_TRANSLATE_NOOP(Mask, "Query string");
     return QString();
+}
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * Replace reserved characters by '_' w.r.t to most strict standard (Windows).
+ *
+ * \remark Recommended naming for Windows:
+ * https://docs.microsoft.com/fr-fr/windows/win32/fileio/naming-a-file?redirectedfrom=MSDN
+ */
+void Mask::cleanNameForWindows(QString &input)
+{
+    /* Chars must be part of ANSI charset (ASCII + extended 128-255) (0x00-0xFF)  */
+
+    /* Replace reserved characters */
+    input.replace(QRegExp("[<>:\"|?#*]"), "_");
+
+    /* and more */
+    input.replace(QRegExp("[#]"), "_");
 }
