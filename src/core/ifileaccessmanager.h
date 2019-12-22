@@ -22,8 +22,8 @@
 class IFileAccessManager
 {
 public:
-    IFileAccessManager() {}
-    virtual ~IFileAccessManager() noexcept {} /* Pure virtual interface */
+    IFileAccessManager() = default;
+    virtual ~IFileAccessManager() noexcept = default; /* Pure virtual interface */
 
     virtual Settings* settings() const = 0;
 

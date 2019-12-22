@@ -24,26 +24,16 @@
 #include <QtCore/QFileInfo>
 
 FileWriter::FileWriter()
-    : m_device(Q_NULLPTR)
-    , m_handler(Q_NULLPTR)
-    , m_fileWriterError(FileWriter::UnknownError)
-    , m_errorString(FileWriter::tr("Unknown error"))
 {
 }
 
 FileWriter::FileWriter(QIODevice *device)
     : m_device(device)
-    , m_handler(Q_NULLPTR)
-    , m_fileWriterError(FileWriter::UnknownError)
-    , m_errorString(FileWriter::tr("Unknown error"))
 {
 }
 
 FileWriter::FileWriter(const QString &fileName)
     :  m_device(new QFile(fileName))
-    , m_handler(Q_NULLPTR)
-    , m_fileWriterError(FileWriter::UnknownError)
-    , m_errorString(FileWriter::tr("Unknown error"))
 {
 }
 
@@ -77,7 +67,7 @@ bool FileWriter::canWriteHelper()
         m_errorString = FileWriter::tr("Device not writable");
         return false;
     }
-    if (!m_handler && (m_handler = createWriteHandlerHelper(m_device)) == 0) {
+    if (!m_handler && (m_handler = createWriteHandlerHelper(m_device)) == Q_NULLPTR) {
         m_fileWriterError = FileWriter::UnsupportedFormatError;
         m_errorString = FileWriter::tr("Unsupported format");
         return false;
@@ -89,7 +79,7 @@ bool FileWriter::canWriteHelper()
  ******************************************************************************/
 bool FileWriter::canWrite()
 {
-    if (QFile *file = qobject_cast<QFile *>(m_device)) {
+    if (auto file = qobject_cast<QFile *>(m_device)) {
         const bool remove = !file->isOpen() && !file->exists();
         const bool result = canWriteHelper();
         // This looks strange (why remove if it doesn't exist?) but the issue
@@ -119,7 +109,7 @@ bool FileWriter::write(DownloadEngine *engine)
     if (!m_handler->write(*engine)) {
         return false;
     }
-    if (QFile *file = qobject_cast<QFile *>(m_device)) {
+    if (auto file = qobject_cast<QFile *>(m_device)) {
         file->flush();
     }
     return true;
@@ -146,7 +136,7 @@ IFileHandler *FileWriter::createWriteHandlerHelper(QIODevice *device)
         // if there's no format, see if \a device is a file, and if so, find
         // the file suffix and find support for that format among our plugins.
         // this allows plugins to override our built-in handlers.
-        if (QFile *file = qobject_cast<QFile *>(device)) {
+        if (auto file = qobject_cast<QFile *>(device)) {
             suffix = QFileInfo(file->fileName()).suffix().toLower().toLatin1();
         }
     }
@@ -176,7 +166,7 @@ QString FileWriter::supportedFormats()
         if (!text.isEmpty()) {
             text.append(";;");
         }
-        text.append(QString("%0 (*.%1)").arg(fmt->text).arg(fmt->suffix));
+        text.append(QString("%0 (*.%1)").arg(fmt->text, fmt->suffix));
     }
     if (!text.isEmpty()) {
         text.append(";;");

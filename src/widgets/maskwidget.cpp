@@ -63,7 +63,7 @@ void MaskWidget::onCurrentTextChanged(const QString &text)
  ******************************************************************************/
 void MaskWidget::onTipButtonReleased()
 {
-    MaskTip *tip = new MaskTip(this);
+    auto tip = new MaskTip(this);
 
     connect(tip, SIGNAL(linkActivated(QString)),
             this, SLOT(onTipButtonLinkActivated(QString)));

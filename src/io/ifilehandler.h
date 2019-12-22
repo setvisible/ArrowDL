@@ -25,7 +25,7 @@ class IFileHandler
 {    
 public:
     IFileHandler();
-    virtual ~IFileHandler() noexcept {} // IMPORTANT: virtual destructor
+    virtual ~IFileHandler() noexcept = default; // IMPORTANT: virtual destructor
 
     void setDevice(QIODevice *device);
     QIODevice *device() const;
@@ -49,7 +49,7 @@ public:
 
 
 private:
-    QIODevice *m_device;
+    QIODevice *m_device = Q_NULLPTR;
 
     Q_DISABLE_COPY(IFileHandler)
 };

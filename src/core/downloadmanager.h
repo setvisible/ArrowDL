@@ -33,7 +33,7 @@ class DownloadManager : public DownloadEngine
 
 public:
     explicit DownloadManager(QObject *parent);
-    ~DownloadManager();
+    ~DownloadManager() Q_DECL_OVERRIDE;
 
     /* Settings */
     Settings* settings() const;
@@ -43,7 +43,7 @@ public:
     QNetworkAccessManager *networkManager();
 
     /* Utility */
-    virtual IDownloadItem* createItem(const QUrl &url);
+    IDownloadItem* createItem(const QUrl &url) Q_DECL_OVERRIDE;
 
 private slots:
     void onSettingsChanged();

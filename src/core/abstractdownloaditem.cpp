@@ -33,7 +33,7 @@
 /*!
  * \brief Constructor
  */
-AbstractDownloadItem::AbstractDownloadItem(QObject *parent) : QObject(parent), IDownloadItem()
+AbstractDownloadItem::AbstractDownloadItem(QObject *parent) : QObject(parent)
 {
     connect(&m_updateInfoTimer, SIGNAL(timeout()), this, SLOT(updateInfo()));
     connect(&m_updateCountDownTimer, SIGNAL(timeout()), this, SLOT(updateInfo()));
@@ -57,7 +57,7 @@ IDownloadItem::State AbstractDownloadItem::state() const
     return m_state;
 }
 
-void AbstractDownloadItem::setState(const State state)
+void AbstractDownloadItem::setState(State state)
 {
     if (m_state != state) {
         m_state = state;

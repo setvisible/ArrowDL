@@ -30,11 +30,6 @@ ResourceItem::ResourceItem()
     , m_referringPage(QString())
     , m_description(QString())
     , m_checkSum(QString())
-    , m_isSelected(false)
-{
-}
-
-ResourceItem::~ResourceItem()
 {
 }
 
@@ -175,7 +170,7 @@ bool ResourceItem::isSelected() const
     return m_isSelected;
 }
 
-void ResourceItem::setSelected(const bool isSelected)
+void ResourceItem::setSelected(bool isSelected)
 {
     m_isSelected = isSelected;
 }

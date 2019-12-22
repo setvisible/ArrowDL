@@ -30,7 +30,7 @@ class FilterWidget : public QWidget
     Q_OBJECT
 public:
     explicit FilterWidget(QWidget *parent);
-    ~FilterWidget();
+    ~FilterWidget() Q_DECL_OVERRIDE;
 
     void clearFilters();
     void addFilter(const QString &title, const QString &regexp);

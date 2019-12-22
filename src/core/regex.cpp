@@ -20,8 +20,11 @@
 #include <QtCore/QDebug>
 
 
-static QString pattern            = "[\\[\\(]\\d+[:-\\s]\\d+[\\]\\)]";
-static QString patternWithGroups  = "[\\[\\(](\\d+)[:-\\s](\\d+)[\\]\\)]";
+static QString pattern            = R"([\[\(]\d+[:-\s]\d+[\]\)])";
+static QString patternWithGroups  = R"([\[\(](\d+)[:-\s](\d+)[\]\)])";
+
+//static QString pattern            = "[\\[\\(]\\d+[:-\\s]\\d+[\\]\\)]";
+//static QString patternWithGroups  = "[\\[\\(](\\d+)[:-\\s](\\d+)[\\]\\)]";
 static int firstGroupPosition     = 1; // 0 is reseved to full string
 static int secondGroupPosition    = 2;
 
@@ -29,8 +32,8 @@ static int secondGroupPosition    = 2;
 struct Capture
 {
     QString capture;
-    int pos;
-    int len;
+    int pos{};
+    int len{};
     QStringList interpretedCapture;
 };
 
@@ -57,7 +60,7 @@ bool Regex::hasBatchDescriptors(const QString &str)
     return !captures.isEmpty();
 }
 
-const QStringList Regex::interpret(const QString &str)
+QStringList Regex::interpret(const QString &str)
 {
     /*
      * First, we detect and capture each batch.

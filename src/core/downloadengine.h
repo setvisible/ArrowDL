@@ -31,14 +31,14 @@ class DownloadEngine : public QObject
 
 public:
     explicit DownloadEngine(QObject *parent);
-    ~DownloadEngine();
+    ~DownloadEngine() Q_DECL_OVERRIDE;
 
     /* Queue Management */
     int count() const;
     void clear();
 
-    virtual void append(QList<IDownloadItem*> items, bool started = false);
-    virtual void remove(QList<IDownloadItem*> items);
+    virtual void append(const QList<IDownloadItem *> &items, bool started = false);
+    virtual void remove(const QList<IDownloadItem *> &items);
 
     const IDownloadItem* clientForRow(int row) const;
 

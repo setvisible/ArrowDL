@@ -23,7 +23,6 @@
 
 PathWidget::PathWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::PathWidget)
-  , m_pathType(File)
   , m_suffix(QString())
   , m_suffixName(QString())
 {

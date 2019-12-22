@@ -32,7 +32,7 @@ class LinkWidget : public QWidget
     Q_OBJECT
 public:
     explicit LinkWidget(QWidget *parent);
-    ~LinkWidget();
+    ~LinkWidget() Q_DECL_OVERRIDE;
 
     Model* model() const;
     void setModel(Model *model);

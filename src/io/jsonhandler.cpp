@@ -25,7 +25,7 @@
 #include <QtCore/QUrl>
 
 
-JsonHandler::JsonHandler() : IFileHandler()
+JsonHandler::JsonHandler()
 {
 }
 

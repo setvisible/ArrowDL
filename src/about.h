@@ -22,7 +22,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QString>
 
-static QString buildAbout(QString paragraphDelimiter)
+static QString buildAbout(const QString &paragraphDelimiter)
 {
     return QString(QCoreApplication::tr(
            "%0 - %1 - version %2 - build %3"
@@ -64,12 +64,12 @@ static QString buildAbout(QString paragraphDelimiter)
  *   myApp --version
  * \endcode
  */
-QString about()
+inline QString about()
 {
     return buildAbout("\n\n");
 }
 
-QString aboutHtml()
+inline QString aboutHtml()
 {
     return QString("<h3>" + QCoreApplication::tr("About %0").arg(STR_APPLICATION_NAME) + "</h3>" +
                    "<p><img src=\"://icons/logo/icon128.png\" /></p>" +

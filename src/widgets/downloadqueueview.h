@@ -32,7 +32,7 @@ class DownloadQueueView : public QWidget
     Q_OBJECT
 public:
     explicit DownloadQueueView(QWidget *parent);
-    ~DownloadQueueView();
+    ~DownloadQueueView() Q_DECL_OVERRIDE;
 
     DownloadEngine* engine() const;
     void setEngine(DownloadEngine *downloadEngine);

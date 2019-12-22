@@ -145,7 +145,7 @@ QString CompilerDialog::getLibraryInfo(const QString &libraryName)
     }
 }
 
-QString CompilerDialog::getVersionString(QString fName)
+QString CompilerDialog::getVersionString(const QString &fName)
 {
     QString ret;
 #ifdef Q_OS_WIN

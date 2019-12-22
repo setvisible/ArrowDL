@@ -26,10 +26,10 @@ class DownloadManager;
 class Session
 {
 public:
-    Session() {}
+    Session() = default;
 
     static void read(QList<DownloadItem *> &downloadItems, const QString &filename, DownloadManager *downloadManager);
-    static void write(const QList<DownloadItem *> downloadItems, const QString &filename);
+    static void write(const QList<DownloadItem *> &downloadItems, const QString &filename);
 
 };
 

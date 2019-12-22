@@ -210,7 +210,7 @@ void MainWindow::createActions()
 
 void MainWindow::createContextMenu()
 {
-    QMenu *contextMenu = new QMenu(this);
+    auto contextMenu = new QMenu(this);
 
     contextMenu->addAction(ui->actionInformation);
     contextMenu->addSeparator();

@@ -30,7 +30,7 @@ class FilterTip : public QFrame
 
 public:
     explicit FilterTip(QWidget *parent);
-    ~FilterTip();
+    ~FilterTip() Q_DECL_OVERRIDE;
 
     void add(const QString &text, const QString &link);
 

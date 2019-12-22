@@ -29,7 +29,7 @@ public:
     explicit AutoCloseDialog(QFrame *content, QWidget *parent = Q_NULLPTR);
 
 protected:
-    virtual void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
 };
 
 #endif // WIDGETS_AUTO_CLOSE_DIALOG_H
