@@ -221,7 +221,6 @@ QRegExp FilterWidget::regex() const
             }
         }
     }
-    QRegExp regex(filter);
-    regex.setPatternSyntax(QRegExp::RegExp);
+    QRegExp regex(filter, Qt::CaseInsensitive, QRegExp::RegExp);
     return regex;
 }
