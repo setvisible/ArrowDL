@@ -3,6 +3,17 @@
 :: Use of this source code is governed by a LGPL license that can be
 :: found in the LICENSE file.
 
+SET QUIET=0
+:loop
+IF NOT "%1"=="" (
+    IF "%1"=="-quiet" (
+        SET QUIET=1
+        SHIFT
+    )
+    SHIFT
+    GOTO :loop
+)
+
 ECHO *************************************************
 ECHO                  Down Right Now
 ECHO *************************************************
@@ -32,4 +43,6 @@ ECHO.
 ECHO ^>^>^> Done! ^<^<^<
 ECHO.
 
-TIMEOUT /T 10
+IF NOT "%QUIET%"=="1" (
+    TIMEOUT /T 10
+)
