@@ -120,18 +120,6 @@ clone_depth: 5                      # clone entire repository history if not def
 # this is how to allow failing jobs in the matrix
 environment:
   matrix:
-    - COMPILER: msvc
-      CMAKE_GENERATOR: "Visual Studio 15 2017"
-      QT5: C:\Qt\5.13.2\msvc2017
-      PLATFORM: x86
-      CONFIGURATION: Release
-
-    - COMPILER: msvc
-      CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
-      QT5: C:\Qt\5.13.2\msvc2017_64
-      PLATFORM: x64
-      CONFIGURATION: Release
-
     - COMPILER: mingw
       CMAKE_GENERATOR: "MinGW Makefiles"
       QT5: C:\Qt\5.13.2\mingw73_32
@@ -144,6 +132,18 @@ environment:
       PLATFORM: x64
       CONFIGURATION: Release
 
+    - COMPILER: msvc
+      CMAKE_GENERATOR: "Visual Studio 15 2017"
+      QT5: C:\Qt\5.13.2\msvc2017
+      PLATFORM: x86
+      CONFIGURATION: Release
+
+    - COMPILER: msvc
+      CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
+      QT5: C:\Qt\5.13.2\msvc2017_64
+      PLATFORM: x64
+      CONFIGURATION: Release
+
 # todo: LLVM (PATH is C:\Program Files\LLVM\bin)
 
 
@@ -151,7 +151,7 @@ environment:
 matrix:
   fast_finish: true     # set this flag to immediately finish build once one of the jobs fails.
   allow_failures:
-    - COMPILER: mingw
+#    - COMPILER: mingw
     - CONFIGURATION: Debug
 
 # exclude configuration from the matrix. Works similarly to 'allow_failures' 
@@ -210,7 +210,7 @@ install:
   #- if [%COMPILER%]==[mingw] set PATH=%PATH%;C:\Qt\Tools\mingw730_64\bin\
   #- set PATH=%PATH%;C:\Qt\5.7\mingw53_32\bin\
   #- set PATH=%PATH%;C:\Qt\5.7\mingw53_32\plugins\
-  - echo "COMPILER = %COMPILER%"
+  - echo COMPILER = "%COMPILER%"
   - echo QTDIR = %QTDIR%  
   - echo Qt5_DIR = %Qt5_DIR%  
 
@@ -414,6 +414,21 @@ after_test:
 # DownRightNow_webextension_chromium_v1.2.0.zip
   - set ZIP_CHROMIUM_WEB_EXTENSION="DownRightNow_chromium_v%AppVersion%.zip"
   - 7z a %ZIP_CHROMIUM_WEB_EXTENSION% .\..\web-extension\extension\chromium\*
+
+# compile NSIS to build setup32 and setup64.
+# Rem: no version mentioned:
+# DownZemAll_x86_Setup.exe
+# DownZemAll_x64_Setup.exe
+  - if [%COMPILER%]==[mingw] (
+      makensis 
+          /DPATH_OUT="C:\projects\DownZemAll\bin"
+          /DVERSION="%AppVersion%" 
+          /DBIN_PATH="C:\projects\install-DownZemAll-cmake" 
+          C:\projects\DownZemAll\installer\NSIS\setup.nsi &&
+      rename "DownZemAllSetup.exe" "DownZemAll_%PLATFORM%_Setup.exe"
+    ) else (
+      echo Disable installer build. NSIS not invoked.
+    )
 
 
 # to disable automatic tests

@@ -1,0 +1,8 @@
+# ==============================================================================
+# Below we forbid everything and only allow what we know, that's much easier
+# than blocking about 500 different test files and bug report outputs.
+# ==============================================================================
+/.*
+/*
+!/NSIS
+!/compile.bat
