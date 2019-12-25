@@ -17,6 +17,8 @@ It aims to work with latest versions of Mozilla Firefox (powered by *WebExtensio
 
 *DownZemAll!* is written in C++ and based on the [Qt5](https://www.qt.io/ "https://www.qt.io/") framework.
 
+![Built with Qt](/screenshots/built_with_qt.png)
+
 
 ## ![logo](/src/icons/logo/icon32.png) Installation and Usage
 
