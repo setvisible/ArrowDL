@@ -143,6 +143,7 @@ void PreferenceDialog::read()
     setExistingFileOption(m_settings->existingFileOption());
 
     // Tab Interface
+    ui->dontShowTutorialCheckBox->setChecked(m_settings->isDontShowTutorialEnabled());
     ui->confirmRemovalCheckBox->setChecked(m_settings->isConfirmRemovalEnabled());
     ui->confirmBatchCheckBox->setChecked(m_settings->isConfirmBatchDownloadEnabled());
 
@@ -174,6 +175,7 @@ void PreferenceDialog::write()
     m_settings->setExistingFileOption(existingFileOption());
 
     // Tab Interface
+    m_settings->setDontShowTutorialEnabled(ui->dontShowTutorialCheckBox->isChecked());
     m_settings->setConfirmRemovalEnabled(ui->confirmRemovalCheckBox->isChecked());
     m_settings->setConfirmBatchDownloadEnabled(ui->confirmBatchCheckBox->isChecked());
 

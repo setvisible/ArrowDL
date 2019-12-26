@@ -26,6 +26,7 @@
 static const QString REGISTRY_EXISTING_FILE    = "ExistingFile";
 
 // Tab Interface
+static const QString REGISTRY_DONT_SHOW_TUTO   = "DontShowTutorial";
 static const QString REGISTRY_CONFIRM_REMOVAL  = "ConfirmRemoval";
 static const QString REGISTRY_CONFIRM_BATCH    = "ConfirmBatchDownload";
 
@@ -57,6 +58,7 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     addDefaultSettingInt(REGISTRY_EXISTING_FILE, (int) ExistingFileOption::Skip);
 
     // Tab Interface
+    addDefaultSettingBool(REGISTRY_DONT_SHOW_TUTO, false);
     addDefaultSettingBool(REGISTRY_CONFIRM_REMOVAL, true);
     addDefaultSettingBool(REGISTRY_CONFIRM_BATCH, true);
 
@@ -128,6 +130,16 @@ void Settings::setExistingFileOption(ExistingFileOption option)
 /******************************************************************************
  ******************************************************************************/
 // Tab Interface
+bool Settings::isDontShowTutorialEnabled() const
+{
+    return getSettingBool(REGISTRY_DONT_SHOW_TUTO);
+}
+
+void Settings::setDontShowTutorialEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_DONT_SHOW_TUTO, enabled);
+}
+
 bool Settings::isConfirmRemovalEnabled() const
 {
     return getSettingBool(REGISTRY_CONFIRM_REMOVAL);

@@ -100,6 +100,7 @@ public slots:
     void showPreferences();
 
     // Help
+    void showTutorial();
     void about();
     void aboutCompiler();
 

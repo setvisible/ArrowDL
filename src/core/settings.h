@@ -50,6 +50,8 @@ public:
     void setExistingFileOption(ExistingFileOption option);
 
     // Tab Interface
+    bool isDontShowTutorialEnabled() const;
+    void setDontShowTutorialEnabled(bool enabled);
 
     bool isConfirmRemovalEnabled() const;
     void setConfirmRemovalEnabled(bool enabled);

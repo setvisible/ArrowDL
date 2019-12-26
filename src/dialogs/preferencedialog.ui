@@ -183,6 +183,15 @@ QTabBar::tab:hover:!selected {
          <property name="title">
           <string>Manager Window</string>
          </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QCheckBox" name="dontShowTutorialCheckBox">
+            <property name="text">
+             <string>Don't show &quot;Get Started&quot; tutorial when start the application</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
