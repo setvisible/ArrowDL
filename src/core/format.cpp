@@ -26,15 +26,17 @@ QString Format::remaingTimeToString(QTime time)
 {
     if (!time.isValid()) {
         return QLatin1String("--:--");
-    } else if (time < QTime(0, 0, 1, 0)) {
-        return time.toString("00:01");
-    } else if (time < QTime(1, 0, 0, 0)) {
-        return time.toString("mm:ss");
-    } else if (time < QTime(24, 0, 0, 0)) {
-        return time.toString("hh:mm:ss");
-    } else {
-        return QLatin1String("--:--");
     }
+    if (time < QTime(0, 0, 1, 0)) {
+        return time.toString("00:01");
+    }
+    if (time < QTime(1, 0, 0, 0)) {
+        return time.toString("mm:ss");
+    }
+    if (time < QTime(24, 0, 0, 0)) {
+        return time.toString("hh:mm:ss");
+    }
+    return QLatin1String("--:--");
 }
 
 /*!

@@ -22,7 +22,7 @@
 class JsonHandler : public IFileHandler
 {
 public:
-    explicit JsonHandler();
+    explicit JsonHandler() = default;
 
     bool canRead() const Q_DECL_OVERRIDE;
     bool canWrite() const Q_DECL_OVERRIDE;

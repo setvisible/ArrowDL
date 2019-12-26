@@ -25,10 +25,6 @@
 #include <QtCore/QUrl>
 
 
-JsonHandler::JsonHandler()
-{
-}
-
 bool JsonHandler::canRead() const
 {
     return true;

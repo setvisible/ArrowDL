@@ -270,14 +270,14 @@ QMessageBox::StandardButton AddDownloadDialog::askBatchDownloading(QList<IDownlo
         });
 
         msgBox.exec();
-
-        if (msgBox.clickedButton() == batchButton) {
+        auto clicked = msgBox.clickedButton();
+        if (clicked == batchButton) {
             return QMessageBox::Ok;
-
-        } else if (msgBox.clickedButton() == singleButton) {
+        }
+        if (clicked == singleButton) {
             return QMessageBox::Apply;
-
-        } else if (msgBox.clickedButton() == cancelButton) {
+        }
+        if (clicked == cancelButton) {
             return QMessageBox::Cancel;
         }
     }

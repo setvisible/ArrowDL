@@ -269,16 +269,18 @@ ExistingFileOption PreferenceDialog::existingFileOption() const
 {
     if (ui->renameRadioButton->isChecked()) {
         return ExistingFileOption::Rename;
-    } else if (ui->overwriteRadioButton->isChecked()) {
-        return ExistingFileOption::Overwrite;
-    } else if (ui->skipRadioButton->isChecked()) {
-        return ExistingFileOption::Skip;
-    } else if (ui->askRadioButton->isChecked()) {
-        return ExistingFileOption::Ask;
-    } else {
-        Q_UNREACHABLE();
-        return ExistingFileOption::LastOption;
     }
+    if (ui->overwriteRadioButton->isChecked()) {
+        return ExistingFileOption::Overwrite;
+    }
+    if (ui->skipRadioButton->isChecked()) {
+        return ExistingFileOption::Skip;
+    }
+    if (ui->askRadioButton->isChecked()) {
+        return ExistingFileOption::Ask;
+    }
+    Q_UNREACHABLE();
+    return ExistingFileOption::LastOption;
 }
 
 void PreferenceDialog::setExistingFileOption(ExistingFileOption option)

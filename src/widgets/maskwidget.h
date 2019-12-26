@@ -31,7 +31,7 @@ public:
     ~MaskWidget() Q_DECL_OVERRIDE;
 
     QString currentMask() const;
-    void setCurrentMask(const QString &currentMask);
+    void setCurrentMask(const QString &text);
 
 signals:
     void currentMaskChanged(QString mask);

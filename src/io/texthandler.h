@@ -22,7 +22,7 @@
 class TextHandler : public IFileHandler
 {
 public:
-    explicit TextHandler();
+    explicit TextHandler() = default;
 
     bool canRead() const Q_DECL_OVERRIDE;
     bool canWrite() const Q_DECL_OVERRIDE;

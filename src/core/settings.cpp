@@ -55,7 +55,7 @@ static const QString REGISTRY_FILTER_VALUE     = "FilterValue";
 Settings::Settings(QObject *parent) : AbstractSettings(parent)
 {
     // Tab General
-    addDefaultSettingInt(REGISTRY_EXISTING_FILE, (int) ExistingFileOption::Skip);
+    addDefaultSettingInt(REGISTRY_EXISTING_FILE, static_cast<int>(ExistingFileOption::Skip));
 
     // Tab Interface
     addDefaultSettingBool(REGISTRY_DONT_SHOW_TUTO, false);
@@ -117,14 +117,14 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
 ExistingFileOption Settings::existingFileOption() const
 {
     int value = getSettingInt(REGISTRY_EXISTING_FILE);
-    return (value >= 0 && value < (int)ExistingFileOption::LastOption)
-            ? (ExistingFileOption) value
+    return (value >= 0 && value < static_cast<int>(ExistingFileOption::LastOption))
+            ? static_cast<ExistingFileOption>(value)
             : ExistingFileOption::Skip;
 }
 
 void Settings::setExistingFileOption(ExistingFileOption option)
 {
-    setSettingInt(REGISTRY_EXISTING_FILE, (int)option);
+    setSettingInt(REGISTRY_EXISTING_FILE, static_cast<int>(option));
 }
 
 /******************************************************************************
