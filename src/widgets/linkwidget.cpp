@@ -523,9 +523,8 @@ static inline QString elide(const QString &text)
 {
     if (text.length() > 2 * C_ELIDE_CHAR_COUNT) {
         return QString("%0...%1").arg(text.left(C_ELIDE_CHAR_COUNT)).arg(text.right(C_ELIDE_CHAR_COUNT));
-    } else {
-        return text;
     }
+    return text;
 }
 
 inline QString LinkWidget::textForOpenAction() const
@@ -539,14 +538,13 @@ inline QString LinkWidget::textForOpenAction() const
     }
     if (urlIndexes.count() == 0) {
         return tr("-");
-
-    } else if (urlIndexes.count() == 1) {
+    }
+    if (urlIndexes.count() == 1) {
         const QModelIndex urlIndex = urlIndexes.first();
         const QString text = urlIndex.model()->data(urlIndex, Qt::DisplayRole).toString();
         return tr("Open %0").arg(elide(text));
-    } else {
-        return tr("Open %0 Links").arg(urlIndexes.count());
     }
+    return tr("Open %0 Links").arg(urlIndexes.count());
 }
 
 inline QModelIndexList LinkWidget::selectedIndexesAtColumn(int column)
@@ -564,9 +562,8 @@ inline QTableView* LinkWidget::currentTableView() const
 {
     if (ui->tabWidget->currentIndex() == 0) {
         return ui->linkTableView;
-    } else {
-        return ui->contentTableView;
     }
+    return ui->contentTableView;
 }
 
 #include "linkwidget.moc"

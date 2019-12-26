@@ -14,35 +14,35 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef WIDGETS_MASK_WIDGET_H
-#define WIDGETS_MASK_WIDGET_H
+#ifndef DIALOGS_TUTORIAL_DIALOG_H
+#define DIALOGS_TUTORIAL_DIALOG_H
 
-#include <QtWidgets/QWidget>
+#include <QtWidgets/QDialog>
+//#include <QtWidgets/QMessageBox>
+
+class Settings;
 
 namespace Ui {
-class MaskWidget;
+class TutorialDialog;
 }
 
-class MaskWidget : public QWidget
+class TutorialDialog : public QDialog
 {
     Q_OBJECT
+
 public:
-    explicit MaskWidget(QWidget *parent);
-    ~MaskWidget() Q_DECL_OVERRIDE;
+    explicit TutorialDialog(Settings *settings, QWidget *parent = Q_NULLPTR);
+    ~TutorialDialog() Q_DECL_OVERRIDE;
 
-    QString currentMask() const;
-    void setCurrentMask(const QString &text);
-
-signals:
-    void currentMaskChanged(QString mask);
-
-private slots:
-    void onCurrentTextChanged(const QString &text);
-    void onTipButtonReleased();
-    void onTipButtonLinkActivated(const QString& link);
+public slots:
+    void closeEvent(QCloseEvent *) Q_DECL_OVERRIDE;
 
 private:
-    Ui::MaskWidget *ui;
+    Ui::TutorialDialog *ui;
+    Settings *m_settings;
+
+    void readSettings();
+    void writeSettings();
 };
 
-#endif // WIDGETS_MASK_WIDGET_H
+#endif // DIALOGS_TUTORIAL_DIALOG_H

@@ -45,6 +45,8 @@
     <property name="title">
      <string>&amp;Help</string>
     </property>
+    <addaction name="actionTutorial"/>
+    <addaction name="separator"/>
     <addaction name="actionAbout"/>
     <addaction name="actionAboutQt"/>
     <addaction name="actionAboutCompiler"/>
@@ -626,6 +628,11 @@
   <action name="actionAboutCompiler">
    <property name="text">
     <string>Compiler Info...</string>
+   </property>
+  </action>
+  <action name="actionTutorial">
+   <property name="text">
+    <string>Tutorial</string>
    </property>
   </action>
  </widget>

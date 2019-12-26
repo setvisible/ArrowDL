@@ -37,11 +37,9 @@ static inline int stateToInt(IDownloadItem::State state)
     switch (state) {
     case IDownloadItem::Stopped:
     case IDownloadItem::Completed:
-        return (int) state;
-        break;
+        return static_cast<int>(state);
     default:
-        return (int) IDownloadItem::Paused;
-        break;
+        return static_cast<int>(IDownloadItem::Paused);
     }
 }
 
