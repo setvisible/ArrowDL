@@ -3,93 +3,180 @@ layout: category
 title: Download
 ---
 
+[Home](../index.html) >> **[Download](../category/download.html)** >> [Advanced Setup](../category/download-advanced.html)
+
+<noscript>
+  Please enable JavaScript to view the page.
+</noscript>
+
 ## Install Instructions
 
-1. First, install the application:
-
-    1. Download **DownZemAll** application [here](#download-latest-release)
-
-    2. Unzip
+1. First, install the standalone application:
+    
+    <a href="xxx" id="application-url">
+        <img src="/DownZemAll/assets/images/installer.png" />
+        DownZemAll for **<span id="application-platform-arch">xxxxxx</span>**
+    </a>
+    
+    Version: 
+    <span id="application-version">x.x.x</span>
+    
+    <br/>
 
 2. Then, install the web extension:
 
-    1. Install **DownRightNow** add-on on the [web browser](#install-webextension)
+    <a href="xxx" id="webextension-image-url">
+        <img src="" id="webextension-image-png"/>
+    </a>
+    <a href="xxx" id="webextension-url">
+         Add-on for **<span id="webextension-browser-name">xxxxxx</span>**
+    </a>
+    
+    Version: 
+    <span id="webextension-version">x.x.x</span>
+    
+    <br/>
 
-    2. Go to the install directory of the Application (*DownZemAll!*), and follow the instructions in `ReadMe.txt`
-
-    3. Then, to verify the install, go to "*Options*" in the WebExtension interface in your Web Browser. It should tell you if it's correctly connected with the Application. 
-
-
-### Web Browser Add-on<a name="install-webextension"></a>
+<noscript>
 
 Choose the browser:
 
 | ![logo](/DownZemAll/assets/images/firefox.png) | ![logo](/DownZemAll/assets/images/chrome.png) |
 |-----------------------------------|----------------------------------|
-| Click here to intall [DownRightNow for Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/down-right-now/ "https://addons.mozilla.org/en-US/firefox/addon/down-right-now/") | Click here to intall [DownRightNow for Google Chrome](https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio "https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio") |
+| Click here to intall [DownRightNow for Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/down-right-now/) | Click here to intall [DownRightNow for Google Chrome](https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio ) |
+
+</noscript>
+
+---
+
+## Manual Instructions
+
+For a manual install, or an install for a different operating system platform,
+CPU architecture, browser, or release version, go to
+[Advanced Setup](../category/download-advanced.html).
 
 
-### Download the latest release<a name="download-latest-release"></a>
+<script>
+  /* Browser detection */
+  var browserType = "";
+  if(navigator.userAgent.indexOf("Chrome") != -1 ) {
+    browserType = "Chrome";
+  } else if(navigator.userAgent.indexOf("Firefox") != -1 )  {
+    browserType = "Firefox";
+  } else {
+    browserType = "Chrome";
+  }
 
-The latest release is available [here](https://github.com/setvisible/DownZemAll/releases/latest).
+  /* Platform detection */
+  var platform = "";  
+  if (navigator.appVersion.indexOf("Win") != -1) {
+    platform = "Windows";
+  } else if (navigator.appVersion.indexOf("Mac") != -1) {
+    platform = "MacOS";
+  } else if (navigator.appVersion.indexOf("X11") != -1) {
+    platform = "Unix";
+  } else if (navigator.appVersion.indexOf("Linux") != -1) {
+    platform = "Linux";
+  } else {
+    platform = "Windows";
+  }
 
-[![GitHub release](https://img.shields.io/github/v/release/setvisible/downzemall.svg)](https://github.com/setvisible/DownZemAll/releases/latest)
+  /* CPU architecture detection */
+  var arch = "";
+  if (navigator.userAgent.indexOf("WOW64") != -1 || navigator.userAgent.indexOf("Win64") != -1 ){
+    arch = "x64";
+  } else {
+    arch = "x86";
+  }
 
-Choose the most relevant version for your computer. The next table explains the differences between the packages.
+  /* Github latest release version detection */
+  var version = "";
 
-<table>
-  <thead>
-    <tr>
-      <th>Platform</th>
-      <th>Binary</th>
-      <th>Comments</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Windows</td>
-      <td>DownZemAll_vx.x.x_windows-<b>msvc</b>-<b>x64</b></td>
-      <td>Prefer this version if you are on Windows <b>64-bit</b>. It uses the <i>Chromium</i> engine and <i>Google Gumbo</i>.</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>DownZemAll_vx.x.x_windows-<b>msvc</b>-<b>x86</b></td>
-      <td>Prefer this version if you are on Windows <b>32-bit</b>. It uses the <i>Chromium</i> engine and <i>Google Gumbo</i>.</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>DownZemAll_vx.x.x_windows-mingw-x64</td>
-      <td>Basic <b>64-bit</b> version. It does't use <i>Chromium</i>, so parses HTML but not Javascript.</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>DownZemAll_vx.x.x_windows-mingw-x86</td>
-      <td>Basic <b>32-bit</b> version. It does't use <i>Chromium</i>, so parses HTML but not Javascript.</td>
-    </tr>
-    <tr>
-      <td>Linux</td>
-      <td> DownZemAll_vx.x.x_x86_64-linux-gnu</td>
-      <td>Currently untested <b>64-bit</b>. Built with GCC.</td>
-    </tr>
-    <tr>
-      <td>OS X</td>
-      <td> DownZemAll_vx.x.x_x86_64-linux-gnu</td>
-      <td>Currently untested <b>64-bit</b>. Built with GCC.</td>
-    </tr>
-  </tbody>
-</table>
+  function doHttpGetAsync(theUrl, callback) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+            callback(xmlHttp.responseText);
+      }
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
+  }
+
+  function onGithubResponse(json) {
+    const obj = JSON.parse(json);
+    version = obj.tag_name;
+    document.getElementById('application-version').innerHTML = version;
+    document.getElementById('webextension-version').innerHTML = version;
+  }
+
+  window.addEventListener("DOMContentLoaded", (event) => {
+    doHttpGetAsync("https://api.github.com/repos/setvisible/DownZemAll/releases/latest", onGithubResponse);
+  });
+
+  /* Build the names */
+  const githubUrl = "https://github.com/setvisible/DownZemAll/releases/latest/download/";
+
+  var applicationUrl = "";
+  var userSystemName = "";
+  if (platform === "Windows") {
+    if (arch === "x64") {
+      applicationUrl = githubUrl + "DownZemAll_x64_Setup.exe";
+      userSystemName += "Windows 64-bit";
+    } else {
+      applicationUrl = githubUrl + "DownZemAll_x86_Setup.exe";
+      userSystemName += "Windows 32-bit";
+    }
+
+  } else if (platform === "MacOS") {
+    if (arch === "x64") {
+      applicationUrl = githubUrl;
+      userSystemName += "MacOS 64-bit";
+    } else {
+      applicationUrl = githubUrl;
+      userSystemName += "MacOS 32-bit";
+    }
+
+  } else {
+    if (arch === "x64") {
+      applicationUrl = githubUrl;
+      userSystemName += "Linux 64-bit";
+    } else {
+      applicationUrl = githubUrl;
+      userSystemName += "Linux 32-bit";
+    }
+  }
+
+  var webExtensionBrowserName = "";
+  var webExtensionUrl = "";
+  var webExtensionImageSrc = "";
+
+  if (browserType === "Chrome") {
+    webExtensionBrowserName = "Google Chrome";
+    webExtensionUrl="https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio";
+    webExtensionImageSrc = "/DownZemAll/assets/images/chrome.png";
+  
+  } else if (browserType === "Firefox") {
+    webExtensionBrowserName = "Mozilla Firefox";
+    webExtensionUrl="https://addons.mozilla.org/en-US/firefox/addon/down-right-now/";
+    webExtensionImageSrc = "/DownZemAll/assets/images/firefox.png";
+
+  } else {
+    webExtensionBrowserName = "your browser";
+    webExtensionUrl = "";
+    webExtensionImageSrc = "";
+  }
 
 
-#### Last build status<a name="last-build-status"></a>
+  /* Apply the names */
+  document.getElementById('application-url').href = applicationUrl;
+  document.getElementById('application-version').innerHTML = version;
+  document.getElementById('application-platform-arch').innerHTML = userSystemName;
 
-| Platform | Status |
-|---------|-----------|
-| Windows |  [![Build status](https://ci.appveyor.com/api/projects/status/github/setvisible/downzemall?branch=master&svg=true)](https://ci.appveyor.com/project/setvisible/downzemall)  |
-| Linux/OSX | [![Build status](https://api.travis-ci.org/setvisible/downzemall.svg?branch=master)](https://travis-ci.org/setvisible/downzemall) |
+  document.getElementById('webextension-image-url').href = webExtensionUrl;
+  document.getElementById('webextension-image-png').src = webExtensionImageSrc;
+  document.getElementById('webextension-url').href = webExtensionUrl;
+  document.getElementById('webextension-version').innerHTML = version;
+  document.getElementById('webextension-browser-name').innerHTML = webExtensionBrowserName;
 
-
-
-### Older releases<a name="older-releases"></a>
-
-Click [here](https://github.com/setvisible/DownZemAll/releases).
-
+</script>
