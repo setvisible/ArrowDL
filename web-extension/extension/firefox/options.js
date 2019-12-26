@@ -91,20 +91,30 @@ function setStartPaused(value) {
 
 function refreshButtons(){
   var isChecked = document.getElementById("download_immediately").checked;
+  setDivEnabled("full_menu_label", isChecked);
   setButtonEnabled("get_links", isChecked);
   setButtonEnabled("get_content", isChecked);
   setButtonEnabled("start_paused", isChecked);
+}
+
+function setDivEnabled(name, enabled) {
+  document.getElementById(name).disabled = !enabled;
+  if (enabled) {
+    document.getElementById(name).style.color = "#000";
+  } else {
+    document.getElementById(name).style.color = "#aaa";
+  }
 }
 
 function setButtonEnabled(name, enabled) {
   var inputButton = document.getElementById(name);
   inputButton.disabled = !enabled;
   for (var i = 0; i < inputButton.labels.length; i++) {
-    var lbl = inputButton.labels[i];
+    var label = inputButton.labels[i];
     if (enabled) {
-      lbl.classList.remove("disabled");
+      label.classList.remove("disabled");
     } else {
-      lbl.classList.add("disabled");
+      label.classList.add("disabled");
     }
   }
 }

@@ -30,7 +30,7 @@ function showWarningMessage(hasError) {
     x.style.display = "none";
   }
   setDisabled("button-start", hasError);
-  setDisabled("button-open-wizard", hasError);
+  setDisabled("button-immediate-download", hasError);
   setDisabled("button-manager", hasError);
   setDisabled("button-preference", hasError);
 }
@@ -51,26 +51,45 @@ function setVisible(name, visible) {
   }
 }
 
+function immediateButtonLabel() {
+  var label = "Download ";
+  var mediaId = chrome.extension.getBackgroundPage().getSettingMediaId();
+  if (mediaId === 1) {
+    label += " links";
+  } else if (mediaId === 2) {
+    label += " content";
+  }
+  var startPaused = chrome.extension.getBackgroundPage().isSettingStartPaused();
+  if (startPaused) {
+    label += " (paused)";
+  }
+  return label;
+}
+
 /* ***************************** */
 /* Events                        */
 /* ***************************** */
-function checkInstallation() {
+function onLoaded() {
   checkConnection();
 
   var enabled = chrome.extension.getBackgroundPage().isSettingAskEnabled();
-  setVisible("button-open-wizard", !enabled);
+  setVisible("button-immediate-download", !enabled);
+
+  if (!enabled) {
+    var label = immediateButtonLabel();
+    document.getElementById("button-immediate-download-label").innerHTML = label;
+  }
 }
 
-document.addEventListener('DOMContentLoaded', checkInstallation); 
+document.addEventListener('DOMContentLoaded', onLoaded); 
 
 document.getElementById("button-start").addEventListener('click', () => {
-    // Call collectDOMandSendData() from 'background.js'
-    chrome.extension.getBackgroundPage().collectDOMandSendData();
+    chrome.extension.getBackgroundPage().collectDOMandSendDataWithWizard();
     window.close();
 });
 
-document.getElementById("button-open-wizard").addEventListener('click', () => {
-    chrome.extension.getBackgroundPage().collectDOMandSendDataWithWizard();
+document.getElementById("button-immediate-download").addEventListener('click', () => {
+    chrome.extension.getBackgroundPage().collectDOMandSendData();
     window.close();
 });
 
