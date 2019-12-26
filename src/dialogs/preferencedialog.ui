@@ -183,15 +183,6 @@ QTabBar::tab:hover:!selected {
          <property name="title">
           <string>Manager Window</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <item>
-           <widget class="QCheckBox" name="startMinimizedCheckBox">
-            <property name="text">
-             <string>Start minimized</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
         </widget>
        </item>
        <item>

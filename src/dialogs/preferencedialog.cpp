@@ -143,7 +143,6 @@ void PreferenceDialog::read()
     setExistingFileOption(m_settings->existingFileOption());
 
     // Tab Interface
-    ui->startMinimizedCheckBox->setChecked(m_settings->isStartMinimizedEnabled());
     ui->confirmRemovalCheckBox->setChecked(m_settings->isConfirmRemovalEnabled());
     ui->confirmBatchCheckBox->setChecked(m_settings->isConfirmBatchDownloadEnabled());
 
@@ -175,7 +174,6 @@ void PreferenceDialog::write()
     m_settings->setExistingFileOption(existingFileOption());
 
     // Tab Interface
-    m_settings->setStartMinimizedEnabled(ui->startMinimizedCheckBox->isChecked());
     m_settings->setConfirmRemovalEnabled(ui->confirmRemovalCheckBox->isChecked());
     m_settings->setConfirmBatchDownloadEnabled(ui->confirmBatchCheckBox->isChecked());
 

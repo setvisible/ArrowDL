@@ -50,8 +50,6 @@ public:
     void setExistingFileOption(ExistingFileOption option);
 
     // Tab Interface
-    bool isStartMinimizedEnabled() const;
-    void setStartMinimizedEnabled(bool enabled);
 
     bool isConfirmRemovalEnabled() const;
     void setConfirmRemovalEnabled(bool enabled);
