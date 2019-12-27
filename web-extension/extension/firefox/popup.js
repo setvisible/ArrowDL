@@ -66,6 +66,16 @@ function immediateButtonLabel() {
   return label;
 }
 
+function safeInnerHtmlAssignment(elementId, label) {
+  const parser = new DOMParser();
+  const parsed = parser.parseFromString(`${label}`, `text/html`);
+  const tags = parsed.getElementsByTagName(`body`);
+  document.getElementById(elementId).innerHTML = ``;
+  for (const tag of tags) {
+    document.getElementById(elementId).appendChild(tag.lastChild);
+  }
+}
+
 /* ***************************** */
 /* Events                        */
 /* ***************************** */
@@ -77,7 +87,7 @@ function onLoaded() {
 
   if (!enabled) {
     var label = immediateButtonLabel();
-    document.getElementById("button-immediate-download-label").innerHTML = label;
+    safeInnerHtmlAssignment("button-immediate-download-label", label);
   }
 }
 

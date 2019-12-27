@@ -88,7 +88,7 @@ function getDownloadActionChoice() {
 getDownloadActionChoice();
 
 function isSettingAskEnabled() {
-  return mySettings === undefined || mySettings.radioApplicationId === 1;
+  return mySettings === undefined || mySettings.radioApplicationId === undefined || mySettings.radioApplicationId === 1;
 }
 
 function getSettingMediaId() {
