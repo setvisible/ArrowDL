@@ -119,6 +119,17 @@ function setButtonEnabled(name, enabled) {
   }
 }
 
+function showOptions(visible) {
+  var instructions = document.getElementsByClassName("show-instruction");
+  for (var i = 0; i < instructions.length; i ++) {
+    instructions[i].style.display = visible ? "none" : "block";
+  }
+  var options = document.getElementsByClassName("options");
+  for (var i = 0; i < options.length; i ++) {
+    options[i].style.display = visible ? "block" : "none";
+  }
+}
+
 /* ***************************** */
 /* Native Message                */
 /* ***************************** */
@@ -128,13 +139,15 @@ function checkConnection() {
     var connectionStatus = "✓ Ok";
     var details = "<br><br>Detected path:<br><code>" + response.text + "</code>";
     safeInnerHtmlAssignment(connectionStatus, details, "MediumSeaGreen");
+    showOptions(true);
   }
 
   function onHelloError(error) {
     console.log(`Launcher didn't send any message. ${error}.`);
     var connectionStatus = "⚠ Error: Can't find the launcher";
-    var details = "Follow the instructions below.";
+    var details = "<br><br>Follow the instructions below.";
     safeInnerHtmlAssignment(connectionStatus, details, "Tomato");
+    showOptions(false);
   }
 
   var data = "areyouthere";
