@@ -7,11 +7,11 @@
         <script defer="defer" type="text/javascript" src="options.js"> </script>
     </head>
     <body>
-        <div id="header">
+        <div id="header" class="options" style="display: block;">
             <img src="icons/icon64.png"/>
         </div>
-        <h1>Options</h1>
-        <div>
+        <div class="options" style="display: block;">
+            <h1>Options</h1>
             <span>Toolbar Menu:</span>
             <ul class="settings">
                 <li>
@@ -40,60 +40,31 @@
                     </li>
                 </ul>
             </ul>
+            <h1>About</h1>
         </div>
-        <h1>Check installation</h1>
         <div>
-            <span>Verify that the application is correctly installed by clicking on button below</span>
-            <br/>
-            <br/>
-            <form>
-                <div class="buttonHolder">
-                    <button id="button-check" type="submit">Check install »</button>
-                </div>
-            </form>
             <span id="status-message">Status:&nbsp;&nbsp;Verifying...</span>
             <br/>
         </div>
-        <div class="install-instructions">
-            <h1 class="install-instructions-h1" style="padding-top: 10px !important; background-color: #f8b124 !important;">Installation instructions</h1>
-            <div class="install-instructions-content">
-                <h2>1. Download</h2>
-                <p>Download the latest version of the standalone application <i>DownZemAll (DownRightNow)</i> for your platform/OS here: <br/>
-                    <br/>
-                    <a href="https://setvisible.github.io/DownZemAll/category/download.html">https://setvisible.github.io/DownZemAll/category/download.html </a>
-                </p>
-                <h2>2. Install</h2>
-                <h3>For Windows users:</h3>
-                <div class="instruct">
+        <div class="show-instruction" style="display: none;">
+            <div class="install-instructions">
+                <h1 class="install-instructions-h1" style="padding-top: 10px !important; background-color: #f8b124 !important;">Installation</h1>
+                <div class="install-instructions-content">
                     <p>
-                        <b>To install the application:</b>
+                        Go to
+                        <a href="https://setvisible.github.io/DownZemAll/category/download.html">Download</a> 
+                        page to install the application for your operating system
                     </p>
-                    <ul>
-                        <li>Extract the downloaded ZIP file in a local directory.</li>
-                        <li>Double-click on "<i>
-                                <b>install.bat</b>
-                            </i>".</li>
-                        <li>Wait for the script to display the successful message.</li>
-                    </ul>
-                    <p>
-                        <b>To uninstall the application:</b>
-                    </p>
-                    <ul>
-                        <li>Double-click on "<i>
-                                <b>uninstall.bat</b>
-                            </i>".</li>
-                        <li>Wait for the script to display the successful message.</li>
-                        <li>Remove the directory.</li>
-                    </ul>
-                    <blockquote>
-                        <p>Note:<br/>These scripts do not need administrator permission.</p>
-                    </blockquote>
-                </div>
-                <h3>For Linux/MacOS X users:</h3>
-                <div class="instruct">
-                    <p>(Nothing yet)</p>
                 </div>
             </div>
+            <br/>
+        </div>
+        <div>
+            <form>
+                <div class="buttonHolder">
+                    <button id="button-check" type="submit">Refresh information »</button>
+                </div>
+            </form>
         </div>
         <br/>
     </body>

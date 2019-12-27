@@ -118,3 +118,8 @@ document.getElementById("button-options-page").addEventListener('click', () => {
     var openingPage = chrome.runtime.openOptionsPage();
     window.close();
 });
+
+document.getElementById("button-website").addEventListener('click', () => {
+    window.open(document.getElementById("website-link").getAttribute("href"), "_blank");
+    window.close();
+});
