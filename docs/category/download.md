@@ -5,58 +5,95 @@ title: Download
 
 [Home](../index.html) >> **[Download](../category/download.html)** >> [Advanced Setup](../category/download-advanced.html)
 
-<noscript>
-  Please enable JavaScript to view the page.
+<noscript>    
+<p style="color:red;">/!\ Please enable JavaScript to view the links</p>
 </noscript>
 
-## Install Instructions
+## Installation
 
-1. First, install the standalone application:
+
+1. Install the application for your operating system
     
-    <a href="xxx" id="application-url">
-        <img src="/DownZemAll/assets/images/installer.png" />
-        DownZemAll for **<span id="application-platform-arch">xxxxxx</span>**
-    </a>
+    <div class="simple-instruction" style="display: none;">
+        <a href="xxx" id="application-url">
+            <img src="/DownZemAll/assets/images/installer.png" />
+            DownZemAll for <b><span id="application-platform-arch">xxxxxx</span></b>
+        </a>
+        <div>
+            Version: 
+            <span id="application-version">x.x.x</span>
+        </div>
+        <br/>
+    </div>
+
+
+2. Then, install the extension for your browser
     
-    Version: 
-    <span id="application-version">x.x.x</span>
+    <div class="simple-instruction" style="display: none;">
+        <div class="specific-instruction" style="display: block;">
+            <a href="xxx" id="webextension-image-url">
+                <img src="" id="webextension-image-png"/>
+            </a>
+            <a href="xxx" id="webextension-url">
+                 Add-on for <b><span id="webextension-browser-name">xxxxxx</span></b>
+            </a>
+        </div>
+        <div class="general-instruction" style="display: none;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td align="center">
+                            <a href="https://addons.mozilla.org/en-US/firefox/addon/down-right-now/">
+                                <img src="/DownZemAll/assets/images/firefox.png" alt="firefox logo">
+                            </a>
+                        </td>
+                        <td align="center">
+                            <a href="https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio">
+                                <img src="/DownZemAll/assets/images/chrome.png" alt="chrome logo">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Click here to intall 
+                            <a href="https://addons.mozilla.org/en-US/firefox/addon/down-right-now/">
+                                <b>DownRightNow for Mozilla Firefox</b>
+                            </a>
+                        </td>
+                        <td>
+                            Click here to intall 
+                            <a href="https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio">
+                                <b>DownRightNow for Google Chrome</b>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            Version: 
+            <span id="webextension-version">x.x.x</span>
+        </div>
+    </div>
     
     <br/>
-
-2. Then, install the web extension:
-
-    <a href="xxx" id="webextension-image-url">
-        <img src="" id="webextension-image-png"/>
-    </a>
-    <a href="xxx" id="webextension-url">
-         Add-on for **<span id="webextension-browser-name">xxxxxx</span>**
-    </a>
-    
-    Version: 
-    <span id="webextension-version">x.x.x</span>
-    
-    <br/>
-
-<noscript>
-
-Choose the browser:
-
-| ![logo](/DownZemAll/assets/images/firefox.png) | ![logo](/DownZemAll/assets/images/chrome.png) |
-|-----------------------------------|----------------------------------|
-| Click here to intall [DownRightNow for Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/down-right-now/) | Click here to intall [DownRightNow for Google Chrome](https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio ) |
-
-</noscript>
 
 ---
 
-## Manual Instructions
+## Manual Setup Instructions
 
-For a manual install, or an install for a different operating system platform,
-CPU architecture, browser, or release version, go to
+For a manual installation, or an install for a different operating system platform,
+CPU architecture, browser, or release version, have a look at
 [Advanced Setup](../category/download-advanced.html).
 
 
 <script>
+  /* Show instructions if javascript is enabled */
+  var simpleInstructions = document.getElementsByClassName("simple-instruction");
+  for (var i = 0; i < simpleInstructions.length; i ++) {
+    simpleInstructions[i].style.display = "block";
+  }
+
   /* Browser detection */
   var browserType = "";
   if(navigator.userAgent.indexOf("Chrome") != -1 ) {
@@ -64,7 +101,7 @@ CPU architecture, browser, or release version, go to
   } else if(navigator.userAgent.indexOf("Firefox") != -1 )  {
     browserType = "Firefox";
   } else {
-    browserType = "Chrome";
+    browserType = "unknown";
   }
 
   /* Platform detection */
@@ -114,6 +151,18 @@ CPU architecture, browser, or release version, go to
     doHttpGetAsync("https://api.github.com/repos/setvisible/DownZemAll/releases/latest", onGithubResponse);
   });
 
+  /* Show specific instructions */
+  function showSpecificInstructions(isSpecific) {
+    var specificInstructions = document.getElementsByClassName("specific-instruction");
+    for (var i = 0; i < specificInstructions.length; i++) {
+      specificInstructions[i].style.display = isSpecific ? "block" : "none";
+    }
+    var generalInstructions = document.getElementsByClassName("general-instruction");
+    for (var j = 0; j < generalInstructions.length; j++) {
+      generalInstructions[j].style.display = isSpecific ? "none" : "block";
+    }
+  }
+
   /* Build the names */
   const githubUrl = "https://github.com/setvisible/DownZemAll/releases/latest/download/";
 
@@ -151,20 +200,24 @@ CPU architecture, browser, or release version, go to
   var webExtensionUrl = "";
   var webExtensionImageSrc = "";
 
+
   if (browserType === "Chrome") {
     webExtensionBrowserName = "Google Chrome";
     webExtensionUrl="https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio";
     webExtensionImageSrc = "/DownZemAll/assets/images/chrome.png";
+    showSpecificInstructions(true);
   
   } else if (browserType === "Firefox") {
     webExtensionBrowserName = "Mozilla Firefox";
     webExtensionUrl="https://addons.mozilla.org/en-US/firefox/addon/down-right-now/";
     webExtensionImageSrc = "/DownZemAll/assets/images/firefox.png";
+    showSpecificInstructions(true);
 
   } else {
     webExtensionBrowserName = "your browser";
     webExtensionUrl = "";
     webExtensionImageSrc = "";
+    showSpecificInstructions(false);
   }
 
 
