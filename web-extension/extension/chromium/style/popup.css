@@ -48,12 +48,32 @@ hr {
     border-top: 1px solid #dddddd;
 }
 
+a, a:visited {
+    color: #0000ff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ff5500;
+    text-decoration: underline #ff5500;
+}
+
 li.separator {
     display: inline-block;
     padding: 0px;
 }
 
-li:not(.separator):hover {
+li.website {
+    display: inline-block;
+    padding: 0px;
+    text-align: center;
+    font-size: 14px;
+}
+
+li.website:hover {
+}
+
+li:hover:not(.separator):not(.website) {
     background: highlight;
     color: highlighttext;
     cursor: pointer;
