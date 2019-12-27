@@ -26,7 +26,7 @@
 static const QString REGISTRY_EXISTING_FILE    = "ExistingFile";
 
 // Tab Interface
-static const QString REGISTRY_START_MINIMIZED  = "StartMinimized";
+static const QString REGISTRY_DONT_SHOW_TUTO   = "DontShowTutorial";
 static const QString REGISTRY_CONFIRM_REMOVAL  = "ConfirmRemoval";
 static const QString REGISTRY_CONFIRM_BATCH    = "ConfirmBatchDownload";
 
@@ -55,10 +55,10 @@ static const QString REGISTRY_FILTER_VALUE     = "FilterValue";
 Settings::Settings(QObject *parent) : AbstractSettings(parent)
 {
     // Tab General
-    addDefaultSettingInt(REGISTRY_EXISTING_FILE, (int) ExistingFileOption::Skip);
+    addDefaultSettingInt(REGISTRY_EXISTING_FILE, static_cast<int>(ExistingFileOption::Skip));
 
     // Tab Interface
-    addDefaultSettingBool(REGISTRY_START_MINIMIZED, false);
+    addDefaultSettingBool(REGISTRY_DONT_SHOW_TUTO, false);
     addDefaultSettingBool(REGISTRY_CONFIRM_REMOVAL, true);
     addDefaultSettingBool(REGISTRY_CONFIRM_BATCH, true);
 
@@ -111,37 +111,33 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
 
 }
 
-Settings::~Settings()
-{
-}
-
 /******************************************************************************
  ******************************************************************************/
 // Tab General
 ExistingFileOption Settings::existingFileOption() const
 {
     int value = getSettingInt(REGISTRY_EXISTING_FILE);
-    return (value >= 0 && value < (int)ExistingFileOption::LastOption)
-            ? (ExistingFileOption) value
+    return (value >= 0 && value < static_cast<int>(ExistingFileOption::LastOption))
+            ? static_cast<ExistingFileOption>(value)
             : ExistingFileOption::Skip;
 }
 
 void Settings::setExistingFileOption(ExistingFileOption option)
 {
-    setSettingInt(REGISTRY_EXISTING_FILE, (int)option);
+    setSettingInt(REGISTRY_EXISTING_FILE, static_cast<int>(option));
 }
 
 /******************************************************************************
  ******************************************************************************/
 // Tab Interface
-bool Settings::isStartMinimizedEnabled() const
+bool Settings::isDontShowTutorialEnabled() const
 {
-    return getSettingBool(REGISTRY_START_MINIMIZED);
+    return getSettingBool(REGISTRY_DONT_SHOW_TUTO);
 }
 
-void Settings::setStartMinimizedEnabled(bool enabled)
+void Settings::setDontShowTutorialEnabled(bool enabled)
 {
-    setSettingBool(REGISTRY_START_MINIMIZED, enabled);
+    setSettingBool(REGISTRY_DONT_SHOW_TUTO, enabled);
 }
 
 bool Settings::isConfirmRemovalEnabled() const

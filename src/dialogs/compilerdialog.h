@@ -17,7 +17,7 @@ class CompilerDialog : public QDialog
 
 public:
     explicit CompilerDialog(QWidget *parent = Q_NULLPTR);
-    ~CompilerDialog();
+    ~CompilerDialog() Q_DECL_OVERRIDE;
 
 private slots:
     void on_okButton_released();
@@ -27,7 +27,7 @@ private:
 
     inline void populateOpenSSL();
     inline QString getLibraryInfo(const QString &libraryName);
-    inline QString getVersionString(QString fName);
+    inline QString getVersionString(const QString &fName);
 };
 
 #endif // DIALOGS_COMPILER_DIALOG_H

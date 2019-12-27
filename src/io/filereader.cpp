@@ -24,23 +24,16 @@
 #include <QtCore/QFileInfo>
 
 FileReader::FileReader()
-    : m_device(Q_NULLPTR)
-    , m_handler(Q_NULLPTR)
-    , m_fileReaderError(FileReader::UnknownError)
 {
 }
 
 FileReader::FileReader(QIODevice *device)
     : m_device(device)
-    , m_handler(Q_NULLPTR)
-    , m_fileReaderError(FileReader::UnknownError)
 {
 }
 
 FileReader::FileReader(const QString &fileName)
     : m_device(new QFile(fileName))
-    , m_handler(Q_NULLPTR)
-    , m_fileReaderError(FileReader::UnknownError)
 {
 }
 
@@ -65,7 +58,7 @@ bool FileReader::initHandler()
     // probe the file extension
     if (!m_device->isOpen() && !m_device->open(QIODevice::ReadOnly | QIODevice::Text)) {
 
-        QFile *file = static_cast<QFile *>(m_device);
+        auto file = dynamic_cast<QFile*>(m_device);
         if (file->error() == QFileDevice::ResourceError) {
             // this is bad. we should abort the open attempt and note the failure.
             m_fileReaderError = FileReader::DeviceError;
@@ -79,7 +72,7 @@ bool FileReader::initHandler()
         }
     }
     // assign a handler
-    if (!m_handler && (m_handler = createReadHandlerHelper(m_device)) == 0) {
+    if (!m_handler && (m_handler = createReadHandlerHelper(m_device)) == Q_NULLPTR) {
         m_fileReaderError = FileReader::UnsupportedFormatError;
         m_errorString = FileReader::tr("Unsupported format");
         return false;
@@ -126,7 +119,7 @@ IFileHandler* FileReader::createReadHandlerHelper(QIODevice *device)
     IFileHandler *handler = Q_NULLPTR;
     QByteArray suffix;
 
-    if (QFile *file = qobject_cast<QFile *>(device)) {
+    if (auto file = qobject_cast<QFile *>(device)) {
         // device is a file
         suffix = QFileInfo(file->fileName()).suffix().toLower().toLatin1();
     }
@@ -175,7 +168,7 @@ QString FileReader::supportedFormats()
         if (!text.isEmpty()) {
             text.append(";;");
         }
-        text.append(QString("%0 (*.%1)").arg(fmt->text).arg(fmt->suffix));
+        text.append(QString("%0 (*.%1)").arg(fmt->text, fmt->suffix));
     }
     if (!text.isEmpty()) {
         text.append(";;");

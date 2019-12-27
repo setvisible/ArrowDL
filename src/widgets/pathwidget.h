@@ -31,7 +31,7 @@ public:
     enum PathType { File, Directory };
 
     explicit PathWidget(QWidget *parent = Q_NULLPTR);
-    ~PathWidget();
+    ~PathWidget() Q_DECL_OVERRIDE;
 
     QString currentPath() const;
     void setCurrentPath(const QString &path);
@@ -57,7 +57,7 @@ private slots:
 
 private:
     Ui::PathWidget *ui;
-    PathType m_pathType;
+    PathType m_pathType = File;
     QString m_suffix;
     QString m_suffixName;
 };

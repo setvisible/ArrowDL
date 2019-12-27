@@ -28,10 +28,10 @@ class MaskWidget : public QWidget
     Q_OBJECT
 public:
     explicit MaskWidget(QWidget *parent);
-    ~MaskWidget();
+    ~MaskWidget() Q_DECL_OVERRIDE;
 
     QString currentMask() const;
-    void setCurrentMask(const QString &currentMask);
+    void setCurrentMask(const QString &text);
 
 signals:
     void currentMaskChanged(QString mask);

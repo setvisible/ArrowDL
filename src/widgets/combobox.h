@@ -27,7 +27,7 @@ class ComboBox : public QComboBox
 
 public:
     explicit ComboBox(QWidget *parent = Q_NULLPTR);
-    ~ComboBox();
+    ~ComboBox() Q_DECL_OVERRIDE = default;
 
     QStringList history() const;
     void setHistory(const QStringList &history);
@@ -49,7 +49,7 @@ private slots:
     void showContextMenu(const QPoint &pos);
 
 private:
-    ColorizePtr m_colorizePtr;
+    ColorizePtr m_colorizePtr = Q_NULLPTR;
 
     inline void colorizeErrors(const QString &text);
 };

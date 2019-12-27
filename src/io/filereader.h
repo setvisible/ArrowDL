@@ -50,14 +50,14 @@ public:
 
 private:
     /* Device */
-    QIODevice *m_device;
-    IFileHandler *m_handler;
+    QIODevice *m_device = Q_NULLPTR;
+    IFileHandler *m_handler = Q_NULLPTR;
 
     bool initHandler();
     IFileHandler* createReadHandlerHelper(QIODevice *device);
 
     /* Error */
-    FileReader::FileReaderError m_fileReaderError;
+    FileReader::FileReaderError m_fileReaderError = UnknownError;
     QString m_errorString;
 
     Q_DISABLE_COPY(FileReader)

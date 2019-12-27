@@ -34,7 +34,6 @@
  *
  */
 ComboBox::ComboBox(QWidget *parent) : QComboBox(parent)
-  , m_colorizePtr(Q_NULLPTR)
 {
     setDuplicatesEnabled(false);
     setMaxCount(MAX_HISTORY_COUNT);
@@ -45,10 +44,6 @@ ComboBox::ComboBox(QWidget *parent) : QComboBox(parent)
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
             this, SLOT(showContextMenu(const QPoint &)));
-}
-
-ComboBox::~ComboBox()
-{
 }
 
 /******************************************************************************

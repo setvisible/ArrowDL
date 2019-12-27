@@ -98,7 +98,7 @@ void AddDownloadDialog::quickDownload(const QUrl &url, DownloadManager *download
     const QString mask = settings.value("Mask", QString()).toString();
     settings.endGroup();
 
-    ResourceItem *resource = new ResourceItem();
+    auto resource = new ResourceItem();
     resource->setUrl(adjusted);
     resource->setCustomFileName(QString());
     resource->setReferringPage(QString());
@@ -107,7 +107,7 @@ void AddDownloadDialog::quickDownload(const QUrl &url, DownloadManager *download
     resource->setMask(mask);
     resource->setCheckSum(QString());
 
-    DownloadItem* item = new DownloadItem(downloadManager);
+    auto item = new DownloadItem(downloadManager);
     item->setResource(resource);
 
     downloadManager->append(toList(item), true);
@@ -201,7 +201,7 @@ void AddDownloadDialog::onChanged(QString)
 
 /******************************************************************************
  ******************************************************************************/
-void AddDownloadDialog::doAccept(const bool started)
+void AddDownloadDialog::doAccept(bool started)
 {
     const QUrl url(ui->downloadLineEdit->text());
 
@@ -238,8 +238,8 @@ QMessageBox::StandardButton AddDownloadDialog::askBatchDownloading(QList<IDownlo
 {
     if (!m_settings || m_settings->isConfirmBatchDownloadEnabled()) {
 
-        DownloadItem *firstItem = static_cast<DownloadItem*>(items.first());
-        DownloadItem *lastItem = static_cast<DownloadItem*>(items.last());
+        auto firstItem = dynamic_cast<DownloadItem*>(items.first());
+        auto lastItem = dynamic_cast<DownloadItem*>(items.last());
 
         QMessageBox msgBox(this);
         msgBox.setModal(true);
@@ -270,14 +270,14 @@ QMessageBox::StandardButton AddDownloadDialog::askBatchDownloading(QList<IDownlo
         });
 
         msgBox.exec();
-
-        if (msgBox.clickedButton() == batchButton) {
+        auto clicked = msgBox.clickedButton();
+        if (clicked == batchButton) {
             return QMessageBox::Ok;
-
-        } else if (msgBox.clickedButton() == singleButton) {
+        }
+        if (clicked == singleButton) {
             return QMessageBox::Apply;
-
-        } else if (msgBox.clickedButton() == cancelButton) {
+        }
+        if (clicked == cancelButton) {
             return QMessageBox::Cancel;
         }
     }
@@ -299,7 +299,7 @@ QList<IDownloadItem*> AddDownloadDialog::createItems() const
 
 IDownloadItem* AddDownloadDialog::createItem(const QString &url) const
 {
-    ResourceItem *resource = new ResourceItem();
+    auto resource = new ResourceItem();
     resource->setUrl(url);
     resource->setCustomFileName(ui->filenameLineEdit->text());
     resource->setReferringPage(ui->referrerLineEdit->text());
@@ -308,7 +308,7 @@ IDownloadItem* AddDownloadDialog::createItem(const QString &url) const
     resource->setMask(ui->maskWidget->currentMask());
     resource->setCheckSum(ui->hashLineEdit->text());
 
-    DownloadItem* item = new DownloadItem(m_downloadManager);
+    auto item = new DownloadItem(m_downloadManager);
     item->setResource(resource);
     return item;
 }

@@ -30,7 +30,7 @@ class FilterWidget : public QWidget
     Q_OBJECT
 public:
     explicit FilterWidget(QWidget *parent);
-    ~FilterWidget();
+    ~FilterWidget() Q_DECL_OVERRIDE;
 
     void clearFilters();
     void addFilter(const QString &title, const QString &regexp);
@@ -41,7 +41,7 @@ public:
     void setState(uint code);
 
     QString currentFilter() const;
-    void setCurrentFilter(const QString &currentFilter);
+    void setCurrentFilter(const QString &text);
 
     QStringList filterHistory() const;
     void setFilterHistory(const QStringList &filters);

@@ -31,11 +31,11 @@ public:
     enum Tab{LINK, CONTENT};
 
     explicit Model(QObject *parent);
-    ~Model();
+    ~Model() Q_DECL_OVERRIDE = default;
 
     ResourceModel* currentModel() const;
 
-    void setCurrentTab(const Tab tab);
+    void setCurrentTab(Tab tab);
 
     QList<ResourceItem*> selection() const;
 

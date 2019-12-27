@@ -37,8 +37,8 @@ public:
         FileError
     };
 
-    IDownloadItem() {}
-    virtual ~IDownloadItem() noexcept {} /* Pure virtual interface */
+    IDownloadItem() = default;
+    virtual ~IDownloadItem() noexcept = default; /* Pure virtual interface */
 
     virtual State state() const = 0;
 

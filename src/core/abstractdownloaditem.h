@@ -31,40 +31,40 @@ class AbstractDownloadItem : public QObject, public IDownloadItem
 
 public:
     explicit AbstractDownloadItem(QObject *parent = Q_NULLPTR);
-    virtual ~AbstractDownloadItem() noexcept Q_DECL_OVERRIDE {} // IMPORTANT: virtual destructor
+    ~AbstractDownloadItem() noexcept Q_DECL_OVERRIDE = default; // IMPORTANT: virtual destructor
 
-    virtual State state() const Q_DECL_OVERRIDE;
-    void setState(const State state);
+    State state() const Q_DECL_OVERRIDE;
+    void setState(State state);
 
-    virtual qint64 bytesReceived() const Q_DECL_OVERRIDE;
+    qint64 bytesReceived() const Q_DECL_OVERRIDE;
     void setBytesReceived(qint64 bytesReceived);
 
-    virtual qint64 bytesTotal() const Q_DECL_OVERRIDE;
+    qint64 bytesTotal() const Q_DECL_OVERRIDE;
     void setBytesTotal(qint64 bytesTotal);
 
-    virtual double speed() const Q_DECL_OVERRIDE;
-    virtual int progress() const Q_DECL_OVERRIDE;
+    double speed() const Q_DECL_OVERRIDE;
+    int progress() const Q_DECL_OVERRIDE;
 
     int httpErrorNumber() const;
     void setHttpErrorNumber(int error);
 
-    virtual int maxConnectionSegments() const Q_DECL_OVERRIDE;
+    int maxConnectionSegments() const Q_DECL_OVERRIDE;
     void setMaxConnectionSegments(int connectionSegments);
 
-    virtual int maxConnections() const Q_DECL_OVERRIDE;
+    int maxConnections() const Q_DECL_OVERRIDE;
     void setMaxConnections(int connections);
 
-    virtual bool isResumable() const Q_DECL_OVERRIDE;
-    virtual bool isPausable() const Q_DECL_OVERRIDE;
-    virtual bool isCancelable() const Q_DECL_OVERRIDE;
-    virtual bool isDownloading() const Q_DECL_OVERRIDE;
+    bool isResumable() const Q_DECL_OVERRIDE;
+    bool isPausable() const Q_DECL_OVERRIDE;
+    bool isCancelable() const Q_DECL_OVERRIDE;
+    bool isDownloading() const Q_DECL_OVERRIDE;
 
     QTime remainingTime();
 
-    virtual void setReadyToResume() Q_DECL_OVERRIDE;
+    void setReadyToResume() Q_DECL_OVERRIDE;
 
-    virtual void pause() Q_DECL_OVERRIDE;
-    virtual void stop() Q_DECL_OVERRIDE;
+    void pause() Q_DECL_OVERRIDE;
+    void stop() Q_DECL_OVERRIDE;
 
     void beginResume();
     bool checkResume(bool connected);

@@ -140,12 +140,11 @@ QString CompilerDialog::getLibraryInfo(const QString &libraryName)
     library.load();
     if (library.isLoaded()) {
         return QString("%0, version %1").arg(library.fileName(), libraryVersion);
-    } else {
-        return QString("not found");
     }
+    return QString("not found");
 }
 
-QString CompilerDialog::getVersionString(QString fName)
+QString CompilerDialog::getVersionString(const QString &fName)
 {
     QString ret;
 #ifdef Q_OS_WIN

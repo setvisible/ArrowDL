@@ -9,6 +9,18 @@ SET PATH=C:\Windows\System32;%PATH%
 SET currentPath=%~dp0
 SET INSTALL_PATH=%currentPath:~0,-1%
 
+:: For some reasons, the '-quiet' parsing must be done after the 'Set INSTALL_DIR', otherwise it's not set correctly.
+SET QUIET=0
+:loop
+IF NOT "%1"=="" (
+    IF "%1"=="-quiet" (
+        SET QUIET=1
+        SHIFT
+    )
+    SHIFT
+    GOTO :loop
+)
+
 ECHO *************************************************
 ECHO                  Down Right Now
 ECHO *************************************************
@@ -44,4 +56,6 @@ ECHO.
 ECHO ^>^>^> Done! ^<^<^<
 ECHO.
 
-TIMEOUT /T 10
+IF NOT "%QUIET%"=="1" (
+    TIMEOUT /T 10
+)

@@ -143,7 +143,7 @@ void QueueView::mouseMoveEvent(QMouseEvent *event)
     if (items.isEmpty())
         return;
 
-    QueueItem *queueItem = static_cast<QueueItem*>(items.first());
+    auto queueItem = dynamic_cast<QueueItem*>(items.first());
     if (!queueItem)
         return;
 
@@ -158,8 +158,8 @@ void QueueView::mouseMoveEvent(QMouseEvent *event)
     const QUrl url = QUrl::fromLocalFile(downloadItem->localFullFileName());
     const QPixmap pixmap = MimeDatabase::fileIcon(url);
 
-    QDrag *drag = new QDrag(this);
-    QMimeData *mimeData = new QMimeData;
+    auto drag = new QDrag(this);
+    auto mimeData = new QMimeData;
     mimeData->setUrls(QList<QUrl>() << url);
     drag->setMimeData(mimeData);
     drag->setPixmap(pixmap);
@@ -281,7 +281,7 @@ QWidget* QueueViewItemDelegate::createEditor(QWidget *parent,
     if (index.column() != C_COL_0_FILE_NAME)
         return Q_NULLPTR;
 
-    QLineEdit *editor = new QLineEdit(parent);
+    auto editor = new QLineEdit(parent);
     editor->setAutoFillBackground(true);
     editor->setFocusPolicy(Qt::StrongFocus);
     return editor;
@@ -289,7 +289,7 @@ QWidget* QueueViewItemDelegate::createEditor(QWidget *parent,
 
 void QueueViewItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    QLineEdit *lineEdit = qobject_cast<QLineEdit*>(editor);
+    auto lineEdit = qobject_cast<QLineEdit*>(editor);
     if (lineEdit) {
         QString text = index.data(Qt::EditRole).toString();
         lineEdit->setText(text);
@@ -308,25 +308,25 @@ QColor QueueViewItemDelegate::stateColor(IDownloadItem::State state) const
     switch (state) {
     case IDownloadItem::Idle:
         return s_darkGrey;
-        break;
+
     case IDownloadItem::Paused:
         return s_darkYellow;
-        break;
+
     case IDownloadItem::Preparing:
     case IDownloadItem::Connecting:
     case IDownloadItem::Downloading:
     case IDownloadItem::Endgame:
         return s_green;
-        break;
+
     case IDownloadItem::Completed:
         return s_darkGreen;
-        break;
+
     case IDownloadItem::Stopped:
     case IDownloadItem::Skipped:
     case IDownloadItem::NetworkError:
     case IDownloadItem::FileError:
         return s_darkRed;
-        break;
+
     default:
         Q_UNREACHABLE();
         break;
@@ -339,25 +339,25 @@ QIcon QueueViewItemDelegate::stateIcon(IDownloadItem::State state) const
     switch (state) {
     case IDownloadItem::Idle:
         return m_idleIcon;
-        break;
+
     case IDownloadItem::Paused:
         return m_pauseIcon;
-        break;
+
     case IDownloadItem::Preparing:
     case IDownloadItem::Connecting:
     case IDownloadItem::Downloading:
     case IDownloadItem::Endgame:
         return m_resumeIcon;
-        break;
+
     case IDownloadItem::Completed:
         return m_completedIcon;
-        break;
+
     case IDownloadItem::Stopped:
     case IDownloadItem::Skipped:
     case IDownloadItem::NetworkError:
     case IDownloadItem::FileError:
         return m_stopIcon;
-        break;
+
     default:
         Q_UNREACHABLE();
         break;
@@ -577,8 +577,8 @@ void DownloadQueueView::setEngine(DownloadEngine *downloadEngine)
 void DownloadQueueView::onJobAdded(DownloadRange range)
 {
     foreach (auto item, range) {
-        AbstractDownloadItem* downloadItem = static_cast<AbstractDownloadItem*>(item);
-        QueueItem* queueItem = new QueueItem(downloadItem, m_queueView);
+        auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
+        auto queueItem = new QueueItem(downloadItem, m_queueView);
         m_queueView->addTopLevelItem(queueItem);
     }
 }
@@ -589,7 +589,7 @@ void DownloadQueueView::onJobRemoved(DownloadRange range)
         const int index = getIndex(item);
         if (index >= 0) {
             QTreeWidgetItem *treeItem = m_queueView->takeTopLevelItem(index);
-            QueueItem *queueItem = static_cast<QueueItem*>(treeItem);
+            auto queueItem = dynamic_cast<QueueItem*>(treeItem);
             Q_ASSERT(queueItem);
             if (queueItem) {
                 queueItem->deleteLater();
@@ -617,7 +617,7 @@ void DownloadQueueView::onSelectionChanged()
     const int count = m_queueView->topLevelItemCount();
     for (int index = 0; index < count; ++index) {
         QTreeWidgetItem* treeItem = m_queueView->topLevelItem(index);
-        const QueueItem* queueItem = static_cast<const QueueItem *>(treeItem);
+        auto queueItem = dynamic_cast<const QueueItem *>(treeItem);
         const bool isSelected = selection.contains(queueItem->downloadItem());
         treeItem->setSelected(isSelected);
     }
@@ -633,7 +633,7 @@ int DownloadQueueView::getIndex(IDownloadItem *downloadItem) const
     for (int index = 0; index < count; ++index) {
         QTreeWidgetItem *treeItem = m_queueView->topLevelItem(index);
         if (treeItem->type() == QTreeWidgetItem::UserType) {
-            const QueueItem *queueItem = static_cast<const QueueItem *>(treeItem);
+            auto queueItem = dynamic_cast<const QueueItem *>(treeItem);
             if (queueItem && downloadItem && queueItem->downloadItem() == downloadItem) {
                 return index;
             }
@@ -648,7 +648,7 @@ QueueItem* DownloadQueueView::getQueueItem(IDownloadItem *downloadItem)
     if (index >= 0) {
         QTreeWidgetItem *treeItem = m_queueView->topLevelItem(index);
         if (treeItem->type() == QTreeWidgetItem::UserType) {
-            QueueItem *queueItem = static_cast<QueueItem *>(treeItem);
+            auto queueItem = dynamic_cast<QueueItem *>(treeItem);
             if (queueItem && queueItem->downloadItem() == downloadItem) {
                 return queueItem;
             }
@@ -662,7 +662,7 @@ QueueItem* DownloadQueueView::getQueueItem(IDownloadItem *downloadItem)
 void DownloadQueueView::onQueueViewDoubleClicked(const QModelIndex &index)
 {
     QTreeWidgetItem *treeItem = m_queueView->itemFromIndex(index);
-    const QueueItem *queueItem = static_cast<const QueueItem *>(treeItem);
+    auto queueItem = dynamic_cast<const QueueItem *>(treeItem);
     emit doubleClicked(queueItem->downloadItem());
 }
 
@@ -673,7 +673,7 @@ void DownloadQueueView::onQueueViewItemSelectionChanged()
 {
     QList<IDownloadItem *> selection;
     foreach (auto treeItem, m_queueView->selectedItems()) {
-        const QueueItem *queueItem = static_cast<const QueueItem *>(treeItem);
+        auto queueItem = dynamic_cast<const QueueItem *>(treeItem);
         selection << queueItem->downloadItem();
     }
     m_downloadEngine->setSelection(selection);
@@ -684,7 +684,7 @@ void DownloadQueueView::onQueueViewItemSelectionChanged()
  */
 void DownloadQueueView::onQueueItemCommitData(QWidget *editor)
 {
-    QLineEdit *lineEdit = qobject_cast<QLineEdit*>(editor);
+    auto lineEdit = qobject_cast<QLineEdit*>(editor);
     if (lineEdit) {
         QString newName = lineEdit->text();
 
@@ -695,7 +695,7 @@ void DownloadQueueView::onQueueItemCommitData(QWidget *editor)
         }
 
         QTreeWidgetItem *treeItem = m_queueView->currentItem();
-        QueueItem* queueItem = static_cast<QueueItem *>(treeItem);
+        auto queueItem = dynamic_cast<QueueItem *>(treeItem);
         AbstractDownloadItem* downloadItem = queueItem->downloadItem();
 
         downloadItem->rename(newName);

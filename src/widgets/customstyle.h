@@ -24,10 +24,10 @@ class CustomStyle : public QProxyStyle
 {
 public:
     CustomStyle();
-    ~CustomStyle();
+    ~CustomStyle() Q_DECL_OVERRIDE = default;
 
     void drawControl(ControlElement element, const QStyleOption *option,
-                     QPainter *painter, const QWidget *widget = Q_NULLPTR) const;
+                     QPainter *painter, const QWidget *widget = Q_NULLPTR) const Q_DECL_OVERRIDE;
 
 private:
     QImage m_textureImage;

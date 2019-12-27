@@ -22,13 +22,13 @@
 class JsonHandler : public IFileHandler
 {
 public:
-    explicit JsonHandler();
+    explicit JsonHandler() = default;
 
-    virtual bool canRead() const Q_DECL_OVERRIDE;
-    virtual bool canWrite() const Q_DECL_OVERRIDE;
+    bool canRead() const Q_DECL_OVERRIDE;
+    bool canWrite() const Q_DECL_OVERRIDE;
 
-    virtual bool read(DownloadEngine *engine) Q_DECL_OVERRIDE;
-    virtual bool write(const DownloadEngine &engine) Q_DECL_OVERRIDE;
+    bool read(DownloadEngine *engine) Q_DECL_OVERRIDE;
+    bool write(const DownloadEngine &engine) Q_DECL_OVERRIDE;
 
 private:
 };

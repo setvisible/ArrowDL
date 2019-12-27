@@ -91,6 +91,20 @@ function isSettingAskEnabled() {
   return mySettings === undefined || mySettings.radioApplicationId === 1;
 }
 
+function getSettingMediaId() {
+  if (mySettings === undefined) {
+    return -1;
+  }
+  return mySettings.radioMediaId;
+}
+
+function isSettingStartPaused() {
+  if (mySettings === undefined) {
+    return false;
+  }
+  return mySettings.startPaused;
+}
+
 /* ***************************** */
 /* Collect links and media       */
 /* ***************************** */

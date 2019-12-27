@@ -38,7 +38,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = Q_NULLPTR);
-    ~MainWindow();
+    ~MainWindow() Q_DECL_OVERRIDE;
 
     bool saveFile(const QString &path);
     bool loadFile(const QString &path);
@@ -100,6 +100,7 @@ public slots:
     void showPreferences();
 
     // Help
+    void showTutorial();
     void about();
     void aboutCompiler();
 

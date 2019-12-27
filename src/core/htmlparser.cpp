@@ -102,7 +102,7 @@ static ResourceItem* createResourceItem(const GumboElement &element, const QUrl 
 
     QString description = !alts.isEmpty() ? alts : titles;
 
-    ResourceItem *item = new ResourceItem();
+    auto item = new ResourceItem();
     item->setUrl(url);
     item->setDescription(description);
     return item;
@@ -144,7 +144,7 @@ static void searchForLinks(GumboNode* node, Model *model, const QUrl &url)
 
     GumboVector* children = &node->v.element.children;
     for (unsigned int i = 0; i < children->length; ++i) {
-        GumboNode *childNode = static_cast<GumboNode*>(children->data[i]);
+        auto childNode = static_cast<GumboNode*>(children->data[i]);
         searchForLinks(childNode, model, url);
     }
 }

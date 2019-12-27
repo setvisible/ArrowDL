@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <title>Popup</title>
         <link rel="stylesheet" href="style/common.css" type="text/css"/>
         <link rel="stylesheet" href="style/popup.css" type="text/css"/>
         <script defer type="text/javascript" src="/popup.js"> </script>
@@ -9,19 +10,19 @@
     <body>
         <ul>
             <li id="button-start">
-                <img srcset="/style/start_16x16.png, /style/start_16x16@2x.png 2x" />
-                <span>DownRightNow!</span>
+                <img srcset="style/start_16x16.png, style/start_16x16@2x.png 2x" />
+                <span>Download...</span>
             </li>
-            <li id="button-open-wizard">
-                <img srcset="/style/start_16x16.png, /style/start_16x16@2x.png 2x" />
-                <span>Open Wizard...</span>
+            <li id="button-immediate-download">
+                <img srcset="style/start_16x16.png, style/start_16x16@2x.png 2x" />
+                <span id="button-immediate-download-label">Download media</span>
             </li>
             <li class="separator">
                 <hr/>
             </li>
             <li id="button-manager">
-                <img srcset="/style/manager_16x16.png, /style/manager_16x16@2x.png 2x" />
-                <span>Manager</span>
+                <img srcset="style/manager_16x16.png, style/manager_16x16@2x.png 2x" />
+                <span>Open DZA!</span>
             </li>
             <li class="separator">
                 <hr/>
@@ -33,6 +34,12 @@
             <li id="button-options-page">
                 <span class="icon icon-settings"/>
                 <span>Options...</span>
+            </li>
+            <li class="separator">
+                <hr/>
+            </li>
+            <li id="button-website" class="website">
+                <span><a id="website-link" href="https://setvisible.github.io/DownZemAll">Visit DZA website</a></span>
             </li>
             <div id="warning-area" style="display:none;">
                 <br/>

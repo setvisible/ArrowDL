@@ -34,7 +34,7 @@ class AbstractSettings : public QObject
 
 public:
     explicit AbstractSettings(QObject *parent = Q_NULLPTR);
-    virtual ~AbstractSettings();
+    ~AbstractSettings() Q_DECL_OVERRIDE;
 
     void beginRestoreDefault();
     void endRestoreDefault();
@@ -70,7 +70,7 @@ protected:
 
 private:
     QList<SettingsItem*> m_items;
-    bool m_default;
+    bool m_default = false;
 
     void _q_addDefaultSetting(const QString &key, const QString &defaultValue, KeyType keyType);
     void _q_setSetting(const QString &key, const QString &defaultValue, KeyType keyType);

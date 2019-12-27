@@ -165,7 +165,7 @@ void FilterWidget::clearFilters()
     const QList<QCheckBox*> checkboxes = ui->checkBoxGroup->findChildren<QCheckBox*>();
     foreach (auto checkbox, checkboxes) {
         ui->checkBoxGroup->layout()->removeWidget(checkbox);
-        checkbox->setParent(0);
+        checkbox->setParent(Q_NULLPTR);
         delete checkbox;
     }
 }
@@ -184,7 +184,7 @@ void FilterWidget::addFilter(const QString &title, const QString &regexp)
 
     connect(checkbox, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));
 
-    QGridLayout *layout = (QGridLayout*) ui->checkBoxGroup->layout();
+    auto layout = dynamic_cast<QGridLayout*>(ui->checkBoxGroup->layout());
     layout->addWidget(checkbox, row, column);
 }
 
@@ -221,7 +221,6 @@ QRegExp FilterWidget::regex() const
             }
         }
     }
-    QRegExp regex(filter);
-    regex.setPatternSyntax(QRegExp::RegExp);
+    QRegExp regex(filter, Qt::CaseInsensitive, QRegExp::RegExp);
     return regex;
 }

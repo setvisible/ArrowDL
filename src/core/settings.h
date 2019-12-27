@@ -43,15 +43,15 @@ class Settings : public AbstractSettings
 
 public:
     explicit Settings(QObject *parent);
-    virtual ~Settings();
+    ~Settings() Q_DECL_OVERRIDE = default;
 
     // Tab General
     ExistingFileOption existingFileOption() const;
     void setExistingFileOption(ExistingFileOption option);
 
     // Tab Interface
-    bool isStartMinimizedEnabled() const;
-    void setStartMinimizedEnabled(bool enabled);
+    bool isDontShowTutorialEnabled() const;
+    void setDontShowTutorialEnabled(bool enabled);
 
     bool isConfirmRemovalEnabled() const;
     void setConfirmRemovalEnabled(bool enabled);

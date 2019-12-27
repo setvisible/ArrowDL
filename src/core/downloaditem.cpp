@@ -240,7 +240,7 @@ void DownloadItem::onError(QNetworkReply::NetworkError error)
     qDebug() << Q_FUNC_INFO;
 
     d->file->cancel();
-    setHttpErrorNumber((int) error);
+    setHttpErrorNumber(static_cast<int>(error));
     setState(NetworkError);
 }
 

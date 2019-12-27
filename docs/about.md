@@ -11,7 +11,6 @@ SetVisible(0!=1)
 
 * GitHub: [https://github.com/setvisible](https://github.com/setvisible "https://github.com/setvisible")
 * Facebook: I'm not on Facebook
-* LinkedIn: same
 * Twitter: same
 * Pinterest: same
 

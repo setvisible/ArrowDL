@@ -35,14 +35,14 @@ class AddDownloadDialog : public QDialog
 public:
     explicit AddDownloadDialog(const QUrl &url, DownloadManager *downloadManager,
                                Settings *settings, QWidget *parent = Q_NULLPTR);
-    virtual ~AddDownloadDialog() Q_DECL_OVERRIDE;
+    ~AddDownloadDialog() Q_DECL_OVERRIDE;
 
     static void quickDownload(const QUrl &url, DownloadManager *downloadManager);
 
 public slots:
-    virtual void accept() Q_DECL_OVERRIDE;
+    void accept() Q_DECL_OVERRIDE;
     virtual void acceptPaused();
-    virtual void reject() Q_DECL_OVERRIDE;
+    void reject() Q_DECL_OVERRIDE;
 
 private slots:
     void showContextMenu(const QPoint &pos);
@@ -58,7 +58,7 @@ private:
     DownloadManager *m_downloadManager;
     Settings *m_settings;
 
-    void doAccept(const bool started);
+    void doAccept(bool started);
     QMessageBox::StandardButton askBatchDownloading(QList<IDownloadItem*> items);
 
     QList<IDownloadItem*> createItems() const;

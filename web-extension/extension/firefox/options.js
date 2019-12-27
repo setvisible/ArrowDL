@@ -91,21 +91,42 @@ function setStartPaused(value) {
 
 function refreshButtons(){
   var isChecked = document.getElementById("download_immediately").checked;
+  setDivEnabled("full_menu_label", isChecked);
   setButtonEnabled("get_links", isChecked);
   setButtonEnabled("get_content", isChecked);
   setButtonEnabled("start_paused", isChecked);
+}
+
+function setDivEnabled(name, enabled) {
+  document.getElementById(name).disabled = !enabled;
+  if (enabled) {
+    document.getElementById(name).style.color = "#000";
+  } else {
+    document.getElementById(name).style.color = "#aaa";
+  }
 }
 
 function setButtonEnabled(name, enabled) {
   var inputButton = document.getElementById(name);
   inputButton.disabled = !enabled;
   for (var i = 0; i < inputButton.labels.length; i++) {
-    var lbl = inputButton.labels[i];
+    var label = inputButton.labels[i];
     if (enabled) {
-      lbl.classList.remove("disabled");
+      label.classList.remove("disabled");
     } else {
-      lbl.classList.add("disabled");
+      label.classList.add("disabled");
     }
+  }
+}
+
+function showOptions(visible) {
+  var instructions = document.getElementsByClassName("show-instruction");
+  for (var i = 0; i < instructions.length; i ++) {
+    instructions[i].style.display = visible ? "none" : "block";
+  }
+  var options = document.getElementsByClassName("options");
+  for (var i = 0; i < options.length; i ++) {
+    options[i].style.display = visible ? "block" : "none";
   }
 }
 
@@ -118,13 +139,15 @@ function checkConnection() {
     var connectionStatus = "✓ Ok";
     var details = "<br><br>Detected path:<br><code>" + response.text + "</code>";
     safeInnerHtmlAssignment(connectionStatus, details, "MediumSeaGreen");
+    showOptions(true);
   }
 
   function onHelloError(error) {
     console.log(`Launcher didn't send any message. ${error}.`);
     var connectionStatus = "⚠ Error: Can't find the launcher";
-    var details = "Follow the instructions below.";
+    var details = "<br><br>Follow the instructions below.";
     safeInnerHtmlAssignment(connectionStatus, details, "Tomato");
+    showOptions(false);
   }
 
   var data = "areyouthere";

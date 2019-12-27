@@ -256,10 +256,10 @@ void LinkWidget::setup(QTableView *view)
  ******************************************************************************/
 void LinkWidget::onSectionCountChanged(int /*oldCount*/, int newCount)
 {
-    QHeaderView *header = qobject_cast<QHeaderView *>(sender());
+    auto header = qobject_cast<QHeaderView *>(sender());
     if (newCount > 0) {
         header->setSectionResizeMode(0, QHeaderView::Fixed);
-        QTableView *parent = qobject_cast<QTableView *>(header->parent());
+        auto parent = qobject_cast<QTableView *>(header->parent());
         if (parent) {
             parent->setColumnWidth(0, C_CHECKBOX_WIDTH);
         }
@@ -367,7 +367,7 @@ void LinkWidget::onResourceChanged()
  ******************************************************************************/
 void LinkWidget::showContextMenu(const QPoint &/*pos*/)
 {
-    QMenu *contextMenu = new QMenu(this);
+    auto contextMenu = new QMenu(this);
 
     QAction actionCheckSelected(tr("Check Selected Items"), contextMenu);
     actionCheckSelected.setIcon(QIcon(":/icons/menu/check_ok_16x16.png"));
@@ -432,7 +432,7 @@ void LinkWidget::showContextMenu(const QPoint &/*pos*/)
 void LinkWidget::checkSelected()
 {
     foreach (auto index, selectedIndexesAtColumn(0)) {
-        QAbstractItemModel *model = const_cast<QAbstractItemModel*>(index.model());
+        auto model = const_cast<QAbstractItemModel*>(index.model());
         model->setData(index, true, ResourceModel::IsSelectedRole);
     }
 }
@@ -440,7 +440,7 @@ void LinkWidget::checkSelected()
 void LinkWidget::uncheckSelected()
 {
     foreach (auto index, selectedIndexesAtColumn(0)) {
-        QAbstractItemModel *model = const_cast<QAbstractItemModel*>(index.model());
+        auto model = const_cast<QAbstractItemModel*>(index.model());
         model->setData(index, false, ResourceModel::IsSelectedRole);
     }
 }
@@ -449,7 +449,7 @@ void LinkWidget::toggleCheck()
 {
     foreach (auto index, selectedIndexesAtColumn(0)) {
         const bool selected = index.model()->data(index, ResourceModel::IsSelectedRole).toBool();
-        QAbstractItemModel *model = const_cast<QAbstractItemModel*>(index.model());
+        auto model = const_cast<QAbstractItemModel*>(index.model());
         model->setData(index, !selected, ResourceModel::IsSelectedRole);
     }
 }
@@ -523,9 +523,8 @@ static inline QString elide(const QString &text)
 {
     if (text.length() > 2 * C_ELIDE_CHAR_COUNT) {
         return QString("%0...%1").arg(text.left(C_ELIDE_CHAR_COUNT)).arg(text.right(C_ELIDE_CHAR_COUNT));
-    } else {
-        return text;
     }
+    return text;
 }
 
 inline QString LinkWidget::textForOpenAction() const
@@ -539,14 +538,13 @@ inline QString LinkWidget::textForOpenAction() const
     }
     if (urlIndexes.count() == 0) {
         return tr("-");
-
-    } else if (urlIndexes.count() == 1) {
+    }
+    if (urlIndexes.count() == 1) {
         const QModelIndex urlIndex = urlIndexes.first();
         const QString text = urlIndex.model()->data(urlIndex, Qt::DisplayRole).toString();
         return tr("Open %0").arg(elide(text));
-    } else {
-        return tr("Open %0 Links").arg(urlIndexes.count());
     }
+    return tr("Open %0 Links").arg(urlIndexes.count());
 }
 
 inline QModelIndexList LinkWidget::selectedIndexesAtColumn(int column)
@@ -564,9 +562,8 @@ inline QTableView* LinkWidget::currentTableView() const
 {
     if (ui->tabWidget->currentIndex() == 0) {
         return ui->linkTableView;
-    } else {
-        return ui->contentTableView;
     }
+    return ui->contentTableView;
 }
 
 #include "linkwidget.moc"

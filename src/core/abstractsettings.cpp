@@ -33,10 +33,10 @@ static const QLatin1String VALUE_FALSE ("<FALSE>");
 /*
  * Helper methods
  */
-static const QString boolToString(bool b) { return b ? VALUE_TRUE : VALUE_FALSE; }
-static bool stringToBool(const QString &str) { return str == VALUE_TRUE ? true : false; }
+static QString boolToString(bool b) { return b ? VALUE_TRUE : VALUE_FALSE; }
+static bool stringToBool(const QString &str) { return str == VALUE_TRUE; }
 
-static const QString intToString(int value) { return QString::number(value); }
+static QString intToString(int value) { return QString::number(value); }
 static int stringToInt(const QString &str) { return str.toInt(); }
 
 
@@ -49,7 +49,6 @@ struct AbstractSettings::SettingsItem
 };
 
 AbstractSettings::AbstractSettings(QObject *parent) : QObject(parent)
-  , m_default(false)
 {
 }
 
@@ -188,7 +187,7 @@ void AbstractSettings::addDefaultSettingStringList(const QString &key, const QSt
 {
     for (int i = 0; i < defaultValue.count(); ++i) {
         const QString subkey = QString("%0%1").arg(key).arg(i);
-        const QString subvalue = defaultValue.at(i);
+        const QString& subvalue = defaultValue.at(i);
         addDefaultSettingString(subkey, subvalue);
     }
 }
@@ -197,7 +196,7 @@ void AbstractSettings::setSettingStringList(const QString &key, const QStringLis
 {
     for (int i = 0; i < value.count(); ++i) {
         const QString subkey = QString("%0%1").arg(key).arg(i);
-        const QString subvalue = value.at(i);
+        const QString& subvalue = value.at(i);
         setSettingString(subkey, subvalue);
     }
 }
@@ -220,7 +219,7 @@ void AbstractSettings::_q_addDefaultSetting(const QString &key,
             return;
         }
     }
-    SettingsItem *item = new SettingsItem();
+    auto item = new SettingsItem();
     item->key = key;
     item->keyType = keyType;
     item->defaultValue = defaultValue;

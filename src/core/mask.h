@@ -24,12 +24,20 @@
 class Mask
 {
 public:
+    static QString interpret(const QString &input,
+                             const QString &customFileName,
+                             const QString &mask);
+
     static QString interpret(const QUrl &url,
                              const QString &customFileName,
                              const QString &mask);
 
     static QStringList tags();
     static QString description(const QString &tag);
+
+private:
+    static void cleanNameForWindows(QString &input);
+
 };
 
 #endif // CORE_MASK_H

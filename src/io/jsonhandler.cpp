@@ -19,17 +19,11 @@
 #include <Core/IDownloadItem>
 
 #include <QtCore/QDebug>
-#include <QtCore/QDataStream>
-//#include <QtCore/QIODevice>
-
 #include <QtCore/QJsonArray>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
 #include <QtCore/QUrl>
 
-JsonHandler::JsonHandler() : IFileHandler()
-{
-}
 
 bool JsonHandler::canRead() const
 {
@@ -44,28 +38,19 @@ bool JsonHandler::canWrite() const
 bool JsonHandler::read(DownloadEngine *engine)
 {
     if (!engine) {
-        qWarning("JsonHandler::read() cannot read into null pointer");
+        qWarning("JsonHandler::read() Can't read into null pointer");
         return false;
     }
     QIODevice *d = device();
-    //    QDataStream in(d);
     if (!d->isReadable()) {
         return false;
     }
-    QByteArray saveData = d->readAll(); // load data
+    QByteArray saveData = d->readAll();
     QJsonParseError ok;
     QJsonDocument loadDoc( QJsonDocument::fromJson(saveData, &ok) );
 
     if (ok.error != QJsonParseError::NoError) {
         qCritical("Couldn't parse JSON file.");
-        //        QString msg = tr("Cannot parse the JSON file:\n"
-        //                         "%1\n\n"
-        //                         "At character %2, %3.\n\n"
-        //                         "Operation canceled.")
-        //                .arg(filename)
-        //                .arg(ok.offset)
-        //                .arg(ok.errorString());
-        //        qCritical(msg);
         return false;
     }
 
@@ -78,33 +63,11 @@ bool JsonHandler::read(DownloadEngine *engine)
         QJsonObject jobObject = jobsArray[i].toObject();
 
         QUrl url = QUrl(jobObject["url"].toString());
-        IDownloadItem *item =   engine->createItem(url);
-        //        IDownloadItem *item = new DownloadItem(downloadManager); // BUG parent ??
-        //        item->setResource(new ResourceItem()); // weird
-        //        readJob(item, jobObject);
+        IDownloadItem *item = engine->createItem(url);
         items.append(item);
     }
 
     engine->append(items, false);
-
-
-
-    //    QTextStream in(d);
-    //    if (!d->isReadable()) {
-    //        return false;
-    //    }
-    //    QString line;
-    //    while (in.readLineInto(&line)) {
-    //        const QUrl url(line);
-    //        IDownloadItem *item = engine->createItem(url);
-    //        if (item) {
-    //            QList<IDownloadItem*> items;
-    //            items.append(item);
-    //            engine->append(items, false);
-    //        } else {
-    //            qWarning("DownloadEngine::createItem() not overridden. It still returns null pointer!");
-    //        }
-    //    }
     return true;
 }
 
@@ -116,24 +79,18 @@ bool JsonHandler::write(const DownloadEngine &engine)
         return false;
     }
     QJsonObject json;
-
-    // m_downloadManager->write(json);
     QJsonArray jobsArray;
     foreach (auto item, engine.downloadItems()) {
         QUrl url = item->sourceUrl();
 
         QJsonObject jobObject;
         jobObject["url"] = url.toString();
-        //        writeJob(item, jobObject);
         jobsArray.append(jobObject);
     }
-
     json["links"] = jobsArray;
-
 
     QJsonDocument saveDoc(json);
     d->write( saveDoc.toJson() );
-
 
     return true;
 }

@@ -29,6 +29,7 @@
 #include <Dialogs/CompilerDialog>
 #include <Dialogs/InformationDialog>
 #include <Dialogs/PreferenceDialog>
+#include <Dialogs/TutorialDialog>
 #include <Dialogs/WizardDialog>
 #include <Ipc/InterProcessCommunication>
 #include <Io/FileReader>
@@ -110,6 +111,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     refreshTitleAndStatus();
     refreshMenus();
+
+    if (!m_settings->isDontShowTutorialEnabled()) {
+        QTimer::singleShot(250, this, SLOT(showTutorial()));
+    }
 }
 
 MainWindow::~MainWindow()
@@ -196,6 +201,8 @@ void MainWindow::createActions()
     //! [4]
 
     //! [5] Help
+    connect(ui->actionTutorial, SIGNAL(triggered()), this, SLOT(showTutorial()));
+
     ui->actionAbout->setShortcuts(QKeySequence::HelpContents);
     ui->actionAbout->setStatusTip(tr("About %0").arg(STR_APPLICATION_NAME));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
@@ -210,7 +217,7 @@ void MainWindow::createActions()
 
 void MainWindow::createContextMenu()
 {
-    QMenu *contextMenu = new QMenu(this);
+    auto contextMenu = new QMenu(this);
 
     contextMenu->addAction(ui->actionInformation);
     contextMenu->addSeparator();
@@ -625,6 +632,12 @@ void MainWindow::forceStart()
 void MainWindow::showPreferences()
 {
     PreferenceDialog dialog(m_settings, this);
+    dialog.exec();
+}
+
+void MainWindow::showTutorial()
+{
+    TutorialDialog dialog(m_settings, this);
     dialog.exec();
 }
 

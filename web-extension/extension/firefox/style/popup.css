@@ -4,10 +4,11 @@ html {
 
 html, body {
     height: auto !important;
+    -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
 }
 
 .danger {
@@ -23,45 +24,63 @@ html, body {
 }
 
 ul {
-    margin: 1.5ex;
-    margin-right: 2ex;
-    padding: 0;
+    margin: 1.5ex 2ex 1.5ex 1.5ex;
+    padding: 0px;
     display: grid;
+    -webkit-grid-template-columns: auto;
     grid-template-columns: auto;
     list-style-type: none;
     min-width: 14em;
 }
 
 li {
-    display: flex;
-    margin: 0;
+    margin: 0px;
     padding: 1ex;
     font-size: 110%;
-    vertical-align: center;
     align-items: center;
     border-radius: 4px;
     cursor: default;
     white-space: nowrap;
-    transition: 0.1s;
+    transition: all 0.1s ease 0s;
 }
 
 hr {
     border-top: 1px solid #dddddd;
 }
 
-li.separator {
-    display: inline-block;
-    padding: 0;
+a, a:visited {
+    color: #0000ff;
+    text-decoration: none;
 }
 
-li:not(.separator):hover {
-    background: Highlight;
-    color: HighlightText;
+a:hover {
+    color: #ff5500;
+    text-decoration: underline #ff5500;
+}
+
+li.separator {
+    display: inline-block;
+    padding: 0px;
+}
+
+li.website {
+    display: inline-block;
+    padding: 0px;
+    text-align: center;
+    font-size: 14px;
+}
+
+li.website:hover {
+}
+
+li:hover:not(.separator):not(.website) {
+    background: highlight;
+    color: highlighttext;
     cursor: pointer;
 }
 
-li>.icon,
-li>img {
+li > .icon,
+li > img {
     font-size: 16px;
     line-height: 16px;
     margin-right: 1ex;

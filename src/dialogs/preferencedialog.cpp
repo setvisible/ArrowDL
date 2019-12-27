@@ -143,7 +143,7 @@ void PreferenceDialog::read()
     setExistingFileOption(m_settings->existingFileOption());
 
     // Tab Interface
-    ui->startMinimizedCheckBox->setChecked(m_settings->isStartMinimizedEnabled());
+    ui->dontShowTutorialCheckBox->setChecked(m_settings->isDontShowTutorialEnabled());
     ui->confirmRemovalCheckBox->setChecked(m_settings->isConfirmRemovalEnabled());
     ui->confirmBatchCheckBox->setChecked(m_settings->isConfirmBatchDownloadEnabled());
 
@@ -175,7 +175,7 @@ void PreferenceDialog::write()
     m_settings->setExistingFileOption(existingFileOption());
 
     // Tab Interface
-    m_settings->setStartMinimizedEnabled(ui->startMinimizedCheckBox->isChecked());
+    m_settings->setDontShowTutorialEnabled(ui->dontShowTutorialCheckBox->isChecked());
     m_settings->setConfirmRemovalEnabled(ui->confirmRemovalCheckBox->isChecked());
     m_settings->setConfirmBatchDownloadEnabled(ui->confirmBatchCheckBox->isChecked());
 
@@ -213,8 +213,8 @@ void PreferenceDialog::setFilters(const QList<Filter> &filters)
 
     foreach (auto filter, filters) {
         const int row = ui->filterTableWidget->rowCount();
-        QTableWidgetItem *item0 = new QTableWidgetItem(filter.title);
-        QTableWidgetItem *item1 = new QTableWidgetItem(filter.regexp);
+        auto item0 = new QTableWidgetItem(filter.title);
+        auto item1 = new QTableWidgetItem(filter.regexp);
 
         ui->filterTableWidget->insertRow(row);
 
@@ -269,16 +269,18 @@ ExistingFileOption PreferenceDialog::existingFileOption() const
 {
     if (ui->renameRadioButton->isChecked()) {
         return ExistingFileOption::Rename;
-    } else if (ui->overwriteRadioButton->isChecked()) {
-        return ExistingFileOption::Overwrite;
-    } else if (ui->skipRadioButton->isChecked()) {
-        return ExistingFileOption::Skip;
-    } else if (ui->askRadioButton->isChecked()) {
-        return ExistingFileOption::Ask;
-    } else {
-        Q_UNREACHABLE();
-        return ExistingFileOption::LastOption;
     }
+    if (ui->overwriteRadioButton->isChecked()) {
+        return ExistingFileOption::Overwrite;
+    }
+    if (ui->skipRadioButton->isChecked()) {
+        return ExistingFileOption::Skip;
+    }
+    if (ui->askRadioButton->isChecked()) {
+        return ExistingFileOption::Ask;
+    }
+    Q_UNREACHABLE();
+    return ExistingFileOption::LastOption;
 }
 
 void PreferenceDialog::setExistingFileOption(ExistingFileOption option)

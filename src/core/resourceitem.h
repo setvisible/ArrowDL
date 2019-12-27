@@ -24,7 +24,7 @@ class ResourceItem
 {    
 public:
     ResourceItem();
-    ~ResourceItem();
+    ~ResourceItem() = default;
 
     /* Source */
     QString url() const;
@@ -58,7 +58,7 @@ public:
 
 
     bool isSelected() const; // OBSOLETE
-    void setSelected(const bool isSelected); // OBSOLETE
+    void setSelected(bool isSelected); // OBSOLETE
 
 private:
     QString m_url;              // QUrl ?
@@ -70,7 +70,7 @@ private:
     QString m_description;
     QString m_checkSum;
 
-    bool m_isSelected;
+    bool m_isSelected = false;
 
     inline static QString localFile(const QString &destination, const QUrl &url,
                                     const QString &customFileName, const QString &mask);

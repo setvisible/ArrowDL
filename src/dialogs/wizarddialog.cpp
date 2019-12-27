@@ -49,7 +49,7 @@ static QList<IDownloadItem*> createItems( QList<ResourceItem*> resources, Downlo
 {
     QList<IDownloadItem*> items;
     foreach (auto resource, resources) {
-        DownloadItem* item = new DownloadItem(downloadManager);
+        auto item = new DownloadItem(downloadManager);
         item->setResource(resource);
         items << item;
     }
@@ -249,7 +249,7 @@ void WizardDialog::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 
 void WizardDialog::onFinished()
 {
-    QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
+    auto reply = qobject_cast<QNetworkReply*>(sender());
     if (reply && reply->error() == QNetworkReply::NoError) {
         QByteArray downloadedData = reply->readAll();
         reply->deleteLater();
@@ -262,7 +262,7 @@ void WizardDialog::onFinished()
 
 /******************************************************************************
  ******************************************************************************/
-void WizardDialog::parseResources(QString message)
+void WizardDialog::parseResources(const QString &message)
 {
     setProgressInfo(10, tr("Collecting links..."));
 
@@ -314,8 +314,7 @@ void WizardDialog::parseHtml(const QByteArray &downloadedData)
     qDebug() << downloadedData;
     qDebug() << "---------------------";
 
-    HtmlParser htmlParser;
-    htmlParser.parse(downloadedData, m_url, m_model);
+    HtmlParser::parse(downloadedData, m_url, m_model);
 
     setProgressInfo(99, tr("Finished"));
 

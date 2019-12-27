@@ -37,11 +37,9 @@ static inline int stateToInt(IDownloadItem::State state)
     switch (state) {
     case IDownloadItem::Stopped:
     case IDownloadItem::Completed:
-        return (int) state;
-        break;
+        return static_cast<int>(state);
     default:
-        return (int) IDownloadItem::Paused;
-        break;
+        return static_cast<int>(IDownloadItem::Paused);
     }
 }
 
@@ -87,14 +85,14 @@ static inline void readList(QList<DownloadItem *> &downloadItems, const QJsonObj
     QJsonArray jobsArray = json["jobs"].toArray();
     for (int i = 0; i < jobsArray.size(); ++i) {
         QJsonObject jobObject = jobsArray[i].toObject();
-        DownloadItem *item = new DownloadItem(downloadManager); // BUG parent ??
-        item->setResource(new ResourceItem()); // weird
+        auto item = new DownloadItem(downloadManager);
+        item->setResource(new ResourceItem());
         readJob(item, jobObject);
         downloadItems.append(item);
     }
 }
 
-static inline void writeList(const QList<DownloadItem *> downloadItems, QJsonObject &json)
+static inline void writeList(const QList<DownloadItem *> &downloadItems, QJsonObject &json)
 {
     QJsonArray jobsArray;
     foreach (auto item, downloadItems) {
@@ -116,7 +114,7 @@ void Session::read(QList<DownloadItem *> &downloadItems, const QString &filename
         return;
     }
     QByteArray saveData = file.readAll();
-    QJsonParseError ok;
+    QJsonParseError ok = {};
     QJsonDocument loadDoc( QJsonDocument::fromJson(saveData, &ok) );
 
     if (ok.error != QJsonParseError::NoError) {
@@ -127,7 +125,7 @@ void Session::read(QList<DownloadItem *> &downloadItems, const QString &filename
     readList(downloadItems, loadDoc.object(), downloadManager);
 }
 
-void Session::write(const QList<DownloadItem *> downloadItems, const QString &filename)
+void Session::write(const QList<DownloadItem *> &downloadItems, const QString &filename)
 {
     QFile file(filename);
 

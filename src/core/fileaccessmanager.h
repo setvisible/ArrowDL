@@ -28,16 +28,16 @@ class FileAccessManager : public QObject, public IFileAccessManager
 
 public:
     explicit FileAccessManager(QWidget *parent = Q_NULLPTR);
-    virtual ~FileAccessManager() Q_DECL_OVERRIDE;
+    ~FileAccessManager() Q_DECL_OVERRIDE = default;
 
-    virtual Settings* settings() const Q_DECL_OVERRIDE;
+    Settings* settings() const Q_DECL_OVERRIDE;
     void setSettings(Settings *settings);
 
-    virtual ExistingFileOption aboutToModify(const QString &filename) Q_DECL_OVERRIDE;
+    ExistingFileOption aboutToModify(const QString &filename) Q_DECL_OVERRIDE;
 
 private:
     QWidget *m_parent;
-    Settings *m_settings;
+    Settings *m_settings= Q_NULLPTR;
 };
 
 #endif // CORE_FILE_ACCESS_MANAGER_H

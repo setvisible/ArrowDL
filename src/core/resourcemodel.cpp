@@ -23,10 +23,6 @@ ResourceModel::ResourceModel(QObject *parent) : QAbstractTableModel(parent)
     connect(this, SIGNAL(resourceChanged()), this, SLOT(onResourceChanged()));
 }
 
-ResourceModel::~ResourceModel()
-{
-}
-
 /******************************************************************************
  ******************************************************************************/
 void ResourceModel::clear()
@@ -140,13 +136,17 @@ QVariant ResourceModel::data(const QModelIndex &index, int role) const
         const int col = index.column();
         if (col == 0) {
             return QVariant();
-        } else if (col == 1) {
+        }
+        if (col == 1) {
             return item->url();
-        } else if (col == 2) {
+        }
+        if (col == 2) {
             return item->customFileName();
-        } else if (col == 3) {
+        }
+        if (col == 3) {
             return item->description();
-        } else if (col == 4) {
+        }
+        if (col == 4) {
             return item->mask();
         }
     }
@@ -181,13 +181,17 @@ QVariant ResourceModel::headerData(int section, Qt::Orientation orientation, int
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         if (section == 0) {
             return tr("");
-        } else if (section == 1) {
+        }
+        if (section == 1) {
             return tr("Download");
-        } else if (section == 2) {
+        }
+        if (section == 2) {
             return tr("Resource Name");
-        } else if (section == 3) {
+        }
+        if (section == 3) {
             return tr("Description");
-        } else if (section == 4) {
+        }
+        if (section == 4) {
             return tr("Mask");
         }
     }

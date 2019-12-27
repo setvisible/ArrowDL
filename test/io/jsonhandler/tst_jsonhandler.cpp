@@ -33,6 +33,7 @@ private slots:
 
 private:
     inline QByteArray simplify(QByteArray &str);
+    inline QString toString(IDownloadItem *item) const;
 };
 
 
@@ -45,6 +46,10 @@ inline QByteArray tst_JsonHandler::simplify(QByteArray &str)
     QString result = source.simplified();
     result.remove(' ');
     return result.toUtf8();
+}
+
+inline QString tst_JsonHandler::toString(IDownloadItem *item) const {
+    return item->sourceUrl().toString();
 }
 
 /******************************************************************************
@@ -123,6 +128,11 @@ void tst_JsonHandler::read()
     // Then
     QVERIFY(opened);
     QCOMPARE(manager.downloadItems().count(), 5);
+    QVERIFY(toString(manager.downloadItems().at(0)) == "https://www.example.com/2019/10/DSC_8045.jpg");
+    QVERIFY(toString(manager.downloadItems().at(1)) == "https://www.example.com/2019/10/DSC_8046.jpg");
+    QVERIFY(toString(manager.downloadItems().at(2)) == "https://www.example.com/2019/10/DSC_8047.jpg");
+    QVERIFY(toString(manager.downloadItems().at(3)) == "https://www.example.com/2019/10/DSC_8048.jpg");
+    QVERIFY(toString(manager.downloadItems().at(4)) == "https://www.example.com/favicon.ico");
 }
 
 /******************************************************************************
