@@ -26,11 +26,12 @@ class tst_Mask : public QObject
 private slots:
     void defaultMask();
 
-    void interpret_data();
-    void interpret();
 
     void customFileName_data();
     void customFileName();
+
+    void interpret_data();
+    void interpret();
 
     void interpretEscaped();
     void interpretEscaped_data();

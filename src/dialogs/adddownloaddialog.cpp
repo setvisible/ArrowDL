@@ -41,7 +41,6 @@ AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadM
     , ui(new Ui::AddDownloadDialog)
     , m_downloadManager(downloadManager)
     , m_settings(settings)
-
 {
     ui->setupUi(this);
 

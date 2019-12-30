@@ -45,6 +45,7 @@ static const QStringList s_tags
 QString Mask::interpret(const QString &input,
                         const QString &customFileName,
                         const QString &mask)
+QUrl Mask::fromUserInput(const QString &input)
 {
     QUrl url = QUrl::fromUserInput(input);
     if (url.isEmpty()) {
@@ -91,6 +92,14 @@ QString Mask::interpret(const QString &input,
             }
         }
     }
+    return url;
+}
+
+QString Mask::interpret(const QString &input,
+                        const QString &customFileName,
+                        const QString &mask)
+{
+    const QUrl url = fromUserInput(input);
     return interpret(url, customFileName, mask);
 }
 
