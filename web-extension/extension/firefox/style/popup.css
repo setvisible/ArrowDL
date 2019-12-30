@@ -11,10 +11,46 @@ html, body {
     padding: 0px;
 }
 
-.danger {
+.alert {
     padding: 1px 12px;
-    background-color: #ffdddd;
-    border-left: 6px solid #f44336;
+    border-left: 6px solid;
+}
+
+.alert-success {
+    color:#3c763d;
+    background-color:#dff0d8;
+    border-color:#d6e9c6
+}
+
+.alert-success.alert-link {
+    color:#2b542c
+}
+
+.alert-info {
+    color:#31708f;
+    background-color:#d9edf7;
+    border-color:#bce8f1
+}
+.alert-info.alert-link {
+    color:#245269
+}
+
+.alert-warning {
+    color:#8a6d3b;
+    background-color:#fcf8e3;
+    border-color:#faebcc
+}
+.alert-warning.alert-link {
+    color:#66512c
+}
+
+.alert-danger {
+    color:#a94442;
+    background-color:#f2dede;
+    border-color:#ebccd1
+}
+.alert-danger.alert-link {
+    color:#843534
 }
 
 .disabled {

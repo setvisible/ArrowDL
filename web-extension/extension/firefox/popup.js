@@ -29,10 +29,12 @@ function showWarningMessage(hasError) {
   } else {
     x.style.display = "none";
   }
-  setDisabled("button-start", hasError);
-  setDisabled("button-immediate-download", hasError);
-  setDisabled("button-manager", hasError);
-  setDisabled("button-preference", hasError);
+  if (hasError) {
+    setDisabled("button-start", true);
+    setDisabled("button-immediate-download", true);
+    setDisabled("button-manager", true);
+    setDisabled("button-preference", true);
+  }
 }
 
 function setDisabled(name, disabled) {
@@ -53,13 +55,13 @@ function setVisible(name, visible) {
 
 function immediateButtonLabel() {
   var label = "Download ";
-  var mediaId = chrome.extension.getBackgroundPage().getSettingMediaId();
+  var mediaId = getBackgroundPage().getSettingMediaId();
   if (mediaId === 1) {
     label += " links";
   } else if (mediaId === 2) {
     label += " content";
   }
-  var startPaused = chrome.extension.getBackgroundPage().isSettingStartPaused();
+  var startPaused = getBackgroundPage().isSettingStartPaused();
   if (startPaused) {
     label += " (paused)";
   }
@@ -77,12 +79,84 @@ function safeInnerHtmlAssignment(elementId, label) {
 }
 
 /* ***************************** */
+/* FIREFOX BUG #1329304          */
+/* ***************************** */
+function checkIncognitoMode() {
+  showIncognitoWarningMessage(hasIncognitoModeBug());
+}
+
+function hasIncognitoModeBug() {
+  // Remark: 
+  // https://developer.mozilla.org/en/docs/Mozilla/Add-ons/WebExtensions/API/runtime/getBackgroundPage
+  // method 'getBackgroundPage()' cannot be used in a private window in Firefox
+  // it always returns null. 
+  // For more info see related bug at bugzilla.
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=1329304
+  return (chrome.extension.getBackgroundPage() === null);
+}
+
+function showIncognitoWarningMessage(hasError) {
+  var x = document.getElementById("warning-area-incognito");
+  if (hasError) {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+  if (hasError) {
+    setDisabled("button-start", true);
+  }
+}
+
+// This function is a work-around to the Firefox Incognito Context mode Bug.
+function getBackgroundPage() {
+  if (hasIncognitoModeBug()) {
+    return new DummyChromeExtensionForIncognitoMode();
+  }
+  return chrome.extension.getBackgroundPage();
+}
+
+class DummyChromeExtensionForIncognitoMode {
+  constructor() {
+  }
+
+  isSettingAskEnabled() {
+    return true;
+  }
+  getSettingMediaId() {
+    return -1;
+  }  
+  isSettingStartPaused() {
+    return false;
+  }
+  collectDOMandSendDataWithWizard() {
+    // Nothing
+  }
+  collectDOMandSendData() {
+    // Nothing
+  }
+
+  sendData(links) {
+    function onResponse(message) {
+      console.log(`Message from the launcher:  ${message.text}`);
+    }
+    function onError(error) {
+      console.log(`Error: ${error}`);
+    }
+    var data = "launch " + links;
+    console.log("Sending message to launcher:  " + data);
+    var sending = browser.runtime.sendNativeMessage(application, data);
+    sending.then(onResponse, onError);
+  }
+}
+
+/* ***************************** */
 /* Events                        */
 /* ***************************** */
 function onLoaded() {
   checkConnection();
+  checkIncognitoMode();
 
-  var enabled = chrome.extension.getBackgroundPage().isSettingAskEnabled();
+  var enabled = getBackgroundPage().isSettingAskEnabled();
   setVisible("button-immediate-download", !enabled);
 
   if (!enabled) {
@@ -94,24 +168,24 @@ function onLoaded() {
 document.addEventListener('DOMContentLoaded', onLoaded); 
 
 document.getElementById("button-start").addEventListener('click', () => {
-    chrome.extension.getBackgroundPage().collectDOMandSendDataWithWizard();
+    getBackgroundPage().collectDOMandSendDataWithWizard();
     window.close();
 });
 
 document.getElementById("button-immediate-download").addEventListener('click', () => {
-    chrome.extension.getBackgroundPage().collectDOMandSendData();
+    getBackgroundPage().collectDOMandSendData();
     window.close();
 });
 
 document.getElementById("button-manager").addEventListener('click', () => { 
     var command = "[MANAGER]";
-    chrome.extension.getBackgroundPage().sendData(command);
+    getBackgroundPage().sendData(command);
     window.close();
 });
 
 document.getElementById("button-preference").addEventListener('click', () => { 
     var command = "[PREFS]";
-    chrome.extension.getBackgroundPage().sendData(command);
+    getBackgroundPage().sendData(command);
     window.close();
 });
 
