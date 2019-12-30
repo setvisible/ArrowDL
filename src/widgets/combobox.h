@@ -37,6 +37,7 @@ public:
 
     QString currentText() const;
 
+    bool isInputValid() const;
     void setInputIsValidWhen(InputValidityPtr functor);
 
 public slots:

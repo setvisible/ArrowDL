@@ -41,6 +41,9 @@ PreferenceDialog::PreferenceDialog(Settings *settings, QWidget *parent)
     connect(ui->maxSimultaneousDownloadSlider, SIGNAL(valueChanged(int)),
             this, SLOT(maxSimultaneousDownloadSlided(int)));
 
+    connect(ui->browseDatabaseFile, SIGNAL(currentPathValidityChanged(bool)),
+            ui->okButton, SLOT(setEnabled(bool)));
+
     initializeGui();
     read();
     readSettings();

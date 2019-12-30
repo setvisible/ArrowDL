@@ -151,4 +151,5 @@ void PathWidget::onBrowseButtonReleased()
 void PathWidget::onCurrentTextChanged(const QString &text)
 {
     emit currentPathChanged(text);
+    emit currentPathValidityChanged(ui->comboBox->isInputValid());
 }

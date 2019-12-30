@@ -112,6 +112,11 @@ void ComboBox::setCurrentText(const QString &text)
 
 /******************************************************************************
  ******************************************************************************/
+bool ComboBox::isInputValid() const
+{
+    return m_inputValidityPtr == Q_NULLPTR || m_inputValidityPtr(this->currentText());
+}
+
 /**
  * Set the given pointer (functor) to the callback method for input validation.
  *
