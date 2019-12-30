@@ -24,6 +24,9 @@
 class Mask
 {
 public:
+
+    static QUrl fromUserInput(const QString &input);
+
     static QString interpret(const QString &input,
                              const QString &customFileName,
                              const QString &mask);
