@@ -19,7 +19,7 @@
 
 #include <QtWidgets/QComboBox>
 
-typedef bool (*ColorizePtr)(QString);   /* function pointer */
+typedef bool (*InputValidityPtr)(QString); /* function pointer */
 
 class ComboBox : public QComboBox
 {
@@ -37,7 +37,7 @@ public:
 
     QString currentText() const;
 
-    void setColorizeErrorWhen(ColorizePtr functor);
+    void setInputIsValidWhen(InputValidityPtr functor);
 
 public slots:
     void setStyleSheet(const QString& styleSheet);
@@ -49,9 +49,9 @@ private slots:
     void showContextMenu(const QPoint &pos);
 
 private:
-    ColorizePtr m_colorizePtr = Q_NULLPTR;
+    InputValidityPtr m_inputValidityPtr = Q_NULLPTR;
 
-    inline void colorizeErrors(const QString &text);
+    inline void colorize();
 };
 
 #endif // WIDGETS_COMBOBOX_H

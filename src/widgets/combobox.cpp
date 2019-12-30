@@ -44,6 +44,8 @@ ComboBox::ComboBox(QWidget *parent) : QComboBox(parent)
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
             this, SLOT(showContextMenu(const QPoint &)));
+
+    colorize();
 }
 
 /******************************************************************************
@@ -111,7 +113,7 @@ void ComboBox::setCurrentText(const QString &text)
 /******************************************************************************
  ******************************************************************************/
 /**
- * Set the given pointer (functor) to the callback method for colorization.
+ * Set the given pointer (functor) to the callback method for input validation.
  *
  * The callback method defines the colorization criteria:
  * \li If it returns true, the combobox hightlights an error.
@@ -122,9 +124,12 @@ void ComboBox::setCurrentText(const QString &text)
  *
  * @param functor The callback method functor, or null.
  */
-void ComboBox::setColorizeErrorWhen(ColorizePtr functor)
+void ComboBox::setInputIsValidWhen(InputValidityPtr functor)
 {
-    m_colorizePtr = functor;
+    if (m_inputValidityPtr != functor) {
+        m_inputValidityPtr = functor;
+        emit currentTextChanged(currentText());
+    }
 }
 
 /******************************************************************************
@@ -139,9 +144,9 @@ void ComboBox::setStyleSheet(const QString& /*styleSheet*/)
 
 /******************************************************************************
  ******************************************************************************/
-void ComboBox::onCurrentTextChanged(const QString &text)
+void ComboBox::onCurrentTextChanged(const QString &/*text*/)
 {
-    colorizeErrors(text);
+    colorize();
 }
 
 /******************************************************************************
@@ -167,9 +172,9 @@ void ComboBox::clearHistory()
 
 /******************************************************************************
  ******************************************************************************/
-inline void ComboBox::colorizeErrors(const QString &text)
+inline void ComboBox::colorize()
 {
-    if (m_colorizePtr != Q_NULLPTR && m_colorizePtr(text)) {
+    if (!isInputValid()) {
         QComboBox::setStyleSheet(QLatin1String("QComboBox { background-color: rgb(255, 100, 100); }"));
     } else {
         QComboBox::setStyleSheet(QString());
