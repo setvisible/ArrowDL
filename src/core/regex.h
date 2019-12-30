@@ -19,11 +19,14 @@
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
+#include <QtCore/QUrl>
 
 class Regex
 {
 public:
     static bool hasBatchDescriptors(const QString &str);
+
+    static QStringList interpret(const QUrl &url);
     static QStringList interpret(const QString &str);
 
 };

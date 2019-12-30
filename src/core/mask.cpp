@@ -42,14 +42,41 @@ static const QStringList s_tags
     QSTRING
 };
 
-QString Mask::interpret(const QString &input,
-                        const QString &customFileName,
-                        const QString &mask)
+static QString decodePercentEncoding(const QString &input)
+{
+    /*
+     * Replace Percent-encoded characters to UTF-8
+     * when the URL is misformed and contains a mix
+     * of ASCII and UTF-8 encoding.
+     */
+    QString decoded = input;
+    decoded.replace("%0A", "\r");
+    decoded.replace("%0D", "\n");
+    decoded.replace("%20", " ");
+    decoded.replace("%22", "\"");
+    decoded.replace("%25", "%");
+    decoded.replace("%2D", "-");
+    decoded.replace("%2E", ".");
+    decoded.replace("%3C", "<");
+    decoded.replace("%3E", ">");
+    decoded.replace("%5C", "\\");
+    decoded.replace("%5E", "^");
+    decoded.replace("%5F", "_");
+    decoded.replace("%60", "`");
+    decoded.replace("%7B", "{");
+    decoded.replace("%7C", "|");
+    decoded.replace("%7D", "}");
+    decoded.replace("%7E", "~");
+    return decoded;
+}
+
 QUrl Mask::fromUserInput(const QString &input)
 {
-    QUrl url = QUrl::fromUserInput(input);
+    QString cleaned = decodePercentEncoding(input);
+    cleaned = cleaned.trimmed();
+    QUrl url = QUrl::fromUserInput(cleaned);
     if (url.isEmpty()) {
-        url = QUrl::toPercentEncoding(input);
+        url = QUrl::toPercentEncoding(cleaned);
     }
 
     /*
@@ -73,22 +100,22 @@ QUrl Mask::fromUserInput(const QString &input)
              url.hasFragment()) {
             // valid query, just continue.
         } else {
-            QString encoded = input;
+            QString encoded = cleaned;
             encoded.replace("?", "%3F");
             encoded.replace("#", "%23");
             url = QUrl::fromUserInput(encoded);
             if (url.isEmpty()) {
-                url = QUrl::toPercentEncoding(input);
+                url = QUrl::toPercentEncoding(cleaned);
             }
         }
     } else {
         if (url.hasFragment()) {
-            QString encoded = input;
+            QString encoded = cleaned;
             encoded.replace("?", "%3F");
             encoded.replace("#", "%23");
             url = QUrl::fromUserInput(encoded);
             if (url.isEmpty()) {
-                url = QUrl::toPercentEncoding(input);
+                url = QUrl::toPercentEncoding(cleaned);
             }
         }
     }

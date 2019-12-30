@@ -60,6 +60,11 @@ bool Regex::hasBatchDescriptors(const QString &str)
     return !captures.isEmpty();
 }
 
+QStringList Regex::interpret(const QUrl &url)
+{
+    return interpret(url.toString());
+}
+
 QStringList Regex::interpret(const QString &str)
 {
     /*
