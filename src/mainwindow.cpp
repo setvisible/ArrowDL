@@ -524,7 +524,7 @@ void MainWindow::cleanGoneFiles()
 void MainWindow::removeAll()
 {    
     if (askConfirmation(tr("ALL"))) {
-        m_downloadManager->clear();
+        m_downloadManager->remove(m_downloadManager->downloadItems());
     }
 }
 
