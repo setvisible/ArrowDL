@@ -37,6 +37,7 @@
 
 
 #define C_COLUMN_DEFAULT_WIDTH    100
+#define C_COLUMN_MAX_WIDTH       1000
 
 #define C_CHECKBOX_SIZE            12
 #define C_CHECKBOX_WIDTH           16
@@ -337,7 +338,10 @@ void LinkWidget::setColumnWidths(const QList<int> &widths)
             if (column == 0) {
                 ui->linkTableView->setColumnWidth(column, C_CHECKBOX_WIDTH);
             } else if (column > 0 && column < widths.count()) {
-                const int width = widths.at(column);
+                int width = widths.at(column);
+                if (width < 0 || width > C_COLUMN_MAX_WIDTH) {
+                    width =  C_COLUMN_DEFAULT_WIDTH;
+                }
                 ui->linkTableView->setColumnWidth(column, width);
             } else {
                 ui->linkTableView->setColumnWidth(column, C_COLUMN_DEFAULT_WIDTH);

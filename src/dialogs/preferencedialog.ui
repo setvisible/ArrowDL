@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>682</width>
-    <height>434</height>
+    <width>700</width>
+    <height>450</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -469,10 +469,10 @@ QTabBar::tab:hover:!selected {
          <attribute name="verticalHeaderVisible">
           <bool>false</bool>
          </attribute>
-         <attribute name="verticalHeaderDefaultSectionSize">
+         <attribute name="verticalHeaderMinimumSectionSize">
           <number>22</number>
          </attribute>
-         <attribute name="verticalHeaderMinimumSectionSize">
+         <attribute name="verticalHeaderDefaultSectionSize">
           <number>22</number>
          </attribute>
          <attribute name="verticalHeaderStretchLastSection">

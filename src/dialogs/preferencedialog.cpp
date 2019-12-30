@@ -24,7 +24,11 @@
 #include <QtCore/QSettings>
 #include <QtGui/QCloseEvent>
 
-#define C_COLUMN_WIDTH  200
+#define C_DEFAULT_WIDTH     700
+#define C_DEFAULT_HEIGHT    500
+#define C_DEFAULT_INDEX     0
+#define C_COLUMN_WIDTH      200
+
 
 PreferenceDialog::PreferenceDialog(Settings *settings, QWidget *parent)
     : QDialog(parent)
@@ -36,6 +40,9 @@ PreferenceDialog::PreferenceDialog(Settings *settings, QWidget *parent)
 
     connect(ui->maxSimultaneousDownloadSlider, SIGNAL(valueChanged(int)),
             this, SLOT(maxSimultaneousDownloadSlided(int)));
+
+    connect(ui->browseDatabaseFile, SIGNAL(currentPathValidityChanged(bool)),
+            ui->okButton, SLOT(setEnabled(bool)));
 
     initializeGui();
     read();
@@ -246,8 +253,11 @@ void PreferenceDialog::readSettings()
 {
     QSettings settings;
     settings.beginGroup("Preference");
-    resize(settings.value("DialogSize", QSize(350, 350)).toSize());
-    const int index = settings.value("TabIndex", 0).toInt();
+
+    const QSize defaultSize(C_DEFAULT_WIDTH, C_DEFAULT_HEIGHT);
+    resize(settings.value("DialogSize", defaultSize).toSize());
+
+    const int index = settings.value("TabIndex", C_DEFAULT_INDEX).toInt();
     if (index >=0 && index < ui->tabWidget->count()) {
         ui->tabWidget->setCurrentIndex(index);
     }

@@ -59,6 +59,11 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMessageBox>
 
+#define C_DEFAULT_WIDTH    1000
+#define C_DEFAULT_HEIGHT    700
+#define C_DEFAULT_X         100
+#define C_DEFAULT_Y         100
+
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
@@ -839,8 +844,8 @@ void MainWindow::readSettings()
 {
     QSettings settings;
     if ( !isMaximized() ) {
-        const QPoint defaultPosition(100, 100);
-        const QSize defaultSize(350, 350);
+        const QPoint defaultPosition(C_DEFAULT_X, C_DEFAULT_Y);
+        const QSize defaultSize(C_DEFAULT_WIDTH, C_DEFAULT_HEIGHT);
         QPoint position = settings.value("Position", defaultPosition).toPoint();
         QSize size = settings.value("Size", defaultSize).toSize();
 

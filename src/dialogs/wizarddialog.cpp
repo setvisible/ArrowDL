@@ -44,6 +44,13 @@
 #  include <QtNetwork/QNetworkReply>
 #endif
 
+#define C_DEFAULT_WIDTH         800
+#define C_DEFAULT_HEIGHT        600
+#define C_DEFAULT_INDEX         0
+
+#define C_COLUMN_DOWNLOAD_WIDTH     400
+#define C_COLUMN_MASK_WIDTH         200
+
 
 static QList<IDownloadItem*> createItems( QList<ResourceItem*> resources, DownloadManager *downloadManager)
 {
@@ -410,11 +417,15 @@ void WizardDialog::readSettings()
 {
     QSettings settings;
     settings.beginGroup("Wizard");
-    resize(settings.value("DialogSize", QSize(800, 600)).toSize());
+    resize(settings.value("DialogSize", QSize(C_DEFAULT_WIDTH, C_DEFAULT_HEIGHT)).toSize());
     ui->filterWidget->setState(settings.value("FilterState", 0).toUInt());
     ui->filterWidget->setCurrentFilter(settings.value("Filter", QString()).toString());
     ui->filterWidget->setFilterHistory(settings.value("FilterHistory", QString()).toStringList());
-    ui->linkWidget->setColumnWidths(settings.value("ColumnWidths").value<QList<int> >());
+
+    QList<int> defaultWidths = {-1, C_COLUMN_DOWNLOAD_WIDTH, -1, -1, C_COLUMN_MASK_WIDTH};
+    QVariant variant = QVariant::fromValue(defaultWidths);
+    ui->linkWidget->setColumnWidths(settings.value("ColumnWidths", variant).value<QList<int> >());
+
     ui->pathWidget->setCurrentPath(settings.value("Path", QString()).toString());
     ui->pathWidget->setPathHistory(settings.value("PathHistory").toStringList());
     ui->maskWidget->setCurrentMask(settings.value("Mask", QString()).toString());
