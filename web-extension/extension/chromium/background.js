@@ -76,7 +76,7 @@ function getDownloadActionChoice() {
       onOptionError(response);
     } else {
       mySettings = response;
-      console.log("Settings changed: " + JSON.stringify(mySettings));
+      // console.log("Settings changed: " + JSON.stringify(mySettings));
     }
   }
   function onOptionError(error) {
