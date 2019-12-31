@@ -72,5 +72,6 @@
         <file>icons/menu/wizard_add_16x16.png</file>
         <file>icons/menu/wizard_add_32x32.png</file>
         <file>icons/menu/wizard_alert_32x32.png</file>
+        <file>icons/overlay/overlay-run.ico</file>
     </qresource>
 </RCC>

@@ -67,7 +67,7 @@ var mySettings = undefined;
 function getDownloadActionChoice() {
   function onOptionResponse(response) {
     mySettings = response;
-    console.log("Settings changed: " + JSON.stringify(mySettings));
+    // console.log("Settings changed: " + JSON.stringify(mySettings));
   }
   function onOptionError(error) {
     console.log(`Error: ${error}`);
@@ -79,7 +79,7 @@ function getDownloadActionChoice() {
 getDownloadActionChoice();
 
 function isSettingAskEnabled() {
-  return mySettings === undefined || mySettings.radioApplicationId === 1;
+  return mySettings === undefined || mySettings.radioApplicationId === undefined || mySettings.radioApplicationId === 1;
 }
 
 function getSettingMediaId() {

@@ -28,7 +28,7 @@ PathWidget::PathWidget(QWidget *parent) : QWidget(parent)
 {
     ui->setupUi(this);
 
-    ui->comboBox->setColorizeErrorWhen( [](QString t) { return t.isEmpty(); } );
+    ui->comboBox->setInputIsValidWhen( [](QString t) { return !t.isEmpty(); } );
 
     connect(ui->browseButton, SIGNAL(released()), this, SLOT(onBrowseButtonReleased()));
     connect(ui->comboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
@@ -151,4 +151,5 @@ void PathWidget::onBrowseButtonReleased()
 void PathWidget::onCurrentTextChanged(const QString &text)
 {
     emit currentPathChanged(text);
+    emit currentPathValidityChanged(ui->comboBox->isInputValid());
 }

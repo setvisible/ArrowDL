@@ -19,6 +19,7 @@
 
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
+#include <Core/Mask>
 #include <Core/Regex>
 #include <Core/ResourceItem>
 #include <Core/Settings>
@@ -41,7 +42,6 @@ AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadM
     , ui(new Ui::AddDownloadDialog)
     , m_downloadManager(downloadManager)
     , m_settings(settings)
-
 {
     ui->setupUi(this);
 
@@ -203,13 +203,14 @@ void AddDownloadDialog::onChanged(QString)
  ******************************************************************************/
 void AddDownloadDialog::doAccept(bool started)
 {
-    const QUrl url(ui->downloadLineEdit->text());
+    const QString input = ui->downloadLineEdit->text();
+    const QUrl url = Mask::fromUserInput(input);
 
     // Remove trailing / and \ and .
     const QString adjusted = url.adjusted(QUrl::StripTrailingSlash).toString();
 
     if (Regex::hasBatchDescriptors(adjusted)) {
-        QList<IDownloadItem*> items = createItems();
+        QList<IDownloadItem*> items = createItems(url);
 
         QMessageBox::StandardButton answer = askBatchDownloading(items);
 
@@ -286,11 +287,10 @@ QMessageBox::StandardButton AddDownloadDialog::askBatchDownloading(QList<IDownlo
 
 /******************************************************************************
  ******************************************************************************/
-QList<IDownloadItem*> AddDownloadDialog::createItems() const
+QList<IDownloadItem*> AddDownloadDialog::createItems(const QUrl &inputUrl) const
 {
     QList<IDownloadItem*> items;
-    const QString text = ui->downloadLineEdit->text();
-    const QStringList urls = Regex::interpret(text);
+    const QStringList urls = Regex::interpret(inputUrl);
     foreach (auto url, urls) {
         items << createItem(url);
     }

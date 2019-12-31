@@ -26,11 +26,14 @@ class tst_Mask : public QObject
 private slots:
     void defaultMask();
 
-    void interpret_data();
-    void interpret();
+    void fromUserInput_data();
+    void fromUserInput();
 
     void customFileName_data();
     void customFileName();
+
+    void interpret_data();
+    void interpret();
 
     void interpretEscaped();
     void interpretEscaped_data();
@@ -49,6 +52,38 @@ void tst_Mask::defaultMask()
     const QString expected = "www.myweb.com/images/01/myimage.tar.gz";
 
     const QString actual = Mask::interpret(url, QString(), QString());
+
+    QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+******************************************************************************/
+void tst_Mask::fromUserInput_data()
+{
+    QTest::addColumn<QString>("input");
+    QTest::addColumn<QUrl>("expected");
+
+    QTest::newRow("empty") << "" << QUrl();
+    QTest::newRow("trimmed") << "  \n  \t  \r \f  " << QUrl();
+    QTest::newRow("trimmed hex encoding") << "%0A %0D %0A%0D %20%20" << QUrl();
+
+    QTest::newRow("batch") << "https://www.example.org/IMG_[01-03].jpg"
+                           << QUrl("https://www.example.org/IMG_[01-03].jpg");
+
+    /* End of line */
+    QUrl expectedEOL("https://www.example.org/image.jpg");
+    QTest::newRow("EOL") << "https://www.example.org/image.jpg\n" << expectedEOL;
+    QTest::newRow("EOL") << "https://www.example.org/image.jpg\r" << expectedEOL;
+    QTest::newRow("EOL") << "https://www.example.org/image.jpg\r\n" << expectedEOL;
+    QTest::newRow("EOL") << "https://www.example.org/image.jpg%0A%0D%0D" << expectedEOL;
+}
+
+void tst_Mask::fromUserInput()
+{
+    QFETCH(QString, input);
+    QFETCH(QUrl, expected);
+
+    const QUrl actual = Mask::fromUserInput(input);
 
     QCOMPARE(actual, expected);
 }

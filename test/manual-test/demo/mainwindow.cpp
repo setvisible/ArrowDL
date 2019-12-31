@@ -223,7 +223,7 @@ void MainWindow::cleanGoneFiles()
 
 void MainWindow::removeAll()
 {
-    m_downloadManager->clear();
+    m_downloadManager->remove(m_downloadManager->downloadItems());
 }
 
 void MainWindow::removeCompletedDownloads()

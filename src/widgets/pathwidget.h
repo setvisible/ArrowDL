@@ -50,6 +50,7 @@ public:
 
 signals:
     void currentPathChanged(QString path);
+    void currentPathValidityChanged(bool valid);
 
 private slots:
     void onBrowseButtonReleased();

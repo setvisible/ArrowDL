@@ -51,8 +51,8 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
 {
     ui->setupUi(this);
 
-    auto colorizePtr = [](QString t) { QRegExp regex(t); return !regex.isValid(); };
-    ui->fastFilteringComboBox->setColorizeErrorWhen( colorizePtr );
+    auto inputValidityPtr = [](QString t) { QRegExp regex(t); return regex.isValid(); };
+    ui->fastFilteringComboBox->setInputIsValidWhen( inputValidityPtr );
 
     clearFilters();
 

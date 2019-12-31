@@ -28,6 +28,11 @@ typedef QList<IDownloadItem*> DownloadRange;
 
 class QLabel;
 
+#ifdef USE_QT_WINEXTRAS
+class QWinTaskbarButton;
+class QWinTaskbarProgress;
+#endif
+
 namespace Ui {
 class MainWindow;
 }
@@ -44,7 +49,8 @@ public:
     bool loadFile(const QString &path);
 
 protected:
-    virtual void closeEvent(QCloseEvent *event);
+    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
 
@@ -107,6 +113,7 @@ public slots:
 private slots:
     void onJobAddedOrRemoved(DownloadRange range);
     void onJobStateChanged(IDownloadItem *downloadItem);
+    void onJobFinished(IDownloadItem *downloadItem);
     void onJobRenamed(QString oldName, QString newName, bool success);
     void onSelectionChanged();
 
@@ -116,6 +123,10 @@ private:
     FileAccessManager *m_fileAccessManager;
     Settings *m_settings;
     QLabel *m_statusBarLabel;
+#ifdef USE_QT_WINEXTRAS
+    QWinTaskbarButton *m_winTaskbarButton = Q_NULLPTR;
+    QWinTaskbarProgress *m_winTaskbarProgress = Q_NULLPTR;
+#endif
 
     void readSettings();
     void writeSettings();

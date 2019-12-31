@@ -38,7 +38,6 @@ border-top: 2px solid #C2C7CB;
 
 QTabWidget::tab-bar {
 left: 5px; /* move to the right by 5px */
-
 }
 
 /* Style the tab using the tab sub-control. Note that it reads QTabBar _not_ QTabWidget */
@@ -53,8 +52,10 @@ border-top-right-radius: 4px;
 min-width: 8ex;
 padding: 2px;
 }
-QTabBar::tab:selected, QTabBar::tab:hover {
-background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #fafafa, stop: 0.4 #f4f4f4, stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+QTabBar::tab:selected,
+QTabBar::tab:hover {
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffc90e, stop: 0.4 #ffcc0e, stop: 0.5 #ff9922, stop: 1.0 #ffc90e);
+/*background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #fafafa, stop: 0.4 #f4f4f4, stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);*/
 }
 QTabBar::tab:selected {
 border-color: #9B9B9B;
@@ -62,7 +63,9 @@ border-bottom-color: #C2C7CB; /* same as pane color */
 }
 QTabBar::tab:!selected {
 margin-top: 2px; /* make non-selected tabs look smaller */
-}</string>
+font: 8pt;
+}
+</string>
      </property>
      <property name="tabShape">
       <enum>QTabWidget::Triangular</enum>

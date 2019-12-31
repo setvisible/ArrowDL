@@ -49,6 +49,7 @@
 #define C_COL_10_CHECKSUM         10  /* hidden */
 
 #define C_COLUMN_DEFAULT_WIDTH   100
+#define C_COLUMN_0_DEFAULT_WIDTH 300
 #define C_ROW_DEFAULT_HEIGHT      22
 
 /* Constant */
@@ -507,6 +508,11 @@ QList<int> DownloadQueueView::columnWidths() const
     return widths;
 }
 
+static int defaultColumnWidth(int index)
+{
+    return index == 0 ? C_COLUMN_0_DEFAULT_WIDTH : C_COLUMN_DEFAULT_WIDTH;
+}
+
 void DownloadQueueView::setColumnWidths(const QList<int> &widths)
 {
     for (int column = 0; column < m_queueView->columnCount(); ++column) {
@@ -514,7 +520,7 @@ void DownloadQueueView::setColumnWidths(const QList<int> &widths)
             const int width = widths.at(column);
             m_queueView->setColumnWidth(column, width);
         } else {
-            m_queueView->setColumnWidth(column, C_COLUMN_DEFAULT_WIDTH);
+            m_queueView->setColumnWidth(column, defaultColumnWidth(column));
         }
     }
 }
