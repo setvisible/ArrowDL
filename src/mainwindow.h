@@ -28,6 +28,11 @@ typedef QList<IDownloadItem*> DownloadRange;
 
 class QLabel;
 
+#ifdef USE_QT_WINEXTRAS
+class QWinTaskbarButton;
+class QWinTaskbarProgress;
+#endif
+
 namespace Ui {
 class MainWindow;
 }
@@ -118,6 +123,10 @@ private:
     FileAccessManager *m_fileAccessManager;
     Settings *m_settings;
     QLabel *m_statusBarLabel;
+#ifdef USE_QT_WINEXTRAS
+    QWinTaskbarButton *m_winTaskbarButton = Q_NULLPTR;
+    QWinTaskbarProgress *m_winTaskbarProgress = Q_NULLPTR;
+#endif
 
     void readSettings();
     void writeSettings();

@@ -59,6 +59,11 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMessageBox>
 
+#ifdef USE_QT_WINEXTRAS
+#  include <QtWinExtras/QWinTaskbarButton>
+#  include <QtWinExtras/QWinTaskbarProgress>
+#endif
+
 #define C_DEFAULT_WIDTH    1000
 #define C_DEFAULT_HEIGHT    700
 #define C_DEFAULT_X         100
@@ -81,6 +86,13 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     this->setAcceptDrops(true);
 #ifdef Q_OS_OSX
     this->setUnifiedTitleAndToolBarOnMac(true);
+#endif    
+#ifdef USE_QT_WINEXTRAS
+    m_winTaskbarButton = new QWinTaskbarButton(this);
+    m_winTaskbarButton->setWindow(this->windowHandle());
+    m_winTaskbarButton->setOverlayIcon(QIcon(":/icons/overlay/overlay-run.ico"));
+    m_winTaskbarProgress = m_winTaskbarButton->progress();
+    m_winTaskbarProgress->setVisible(false);
 #endif
 
     /* Connect the GUI to the DownloadManager. */
@@ -134,6 +146,14 @@ MainWindow::~MainWindow()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     writeSettings();
+    event->accept();
+}
+
+void MainWindow::showEvent(QShowEvent *event)
+{
+#ifdef USE_QT_WINEXTRAS
+    m_winTaskbarButton->setWindow(windowHandle());
+#endif
     event->accept();
 }
 
@@ -725,6 +745,24 @@ void MainWindow::refreshTitleAndStatus()
                 .arg(count)
                 .arg(runningCount)
                 .arg(totalSpeed).trimmed());
+
+#ifdef USE_QT_WINEXTRAS
+    if (m_winTaskbarProgress) {
+        if (runningCount > 0) {
+            m_winTaskbarProgress->setVisible(true);
+            m_winTaskbarProgress->setRange(0, count);
+            m_winTaskbarProgress->setValue(doneCount);
+            m_winTaskbarProgress->resume();
+        } else if (failedCount > 0) {
+            m_winTaskbarProgress->setVisible(true);
+            m_winTaskbarProgress->setRange(0, 100);
+            m_winTaskbarProgress->setValue(100);
+            m_winTaskbarProgress->stop();
+        } else {
+            m_winTaskbarProgress->setVisible(false);
+        }
+    }
+#endif
 }
 
 void MainWindow::refreshMenus()
