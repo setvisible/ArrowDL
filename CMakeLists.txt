@@ -89,6 +89,10 @@ option(ENABLE_LAUNCHER "Set to ON to build the Launcher (default)" ON)
 
 option(ENABLE_TESTS "Set to ON to build test applications (default)" ON)
 
+if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
+    option(USE_QT_WINEXTRAS "Set to ON to use Qt WinExtras (default)" ON)
+endif()
+
 if(MSVC)
     option(USE_QT_WEBENGINE "Set to ON to use Qt WebEngine (default)" ON)
 endif()
@@ -113,6 +117,10 @@ add_definitions(-DQT_DEPRECATED_WARNINGS)
 # Note: at least needed for QtSingleApplication on Windows...
 add_definitions(-DUNICODE)
 
+if(USE_QT_WINEXTRAS)
+    add_definitions(-DUSE_QT_WINEXTRAS)
+endif(USE_QT_WINEXTRAS)
+
 if(USE_QT_WEBENGINE)
     add_definitions(-DUSE_QT_WEBENGINE)
 endif(USE_QT_WEBENGINE)
@@ -134,6 +142,9 @@ find_package(Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt5 COMPONENTS Gui REQUIRED)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt5 COMPONENTS Network REQUIRED)
+if(USE_QT_WINEXTRAS)
+    find_package(Qt5 COMPONENTS WinExtras REQUIRED)
+endif(USE_QT_WINEXTRAS)
 if(USE_QT_WEBENGINE)
     find_package(Qt5 COMPONENTS WebEngineWidgets REQUIRED)
 endif(USE_QT_WEBENGINE)
@@ -208,6 +219,21 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     get_target_property(QtCore_LOCATION Qt5::Core LOCATION)
     get_filename_component(QT_DLL_DIR ${QtCore_LOCATION} PATH)
 
+    install(FILES
+        ${QT_DLL_DIR}/Qt5Core.dll
+        ${QT_DLL_DIR}/Qt5Gui.dll
+        ${QT_DLL_DIR}/Qt5Widgets.dll
+        ${QT_DLL_DIR}/Qt5Network.dll
+        DESTINATION ${CMAKE_INSTALL_PREFIX}
+        )
+
+    if(USE_QT_WINEXTRAS)
+        install(FILES
+            ${QT_DLL_DIR}/Qt5WinExtras.dll
+            DESTINATION ${CMAKE_INSTALL_PREFIX}
+            )
+    endif(USE_QT_WINEXTRAS)
+
     if(MSYS OR MINGW)
         # Hack to find libGCC
         #
@@ -230,21 +256,10 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
             ${libgcc}
             ${QT_DLL_DIR}/libstdc++-6.dll
             ${QT_DLL_DIR}/libwinpthread-1.dll
-            ${QT_DLL_DIR}/Qt5Core.dll
-            ${QT_DLL_DIR}/Qt5Gui.dll
-            ${QT_DLL_DIR}/Qt5Widgets.dll
-            ${QT_DLL_DIR}/Qt5Network.dll
             DESTINATION ${CMAKE_INSTALL_PREFIX}
             )
 
     else() # MSVC
-        install(FILES
-            ${QT_DLL_DIR}/Qt5Core.dll
-            ${QT_DLL_DIR}/Qt5Gui.dll
-            ${QT_DLL_DIR}/Qt5Widgets.dll
-            ${QT_DLL_DIR}/Qt5Network.dll
-            DESTINATION ${CMAKE_INSTALL_PREFIX}
-            )
 
         if(USE_QT_WEBENGINE)
             install(FILES

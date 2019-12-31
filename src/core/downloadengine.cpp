@@ -218,10 +218,10 @@ QList<IDownloadItem*> DownloadEngine::runningJobs() const
     QList<IDownloadItem*> list;
     foreach (auto item, downloadItems()) {
         IDownloadItem::State state = item->state();
-        if ( state != IDownloadItem::Idle &&
-             state != IDownloadItem::Completed &&
-             state != IDownloadItem::Paused &&
-             state != IDownloadItem::Stopped ) {
+        if ( state == IDownloadItem::Preparing ||
+             state == IDownloadItem::Connecting ||
+             state == IDownloadItem::Downloading ||
+             state == IDownloadItem::Endgame) {
             list.append(item);
         }
     }
