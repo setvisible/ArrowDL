@@ -94,6 +94,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
             this, SLOT(onJobAddedOrRemoved(DownloadRange)));
     connect(m_downloadManager, SIGNAL(jobStateChanged(IDownloadItem*)),
             this, SLOT(onJobStateChanged(IDownloadItem*)));
+    connect(m_downloadManager, SIGNAL(jobFinished(IDownloadItem*)),
+            this, SLOT(onJobFinished(IDownloadItem*)));
     connect(m_downloadManager, SIGNAL(jobRenamed(QString, QString, bool)),
             this, SLOT(onJobRenamed(QString, QString, bool)), Qt::QueuedConnection);
     connect(m_downloadManager, SIGNAL(selectionChanged()),
@@ -673,6 +675,12 @@ void MainWindow::onJobStateChanged(IDownloadItem * /*downloadItem*/)
     refreshTitleAndStatus();
 }
 
+void MainWindow::onJobFinished(IDownloadItem * /*downloadItem*/)
+{
+    refreshMenus();
+    refreshTitleAndStatus();
+}
+
 void MainWindow::onSelectionChanged()
 {
     refreshMenus();
@@ -699,18 +707,20 @@ void MainWindow::refreshTitleAndStatus()
     const QString totalSpeed = m_downloadManager->totalSpeed();
     const int completedCount = m_downloadManager->completedJobs().count();
     const int runningCount = m_downloadManager->runningJobs().count();
+    const int failedCount = m_downloadManager->failedJobs().count();
     const int count = m_downloadManager->count();
+    const int doneCount = completedCount + failedCount;
 
     this->setWindowTitle(QString("%0 %1/%2 - %3 v%4")
                          .arg(totalSpeed)
-                         .arg(completedCount)
+                         .arg(doneCount)
                          .arg(count)
                          .arg(STR_APPLICATION_NAME)
                          .arg(STR_APPLICATION_VERSION).trimmed());
 
     m_statusBarLabel->setText(
                 QString("%0 of %1 (%2), %3 running  %4")
-                .arg(completedCount)
+                .arg(doneCount)
                 .arg(count)
                 .arg(count)
                 .arg(runningCount)

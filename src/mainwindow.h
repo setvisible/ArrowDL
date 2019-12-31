@@ -44,7 +44,8 @@ public:
     bool loadFile(const QString &path);
 
 protected:
-    virtual void closeEvent(QCloseEvent *event);
+    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
 
@@ -107,6 +108,7 @@ public slots:
 private slots:
     void onJobAddedOrRemoved(DownloadRange range);
     void onJobStateChanged(IDownloadItem *downloadItem);
+    void onJobFinished(IDownloadItem *downloadItem);
     void onJobRenamed(QString oldName, QString newName, bool success);
     void onSelectionChanged();
 
