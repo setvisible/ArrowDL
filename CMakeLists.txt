@@ -219,6 +219,14 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     get_target_property(QtCore_LOCATION Qt5::Core LOCATION)
     get_filename_component(QT_DLL_DIR ${QtCore_LOCATION} PATH)
 
+    install(FILES
+        ${QT_DLL_DIR}/Qt5Core.dll
+        ${QT_DLL_DIR}/Qt5Gui.dll
+        ${QT_DLL_DIR}/Qt5Widgets.dll
+        ${QT_DLL_DIR}/Qt5Network.dll
+        DESTINATION ${CMAKE_INSTALL_PREFIX}
+        )
+
     if(USE_QT_WINEXTRAS)
         install(FILES
             ${QT_DLL_DIR}/Qt5WinExtras.dll
@@ -248,21 +256,10 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
             ${libgcc}
             ${QT_DLL_DIR}/libstdc++-6.dll
             ${QT_DLL_DIR}/libwinpthread-1.dll
-            ${QT_DLL_DIR}/Qt5Core.dll
-            ${QT_DLL_DIR}/Qt5Gui.dll
-            ${QT_DLL_DIR}/Qt5Widgets.dll
-            ${QT_DLL_DIR}/Qt5Network.dll
             DESTINATION ${CMAKE_INSTALL_PREFIX}
             )
 
     else() # MSVC
-        install(FILES
-            ${QT_DLL_DIR}/Qt5Core.dll
-            ${QT_DLL_DIR}/Qt5Gui.dll
-            ${QT_DLL_DIR}/Qt5Widgets.dll
-            ${QT_DLL_DIR}/Qt5Network.dll
-            DESTINATION ${CMAKE_INSTALL_PREFIX}
-            )
 
         if(USE_QT_WEBENGINE)
             install(FILES
