@@ -17,6 +17,11 @@
 #define UPDATE_FILE_EXTENSION QLatin1String(".AppImage")
 #endif
 
+
+static const auto defaultAddressMatcher = [](const QString& address) {
+	return address.endsWith(UPDATE_FILE_EXTENSION);
+};
+
 static const auto naturalSortQstringComparator = [](const QString& l, const QString& r) {
 	static QCollator collator;
 	collator.setNumericMode(true);
@@ -24,9 +29,13 @@ static const auto naturalSortQstringComparator = [](const QString& l, const QStr
 	return collator.compare(l, r) == -1;
 };
 
-CAutoUpdaterGithub::CAutoUpdaterGithub(const QString& githubRepositoryAddress, const QString& currentVersionString, const std::function<bool (const QString&, const QString&)>& versionStringComparatorLessThan) :
+CAutoUpdaterGithub::CAutoUpdaterGithub(const QString& githubRepositoryAddress,
+		const QString& currentVersionString,
+		const std::function<bool (const QString &)>& addressMatcher,
+		const std::function<bool (const QString&, const QString&)>& versionStringComparatorLessThan) :
 	_updatePageAddress(githubRepositoryAddress + "/releases/"),
 	_currentVersionString(currentVersionString),
+	_addressMatcher(addressMatcher ? addressMatcher : defaultAddressMatcher),
 	_lessThanVersionStringComparator(versionStringComparatorLessThan ? versionStringComparatorLessThan : naturalSortQstringComparator)
 {
 	assert(githubRepositoryAddress.contains("https://github.com/"));
@@ -51,11 +60,18 @@ void CAutoUpdaterGithub::checkForUpdates()
 	connect(reply, &QNetworkReply::finished, this, &CAutoUpdaterGithub::updateCheckRequestFinished, Qt::UniqueConnection);
 }
 
+QString CAutoUpdaterGithub::installTempDir() const
+{
+    return QDir::tempPath();
+}
+
 void CAutoUpdaterGithub::downloadAndInstallUpdate(const QString& updateUrl)
 {
 	assert(!_downloadedBinaryFile.isOpen());
 
-	_downloadedBinaryFile.setFileName(QDir::tempPath() + '/' + QCoreApplication::applicationName() + UPDATE_FILE_EXTENSION);
+	QUrl url(updateUrl);
+
+	_downloadedBinaryFile.setFileName(installTempDir() + '/' + url.fileName());
 	if (!_downloadedBinaryFile.open(QFile::WriteOnly))
 	{
 		if (_listener)
@@ -63,7 +79,7 @@ void CAutoUpdaterGithub::downloadAndInstallUpdate(const QString& updateUrl)
 		return;
 	}
 
-	QNetworkRequest request((QUrl(updateUrl)));
+	QNetworkRequest request(url);
 	request.setSslConfiguration(QSslConfiguration::defaultConfiguration()); // HTTPS
 #if QT_VERSION >= 0x050600
 	request.setMaximumRedirectsAllowed(5);
@@ -162,7 +178,7 @@ void CAutoUpdaterGithub::updateCheckRequestFinished()
 		while (offset != -1)
 		{
 			const QString newUrl = match(releaseUrlPattern, releaseText, offset, offset);
-			if (newUrl.endsWith(UPDATE_FILE_EXTENSION))
+			if (_addressMatcher(newUrl))
 			{
 				Q_ASSERT_X(url.isEmpty(), __FUNCTION__,"More than one suitable update URL found");
 				url = newUrl;
