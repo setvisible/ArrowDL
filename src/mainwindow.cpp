@@ -25,11 +25,13 @@
 #include <Core/DownloadManager>
 #include <Core/FileAccessManager>
 #include <Core/Settings>
+#include <Core/UpdateChecker>
 #include <Dialogs/AddDownloadDialog>
 #include <Dialogs/CompilerDialog>
 #include <Dialogs/InformationDialog>
 #include <Dialogs/PreferenceDialog>
 #include <Dialogs/TutorialDialog>
+#include <Dialogs/UpdateDialog>
 #include <Dialogs/WizardDialog>
 #include <Ipc/InterProcessCommunication>
 #include <Io/FileReader>
@@ -76,6 +78,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , m_fileAccessManager(new FileAccessManager(this))
   , m_settings(new Settings(this))
   , m_statusBarLabel(new QLabel(this))
+  , m_updateChecker(new UpdateChecker(this))
 {
     ui->setupUi(this);
 
@@ -228,6 +231,7 @@ void MainWindow::createActions()
     //! [4]
 
     //! [5] Help
+    connect(ui->actionCheckForUpdates, SIGNAL(triggered()), this, SLOT(checkForUpdates()));
     connect(ui->actionTutorial, SIGNAL(triggered()), this, SLOT(showTutorial()));
 
     ui->actionAbout->setShortcuts(QKeySequence::HelpContents);
@@ -665,6 +669,12 @@ void MainWindow::showPreferences()
 void MainWindow::showTutorial()
 {
     TutorialDialog dialog(m_settings, this);
+    dialog.exec();
+}
+
+void MainWindow::checkForUpdates()
+{
+    UpdateDialog dialog(m_updateChecker, this);
     dialog.exec();
 }
 

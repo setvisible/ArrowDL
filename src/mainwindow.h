@@ -23,6 +23,7 @@ class IDownloadItem;
 class DownloadManager;
 class FileAccessManager;
 class Settings;
+class UpdateChecker;
 
 typedef QList<IDownloadItem*> DownloadRange;
 
@@ -106,6 +107,7 @@ public slots:
     void showPreferences();
 
     // Help
+    void checkForUpdates();
     void showTutorial();
     void about();
     void aboutCompiler();
@@ -127,6 +129,7 @@ private:
     QWinTaskbarButton *m_winTaskbarButton = Q_NULLPTR;
     QWinTaskbarProgress *m_winTaskbarProgress = Q_NULLPTR;
 #endif
+    UpdateChecker *m_updateChecker;
 
     void readSettings();
     void writeSettings();
