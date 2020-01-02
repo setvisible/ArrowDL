@@ -4,6 +4,7 @@ HEADERS  += \
     $$PWD/informationdialog.h \
     $$PWD/preferencedialog.h \
     $$PWD/tutorialdialog.h \
+    $$PWD/updatedialog.h \
     $$PWD/wizarddialog.h
 
 
@@ -13,6 +14,7 @@ SOURCES += \
     $$PWD/informationdialog.cpp \
     $$PWD/preferencedialog.cpp \
     $$PWD/tutorialdialog.cpp \
+    $$PWD/updatedialog.cpp \
     $$PWD/wizarddialog.cpp
 
 FORMS += \
@@ -21,4 +23,5 @@ FORMS += \
     $$PWD/informationdialog.ui \
     $$PWD/preferencedialog.ui \
     $$PWD/tutorialdialog.ui \
+    $$PWD/updatedialog.ui \
     $$PWD/wizarddialog.ui

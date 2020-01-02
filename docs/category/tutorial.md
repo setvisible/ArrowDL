@@ -41,7 +41,7 @@ The page contains a lot of files, to demonstrate how the application works
 Content:
 
 --- | --- | --- | --- | ---
-<a href="../samples/image_001.png"><img src="../samples/thumbs/tb_image_001.png"></a> | <a href="../samples/image_002.png"><img src="../samples/thumbs/tb_image_002.png"></a> | <a href="../samples/image_003.png"><img src="../samples/thumbs/tb_image_003.png"></a> | <a href="../samples/image_004.png"><img src="../samples/thumbs/tb_image_004.png"></a> | <a href="../samples/image_005.png"><img src="../samples/thumbs/tb_image_005.png"></a>
+<a href="../samples/image_001.png"><img src="../samples/thumbs/tb_image_001.png"></a> | <a href="../samples/image_002.png"><img src="../samples/thumbs/tb_image_002.png"></a> | <a href="../samples/image_003.png"><img src="../samples/thumbs/tb_image_003.Png"></a> | <a href="../samples/image_004.png"><img src="../samples/thumbs/tb_image_004.PNG"></a> | <a href="../samples/image_005.png"><img src="../samples/thumbs/tb_image_005.PNG"></a>
 
 
 Links:
@@ -54,9 +54,9 @@ Links:
 * [samples/image_004.png](../samples/image_004.png)
 * [samples/image_005.png](../samples/image_005.png)
 * [samples/image_005.tar](../samples/image_005.tar)
-* [samples/pack_images_2019.zip](../samples/pack_images_2019.zip)
+* [samples/pack-images-2019.zip](../samples/pack-images-2019.zip)
 * [samples/print_image_1.pdf](../samples/print_image_1.pdf)
-* [samples/print_image_2.pdf](../samples/print_image_2.pdf)
+* [samples/print_image_2.PDF](../samples/print_image_2.PDF)
 * [samples/samples.7z](../samples/samples.7z)
 * [samples/tree.txt](../samples/tree.txt)
 * [samples/2019/Catalog2019.docx](../samples/2019/Catalog2019.docx)
@@ -64,13 +64,13 @@ Links:
 * [samples/2019/Catalog2019.odt](../samples/2019/Catalog2019.odt)
 * [samples/2019/Catalog2019.pdf](../samples/2019/Catalog2019.pdf)
 * [samples/2019/image_001.jpg](../samples/2019/image_001.jpg)
-* [samples/2019/image_002.jpg](../samples/2019/image_002.jpg)
-* [samples/2019/image_003.jpg](../samples/2019/image_003.jpg)
+* [samples/2019/image_002.JPG](../samples/2019/image_002.JPG)
+* [samples/2019/image_003.JPG](../samples/2019/image_003.JPG)
 * [samples/2019/image_004.jpg](../samples/2019/image_004.jpg)
-* [samples/2019/image_005.jpg](../samples/2019/image_005.jpg)
-* [samples/2020/all_2020.zip](../samples/2020/all_2020.zip)
+* [samples/2019/image_005.Jpg](../samples/2019/image_005.Jpg)
+* [samples/2020/all-2020.zip](../samples/2020/all-2020.zip)
 * [samples/2020/Catalog2020.txt](../samples/2020/Catalog2020.txt)
 * [samples/2020/monotype-01.bmp](../samples/2020/monotype-01.bmp)
-* [samples/2020/monotype-02.bmp](../samples/2020/monotype-02.bmp)
+* [samples/2020/monotype-02.BMP](../samples/2020/monotype-02.BMP)
 
 License for these samples: [CC-BY](https://creativecommons.org/licenses/by/3.0/ "https://creativecommons.org/licenses/by/3.0/")

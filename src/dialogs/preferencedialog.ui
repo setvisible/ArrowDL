@@ -588,6 +588,122 @@ QTabBar::tab:hover:!selected {
       <attribute name="title">
        <string>Advanced</string>
       </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_13">
+       <item>
+        <widget class="QGroupBox" name="groupBox_9">
+         <property name="title">
+          <string>Updates</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_11">
+          <item>
+           <widget class="QLabel" name="label_10">
+            <property name="text">
+             <string>Check for updates automatically:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QComboBox" name="checkUpdateComboBox">
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
+              </property>
+              <item>
+               <property name="text">
+                <string>Never</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Once a day</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Once a week</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <spacer name="horizontalSpacer_6">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="checkUpdateNowPushButton">
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+	padding:  5px 25px 5px 25px;
+}
+</string>
+              </property>
+              <property name="text">
+               <string>Check updates now...</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>216</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
@@ -610,8 +726,14 @@ QTabBar::tab:hover:!selected {
          <height>30</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	padding:  5px 25px 5px 25px;
+}
+</string>
+       </property>
        <property name="text">
-        <string>Restore Default Settings</string>
+        <string>Restore default settings</string>
        </property>
       </widget>
      </item>

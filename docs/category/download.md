@@ -164,16 +164,16 @@ CPU architecture, browser, or release version, have a look at
   }
 
   /* Build the names */
-  const githubUrl = "https://github.com/setvisible/DownZemAll/releases/latest/download/";
+  const githubUrl = "https://github.com/setvisible/DownZemAll/releases/latest/";
 
   var applicationUrl = "";
   var userSystemName = "";
   if (platform === "Windows") {
     if (arch === "x64") {
-      applicationUrl = githubUrl + "DownZemAll_x64_Setup.exe";
+      applicationUrl = githubUrl + "download/DownZemAll_x64_Setup.exe";
       userSystemName += "Windows 64-bit";
     } else {
-      applicationUrl = githubUrl + "DownZemAll_x86_Setup.exe";
+      applicationUrl = githubUrl + "download/DownZemAll_x86_Setup.exe";
       userSystemName += "Windows 32-bit";
     }
 
