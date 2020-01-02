@@ -1,11 +1,11 @@
 #include "cautoupdatergithub.h"
 #include "updateinstaller.hpp"
 
-#include <QCollator>
-#include <QCoreApplication>
-#include <QDir>
-#include <QNetworkRequest>
-#include <QNetworkReply>
+#include <QtCore/QCollator>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QDir>
+#include <QtNetwork/QNetworkRequest>
+#include <QtNetwork/QNetworkReply>
 
 #include <assert.h>
 
@@ -65,8 +65,12 @@ void CAutoUpdaterGithub::downloadAndInstallUpdate(const QString& updateUrl)
 
 	QNetworkRequest request((QUrl(updateUrl)));
 	request.setSslConfiguration(QSslConfiguration::defaultConfiguration()); // HTTPS
+#if QT_VERSION >= 0x050600
 	request.setMaximumRedirectsAllowed(5);
+#endif
+#if QT_VERSION >= 0x050900
 	request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+#endif
 	QNetworkReply * reply = _networkManager.get(request);
 	if (!reply)
 	{
@@ -148,7 +152,7 @@ void CAutoUpdaterGithub::updateCheckRequestFinished()
 		else if (updateVersion.startsWith('v'))
 			updateVersion.remove(0, 1);
 
-		if (!naturalSortQstringComparator(_currentVersionString, updateVersion))
+		if (!_lessThanVersionStringComparator(_currentVersionString, updateVersion))
 			continue; // version <= _currentVersionString, skipping
 
 		const QString updateChanges = match(changelogPattern, releaseText, offset, offset);
@@ -200,8 +204,9 @@ void CAutoUpdaterGithub::updateDownloaded()
 
 void CAutoUpdaterGithub::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
-	if (_listener)
-		_listener->onUpdateDownloadProgress(bytesReceived < bytesTotal ? bytesReceived * 100 / (float)bytesTotal : 100.0f);
+	if (_listener) {
+		_listener->onUpdateDownloadProgress(bytesReceived < bytesTotal ? bytesReceived * 100 / static_cast<float>(bytesTotal) : 100.0f);
+	}
 }
 
 void CAutoUpdaterGithub::onNewDataDownloaded()

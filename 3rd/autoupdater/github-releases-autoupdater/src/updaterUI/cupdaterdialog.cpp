@@ -8,7 +8,8 @@
 #include <QPushButton>
 #include <QStringBuilder>
 
-CUpdaterDialog::CUpdaterDialog(QWidget *parent, const QString& githubRepoAddress, const QString& versionString, bool silentCheck) :
+CUpdaterDialog::CUpdaterDialog(QWidget *parent, const QString& githubRepoAddress,
+							   const QString& versionString, bool silentCheck) :
 	QDialog(parent),
 	ui(new Ui::CUpdaterDialog),
 	_silent(silentCheck),
@@ -16,8 +17,9 @@ CUpdaterDialog::CUpdaterDialog(QWidget *parent, const QString& githubRepoAddress
 {
 	ui->setupUi(this);
 
-	if (_silent)
+	if (_silent) {
 		hide();
+	}
 
 	connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 	connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &CUpdaterDialog::applyUpdate);

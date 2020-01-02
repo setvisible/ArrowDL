@@ -1,8 +1,8 @@
 #pragma once
 
-#include <QFile>
-#include <QNetworkAccessManager>
-#include <QString>
+#include <QtCore/QFile>
+#include <QtCore/QString>
+#include <QtNetwork/QNetworkAccessManager>
 
 #include <functional>
 #include <vector>
@@ -19,6 +19,8 @@ public:
 	using ChangeLog = std::vector<VersionEntry>;
 
 	struct UpdateStatusListener {
+		virtual ~UpdateStatusListener() = default;
+
 		// If no updates are found, the changelog is empty
 		virtual void onUpdateAvailable(ChangeLog changelog) = 0;
 		virtual void onUpdateDownloadProgress(float percentageDownloaded) = 0;

@@ -1,6 +1,6 @@
 #include "updateinstaller.hpp"
 
-#include <QProcess>
+#include <QtCore/QProcess>
 
 bool UpdateInstaller::install(const QString& downloadedUpdateFilePath)
 {

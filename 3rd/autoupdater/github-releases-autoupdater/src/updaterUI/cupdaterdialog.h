@@ -13,7 +13,8 @@ class CAutoUpdaterGithub;
 class CUpdaterDialog : public QDialog, private CAutoUpdaterGithub::UpdateStatusListener
 {
 public:
-	explicit CUpdaterDialog(QWidget *parent, const QString& githubRepoAddress, const QString& versionString, bool silentCheck = false);
+	explicit CUpdaterDialog(QWidget *parent, const QString& githubRepoAddress,
+							const QString& versionString, bool silentCheck = false);
 	~CUpdaterDialog() override;
 
 private:
