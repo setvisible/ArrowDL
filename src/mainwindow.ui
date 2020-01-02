@@ -45,6 +45,8 @@
     <property name="title">
      <string>&amp;Help</string>
     </property>
+    <addaction name="actionCheckForUpdates"/>
+    <addaction name="separator"/>
     <addaction name="actionTutorial"/>
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
@@ -628,6 +630,11 @@
   <action name="actionAboutCompiler">
    <property name="text">
     <string>Compiler Info...</string>
+   </property>
+  </action>
+  <action name="actionCheckForUpdates">
+   <property name="text">
+    <string>Check for updates...</string>
    </property>
   </action>
   <action name="actionTutorial">

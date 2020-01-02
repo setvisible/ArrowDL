@@ -1,0 +1,16 @@
+.hgignore
+.hg/
+
+*.pdb
+*.Debug
+*.Release
+*.vc*proj
+*.filters
+*.user
+*.orig
+*.orig
+*.sln
+*.sdf
+*.suo
+*.opensdf 
+Makefile

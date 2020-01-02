@@ -18,7 +18,9 @@ HEADERS += \
     $$PWD/resourceitem.h \
     $$PWD/resourcemodel.h \
     $$PWD/session.h \
-    $$PWD/settings.h
+    $$PWD/settings.h \
+    $$PWD/updatechecker.h \
+    $$PWD/updatechecker_p.h
 
 SOURCES += \
     $$PWD/abstractdownloaditem.cpp \
@@ -37,4 +39,5 @@ SOURCES += \
     $$PWD/resourceitem.cpp \
     $$PWD/resourcemodel.cpp \
     $$PWD/session.cpp \
-    $$PWD/settings.cpp
+    $$PWD/settings.cpp \
+    $$PWD/updatechecker.cpp

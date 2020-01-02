@@ -49,6 +49,7 @@ static const QString REGISTRY_FILTER_VALUE     = "FilterValue";
 // Tab Schedule
 
 // Tab Advanced
+static const QString REGISTRY_CHECK_UPDATE     = "CheckUpdate";
 
 
 
@@ -108,6 +109,8 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     // Tab Schedule
 
     // Tab Advanced
+    addDefaultSettingInt(REGISTRY_CHECK_UPDATE,
+                         static_cast<int>(CheckUpdateBeatMode::OnceADay));
 
 }
 
@@ -285,4 +288,12 @@ void Settings::setFilters(const QList<Filter> &filters)
 /******************************************************************************
  ******************************************************************************/
 // Tab Advanced
+CheckUpdateBeatMode Settings::checkUpdateBeatMode() const
+{
+    return static_cast<CheckUpdateBeatMode>(getSettingInt(REGISTRY_CHECK_UPDATE));
+}
 
+void Settings::setCheckUpdateBeatMode(CheckUpdateBeatMode mode)
+{
+    setSettingInt(REGISTRY_CHECK_UPDATE, static_cast<int>(mode));
+}

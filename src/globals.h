@@ -27,6 +27,7 @@ const QLatin1String STR_APPLICATION_DATE("2019");
 const QString STR_APPLICATION_AUTHOR("Sébastien Vavassori");
 const QString STR_APPLICATION_WEBSITE("https://github.com/setvisible/DownZemAll");
 const QString STR_TUTORIAL_WEBSITE("https://setvisible.github.io/DownZemAll/category/tutorial.html");
+const QString STR_GITHUB_REPO_ADDRESS = "https://github.com/setvisible/DownZemAll";
 
 /*
  * Remark: the "Application Organization Name"
@@ -102,5 +103,7 @@ const QString STR_CURRENT_VERSION = QString("%0 (kernel: %1)")
         .arg(QSysInfo::productVersion())
         .arg(QSysInfo::kernelVersion());
 const QString STR_CURRENT_CPU = QSysInfo::currentCpuArchitecture();
+const bool IS_HOST_64BIT = STR_CURRENT_CPU.contains(QLatin1String("64"));
+
 
 #endif // GLOBALS_H

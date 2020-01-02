@@ -25,11 +25,13 @@
 #include <Core/DownloadManager>
 #include <Core/FileAccessManager>
 #include <Core/Settings>
+#include <Core/UpdateChecker>
 #include <Dialogs/AddDownloadDialog>
 #include <Dialogs/CompilerDialog>
 #include <Dialogs/InformationDialog>
 #include <Dialogs/PreferenceDialog>
 #include <Dialogs/TutorialDialog>
+#include <Dialogs/UpdateDialog>
 #include <Dialogs/WizardDialog>
 #include <Ipc/InterProcessCommunication>
 #include <Io/FileReader>
@@ -76,6 +78,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , m_fileAccessManager(new FileAccessManager(this))
   , m_settings(new Settings(this))
   , m_statusBarLabel(new QLabel(this))
+  , m_updateChecker(new UpdateChecker(this))
 {
     ui->setupUi(this);
 
@@ -134,6 +137,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     if (!m_settings->isDontShowTutorialEnabled()) {
         QTimer::singleShot(250, this, SLOT(showTutorial()));
     }
+
+    /* Update Checker */
+    connect(m_updateChecker, SIGNAL(updateAvailable()), this, SLOT(onUpdateAvailable()));
+    m_updateChecker->checkForUpdates(m_settings);
 }
 
 MainWindow::~MainWindow()
@@ -228,6 +235,7 @@ void MainWindow::createActions()
     //! [4]
 
     //! [5] Help
+    connect(ui->actionCheckForUpdates, SIGNAL(triggered()), this, SLOT(checkForUpdates()));
     connect(ui->actionTutorial, SIGNAL(triggered()), this, SLOT(showTutorial()));
 
     ui->actionAbout->setShortcuts(QKeySequence::HelpContents);
@@ -659,12 +667,25 @@ void MainWindow::forceStart()
 void MainWindow::showPreferences()
 {
     PreferenceDialog dialog(m_settings, this);
+    connect(&dialog, SIGNAL(checkUpdate()), this, SLOT(checkForUpdates()));
     dialog.exec();
 }
 
 void MainWindow::showTutorial()
 {
     TutorialDialog dialog(m_settings, this);
+    dialog.exec();
+}
+
+void MainWindow::onUpdateAvailable()
+{
+    checkForUpdates();
+}
+
+void MainWindow::checkForUpdates()
+{
+    disconnect(m_updateChecker, SIGNAL(updateAvailable()), this, SLOT(onUpdateAvailable()));
+    UpdateDialog dialog(m_updateChecker, this);
     dialog.exec();
 }
 

@@ -34,6 +34,9 @@ public:
     explicit PreferenceDialog(Settings *settings, QWidget *parent);
     ~PreferenceDialog() Q_DECL_OVERRIDE;
 
+signals:
+    void checkUpdate();
+
 protected:
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
 
@@ -46,6 +49,7 @@ private slots:
     void filterSelectionChanged();
     void filterTextChanged();
     void maxSimultaneousDownloadSlided(int value);
+    void onCheckUpdate();
 
 private:
     Ui::PreferenceDialog *ui;

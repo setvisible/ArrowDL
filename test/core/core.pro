@@ -8,3 +8,4 @@ SUBDIRS += $$PWD/format
 SUBDIRS += $$PWD/mask
 SUBDIRS += $$PWD/regex
 SUBDIRS += $$PWD/resourceitem
+SUBDIRS += $$PWD/updatechecker
