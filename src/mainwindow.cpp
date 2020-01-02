@@ -137,6 +137,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     if (!m_settings->isDontShowTutorialEnabled()) {
         QTimer::singleShot(250, this, SLOT(showTutorial()));
     }
+
+    /* Update Checker */
+    connect(m_updateChecker, SIGNAL(updateAvailable()), this, SLOT(onUpdateAvailable()));
+    m_updateChecker->checkForUpdates(m_settings);
 }
 
 MainWindow::~MainWindow()
@@ -663,6 +667,7 @@ void MainWindow::forceStart()
 void MainWindow::showPreferences()
 {
     PreferenceDialog dialog(m_settings, this);
+    connect(&dialog, SIGNAL(checkUpdate()), this, SLOT(checkForUpdates()));
     dialog.exec();
 }
 
@@ -672,8 +677,14 @@ void MainWindow::showTutorial()
     dialog.exec();
 }
 
+void MainWindow::onUpdateAvailable()
+{
+    checkForUpdates();
+}
+
 void MainWindow::checkForUpdates()
 {
+    disconnect(m_updateChecker, SIGNAL(updateAvailable()), this, SLOT(onUpdateAvailable()));
     UpdateDialog dialog(m_updateChecker, this);
     dialog.exec();
 }

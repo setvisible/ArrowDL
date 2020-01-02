@@ -44,6 +44,8 @@ PreferenceDialog::PreferenceDialog(Settings *settings, QWidget *parent)
     connect(ui->browseDatabaseFile, SIGNAL(currentPathValidityChanged(bool)),
             ui->okButton, SLOT(setEnabled(bool)));
 
+    connect(ui->checkUpdateNowPushButton, SIGNAL(released()), this, SLOT(onCheckUpdate()));
+
     initializeGui();
     read();
     readSettings();
@@ -132,6 +134,11 @@ void PreferenceDialog::maxSimultaneousDownloadSlided(int value)
     ui->maxSimultaneousDownloadLabel->setText(QString::number(value));
 }
 
+void PreferenceDialog::onCheckUpdate()
+{
+    emit checkUpdate();
+}
+
 /******************************************************************************
  ******************************************************************************/
 /**
@@ -174,6 +181,9 @@ void PreferenceDialog::read()
     // Tab Schedule
 
     // Tab Advanced
+    int index = static_cast<int>(m_settings->checkUpdateBeatMode());
+    ui->checkUpdateComboBox->setCurrentIndex(index);
+
 }
 
 void PreferenceDialog::write()
@@ -206,6 +216,9 @@ void PreferenceDialog::write()
     // Tab Schedule
 
     // Tab Advanced
+    CheckUpdateBeatMode mode = static_cast<CheckUpdateBeatMode>(
+                ui->checkUpdateComboBox->currentIndex());
+    m_settings->setCheckUpdateBeatMode(mode);
 }
 
 
