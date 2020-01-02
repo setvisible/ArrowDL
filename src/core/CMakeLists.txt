@@ -16,6 +16,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/resourcemodel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/session.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/settings.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/updatechecker.cpp
     )
 
 # Rem: set here the headers related to the Qt MOC (i.e., with associated *.ui)
@@ -25,4 +26,6 @@ set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/model.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/resourcemodel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/settings.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/updatechecker.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/updatechecker_p.h
     )

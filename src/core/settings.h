@@ -28,6 +28,12 @@ enum class ExistingFileOption{
     LastOption // for safe cast
 };
 
+enum class CheckUpdateBeatMode{
+    Never = 0,
+    OnceADay = 1,
+    OnceAWeek = 2
+};
+
 struct Filter
 {
     QString title;
@@ -93,6 +99,9 @@ public:
     // Tab Schedule
 
     // Tab Advanced
+    CheckUpdateBeatMode checkUpdateBeatMode() const;
+    void setCheckUpdateBeatMode(CheckUpdateBeatMode mode);
+
 
 };
 
