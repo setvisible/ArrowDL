@@ -154,18 +154,22 @@ void DownloadItem::rename(const QString &newName)
  ******************************************************************************/
 void DownloadItem::onMetaDataChanged()
 {
-    qDebug() << Q_FUNC_INFO;
+#if defined QT_DEBUG
+    /*
+     * Check if the metadata change is a redirection
+     */
     if (d->reply) {
-        QUrl locationHeader = d->reply->header(QNetworkRequest::LocationHeader).toUrl();
-        if (locationHeader.isValid()) {
-            d->reply->close();
-            d->reply->deleteLater();
-
-            Q_ASSERT(d->networkManager);
-            d->reply = d->networkManager->get(QNetworkRequest(locationHeader));
-            resume();
+        const QUrl oldUrl = d->resource->url();
+        const QUrl newUrl = d->reply->header(QNetworkRequest::LocationHeader).toUrl();
+        if (newUrl.isValid() && oldUrl.isValid() && oldUrl != newUrl) {
+            qDebug() << Q_FUNC_INFO
+                     << "redirecting " << oldUrl.toString()
+                     << "to" << newUrl.toString();
+            return;
         }
     }
+#endif
+    qDebug() << Q_FUNC_INFO;
 }
 
 void DownloadItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
@@ -177,7 +181,7 @@ void DownloadItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 
 void DownloadItem::onRedirected(const QUrl &url)
 {
-    qDebug() << Q_FUNC_INFO << url;
+    qDebug() << Q_FUNC_INFO << url.toString();
 }
 
 void DownloadItem::onFinished()
@@ -246,12 +250,16 @@ void DownloadItem::onError(QNetworkReply::NetworkError error)
 
 void DownloadItem::onReadyRead()
 {
+#if !defined QT_DEBUG
     qDebug() << Q_FUNC_INFO;
-
+#endif
     if (!d->reply || !d->file) {
         return;
     }
     QByteArray data = d->reply->readAll();
+#if defined QT_DEBUG
+    qDebug() << Q_FUNC_INFO << "<<" << data.size() << "bytes";
+#endif
     d->file->write(data);
 }
 
