@@ -80,6 +80,13 @@ void DownloadItem::resume()
 
         QNetworkRequest request;
         request.setUrl(d->resource->url());
+#if QT_VERSION >= 0x050600 && QT_VERSION < 0x050900
+        request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
+#if QT_VERSION >= 0x050900
+        request.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
+                             QNetworkRequest::NoLessSafeRedirectPolicy);
+#endif
 
         d->reply = d->networkManager->get(request);
         d->reply->setParent(this);
