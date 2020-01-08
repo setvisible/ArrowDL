@@ -558,6 +558,8 @@ void DownloadQueueView::setEngine(DownloadEngine *downloadEngine)
           SLOT(onJobStateChanged(IDownloadItem*)) },
         { SIGNAL(selectionChanged()),
           SLOT(onSelectionChanged()) },
+        { SIGNAL(sortChanged()),
+          SLOT(onSortChanged()) },
         { 0, 0 }
     };
 
@@ -628,6 +630,29 @@ void DownloadQueueView::onSelectionChanged()
     }
 
     m_downloadEngine->endSelectionChange();
+}
+
+void DownloadQueueView::onSortChanged()
+{
+    // Save selection and current item
+    auto currentItem = m_queueView->currentItem();
+    auto selection = m_downloadEngine->selection();
+
+    auto items = m_downloadEngine->downloadItems();
+    for (int i = 0, total = items.size(); i < total; ++i) {
+        auto downloadItem = items.at(i);
+        auto index = getIndex(downloadItem);
+        if (index != -1) {
+            // Rem: takeTopLevelItem() changes the selection
+            auto treeItem =  m_queueView->takeTopLevelItem(index);
+            if (treeItem) {
+                m_queueView->insertTopLevelItem(i, treeItem);
+            }
+        }
+    }
+    // Restore selection and current item
+    m_queueView->setCurrentItem(currentItem);
+    m_downloadEngine->setSelection(selection);
 }
 
 /******************************************************************************

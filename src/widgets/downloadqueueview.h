@@ -57,6 +57,7 @@ private slots:
     void onJobRemoved(DownloadRange range);
     void onJobStateChanged(IDownloadItem *item);
     void onSelectionChanged();
+    void onSortChanged();
 
     void onQueueViewDoubleClicked(const QModelIndex &index);
     void onQueueViewItemSelectionChanged();

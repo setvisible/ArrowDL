@@ -625,18 +625,22 @@ void MainWindow::pause()
 
 void MainWindow::up()
 {
+    m_downloadManager->moveCurrentUp();
 }
 
 void MainWindow::top()
 {
+    m_downloadManager->moveCurrentTop();
 }
 
 void MainWindow::down()
 {
+    m_downloadManager->moveCurrentDown();
 }
 
 void MainWindow::bottom()
 {
+    m_downloadManager->moveCurrentBottom();
 }
 
 void MainWindow::speedLimit()

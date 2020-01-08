@@ -74,6 +74,11 @@ public:
     void beginSelectionChange(); // BUGFIX
     void endSelectionChange();
 
+    void moveCurrentTop();
+    void moveCurrentUp();
+    void moveCurrentDown();
+    void moveCurrentBottom();
+
     /* Segments */
     void oneMoreSegment();
     void oneFewerSegment();
@@ -89,6 +94,7 @@ signals:
     void jobRenamed(QString oldName, QString newName, bool success);
 
     void selectionChanged();
+    void sortChanged();
 
 public slots:
 
@@ -107,6 +113,10 @@ private:
 
     QList<IDownloadItem *> m_selectedItems;
     bool m_selectionAboutToChange;
+
+    void sortSelectionByIndex();
+    void moveUpTo(int targetIndex);
+    void moveDownTo(int targetIndex);
 };
 
 #endif // CORE_DOWNLOAD_ENGINE_H
