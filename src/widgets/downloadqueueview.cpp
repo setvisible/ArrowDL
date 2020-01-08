@@ -249,7 +249,7 @@ void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
     } else if (index.column() == C_COL_2_PROGRESS_BAR) {
 
         const int progress = index.data(ProgressBar::ProgressRole).toInt();
-        const IDownloadItem::State state = (IDownloadItem::State)index.data(ProgressBar::StateRole).toInt();
+        auto state = static_cast<IDownloadItem::State>(index.data(ProgressBar::StateRole).toInt());
 
         CustomStyleOptionProgressBar progressBarOption;
         progressBarOption.state = QStyle::State_Enabled;
@@ -501,8 +501,8 @@ QSize DownloadQueueView::sizeHint() const
 QList<int> DownloadQueueView::columnWidths() const
 {
     QList<int> widths;
-    for (int column = 0; column < m_queueView->columnCount(); ++column) {
-        const int width = m_queueView->columnWidth(column);
+    for (int column = 0, count = m_queueView->columnCount(); column < count; ++column) {
+        auto width = m_queueView->columnWidth(column);
         widths.append(width);
     }
     return widths;
@@ -515,9 +515,9 @@ static int defaultColumnWidth(int index)
 
 void DownloadQueueView::setColumnWidths(const QList<int> &widths)
 {
-    for (int column = 0; column < m_queueView->columnCount(); ++column) {
+    for (int column = 0, count = m_queueView->columnCount(); column < count; ++column) {
         if (column < widths.count()) {
-            const int width = widths.at(column);
+            auto width = widths.at(column);
             m_queueView->setColumnWidth(column, width);
         } else {
             m_queueView->setColumnWidth(column, defaultColumnWidth(column));
@@ -592,9 +592,9 @@ void DownloadQueueView::onJobAdded(DownloadRange range)
 void DownloadQueueView::onJobRemoved(DownloadRange range)
 {
     foreach (auto item, range) {
-        const int index = getIndex(item);
+        auto index = getIndex(item);
         if (index >= 0) {
-            QTreeWidgetItem *treeItem = m_queueView->takeTopLevelItem(index);
+            auto treeItem = m_queueView->takeTopLevelItem(index);
             auto queueItem = dynamic_cast<QueueItem*>(treeItem);
             Q_ASSERT(queueItem);
             if (queueItem) {
@@ -619,12 +619,11 @@ void DownloadQueueView::onSelectionChanged()
     const QSignalBlocker blocker(m_downloadEngine);
     m_downloadEngine->beginSelectionChange();
 
-    const QList<IDownloadItem *> selection = m_downloadEngine->selection();
-    const int count = m_queueView->topLevelItemCount();
-    for (int index = 0; index < count; ++index) {
-        QTreeWidgetItem* treeItem = m_queueView->topLevelItem(index);
+    auto selection = m_downloadEngine->selection();
+    for (int index = 0, count = m_queueView->topLevelItemCount(); index < count; ++index) {
+        auto treeItem = m_queueView->topLevelItem(index);
         auto queueItem = dynamic_cast<const QueueItem *>(treeItem);
-        const bool isSelected = selection.contains(queueItem->downloadItem());
+        auto isSelected = selection.contains(queueItem->downloadItem());
         treeItem->setSelected(isSelected);
     }
 
@@ -635,9 +634,8 @@ void DownloadQueueView::onSelectionChanged()
  ******************************************************************************/
 int DownloadQueueView::getIndex(IDownloadItem *downloadItem) const
 {
-    const int count = m_queueView->topLevelItemCount();
-    for (int index = 0; index < count; ++index) {
-        QTreeWidgetItem *treeItem = m_queueView->topLevelItem(index);
+    for (int index = 0, count = m_queueView->topLevelItemCount(); index < count; ++index) {
+        auto treeItem = m_queueView->topLevelItem(index);
         if (treeItem->type() == QTreeWidgetItem::UserType) {
             auto queueItem = dynamic_cast<const QueueItem *>(treeItem);
             if (queueItem && downloadItem && queueItem->downloadItem() == downloadItem) {
@@ -650,9 +648,9 @@ int DownloadQueueView::getIndex(IDownloadItem *downloadItem) const
 
 QueueItem* DownloadQueueView::getQueueItem(IDownloadItem *downloadItem)
 {
-    const int index = getIndex(downloadItem);
+    auto index = getIndex(downloadItem);
     if (index >= 0) {
-        QTreeWidgetItem *treeItem = m_queueView->topLevelItem(index);
+        auto treeItem = m_queueView->topLevelItem(index);
         if (treeItem->type() == QTreeWidgetItem::UserType) {
             auto queueItem = dynamic_cast<QueueItem *>(treeItem);
             if (queueItem && queueItem->downloadItem() == downloadItem) {
@@ -667,7 +665,7 @@ QueueItem* DownloadQueueView::getQueueItem(IDownloadItem *downloadItem)
  ******************************************************************************/
 void DownloadQueueView::onQueueViewDoubleClicked(const QModelIndex &index)
 {
-    QTreeWidgetItem *treeItem = m_queueView->itemFromIndex(index);
+    auto treeItem = m_queueView->itemFromIndex(index);
     auto queueItem = dynamic_cast<const QueueItem *>(treeItem);
     emit doubleClicked(queueItem->downloadItem());
 }
@@ -700,7 +698,7 @@ void DownloadQueueView::onQueueItemCommitData(QWidget *editor)
             newName = newName.left(pos);
         }
 
-        QTreeWidgetItem *treeItem = m_queueView->currentItem();
+        auto treeItem = m_queueView->currentItem();
         auto queueItem = dynamic_cast<QueueItem *>(treeItem);
         AbstractDownloadItem* downloadItem = queueItem->downloadItem();
 

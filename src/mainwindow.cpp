@@ -625,22 +625,18 @@ void MainWindow::pause()
 
 void MainWindow::up()
 {
-    qDebug() << Q_FUNC_INFO << "TODO";
 }
 
 void MainWindow::top()
 {
-    qDebug() << Q_FUNC_INFO << "TODO";
 }
 
 void MainWindow::down()
 {
-    qDebug() << Q_FUNC_INFO << "TODO";
 }
 
 void MainWindow::bottom()
 {
-    qDebug() << Q_FUNC_INFO << "TODO";
 }
 
 void MainWindow::speedLimit()
