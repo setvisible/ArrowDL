@@ -30,6 +30,7 @@ class FakeDownloadItem : public AbstractDownloadItem
 
 public:
     explicit FakeDownloadItem(QObject *parent = Q_NULLPTR);
+    explicit FakeDownloadItem(QString localFileName, QObject *parent = Q_NULLPTR);
     explicit FakeDownloadItem(QUrl url, QString filename,
                               qint64 bytesTotal, qint64 timeIncrement, qint64 duration,
                               QObject *parent= Q_NULLPTR);
