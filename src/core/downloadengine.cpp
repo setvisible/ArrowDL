@@ -358,6 +358,92 @@ void DownloadEngine::endSelectionChange()
 
 /******************************************************************************
  ******************************************************************************/
+void DownloadEngine::sortSelectionByIndex()
+{
+    if (m_selectedItems.isEmpty()) {
+        return;
+    }
+    QMap<int, IDownloadItem*> map;
+    for (auto selectedItem : m_selectedItems) {
+        auto index = m_items.indexOf(selectedItem);
+        map.insert(index, selectedItem);
+    }
+    m_selectedItems = map.values();
+}
+
+void DownloadEngine::moveUpTo(int targetIndex)
+{
+    for (int i = 0, total = m_selectedItems.size(); i < total; ++i) {
+        auto indexToMove = m_items.indexOf(m_selectedItems.at(i));
+        for (int j = indexToMove; j > targetIndex + i; --j) {
+#if QT_VERSION >= QT_VERSION_CHECK(5,13,0)
+            m_items.swapItemsAt(j, j - 1);
+#else
+            m_items.swap(j, j - 1);
+#endif
+        }
+    }
+    emit sortChanged();
+}
+
+void DownloadEngine::moveDownTo(int targetIndex)
+{
+    auto count = m_selectedItems.size() - 1;
+    for (int i = count; i >= 0; --i) {
+        auto i2 = count - i;
+        auto indexToMove = m_items.indexOf(m_selectedItems.at(i));
+        for (int j = indexToMove; j < targetIndex - i2; ++j) {
+#if QT_VERSION >= QT_VERSION_CHECK(5,13,0)
+            m_items.swapItemsAt(j, j + 1);
+#else
+            m_items.swap(j, j + 1);
+#endif
+        }
+    }
+    emit sortChanged();
+}
+
+void DownloadEngine::moveCurrentTop()
+{
+    if (m_selectedItems.isEmpty()) {
+        return;
+    }
+    sortSelectionByIndex();
+    moveUpTo(0);
+}
+
+void DownloadEngine::moveCurrentUp()
+{
+    if (m_selectedItems.isEmpty()) {
+        return;
+    }
+    sortSelectionByIndex();
+    auto targetIndex = qMax(0, m_items.indexOf(m_selectedItems.first()) - 1);
+    moveUpTo(targetIndex);
+}
+
+void DownloadEngine::moveCurrentDown()
+{
+    if (m_selectedItems.isEmpty()) {
+        return;
+    }
+    sortSelectionByIndex();
+    auto targetIndex = qMin(m_items.size() - 1, m_items.indexOf(m_selectedItems.last()) + 1);
+    moveDownTo(targetIndex);
+}
+
+void DownloadEngine::moveCurrentBottom()
+{
+    if (m_selectedItems.isEmpty()) {
+        return;
+    }
+    sortSelectionByIndex();
+    auto targetIndex = m_items.size() - 1;
+    moveDownTo(targetIndex);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void DownloadEngine::oneMoreSegment()
 {
     foreach (auto item, selection()) {
