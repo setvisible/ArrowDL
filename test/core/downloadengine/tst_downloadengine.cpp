@@ -33,12 +33,22 @@ class tst_DownloadEngine : public QObject
     Q_OBJECT
 
 private slots:
-    void initTestCase() {
-        qRegisterMetaType<IDownloadItem*>("IDownloadItem*");
-        qRegisterMetaType<DownloadRange>("DownloadRange");
-    }
+    void initTestCase();
+
     void append();
+
+    void do_not_move();
+    void moveCurrentTop();
+    void moveCurrentUp();
+    void moveCurrentDown();
+    void moveCurrentBottom();
 };
+
+void tst_DownloadEngine::initTestCase()
+{
+    qRegisterMetaType<IDownloadItem*>("IDownloadItem*");
+    qRegisterMetaType<DownloadRange>("DownloadRange");
+}
 
 /******************************************************************************
  ******************************************************************************/
@@ -89,7 +99,121 @@ void tst_DownloadEngine::append()
 
 /******************************************************************************
  ******************************************************************************/
+static void VERIFY_ORDER(const QScopedPointer<DownloadEngine> &engine, QList<int> indexes)
+{
+    auto items = engine->downloadItems();
+    if (engine->downloadItems().size() != indexes.size()) {
+        QFAIL("Sizes must be the same");
+    }
+    for (int i = 0, total = indexes.size(); i < total; ++i) {
+        auto expected = QString("item %0").arg(indexes.at(i));
+        auto actual = items.at(i)->localFileName();
+        if (actual != expected) {
+            auto message = QString("Items at index %0 are different: expected=<%1> actual=<%2>")
+                    .arg(i).arg(expected, actual);
+            QFAIL(message.toUtf8());
+        }
+    }
+    QVERIFY(true);
+}
 
+static QList<IDownloadItem*> createDummyList()
+{
+    QList<IDownloadItem*> items;
+    for (int i = 0; i < 10; ++i) {
+        auto item = new FakeDownloadItem(QString("item %0").arg(i));
+        items.append(item);
+    }
+    return items;
+}
+
+static void select(const QScopedPointer<DownloadEngine> &engine, QList<int> indexes)
+{
+    Q_ASSERT(!engine.isNull());
+    QList<IDownloadItem*> selection;
+    for (int i = 0, total = indexes.size(); i < total; ++i) {
+        auto index = indexes.at(i);
+        selection.append(engine->downloadItems().at(index));
+    }
+    engine->setSelection(selection);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+/*
+ * This test verifies that the static test methods hereabove have no bug.
+ */
+void tst_DownloadEngine::do_not_move()
+{
+    // Given, When
+    QScopedPointer<DownloadEngine> target(new DownloadEngine(this));
+    target->append(createDummyList(), false);
+    select(target, QList<int>({7, 4, 2, 6}));
+
+    // Then
+    VERIFY_ORDER(target, QList<int>({0, 1, 2, 3, 4, 5, 6, 7, 8, 9}));
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void tst_DownloadEngine::moveCurrentTop()
+{
+    // Given
+    QScopedPointer<DownloadEngine> target(new DownloadEngine(this));
+    target->append(createDummyList(), false);
+    select(target, QList<int>({7, 4, 2, 6}));
+
+    // When
+    target->moveCurrentTop();
+
+    // Then
+    VERIFY_ORDER(target, QList<int>({2, 4, 6, 7, 0, 1, 3, 5, 8, 9}));
+}
+
+void tst_DownloadEngine::moveCurrentUp()
+{
+    // Given
+    QScopedPointer<DownloadEngine> target(new DownloadEngine(this));
+    target->append(createDummyList(), false);
+    select(target, QList<int>({7, 4, 2, 6}));
+
+    // When
+    target->moveCurrentUp();
+
+    // Then
+    VERIFY_ORDER(target, QList<int>({0, 2, 4, 6, 7, 1, 3, 5, 8, 9}));
+}
+
+void tst_DownloadEngine::moveCurrentDown()
+{
+    // Given
+    QScopedPointer<DownloadEngine> target(new DownloadEngine(this));
+    target->append(createDummyList(), false);
+    select(target, QList<int>({7, 4, 2, 6}));
+
+    // When
+    target->moveCurrentDown();
+
+    // Then
+    VERIFY_ORDER(target, QList<int>({0, 1, 3, 5, 8, 2, 4, 6, 7, 9}));
+}
+
+void tst_DownloadEngine::moveCurrentBottom()
+{
+    // Given
+    QScopedPointer<DownloadEngine> target(new DownloadEngine(this));
+    target->append(createDummyList(), false);
+    select(target, QList<int>({7, 4, 2, 6}));
+
+    // When
+    target->moveCurrentBottom();
+
+    // Then
+    VERIFY_ORDER(target, QList<int>({0, 1, 3, 5, 8, 9, 2, 4, 6, 7}));
+}
+
+/******************************************************************************
+ ******************************************************************************/
 /*
  * QSignalSpy::wait() requires QTEST_MAIN instead of QTEST_APPLESS_MAIN,
  * otherwise we get QEventLoop: Cannot be used without QApplication

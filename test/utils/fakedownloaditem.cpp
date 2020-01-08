@@ -32,6 +32,19 @@ FakeDownloadItem::FakeDownloadItem(QObject *parent) : AbstractDownloadItem(paren
     init();
 }
 
+FakeDownloadItem::FakeDownloadItem(QString localFileName, QObject *parent)
+    : AbstractDownloadItem(parent)
+    , m_resourceUrl(QUrl("https://www.example.com/myfolder/myimage.png"))
+    , m_resourceLocalFileName(localFileName)
+    , m_simulationBytesTotal(123*1024*1024) // We 'download' 123 MB of data
+    , m_simulationTimeIncrement(100) // We receives data chunk every 100 milliseconds
+    , m_simulationTimeDuration(5000) // We 'download' in 5 seconds
+    , m_isSimulateFileErrorEnabled(false)
+    , m_isSimulateFileErrorAtTheEndEnabled(false)
+{
+    init();
+}
+
 FakeDownloadItem::FakeDownloadItem(QUrl url, QString filename,
                                    qint64 bytesTotal,
                                    qint64 timeIncrement,
@@ -68,7 +81,7 @@ void FakeDownloadItem::resume()
     if (this->checkResume(!m_isSimulateFileErrorEnabled)) {
 
         /* Prepare the connection, try to contact the server */
-        m_fakeStreamTimer.start(m_simulationTimeIncrement); // milliseconds
+        m_fakeStreamTimer.start(static_cast<int>(m_simulationTimeIncrement)); // milliseconds
 
         this->tearDownResume();
     }

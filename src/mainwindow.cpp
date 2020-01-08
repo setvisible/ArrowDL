@@ -625,22 +625,22 @@ void MainWindow::pause()
 
 void MainWindow::up()
 {
-    qDebug() << Q_FUNC_INFO << "TODO";
+    m_downloadManager->moveCurrentUp();
 }
 
 void MainWindow::top()
 {
-    qDebug() << Q_FUNC_INFO << "TODO";
+    m_downloadManager->moveCurrentTop();
 }
 
 void MainWindow::down()
 {
-    qDebug() << Q_FUNC_INFO << "TODO";
+    m_downloadManager->moveCurrentDown();
 }
 
 void MainWindow::bottom()
 {
-    qDebug() << Q_FUNC_INFO << "TODO";
+    m_downloadManager->moveCurrentBottom();
 }
 
 void MainWindow::speedLimit()
