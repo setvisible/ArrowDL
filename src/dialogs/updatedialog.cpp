@@ -115,7 +115,8 @@ void UpdateDialog::onUpdateAvailable(CAutoUpdaterGithub::ChangeLog changelog)
 {
     if (!changelog.empty()) {
         ui->stackedWidget->setCurrentWidget(ui->pageNewVersionAvailable);
-
+        ui->changeLogViewer->clear();
+        ui->changeLogViewer->append(tr("Current version: %0\n\n").arg(m_updateChecker->currentVersion()));
         for (const auto& changelogItem: changelog) {
             QString text = "<b>" % changelogItem.versionString % "</b>" % '\n' % changelogItem.versionChanges % "<p></p>";
             ui->changeLogViewer->append(text);

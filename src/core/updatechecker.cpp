@@ -26,10 +26,17 @@
 
 UpdateChecker::UpdateChecker(QObject *parent) : QObject(parent)
   , m_updater(STR_GITHUB_REPO_ADDRESS,
-              STR_APPLICATION_VERSION,
+              currentVersion(),
               UpdateCheckerNS::addressMatcher(IS_HOST_64BIT))
 {
     m_updater.setUpdateStatusListener(this);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QString UpdateChecker::currentVersion() const
+{
+    return STR_APPLICATION_VERSION;
 }
 
 /******************************************************************************
