@@ -31,6 +31,8 @@ public:
     explicit UpdateChecker(QObject *parent);
     ~UpdateChecker() Q_DECL_OVERRIDE = default;
 
+    QString currentVersion() const;
+
     void checkForUpdates(const Settings *settings);
     void checkForUpdates();
 
