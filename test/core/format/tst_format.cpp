@@ -23,8 +23,8 @@
 struct BigInteger
 {
     explicit BigInteger() : value(0) {}
-    explicit BigInteger(quint64 _value) : value(_value) {}
-    quint64 value;
+    explicit BigInteger(qint64 _value) : value(_value) {}
+    qint64 value;
 };
 
 Q_DECLARE_METATYPE(BigInteger)
@@ -42,11 +42,17 @@ private slots:
 
     void currentSpeedToString_data();
     void currentSpeedToString();
+
+    void parsePercentDecimal_data();
+    void parsePercentDecimal();
+
+    void parseBytes_data();
+    void parseBytes();
 };
 
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Format::remaingTimeToString_data()
 {
     QTest::addColumn<QTime>("time");
@@ -76,7 +82,7 @@ void tst_Format::remaingTimeToString()
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Format::fileSizeToString_data()
 {
     QTest::addColumn<BigInteger>("size");
@@ -114,7 +120,7 @@ void tst_Format::fileSizeToString()
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Format::currentSpeedToString_data()
 {
     QTest::addColumn<qreal>("speed");
@@ -150,7 +156,82 @@ void tst_Format::currentSpeedToString()
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
+void tst_Format::parsePercentDecimal_data()
+{
+    QTest::addColumn<QString>("str");
+    QTest::addColumn<double>("expected");
+
+    /* Invalid */
+    QTest::newRow("invalid") << "" << -1.0;
+    QTest::newRow("invalid") << QString() << -1.0;
+    QTest::newRow("invalid") << "azerty" << -1.0;
+    QTest::newRow("invalid") << "NaN" << -1.0;
+    QTest::newRow("negative") << "-1.0%" << -1.0;
+
+    /* Valid */
+    QTest::newRow("zero") << "0%" << 0.0;
+    QTest::newRow("zero") << "0.0%" << 0.0;
+    QTest::newRow("zero") << "0.0 %" << 0.0;
+    QTest::newRow("zero") << "0.0   %" << 0.0;
+
+    QTest::newRow("8.2") << "8.2%" << 8.2;
+    QTest::newRow("100.0") << "100.0%" << 100.0;
+    QTest::newRow("100.0") << "1325.6654%" << 1325.6654;
+}
+
+void tst_Format::parsePercentDecimal()
+{
+    QFETCH(QString, str);
+    QFETCH(double, expected);
+    double actual = Format::parsePercentDecimal(str);
+    QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void tst_Format::parseBytes_data()
+{
+    QTest::addColumn<QString>("str");
+    QTest::addColumn<BigInteger>("expected");
+
+    /* Invalid */
+    QTest::newRow("invalid") << ""          << BigInteger(-1);
+    QTest::newRow("invalid") << QString()   << BigInteger(-1);
+    QTest::newRow("invalid") << "azerty"    << BigInteger(-1);
+    QTest::newRow("invalid") << "NaN"       << BigInteger(-1);
+    QTest::newRow("unitless") << "0"        << BigInteger(-1);
+    QTest::newRow("unitless") << "0.0"      << BigInteger(-1);
+
+    /* Valid */
+    QTest::newRow("zero") << "0.0KiB" << BigInteger(0);
+
+    QTest::newRow("1 byte") << "1 B" << BigInteger(1);
+    QTest::newRow("1 byte") << "1 byte" << BigInteger(1);
+
+    QTest::newRow("1 KB") << "1 KB" << BigInteger(1000);
+    QTest::newRow("1 MB") << "1 MB" << BigInteger(1000*1000);
+    QTest::newRow("1 GB") << "1 GB" << BigInteger(1000*1000*1000);
+
+    QTest::newRow("1 KiB") << "1 KiB" << BigInteger(1024);
+    QTest::newRow("1 MiB") << "1 MiB" << BigInteger(1024*1024);
+    QTest::newRow("1 GiB") << "1 GiB" << BigInteger(1024*1024*1024);
+
+    QTest::newRow("167.85MiB") << "167.85MiB" << BigInteger(176003482);
+    QTest::newRow("167.85MiB") << "167.85 MiB" << BigInteger(176003482);
+    QTest::newRow("167.85MiB") << "167.85    MiB" << BigInteger(176003482);
+}
+
+void tst_Format::parseBytes()
+{
+    QFETCH(QString, str);
+    QFETCH(BigInteger, expected);
+    qint64 actual = Format::parseBytes(str);
+    QCOMPARE(actual, expected.value);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 
 QTEST_APPLESS_MAIN(tst_Format)
 
