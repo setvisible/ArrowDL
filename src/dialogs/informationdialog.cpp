@@ -17,13 +17,15 @@
 #include "informationdialog.h"
 #include "ui_informationdialog.h"
 
+#include <Core/Format>
 #include <Core/IDownloadItem>
 #include <Core/MimeDatabase>
 
 #include <QtCore/QDir>
 
-InformationDialog::InformationDialog(const QList<IDownloadItem*> &jobs, QWidget *parent) : QDialog(parent)
-  , ui(new Ui::InformationDialog)
+InformationDialog::InformationDialog(const QList<IDownloadItem*> &jobs, QWidget *parent)
+    : QDialog(parent)
+    , ui(new Ui::InformationDialog)
 {
     ui->setupUi(this);
     init(jobs);
@@ -56,13 +58,14 @@ void InformationDialog::init(const QList<IDownloadItem *> &selection)
     ui->urlLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
     ui->urlLabel->setOpenExternalLinks(true);
 
-    const QString bytes = item->bytesTotal() > 0
-            ? tr("%0 bytes").arg(item->bytesTotal())
-            : tr("Unknown");
-    ui->sizeLabel->setText(bytes);
+    auto bytes = item->bytesTotal();
+    auto text = QString("%0 (%1 bytes)")
+            .arg(Format::fileSizeToString(bytes))
+            .arg(Format::fileSizeThousandSeparator(bytes));
+    ui->sizeLabel->setText(text);
+
 
     const QUrl url = item->sourceUrl();
     const QPixmap pixmap = MimeDatabase::fileIcon(url, 256);
     ui->fileIcon->setPixmap(pixmap);
-
 }
