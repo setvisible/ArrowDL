@@ -40,6 +40,9 @@ private slots:
     void fileSizeToString_data();
     void fileSizeToString();
 
+    void fileSizeThousandSeparator_data();
+    void fileSizeThousandSeparator();
+
     void currentSpeedToString_data();
     void currentSpeedToString();
 
@@ -116,6 +119,40 @@ void tst_Format::fileSizeToString()
     QFETCH(BigInteger, size);
     QFETCH(QString, expected);
     QString actual = Format::fileSizeToString(size.value);
+    QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void tst_Format::fileSizeThousandSeparator_data()
+{
+    QTest::addColumn<BigInteger>("number");
+    QTest::addColumn<QString>("expected");
+
+    QTest::newRow("zero") << BigInteger(0) << "0";
+    QTest::newRow("negative zero") << BigInteger(-0) << "0";
+    QTest::newRow("negative") << BigInteger(-1) << "-1";
+    QTest::newRow("negative -1024") << BigInteger(-1024) << "-1,024";
+
+    QTest::newRow("1") << BigInteger(1) << "1";
+    QTest::newRow("8") << BigInteger(8) << "8";
+    QTest::newRow("256") << BigInteger(256) << "256";
+    QTest::newRow("512") << BigInteger(512) << "512";
+    QTest::newRow("1024") << BigInteger(1024) << "1,024";
+    QTest::newRow("1025") << BigInteger(1025) << "1,025";
+    QTest::newRow("10240") << BigInteger(10240) << "10,240";
+    QTest::newRow("123456") << BigInteger(123456) << "123,456";
+    QTest::newRow("123456789") << BigInteger(123456789) << "123,456,789";
+    QTest::newRow("1234567890") << BigInteger(1234567890) << "1,234,567,890";
+    QTest::newRow("1234567890123") << BigInteger(1234567890123) << "1,234,567,890,123";
+    QTest::newRow("1234567890123456") << BigInteger(1234567890123456) << "1,234,567,890,123,456";
+}
+
+void tst_Format::fileSizeThousandSeparator()
+{
+    QFETCH(BigInteger, number);
+    QFETCH(QString, expected);
+    QString actual = Format::fileSizeThousandSeparator(number.value);
     QCOMPARE(actual, expected);
 }
 

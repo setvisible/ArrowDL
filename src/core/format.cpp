@@ -80,6 +80,24 @@ QString Format::fileSizeToString(qint64 size)
 /******************************************************************************
  ******************************************************************************/
 /*!
+ * \code
+ * thisMethod(123456789); // returns "123,456,789"
+ * \endcode
+ */
+QString Format::fileSizeThousandSeparator(qint64 size)
+{
+    auto number = QString::number(size);
+    int i = number.count();
+    while (i > 3) {
+        i -= 3;
+        number.insert(i, QLatin1Char(','));
+    }
+    return number;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+/*!
  * \brief Returns a string formatting the given speed, in bytes per second.
  */
 QString Format::currentSpeedToString(qreal speed)

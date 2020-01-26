@@ -27,6 +27,7 @@ public:
     static QString remaingTimeToString(QTime time);
     static QString currentSpeedToString(qreal speed);
     static QString fileSizeToString(qint64 size);
+    static QString fileSizeThousandSeparator(qint64 size);
 
     static double parsePercentDecimal(const QString &text);
     static qint64 parseBytes(const QString &text);
