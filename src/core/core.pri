@@ -19,6 +19,7 @@ HEADERS += \
     $$PWD/resourcemodel.h \
     $$PWD/session.h \
     $$PWD/settings.h \
+    $$PWD/stream.h \
     $$PWD/updatechecker.h \
     $$PWD/updatechecker_p.h
 
@@ -40,4 +41,5 @@ SOURCES += \
     $$PWD/resourcemodel.cpp \
     $$PWD/session.cpp \
     $$PWD/settings.cpp \
+    $$PWD/stream.cpp \
     $$PWD/updatechecker.cpp
