@@ -203,3 +203,9 @@ win32{
     INSTALLS += libs_openssl_to_copy
 }
 
+# install youtube-dl (for Windows only)
+win32{
+    youtube_dl_executable_to_copy.files += $$PWD/../3rd/youtube-dl/bin/youtube-dl.exe
+    youtube_dl_executable_to_copy.path = $${DESTDIR}
+    INSTALLS += youtube_dl_executable_to_copy
+}
