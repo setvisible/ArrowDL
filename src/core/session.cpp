@@ -55,6 +55,10 @@ static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *do
     resourceItem->setReferringPage(json["referringPage"].toString());
     resourceItem->setDescription(json["description"].toString());
     resourceItem->setCheckSum(json["checkSum"].toString());
+    resourceItem->setStreamEnabled(json["streamEnabled"].toBool());
+    resourceItem->setStreamFileName(json["streamFileName"].toString());
+    resourceItem->setStreamFormatId(json["streamFormatId"].toString());
+    resourceItem->setStreamFileSize(json["streamFileSize"].toInt());
 
     DownloadItem *item;
     if (resourceItem->isStreamEnabled()) {
@@ -82,6 +86,10 @@ static inline void writeJob(const DownloadItem *item, QJsonObject &json)
     json["referringPage"] = item->resource()->referringPage();
     json["description"] = item->resource()->description();
     json["checkSum"] = item->resource()->checkSum();
+    json["streamEnabled"] = item->resource()->isStreamEnabled();
+    json["streamFileName"] = item->resource()->streamFileName();
+    json["streamFormatId"] = item->resource()->streamFormatId();
+    json["streamFileSize"] = item->resource()->streamFileSize();
 
     json["state"] = stateToInt(item->state());
     json["bytesReceived"] = item->bytesReceived();
