@@ -18,6 +18,7 @@
 
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
+#include <Core/DownloadStreamItem>
 #include <Core/ResourceItem>
 
 #include <QtCore/QDebug>
@@ -56,7 +57,11 @@ static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *do
     resourceItem->setCheckSum(json["checkSum"].toString());
 
     DownloadItem *item;
-    item = new DownloadItem(downloadManager);
+    if (resourceItem->isStreamEnabled()) {
+        item = new DownloadStreamItem(downloadManager);
+    } else {
+        item = new DownloadItem(downloadManager);
+    }
     item->setResource(resourceItem);
 
     item->setState(intToState(json["state"].toInt()));

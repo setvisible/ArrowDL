@@ -5,6 +5,7 @@ HEADERS += \
     $$PWD/downloaditem.h \
     $$PWD/downloaditem_p.h \
     $$PWD/downloadmanager.h \
+    $$PWD/downloadstreamitem.h \
     $$PWD/file.h \
     $$PWD/fileaccessmanager.h \
     $$PWD/format.h \
@@ -29,6 +30,7 @@ SOURCES += \
     $$PWD/downloadengine.cpp \
     $$PWD/downloaditem.cpp \
     $$PWD/downloadmanager.cpp \
+    $$PWD/downloadstreamitem.cpp \
     $$PWD/file.cpp \
     $$PWD/fileaccessmanager.cpp \
     $$PWD/format.cpp \

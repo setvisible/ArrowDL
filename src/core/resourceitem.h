@@ -56,6 +56,17 @@ public:
     QString checkSum() const;
     void setCheckSum(const QString &checkSum);
 
+    bool isStreamEnabled() const;
+    void setStreamEnabled(bool enabled);
+
+    QString streamFileName() const;
+    void setStreamFileName(QString streamFileName);
+
+    QString streamFormatId() const;
+    void setStreamFormatId(QString streamFormatId);
+
+    qint64 streamFileSize() const;
+    void setStreamFileSize(qint64 streamFileSize);
 
     bool isSelected() const; // OBSOLETE
     void setSelected(bool isSelected); // OBSOLETE
@@ -70,8 +81,15 @@ private:
     QString m_description;
     QString m_checkSum;
 
+    bool m_isStreamEnabled; // true=download the stream; false=download the page
+    QString m_streamFileName;
+    QString m_streamFormatId;
+    qint64 m_streamFileSize;
+
     bool m_isSelected = false;
 
+    inline QString localFilePath(const QString &customFileName) const;
+    inline QString localStreamFile(const QString &customFileName) const;
     inline static QString localFile(const QString &destination, const QUrl &url,
                                     const QString &customFileName, const QString &mask);
 };

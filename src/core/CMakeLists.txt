@@ -4,6 +4,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadengine.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloaditem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadmanager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadstreamitem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/file.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/fileaccessmanager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/format.cpp
@@ -24,6 +25,7 @@ set(MY_SOURCES ${MY_SOURCES}
 set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloaditem.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadmanager.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadstreamitem.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/model.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/resourcemodel.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/settings.h

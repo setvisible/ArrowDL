@@ -30,6 +30,10 @@ ResourceItem::ResourceItem()
     , m_referringPage(QString())
     , m_description(QString())
     , m_checkSum(QString())
+    , m_isStreamEnabled(false)
+    , m_streamFileName(QString())
+    , m_streamFormatId(QString())
+    , m_streamFileSize(0)
 {
 }
 
@@ -90,7 +94,7 @@ void ResourceItem::setCustomFileName(const QString &customFileName)
  ******************************************************************************/
 QUrl ResourceItem::localFileUrl() const
 {
-    const QString path = localFile(m_destination, m_url, m_customFileName, m_mask);
+    const QString path = localFilePath(m_customFileName);
     return QUrl::fromLocalFile(path);
 }
 
@@ -105,7 +109,7 @@ QString ResourceItem::fileName() const
 
 QString ResourceItem::localFileFullPath(const QString &customFileName) const
 {
-    return localFile(m_destination, m_url, customFileName, m_mask);
+    return localFilePath(customFileName);
 }
 
 /******************************************************************************
@@ -165,6 +169,54 @@ void ResourceItem::setCheckSum(const QString &checkSum)
 
 /******************************************************************************
  ******************************************************************************/
+bool ResourceItem::isStreamEnabled() const
+{
+    return m_isStreamEnabled;
+}
+
+void ResourceItem::setStreamEnabled(bool enabled)
+{
+    m_isStreamEnabled = enabled;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QString ResourceItem::streamFileName() const
+{
+    return m_streamFileName;
+}
+
+void ResourceItem::setStreamFileName(QString streamFileName)
+{
+    m_streamFileName = streamFileName;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QString ResourceItem::streamFormatId() const
+{
+    return m_streamFormatId;
+}
+
+void ResourceItem::setStreamFormatId(QString streamFormatId)
+{
+    m_streamFormatId = streamFormatId;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+qint64 ResourceItem::streamFileSize() const
+{
+    return m_streamFileSize;
+}
+
+void ResourceItem::setStreamFileSize(qint64 streamFileSize)
+{
+    m_streamFileSize = streamFileSize;
+}
+
+/******************************************************************************
+ ******************************************************************************/
 bool ResourceItem::isSelected() const
 {
     return m_isSelected;
@@ -177,6 +229,21 @@ void ResourceItem::setSelected(bool isSelected)
 
 /******************************************************************************
  ******************************************************************************/
+inline QString ResourceItem::localFilePath(const QString &customFileName) const
+{
+    if (m_isStreamEnabled) {
+        return localStreamFile(customFileName);
+    }
+    return localFile(m_destination, m_url, customFileName, m_mask);
+}
+
+inline QString ResourceItem::localStreamFile(const QString &customFileName) const
+{
+    QString url = QUrl(m_url).host() + "/" + m_streamFileName;
+    const QString fileName = Mask::interpret(url, customFileName, m_mask);
+    return QDir(m_destination).filePath(fileName);
+}
+
 inline QString ResourceItem::localFile(const QString &destination, const QUrl &url,
                                        const QString &customFileName, const QString &mask)
 {

@@ -64,6 +64,9 @@ private slots:
     void onReadyRead();
     void onAboutToClose();
 
+protected:
+    File* file() const;
+
 private:
     DownloadItemPrivate *d;
     friend class DownloadItemPrivate;
