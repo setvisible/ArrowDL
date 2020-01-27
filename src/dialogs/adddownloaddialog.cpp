@@ -315,9 +315,7 @@ IDownloadItem* AddDownloadDialog::createItem(const QString &url) const
 
 inline QList<IDownloadItem*> AddDownloadDialog::toList(IDownloadItem *item)
 {
-    QList<IDownloadItem*> items;
-    items << item;
-    return items;
+    return QList<IDownloadItem*>() << item;
 }
 
 /******************************************************************************
