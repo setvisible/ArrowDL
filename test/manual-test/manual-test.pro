@@ -2,6 +2,7 @@ TEMPLATE = subdirs
 CONFIG  += ordered
 
 SUBDIRS += $$PWD/demo
+SUBDIRS += $$PWD/streamwidget
 
 # Hack
 win32-msvc* {

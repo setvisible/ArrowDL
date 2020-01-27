@@ -306,5 +306,11 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
             )
     endif()
 
+    ## youtube-dl
+    install(FILES
+        ./3rd/youtube-dl/bin/youtube-dl.exe
+        DESTINATION ${CMAKE_INSTALL_PREFIX}
+        )
+
 endif(MSVC OR MSYS OR MINGW)
 

@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -103,7 +103,7 @@ void DownloadManager::loadQueue()
         QList<IDownloadItem*> abstractItems;
         foreach (auto item, downloadItems) {
             // Cast items of the list
-            abstractItems.append((IDownloadItem*)item);
+            abstractItems.append(static_cast<IDownloadItem*>(item));
         }
         clear();
         append(abstractItems, false);

@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,5 +25,7 @@
 /* Google Gumbo */
 #define GOOGLE_GUMBO_VERSION_STR      "0.10.1"
 
+/* Youtube-DL */
+#define YOUTUBEDL_VERSION_STR         "2020.01.24"
 
 #endif // VERSION_H

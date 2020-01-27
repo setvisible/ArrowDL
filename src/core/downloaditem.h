@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,10 +24,10 @@
 #include <QtCore/QUrl>
 #include <QtNetwork/QNetworkReply>
 
-class ResourceItem;
-
-class DownloadManager;
+class File;
 class DownloadItemPrivate;
+class DownloadManager;
+class ResourceItem;
 
 class DownloadItem : public AbstractDownloadItem
 {
@@ -39,7 +39,7 @@ public:
 
     /* Resource to download */
     ResourceItem* resource() const;
-    void setResource(ResourceItem *resource);
+    virtual void setResource(ResourceItem *resource);
 
     /* Convenient */
     QUrl sourceUrl() const Q_DECL_OVERRIDE;
@@ -63,6 +63,9 @@ private slots:
     void onError(QNetworkReply::NetworkError error);
     void onReadyRead();
     void onAboutToClose();
+
+protected:
+    File* file() const;
 
 private:
     DownloadItemPrivate *d;

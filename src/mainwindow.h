@@ -92,6 +92,7 @@ public slots:
 
     // Download
     void add();
+    void addFromStream();
     void resume();
     void cancel();
     void pause();
