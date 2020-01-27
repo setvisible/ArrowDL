@@ -27,6 +27,7 @@
 #include <Core/Settings>
 #include <Core/UpdateChecker>
 #include <Dialogs/AddDownloadDialog>
+#include <Dialogs/AddStreamDialog>
 #include <Dialogs/CompilerDialog>
 #include <Dialogs/InformationDialog>
 #include <Dialogs/PreferenceDialog>
@@ -214,6 +215,7 @@ void MainWindow::createActions()
 
     //! [3] Download
     connect(ui->actionAdd, SIGNAL(triggered()), this, SLOT(add()));
+    connect(ui->actionAddStream, SIGNAL(triggered()), this, SLOT(addFromStream()));
     //--
     connect(ui->actionResume, SIGNAL(triggered()), this, SLOT(resume()));
     connect(ui->actionPause, SIGNAL(triggered()), this, SLOT(pause()));
@@ -599,6 +601,12 @@ void MainWindow::removePaused()
 void MainWindow::add()
 {
     AddDownloadDialog dialog(urlFromClipboard(), m_downloadManager, m_settings, this);
+    dialog.exec();
+}
+
+void MainWindow::addFromStream()
+{
+    AddStreamDialog dialog(urlFromClipboard(), m_downloadManager, m_settings, this);
     dialog.exec();
 }
 

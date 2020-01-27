@@ -1,5 +1,6 @@
 HEADERS  += \
     $$PWD/adddownloaddialog.h \
+    $$PWD/addstreamdialog.h \
     $$PWD/compilerdialog.h \
     $$PWD/informationdialog.h \
     $$PWD/preferencedialog.h \
@@ -10,6 +11,7 @@ HEADERS  += \
 
 SOURCES += \
     $$PWD/adddownloaddialog.cpp \
+    $$PWD/addstreamdialog.cpp \
     $$PWD/compilerdialog.cpp \
     $$PWD/informationdialog.cpp \
     $$PWD/preferencedialog.cpp \
@@ -19,6 +21,7 @@ SOURCES += \
 
 FORMS += \
     $$PWD/adddownloaddialog.ui \
+    $$PWD/addstreamdialog.ui \
     $$PWD/compilerdialog.ui \
     $$PWD/informationdialog.ui \
     $$PWD/preferencedialog.ui \
