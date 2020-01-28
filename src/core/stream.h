@@ -117,8 +117,8 @@ public:
 
     QString fileName() const;
 
-    qint64 fileSize() const;
-    void setFileSize(qint64 filesize);
+    qint64 fileSizeInBytes() const;
+    void setFileSizeInBytes(qint64 fileSizeInBytes);
 
     void initializeWithStreamInfos(const StreamInfos &streamInfos);
 
@@ -151,8 +151,9 @@ private:
     QString m_outputPath;
     QString m_selectedFormatId;
 
-    qint64 m_filesize;
-    qint64 m_cumulatedProgress;
+    qint64 m_fileSizeInBytes;
+    qint64 m_currentSectionBytes;
+    qint64 m_totalBytes;
 
     QString m_fileBaseName;
     QString m_fileExtension;

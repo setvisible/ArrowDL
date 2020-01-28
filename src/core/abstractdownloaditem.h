@@ -48,6 +48,9 @@ public:
     int httpErrorNumber() const;
     void setHttpErrorNumber(int error);
 
+    QString streamErrorMessage() const;
+    void setStreamErrorMessage(const QString &errorMessage);
+
     int maxConnectionSegments() const Q_DECL_OVERRIDE;
     void setMaxConnectionSegments(int connectionSegments);
 
@@ -94,6 +97,7 @@ private:
     qint64 m_bytesTotal;
 
     int m_httpErrorNumber;
+    QString m_streamErrorMessage;
 
     int m_maxConnectionSegments;
     int m_maxConnections;
