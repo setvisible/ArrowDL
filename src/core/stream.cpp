@@ -35,6 +35,14 @@ static const QString C_PROGRAM_NAME  = QLatin1String("youtube-dl.exe");
 static const QString C_LEGAL_CHARS   = QLatin1String("' @()[]{}°#,.&");
 static const QString C_NONE          = QLatin1String("none");
 
+static const QString C_WARNING_msg_header_01 = QLatin1String("WARNING:");
+static const QString C_WARNING_msg_header_02 = QLatin1String("\\033[0;33mWARNING:\\033[0m");
+static const QString C_ERROR_msg_header_01 = QLatin1String("ERROR:");
+static const QString C_ERROR_msg_header_02 = QLatin1String("\\033[0;31mERROR:\\033[0m");
+
+static const QString C_WARNING_merge_output_format = QLatin1String(
+            "Requested formats are incompatible for merge and will be merged into mkv.");
+
 static const QString C_DOWNLOAD_msg_header = QLatin1String("[download]");
 static const QString C_DOWNLOAD_next_section = QLatin1String("Destination:");
 
@@ -209,19 +217,9 @@ void Stream::onStandardOutputReady()
 
 void Stream::onStandardErrorReady()
 {
-    QString data = m_process->readAllStandardError().simplified();
-    qDebug() << Q_FUNC_INFO << data;
-    if (data.startsWith(
-                QLatin1String(
-                    "WARNING: Requested formats are incompatible for "
-                    "merge and will be merged into mkv."
-                    ), Qt::CaseInsensitive)) {
-
-        m_fileExtension = "mkv";   // TODO change extension
-        emit downloadMetadataChanged();
-    } else {
-        emit downloadError(data);
-    }
+    QString data = m_process->readAllStandardError();
+    data = data.simplified();
+    parseStandardError(data);
 }
 
 /******************************************************************************
@@ -277,6 +275,19 @@ void Stream::parseStandardError(const QString &data)
 {
     qDebug() << Q_FUNC_INFO << data;
 
+    if ( data.startsWith(C_ERROR_msg_header_01, Qt::CaseInsensitive) ||
+         data.startsWith(C_ERROR_msg_header_02, Qt::CaseInsensitive)) {
+
+        emit downloadError(data);
+
+    } else if ( data.startsWith(C_WARNING_msg_header_01, Qt::CaseInsensitive) ||
+                data.startsWith(C_WARNING_msg_header_02, Qt::CaseInsensitive)) {
+
+        if (data.contains(C_WARNING_merge_output_format, Qt::CaseInsensitive)) {
+            m_fileExtension = "mkv";   // TODO change extension
+            emit downloadMetadataChanged();
+        }
+    }
 }
 
 /******************************************************************************

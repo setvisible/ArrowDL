@@ -127,6 +127,18 @@ void AbstractDownloadItem::setHttpErrorNumber(int error)
 
 /******************************************************************************
  ******************************************************************************/
+QString AbstractDownloadItem::streamErrorMessage() const
+{
+    return m_streamErrorMessage;
+}
+
+void AbstractDownloadItem::setStreamErrorMessage(const QString &errorMessage)
+{
+    m_streamErrorMessage = errorMessage;
+}
+
+/******************************************************************************
+ ******************************************************************************/
 int AbstractDownloadItem::maxConnectionSegments() const
 {
     return m_maxConnectionSegments;
