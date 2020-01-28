@@ -35,6 +35,10 @@ static const QString C_PROGRAM_NAME  = QLatin1String("youtube-dl.exe");
 static const QString C_LEGAL_CHARS   = QLatin1String("' @()[]{}°#,.&");
 static const QString C_NONE          = QLatin1String("none");
 
+static const QString C_DOWNLOAD_msg_header = QLatin1String("[download]");
+static const QString C_DOWNLOAD_next_section = QLatin1String("Destination:");
+
+
 Stream::Stream(QObject *parent) : QObject(parent)
   , m_process(new QProcess(this))
 {
@@ -60,8 +64,9 @@ void Stream::clear()
     m_url.clear();
     m_outputPath.clear();
     m_selectedFormatId.clear();
-    m_filesize = 0;
-    m_cumulatedProgress = 0;
+    m_fileSizeInBytes = 0;
+    m_currentSectionBytes = 0;
+    m_totalBytes = 0;
 
     m_fileBaseName.clear();
     m_fileExtension.clear();
@@ -77,8 +82,9 @@ bool Stream::isEmpty()
 void Stream::initializeWithStreamInfos(const StreamInfos &streamInfos)
 {
     m_selectedFormatId = streamInfos.format_id;
-    m_cumulatedProgress = 0;
-    m_filesize = streamInfos.guestimateFullSize(m_selectedFormatId);
+    m_currentSectionBytes = 0;
+    m_totalBytes = 0;
+    m_fileSizeInBytes = streamInfos.guestimateFullSize(m_selectedFormatId);
 
     m_fileBaseName = streamInfos.fileBaseName();
     m_fileExtension = streamInfos.fileExtension();
@@ -128,14 +134,14 @@ void Stream::setSelectedFormatId(const QString &formatId)
 
 /******************************************************************************
  ******************************************************************************/
-qint64 Stream::fileSize() const
+qint64 Stream::fileSizeInBytes() const
 {
-    return m_filesize;
+    return m_fileSizeInBytes;
 }
 
-void Stream::setFileSize(qint64 filesize)
+void Stream::setFileSizeInBytes(qint64 fileSizeInBytes)
 {
-    m_filesize = filesize;
+    m_fileSizeInBytes = fileSizeInBytes;
 }
 
 /******************************************************************************
@@ -190,14 +196,14 @@ void Stream::onErrorOccurred(QProcess::ProcessError error)
 
 void Stream::onFinished(int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/)
 {
-    emit downloadProgress(m_filesize, m_filesize);
+    emit downloadProgress(m_fileSizeInBytes, m_fileSizeInBytes);
     emit downloadFinished();
 }
 
 void Stream::onStandardOutputReady()
 {
     QString data = m_process->readAllStandardOutput();
-    qDebug() << Q_FUNC_INFO << data;
+    data = data.simplified();
     parseStandardOutput(data);
 }
 
@@ -222,11 +228,19 @@ void Stream::onStandardErrorReady()
  ******************************************************************************/
 void Stream::parseStandardOutput(const QString &data)
 {
+    qDebug() << Q_FUNC_INFO << data;
+
     auto tokens = data.split(QChar::Space, QString::SkipEmptyParts);
     if (tokens.isEmpty()) {
         return;
     }
-    if (tokens.at(0).toLower() != QLatin1String("[download]")) {
+    if (tokens.at(0).toLower() != C_DOWNLOAD_msg_header) {
+        return;
+    }
+    if ( tokens.count() > 2 &&
+         tokens.at(1) == C_DOWNLOAD_next_section) {
+        m_totalBytes = m_totalBytes + m_currentSectionBytes;
+        emit downloadProgress(m_totalBytes, m_fileSizeInBytes);
         return;
     }
 
@@ -249,17 +263,14 @@ void Stream::parseStandardOutput(const QString &data)
             return;
         }
 
-        if (m_filesize <= 0) {
-            m_filesize = sizeInByte;
+        if (m_fileSizeInBytes <= 0) {
+            m_fileSizeInBytes = sizeInByte;
         }
 
-        qint64 bytes = m_cumulatedProgress + qCeil((percent * sizeInByte) / 100.0);
-        emit downloadProgress(bytes, m_filesize);
-        return;
+        m_currentSectionBytes = qCeil((percent * sizeInByte) / 100.0);
     }
-
-    m_cumulatedProgress += m_filesize;
-    emit downloadProgress(m_cumulatedProgress, m_filesize);
+    auto bytes = m_totalBytes + m_currentSectionBytes;
+    emit downloadProgress(bytes, m_fileSizeInBytes);
 }
 
 void Stream::parseStandardError(const QString &data)
