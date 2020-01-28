@@ -170,6 +170,12 @@ win32{
         platform_plugin_to_copy.path = $${DESTDIR}/platforms
         INSTALLS += platform_plugin_to_copy
 
+        imageformats_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/imageformats/qgifd.dll
+        imageformats_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/imageformats/qicod.dll
+        imageformats_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/imageformats/qjpegd.dll
+        imageformats_plugin_to_copy.path = $${DESTDIR}/imageformats
+        INSTALLS += imageformats_plugin_to_copy
+
         style_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/styles/qwindowsvistastyled.dll
         style_plugin_to_copy.path = $${DESTDIR}/styles
         INSTALLS += style_plugin_to_copy
@@ -178,6 +184,12 @@ win32{
         platform_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/platforms/qwindows.dll
         platform_plugin_to_copy.path = $${DESTDIR}/platforms
         INSTALLS += platform_plugin_to_copy
+
+        imageformats_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/imageformats/qgif.dll
+        imageformats_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/imageformats/qico.dll
+        imageformats_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/imageformats/qjpeg.dll
+        imageformats_plugin_to_copy.path = $${DESTDIR}/imageformats
+        INSTALLS += imageformats_plugin_to_copy
 
         style_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/styles/qwindowsvistastyle.dll
         style_plugin_to_copy.path = $${DESTDIR}/styles
@@ -203,3 +215,9 @@ win32{
     INSTALLS += libs_openssl_to_copy
 }
 
+# install youtube-dl (for Windows only)
+win32{
+    youtube_dl_executable_to_copy.files += $$PWD/../3rd/youtube-dl/bin/youtube-dl.exe
+    youtube_dl_executable_to_copy.path = $${DESTDIR}
+    INSTALLS += youtube_dl_executable_to_copy
+}

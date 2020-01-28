@@ -1,5 +1,6 @@
 set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/adddownloaddialog.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/addstreamdialog.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/compilerdialog.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/informationdialog.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/preferencedialog.cpp
@@ -11,6 +12,7 @@ set(MY_SOURCES ${MY_SOURCES}
 # Rem: set here the headers related to the Qt MOC (i.e., with associated *.ui)
 set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/adddownloaddialog.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/addstreamdialog.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/compilerdialog.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/informationdialog.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/preferencedialog.h
@@ -21,6 +23,7 @@ set(MY_HEADERS ${MY_HEADERS}
 
 set(MY_FORMS ${MY_FORMS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/adddownloaddialog.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/addstreamdialog.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/compilerdialog.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/informationdialog.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/preferencedialog.ui

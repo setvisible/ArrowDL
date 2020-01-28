@@ -16,9 +16,12 @@
 
 #include "format.h"
 
+#include <QtCore/QtMath>
 #include <QtCore/QDebug>
 #include <QtCore/QTime>
 
+/******************************************************************************
+ ******************************************************************************/
 /*!
  * \brief Returns a string formatting the given time.
  */
@@ -39,6 +42,8 @@ QString Format::remaingTimeToString(QTime time)
     return QLatin1String("--:--");
 }
 
+/******************************************************************************
+ ******************************************************************************/
 /*!
  * \brief Returns a string formatting the given size, in bytes.
  */
@@ -72,6 +77,26 @@ QString Format::fileSizeToString(qint64 size)
     return QString::number(correctSize, 'f', 3) + " TB";
 }
 
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * \code
+ * thisMethod(123456789); // returns "123,456,789"
+ * \endcode
+ */
+QString Format::fileSizeThousandSeparator(qint64 size)
+{
+    auto number = QString::number(size);
+    int i = number.count();
+    while (i > 3) {
+        i -= 3;
+        number.insert(i, QLatin1Char(','));
+    }
+    return number;
+}
+
+/******************************************************************************
+ ******************************************************************************/
 /*!
  * \brief Returns a string formatting the given speed, in bytes per second.
  */
@@ -81,7 +106,7 @@ QString Format::currentSpeedToString(qreal speed)
         return QLatin1String("-");
     }
     speed /= 1024.0; // KB
-        if (speed < 1000) {
+    if (speed < 1000) {
         return QString::number(speed > 0.5 ? speed : 0, 'f', 0) + " KB/s";
     }
     speed /= 1024; // MB
@@ -92,3 +117,76 @@ QString Format::currentSpeedToString(qreal speed)
     return QString::number(speed, 'f', 2) + " GB/s";
 }
 
+
+/******************************************************************************
+ ******************************************************************************/
+static bool parseDouble(const QString &str, double &p)
+{
+    bool ok = false;
+    auto val = str.toDouble(&ok);
+    if (ok) {
+        p = val;
+    }
+    return ok;
+}
+
+double Format::parsePercentDecimal(const QString &text)
+{
+    if (!text.contains('%')) {
+        return -1.0;
+    }
+    QString percentString = text;
+    percentString.remove('%');
+    double percent = 0;
+    if (!parseDouble(percentString, percent)) {
+        return -1.0;
+    }
+    return percent;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+qint64 Format::parseBytes(const QString &text)
+{
+    QString byteString = text;
+    byteString.remove(QRegExp("[a-zA-Z]*"));
+    double decimal = 0;
+    if (!parseDouble(byteString, decimal)) {
+        return -1;
+    }
+
+    QString unitString = text;
+    unitString.remove(byteString);
+    unitString = unitString.toUpper();
+
+    double multiple = 0;
+    if ( unitString == QLatin1String("B") ||
+         unitString == QLatin1String("BYTE") ||
+         unitString == QLatin1String("BYTES")) {
+        multiple = 1;
+
+    } else if (unitString == QLatin1String("KB")) {
+        multiple = 1000;
+
+    } else if (unitString == QLatin1String("MB")) {
+        multiple = 1000000;
+
+    } else if (unitString == QLatin1String("GB")) {
+        multiple = 1000000000;
+
+    } else if (unitString == QLatin1String("KIB")) {
+        multiple = 1024;  // 1 KiB = 2^10 bytes = 1024 bytes
+
+    } else if (unitString == QLatin1String("MIB")) {
+        multiple = 1048576;  // 1 MiB = 2^20 bytes = 1048576 bytes
+
+    } else if (unitString == QLatin1String("GIB")) {
+        multiple = 1073741824;  // 1 GiB = 2^30 bytes = 1073741824 bytes
+
+    } else {
+        return -1;
+    }
+
+    qint64 bytes = qCeil(decimal * multiple);
+    return bytes;
+}

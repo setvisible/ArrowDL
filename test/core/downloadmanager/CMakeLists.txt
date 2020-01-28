@@ -7,11 +7,14 @@ set(MY_TEST_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadengine.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloaditem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadmanager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadstreamitem.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/format.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/file.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/mask.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/resourceitem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/session.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/settings.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/stream.cpp
     )
 
 add_executable(${MY_TEST_TARGET} WIN32

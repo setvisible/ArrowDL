@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -62,6 +62,7 @@ CompilerDialog::CompilerDialog(QWidget *parent)
     ui->QtVersion->setText(QT_VERSION_STR);
 #endif
     ui->googleGumboVersion->setText(GOOGLE_GUMBO_VERSION_STR);
+    ui->youtubeDLVersion->setText(YOUTUBEDL_VERSION_STR);
 
     if (!QSslSocket::supportsSsl()) {
         ui->description->setText(QString(

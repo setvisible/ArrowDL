@@ -21,8 +21,9 @@ if(ENABLE_TESTS)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/format/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/mask/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/regex/CMakeLists.txt)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/updatechecker/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/resourceitem/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/stream/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/updatechecker/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/io/jsonhandler/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/io/texthandler/CMakeLists.txt)
 
@@ -55,8 +56,9 @@ if(ENABLE_TESTS)
         tst_format
         tst_mask
         tst_regex
-        tst_updatechecker
         tst_resourceitem
+        tst_stream
+        tst_updatechecker
         tst_jsonhandler
         tst_texthandler
 

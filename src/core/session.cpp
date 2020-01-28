@@ -18,6 +18,7 @@
 
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
+#include <Core/DownloadStreamItem>
 #include <Core/ResourceItem>
 
 #include <QtCore/QDebug>
@@ -28,7 +29,7 @@
 
 static inline IDownloadItem::State intToState(int value)
 {
-    return (IDownloadItem::State)value;
+    return static_cast<IDownloadItem::State>(value);
 }
 
 static inline int stateToInt(IDownloadItem::State state)
@@ -43,15 +44,29 @@ static inline int stateToInt(IDownloadItem::State state)
     }
 }
 
-static inline void readJob(DownloadItem *item, const QJsonObject &json)
+static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *downloadManager)
 {
-    item->resource()->setUrl(json["url"].toString());
-    item->resource()->setDestination(json["destination"].toString());
-    item->resource()->setMask(json["mask"].toString());
-    item->resource()->setCustomFileName(json["customFileName"].toString());
-    item->resource()->setReferringPage(json["referringPage"].toString());
-    item->resource()->setDescription(json["description"].toString());
-    item->resource()->setCheckSum(json["checkSum"].toString());
+    ResourceItem *resourceItem = new ResourceItem();
+
+    resourceItem->setUrl(json["url"].toString());
+    resourceItem->setDestination(json["destination"].toString());
+    resourceItem->setMask(json["mask"].toString());
+    resourceItem->setCustomFileName(json["customFileName"].toString());
+    resourceItem->setReferringPage(json["referringPage"].toString());
+    resourceItem->setDescription(json["description"].toString());
+    resourceItem->setCheckSum(json["checkSum"].toString());
+    resourceItem->setStreamEnabled(json["streamEnabled"].toBool());
+    resourceItem->setStreamFileName(json["streamFileName"].toString());
+    resourceItem->setStreamFormatId(json["streamFormatId"].toString());
+    resourceItem->setStreamFileSize(json["streamFileSize"].toInt());
+
+    DownloadItem *item;
+    if (resourceItem->isStreamEnabled()) {
+        item = new DownloadStreamItem(downloadManager);
+    } else {
+        item = new DownloadItem(downloadManager);
+    }
+    item->setResource(resourceItem);
 
     item->setState(intToState(json["state"].toInt()));
     item->setBytesReceived(json["bytesReceived"].toInt());
@@ -59,6 +74,7 @@ static inline void readJob(DownloadItem *item, const QJsonObject &json)
     item->setMaxConnectionSegments(json["maxConnectionSegments"].toInt());
     item->setMaxConnections(json["maxConnections"].toInt());
 
+    return item;
 }
 
 static inline void writeJob(const DownloadItem *item, QJsonObject &json)
@@ -70,6 +86,10 @@ static inline void writeJob(const DownloadItem *item, QJsonObject &json)
     json["referringPage"] = item->resource()->referringPage();
     json["description"] = item->resource()->description();
     json["checkSum"] = item->resource()->checkSum();
+    json["streamEnabled"] = item->resource()->isStreamEnabled();
+    json["streamFileName"] = item->resource()->streamFileName();
+    json["streamFormatId"] = item->resource()->streamFormatId();
+    json["streamFileSize"] = item->resource()->streamFileSize();
 
     json["state"] = stateToInt(item->state());
     json["bytesReceived"] = item->bytesReceived();
@@ -85,9 +105,7 @@ static inline void readList(QList<DownloadItem *> &downloadItems, const QJsonObj
     QJsonArray jobsArray = json["jobs"].toArray();
     for (int i = 0; i < jobsArray.size(); ++i) {
         QJsonObject jobObject = jobsArray[i].toObject();
-        auto item = new DownloadItem(downloadManager);
-        item->setResource(new ResourceItem());
-        readJob(item, jobObject);
+        auto item = readJob(jobObject, downloadManager);
         downloadItems.append(item);
     }
 }

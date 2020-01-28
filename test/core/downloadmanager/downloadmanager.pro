@@ -26,8 +26,14 @@ SOURCES     += $$PWD/../../../src/core/downloaditem.cpp
 HEADERS     += $$PWD/../../../src/core/downloadmanager.h
 SOURCES     += $$PWD/../../../src/core/downloadmanager.cpp
 
+HEADERS     += $$PWD/../../../src/core/downloadstreamitem.h
+SOURCES     += $$PWD/../../../src/core/downloadstreamitem.cpp
+
 HEADERS     += $$PWD/../../../src/core/file.h
 SOURCES     += $$PWD/../../../src/core/file.cpp
+
+HEADERS     += $$PWD/../../../src/core/format.h
+SOURCES     += $$PWD/../../../src/core/format.cpp
 
 HEADERS     += $$PWD/../../../src/core/ifileaccessmanager.h
 
@@ -44,3 +50,6 @@ SOURCES     += $$PWD/../../../src/core/session.cpp
 
 HEADERS     += $$PWD/../../../src/core/settings.h
 SOURCES     += $$PWD/../../../src/core/settings.cpp
+
+HEADERS     += $$PWD/../../../src/core/stream.h
+SOURCES     += $$PWD/../../../src/core/stream.cpp

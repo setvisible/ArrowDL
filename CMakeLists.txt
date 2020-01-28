@@ -284,6 +284,14 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
         DESTINATION ${CMAKE_INSTALL_PREFIX}/platforms
         )
 
+    ## Qt Image Formats Plugin
+    install(FILES
+        ${QT_DLL_DIR}/../plugins/imageformats/qgif.dll
+        ${QT_DLL_DIR}/../plugins/imageformats/qico.dll
+        ${QT_DLL_DIR}/../plugins/imageformats/qjpeg.dll
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/imageformats
+        )
+
     ## Qt Styles Plugin
     install(FILES
         ${QT_DLL_DIR}/../plugins/styles/qwindowsvistastyle.dll
@@ -305,6 +313,12 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
             DESTINATION ${CMAKE_INSTALL_PREFIX}
             )
     endif()
+
+    ## youtube-dl
+    install(FILES
+        ./3rd/youtube-dl/bin/youtube-dl.exe
+        DESTINATION ${CMAKE_INSTALL_PREFIX}
+        )
 
 endif(MSVC OR MSYS OR MINGW)
 
