@@ -40,6 +40,10 @@ page to get started.
 
 ## ![](/src/icons/logo/icon32.png) Screenshots
 
+Screenshots of version 1.7 (download video from Youtube and other video sites)
+
+[![anim_youtube](/screenshots/anim_youtube.gif)](https://setvisible.github.io/DownZemAll/category/screenshots.html "Go to Screenshots page")
+
 Screenshots of version 1.0
 
 [![anim_01](/screenshots/anim_01.gif)](https://setvisible.github.io/DownZemAll/category/screenshots.html "Go to Screenshots page")
