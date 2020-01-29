@@ -3,6 +3,13 @@ layout: category
 title: Screenshots
 ---
 
+## Version 1.7.0
+
+Download video streams from Youtube and other video sites :
+
+![Download video streams](/DownZemAll/assets/images/1.7/anim_youtube_v1.7.0.gif)
+
+
 ## Version 1.4.2
 
 ![Download All (Chrome)](../assets/images/1.4/anim_chrome_save_all_v1.4.2.gif)
