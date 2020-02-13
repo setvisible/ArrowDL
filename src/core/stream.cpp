@@ -335,8 +335,8 @@ void StreamInfoDownloader::onFinished(int exitCode, QProcess::ExitStatus /*exitS
         emit error(message);
     } else {
         QByteArray data = m_process->readAllStandardOutput();
-        StreamInfos *infos = new StreamInfos(this);
-        if (parseJSON(data, infos)) {
+        StreamInfosPtr infos(new StreamInfos());
+        if (parseJSON(data, infos.data())) {
             emit collected(infos);
         } else {
             emit error(tr("Couldn't parse JSON file."));
@@ -540,15 +540,12 @@ QString StreamFormat::toString() const
  ******************************************************************************/
 qint64 StreamInfos::guestimateFullSize(const QString &format_id) const
 {
-    auto sizes = formatSizes();
-    return guestimateFullSize(format_id, sizes);
-}
-
-qint64 StreamInfos::guestimateFullSize(
-        const QString &format_id, const QMap<QString, qint64> &sizes)
-{
     if (format_id.isEmpty()) {
         return -1;
+    }
+    QMap<QString, qint64> sizes;
+    for (auto format : formats) {
+        sizes.insert(format->format_id, format->filesize);
     }
     qint64 estimedSize = 0;
     QStringList ids = format_id.split("+");
@@ -627,15 +624,6 @@ QList<StreamFormat*> StreamInfos::videoFormats() const
         }
     }
     return list;
-}
-
-QMap<QString, qint64> StreamInfos::formatSizes() const
-{
-    QMap<QString, qint64> map;
-    for (auto format : formats) {
-        map.insert(format->format_id, format->filesize);
-    }
-    return map;
 }
 
 /******************************************************************************

@@ -16,6 +16,8 @@
 
 #include <Core/Stream>
 
+#include "../../utils/dummystreamfactory.h"
+
 #include <QtCore/QDebug>
 #include <QtTest/QSignalSpy>
 #include <QtTest/QtTest>
@@ -24,16 +26,6 @@ class tst_Stream : public QObject
 {
     Q_OBJECT
 
-private slots:
-    void readStandardOutput();
-    void readStandardOutputWithTwoStreams();
-
-    void readStandardError();
-
-    void fileBaseName_data();
-    void fileBaseName();
-
-private:
     static inline void VERIFY_PROGRESS_SIGNAL(
             const QSignalSpy &spy, int index,
             qint64 expectedBytesReceived, qint64 expectedBytesTotal)
@@ -44,12 +36,22 @@ private:
         QCOMPARE(actualBytesReceived, expectedBytesReceived);
         QCOMPARE(actualBytesTotal, expectedBytesTotal);
     }
+
+private slots:
+    void readStandardOutput();
+    void readStandardOutputWithTwoStreams();
+
+    void readStandardError();
+
+    void fileBaseName_data();
+    void fileBaseName();
+
 };
 
 class FriendlyStream : public Stream
 {
     friend class tst_Stream;
-    //public:
+public:
     explicit FriendlyStream(QObject *parent) : Stream(parent) {}
 };
 
@@ -117,6 +119,7 @@ void tst_Stream::readStandardOutputWithTwoStreams()
 
     //    VERIFY_PROGRESS_SIGNAL(spyProgress, 1, 1510, 1670045);
 }
+
 /******************************************************************************
 ******************************************************************************/
 void tst_Stream::readStandardError()

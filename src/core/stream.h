@@ -19,6 +19,10 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QProcess>
+#include <QtCore/QSharedPointer>
+
+class StreamInfos;
+typedef QSharedPointer<StreamInfos> StreamInfosPtr;
 
 class StreamFormat : public QObject
 {
@@ -67,9 +71,6 @@ public:
 
     qint64 guestimateFullSize(const QString &format_id) const;
 
-    static qint64 guestimateFullSize(const QString &format_id,
-                                     const QMap<QString, qint64> &sizes);
-
     QString safeTitle() const;
     QString fileBaseName() const;
     QString fileExtension() const;
@@ -78,8 +79,6 @@ public:
     QList<StreamFormat*> defaultFormats() const;
     QList<StreamFormat*> audioFormats() const;
     QList<StreamFormat*> videoFormats() const;
-
-    QMap<QString, qint64> formatSizes() const;
 
     QString _filename;
     QString fulltitle;      // (string): Video title
@@ -170,7 +169,7 @@ public:
 
 signals:
     void error(QString errorMessage);
-    void collected(StreamInfos* infos = nullptr);
+    void collected(StreamInfosPtr infos);
 
 private slots:
     void onStarted();

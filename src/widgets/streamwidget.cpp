@@ -63,7 +63,6 @@ StreamWidget::~StreamWidget()
  ******************************************************************************/
 void StreamWidget::clear()
 {
-    m_formatSizes.clear();
     clearDetectedFormat();
 }
 
@@ -95,26 +94,25 @@ void StreamWidget::setState(State state)
 
 /******************************************************************************
  ******************************************************************************/
-void StreamWidget::showStreamInfos(StreamInfos *infos)
+void StreamWidget::showStreamInfos(StreamInfosPtr infos)
 {
     Q_ASSERT(infos);
     clear();
 
+    m_infos.swap(infos);
+
     setState(StreamWidget::Normal);
-    ui->titleLabel->setText(infos->safeTitle());
-    ui->fileNameEdit->setText(infos->fileBaseName());
-    ui->fileExtensionEdit->setText(infos->fileExtension());
+    if (m_infos) {
+        ui->titleLabel->setText(m_infos->safeTitle());
+        ui->fileNameEdit->setText(m_infos->fileBaseName());
+        ui->fileExtensionEdit->setText(m_infos->fileExtension(m_infos->format_id));
 
-    populateDefaultFormats(infos->defaultFormats());
-    populateComboBox(infos->audioFormats(), ui->audioComboBox);
-    populateComboBox(infos->videoFormats(), ui->videoComboBox);
+        populateDefaultFormats(m_infos->defaultFormats());
+        populateComboBox(m_infos->audioFormats(), ui->audioComboBox);
+        populateComboBox(m_infos->videoFormats(), ui->videoComboBox);
 
-    for (auto format : infos->formats) {
-        m_formatSizes.insert(format->format_id, format->filesize);
+        setSelectedFormatId(m_infos->formatId());
     }
-    m_formatSizes = infos->formatSizes();
-
-    setSelectedFormatId(infos->formatId());
 }
 
 void StreamWidget::showErrorMessage(QString errorMessage)
@@ -173,7 +171,10 @@ QString StreamWidget::fileName() const
 qint64 StreamWidget::fileSize() const
 {
     auto formatId = selectedFormatId();
-    return StreamInfos::guestimateFullSize(formatId, m_formatSizes);
+    if (m_infos) {
+        return m_infos->guestimateFullSize(formatId);
+    }
+    return -1;
 }
 
 /******************************************************************************

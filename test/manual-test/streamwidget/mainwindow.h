@@ -21,6 +21,7 @@
 
 class StreamInfos;
 class StreamInfoDownloader;
+typedef QSharedPointer<StreamInfos> StreamInfosPtr;
 
 namespace Ui {
 class MainWindow;
@@ -37,15 +38,13 @@ private slots:
     void onContinueClicked();
     void onResetClicked();
     void onError(QString errorMessage);
-    void onCollected(StreamInfos* infos);
+    void onCollected(StreamInfosPtr infos);
 
 private:
     Ui::MainWindow *ui;
     StreamInfoDownloader *m_streamInfoDownloader;
 
     void start(const QString &url = QString());
-
-    StreamInfos* createDummyStreamInfos();
 };
 
 #endif // MAINWINDOW_H

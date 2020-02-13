@@ -8,6 +8,7 @@ set(MY_TEST_SOURCES
 
 add_executable(${MY_TEST_TARGET} WIN32
     ${CMAKE_CURRENT_SOURCE_DIR}/test/core/stream/tst_stream.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test/utils/dummystreamfactory.cpp
     ${MY_TEST_SOURCES}
     )
 
