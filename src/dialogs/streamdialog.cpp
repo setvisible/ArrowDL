@@ -33,6 +33,11 @@ StreamDialog::StreamDialog(QWidget *parent)
     ui->title->setText(QLatin1String("Youtube-DL"));
     ui->version->setText(QString("Version %0").arg(Stream::version()));
 
+    ui->link->setText(QString("<a href=\"%0\">%0</a>").arg(Stream::website()));
+    ui->link->setTextFormat(Qt::RichText);
+    ui->link->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    ui->link->setOpenExternalLinks(true);
+
     ui->plainTextEdit->setEnabled(false);
 
     connect(m_streamCollector, SIGNAL(error(QString)), this, SLOT(onError(QString)));

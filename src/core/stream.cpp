@@ -34,6 +34,7 @@ static QString toString(QProcess *process);
 static QString s_youtubedl_version;
 
 static const QString C_PROGRAM_NAME  = QLatin1String("youtube-dl.exe");
+static const QString C_WEBSITE_URL   = QLatin1String("http://ytdl-org.github.io/youtube-dl/");
 static const QString C_LEGAL_CHARS   = QLatin1String("' @()[]{}°#,.&");
 static const QString C_NONE          = QLatin1String("none");
 
@@ -84,6 +85,11 @@ QString Stream::version()
         s_youtubedl_version = result.simplified();
     }
     return s_youtubedl_version;
+}
+
+QString Stream::website()
+{
+    return C_WEBSITE_URL;
 }
 
 /******************************************************************************

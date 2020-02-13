@@ -103,6 +103,7 @@ public:
     ~Stream() Q_DECL_OVERRIDE;
 
     static QString version();
+    static QString website();
 
     void clear();
     bool isEmpty();
