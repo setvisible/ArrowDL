@@ -85,7 +85,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     m_downloadManager->setSettings(m_settings);
 
-    this->setWindowIcon(QIcon(":/icons/logo/maps-pin-place.ico"));
     this->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     this->setAcceptDrops(true);
 #ifdef Q_OS_OSX
@@ -94,7 +93,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 #ifdef USE_QT_WINEXTRAS
     m_winTaskbarButton = new QWinTaskbarButton(this);
     m_winTaskbarButton->setWindow(this->windowHandle());
-    m_winTaskbarButton->setOverlayIcon(QIcon(":/icons/overlay/overlay-run.ico"));
     m_winTaskbarProgress = m_winTaskbarButton->progress();
     m_winTaskbarProgress->setVisible(false);
 #endif
