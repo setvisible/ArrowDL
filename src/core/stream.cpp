@@ -237,14 +237,14 @@ void Stream::onFinished(int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/)
 
 void Stream::onStandardOutputReady()
 {
-    QString data = m_process->readAllStandardOutput();
+    QString data = QString::fromLatin1(m_process->readAllStandardOutput());
     data = data.simplified();
     parseStandardOutput(data);
 }
 
 void Stream::onStandardErrorReady()
 {
-    QString data = m_process->readAllStandardError();
+    QString data = QString::fromLatin1(m_process->readAllStandardError());
     data = data.simplified();
     parseStandardError(data);
 }
@@ -253,7 +253,7 @@ void Stream::onStandardErrorReady()
  ******************************************************************************/
 void Stream::parseStandardOutput(const QString &data)
 {
-    qDebug() << Q_FUNC_INFO << data;
+    // qDebug() << Q_FUNC_INFO << data;
 
     auto tokens = data.split(QChar::Space, QString::SkipEmptyParts);
     if (tokens.isEmpty()) {
@@ -300,7 +300,7 @@ void Stream::parseStandardOutput(const QString &data)
 
 void Stream::parseStandardError(const QString &data)
 {
-    qDebug() << Q_FUNC_INFO << data;
+    // qDebug() << Q_FUNC_INFO << data;
 
     if ( data.startsWith(C_ERROR_msg_header_01, Qt::CaseInsensitive) ||
          data.startsWith(C_ERROR_msg_header_02, Qt::CaseInsensitive)) {
