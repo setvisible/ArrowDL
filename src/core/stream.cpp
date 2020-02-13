@@ -31,7 +31,10 @@
 static QString generateErrorMessage(QProcess::ProcessError error);
 static QString toString(QProcess *process);
 
+static QString s_youtubedl_version;
+
 static const QString C_PROGRAM_NAME  = QLatin1String("youtube-dl.exe");
+static const QString C_WEBSITE_URL   = QLatin1String("http://ytdl-org.github.io/youtube-dl/");
 static const QString C_LEGAL_CHARS   = QLatin1String("' @()[]{}°#,.&");
 static const QString C_NONE          = QLatin1String("none");
 
@@ -67,6 +70,30 @@ Stream::~Stream()
 
 /******************************************************************************
  ******************************************************************************/
+QString Stream::version()
+{
+    if (s_youtubedl_version.isEmpty()) {
+        QProcess process;
+        process.start(C_PROGRAM_NAME, QStringList() << "--version");
+        if (!process.waitForStarted()) {
+            return QLatin1String("unknown");
+        }
+        if (!process.waitForFinished()) {
+            return QLatin1String("unknown");
+        }
+        const QString result = process.readAll();
+        s_youtubedl_version = result.simplified();
+    }
+    return s_youtubedl_version;
+}
+
+QString Stream::website()
+{
+    return C_WEBSITE_URL;
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void Stream::clear()
 {
     m_url.clear();
@@ -95,7 +122,7 @@ void Stream::initializeWithStreamInfos(const StreamInfos &streamInfos)
     m_fileSizeInBytes = streamInfos.guestimateFullSize(m_selectedFormatId);
 
     m_fileBaseName = streamInfos.fileBaseName();
-    m_fileExtension = streamInfos.fileExtension();
+    m_fileExtension = streamInfos.fileExtension(m_selectedFormatId);
 }
 
 /******************************************************************************
@@ -210,14 +237,14 @@ void Stream::onFinished(int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/)
 
 void Stream::onStandardOutputReady()
 {
-    QString data = m_process->readAllStandardOutput();
+    QString data = QString::fromLatin1(m_process->readAllStandardOutput());
     data = data.simplified();
     parseStandardOutput(data);
 }
 
 void Stream::onStandardErrorReady()
 {
-    QString data = m_process->readAllStandardError();
+    QString data = QString::fromLatin1(m_process->readAllStandardError());
     data = data.simplified();
     parseStandardError(data);
 }
@@ -226,7 +253,7 @@ void Stream::onStandardErrorReady()
  ******************************************************************************/
 void Stream::parseStandardOutput(const QString &data)
 {
-    qDebug() << Q_FUNC_INFO << data;
+    // qDebug() << Q_FUNC_INFO << data;
 
     auto tokens = data.split(QChar::Space, QString::SkipEmptyParts);
     if (tokens.isEmpty()) {
@@ -273,7 +300,7 @@ void Stream::parseStandardOutput(const QString &data)
 
 void Stream::parseStandardError(const QString &data)
 {
-    qDebug() << Q_FUNC_INFO << data;
+    // qDebug() << Q_FUNC_INFO << data;
 
     if ( data.startsWith(C_ERROR_msg_header_01, Qt::CaseInsensitive) ||
          data.startsWith(C_ERROR_msg_header_02, Qt::CaseInsensitive)) {
@@ -335,8 +362,8 @@ void StreamInfoDownloader::onFinished(int exitCode, QProcess::ExitStatus /*exitS
         emit error(message);
     } else {
         QByteArray data = m_process->readAllStandardOutput();
-        StreamInfos *infos = new StreamInfos(this);
-        if (parseJSON(data, infos)) {
+        StreamInfosPtr infos(new StreamInfos());
+        if (parseJSON(data, infos.data())) {
             emit collected(infos);
         } else {
             emit error(tr("Couldn't parse JSON file."));
@@ -389,27 +416,41 @@ bool StreamInfoDownloader::parseJSON(const QByteArray &data, StreamInfos *infos)
 /******************************************************************************
  ******************************************************************************/
 StreamExtractorListCollector::StreamExtractorListCollector(QObject *parent) : QObject(parent)
-  , m_process(new QProcess(this))
+  , m_processExtractors(new QProcess(this))
+  , m_processDescriptions(new QProcess(this))
 {
-    connect(m_process, SIGNAL(started()),
+    connect(m_processExtractors, SIGNAL(started()),
             this, SLOT(onStarted()));
-    connect(m_process, SIGNAL(errorOccurred(QProcess::ProcessError)),
+    connect(m_processExtractors, SIGNAL(errorOccurred(QProcess::ProcessError)),
             this, SLOT(onErrorOccurred(QProcess::ProcessError)));
-    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)),
-            this, SLOT(onFinished(int, QProcess::ExitStatus)));
+    connect(m_processExtractors, SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(onFinishedExtractors(int, QProcess::ExitStatus)));
+
+    connect(m_processDescriptions, SIGNAL(started()),
+            this, SLOT(onStarted()));
+    connect(m_processDescriptions, SIGNAL(errorOccurred(QProcess::ProcessError)),
+            this, SLOT(onErrorOccurred(QProcess::ProcessError)));
+    connect(m_processDescriptions, SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(onFinishedDescriptions(int, QProcess::ExitStatus)));
 }
 
 StreamExtractorListCollector::~StreamExtractorListCollector()
 {
-    m_process->kill();
-    m_process->deleteLater();
+    m_processExtractors->kill();
+    m_processExtractors->deleteLater();
+    m_processDescriptions->kill();
+    m_processDescriptions->deleteLater();
 }
 
 void StreamExtractorListCollector::runAsync()
 {
-    if (m_process->state() == QProcess::NotRunning) {
-        m_process->start(C_PROGRAM_NAME, QStringList() << "--list-extractors");
-        qDebug() << Q_FUNC_INFO << toString(m_process);
+    if (m_processExtractors->state() == QProcess::NotRunning) {
+        m_processExtractors->start(C_PROGRAM_NAME, QStringList() << "--list-extractors");
+        qDebug() << Q_FUNC_INFO << toString(m_processExtractors);
+    }
+    if (m_processDescriptions->state() == QProcess::NotRunning) {
+        m_processDescriptions->start(C_PROGRAM_NAME, QStringList() << "--extractor-descriptions");
+        qDebug() << Q_FUNC_INFO << toString(m_processDescriptions);
     }
 }
 
@@ -421,17 +462,38 @@ void StreamExtractorListCollector::onStarted()
 void StreamExtractorListCollector::onErrorOccurred(QProcess::ProcessError error)
 {
     qDebug() << Q_FUNC_INFO << generateErrorMessage(error);
+    m_extractors.clear();
+    m_descriptions.clear();
 }
 
-void StreamExtractorListCollector::onFinished(int exitCode, QProcess::ExitStatus /*exitStatus*/)
+void StreamExtractorListCollector::onFinishedExtractors(int exitCode, QProcess::ExitStatus /*exitStatus*/)
 {
     if (exitCode != 0) {
-        auto message = generateErrorMessage(m_process->error());
+        auto message = generateErrorMessage(m_processExtractors->error());
         emit error(message);
     } else {
-        QString data = m_process->readAllStandardOutput();
-        auto extractors = data.split("\n");
-        emit collected(extractors);
+        QString data = QString::fromLatin1(m_processExtractors->readAllStandardOutput());
+        m_extractors = data.split("\n", QString::KeepEmptyParts);
+        onFinished();
+    }
+}
+
+void StreamExtractorListCollector::onFinishedDescriptions(int exitCode, QProcess::ExitStatus /*exitStatus*/)
+{
+    if (exitCode != 0) {
+        auto message = generateErrorMessage(m_processDescriptions->error());
+        emit error(message);
+    } else {
+        QString data = QString::fromLatin1(m_processDescriptions->readAllStandardOutput());
+        m_descriptions = data.split("\n", QString::KeepEmptyParts);
+        onFinished();
+    }
+}
+
+void StreamExtractorListCollector::onFinished()
+{
+    if (!m_extractors.isEmpty() && !m_descriptions.isEmpty()) {
+        emit collected(m_extractors, m_descriptions);
     }
 }
 
@@ -505,15 +567,12 @@ QString StreamFormat::toString() const
  ******************************************************************************/
 qint64 StreamInfos::guestimateFullSize(const QString &format_id) const
 {
-    auto sizes = formatSizes();
-    return guestimateFullSize(format_id, sizes);
-}
-
-qint64 StreamInfos::guestimateFullSize(
-        const QString &format_id, const QMap<QString, qint64> &sizes)
-{
     if (format_id.isEmpty()) {
         return -1;
+    }
+    QMap<QString, qint64> sizes;
+    for (auto format : formats) {
+        sizes.insert(format->format_id, format->filesize);
     }
     qint64 estimedSize = 0;
     QStringList ids = format_id.split("+");
@@ -551,9 +610,27 @@ QString StreamInfos::fileBaseName() const
     return cleanFileName(this->title);
 }
 
-QString StreamInfos::fileExtension() const
+QString StreamInfos::fileExtension(const QString &formatId) const
 {
-    return this->ext;
+    if (format_id.isEmpty()) {
+        return QLatin1String("???");
+    }
+    if (this->format_id == formatId) {
+        return this->ext;
+    }
+    QString estimedExt = this->ext;
+    QStringList ids = formatId.split("+");
+    for (auto id : ids) {
+        for (auto format : formats) {
+            if (id == format->format_id) {
+                if (format->hasVideo()) {
+                    return format->ext;
+                }
+                estimedExt = format->ext;
+            }
+        }
+    }
+    return estimedExt;
 }
 
 QString StreamInfos::formatId() const
@@ -592,15 +669,6 @@ QList<StreamFormat*> StreamInfos::videoFormats() const
         }
     }
     return list;
-}
-
-QMap<QString, qint64> StreamInfos::formatSizes() const
-{
-    QMap<QString, qint64> map;
-    for (auto format : formats) {
-        map.insert(format->format_id, format->filesize);
-    }
-    return map;
 }
 
 /******************************************************************************

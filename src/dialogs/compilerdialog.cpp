@@ -18,6 +18,7 @@
 #include "ui_compilerdialog.h"
 
 #include <Globals>
+#include <Core/Stream>
 
 #include <QtCore/QDebug>
 #include <QtCore/QLibrary>
@@ -62,7 +63,7 @@ CompilerDialog::CompilerDialog(QWidget *parent)
     ui->QtVersion->setText(QT_VERSION_STR);
 #endif
     ui->googleGumboVersion->setText(GOOGLE_GUMBO_VERSION_STR);
-    ui->youtubeDLVersion->setText(YOUTUBEDL_VERSION_STR);
+    ui->youtubeDLVersion->setText(Stream::version());
 
     if (!QSslSocket::supportsSsl()) {
         ui->description->setText(QString(

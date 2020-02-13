@@ -13,3 +13,4 @@ INCLUDEPATH += ../../../include
 HEADERS     += $$PWD/../../../src/core/format.h
 SOURCES     += $$PWD/../../../src/core/format.cpp
 
+HEADERS     += $$PWD/../../../test/utils/biginteger.h

@@ -50,13 +50,14 @@ public:
     void setState(State state);
 
     void showErrorMessage(QString errorMessage);
-    void showStreamInfos(StreamInfos *infos);
+    void showStreamInfos(StreamInfosPtr infos);
 
     QString selectedFormatId() const;
     void setSelectedFormatId(const QString &format_id);
 
     QString fileName() const;
     qint64 fileSize() const;
+    QString fileExtension() const;
 
 private slots:
     void updateButtonBar();
@@ -67,8 +68,7 @@ private:
     Ui::StreamWidget *ui;
     State m_state = Empty;
 
-    QStringList m_formats;
-    QMap<QString, qint64> m_formatSizes;
+    StreamInfosPtr m_infos;
 
     void clearDetectedFormat();
     void populateDefaultFormats(const QList<StreamFormat*> &formats);

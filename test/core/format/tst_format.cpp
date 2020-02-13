@@ -16,18 +16,11 @@
 
 #include <Core/Format>
 
+#include "../../utils/biginteger.h"
+
 #include <QtCore/QDebug>
 #include <QtCore/QTime>
 #include <QtTest/QtTest>
-
-struct BigInteger
-{
-    explicit BigInteger() : value(0) {}
-    explicit BigInteger(qint64 _value) : value(_value) {}
-    qint64 value;
-};
-
-Q_DECLARE_METATYPE(BigInteger)
 
 class tst_Format : public QObject
 {

@@ -14,15 +14,15 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VERSION_H
-#define VERSION_H
+#ifndef DUMMY_STREAM_FACTORY_H
+#define DUMMY_STREAM_FACTORY_H
 
-/* Cmake */
-#ifndef APP_VERSION
-#  include "src/config.h"
-#endif
+#include <Core/Stream>
 
-/* Google Gumbo */
-#define GOOGLE_GUMBO_VERSION_STR      "0.10.1"
+class DummyStreamFactory
+{
+public:
+    static StreamInfosPtr createDummyStreamInfos();
+};
 
-#endif // VERSION_H
+#endif // DUMMY_STREAM_FACTORY_H

@@ -29,14 +29,16 @@ HEADERS += \
     $$PWD/../../../src/core/stream.h \
     $$PWD/../../../src/widgets/customstyle.h \
     $$PWD/../../../src/widgets/customstyleoptionprogressbar.h \
-    $$PWD/../../../src/widgets/streamwidget.h
+    $$PWD/../../../src/widgets/streamwidget.h \
+    $$PWD/../../../test/utils/dummystreamfactory.h
 
 SOURCES += \
     $$PWD/../../../src/core/format.cpp \
     $$PWD/../../../src/core/stream.cpp \
     $$PWD/../../../src/widgets/customstyle.cpp \
     $$PWD/../../../src/widgets/customstyleoptionprogressbar.cpp \
-    $$PWD/../../../src/widgets/streamwidget.cpp
+    $$PWD/../../../src/widgets/streamwidget.cpp \
+    $$PWD/../../../test/utils/dummystreamfactory.cpp
 
 FORMS += \
     $$PWD/../../../src/widgets/streamwidget.ui

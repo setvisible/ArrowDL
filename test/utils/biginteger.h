@@ -14,15 +14,18 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VERSION_H
-#define VERSION_H
+#ifndef BIG_INTEGER_H
+#define BIG_INTEGER_H
 
-/* Cmake */
-#ifndef APP_VERSION
-#  include "src/config.h"
-#endif
+#include <QtCore/QMetaType>
 
-/* Google Gumbo */
-#define GOOGLE_GUMBO_VERSION_STR      "0.10.1"
+struct BigInteger
+{
+    explicit BigInteger() : value(0) {}
+    explicit BigInteger(qint64 _value) : value(_value) {}
+    qint64 value;
+};
 
-#endif // VERSION_H
+Q_DECLARE_METATYPE(BigInteger)
+
+#endif // BIG_INTEGER_H

@@ -16,6 +16,9 @@
 
 #include <Core/Stream>
 
+#include "../../utils/biginteger.h"
+#include "../../utils/dummystreamfactory.h"
+
 #include <QtCore/QDebug>
 #include <QtTest/QSignalSpy>
 #include <QtTest/QtTest>
@@ -24,16 +27,6 @@ class tst_Stream : public QObject
 {
     Q_OBJECT
 
-private slots:
-    void readStandardOutput();
-    void readStandardOutputWithTwoStreams();
-
-    void readStandardError();
-
-    void fileBaseName_data();
-    void fileBaseName();
-
-private:
     static inline void VERIFY_PROGRESS_SIGNAL(
             const QSignalSpy &spy, int index,
             qint64 expectedBytesReceived, qint64 expectedBytesTotal)
@@ -44,12 +37,28 @@ private:
         QCOMPARE(actualBytesReceived, expectedBytesReceived);
         QCOMPARE(actualBytesTotal, expectedBytesTotal);
     }
+
+private slots:
+    void readStandardOutput();
+    void readStandardOutputWithTwoStreams();
+
+    void readStandardError();
+
+    void fileBaseName_data();
+    void fileBaseName();
+
+    void guestimateFullSize_data();
+    void guestimateFullSize();
+
+    void fileExtension_data();
+    void fileExtension();
+
 };
 
 class FriendlyStream : public Stream
 {
     friend class tst_Stream;
-    //public:
+public:
     explicit FriendlyStream(QObject *parent) : Stream(parent) {}
 };
 
@@ -117,6 +126,7 @@ void tst_Stream::readStandardOutputWithTwoStreams()
 
     //    VERIFY_PROGRESS_SIGNAL(spyProgress, 1, 1510, 1670045);
 }
+
 /******************************************************************************
 ******************************************************************************/
 void tst_Stream::readStandardError()
@@ -162,6 +172,82 @@ void tst_Stream::fileBaseName()
     target.fulltitle = input;
 
     auto actual = target.fileBaseName();
+
+    QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+******************************************************************************/
+void tst_Stream::guestimateFullSize_data()
+{
+    QTest::addColumn<QString>("input");
+    QTest::addColumn<BigInteger>("expected");
+
+    QTest::newRow("null") << QString() << BigInteger(-1);
+    QTest::newRow("empty") << "" << BigInteger(-1);
+    QTest::newRow("default") << "244+140" << BigInteger(294311 + 280597);
+
+    QTest::newRow("audio") << "18" << BigInteger(552999);
+    QTest::newRow("audio") << "43" << BigInteger(287596);
+    QTest::newRow("audio") << "140" << BigInteger(280597);
+
+    QTest::newRow("audio+video") << "160+140" << BigInteger(63901 + 280597);
+    QTest::newRow("audio+video") << "278+140" << BigInteger(53464 + 280597);
+
+    /*
+     * Invalid formats
+     * In Youtube-DL, video ID must be the first ID.
+     * But we accept them as valid here.
+     */
+    QTest::newRow("audio+video") << "140+160" << BigInteger(280597 + 63901);
+    QTest::newRow("audio+video") << "140+278" << BigInteger(280597 + 53464);
+}
+
+void tst_Stream::guestimateFullSize()
+{
+    QFETCH(QString, input);
+    QFETCH(BigInteger, expected);
+
+    auto target = DummyStreamFactory::createDummyStreamInfos();
+    qint64 actual = target->guestimateFullSize(input);
+
+    QCOMPARE(actual, expected.value);
+}
+
+/******************************************************************************
+******************************************************************************/
+void tst_Stream::fileExtension_data()
+{
+    QTest::addColumn<QString>("input");
+    QTest::addColumn<QString>("expected");
+
+    QTest::newRow("null") << QString() << "webm";
+    QTest::newRow("empty") << "" << "webm";
+    QTest::newRow("default") << "244+140" << "webm";
+
+    QTest::newRow("audio") << "18" << "mp4";
+    QTest::newRow("audio") << "43" << "webm";
+    QTest::newRow("audio") << "140" << "m4a";
+
+    QTest::newRow("audio+video") << "160+140" << "mp4";
+    QTest::newRow("audio+video") << "278+140" << "webm";
+
+    /*
+     * Invalid formats
+     * In Youtube-DL, video ID must be the first ID.
+     * But we accept them as valid here.
+     */
+    QTest::newRow("audio+video") << "140+160" << "mp4";
+    QTest::newRow("audio+video") << "140+278" << "webm";
+}
+
+void tst_Stream::fileExtension()
+{
+    QFETCH(QString, input);
+    QFETCH(QString, expected);
+
+    auto target = DummyStreamFactory::createDummyStreamInfos();
+    auto actual = target->fileExtension(input);
 
     QCOMPARE(actual, expected);
 }

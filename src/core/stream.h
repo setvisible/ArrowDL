@@ -19,6 +19,10 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QProcess>
+#include <QtCore/QSharedPointer>
+
+class StreamInfos;
+typedef QSharedPointer<StreamInfos> StreamInfosPtr;
 
 class StreamFormat : public QObject
 {
@@ -67,19 +71,14 @@ public:
 
     qint64 guestimateFullSize(const QString &format_id) const;
 
-    static qint64 guestimateFullSize(const QString &format_id,
-                                     const QMap<QString, qint64> &sizes);
-
     QString safeTitle() const;
     QString fileBaseName() const;
-    QString fileExtension() const;
+    QString fileExtension(const QString &formatId) const;
     QString formatId() const;
 
     QList<StreamFormat*> defaultFormats() const;
     QList<StreamFormat*> audioFormats() const;
     QList<StreamFormat*> videoFormats() const;
-
-    QMap<QString, qint64> formatSizes() const;
 
     QString _filename;
     QString fulltitle;      // (string): Video title
@@ -102,6 +101,9 @@ class Stream : public QObject
 public:
     explicit Stream(QObject *parent);
     ~Stream() Q_DECL_OVERRIDE;
+
+    static QString version();
+    static QString website();
 
     void clear();
     bool isEmpty();
@@ -170,7 +172,7 @@ public:
 
 signals:
     void error(QString errorMessage);
-    void collected(StreamInfos* infos = nullptr);
+    void collected(StreamInfosPtr infos);
 
 private slots:
     void onStarted();
@@ -193,15 +195,22 @@ public:
 
 signals:
     void error(QString errorMessage);
-    void collected(QStringList extractors);
+    void collected(QStringList extractors, QStringList descriptions);
 
 private slots:
     void onStarted();
     void onErrorOccurred(QProcess::ProcessError error);
-    void onFinished(int exitCode, QProcess::ExitStatus exitStatus);
+
+    void onFinishedExtractors(int exitCode, QProcess::ExitStatus exitStatus);
+    void onFinishedDescriptions(int exitCode, QProcess::ExitStatus exitStatus);
 
 private:
-    QProcess *m_process;
+    QProcess *m_processExtractors;
+    QProcess *m_processDescriptions;
+    QStringList m_extractors;
+    QStringList m_descriptions;
+
+    void onFinished();
 };
 
 #endif // CORE_STREAM_H
