@@ -46,6 +46,9 @@ private slots:
     void fileBaseName_data();
     void fileBaseName();
 
+    void fileExtension_data();
+    void fileExtension();
+
 };
 
 class FriendlyStream : public Stream
@@ -165,6 +168,44 @@ void tst_Stream::fileBaseName()
     target.fulltitle = input;
 
     auto actual = target.fileBaseName();
+
+    QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+******************************************************************************/
+void tst_Stream::fileExtension_data()
+{
+    QTest::addColumn<QString>("input");
+    QTest::addColumn<QString>("expected");
+
+    QTest::newRow("null") << QString() << "webm";
+    QTest::newRow("empty") << "" << "webm";
+    QTest::newRow("default") << "244+140" << "webm";
+
+    QTest::newRow("audio") << "18" << "mp4";
+    QTest::newRow("audio") << "43" << "webm";
+    QTest::newRow("audio") << "140" << "m4a";
+
+    QTest::newRow("audio+video") << "160+140" << "mp4";
+    QTest::newRow("audio+video") << "278+140" << "webm";
+
+    /*
+     * Invalid formats
+     * In Youtube-DL, video ID must be the first ID.
+     * But we accept them as valid here.
+     */
+    QTest::newRow("audio+video") << "140+160" << "mp4";
+    QTest::newRow("audio+video") << "140+278" << "webm";
+}
+
+void tst_Stream::fileExtension()
+{
+    QFETCH(QString, input);
+    QFETCH(QString, expected);
+
+    auto target = DummyStreamFactory::createDummyStreamInfos();
+    auto actual = target->fileExtension(input);
 
     QCOMPARE(actual, expected);
 }

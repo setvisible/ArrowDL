@@ -122,7 +122,7 @@ void Stream::initializeWithStreamInfos(const StreamInfos &streamInfos)
     m_fileSizeInBytes = streamInfos.guestimateFullSize(m_selectedFormatId);
 
     m_fileBaseName = streamInfos.fileBaseName();
-    m_fileExtension = streamInfos.fileExtension();
+    m_fileExtension = streamInfos.fileExtension(m_selectedFormatId);
 }
 
 /******************************************************************************
@@ -610,9 +610,27 @@ QString StreamInfos::fileBaseName() const
     return cleanFileName(this->title);
 }
 
-QString StreamInfos::fileExtension() const
+QString StreamInfos::fileExtension(const QString &formatId) const
 {
-    return this->ext;
+    if (format_id.isEmpty()) {
+        return QLatin1String("???");
+    }
+    if (this->format_id == formatId) {
+        return this->ext;
+    }
+    QString estimedExt = this->ext;
+    QStringList ids = formatId.split("+");
+    for (auto id : ids) {
+        for (auto format : formats) {
+            if (id == format->format_id) {
+                if (format->hasVideo()) {
+                    return format->ext;
+                }
+                estimedExt = format->ext;
+            }
+        }
+    }
+    return estimedExt;
 }
 
 QString StreamInfos::formatId() const

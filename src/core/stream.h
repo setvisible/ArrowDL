@@ -73,7 +73,7 @@ public:
 
     QString safeTitle() const;
     QString fileBaseName() const;
-    QString fileExtension() const;
+    QString fileExtension(const QString &formatId) const;
     QString formatId() const;
 
     QList<StreamFormat*> defaultFormats() const;

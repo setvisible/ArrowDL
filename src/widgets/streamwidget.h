@@ -57,6 +57,7 @@ public:
 
     QString fileName() const;
     qint64 fileSize() const;
+    QString fileExtension() const;
 
 private slots:
     void updateButtonBar();

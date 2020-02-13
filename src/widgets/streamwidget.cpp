@@ -177,6 +177,15 @@ qint64 StreamWidget::fileSize() const
     return -1;
 }
 
+QString StreamWidget::fileExtension() const
+{
+    auto formatId = selectedFormatId();
+    if (m_infos) {
+        return m_infos->fileExtension(formatId);
+    }
+    return QString();
+}
+
 /******************************************************************************
  ******************************************************************************/
 void StreamWidget::updateButtonBar()
@@ -196,6 +205,7 @@ void StreamWidget::onCurrentIndexChanged(int /*index*/)
 
 void StreamWidget::onChanged()
 {
+    ui->fileExtensionEdit->setText(fileExtension());
     ui->estimedSizeLabel->setText(Format::fileSizeToString(fileSize()));
 }
 
