@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>351</width>
-    <height>266</height>
+    <width>417</width>
+    <height>282</height>
    </rect>
   </property>
   <property name="styleSheet">
@@ -32,7 +32,7 @@ QGroupBox {
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="pageEmpty">
       <layout class="QVBoxLayout" name="verticalLayout_5"/>
@@ -514,6 +514,30 @@ QGroupBox {
         <widget class="QLabel" name="errorMessageLabel">
          <property name="text">
           <string>Can't find the URL stream</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>---
+Help: if you get an error, follow these instructions:
+
+1. Verify the URL
+   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after '?' in the URL:
+   Ex: 'https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278'
+         becomes 
+         'https://www.abc.com/watch?video=some_video'
+
+2. Open the URL in a Web browser, and Play it
+    (Rem: the Web browser can force the server to play the video)
+
+3. Click 'Continue' button again
+
+4. Retry later</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

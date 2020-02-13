@@ -23,7 +23,7 @@
 
 const QString STR_APPLICATION_NAME("DownZemAll!");
 const QLatin1String STR_APPLICATION_VERSION(APP_VERSION);
-const QLatin1String STR_APPLICATION_DATE("2019");
+const QLatin1String STR_APPLICATION_DATE("2020");
 const QString STR_APPLICATION_AUTHOR("Sébastien Vavassori");
 const QString STR_APPLICATION_WEBSITE("https://github.com/setvisible/DownZemAll");
 const QString STR_TUTORIAL_WEBSITE("https://setvisible.github.io/DownZemAll/category/tutorial.html");

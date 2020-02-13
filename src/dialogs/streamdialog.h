@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,37 +14,35 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef DIALOGS_STREAM_DIALOG_H
+#define DIALOGS_STREAM_DIALOG_H
 
-#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QDialog>
+#include <QtWidgets/QMessageBox>
 
-class StreamInfos;
-class StreamInfoDownloader;
-typedef QSharedPointer<StreamInfos> StreamInfosPtr;
+class StreamExtractorListCollector;
 
 namespace Ui {
-class MainWindow;
+class StreamDialog;
 }
 
-class MainWindow : public QMainWindow
+class StreamDialog : public QDialog
 {
     Q_OBJECT
+
 public:
-    explicit MainWindow(QWidget *parent = Q_NULLPTR);
-    ~MainWindow();
+    explicit StreamDialog(QWidget *parent = Q_NULLPTR);
+    ~StreamDialog() Q_DECL_OVERRIDE;
 
 private slots:
-    void onContinueClicked();
-    void onResetClicked();
+    void on_okButton_released();
+
     void onError(QString errorMessage);
-    void onCollected(StreamInfosPtr infos);
+    void onCollected(QStringList extractors, QStringList descriptions);
 
 private:
-    Ui::MainWindow *ui;
-    StreamInfoDownloader *m_streamInfoDownloader;
-
-    void start(const QString &url = QString());
+    Ui::StreamDialog *ui;
+    StreamExtractorListCollector *m_streamCollector;
 };
 
-#endif // MAINWINDOW_H
+#endif // DIALOGS_STREAM_DIALOG_H

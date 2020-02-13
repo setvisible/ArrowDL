@@ -17,15 +17,17 @@
 #ifndef DIALOGS_ADD_STREAM_DIALOG_H
 #define DIALOGS_ADD_STREAM_DIALOG_H
 
-
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QMessageBox>
 
 class IDownloadItem;
 class DownloadManager;
 class Settings;
-class StreamInfoDownloader;
+
 class StreamInfos;
+class StreamInfoDownloader;
+
+typedef QSharedPointer<StreamInfos> StreamInfosPtr;
 
 namespace Ui {
 class AddStreamDialog;
@@ -34,10 +36,9 @@ class AddStreamDialog;
 class AddStreamDialog : public QDialog
 {
     Q_OBJECT
-
 public:
     explicit AddStreamDialog(const QUrl &url, DownloadManager *downloadManager,
-                               Settings *settings, QWidget *parent = Q_NULLPTR);
+                             Settings *settings, QWidget *parent = Q_NULLPTR);
     ~AddStreamDialog() Q_DECL_OVERRIDE;
 
 public slots:
@@ -45,16 +46,12 @@ public slots:
     virtual void acceptPaused();
     void reject() Q_DECL_OVERRIDE;
 
-
 private slots:
     void onContinueClicked();
-
     void onChanged(QString);
 
-
     void onError(QString errorMessage);
-    void onCollected(StreamInfos *infos);
-
+    void onCollected(StreamInfosPtr infos);
 
 private:
     Ui::AddStreamDialog *ui;

@@ -31,6 +31,7 @@
 #include <Dialogs/CompilerDialog>
 #include <Dialogs/InformationDialog>
 #include <Dialogs/PreferenceDialog>
+#include <Dialogs/StreamDialog>
 #include <Dialogs/TutorialDialog>
 #include <Dialogs/UpdateDialog>
 #include <Dialogs/WizardDialog>
@@ -85,7 +86,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     m_downloadManager->setSettings(m_settings);
 
-    this->setWindowIcon(QIcon(":/icons/logo/maps-pin-place.ico"));
     this->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     this->setAcceptDrops(true);
 #ifdef Q_OS_OSX
@@ -94,7 +94,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 #ifdef USE_QT_WINEXTRAS
     m_winTaskbarButton = new QWinTaskbarButton(this);
     m_winTaskbarButton->setWindow(this->windowHandle());
-    m_winTaskbarButton->setOverlayIcon(QIcon(":/icons/overlay/overlay-run.ico"));
     m_winTaskbarProgress = m_winTaskbarButton->progress();
     m_winTaskbarProgress->setVisible(false);
 #endif
@@ -249,6 +248,7 @@ void MainWindow::createActions()
     connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
     connect(ui->actionAboutCompiler, SIGNAL(triggered()), this, SLOT(aboutCompiler()));
+    connect(ui->actionAboutYoutubeDL, SIGNAL(triggered()), this, SLOT(aboutStream()));
     //! [5]
 }
 
@@ -706,6 +706,12 @@ void MainWindow::about()
 void MainWindow::aboutCompiler()
 {
     CompilerDialog dialog(this);
+    dialog.exec();
+}
+
+void MainWindow::aboutStream()
+{
+    StreamDialog dialog(this);
     dialog.exec();
 }
 
