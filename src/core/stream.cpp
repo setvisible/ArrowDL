@@ -389,27 +389,41 @@ bool StreamInfoDownloader::parseJSON(const QByteArray &data, StreamInfos *infos)
 /******************************************************************************
  ******************************************************************************/
 StreamExtractorListCollector::StreamExtractorListCollector(QObject *parent) : QObject(parent)
-  , m_process(new QProcess(this))
+  , m_processExtractors(new QProcess(this))
+  , m_processDescriptions(new QProcess(this))
 {
-    connect(m_process, SIGNAL(started()),
+    connect(m_processExtractors, SIGNAL(started()),
             this, SLOT(onStarted()));
-    connect(m_process, SIGNAL(errorOccurred(QProcess::ProcessError)),
+    connect(m_processExtractors, SIGNAL(errorOccurred(QProcess::ProcessError)),
             this, SLOT(onErrorOccurred(QProcess::ProcessError)));
-    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)),
-            this, SLOT(onFinished(int, QProcess::ExitStatus)));
+    connect(m_processExtractors, SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(onFinishedExtractors(int, QProcess::ExitStatus)));
+
+    connect(m_processDescriptions, SIGNAL(started()),
+            this, SLOT(onStarted()));
+    connect(m_processDescriptions, SIGNAL(errorOccurred(QProcess::ProcessError)),
+            this, SLOT(onErrorOccurred(QProcess::ProcessError)));
+    connect(m_processDescriptions, SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(onFinishedDescriptions(int, QProcess::ExitStatus)));
 }
 
 StreamExtractorListCollector::~StreamExtractorListCollector()
 {
-    m_process->kill();
-    m_process->deleteLater();
+    m_processExtractors->kill();
+    m_processExtractors->deleteLater();
+    m_processDescriptions->kill();
+    m_processDescriptions->deleteLater();
 }
 
 void StreamExtractorListCollector::runAsync()
 {
-    if (m_process->state() == QProcess::NotRunning) {
-        m_process->start(C_PROGRAM_NAME, QStringList() << "--list-extractors");
-        qDebug() << Q_FUNC_INFO << toString(m_process);
+    if (m_processExtractors->state() == QProcess::NotRunning) {
+        m_processExtractors->start(C_PROGRAM_NAME, QStringList() << "--list-extractors");
+        qDebug() << Q_FUNC_INFO << toString(m_processExtractors);
+    }
+    if (m_processDescriptions->state() == QProcess::NotRunning) {
+        m_processDescriptions->start(C_PROGRAM_NAME, QStringList() << "--extractor-descriptions");
+        qDebug() << Q_FUNC_INFO << toString(m_processDescriptions);
     }
 }
 
@@ -421,17 +435,38 @@ void StreamExtractorListCollector::onStarted()
 void StreamExtractorListCollector::onErrorOccurred(QProcess::ProcessError error)
 {
     qDebug() << Q_FUNC_INFO << generateErrorMessage(error);
+    m_extractors.clear();
+    m_descriptions.clear();
 }
 
-void StreamExtractorListCollector::onFinished(int exitCode, QProcess::ExitStatus /*exitStatus*/)
+void StreamExtractorListCollector::onFinishedExtractors(int exitCode, QProcess::ExitStatus /*exitStatus*/)
 {
     if (exitCode != 0) {
-        auto message = generateErrorMessage(m_process->error());
+        auto message = generateErrorMessage(m_processExtractors->error());
         emit error(message);
     } else {
-        QString data = m_process->readAllStandardOutput();
-        auto extractors = data.split("\n");
-        emit collected(extractors);
+        QString data = QString::fromLatin1(m_processExtractors->readAllStandardOutput());
+        m_extractors = data.split("\n", QString::KeepEmptyParts);
+        onFinished();
+    }
+}
+
+void StreamExtractorListCollector::onFinishedDescriptions(int exitCode, QProcess::ExitStatus /*exitStatus*/)
+{
+    if (exitCode != 0) {
+        auto message = generateErrorMessage(m_processDescriptions->error());
+        emit error(message);
+    } else {
+        QString data = QString::fromLatin1(m_processDescriptions->readAllStandardOutput());
+        m_descriptions = data.split("\n", QString::KeepEmptyParts);
+        onFinished();
+    }
+}
+
+void StreamExtractorListCollector::onFinished()
+{
+    if (!m_extractors.isEmpty() && !m_descriptions.isEmpty()) {
+        emit collected(m_extractors, m_descriptions);
     }
 }
 

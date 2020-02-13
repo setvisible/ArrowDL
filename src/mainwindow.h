@@ -113,6 +113,7 @@ public slots:
     void showTutorial();
     void about();
     void aboutCompiler();
+    void aboutStream();
 
 private slots:
     void onJobAddedOrRemoved(DownloadRange range);

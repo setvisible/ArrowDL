@@ -50,6 +50,7 @@
     <addaction name="actionTutorial"/>
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
+    <addaction name="actionAboutYoutubeDL"/>
     <addaction name="actionAboutQt"/>
     <addaction name="actionAboutCompiler"/>
    </widget>
@@ -655,6 +656,11 @@
   <action name="actionTutorial">
    <property name="text">
     <string>Tutorial</string>
+   </property>
+  </action>
+  <action name="actionAboutYoutubeDL">
+   <property name="text">
+    <string>About YoutubeDL...</string>
    </property>
   </action>
  </widget>

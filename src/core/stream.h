@@ -193,15 +193,22 @@ public:
 
 signals:
     void error(QString errorMessage);
-    void collected(QStringList extractors);
+    void collected(QStringList extractors, QStringList descriptions);
 
 private slots:
     void onStarted();
     void onErrorOccurred(QProcess::ProcessError error);
-    void onFinished(int exitCode, QProcess::ExitStatus exitStatus);
+
+    void onFinishedExtractors(int exitCode, QProcess::ExitStatus exitStatus);
+    void onFinishedDescriptions(int exitCode, QProcess::ExitStatus exitStatus);
 
 private:
-    QProcess *m_process;
+    QProcess *m_processExtractors;
+    QProcess *m_processDescriptions;
+    QStringList m_extractors;
+    QStringList m_descriptions;
+
+    void onFinished();
 };
 
 #endif // CORE_STREAM_H

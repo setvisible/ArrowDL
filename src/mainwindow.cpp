@@ -31,6 +31,7 @@
 #include <Dialogs/CompilerDialog>
 #include <Dialogs/InformationDialog>
 #include <Dialogs/PreferenceDialog>
+#include <Dialogs/StreamDialog>
 #include <Dialogs/TutorialDialog>
 #include <Dialogs/UpdateDialog>
 #include <Dialogs/WizardDialog>
@@ -247,6 +248,7 @@ void MainWindow::createActions()
     connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
     connect(ui->actionAboutCompiler, SIGNAL(triggered()), this, SLOT(aboutCompiler()));
+    connect(ui->actionAboutYoutubeDL, SIGNAL(triggered()), this, SLOT(aboutStream()));
     //! [5]
 }
 
@@ -704,6 +706,12 @@ void MainWindow::about()
 void MainWindow::aboutCompiler()
 {
     CompilerDialog dialog(this);
+    dialog.exec();
+}
+
+void MainWindow::aboutStream()
+{
+    StreamDialog dialog(this);
     dialog.exec();
 }
 
