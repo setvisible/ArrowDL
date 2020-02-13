@@ -16,6 +16,7 @@
 
 #include <Core/Stream>
 
+#include "../../utils/biginteger.h"
 #include "../../utils/dummystreamfactory.h"
 
 #include <QtCore/QDebug>
@@ -45,6 +46,9 @@ private slots:
 
     void fileBaseName_data();
     void fileBaseName();
+
+    void guestimateFullSize_data();
+    void guestimateFullSize();
 
     void fileExtension_data();
     void fileExtension();
@@ -170,6 +174,44 @@ void tst_Stream::fileBaseName()
     auto actual = target.fileBaseName();
 
     QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+******************************************************************************/
+void tst_Stream::guestimateFullSize_data()
+{
+    QTest::addColumn<QString>("input");
+    QTest::addColumn<BigInteger>("expected");
+
+    QTest::newRow("null") << QString() << BigInteger(-1);
+    QTest::newRow("empty") << "" << BigInteger(-1);
+    QTest::newRow("default") << "244+140" << BigInteger(294311 + 280597);
+
+    QTest::newRow("audio") << "18" << BigInteger(552999);
+    QTest::newRow("audio") << "43" << BigInteger(287596);
+    QTest::newRow("audio") << "140" << BigInteger(280597);
+
+    QTest::newRow("audio+video") << "160+140" << BigInteger(63901 + 280597);
+    QTest::newRow("audio+video") << "278+140" << BigInteger(53464 + 280597);
+
+    /*
+     * Invalid formats
+     * In Youtube-DL, video ID must be the first ID.
+     * But we accept them as valid here.
+     */
+    QTest::newRow("audio+video") << "140+160" << BigInteger(280597 + 63901);
+    QTest::newRow("audio+video") << "140+278" << BigInteger(280597 + 53464);
+}
+
+void tst_Stream::guestimateFullSize()
+{
+    QFETCH(QString, input);
+    QFETCH(BigInteger, expected);
+
+    auto target = DummyStreamFactory::createDummyStreamInfos();
+    qint64 actual = target->guestimateFullSize(input);
+
+    QCOMPARE(actual, expected.value);
 }
 
 /******************************************************************************
