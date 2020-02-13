@@ -31,6 +31,7 @@ StreamDialog::StreamDialog(QWidget *parent)
     ui->setupUi(this);
 
     ui->title->setText(QLatin1String("Youtube-DL"));
+    ui->version->setText(QString("Version %0").arg(Stream::version()));
 
     ui->plainTextEdit->setEnabled(false);
 

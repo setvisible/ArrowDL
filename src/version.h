@@ -25,7 +25,4 @@
 /* Google Gumbo */
 #define GOOGLE_GUMBO_VERSION_STR      "0.10.1"
 
-/* Youtube-DL */
-#define YOUTUBEDL_VERSION_STR         "2020.01.24"
-
 #endif // VERSION_H

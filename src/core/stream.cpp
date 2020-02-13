@@ -31,6 +31,8 @@
 static QString generateErrorMessage(QProcess::ProcessError error);
 static QString toString(QProcess *process);
 
+static QString s_youtubedl_version;
+
 static const QString C_PROGRAM_NAME  = QLatin1String("youtube-dl.exe");
 static const QString C_LEGAL_CHARS   = QLatin1String("' @()[]{}°#,.&");
 static const QString C_NONE          = QLatin1String("none");
@@ -63,6 +65,25 @@ Stream::~Stream()
 {
     m_process->kill();
     m_process->deleteLater();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QString Stream::version()
+{
+    if (s_youtubedl_version.isEmpty()) {
+        QProcess process;
+        process.start(C_PROGRAM_NAME, QStringList() << "--version");
+        if (!process.waitForStarted()) {
+            return QLatin1String("unknown");
+        }
+        if (!process.waitForFinished()) {
+            return QLatin1String("unknown");
+        }
+        const QString result = process.readAll();
+        s_youtubedl_version = result.simplified();
+    }
+    return s_youtubedl_version;
 }
 
 /******************************************************************************

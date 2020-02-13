@@ -102,6 +102,8 @@ public:
     explicit Stream(QObject *parent);
     ~Stream() Q_DECL_OVERRIDE;
 
+    static QString version();
+
     void clear();
     bool isEmpty();
 
