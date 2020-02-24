@@ -145,6 +145,17 @@ void UpdateDialog::onUpdateDownloadProgress(float percentageDownloaded)
 
 void UpdateDialog::onUpdateDownloadFinished()
 {
+    QMessageBox msg(
+                QMessageBox::Warning,
+                tr("Close the application"),
+                tr("The application needs to close to continue the update.\n\n"
+                   "Do you want to close now?"),
+                QMessageBox::Yes | QMessageBox::No,
+                this);
+
+    if (msg.exec() == QMessageBox::Yes) {
+        QCoreApplication::quit();
+    }
     accept();
 }
 
