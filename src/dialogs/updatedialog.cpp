@@ -88,6 +88,7 @@ void UpdateDialog::install()
     ui->progressBarValue->setVisible(true);
     ui->downloadedToLabel->setVisible(true);
     ui->progressLabel->setText(tr("Downloading the update..."));
+    ui->checkButton->setEnabled(false);
     ui->stackedWidget->setCurrentWidget(ui->pageProgress);
 
     m_updateChecker->downloadAndInstallUpdate();
@@ -135,19 +136,32 @@ void UpdateDialog::onUpdateAvailable(CAutoUpdaterGithub::ChangeLog changelog)
 
 void UpdateDialog::onUpdateDownloadProgress(float percentageDownloaded)
 {
+    /// \todo BUGFIX Qt: QProgressBar update in QThread quitting crashes
     // ui->progressBar->setValue(static_cast<int>(percentageDownloaded));
-    const QString text = QString("%0 %")
-            .arg(QString::number(static_cast<double>(percentageDownloaded), 'f', 2));
+    auto percent = static_cast<int>(percentageDownloaded);
+    const QString text = QString("%0 %").arg(QString::number(percent));
     ui->progressBarValue->setText(text);
 }
 
 void UpdateDialog::onUpdateDownloadFinished()
 {
+    QMessageBox msg(
+                QMessageBox::Warning,
+                tr("Close the application"),
+                tr("The application needs to close to continue the update.\n\n"
+                   "Do you want to close now?"),
+                QMessageBox::Yes | QMessageBox::No,
+                this);
+
+    if (msg.exec() == QMessageBox::Yes) {
+        QCoreApplication::quit();
+    }
     accept();
 }
 
 void UpdateDialog::onUpdateError(QString errorMessage)
 {
+    ui->checkButton->setEnabled(true);
     ui->stackedWidget->setCurrentWidget(ui->pageError);
     ui->errorMessage->setText(errorMessage.toUtf8().data());
 }
