@@ -27,6 +27,9 @@
 #include <QtCore/QJsonArray>
 #include <QtCore/QMap>
 #include <QtCore/QtMath>
+#ifdef QT_TESTLIB_LIB
+#  include <QtTest/QTest>
+#endif
 
 static QString generateErrorMessage(QProcess::ProcessError error);
 static QString toString(QProcess *process);
@@ -499,6 +502,26 @@ void StreamExtractorListCollector::onFinished()
 
 /******************************************************************************
  ******************************************************************************/
+StreamFormat::StreamFormat(QObject *parent) : QObject(parent)
+{
+}
+
+StreamFormat::StreamFormat(const StreamFormat &other) : QObject(other.parent())
+{
+    this->format_id    = other.format_id   ;
+    this->ext          = other.ext         ;
+    this->format_note  = other.format_note ;
+    this->filesize     = other.filesize    ;
+    this->acodec       = other.acodec      ;
+    this->abr          = other.abr         ;
+    this->asr          = other.asr         ;
+    this->vcodec       = other.vcodec      ;
+    this->width        = other.width       ;
+    this->height       = other.height      ;
+    this->fps          = other.fps         ;
+    this->tbr          = other.tbr         ;
+}
+
 StreamFormat::StreamFormat(
         QString format_id,
         QString ext,
@@ -526,6 +549,31 @@ StreamFormat::StreamFormat(
     this->height       = height      ;
     this->fps          = fps         ;
     this->tbr          = tbr         ;
+}
+
+StreamFormat::~StreamFormat()
+{
+}
+
+bool StreamFormat::operator==(const StreamFormat &other) const
+{
+    return (format_id    == other.format_id   &&
+            ext          == other.ext         &&
+            format_note  == other.format_note &&
+            filesize     == other.filesize    &&
+            acodec       == other.acodec      &&
+            abr          == other.abr         &&
+            asr          == other.asr         &&
+            vcodec       == other.vcodec      &&
+            width        == other.width       &&
+            height       == other.height      &&
+            fps          == other.fps         &&
+            tbr          == other.tbr         );
+}
+
+bool StreamFormat::operator!=(const StreamFormat &other) const
+{
+    return !(*this == other);
 }
 
 bool StreamFormat::hasVideo() const {
@@ -563,8 +611,49 @@ QString StreamFormat::toString() const
     return QString();
 }
 
+QString StreamFormat::debug_description() const
+{
+    return QString("StreamFormat '%0' (%1, %2, %3, %4, %5, %6, %7, %8, %9, %10, %11)")
+            .arg(format_id)
+            .arg(ext)
+            .arg(format_note)
+            .arg(filesize)
+            .arg(acodec)
+            .arg(abr)
+            .arg(asr)
+            .arg(vcodec)
+            .arg(width)
+            .arg(height)
+            .arg(fps)
+            .arg(tbr);
+}
+
 /******************************************************************************
  ******************************************************************************/
+StreamInfos::StreamInfos(QObject *parent) : QObject(parent)
+{
+}
+
+StreamInfos::StreamInfos(const StreamInfos &other): QObject(other.parent())
+{
+    this->_filename        = other._filename      ;
+    this->fulltitle        = other.fulltitle      ;
+    this->title            = other.title          ;
+    this->ext              = other.ext            ;
+    this->description      = other.description    ;
+    this->thumbnail        = other.thumbnail      ;
+    this->extractor        = other.extractor      ;
+    this->extractor_key    = other.extractor_key  ;
+    this->format_id        = other.format_id      ;
+    this->formats          = other.formats        ;
+    this->playlist         = other.playlist       ;
+    this->playlist_index   = other.playlist_index ;
+}
+
+StreamInfos::~StreamInfos()
+{
+}
+
 qint64 StreamInfos::guestimateFullSize(const QString &format_id) const
 {
     if (format_id.isEmpty()) {
@@ -671,6 +760,28 @@ QList<StreamFormat*> StreamInfos::videoFormats() const
     return list;
 }
 
+QString StreamInfos::debug_description() const
+{
+    QString descr;
+    descr.append(QString("StreamInfos '%0' (%1, %2, %3, %4, %5, %6, %7, %8, %9, %10)")
+                 .arg(_filename)
+                 .arg(fulltitle)
+                 .arg(title)
+                 .arg(ext)
+                 .arg(description)
+                 .arg(thumbnail)
+                 .arg(extractor)
+                 .arg(extractor_key)
+                 .arg(format_id)
+                 .arg(playlist)
+                 .arg(playlist_index));
+    foreach (auto format, formats) {
+        descr.append("\n");
+        descr.append(format->debug_description());
+    }
+    return descr;
+}
+
 /******************************************************************************
  ******************************************************************************/
 static QString generateErrorMessage(QProcess::ProcessError error)
@@ -710,3 +821,62 @@ static QString toString(QProcess *process)
             .arg(process->program())
             .arg(process->arguments().join(" "));
 }
+
+/******************************************************************************
+ ******************************************************************************/
+#ifdef QT_TESTLIB_LIB
+/// This function is used by QCOMPARE() to output verbose information in case of a test failure.
+char *toString(const StreamFormat &streamFormat)
+{
+    // bring QTest::toString overloads into scope:
+    using QTest::toString;
+
+    // delegate char* handling to QTest::toString(QByteArray):
+    return toString(streamFormat.debug_description());
+}
+
+char *toString(const StreamInfos &streamInfos)
+{
+    // bring QTest::toString overloads into scope:
+    using QTest::toString;
+
+    // delegate char* handling to QTest::toString(QByteArray):
+    return toString(streamInfos.debug_description());
+}
+#endif
+
+#ifdef QT_DEBUG
+/// Custom Types to a Stream
+QDebug operator<<(QDebug dbg, const StreamFormat &streamFormat)
+{
+    dbg.nospace() << streamFormat.debug_description();
+    return dbg.maybeSpace();
+}
+
+QDebug operator<<(QDebug dbg, const StreamFormat *streamFormat)
+{
+    if (streamFormat)
+        dbg.nospace() << *streamFormat;
+    else
+        dbg.nospace() << QLatin1String("StreamFormat(): nullptr");
+    return dbg.space();
+}
+
+QDebug operator<<(QDebug dbg, const StreamInfos &streamInfos)
+{
+    dbg.nospace() << streamInfos.debug_description();
+    return dbg.maybeSpace();
+}
+
+QDebug operator<<(QDebug dbg, const StreamInfos *streamInfos)
+{
+    if (streamInfos)
+        // Here, noquote() is called,
+        // because it doesn't escape non-text characters contrary to nospace()
+        // Each streamInfos should appear in a separated line
+        dbg.noquote() << *streamInfos;
+    else
+        dbg.nospace() << QLatin1String("StreamInfos(): nullptr");
+    return dbg.space();
+}
+#endif
