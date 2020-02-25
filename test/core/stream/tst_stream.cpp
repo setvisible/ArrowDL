@@ -279,7 +279,7 @@ void tst_Stream::guestimateFullSize()
     QFETCH(QString, input);
     QFETCH(BigInteger, expected);
 
-    auto target = DummyStreamFactory::createDummyStreamInfos();
+    auto target = DummyStreamFactory::createDummyStreamInfos_Youtube();
     qint64 actual = target->guestimateFullSize(input);
 
     QCOMPARE(actual, expected.value);
@@ -317,7 +317,7 @@ void tst_Stream::fileExtension()
     QFETCH(QString, input);
     QFETCH(QString, expected);
 
-    auto target = DummyStreamFactory::createDummyStreamInfos();
+    auto target = DummyStreamFactory::createDummyStreamInfos_Youtube();
     auto actual = target->fileExtension(input);
 
     QCOMPARE(actual, expected);
