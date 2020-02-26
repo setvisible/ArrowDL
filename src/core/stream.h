@@ -153,9 +153,10 @@ private:
     QString m_outputPath;
     QString m_selectedFormatId;
 
-    qint64 m_fileSizeInBytes;
-    qint64 m_currentSectionBytes;
-    qint64 m_totalBytes;
+    qint64 m_bytesReceived;
+    qint64 m_bytesReceivedCurrentSection;
+    qint64 m_bytesTotal;
+    qint64 m_bytesTotalCurrentSection;
 
     QString m_fileBaseName;
     QString m_fileExtension;
