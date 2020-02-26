@@ -230,14 +230,23 @@ void tst_Format::parseBytes_data()
     QTest::newRow("invalid") << QString()   << BigInteger(-1);
     QTest::newRow("invalid") << "azerty"    << BigInteger(-1);
     QTest::newRow("invalid") << "NaN"       << BigInteger(-1);
+
     QTest::newRow("unitless") << "0"        << BigInteger(-1);
     QTest::newRow("unitless") << "0.0"      << BigInteger(-1);
 
+    QTest::newRow("unknown") << "-"         << BigInteger(-1);
+    QTest::newRow("unknown") << "-.-"       << BigInteger(-1);
+    QTest::newRow("unknown") << "--.--"     << BigInteger(-1);
+    QTest::newRow("unknown") << "..."       << BigInteger(-1);
+    QTest::newRow("unknown") << "?"         << BigInteger(-1);
+
     /* Valid */
+    QTest::newRow("zero") << "0  KiB" << BigInteger(0);
     QTest::newRow("zero") << "0.0KiB" << BigInteger(0);
 
     QTest::newRow("1 byte") << "1 B" << BigInteger(1);
     QTest::newRow("1 byte") << "1 byte" << BigInteger(1);
+    QTest::newRow("2 bytes") << "2 bytes" << BigInteger(2);
 
     QTest::newRow("1 KB") << "1 KB" << BigInteger(1000);
     QTest::newRow("1 MB") << "1 MB" << BigInteger(1000*1000);
@@ -250,6 +259,10 @@ void tst_Format::parseBytes_data()
     QTest::newRow("167.85MiB") << "167.85MiB" << BigInteger(176003482);
     QTest::newRow("167.85MiB") << "167.85 MiB" << BigInteger(176003482);
     QTest::newRow("167.85MiB") << "167.85    MiB" << BigInteger(176003482);
+
+    QTest::newRow("estim") << "~55.43MiB" << BigInteger(58122568);
+    QTest::newRow("estim") << "~55.43  MiB" << BigInteger(58122568);
+    QTest::newRow("estim") << " ~ 55.43   MiB" << BigInteger(58122568);
 }
 
 void tst_Format::parseBytes()
