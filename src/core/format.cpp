@@ -148,15 +148,18 @@ double Format::parsePercentDecimal(const QString &text)
  ******************************************************************************/
 qint64 Format::parseBytes(const QString &text)
 {
-    QString byteString = text;
-    byteString.remove(QRegExp("[a-zA-Z]*"));
+    QString textwithoutTilde = text;
+    textwithoutTilde.remove(QChar('~'));
+
+    QString numberString = textwithoutTilde;
+    numberString.remove(QRegExp("[a-zA-Z]*"));
     double decimal = 0;
-    if (!parseDouble(byteString, decimal)) {
+    if (!parseDouble(numberString, decimal)) {
         return -1;
     }
 
-    QString unitString = text;
-    unitString.remove(byteString);
+    QString unitString = textwithoutTilde;
+    unitString.remove(numberString);
     unitString = unitString.toUpper();
 
     double multiple = 0;
