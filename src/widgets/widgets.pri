@@ -11,7 +11,8 @@ HEADERS += \
     $$PWD/masktip.h \
     $$PWD/maskwidget.h \
     $$PWD/pathwidget.h \
-    $$PWD/streamwidget.h
+    $$PWD/streamwidget.h \
+    $$PWD/systemtray.h
 
 SOURCES += \
     $$PWD/autoclosedialog.cpp \
@@ -25,7 +26,8 @@ SOURCES += \
     $$PWD/masktip.cpp \
     $$PWD/maskwidget.cpp \
     $$PWD/pathwidget.cpp \
-    $$PWD/streamwidget.cpp
+    $$PWD/streamwidget.cpp \
+    $$PWD/systemtray.cpp
 
 FORMS += \
     $$PWD/filtertip.ui \

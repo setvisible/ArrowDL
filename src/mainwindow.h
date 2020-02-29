@@ -24,10 +24,13 @@ class DownloadManager;
 class FileAccessManager;
 class Settings;
 class UpdateChecker;
+class SystemTray;
 
 typedef QList<IDownloadItem*> DownloadRange;
 
+QT_BEGIN_NAMESPACE
 class QLabel;
+QT_END_NAMESPACE
 
 #ifdef USE_QT_WINEXTRAS
 class QWinTaskbarButton;
@@ -52,6 +55,7 @@ public:
 protected:
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
     void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
 
@@ -133,6 +137,7 @@ private:
     QWinTaskbarProgress *m_winTaskbarProgress = Q_NULLPTR;
 #endif
     UpdateChecker *m_updateChecker;
+    SystemTray *m_systemTray;
 
     void readSettings();
     void writeSettings();
@@ -140,6 +145,7 @@ private:
     void createActions();
     void createContextMenu();
     void createStatusbar();
+    void createSystemTray();
 
     void refreshTitleAndStatus();
     void refreshMenus();
