@@ -39,6 +39,7 @@
 #include <Io/FileReader>
 #include <Io/FileWriter>
 #include <Widgets/DownloadQueueView>
+#include <Widgets/SystemTray>
 
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
@@ -81,6 +82,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , m_settings(new Settings(this))
   , m_statusBarLabel(new QLabel(this))
   , m_updateChecker(new UpdateChecker(this))
+  , m_systemTray(new SystemTray(this))
 {
     ui->setupUi(this);
 
@@ -128,6 +130,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     createActions();
     createContextMenu();
     createStatusbar();
+    createSystemTray();
 
     readSettings();
 
@@ -162,6 +165,19 @@ void MainWindow::showEvent(QShowEvent *event)
     m_winTaskbarButton->setWindow(windowHandle());
 #endif
     event->accept();
+}
+
+void MainWindow::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::WindowStateChange) {
+        if ( m_settings->isSystemTrayIconEnabled() &&
+             m_settings->isHideWhenMinimizedEnabled()
+             && isVisible() && isMinimized()
+             ) {
+            m_systemTray->hideParentWidget();
+        }
+    }
+    QMainWindow::changeEvent(event);
 }
 
 /******************************************************************************
@@ -314,6 +330,14 @@ void MainWindow::createStatusbar()
 {
     this->statusBar()->addPermanentWidget(m_statusBarLabel);
     this->statusBar()->addAction(ui->actionPreferences);
+}
+
+void MainWindow::createSystemTray()
+{    
+    m_systemTray->setSettings(m_settings);
+    m_systemTray->setupContextMenu(
+                ui->actionPreferences,
+                ui->actionQuit);
 }
 
 /******************************************************************************
@@ -674,6 +698,9 @@ void MainWindow::forceStart()
 
 void MainWindow::showPreferences()
 {
+    if (!this->isVisible()) {
+        m_systemTray->showParentWidget();
+    }
     PreferenceDialog dialog(m_settings, this);
     connect(&dialog, SIGNAL(checkUpdate()), this, SLOT(checkForUpdates()));
     dialog.exec();
@@ -730,10 +757,11 @@ void MainWindow::onJobStateChanged(IDownloadItem * /*downloadItem*/)
     refreshTitleAndStatus();
 }
 
-void MainWindow::onJobFinished(IDownloadItem * /*downloadItem*/)
+void MainWindow::onJobFinished(IDownloadItem * downloadItem)
 {
     refreshMenus();
     refreshTitleAndStatus();
+    m_systemTray->showBalloon(downloadItem->localFileName(), downloadItem->localFullFileName());
 }
 
 void MainWindow::onSelectionChanged()
@@ -766,12 +794,17 @@ void MainWindow::refreshTitleAndStatus()
     const int count = m_downloadManager->count();
     const int doneCount = completedCount + failedCount;
 
-    this->setWindowTitle(QString("%0 %1/%2 - %3 v%4")
-                         .arg(totalSpeed)
-                         .arg(doneCount)
-                         .arg(count)
-                         .arg(STR_APPLICATION_NAME)
-                         .arg(STR_APPLICATION_VERSION).trimmed());
+    auto windowTitle = QString("%0 %1/%2 - %3 v%4")
+            .arg(totalSpeed).arg(doneCount).arg(count)
+            .arg(STR_APPLICATION_NAME)
+            .arg(STR_APPLICATION_VERSION).trimmed();
+
+    this->setWindowTitle(windowTitle);
+
+    auto title = QString("Done: %0 Running: %1 Total: %2")
+            .arg(doneCount).arg(runningCount).arg(count);
+    m_systemTray->setTitle(title);
+    m_systemTray->setToolTip(windowTitle);
 
     m_statusBarLabel->setText(
                 QString("%0 of %1 (%2), %3 running  %4")
