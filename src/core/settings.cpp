@@ -27,6 +27,9 @@ static const QString REGISTRY_EXISTING_FILE    = "ExistingFile";
 
 // Tab Interface
 static const QString REGISTRY_DONT_SHOW_TUTO   = "DontShowTutorial";
+static const QString REGISTRY_SHOW_SYSTEM_TRAY = "SystemTrayIconEnabled";
+static const QString REGISTRY_HIDE_MINIMIZED   = "HideWhenMinimized";
+static const QString REGISTRY_SHOW_BALLOON     = "SystemTrayBalloonEnabled";
 static const QString REGISTRY_CONFIRM_REMOVAL  = "ConfirmRemoval";
 static const QString REGISTRY_CONFIRM_BATCH    = "ConfirmBatchDownload";
 
@@ -60,6 +63,9 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
 
     // Tab Interface
     addDefaultSettingBool(REGISTRY_DONT_SHOW_TUTO, false);
+    addDefaultSettingBool(REGISTRY_SHOW_SYSTEM_TRAY, true);
+    addDefaultSettingBool(REGISTRY_HIDE_MINIMIZED, false);
+    addDefaultSettingBool(REGISTRY_SHOW_BALLOON, true);
     addDefaultSettingBool(REGISTRY_CONFIRM_REMOVAL, true);
     addDefaultSettingBool(REGISTRY_CONFIRM_BATCH, true);
 
@@ -141,6 +147,36 @@ bool Settings::isDontShowTutorialEnabled() const
 void Settings::setDontShowTutorialEnabled(bool enabled)
 {
     setSettingBool(REGISTRY_DONT_SHOW_TUTO, enabled);
+}
+
+bool Settings::isSystemTrayIconEnabled() const
+{
+    return getSettingBool(REGISTRY_SHOW_SYSTEM_TRAY);
+}
+
+void Settings::setSystemTrayIconEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_SHOW_SYSTEM_TRAY, enabled);
+}
+
+bool Settings::isHideWhenMinimizedEnabled() const
+{
+    return getSettingBool(REGISTRY_HIDE_MINIMIZED);
+}
+
+void Settings::setHideWhenMinimizedEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_HIDE_MINIMIZED, enabled);
+}
+
+bool Settings::isSystemTrayBalloonEnabled() const
+{
+    return getSettingBool(REGISTRY_SHOW_BALLOON);
+}
+
+void Settings::setSystemTrayBalloonEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_SHOW_BALLOON, enabled);
 }
 
 bool Settings::isConfirmRemovalEnabled() const

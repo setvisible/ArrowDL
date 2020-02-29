@@ -23,6 +23,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QSettings>
 #include <QtGui/QCloseEvent>
+#include <QtWidgets/QSystemTrayIcon>
 
 #define C_DEFAULT_WIDTH     700
 #define C_DEFAULT_HEIGHT    500
@@ -44,9 +45,11 @@ PreferenceDialog::PreferenceDialog(Settings *settings, QWidget *parent)
     connect(ui->browseDatabaseFile, SIGNAL(currentPathValidityChanged(bool)),
             ui->okButton, SLOT(setEnabled(bool)));
 
-    connect(ui->checkUpdateNowPushButton, SIGNAL(released()), this, SLOT(onCheckUpdate()));
+    connect(ui->checkUpdateNowPushButton, SIGNAL(released()),
+            this, SIGNAL(checkUpdate()), Qt::QueuedConnection);
 
     initializeGui();
+    initializeWarnings();
     read();
     readSettings();
 }
@@ -98,6 +101,19 @@ void PreferenceDialog::initializeGui()
     connect(ui->filterTableWidget, SIGNAL(itemSelectionChanged()), this, SLOT(filterSelectionChanged()));
     connect(ui->filterCaptionLineEdit, SIGNAL(editingFinished()), this, SLOT(filterTextChanged()));
     connect(ui->filterRegexLineEdit, SIGNAL(editingFinished()), this, SLOT(filterTextChanged()));
+
+    ui->showSystemTrayIconCheckBox->setEnabled(QSystemTrayIcon::isSystemTrayAvailable());
+    ui->hideWhenMinimizedCheckBox->setEnabled(ui->showSystemTrayIconCheckBox->isChecked());
+    ui->showSystemTrayBalloonCheckBox->setEnabled(ui->showSystemTrayIconCheckBox->isChecked());
+}
+
+void PreferenceDialog::initializeWarnings()
+{
+    ui->systemTrayIconWarning->setVisible(!QSystemTrayIcon::isSystemTrayAvailable());
+    ui->systemTrayIconWarning->setText(tr("Warning: The system tray is not available."));
+
+    ui->systemTrayBalloonWarning->setVisible(!QSystemTrayIcon::supportsMessages());
+    ui->systemTrayBalloonWarning->setText(tr("Warning: The system tray doesn't support balloon messages."));
 }
 
 /******************************************************************************
@@ -134,11 +150,6 @@ void PreferenceDialog::maxSimultaneousDownloadSlided(int value)
     ui->maxSimultaneousDownloadLabel->setText(QString::number(value));
 }
 
-void PreferenceDialog::onCheckUpdate()
-{
-    emit checkUpdate();
-}
-
 /******************************************************************************
  ******************************************************************************/
 /**
@@ -158,6 +169,9 @@ void PreferenceDialog::read()
 
     // Tab Interface
     ui->dontShowTutorialCheckBox->setChecked(m_settings->isDontShowTutorialEnabled());
+    ui->showSystemTrayIconCheckBox->setChecked(m_settings->isSystemTrayIconEnabled());
+    ui->hideWhenMinimizedCheckBox->setChecked(m_settings->isHideWhenMinimizedEnabled());
+    ui->showSystemTrayBalloonCheckBox->setChecked(m_settings->isSystemTrayBalloonEnabled());
     ui->confirmRemovalCheckBox->setChecked(m_settings->isConfirmRemovalEnabled());
     ui->confirmBatchCheckBox->setChecked(m_settings->isConfirmBatchDownloadEnabled());
 
@@ -183,7 +197,6 @@ void PreferenceDialog::read()
     // Tab Advanced
     int index = static_cast<int>(m_settings->checkUpdateBeatMode());
     ui->checkUpdateComboBox->setCurrentIndex(index);
-
 }
 
 void PreferenceDialog::write()
@@ -193,6 +206,9 @@ void PreferenceDialog::write()
 
     // Tab Interface
     m_settings->setDontShowTutorialEnabled(ui->dontShowTutorialCheckBox->isChecked());
+    m_settings->setSystemTrayIconEnabled(ui->showSystemTrayIconCheckBox->isChecked());
+    m_settings->setHideWhenMinimizedEnabled(ui->hideWhenMinimizedCheckBox->isChecked());
+    m_settings->setSystemTrayBalloonEnabled(ui->showSystemTrayBalloonCheckBox->isChecked());
     m_settings->setConfirmRemovalEnabled(ui->confirmRemovalCheckBox->isChecked());
     m_settings->setConfirmBatchDownloadEnabled(ui->confirmBatchCheckBox->isChecked());
 

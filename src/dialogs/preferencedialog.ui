@@ -191,6 +191,76 @@ QTabBar::tab:hover:!selected {
             </property>
            </widget>
           </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,1">
+            <item>
+             <widget class="QCheckBox" name="showSystemTrayIconCheckBox">
+              <property name="text">
+               <string>Show system tray icon (notification area)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="systemTrayIconWarning">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <italic>false</italic>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(170, 0, 0);</string>
+              </property>
+              <property name="text">
+               <string>&lt;warning message&gt;</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_14">
+            <property name="leftMargin">
+             <number>20</number>
+            </property>
+            <item>
+             <widget class="QCheckBox" name="hideWhenMinimizedCheckBox">
+              <property name="text">
+               <string>Hide when minimized</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="0,1">
+              <item>
+               <widget class="QCheckBox" name="showSystemTrayBalloonCheckBox">
+                <property name="text">
+                 <string>Show balloon messages</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="systemTrayBalloonWarning">
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <italic>false</italic>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(170, 0, 0);</string>
+                </property>
+                <property name="text">
+                 <string>&lt;warning message&gt;</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
          </layout>
         </widget>
        </item>
@@ -807,7 +877,7 @@ QTabBar::tab:hover:!selected {
    <hints>
     <hint type="sourcelabel">
      <x>605</x>
-     <y>308</y>
+     <y>439</y>
     </hint>
     <hint type="destinationlabel">
      <x>79</x>
@@ -823,7 +893,7 @@ QTabBar::tab:hover:!selected {
    <hints>
     <hint type="sourcelabel">
      <x>689</x>
-     <y>308</y>
+     <y>439</y>
     </hint>
     <hint type="destinationlabel">
      <x>762</x>
@@ -838,12 +908,44 @@ QTabBar::tab:hover:!selected {
    <slot>restoreDefaultSettings()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>123</x>
-     <y>292</y>
+     <x>133</x>
+     <y>439</y>
     </hint>
     <hint type="destinationlabel">
      <x>205</x>
      <y>315</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>showSystemTrayIconCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>hideWhenMinimizedCheckBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>81</x>
+     <y>104</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>105</x>
+     <y>126</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>showSystemTrayIconCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>showSystemTrayBalloonCheckBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>148</x>
+     <y>99</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>155</x>
+     <y>149</y>
     </hint>
    </hints>
   </connection>
