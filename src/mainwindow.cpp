@@ -190,9 +190,9 @@ void MainWindow::createActions()
     connect(ui->actionImportFromFile, SIGNAL(triggered()), this, SLOT(importFromFile()));
     connect(ui->actionExportSelectedToFile, SIGNAL(triggered()), this, SLOT(exportSelectedToFile()));
     // --
-    ui->actionExit->setShortcuts(QKeySequence::Quit);
-    ui->actionExit->setStatusTip(tr("Quit %0").arg(STR_APPLICATION_NAME));
-    connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(close())); //&QWidget::close
+    ui->actionQuit->setShortcuts(QKeySequence::Quit);
+    ui->actionQuit->setStatusTip(tr("Quit %0").arg(STR_APPLICATION_NAME));
+    connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close())); //&QWidget::close
     //! [0]
 
     //! [1] Edit
