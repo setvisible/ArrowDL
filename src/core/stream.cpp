@@ -586,11 +586,11 @@ bool StreamFormat::hasMusic() const {
 QString StreamFormat::toString() const
 {
     if (hasVideo() && hasMusic()) {
-        return QObject::tr("Video %0 x %1 (%2), size: %3")
-                .arg(width)
-                .arg(height)
-                .arg(format_note)
-                .arg(Format::fileSizeToString(filesize));
+        return QObject::tr("Video %0 x %1%2%3")
+                .arg(width <= 0 ? QLatin1String("?") : QString::number(width))
+                .arg(height <= 0 ? QLatin1String("?") : QString::number(height))
+                .arg(format_note.isEmpty() ? QString() : QString(" (%0)").arg(format_note))
+                .arg(filesize <= 0 ? QString() : QString(", size: %0").arg(Format::fileSizeToString(filesize)));
     }
     if (hasVideo()) {
         return QObject::tr("[%0] %1 x %2 (%3 fps) @ %4 KBit/s, codec: %5")
@@ -729,13 +729,22 @@ QString StreamInfos::formatId() const
 
 QList<StreamFormat*> StreamInfos::defaultFormats() const
 {
-    QList<StreamFormat*> list;
+    // Map avoids duplicate entries
+    QMap<QString, StreamFormat*> map;
     for (auto format : formats) {
         if (format->hasVideo() && format->hasMusic()) {
-            list.append(format);
+
+            // The output list should be sorted in ascending order of
+            // video resolution, then in ascending order of codec name
+            auto unique_sort_identifier = QString("%0 %1 %2")
+                    .arg(format->width, 16, 10, QChar('0'))
+                    .arg(format->height, 16, 10, QChar('0'))
+                    .arg(format->toString());
+
+            map.insert(unique_sort_identifier, format);
         }
     }
-    return list;
+    return map.values();
 }
 
 QList<StreamFormat*> StreamInfos::audioFormats() const

@@ -99,6 +99,8 @@ void StreamWidget::showStreamInfos(StreamInfosPtr infos)
     Q_ASSERT(infos);
     clear();
 
+    qDebug() << Q_FUNC_INFO << infos;
+
     m_infos.swap(infos);
 
     setState(StreamWidget::Normal);
@@ -194,6 +196,15 @@ void StreamWidget::updateButtonBar()
         ui->choiceStackedWidget->setCurrentWidget(ui->pageDefault);
     } else {
         ui->choiceStackedWidget->setCurrentWidget(ui->pageCustom);
+    }
+
+    bool empty = (ui->audioComboBox->count() + ui->videoComboBox->count()) == 0;
+    ui->warningGroup->setVisible(empty);
+    if (empty) {
+        ui->audioGroup->setVisible(false);
+        ui->videoGroup->setVisible(false);
+    } else{
+        ui->audioGroup->setVisible(true);
         ui->videoGroup->setVisible(!ui->customAudioButton->isChecked());
     }
 }
