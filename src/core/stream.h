@@ -20,6 +20,11 @@
 #include <QtCore/QObject>
 #include <QtCore/QProcess>
 #include <QtCore/QSharedPointer>
+#include <QtCore/QMetaType>
+
+QT_BEGIN_NAMESPACE
+class QDebug;
+QT_END_NAMESPACE
 
 class StreamInfos;
 typedef QSharedPointer<StreamInfos> StreamInfosPtr;
@@ -28,7 +33,8 @@ class StreamFormat : public QObject
 {
     Q_OBJECT
 public:
-    explicit StreamFormat(QObject *parent = nullptr) : QObject(parent) {}
+    explicit StreamFormat(QObject *parent = nullptr);
+    explicit StreamFormat(const StreamFormat &other);
     explicit StreamFormat(
             QString format_id,
             QString ext,
@@ -43,10 +49,16 @@ public:
             int fps,
             int tbr,
             QObject *parent = nullptr);
+    ~StreamFormat() Q_DECL_OVERRIDE;
+
+    bool operator==(const StreamFormat &other) const;
+    bool operator!=(const StreamFormat &other) const;
 
     bool hasVideo() const;
     bool hasMusic() const;
     QString toString() const;
+
+    QString debug_description() const;
 
     QString format_id;   // (string): Format code specified by --format
     QString ext;         // (string): Video filename extension
@@ -66,8 +78,9 @@ class StreamInfos : public QObject
 {
     Q_OBJECT
 public:
-    explicit StreamInfos(QObject *parent = nullptr) : QObject(parent) {}
-    ~StreamInfos() Q_DECL_OVERRIDE {}
+    explicit StreamInfos(QObject *parent = nullptr);
+    explicit StreamInfos(const StreamInfos &other);
+    ~StreamInfos() Q_DECL_OVERRIDE;
 
     qint64 guestimateFullSize(const QString &format_id) const;
 
@@ -79,6 +92,8 @@ public:
     QList<StreamFormat*> defaultFormats() const;
     QList<StreamFormat*> audioFormats() const;
     QList<StreamFormat*> videoFormats() const;
+
+    QString debug_description() const;
 
     QString _filename;
     QString fulltitle;      // (string): Video title
@@ -213,5 +228,26 @@ private:
 
     void onFinished();
 };
+
+
+Q_DECLARE_TYPEINFO(StreamFormat, Q_PRIMITIVE_TYPE);
+Q_DECLARE_TYPEINFO(StreamInfos, Q_PRIMITIVE_TYPE);
+
+#ifdef QT_TESTLIB_LIB
+char *toString(const StreamFormat &streamFormat);
+char *toString(const StreamInfos &streamInfos);
+#endif
+
+Q_DECLARE_METATYPE(StreamFormat);
+Q_DECLARE_METATYPE(StreamInfos);
+
+#ifdef QT_DEBUG
+QT_BEGIN_NAMESPACE
+QDebug operator<<(QDebug dbg, const StreamFormat &streamFormat);
+QDebug operator<<(QDebug dbg, const StreamFormat *streamFormat);
+QDebug operator<<(QDebug dbg, const StreamInfos &streamInfos);
+QDebug operator<<(QDebug dbg, const StreamInfos *streamInfos);
+QT_END_NAMESPACE
+#endif
 
 #endif // CORE_STREAM_H

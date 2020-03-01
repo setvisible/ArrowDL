@@ -32,7 +32,7 @@ QGroupBox {
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="pageEmpty">
       <layout class="QVBoxLayout" name="verticalLayout_5"/>
@@ -260,7 +260,7 @@ QGroupBox {
        <item>
         <widget class="QStackedWidget" name="choiceStackedWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="pageDefault">
           <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -302,8 +302,8 @@ QGroupBox {
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>315</width>
-                   <height>69</height>
+                   <width>381</width>
+                   <height>85</height>
                   </rect>
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -418,6 +418,19 @@ QGroupBox {
               </item>
               <item>
                <widget class="QComboBox" name="videoComboBox"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="warningGroup" native="true">
+             <layout class="QVBoxLayout" name="verticalLayout_11">
+              <item>
+               <widget class="QLabel" name="label_5">
+                <property name="text">
+                 <string>audio/video information is not available</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>

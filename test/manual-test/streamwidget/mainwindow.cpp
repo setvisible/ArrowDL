@@ -23,6 +23,10 @@
 #include <Widgets/StreamWidget>
 
 #include <QtCore/QDebug>
+#include <QtWidgets/QPushButton>
+
+static const QString s_urlMp4Link = "http://camendesign.com/code/video_for_everybody/test.html";
+
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
@@ -35,8 +39,16 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     connect(ui->resetButton, SIGNAL(released()), this, SLOT(onResetClicked()));
     connect(ui->continueButton, SIGNAL(released()), this, SLOT(onContinueClicked()));
 
+    connect(ui->emptyButton,       SIGNAL(released()), this, SLOT(onEmptyButtonClicked()));
+    connect(ui->youtubeButton,     SIGNAL(released()), this, SLOT(onYoutubeButtonClicked()));
+    connect(ui->dailymotionButton, SIGNAL(released()), this, SLOT(onDailymotionButtonClicked()));
+    connect(ui->otherSiteButton,   SIGNAL(released()), this, SLOT(onOtherSiteButtonClicked()));
+    connect(ui->urlMp4Button,      SIGNAL(released()), this, SLOT(onUrlMp4ButtonClicked()));
+
+    ui->urlMp4Button->setToolTip(s_urlMp4Link);
+
     connect(m_streamInfoDownloader, SIGNAL(error(QString)), this, SLOT(onError(QString)));
-    connect(m_streamInfoDownloader, SIGNAL(collected(StreamInfos*)), this, SLOT(onCollected(StreamInfos*)));
+    connect(m_streamInfoDownloader, SIGNAL(collected(StreamInfosPtr)), this, SLOT(onCollected(StreamInfosPtr)));
 
     onResetClicked();
 }
@@ -61,15 +73,43 @@ void MainWindow::onContinueClicked()
 void MainWindow::start(const QString &url)
 {
     qDebug() << Q_FUNC_INFO << url;
-    if (url.isEmpty()) {
-        StreamInfosPtr infos = DummyStreamFactory::createDummyStreamInfos();
-        ui->streamWidget->showStreamInfos(infos);
-
-    } else {
-        ui->continueButton->setEnabled(false);
+    if (!url.isEmpty()) {
         ui->streamWidget->setState(StreamWidget::Downloading);
         m_streamInfoDownloader->runAsync(url);
+    } else {
+        onEmptyButtonClicked();
     }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void MainWindow::onEmptyButtonClicked()
+{
+    StreamInfosPtr infos = DummyStreamFactory::createDummyStreamInfos();
+    ui->streamWidget->showStreamInfos(infos);
+}
+
+void MainWindow::onYoutubeButtonClicked()
+{
+    StreamInfosPtr infos = DummyStreamFactory::createDummyStreamInfos_Youtube();
+    ui->streamWidget->showStreamInfos(infos);
+}
+
+void MainWindow::onDailymotionButtonClicked()
+{
+    StreamInfosPtr infos = DummyStreamFactory::createDummyStreamInfos_Dailymotion();
+    ui->streamWidget->showStreamInfos(infos);
+}
+
+void MainWindow::onOtherSiteButtonClicked()
+{
+    StreamInfosPtr infos = DummyStreamFactory::createDummyStreamInfos_Other();
+    ui->streamWidget->showStreamInfos(infos);
+}
+
+void MainWindow::onUrlMp4ButtonClicked()
+{
+    start(s_urlMp4Link);
 }
 
 /******************************************************************************
