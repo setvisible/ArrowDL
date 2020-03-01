@@ -40,6 +40,7 @@ class tst_Stream : public QObject
 
 private slots:
     void readStandardOutput();
+    void readStandardOutputWithEstimedSize();
     void readStandardOutputWithTwoStreams();
 
     void readStandardError();
@@ -53,6 +54,8 @@ private slots:
     void fileExtension_data();
     void fileExtension();
 
+    void defaultFormats();
+    void defaultFormats_2();
 };
 
 class FriendlyStream : public Stream
@@ -93,6 +96,76 @@ void tst_Stream::readStandardOutput()
     VERIFY_PROGRESS_SIGNAL(spyProgress, 4, 138866748, 176003482); //  78.9%
     VERIFY_PROGRESS_SIGNAL(spyProgress, 5, 172835420, 176003482); //  98.2%
     VERIFY_PROGRESS_SIGNAL(spyProgress, 6, 176003482, 176003482); // 100.0%
+}
+
+/******************************************************************************
+******************************************************************************/
+void tst_Stream::readStandardOutputWithEstimedSize()
+{
+    // Given
+    QSharedPointer<FriendlyStream> target(new FriendlyStream(this));
+    QSignalSpy spyProgress(target.data(), SIGNAL(downloadProgress(qint64, qint64)));
+
+    // When
+    target->parseStandardOutput("[adobetv] ph5e313e3e632cb: Downloading pc webpage");
+    target->parseStandardOutput("[adobetv] ph5e313e3e632cb: Downloading m3u8 information");
+    target->parseStandardOutput("[adobetv] ph5e313e3e632cb: Downloading m3u8 information");
+    target->parseStandardOutput("[adobetv] ph5e313e3e632cb: Downloading m3u8 information");
+    target->parseStandardOutput("[hlsnative] Downloading m3u8 manifest");
+    target->parseStandardOutput("[hlsnative] Total fragments: 227");
+    target->parseStandardOutput("[download] Destination: video.mp4");
+    target->parseStandardOutput("[download] 0.0% of ~55.43MiB at Unknown speed ETA 01:11:36");
+    target->parseStandardOutput("[download] 0.0% of ~55.43MiB at Unknown speed ETA 23:52");
+    target->parseStandardOutput("[download] 0.0% of ~55.43MiB at Unknown speed ETA 10:13");
+    target->parseStandardOutput("[download] 0.0% of ~55.43MiB at 4.89MiB/s ETA 04:54");
+    target->parseStandardOutput("[download] 0.1% of ~55.43MiB at 1.69MiB/s ETA 02:49");
+    target->parseStandardOutput("[download] 3.4% of ~55.43MiB at 3.17MiB/s ETA 02:34");
+    target->parseStandardOutput("[download] 4.0% of ~523.63MiB at 3.17MiB/s ETA 09:05");
+    target->parseStandardOutput("[download] 4.0% of ~523.63MiB at 2.91MiB/s ETA 09:03");
+    target->parseStandardOutput("[download] 4.0% of ~523.63MiB at 14.55MiB/s ETA 08:38");
+    target->parseStandardOutput("[download] 5.9% of ~523.63MiB at 3.70MiB/s ETA 02:41");
+    target->parseStandardOutput("[download] 5.9% of ~519.29MiB at 974.74KiB/s ETA 02:52");
+    target->parseStandardOutput("[download] 6.9% of ~519.29MiB at 3.41MiB/s ETA 02:52");
+    target->parseStandardOutput("[download] 8.4% of ~536.33MiB at 3.52MiB/s ETA 02:44");
+    target->parseStandardOutput("[download] 10.6% of ~536.33MiB at 3.71MiB/s ETA 00:41");
+    target->parseStandardOutput("[download] 10.6% of ~536.33MiB at 3.71MiB/s ETA 00:41");
+    target->parseStandardOutput("[download] 10.6% of ~547.63MiB at 3.71MiB/s ETA 00:49 [download] 10.6% of ~547.63MiB at 3.71MiB/s ETA 02:49");
+    target->parseStandardOutput("[download] 10.6% of ~547.63MiB at 3.71MiB/s ETA 00:49");
+    target->parseStandardOutput("[download] 35.1% of ~546.67MiB at 3.84MiB/s ETA 00:46");
+    target->parseStandardOutput("[download] 40.1% of ~546.67MiB at 1.47MiB/s ETA 00:46 [download] 40.1% of ~546.67MiB at 3.44MiB/s ETA 02:46");
+    target->parseStandardOutput("[download] 40.1% of ~546.67MiB at 3.67MiB/s ETA 00:46");
+    target->parseStandardOutput("[download] 40.1% of ~546.67MiB at 1.78MiB/s ETA 00:46");
+    target->parseStandardOutput("[download] 73.1% of ~615.60MiB at 2.88MiB/s ETA 00:16 [download] 73.1% of ~615.60MiB at 6.71MiB/s ETA 00:16");
+    target->parseStandardOutput("[download] 93.2% of ~615.60MiB at 3.11MiB/s ETA 00:16");
+    target->parseStandardOutput("[download] 100.0% of ~615.60MiB at 3.89MiB/s ETA 00:01");
+
+    // Then
+    QCOMPARE(spyProgress.count(), 25);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  0,         0,         0); // -idle-
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  1,         0,  58122568); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  2,         0,  58122568); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  3,         0,  58122568); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  4,         0,  58122568); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  5,     58123,  58122568); //   0.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  6,   1976168,  58122568); //   3.4%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  7,  21962635, 549065851); //   4.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  8,  21962635, 549065851); //   4.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  9,  21962635, 549065851); //   4.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 10,  32394886, 549065851); //   5.9%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 11,  32126387, 544515032); //   5.9%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 12,  37571538, 544515032); //   6.9%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 13,  47240153, 562382767); //   8.4%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 14,  59612574, 562382767); //  10.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 15,  59612574, 562382767); //  10.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 16,  60868558, 574231675); //  10.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 17,  60868558, 574231675); //  10.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 18, 201201990, 573225042); //  35.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 19, 229863242, 573225042); //  40.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 20, 229863242, 573225042); //  40.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 21, 229863242, 573225042); //  40.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 22, 471862976, 645503386); //  73.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 23, 601609156, 645503386); //  93.2%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 24, 645503386, 645503386); // 100.0%
 }
 
 /******************************************************************************
@@ -208,7 +281,7 @@ void tst_Stream::guestimateFullSize()
     QFETCH(QString, input);
     QFETCH(BigInteger, expected);
 
-    auto target = DummyStreamFactory::createDummyStreamInfos();
+    auto target = DummyStreamFactory::createDummyStreamInfos_Youtube();
     qint64 actual = target->guestimateFullSize(input);
 
     QCOMPARE(actual, expected.value);
@@ -246,10 +319,50 @@ void tst_Stream::fileExtension()
     QFETCH(QString, input);
     QFETCH(QString, expected);
 
-    auto target = DummyStreamFactory::createDummyStreamInfos();
+    auto target = DummyStreamFactory::createDummyStreamInfos_Youtube();
     auto actual = target->fileExtension(input);
 
     QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+******************************************************************************/
+void tst_Stream::defaultFormats()
+{
+    auto target = DummyStreamFactory::createDummyStreamInfos_Dailymotion();
+    auto actual = target->defaultFormats();
+
+    QList<StreamFormat*> expected;
+    expected << new StreamFormat("http-144-1" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.42000b",  192,  112, 0, 0);
+    expected << new StreamFormat("http-240-1" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d000d",  320,  184, 0, 0);
+    expected << new StreamFormat("http-380-1" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d0016",  512,  288, 0, 0);
+    expected << new StreamFormat("http-480-1" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f",  848,  480, 0, 0);
+    expected << new StreamFormat("http-720-1" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f", 1280,  720, 0, 0);
+    expected << new StreamFormat("http-1080-1", "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640028", 1920, 1080, 0, 0);
+
+    QCOMPARE(actual.count(), 6);
+    for (int index = 0; index < 6; ++index) {
+        //qDebug() << actual.at(index)->toString();
+        QCOMPARE(*actual.at(index), *expected.at(index)); // call (*ptr)->operator==()
+    }
+}
+
+void tst_Stream::defaultFormats_2()
+{
+    auto target = DummyStreamFactory::createDummyStreamInfos_Other();
+    auto actual = target->defaultFormats();
+
+    QList<StreamFormat*> expected;
+    expected << new StreamFormat("240p"     , "mp4", "", 0, ""         , 0, 0, ""           ,   0, 240,  0, 400);
+    expected << new StreamFormat("480p"     , "mp4", "", 0, ""         , 0, 0, ""           ,   0, 480,  0, 600);
+    expected << new StreamFormat("hls-287-1", "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640015", 430, 240, 24,   0);
+    expected << new StreamFormat("hls-703"  , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001e", 860, 480, 24,   0);
+
+    QCOMPARE(actual.count(), 4);
+    for (int index = 0; index < 4; ++index) {
+        //qDebug() << actual.at(index)->toString();
+        QCOMPARE(*actual.at(index), *expected.at(index)); // call (*ptr)->operator==()
+    }
 }
 
 /******************************************************************************

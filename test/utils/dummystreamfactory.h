@@ -23,6 +23,10 @@ class DummyStreamFactory
 {
 public:
     static StreamInfosPtr createDummyStreamInfos();
+
+    static StreamInfosPtr createDummyStreamInfos_Youtube();
+    static StreamInfosPtr createDummyStreamInfos_Dailymotion();
+    static StreamInfosPtr createDummyStreamInfos_Other();
 };
 
 #endif // DUMMY_STREAM_FACTORY_H

@@ -49,13 +49,13 @@ private slots:
     void filterSelectionChanged();
     void filterTextChanged();
     void maxSimultaneousDownloadSlided(int value);
-    void onCheckUpdate();
 
 private:
     Ui::PreferenceDialog *ui;
     Settings *m_settings;
 
     void initializeGui();
+    void initializeWarnings();
     void read();
     void write();
     void readSettings();

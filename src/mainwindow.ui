@@ -63,7 +63,7 @@
     <addaction name="actionImportFromFile"/>
     <addaction name="actionExportSelectedToFile"/>
     <addaction name="separator"/>
-    <addaction name="actionExit"/>
+    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuOption">
     <property name="title">
@@ -208,9 +208,12 @@
    <addaction name="separator"/>
    <addaction name="actionPreferences"/>
   </widget>
-  <action name="actionExit">
+  <action name="actionQuit">
    <property name="text">
-    <string>E&amp;xit</string>
+    <string>&amp;Quit</string>
+   </property>
+   <property name="toolTip">
+    <string>Quit</string>
    </property>
   </action>
   <action name="actionAboutQt">

@@ -28,6 +28,8 @@ Q_DECLARE_METATYPE(QList<int>)
 
 int main(int argc, char *argv[])
 {
+    Q_INIT_RESOURCE(resources);
+
     QtSingleApplication application(argc, argv);
 
     application.setStyle(new CustomStyle);
@@ -35,6 +37,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName(STR_APPLICATION_NAME);
     QCoreApplication::setOrganizationName(STR_APPLICATION_ORGANIZATION);
     QCoreApplication::setApplicationVersion(STR_APPLICATION_VERSION);
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
     qRegisterMetaTypeStreamOperators<QList<int> >("QList<int>");
 

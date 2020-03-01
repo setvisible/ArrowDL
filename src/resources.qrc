@@ -1,6 +1,11 @@
 <RCC>
     <qresource prefix="/">
         <file>icons/logo/icon.ico</file>
+        <file>icons/logo/icon16.png</file>
+        <file>icons/logo/icon24.png</file>
+        <file>icons/logo/icon32.png</file>
+        <file>icons/logo/icon48.png</file>
+        <file>icons/logo/icon64.png</file>
         <file>icons/logo/icon128.png</file>
         <file>icons/menu/button_help_16x16.png</file>
         <file>icons/menu/button_preference_16x16.png</file>

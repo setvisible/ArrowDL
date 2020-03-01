@@ -11,6 +11,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/maskwidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/pathwidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamwidget.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/systemtray.cpp
     )
 
 # Rem: set here the headers related to the Qt MOC (i.e., with associated *.ui)
@@ -25,6 +26,7 @@ set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/maskwidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/pathwidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamwidget.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/systemtray.h
     )
 
 set(MY_FORMS ${MY_FORMS}

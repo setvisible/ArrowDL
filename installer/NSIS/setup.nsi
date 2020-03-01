@@ -35,6 +35,23 @@ VIAddVersionKey "LegalCopyright" "(C) Sebastien Vavassori. All Rights Reserved."
 ManifestDPIAware true
 Unicode true
 
+;--------------------------------
+;INCLUDES
+;--------------------------------
+!include macros.nsh
+
+;--------------------------------
+;Verify the application is closed
+
+;Installer
+Function .onInit
+    Call .quitIfRunning
+FunctionEnd
+
+;Uninstaller
+Function un.onInit
+    Call un.quitIfRunning
+FunctionEnd
 
 ;--------------------------------
 ;Include NSIS Modern User Interface (MUI)

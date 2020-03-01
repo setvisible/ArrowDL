@@ -40,6 +40,12 @@ private slots:
     void onError(QString errorMessage);
     void onCollected(StreamInfosPtr infos);
 
+    void onEmptyButtonClicked();
+    void onYoutubeButtonClicked();
+    void onDailymotionButtonClicked();
+    void onOtherSiteButtonClicked();
+    void onUrlMp4ButtonClicked();
+
 private:
     Ui::MainWindow *ui;
     StreamInfoDownloader *m_streamInfoDownloader;

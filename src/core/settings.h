@@ -59,6 +59,15 @@ public:
     bool isDontShowTutorialEnabled() const;
     void setDontShowTutorialEnabled(bool enabled);
 
+    bool isSystemTrayIconEnabled() const;
+    void setSystemTrayIconEnabled(bool enabled);
+
+    bool isHideWhenMinimizedEnabled() const;
+    void setHideWhenMinimizedEnabled(bool enabled);
+
+    bool isSystemTrayBalloonEnabled() const;
+    void setSystemTrayBalloonEnabled(bool enabled);
+
     bool isConfirmRemovalEnabled() const;
     void setConfirmRemovalEnabled(bool enabled);
 
@@ -101,8 +110,6 @@ public:
     // Tab Advanced
     CheckUpdateBeatMode checkUpdateBeatMode() const;
     void setCheckUpdateBeatMode(CheckUpdateBeatMode mode);
-
-
 };
 
 #endif // CORE_SETTINGS_H
