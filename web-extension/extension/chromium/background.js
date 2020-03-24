@@ -37,11 +37,11 @@ chrome.contextMenus.onClicked.addListener(
            if (info.menuItemId === "save-page"        ) { save_page(info, tab);
     } else if (info.menuItemId === "save-frame"       ) { save_page(info, tab);
     } else if (info.menuItemId === "save-image"       ) { save_image(info, tab);
-    } else if (info.menuItemId === "save-audio"       ) { save_page(info, tab);
+    } else if (info.menuItemId === "save-audio"       ) { save_image(info, tab);
     } else if (info.menuItemId === "save-launcher"    ) { save_page(info, tab);
     } else if (info.menuItemId === "save-link"        ) { save_link(info, tab);
     } else if (info.menuItemId === "save-selection"   ) { save_page(info, tab);
-    } else if (info.menuItemId === "save-video"       ) { save_page(info, tab);
+    } else if (info.menuItemId === "save-video"       ) { save_image(info, tab);
     } else if (info.menuItemId === "save-editable"    ) { save_page(info, tab);
     }
   }
