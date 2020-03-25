@@ -175,6 +175,8 @@ private:
 
     QString m_fileBaseName;
     QString m_fileExtension;
+
+    qint64 _q_bytesTotal() const;
 };
 
 class StreamInfoDownloader : public QObject

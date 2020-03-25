@@ -20,6 +20,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QList>
 #include <QtCore/QString>
+#include <QtCore/QTimer>
 
 class IDownloadItem;
 
@@ -53,7 +54,7 @@ public:
     QList<IDownloadItem *> failedJobs() const;
     QList<IDownloadItem *> runningJobs() const;
 
-    QString totalSpeed() const;
+    double totalSpeed();
 
     /* Actions */
     void resume(IDownloadItem *item);
@@ -104,8 +105,14 @@ private slots:
     void onRenamed(QString oldName, QString newName, bool success);
     void startNext(IDownloadItem *item);
 
+private slots:
+    void onSpeedTimerTimeout();
+
 private:
     QList<IDownloadItem *> m_items;
+
+    double m_previouSpeed = 0;
+    QTimer m_speedTimer;
 
     // Pool
     int m_maxSimultaneousDownloads;

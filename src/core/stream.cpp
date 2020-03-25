@@ -175,7 +175,7 @@ void Stream::setSelectedFormatId(const QString &formatId)
  ******************************************************************************/
 qint64 Stream::fileSizeInBytes() const
 {
-    return m_bytesTotal;
+    return _q_bytesTotal();
 }
 
 void Stream::setFileSizeInBytes(qint64 fileSizeInBytes)
@@ -235,8 +235,7 @@ void Stream::onErrorOccurred(QProcess::ProcessError error)
 
 void Stream::onFinished(int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/)
 {
-    auto total = m_bytesTotal + m_bytesTotalCurrentSection;
-    emit downloadProgress(total, total);
+    emit downloadProgress(_q_bytesTotal(), _q_bytesTotal());
     emit downloadFinished();
 }
 
@@ -270,8 +269,7 @@ void Stream::parseStandardOutput(const QString &data)
     if ( tokens.count() > 2 &&
          tokens.at(1) == C_DOWNLOAD_next_section) {
         m_bytesReceived += m_bytesReceivedCurrentSection;
-        m_bytesTotal += m_bytesTotalCurrentSection;
-        emit downloadProgress(m_bytesReceived, m_bytesTotal);
+        emit downloadProgress(m_bytesReceived, _q_bytesTotal());
         return;
     }
 
@@ -297,8 +295,7 @@ void Stream::parseStandardOutput(const QString &data)
     }
 
     auto received = m_bytesReceived + m_bytesReceivedCurrentSection;
-    auto total = m_bytesTotal + m_bytesTotalCurrentSection;
-    emit downloadProgress(received, total);
+    emit downloadProgress(received, _q_bytesTotal());
 }
 
 void Stream::parseStandardError(const QString &data)
@@ -318,6 +315,11 @@ void Stream::parseStandardError(const QString &data)
             emit downloadMetadataChanged();
         }
     }
+}
+
+qint64 Stream::_q_bytesTotal() const
+{
+    return m_bytesTotal > 0 ? m_bytesTotal : m_bytesTotalCurrentSection;
 }
 
 /******************************************************************************
