@@ -19,6 +19,7 @@
 #include <Core/AbstractDownloadItem>
 
 #include <QtCore/QDebug>
+#include <QtCore/QtMath>
 
 #define C_SELECTION_DISPLAY_LIMIT  10
 
@@ -28,6 +29,8 @@ DownloadEngine::DownloadEngine(QObject *parent) : QObject(parent)
 {
     connect(this, SIGNAL(jobFinished(IDownloadItem*)),
             this, SLOT(startNext(IDownloadItem*)));
+
+    connect(&m_speedTimer, SIGNAL(timeout()), this, SLOT(onSpeedTimerTimeout()));
 }
 
 DownloadEngine::~DownloadEngine()
@@ -185,23 +188,23 @@ static inline QList<IDownloadItem*> filter(const QList<IDownloadItem*> &download
 
 QList<IDownloadItem*> DownloadEngine::waitingJobs() const
 {
-    return filter(downloadItems(), IDownloadItem::Idle);
+    return filter(m_items, IDownloadItem::Idle);
 }
 
 QList<IDownloadItem*> DownloadEngine::completedJobs() const
 {
-    return filter(downloadItems(), IDownloadItem::Completed);
+    return filter(m_items, IDownloadItem::Completed);
 }
 
 QList<IDownloadItem*> DownloadEngine::pausedJobs() const
 {
-    return filter(downloadItems(), IDownloadItem::Paused);
+    return filter(m_items, IDownloadItem::Paused);
 }
 
 QList<IDownloadItem*> DownloadEngine::failedJobs() const
 {
     QList<IDownloadItem*> list;
-    foreach (auto item, downloadItems()) {
+    foreach (auto item, m_items) {
         const IDownloadItem::State state = item->state();
         if ( state == IDownloadItem::Stopped ||
              state == IDownloadItem::Skipped ||
@@ -216,7 +219,7 @@ QList<IDownloadItem*> DownloadEngine::failedJobs() const
 QList<IDownloadItem*> DownloadEngine::runningJobs() const
 {
     QList<IDownloadItem*> list;
-    foreach (auto item, downloadItems()) {
+    foreach (auto item, m_items) {
         IDownloadItem::State state = item->state();
         if ( state == IDownloadItem::Preparing ||
              state == IDownloadItem::Connecting ||
@@ -230,10 +233,24 @@ QList<IDownloadItem*> DownloadEngine::runningJobs() const
 
 /******************************************************************************
  ******************************************************************************/
-QString DownloadEngine::totalSpeed() const
+void DownloadEngine::onSpeedTimerTimeout()
 {
-    /// \todo // "750.35 MB/s"
-    return "";
+    m_speedTimer.stop();
+    m_previouSpeed = 0;
+    emit onChanged();
+}
+
+double DownloadEngine::totalSpeed()
+{
+    double speed = 0;
+    foreach (auto item, m_items) {
+        speed += qMax(item->speed(), 0.0);
+    }
+    if (speed > 0) {
+        m_previouSpeed = speed;
+        m_speedTimer.start(2000);
+    }
+    return m_previouSpeed;
 }
 
 /******************************************************************************

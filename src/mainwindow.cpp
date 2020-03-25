@@ -24,6 +24,7 @@
 #include <Core/IDownloadItem>
 #include <Core/DownloadManager>
 #include <Core/FileAccessManager>
+#include <Core/Format>
 #include <Core/Settings>
 #include <Core/UpdateChecker>
 #include <Dialogs/AddDownloadDialog>
@@ -787,7 +788,11 @@ void MainWindow::onJobRenamed(QString oldName, QString newName, bool success)
 
 void MainWindow::refreshTitleAndStatus()
 {
-    const QString totalSpeed = m_downloadManager->totalSpeed();
+    auto speed = m_downloadManager->totalSpeed();
+    auto totalSpeed = speed > 0
+            ? QString("~%0").arg(Format::currentSpeedToString(speed))
+            : QString();
+
     const int completedCount = m_downloadManager->completedJobs().count();
     const int runningCount = m_downloadManager->runningJobs().count();
     const int failedCount = m_downloadManager->failedJobs().count();
