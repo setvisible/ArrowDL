@@ -176,6 +176,8 @@ void tst_Stream::readStandardOutputWithTwoStreams()
     QSharedPointer<FriendlyStream> target(new FriendlyStream(this));
     QSignalSpy spyProgress(target.data(), SIGNAL(downloadProgress(qint64, qint64)));
 
+    target->setFileSizeInBytes(185178582); // Size is assumed known before download
+
     // When
     target->parseStandardOutput(" .\\youtube-dl.exe https://www.youtube.com/watch?v=jDQv2jTNL04");
     target->parseStandardOutput("[youtube] jDQv2jTNL04: Downloading webpage");
@@ -185,19 +187,33 @@ void tst_Stream::readStandardOutputWithTwoStreams()
     target->parseStandardOutput("[download]   8.2% of 167.85MiB at  4.13MiB/s ETA 00:03");
     target->parseStandardOutput("[download]  25.6% of 167.85MiB at  4.13MiB/s ETA 00:13");
     target->parseStandardOutput("[download]  78.9% of 167.85MiB at  4.13MiB/s ETA 00:33");
-    target->parseStandardOutput("[download]  98.2% of 167.85MiB at  4.13MiB/s ETA 00:39");
+    target->parseStandardOutput("[download]  98.2% of 167.85MiB at  4.13MiB/s ETA 00:09");
     target->parseStandardOutput("[download] 100% of 167.85MiB in 00:41");
     target->parseStandardOutput("[download] Destination: C’EST QUOI CE TRUC  (Je me balade sur Twitter)-jDQv2jTNL04.f251.webm");
+    target->parseStandardOutput("[download]   3.6% of 8.75MiB at  3.33MiB/s ETA  in 00:43");
+    target->parseStandardOutput("[download]  65.5% of 8.75MiB at  3.33MiB/s ETA  in 00:18");
+    target->parseStandardOutput("[download] 100.0% of 8.75MiB at  3.33MiB/s ETA  in 00:01");
     target->parseStandardOutput("[download] 100% of 8.75MiB in 00:02");
     target->parseStandardOutput("[ffmpeg] Merging formats into \"C’EST QUOI CE TRUC  (Je me balade sur Twitter)-jDQv2jTNL04.mkv\"");
     target->parseStandardOutput("Deleting original file C’EST QUOI CE TRUC  (Je me balade sur Twitter)-jDQv2jTNL04.f299.mp4 (pass -k to keep)");
     target->parseStandardOutput("Deleting original file C’EST QUOI CE TRUC  (Je me balade sur Twitter)-jDQv2jTNL04.f251.webm (pass -k to keep)");
 
-
     // Then
-    //    QCOMPARE(spyProgress.count(), 6);
-
-    //    VERIFY_PROGRESS_SIGNAL(spyProgress, 1, 1510, 1670045);
+    // Stream 1..:  176,003,482 bytes (167.85 MiB)
+    // Stream 2..:    9,175,040 bytes (  8.75 MiB)
+    // Total.....:  185,178,582 bytes (176.60 MiB)
+    QCOMPARE(spyProgress.count(), 11);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  0,         0, 185178582); // -idle stream 1-
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  1,  14432286, 185178582); //   8.2%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  2,  45056892, 185178582); //  25.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  3, 138866748, 185178582); //  78.9%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  4, 172835420, 185178582); //  98.2%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  5, 176003482, 185178582); // 100.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  6, 176003482, 185178582); // -idle stream 2-
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  7, 176333784, 185178582); //   3.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  8, 182013134, 185178582); //  65.5%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  9, 185178522, 185178582); // 100.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 10, 185178522, 185178582); // 100.0%
 }
 
 /******************************************************************************
