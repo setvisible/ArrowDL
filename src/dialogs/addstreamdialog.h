@@ -61,7 +61,7 @@ private:
 
     void doAccept(bool started);
 
-    IDownloadItem* createItem(const QString &url) const;
+    IDownloadItem* createItem() const;
     static inline QList<IDownloadItem*> toList(IDownloadItem *item);
 
     void setGuiEnabled(bool enabled);

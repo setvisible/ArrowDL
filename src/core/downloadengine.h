@@ -40,6 +40,7 @@ public:
 
     virtual void append(const QList<IDownloadItem *> &items, bool started = false);
     virtual void remove(const QList<IDownloadItem *> &items);
+    void updateItems(const QList<IDownloadItem *> &items);
 
     const IDownloadItem* clientForRow(int row) const;
 

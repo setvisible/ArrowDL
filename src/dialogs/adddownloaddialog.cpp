@@ -23,6 +23,7 @@
 #include <Core/Regex>
 #include <Core/ResourceItem>
 #include <Core/Settings>
+#include <Widgets/UrlFormWidget>
 
 #include <QtCore/QDebug>
 #include <QtCore/QList>
@@ -45,11 +46,11 @@ AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadM
 {
     ui->setupUi(this);
 
-    ui->pathWidget->setPathType(PathWidget::Directory);
+    ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
 
-    ui->downloadLineEdit->setText(url.toString());
-    ui->downloadLineEdit->setFocus();
-    ui->downloadLineEdit->setContextMenuPolicy(Qt::CustomContextMenu);
+    ui->urlLineEdit->setText(url.toString());
+    ui->urlLineEdit->setFocus();
+    ui->urlLineEdit->setContextMenuPolicy(Qt::CustomContextMenu);
 
     if (m_settings && m_settings->isCustomBatchEnabled()) {
         ui->tagButton_Custom->setText(m_settings->customBatchButtonLabel());
@@ -58,7 +59,7 @@ AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadM
         ui->tagButton_Custom->setVisible(false);
     }
 
-    connect(ui->downloadLineEdit, SIGNAL(customContextMenuRequested(const QPoint &)),
+    connect(ui->urlLineEdit, SIGNAL(customContextMenuRequested(const QPoint &)),
             this, SLOT(showContextMenu(const QPoint &)));
 
     connect(ui->tagButton_1_10, SIGNAL(released()), this, SLOT(insert_1_to_10()));
@@ -67,9 +68,8 @@ AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadM
     connect(ui->tagButton_001_100, SIGNAL(released()), this, SLOT(insert_001_to_100()));
     connect(ui->tagButton_Custom, SIGNAL(released()), this, SLOT(insert_custom()));
 
-    connect(ui->downloadLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onChanged(QString)));
-    connect(ui->pathWidget, SIGNAL(currentPathChanged(QString)), this, SLOT(onChanged(QString)));
-    connect(ui->maskWidget, SIGNAL(currentMaskChanged(QString)), this, SLOT(onChanged(QString)));
+    connect(ui->urlLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onChanged(QString)));
+    connect(ui->urlFormWidget, SIGNAL(changed(QString)), this, SLOT(onChanged(QString)));
 
     readSettings();
 }
@@ -134,7 +134,7 @@ void AddDownloadDialog::reject()
  ******************************************************************************/
 void AddDownloadDialog::showContextMenu(const QPoint &/*pos*/)
 {
-    QMenu *contextMenu = ui->downloadLineEdit->createStandardContextMenu();
+    QMenu *contextMenu = ui->urlLineEdit->createStandardContextMenu();
     QAction *first = contextMenu->actions().first();
 
     QAction action_1_to_10(tr("Insert [ 1 -> 10 ]"), contextMenu);
@@ -164,37 +164,34 @@ void AddDownloadDialog::showContextMenu(const QPoint &/*pos*/)
 
 void AddDownloadDialog::insert_1_to_10()
 {
-    ui->downloadLineEdit->insert("[1:10]");
+    ui->urlLineEdit->insert("[1:10]");
 }
 
 void AddDownloadDialog::insert_01_to_10()
 {
-    ui->downloadLineEdit->insert("[01:10]");
+    ui->urlLineEdit->insert("[01:10]");
 }
 
 void AddDownloadDialog::insert_1_to_100()
 {
-    ui->downloadLineEdit->insert("[1:100]");
+    ui->urlLineEdit->insert("[1:100]");
 }
 
 void AddDownloadDialog::insert_001_to_100()
 {
-    ui->downloadLineEdit->insert("[001:100]");
+    ui->urlLineEdit->insert("[001:100]");
 }
 
 void AddDownloadDialog::insert_custom()
 {
-    ui->downloadLineEdit->insert(ui->tagButton_Custom->toolTip());
+    ui->urlLineEdit->insert(ui->tagButton_Custom->toolTip());
 }
 
 /******************************************************************************
  ******************************************************************************/
 void AddDownloadDialog::onChanged(QString)
 {
-    const bool enabled =
-            !ui->downloadLineEdit->text().isEmpty() &&
-            !ui->pathWidget->currentPath().isEmpty() &&
-            !ui->maskWidget->currentMask().isEmpty();
+    const bool enabled = ui->urlFormWidget->isValid();
     ui->startButton->setEnabled(enabled);
     ui->addPausedButton->setEnabled(enabled);
 }
@@ -203,7 +200,7 @@ void AddDownloadDialog::onChanged(QString)
  ******************************************************************************/
 void AddDownloadDialog::doAccept(bool started)
 {
-    const QString input = ui->downloadLineEdit->text();
+    const QString input = ui->urlFormWidget->url();
     const QUrl url = Mask::fromUserInput(input);
 
     // Remove trailing / and \ and .
@@ -299,14 +296,8 @@ QList<IDownloadItem*> AddDownloadDialog::createItems(const QUrl &inputUrl) const
 
 IDownloadItem* AddDownloadDialog::createItem(const QString &url) const
 {
-    auto resource = new ResourceItem();
+    auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
-    resource->setCustomFileName(ui->filenameLineEdit->text());
-    resource->setReferringPage(ui->referrerLineEdit->text());
-    resource->setDescription(ui->descriptionLineEdit->text());
-    resource->setDestination(ui->pathWidget->currentPath());
-    resource->setMask(ui->maskWidget->currentMask());
-    resource->setCheckSum(ui->hashLineEdit->text());
 
     auto item = new DownloadItem(m_downloadManager);
     item->setResource(resource);
@@ -324,9 +315,9 @@ void AddDownloadDialog::readSettings()
 {
     QSettings settings;
     settings.beginGroup("Wizard");
-    ui->pathWidget->setCurrentPath(settings.value("Path", QString()).toString());
-    ui->pathWidget->setPathHistory(settings.value("PathHistory").toStringList());
-    ui->maskWidget->setCurrentMask(settings.value("Mask", QString()).toString());
+    ui->urlFormWidget->setCurrentPath(settings.value("Path", QString()).toString());
+    ui->urlFormWidget->setPathHistory(settings.value("PathHistory").toStringList());
+    ui->urlFormWidget->setCurrentMask(settings.value("Mask", QString()).toString());
     settings.endGroup();
 }
 
@@ -334,9 +325,8 @@ void AddDownloadDialog::writeSettings()
 {
     QSettings settings;
     settings.beginGroup("Wizard");
-    settings.setValue("Path", ui->pathWidget->currentPath());
-    settings.setValue("PathHistory", ui->pathWidget->pathHistory());
-    settings.setValue("Mask", ui->maskWidget->currentMask());
+    settings.setValue("Path", ui->urlFormWidget->currentPath());
+    settings.setValue("PathHistory", ui->urlFormWidget->pathHistory());
+    settings.setValue("Mask", ui->urlFormWidget->currentMask());
     settings.endGroup();
 }
-

@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,33 +14,17 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGS_INFORMATION_DIALOG_H
-#define DIALOGS_INFORMATION_DIALOG_H
+#ifndef WIDGETS_URL_LINE_EDIT_H
+#define WIDGETS_URL_LINE_EDIT_H
 
-#include <QtCore/QList>
-#include <QtWidgets/QDialog>
+#include <QtWidgets/QLineEdit>
 
-class IDownloadItem;
-
-namespace Ui {
-class InformationDialog;
-}
-
-class InformationDialog : public QDialog
+class UrlLineEdit : public QLineEdit
 {
     Q_OBJECT
 public:
-    explicit InformationDialog(const QList<IDownloadItem*> &jobs, QWidget *parent);
-    ~InformationDialog() Q_DECL_OVERRIDE;
-
-public slots:
-    void accept() Q_DECL_OVERRIDE;
-
-private:
-    Ui::InformationDialog *ui;
-    QList<IDownloadItem *> m_items;
-
-    void initialize(const QList<IDownloadItem*> &items);
+    explicit UrlLineEdit(QWidget *parent = Q_NULLPTR);
+    ~UrlLineEdit() Q_DECL_OVERRIDE = default;
 };
 
-#endif // DIALOGS_INFORMATION_DIALOG_H
+#endif // WIDGETS_URL_LINE_EDIT_H

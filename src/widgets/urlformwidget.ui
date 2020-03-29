@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UrlFormWidget</class>
+ <widget class="QWidget" name="UrlFormWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>276</width>
+    <height>178</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="2" column="0">
+      <widget class="QLabel" name="referrerLabel">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <italic>true</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Referring page:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="descriptionLabel">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <italic>true</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Description:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="referrerLineEdit">
+       <property name="placeholderText">
+        <string>Enter referrer URI</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="maskLabel">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Mask:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="UrlLineEdit" name="urlLineEdit"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="customFileNameLabel">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <italic>true</italic>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Custom filename:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="hashLabel">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <italic>true</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Checksum (Hash):</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QLineEdit" name="hashLineEdit"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="customFileNameLineEdit">
+       <property name="placeholderText">
+        <string>Enter new file name</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="PathWidget" name="pathWidget" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="pathLabel">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Save files in:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="urlLabel">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Download:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="descriptionLineEdit"/>
+     </item>
+     <item row="5" column="1">
+      <widget class="MaskWidget" name="maskWidget" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PathWidget</class>
+   <extends>QWidget</extends>
+   <header>Widgets/PathWidget</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MaskWidget</class>
+   <extends>QWidget</extends>
+   <header>Widgets/MaskWidget</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UrlLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>Widgets/UrlLineEdit</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>urlLineEdit</tabstop>
+  <tabstop>customFileNameLineEdit</tabstop>
+  <tabstop>referrerLineEdit</tabstop>
+  <tabstop>descriptionLineEdit</tabstop>
+  <tabstop>pathWidget</tabstop>
+  <tabstop>maskWidget</tabstop>
+  <tabstop>hashLineEdit</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

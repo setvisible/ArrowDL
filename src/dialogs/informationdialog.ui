@@ -121,6 +121,34 @@
       <attribute name="title">
        <string>Download Information</string>
       </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="UrlFormWidget" name="urlFormWidget" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>40</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="options">
       <attribute name="title">
@@ -141,6 +169,21 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>UrlFormWidget</class>
+   <extends>QWidget</extends>
+   <header>Widgets/UrlFormWidget</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>filenameLabel</tabstop>
+  <tabstop>urlLabel</tabstop>
+  <tabstop>sizeLabel</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>urlFormWidget</tabstop>
+ </tabstops>
  <resources>
   <include location="../resources.qrc"/>
  </resources>
@@ -152,8 +195,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>390</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -168,8 +211,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>390</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

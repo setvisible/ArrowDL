@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,33 +14,15 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGS_INFORMATION_DIALOG_H
-#define DIALOGS_INFORMATION_DIALOG_H
+#include "urllineedit.h"
 
-#include <QtCore/QList>
-#include <QtWidgets/QDialog>
+#include <QtGui/QFont>
 
-class IDownloadItem;
-
-namespace Ui {
-class InformationDialog;
-}
-
-class InformationDialog : public QDialog
+UrlLineEdit::UrlLineEdit(QWidget *parent) : QLineEdit(parent)
 {
-    Q_OBJECT
-public:
-    explicit InformationDialog(const QList<IDownloadItem*> &jobs, QWidget *parent);
-    ~InformationDialog() Q_DECL_OVERRIDE;
+    setPlaceholderText(tr("Enter URL to download"));
 
-public slots:
-    void accept() Q_DECL_OVERRIDE;
-
-private:
-    Ui::InformationDialog *ui;
-    QList<IDownloadItem *> m_items;
-
-    void initialize(const QList<IDownloadItem*> &items);
-};
-
-#endif // DIALOGS_INFORMATION_DIALOG_H
+    auto f = QFont("Courier", 10);
+    f.setStyleHint(QFont::Courier);
+    setFont(f);
+}
