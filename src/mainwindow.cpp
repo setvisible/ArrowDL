@@ -29,6 +29,7 @@
 #include <Core/UpdateChecker>
 #include <Dialogs/AddDownloadDialog>
 #include <Dialogs/AddStreamDialog>
+#include <Dialogs/BatchRenameDialog>
 #include <Dialogs/CompilerDialog>
 #include <Dialogs/InformationDialog>
 #include <Dialogs/PreferenceDialog>
@@ -511,7 +512,15 @@ void MainWindow::openFile(IDownloadItem *downloadItem)
 
 void MainWindow::renameFile()
 {
-    ui->downloadQueueView->rename();
+    if (m_downloadManager->selection().count() == 1) {
+        ui->downloadQueueView->rename();
+    } else {
+        BatchRenameDialog dialog(m_downloadManager->selection(), this);
+        int answer = dialog.exec();
+        if (answer == QDialog::Accepted) {
+            m_downloadManager->updateItems(m_downloadManager->selection());
+        }
+    }
 }
 
 void MainWindow::deleteFile()
@@ -901,7 +910,7 @@ void MainWindow::refreshMenus()
     ui->actionInformation->setEnabled(hasOnlyOneSelected);
     // --
     ui->actionOpenFile->setEnabled(hasOnlyCompletedSelected);
-    ui->actionRenameFile->setEnabled(hasOnlyOneSelected);
+    ui->actionRenameFile->setEnabled(hasSelection);
     ui->actionDeleteFile->setEnabled(hasOnlyCompletedSelected);
     ui->actionOpenDirectory->setEnabled(hasOnlyOneSelected);
     // --
