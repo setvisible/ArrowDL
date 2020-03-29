@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,34 +14,46 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGS_TUTORIAL_DIALOG_H
-#define DIALOGS_TUTORIAL_DIALOG_H
+#ifndef DIALOGS_BATCH_RENAME_DIALOG_H
+#define DIALOGS_BATCH_RENAME_DIALOG_H
 
+#include <QtCore/QList>
 #include <QtWidgets/QDialog>
 
-class Settings;
+class IDownloadItem;
+class DownloadItem;
 
 namespace Ui {
-class TutorialDialog;
+class BatchRenameDialog;
 }
 
-class TutorialDialog : public QDialog
+class BatchRenameDialog : public QDialog
 {
     Q_OBJECT
-
 public:
-    explicit TutorialDialog(Settings *settings, QWidget *parent = Q_NULLPTR);
-    ~TutorialDialog() Q_DECL_OVERRIDE;
+    explicit BatchRenameDialog(const QList<IDownloadItem*> &items, QWidget *parent);
+    ~BatchRenameDialog() Q_DECL_OVERRIDE;
 
 public slots:
     void closeEvent(QCloseEvent *) Q_DECL_OVERRIDE;
+    void accept() Q_DECL_OVERRIDE;
+
+private slots:
+    void onComboboxChanged(int index);
 
 private:
-    Ui::TutorialDialog *ui;
-    Settings *m_settings;
+    Ui::BatchRenameDialog *ui;
+    QList<IDownloadItem *> m_items;
+
+    void renameToDefault();
+    void renameToEnumeration();
+    void rename(DownloadItem *downloadItem, const QString &newName);
+
+    int currentRadio() const;
+    void setCurrentRadio(int index);
 
     void readSettings();
     void writeSettings();
 };
 
-#endif // DIALOGS_TUTORIAL_DIALOG_H
+#endif // DIALOGS_BATCH_RENAME_DIALOG_H

@@ -17,7 +17,6 @@
 #include "informationdialog.h"
 #include "ui_informationdialog.h"
 
-#include <Core/AbstractDownloadItem>
 #include <Core/DownloadItem>
 #include <Core/Format>
 #include <Core/IDownloadItem>
@@ -61,7 +60,8 @@ void InformationDialog::accept()
             resource->setMask(copy->mask());
             resource->setCheckSum(copy->checkSum());
 
-            downloadItem->setState(IDownloadItem::Paused);
+            downloadItem->stop();
+            downloadItem->pause();
         }
     }
     QDialog::accept();

@@ -30,7 +30,6 @@ TutorialDialog::TutorialDialog(Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::TutorialDialog)
     , m_settings(settings)
-
 {
     ui->setupUi(this);
 
