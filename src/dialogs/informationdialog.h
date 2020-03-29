@@ -38,8 +38,9 @@ public slots:
 
 private:
     Ui::InformationDialog *ui;
+    QList<IDownloadItem *> m_items;
 
-    inline void init(const QList<IDownloadItem*> &selection);
+    void initialize(const QList<IDownloadItem*> &items);
 };
 
 #endif // DIALOGS_INFORMATION_DIALOG_H

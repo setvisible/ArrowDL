@@ -147,6 +147,13 @@ void DownloadEngine::remove(const QList<IDownloadItem*> &items)
     emit jobRemoved(items);
 }
 
+void DownloadEngine::updateItems(const QList<IDownloadItem *> &items)
+{
+    foreach (auto item, items) {
+        emit jobStateChanged(item);
+    }
+}
+
 /******************************************************************************
  ******************************************************************************/
 const IDownloadItem* DownloadEngine::clientForRow(int row) const

@@ -17,18 +17,26 @@
 #include "informationdialog.h"
 #include "ui_informationdialog.h"
 
+#include <Core/AbstractDownloadItem>
+#include <Core/DownloadItem>
 #include <Core/Format>
 #include <Core/IDownloadItem>
 #include <Core/MimeDatabase>
+#include <Core/ResourceItem>
+#include <Widgets/UrlFormWidget>
 
 #include <QtCore/QDir>
+#include <QtCore/QScopedPointer>
 
 InformationDialog::InformationDialog(const QList<IDownloadItem*> &jobs, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InformationDialog)
 {
     ui->setupUi(this);
-    init(jobs);
+
+    ui->urlFormWidget->setExternalUrlLabelAndLineEdit(nullptr, nullptr);
+
+    initialize(jobs);
 }
 
 InformationDialog::~InformationDialog()
@@ -38,34 +46,64 @@ InformationDialog::~InformationDialog()
 
 void InformationDialog::accept()
 {
+    if (!m_items.isEmpty()) {
+        IDownloadItem *item = m_items.first();
+        DownloadItem *downloadItem = static_cast<DownloadItem*>(item);
+        if (downloadItem) {
+            auto resource = downloadItem->resource();
+            QScopedPointer<ResourceItem> copy(ui->urlFormWidget->createResourceItem());
+
+            resource->setUrl(copy->url());
+            resource->setCustomFileName(copy->customFileName());
+            resource->setReferringPage(copy->referringPage());
+            resource->setDescription(copy->description());
+            resource->setDestination(copy->destination());
+            resource->setMask(copy->mask());
+            resource->setCheckSum(copy->checkSum());
+
+            downloadItem->setState(IDownloadItem::Paused);
+        }
+    }
     QDialog::accept();
 }
 
-void InformationDialog::init(const QList<IDownloadItem *> &selection)
+void InformationDialog::initialize(const QList<IDownloadItem *> &items)
 {
-    if (selection.isEmpty()) {
+    if (items.isEmpty()) {
         return;
     }
-    const IDownloadItem *item = selection.first();
+    m_items = items;
+    const IDownloadItem *item = items.first();
+    const DownloadItem *downloadItem = static_cast<const DownloadItem*>(item);
 
+    /* Title and subtitles */
     const QUrl localFileUrl = item->localFileUrl();
     const QString filename = QDir::toNativeSeparators(localFileUrl.toLocalFile());
     ui->filenameLabel->setText(filename);
 
-    const QString urlHtml = QString("<a href=\"%0\">%0</a>").arg(item->sourceUrl().toString());
+    const QUrl url = item->sourceUrl();
+    const QString urlHtml = QString("<a href=\"%0\">%0</a>").arg(url.toString());
     ui->urlLabel->setText(urlHtml);
     ui->urlLabel->setTextFormat(Qt::RichText);
     ui->urlLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
     ui->urlLabel->setOpenExternalLinks(true);
 
     auto bytes = item->bytesTotal();
-    auto text = QString("%0 (%1 bytes)")
-            .arg(Format::fileSizeToString(bytes))
-            .arg(Format::fileSizeThousandSeparator(bytes));
-    ui->sizeLabel->setText(text);
+    if (bytes > 0) {
+        auto text = QString("%0 (%1 bytes)")
+                .arg(Format::fileSizeToString(bytes))
+                .arg(Format::fileSizeThousandSeparator(bytes));
+        ui->sizeLabel->setText(text);
+    } else {
+        auto text = QString("%0").arg(Format::fileSizeToString(-1));
+        ui->sizeLabel->setText(text);
+    }
 
-
-    const QUrl url = item->sourceUrl();
     const QPixmap pixmap = MimeDatabase::fileIcon(url, 256);
     ui->fileIcon->setPixmap(pixmap);
+
+    /* Form */
+    if (downloadItem) {
+        ui->urlFormWidget->setResource(downloadItem->resource());
+    }
 }

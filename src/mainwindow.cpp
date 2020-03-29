@@ -480,7 +480,10 @@ void MainWindow::showInformation()
 {
     if (!m_downloadManager->selection().isEmpty()) {
         InformationDialog dialog(m_downloadManager->selection(), this);
-        dialog.exec();
+        int answer = dialog.exec();
+        if (answer == QDialog::Accepted) {
+            m_downloadManager->updateItems(m_downloadManager->selection());
+        }
     }
 }
 
