@@ -12,7 +12,9 @@ HEADERS += \
     $$PWD/maskwidget.h \
     $$PWD/pathwidget.h \
     $$PWD/streamwidget.h \
-    $$PWD/systemtray.h
+    $$PWD/systemtray.h \
+    $$PWD/urlformwidget.h \
+    $$PWD/urllineedit.h
 
 SOURCES += \
     $$PWD/autoclosedialog.cpp \
@@ -27,7 +29,9 @@ SOURCES += \
     $$PWD/maskwidget.cpp \
     $$PWD/pathwidget.cpp \
     $$PWD/streamwidget.cpp \
-    $$PWD/systemtray.cpp
+    $$PWD/systemtray.cpp \
+    $$PWD/urlformwidget.cpp\
+    $$PWD/urllineedit.cpp
 
 FORMS += \
     $$PWD/filtertip.ui \
@@ -36,4 +40,5 @@ FORMS += \
     $$PWD/masktip.ui \
     $$PWD/maskwidget.ui \
     $$PWD/pathwidget.ui \
-    $$PWD/streamwidget.ui
+    $$PWD/streamwidget.ui \
+    $$PWD/urlformwidget.ui

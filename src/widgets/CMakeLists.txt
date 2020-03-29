@@ -12,6 +12,8 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/pathwidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamwidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/systemtray.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/urlformwidget.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/urllineedit.cpp
     )
 
 # Rem: set here the headers related to the Qt MOC (i.e., with associated *.ui)
@@ -27,6 +29,8 @@ set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/pathwidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamwidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/systemtray.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/urlformwidget.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/urllineedit.h
     )
 
 set(MY_FORMS ${MY_FORMS}
@@ -37,4 +41,5 @@ set(MY_FORMS ${MY_FORMS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/maskwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/pathwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamwidget.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/urlformwidget.ui
     )
