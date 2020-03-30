@@ -13,6 +13,8 @@ HEADERS += \
     $$PWD/pathwidget.h \
     $$PWD/streamwidget.h \
     $$PWD/systemtray.h \
+    $$PWD/textedit.h \
+    $$PWD/texteditorwidget.h \
     $$PWD/urlformwidget.h \
     $$PWD/urllineedit.h
 
@@ -30,6 +32,8 @@ SOURCES += \
     $$PWD/pathwidget.cpp \
     $$PWD/streamwidget.cpp \
     $$PWD/systemtray.cpp \
+    $$PWD/textedit.cpp \
+    $$PWD/texteditorwidget.cpp \
     $$PWD/urlformwidget.cpp\
     $$PWD/urllineedit.cpp
 
@@ -41,4 +45,5 @@ FORMS += \
     $$PWD/maskwidget.ui \
     $$PWD/pathwidget.ui \
     $$PWD/streamwidget.ui \
+    $$PWD/texteditorwidget.ui \
     $$PWD/urlformwidget.ui

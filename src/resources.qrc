@@ -82,5 +82,11 @@
         <file>icons/menu/youtube_48x48.png</file>
         <file>icons/overlay/overlay-run.ico</file>
         <file>icons/menu/stream_wait_16x16.gif</file>
+        <file>icons/menu-qt/editcopy.png</file>
+        <file>icons/menu-qt/editcut.png</file>
+        <file>icons/menu-qt/editpaste.png</file>
+        <file>icons/menu-qt/editredo.png</file>
+        <file>icons/menu-qt/editundo.png</file>
+        <file>icons/menu-qt/textbold.png</file>
     </qresource>
 </RCC>
