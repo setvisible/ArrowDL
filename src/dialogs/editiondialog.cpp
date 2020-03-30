@@ -20,6 +20,7 @@
 #include <Core/DownloadItem>
 #include <Core/IDownloadItem>
 #include <Core/ResourceItem>
+#include <Widgets/TextEditorWidget>
 
 #include <QtCore/QDebug>
 #include <QtCore/QSettings>
@@ -38,24 +39,21 @@ EditionDialog::EditionDialog(const QList<IDownloadItem*> &items, QWidget *parent
 {
     ui->setupUi(this);
 
-    connect(ui->textEdit, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
-    connect(ui->textEdit, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
-
-    highlightCurrentLine();
+    connect(ui->editor, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
 
     ui->subtitleLabel->setText(tr("%0 selected files to edit").arg(m_items.count()));
     ui->warningLabel->setVisible(false);
 
 
-    ui->textEdit->clear();
+    ui->editor->clear();
     foreach (auto item, items) {
         const DownloadItem *downloadItem = static_cast<const DownloadItem*>(item);
         if (downloadItem) {
             const ResourceItem *resource = downloadItem->resource();
-            ui->textEdit->append(resource->url());
+            ui->editor->append(resource->url());
         }
     }
-    ui->textEdit->document()->setModified(false);
+    ui->editor->setModified(false);
 
     readSettings();
 }
@@ -75,9 +73,9 @@ void EditionDialog::closeEvent(QCloseEvent *)
 void EditionDialog::accept()
 {
     writeSettings();
-    if (ui->textEdit->document()->isModified()) {
+    if (ui->editor->isModified()) {
         const int itemCount = m_items.count();
-        const int lineCount = ui->textEdit->document()->blockCount();
+        const int lineCount = ui->editor->count();
         if (itemCount != lineCount) {
             return; // Cancel action
         }
@@ -91,7 +89,7 @@ void EditionDialog::accept()
 void EditionDialog::onTextChanged()
 {
     const int itemCount = m_items.count();
-    const int lineCount = ui->textEdit->document()->blockCount();
+    const int lineCount = ui->editor->count();
 
     ui->buttonBox->setEnabled(lineCount == itemCount);
     ui->warningLabel->setVisible(lineCount != itemCount);
@@ -105,7 +103,7 @@ void EditionDialog::onTextChanged()
 void EditionDialog::applyChanges()
 {
     const int itemCount = m_items.count();
-    const int lineCount = ui->textEdit->document()->blockCount();
+    const int lineCount = ui->editor->count();
     Q_ASSERT(itemCount == lineCount);
     for (int index = 0; index < itemCount; ++index) {
 
@@ -114,8 +112,8 @@ void EditionDialog::applyChanges()
         ResourceItem *resource = downloadItem->resource();
         auto oldUrl = resource->url();
 
-        QTextBlock textBlock = ui->textEdit->document()->findBlockByLineNumber(index);
-        auto newUrl = textBlock.text().simplified();
+        auto text = ui->editor->at(index);
+        auto newUrl = text.simplified();
 
         if (newUrl != oldUrl) {
             resource->setUrl(newUrl);
@@ -123,27 +121,6 @@ void EditionDialog::applyChanges()
             downloadItem->pause();
         }
     }
-}
-
-/******************************************************************************
- ******************************************************************************/
-void EditionDialog::highlightCurrentLine()
-{
-    QList<QTextEdit::ExtraSelection> extraSelections;
-
-    if (!ui->textEdit->isReadOnly()) {
-        QTextEdit::ExtraSelection selection;
-
-        QColor lineColor = QColor(Qt::yellow).lighter(160);
-
-        selection.format.setBackground(lineColor);
-        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
-        selection.cursor = ui->textEdit->textCursor();
-        selection.cursor.clearSelection();
-        extraSelections.append(selection);
-    }
-
-    ui->textEdit->setExtraSelections(extraSelections);
 }
 
 /******************************************************************************

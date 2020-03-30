@@ -101,7 +101,7 @@
       <attribute name="title">
        <string>Smart Edit</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1,0">
        <item>
         <widget class="QLabel" name="editLabel">
          <property name="text">
@@ -110,27 +110,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QTextEdit" name="textEdit">
-         <property name="font">
-          <font>
-           <family>Courier</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="verticalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOn</enum>
-         </property>
-         <property name="lineWrapMode">
-          <enum>QTextEdit::NoWrap</enum>
-         </property>
-         <property name="html">
-          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Courier'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier';&quot;&gt;Hello World&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
+        <widget class="TextEditorWidget" name="editor" native="true"/>
        </item>
        <item>
         <widget class="QLabel" name="warningLabel">
@@ -164,6 +144,14 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TextEditorWidget</class>
+   <extends>QWidget</extends>
+   <header>Widgets/TextEditorWidget</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>filenameLabel</tabstop>
   <tabstop>tabWidget</tabstop>

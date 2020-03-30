@@ -40,7 +40,6 @@ public slots:
 
 private slots:
     void onTextChanged();
-    void highlightCurrentLine();
 
 private:
     Ui::EditionDialog *ui;
