@@ -3,6 +3,7 @@ CONFIG  += ordered
 
 SUBDIRS += $$PWD/demo
 SUBDIRS += $$PWD/streamwidget
+SUBDIRS += $$PWD/texteditorwidget
 
 # Hack
 win32-msvc* {
