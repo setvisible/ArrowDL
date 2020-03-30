@@ -31,6 +31,7 @@
 #include <Dialogs/AddStreamDialog>
 #include <Dialogs/BatchRenameDialog>
 #include <Dialogs/CompilerDialog>
+#include <Dialogs/EditionDialog>
 #include <Dialogs/InformationDialog>
 #include <Dialogs/PreferenceDialog>
 #include <Dialogs/StreamDialog>
@@ -479,8 +480,14 @@ void MainWindow::oneFewerSegment()
 
 void MainWindow::showInformation()
 {
-    if (!m_downloadManager->selection().isEmpty()) {
+    if (m_downloadManager->selection().count() == 1) {
         InformationDialog dialog(m_downloadManager->selection(), this);
+        int answer = dialog.exec();
+        if (answer == QDialog::Accepted) {
+            m_downloadManager->updateItems(m_downloadManager->selection());
+        }
+    } else if (m_downloadManager->selection().count() > 1) {
+        EditionDialog dialog(m_downloadManager->selection(), this);
         int answer = dialog.exec();
         if (answer == QDialog::Accepted) {
             m_downloadManager->updateItems(m_downloadManager->selection());
@@ -514,7 +521,7 @@ void MainWindow::renameFile()
 {
     if (m_downloadManager->selection().count() == 1) {
         ui->downloadQueueView->rename();
-    } else {
+    } else if (m_downloadManager->selection().count() > 1) {
         BatchRenameDialog dialog(m_downloadManager->selection(), this);
         int answer = dialog.exec();
         if (answer == QDialog::Accepted) {
@@ -907,7 +914,7 @@ void MainWindow::refreshMenus()
     //! [1]
 
     //! [2] View
-    ui->actionInformation->setEnabled(hasOnlyOneSelected);
+    ui->actionInformation->setEnabled(hasSelection);
     // --
     ui->actionOpenFile->setEnabled(hasOnlyCompletedSelected);
     ui->actionRenameFile->setEnabled(hasSelection);

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TextEditorWidget</class>
+ <widget class="QWidget" name="TextEditorWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>562</width>
+    <height>327</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QToolButton" name="editundo">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="toolTip">
+        <string>Undo</string>
+       </property>
+       <property name="statusTip">
+        <string>Undo</string>
+       </property>
+       <property name="whatsThis">
+        <string>Undo</string>
+       </property>
+       <property name="text">
+        <string>Undo</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources.qrc">
+         <normaloff>:/icons/menu-qt/editundo.png</normaloff>:/icons/menu-qt/editundo.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="editredo">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="toolTip">
+        <string>Redo</string>
+       </property>
+       <property name="statusTip">
+        <string>Redo</string>
+       </property>
+       <property name="whatsThis">
+        <string>Redo</string>
+       </property>
+       <property name="text">
+        <string>Redo</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources.qrc">
+         <normaloff>:/icons/menu-qt/editredo.png</normaloff>:/icons/menu-qt/editredo.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="editcut">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="toolTip">
+        <string>Cut</string>
+       </property>
+       <property name="statusTip">
+        <string>Cut</string>
+       </property>
+       <property name="whatsThis">
+        <string>Cut</string>
+       </property>
+       <property name="text">
+        <string>Cut</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources.qrc">
+         <normaloff>:/icons/menu-qt/editcut.png</normaloff>:/icons/menu-qt/editcut.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="editcopy">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="toolTip">
+        <string>Copy</string>
+       </property>
+       <property name="statusTip">
+        <string>Copy</string>
+       </property>
+       <property name="whatsThis">
+        <string>Copy</string>
+       </property>
+       <property name="text">
+        <string>Copy</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources.qrc">
+         <normaloff>:/icons/menu-qt/editcopy.png</normaloff>:/icons/menu-qt/editcopy.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="editpaste">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="toolTip">
+        <string>Paste</string>
+       </property>
+       <property name="statusTip">
+        <string>Paste</string>
+       </property>
+       <property name="whatsThis">
+        <string>Paste</string>
+       </property>
+       <property name="text">
+        <string>Paste</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources.qrc">
+         <normaloff>:/icons/menu-qt/editpaste.png</normaloff>:/icons/menu-qt/editpaste.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line1">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="editblockmode">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="toolTip">
+        <string>Block Edit Mode</string>
+       </property>
+       <property name="statusTip">
+        <string>Block Edit Mode</string>
+       </property>
+       <property name="whatsThis">
+        <string>Block Edit Mode</string>
+       </property>
+       <property name="text">
+        <string>Block Edit Mode</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources.qrc">
+         <normaloff>:/icons/menu-qt/textbold.png</normaloff>:/icons/menu-qt/textbold.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Tip: 'Alt'+'Mouse' or 'Alt'+'Shift'+Arrow for block selection</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="TextEdit" name="textEdit">
+     <property name="font">
+      <font>
+       <family>Courier</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="lineWrapMode">
+      <enum>QPlainTextEdit::NoWrap</enum>
+     </property>
+     <property name="plainText">
+      <string>Hello World
+Hello World
+Hello World
+Hello World</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TextEdit</class>
+   <extends>QPlainTextEdit</extends>
+   <header>Widgets/TextEdit</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>editundo</tabstop>
+  <tabstop>editredo</tabstop>
+  <tabstop>editcut</tabstop>
+  <tabstop>editcopy</tabstop>
+  <tabstop>editpaste</tabstop>
+  <tabstop>editblockmode</tabstop>
+  <tabstop>textEdit</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
