@@ -23,6 +23,7 @@
 #include <Core/ResourceItem>
 #include <Core/Settings>
 #include <Core/Stream>
+#include <Widgets/UrlFormWidget>
 
 #include <QtCore/QDebug>
 #include <QtCore/QList>
@@ -46,15 +47,15 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
 {
     ui->setupUi(this);
 
-    ui->pathWidget->setPathType(PathWidget::Directory);
+    ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
 
-    ui->downloadLineEdit->setText(url.toString());
-    ui->downloadLineEdit->setFocus();
+    ui->urlLineEdit->setText(url.toString());
+    ui->urlLineEdit->setFocus();
     ui->streamWidget->setState(StreamWidget::Empty);
 
-    connect(ui->downloadLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onChanged(QString)));
-    connect(ui->pathWidget, SIGNAL(currentPathChanged(QString)), this, SLOT(onChanged(QString)));
-    connect(ui->maskWidget, SIGNAL(currentMaskChanged(QString)), this, SLOT(onChanged(QString)));
+
+    connect(ui->urlLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onChanged(QString)));
+    connect(ui->urlFormWidget, SIGNAL(changed(QString)), this, SLOT(onChanged(QString)));
     connect(ui->continueButton, SIGNAL(released()), this, SLOT(onContinueClicked()));
 
     connect(m_streamInfoDownloader, SIGNAL(error(QString)), this, SLOT(onError(QString)));
@@ -92,7 +93,7 @@ void AddStreamDialog::onContinueClicked()
     setGuiEnabled(false);
     ui->streamWidget->setState(StreamWidget::Downloading);
 
-    const QString url = ui->downloadLineEdit->text();
+    const QString url = ui->urlLineEdit->text();
     m_streamInfoDownloader->runAsync(url);
 
     onChanged(QString());
@@ -116,13 +117,11 @@ void AddStreamDialog::onCollected(StreamInfosPtr infos)
  ******************************************************************************/
 void AddStreamDialog::onChanged(QString)
 {
-    ui->continueButton->setEnabled(!ui->downloadLineEdit->text().isEmpty());
+    ui->continueButton->setEnabled(!ui->urlLineEdit->text().isEmpty());
 
     const bool enabled =
             ui->streamWidget->state() == StreamWidget::Normal &&
-            !ui->downloadLineEdit->text().isEmpty() &&
-            !ui->pathWidget->currentPath().isEmpty() &&
-            !ui->maskWidget->currentMask().isEmpty();
+            ui->urlFormWidget->isValid();
 
     ui->startButton->setEnabled(enabled);
     ui->addPausedButton->setEnabled(enabled);
@@ -132,31 +131,18 @@ void AddStreamDialog::onChanged(QString)
  ******************************************************************************/
 void AddStreamDialog::doAccept(bool started)
 {
-    const QString input = ui->downloadLineEdit->text();
-    const QUrl url(input);
-
-    // Remove trailing / and \ and .
-    const QString adjusted = url.adjusted(QUrl::StripTrailingSlash).toString();
-
     // TODO if is list :open a new dialo to select the videos ?
 
-    m_downloadManager->append(toList(createItem(adjusted)), started);
+    m_downloadManager->append(toList(createItem()), started);
     QDialog::accept();
     writeSettings();
 }
 
 /******************************************************************************
  ******************************************************************************/
-IDownloadItem* AddStreamDialog::createItem(const QString &url) const
+IDownloadItem* AddStreamDialog::createItem() const
 {
-    auto resource = new ResourceItem();
-    resource->setUrl(url);
-    resource->setCustomFileName(ui->filenameLineEdit->text());
-    resource->setReferringPage(ui->referrerLineEdit->text());
-    resource->setDescription(ui->descriptionLineEdit->text());
-    resource->setDestination(ui->pathWidget->currentPath());
-    resource->setMask(ui->maskWidget->currentMask());
-    resource->setCheckSum(ui->hashLineEdit->text());
+    auto resource = ui->urlFormWidget->createResourceItem();
 
     resource->setStreamEnabled(true);
     resource->setStreamFileName(ui->streamWidget->fileName());
@@ -177,15 +163,9 @@ inline QList<IDownloadItem*> AddStreamDialog::toList(IDownloadItem *item)
  ******************************************************************************/
 void AddStreamDialog::setGuiEnabled(bool enabled)
 {
-    ui->downloadLineEdit->setEnabled(enabled);
+    ui->urlLineEdit->setEnabled(enabled);
     ui->continueButton->setEnabled(enabled);
-    ui->filenameLineEdit->setEnabled(enabled);
-    ui->referrerLineEdit->setEnabled(enabled);
-    ui->descriptionLineEdit->setEnabled(enabled);
-    ui->pathWidget->setEnabled(enabled);
-    ui->maskWidget->setEnabled(enabled);
-    ui->hashLineEdit->setEnabled(enabled);
-
+    ui->urlFormWidget->setChildrenEnabled(enabled);
     ui->startButton->setEnabled(enabled);
     ui->addPausedButton->setEnabled(enabled);
 }
@@ -196,9 +176,9 @@ void AddStreamDialog::readSettings()
 {
     QSettings settings;
     settings.beginGroup("Wizard");
-    ui->pathWidget->setCurrentPath(settings.value("Path", QString()).toString());
-    ui->pathWidget->setPathHistory(settings.value("PathHistory").toStringList());
-    ui->maskWidget->setCurrentMask(settings.value("Mask", QString()).toString());
+    ui->urlFormWidget->setCurrentPath(settings.value("Path", QString()).toString());
+    ui->urlFormWidget->setPathHistory(settings.value("PathHistory").toStringList());
+    ui->urlFormWidget->setCurrentMask(settings.value("Mask", QString()).toString());
     settings.endGroup();
 }
 
@@ -206,8 +186,8 @@ void AddStreamDialog::writeSettings()
 {
     QSettings settings;
     settings.beginGroup("Wizard");
-    settings.setValue("Path", ui->pathWidget->currentPath());
-    settings.setValue("PathHistory", ui->pathWidget->pathHistory());
-    settings.setValue("Mask", ui->maskWidget->currentMask());
+    settings.setValue("Path", ui->urlFormWidget->currentPath());
+    settings.setValue("PathHistory", ui->urlFormWidget->pathHistory());
+    settings.setValue("Mask", ui->urlFormWidget->currentMask());
     settings.endGroup();
 }

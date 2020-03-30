@@ -29,7 +29,9 @@
 #include <Core/UpdateChecker>
 #include <Dialogs/AddDownloadDialog>
 #include <Dialogs/AddStreamDialog>
+#include <Dialogs/BatchRenameDialog>
 #include <Dialogs/CompilerDialog>
+#include <Dialogs/EditionDialog>
 #include <Dialogs/InformationDialog>
 #include <Dialogs/PreferenceDialog>
 #include <Dialogs/StreamDialog>
@@ -478,9 +480,18 @@ void MainWindow::oneFewerSegment()
 
 void MainWindow::showInformation()
 {
-    if (!m_downloadManager->selection().isEmpty()) {
+    if (m_downloadManager->selection().count() == 1) {
         InformationDialog dialog(m_downloadManager->selection(), this);
-        dialog.exec();
+        int answer = dialog.exec();
+        if (answer == QDialog::Accepted) {
+            m_downloadManager->updateItems(m_downloadManager->selection());
+        }
+    } else if (m_downloadManager->selection().count() > 1) {
+        EditionDialog dialog(m_downloadManager->selection(), this);
+        int answer = dialog.exec();
+        if (answer == QDialog::Accepted) {
+            m_downloadManager->updateItems(m_downloadManager->selection());
+        }
     }
 }
 
@@ -508,7 +519,15 @@ void MainWindow::openFile(IDownloadItem *downloadItem)
 
 void MainWindow::renameFile()
 {
-    ui->downloadQueueView->rename();
+    if (m_downloadManager->selection().count() == 1) {
+        ui->downloadQueueView->rename();
+    } else if (m_downloadManager->selection().count() > 1) {
+        BatchRenameDialog dialog(m_downloadManager->selection(), this);
+        int answer = dialog.exec();
+        if (answer == QDialog::Accepted) {
+            m_downloadManager->updateItems(m_downloadManager->selection());
+        }
+    }
 }
 
 void MainWindow::deleteFile()
@@ -895,10 +914,10 @@ void MainWindow::refreshMenus()
     //! [1]
 
     //! [2] View
-    ui->actionInformation->setEnabled(hasOnlyOneSelected);
+    ui->actionInformation->setEnabled(hasSelection);
     // --
     ui->actionOpenFile->setEnabled(hasOnlyCompletedSelected);
-    ui->actionRenameFile->setEnabled(hasOnlyOneSelected);
+    ui->actionRenameFile->setEnabled(hasSelection);
     ui->actionDeleteFile->setEnabled(hasOnlyCompletedSelected);
     ui->actionOpenDirectory->setEnabled(hasOnlyOneSelected);
     // --

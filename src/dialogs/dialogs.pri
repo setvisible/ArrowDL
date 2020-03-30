@@ -1,7 +1,9 @@
 HEADERS  += \
     $$PWD/adddownloaddialog.h \
     $$PWD/addstreamdialog.h \
+    $$PWD/batchrenamedialog.h \
     $$PWD/compilerdialog.h \
+    $$PWD/editiondialog.h \
     $$PWD/informationdialog.h \
     $$PWD/preferencedialog.h \
     $$PWD/streamdialog.h \
@@ -13,7 +15,9 @@ HEADERS  += \
 SOURCES += \
     $$PWD/adddownloaddialog.cpp \
     $$PWD/addstreamdialog.cpp \
+    $$PWD/batchrenamedialog.cpp \
     $$PWD/compilerdialog.cpp \
+    $$PWD/editiondialog.cpp \
     $$PWD/informationdialog.cpp \
     $$PWD/preferencedialog.cpp \
     $$PWD/streamdialog.cpp \
@@ -24,7 +28,9 @@ SOURCES += \
 FORMS += \
     $$PWD/adddownloaddialog.ui \
     $$PWD/addstreamdialog.ui \
+    $$PWD/batchrenamedialog.ui \
     $$PWD/compilerdialog.ui \
+    $$PWD/editiondialog.ui \
     $$PWD/informationdialog.ui \
     $$PWD/preferencedialog.ui \
     $$PWD/streamdialog.ui \

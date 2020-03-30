@@ -260,9 +260,16 @@ void tst_Format::parseBytes_data()
     QTest::newRow("167.85MiB") << "167.85 MiB" << BigInteger(176003482);
     QTest::newRow("167.85MiB") << "167.85    MiB" << BigInteger(176003482);
 
+    QTest::newRow("2.95GiB") << "2.95GiB" << BigInteger(3167538381);
+    QTest::newRow("2.95GiB") << "2.95 GiB" << BigInteger(3167538381);
+    QTest::newRow("2.95GiB") << "2.95\tGiB" << BigInteger(3167538381);
+
     QTest::newRow("estim") << "~55.43MiB" << BigInteger(58122568);
     QTest::newRow("estim") << "~55.43  MiB" << BigInteger(58122568);
     QTest::newRow("estim") << " ~ 55.43   MiB" << BigInteger(58122568);
+
+    QTest::newRow("bigger than integer 32-bit range")
+            << "999.99GiB" << BigInteger(1073731086582);
 }
 
 void tst_Format::parseBytes()

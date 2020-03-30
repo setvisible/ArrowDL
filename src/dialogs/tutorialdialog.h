@@ -18,7 +18,6 @@
 #define DIALOGS_TUTORIAL_DIALOG_H
 
 #include <QtWidgets/QDialog>
-//#include <QtWidgets/QMessageBox>
 
 class Settings;
 

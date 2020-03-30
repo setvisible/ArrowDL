@@ -153,7 +153,7 @@ qint64 Format::parseBytes(const QString &text)
 
     QString numberString = textwithoutTilde;
     numberString.remove(QRegExp("[a-zA-Z]*"));
-    double decimal = 0;
+    qreal decimal = 0;
     if (!parseDouble(numberString, decimal)) {
         return -1;
     }
@@ -162,7 +162,7 @@ qint64 Format::parseBytes(const QString &text)
     unitString.remove(numberString);
     unitString = unitString.toUpper();
 
-    double multiple = 0;
+    qreal multiple = 0;
     if ( unitString == QLatin1String("B") ||
          unitString == QLatin1String("BYTE") ||
          unitString == QLatin1String("BYTES")) {
@@ -189,7 +189,19 @@ qint64 Format::parseBytes(const QString &text)
     } else {
         return -1;
     }
-
-    qint64 bytes = qCeil(decimal * multiple);
+    /*
+     * Remark: Can't use the QtMath's qCeil() here,
+     * because returns "int" instead of "qint64",
+     * causing erronous cast for big number.
+     *
+     * For 32-bit integer:
+     *    -2^31            < x <    2^31-1
+     *    -2,147,483,648   < x <    2,147,483,647
+     *    -2.0 GiB         < x <    1.999 GiB
+     *
+     * => Issue when the filesize is greater than 1.999 GiB...
+     */
+    // qint64 bytes = qCeil(decimal * multiple);
+    qint64 bytes = static_cast<qint64>(std::ceil(decimal * multiple));
     return bytes;
 }
