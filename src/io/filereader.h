@@ -51,10 +51,10 @@ public:
 private:
     /* Device */
     QIODevice *m_device = Q_NULLPTR;
-    IFileHandler *m_handler = Q_NULLPTR;
+    IFileHandlerPtr m_handler;
 
     bool initHandler();
-    IFileHandler* createReadHandlerHelper(QIODevice *device);
+    IFileHandlerPtr createReadHandlerHelper(QIODevice *device);
 
     /* Error */
     FileReader::FileReaderError m_fileReaderError = UnknownError;

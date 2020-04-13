@@ -28,21 +28,21 @@ namespace Io {
 struct FileFormat {
     const char *suffix;
     const char *text;
-    const IFileHandler* handler;
+    const IFileHandlerPtr handler;
 };
 
 static const FileFormat formats[] = {
-    { "txt", "Text Files", new TextHandler() },
-    { "json", "Json Files", new JsonHandler() },
-    { 0, 0, 0 }
+    { "txt", "Text Files", IFileHandlerPtr(new TextHandler()) },
+    { "json", "Json Files", IFileHandlerPtr(new JsonHandler()) },
+    { Q_NULLPTR, Q_NULLPTR, IFileHandlerPtr() }
 };
 
-static IFileHandler* findHandlerFromSuffix(const QString &suffix)
+static IFileHandlerPtr findHandlerFromSuffix(const QString &suffix)
 {
-    IFileHandler *handler = Q_NULLPTR;
-    for (const FileFormat *fmt = &formats[0]; fmt->handler; fmt++) {
+    IFileHandlerPtr handler;
+    for (const FileFormat *fmt = &formats[0]; fmt->suffix; fmt++) {
         if (suffix == fmt->suffix) {            
-            handler = const_cast<IFileHandler *>(fmt->handler);
+            handler = fmt->handler;
             break;
         }
     }
