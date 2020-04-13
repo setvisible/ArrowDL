@@ -52,10 +52,10 @@ public:
 private:
     /* Device */
     QIODevice *m_device = Q_NULLPTR;
-    IFileHandler *m_handler = Q_NULLPTR;
+    IFileHandlerPtr m_handler;
 
     bool canWriteHelper();
-    IFileHandler *createWriteHandlerHelper(QIODevice *device);
+    IFileHandlerPtr createWriteHandlerHelper(QIODevice *device);
 
     /* Error */
     FileWriter::FileWriterError m_fileWriterError = UnknownError;

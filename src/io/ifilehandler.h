@@ -19,6 +19,8 @@
 
 #include <Core/DownloadEngine>
 
+#include <QtCore/QSharedPointer>
+
 class QIODevice;
 
 class IFileHandler
@@ -53,5 +55,7 @@ private:
 
     Q_DISABLE_COPY(IFileHandler)
 };
+
+typedef QSharedPointer<IFileHandler> IFileHandlerPtr;
 
 #endif // IO_I_FILE_HANDLE_H

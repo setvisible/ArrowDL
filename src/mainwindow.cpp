@@ -53,6 +53,8 @@
 #include <QtCore/QStandardPaths>
 #include <QtCore/QUrl>
 #include <QtGui/QCloseEvent>
+#include <QtGui/QDragEnterEvent>
+#include <QtGui/QDropEvent>
 #include <QtGui/QClipboard>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QScreen>
@@ -181,6 +183,28 @@ void MainWindow::changeEvent(QEvent *event)
         }
     }
     QMainWindow::changeEvent(event);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+    auto url = droppedUrl(event->mimeData());
+    if (url.isValid()) {
+        event->acceptProposedAction();
+    }
+}
+
+void MainWindow::dropEvent(QDropEvent *event)
+{
+    auto url = droppedUrl(event->mimeData());
+    if (url.isValid()) {
+        if (url.isLocalFile()) {
+            loadFile(url.toLocalFile());
+        } else {
+            addFromUrl(url);
+        }
+    }
 }
 
 /******************************************************************************
@@ -644,7 +668,12 @@ void MainWindow::removePaused()
 
 void MainWindow::add()
 {
-    AddDownloadDialog dialog(urlFromClipboard(), m_downloadManager, m_settings, this);
+    addFromUrl(urlFromClipboard());
+}
+
+void MainWindow::addFromUrl(const QUrl &url)
+{
+    AddDownloadDialog dialog(url, m_downloadManager, m_settings, this);
     dialog.exec();
 }
 
@@ -1035,6 +1064,19 @@ void MainWindow::writeSettings()
 
 /******************************************************************************
  ******************************************************************************/
+inline QUrl MainWindow::droppedUrl(const QMimeData* mimeData) const
+{
+    if ( mimeData->hasUrls() &&
+         mimeData->urls().count() == 1) { // Accept only one file at a time
+        return mimeData->urls().first();
+
+    } if (!mimeData->hasUrls() && mimeData->hasText()) {
+        auto supposedFilePath = mimeData->text();
+        return QUrl(supposedFilePath);
+    }
+    return QUrl();
+}
+
 inline QUrl MainWindow::urlFromClipboard() const
 {
     const QClipboard *clipboard = QApplication::clipboard();
