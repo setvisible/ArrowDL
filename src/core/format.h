@@ -24,10 +24,16 @@
 class Format
 {
 public:
-    static QString remaingTimeToString(QTime time);
-    static QString currentSpeedToString(qreal speed);
+    static QString infinity();
+
+    static QString timeToString(QTime time);
+    static QString timeToString(qint64 seconds);
+
+    static QString currentSpeedToString(qreal speed, bool showInfiniteSymbol = false);
     static QString fileSizeToString(qint64 size);
     static QString fileSizeThousandSeparator(qint64 size);
+
+    static QString yesOrNo(bool yes);
 
     static double parsePercentDecimal(const QString &text);
     static qint64 parseBytes(const QString &text);

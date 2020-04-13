@@ -35,6 +35,26 @@ lessThan(QT_VERSION, 5.0) {
 include($$PWD/../3rd/3rd.pri)
 
 
+
+#-------------------------------------------------
+# LibTorrent
+#-------------------------------------------------
+LIBTORRENT_INSTALL = $${OUT_PWD}/../libtorrent_install
+
+!exists($$LIBTORRENT_INSTALL) {
+    error("libtorrent's install directory doesn't exist: $$LIBTORRENT_INSTALL")
+}
+
+# Note: order of declared libs is very important
+LIBS += -L$${LIBTORRENT_INSTALL}/lib -llibtorrent
+# LIBS += -lwsock32 -lws2_32 -lIphlpapi --> see libtorrent-config.pri
+
+INCLUDEPATH += $${LIBTORRENT_INSTALL}/include/
+
+include($$PWD/../3rd/libtorrent/libtorrent-config.pri)
+
+
+
 #-------------------------------------------------
 # Other
 #-------------------------------------------------

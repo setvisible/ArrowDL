@@ -27,8 +27,11 @@ class tst_Format : public QObject
     Q_OBJECT
 
 private slots:
-    void remaingTimeToString_data();
-    void remaingTimeToString();
+    void timeToString_data();
+    void timeToString();
+
+    void timeToString_seconds_data();
+    void timeToString_seconds();
 
     void fileSizeToString_data();
     void fileSizeToString();
@@ -49,7 +52,7 @@ private slots:
 
 /******************************************************************************
  ******************************************************************************/
-void tst_Format::remaingTimeToString_data()
+void tst_Format::timeToString_data()
 {
     QTest::addColumn<QTime>("time");
     QTest::addColumn<QString>("expected");
@@ -66,14 +69,44 @@ void tst_Format::remaingTimeToString_data()
     QTest::newRow("1 sec") << QTime(0, 0, 1, 999) << "00:01";
     QTest::newRow("60 sec") << QTime(0, 0, 59, 999) << "00:59";
     QTest::newRow("60 sec") << QTime(0, 1, 0, 0) << "01:00";
-
+    QTest::newRow("1 day") << QTime(23, 59, 59, 999) << "23:59:59";
 }
 
-void tst_Format::remaingTimeToString()
+void tst_Format::timeToString()
 {
     QFETCH(QTime, time);
     QFETCH(QString, expected);
-    QString actual = Format::remaingTimeToString(time);
+    QString actual = Format::timeToString(time);
+    QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void tst_Format::timeToString_seconds_data()
+{
+    QTest::addColumn<qint64>("seconds");
+    QTest::addColumn<QString>("expected");
+
+    QTest::newRow("invalid time") << qint64(-1) << "--:--";
+    QTest::newRow("invalid time") << qint64(0) << "00:01";
+    QTest::newRow("invalid time") << qint64(1) << "00:01";
+    QTest::newRow("invalid time") << qint64(2) << "00:02";
+
+    QTest::newRow("60 sec") << qint64(59) << "00:59";
+    QTest::newRow("60 sec") << qint64(60) << "01:00";
+    QTest::newRow("60 sec") << qint64(3599) << "59:59";
+    QTest::newRow("60 sec") << qint64(3600) << "01:00:00";
+
+    QTest::newRow("1 day") << qint64(24*60*60 - 1) << "23:59:59";
+    QTest::newRow("more than 1 day") << qint64(24*60*60) << QString::fromUtf8("\xE2\x88\x9E");
+    QTest::newRow("more than 1 day") << qint64(24*60*60 + 1) << QString::fromUtf8("\xE2\x88\x9E");
+}
+
+void tst_Format::timeToString_seconds()
+{
+    QFETCH(qint64, seconds);
+    QFETCH(QString, expected);
+    QString actual = Format::timeToString(seconds);
     QCOMPARE(actual, expected);
 }
 

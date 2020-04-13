@@ -19,6 +19,7 @@
 
 #include <QtCore/QString>
 #include <QtCore/QUrl>
+#include <QtCore/QVariant>
 
 class ResourceItem
 {    
@@ -68,6 +69,12 @@ public:
     qint64 streamFileSize() const;
     void setStreamFileSize(qint64 streamFileSize);
 
+    bool isTorrentEnabled() const;
+    void setTorrentEnabled(bool enabled);
+
+    QByteArray torrentRawData() const;
+    void setTorrentRawData(const QByteArray &rawData);
+
     bool isSelected() const; // OBSOLETE
     void setSelected(bool isSelected); // OBSOLETE
 
@@ -86,10 +93,17 @@ private:
     QString m_streamFormatId;
     qint64 m_streamFileSize;
 
+    bool m_isTorrentEnabled;
+    QByteArray m_torrentRawData;
+
     bool m_isSelected = false;
 
     inline QString localFilePath(const QString &customFileName) const;
     inline QString localStreamFile(const QString &customFileName) const;
+    inline QString localMagnetFile(const QString &customFileName) const;
+
+    inline QString parseMagnetUrl(const QString &url) const;
+
     inline static QString localFile(const QString &destination, const QUrl &url,
                                     const QString &customFileName, const QString &mask);
 };

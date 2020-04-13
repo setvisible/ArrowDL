@@ -18,13 +18,17 @@
 #include "ui_preferencedialog.h"
 
 #include <Core/Settings>
+#include <Widgets/AdvancedSettingsWidget>
 #include <Widgets/PathWidget>
 
 #include <QtCore/QDebug>
 #include <QtCore/QSettings>
+#include <QtCore/QSignalBlocker>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QTextBlock>
 #include <QtGui/QTextDocument>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QSystemTrayIcon>
 
 #define C_DEFAULT_WIDTH     700
@@ -41,16 +45,8 @@ PreferenceDialog::PreferenceDialog(Settings *settings, QWidget *parent)
     Q_ASSERT(m_settings);
     ui->setupUi(this);
 
-    connect(ui->maxSimultaneousDownloadSlider, SIGNAL(valueChanged(int)),
-            this, SLOT(maxSimultaneousDownloadSlided(int)));
-
-    connect(ui->browseDatabaseFile, SIGNAL(currentPathValidityChanged(bool)),
-            ui->okButton, SLOT(setEnabled(bool)));
-
-    connect(ui->checkUpdateNowPushButton, SIGNAL(released()),
-            this, SIGNAL(checkUpdate()), Qt::QueuedConnection);
-
-    initializeGui();
+    connectUi();
+    initializeUi();
     initializeWarnings();
     read();
     readSettings();
@@ -84,31 +80,94 @@ void PreferenceDialog::reject()
 
 /******************************************************************************
  ******************************************************************************/
-void PreferenceDialog::initializeGui()
+void PreferenceDialog::connectUi()
+{
+    // Tab General
+
+    // Tab Interface
+
+    // Tab Network
+    connect(ui->maxSimultaneousDownloadSlider, SIGNAL(valueChanged(int)),
+            this, SLOT(maxSimultaneousDownloadSlided(int)));
+
+    // Tab Privacy
+    connect(ui->browseDatabaseFile, SIGNAL(currentPathValidityChanged(bool)),
+            ui->okButton, SLOT(setEnabled(bool)));
+
+    connect(ui->checkUpdateNowPushButton, SIGNAL(released()),
+            this, SIGNAL(checkUpdate()), Qt::QueuedConnection);
+
+    // Tab Filters
+    connect(ui->filterTableWidget, SIGNAL(itemSelectionChanged()),
+            this, SLOT(filterSelectionChanged()));
+    connect(ui->filterCaptionLineEdit, SIGNAL(editingFinished()),
+            this, SLOT(filterTextChanged()));
+    connect(ui->filterRegexLineEdit, SIGNAL(editingFinished()),
+            this, SLOT(filterTextChanged()));
+
+    // Tab Torrent
+    connect(ui->torrentCheckBox, &QCheckBox::toggled,
+            ui->torrentShareFolderGroupBox, &QGroupBox::setEnabled);
+    connect(ui->torrentCheckBox, &QCheckBox::toggled,
+            ui->torrentBandwidthGroupBox, &QGroupBox::setEnabled);
+    connect(ui->torrentCheckBox, &QCheckBox::toggled,
+            ui->torrentConnectionGroupBox, &QGroupBox::setEnabled);
+    connect(ui->torrentShareFolderCheckBox, &QCheckBox::toggled,
+            ui->torrentShareFolderPathWidget, &PathWidget::setEnabled);
+
+    connect(ui->torrentUpRateSpinBox, SIGNAL(valueChanged(int)),
+            this, SLOT(bandwidthSettingsChanged(int)));
+    connect(ui->torrentDownRateSpinBox, SIGNAL(valueChanged(int)),
+            this, SLOT(bandwidthSettingsChanged(int)));
+    connect(ui->torrentConnectionMaxCountSpinBox, SIGNAL(valueChanged(int)),
+            this, SLOT(bandwidthSettingsChanged(int)));
+    connect(ui->torrentPeerMaxCountSpinBox, SIGNAL(valueChanged(int)),
+            this, SLOT(bandwidthSettingsChanged(int)));
+
+    // Tab Advanced
+    connect(ui->advancedSettingsWidget, &AdvancedSettingsWidget::changed,
+            this, &PreferenceDialog::setBandwidthSettings);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void PreferenceDialog::initializeUi()
 {
     // otherwise it's not white?
     this->setAutoFillBackground(true);
     ui->tabWidget->setAutoFillBackground(true);
     ui->tabWidget->tabBar()->setAutoFillBackground(true);
 
-    ui->browseDatabaseFile->setPathType(PathWidget::File);
-    ui->browseDatabaseFile->setSuffixName("Queue Database");
-    ui->browseDatabaseFile->setSuffix(".json");
+    // Tab General
 
-    ui->filterTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->filterTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
-    ui->filterTableWidget->setHorizontalHeaderLabels(QStringList() << tr("Caption") << tr("Extensions"));
-    ui->filterTableWidget->setColumnWidth(0, C_COLUMN_WIDTH);
-
-    connect(ui->filterTableWidget, SIGNAL(itemSelectionChanged()), this, SLOT(filterSelectionChanged()));
-    connect(ui->filterCaptionLineEdit, SIGNAL(editingFinished()), this, SLOT(filterTextChanged()));
-    connect(ui->filterRegexLineEdit, SIGNAL(editingFinished()), this, SLOT(filterTextChanged()));
-
+    // Tab Interface
     ui->showSystemTrayIconCheckBox->setEnabled(QSystemTrayIcon::isSystemTrayAvailable());
     ui->hideWhenMinimizedCheckBox->setEnabled(ui->showSystemTrayIconCheckBox->isChecked());
     ui->showSystemTrayBalloonCheckBox->setEnabled(ui->showSystemTrayIconCheckBox->isChecked());
 
     ui->streamHostPlainTextEdit->setEnabled(ui->streamHostCheckBox->isChecked());
+
+    // Tab Network
+
+    // Tab Privacy
+    ui->browseDatabaseFile->setPathType(PathWidget::File);
+    ui->browseDatabaseFile->setSuffixName(tr("Queue Database"));
+    ui->browseDatabaseFile->setSuffix(".json");
+
+    // Tab Filters
+    ui->filterTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->filterTableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->filterTableWidget->setHorizontalHeaderLabels(
+                QStringList() << tr("Caption") << tr("Extensions"));
+    ui->filterTableWidget->setColumnWidth(0, C_COLUMN_WIDTH);
+
+    // Tab Torrent
+    ui->torrentCheckBox->setChecked(true);
+    ui->torrentShareFolderCheckBox->setChecked(true);
+    ui->torrentShareFolderPathWidget->setPathType(PathWidget::Directory);
+    setBandwidthSettings();
+
+    // Tab Advanced
 }
 
 void PreferenceDialog::initializeWarnings()
@@ -156,6 +215,33 @@ void PreferenceDialog::maxSimultaneousDownloadSlided(int value)
 
 /******************************************************************************
  ******************************************************************************/
+void PreferenceDialog::bandwidthSettingsChanged(int /*value*/)
+{
+    QVector<int> settings = {
+        ui->torrentUpRateSpinBox->value() * 1024,
+        ui->torrentDownRateSpinBox->value() * 1024,
+        ui->torrentConnectionMaxCountSpinBox->value(),
+        ui->torrentPeerMaxCountSpinBox->value()
+    };
+    ui->advancedSettingsWidget->setBandwidthSettings(settings);
+}
+
+void PreferenceDialog::setBandwidthSettings()
+{
+    QSignalBlocker blocker0(ui->torrentUpRateSpinBox);
+    QSignalBlocker blocker1(ui->torrentDownRateSpinBox);
+    QSignalBlocker blocker2(ui->torrentConnectionMaxCountSpinBox);
+    QSignalBlocker blocker3(ui->torrentPeerMaxCountSpinBox);
+
+    QVector<int> settings = ui->advancedSettingsWidget->bandwidthSettings();
+    ui->torrentUpRateSpinBox->setValue(settings.at(0) / 1024);
+    ui->torrentDownRateSpinBox->setValue(settings.at(1) / 1024);
+    ui->torrentConnectionMaxCountSpinBox->setValue(settings.at(2));
+    ui->torrentPeerMaxCountSpinBox->setValue(settings.at(3));
+}
+
+/******************************************************************************
+ ******************************************************************************/
 /**
  * Application Settings
  */
@@ -195,14 +281,20 @@ void PreferenceDialog::read()
 
     ui->browseDatabaseFile->setCurrentPath(m_settings->database());
 
+    int index = static_cast<int>(m_settings->checkUpdateBeatMode());
+    ui->checkUpdateComboBox->setCurrentIndex(index);
+
     // Tab Filters
     setFilters(m_settings->filters());
 
-    // Tab Schedule
+    // Tab Torrent
+    ui->torrentCheckBox->setChecked(m_settings->isTorrentEnabled());
+    ui->torrentShareFolderCheckBox->setChecked(m_settings->isTorrentShareFolderEnabled());
+    ui->torrentShareFolderPathWidget->setCurrentPath(m_settings->shareFolder());
+    ui->torrentPeersPlainTextEdit->setPlainText(m_settings->torrentPeers());
 
     // Tab Advanced
-    int index = static_cast<int>(m_settings->checkUpdateBeatMode());
-    ui->checkUpdateComboBox->setCurrentIndex(index);
+    ui->advancedSettingsWidget->setTorrentSettings(m_settings->torrentSettings());
 }
 
 void PreferenceDialog::write()
@@ -234,15 +326,21 @@ void PreferenceDialog::write()
 
     m_settings->setDatabase(ui->browseDatabaseFile->currentPath());
 
-    // Tab Filters
-    m_settings->setFilters(filters());
-
-    // Tab Schedule
-
-    // Tab Advanced
     CheckUpdateBeatMode mode = static_cast<CheckUpdateBeatMode>(
                 ui->checkUpdateComboBox->currentIndex());
     m_settings->setCheckUpdateBeatMode(mode);
+
+    // Tab Filters
+    m_settings->setFilters(filters());
+
+    // Tab Torrent
+    m_settings->setTorrentEnabled(ui->torrentCheckBox->isChecked());
+    m_settings->setTorrentShareFolderEnabled(ui->torrentShareFolderCheckBox->isChecked());
+    m_settings->setShareFolder(ui->torrentShareFolderPathWidget->currentPath());
+    m_settings->setTorrentPeers(ui->torrentPeersPlainTextEdit->toPlainText());
+
+    // Tab Advanced
+    m_settings->setTorrentSettings(ui->advancedSettingsWidget->torrentSettings());
 }
 
 

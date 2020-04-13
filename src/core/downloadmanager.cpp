@@ -17,11 +17,13 @@
 #include "downloadmanager.h"
 
 #include <Core/DownloadItem>
+#include <Core/DownloadTorrentItem>
 #include <Core/ResourceItem>
 #include <Core/Session>
 #include <Core/Settings>
 
 #include <QtCore/QDebug>
+#include <QtCore/QSettings>
 #include <QtCore/QTimer>
 #include <QtNetwork/QNetworkAccessManager>
 
@@ -143,10 +145,6 @@ void DownloadManager::saveQueue()
                 case IDownloadItem::FileError:
                     if (skipCanceled) continue;
                     break;
-
-                default:
-                    Q_UNREACHABLE();
-                    break;
                 }
                 items.append(item);
             }
@@ -189,9 +187,45 @@ QNetworkAccessManager* DownloadManager::networkManager()
  ******************************************************************************/
 IDownloadItem* DownloadManager::createItem(const QUrl &url)
 {
-    auto resource = new ResourceItem();
-    resource->setUrl(url.toString().toUtf8());
+    ResourceItem* resource = createResourceItem(url);
     auto item = new DownloadItem(this);
     item->setResource(resource);
     return item;
+}
+
+IDownloadItem* DownloadManager::createTorrentItem(const QUrl &url, const QByteArray &data)
+{
+    ResourceItem* resource = createResourceItem(url);
+
+    // For torrent, we force mask to be "*name*.*ext*",
+    // to avoid making extra sub-directories
+    // since subdirs are managed by the torrent engine
+    resource->setMask("*name*.*ext*");
+
+    resource->setTorrentRawData(data);
+    resource->setTorrentEnabled(true);
+    auto item = new DownloadTorrentItem(this, data);
+    item->setResource(resource);
+    return item;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+inline ResourceItem* DownloadManager::createResourceItem(const QUrl &url)
+{
+    QSettings settings;
+    settings.beginGroup("Wizard");
+    const QString path = settings.value("Path", QString()).toString();
+    const QString mask = settings.value("Mask", QString()).toString();
+    settings.endGroup();
+
+    auto resource = new ResourceItem();
+    resource->setUrl(url.toString().toUtf8());
+    resource->setCustomFileName(QString());
+    resource->setReferringPage(QString());
+    resource->setDescription(QString());
+    resource->setDestination(path);
+    resource->setMask(mask);
+    resource->setCheckSum(QString());
+    return resource;
 }

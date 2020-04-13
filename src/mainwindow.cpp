@@ -26,9 +26,12 @@
 #include <Core/FileAccessManager>
 #include <Core/Format>
 #include <Core/Settings>
+#include <Core/Torrent>
+#include <Core/TorrentContext>
 #include <Core/UpdateChecker>
 #include <Dialogs/AddDownloadDialog>
 #include <Dialogs/AddStreamDialog>
+#include <Dialogs/AddTorrentDialog>
 #include <Dialogs/BatchRenameDialog>
 #include <Dialogs/CompilerDialog>
 #include <Dialogs/EditionDialog>
@@ -43,6 +46,7 @@
 #include <Io/FileWriter>
 #include <Widgets/DownloadQueueView>
 #include <Widgets/SystemTray>
+#include <Widgets/TorrentWidget>
 
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
@@ -93,6 +97,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     m_downloadManager->setSettings(m_settings);
 
+    TorrentContext& torrentContext =  TorrentContext::getInstance();
+    torrentContext.setSettings(m_settings);
+
     this->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     this->setAcceptDrops(true);
 #ifdef Q_OS_OSX
@@ -127,6 +134,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     connect(ui->downloadQueueView, SIGNAL(doubleClicked(IDownloadItem*)),
             this, SLOT(openFile(IDownloadItem*)));
 
+
+    /* Torrent Context Manager */
+    connect(&torrentContext, &TorrentContext::changed, this, &MainWindow::onTorrentContextChanged);
 
     /* File Access Manager */
     m_fileAccessManager->setSettings(m_settings);
@@ -258,6 +268,7 @@ void MainWindow::createActions()
     //! [3] Download
     connect(ui->actionAdd, SIGNAL(triggered()), this, SLOT(add()));
     connect(ui->actionAddStream, SIGNAL(triggered()), this, SLOT(addFromStream()));
+    connect(ui->actionAddTorrent, SIGNAL(triggered()), this, SLOT(addFromTorrent()));
     //--
     connect(ui->actionResume, SIGNAL(triggered()), this, SLOT(resume()));
     connect(ui->actionPause, SIGNAL(triggered()), this, SLOT(pause()));
@@ -410,8 +421,13 @@ void MainWindow::handleMessage(const QString &message)
     if (!cleaned.isEmpty()) {
 
         if (InterProcessCommunication::isUrl(cleaned)) {
-            // Assume it's an unique URL, so a HTML page.
-            openWizard(QUrl(cleaned));
+            QUrl url(cleaned);
+            if (url.scheme() == "magnet") {
+                addFromTorrent(url);
+            } else {
+                // Assume it's an unique URL, so a HTML page.
+                openWizard(url);
+            }
 
         } else if(InterProcessCommunication::isCommandOpenUrl(cleaned)) {
             const QUrl url = InterProcessCommunication::getCurrentUrl(cleaned);
@@ -420,8 +436,12 @@ void MainWindow::handleMessage(const QString &message)
         } else if(InterProcessCommunication::isCommandDownloadLink(cleaned)) {
             const QUrl url = InterProcessCommunication::getDownloadLink(cleaned);
 
-            if (AddStreamDialog::isStreamUrl(url, m_settings)) {
+            if (url.scheme() == "magnet") {
+                addFromTorrent(url);
+
+            } else if (AddStreamDialog::isStreamUrl(url, m_settings)) {
                 addFromStream(url);
+
             } else {
                 AddDownloadDialog::quickDownload(url, m_downloadManager);
             }
@@ -693,6 +713,17 @@ void MainWindow::addFromStream(const QUrl &url)
     dialog.exec();
 }
 
+void MainWindow::addFromTorrent()
+{
+    addFromTorrent(urlFromClipboard());
+}
+
+void MainWindow::addFromTorrent(const QUrl &url)
+{
+    AddTorrentDialog dialog(url, m_downloadManager, m_settings, this);
+    dialog.exec();
+}
+
 void MainWindow::resume()
 {
     foreach (auto item, m_downloadManager->selection()) {
@@ -826,6 +857,7 @@ void MainWindow::onJobFinished(IDownloadItem * downloadItem)
 void MainWindow::onSelectionChanged()
 {
     refreshMenus();
+    refreshSplitter();
 }
 
 void MainWindow::onJobRenamed(QString oldName, QString newName, bool success)
@@ -844,6 +876,11 @@ void MainWindow::onJobRenamed(QString oldName, QString newName, bool success)
     }
 }
 
+void MainWindow::onTorrentContextChanged()
+{
+    refreshTitleAndStatus();
+}
+
 void MainWindow::refreshTitleAndStatus()
 {
     auto speed = m_downloadManager->totalSpeed();
@@ -856,6 +893,8 @@ void MainWindow::refreshTitleAndStatus()
     const int failedCount = m_downloadManager->failedJobs().count();
     const int count = m_downloadManager->count();
     const int doneCount = completedCount + failedCount;
+
+    const bool torrent = TorrentContext::getInstance().isEnabled();
 
     auto windowTitle = QString("%0 %1/%2 - %3 v%4")
             .arg(totalSpeed).arg(doneCount).arg(count)
@@ -870,12 +909,13 @@ void MainWindow::refreshTitleAndStatus()
     m_systemTray->setToolTip(windowTitle);
 
     m_statusBarLabel->setText(
-                QString("%0 of %1 (%2), %3 running  %4")
+                QString("%0 of %1 (%2), %3 running  %4 | Torrent: %5")
                 .arg(doneCount)
                 .arg(count)
                 .arg(count)
                 .arg(runningCount)
-                .arg(totalSpeed).trimmed());
+                .arg(totalSpeed).trimmed()
+                .arg(torrent ? tr("active") : tr("inactive")));
 
 #ifdef USE_QT_WINEXTRAS
     if (m_winTaskbarProgress) {
@@ -999,6 +1039,21 @@ void MainWindow::refreshMenus()
     //ui->actionAboutQt->setEnabled(hasSelection);
     //ui->actionAboutCompiler->setEnabled(hasSelection);
     //! [5]
+}
+
+void MainWindow::refreshSplitter()
+{
+    if (m_downloadManager->selection().count() == 1) {
+        IDownloadItem *item = m_downloadManager->selection().first();
+        ui->torrentWidget->setDownloadItem(item);
+    } else {
+        ui->torrentWidget->setDownloadItem(Q_NULLPTR);
+    }
+    if (!ui->torrentWidget->isEmpty() /*&& option.showable */) {
+        ui->torrentWidget->show();
+    } else {
+        ui->torrentWidget->hide();
+    }
 }
 
 /******************************************************************************

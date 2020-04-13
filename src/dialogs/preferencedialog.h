@@ -50,12 +50,17 @@ private slots:
     void filterTextChanged();
     void maxSimultaneousDownloadSlided(int value);
 
+    void bandwidthSettingsChanged(int value);
+    void setBandwidthSettings();
+
 private:
     Ui::PreferenceDialog *ui;
     Settings *m_settings;
 
-    void initializeGui();
+    void connectUi();
+    void initializeUi();
     void initializeWarnings();
+
     void read();
     void write();
     void readSettings();

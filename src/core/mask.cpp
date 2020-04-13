@@ -70,6 +70,56 @@ static QString decodePercentEncoding(const QString &input)
     return decoded;
 }
 
+QString Mask::decodeMagnetEncoding(const QString &s)
+{
+    /*
+     * See  std::string unescape_string(string_view s, error_code& ec)
+     * in
+     * libtorrent/src/escape_string.cpp
+     */
+    QString ret;
+    for (auto i = s.begin(); i != s.end(); ++i) {
+        if (*i == '+') {
+            ret += ' ';
+        } else if (*i != '%') {
+            ret += *i;
+        } else {
+            ++i;
+            if (i == s.end()) {
+                // ec = errors::invalid_escaped_string;
+                return ret;
+            }
+
+            int high;
+            if (*i >= '0' && *i <= '9') high = (*i).toLatin1() - '0';
+            else if (*i >= 'A' && *i <= 'F') high = (*i).toLatin1() + 10 - 'A';
+            else if (*i >= 'a' && *i <= 'f') high = (*i).toLatin1() + 10 - 'a';
+            else {
+                // ec = errors::invalid_escaped_string;
+                return ret;
+            }
+
+            ++i;
+            if (i == s.end()) {
+                // ec = errors::invalid_escaped_string;
+                return ret;
+            }
+
+            int low;
+            if(*i >= '0' && *i <= '9') low = (*i).toLatin1() - '0';
+            else if(*i >= 'A' && *i <= 'F') low = (*i).toLatin1() + 10 - 'A';
+            else if(*i >= 'a' && *i <= 'f') low = (*i).toLatin1() + 10 - 'a';
+            else {
+                // ec = errors::invalid_escaped_string;
+                return ret;
+            }
+
+            ret += char(high * 16 + low);
+        }
+    }
+    return ret;
+}
+
 QUrl Mask::fromUserInput(const QString &input)
 {
     QString cleaned = decodePercentEncoding(input);

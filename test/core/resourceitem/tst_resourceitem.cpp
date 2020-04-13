@@ -75,6 +75,42 @@ void tst_ResourceItem::localFileUrl_data()
             << "A NEW FILE NAME"
             << QUrl("file:///C:/Temp/www.myweb.com/images/01/A NEW FILE NAME.gz");
 
+
+    // Magnet URI protocol
+    // https://en.wikipedia.org/wiki/Magnet_URI_scheme
+    QTest::newRow("magnet simple")
+            << "magnet:?&dn=Some.Files"
+            << "/home/me/documents/"
+            << "*name*.*ext*"
+            << ""
+            << QUrl("file:///home/me/documents/Some.Files.torrent");
+
+    QTest::newRow("magnet with info-hash and trackers")
+            << "magnet:?"
+               "&xt=urn:btih:0123456789abcdef0123456789abcdef"
+               "&dn=My.File-ISO"
+               "&tr=udp%3A%2F%2Ftracker.servertorrent.com%3A80"
+               "&tr=udp%3A%2F%2Ftracker.torrentserver.com%3A80"
+               "&tr=udp%3A%2F%2Ftracker.anothertorrentserver.com%3A80"
+            << "/home/me/documents/"
+            << "*name*.*ext*"
+            << ""
+            << QUrl("file:///home/me/documents/My.File-ISO.torrent");
+
+    QTest::newRow("magnet escaped")
+            << "magnet:?&dn=Some+Files+-+Hello.world%28Hi%29.1"
+            << "/home/me/documents/"
+            << "*name*.*ext*"
+            << ""
+            << QUrl("file:///home/me/documents/Some Files - Hello.world(Hi).1.torrent");
+
+    QTest::newRow("magnet no display name")
+            << "magnet:?&xt=urn:btih:0123456789abcdef0123456789abcdef"
+            << "/home/me/documents/"
+            << "*name*.*ext*"
+            << ""
+            << QUrl("file:///home/me/documents/[Wait... Downloading metadata...].torrent");
+
 }
 
 void tst_ResourceItem::localFileUrl()

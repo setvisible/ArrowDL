@@ -499,6 +499,10 @@ IDownloadItem* DownloadEngine::createItem(const QUrl &/*url*/)
 {
     return Q_NULLPTR;
 }
-
-/******************************************************************************
- ******************************************************************************/
+/*!
+ * \sa DownloadEngine::createItem()
+ */
+IDownloadItem* DownloadEngine::createTorrentItem(const QUrl &/*url*/, const QByteArray &/*data*/)
+{
+    return Q_NULLPTR;
+}

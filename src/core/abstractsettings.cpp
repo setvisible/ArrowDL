@@ -16,6 +16,8 @@
 
 #include "abstractsettings.h"
 
+#include <QtCore/QBuffer>
+#include <QtCore/QDataStream>
 #include <QtCore/QSettings>
 #include <QtCore/QString>
 #include <QtCore/QDebug>
@@ -199,6 +201,46 @@ void AbstractSettings::setSettingStringList(const QString &key, const QStringLis
         const QString& subvalue = value.at(i);
         setSettingString(subkey, subvalue);
     }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+static inline QString encode64(const QByteArray &bytes)
+{
+    return QString::fromUtf8(bytes.toBase64());
+}
+
+static inline QByteArray decode64(const QString &str)
+{
+    return QByteArray::fromBase64(str.toUtf8());
+}
+
+QString AbstractSettings::serialize(const QMap<QString, QVariant> &map) const
+{
+    if (map.isEmpty()) {
+        return QLatin1String(""); // do not return null string, but empty string
+    }
+    QBuffer buffer;
+    buffer.open(QBuffer::WriteOnly);
+    QDataStream out(&buffer);
+    out << map;
+    QByteArray bytes = buffer.buffer();
+    QString serialized = encode64(bytes);
+    return serialized;
+}
+
+QMap<QString, QVariant> AbstractSettings::deserialize(const QString &str) const
+{
+    QMap<QString, QVariant> map;
+    if (!str.isEmpty()) {
+        QByteArray bytes = decode64(str);
+        QBuffer buffer;
+        buffer.setBuffer(&bytes);
+        buffer.open(QBuffer::ReadOnly);
+        QDataStream in(&buffer);
+        in >> map;
+    }
+    return map;
 }
 
 /******************************************************************************

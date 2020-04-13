@@ -4,5 +4,6 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/io/ifilehandler.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/io/jsonhandler.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/io/texthandler.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/io/torrenthandler.cpp
     )
 

@@ -93,7 +93,6 @@ public:
     QString customBatchRange() const;
     void setCustomBatchRange(const QString &text);
 
-
     // Tab Privacy
     bool isRemoveCompletedEnabled() const;
     void setRemoveCompletedEnabled(bool enabled);
@@ -111,7 +110,21 @@ public:
     QList<Filter> filters() const;
     void setFilters(const QList<Filter> &filters);
 
-    // Tab Schedule
+    // Tab Torrent
+    bool isTorrentEnabled() const;
+    void setTorrentEnabled(bool enabled);
+
+    bool isTorrentShareFolderEnabled() const;
+    void setTorrentShareFolderEnabled(bool enabled);
+
+    QString shareFolder() const;
+    void setShareFolder(const QString &value);
+
+    QString torrentPeers() const;
+    void setTorrentPeers(const QString &value);
+
+    QMap<QString, QVariant> torrentSettings() const;
+    void setTorrentSettings(const QMap<QString, QVariant> &map);
 
     // Tab Advanced
     CheckUpdateBeatMode checkUpdateBeatMode() const;
