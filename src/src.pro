@@ -215,9 +215,19 @@ win32{
     INSTALLS += libs_openssl_to_copy
 }
 
-# install youtube-dl (for Windows only)
+# install youtube-dl
 win32{
     youtube_dl_executable_to_copy.files += $$PWD/../3rd/youtube-dl/bin/youtube-dl.exe
     youtube_dl_executable_to_copy.path = $${DESTDIR}
     INSTALLS += youtube_dl_executable_to_copy
+}
+unix{
+    youtube_dl_executable_to_copy.files += $$PWD/../3rd/youtube-dl/bin/youtube-dl
+    youtube_dl_executable_to_copy.path = $${DESTDIR}
+    INSTALLS += youtube_dl_executable_to_copy
+
+    # The binary is marked as executable *after* been copied
+    youtube_dl_executable_permission.path = $${DESTDIR}
+    youtube_dl_executable_permission.extra = chmod 775 $${DESTDIR}/youtube-dl
+    INSTALLS += youtube_dl_executable_permission
 }

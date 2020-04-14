@@ -36,7 +36,12 @@ static QString toString(QProcess *process);
 
 static QString s_youtubedl_version;
 
+#if defined Q_OS_WIN
 static const QString C_PROGRAM_NAME  = QLatin1String("youtube-dl.exe");
+#else
+static const QString C_PROGRAM_NAME  = QLatin1String("./youtube-dl");
+#endif
+
 static const QString C_WEBSITE_URL   = QLatin1String("http://ytdl-org.github.io/youtube-dl/");
 static const QString C_LEGAL_CHARS   = QLatin1String("' @()[]{}°#,.&");
 static const QString C_NONE          = QLatin1String("none");
@@ -57,7 +62,9 @@ Stream::Stream(QObject *parent) : QObject(parent)
   , m_process(new QProcess(this))
 {
     connect(m_process, SIGNAL(started()), this, SLOT(onStarted()));
+#if QT_VERSION >= 0x050600
     connect(m_process, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onErrorOccurred(QProcess::ProcessError)));
+#endif
     connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinished(int, QProcess::ExitStatus)));
     connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onStandardOutputReady()));
     connect(m_process, SIGNAL(readyReadStandardError()), this, SLOT(onStandardErrorReady()));
@@ -329,8 +336,10 @@ StreamInfoDownloader::StreamInfoDownloader(QObject *parent) : QObject(parent)
 {
     connect(m_process, SIGNAL(started()),
             this, SLOT(onStarted()));
+#if QT_VERSION >= 0x050600
     connect(m_process, SIGNAL(errorOccurred(QProcess::ProcessError)),
             this, SLOT(onErrorOccurred(QProcess::ProcessError)));
+#endif
     connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)),
             this, SLOT(onFinished(int, QProcess::ExitStatus)));
 }
@@ -426,15 +435,19 @@ StreamExtractorListCollector::StreamExtractorListCollector(QObject *parent) : QO
 {
     connect(m_processExtractors, SIGNAL(started()),
             this, SLOT(onStarted()));
+#if QT_VERSION >= 0x050600
     connect(m_processExtractors, SIGNAL(errorOccurred(QProcess::ProcessError)),
             this, SLOT(onErrorOccurred(QProcess::ProcessError)));
+#endif
     connect(m_processExtractors, SIGNAL(finished(int, QProcess::ExitStatus)),
             this, SLOT(onFinishedExtractors(int, QProcess::ExitStatus)));
 
     connect(m_processDescriptions, SIGNAL(started()),
             this, SLOT(onStarted()));
+#if QT_VERSION >= 0x050600
     connect(m_processDescriptions, SIGNAL(errorOccurred(QProcess::ProcessError)),
             this, SLOT(onErrorOccurred(QProcess::ProcessError)));
+#endif
     connect(m_processDescriptions, SIGNAL(finished(int, QProcess::ExitStatus)),
             this, SLOT(onFinishedDescriptions(int, QProcess::ExitStatus)));
 }
