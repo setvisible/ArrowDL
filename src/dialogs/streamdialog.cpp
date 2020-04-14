@@ -38,6 +38,7 @@ StreamDialog::StreamDialog(QWidget *parent)
     ui->link->setTextInteractionFlags(Qt::TextBrowserInteraction);
     ui->link->setOpenExternalLinks(true);
 
+    ui->plainTextEdit->setPlainText(tr("Collecting..."));
     ui->plainTextEdit->setEnabled(false);
 
     connect(m_streamCollector, SIGNAL(error(QString)), this, SLOT(onError(QString)));
