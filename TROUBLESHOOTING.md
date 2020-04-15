@@ -54,3 +54,60 @@ __Solution__
 Replace the faulty Qt5Core.dll (built on 03/11/2019) with the same version as the one of the other DLLs.
 
 Rem: In particular, Qt5Core.dll built on 02/11/2019 seems to work fine, but built on 03/11/2019 crashes.
+
+
+## Can't launch: "system lookup error" (Linux only)
+
+Error occuring:
+
+    > ./DownZemAll
+    ./DownZemAll: system lookup error: ./DownZemAll undefined symbol _ZN8QSysInfo8buildAbiEv
+
+The executable can't find some shared libraries,
+or the shared libraries (used for build) are different than the shared libraries called at runtime.
+
+For example, you build with *Qt 5.4.1* (`/opt/Qt5.4.1/5.4/gcc/lib`)
+but the runtime finds *Qt 5.2.0* (`/usr/lib/i386-linux-gnu/libQt5Core.so.5`).
+
+Look for the Runtime Search Path (RPATH):
+
+    > readelf -d ./DownZemAll | grep NEEDED
+    0x00000001 (NEEDED)   Shared Library: [libQt5Widgets.so.5]
+    0x00000001 (NEEDED)   Shared Library: [libQt5Network.so.5]
+    0x00000001 (NEEDED)   Shared Library: [libQt5Gui.so.5]
+    0x00000001 (NEEDED)   Shared Library: [libQt5Core.so.5]
+    0x00000001 (NEEDED)   Shared Library: [libstdc++.so.6]
+    0x00000001 (NEEDED)   Shared Library: [libm.so.6]
+    0x00000001 (NEEDED)   Shared Library: [libgcc_s.so.1]
+    0x00000001 (NEEDED)   Shared Library: [libc.so.6]
+
+    > readelf -d ./DownZemAll | grep RPATH
+    0x0000000f (RPATH)    Library rpath: [$ORIGIN]
+
+    > ldd ./DownZemAll | grep "not found"
+    libQt5Widgets.so.5 => not found
+
+
+__Solution 1__
+
+Set the correct runtime path with LD_LIBRARY_PATH:
+
+    > LD_LIBRARY_PATH=/opt/Qt5.4.1/5.4/gcc/lib ./DownZemAll
+
+Create a `DownZemAll.launcher` to set the correct path, or a script:
+
+    ```bash
+    #!/bin/bash
+    LD_LIBRARY_PATH=/opt/Qt5.4.1/5.4/gcc/lib
+    export LD_LIBRARY_PATH
+    ./DownZemAll
+    ```bash
+
+   
+__Solution 2__
+
+Build with the same Qt version as installed.
+
+
+source:
+[Understanding Dynamic Loading](https://amir.rachum.com/blog/2016/09/17/shared-libraries/ "https://amir.rachum.com/blog/2016/09/17/shared-libraries/")
