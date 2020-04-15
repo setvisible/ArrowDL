@@ -30,6 +30,7 @@ typedef QList<IDownloadItem*> DownloadRange;
 
 QT_BEGIN_NAMESPACE
 class QLabel;
+class QMimeData;
 QT_END_NAMESPACE
 
 #ifdef USE_QT_WINEXTRAS
@@ -56,6 +57,9 @@ protected:
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
     void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
     void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+
+    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
 
@@ -96,6 +100,7 @@ public slots:
 
     // Download
     void add();
+    void addFromUrl(const QUrl &url);
     void addFromStream();
     void resume();
     void cancel();
@@ -152,6 +157,7 @@ private:
 
     inline bool askConfirmation(const QString &text);
 
+    inline QUrl droppedUrl(const QMimeData* mimeData) const;
     inline QUrl urlFromClipboard() const;
 
     inline void setWorkingDirectory(const QString &path);

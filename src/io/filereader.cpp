@@ -41,8 +41,6 @@ FileReader::~FileReader()
 {
     if (m_device)
         delete m_device;
-    if (m_handler)
-        delete m_handler;
 }
 
 /******************************************************************************
@@ -72,7 +70,7 @@ bool FileReader::initHandler()
         }
     }
     // assign a handler
-    if (!m_handler && (m_handler = createReadHandlerHelper(m_device)) == Q_NULLPTR) {
+    if (m_handler.isNull() && (m_handler = createReadHandlerHelper(m_device)).isNull()) {
         m_fileReaderError = FileReader::UnsupportedFormatError;
         m_errorString = FileReader::tr("Unsupported format");
         return false;
@@ -88,7 +86,7 @@ bool FileReader::read(DownloadEngine *engine)
         qWarning("FileReader::read: cannot read into null pointer");
         return false;
     }
-    if (!m_handler && !initHandler()) {
+    if (m_handler.isNull() && !initHandler()) {
         return false;
     }
     const bool result = m_handler->read(engine);
@@ -114,9 +112,9 @@ QString FileReader::errorString() const
 
 /******************************************************************************
  ******************************************************************************/
-IFileHandler* FileReader::createReadHandlerHelper(QIODevice *device)
+IFileHandlerPtr FileReader::createReadHandlerHelper(QIODevice *device)
 {
-    IFileHandler *handler = Q_NULLPTR;
+    IFileHandlerPtr handler;
     QByteArray suffix;
 
     if (auto file = qobject_cast<QFile *>(device)) {
@@ -130,12 +128,12 @@ IFileHandler* FileReader::createReadHandlerHelper(QIODevice *device)
 
     /// \todo implement autoDetectFormat ?
 
-    if (!handler) {
+    if (handler.isNull()) {
         // no handler: give up.
-        return Q_NULLPTR;
+        return IFileHandlerPtr();
     }
     if (!handler->canRead()) {
-        return Q_NULLPTR;
+        return IFileHandlerPtr();
     }
     handler->setDevice(device);
     return handler;

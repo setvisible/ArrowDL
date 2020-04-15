@@ -33,7 +33,7 @@ FileWriter::FileWriter(QIODevice *device)
 }
 
 FileWriter::FileWriter(const QString &fileName)
-    :  m_device(new QFile(fileName))
+    : m_device(new QFile(fileName))
 {
 }
 
@@ -41,8 +41,6 @@ FileWriter::~FileWriter()
 {
     if (m_device)
         delete m_device;
-    if (m_handler)
-        delete m_handler;
 }
 
 /******************************************************************************
@@ -67,7 +65,7 @@ bool FileWriter::canWriteHelper()
         m_errorString = FileWriter::tr("Device not writable");
         return false;
     }
-    if (!m_handler && (m_handler = createWriteHandlerHelper(m_device)) == Q_NULLPTR) {
+    if (m_handler.isNull() && (m_handler = createWriteHandlerHelper(m_device)).isNull()) {
         m_fileWriterError = FileWriter::UnsupportedFormatError;
         m_errorString = FileWriter::tr("Unsupported format");
         return false;
@@ -127,10 +125,10 @@ QString FileWriter::errorString() const
 
 /******************************************************************************
  ******************************************************************************/
-IFileHandler *FileWriter::createWriteHandlerHelper(QIODevice *device)
+IFileHandlerPtr FileWriter::createWriteHandlerHelper(QIODevice *device)
 {
+    IFileHandlerPtr handler;
     QByteArray suffix;
-    IFileHandler *handler = Q_NULLPTR;
 
     if (device) {
         // if there's no format, see if \a device is a file, and if so, find
@@ -145,10 +143,10 @@ IFileHandler *FileWriter::createWriteHandlerHelper(QIODevice *device)
         handler = Io::findHandlerFromSuffix(suffix);
     }
     if (!handler) {
-        return Q_NULLPTR;
+        return IFileHandlerPtr();
     }
     if (!handler->canWrite()) {
-        return Q_NULLPTR;
+        return IFileHandlerPtr();
     }
     handler->setDevice(device);
     return handler;
