@@ -120,6 +120,8 @@ public:
     static QString version();
     static QString website();
 
+    static bool matchesHost(const QString &host, const QStringList &regexHosts);
+
     void clear();
     bool isEmpty();
 

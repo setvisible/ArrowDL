@@ -74,6 +74,12 @@ public:
     bool isConfirmBatchDownloadEnabled() const;
     void setConfirmBatchDownloadEnabled(bool enabled);
 
+    bool isStreamHostEnabled() const;
+    void setStreamHostEnabled(bool enabled);
+
+    QStringList streamHosts() const;
+    void setStreamHosts(const QStringList &hosts);
+
     // Tab Network
     int maxSimultaneousDownloads() const;
     void setMaxSimultaneousDownloads(int number);

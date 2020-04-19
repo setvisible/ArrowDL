@@ -71,6 +71,15 @@ AddStreamDialog::~AddStreamDialog()
 
 /******************************************************************************
  ******************************************************************************/
+bool AddStreamDialog::isStreamUrl(const QUrl &url, const Settings *settings)
+{
+    auto host = url.host();
+    auto regexHosts = settings->streamHosts();
+    return Stream::matchesHost(host, regexHosts);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void AddStreamDialog::accept()
 {
     doAccept(true);

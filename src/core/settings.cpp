@@ -38,6 +38,8 @@ static const QString REGISTRY_MAX_SIMULTANEOUS = "MaxSimultaneous";
 static const QString REGISTRY_CUSTOM_BATCH     = "CustomBatchEnabled";
 static const QString REGISTRY_CUSTOM_BATCH_BL  = "CustomBatchButtonLabel";
 static const QString REGISTRY_CUSTOM_BATCH_RGE = "CustomBatchRange";
+static const QString REGISTRY_STREAM_HOST      = "StreamHostEnabled";
+static const QString REGISTRY_STREAM_HOST_LIST = "StreamHosts";
 
 // Tab Privacy
 static const QString REGISTRY_REMOVE_COMPLETED = "PrivacyRemoveCompleted";
@@ -54,6 +56,15 @@ static const QString REGISTRY_FILTER_VALUE     = "FilterValue";
 // Tab Advanced
 static const QString REGISTRY_CHECK_UPDATE     = "CheckUpdate";
 
+
+static const QLatin1Char STREAM_HOST_SEPARATOR = QLatin1Char(' ');
+static const QList<QString> DEFAULT_STREAM_HOST_LIST =
+{
+    #include "settings_default_hosts.h.txt"
+};
+static const QString defaultStreamHost() {
+    return DEFAULT_STREAM_HOST_LIST.join(STREAM_HOST_SEPARATOR);
+}
 
 
 Settings::Settings(QObject *parent) : AbstractSettings(parent)
@@ -74,6 +85,8 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     addDefaultSettingBool(REGISTRY_CUSTOM_BATCH, true);
     addDefaultSettingString(REGISTRY_CUSTOM_BATCH_BL, QLatin1String("1 -> 25"));
     addDefaultSettingString(REGISTRY_CUSTOM_BATCH_RGE, QLatin1String("[1:25]"));
+    addDefaultSettingBool(REGISTRY_STREAM_HOST, true);
+    addDefaultSettingString(REGISTRY_STREAM_HOST_LIST, defaultStreamHost());
 
     // Tab Privacy
     addDefaultSettingBool(REGISTRY_REMOVE_COMPLETED, false);
@@ -197,6 +210,28 @@ bool Settings::isConfirmBatchDownloadEnabled() const
 void Settings::setConfirmBatchDownloadEnabled(bool enabled)
 {
     setSettingBool(REGISTRY_CONFIRM_BATCH, enabled);
+}
+
+bool Settings::isStreamHostEnabled() const
+{
+    return getSettingBool(REGISTRY_STREAM_HOST);
+}
+
+void Settings::setStreamHostEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_STREAM_HOST, enabled);
+}
+
+QStringList Settings::streamHosts() const
+{
+    return getSettingString(REGISTRY_STREAM_HOST_LIST)
+            .split(STREAM_HOST_SEPARATOR, QString::SkipEmptyParts);
+}
+
+void Settings::setStreamHosts(const QStringList &hosts)
+{
+    setSettingString(REGISTRY_STREAM_HOST_LIST,
+                     hosts.join(STREAM_HOST_SEPARATOR));
 }
 
 /******************************************************************************

@@ -41,6 +41,8 @@ public:
                              Settings *settings, QWidget *parent = Q_NULLPTR);
     ~AddStreamDialog() Q_DECL_OVERRIDE;
 
+    static bool isStreamUrl(const QUrl &url, const Settings *settings);
+
 public slots:
     void accept() Q_DECL_OVERRIDE;
     virtual void acceptPaused();

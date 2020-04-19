@@ -61,6 +61,9 @@ private:
     void readSettings();
     void writeSettings();
 
+    QStringList streamHosts() const;
+    void setStreamHosts(const QStringList &streamHosts);
+
     QList<Filter> filters() const;
     void setFilters(const QList<Filter> &filters);
 
