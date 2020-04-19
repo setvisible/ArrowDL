@@ -266,7 +266,7 @@
     <string>Stream...</string>
    </property>
    <property name="toolTip">
-    <string>Add from Stream</string>
+    <string>Add Stream</string>
    </property>
   </action>
   <action name="actionCancel">

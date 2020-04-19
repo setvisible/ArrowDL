@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>700</width>
-    <height>450</height>
+    <height>525</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -288,17 +288,57 @@ QTabBar::tab:hover:!selected {
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+        <widget class="QGroupBox" name="groupBox_10">
+         <property name="title">
+          <string>Video/Audio Stream</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>256</height>
-          </size>
-         </property>
-        </spacer>
+         <layout class="QVBoxLayout" name="verticalLayout_15">
+          <item>
+           <widget class="QCheckBox" name="streamHostCheckBox">
+            <property name="text">
+             <string>Use stream downloader if the URL comes from one of the following hosts:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPlainTextEdit" name="streamHostPlainTextEdit"/>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,0,1">
+            <item>
+             <widget class="QLabel" name="label_11">
+              <property name="text">
+               <string>Ex:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&amp;quot;https://&lt;span style=&quot; font-weight:600; color:#ff5500;&quot;&gt;www.youtube.com&lt;/span&gt;/watch?v=s-dSg5ljQI8&amp;quot;&lt;br/&gt;&amp;quot;https://&lt;span style=&quot; font-weight:600; color:#ff5500;&quot;&gt;youtu.be&lt;/span&gt;/s-dSg5ljQI8&amp;quot;&lt;br/&gt;&amp;quot;https://&lt;span style=&quot; font-weight:600; color:#ff5500;&quot;&gt;player.abcvision.tv&lt;/span&gt;/v=3451&amp;quot;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_12">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;-&amp;gt; host may be &amp;quot;youtube.com&amp;quot;, &amp;quot;youtube&amp;quot; or &amp;quot;www.youtube.com&amp;quot;&lt;br/&gt;-&amp;gt; host may be &amp;quot;&lt;span style=&quot; font-weight:600;&quot;&gt;youtu.be&lt;/span&gt;&amp;quot; but not &amp;quot;youtu.me&amp;quot;&lt;br/&gt;-&amp;gt; host may be &amp;quot;&lt;span style=&quot; font-weight:600;&quot;&gt;abcvision.tv:player&lt;/span&gt;&amp;quot;, &amp;quot;abcvision&amp;quot;  or &amp;quot;abcvision:player&amp;quot;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -881,7 +921,7 @@ QTabBar::tab:hover:!selected {
     </hint>
     <hint type="destinationlabel">
      <x>79</x>
-     <y>509</y>
+     <y>451</y>
     </hint>
    </hints>
   </connection>
@@ -896,8 +936,8 @@ QTabBar::tab:hover:!selected {
      <y>439</y>
     </hint>
     <hint type="destinationlabel">
-     <x>762</x>
-     <y>509</y>
+     <x>699</x>
+     <y>451</y>
     </hint>
    </hints>
   </connection>
@@ -946,6 +986,22 @@ QTabBar::tab:hover:!selected {
     <hint type="destinationlabel">
      <x>155</x>
      <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>streamHostCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>streamHostPlainTextEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>48</x>
+     <y>287</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>74</x>
+     <y>313</y>
     </hint>
    </hints>
   </connection>

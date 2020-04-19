@@ -419,7 +419,12 @@ void MainWindow::handleMessage(const QString &message)
 
         } else if(InterProcessCommunication::isCommandDownloadLink(cleaned)) {
             const QUrl url = InterProcessCommunication::getDownloadLink(cleaned);
-            AddDownloadDialog::quickDownload(url, m_downloadManager);
+
+            if (AddStreamDialog::isStreamUrl(url, m_settings)) {
+                addFromStream(url);
+            } else {
+                AddDownloadDialog::quickDownload(url, m_downloadManager);
+            }
 
         } else if(InterProcessCommunication::isCommandOpenManager(cleaned)) {
             // Do nothing, just keep the window as-is
@@ -679,7 +684,12 @@ void MainWindow::addFromUrl(const QUrl &url)
 
 void MainWindow::addFromStream()
 {
-    AddStreamDialog dialog(urlFromClipboard(), m_downloadManager, m_settings, this);
+    addFromStream(urlFromClipboard());
+}
+
+void MainWindow::addFromStream(const QUrl &url)
+{
+    AddStreamDialog dialog(url, m_downloadManager, m_settings, this);
     dialog.exec();
 }
 

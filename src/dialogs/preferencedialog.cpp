@@ -23,6 +23,8 @@
 #include <QtCore/QDebug>
 #include <QtCore/QSettings>
 #include <QtGui/QCloseEvent>
+#include <QtGui/QTextBlock>
+#include <QtGui/QTextDocument>
 #include <QtWidgets/QSystemTrayIcon>
 
 #define C_DEFAULT_WIDTH     700
@@ -105,6 +107,8 @@ void PreferenceDialog::initializeGui()
     ui->showSystemTrayIconCheckBox->setEnabled(QSystemTrayIcon::isSystemTrayAvailable());
     ui->hideWhenMinimizedCheckBox->setEnabled(ui->showSystemTrayIconCheckBox->isChecked());
     ui->showSystemTrayBalloonCheckBox->setEnabled(ui->showSystemTrayIconCheckBox->isChecked());
+
+    ui->streamHostPlainTextEdit->setEnabled(ui->streamHostCheckBox->isChecked());
 }
 
 void PreferenceDialog::initializeWarnings()
@@ -174,6 +178,8 @@ void PreferenceDialog::read()
     ui->showSystemTrayBalloonCheckBox->setChecked(m_settings->isSystemTrayBalloonEnabled());
     ui->confirmRemovalCheckBox->setChecked(m_settings->isConfirmRemovalEnabled());
     ui->confirmBatchCheckBox->setChecked(m_settings->isConfirmBatchDownloadEnabled());
+    ui->streamHostCheckBox->setChecked(m_settings->isStreamHostEnabled());
+    setStreamHosts(m_settings->streamHosts());
 
     // Tab Network
     ui->maxSimultaneousDownloadSlider->setValue(m_settings->maxSimultaneousDownloads());
@@ -211,6 +217,8 @@ void PreferenceDialog::write()
     m_settings->setSystemTrayBalloonEnabled(ui->showSystemTrayBalloonCheckBox->isChecked());
     m_settings->setConfirmRemovalEnabled(ui->confirmRemovalCheckBox->isChecked());
     m_settings->setConfirmBatchDownloadEnabled(ui->confirmBatchCheckBox->isChecked());
+    m_settings->setStreamHostEnabled(ui->streamHostCheckBox->isChecked());
+    m_settings->setStreamHosts(streamHosts());
 
     // Tab Network
     m_settings->setMaxSimultaneousDownloads(ui->maxSimultaneousDownloadSlider->value());
@@ -237,6 +245,30 @@ void PreferenceDialog::write()
     m_settings->setCheckUpdateBeatMode(mode);
 }
 
+
+/******************************************************************************
+ ******************************************************************************/
+void PreferenceDialog::setStreamHosts(const QStringList &streamHosts)
+{
+    ui->streamHostPlainTextEdit->clear();
+    foreach (auto streamHost, streamHosts) {
+        ui->streamHostPlainTextEdit->appendPlainText(streamHost);
+    }
+
+    // Scroll to top
+    ui->streamHostPlainTextEdit->moveCursor(QTextCursor::Start);
+    ui->streamHostPlainTextEdit->ensureCursorVisible();
+}
+
+QStringList PreferenceDialog::streamHosts() const
+{
+    QStringList streamHosts;
+    auto doc = ui->streamHostPlainTextEdit->document();
+    for (QTextBlock it = doc->begin(); it != doc->end(); it = it.next()) {
+        streamHosts.append(it.text().trimmed());
+    }
+    return streamHosts;
+}
 
 /******************************************************************************
  ******************************************************************************/

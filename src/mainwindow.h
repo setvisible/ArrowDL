@@ -102,6 +102,7 @@ public slots:
     void add();
     void addFromUrl(const QUrl &url);
     void addFromStream();
+    void addFromStream(const QUrl &url);
     void resume();
     void cancel();
     void pause();

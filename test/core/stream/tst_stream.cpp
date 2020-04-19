@@ -56,6 +56,9 @@ private slots:
 
     void defaultFormats();
     void defaultFormats_2();
+
+    void matchesHost_data();
+    void matchesHost();
 };
 
 class FriendlyStream : public Stream
@@ -379,6 +382,54 @@ void tst_Stream::defaultFormats_2()
         //qDebug() << actual.at(index)->toString();
         QCOMPARE(*actual.at(index), *expected.at(index)); // call (*ptr)->operator==()
     }
+}
+
+
+/******************************************************************************
+******************************************************************************/
+void tst_Stream::matchesHost_data()
+{
+    QTest::addColumn<QString>("inputHost");
+    QTest::addColumn<QStringList>("regexHosts");
+    QTest::addColumn<bool>("expected");
+
+    QTest::newRow("null") << QString() << QStringList() << false;
+    QTest::newRow("empty") << "" << QStringList() << false;
+
+    QTest::newRow("simple") << "www.absnews.com" << QStringList( {"absnews:videos"} ) << false;
+    QTest::newRow("simple") << "www.absnews.com" << QStringList( {"absnews.com"} ) << true;
+    QTest::newRow("simple") << "videos.absnews.com" << QStringList( {"absnews:videos"} ) << true;
+    QTest::newRow("simple") << "videos.absnews.com" << QStringList( {"absnews.com:videos"} ) << true;
+    QTest::newRow("simple") << "videos.www.absnews.com" << QStringList( {"absnews:videos"} ) << true;
+    QTest::newRow("simple") << "player.videos.absnews.com" << QStringList( {"absnews:videos:player"} ) << true;
+
+    QTest::newRow("simple list") << "www.youtube.com" << QStringList( {"youtube", "youtube.com"} ) << true;
+    QTest::newRow("case sensitive") << "www.bild.de" << QStringList( {"Bild"} ) << true;
+
+    QTest::newRow("contains") << "www.absnews.com" << QStringList( {"abs"} ) << false;
+    QTest::newRow("contains") << "www.absnews.com" << QStringList( {"news"} ) << false;
+    QTest::newRow("contains") << "www.absnews.com" << QStringList( {"news.com"} ) << false;
+
+    QTest::newRow("no match") << "www.aol-videos.com"  << QStringList( {"aol.com"} ) << false;
+    QTest::newRow("no match") << "www.aol-videos.com" << QStringList( {"aol"} ) << false;
+    QTest::newRow("no match") << "www.bildung.de" << QStringList( {"Bild"} ) << false;
+    QTest::newRow("no match list") << "www.youtube.de" << QStringList( {"youtu.be", "youtube.com", "youtube:video"} ) << false;
+
+    // colon symbol ':' -> With 'abcnews:video', the hostname must contains 'abcnews' and also 'video'
+    QTest::newRow("colon simple") << "video.abcnews.de" << QStringList( {"abcnews:video"} ) << true;
+    QTest::newRow("colon valid") << "video.news.abcnews.de"<< QStringList( {"abcnews:video"} ) << true;
+    QTest::newRow("colon invalid") << "www.abcnews.de" << QStringList( {"abcnews:video"} ) << false;
+
+}
+
+void tst_Stream::matchesHost()
+{
+    QFETCH(QString, inputHost);
+    QFETCH(QStringList, regexHosts);
+    QFETCH(bool, expected);
+
+    bool actual = Stream::matchesHost(inputHost, regexHosts);
+    QCOMPARE(actual, expected);
 }
 
 /******************************************************************************
