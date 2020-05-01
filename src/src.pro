@@ -115,7 +115,6 @@ win32|unix {
 #-------------------------------------------------
 # BUILD OPTIONS
 #-------------------------------------------------
-
 # Rem: On Ubuntu, directories starting with '.' are hidden by default
 win32{
     MOC_DIR =      ./.moc
@@ -127,9 +126,14 @@ win32{
     UI_DIR =       ./_ui
 }
 
+
 #-------------------------------------------------
 # OUTPUT
 #-------------------------------------------------
+# Disable qDebug() output in release mode
+CONFIG(release, debug|release) {
+    DEFINES += QT_NO_DEBUG_OUTPUT
+}
 
 
 #-------------------------------------------------
@@ -230,4 +234,9 @@ unix{
     youtube_dl_executable_permission.path = $${DESTDIR}
     youtube_dl_executable_permission.extra = chmod 775 $${DESTDIR}/youtube-dl
     INSTALLS += youtube_dl_executable_permission
+}
+
+isEmpty(INSTALLS){
+    message("INSTALLS is empty, QtCreator > Projects > Build Steps >" \
+            "Make arguments should be empty too.")
 }

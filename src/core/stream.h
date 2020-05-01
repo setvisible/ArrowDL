@@ -103,7 +103,7 @@ public:
     QString thumbnail;      // (string): thumbnail URL
     QString extractor;      // (string): Name of the extractor
     QString extractor_key;  // (string): Key name of the extractor
-    QString format_id;      //(string): Format code specified by --format
+    QString format_id;      // (string): Format code specified by --format
     QList<StreamFormat*> formats;
     QString playlist;       // (string): Name or id of the playlist that contains the video
     QString playlist_index; // (numeric): Index of the video in the playlist padded with leading zeros according to the total length of the playlist

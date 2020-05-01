@@ -313,10 +313,10 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionCancel);
     contextMenu->addSeparator();
     contextMenu->addAction(ui->actionRemoveCompletedDownloads);
-    contextMenu->addAction(ui->actionRemoveDownloads);
+    contextMenu->addAction(ui->actionRemoveAll1);
 
     QMenu *remove = contextMenu->addMenu(tr("Other"));
-    remove->addAction(ui->actionRemoveAll1);
+    remove->addAction(ui->actionRemoveDownloads);
     remove->addSeparator();
     remove->addAction(ui->actionCleanGoneFiles);
     remove->addSeparator();
@@ -374,7 +374,7 @@ void MainWindow::openWizard()
     // ask for the Url
     QInputDialog dialog(this);
     dialog.setWindowTitle(tr("Website URL"));
-    dialog.setLabelText(tr("Url:"));
+    dialog.setLabelText(tr("URL of the HTML page:  (ex: \"https://www.site.com/folder/page\")"));
     dialog.setTextValue(urlFromClipboard().toString());
     dialog.setOkButtonText(tr("Start!"));
     dialog.setTextEchoMode(QLineEdit::Normal);

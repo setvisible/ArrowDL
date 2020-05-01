@@ -23,7 +23,7 @@
 #include <QtCore/QUrl>
 
 ResourceItem::ResourceItem()
-    :  m_url(QString())
+    : m_url(QString())
     , m_destination(QString())
     , m_mask(QString())
     , m_customFileName(QString())
@@ -186,7 +186,7 @@ QString ResourceItem::streamFileName() const
     return m_streamFileName;
 }
 
-void ResourceItem::setStreamFileName(QString streamFileName)
+void ResourceItem::setStreamFileName(const QString &streamFileName)
 {
     m_streamFileName = streamFileName;
 }
@@ -198,7 +198,7 @@ QString ResourceItem::streamFormatId() const
     return m_streamFormatId;
 }
 
-void ResourceItem::setStreamFormatId(QString streamFormatId)
+void ResourceItem::setStreamFormatId(const QString &streamFormatId)
 {
     m_streamFormatId = streamFormatId;
 }

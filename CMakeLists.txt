@@ -1,6 +1,6 @@
 # CMakeLists.txt
 #
-# Copyright (C) 2019 Sebastien Vavassori
+# Copyright (C) 2019-2020 Sebastien Vavassori
 #
 # This code is released under the LGPL license v3.0.
 # For conditions of distribution and use, see the disclaimer
@@ -28,7 +28,7 @@ if (NOT versionFile)
     message(FATAL_ERROR "Unable to determine DownZemAll version. Version file is missing.")
 endif()
 string(STRIP "${versionFile}" DOWNZEMALL_VERSION)
-# add a dependency on the versino file
+# add a dependency on the version file
 set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS version)
 
 # split version string into components, note CMAKE_MATCH_0 is the entire regexp match

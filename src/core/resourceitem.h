@@ -60,10 +60,10 @@ public:
     void setStreamEnabled(bool enabled);
 
     QString streamFileName() const;
-    void setStreamFileName(QString streamFileName);
+    void setStreamFileName(const QString &streamFileName);
 
     QString streamFormatId() const;
-    void setStreamFormatId(QString streamFormatId);
+    void setStreamFormatId(const QString &streamFormatId);
 
     qint64 streamFileSize() const;
     void setStreamFileSize(qint64 streamFileSize);
