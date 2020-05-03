@@ -63,6 +63,7 @@ before_install:
   - if [ "$QT_BASE" = "55"  ]; then sudo add-apt-repository ppa:beineri/opt-qt551-trusty -y; fi
   - sudo apt-get update -qq
 
+
 install:
   - if [ "$QT_BASE" = "55"  ]; then sudo apt-get install -qq qt55base qt55multimedia qt55translations qt55tools ; source /opt/qt55/bin/qt55-env.sh ; export QTHOME=/opt/qt55 ; fi
 
@@ -77,6 +78,28 @@ install:
   - GPPDumpMachine=`g++ -dumpmachine`
   - echo "GCC Dump Machine = '${GCCDumpMachine}'"  # x86_64-linux-gnu
   - echo "G++ Dump Machine = '${GPPDumpMachine}'"  # x86_64-linux-gnu
+
+  - echo "Boost"
+#  - sudo apt-get install libboost-all-dev # Not good : may install wrong version libboost-all-1.54.0
+#  - whereis boost # /usr/include/boost
+
+  - echo "Downloading Boost..."
+  - curl --location --output ./3rd/boost/1.72.0/unix/boost_1_72_0.tar.bz2 https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.bz2 
+    # curl -L, --location: in case there is a redirect found
+
+  - echo "Installing Boost..."
+# Current Directory = /home/travis/build/setvisible/DownZemAll
+  - MY_BOOST_DIR="$HOME/boost_1_72_0"
+  - echo "Extracting Boost archive to ${MY_BOOST_DIR}..."
+  - mkdir ${MY_BOOST_DIR}
+  - tar --bzip2 -x -f ./3rd/boost/1.72.0/unix/boost_1_72_0.tar.bz2 -C ${MY_BOOST_DIR}
+#  - echo "Add Boost to environment PATH..."
+#  - export PATH="$PATH:${MY_BOOST_DIR}/boost_1_72_0"
+
+
+# split all with ':' in PATH and echo each line so that it's easier to read
+  - echo PATH =
+  - for i in `sed 's/:/\n/g' <<< "$PATH"`; do echo $i; done
 
 
 #---------------------------------#
@@ -98,6 +121,7 @@ script:
       -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
       -DCMAKE_INSTALL_PREFIX="./../install-DownZemAll-cmake"
       -DENABLE_TESTS=ON
+      -DBOOST_ROOT:PATH=${MY_BOOST_DIR}/boost_1_72_0
   - cmake --build .
 
 #---------------------------------#
