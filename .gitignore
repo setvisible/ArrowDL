@@ -13,6 +13,7 @@
 !/src
 !/test
 !/web-extension
+!/.gitattributes
 !/.gitignore
 !/.appveyor.yml
 !/.travis.yml
