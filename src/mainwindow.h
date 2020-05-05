@@ -64,11 +64,6 @@ protected:
 public slots:
 
     // File
-    void openWizard();
-    void openWizard(const QUrl &url);
-    void openWizard(const QString &message);
-    void handleMessage(const QString &message);
-
     void importFromFile();
     void exportSelectedToFile();
 
@@ -99,12 +94,17 @@ public slots:
     void removeRunning();
 
     // Download
-    void add();
-    void addFromUrl(const QUrl &url);
-    void addFromStream();
-    void addFromStream(const QUrl &url);
-    void addFromTorrent();
-    void addFromTorrent(const QUrl &url);
+    void handleMessage(const QString &message);
+    void home();
+    void addContent();
+    void addContent(const QUrl &url);
+    void addContent(const QString &message);
+    void addBatch();
+    void addBatch(const QUrl &url);
+    void addStream();
+    void addStream(const QUrl &url);
+    void addTorrent();
+    void addTorrent(const QUrl &url);
     void resume();
     void cancel();
     void pause();

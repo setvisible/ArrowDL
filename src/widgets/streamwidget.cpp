@@ -34,6 +34,8 @@ StreamWidget::StreamWidget(QWidget *parent) : QWidget(parent)
 {
     ui->setupUi(this);
 
+    adjustSize();
+
     setState(Empty);
 
     connect(ui->defaultButton, SIGNAL(released()), this, SLOT(updateButtonBar()));

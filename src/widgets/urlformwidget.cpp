@@ -24,6 +24,9 @@ UrlFormWidget::UrlFormWidget(QWidget *parent) : QWidget(parent)
 {
     ui->setupUi(this);
 
+    adjustSize();
+    setFixedHeight(height());
+
     ui->pathWidget->setPathType(PathWidget::Directory);
 
     connect(ui->pathWidget, SIGNAL(currentPathChanged(QString)),

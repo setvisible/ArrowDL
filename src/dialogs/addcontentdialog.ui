@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>WizardDialog</class>
- <widget class="QDialog" name="WizardDialog">
+ <class>AddContentDialog</class>
+ <widget class="QDialog" name="AddContentDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>DownZemAll - Make Your Selection</string>
+   <string>DownZemAll - Add Web Page Content</string>
   </property>
   <property name="styleSheet">
    <string notr="true">/* QGroupBox exposes the title as QString (even if internally its probably a QLabel) */
@@ -365,7 +365,7 @@ QGroupBox {
   <connection>
    <sender>startButton</sender>
    <signal>released()</signal>
-   <receiver>WizardDialog</receiver>
+   <receiver>AddContentDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -381,7 +381,7 @@ QGroupBox {
   <connection>
    <sender>addPausedButton</sender>
    <signal>released()</signal>
-   <receiver>WizardDialog</receiver>
+   <receiver>AddContentDialog</receiver>
    <slot>acceptPaused()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -397,7 +397,7 @@ QGroupBox {
   <connection>
    <sender>cancelButton</sender>
    <signal>released()</signal>
-   <receiver>WizardDialog</receiver>
+   <receiver>AddContentDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

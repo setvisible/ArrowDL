@@ -29,18 +29,19 @@
 #include <Core/Torrent>
 #include <Core/TorrentContext>
 #include <Core/UpdateChecker>
-#include <Dialogs/AddDownloadDialog>
+#include <Dialogs/AddBatchDialog>
+#include <Dialogs/AddContentDialog>
 #include <Dialogs/AddStreamDialog>
 #include <Dialogs/AddTorrentDialog>
 #include <Dialogs/BatchRenameDialog>
 #include <Dialogs/CompilerDialog>
 #include <Dialogs/EditionDialog>
+#include <Dialogs/HomeDialog>
 #include <Dialogs/InformationDialog>
 #include <Dialogs/PreferenceDialog>
 #include <Dialogs/StreamDialog>
 #include <Dialogs/TutorialDialog>
 #include <Dialogs/UpdateDialog>
-#include <Dialogs/WizardDialog>
 #include <Ipc/InterProcessCommunication>
 #include <Io/FileReader>
 #include <Io/FileWriter>
@@ -224,7 +225,7 @@ void MainWindow::dropEvent(QDropEvent *event)
         if (url.isLocalFile()) {
             loadFile(url.toLocalFile());
         } else {
-            addFromUrl(url);
+            addBatch(url);
         }
     }
 }
@@ -234,8 +235,6 @@ void MainWindow::dropEvent(QDropEvent *event)
 void MainWindow::createActions()
 {
     //! [0] File
-    connect(ui->actionImportWizard, SIGNAL(triggered()), this, SLOT(openWizard()));
-    // --
     connect(ui->actionImportFromFile, SIGNAL(triggered()), this, SLOT(importFromFile()));
     connect(ui->actionExportSelectedToFile, SIGNAL(triggered()), this, SLOT(exportSelectedToFile()));
     // --
@@ -277,9 +276,12 @@ void MainWindow::createActions()
     //! [2]
 
     //! [3] Download
-    connect(ui->actionAdd, SIGNAL(triggered()), this, SLOT(add()));
-    connect(ui->actionAddStream, SIGNAL(triggered()), this, SLOT(addFromStream()));
-    connect(ui->actionAddTorrent, SIGNAL(triggered()), this, SLOT(addFromTorrent()));
+    connect(ui->actionHome, &QAction::triggered, this, &MainWindow::home);
+    //--
+    connect(ui->actionAddContent, SIGNAL(triggered()), this, SLOT(addContent()));
+    connect(ui->actionAddBatch,   SIGNAL(triggered()), this, SLOT(addBatch()));
+    connect(ui->actionAddStream,  SIGNAL(triggered()), this, SLOT(addStream()));
+    connect(ui->actionAddTorrent, SIGNAL(triggered()), this, SLOT(addTorrent()));
     //--
     connect(ui->actionResume, SIGNAL(triggered()), this, SLOT(resume()));
     connect(ui->actionPause, SIGNAL(triggered()), this, SLOT(pause()));
@@ -401,87 +403,6 @@ void MainWindow::propagateToolTips()
             if (action->statusTip().isEmpty()) {
                 action->setStatusTip(str);
             }
-        }
-    }
-}
-
-/******************************************************************************
- ******************************************************************************/
-void MainWindow::openWizard()
-{
-    // ask for the Url
-    QInputDialog dialog(this);
-    dialog.setWindowTitle(tr("Website URL"));
-    dialog.setLabelText(tr("URL of the HTML page:  (ex: \"https://www.site.com/folder/page\")"));
-    dialog.setTextValue(urlFromClipboard().toString());
-    dialog.setOkButtonText(tr("Start!"));
-    dialog.setTextEchoMode(QLineEdit::Normal);
-    dialog.setInputMode(QInputDialog::TextInput);
-    dialog.setInputMethodHints(Qt::ImhUrlCharactersOnly);
-    dialog.resize(600,400);
-
-    const int ret = dialog.exec();
-    const QUrl url = QUrl(dialog.textValue());
-    if (ret && !url.isEmpty()) {
-        openWizard(url);
-    }
-}
-
-void MainWindow::openWizard(const QUrl &url)
-{
-    WizardDialog dialog(m_downloadManager, m_settings, this);
-    dialog.loadUrl(url);
-    dialog.exec();
-}
-
-void MainWindow::openWizard(const QString &message)
-{
-    WizardDialog dialog(m_downloadManager, m_settings, this);
-    dialog.loadResources(message);
-    dialog.exec();
-}
-
-void MainWindow::handleMessage(const QString &message)
-{
-    qDebug() << Q_FUNC_INFO << message;
-    const QString cleaned = InterProcessCommunication::clean(message);
-    if (!cleaned.isEmpty()) {
-
-        if (InterProcessCommunication::isUrl(cleaned)) {
-            QUrl url(cleaned);
-            if (url.scheme() == "magnet") {
-                addFromTorrent(url);
-            } else {
-                // Assume it's an unique URL, so a HTML page.
-                openWizard(url);
-            }
-
-        } else if(InterProcessCommunication::isCommandOpenUrl(cleaned)) {
-            const QUrl url = InterProcessCommunication::getCurrentUrl(cleaned);
-            openWizard(url);
-
-        } else if(InterProcessCommunication::isCommandDownloadLink(cleaned)) {
-            const QUrl url = InterProcessCommunication::getDownloadLink(cleaned);
-
-            if (url.scheme() == "magnet") {
-                addFromTorrent(url);
-
-            } else if (AddStreamDialog::isStreamUrl(url, m_settings)) {
-                addFromStream(url);
-
-            } else {
-                AddDownloadDialog::quickDownload(url, m_downloadManager);
-            }
-
-        } else if(InterProcessCommunication::isCommandOpenManager(cleaned)) {
-            // Do nothing, just keep the window as-is
-
-        } else if(InterProcessCommunication::isCommandShowPreferences(cleaned)) {
-            showPreferences();
-
-        } else {
-            // Otherwise, assume it's a list of resources.
-            openWizard(cleaned);
         }
     }
 }
@@ -725,37 +646,149 @@ void MainWindow::removeRunning()
 
 /******************************************************************************
  ******************************************************************************/
+void MainWindow::handleMessage(const QString &message)
+{
+    qDebug() << Q_FUNC_INFO << message;
+    const QString cleaned = InterProcessCommunication::clean(message);
+    if (!cleaned.isEmpty()) {
+
+        if (InterProcessCommunication::isSingleUrl(cleaned)) {
+            QUrl url(cleaned);
+            if (AddTorrentDialog::isTorrentUrl(url)) {
+                addTorrent(url);
+
+            } else if (AddStreamDialog::isStreamUrl(url, m_settings)) {
+                addStream(url);
+
+            } else {
+                // Assume the URL is a HTML page address,
+                // so that the program downloads the content
+                addContent(url);
+            }
+
+        } else if(InterProcessCommunication::isCommandOpenUrl(cleaned)) {
+            const QUrl url = InterProcessCommunication::getCurrentUrl(cleaned);
+            addContent(url);
+
+        } else if(InterProcessCommunication::isCommandDownloadLink(cleaned)) {
+            const QUrl url = InterProcessCommunication::getDownloadLink(cleaned);
+
+            if (AddTorrentDialog::isTorrentUrl(url)) {
+                addTorrent(url);
+
+            } else if (AddStreamDialog::isStreamUrl(url, m_settings)) {
+                addStream(url);
+
+            } else {
+                AddBatchDialog::quickDownload(url, m_downloadManager);
+            }
+
+        } else if(InterProcessCommunication::isCommandOpenManager(cleaned)) {
+            // Try to popup the window.
+            // Rem: on Windows, it's not possible for an application
+            // to raise its main window itself, by design.
+            // See QWidget::activateWindow() doc, section "behavior under windows"
+            activateWindow();
+
+        } else if(InterProcessCommunication::isCommandShowPreferences(cleaned)) {
+            showPreferences();
+
+        } else {
+            // Otherwise, assume it's a list of resources
+            addContent(cleaned);
+        }
     }
 }
 
-void MainWindow::add()
+/******************************************************************************
+ ******************************************************************************/
+void MainWindow::home()
 {
-    addFromUrl(urlFromClipboard());
+    HomeDialog dialog(this);
+    int reply = dialog.exec();
+    if (reply == static_cast<int>(HomeDialog::Content)) {
+        addContent();
+    } else if (reply == static_cast<int>(HomeDialog::Batch)) {
+        addBatch();
+    } else if (reply == static_cast<int>(HomeDialog::Stream)) {
+        addStream();
+    } else if (reply == static_cast<int>(HomeDialog::Torrent)) {
+        addTorrent();
+    }
 }
 
-void MainWindow::addFromUrl(const QUrl &url)
+/******************************************************************************
+ ******************************************************************************/
+void MainWindow::addContent()
 {
-    AddDownloadDialog dialog(url, m_downloadManager, m_settings, this);
+    // ask for the Url
+    QInputDialog dialog(this);
+    dialog.setWindowTitle(tr("Website URL"));
+    dialog.setLabelText(tr("URL of the HTML page:  (ex: \"https://www.site.com/folder/page\")"));
+    dialog.setTextValue(urlFromClipboard().toString());
+    dialog.setOkButtonText(tr("Start!"));
+    dialog.setTextEchoMode(QLineEdit::Normal);
+    dialog.setInputMode(QInputDialog::TextInput);
+    dialog.setInputMethodHints(Qt::ImhUrlCharactersOnly);
+    dialog.setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    dialog.adjustSize();
+    dialog.resize(600, dialog.height());
+
+    const int ret = dialog.exec();
+    const QUrl url = QUrl(dialog.textValue());
+    if (ret && !url.isEmpty()) {
+        addContent(url);
+    }
+}
+
+void MainWindow::addContent(const QUrl &url)
+{
+    AddContentDialog dialog(m_downloadManager, m_settings, this);
+    dialog.loadUrl(url);
     dialog.exec();
 }
 
-void MainWindow::addFromStream()
+void MainWindow::addContent(const QString &message)
 {
-    addFromStream(urlFromClipboard());
+    AddContentDialog dialog(m_downloadManager, m_settings, this);
+    dialog.loadResources(message);
+    dialog.exec();
 }
 
-void MainWindow::addFromStream(const QUrl &url)
+/******************************************************************************
+ ******************************************************************************/
+void MainWindow::addBatch()
+{
+    addBatch(urlFromClipboard());
+}
+
+void MainWindow::addBatch(const QUrl &url)
+{
+    AddBatchDialog dialog(url, m_downloadManager, m_settings, this);
+    dialog.exec();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void MainWindow::addStream()
+{
+    addStream(urlFromClipboard());
+}
+
+void MainWindow::addStream(const QUrl &url)
 {
     AddStreamDialog dialog(url, m_downloadManager, m_settings, this);
     dialog.exec();
 }
 
-void MainWindow::addFromTorrent()
+/******************************************************************************
+ ******************************************************************************/
+void MainWindow::addTorrent()
 {
-    addFromTorrent(urlFromClipboard());
+    addTorrent(urlFromClipboard());
 }
 
-void MainWindow::addFromTorrent(const QUrl &url)
+void MainWindow::addTorrent(const QUrl &url)
 {
     AddTorrentDialog dialog(url, m_downloadManager, m_settings, this);
     dialog.exec();
@@ -1010,8 +1043,6 @@ void MainWindow::refreshMenus()
     }
 
     //! [0] File
-    //ui->actionImportWizard->setEnabled(hasSelection);
-    // --
     //ui->actionImportFromFile->setEnabled(hasSelection);
     ui->actionExportSelectedToFile->setEnabled(hasSelection);
     // --
@@ -1051,7 +1082,6 @@ void MainWindow::refreshMenus()
     //! [2]
 
     //! [3] Download
-    //ui->actionAdd->setEnabled(hasSelection);
     //--
     ui->actionResume->setEnabled(hasResumableSelection);
     ui->actionPause->setEnabled(hasPausableSelection);

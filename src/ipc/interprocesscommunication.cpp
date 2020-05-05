@@ -91,7 +91,7 @@ QString InterProcessCommunication::clean(const QString &message)
     return cleaned.trimmed();
 }
 
-bool InterProcessCommunication::isUrl(const QString &message)
+bool InterProcessCommunication::isSingleUrl(const QString &message)
 {
     return !message.trimmed().contains(QChar::Space, Qt::CaseInsensitive);
 }

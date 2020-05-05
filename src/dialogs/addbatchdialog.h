@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,8 +14,8 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGS_ADD_DOWNLOAD_DIALOG_H
-#define DIALOGS_ADD_DOWNLOAD_DIALOG_H
+#ifndef DIALOGS_ADD_BATCH_DIALOG_H
+#define DIALOGS_ADD_BATCH_DIALOG_H
 
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QMessageBox>
@@ -25,17 +25,17 @@ class DownloadManager;
 class Settings;
 
 namespace Ui {
-class AddDownloadDialog;
+class AddBatchDialog;
 }
 
-class AddDownloadDialog : public QDialog
+class AddBatchDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit AddDownloadDialog(const QUrl &url, DownloadManager *downloadManager,
-                               Settings *settings, QWidget *parent = Q_NULLPTR);
-    ~AddDownloadDialog() Q_DECL_OVERRIDE;
+    explicit AddBatchDialog(const QUrl &url, DownloadManager *downloadManager,
+                            Settings *settings, QWidget *parent = Q_NULLPTR);
+    ~AddBatchDialog() Q_DECL_OVERRIDE;
 
     static void quickDownload(const QUrl &url, DownloadManager *downloadManager);
 
@@ -54,7 +54,7 @@ private slots:
     void onChanged(QString);
 
 private:
-    Ui::AddDownloadDialog *ui;
+    Ui::AddBatchDialog *ui;
     DownloadManager *m_downloadManager;
     Settings *m_settings;
 
@@ -69,4 +69,4 @@ private:
     void writeSettings();
 };
 
-#endif // DIALOGS_ADD_DOWNLOAD_DIALOG_H
+#endif // DIALOGS_ADD_BATCH_DIALOG_H

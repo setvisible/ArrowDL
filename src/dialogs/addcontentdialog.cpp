@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,8 +14,8 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "wizarddialog.h"
-#include "ui_wizarddialog.h"
+#include "addcontentdialog.h"
+#include "ui_addcontentdialog.h"
 
 #include <Core/HtmlParser>
 #include <Core/DownloadItem>
@@ -64,10 +64,10 @@ static QList<IDownloadItem*> createItems( QList<ResourceItem*> resources, Downlo
 }
 
 
-WizardDialog::WizardDialog(DownloadManager *downloadManager,
-                           Settings *settings, QWidget *parent)
+AddContentDialog::AddContentDialog(DownloadManager *downloadManager,
+                                   Settings *settings, QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::WizardDialog)
+    , ui(new Ui::AddContentDialog)
     , m_downloadManager(downloadManager)
     , m_model(new Model(this))
     #ifdef USE_QT_WEBENGINE
@@ -99,20 +99,20 @@ WizardDialog::WizardDialog(DownloadManager *downloadManager,
     readSettings();
 }
 
-WizardDialog::~WizardDialog()
+AddContentDialog::~AddContentDialog()
 {
     delete ui;
 }
 
 /******************************************************************************
  ******************************************************************************/
-void WizardDialog::closeEvent(QCloseEvent *event)
+void AddContentDialog::closeEvent(QCloseEvent *event)
 {
     writeSettings();
     event->accept();
 }
 
-int WizardDialog::exec()
+int AddContentDialog::exec()
 {
     switch (m_bypass) {
     case None:
@@ -129,21 +129,21 @@ int WizardDialog::exec()
     return DialogCode::Accepted;
 }
 
-void WizardDialog::accept()
+void AddContentDialog::accept()
 {
     start(true);
     writeSettings();
     QDialog::accept();
 }
 
-void WizardDialog::acceptPaused()
+void AddContentDialog::acceptPaused()
 {
     start(false);
     writeSettings();
     QDialog::accept();
 }
 
-void WizardDialog::reject()
+void AddContentDialog::reject()
 {
     writeSettings();
     QDialog::reject();
@@ -151,7 +151,7 @@ void WizardDialog::reject()
 
 /******************************************************************************
  ******************************************************************************/
-void WizardDialog::start(bool started)
+void AddContentDialog::start(bool started)
 {
     if (m_downloadManager) {
         QList<IDownloadItem*> items = createItems(m_model->selection(), m_downloadManager);
@@ -161,14 +161,14 @@ void WizardDialog::start(bool started)
 
 /******************************************************************************
  ******************************************************************************/
-void WizardDialog::loadResources(const QString &message)
+void AddContentDialog::loadResources(const QString &message)
 {
     parseResources(message);
 }
 
 /******************************************************************************
  ******************************************************************************/
-void WizardDialog::loadUrl(const QUrl &url)
+void AddContentDialog::loadUrl(const QUrl &url)
 {
     if (!url.isValid()) {
         QMessageBox::warning(this, tr("Warning"),
@@ -212,14 +212,14 @@ void WizardDialog::loadUrl(const QUrl &url)
 /******************************************************************************
  ******************************************************************************/
 #ifdef USE_QT_WEBENGINE
-void WizardDialog::onLoadProgress(int progress)
+void AddContentDialog::onLoadProgress(int progress)
 {
     /* Between 1% and 90% */
     progress = qMin(qFloor(0.90 * progress), 90);
     setProgressInfo(progress, tr("Downloading..."));
 }
 
-void WizardDialog::onLoadFinished(bool finished)
+void AddContentDialog::onLoadFinished(bool finished)
 {
     if (finished) {
         /*
@@ -238,13 +238,13 @@ void WizardDialog::onLoadFinished(bool finished)
     }
 }
 
-void WizardDialog::onHtmlReceived(QString content)
+void AddContentDialog::onHtmlReceived(QString content)
 {
     QByteArray downloadedData = content.toUtf8();
     parseHtml(downloadedData);
 }
 #else
-void WizardDialog::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
+void AddContentDialog::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     /* Between 1% and 90% */
     int percent = 1;
@@ -254,7 +254,7 @@ void WizardDialog::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
     setProgressInfo(percent, tr("Downloading..."));
 }
 
-void WizardDialog::onFinished()
+void AddContentDialog::onFinished()
 {
     auto reply = qobject_cast<QNetworkReply*>(sender());
     if (reply && reply->error() == QNetworkReply::NoError) {
@@ -269,7 +269,7 @@ void WizardDialog::onFinished()
 
 /******************************************************************************
  ******************************************************************************/
-void WizardDialog::parseResources(const QString &message)
+void AddContentDialog::parseResources(const QString &message)
 {
     setProgressInfo(10, tr("Collecting links..."));
 
@@ -309,7 +309,7 @@ void WizardDialog::parseResources(const QString &message)
 
 /******************************************************************************
  ******************************************************************************/
-void WizardDialog::parseHtml(const QByteArray &downloadedData)
+void AddContentDialog::parseHtml(const QByteArray &downloadedData)
 {
     setProgressInfo(90, tr("Collecting links..."));
 
@@ -335,7 +335,7 @@ void WizardDialog::parseHtml(const QByteArray &downloadedData)
     setProgressInfo(100);
 }
 
-void WizardDialog::setNetworkError(const QString &errorString)
+void AddContentDialog::setNetworkError(const QString &errorString)
 {
     const QFontMetrics fontMetrics = this->fontMetrics();
     const QString elidedUrl =
@@ -352,7 +352,7 @@ void WizardDialog::setNetworkError(const QString &errorString)
     setProgressInfo(-1, message);
 }
 
-void WizardDialog::setProgressInfo(int percent, const QString &text)
+void AddContentDialog::setProgressInfo(int percent, const QString &text)
 {
     if (percent < 0) {
         ui->stackedWidget->setCurrentIndex(1);
@@ -373,7 +373,7 @@ void WizardDialog::setProgressInfo(int percent, const QString &text)
 
 /******************************************************************************
  ******************************************************************************/
-void WizardDialog::onSelectionChanged()
+void AddContentDialog::onSelectionChanged()
 {
     const ResourceModel *currentModel = m_model->currentModel();
     const int selectionCount = currentModel->selectedResourceItems().count();
@@ -388,7 +388,7 @@ void WizardDialog::onSelectionChanged()
 
 /******************************************************************************
  ******************************************************************************/
-void WizardDialog::onChanged(QString)
+void AddContentDialog::onChanged(QString)
 {
     const ResourceModel *currentModel = m_model->currentModel();
     const int selectionCount = currentModel->selectedResourceItems().count();
@@ -402,7 +402,7 @@ void WizardDialog::onChanged(QString)
 
 /******************************************************************************
  ******************************************************************************/
-void WizardDialog::refreshFilters()
+void AddContentDialog::refreshFilters()
 {
     QList<Filter> filters = m_settings->filters();
     ui->filterWidget->clearFilters();
@@ -413,7 +413,7 @@ void WizardDialog::refreshFilters()
 
 /******************************************************************************
  ******************************************************************************/
-void WizardDialog::readSettings()
+void AddContentDialog::readSettings()
 {
     QSettings settings;
     settings.beginGroup("Wizard");
@@ -432,7 +432,7 @@ void WizardDialog::readSettings()
     settings.endGroup();
 }
 
-void WizardDialog::writeSettings()
+void AddContentDialog::writeSettings()
 {
     QSettings settings;
     settings.beginGroup("Wizard");

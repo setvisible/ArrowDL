@@ -25,6 +25,7 @@
 #include <Widgets/UrlFormWidget>
 
 #include <QtCore/QDebug>
+#include <QtCore/QFileInfo>
 #include <QtCore/QList>
 #include <QtCore/QSettings>
 #include <QtCore/QUrl>
@@ -40,6 +41,9 @@ AddTorrentDialog::AddTorrentDialog(const QUrl &url, DownloadManager *downloadMan
 {
     ui->setupUi(this);
 
+    adjustSize();
+    setFixedHeight(height());
+
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
 
     ui->urlLineEdit->setText(url.toString());
@@ -54,6 +58,22 @@ AddTorrentDialog::AddTorrentDialog(const QUrl &url, DownloadManager *downloadMan
 AddTorrentDialog::~AddTorrentDialog()
 {
     delete ui;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+bool AddTorrentDialog::isTorrentUrl(const QUrl &url)
+{
+    if (url.scheme().toLower() == QLatin1String("magnet")) {
+        return true;
+
+    } else {
+        QFileInfo fi(url.path());
+        if (fi.suffix().toLower() == QLatin1String("torrent")) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /******************************************************************************

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>276</width>
+    <width>240</width>
     <height>178</height>
    </rect>
   </property>
@@ -127,6 +127,12 @@
      </item>
      <item row="4" column="1">
       <widget class="PathWidget" name="pathWidget" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -174,6 +180,12 @@
      </item>
      <item row="5" column="1">
       <widget class="MaskWidget" name="maskWidget" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -191,6 +203,11 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>UrlLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>Widgets/UrlLineEdit</header>
+  </customwidget>
+  <customwidget>
    <class>PathWidget</class>
    <extends>QWidget</extends>
    <header>Widgets/PathWidget</header>
@@ -201,11 +218,6 @@
    <extends>QWidget</extends>
    <header>Widgets/MaskWidget</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>UrlLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>Widgets/UrlLineEdit</header>
   </customwidget>
  </customwidgets>
  <tabstops>
