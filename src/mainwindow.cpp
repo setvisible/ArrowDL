@@ -100,7 +100,19 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     TorrentContext& torrentContext =  TorrentContext::getInstance();
     torrentContext.setSettings(m_settings);
 
-    this->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    Qt::WindowFlags flags = Qt::Window
+            | Qt::WindowTitleHint
+            | Qt::WindowSystemMenuHint
+            | Qt::WindowMinimizeButtonHint
+            | Qt::WindowMaximizeButtonHint
+            | Qt::WindowCloseButtonHint
+            // | Qt::WindowFullscreenButtonHint
+            // | Qt::WindowShadeButtonHint
+            // | Qt::WindowStaysOnTopHint
+            // | Qt::WindowStaysOnBottomHint
+            | Qt::WindowContextHelpButtonHint; // "What's this"
+    this->setWindowFlags(flags);
+    this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     this->setAcceptDrops(true);
 #ifdef Q_OS_OSX
     this->setUnifiedTitleAndToolBarOnMac(true);
@@ -228,7 +240,7 @@ void MainWindow::createActions()
     connect(ui->actionExportSelectedToFile, SIGNAL(triggered()), this, SLOT(exportSelectedToFile()));
     // --
     ui->actionQuit->setShortcuts(QKeySequence::Quit);
-    ui->actionQuit->setStatusTip(tr("Quit %0").arg(STR_APPLICATION_NAME));
+    ui->actionQuit->setToolTip(tr("Quit %0").arg(STR_APPLICATION_NAME));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close())); //&QWidget::close
     //! [0]
 
@@ -293,16 +305,18 @@ void MainWindow::createActions()
     connect(ui->actionTutorial, SIGNAL(triggered()), this, SLOT(showTutorial()));
 
     ui->actionAbout->setShortcuts(QKeySequence::HelpContents);
-    ui->actionAbout->setStatusTip(tr("About %0").arg(STR_APPLICATION_NAME));
+    ui->actionAbout->setToolTip(tr("About %0").arg(STR_APPLICATION_NAME));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 
     ui->actionAboutQt->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_F1));
-    ui->actionAboutQt->setStatusTip(tr("About Qt"));
+    ui->actionAboutQt->setToolTip(tr("About Qt"));
     connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
     connect(ui->actionAboutCompiler, SIGNAL(triggered()), this, SLOT(aboutCompiler()));
     connect(ui->actionAboutYoutubeDL, SIGNAL(triggered()), this, SLOT(aboutStream()));
     //! [5]
+
+    propagateToolTips();
 }
 
 void MainWindow::createContextMenu()
@@ -372,6 +386,23 @@ void MainWindow::createSystemTray()
     m_systemTray->setupContextMenu(
                 ui->actionPreferences,
                 ui->actionQuit);
+}
+
+void MainWindow::propagateToolTips()
+{
+    // Propagate tooltip to whatthis and statustip
+    QList<QAction*> actions = this->findChildren<QAction*>();
+    foreach (QAction *action, actions) {
+        if (!action->isSeparator()) {
+            auto str = action->toolTip();
+            if (action->whatsThis().isEmpty()) {
+                action->setWhatsThis(str);
+            }
+            if (action->statusTip().isEmpty()) {
+                action->setStatusTip(str);
+            }
+        }
+    }
 }
 
 /******************************************************************************

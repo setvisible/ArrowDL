@@ -155,6 +155,7 @@ private:
     void createContextMenu();
     void createStatusbar();
     void createSystemTray();
+    void propagateToolTips();
 
     void refreshTitleAndStatus();
     void refreshMenus();

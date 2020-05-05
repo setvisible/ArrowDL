@@ -35,8 +35,12 @@
       <property name="childrenCollapsible">
        <bool>false</bool>
       </property>
-      <widget class="DownloadQueueView" name="downloadQueueView" native="true"/>
       <widget class="TorrentWidget" name="torrentWidget" native="true"/>
+      <widget class="DownloadQueueView" name="downloadQueueView" native="true">
+       <property name="whatsThis">
+        <string>Queue</string>
+       </property>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -213,9 +217,6 @@
    <property name="text">
     <string>&amp;Quit</string>
    </property>
-   <property name="toolTip">
-    <string>Quit</string>
-   </property>
   </action>
   <action name="actionAboutQt">
    <property name="text">
@@ -229,9 +230,6 @@
    </property>
    <property name="text">
     <string>About DownZemAll...</string>
-   </property>
-   <property name="toolTip">
-    <string>About DownZemAll</string>
    </property>
   </action>
   <action name="actionPreferences">
@@ -454,9 +452,6 @@
    </property>
    <property name="text">
     <string>Manage Download Mirror Locations...</string>
-   </property>
-   <property name="toolTip">
-    <string>Manage Download Mirror Locations</string>
    </property>
   </action>
   <action name="actionOneMoreSegment">
