@@ -140,7 +140,8 @@ void AddStreamDialog::onChanged(QString)
  ******************************************************************************/
 void AddStreamDialog::doAccept(bool started)
 {
-    // TODO if is list :open a new dialo to select the videos ?
+    /// \todo implement playlist download:
+    /// maybe open a new dialog to select which video/option to download
 
     m_downloadManager->append(toList(createItem()), started);
     QDialog::accept();

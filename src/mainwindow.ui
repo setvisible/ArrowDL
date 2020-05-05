@@ -28,7 +28,16 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="DownloadQueueView" name="downloadQueueView" native="true"/>
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="childrenCollapsible">
+       <bool>false</bool>
+      </property>
+      <widget class="DownloadQueueView" name="downloadQueueView" native="true"/>
+      <widget class="TorrentWidget" name="torrentWidget" native="true"/>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -120,6 +129,7 @@
     </property>
     <addaction name="actionAdd"/>
     <addaction name="actionAddStream"/>
+    <addaction name="actionAddTorrent"/>
     <addaction name="separator"/>
     <addaction name="actionResume"/>
     <addaction name="actionPause"/>
@@ -197,6 +207,8 @@
    <addaction name="separator"/>
    <addaction name="actionAddStream"/>
    <addaction name="separator"/>
+   <addaction name="actionAddTorrent"/>
+   <addaction name="separator"/>
    <addaction name="actionResume"/>
    <addaction name="actionPause"/>
    <addaction name="actionCancel"/>
@@ -267,6 +279,18 @@
    </property>
    <property name="toolTip">
     <string>Add Stream</string>
+   </property>
+  </action>
+  <action name="actionAddTorrent">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/menu/preference_torrent_32x32.png</normaloff>:/icons/menu/preference_torrent_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>Torrent...</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Torrent</string>
    </property>
   </action>
   <action name="actionCancel">
@@ -672,6 +696,12 @@
    <class>DownloadQueueView</class>
    <extends>QWidget</extends>
    <header>Widgets/DownloadQueueView</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TorrentWidget</class>
+   <extends>QWidget</extends>
+   <header>Widgets/TorrentWidget</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

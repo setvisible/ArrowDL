@@ -20,12 +20,21 @@
 #include <QtCore/QDebug>
 #include <QtCore/QTime>
 
+static const QString s_infinite_symbol = QString::fromUtf8("\xE2\x88\x9E");
+
+/******************************************************************************
+ ******************************************************************************/
+QString Format::infinity()
+{
+    return s_infinite_symbol;
+}
+
 /******************************************************************************
  ******************************************************************************/
 /*!
  * \brief Returns a string formatting the given time.
  */
-QString Format::remaingTimeToString(QTime time)
+QString Format::timeToString(QTime time)
 {
     if (!time.isValid()) {
         return QLatin1String("--:--");
@@ -36,10 +45,20 @@ QString Format::remaingTimeToString(QTime time)
     if (time < QTime(1, 0, 0, 0)) {
         return time.toString("mm:ss");
     }
-    if (time < QTime(24, 0, 0, 0)) {
-        return time.toString("hh:mm:ss");
+    return time.toString("hh:mm:ss");
+}
+
+QString Format::timeToString(qint64 seconds)
+{
+    if (seconds < 0) {
+        return QLatin1String("--:--");
     }
-    return QLatin1String("--:--");
+    if (seconds >= 24*60*60) { // More than one day
+        return s_infinite_symbol;
+    }
+    QTime time(0, 0, 0, 0);
+    time = time.addSecs(static_cast<int>(seconds));
+    return timeToString(time);
 }
 
 /******************************************************************************
@@ -95,15 +114,23 @@ QString Format::fileSizeThousandSeparator(qint64 size)
     return number;
 }
 
+
+/******************************************************************************
+ ******************************************************************************/
+QString Format::yesOrNo(bool yes)
+{
+    return yes ? QObject::tr("Yes") : QObject::tr("No");
+}
+
 /******************************************************************************
  ******************************************************************************/
 /*!
  * \brief Returns a string formatting the given speed, in bytes per second.
  */
-QString Format::currentSpeedToString(qreal speed)
+QString Format::currentSpeedToString(qreal speed, bool showInfiniteSymbol)
 {
     if (speed < 0 || !qIsFinite(speed)) {
-        return QLatin1String("-");
+        return showInfiniteSymbol ? s_infinite_symbol : QLatin1String("-");
     }
     speed /= 1024.0; // KB
     if (speed < 1000) {

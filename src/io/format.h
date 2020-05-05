@@ -20,6 +20,7 @@
 #include <Io/IFileHandler>
 #include <Io/JsonHandler>
 #include <Io/TextHandler>
+#include <Io/TorrentHandler>
 
 #include <QtCore/QString>
 
@@ -34,6 +35,7 @@ struct FileFormat {
 static const FileFormat formats[] = {
     { "txt", "Text Files", IFileHandlerPtr(new TextHandler()) },
     { "json", "Json Files", IFileHandlerPtr(new JsonHandler()) },
+    { "torrent", "Torrent Files", IFileHandlerPtr(new TorrentHandler()) },
     { Q_NULLPTR, Q_NULLPTR, IFileHandlerPtr() }
 };
 

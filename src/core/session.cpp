@@ -19,9 +19,11 @@
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
 #include <Core/DownloadStreamItem>
+#include <Core/DownloadTorrentItem>
 #include <Core/ResourceItem>
 
 #include <QtCore/QDebug>
+#include <QtCore/QByteArray>
 #include <QtCore/QFile>
 #include <QtCore/QJsonArray>
 #include <QtCore/QJsonDocument>
@@ -44,6 +46,16 @@ static inline int stateToInt(IDownloadItem::State state)
     }
 }
 
+static inline QString encode64(const QByteArray &bytes)
+{
+    return QString::fromUtf8(bytes.toBase64());
+}
+
+static inline  QByteArray decode64(const QString &str)
+{
+    return QByteArray::fromBase64(str.toUtf8());
+}
+
 static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *downloadManager)
 {
     ResourceItem *resourceItem = new ResourceItem();
@@ -59,9 +71,14 @@ static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *do
     resourceItem->setStreamFileName(json["streamFileName"].toString());
     resourceItem->setStreamFormatId(json["streamFormatId"].toString());
     resourceItem->setStreamFileSize(json["streamFileSize"].toInt());
+    resourceItem->setTorrentEnabled(json["torrentEnabled"].toBool());
+    resourceItem->setTorrentRawData(decode64(json["torrentRawData"].toString()));
 
     DownloadItem *item;
-    if (resourceItem->isStreamEnabled()) {
+    if (resourceItem->isTorrentEnabled()) {
+        item = new DownloadTorrentItem(downloadManager, resourceItem->torrentRawData());
+
+    } else if (resourceItem->isStreamEnabled()) {
         item = new DownloadStreamItem(downloadManager);
     } else {
         item = new DownloadItem(downloadManager);
@@ -90,6 +107,8 @@ static inline void writeJob(const DownloadItem *item, QJsonObject &json)
     json["streamFileName"] = item->resource()->streamFileName();
     json["streamFormatId"] = item->resource()->streamFormatId();
     json["streamFileSize"] = item->resource()->streamFileSize();
+    json["torrentEnabled"] = item->resource()->isTorrentEnabled();
+    json["torrentRawData"] = encode64(item->resource()->torrentRawData());
 
     json["state"] = stateToInt(item->state());
     json["bytesReceived"] = item->bytesReceived();

@@ -1,6 +1,7 @@
 HEADERS  += \
     $$PWD/adddownloaddialog.h \
     $$PWD/addstreamdialog.h \
+    $$PWD/addtorrentdialog.h \
     $$PWD/batchrenamedialog.h \
     $$PWD/compilerdialog.h \
     $$PWD/editiondialog.h \
@@ -15,6 +16,7 @@ HEADERS  += \
 SOURCES += \
     $$PWD/adddownloaddialog.cpp \
     $$PWD/addstreamdialog.cpp \
+    $$PWD/addtorrentdialog.cpp \
     $$PWD/batchrenamedialog.cpp \
     $$PWD/compilerdialog.cpp \
     $$PWD/editiondialog.cpp \
@@ -28,6 +30,7 @@ SOURCES += \
 FORMS += \
     $$PWD/adddownloaddialog.ui \
     $$PWD/addstreamdialog.ui \
+    $$PWD/addtorrentdialog.ui \
     $$PWD/batchrenamedialog.ui \
     $$PWD/compilerdialog.ui \
     $$PWD/editiondialog.ui \

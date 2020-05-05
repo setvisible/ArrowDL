@@ -103,6 +103,8 @@ public slots:
     void addFromUrl(const QUrl &url);
     void addFromStream();
     void addFromStream(const QUrl &url);
+    void addFromTorrent();
+    void addFromTorrent(const QUrl &url);
     void resume();
     void cancel();
     void pause();
@@ -131,6 +133,7 @@ private slots:
     void onJobFinished(IDownloadItem *downloadItem);
     void onJobRenamed(QString oldName, QString newName, bool success);
     void onSelectionChanged();
+    void onTorrentContextChanged();
 
 private:
     Ui::MainWindow *ui;
@@ -155,6 +158,7 @@ private:
 
     void refreshTitleAndStatus();
     void refreshMenus();
+    void refreshSplitter();
 
     inline bool askConfirmation(const QString &text);
 

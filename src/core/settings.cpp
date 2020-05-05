@@ -18,6 +18,7 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
+#include <QtCore/QStandardPaths>
 
 /*!
  * Registry Keys. They must be unique
@@ -51,7 +52,13 @@ static const QString REGISTRY_DATABASE         = "Database";
 static const QString REGISTRY_FILTER_KEY       = "FilterKey";
 static const QString REGISTRY_FILTER_VALUE     = "FilterValue";
 
-// Tab Schedule
+// Tab Torrent
+static const QString REGISTRY_TORRENT_ENABLED  = "TorrentEnabled";
+static const QString REGISTRY_TORRENT_SHARED   = "TorrentShareFolderEnabled";
+static const QString REGISTRY_TORRENT_DIR      = "TorrentShareFolder";
+static const QString REGISTRY_TORRENT_PEERS    = "TorrentPeerList";
+static const QString REGISTRY_TORRENT_ADVANCED = "TorrentAdvanced";
+
 
 // Tab Advanced
 static const QString REGISTRY_CHECK_UPDATE     = "CheckUpdate";
@@ -64,6 +71,10 @@ static const QList<QString> DEFAULT_STREAM_HOST_LIST =
 };
 static const QString defaultStreamHost() {
     return DEFAULT_STREAM_HOST_LIST.join(STREAM_HOST_SEPARATOR);
+}
+
+static const QString defaultTorrentShareFolder() {
+    return QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
 }
 
 
@@ -125,7 +136,12 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
                    "|wmv|m\\dv|rv|vob|asx|ogm|ogv|webm|flv|mkv)$"
                 );
 
-    // Tab Schedule
+    // Tab Torrent
+    addDefaultSettingBool(REGISTRY_TORRENT_ENABLED, true);
+    addDefaultSettingBool(REGISTRY_TORRENT_SHARED, false);
+    addDefaultSettingString(REGISTRY_TORRENT_DIR, defaultTorrentShareFolder());
+    addDefaultSettingString(REGISTRY_TORRENT_PEERS, QLatin1String(""));
+    addDefaultSettingString(REGISTRY_TORRENT_ADVANCED, QLatin1String(""));
 
     // Tab Advanced
     addDefaultSettingInt(REGISTRY_CHECK_UPDATE,
@@ -354,7 +370,59 @@ void Settings::setFilters(const QList<Filter> &filters)
 
 /******************************************************************************
  ******************************************************************************/
-// Tab Schedule
+// Tab Torrent
+bool Settings::isTorrentEnabled() const
+{
+    return getSettingBool(REGISTRY_TORRENT_ENABLED);
+}
+
+void Settings::setTorrentEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_TORRENT_ENABLED, enabled);
+}
+
+bool Settings::isTorrentShareFolderEnabled() const
+{
+    return getSettingBool(REGISTRY_TORRENT_SHARED);
+}
+
+void Settings::setTorrentShareFolderEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_TORRENT_SHARED, enabled);
+}
+
+QString Settings::shareFolder() const
+{
+    return getSettingString(REGISTRY_TORRENT_DIR);
+}
+
+void Settings::setShareFolder(const QString &value)
+{
+    setSettingString(REGISTRY_TORRENT_DIR, value);
+}
+
+QString Settings::torrentPeers() const
+{
+    return getSettingString(REGISTRY_TORRENT_PEERS);
+}
+
+void Settings::setTorrentPeers(const QString &value)
+{
+    setSettingString(REGISTRY_TORRENT_PEERS, value);
+}
+
+/* Other (advanced) settings */
+QMap<QString, QVariant> Settings::torrentSettings() const
+{
+    const QString str = getSettingString(REGISTRY_TORRENT_ADVANCED);
+    return deserialize(str);
+}
+
+void Settings::setTorrentSettings(const QMap<QString, QVariant> &map)
+{
+    const QString value = serialize(map);
+    setSettingString(REGISTRY_TORRENT_ADVANCED, value);
+}
 
 /******************************************************************************
  ******************************************************************************/

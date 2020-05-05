@@ -38,6 +38,8 @@ public:
     static QStringList tags();
     static QString description(const QString &tag);
 
+    static QString decodeMagnetEncoding(const QString &s);
+
 private:
     static void cleanNameForWindows(QString &input);
 

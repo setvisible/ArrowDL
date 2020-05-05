@@ -23,7 +23,7 @@
 #include <QtCore/QUrl>
 
 ResourceItem::ResourceItem()
-    :  m_url(QString())
+    : m_url(QString())
     , m_destination(QString())
     , m_mask(QString())
     , m_customFileName(QString())
@@ -34,6 +34,8 @@ ResourceItem::ResourceItem()
     , m_streamFileName(QString())
     , m_streamFormatId(QString())
     , m_streamFileSize(0)
+    , m_isTorrentEnabled(false)
+    , m_torrentRawData(QByteArray())
 {
 }
 
@@ -186,7 +188,7 @@ QString ResourceItem::streamFileName() const
     return m_streamFileName;
 }
 
-void ResourceItem::setStreamFileName(QString streamFileName)
+void ResourceItem::setStreamFileName(const QString &streamFileName)
 {
     m_streamFileName = streamFileName;
 }
@@ -198,7 +200,7 @@ QString ResourceItem::streamFormatId() const
     return m_streamFormatId;
 }
 
-void ResourceItem::setStreamFormatId(QString streamFormatId)
+void ResourceItem::setStreamFormatId(const QString &streamFormatId)
 {
     m_streamFormatId = streamFormatId;
 }
@@ -217,6 +219,31 @@ void ResourceItem::setStreamFileSize(qint64 streamFileSize)
 
 /******************************************************************************
  ******************************************************************************/
+bool ResourceItem::isTorrentEnabled() const
+{
+    return m_isTorrentEnabled;
+}
+
+void ResourceItem::setTorrentEnabled(bool enabled)
+{
+    m_isTorrentEnabled = enabled;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+/** \obsolete */
+QByteArray ResourceItem::torrentRawData() const
+{
+    return m_torrentRawData;
+}
+/** \obsolete */
+void ResourceItem::setTorrentRawData(const QByteArray &rawData)
+{
+    m_torrentRawData = rawData;
+}
+
+/******************************************************************************
+ ******************************************************************************/
 bool ResourceItem::isSelected() const
 {
     return m_isSelected;
@@ -231,6 +258,9 @@ void ResourceItem::setSelected(bool isSelected)
  ******************************************************************************/
 inline QString ResourceItem::localFilePath(const QString &customFileName) const
 {
+    if (QUrl(m_url).scheme() == "magnet") {
+        return localMagnetFile(customFileName);
+    }
     if (m_isStreamEnabled) {
         return localStreamFile(customFileName);
     }
@@ -244,6 +274,42 @@ inline QString ResourceItem::localStreamFile(const QString &customFileName) cons
     return QDir(m_destination).filePath(fileName);
 }
 
+inline QString ResourceItem::localMagnetFile(const QString &customFileName) const
+{
+    QString displayName = parseMagnetUrl(m_url);
+    QString fileName = customFileName.isEmpty() ? displayName : customFileName;
+    fileName += ".torrent";
+
+    // Remark: No mask for magnets
+    // const QString fileName = Mask::interpret(url, customFileName, m_mask);
+    return QDir(m_destination).filePath(fileName);
+}
+
+inline QString ResourceItem::parseMagnetUrl(const QString &url) const
+{
+    /// todo move to Mask::interpretMagnet ?
+    QRegExp regex("^"
+                  + QRegExp::escape("magnet:?")
+                  + ".*"+ QRegExp::escape("&") + "?"
+                  + QRegExp::escape("dn=")
+                  // *********************
+                  // captured group #1
+                  // rem: [^A] means anything not A
+                  + "([^" + QRegExp::escape("&") + "]*)"
+                  // *********************
+                  + "(" + QRegExp::escape("&") + ".*)?"
+                  + "$"
+                  );
+    if (regex.indexIn(url) != -1) {
+        QString displayName = regex.cap(1);
+        displayName = Mask::decodeMagnetEncoding(displayName);
+        return displayName;
+    }
+    return QString("[Wait... Downloading metadata...]");
+}
+
+/******************************************************************************
+ ******************************************************************************/
 inline QString ResourceItem::localFile(const QString &destination, const QUrl &url,
                                        const QString &customFileName, const QString &mask)
 {

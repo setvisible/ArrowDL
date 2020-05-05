@@ -1,4 +1,5 @@
 HEADERS += \
+    $$PWD/advancedsettingswidget.h \
     $$PWD/autoclosedialog.h \
     $$PWD/combobox.h \
     $$PWD/customstyle.h \
@@ -15,10 +16,12 @@ HEADERS += \
     $$PWD/systemtray.h \
     $$PWD/textedit.h \
     $$PWD/texteditorwidget.h \
+    $$PWD/torrentwidget.h \
     $$PWD/urlformwidget.h \
     $$PWD/urllineedit.h
 
 SOURCES += \
+    $$PWD/advancedsettingswidget.cpp \
     $$PWD/autoclosedialog.cpp \
     $$PWD/combobox.cpp \
     $$PWD/customstyle.cpp \
@@ -34,10 +37,12 @@ SOURCES += \
     $$PWD/systemtray.cpp \
     $$PWD/textedit.cpp \
     $$PWD/texteditorwidget.cpp \
+    $$PWD/torrentwidget.cpp \
     $$PWD/urlformwidget.cpp\
     $$PWD/urllineedit.cpp
 
 FORMS += \
+    $$PWD/advancedsettingswidget.ui \
     $$PWD/filtertip.ui \
     $$PWD/filterwidget.ui \
     $$PWD/linkwidget.ui \
@@ -46,4 +51,5 @@ FORMS += \
     $$PWD/pathwidget.ui \
     $$PWD/streamwidget.ui \
     $$PWD/texteditorwidget.ui \
+    $$PWD/torrentwidget.ui \
     $$PWD/urlformwidget.ui

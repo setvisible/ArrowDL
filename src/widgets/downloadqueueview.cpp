@@ -410,7 +410,7 @@ void QueueItem::updateItem()
         }
 
     } else if (m_downloadItem->state() == IDownloadItem::Downloading) {
-        estTime = Format::remaingTimeToString(m_downloadItem->remainingTime());
+        estTime = Format::timeToString(m_downloadItem->remainingTime());
     }
 
     QString speed = Format::currentSpeedToString(m_downloadItem->speed());
@@ -478,6 +478,7 @@ DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
 
     QLayout* layout = new QGridLayout(this);
     layout->addWidget(m_queueView);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     this->setLayout(layout);
 }
