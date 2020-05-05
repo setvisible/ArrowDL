@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,8 +14,8 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGS_SELECTIONDIALOG_H
-#define DIALOGS_SELECTIONDIALOG_H
+#ifndef DIALOGS_ADD_CONTENT_DIALOG_H
+#define DIALOGS_ADD_CONTENT_DIALOG_H
 
 #include <QtCore/QUrl>
 #include <QtWidgets/QDialog>
@@ -32,19 +32,19 @@ class QNetworkAccessManager;
 #endif
 
 namespace Ui {
-class WizardDialog;
+class AddContentDialog;
 }
 
-class WizardDialog : public QDialog
+class AddContentDialog : public QDialog
 {
     Q_OBJECT
 
     enum Bypass { None, Start, StartPaused };
 
 public:
-    explicit WizardDialog(DownloadManager *downloadManager,
-                          Settings *settings, QWidget *parent);
-    ~WizardDialog() Q_DECL_OVERRIDE;
+    explicit AddContentDialog(DownloadManager *downloadManager,
+                              Settings *settings, QWidget *parent);
+    ~AddContentDialog() Q_DECL_OVERRIDE;
 
     void loadResources(const QString &message);
     void loadUrl(const QUrl &url);
@@ -78,7 +78,7 @@ private slots:
     void refreshFilters();
 
 private:
-    Ui::WizardDialog *ui;
+    Ui::AddContentDialog *ui;
     DownloadManager *m_downloadManager;
     Model *m_model;
 #ifdef USE_QT_WEBENGINE
@@ -101,4 +101,4 @@ private:
     void writeSettings();
 };
 
-#endif // DIALOGS_SELECTIONDIALOG_H
+#endif // DIALOGS_ADD_CONTENT_DIALOG_H

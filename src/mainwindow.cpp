@@ -29,18 +29,19 @@
 #include <Core/Torrent>
 #include <Core/TorrentContext>
 #include <Core/UpdateChecker>
-#include <Dialogs/AddDownloadDialog>
+#include <Dialogs/AddBatchDialog>
+#include <Dialogs/AddContentDialog>
 #include <Dialogs/AddStreamDialog>
 #include <Dialogs/AddTorrentDialog>
 #include <Dialogs/BatchRenameDialog>
 #include <Dialogs/CompilerDialog>
 #include <Dialogs/EditionDialog>
+#include <Dialogs/HomeDialog>
 #include <Dialogs/InformationDialog>
 #include <Dialogs/PreferenceDialog>
 #include <Dialogs/StreamDialog>
 #include <Dialogs/TutorialDialog>
 #include <Dialogs/UpdateDialog>
-#include <Dialogs/WizardDialog>
 #include <Ipc/InterProcessCommunication>
 #include <Io/FileReader>
 #include <Io/FileWriter>
@@ -100,7 +101,19 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     TorrentContext& torrentContext =  TorrentContext::getInstance();
     torrentContext.setSettings(m_settings);
 
-    this->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    Qt::WindowFlags flags = Qt::Window
+            | Qt::WindowTitleHint
+            | Qt::WindowSystemMenuHint
+            | Qt::WindowMinimizeButtonHint
+            | Qt::WindowMaximizeButtonHint
+            | Qt::WindowCloseButtonHint
+            // | Qt::WindowFullscreenButtonHint
+            // | Qt::WindowShadeButtonHint
+            // | Qt::WindowStaysOnTopHint
+            // | Qt::WindowStaysOnBottomHint
+            | Qt::WindowContextHelpButtonHint; // "What's this"
+    this->setWindowFlags(flags);
+    this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     this->setAcceptDrops(true);
 #ifdef Q_OS_OSX
     this->setUnifiedTitleAndToolBarOnMac(true);
@@ -212,7 +225,7 @@ void MainWindow::dropEvent(QDropEvent *event)
         if (url.isLocalFile()) {
             loadFile(url.toLocalFile());
         } else {
-            addFromUrl(url);
+            addBatch(url);
         }
     }
 }
@@ -222,13 +235,11 @@ void MainWindow::dropEvent(QDropEvent *event)
 void MainWindow::createActions()
 {
     //! [0] File
-    connect(ui->actionImportWizard, SIGNAL(triggered()), this, SLOT(openWizard()));
-    // --
     connect(ui->actionImportFromFile, SIGNAL(triggered()), this, SLOT(importFromFile()));
     connect(ui->actionExportSelectedToFile, SIGNAL(triggered()), this, SLOT(exportSelectedToFile()));
     // --
     ui->actionQuit->setShortcuts(QKeySequence::Quit);
-    ui->actionQuit->setStatusTip(tr("Quit %0").arg(STR_APPLICATION_NAME));
+    ui->actionQuit->setToolTip(tr("Quit %0").arg(STR_APPLICATION_NAME));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close())); //&QWidget::close
     //! [0]
 
@@ -253,22 +264,24 @@ void MainWindow::createActions()
     connect(ui->actionDeleteFile, SIGNAL(triggered()), this, SLOT(deleteFile()));
     connect(ui->actionOpenDirectory, SIGNAL(triggered()), this, SLOT(openDirectory()));
     // --
-    connect(ui->actionRemoveCompletedDownloads, SIGNAL(triggered()), this, SLOT(removeCompletedDownloads()));
-    connect(ui->actionRemoveAll1, SIGNAL(triggered()), this, SLOT(removeAll()));
-    connect(ui->actionCleanGoneFiles, SIGNAL(triggered()), this, SLOT(cleanGoneFiles()));
-    // --
-    connect(ui->actionRemoveDownloads, SIGNAL(triggered()), this, SLOT(removeDownloads()));
+    connect(ui->actionRemoveCompleted, SIGNAL(triggered()), this, SLOT(removeCompleted()));
     connect(ui->actionRemoveSelected, SIGNAL(triggered()), this, SLOT(removeSelected()));
+    connect(ui->actionRemoveAll, SIGNAL(triggered()), this, SLOT(removeAll()));
+    // --
+    connect(ui->actionRemoveWaiting, SIGNAL(triggered()), this, SLOT(removeWaiting()));
     connect(ui->actionRemoveDuplicates, SIGNAL(triggered()), this, SLOT(removeDuplicates()));
-    connect(ui->actionRemoveAll2, SIGNAL(triggered()), this, SLOT(removeAll()));
-    connect(ui->actionRemoveFailed, SIGNAL(triggered()), this, SLOT(removeFailed()));
+    connect(ui->actionRemoveRunning, SIGNAL(triggered()), this, SLOT(removeRunning()));
     connect(ui->actionRemovePaused, SIGNAL(triggered()), this, SLOT(removePaused()));
+    connect(ui->actionRemoveFailed, SIGNAL(triggered()), this, SLOT(removeFailed()));
     //! [2]
 
     //! [3] Download
-    connect(ui->actionAdd, SIGNAL(triggered()), this, SLOT(add()));
-    connect(ui->actionAddStream, SIGNAL(triggered()), this, SLOT(addFromStream()));
-    connect(ui->actionAddTorrent, SIGNAL(triggered()), this, SLOT(addFromTorrent()));
+    connect(ui->actionHome, &QAction::triggered, this, &MainWindow::home);
+    //--
+    connect(ui->actionAddContent, SIGNAL(triggered()), this, SLOT(addContent()));
+    connect(ui->actionAddBatch,   SIGNAL(triggered()), this, SLOT(addBatch()));
+    connect(ui->actionAddStream,  SIGNAL(triggered()), this, SLOT(addStream()));
+    connect(ui->actionAddTorrent, SIGNAL(triggered()), this, SLOT(addTorrent()));
     //--
     connect(ui->actionResume, SIGNAL(triggered()), this, SLOT(resume()));
     connect(ui->actionPause, SIGNAL(triggered()), this, SLOT(pause()));
@@ -294,16 +307,18 @@ void MainWindow::createActions()
     connect(ui->actionTutorial, SIGNAL(triggered()), this, SLOT(showTutorial()));
 
     ui->actionAbout->setShortcuts(QKeySequence::HelpContents);
-    ui->actionAbout->setStatusTip(tr("About %0").arg(STR_APPLICATION_NAME));
+    ui->actionAbout->setToolTip(tr("About %0").arg(STR_APPLICATION_NAME));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 
     ui->actionAboutQt->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_F1));
-    ui->actionAboutQt->setStatusTip(tr("About Qt"));
+    ui->actionAboutQt->setToolTip(tr("About Qt"));
     connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
     connect(ui->actionAboutCompiler, SIGNAL(triggered()), this, SLOT(aboutCompiler()));
     connect(ui->actionAboutYoutubeDL, SIGNAL(triggered()), this, SLOT(aboutStream()));
     //! [5]
+
+    propagateToolTips();
 }
 
 void MainWindow::createContextMenu()
@@ -323,20 +338,17 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionPause);
     contextMenu->addAction(ui->actionCancel);
     contextMenu->addSeparator();
-    contextMenu->addAction(ui->actionRemoveCompletedDownloads);
-    contextMenu->addAction(ui->actionRemoveAll1);
+    contextMenu->addAction(ui->actionRemoveCompleted);
+    contextMenu->addAction(ui->actionRemoveSelected);
+    contextMenu->addAction(ui->actionRemoveAll);
 
     QMenu *remove = contextMenu->addMenu(tr("Other"));
-    remove->addAction(ui->actionRemoveDownloads);
-    remove->addSeparator();
-    remove->addAction(ui->actionCleanGoneFiles);
-    remove->addSeparator();
-    remove->addAction(ui->actionRemoveSelected);
-    remove->addSeparator();
+    remove->addAction(ui->actionRemoveWaiting);
     remove->addAction(ui->actionRemoveDuplicates);
     remove->addSeparator();
-    remove->addAction(ui->actionRemoveFailed);
+    remove->addAction(ui->actionRemoveRunning);
     remove->addAction(ui->actionRemovePaused);
+    remove->addAction(ui->actionRemoveFailed);
 
     contextMenu->addSeparator();
     contextMenu->addAction(ui->actionSelectAll);
@@ -378,83 +390,19 @@ void MainWindow::createSystemTray()
                 ui->actionQuit);
 }
 
-/******************************************************************************
- ******************************************************************************/
-void MainWindow::openWizard()
+void MainWindow::propagateToolTips()
 {
-    // ask for the Url
-    QInputDialog dialog(this);
-    dialog.setWindowTitle(tr("Website URL"));
-    dialog.setLabelText(tr("URL of the HTML page:  (ex: \"https://www.site.com/folder/page\")"));
-    dialog.setTextValue(urlFromClipboard().toString());
-    dialog.setOkButtonText(tr("Start!"));
-    dialog.setTextEchoMode(QLineEdit::Normal);
-    dialog.setInputMode(QInputDialog::TextInput);
-    dialog.setInputMethodHints(Qt::ImhUrlCharactersOnly);
-    dialog.resize(600,400);
-
-    const int ret = dialog.exec();
-    const QUrl url = QUrl(dialog.textValue());
-    if (ret && !url.isEmpty()) {
-        openWizard(url);
-    }
-}
-
-void MainWindow::openWizard(const QUrl &url)
-{
-    WizardDialog dialog(m_downloadManager, m_settings, this);
-    dialog.loadUrl(url);
-    dialog.exec();
-}
-
-void MainWindow::openWizard(const QString &message)
-{
-    WizardDialog dialog(m_downloadManager, m_settings, this);
-    dialog.loadResources(message);
-    dialog.exec();
-}
-
-void MainWindow::handleMessage(const QString &message)
-{
-    qDebug() << Q_FUNC_INFO << message;
-    const QString cleaned = InterProcessCommunication::clean(message);
-    if (!cleaned.isEmpty()) {
-
-        if (InterProcessCommunication::isUrl(cleaned)) {
-            QUrl url(cleaned);
-            if (url.scheme() == "magnet") {
-                addFromTorrent(url);
-            } else {
-                // Assume it's an unique URL, so a HTML page.
-                openWizard(url);
+    // Propagate tooltip to whatthis and statustip
+    QList<QAction*> actions = this->findChildren<QAction*>();
+    foreach (QAction *action, actions) {
+        if (!action->isSeparator()) {
+            auto str = action->toolTip();
+            if (action->whatsThis().isEmpty()) {
+                action->setWhatsThis(str);
             }
-
-        } else if(InterProcessCommunication::isCommandOpenUrl(cleaned)) {
-            const QUrl url = InterProcessCommunication::getCurrentUrl(cleaned);
-            openWizard(url);
-
-        } else if(InterProcessCommunication::isCommandDownloadLink(cleaned)) {
-            const QUrl url = InterProcessCommunication::getDownloadLink(cleaned);
-
-            if (url.scheme() == "magnet") {
-                addFromTorrent(url);
-
-            } else if (AddStreamDialog::isStreamUrl(url, m_settings)) {
-                addFromStream(url);
-
-            } else {
-                AddDownloadDialog::quickDownload(url, m_downloadManager);
+            if (action->statusTip().isEmpty()) {
+                action->setStatusTip(str);
             }
-
-        } else if(InterProcessCommunication::isCommandOpenManager(cleaned)) {
-            // Do nothing, just keep the window as-is
-
-        } else if(InterProcessCommunication::isCommandShowPreferences(cleaned)) {
-            showPreferences();
-
-        } else {
-            // Otherwise, assume it's a list of resources.
-            openWizard(cleaned);
         }
     }
 }
@@ -614,6 +562,8 @@ void MainWindow::openDirectory()
     }
 }
 
+/******************************************************************************
+ ******************************************************************************/
 bool MainWindow::askConfirmation(const QString &text)
 {
     if (m_settings->isConfirmRemovalEnabled()) {
@@ -639,30 +589,11 @@ bool MainWindow::askConfirmation(const QString &text)
     return true;
 }
 
-void MainWindow::cleanGoneFiles()
-{
-    if (askConfirmation(tr("waiting"))) {
-        m_downloadManager->remove(m_downloadManager->waitingJobs());
-    }
-}
-
 void MainWindow::removeAll()
 {    
     if (askConfirmation(tr("ALL"))) {
         m_downloadManager->remove(m_downloadManager->downloadItems());
     }
-}
-
-void MainWindow::removeCompletedDownloads()
-{
-    if (askConfirmation(tr("completed"))) {
-        m_downloadManager->remove(m_downloadManager->completedJobs());
-    }
-}
-
-void MainWindow::removeDownloads()
-{
-    removeSelected();
 }
 
 void MainWindow::removeSelected()
@@ -677,10 +608,17 @@ void MainWindow::removeDuplicates()
     qDebug() << Q_FUNC_INFO << "TODO remove Duplicates";
 }
 
-void MainWindow::removeFailed()
+void MainWindow::removeCompleted()
 {
-    if (askConfirmation(tr("failed"))) {
-        m_downloadManager->remove(m_downloadManager->failedJobs());
+    if (askConfirmation(tr("completed"))) {
+        m_downloadManager->remove(m_downloadManager->completedJobs());
+    }
+}
+
+void MainWindow::removeWaiting()
+{
+    if (askConfirmation(tr("waiting"))) {
+        m_downloadManager->remove(m_downloadManager->waitingJobs());
     }
 }
 
@@ -691,39 +629,173 @@ void MainWindow::removePaused()
     }
 }
 
-void MainWindow::add()
+void MainWindow::removeFailed()
 {
-    addFromUrl(urlFromClipboard());
+    if (askConfirmation(tr("failed"))) {
+        m_downloadManager->remove(m_downloadManager->failedJobs());
+    }
 }
 
-void MainWindow::addFromUrl(const QUrl &url)
+
+void MainWindow::removeRunning()
 {
-    AddDownloadDialog dialog(url, m_downloadManager, m_settings, this);
+    if (askConfirmation(tr("running"))) {
+        m_downloadManager->remove(m_downloadManager->runningJobs());
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void MainWindow::handleMessage(const QString &message)
+{
+    qDebug() << Q_FUNC_INFO << message;
+    const QString cleaned = InterProcessCommunication::clean(message);
+    if (!cleaned.isEmpty()) {
+
+        if (InterProcessCommunication::isSingleUrl(cleaned)) {
+            QUrl url(cleaned);
+            if (AddTorrentDialog::isTorrentUrl(url)) {
+                addTorrent(url);
+
+            } else if (AddStreamDialog::isStreamUrl(url, m_settings)) {
+                addStream(url);
+
+            } else {
+                // Assume the URL is a HTML page address,
+                // so that the program downloads the content
+                addContent(url);
+            }
+
+        } else if(InterProcessCommunication::isCommandOpenUrl(cleaned)) {
+            const QUrl url = InterProcessCommunication::getCurrentUrl(cleaned);
+            addContent(url);
+
+        } else if(InterProcessCommunication::isCommandDownloadLink(cleaned)) {
+            const QUrl url = InterProcessCommunication::getDownloadLink(cleaned);
+
+            if (AddTorrentDialog::isTorrentUrl(url)) {
+                addTorrent(url);
+
+            } else if (AddStreamDialog::isStreamUrl(url, m_settings)) {
+                addStream(url);
+
+            } else {
+                AddBatchDialog::quickDownload(url, m_downloadManager);
+            }
+
+        } else if(InterProcessCommunication::isCommandOpenManager(cleaned)) {
+            // Try to popup the window.
+            // Rem: on Windows, it's not possible for an application
+            // to raise its main window itself, by design.
+            // See QWidget::activateWindow() doc, section "behavior under windows"
+            activateWindow();
+
+        } else if(InterProcessCommunication::isCommandShowPreferences(cleaned)) {
+            showPreferences();
+
+        } else {
+            // Otherwise, assume it's a list of resources
+            addContent(cleaned);
+        }
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void MainWindow::home()
+{
+    HomeDialog dialog(this);
+    int reply = dialog.exec();
+    if (reply == static_cast<int>(HomeDialog::Content)) {
+        addContent();
+    } else if (reply == static_cast<int>(HomeDialog::Batch)) {
+        addBatch();
+    } else if (reply == static_cast<int>(HomeDialog::Stream)) {
+        addStream();
+    } else if (reply == static_cast<int>(HomeDialog::Torrent)) {
+        addTorrent();
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void MainWindow::addContent()
+{
+    // ask for the Url
+    QInputDialog dialog(this);
+    dialog.setWindowTitle(tr("Website URL"));
+    dialog.setLabelText(tr("URL of the HTML page:  (ex: \"https://www.site.com/folder/page\")"));
+    dialog.setTextValue(urlFromClipboard().toString());
+    dialog.setOkButtonText(tr("Start!"));
+    dialog.setTextEchoMode(QLineEdit::Normal);
+    dialog.setInputMode(QInputDialog::TextInput);
+    dialog.setInputMethodHints(Qt::ImhUrlCharactersOnly);
+    dialog.setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    dialog.adjustSize();
+    dialog.resize(600, dialog.height());
+
+    const int ret = dialog.exec();
+    const QUrl url = QUrl(dialog.textValue());
+    if (ret && !url.isEmpty()) {
+        addContent(url);
+    }
+}
+
+void MainWindow::addContent(const QUrl &url)
+{
+    AddContentDialog dialog(m_downloadManager, m_settings, this);
+    dialog.loadUrl(url);
     dialog.exec();
 }
 
-void MainWindow::addFromStream()
+void MainWindow::addContent(const QString &message)
 {
-    addFromStream(urlFromClipboard());
+    AddContentDialog dialog(m_downloadManager, m_settings, this);
+    dialog.loadResources(message);
+    dialog.exec();
 }
 
-void MainWindow::addFromStream(const QUrl &url)
+/******************************************************************************
+ ******************************************************************************/
+void MainWindow::addBatch()
+{
+    addBatch(urlFromClipboard());
+}
+
+void MainWindow::addBatch(const QUrl &url)
+{
+    AddBatchDialog dialog(url, m_downloadManager, m_settings, this);
+    dialog.exec();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void MainWindow::addStream()
+{
+    addStream(urlFromClipboard());
+}
+
+void MainWindow::addStream(const QUrl &url)
 {
     AddStreamDialog dialog(url, m_downloadManager, m_settings, this);
     dialog.exec();
 }
 
-void MainWindow::addFromTorrent()
+/******************************************************************************
+ ******************************************************************************/
+void MainWindow::addTorrent()
 {
-    addFromTorrent(urlFromClipboard());
+    addTorrent(urlFromClipboard());
 }
 
-void MainWindow::addFromTorrent(const QUrl &url)
+void MainWindow::addTorrent(const QUrl &url)
 {
     AddTorrentDialog dialog(url, m_downloadManager, m_settings, this);
     dialog.exec();
 }
 
+/******************************************************************************
+ ******************************************************************************/
 void MainWindow::resume()
 {
     foreach (auto item, m_downloadManager->selection()) {
@@ -971,8 +1043,6 @@ void MainWindow::refreshMenus()
     }
 
     //! [0] File
-    //ui->actionImportWizard->setEnabled(hasSelection);
-    // --
     //ui->actionImportFromFile->setEnabled(hasSelection);
     ui->actionExportSelectedToFile->setEnabled(hasSelection);
     // --
@@ -1000,20 +1070,18 @@ void MainWindow::refreshMenus()
     ui->actionDeleteFile->setEnabled(hasOnlyCompletedSelected);
     ui->actionOpenDirectory->setEnabled(hasOnlyOneSelected);
     // --
-    ui->actionRemoveCompletedDownloads->setEnabled(hasJobs);
-    ui->actionRemoveAll1->setEnabled(hasJobs);
-    ui->actionCleanGoneFiles->setEnabled(hasJobs);
+    ui->actionRemoveCompleted->setEnabled(hasJobs);
+    ui->actionRemoveSelected->setEnabled(hasSelection);
+    ui->actionRemoveAll->setEnabled(hasJobs);
     // --
-    ui->actionRemoveDownloads->setEnabled(hasJobs);
-    ui->actionRemoveSelected->setEnabled(hasJobs);
+    ui->actionRemoveWaiting->setEnabled(hasJobs);
     ui->actionRemoveDuplicates->setEnabled(hasJobs);
-    ui->actionRemoveAll2->setEnabled(hasJobs);
-    ui->actionRemoveFailed->setEnabled(hasJobs);
+    ui->actionRemoveRunning->setEnabled(hasJobs);
     ui->actionRemovePaused->setEnabled(hasJobs);
+    ui->actionRemoveFailed->setEnabled(hasJobs);
     //! [2]
 
     //! [3] Download
-    //ui->actionAdd->setEnabled(hasSelection);
     //--
     ui->actionResume->setEnabled(hasResumableSelection);
     ui->actionPause->setEnabled(hasPausableSelection);

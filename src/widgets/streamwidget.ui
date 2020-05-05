@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>417</width>
-    <height>282</height>
+    <width>408</width>
+    <height>270</height>
    </rect>
   </property>
   <property name="styleSheet">
@@ -302,8 +302,8 @@ QGroupBox {
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>381</width>
-                   <height>85</height>
+                   <width>98</width>
+                   <height>46</height>
                   </rect>
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_7">

@@ -36,6 +36,8 @@ public:
                               Settings *settings, QWidget *parent = Q_NULLPTR);
     ~AddTorrentDialog() Q_DECL_OVERRIDE;
 
+    static bool isTorrentUrl(const QUrl &url);
+
 public slots:
     void accept() Q_DECL_OVERRIDE;
     virtual void acceptPaused();

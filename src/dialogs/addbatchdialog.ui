@@ -1,94 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AddDownloadDialog</class>
- <widget class="QDialog" name="AddDownloadDialog">
+ <class>AddBatchDialog</class>
+ <widget class="QDialog" name="AddBatchDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
-    <height>430</height>
+    <width>538</width>
+    <height>342</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>DownZemAll - Add Downloads</string>
+   <string>DownZemAll - Add Batch and Single File</string>
   </property>
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,2,0">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
    <item>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="1">
-      <widget class="QLabel" name="titleLabel">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>9</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Enter the download URL and (optionally) the referring page. You can also use batch descriptors to download multiple files at one time.</string>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="1">
       <widget class="QLabel" name="titleExampleLabel">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
        <property name="text">
-        <string>Examples:</string>
+        <string>Enter the download URL and (optionally) the referring page.
+You can also use batch descriptors to download multiple files at one time.</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="urlLabel">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>9</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Download:</string>
+     <item row="4" column="0" colspan="2">
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QLabel" name="titleListLabel">
-       <property name="font">
-        <font>
-         <family>Courier New</family>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Batch descriptors:&lt;/p&gt;&lt;p&gt;- Must start with '[' or '('&lt;/p&gt;&lt;p&gt;- Must contain two numbers, separated by ':', '-' or a space character&lt;/p&gt;&lt;p&gt;- Must end with ']' or ')'&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="text">
-        <string>   .../mygallery[A:C]/photo[001:100:2].jpg
-   .../mygallery[1:3]/(2010 2019)/(01 12)/photo[01:10][3-01].jpg</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
+     <item row="6" column="1">
       <widget class="QWidget" name="tagWidget" native="true">
        <property name="styleSheet">
         <string notr="true">QToolButton {
@@ -127,11 +73,6 @@ color: rgb(205, 230, 255);
         </item>
         <item>
          <widget class="QLabel" name="insertLabel">
-          <property name="font">
-           <font>
-            <italic>true</italic>
-           </font>
-          </property>
           <property name="text">
            <string>Insert batch range:</string>
           </property>
@@ -205,14 +146,62 @@ color: rgb(205, 230, 255);
        </layout>
       </widget>
      </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="titleListLabel">
+       <property name="font">
+        <font>
+         <family>Courier New</family>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Batch descriptors:&lt;/p&gt;&lt;p&gt;- Must start with '[' or '('&lt;/p&gt;&lt;p&gt;- Must contain two numbers, separated by ':', '-' or a space character&lt;/p&gt;&lt;p&gt;- Must end with ']' or ')'&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>   .../mygallery[A:C]/photo[001:100:2].jpg
+   .../mygallery[1:3]/(2010 2019)/(01 12)/photo[01:10][3-01].jpg</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="titleLabel">
+       <property name="font">
+        <font>
+         <pointsize>18</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Batch and Single File</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="UrlLineEdit" name="urlLineEdit"/>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="urlLabel">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Download:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Examples:</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="0" rowspan="3">
       <widget class="QWidget" name="logo" native="true">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
        <property name="minimumSize">
         <size>
          <width>64</width>
@@ -220,17 +209,7 @@ color: rgb(205, 230, 255);
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">image: url(:/icons/logo/icon128.png);</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="UrlLineEdit" name="urlLineEdit"/>
-     </item>
-     <item row="3" column="0" colspan="2">
-      <widget class="Line" name="line">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <string notr="true">image: url(:/icons/menu/tool_add_26x26.png);</string>
        </property>
       </widget>
      </item>
@@ -248,19 +227,6 @@ color: rgb(205, 230, 255);
       <enum>Qt::StrongFocus</enum>
      </property>
     </widget>
-   </item>
-   <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>184</height>
-      </size>
-     </property>
-    </spacer>
    </item>
    <item>
     <layout class="QHBoxLayout" name="buttonBox" stretch="1,0,0,0">
@@ -351,7 +317,7 @@ color: rgb(205, 230, 255);
   <connection>
    <sender>startButton</sender>
    <signal>released()</signal>
-   <receiver>AddDownloadDialog</receiver>
+   <receiver>AddBatchDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -367,7 +333,7 @@ color: rgb(205, 230, 255);
   <connection>
    <sender>addPausedButton</sender>
    <signal>released()</signal>
-   <receiver>AddDownloadDialog</receiver>
+   <receiver>AddBatchDialog</receiver>
    <slot>acceptPaused()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -383,7 +349,7 @@ color: rgb(205, 230, 255);
   <connection>
    <sender>cancelButton</sender>
    <signal>released()</signal>
-   <receiver>AddDownloadDialog</receiver>
+   <receiver>AddBatchDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

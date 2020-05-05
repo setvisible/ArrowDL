@@ -47,6 +47,8 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
 {
     ui->setupUi(this);
 
+    adjustSize();
+
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
 
     ui->urlLineEdit->setText(url.toString());
@@ -73,6 +75,9 @@ AddStreamDialog::~AddStreamDialog()
  ******************************************************************************/
 bool AddStreamDialog::isStreamUrl(const QUrl &url, const Settings *settings)
 {
+    if (url.isLocalFile()) {
+        return false;
+    }
     auto host = url.host();
     auto regexHosts = settings->streamHosts();
     return Stream::matchesHost(host, regexHosts);

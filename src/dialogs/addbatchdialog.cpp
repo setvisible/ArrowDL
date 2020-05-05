@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,8 +14,8 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "adddownloaddialog.h"
-#include "ui_adddownloaddialog.h"
+#include "addbatchdialog.h"
+#include "ui_addbatchdialog.h"
 
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
@@ -37,14 +37,17 @@
 #include <QtWidgets/QMessageBox>
 
 
-AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadManager,
-                                     Settings *settings, QWidget *parent)
+AddBatchDialog::AddBatchDialog(const QUrl &url, DownloadManager *downloadManager,
+                               Settings *settings, QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::AddDownloadDialog)
+    , ui(new Ui::AddBatchDialog)
     , m_downloadManager(downloadManager)
     , m_settings(settings)
 {
     ui->setupUi(this);
+
+    adjustSize();
+    setFixedHeight(height());
 
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
 
@@ -74,7 +77,7 @@ AddDownloadDialog::AddDownloadDialog(const QUrl &url, DownloadManager *downloadM
     readSettings();
 }
 
-AddDownloadDialog::~AddDownloadDialog()
+AddBatchDialog::~AddBatchDialog()
 {
     delete ui;
 }
@@ -84,7 +87,7 @@ AddDownloadDialog::~AddDownloadDialog()
 /*!
  * \brief Immediate download of the url. The Dialog GUI is not displayed.
  */
-void AddDownloadDialog::quickDownload(const QUrl &url, DownloadManager *downloadManager)
+void AddBatchDialog::quickDownload(const QUrl &url, DownloadManager *downloadManager)
 {
     if (downloadManager == Q_NULLPTR) {
         return;
@@ -115,24 +118,24 @@ void AddDownloadDialog::quickDownload(const QUrl &url, DownloadManager *download
 
 /******************************************************************************
  ******************************************************************************/
-void AddDownloadDialog::accept()
+void AddBatchDialog::accept()
 {
     doAccept(true);
 }
 
-void AddDownloadDialog::acceptPaused()
+void AddBatchDialog::acceptPaused()
 {
     doAccept(false);
 }
 
-void AddDownloadDialog::reject()
+void AddBatchDialog::reject()
 {
     QDialog::reject();
 }
 
 /******************************************************************************
  ******************************************************************************/
-void AddDownloadDialog::showContextMenu(const QPoint &/*pos*/)
+void AddBatchDialog::showContextMenu(const QPoint &/*pos*/)
 {
     QMenu *contextMenu = ui->urlLineEdit->createStandardContextMenu();
     QAction *first = contextMenu->actions().first();
@@ -162,34 +165,34 @@ void AddDownloadDialog::showContextMenu(const QPoint &/*pos*/)
     contextMenu->deleteLater();
 }
 
-void AddDownloadDialog::insert_1_to_10()
+void AddBatchDialog::insert_1_to_10()
 {
     ui->urlLineEdit->insert("[1:10]");
 }
 
-void AddDownloadDialog::insert_01_to_10()
+void AddBatchDialog::insert_01_to_10()
 {
     ui->urlLineEdit->insert("[01:10]");
 }
 
-void AddDownloadDialog::insert_1_to_100()
+void AddBatchDialog::insert_1_to_100()
 {
     ui->urlLineEdit->insert("[1:100]");
 }
 
-void AddDownloadDialog::insert_001_to_100()
+void AddBatchDialog::insert_001_to_100()
 {
     ui->urlLineEdit->insert("[001:100]");
 }
 
-void AddDownloadDialog::insert_custom()
+void AddBatchDialog::insert_custom()
 {
     ui->urlLineEdit->insert(ui->tagButton_Custom->toolTip());
 }
 
 /******************************************************************************
  ******************************************************************************/
-void AddDownloadDialog::onChanged(QString)
+void AddBatchDialog::onChanged(QString)
 {
     const bool enabled = ui->urlFormWidget->isValid();
     ui->startButton->setEnabled(enabled);
@@ -198,7 +201,7 @@ void AddDownloadDialog::onChanged(QString)
 
 /******************************************************************************
  ******************************************************************************/
-void AddDownloadDialog::doAccept(bool started)
+void AddBatchDialog::doAccept(bool started)
 {
     const QString input = ui->urlFormWidget->url();
     const QUrl url = Mask::fromUserInput(input);
@@ -232,7 +235,7 @@ void AddDownloadDialog::doAccept(bool started)
 
 /******************************************************************************
  ******************************************************************************/
-QMessageBox::StandardButton AddDownloadDialog::askBatchDownloading(QList<IDownloadItem*> items)
+QMessageBox::StandardButton AddBatchDialog::askBatchDownloading(QList<IDownloadItem*> items)
 {
     if (!m_settings || m_settings->isConfirmBatchDownloadEnabled()) {
 
@@ -284,7 +287,7 @@ QMessageBox::StandardButton AddDownloadDialog::askBatchDownloading(QList<IDownlo
 
 /******************************************************************************
  ******************************************************************************/
-QList<IDownloadItem*> AddDownloadDialog::createItems(const QUrl &inputUrl) const
+QList<IDownloadItem*> AddBatchDialog::createItems(const QUrl &inputUrl) const
 {
     QList<IDownloadItem*> items;
     const QStringList urls = Regex::interpret(inputUrl);
@@ -294,7 +297,7 @@ QList<IDownloadItem*> AddDownloadDialog::createItems(const QUrl &inputUrl) const
     return items;
 }
 
-IDownloadItem* AddDownloadDialog::createItem(const QString &url) const
+IDownloadItem* AddBatchDialog::createItem(const QString &url) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
@@ -304,15 +307,16 @@ IDownloadItem* AddDownloadDialog::createItem(const QString &url) const
     return item;
 }
 
-inline QList<IDownloadItem*> AddDownloadDialog::toList(IDownloadItem *item)
+inline QList<IDownloadItem*> AddBatchDialog::toList(IDownloadItem *item)
 {
     return QList<IDownloadItem*>() << item;
 }
 
 /******************************************************************************
  ******************************************************************************/
-void AddDownloadDialog::readSettings()
+void AddBatchDialog::readSettings()
 {
+    // TODO move to urlFormWidget ?
     QSettings settings;
     settings.beginGroup("Wizard");
     ui->urlFormWidget->setCurrentPath(settings.value("Path", QString()).toString());
@@ -321,7 +325,7 @@ void AddDownloadDialog::readSettings()
     settings.endGroup();
 }
 
-void AddDownloadDialog::writeSettings()
+void AddBatchDialog::writeSettings()
 {
     QSettings settings;
     settings.beginGroup("Wizard");
