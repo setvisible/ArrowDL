@@ -25,6 +25,7 @@
 #include <Widgets/UrlFormWidget>
 
 #include <QtCore/QDebug>
+#include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtCore/QList>
 #include <QtCore/QSettings>
@@ -46,7 +47,12 @@ AddTorrentDialog::AddTorrentDialog(const QUrl &url, DownloadManager *downloadMan
 
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
 
-    ui->urlLineEdit->setText(url.toString());
+    // The input URL can be a .torrent on local drive, or a remote .torrent.
+    if (url.isLocalFile()) {
+        ui->urlLineEdit->setText(QDir::toNativeSeparators(url.toLocalFile()));
+    } else {
+        ui->urlLineEdit->setText(url.toString());
+    }
     ui->urlLineEdit->setFocus();
 
     connect(ui->urlLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onChanged(QString)));
@@ -66,7 +72,6 @@ bool AddTorrentDialog::isTorrentUrl(const QUrl &url)
 {
     if (url.scheme().toLower() == QLatin1String("magnet")) {
         return true;
-
     } else {
         QFileInfo fi(url.path());
         if (fi.suffix().toLower() == QLatin1String("torrent")) {
@@ -119,11 +124,6 @@ IDownloadItem* AddTorrentDialog::createItem(const QString &url) const
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
     resource->setTorrentEnabled(true);
-
-
-    // resource->setUrl("magnet:?xt=urn:btih:b17e2c6ce8d901a59b77f68781500640e5c0d917&dn=Bad.Boys.for.Life.2020.1080p.WEBRip.x264.AAC5.1-MP4&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.ccc.de%3A80");
-    //  resource->setCustomFileName("[Wait... Downloading metadata...].torrent");
-
     auto item = new DownloadTorrentItem(m_downloadManager);
     item->setResource(resource);
     return item;

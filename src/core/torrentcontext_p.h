@@ -21,10 +21,12 @@
 
 #include <Core/Torrent>
 
+#include <QtCore/QObject>
 #include <QtCore/QThread>
+#include <QtCore/QMap>
+#include <QtNetwork/QNetworkAccessManager>
 
 #include <vector> // std::vector
-#include <ctime>  // std::time_t
 
 #include "libtorrent/fwd.hpp"
 #include "libtorrent/error_code.hpp"    // lt::error_code
@@ -49,13 +51,13 @@ public:
     QList<TorrentSettingItem> presetMinCache() const;
     QList<TorrentSettingItem> presetHighPerf() const;
 
-    /// \todo  void addTorrent(DownloadTorrentItem *item);
-    void addFromInfoHash(const QString &infohash);
-    void addMagnet(const QString &magnetURI);
-    bool addTorrentUrl(DownloadTorrentItem *item); // return false on failure
+    void prepareTorrent(DownloadTorrentItem *item);
+    void stopPrepare(DownloadTorrentItem *item);
 
-    void removeTorrent(DownloadTorrentItem *item);
     bool hasTorrent(DownloadTorrentItem *item);
+
+    bool addTorrent(DownloadTorrentItem *item); // return false on failure
+    void removeTorrent(DownloadTorrentItem *item);
 
     void resumeTorrent(DownloadTorrentItem *item);
     void pauseTorrent(DownloadTorrentItem *item);
@@ -106,7 +108,19 @@ public:
     inline DownloadTorrentItem* find(const UniqueId &uuid);
     inline lt::torrent_handle find(DownloadTorrentItem *item);
 
+
+private slots:
+    void onNetworkReplyFinished();
 private:
+    QNetworkAccessManager m_networkManager;
+    QMap<QNetworkReply*, DownloadTorrentItem*> m_currentDownloads;
+    void downloadMagnetLink(DownloadTorrentItem *item);
+    void downloadTorrentFile(DownloadTorrentItem *item);
+    void abortNetworkReply(DownloadTorrentItem *item);
+
+    void writeTorrentFile(const QString &filename, QIODevice *data);
+    void readTorrentFile(const QString &filename, DownloadTorrentItem *item);
+
     QList<TorrentSettingItem> _toPreset(const lt::settings_pack all) const;
     static QVariant _get_str(const lt::settings_pack &pack, const int index);
     static QVariant _get_int(const lt::settings_pack &pack, const int index);
@@ -134,6 +148,8 @@ public:
 
     lt::torrent_handle findTorrent(const UniqueId &uuid) const;
 
+    TorrentInitialMetaInfo dump(const QString &filename) const;
+
 signals:
     void dataUpdated(TorrentData data);
     void statusUpdated(TorrentStatus status);
@@ -149,15 +165,23 @@ private:
 
     void signalizeAlert(lt::alert* alert);
 
-    inline void signalizeDataUpdated(
-            const libtorrent::torrent_handle &handle,
-            const libtorrent::add_torrent_params &params,
-            const libtorrent::error_code &error);
 
-    inline void signalizeStatusUpdated(const std::vector<lt::torrent_status> &vec);
+    inline void onTorrentAdded(const lt::torrent_handle &handle,
+                               const lt::add_torrent_params &params,
+                               const lt::error_code &error);
+    inline void onMetadataReceived(const lt::torrent_handle &handle);
+    inline void onStateUpdated(const std::vector<lt::torrent_status> &status);
+
+
+    inline void signalizeDataUpdated(const lt::torrent_handle &handle,
+                                     const lt::add_torrent_params &params);
     inline void signalizeStatusUpdated(const lt::torrent_status &status);
 
-    inline TorrentHandleInfo toTorrentHandleInfo(const libtorrent::torrent_handle &handle) const;
+
+    inline TorrentInitialMetaInfo toTorrentInitialMetaInfo(std::shared_ptr<lt::torrent_info const> ti) const;
+    inline TorrentMetaInfo toTorrentMetaInfo(const lt::add_torrent_params &params) const;
+    inline TorrentHandleInfo toTorrentHandleInfo(const lt::torrent_handle &handle) const;
+
 
     inline QString toString(const std::string &str) const;
     inline QString toString(const lt::string_view &s) const;

@@ -48,7 +48,7 @@ class TorrentContext : public QObject
     // due to the compilers behavior to check accessibility
     // before deleted status
 private:
-     TorrentContext();
+    TorrentContext();
     ~TorrentContext();
 public:
     TorrentContext(TorrentContext const&) = delete; // Don't Implement
@@ -66,7 +66,7 @@ public:
 
     /* Settings */
     Settings* settings() const;
-    void setSettings(Settings *settings);   
+    void setSettings(Settings *settings);
 
     QList<TorrentSettingItem> allSettingsKeysAndValues() const;
     QList<TorrentSettingItem> presetDefault() const;
@@ -79,9 +79,12 @@ public:
     void setEnabled(bool enabled);
 
     /* Torrents */
-    void addTorrent(DownloadTorrentItem *item);
-    void removeTorrent(DownloadTorrentItem *item);
+    void prepareTorrent(DownloadTorrentItem *item);
+    void stopPrepare(DownloadTorrentItem *item);
+
     bool hasTorrent(DownloadTorrentItem *item);
+    bool addTorrent(DownloadTorrentItem *item);
+    void removeTorrent(DownloadTorrentItem *item);
 
     void resumeTorrent(DownloadTorrentItem *item);
     void pauseTorrent(DownloadTorrentItem *item);

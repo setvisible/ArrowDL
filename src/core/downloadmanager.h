@@ -45,7 +45,7 @@ public:
 
     /* Utility */
     IDownloadItem* createItem(const QUrl &url) Q_DECL_OVERRIDE;
-    IDownloadItem* createTorrentItem(const QUrl &url, const QByteArray &data) Q_DECL_OVERRIDE;
+    IDownloadItem* createTorrentItem(const QUrl &url) Q_DECL_OVERRIDE;
 
 private slots:
     void onSettingsChanged();

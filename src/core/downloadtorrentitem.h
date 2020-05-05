@@ -41,22 +41,17 @@ class DownloadTorrentItem : public DownloadItem
 
 public:
     DownloadTorrentItem(DownloadManager *downloadManager);
-    DownloadTorrentItem(DownloadManager *downloadManager, QByteArray torrentData);
     ~DownloadTorrentItem() Q_DECL_OVERRIDE;
 
     void setResource(ResourceItem *resource) Q_DECL_OVERRIDE;
-
-    QUrl sourceUrl() const Q_DECL_OVERRIDE;
 
     void resume() Q_DECL_OVERRIDE;
     void pause() Q_DECL_OVERRIDE;
     void stop() Q_DECL_OVERRIDE;
 
-    /* Serialization */
-    QByteArray torrentData() const;
-    void setTorrentData(const QByteArray &torrentData);
+    /* Metadata and info */
+    QString status() const;
 
-    /* Metadata */
     TorrentMetaInfo metaInfo() const;
     void setMetaInfo(TorrentMetaInfo metaInfo);
 
@@ -75,11 +70,6 @@ public:
     QList<int> defaultPeerColumnWidths() const;
     QList<int> defaultTrackerColumnWidths() const;
 
-private:
-    void onMetaDataChanged();
-    void onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
-    void onFinished();
-    void onError(QString errorMessage);
 
 private:
     DownloadTorrentItemPrivate *d;
@@ -87,6 +77,8 @@ private:
     friend class TorrentContextPrivate;
 
     inline DownloadTorrentItemPrivate* data() { return d; }
+
+    bool isPreparing() const;
 };
 
 #endif // CORE_DOWNLOAD_TORRENT_ITEM_H

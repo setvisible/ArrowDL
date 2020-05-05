@@ -34,8 +34,6 @@ public:
     DownloadTorrentItemPrivate(DownloadTorrentItem *qq);
     DownloadTorrentItem *q;
 
-    QByteArray m_torrentData;
-
     TorrentMetaInfo metaInfo;
     TorrentInfo info;
     TorrentHandleInfo detail;
@@ -44,7 +42,6 @@ public:
     TorrentPeerTableModel* m_peerModel;
     TorrentTrackerTableModel* m_trackerModel;
 
-    void startTorrentInfoAsync();
 };
 
 /******************************************************************************

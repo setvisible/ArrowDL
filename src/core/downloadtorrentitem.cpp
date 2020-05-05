@@ -29,28 +29,41 @@ DownloadTorrentItem::DownloadTorrentItem(DownloadManager *downloadManager)
 {
 }
 
-DownloadTorrentItem::DownloadTorrentItem(DownloadManager *downloadManager, QByteArray torrentData)
-    : DownloadItem(downloadManager)
-    , d(new DownloadTorrentItemPrivate(this))
-{
-    setTorrentData(torrentData);
-}
-
 DownloadTorrentItem::~DownloadTorrentItem()
 {
 }
 
 /******************************************************************************
  ******************************************************************************/
-QByteArray DownloadTorrentItem::torrentData() const
+void DownloadTorrentItem::setResource(ResourceItem *resource)
 {
-    return d->m_torrentData;
+    /*
+     * For torrent, mask is "*name*.*ext*" to not make extra sub-directories.
+     * Subdirs are already managed by the torrent engine.
+     */
+    resource->setMask(QLatin1String("*name*.*ext*"));
+
+    DownloadItem::setResource(resource);
+
+    /*
+     * Reimplement this method to detect when the URL of the resource is
+     * available, so that TorrentContext can (down-)load the metadata as soon
+     * as possible.
+     */
+
+    setState(IDownloadItem::Preparing);
+    emit changed();
+
+    // Download the metadata (the .torrent file) if not already downloaded
+    TorrentContext::getInstance().prepareTorrent(this);
+    emit changed();
 }
 
-void DownloadTorrentItem::setTorrentData(const QByteArray &torrentData)
+/******************************************************************************
+ ******************************************************************************/
+QString DownloadTorrentItem::status() const
 {
-    d->m_torrentData = torrentData;
-    emit changed();
+    return d->info.torrentStateString();
 }
 
 /******************************************************************************
@@ -63,6 +76,9 @@ TorrentMetaInfo DownloadTorrentItem::metaInfo() const
 void DownloadTorrentItem::setMetaInfo(TorrentMetaInfo metaInfo)
 {
     d->metaInfo = metaInfo;
+
+    // requires a GUI update signal, because metaInfo can change
+    // even if the downloadItem is Paused or Stopped
     emit changed();
 }
 
@@ -75,10 +91,45 @@ TorrentInfo DownloadTorrentItem::info() const
 
 void DownloadTorrentItem::setInfo(TorrentInfo info)
 {
+    // qDebug() << Q_FUNC_INFO << info.torrentStateString() << info.bytesTotal << info.bytesReceived;
     d->info = info;
-    updateInfo(info.bytesReceived, info.bytesTotal);
-    setState(info.status);
+
+    IDownloadItem::State downloadItemState;
+
+    switch (static_cast<int>(info.state)) {
+    case TorrentInfo::stopped:
+        downloadItemState = IDownloadItem::Paused;
+
+        break;
+    case TorrentInfo::checking_files:
+    case TorrentInfo::downloading_metadata:
+        downloadItemState = IDownloadItem::Preparing;
+
+        break;
+    case TorrentInfo::downloading:
+        downloadItemState = IDownloadItem::Downloading;
+        updateInfo(info.bytesReceived, info.bytesTotal);
+
+        break;
+    case TorrentInfo::finished:
+    case TorrentInfo::seeding:
+    case TorrentInfo::allocating:
+    case TorrentInfo::checking_resume_data:
+        downloadItemState = IDownloadItem::Completed;
+
+        // here, info.bytesTotal == 0 !
+        updateInfo(d->metaInfo.initialMetaInfo.bytesTotal,
+                   d->metaInfo.initialMetaInfo.bytesTotal);
+
+        break;
+    default:
+        Q_UNREACHABLE();
+        break;
+    }
+
+    setState(downloadItemState);
 }
+
 /******************************************************************************
  ******************************************************************************/
 TorrentHandleInfo DownloadTorrentItem::detail() const
@@ -125,36 +176,14 @@ QList<int> DownloadTorrentItem::defaultTrackerColumnWidths() const
     return d->m_trackerModel->defaultColumnWidths();
 }
 
-
-/******************************************************************************
- ******************************************************************************/
-void DownloadTorrentItem::setResource(ResourceItem *resource)
-{
-    DownloadItem::setResource(resource);
-    //    if (resource) {
-    //        m_torrent->setUrl(resource->url());// weird
-    //        m_torrent->setTorrentData(m_torrent->torrentData());
-    //    }
-    d->startTorrentInfoAsync(); // hack to detect when resource's URL is available
-}
-
-/******************************************************************************
- ******************************************************************************/
-/*
- * DownloadTorrentItem is a container of sub-items.
- * So we need to override these methods.
- */
-QUrl DownloadTorrentItem::sourceUrl() const
-{
-    QUrl url = DownloadItem::sourceUrl();
-    url.setHost("peer-to-peer"); // dummy hostname, to differentiate torrent vs. classic item
-    return url;
-}
-
 /******************************************************************************
  ******************************************************************************/
 void DownloadTorrentItem::resume()
 {
+    if (isPreparing()) {
+        return;
+    }
+
     qDebug() << Q_FUNC_INFO
              << localFullFileName()  // localdrive/destination/t.torrent
              << resource()->url() // remote/origine/t.torrent
@@ -168,7 +197,14 @@ void DownloadTorrentItem::resume()
      */
 
     if (!TorrentContext::getInstance().hasTorrent(this)) {
-        TorrentContext::getInstance().addTorrent(this);
+        bool ok = TorrentContext::getInstance().addTorrent(this);
+        if (!ok) {
+            d->metaInfo.error.type = TorrentError::FailedToAddError;
+            d->metaInfo.error.message = tr("Bad .torrent format: Can't download it.");
+            stop();
+            return;
+        }
+
     }
     TorrentContext::getInstance().resumeTorrent(this);
     this->tearDownResume();
@@ -176,87 +212,35 @@ void DownloadTorrentItem::resume()
 
 void DownloadTorrentItem::pause()
 {
-    TorrentContext::getInstance().pauseTorrent(this);
+    if (isPreparing()) {
+        TorrentContext::getInstance().stopPrepare(this);
+
+    } else {
+        if (TorrentContext::getInstance().hasTorrent(this)) {
+            TorrentContext::getInstance().pauseTorrent(this);
+        }
+    }
     AbstractDownloadItem::pause();
 }
 
 void DownloadTorrentItem::stop()
 {
     file()->cancel();
-    if (TorrentContext::getInstance().hasTorrent(this)) {
-        TorrentContext::getInstance().removeTorrent(this);
+
+    if (isPreparing()) {
+        TorrentContext::getInstance().stopPrepare(this);
+
+    } else {
+        if (TorrentContext::getInstance().hasTorrent(this)) {
+            TorrentContext::getInstance().removeTorrent(this);
+        }
     }
     AbstractDownloadItem::stop();
 }
 
-
 /******************************************************************************
  ******************************************************************************/
-void DownloadTorrentItem::onMetaDataChanged()
+bool DownloadTorrentItem::isPreparing() const
 {
-    qDebug() << Q_FUNC_INFO;
-}
-
-void DownloadTorrentItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
-{
-    qDebug() << Q_FUNC_INFO << bytesReceived << "/" << bytesTotal;
-    updateInfo(bytesReceived, bytesTotal);
-}
-
-void DownloadTorrentItem::onFinished()
-{
-    qDebug() << Q_FUNC_INFO << state();
-
-    switch (state()) {
-    case Idle:
-    case Preparing:
-    case Connecting:
-    case Downloading:
-    case Endgame:
-    case Completed:
-        if (bytesTotal() == 0) {
-            /*
-             * Trick:
-             * Server can close invalid connection by sending an empty reply.
-             * In this case, QNetworkAccessManager triggers finished(),
-             * but doesn't trigger error().
-             * Here we verify the size of the received file and set the error.
-             */
-            setState(NetworkError);
-            setBytesReceived(0);
-            // setBytesTotal(0);
-            emit changed();
-        } else {
-            /* Here, finish the operation if downloading. */
-            /* If network error or file error, just ignore */
-
-            // bool commited = file()->commit();
-            bool commited = true;   /* HACK */
-            preFinish(commited);
-        }
-        break;
-
-    case Paused:
-    case Stopped:
-    case Skipped:
-    case NetworkError:
-    case FileError:
-        setBytesReceived(0);
-        setBytesTotal(0);
-        emit changed();
-        break;
-
-    default:
-        Q_UNREACHABLE();
-        break;
-    }
-    this->finish();
-}
-
-void DownloadTorrentItem::onError(QString errorMessage)
-{
-    qDebug() << Q_FUNC_INFO << errorMessage;
-    setHttpErrorNumber(static_cast<int>(404));
-    setStreamErrorMessage(errorMessage);
-    setState(NetworkError);
+    return state() == Preparing;
 }

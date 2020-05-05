@@ -30,15 +30,6 @@ DownloadTorrentItemPrivate::DownloadTorrentItemPrivate(DownloadTorrentItem *qq)
     m_trackerModel = new TorrentTrackerTableModel(q);
 }
 
-
-/******************************************************************************
- ******************************************************************************/
-void DownloadTorrentItemPrivate::startTorrentInfoAsync()
-{
-    qDebug() << Q_FUNC_INFO;
-    q->setState(DownloadTorrentItem::State::Preparing);
-}
-
 /******************************************************************************
  ******************************************************************************/
 AbstractTorrentTableModel::AbstractTorrentTableModel(DownloadTorrentItem *parent)
@@ -89,7 +80,7 @@ TorrentFileTableModel::TorrentFileTableModel(DownloadTorrentItem *parent)
 
 int TorrentFileTableModel::rowCount(const QModelIndex &parent) const
 {
-    return parent.isValid() ? 0 : qMin(m_filesMeta.count(), m_files.count());
+    return parent.isValid() ? 0 : m_filesMeta.count();
 }
 
 static QString shortPath(const QString &path)
@@ -112,7 +103,11 @@ QVariant TorrentFileTableModel::data(const QModelIndex &item, int role) const
     if (role == Qt::DisplayRole) {
 
         const TorrentFileMetaInfo mi = m_filesMeta.at(item.row());
-        const TorrentFileInfo ti = m_files.at(item.row());
+
+        TorrentFileInfo ti;
+        if (item.row() < m_files.count()) {
+            ti = m_files.at(item.row());
+        }
 
         const qint64 percentageDownloaded
                 = mi.bytesTotal != 0 ? 100 * ti.bytesReceived / mi.bytesTotal : 0;

@@ -193,18 +193,11 @@ IDownloadItem* DownloadManager::createItem(const QUrl &url)
     return item;
 }
 
-IDownloadItem* DownloadManager::createTorrentItem(const QUrl &url, const QByteArray &data)
+IDownloadItem* DownloadManager::createTorrentItem(const QUrl &url)
 {
     ResourceItem* resource = createResourceItem(url);
-
-    // For torrent, we force mask to be "*name*.*ext*",
-    // to avoid making extra sub-directories
-    // since subdirs are managed by the torrent engine
-    resource->setMask("*name*.*ext*");
-
-    resource->setTorrentRawData(data);
     resource->setTorrentEnabled(true);
-    auto item = new DownloadTorrentItem(this, data);
+    auto item = new DownloadTorrentItem(this);
     item->setResource(resource);
     return item;
 }

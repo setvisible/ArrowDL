@@ -22,8 +22,6 @@
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
 
-#include <fstream>  // std::fstream
-
 
 bool TorrentHandler::canRead() const
 {
@@ -33,19 +31,6 @@ bool TorrentHandler::canRead() const
 bool TorrentHandler::canWrite() const
 {
     return false;
-}
-
-static std::vector<char> hack_load_file(std::string const& filename)
-{
-    std::fstream in;
-    in.exceptions(std::ifstream::failbit);
-    in.open(filename.c_str(), std::ios_base::in | std::ios_base::binary);
-    in.seekg(0, std::ios_base::end);
-    size_t const size = size_t(in.tellg());
-    in.seekg(0, std::ios_base::beg);
-    std::vector<char> ret(size);
-    in.read(ret.data(), static_cast<std::streamsize>(size));
-    return ret;
 }
 
 bool TorrentHandler::read(DownloadEngine *engine)
@@ -60,17 +45,20 @@ bool TorrentHandler::read(DownloadEngine *engine)
     if (!d->isReadable()) {
         return false;
     }
+    /*
+     * Rem: The .torrent file is not read at this point.
+     * The address is simply passed to the DownloadTorrentItem.
+     * The DownloadTorrentItem is in charge of (down)loading the .torrent file
+     * (eventually from magnet link), that contains metadata,
+     * and finally download the data of the file itself.
+     */
     QUrl url;
     QFile* f = static_cast<QFile*>(d);
     if (f) {
         auto filename = f->fileName();
         url = QUrl(filename);
     }
-
-    std::vector<char> buf = hack_load_file(url.toString().toStdString());
-    QByteArray data(&buf[0], static_cast<int>(buf.size()));
-
-    IDownloadItem *item = engine->createTorrentItem(url, data);
+    IDownloadItem *item = engine->createTorrentItem(url);
     if (!item) {
         qWarning("DownloadEngine::createItem() not overridden. It still returns null pointer!");
         return false;
