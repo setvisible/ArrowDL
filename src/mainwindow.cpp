@@ -253,16 +253,15 @@ void MainWindow::createActions()
     connect(ui->actionDeleteFile, SIGNAL(triggered()), this, SLOT(deleteFile()));
     connect(ui->actionOpenDirectory, SIGNAL(triggered()), this, SLOT(openDirectory()));
     // --
-    connect(ui->actionRemoveCompletedDownloads, SIGNAL(triggered()), this, SLOT(removeCompletedDownloads()));
-    connect(ui->actionRemoveAll1, SIGNAL(triggered()), this, SLOT(removeAll()));
-    connect(ui->actionCleanGoneFiles, SIGNAL(triggered()), this, SLOT(cleanGoneFiles()));
-    // --
-    connect(ui->actionRemoveDownloads, SIGNAL(triggered()), this, SLOT(removeDownloads()));
+    connect(ui->actionRemoveCompleted, SIGNAL(triggered()), this, SLOT(removeCompleted()));
     connect(ui->actionRemoveSelected, SIGNAL(triggered()), this, SLOT(removeSelected()));
+    connect(ui->actionRemoveAll, SIGNAL(triggered()), this, SLOT(removeAll()));
+    // --
+    connect(ui->actionRemoveWaiting, SIGNAL(triggered()), this, SLOT(removeWaiting()));
     connect(ui->actionRemoveDuplicates, SIGNAL(triggered()), this, SLOT(removeDuplicates()));
-    connect(ui->actionRemoveAll2, SIGNAL(triggered()), this, SLOT(removeAll()));
-    connect(ui->actionRemoveFailed, SIGNAL(triggered()), this, SLOT(removeFailed()));
+    connect(ui->actionRemoveRunning, SIGNAL(triggered()), this, SLOT(removeRunning()));
     connect(ui->actionRemovePaused, SIGNAL(triggered()), this, SLOT(removePaused()));
+    connect(ui->actionRemoveFailed, SIGNAL(triggered()), this, SLOT(removeFailed()));
     //! [2]
 
     //! [3] Download
@@ -323,20 +322,17 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionPause);
     contextMenu->addAction(ui->actionCancel);
     contextMenu->addSeparator();
-    contextMenu->addAction(ui->actionRemoveCompletedDownloads);
-    contextMenu->addAction(ui->actionRemoveAll1);
+    contextMenu->addAction(ui->actionRemoveCompleted);
+    contextMenu->addAction(ui->actionRemoveSelected);
+    contextMenu->addAction(ui->actionRemoveAll);
 
     QMenu *remove = contextMenu->addMenu(tr("Other"));
-    remove->addAction(ui->actionRemoveDownloads);
-    remove->addSeparator();
-    remove->addAction(ui->actionCleanGoneFiles);
-    remove->addSeparator();
-    remove->addAction(ui->actionRemoveSelected);
-    remove->addSeparator();
+    remove->addAction(ui->actionRemoveWaiting);
     remove->addAction(ui->actionRemoveDuplicates);
     remove->addSeparator();
-    remove->addAction(ui->actionRemoveFailed);
+    remove->addAction(ui->actionRemoveRunning);
     remove->addAction(ui->actionRemovePaused);
+    remove->addAction(ui->actionRemoveFailed);
 
     contextMenu->addSeparator();
     contextMenu->addAction(ui->actionSelectAll);
@@ -614,6 +610,8 @@ void MainWindow::openDirectory()
     }
 }
 
+/******************************************************************************
+ ******************************************************************************/
 bool MainWindow::askConfirmation(const QString &text)
 {
     if (m_settings->isConfirmRemovalEnabled()) {
@@ -639,30 +637,11 @@ bool MainWindow::askConfirmation(const QString &text)
     return true;
 }
 
-void MainWindow::cleanGoneFiles()
-{
-    if (askConfirmation(tr("waiting"))) {
-        m_downloadManager->remove(m_downloadManager->waitingJobs());
-    }
-}
-
 void MainWindow::removeAll()
 {    
     if (askConfirmation(tr("ALL"))) {
         m_downloadManager->remove(m_downloadManager->downloadItems());
     }
-}
-
-void MainWindow::removeCompletedDownloads()
-{
-    if (askConfirmation(tr("completed"))) {
-        m_downloadManager->remove(m_downloadManager->completedJobs());
-    }
-}
-
-void MainWindow::removeDownloads()
-{
-    removeSelected();
 }
 
 void MainWindow::removeSelected()
@@ -677,10 +656,17 @@ void MainWindow::removeDuplicates()
     qDebug() << Q_FUNC_INFO << "TODO remove Duplicates";
 }
 
-void MainWindow::removeFailed()
+void MainWindow::removeCompleted()
 {
-    if (askConfirmation(tr("failed"))) {
-        m_downloadManager->remove(m_downloadManager->failedJobs());
+    if (askConfirmation(tr("completed"))) {
+        m_downloadManager->remove(m_downloadManager->completedJobs());
+    }
+}
+
+void MainWindow::removeWaiting()
+{
+    if (askConfirmation(tr("waiting"))) {
+        m_downloadManager->remove(m_downloadManager->waitingJobs());
     }
 }
 
@@ -688,6 +674,26 @@ void MainWindow::removePaused()
 {
     if (askConfirmation(tr("paused"))) {
         m_downloadManager->remove(m_downloadManager->pausedJobs());
+    }
+}
+
+void MainWindow::removeFailed()
+{
+    if (askConfirmation(tr("failed"))) {
+        m_downloadManager->remove(m_downloadManager->failedJobs());
+    }
+}
+
+
+void MainWindow::removeRunning()
+{
+    if (askConfirmation(tr("running"))) {
+        m_downloadManager->remove(m_downloadManager->runningJobs());
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
     }
 }
 
@@ -724,6 +730,8 @@ void MainWindow::addFromTorrent(const QUrl &url)
     dialog.exec();
 }
 
+/******************************************************************************
+ ******************************************************************************/
 void MainWindow::resume()
 {
     foreach (auto item, m_downloadManager->selection()) {
@@ -1000,16 +1008,15 @@ void MainWindow::refreshMenus()
     ui->actionDeleteFile->setEnabled(hasOnlyCompletedSelected);
     ui->actionOpenDirectory->setEnabled(hasOnlyOneSelected);
     // --
-    ui->actionRemoveCompletedDownloads->setEnabled(hasJobs);
-    ui->actionRemoveAll1->setEnabled(hasJobs);
-    ui->actionCleanGoneFiles->setEnabled(hasJobs);
+    ui->actionRemoveCompleted->setEnabled(hasJobs);
+    ui->actionRemoveSelected->setEnabled(hasSelection);
+    ui->actionRemoveAll->setEnabled(hasJobs);
     // --
-    ui->actionRemoveDownloads->setEnabled(hasJobs);
-    ui->actionRemoveSelected->setEnabled(hasJobs);
+    ui->actionRemoveWaiting->setEnabled(hasJobs);
     ui->actionRemoveDuplicates->setEnabled(hasJobs);
-    ui->actionRemoveAll2->setEnabled(hasJobs);
-    ui->actionRemoveFailed->setEnabled(hasJobs);
+    ui->actionRemoveRunning->setEnabled(hasJobs);
     ui->actionRemovePaused->setEnabled(hasJobs);
+    ui->actionRemoveFailed->setEnabled(hasJobs);
     //! [2]
 
     //! [3] Download

@@ -89,14 +89,14 @@ public slots:
     void renameFile();
     void deleteFile();
     void openDirectory();
-    void cleanGoneFiles();
     void removeAll();
-    void removeCompletedDownloads();
-    void removeDownloads();
     void removeSelected();
     void removeDuplicates();
+    void removeCompleted();
+    void removeWaiting();
     void removeFailed();
     void removePaused();
+    void removeRunning();
 
     // Download
     void add();
