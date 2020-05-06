@@ -18,9 +18,6 @@
 #define DIALOGS_STREAM_DIALOG_H
 
 #include <QtWidgets/QDialog>
-#include <QtWidgets/QMessageBox>
-
-class StreamExtractorListCollector;
 
 namespace Ui {
 class StreamDialog;
@@ -42,7 +39,9 @@ private slots:
 
 private:
     Ui::StreamDialog *ui;
-    StreamExtractorListCollector *m_streamCollector;
+
+    inline void askStreamVersionAsync();
+    inline void askStreamExtractorsAsync();
 };
 
 #endif // DIALOGS_STREAM_DIALOG_H

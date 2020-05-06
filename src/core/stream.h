@@ -21,6 +21,7 @@
 #include <QtCore/QProcess>
 #include <QtCore/QSharedPointer>
 #include <QtCore/QMetaType>
+#include <QtCore/QThread>
 
 QT_BEGIN_NAMESPACE
 class QDebug;
@@ -204,6 +205,22 @@ private:
     bool parseJSON(const QByteArray &data, StreamInfos *infos);
 };
 
+class AskStreamVersionThread : public QThread
+{
+    Q_OBJECT
+public:
+    AskStreamVersionThread(QObject *parent = nullptr): QThread(parent) {}
+
+    void run() Q_DECL_OVERRIDE;
+    void stop();
+
+signals:
+    void resultReady(const QString &s);
+
+private:
+    bool stopped = false;
+};
+
 class StreamExtractorListCollector : public QObject
 {
     Q_OBJECT
@@ -216,6 +233,7 @@ public:
 signals:
     void error(QString errorMessage);
     void collected(QStringList extractors, QStringList descriptions);
+    void finished();
 
 private slots:
     void onStarted();
