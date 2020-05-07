@@ -78,9 +78,12 @@ bool AddStreamDialog::isStreamUrl(const QUrl &url, const Settings *settings)
     if (url.isLocalFile()) {
         return false;
     }
-    auto host = url.host();
-    auto regexHosts = settings->streamHosts();
-    return Stream::matchesHost(host, regexHosts);
+    if (settings->isStreamHostEnabled()) {
+        auto host = url.host();
+        auto regexHosts = settings->streamHosts();
+        return Stream::matchesHost(host, regexHosts);
+    }
+    return false;
 }
 
 /******************************************************************************

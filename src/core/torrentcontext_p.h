@@ -27,6 +27,7 @@
 #include <QtNetwork/QNetworkAccessManager>
 
 #include <vector> // std::vector
+#include <ctime>  // std::time_t, definition required by MSVC 2017
 
 #include "libtorrent/fwd.hpp"
 #include "libtorrent/error_code.hpp"    // lt::error_code
