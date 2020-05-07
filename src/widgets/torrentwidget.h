@@ -53,8 +53,9 @@ private:
     void setupUiTableView(QTableView *view);
     void setColumnWidths(QTableView *view, const QList<int> &widths);
 
+    void updateWidget();
     void updateProgressBar();
-    void updateInfoTabPage();
+    void updateTorrentPage();
 
     static inline QString text(int value, bool showInfiniteSymbol = false);
     static inline QString text(const QString &text);

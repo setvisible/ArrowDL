@@ -321,6 +321,14 @@ void AbstractDownloadItem::updateInfo(qint64 bytesReceived, qint64 bytesTotal)
     } else {
         m_speed = -1;
     }
+    /*
+     * It's very tempting to add 'emit changed();' here, but don't do that.
+     *
+     * Indeed, 'emit changed()' informs the GUI of a change, i.e. every 150 msec.
+     *
+     * But updateInfo(int, int) is called more often by the download engine,
+     * typically every time a chunk of data is downloaded.
+     */
 }
 
 void AbstractDownloadItem::updateInfo()

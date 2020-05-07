@@ -46,15 +46,6 @@ static inline int stateToInt(IDownloadItem::State state)
     }
 }
 
-static inline QString encode64(const QByteArray &bytes)
-{
-    return QString::fromUtf8(bytes.toBase64());
-}
-
-static inline  QByteArray decode64(const QString &str)
-{
-    return QByteArray::fromBase64(str.toUtf8());
-}
 
 static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *downloadManager)
 {
@@ -72,11 +63,10 @@ static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *do
     resourceItem->setStreamFormatId(json["streamFormatId"].toString());
     resourceItem->setStreamFileSize(json["streamFileSize"].toInt());
     resourceItem->setTorrentEnabled(json["torrentEnabled"].toBool());
-    resourceItem->setTorrentRawData(decode64(json["torrentRawData"].toString()));
 
     DownloadItem *item;
     if (resourceItem->isTorrentEnabled()) {
-        item = new DownloadTorrentItem(downloadManager, resourceItem->torrentRawData());
+        item = new DownloadTorrentItem(downloadManager);
 
     } else if (resourceItem->isStreamEnabled()) {
         item = new DownloadStreamItem(downloadManager);
@@ -108,7 +98,6 @@ static inline void writeJob(const DownloadItem *item, QJsonObject &json)
     json["streamFormatId"] = item->resource()->streamFormatId();
     json["streamFileSize"] = item->resource()->streamFileSize();
     json["torrentEnabled"] = item->resource()->isTorrentEnabled();
-    json["torrentRawData"] = encode64(item->resource()->torrentRawData());
 
     json["state"] = stateToInt(item->state());
     json["bytesReceived"] = item->bytesReceived();

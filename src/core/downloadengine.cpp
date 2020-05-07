@@ -502,7 +502,7 @@ IDownloadItem* DownloadEngine::createItem(const QUrl &/*url*/)
 /*!
  * \sa DownloadEngine::createItem()
  */
-IDownloadItem* DownloadEngine::createTorrentItem(const QUrl &/*url*/, const QByteArray &/*data*/)
+IDownloadItem* DownloadEngine::createTorrentItem(const QUrl &/*url*/)
 {
     return Q_NULLPTR;
 }

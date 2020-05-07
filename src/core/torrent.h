@@ -42,27 +42,44 @@ static inline void _q_set_flag(QFlags<Enum> *f, Enum flag, bool on = true)
 }
 
 
-
 /******************************************************************************
  ******************************************************************************/
 class TorrentError
 {
 public:
     enum Type {
-        UnknownError,
+        NoError,
+
+        /* Errors when adding the torrent to the queue */
+
+        // Couldn't download Magnet link or torrent file Metadata
+        MetadataDownloadError,
+
+        // Magnet link or torrent file is not valid
+        FailedToAddError,
+
+        // Torrent isn't loaded yet, primarily because magnet link
+        // has not had its metadata resolved yet.
+        NoInfoYetError,
+
+        /* Errors when downloading */
         FileError,
         SSLContextError,
         FileMetadataError,
         FileExceptionError,
-        PartFileError
+        PartFileError,
+
+        /* Other */
+        UnknownError
     };
+
     TorrentError() {}
     explicit TorrentError(Type _type, int _fileIndex = -1)
-        : type(_type), fileIndex(_fileIndex)
-    {}
+        : type(_type), fileIndex(_fileIndex), message(QString()) {}
 
-    Type type = UnknownError;
+    Type type = NoError;
     int fileIndex = -1;
+    QString message;
 };
 
 /******************************************************************************
@@ -260,7 +277,6 @@ public:
 class TorrentHandleInfo // Torrent
 {
 public:
-
     int uploadBandwidthLimit = -1; // bytes per second
     int downloadBandwidthLimit = -1;
 
@@ -283,10 +299,34 @@ public:
 class TorrentInfo // TorrentStatusInfo
 {
 public:
-    bool hasError = false;
+    enum TorrentState {
+        stopped,
+        checking_files         ,
+        downloading_metadata   ,
+        downloading            ,
+        finished               ,
+        seeding                ,
+        allocating             ,
+        checking_resume_data
+    };
+    QString torrentStateString() const
+    {
+        switch (state) {
+        case TorrentInfo::stopped                : return QObject::tr("Stopped");
+        case TorrentInfo::checking_files         : return QObject::tr("Checking Files");
+        case TorrentInfo::downloading_metadata   : return QObject::tr("Downloading Metadata");
+        case TorrentInfo::downloading            : return QObject::tr("Downloading");
+        case TorrentInfo::finished               : return QObject::tr("Finished");
+        case TorrentInfo::seeding                : return QObject::tr("Seeding");
+        case TorrentInfo::allocating             : return QObject::tr("Allocating");
+        case TorrentInfo::checking_resume_data   : return QObject::tr("Checking Resume Data");
+        default: return QString();
+        }
+    }
+
     TorrentError error;
 
-    IDownloadItem::State status;
+    TorrentState state;
 
     QString lastWorkingTrackerUrl;
 
@@ -415,13 +455,9 @@ public:
 
 /******************************************************************************
  ******************************************************************************/
-class TorrentMetaInfo
+class TorrentInitialMetaInfo
 {
 public:
-    bool hasError = false; // true if magnet link or torrent file is not valid
-
-    QString status;
-
     QString name;
     QDateTime creationDate;
     QString creator;
@@ -450,11 +486,22 @@ public:
     QList<QString> collections;
 
     QList<TorrentWebSeedMetaInfo> webSeeds;
+};
+
+/******************************************************************************
+ ******************************************************************************/
+class TorrentMetaInfo
+{
+public:
+    TorrentError error;
+
+    QString status;
+
+    TorrentInitialMetaInfo initialMetaInfo;
 
     QList<QString> trackers2;
     QList<TorrentNodeInfo> dhtNodes;
 
-    QString outputName;
     QString outputPath;
 
     QString defaultTrackerId;

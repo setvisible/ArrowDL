@@ -72,9 +72,6 @@ public:
     bool isTorrentEnabled() const;
     void setTorrentEnabled(bool enabled);
 
-    QByteArray torrentRawData() const;
-    void setTorrentRawData(const QByteArray &rawData);
-
     bool isSelected() const; // OBSOLETE
     void setSelected(bool isSelected); // OBSOLETE
 
@@ -94,7 +91,6 @@ private:
     qint64 m_streamFileSize;
 
     bool m_isTorrentEnabled;
-    QByteArray m_torrentRawData;
 
     bool m_isSelected = false;
 

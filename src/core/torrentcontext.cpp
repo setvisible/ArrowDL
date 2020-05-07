@@ -145,15 +145,14 @@ void TorrentContext::setEnabled(bool enabled)
 
 /******************************************************************************
  ******************************************************************************/
-void TorrentContext::addTorrent(DownloadTorrentItem *item)
+void TorrentContext::prepareTorrent(DownloadTorrentItem *item)
 {
-    qDebug() << Q_FUNC_INFO;
-    d->addTorrentUrl(item);
+    d->prepareTorrent(item);
 }
 
-void TorrentContext::removeTorrent(DownloadTorrentItem *item)
+void TorrentContext::stopPrepare(DownloadTorrentItem *item)
 {
-    d->removeTorrent(item);
+    d->stopPrepare(item);
 }
 
 /******************************************************************************
@@ -161,6 +160,18 @@ void TorrentContext::removeTorrent(DownloadTorrentItem *item)
 bool TorrentContext::hasTorrent(DownloadTorrentItem *item)
 {
     return d->hasTorrent(item);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+bool TorrentContext::addTorrent(DownloadTorrentItem *item)
+{
+    return d->addTorrent(item);
+}
+
+void TorrentContext::removeTorrent(DownloadTorrentItem *item)
+{
+    d->removeTorrent(item);
 }
 
 /******************************************************************************

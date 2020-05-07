@@ -42,6 +42,8 @@ TorrentWidget::TorrentWidget(QWidget *parent) : QWidget(parent)
     setupUiTableView(ui->trackerTableView);
 
     ui->downloadedProgressBar->setRange(0, 100);
+
+    resetUi();
 }
 
 TorrentWidget::~TorrentWidget()
@@ -89,8 +91,7 @@ void TorrentWidget::setDownloadItem(IDownloadItem *item)
  ******************************************************************************/
 void TorrentWidget::onChanged()
 {
-    updateProgressBar();
-    updateInfoTabPage();
+    updateWidget();
 }
 
 /******************************************************************************
@@ -118,34 +119,50 @@ void TorrentWidget::resetUi()
         ui->peerTableView->setModel(Q_NULLPTR);
         ui->trackerTableView->setModel(Q_NULLPTR);
     }
-    updateProgressBar();
-    updateInfoTabPage();
+
+    updateWidget();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void TorrentWidget::updateWidget()
+{
+    if (!m_item) {
+        ui->stackedWidget->setCurrentWidget(ui->pageGeneral);
+
+    } else {
+        if (m_item->metaInfo().error.type == TorrentError::NoError) {
+            updateProgressBar();
+            updateTorrentPage();
+            ui->stackedWidget->setCurrentWidget(ui->pageTorrent);
+
+        } else {
+            ui->labelErrorMessage->setText(m_item->metaInfo().error.message);
+            ui->stackedWidget->setCurrentWidget(ui->pageTorrentError);
+        }
+    }
 }
 
 /******************************************************************************
  ******************************************************************************/
 void TorrentWidget::updateProgressBar()
 {
-    if (m_item) {
+    if (m_item && m_item->progress() >= 0) {
         ui->downloadedProgressBar->setValue(m_item->progress());
     } else {
-         ui->downloadedProgressBar->setValue(0);
+        ui->downloadedProgressBar->setValue(0);
     }
 }
 
 /******************************************************************************
  ******************************************************************************/
-void TorrentWidget::updateInfoTabPage()
+void TorrentWidget::updateTorrentPage()
 {
-    TorrentMetaInfo mi;
-    TorrentInfo ti;
-    if (m_item) {
-        mi = m_item->metaInfo();
-        ti = m_item->info();
+    if (!m_item) {
+        return;
     }
-
-    auto timeElapsed    = Format::timeToString(ti.elapsedTime);
-    auto timeRemaining  = Format::timeToString(ti.remaingTime);
+    const TorrentMetaInfo &mi = m_item->metaInfo();
+    const TorrentInfo &ti = m_item->info();
 
     auto wasted         = tr("%0 (%1 hashfails)")
             .arg(Format::fileSizeToString(ti.bytesFailed + ti.bytesRedundant))
@@ -154,15 +171,10 @@ void TorrentWidget::updateInfoTabPage()
     auto downloaded     = tr("%0 (total %1)")
             .arg(Format::fileSizeToString(ti.bytesSessionDownloaded))
             .arg(Format::fileSizeToString(ti.bytesSessionDownloaded + mi.bytesTotalDownloaded));
-    auto downSpeed      = Format::currentSpeedToString(ti.downloadSpeed);
-    auto downLimit      = Format::currentSpeedToString(mi.downloadBandwidthLimit, true);
 
     auto uploaded       = tr("%0 (total %1)")
             .arg(Format::fileSizeToString(ti.bytesSessionUploaded))
             .arg(Format::fileSizeToString(ti.bytesSessionUploaded + mi.bytesTotalUploaded));
-
-    auto upSpeed        = Format::currentSpeedToString(ti.uploadSpeed);
-    auto upLimit        = Format::currentSpeedToString(mi.uploadBandwidthLimit, true);
 
     auto seeds          = tr("%0 of %1 connected (%2 in swarm)")
             .arg(text(ti.connectedSeedsCount))
@@ -175,48 +187,42 @@ void TorrentWidget::updateInfoTabPage()
             .arg(text(mi.peersInSwarm));
 
     auto shareRatio     = text(QString("0.000"));
-    auto status         = "" ; // text(m_item ? m_item->status() : QString());
-    auto saveAs         = text(mi.outputPath);
+    auto status         = text(m_item ? m_item->status() : QString());
+
     auto pieces         = tr("%0 x %1")
-            .arg(text(mi.pieceCount))
-            .arg(Format::fileSizeToString(mi.pieceByteSize));
+            .arg(text(mi.initialMetaInfo.pieceCount))
+            .arg(Format::fileSizeToString(mi.initialMetaInfo.pieceByteSize));
 
-    auto totalSize      = Format::fileSizeToString(mi.bytesTotal);
 
-    auto createdOn      = text(mi.creationDate);
-    auto createdBy      = text(mi.creator);
-    auto addedOn        = text(mi.addedTime);
-    auto completedOn    = text(mi.completedTime);
-    auto hash           = text(mi.infohash);
-    auto comment        = text(mi.comment);
-    auto magnetLink     = text(mi.magnetLink);
+    // GroupBox Transfer
+    ui->timeElapsedLineEdit->setText(   Format::timeToString(ti.elapsedTime));
+    ui->timeRemainingLineEdit->setText( Format::timeToString(ti.remaingTime));
+    ui->wastedLineEdit->setText(        wasted);
 
-    // Transfer
-    ui->timeElapsedLineEdit->setText(timeElapsed);
-    ui->timeRemainingLineEdit->setText(timeRemaining);
-    ui->wastedLineEdit->setText(wasted);
-    ui->downloadedLineEdit->setText(downloaded);
-    ui->downSpeedLineEdit->setText(downSpeed);
-    ui->downLimitLineEdit->setText(downLimit);
-    ui->uploadedLineEdit->setText(uploaded);
-    ui->upSpeedLineEdit->setText(upSpeed);
-    ui->upLimitLineEdit->setText(upLimit);
-    ui->seedsLineEdit->setText(seeds);
-    ui->peersLineEdit->setText(peers);
-    ui->shareRatioLineEdit->setText(shareRatio);
-    ui->statusLineEdit->setText(status);
+    ui->downloadedLineEdit->setText(    downloaded);
+    ui->downSpeedLineEdit->setText(     Format::currentSpeedToString(ti.downloadSpeed));
+    ui->downLimitLineEdit->setText(     Format::currentSpeedToString(mi.downloadBandwidthLimit, true));
 
-    // General
-    ui->saveAsLineEdit->setText(        text(mi.name) );
-    ui->piecesLineEdit->setText(pieces);
-    ui->totalSizeLineEdit->setText(totalSize);
-    ui->createdOnLineEdit->setText(createdOn);
-    ui->createdByLineEdit->setText(createdBy);
-    ui->addedOnLineEdit->setText(addedOn);
-    ui->completedOnLineEdit->setText(completedOn);
-    ui->hashLineEdit->setText(hash);
-    ui->commentLineEdit->setText(comment);
-    ui->magnetLinkLineEdit->setText(magnetLink);
+    ui->uploadedLineEdit->setText(      uploaded);
+    ui->upSpeedLineEdit->setText(       Format::currentSpeedToString(ti.uploadSpeed));
+    ui->upLimitLineEdit->setText(       Format::currentSpeedToString(mi.uploadBandwidthLimit, true));
+
+    ui->seedsLineEdit->setText(         seeds);
+    ui->peersLineEdit->setText(         peers);
+    ui->shareRatioLineEdit->setText(    shareRatio);
+    ui->statusLineEdit->setText(        status);
+
+    // GroupBox General
+    ui->saveAsLineEdit->setText(        text(mi.initialMetaInfo.name));
+    ui->piecesLineEdit->setText         (pieces);
+    ui->totalSizeLineEdit->setText(     Format::fileSizeToString(mi.initialMetaInfo.bytesTotal));
+    ui->createdOnLineEdit->setText(     text(mi.initialMetaInfo.creationDate));
+    ui->createdByLineEdit->setText(     text(mi.initialMetaInfo.creator));
+    ui->addedOnLineEdit->setText(       text(mi.addedTime));
+    ui->completedOnLineEdit->setText(   text(mi.completedTime));
+    ui->hashLineEdit->setText(          text(mi.initialMetaInfo.infohash));
+    ui->commentLineEdit->setText(       text(mi.initialMetaInfo.comment));
+    ui->magnetLinkLineEdit->setText(    text(mi.initialMetaInfo.magnetLink));
 }
 
 /******************************************************************************
@@ -259,21 +265,22 @@ void TorrentWidget::setColumnWidths(QTableView *view, const QList<int> &widths)
  ******************************************************************************/
 inline QString TorrentWidget::text(int value, bool showInfiniteSymbol)
 {
-    if (value < 0) {
-//        But to make Qt use UTF-8, it seems you'll need
-        // QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-//        return showInfiniteSymbol ? QString("\xE2\x88\x9E") : QString("-");
-        return showInfiniteSymbol ? QString("inf") : QString("-");
-    }
-    return QString::number(value);
+    const QString defaultSymbol = showInfiniteSymbol ? Format::infinity() : QString("-");
+    return value < 0
+            ? defaultSymbol
+            : QString::number(value);
 }
 
 inline QString TorrentWidget::text(const QString &text)
 {
-    return text.isEmpty() ? QString("-") : text;
+    return text.isNull() || text.isEmpty()
+            ? QString("-")
+            : text;
 }
 
 inline QString TorrentWidget::text(const QDateTime &datetime)
 {
-    return datetime.isNull() ? QString("-") : datetime.toString("dd/MM/yy HH:mm:ss");
+    return datetime.isNull() || !datetime.isValid()
+            ? QString("-")
+            : datetime.toString("dd/MM/yy HH:mm:ss");
 }

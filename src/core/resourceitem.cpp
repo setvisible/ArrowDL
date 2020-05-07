@@ -35,7 +35,6 @@ ResourceItem::ResourceItem()
     , m_streamFormatId(QString())
     , m_streamFileSize(0)
     , m_isTorrentEnabled(false)
-    , m_torrentRawData(QByteArray())
 {
 }
 
@@ -227,19 +226,6 @@ bool ResourceItem::isTorrentEnabled() const
 void ResourceItem::setTorrentEnabled(bool enabled)
 {
     m_isTorrentEnabled = enabled;
-}
-
-/******************************************************************************
- ******************************************************************************/
-/** \obsolete */
-QByteArray ResourceItem::torrentRawData() const
-{
-    return m_torrentRawData;
-}
-/** \obsolete */
-void ResourceItem::setTorrentRawData(const QByteArray &rawData)
-{
-    m_torrentRawData = rawData;
 }
 
 /******************************************************************************

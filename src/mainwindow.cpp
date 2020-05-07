@@ -653,7 +653,7 @@ void MainWindow::handleMessage(const QString &message)
     if (!cleaned.isEmpty()) {
 
         if (InterProcessCommunication::isSingleUrl(cleaned)) {
-            QUrl url(cleaned);
+            const QUrl url = QUrl::fromUserInput(cleaned);
             if (AddTorrentDialog::isTorrentUrl(url)) {
                 addTorrent(url);
 
@@ -667,11 +667,13 @@ void MainWindow::handleMessage(const QString &message)
             }
 
         } else if(InterProcessCommunication::isCommandOpenUrl(cleaned)) {
-            const QUrl url = InterProcessCommunication::getCurrentUrl(cleaned);
+            const QString str = InterProcessCommunication::getCurrentUrl(cleaned);
+            const QUrl url = QUrl::fromUserInput(str);
             addContent(url);
 
         } else if(InterProcessCommunication::isCommandDownloadLink(cleaned)) {
-            const QUrl url = InterProcessCommunication::getDownloadLink(cleaned);
+            const QString str = InterProcessCommunication::getDownloadLink(cleaned);
+            const QUrl url = QUrl::fromUserInput(str);
 
             if (AddTorrentDialog::isTorrentUrl(url)) {
                 addTorrent(url);
