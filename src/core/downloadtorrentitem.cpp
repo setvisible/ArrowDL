@@ -161,19 +161,19 @@ QAbstractTableModel* DownloadTorrentItem::trackerModel() const
 
 /******************************************************************************
  ******************************************************************************/
-QList<int> DownloadTorrentItem::defaultFileColumnWidths() const
+QList<int> DownloadTorrentItem::defaultFileColumnWidths()
 {
-    return d->m_fileModel->defaultColumnWidths();
+    return TorrentFileTableModel::defaultColumnWidths();
 }
 
-QList<int> DownloadTorrentItem::defaultPeerColumnWidths() const
+QList<int> DownloadTorrentItem::defaultPeerColumnWidths()
 {
-    return d->m_peerModel->defaultColumnWidths();
+    return TorrentPeerTableModel::defaultColumnWidths();
 }
 
-QList<int> DownloadTorrentItem::defaultTrackerColumnWidths() const
+QList<int> DownloadTorrentItem::defaultTrackerColumnWidths()
 {
-    return d->m_trackerModel->defaultColumnWidths();
+    return TorrentTrackerTableModel::defaultColumnWidths();
 }
 
 /******************************************************************************

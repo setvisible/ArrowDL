@@ -73,6 +73,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMessageBox>
+#include <QtWidgets/QSplitter>
 
 #ifdef USE_QT_WINEXTRAS
 #  include <QtWinExtras/QWinTaskbarButton>
@@ -164,6 +165,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     refreshTitleAndStatus();
     refreshMenus();
+
+    ui->splitter->setStretchFactor(0, 1);
+    ui->splitter->setStretchFactor(1, 0);
 
     if (!m_settings->isDontShowTutorialEnabled()) {
         QTimer::singleShot(250, this, SLOT(showTutorial()));
@@ -1171,7 +1175,11 @@ void MainWindow::readSettings()
     setWindowState((Qt::WindowStates)settings.value("WindowState", 0).toInt() );
 #endif
     setWorkingDirectory(settings.value("WorkingDirectory").toString());
-    ui->downloadQueueView->setColumnWidths(settings.value("ColumnWidths").value<QList<int> >());
+
+    restoreState(settings.value("WindowToolbarState").toByteArray());
+    ui->splitter->restoreState(settings.value("SplitterSizes").toByteArray());
+    ui->downloadQueueView->restoreState(settings.value("DownloadQueueState").toByteArray());
+    ui->torrentWidget->restoreState(settings.value("TorrentState").toByteArray());
 
     m_settings->readSettings();
 }
@@ -1185,7 +1193,11 @@ void MainWindow::writeSettings()
     }
     settings.setValue("WindowState", static_cast<int>(this->windowState())); // minimized, maximized, active, fullscreen...
     settings.setValue("WorkingDirectory", QDir::currentPath());
-    settings.setValue("ColumnWidths", QVariant::fromValue(ui->downloadQueueView->columnWidths()));
+
+    settings.setValue("WindowToolbarState", saveState());
+    settings.setValue("SplitterSizes", ui->splitter->saveState());
+    settings.setValue("DownloadQueueState", ui->downloadQueueView->saveState());
+    settings.setValue("TorrentState", ui->torrentWidget->saveState());
 
     // --------------------------------------------------------------
     // Write also the current version of application in the settings,

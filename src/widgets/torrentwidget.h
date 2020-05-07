@@ -41,16 +41,24 @@ public:
     IDownloadItem* downloadItem() const;
     void setDownloadItem(IDownloadItem *item);
 
+    QByteArray saveState(int version = 0) const;
+    bool restoreState(const QByteArray &state, int version = 0);
+
 private slots:
     void onChanged();
 
 private:
     Ui::TorrentWidget *ui;
     DownloadTorrentItem *m_item;
+    QList<int> m_fileColumnsWidths;
+    QList<int> m_peerColumnsWidths;
+    QList<int> m_trackerColumnsWidths;
 
     void resetUi();
 
     void setupUiTableView(QTableView *view);
+
+    void getColumnWidths(QTableView *view, QList<int> *widths);
     void setColumnWidths(QTableView *view, const QList<int> &widths);
 
     void updateWidget();

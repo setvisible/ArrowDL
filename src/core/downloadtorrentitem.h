@@ -66,9 +66,9 @@ public:
     QAbstractTableModel* peerModel() const;
     QAbstractTableModel* trackerModel() const;
 
-    QList<int> defaultFileColumnWidths() const;
-    QList<int> defaultPeerColumnWidths() const;
-    QList<int> defaultTrackerColumnWidths() const;
+    static QList<int> defaultFileColumnWidths();
+    static QList<int> defaultPeerColumnWidths();
+    static QList<int> defaultTrackerColumnWidths();
 
 
 private:

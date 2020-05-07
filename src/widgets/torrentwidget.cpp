@@ -25,6 +25,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QAbstractTableModel>
 #include <QtWidgets/QTableView>
+#include <QtWidgets/QStackedWidget>
 
 #define C_COLUMN_MINIMUM_WIDTH       10
 #define C_COLUMN_DEFAULT_WIDTH      100
@@ -36,6 +37,10 @@ TorrentWidget::TorrentWidget(QWidget *parent) : QWidget(parent)
   , m_item(Q_NULLPTR)
 {
     ui->setupUi(this);
+
+    m_fileColumnsWidths    = DownloadTorrentItem::defaultFileColumnWidths();
+    m_peerColumnsWidths    = DownloadTorrentItem::defaultPeerColumnWidths();
+    m_trackerColumnsWidths = DownloadTorrentItem::defaultTrackerColumnWidths();
 
     setupUiTableView(ui->fileTableView);
     setupUiTableView(ui->peerTableView);
@@ -87,6 +92,45 @@ void TorrentWidget::setDownloadItem(IDownloadItem *item)
     resetUi();
 }
 
+
+/******************************************************************************
+ ******************************************************************************/
+QByteArray TorrentWidget::saveState(int version) const
+{
+    QByteArray data;
+    QDataStream stream(&data, QIODevice::WriteOnly);
+    stream << 0xff; // VersionMarker
+    stream << version;
+    stream << ui->tabWidget->currentIndex();
+    stream << m_fileColumnsWidths;
+    stream << m_peerColumnsWidths;
+    stream << m_trackerColumnsWidths;
+    return data;
+}
+
+bool TorrentWidget::restoreState(const QByteArray &state, int version)
+{
+    if (state.isEmpty()) {
+        return false;
+    }
+    QByteArray sd = state;
+    QDataStream stream(&sd, QIODevice::ReadOnly);
+    int marker, v;
+    stream >> marker;
+    stream >> v;
+    if (stream.status() != QDataStream::Ok || marker != 0xff || v != version) {
+        return false;
+    }
+    int currentTabIndex = 0;
+    stream >> currentTabIndex;
+    ui->tabWidget->setCurrentIndex(currentTabIndex);
+    stream >> m_fileColumnsWidths;
+    stream >> m_peerColumnsWidths;
+    stream >> m_trackerColumnsWidths;
+    bool restored = true;
+    return restored;
+}
+
 /******************************************************************************
  ******************************************************************************/
 void TorrentWidget::onChanged()
@@ -107,14 +151,19 @@ void TorrentWidget::resetUi()
         ui->peerTableView->setModel(peerModel);
         ui->trackerTableView->setModel(trackerModel);
 
-        setColumnWidths(ui->fileTableView, m_item->defaultFileColumnWidths());
-        setColumnWidths(ui->peerTableView, m_item->defaultPeerColumnWidths());
-        setColumnWidths(ui->trackerTableView, m_item->defaultTrackerColumnWidths());
+        setColumnWidths(ui->fileTableView, m_fileColumnsWidths);
+        setColumnWidths(ui->peerTableView, m_peerColumnsWidths);
+        setColumnWidths(ui->trackerTableView, m_trackerColumnsWidths);
 
         // hide column 0
         ui->fileTableView->hideColumn(0);
 
     } else {
+
+        getColumnWidths(ui->fileTableView, &m_fileColumnsWidths);
+        getColumnWidths(ui->peerTableView, &m_peerColumnsWidths);
+        getColumnWidths(ui->trackerTableView, &m_trackerColumnsWidths);
+
         ui->fileTableView->setModel(Q_NULLPTR);
         ui->peerTableView->setModel(Q_NULLPTR);
         ui->trackerTableView->setModel(Q_NULLPTR);
@@ -247,6 +296,17 @@ void TorrentWidget::setupUiTableView(QTableView *view)
 
 /******************************************************************************
  ******************************************************************************/
+void TorrentWidget::getColumnWidths(QTableView *view, QList<int> *widths)
+{
+    if (view && view->model() && view->model()->columnCount() > 0) {
+        widths->clear();
+        for (int column = 0, count = view->model()->columnCount(); column < count; ++column) {
+            auto width = view->columnWidth(column);
+            widths->append(width);
+        }
+    }
+}
+
 void TorrentWidget::setColumnWidths(QTableView *view, const QList<int> &widths)
 {
     if (view && view->model()) {
