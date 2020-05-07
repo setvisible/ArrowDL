@@ -22,7 +22,8 @@
 #  include "src/config.h"
 #endif
 
-/* Google Gumbo */
 #define GOOGLE_GUMBO_VERSION_STR      "0.10.1"
+
+#define LIBTORRENT_VERSION_STR        "1.2.5"
 
 #endif // VERSION_H

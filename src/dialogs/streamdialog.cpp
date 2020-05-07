@@ -26,12 +26,14 @@
 StreamDialog::StreamDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::StreamDialog)
-    , m_streamCollector(new StreamExtractorListCollector(this))
 {
     ui->setupUi(this);
 
+    adjustSize();
+
     ui->title->setText(QLatin1String("Youtube-DL"));
-    ui->version->setText(QString("Version %0").arg(Stream::version()));
+    ui->version->setText(tr("Reading..."));
+    askStreamVersionAsync();
 
     ui->link->setText(QString("<a href=\"%0\">%0</a>").arg(Stream::website()));
     ui->link->setTextFormat(Qt::RichText);
@@ -41,11 +43,7 @@ StreamDialog::StreamDialog(QWidget *parent)
     ui->plainTextEdit->setPlainText(tr("Collecting..."));
     ui->plainTextEdit->setEnabled(false);
 
-    connect(m_streamCollector, SIGNAL(error(QString)), this, SLOT(onError(QString)));
-    connect(m_streamCollector, SIGNAL(collected(QStringList, QStringList)),
-            this, SLOT(onCollected(QStringList, QStringList)));
-
-    m_streamCollector->runAsync();
+    askStreamExtractorsAsync();
 }
 
 StreamDialog::~StreamDialog()
@@ -62,6 +60,28 @@ void StreamDialog::on_okButton_released()
 
 /******************************************************************************
  ******************************************************************************/
+void StreamDialog::askStreamVersionAsync()
+{
+    AskStreamVersionThread *w = new AskStreamVersionThread();
+    connect(this, &QObject::destroyed, w, &AskStreamVersionThread::stop);
+    connect(w, &AskStreamVersionThread::resultReady, ui->version, &QLabel::setText);
+    connect(w, &AskStreamVersionThread::finished, w, &QObject::deleteLater);
+    w->start();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void StreamDialog::askStreamExtractorsAsync()
+{
+    StreamExtractorListCollector *w = new StreamExtractorListCollector(this);
+
+    connect(w, &StreamExtractorListCollector::error, this, &StreamDialog::onError);
+    connect(w, &StreamExtractorListCollector::collected, this, &StreamDialog::onCollected);
+    connect(w, &StreamExtractorListCollector::finished, w, &QObject::deleteLater);
+
+    w->runAsync();
+}
+
 void StreamDialog::onError(QString errorMessage)
 {
     ui->plainTextEdit->setPlainText(tr("Error:\n\n%0").arg(errorMessage));

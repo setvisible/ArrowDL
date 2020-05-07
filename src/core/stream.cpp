@@ -104,6 +104,22 @@ QString Stream::website()
 
 /******************************************************************************
  ******************************************************************************/
+void AskStreamVersionThread::stop()
+{
+    stopped = true;
+}
+
+void AskStreamVersionThread::run()
+{
+    // Stream::version() is blocking and time expensive
+    QString result = Stream::version();
+    if (!stopped) {
+        emit resultReady(result);
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
 static inline bool matches(const QString &host, const QString &regexHost)
 {
     /*
@@ -529,6 +545,7 @@ void StreamExtractorListCollector::onFinishedExtractors(int exitCode, QProcess::
     if (exitCode != 0) {
         auto message = generateErrorMessage(m_processExtractors->error());
         emit error(message);
+        emit finished();
     } else {
         QString data = QString::fromLatin1(m_processExtractors->readAllStandardOutput());
         m_extractors = data.split("\n", QString::KeepEmptyParts);
@@ -541,6 +558,7 @@ void StreamExtractorListCollector::onFinishedDescriptions(int exitCode, QProcess
     if (exitCode != 0) {
         auto message = generateErrorMessage(m_processDescriptions->error());
         emit error(message);
+        emit finished();
     } else {
         QString data = QString::fromLatin1(m_processDescriptions->readAllStandardOutput());
         m_descriptions = data.split("\n", QString::KeepEmptyParts);
@@ -552,6 +570,7 @@ void StreamExtractorListCollector::onFinished()
 {
     if (!m_extractors.isEmpty() && !m_descriptions.isEmpty()) {
         emit collected(m_extractors, m_descriptions);
+        emit finished();
     }
 }
 

@@ -5,7 +5,6 @@
 #define DIALOGS_COMPILER_DIALOG_H
 
 #include <QtWidgets/QDialog>
-#include <QtWidgets/QMessageBox>
 
 namespace Ui {
 class CompilerDialog;
@@ -28,6 +27,8 @@ private:
     inline void populateOpenSSL();
     inline QString getLibraryInfo(const QString &libraryName);
     inline QString getVersionString(const QString &fName);
+
+    inline void askStreamVersionAsync();
 };
 
 #endif // DIALOGS_COMPILER_DIALOG_H
