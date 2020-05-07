@@ -47,6 +47,8 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
 {
     ui->setupUi(this);
 
+    adjustSize();
+
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
 
     ui->urlLineEdit->setText(url.toString());
@@ -67,6 +69,21 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
 AddStreamDialog::~AddStreamDialog()
 {
     delete ui;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+bool AddStreamDialog::isStreamUrl(const QUrl &url, const Settings *settings)
+{
+    if (url.isLocalFile()) {
+        return false;
+    }
+    if (settings->isStreamHostEnabled()) {
+        auto host = url.host();
+        auto regexHosts = settings->streamHosts();
+        return Stream::matchesHost(host, regexHosts);
+    }
+    return false;
 }
 
 /******************************************************************************
@@ -131,7 +148,8 @@ void AddStreamDialog::onChanged(QString)
  ******************************************************************************/
 void AddStreamDialog::doAccept(bool started)
 {
-    // TODO if is list :open a new dialo to select the videos ?
+    /// \todo implement playlist download:
+    /// maybe open a new dialog to select which video/option to download
 
     m_downloadManager->append(toList(createItem()), started);
     QDialog::accept();

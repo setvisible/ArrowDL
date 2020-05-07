@@ -104,6 +104,62 @@ QString Stream::website()
 
 /******************************************************************************
  ******************************************************************************/
+void AskStreamVersionThread::stop()
+{
+    stopped = true;
+}
+
+void AskStreamVersionThread::run()
+{
+    // Stream::version() is blocking and time expensive
+    QString result = Stream::version();
+    if (!stopped) {
+        emit resultReady(result);
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+static inline bool matches(const QString &host, const QString &regexHost)
+{
+    /*
+     * matches("www.absnews.com", "absnews:videos");    // == false
+     * matches("www.absnews.com", "absnews.com");       // == true
+     * matches("videos.absnews.com", "absnews:videos"); // == true
+     * matches("videos.absnews.com", "absnews.com:videos"); // == true
+     */
+    static QRegExp delimiters("[.|:]");
+
+    auto domains = host.split('.', QString::SkipEmptyParts);
+    auto mandatoryDomains = regexHost.split(delimiters, QString::SkipEmptyParts);
+
+    foreach (auto mandatory, mandatoryDomains) {
+        bool found = false;
+        foreach (auto domain, domains) {
+            if (QString::compare(domain, mandatory, Qt::CaseInsensitive) == 0) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Stream::matchesHost(const QString &host, const QStringList &regexHosts)
+{
+    foreach (auto regexHost, regexHosts) {
+        if (matches(host, regexHost)) {
+             return true;
+        }
+    }
+    return false;
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void Stream::clear()
 {
     m_url.clear();
@@ -489,6 +545,7 @@ void StreamExtractorListCollector::onFinishedExtractors(int exitCode, QProcess::
     if (exitCode != 0) {
         auto message = generateErrorMessage(m_processExtractors->error());
         emit error(message);
+        emit finished();
     } else {
         QString data = QString::fromLatin1(m_processExtractors->readAllStandardOutput());
         m_extractors = data.split("\n", QString::KeepEmptyParts);
@@ -501,6 +558,7 @@ void StreamExtractorListCollector::onFinishedDescriptions(int exitCode, QProcess
     if (exitCode != 0) {
         auto message = generateErrorMessage(m_processDescriptions->error());
         emit error(message);
+        emit finished();
     } else {
         QString data = QString::fromLatin1(m_processDescriptions->readAllStandardOutput());
         m_descriptions = data.split("\n", QString::KeepEmptyParts);
@@ -512,6 +570,7 @@ void StreamExtractorListCollector::onFinished()
 {
     if (!m_extractors.isEmpty() && !m_descriptions.isEmpty()) {
         emit collected(m_extractors, m_descriptions);
+        emit finished();
     }
 }
 

@@ -21,6 +21,7 @@
 #include <QtCore/QProcess>
 #include <QtCore/QSharedPointer>
 #include <QtCore/QMetaType>
+#include <QtCore/QThread>
 
 QT_BEGIN_NAMESPACE
 class QDebug;
@@ -103,7 +104,7 @@ public:
     QString thumbnail;      // (string): thumbnail URL
     QString extractor;      // (string): Name of the extractor
     QString extractor_key;  // (string): Key name of the extractor
-    QString format_id;      //(string): Format code specified by --format
+    QString format_id;      // (string): Format code specified by --format
     QList<StreamFormat*> formats;
     QString playlist;       // (string): Name or id of the playlist that contains the video
     QString playlist_index; // (numeric): Index of the video in the playlist padded with leading zeros according to the total length of the playlist
@@ -119,6 +120,8 @@ public:
 
     static QString version();
     static QString website();
+
+    static bool matchesHost(const QString &host, const QStringList &regexHosts);
 
     void clear();
     bool isEmpty();
@@ -202,6 +205,22 @@ private:
     bool parseJSON(const QByteArray &data, StreamInfos *infos);
 };
 
+class AskStreamVersionThread : public QThread
+{
+    Q_OBJECT
+public:
+    AskStreamVersionThread(QObject *parent = nullptr): QThread(parent) {}
+
+    void run() Q_DECL_OVERRIDE;
+    void stop();
+
+signals:
+    void resultReady(const QString &s);
+
+private:
+    bool stopped = false;
+};
+
 class StreamExtractorListCollector : public QObject
 {
     Q_OBJECT
@@ -214,6 +233,7 @@ public:
 signals:
     void error(QString errorMessage);
     void collected(QStringList extractors, QStringList descriptions);
+    void finished();
 
 private slots:
     void onStarted();

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
-    <height>450</height>
+    <width>750</width>
+    <height>530</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -288,17 +288,57 @@ QTabBar::tab:hover:!selected {
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+        <widget class="QGroupBox" name="groupBox_10">
+         <property name="title">
+          <string>Video/Audio Stream</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>256</height>
-          </size>
-         </property>
-        </spacer>
+         <layout class="QVBoxLayout" name="verticalLayout_15">
+          <item>
+           <widget class="QCheckBox" name="streamHostCheckBox">
+            <property name="text">
+             <string>Use stream downloader if the URL comes from one of the following hosts:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPlainTextEdit" name="streamHostPlainTextEdit"/>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,0,1">
+            <item>
+             <widget class="QLabel" name="label_11">
+              <property name="text">
+               <string>Ex:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&amp;quot;https://&lt;span style=&quot; font-weight:600; color:#ff5500;&quot;&gt;www.youtube.com&lt;/span&gt;/watch?v=s-dSg5ljQI8&amp;quot;&lt;br/&gt;&amp;quot;https://&lt;span style=&quot; font-weight:600; color:#ff5500;&quot;&gt;youtu.be&lt;/span&gt;/s-dSg5ljQI8&amp;quot;&lt;br/&gt;&amp;quot;https://&lt;span style=&quot; font-weight:600; color:#ff5500;&quot;&gt;player.abcvision.tv&lt;/span&gt;/v=3451&amp;quot;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_12">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;-&amp;gt; host may be &amp;quot;youtube.com&amp;quot;, &amp;quot;youtube&amp;quot; or &amp;quot;www.youtube.com&amp;quot;&lt;br/&gt;-&amp;gt; host may be &amp;quot;&lt;span style=&quot; font-weight:600;&quot;&gt;youtu.be&lt;/span&gt;&amp;quot; but not &amp;quot;youtu.me&amp;quot;&lt;br/&gt;-&amp;gt; host may be &amp;quot;&lt;span style=&quot; font-weight:600;&quot;&gt;abcvision.tv:player&lt;/span&gt;&amp;quot;, &amp;quot;abcvision&amp;quot;  or &amp;quot;abcvision:player&amp;quot;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -448,7 +488,7 @@ QTabBar::tab:hover:!selected {
       <attribute name="title">
        <string>Privacy</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_8">
+      <layout class="QVBoxLayout" name="verticalLayout_8" stretch="0,0,1,0,1">
        <item>
         <widget class="QGroupBox" name="groupBox_5">
          <property name="title">
@@ -507,6 +547,120 @@ QTabBar::tab:hover:!selected {
           <size>
            <width>20</width>
            <height>157</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_9">
+         <property name="title">
+          <string>Auto Update</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_11">
+          <item>
+           <widget class="QLabel" name="label_10">
+            <property name="text">
+             <string>Check for updates automatically:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QComboBox" name="checkUpdateComboBox">
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
+              </property>
+              <item>
+               <property name="text">
+                <string>Never</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Once a day</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Once a week</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <spacer name="horizontalSpacer_6">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="checkUpdateNowPushButton">
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+	padding:  5px 25px 5px 25px;
+}
+</string>
+              </property>
+              <property name="text">
+               <string>Check updates now...</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
           </size>
          </property>
         </spacer>
@@ -641,14 +795,199 @@ QTabBar::tab:hover:!selected {
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="schedule">
+     <widget class="QWidget" name="torrent">
       <attribute name="icon">
        <iconset resource="../resources.qrc">
-        <normaloff>:/icons/menu/preference_schedule_32x32.png</normaloff>:/icons/menu/preference_schedule_32x32.png</iconset>
+        <normaloff>:/icons/menu/preference_torrent_32x32.png</normaloff>:/icons/menu/preference_torrent_32x32.png</iconset>
       </attribute>
       <attribute name="title">
-       <string>Schedule</string>
+       <string>Torrent</string>
       </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_17">
+       <item>
+        <widget class="QGroupBox" name="groupBox_11">
+         <property name="title">
+          <string>General</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_16">
+          <item>
+           <widget class="QCheckBox" name="torrentCheckBox">
+            <property name="text">
+             <string>Enable Torrent</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="enableTorrentLabel">
+            <property name="text">
+             <string>If enabled, this software becomes a torrent client. It shares DHT (distributed hash table) with peers, .torrents files you share (those in your torrent share folder actually) and .torrents files currently downloading in the download queue.</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="torrentShareFolderGroupBox">
+         <property name="title">
+          <string>Directory</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="0,1">
+          <item>
+           <widget class="QCheckBox" name="torrentShareFolderCheckBox">
+            <property name="text">
+             <string>Share folder:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="PathWidget" name="torrentShareFolderPathWidget" native="true"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="0,1">
+         <item>
+          <widget class="QGroupBox" name="torrentBandwidthGroupBox">
+           <property name="title">
+            <string>Bandwidth</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_19">
+            <item>
+             <layout class="QFormLayout" name="formLayout">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_14">
+                <property name="text">
+                 <string>Max Upload Rate* (kB/s):</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QSpinBox" name="torrentUpRateSpinBox">
+                <property name="minimum">
+                 <number>-1</number>
+                </property>
+                <property name="maximum">
+                 <number>1000000000</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_15">
+                <property name="text">
+                 <string>Max Download Rate* (kB/s):</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QSpinBox" name="torrentDownRateSpinBox">
+                <property name="minimum">
+                 <number>-1</number>
+                </property>
+                <property name="maximum">
+                 <number>1000000000</number>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_16">
+                <property name="text">
+                 <string>Max Number of Connections:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QSpinBox" name="torrentConnectionMaxCountSpinBox">
+                <property name="minimum">
+                 <number>-1</number>
+                </property>
+                <property name="maximum">
+                 <number>1000000000</number>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_17">
+                <property name="text">
+                 <string>Max Number of Peers per Torrent:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QSpinBox" name="torrentPeerMaxCountSpinBox">
+                <property name="minimum">
+                 <number>-1</number>
+                </property>
+                <property name="maximum">
+                 <number>1000000000</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_19">
+              <property name="text">
+               <string>* (0: unlimited)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="torrentConnectionGroupBox">
+           <property name="title">
+            <string>Connection</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_18">
+            <item>
+             <widget class="QLabel" name="label_18">
+              <property name="text">
+               <string>Peers:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPlainTextEdit" name="torrentPeersPlainTextEdit">
+              <property name="placeholderText">
+               <string>Ex: 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_13">
+              <property name="text">
+               <string>Note:  If not empty, these peers will be added to all torrents (format is &lt;IP:port&gt;. Ex: &quot;123.45.6.78:56789, 127.0.0.65:7894...&quot;)</string>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="advanced">
       <attribute name="icon">
@@ -658,120 +997,21 @@ QTabBar::tab:hover:!selected {
       <attribute name="title">
        <string>Advanced</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_13">
+      <layout class="QVBoxLayout" name="verticalLayout_13" stretch="0">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
-        <widget class="QGroupBox" name="groupBox_9">
-         <property name="title">
-          <string>Updates</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_11">
-          <item>
-           <widget class="QLabel" name="label_10">
-            <property name="text">
-             <string>Check for updates automatically:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
-            <item>
-             <widget class="QComboBox" name="checkUpdateComboBox">
-              <property name="minimumSize">
-               <size>
-                <width>150</width>
-                <height>0</height>
-               </size>
-              </property>
-              <item>
-               <property name="text">
-                <string>Never</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Once a day</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Once a week</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
-            <item>
-             <spacer name="horizontalSpacer_6">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="checkUpdateNowPushButton">
-              <property name="styleSheet">
-               <string notr="true">QPushButton {
-	padding:  5px 25px 5px 25px;
-}
-</string>
-              </property>
-              <property name="text">
-               <string>Check updates now...</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_5">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_6">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>216</height>
-          </size>
-         </property>
-        </spacer>
+        <widget class="AdvancedSettingsWidget" name="advancedSettingsWidget" native="true"/>
        </item>
       </layout>
      </widget>
@@ -860,6 +1100,12 @@ QTabBar::tab:hover:!selected {
    <header>Widgets/PathWidget</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>AdvancedSettingsWidget</class>
+   <extends>QWidget</extends>
+   <header>Widgets/AdvancedSettingsWidget</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>okButton</tabstop>
@@ -876,12 +1122,12 @@ QTabBar::tab:hover:!selected {
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>605</x>
-     <y>439</y>
+     <x>589</x>
+     <y>514</y>
     </hint>
     <hint type="destinationlabel">
      <x>79</x>
-     <y>509</y>
+     <y>451</y>
     </hint>
    </hints>
   </connection>
@@ -892,12 +1138,12 @@ QTabBar::tab:hover:!selected {
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>689</x>
-     <y>439</y>
+     <x>673</x>
+     <y>514</y>
     </hint>
     <hint type="destinationlabel">
-     <x>762</x>
-     <y>509</y>
+     <x>699</x>
+     <y>451</y>
     </hint>
    </hints>
   </connection>
@@ -908,28 +1154,12 @@ QTabBar::tab:hover:!selected {
    <slot>restoreDefaultSettings()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>133</x>
-     <y>439</y>
+     <x>143</x>
+     <y>514</y>
     </hint>
     <hint type="destinationlabel">
      <x>205</x>
      <y>315</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>showSystemTrayIconCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>hideWhenMinimizedCheckBox</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>81</x>
-     <y>104</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>105</x>
-     <y>126</y>
     </hint>
    </hints>
   </connection>
@@ -946,6 +1176,38 @@ QTabBar::tab:hover:!selected {
     <hint type="destinationlabel">
      <x>155</x>
      <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>streamHostCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>streamHostPlainTextEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>48</x>
+     <y>287</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>74</x>
+     <y>313</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>showSystemTrayIconCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>hideWhenMinimizedCheckBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>81</x>
+     <y>104</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>105</x>
+     <y>126</y>
     </hint>
    </hints>
   </connection>

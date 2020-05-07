@@ -42,8 +42,8 @@ public:
 
     QSize sizeHint() const override;
 
-    QList<int> columnWidths() const;
-    void setColumnWidths(const QList<int> &widths);
+    QByteArray saveState(int version = 0) const;
+    bool restoreState(const QByteArray &state, int version = 0);
 
 public slots:
     void rename();
@@ -70,6 +70,9 @@ private:
     DownloadEngine *m_downloadEngine;
     QueueView *m_queueView;
     QMenu *m_contextMenu;
+
+    QList<int> columnWidths() const;
+    void setColumnWidths(const QList<int> &widths);
 
     int getIndex(IDownloadItem *downloadItem) const;
     QueueItem* getQueueItem(IDownloadItem *downloadItem);

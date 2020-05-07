@@ -57,6 +57,25 @@ target_link_libraries(${DownZemAll_NAME}
     gumbo_static_lib
     )
 
+# LibTorrent
+target_link_libraries(${DownZemAll_NAME}
+    libtorrent_static_lib
+    )
+
+if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
+    target_link_libraries(${DownZemAll_NAME}
+        wsock32
+        ws2_32
+        Iphlpapi
+        )
+
+else() # MacOS or Unix Compilers
+    target_link_libraries(${DownZemAll_NAME}
+        Threads::Threads
+        )
+endif()
+
+
 # Windows only: Version.dll
 if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     # might be "C:/Windows/System32/version.dll" or "C:/Windows/SysWOW64/version.dll"

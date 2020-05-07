@@ -87,6 +87,7 @@ public:
 
     /* Utility */
     virtual IDownloadItem* createItem(const QUrl &url);
+    virtual IDownloadItem* createTorrentItem(const QUrl &url);
 
 signals:
     void jobAppended(DownloadRange range);

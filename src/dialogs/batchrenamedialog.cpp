@@ -48,6 +48,8 @@ BatchRenameDialog::BatchRenameDialog(const QList<IDownloadItem*> &items, QWidget
 {
     ui->setupUi(this);
 
+    adjustSize();
+
     ui->subtitleLabel->setText(tr("%0 selected files to rename").arg(m_items.count()));
 
     ui->comboBox->view()->setItemDelegate(new PopupItemDelegate(ui->comboBox));

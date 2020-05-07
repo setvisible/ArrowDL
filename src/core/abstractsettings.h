@@ -68,6 +68,9 @@ protected:
     void setSettingStringList(const QString &key, const QStringList &value);
     QStringList getSettingStringList(const QString &key) const;
 
+    QString serialize(const QMap<QString, QVariant> &map) const;
+    QMap<QString, QVariant> deserialize(const QString &str) const;
+
 private:
     QList<SettingsItem*> m_items;
     bool m_default = false;

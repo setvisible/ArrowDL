@@ -50,16 +50,24 @@ private slots:
     void filterTextChanged();
     void maxSimultaneousDownloadSlided(int value);
 
+    void bandwidthSettingsChanged(int value);
+    void setBandwidthSettings();
+
 private:
     Ui::PreferenceDialog *ui;
     Settings *m_settings;
 
-    void initializeGui();
+    void connectUi();
+    void initializeUi();
     void initializeWarnings();
+
     void read();
     void write();
     void readSettings();
     void writeSettings();
+
+    QStringList streamHosts() const;
+    void setStreamHosts(const QStringList &streamHosts);
 
     QList<Filter> filters() const;
     void setFilters(const QList<Filter> &filters);

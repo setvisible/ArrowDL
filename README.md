@@ -10,7 +10,7 @@
 *DownZemAll!* is a rewrite of the legacy software [DownThemAll!](https://en.wikipedia.org/wiki/DownThemAll! "https://en.wikipedia.org/wiki/DownThemAll!") which was an extension for Mozilla Firefox, but whose development stopped around 2016, when Mozilla Firefox migrated to WebExtensions.
 
 
-[![promotional](/screenshots/promo_330x43.png)](https://setvisible.github.io/DownZemAll "https://setvisible.github.io/DownZemAll")
+[![promotional](./screenshots/promo_330x43.png)](https://setvisible.github.io/DownZemAll "https://setvisible.github.io/DownZemAll")
 
 
 *DownZemAll!* is a standalone download manager for Windows, Mac OS X and Linux. 
@@ -19,10 +19,10 @@ It aims to work with latest versions of Mozilla Firefox (powered by *WebExtensio
 
 *DownZemAll!* is written in C++ and based on the [Qt5](https://www.qt.io/ "https://www.qt.io/") framework.
 
-[![Built with Qt](/screenshots/built_with_qt.png)](https://www.qt.io/ "Go to Qt official site - www.qt.io")
+[![Built with Qt](./screenshots/built_with_qt.png)](https://www.qt.io/ "Go to Qt official site - www.qt.io")
 
 
-## ![](/src/icons/logo/icon32.png) Installation
+## ![](./src/icons/logo/icon32.png) Installation
 
 Go to
 [Download](https://setvisible.github.io/DownZemAll/category/download.html)
@@ -31,27 +31,27 @@ page to install the application for your operating system.
 Rem: *Native-Client* is an alternative to *DownRightNow*. Click [here](NativeClient.md "NativeClient.md") for more information.
 
 
-## ![](/src/icons/logo/icon32.png) Usage
+## ![](./src/icons/logo/icon32.png) Usage
 
 Go to
 [Tutorial](https://setvisible.github.io/DownZemAll/category/tutorial.html)
 page to get started.
 
 
-## ![](/src/icons/logo/icon32.png) Screenshots
+## ![](./src/icons/logo/icon32.png) Screenshots
 
 Screenshots of version 1.7 (download video from Youtube and other video sites)
 
-[![anim_youtube](/screenshots/anim_youtube.gif)](https://setvisible.github.io/DownZemAll/category/screenshots.html "Go to Screenshots page")
+[![anim_youtube](./screenshots/anim_youtube.gif)](https://setvisible.github.io/DownZemAll/category/screenshots.html "Go to Screenshots page")
 
 Screenshots of version 1.0
 
-[![anim_01](/screenshots/anim_01.gif)](https://setvisible.github.io/DownZemAll/category/screenshots.html "Go to Screenshots page")
+[![anim_01](./screenshots/anim_01.gif)](https://setvisible.github.io/DownZemAll/category/screenshots.html "Go to Screenshots page")
 
-[![anim_02](/screenshots/anim_02.gif)](https://setvisible.github.io/DownZemAll/category/screenshots.html "Go to Screenshots page")
+[![anim_02](./screenshots/anim_02.gif)](https://setvisible.github.io/DownZemAll/category/screenshots.html "Go to Screenshots page")
 
 
-## ![](/src/icons/logo/icon32.png) Under the hood
+## ![](./src/icons/logo/icon32.png) Under the hood
 
 *DownZemAll!* is a standalone application, embedding its own web engine. That is, it aims to be free and independent, and not rely on any third-party Web Browser technology.
 
@@ -70,12 +70,12 @@ When we give an URL address to *DownZemAll!*, *DownZemAll!* downloads the page, 
 Due to rapid evolution of web technology, *DownZemAll!* is designed to implement new parsers or add existing ones if required.
 
 
-## ![](/src/icons/logo/icon32.png) Coding
+## ![](./src/icons/logo/icon32.png) Coding
 
 Click [here](DEVELOPERS.md "DEVELOPERS.md") for build instructions.
 
 
-## ![](/src/icons/logo/icon32.png) License and Disclaimer
+## ![](./src/icons/logo/icon32.png) License and Disclaimer
 
 The code is released under the GNU [Lesser General Public License (LGPL)](LICENSE "LICENSE").
 

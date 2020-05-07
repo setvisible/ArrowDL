@@ -28,7 +28,24 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="DownloadQueueView" name="downloadQueueView" native="true"/>
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="childrenCollapsible">
+       <bool>false</bool>
+      </property>
+      <widget class="DownloadQueueView" name="downloadQueueView" native="true">
+       <property name="whatsThis">
+        <string>Queue</string>
+       </property>
+      </widget>
+      <widget class="TorrentWidget" name="torrentWidget" native="true">
+       <property name="whatsThis">
+        <string>Torrent download details</string>
+       </property>
+      </widget>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -58,7 +75,12 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <addaction name="actionImportWizard"/>
+    <addaction name="actionHome"/>
+    <addaction name="separator"/>
+    <addaction name="actionAddContent"/>
+    <addaction name="actionAddBatch"/>
+    <addaction name="actionAddStream"/>
+    <addaction name="actionAddTorrent"/>
     <addaction name="separator"/>
     <addaction name="actionImportFromFile"/>
     <addaction name="actionExportSelectedToFile"/>
@@ -67,7 +89,7 @@
    </widget>
    <widget class="QMenu" name="menuOption">
     <property name="title">
-     <string>Option</string>
+     <string>&amp;Option</string>
     </property>
     <addaction name="actionSpeedLimit"/>
     <addaction name="actionAddDomainSpecificLimit"/>
@@ -80,26 +102,16 @@
     <property name="title">
      <string>&amp;View</string>
     </property>
-    <widget class="QMenu" name="menuOther1">
+    <widget class="QMenu" name="menuOther">
      <property name="title">
       <string>Other</string>
      </property>
-     <addaction name="actionRemoveAll1"/>
-     <addaction name="separator"/>
-     <addaction name="actionCleanGoneFiles"/>
-    </widget>
-    <widget class="QMenu" name="menuOther2">
-     <property name="title">
-      <string>Other</string>
-     </property>
-     <addaction name="actionRemoveSelected"/>
-     <addaction name="separator"/>
+     <addaction name="actionRemoveWaiting"/>
      <addaction name="actionRemoveDuplicates"/>
      <addaction name="separator"/>
-     <addaction name="actionRemoveAll2"/>
-     <addaction name="separator"/>
-     <addaction name="actionRemoveFailed"/>
+     <addaction name="actionRemoveRunning"/>
      <addaction name="actionRemovePaused"/>
+     <addaction name="actionRemoveFailed"/>
     </widget>
     <addaction name="actionInformation"/>
     <addaction name="separator"/>
@@ -108,19 +120,15 @@
     <addaction name="actionDeleteFile"/>
     <addaction name="actionOpenDirectory"/>
     <addaction name="separator"/>
-    <addaction name="actionRemoveCompletedDownloads"/>
-    <addaction name="menuOther1"/>
-    <addaction name="separator"/>
-    <addaction name="actionRemoveDownloads"/>
-    <addaction name="menuOther2"/>
+    <addaction name="actionRemoveCompleted"/>
+    <addaction name="actionRemoveSelected"/>
+    <addaction name="actionRemoveAll"/>
+    <addaction name="menuOther"/>
    </widget>
    <widget class="QMenu" name="menuDownload">
     <property name="title">
-     <string>Download</string>
+     <string>&amp;Queue</string>
     </property>
-    <addaction name="actionAdd"/>
-    <addaction name="actionAddStream"/>
-    <addaction name="separator"/>
     <addaction name="actionResume"/>
     <addaction name="actionPause"/>
     <addaction name="actionCancel"/>
@@ -191,11 +199,14 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionImportWizard"/>
+   <addaction name="actionHome"/>
    <addaction name="separator"/>
-   <addaction name="actionAdd"/>
-   <addaction name="separator"/>
+   <addaction name="actionAddContent"/>
+   <addaction name="actionAddBatch"/>
    <addaction name="actionAddStream"/>
+   <addaction name="actionAddTorrent"/>
+   <addaction name="separator"/>
+   <addaction name="separator"/>
    <addaction name="separator"/>
    <addaction name="actionResume"/>
    <addaction name="actionPause"/>
@@ -206,14 +217,13 @@
    <addaction name="actionDown"/>
    <addaction name="actionBottom"/>
    <addaction name="separator"/>
+   <addaction name="separator"/>
+   <addaction name="separator"/>
    <addaction name="actionPreferences"/>
   </widget>
   <action name="actionQuit">
    <property name="text">
     <string>&amp;Quit</string>
-   </property>
-   <property name="toolTip">
-    <string>Quit</string>
    </property>
   </action>
   <action name="actionAboutQt">
@@ -229,9 +239,6 @@
    <property name="text">
     <string>About DownZemAll...</string>
    </property>
-   <property name="toolTip">
-    <string>About DownZemAll</string>
-   </property>
   </action>
   <action name="actionPreferences">
    <property name="icon">
@@ -245,13 +252,40 @@
     <string>Ctrl+P</string>
    </property>
   </action>
-  <action name="actionAdd">
+  <action name="actionHome">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/menu/tool_resume_26x26.png</normaloff>:/icons/menu/tool_resume_26x26.png</iconset>
+   </property>
+   <property name="text">
+    <string>Getting Started...</string>
+   </property>
+  </action>
+  <action name="actionAddContent">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/menu/wizard_add_16x16.png</normaloff>:/icons/menu/wizard_add_16x16.png</iconset>
+   </property>
+   <property name="text">
+    <string>Download Content... </string>
+   </property>
+   <property name="toolTip">
+    <string>Download Web Page Content</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionAddBatch">
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/icons/menu/tool_add_26x26.png</normaloff>:/icons/menu/tool_add_26x26.png</iconset>
    </property>
    <property name="text">
-    <string>Add...</string>
+    <string>Download Batch...</string>
+   </property>
+   <property name="toolTip">
+    <string>Download Single File, Batch of Files with Regular Expression</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
@@ -263,10 +297,22 @@
      <normaloff>:/icons/menu/youtube_48x48.png</normaloff>:/icons/menu/youtube_48x48.png</iconset>
    </property>
    <property name="text">
-    <string>Stream...</string>
+    <string>Download Stream...</string>
    </property>
    <property name="toolTip">
-    <string>Add from Stream</string>
+    <string>Download Video/Audio Stream</string>
+   </property>
+  </action>
+  <action name="actionAddTorrent">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/menu/preference_torrent_32x32.png</normaloff>:/icons/menu/preference_torrent_32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>Download Torrent...</string>
+   </property>
+   <property name="toolTip">
+    <string>Download Magnet Links and Torrent</string>
    </property>
   </action>
   <action name="actionCancel">
@@ -430,9 +476,6 @@
    <property name="text">
     <string>Manage Download Mirror Locations...</string>
    </property>
-   <property name="toolTip">
-    <string>Manage Download Mirror Locations</string>
-   </property>
   </action>
   <action name="actionOneMoreSegment">
    <property name="icon">
@@ -488,37 +531,49 @@
     <string>Ctrl+Shift+S, Ctrl+S</string>
    </property>
   </action>
-  <action name="actionRemoveCompletedDownloads">
+  <action name="actionRemoveCompleted">
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/icons/menu/icon_remove_completed_16x16.png</normaloff>:/icons/menu/icon_remove_completed_16x16.png</iconset>
    </property>
    <property name="text">
-    <string>Remove Completed Downloads</string>
+    <string>Remove Completed</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Del</string>
    </property>
   </action>
-  <action name="actionRemoveDownloads">
+  <action name="actionRemoveSelected">
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/icons/menu/icon_remove_downloaded_16x16.png</normaloff>:/icons/menu/icon_remove_downloaded_16x16.png</iconset>
    </property>
    <property name="text">
-    <string>Remove Downloads</string>
+    <string>Remove Selected</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
    </property>
   </action>
-  <action name="actionCleanGoneFiles">
+  <action name="actionRemoveAll">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/menu/icon_cancel_16x16.png</normaloff>:/icons/menu/icon_cancel_16x16.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove All</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Del</string>
+   </property>
+  </action>
+  <action name="actionRemoveWaiting">
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/icons/menu/icon_clean_gone_file_16x16.png</normaloff>:/icons/menu/icon_clean_gone_file_16x16.png</iconset>
    </property>
    <property name="text">
-    <string>Clean Gone Files</string>
-   </property>
-   <property name="toolTip">
-    <string>Clean Gone Files</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+Del</string>
+    <string>Remove Waiting</string>
    </property>
   </action>
   <action name="actionRemoveDuplicates">
@@ -528,6 +583,33 @@
    </property>
    <property name="text">
     <string>Remove Duplicates</string>
+   </property>
+  </action>
+  <action name="actionRemoveRunning">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/menu/icon_resume_16x16.png</normaloff>:/icons/menu/icon_resume_16x16.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove Running</string>
+   </property>
+  </action>
+  <action name="actionRemovePaused">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/menu/icon_pause_16x16.png</normaloff>:/icons/menu/icon_pause_16x16.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove Paused</string>
+   </property>
+  </action>
+  <action name="actionRemoveFailed">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/menu/icon_cancel_16x16.png</normaloff>:/icons/menu/icon_cancel_16x16.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove Failed</string>
    </property>
   </action>
   <action name="actionAddDomainSpecificLimit">
@@ -547,9 +629,6 @@
    <property name="text">
     <string>Speed Limit...</string>
    </property>
-   <property name="toolTip">
-    <string>Speed Limit...</string>
-   </property>
   </action>
   <action name="actionSelectNone">
    <property name="icon">
@@ -557,9 +636,6 @@
      <normaloff>:/icons/menu/select_none_32x32.png</normaloff>:/icons/menu/select_none_32x32.png</iconset>
    </property>
    <property name="text">
-    <string>Select None</string>
-   </property>
-   <property name="toolTip">
     <string>Select None</string>
    </property>
   </action>
@@ -570,69 +646,6 @@
    </property>
    <property name="text">
     <string>Select Completed</string>
-   </property>
-  </action>
-  <action name="actionImportWizard">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/wizard_add_16x16.png</normaloff>:/icons/menu/wizard_add_16x16.png</iconset>
-   </property>
-   <property name="text">
-    <string>Import Wizard... </string>
-   </property>
-   <property name="toolTip">
-    <string>Import Wizard  (Ctrl+X)</string>
-   </property>
-  </action>
-  <action name="actionRemoveAll1">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_remove_completed_16x16.png</normaloff>:/icons/menu/icon_remove_completed_16x16.png</iconset>
-   </property>
-   <property name="text">
-    <string>Remove All</string>
-   </property>
-   <property name="shortcut">
-    <string>Shift+Del</string>
-   </property>
-  </action>
-  <action name="actionRemoveSelected">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_remove_downloaded_16x16.png</normaloff>:/icons/menu/icon_remove_downloaded_16x16.png</iconset>
-   </property>
-   <property name="text">
-    <string>Remove Selected</string>
-   </property>
-   <property name="shortcut">
-    <string>Del</string>
-   </property>
-  </action>
-  <action name="actionRemoveFailed">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_cancel_16x16.png</normaloff>:/icons/menu/icon_cancel_16x16.png</iconset>
-   </property>
-   <property name="text">
-    <string>Remove Failed</string>
-   </property>
-  </action>
-  <action name="actionRemovePaused">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_pause_16x16.png</normaloff>:/icons/menu/icon_pause_16x16.png</iconset>
-   </property>
-   <property name="text">
-    <string>Remove Paused</string>
-   </property>
-  </action>
-  <action name="actionRemoveAll2">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_remove_downloaded_16x16.png</normaloff>:/icons/menu/icon_remove_downloaded_16x16.png</iconset>
-   </property>
-   <property name="text">
-    <string>Remove All</string>
    </property>
   </action>
   <action name="actionCopy">
@@ -672,6 +685,12 @@
    <class>DownloadQueueView</class>
    <extends>QWidget</extends>
    <header>Widgets/DownloadQueueView</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TorrentWidget</class>
+   <extends>QWidget</extends>
+   <header>Widgets/TorrentWidget</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

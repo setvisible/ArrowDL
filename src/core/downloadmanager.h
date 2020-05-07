@@ -22,6 +22,7 @@
 #include <QtCore/QList>
 #include <QtCore/QString>
 
+class ResourceItem;
 class Settings;
 
 class QTimer;
@@ -44,6 +45,7 @@ public:
 
     /* Utility */
     IDownloadItem* createItem(const QUrl &url) Q_DECL_OVERRIDE;
+    IDownloadItem* createTorrentItem(const QUrl &url) Q_DECL_OVERRIDE;
 
 private slots:
     void onSettingsChanged();
@@ -62,6 +64,8 @@ private:
     // Crash Recovery
     QTimer* m_dirtyQueueTimer;
     QString m_queueFile;
+
+    inline ResourceItem* createResourceItem(const QUrl &url);
 };
 
 #endif // CORE_DOWNLOAD_MANAGER_H

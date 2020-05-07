@@ -6,6 +6,8 @@ HEADERS += \
     $$PWD/downloaditem_p.h \
     $$PWD/downloadmanager.h \
     $$PWD/downloadstreamitem.h \
+    $$PWD/downloadtorrentitem.h \
+    $$PWD/downloadtorrentitem_p.h \
     $$PWD/file.h \
     $$PWD/fileaccessmanager.h \
     $$PWD/format.h \
@@ -21,6 +23,9 @@ HEADERS += \
     $$PWD/session.h \
     $$PWD/settings.h \
     $$PWD/stream.h \
+    $$PWD/torrent.h \
+    $$PWD/torrentcontext.h \
+    $$PWD/torrentcontext_p.h \
     $$PWD/updatechecker.h \
     $$PWD/updatechecker_p.h
 
@@ -31,6 +36,8 @@ SOURCES += \
     $$PWD/downloaditem.cpp \
     $$PWD/downloadmanager.cpp \
     $$PWD/downloadstreamitem.cpp \
+    $$PWD/downloadtorrentitem.cpp \
+    $$PWD/downloadtorrentitem_p.cpp \
     $$PWD/file.cpp \
     $$PWD/fileaccessmanager.cpp \
     $$PWD/format.cpp \
@@ -44,4 +51,7 @@ SOURCES += \
     $$PWD/session.cpp \
     $$PWD/settings.cpp \
     $$PWD/stream.cpp \
+    $$PWD/torrent.cpp \
+    $$PWD/torrentcontext.cpp \
+    $$PWD/torrentcontext_p.cpp \
     $$PWD/updatechecker.cpp

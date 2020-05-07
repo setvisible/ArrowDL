@@ -3,11 +3,28 @@ layout: category
 title: Screenshots
 ---
 
+## Version 2.0.0
+
+Download lot of media types:
+
+![Download torrents](../assets/images/2.0/get_started.png)
+
+In particular magnet links and .torrent files:
+
+![Download torrents](../assets/images/2.0/torrent_01.png)
+
+![Download torrents](../assets/images/2.0/torrent_02.png)
+
+Torrent settings are customizable.
+
+![Download torrents](../assets/images/2.0/torrent_prefs.png)
+
+
 ## Version 1.7.0
 
-Download video streams from Youtube and other video sites :
+Download video streams from Youtube and other video sites:
 
-![Download video streams](/DownZemAll/assets/images/1.7/anim_youtube_v1.7.0.gif)
+![Download video streams](../assets/images/1.7/anim_youtube_v1.7.0.gif)
 
 
 ## Version 1.4.2

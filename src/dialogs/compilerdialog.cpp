@@ -26,6 +26,7 @@
 #include <QtCore/QString>
 #include <QtNetwork/QSslSocket>
 
+
 #ifdef Q_OS_WIN
 #  include <windows.h>
 #else /* POSIX */
@@ -38,8 +39,13 @@ CompilerDialog::CompilerDialog(QWidget *parent)
 {
     ui->setupUi(this);
 
-    ui->title->setText(QString("%0 %1").arg(STR_APPLICATION_NAME, STR_COMPILER_WORDSIZE));
-    ui->version->setText(STR_APPLICATION_VERSION);
+    adjustSize();
+    setFixedSize(size());
+
+    auto version = tr("%0 %1 version %2").arg(STR_APPLICATION_NAME,
+                                              STR_COMPILER_WORDSIZE,
+                                              STR_APPLICATION_VERSION);
+    ui->version->setText(version);
 
     ui->link->setText(QString("<a href=\"%0\">%0</a>").arg(STR_APPLICATION_WEBSITE));
     ui->link->setTextFormat(Qt::RichText);
@@ -63,15 +69,19 @@ CompilerDialog::CompilerDialog(QWidget *parent)
     ui->QtVersion->setText(QT_VERSION_STR);
 #endif
     ui->googleGumboVersion->setText(GOOGLE_GUMBO_VERSION_STR);
-    ui->youtubeDLVersion->setText(Stream::version());
+    ui->libtorrentVersion->setText(LIBTORRENT_VERSION_STR);
+    ui->youtubeDLVersion->setText(tr("Reading..."));
+    askStreamVersionAsync();
 
     if (!QSslSocket::supportsSsl()) {
-        ui->description->setText(QString(
-                                     "This application can't find SSL or a compatible version (SSL %0), "
-                                     "the application will fail to download with secure sockets (HTTPS, FTPS).")
-                                 .arg(STR_COMPILER_WORDSIZE));
 
-        const QString undefined("not found");
+        ui->description->setText(
+                    tr("This application can't find SSL or a compatible "
+                       "version (SSL %0), the application will fail to "
+                       "download with secure sockets (HTTPS, FTPS).")
+                    .arg(STR_COMPILER_WORDSIZE));
+
+        const QString undefined(tr("not found"));
         ui->sslLibraryVersion->setText(undefined);
         ui->sslLibraryBuildVersion->setText(undefined);
 
@@ -81,7 +91,7 @@ CompilerDialog::CompilerDialog(QWidget *parent)
         ui->sslLibraryBuildVersion->setStyleSheet(stylesheet);
 
     } else {
-        ui->description->setText("This application supports SSL.");
+        ui->description->setText(tr("This application supports SSL."));
 
         ui->sslLibraryVersion->setText(QSslSocket::sslLibraryVersionString());
         ui->sslLibraryBuildVersion->setText(QSslSocket::sslLibraryBuildVersionString());
@@ -106,6 +116,16 @@ void CompilerDialog::on_okButton_released()
     QDialog::reject();
 }
 
+/******************************************************************************
+ ******************************************************************************/
+void CompilerDialog::askStreamVersionAsync()
+{
+    AskStreamVersionThread *w = new AskStreamVersionThread();
+    connect(this, &QObject::destroyed, w, &AskStreamVersionThread::stop);
+    connect(w, &AskStreamVersionThread::resultReady, ui->youtubeDLVersion, &QLabel::setText);
+    connect(w, &AskStreamVersionThread::finished, w, &QObject::deleteLater);
+    w->start();
+}
 
 /******************************************************************************
  ******************************************************************************/
@@ -188,4 +208,3 @@ QString CompilerDialog::getVersionString(const QString &fName)
 #endif
     return ret;
 }
-

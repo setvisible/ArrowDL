@@ -410,7 +410,7 @@ void QueueItem::updateItem()
         }
 
     } else if (m_downloadItem->state() == IDownloadItem::Downloading) {
-        estTime = Format::remaingTimeToString(m_downloadItem->remainingTime());
+        estTime = Format::timeToString(m_downloadItem->remainingTime());
     }
 
     QString speed = Format::currentSpeedToString(m_downloadItem->speed());
@@ -461,6 +461,8 @@ DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
     m_queueView->setRootIsDecorated(false);
     m_queueView->setMidLineWidth(3);
 
+    setColumnWidths(QList<int>());
+
     // Edit with second click
     m_queueView->setEditTriggers(QAbstractItemView::SelectedClicked);
 
@@ -478,6 +480,7 @@ DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
 
     QLayout* layout = new QGridLayout(this);
     layout->addWidget(m_queueView);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     this->setLayout(layout);
 }
@@ -501,6 +504,38 @@ QSize DownloadQueueView::sizeHint() const
         width += header->sectionSize(i);
 
     return QSize(width, QWidget::sizeHint().height()).expandedTo(QApplication::globalStrut());
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QByteArray DownloadQueueView::saveState(int version) const
+{
+    QByteArray data;
+    QDataStream stream(&data, QIODevice::WriteOnly);
+    stream << 0xff; // VersionMarker
+    stream << version;
+    stream << columnWidths();
+    return data;
+}
+
+bool DownloadQueueView::restoreState(const QByteArray &state, int version)
+{
+    if (state.isEmpty()) {
+        return false;
+    }
+    QByteArray sd = state;
+    QDataStream stream(&sd, QIODevice::ReadOnly);
+    int marker, v;
+    stream >> marker;
+    stream >> v;
+    if (stream.status() != QDataStream::Ok || marker != 0xff || v != version) {
+        return false;
+    }
+    QList<int> widths;
+    stream >> widths;
+    setColumnWidths(widths);
+    bool restored = true;
+    return restored;
 }
 
 /******************************************************************************

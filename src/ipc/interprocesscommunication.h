@@ -38,7 +38,7 @@ public:
 
     static QString clean(const QString &message);
 
-    static bool isUrl(const QString &message);
+    static bool isSingleUrl(const QString &message);
     static bool isCommandOpenManager(const QString &message);
     static bool isCommandShowPreferences(const QString &message);
     static bool isCommandOpenUrl(const QString &message);
