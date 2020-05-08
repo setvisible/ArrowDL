@@ -159,6 +159,7 @@ endif(ENABLE_TESTS)
 ##############################################################################
 if(ENABLE_APPLICATION OR ENABLE_TESTS)
     include(${CMAKE_CURRENT_SOURCE_DIR}/3rd/CMakeLists.txt)
+    configure_file( ./src/config_3rd.h.cmake ./src/config_3rd.h )
 endif(ENABLE_APPLICATION OR ENABLE_TESTS)
 
 
