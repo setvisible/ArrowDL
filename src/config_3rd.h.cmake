@@ -14,20 +14,12 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VERSION_H
-#define VERSION_H
+#ifndef CONFIG_THIRD_PARTY_LIBRARIES_H
+#define CONFIG_THIRD_PARTY_LIBRARIES_H
 
-/* Cmake */
-#ifndef APP_VERSION
-#  include "src/config.h"
-#endif
+/*
+ * These values are automatically set according to their cmake variables.
+ */
+#cmakedefine BOOST_VERSION_STR "@BOOST_VERSION_STR@"
 
-#ifndef BOOST_VERSION_STR
-#  include "src/config_3rd.h"
-#endif
-
-#define GOOGLE_GUMBO_VERSION_STR      "0.10.1"
-
-#define LIBTORRENT_VERSION_STR        "1.2.5"
-
-#endif // VERSION_H
+#endif /* CONFIG_THIRD_PARTY_LIBRARIES_H */

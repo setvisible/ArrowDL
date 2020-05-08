@@ -68,6 +68,7 @@ CompilerDialog::CompilerDialog(QWidget *parent)
 #else
     ui->QtVersion->setText(QT_VERSION_STR);
 #endif
+    ui->boostVersion->setText(BOOST_VERSION_STR);
     ui->googleGumboVersion->setText(GOOGLE_GUMBO_VERSION_STR);
     ui->libtorrentVersion->setText(LIBTORRENT_VERSION_STR);
     ui->youtubeDLVersion->setText(tr("Reading..."));
