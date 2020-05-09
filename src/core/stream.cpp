@@ -43,7 +43,13 @@ static const QString C_PROGRAM_NAME  = QLatin1String("./youtube-dl");
 #endif
 
 static const QString C_WEBSITE_URL   = QLatin1String("http://ytdl-org.github.io/youtube-dl/");
-static const QString C_LEGAL_CHARS   = QLatin1String("' @()[]{}°#,.&");
+
+/*
+ * This list of legal characters for filenames is limited to avoid injections
+ * of special or invisible characters that could be not supported by the OS.
+ */
+static const QString C_LEGAL_CHARS   = QLatin1String("-+' @()[]{}°#,.&");
+
 static const QString C_NONE          = QLatin1String("none");
 
 static const QString C_WARNING_msg_header_01 = QLatin1String("WARNING:");

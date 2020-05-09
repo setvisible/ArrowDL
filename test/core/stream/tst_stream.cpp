@@ -241,6 +241,8 @@ void tst_Stream::fileBaseName_data()
 
     QTest::newRow("tab") << "\t here\twe\tcome \t" << "here we come";
 
+    QTest::newRow("minus") << "- \x2D — \u2212 \u2014" << "- - _ _ _";
+
     QTest::newRow("brackets") << "Windsor ['98]" << "Windsor ['98]";
     QTest::newRow("brackets") << "Windsor ('98)" << "Windsor ('98)";
     QTest::newRow("@")        << "Live @ Windsor" << "Live @ Windsor";
