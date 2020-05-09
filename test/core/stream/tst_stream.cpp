@@ -42,6 +42,7 @@ private slots:
     void readStandardOutput();
     void readStandardOutputWithEstimedSize();
     void readStandardOutputWithTwoStreams();
+    void readStandardOutputHTTPError();
 
     void readStandardError();
 
@@ -221,9 +222,68 @@ void tst_Stream::readStandardOutputWithTwoStreams()
 
 /******************************************************************************
 ******************************************************************************/
+void tst_Stream::readStandardOutputHTTPError()
+{
+    // Given
+    QSharedPointer<FriendlyStream> target(new FriendlyStream(this));
+    QSignalSpy spyProgress(target.data(), SIGNAL(downloadProgress(qint64, qint64)));
+
+    // When
+    target->parseStandardOutput(" .\\youtube-dl.exe https://www.youtube.com/watch?v=8_X5Iq9niDE");
+    target->parseStandardOutput("[youtube] 8_X5Iq9niDE: Downloading webpage");
+    target->parseStandardOutput("[youtube] 8_X5Iq9niDE: Downloading MPD manifest");
+    target->parseStandardOutput("WARNING: Requested formats are incompatible for merge and will be merged into mkv.");
+    target->parseStandardOutput("[dashsegments] Total fragments: 21");
+    target->parseStandardOutput("[download] Destination: Installing CMake in 2 minutes on Windows-8_X5Iq9niDE.f248.webm");
+    target->parseStandardOutput("[download]  61.9% of ~3.98MiB at  2.15MiB/s ETA 00:06     [download] Got server HTTP error: HTTP Error 404: Not Found. Retrying fragment 14 (attempt 1 of 10)...");
+    target->parseStandardOutput("[download] Got server HTTP error: HTTP Error 404: Not Found. Retrying fragment 14 (attempt 2 of 10)...");
+    target->parseStandardOutput("[download] Got server HTTP error: HTTP Error 404: Not Found. Retrying fragment 14 (attempt 3 of 10)...");
+    target->parseStandardOutput("[download] Got server HTTP error: HTTP Error 404: Not Found. Retrying fragment 14 (attempt 4 of 10)...");
+    target->parseStandardOutput("[download] Got server HTTP error: HTTP Error 404: Not Found. Retrying fragment 14 (attempt 5 of 10)...");
+    target->parseStandardOutput("[download] Got server HTTP error: HTTP Error 404: Not Found. Retrying fragment 14 (attempt 6 of 10)...");
+    target->parseStandardOutput("[download] Got server HTTP error: HTTP Error 404: Not Found. Retrying fragment 14 (attempt 7 of 10)...");
+    target->parseStandardOutput("[download] Got server HTTP error: HTTP Error 404: Not Found. Retrying fragment 14 (attempt 8 of 10)...");
+    target->parseStandardOutput("[download] Got server HTTP error: HTTP Error 404: Not Found. Retrying fragment 14 (attempt 9 of 10)...");
+    target->parseStandardOutput("[download] Got server HTTP error: HTTP Error 404: Not Found. Retrying fragment 14 (attempt 10 of 10)...");
+    target->parseStandardOutput("[download]  71.4% of ~4.37MiB at  3.14MiB/s ETA 00:05     [download] Got server HTTP error: HTTP Error 404: Not Found. Retrying fragment 16 (attempt 1 of 10)...");
+    target->parseStandardOutput("[download] 100% of 4.42MiB in 00:17");
+    target->parseStandardOutput("[dashsegments] Total fragments: 23");
+    target->parseStandardOutput("[download] Destination: Installing CMake in 2 minutes on Windows-8_X5Iq9niDE.f140.m4a");
+    target->parseStandardOutput("[download]  50.3% of 1.60MiB at  3.14MiB/s ETA 00:05");
+    target->parseStandardOutput("[download] 100% of 1.60MiB in 00:01");
+    target->parseStandardOutput("[ffmpeg] Merging formats into \"Installing CMake in 2 minutes on Windows-8_X5Iq9niDE.mkv\"");
+    target->parseStandardOutput("Deleting original file Installing CMake in 2 minutes on Windows-8_X5Iq9niDE.f248.webm (pass -k to keep)");
+    target->parseStandardOutput("Deleting original file Installing CMake in 2 minutes on Windows-8_X5Iq9niDE.f140.m4a (pass -k to keep)");
+
+    // Then
+    /*
+     * Remark:
+     * Total size will change all the time (even sometimes it will decrease)
+     * because we don't presume it before downloading
+     */
+    QCOMPARE(spyProgress.count(), 16);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  0,       0,       0); // -idle stream 1-
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  1, 2583294, 4173333);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  2, 2583294, 4173333);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  3, 2583294, 4173333);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  4, 2583294, 4173333);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  5, 2583294, 4173333);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  6, 2583294, 4173333);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  7, 2583294, 4173333);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  8, 2583294, 4173333);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  9, 2583294, 4173333);
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 10, 2583294, 4173333);
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 11, 3271747, 4582278);
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 12, 4634706, 4634706);
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 13, 4634706, 4634706);
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 14, 5478601, 1677722); // -idle stream 2-
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 15, 6312428, 1677722);
+}
+
+/******************************************************************************
+******************************************************************************/
 void tst_Stream::readStandardError()
 {
-
 }
 
 /******************************************************************************
