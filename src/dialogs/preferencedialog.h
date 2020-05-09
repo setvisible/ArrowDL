@@ -53,6 +53,9 @@ private slots:
     void bandwidthSettingsChanged(int value);
     void setBandwidthSettings();
 
+    void onStreamCleanCacheButtonReleased();
+    void cleaned();
+
 private:
     Ui::PreferenceDialog *ui;
     Settings *m_settings;
