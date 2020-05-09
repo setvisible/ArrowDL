@@ -18,6 +18,7 @@
 #include "ui_preferencedialog.h"
 
 #include <Core/Settings>
+#include <Core/Stream>
 #include <Widgets/AdvancedSettingsWidget>
 #include <Widgets/PathWidget>
 
@@ -94,6 +95,9 @@ void PreferenceDialog::connectUi()
     connect(ui->browseDatabaseFile, SIGNAL(currentPathValidityChanged(bool)),
             ui->okButton, SLOT(setEnabled(bool)));
 
+    connect(ui->streamCleanCacheButton, SIGNAL(released()),
+            this, SLOT(onStreamCleanCacheButtonReleased()));
+
     connect(ui->checkUpdateNowPushButton, SIGNAL(released()),
             this, SIGNAL(checkUpdate()), Qt::QueuedConnection);
 
@@ -153,6 +157,9 @@ void PreferenceDialog::initializeUi()
     ui->browseDatabaseFile->setPathType(PathWidget::File);
     ui->browseDatabaseFile->setSuffixName(tr("Queue Database"));
     ui->browseDatabaseFile->setSuffix(".json");
+
+    ui->streamCleanCacheLabel->setText(
+                QString("Located at <a href=\"%0\">%0</a>").arg(StreamCleanCache::cacheDir()));
 
     // Tab Filters
     ui->filterTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -343,7 +350,6 @@ void PreferenceDialog::write()
     m_settings->setTorrentSettings(ui->advancedSettingsWidget->torrentSettings());
 }
 
-
 /******************************************************************************
  ******************************************************************************/
 void PreferenceDialog::setStreamHosts(const QStringList &streamHosts)
@@ -366,6 +372,25 @@ QStringList PreferenceDialog::streamHosts() const
         streamHosts.append(it.text().trimmed());
     }
     return streamHosts;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void PreferenceDialog::onStreamCleanCacheButtonReleased()
+{
+    ui->streamCleanCacheButton->setText(tr("Cleaning..."));
+    ui->streamCleanCacheButton->setEnabled(false);
+
+    StreamCleanCache *s = new StreamCleanCache(this);
+    connect(s, &StreamCleanCache::done, this, &PreferenceDialog::cleaned);
+    connect(s, &StreamCleanCache::done, s, &QObject::deleteLater);
+    s->runAsync();
+}
+
+void PreferenceDialog::cleaned()
+{
+    ui->streamCleanCacheButton->setText(tr("Clean Cache"));
+    ui->streamCleanCacheButton->setEnabled(true);
 }
 
 /******************************************************************************

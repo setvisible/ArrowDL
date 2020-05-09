@@ -20,6 +20,7 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
+#include <QtCore/QDir>
 #include <QtCore/QChar>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonParseError>
@@ -69,7 +70,7 @@ Stream::Stream(QObject *parent) : QObject(parent)
 {
     connect(m_process, SIGNAL(started()), this, SLOT(onStarted()));
 #if QT_VERSION >= 0x050600
-    connect(m_process, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onErrorOccurred(QProcess::ProcessError)));
+    connect(m_process, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onError(QProcess::ProcessError)));
 #endif
     connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinished(int, QProcess::ExitStatus)));
     connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onStandardOutputReady()));
@@ -158,7 +159,7 @@ bool Stream::matchesHost(const QString &host, const QStringList &regexHosts)
 {
     foreach (auto regexHost, regexHosts) {
         if (matches(host, regexHost)) {
-             return true;
+            return true;
         }
     }
     return false;
@@ -294,7 +295,7 @@ void Stream::onStarted()
     qDebug() << Q_FUNC_INFO;
 }
 
-void Stream::onErrorOccurred(QProcess::ProcessError error)
+void Stream::onError(QProcess::ProcessError error)
 {
     // Issue with configuration, or argument,
     // but not due to user input like invalid URL.
@@ -393,17 +394,80 @@ qint64 Stream::_q_bytesTotal() const
 
 /******************************************************************************
  ******************************************************************************/
-StreamInfoDownloader::StreamInfoDownloader(QObject *parent) : QObject(parent)
+StreamCleanCache::StreamCleanCache(QObject *parent) : QObject(parent)
   , m_process(new QProcess(this))
+  , m_isCleaned(false)
 {
-    connect(m_process, SIGNAL(started()),
-            this, SLOT(onStarted()));
+    connect(m_process, SIGNAL(started()), this, SLOT(onStarted()));
 #if QT_VERSION >= 0x050600
     connect(m_process, SIGNAL(errorOccurred(QProcess::ProcessError)),
-            this, SLOT(onErrorOccurred(QProcess::ProcessError)));
+            this, SLOT(onError(QProcess::ProcessError)));
 #endif
     connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)),
             this, SLOT(onFinished(int, QProcess::ExitStatus)));
+}
+
+StreamCleanCache::~StreamCleanCache()
+{
+    m_process->kill();
+    m_process->deleteLater();
+}
+
+void StreamCleanCache::runAsync()
+{
+    if (m_process->state() == QProcess::NotRunning) {
+        m_process->start(C_PROGRAM_NAME, QStringList() << "--rm-cache-dir");
+        qDebug() << Q_FUNC_INFO << toString(m_process);
+    }
+}
+
+QString StreamCleanCache::cacheDir()
+{
+    // Try to get the .cache from $XDG_CACHE_HOME, if it's not set,
+    // it has to be in ~/.cache as per XDG standard
+    QString dir = QString::fromUtf8(getenv("XDG_CACHE_HOME"));
+    if (dir.isEmpty()) {
+        dir = QDir::cleanPath(QDir::homePath() + QLatin1String("/.cache"));
+    }
+    return QDir::toNativeSeparators(dir);
+}
+
+bool StreamCleanCache::isCleaned() const
+{
+    return m_isCleaned;
+}
+
+void StreamCleanCache::onStarted()
+{
+    qDebug() << Q_FUNC_INFO;
+}
+
+void StreamCleanCache::onError(QProcess::ProcessError error)
+{
+    qDebug() << Q_FUNC_INFO << generateErrorMessage(error);
+}
+
+void StreamCleanCache::onFinished(int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/)
+{
+    m_isCleaned = true;
+    emit done();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+StreamInfoDownloader::StreamInfoDownloader(QObject *parent) : QObject(parent)
+  , m_process(new QProcess(this))
+  , m_streamCleanCache(new StreamCleanCache(this))
+  , m_url(QString())
+{
+    connect(m_process, SIGNAL(started()), this, SLOT(onStarted()));
+#if QT_VERSION >= 0x050600
+    connect(m_process, SIGNAL(errorOccurred(QProcess::ProcessError)),
+            this, SLOT(onError(QProcess::ProcessError)));
+#endif
+    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(onFinished(int, QProcess::ExitStatus)));
+    connect(m_streamCleanCache, SIGNAL(done()), this, SLOT(onCacheCleaned()));
 }
 
 StreamInfoDownloader::~StreamInfoDownloader()
@@ -414,6 +478,7 @@ StreamInfoDownloader::~StreamInfoDownloader()
 
 void StreamInfoDownloader::runAsync(const QString &url)
 {
+    m_url = url;
     if (m_process->state() == QProcess::NotRunning) {
         m_process->start(C_PROGRAM_NAME, QStringList() << "--dump-json" << url);
         qDebug() << Q_FUNC_INFO << toString(m_process);
@@ -425,7 +490,7 @@ void StreamInfoDownloader::onStarted()
     qDebug() << Q_FUNC_INFO;
 }
 
-void StreamInfoDownloader::onErrorOccurred(QProcess::ProcessError error)
+void StreamInfoDownloader::onError(QProcess::ProcessError error)
 {
     qDebug() << Q_FUNC_INFO << generateErrorMessage(error);
 }
@@ -434,6 +499,10 @@ void StreamInfoDownloader::onFinished(int exitCode, QProcess::ExitStatus /*exitS
 {
     //qDebug() << Q_FUNC_INFO << exitCode << exitStatus;
     if (exitCode != 0) {
+        if (!m_streamCleanCache->isCleaned()) {
+            m_streamCleanCache->runAsync(); // clean cache and retry
+            return;
+        }
         auto message = generateErrorMessage(m_process->error());
         emit error(message);
     } else {
@@ -445,6 +514,11 @@ void StreamInfoDownloader::onFinished(int exitCode, QProcess::ExitStatus /*exitS
             emit error(tr("Couldn't parse JSON file."));
         }
     }
+}
+
+void StreamInfoDownloader::onCacheCleaned()
+{
+    runAsync(m_url); // retry
 }
 
 bool StreamInfoDownloader::parseJSON(const QByteArray &data, StreamInfos *infos)
@@ -499,7 +573,7 @@ StreamExtractorListCollector::StreamExtractorListCollector(QObject *parent) : QO
             this, SLOT(onStarted()));
 #if QT_VERSION >= 0x050600
     connect(m_processExtractors, SIGNAL(errorOccurred(QProcess::ProcessError)),
-            this, SLOT(onErrorOccurred(QProcess::ProcessError)));
+            this, SLOT(onError(QProcess::ProcessError)));
 #endif
     connect(m_processExtractors, SIGNAL(finished(int, QProcess::ExitStatus)),
             this, SLOT(onFinishedExtractors(int, QProcess::ExitStatus)));
@@ -508,7 +582,7 @@ StreamExtractorListCollector::StreamExtractorListCollector(QObject *parent) : QO
             this, SLOT(onStarted()));
 #if QT_VERSION >= 0x050600
     connect(m_processDescriptions, SIGNAL(errorOccurred(QProcess::ProcessError)),
-            this, SLOT(onErrorOccurred(QProcess::ProcessError)));
+            this, SLOT(onError(QProcess::ProcessError)));
 #endif
     connect(m_processDescriptions, SIGNAL(finished(int, QProcess::ExitStatus)),
             this, SLOT(onFinishedDescriptions(int, QProcess::ExitStatus)));
@@ -539,7 +613,7 @@ void StreamExtractorListCollector::onStarted()
     qDebug() << Q_FUNC_INFO;
 }
 
-void StreamExtractorListCollector::onErrorOccurred(QProcess::ProcessError error)
+void StreamExtractorListCollector::onError(QProcess::ProcessError error)
 {
     qDebug() << Q_FUNC_INFO << generateErrorMessage(error);
     m_extractors.clear();
