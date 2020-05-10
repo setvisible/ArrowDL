@@ -133,6 +133,9 @@ public:
     QString localFullOutputPath() const;
     void setLocalFullOutputPath(const QString &outputPath);
 
+    QString refererUrl() const;
+    void setRefererUrl(const QString &url);
+
     QString selectedFormatId() const;
     void setSelectedFormatId(const QString &formatId);
 
@@ -170,6 +173,7 @@ private:
 
     QString m_url;
     QString m_outputPath;
+    QString m_refererUrl;
     QString m_selectedFormatId;
 
     qint64 m_bytesReceived;
@@ -250,6 +254,29 @@ signals:
 
 private:
     bool stopped = false;
+};
+
+class StreamUpgrader : public QObject
+{
+    Q_OBJECT
+public:
+    explicit StreamUpgrader(QObject *parent);
+    ~StreamUpgrader() Q_DECL_OVERRIDE;
+
+    void runAsync();
+
+signals:
+    void done();
+
+private slots:
+    void onStarted();
+    void onError(QProcess::ProcessError error);
+    void onStandardOutputReady();
+    void onStandardErrorReady();
+    void onFinished(int exitCode, QProcess::ExitStatus exitStatus);
+
+private:
+    QProcess *m_process;
 };
 
 class StreamExtractorListCollector : public QObject
