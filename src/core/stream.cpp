@@ -225,6 +225,18 @@ void Stream::setLocalFullOutputPath(const QString &outputPath)
 
 /******************************************************************************
  ******************************************************************************/
+QString Stream::refererUrl() const
+{
+    return m_refererUrl;
+}
+
+void Stream::setRefererUrl(const QString &refererUrl)
+{
+    m_refererUrl = refererUrl;
+}
+
+/******************************************************************************
+ ******************************************************************************/
 /*!
  * \remark The first format must contain the video.
  * If the video is 299 and the audio is 251,
@@ -277,6 +289,9 @@ void Stream::start()
                   << "--ignore-config"
                   << "--format" << m_selectedFormatId
                   << m_url;
+        if (!m_refererUrl.isEmpty()) {
+            arguments << "--referer" << m_refererUrl;
+        }
         m_process->start(C_PROGRAM_NAME, arguments);
         qDebug() << Q_FUNC_INFO << toString(m_process);
     }

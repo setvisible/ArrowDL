@@ -133,6 +133,9 @@ public:
     QString localFullOutputPath() const;
     void setLocalFullOutputPath(const QString &outputPath);
 
+    QString refererUrl() const;
+    void setRefererUrl(const QString &url);
+
     QString selectedFormatId() const;
     void setSelectedFormatId(const QString &formatId);
 
@@ -170,6 +173,7 @@ private:
 
     QString m_url;
     QString m_outputPath;
+    QString m_refererUrl;
     QString m_selectedFormatId;
 
     qint64 m_bytesReceived;
