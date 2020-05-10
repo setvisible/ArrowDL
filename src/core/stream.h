@@ -27,6 +27,7 @@ QT_BEGIN_NAMESPACE
 class QDebug;
 QT_END_NAMESPACE
 
+class StreamCleanCache;
 class StreamInfos;
 typedef QSharedPointer<StreamInfos> StreamInfosPtr;
 
@@ -132,6 +133,9 @@ public:
     QString localFullOutputPath() const;
     void setLocalFullOutputPath(const QString &outputPath);
 
+    QString refererUrl() const;
+    void setRefererUrl(const QString &url);
+
     QString selectedFormatId() const;
     void setSelectedFormatId(const QString &formatId);
 
@@ -159,7 +163,7 @@ protected:
 
 private slots:
     void onStarted();
-    void onErrorOccurred(QProcess::ProcessError error);
+    void onError(QProcess::ProcessError error);
     void onFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void onStandardOutputReady();
     void onStandardErrorReady();
@@ -169,6 +173,7 @@ private:
 
     QString m_url;
     QString m_outputPath;
+    QString m_refererUrl;
     QString m_selectedFormatId;
 
     qint64 m_bytesReceived;
@@ -180,6 +185,31 @@ private:
     QString m_fileExtension;
 
     qint64 _q_bytesTotal() const;
+};
+
+class StreamCleanCache : public QObject
+{
+    Q_OBJECT
+public:
+    explicit StreamCleanCache(QObject *parent);
+    ~StreamCleanCache() Q_DECL_OVERRIDE;
+
+    static QString cacheDir();
+
+    void runAsync();
+    bool isCleaned() const;
+
+signals:
+    void done();
+
+private slots:
+    void onStarted();
+    void onError(QProcess::ProcessError error);
+    void onFinished(int exitCode, QProcess::ExitStatus exitStatus);
+
+private:
+    QProcess *m_process;
+    bool m_isCleaned;
 };
 
 class StreamInfoDownloader : public QObject
@@ -197,11 +227,16 @@ signals:
 
 private slots:
     void onStarted();
-    void onErrorOccurred(QProcess::ProcessError error);
+    void onError(QProcess::ProcessError error);
     void onFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void onCacheCleaned();
 
 private:
     QProcess *m_process;
+    StreamCleanCache *m_streamCleanCache;
+
+    QString m_url;
+
     bool parseJSON(const QByteArray &data, StreamInfos *infos);
 };
 
@@ -221,6 +256,29 @@ private:
     bool stopped = false;
 };
 
+class StreamUpgrader : public QObject
+{
+    Q_OBJECT
+public:
+    explicit StreamUpgrader(QObject *parent);
+    ~StreamUpgrader() Q_DECL_OVERRIDE;
+
+    void runAsync();
+
+signals:
+    void done();
+
+private slots:
+    void onStarted();
+    void onError(QProcess::ProcessError error);
+    void onStandardOutputReady();
+    void onStandardErrorReady();
+    void onFinished(int exitCode, QProcess::ExitStatus exitStatus);
+
+private:
+    QProcess *m_process;
+};
+
 class StreamExtractorListCollector : public QObject
 {
     Q_OBJECT
@@ -237,7 +295,7 @@ signals:
 
 private slots:
     void onStarted();
-    void onErrorOccurred(QProcess::ProcessError error);
+    void onError(QProcess::ProcessError error);
 
     void onFinishedExtractors(int exitCode, QProcess::ExitStatus exitStatus);
     void onFinishedDescriptions(int exitCode, QProcess::ExitStatus exitStatus);

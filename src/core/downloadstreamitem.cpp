@@ -64,6 +64,7 @@ void DownloadStreamItem::resume()
         m_stream->setLocalFullOutputPath(outputPath);
 
         m_stream->setUrl(resource()->url());
+        m_stream->setRefererUrl(resource()->referringPage());
         m_stream->setSelectedFormatId(resource()->streamFormatId());
         m_stream->setFileSizeInBytes(resource()->streamFileSize());
 
@@ -117,9 +118,11 @@ void DownloadStreamItem::onFinished()
     case Idle:
     case Preparing:
     case Connecting:
+    case DownloadingMetadata:
     case Downloading:
     case Endgame:
     case Completed:
+    case Seeding:
         if (bytesTotal() == 0) {
             /*
              * Trick:

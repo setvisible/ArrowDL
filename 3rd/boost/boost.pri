@@ -5,7 +5,6 @@
 # Boost is required to build Libtorrent
 #
 # Libtorrent version 1.2.5 requires Boost version 1.58 or later.
-# Here Boost version 1.72 is used on every platform.
 #
 # Libtorrent uses:
 # - Boost.Asio
@@ -20,6 +19,7 @@
 #
 include($$PWD/macroFindBoostFromPath.pri)
 include($$PWD/macroGetBoostVersion.pri)
+include($$PWD/macroGetBoostVersionWithDots.pri)
 
 # If Boost path is not in the PATH, add the path here. Otherwise leave it empty.
 BOOST_ROOT_DIR =
@@ -48,8 +48,13 @@ isEmpty( BOOST_ROOT_DIR ) {
 }
 
 BOOST_VERSION = $$getBoostVersion( $$BOOST_ROOT_DIR/boost/version.hpp )
-!equals(BOOST_VERSION, "107200") {
-    error("'BOOST_VERSION' should be 1.72.0, but is $${BOOST_VERSION}.")
+!greaterThan(BOOST_VERSION, 105800) {
+    error("'BOOST_VERSION' should be > 1.58.0, but is $${BOOST_VERSION}.")
 }
+
+BOOST_VERSION_WITH_DOTS = $$getBoostVersionWithDots( $$BOOST_VERSION )
+# message(Boost v$$BOOST_VERSION_WITH_DOTS)
+
+DEFINES += BOOST_VERSION_STR=\\\"$${BOOST_VERSION_WITH_DOTS}\\\"
 
 INCLUDEPATH += $${BOOST_ROOT_DIR}

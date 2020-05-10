@@ -26,6 +26,9 @@ if(ENABLE_TESTS)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/updatechecker/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/io/jsonhandler/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/io/texthandler/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/ipc/interprocesscommunication/CMakeLists.txt)
+    # include(${CMAKE_CURRENT_SOURCE_DIR}/test/widgets/pathwidget/CMakeLists.txt)
+    # include(${CMAKE_CURRENT_SOURCE_DIR}/test/widgets/textedit/CMakeLists.txt)
 
     # Copy the dlls to run the tests
     # Or
@@ -61,6 +64,9 @@ if(ENABLE_TESTS)
         tst_updatechecker
         tst_jsonhandler
         tst_texthandler
+        tst_interprocesscommunication
+        # tst_pathwidget
+        # tst_textedit
 
         PROPERTIES ENVIRONMENT
         # The following line must escape semi-colons ";" with "\;"

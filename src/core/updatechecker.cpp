@@ -18,6 +18,7 @@
 #include "updatechecker_p.h"
 
 #include <Globals>
+#include <Core/Stream>
 
 #include <QtCore/QDebug>
 #include <QtCore/QDate>
@@ -28,6 +29,7 @@ UpdateChecker::UpdateChecker(QObject *parent) : QObject(parent)
   , m_updater(STR_GITHUB_REPO_ADDRESS,
               currentVersion(),
               UpdateCheckerNS::addressMatcher(IS_HOST_64BIT))
+  , m_streamUpgrader(new StreamUpgrader(this))
 {
     m_updater.setUpdateStatusListener(this);
 }
@@ -56,6 +58,9 @@ void UpdateChecker::checkForUpdates(const Settings *settings)
 void UpdateChecker::checkForUpdates()
 {
     m_updater.checkForUpdates();
+
+    // In parallel, update 3rd-party software
+    m_streamUpgrader->runAsync();
 }
 
 /******************************************************************************

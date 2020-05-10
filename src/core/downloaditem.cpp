@@ -197,9 +197,11 @@ void DownloadItem::onFinished()
     case Idle:
     case Preparing:
     case Connecting:
+    case DownloadingMetadata:
     case Downloading:
     case Endgame:
     case Completed:
+    case Seeding:
         if (bytesTotal() == 0) {
             /*
              * Trick:

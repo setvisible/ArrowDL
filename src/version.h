@@ -22,6 +22,10 @@
 #  include "src/config.h"
 #endif
 
+#ifndef BOOST_VERSION_STR
+#  include "src/config_3rd.h"
+#endif
+
 #define GOOGLE_GUMBO_VERSION_STR      "0.10.1"
 
 #define LIBTORRENT_VERSION_STR        "1.2.5"

@@ -155,9 +155,6 @@ QGroupBox {
            </item>
            <item>
             <widget class="QScrollArea" name="scrollArea">
-             <property name="styleSheet">
-              <string notr="true">background-color:transparent;</string>
-             </property>
              <property name="verticalScrollBarPolicy">
               <enum>Qt::ScrollBarAlwaysOn</enum>
              </property>

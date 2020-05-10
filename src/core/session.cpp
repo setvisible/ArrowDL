@@ -39,8 +39,12 @@ static inline int stateToInt(IDownloadItem::State state)
     /* Do not store error states and intermediary states. */
     switch (state) {
     case IDownloadItem::Stopped:
+        return static_cast<int>(IDownloadItem::Stopped);
+
     case IDownloadItem::Completed:
-        return static_cast<int>(state);
+    case IDownloadItem::Seeding:
+        return static_cast<int>(IDownloadItem::Completed);
+
     default:
         return static_cast<int>(IDownloadItem::Paused);
     }

@@ -70,7 +70,6 @@ public:
     static QList<int> defaultPeerColumnWidths();
     static QList<int> defaultTrackerColumnWidths();
 
-
 private:
     DownloadTorrentItemPrivate *d;
     friend class DownloadTorrentItemPrivate;
@@ -79,6 +78,7 @@ private:
     inline DownloadTorrentItemPrivate* data() { return d; }
 
     bool isPreparing() const;
+    bool isSeeding() const;
 };
 
 #endif // CORE_DOWNLOAD_TORRENT_ITEM_H
