@@ -35,6 +35,12 @@ DownloadTorrentItem::~DownloadTorrentItem()
 
 /******************************************************************************
  ******************************************************************************/
+/*!
+ * \reimp
+ * Reimplement this method to detect when the URL of the resource is
+ * available, so that TorrentContext can (down-)load the metadata as soon
+ * as possible.
+ */
 void DownloadTorrentItem::setResource(ResourceItem *resource)
 {
     /*
@@ -45,14 +51,6 @@ void DownloadTorrentItem::setResource(ResourceItem *resource)
 
     DownloadItem::setResource(resource);
 
-    /*
-     * Reimplement this method to detect when the URL of the resource is
-     * available, so that TorrentContext can (down-)load the metadata as soon
-     * as possible.
-     */
-
-    setState(IDownloadItem::Preparing);
-    emit changed();
 
     // Download the metadata (the .torrent file) if not already downloaded
     TorrentContext::getInstance().prepareTorrent(this);
@@ -91,9 +89,12 @@ TorrentInfo DownloadTorrentItem::info() const
 
 void DownloadTorrentItem::setInfo(TorrentInfo info)
 {
-    // qDebug() << Q_FUNC_INFO << info.torrentStateString() << info.bytesTotal << info.bytesReceived;
+    qDebug() << Q_FUNC_INFO << info.torrentStateString() << info.bytesTotal << info.bytesReceived;
     d->info = info;
 
+    // info.bytesTotal is > 0 for state 'downloading' only,
+    // otherwise info.bytesTotal == 0, even when 'completed'.
+    // After completion, we want to see the bytesTotal.
     IDownloadItem::State downloadItemState;
 
     switch (static_cast<int>(info.state)) {
@@ -102,8 +103,11 @@ void DownloadTorrentItem::setInfo(TorrentInfo info)
 
         break;
     case TorrentInfo::checking_files:
-    case TorrentInfo::downloading_metadata:
         downloadItemState = IDownloadItem::Preparing;
+        break;
+
+    case TorrentInfo::downloading_metadata:
+        downloadItemState = IDownloadItem::DownloadingMetadata;
 
         break;
     case TorrentInfo::downloading:
@@ -112,14 +116,22 @@ void DownloadTorrentItem::setInfo(TorrentInfo info)
 
         break;
     case TorrentInfo::finished:
-    case TorrentInfo::seeding:
-    case TorrentInfo::allocating:
-    case TorrentInfo::checking_resume_data:
         downloadItemState = IDownloadItem::Completed;
-
-        // here, info.bytesTotal == 0 !
+        // here, info.bytesTotal == 0
         updateInfo(d->metaInfo.initialMetaInfo.bytesTotal,
                    d->metaInfo.initialMetaInfo.bytesTotal);
+
+        break;
+    case TorrentInfo::seeding:
+        downloadItemState = IDownloadItem::Seeding;
+        // here, info.bytesTotal == 0
+        updateInfo(d->metaInfo.initialMetaInfo.bytesTotal,
+                   d->metaInfo.initialMetaInfo.bytesTotal);
+
+        break;
+    case TorrentInfo::allocating:
+    case TorrentInfo::checking_resume_data:
+        downloadItemState = IDownloadItem::Endgame;
 
         break;
     default:
@@ -140,6 +152,10 @@ TorrentHandleInfo DownloadTorrentItem::detail() const
 void DownloadTorrentItem::setDetail(TorrentHandleInfo detail)
 {
     d->detail = detail;
+
+    // requires a GUI update signal, because detail can change
+    // even if the downloadItem is Paused or Stopped
+    emit changed();
 }
 
 /******************************************************************************
@@ -212,6 +228,15 @@ void DownloadTorrentItem::resume()
 
 void DownloadTorrentItem::pause()
 {
+    if (isSeeding()) {
+        if (TorrentContext::getInstance().hasTorrent(this)) {
+            TorrentContext::getInstance().removeTorrent(this);
+        }
+        // Pausing a seeding item stops the seeding but keep the item completed.
+        AbstractDownloadItem::preFinish(true);
+        AbstractDownloadItem::finish();
+        return;
+    }
     if (isPreparing()) {
         TorrentContext::getInstance().stopPrepare(this);
 
@@ -242,5 +267,11 @@ void DownloadTorrentItem::stop()
  ******************************************************************************/
 bool DownloadTorrentItem::isPreparing() const
 {
-    return state() == Preparing;
+    return state() == Preparing
+            || state() == DownloadingMetadata;
+}
+
+bool DownloadTorrentItem::isSeeding() const
+{
+    return state() == Seeding;
 }

@@ -332,6 +332,9 @@
    <property name="text">
     <string>Pause</string>
    </property>
+   <property name="toolTip">
+    <string>Pause (completed torrent: stop seeding)</string>
+   </property>
   </action>
   <action name="actionUp">
    <property name="icon">

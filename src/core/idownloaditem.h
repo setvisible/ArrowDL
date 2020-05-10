@@ -29,9 +29,11 @@ public:
         Stopped,
         Preparing,
         Connecting,
+        DownloadingMetadata,
         Downloading,
         Endgame,
         Completed,
+        Seeding,
         Skipped,
         NetworkError,
         FileError

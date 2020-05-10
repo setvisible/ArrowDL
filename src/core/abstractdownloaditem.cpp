@@ -167,33 +167,37 @@ void AbstractDownloadItem::setMaxConnections(int connections)
  ******************************************************************************/
 bool AbstractDownloadItem::isResumable() const
 {
-    return m_state == Idle ||
-            m_state == Paused ||
-            m_state == Stopped ||
-            m_state == Skipped ||
-            m_state == NetworkError ||
-            m_state == FileError;
+    return m_state == Idle
+            || m_state == Paused
+            || m_state == Stopped
+            || m_state == Skipped
+            || m_state == NetworkError
+            || m_state == FileError;
 }
 
 bool AbstractDownloadItem::isPausable() const
 {
-    return m_state == Idle || isDownloading();
+    return m_state == Idle
+            || isDownloading()
+            || m_state == Seeding;
 }
 
 bool AbstractDownloadItem::isCancelable() const
 {
-    return m_state == Idle ||
-            m_state == Paused ||
-            isDownloading() ||
-            m_state == Completed;
+    return m_state == Idle
+            || m_state == Paused
+            || isDownloading()
+            || m_state == Completed
+            || m_state == Seeding;
 }
 
 bool AbstractDownloadItem::isDownloading() const
 {
-    return m_state == Preparing ||
-            m_state == Connecting ||
-            m_state == Downloading ||
-            m_state == Endgame;
+    return m_state == Preparing
+            || m_state == Connecting
+            || m_state == DownloadingMetadata
+            || m_state == Downloading
+            || m_state == Endgame;
 }
 
 /******************************************************************************
