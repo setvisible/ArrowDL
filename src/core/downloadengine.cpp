@@ -181,13 +181,15 @@ QList<IDownloadItem *> DownloadEngine::downloadItems() const
     return m_items;
 }
 
-static inline QList<IDownloadItem*> filter(const QList<IDownloadItem*> &downloadItems,
-                                           const IDownloadItem::State state)
+static inline QList<IDownloadItem*> filter(const QList<IDownloadItem*> &items,
+                                           const QList<IDownloadItem::State> states)
 {
     QList<IDownloadItem*> list;
-    foreach (auto item, downloadItems) {
-        if (item->state() == state) {
-            list.append(item);
+    foreach (auto item, items) {
+        foreach (auto state, states) {
+            if (item->state() == state) {
+                list.append(item);
+            }
         }
     }
     return list;
@@ -195,47 +197,35 @@ static inline QList<IDownloadItem*> filter(const QList<IDownloadItem*> &download
 
 QList<IDownloadItem*> DownloadEngine::waitingJobs() const
 {
-    return filter(m_items, IDownloadItem::Idle);
+    return filter(m_items, {IDownloadItem::Idle});
 }
 
 QList<IDownloadItem*> DownloadEngine::completedJobs() const
 {
-    return filter(m_items, IDownloadItem::Completed);
+    return filter(m_items, {IDownloadItem::Completed,
+                            IDownloadItem::Seeding});
 }
 
 QList<IDownloadItem*> DownloadEngine::pausedJobs() const
 {
-    return filter(m_items, IDownloadItem::Paused);
+    return filter(m_items, {IDownloadItem::Paused});
 }
 
 QList<IDownloadItem*> DownloadEngine::failedJobs() const
 {
-    QList<IDownloadItem*> list;
-    foreach (auto item, m_items) {
-        const IDownloadItem::State state = item->state();
-        if ( state == IDownloadItem::Stopped ||
-             state == IDownloadItem::Skipped ||
-             state == IDownloadItem::NetworkError ||
-             state == IDownloadItem::FileError) {
-            list.append(item);
-        }
-    }
-    return list;
+    return filter(m_items, {IDownloadItem::Stopped,
+                            IDownloadItem::Skipped,
+                            IDownloadItem::NetworkError,
+                            IDownloadItem::FileError});
 }
 
 QList<IDownloadItem*> DownloadEngine::runningJobs() const
 {
-    QList<IDownloadItem*> list;
-    foreach (auto item, m_items) {
-        IDownloadItem::State state = item->state();
-        if ( state == IDownloadItem::Preparing ||
-             state == IDownloadItem::Connecting ||
-             state == IDownloadItem::Downloading ||
-             state == IDownloadItem::Endgame) {
-            list.append(item);
-        }
-    }
-    return list;
+    return filter(m_items, {IDownloadItem::Preparing,
+                            IDownloadItem::Connecting,
+                            IDownloadItem::DownloadingMetadata,
+                            IDownloadItem::Downloading,
+                            IDownloadItem::Endgame});
 }
 
 /******************************************************************************

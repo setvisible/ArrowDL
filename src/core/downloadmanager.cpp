@@ -130,12 +130,14 @@ void DownloadManager::saveQueue()
                 case IDownloadItem::Paused:
                 case IDownloadItem::Preparing:
                 case IDownloadItem::Connecting:
+                case IDownloadItem::DownloadingMetadata:
                 case IDownloadItem::Downloading:
                 case IDownloadItem::Endgame:
                     if (skipPaused) continue;
                     break;
 
                 case IDownloadItem::Completed:
+                case IDownloadItem::Seeding:
                     if (skipCompleted) continue;
                     break;
 

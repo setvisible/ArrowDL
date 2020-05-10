@@ -97,6 +97,7 @@ public slots:
     void onSettingsChanged();
 
     void onStopped();
+    void onMetadataUpdated(TorrentData data);
     void onDataUpdated(TorrentData data);
     void onStatusUpdated(TorrentStatus status);
 
@@ -119,7 +120,10 @@ private:
     void downloadTorrentFile(DownloadTorrentItem *item);
     void abortNetworkReply(DownloadTorrentItem *item);
 
-    void writeTorrentFile(const QString &filename, QIODevice *data);
+    void archiveExistingFile(const QString &filename);
+    void writeTorrentFile(const QString &filename, QIODevice *data);    
+    void writeTorrentFileFromMagnet(
+            const QString &filename, std::shared_ptr<lt::torrent_info const> ti);
     void readTorrentFile(const QString &filename, DownloadTorrentItem *item);
 
     QList<TorrentSettingItem> _toPreset(const lt::settings_pack all) const;
@@ -152,6 +156,7 @@ public:
     TorrentInitialMetaInfo dump(const QString &filename) const;
 
 signals:
+    void metadataUpdated(TorrentData data);
     void dataUpdated(TorrentData data);
     void statusUpdated(TorrentStatus status);
 

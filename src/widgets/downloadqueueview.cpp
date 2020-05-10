@@ -80,6 +80,9 @@ static inline QString stateToString(IDownloadItem::State state)
     case IDownloadItem::Connecting:
         stateString = QT_TRANSLATE_NOOP(DownloadItem, "Connecting");
         break;
+    case IDownloadItem::DownloadingMetadata:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Downloading Metadata");
+        break;
     case IDownloadItem::Downloading:
         stateString = QT_TRANSLATE_NOOP(DownloadItem, "Downloading");
         break;
@@ -88,6 +91,9 @@ static inline QString stateToString(IDownloadItem::State state)
         break;
     case IDownloadItem::Completed:
         stateString = QT_TRANSLATE_NOOP(DownloadItem, "Complete");
+        break;
+    case IDownloadItem::Seeding:
+        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Seeding");
         break;
     case IDownloadItem::Skipped:
         stateString = QT_TRANSLATE_NOOP(DownloadItem, "Skipped");
@@ -315,11 +321,13 @@ QColor QueueViewItemDelegate::stateColor(IDownloadItem::State state) const
 
     case IDownloadItem::Preparing:
     case IDownloadItem::Connecting:
+    case IDownloadItem::DownloadingMetadata:
     case IDownloadItem::Downloading:
     case IDownloadItem::Endgame:
         return s_green;
 
     case IDownloadItem::Completed:
+    case IDownloadItem::Seeding:
         return s_darkGreen;
 
     case IDownloadItem::Stopped:
@@ -346,11 +354,13 @@ QIcon QueueViewItemDelegate::stateIcon(IDownloadItem::State state) const
 
     case IDownloadItem::Preparing:
     case IDownloadItem::Connecting:
+    case IDownloadItem::DownloadingMetadata:
     case IDownloadItem::Downloading:
     case IDownloadItem::Endgame:
         return m_resumeIcon;
 
     case IDownloadItem::Completed:
+    case IDownloadItem::Seeding:
         return m_completedIcon;
 
     case IDownloadItem::Stopped:

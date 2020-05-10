@@ -313,13 +313,13 @@ public:
     {
         switch (state) {
         case TorrentInfo::stopped                : return QObject::tr("Stopped");
-        case TorrentInfo::checking_files         : return QObject::tr("Checking Files");
-        case TorrentInfo::downloading_metadata   : return QObject::tr("Downloading Metadata");
-        case TorrentInfo::downloading            : return QObject::tr("Downloading");
+        case TorrentInfo::checking_files         : return QObject::tr("Checking Files...");
+        case TorrentInfo::downloading_metadata   : return QObject::tr("Downloading Metadata...");
+        case TorrentInfo::downloading            : return QObject::tr("Downloading...");
         case TorrentInfo::finished               : return QObject::tr("Finished");
-        case TorrentInfo::seeding                : return QObject::tr("Seeding");
-        case TorrentInfo::allocating             : return QObject::tr("Allocating");
-        case TorrentInfo::checking_resume_data   : return QObject::tr("Checking Resume Data");
+        case TorrentInfo::seeding                : return QObject::tr("Seeding...");
+        case TorrentInfo::allocating             : return QObject::tr("Allocating...");
+        case TorrentInfo::checking_resume_data   : return QObject::tr("Checking Resume Data...");
         default: return QString();
         }
     }

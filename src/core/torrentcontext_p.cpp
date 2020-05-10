@@ -66,6 +66,11 @@
 #endif
 
 
+/* Show the thread, of which the debug message comes from */
+#define qDebug_1 qDebug() << " + | "
+#define qDebug_2 qDebug() << " | + "
+
+
 static const lt::status_flags_t s_torrent_status_flags =
         lt::torrent_handle::query_distributed_copies
         | lt::torrent_handle::query_accurate_download_counters
@@ -102,6 +107,7 @@ TorrentContextPrivate::TorrentContextPrivate(TorrentContext *qq)
 
     workerThread = new WorkerThread(this);
 
+    connect(workerThread, &WorkerThread::metadataUpdated, this, &TorrentContextPrivate::onMetadataUpdated);
     connect(workerThread, &WorkerThread::dataUpdated, this, &TorrentContextPrivate::onDataUpdated);
     connect(workerThread, &WorkerThread::statusUpdated, this, &TorrentContextPrivate::onStatusUpdated);
 
@@ -116,7 +122,7 @@ TorrentContextPrivate::~TorrentContextPrivate()
 {
     workerThread->stop();
     if (!workerThread->wait(3000)) {
-        qDebug() << Q_FUNC_INFO << "Terminating...";
+        qDebug_1 << Q_FUNC_INFO << "Terminating...";
         workerThread->terminate();
         workerThread->wait();
     }
@@ -270,23 +276,58 @@ QVariant TorrentContextPrivate::_get_bool(const lt::settings_pack &pack, const i
  ******************************************************************************/
 void TorrentContextPrivate::onStopped()
 {  
-    qDebug() << Q_FUNC_INFO; // Just to confirm it's stopped:)
+    qDebug_1 << Q_FUNC_INFO; // Just to confirm it's stopped:)
 }
 
 /******************************************************************************
  ******************************************************************************/
-void TorrentContextPrivate::onDataUpdated(TorrentData data) // onTorrentAdded
+void TorrentContextPrivate::onMetadataUpdated(TorrentData data)
 {
+    qDebug_1 << Q_FUNC_INFO;
     DownloadTorrentItem *item = find(data.unique_id);
     if (item) {
         item->setDetail(data.detail);
-
         item->data()->m_fileModel->refreshMetaData(data.metaInfo.initialMetaInfo.files);
-
         item->data()->m_fileModel->refreshData(data.detail.files);
         item->data()->m_peerModel->refreshData(data.detail.peers);
         item->data()->m_trackerModel->refreshData(data.metaInfo.initialMetaInfo.trackers);
+        item->setMetaInfo(data.metaInfo); // setMetaInfo will emit the GUI update signal
 
+        lt::torrent_handle handle = workerThread->findTorrent(data.unique_id);
+        if (handle.is_valid()) {
+            std::shared_ptr<lt::torrent_info const> ti = handle.torrent_file();
+            if (ti) {
+                const QString torrentFile = item->localFullFileName();  // destination
+                const QString outputPath = item->localFilePath();
+                QDir().mkpath(outputPath);
+
+                writeTorrentFileFromMagnet(torrentFile, ti);
+
+                /*
+                 * The .torrent file is immediately loaded after being written,
+                 * so that the program ensures the file is correctly written
+                 * (compliant with the bittorrent format specification).
+                 */
+                readTorrentFile(torrentFile, item);
+
+            }
+            removeTorrent(item);
+        }
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void TorrentContextPrivate::onDataUpdated(TorrentData data)
+{
+    qDebug_1 << Q_FUNC_INFO;
+    DownloadTorrentItem *item = find(data.unique_id);
+    if (item) {
+        item->setDetail(data.detail);
+        item->data()->m_fileModel->refreshMetaData(data.metaInfo.initialMetaInfo.files);
+        item->data()->m_fileModel->refreshData(data.detail.files);
+        item->data()->m_peerModel->refreshData(data.detail.peers);
+        item->data()->m_trackerModel->refreshData(data.metaInfo.initialMetaInfo.trackers);
         item->setMetaInfo(data.metaInfo); // setMetaInfo will emit the GUI update signal
     }
 }
@@ -295,6 +336,7 @@ void TorrentContextPrivate::onDataUpdated(TorrentData data) // onTorrentAdded
  ******************************************************************************/
 void TorrentContextPrivate::onStatusUpdated(TorrentStatus status)
 {
+    qDebug_1 << Q_FUNC_INFO;
     DownloadTorrentItem *item = find(status.unique_id);
     if (item) {
         item->setInfo(status.info);
@@ -322,24 +364,24 @@ static bool isMagnetSource(const QString &source)
     return url.scheme().toLower() == QLatin1String("magnet");
 }
 
-static bool isLocalSource(const QString &source)
+static bool isTorrentSource(const QString &source)
 {
     const QUrl url = QUrl::fromUserInput(source);
     QFileInfo fi(url.path());
-    if (fi.suffix().toLower() == QLatin1String("torrent")) {
-        if (url.isLocalFile()) {
-            return true;
-        }
-    }
-    return false;
+    return fi.suffix().toLower() == QLatin1String("torrent");
+}
+
+static bool isLocalSource(const QString &source)
+{
+    return isTorrentSource(source) && QUrl::fromUserInput(source).isLocalFile();
 }
 
 static bool isDistantSource(const QString &source)
 {
-    return !isLocalSource(source);
+    return isTorrentSource(source) && !QUrl::fromUserInput(source).isLocalFile();
 }
 
-static bool isInfoHashSource(const QString &source)
+static bool isInfoHashSource(const QString &/*source*/)
 {
     return false; // TODO
 }
@@ -381,9 +423,13 @@ static bool copyFile(const QString &from, const QString &to)
  ******************************************************************************/
 void TorrentContextPrivate::prepareTorrent(DownloadTorrentItem *item)
 {
-    qDebug() << Q_FUNC_INFO;
-    if (!item)
+    qDebug_1 << Q_FUNC_INFO;
+    if (!item) {
         return;
+    }
+    TorrentInfo info = item->info();
+    info.state = TorrentInfo::downloading_metadata;
+    item->setInfo(info);
 
     QString torrentFile = item->localFullFileName(); // destination
 
@@ -405,13 +451,13 @@ void TorrentContextPrivate::prepareTorrent(DownloadTorrentItem *item)
             if (copyFile(source, torrentFile)) {
                 readTorrentFile(torrentFile, item);
             } else {
-                qDebug() << Q_FUNC_INFO << "FILE COPY ERROR";
+                qDebug_1 << Q_FUNC_INFO << "FILE COPY ERROR";
             }
 
         } else if (isInfoHashSource(source)) {
             // TODO
         } else {
-            qDebug() << Q_FUNC_INFO << "error: can't prepare, invalid format";
+            qDebug_1 << Q_FUNC_INFO << "error: can't prepare, invalid format";
         }
     }
 }
@@ -419,15 +465,23 @@ void TorrentContextPrivate::prepareTorrent(DownloadTorrentItem *item)
 /******************************************************************************
  ******************************************************************************/
 void TorrentContextPrivate::stopPrepare(DownloadTorrentItem *item)
-{
-    abortNetworkReply(item);
+{   
+    abortNetworkReply(item); // abort conventional download
+    removeTorrent(item);     // also abort magnet metainfo download
 }
 
 /******************************************************************************
  ******************************************************************************/
 void TorrentContextPrivate::downloadMagnetLink(DownloadTorrentItem *item)
 {
-    // TODO
+    const QString source = item->resource()->url();
+    const QUrl url = QUrl::fromUserInput(source);
+
+    qDebug_1 << Q_FUNC_INFO << url;
+
+    // For magnet link, libtorrent will download the torrent metadata before
+    // the torrent itself
+    addTorrent(item);
 }
 
 /******************************************************************************
@@ -441,7 +495,7 @@ void TorrentContextPrivate::downloadTorrentFile(DownloadTorrentItem *item)
     const QUrl url = QUrl::fromUserInput(source);
     // const QUrl url = QUrl::fromEncoded(source.toLocal8Bit()); // when url is received as program argument
 
-    qDebug() << Q_FUNC_INFO << url;
+    qDebug_1 << Q_FUNC_INFO << url;
 
     QNetworkReply *reply = m_networkManager.get(QNetworkRequest(url));
     if (!reply) {
@@ -468,8 +522,7 @@ void TorrentContextPrivate::abortNetworkReply(DownloadTorrentItem *item)
         if (currentItem == item) {
             currentReply->abort();
             /*
-             * Rem: No need to remove(reply*) here,
-             * slot onFinished() will do it
+             * Rem: Do not remove(reply*) at this point, onFinished() will do that
              */
         }
     }
@@ -477,7 +530,7 @@ void TorrentContextPrivate::abortNetworkReply(DownloadTorrentItem *item)
 
 void TorrentContextPrivate::onNetworkReplyFinished()
 {
-    qDebug() << Q_FUNC_INFO;
+    qDebug_1 << Q_FUNC_INFO;
 
     auto reply = qobject_cast<QNetworkReply *>(sender());
     if (!reply) {
@@ -493,7 +546,7 @@ void TorrentContextPrivate::onNetworkReplyFinished()
     }
 
     QUrl url = reply->url();
-    qDebug() << Q_FUNC_INFO << url;
+    qDebug_1 << Q_FUNC_INFO << url;
 
     if (reply->error() != QNetworkReply::NoError) {
         TorrentMetaInfo m = item->metaInfo();
@@ -520,21 +573,35 @@ void TorrentContextPrivate::onNetworkReplyFinished()
 
     QString torrentFile = item->localFullFileName(); // destination
     writeTorrentFile(torrentFile, reply);
-
-    if (QFileInfo(torrentFile).exists()) {
-        /*
-         * The .torrent file is immediately loaded after being written,
-         * so that the program ensures the file is correctly written
-         * (compliant with the bittorrent format specification).
-         */
-        readTorrentFile(torrentFile, item);
-    }
+    /*
+     * The .torrent file is immediately loaded after being written,
+     * so that the program ensures the file is correctly written
+     * (compliant with the bittorrent format specification).
+     */
+    readTorrentFile(torrentFile, item);
 }
 
 /******************************************************************************
  ******************************************************************************/
+void TorrentContextPrivate::archiveExistingFile(const QString &filename)
+{
+    if (QFileInfo(filename).exists()) {
+        QString archive = QString("%0.0.old").arg(filename);
+        int i = 0;
+        while (QFileInfo(archive).exists()) {
+            i++;
+            archive = QString("%0.%1.old").arg(filename, QString::number(i));
+        }
+        archive.append(QString::number(i));
+        if (!QFile::rename(filename, archive)) {
+            qDebug_1 << "Cannot archive file" << filename << "to" << archive;
+        }
+    }
+}
+
 void TorrentContextPrivate::writeTorrentFile(const QString &filename, QIODevice *data)
 {
+    archiveExistingFile(filename);
     QFile file(filename);
     if (file.open(QIODevice::WriteOnly)) {
         file.write(data->readAll());
@@ -542,10 +609,45 @@ void TorrentContextPrivate::writeTorrentFile(const QString &filename, QIODevice 
     }
 }
 
+void TorrentContextPrivate::writeTorrentFileFromMagnet(
+        const QString &filename, std::shared_ptr<lt::torrent_info const> ti)
+{
+    archiveExistingFile(filename);
+
+    // Bittorrent Encoding
+    lt::create_torrent ct(*ti);
+    lt::entry te = ct.generate();
+    std::vector<char> buffer;
+    bencode(std::back_inserter(buffer), te);
+
+    // Write
+    QByteArray data(&buffer[0], static_cast<int>(buffer.size()));
+    QFile file(filename);
+    if (file.open(QIODevice::WriteOnly)) {
+        file.write(data);
+        file.close();
+    }
+    // Alternative:
+    // QByteArray ba = another.toLocal8Bit();
+    // const char* filename = ba.constData();
+    // FILE* f = fopen(filename, "wb+");
+    // if (f) {
+    //     fwrite(&buffer[0], 1, buffer.size(), f);
+    //     fclose(f);
+    // }
+}
+
 /******************************************************************************
  ******************************************************************************/
 void TorrentContextPrivate::readTorrentFile(const QString &filename, DownloadTorrentItem *item)
 {
+    if (!item) {
+        return;
+    }
+    if (!QFileInfo(filename).exists()) {
+        return;
+    }
+
     TorrentMetaInfo metaInfo = item->metaInfo();
     metaInfo.initialMetaInfo = workerThread->dump(filename);
 
@@ -562,6 +664,7 @@ void TorrentContextPrivate::readTorrentFile(const QString &filename, DownloadTor
  ******************************************************************************/
 bool TorrentContextPrivate::hasTorrent(DownloadTorrentItem *item)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     return h.is_valid();
 }
@@ -571,48 +674,63 @@ bool TorrentContextPrivate::hasTorrent(DownloadTorrentItem *item)
 /*!
  * \brief return false on failure
  */
-bool TorrentContextPrivate::addTorrent(DownloadTorrentItem *item)
+bool TorrentContextPrivate::addTorrent(DownloadTorrentItem *item) // resumeTorrent
 {
-    qDebug() << Q_FUNC_INFO;
-    const QString torrentOrMagnetOrHash = item->resource()->url();
-    QUrl url = QUrl::fromUserInput(torrentOrMagnetOrHash);
+    TorrentInfo info = item->info();
+    info.state = TorrentInfo::checking_files;
+    item->setInfo(info);
+
+    QString source = item->resource()->url();
+    QString torrentFile = item->localFullFileName(); // destination
+
+    if (QFileInfo(torrentFile).exists()) {
+        source = torrentFile;
+    }
+
+    qDebug_1 << Q_FUNC_INFO << source;
 
     const QString outputPath = item->localFilePath();
     QDir().mkpath(outputPath);
 
     lt::add_torrent_params p;
 
-    if (url.scheme().toLower() == QLatin1String("magnet")) {
+    if (isMagnetSource(source)) { // Add from magnet link
+        TorrentInfo info = item->info();
+        info.state = TorrentInfo::downloading_metadata;
+        item->setInfo(info);
 
-        // Add from magnet link
-        QByteArray bytes = torrentOrMagnetOrHash.toLatin1();
+        QByteArray bytes = source.toLatin1();
+        // QByteArray bytes = source.toUtf8();
 
         const char * ptr = bytes.constData();
-        boost::string_view::size_type size = static_cast<boost::string_view::size_type>(bytes.size());
+        boost::string_view::size_type size
+                = static_cast<boost::string_view::size_type>(bytes.size());
 
         lt::string_view uri { ptr, size };
-
         lt::error_code ec;
         p = lt::parse_magnet_uri(uri.to_string(), ec);
         if (ec) {
-            qDebug() << "invalid magnet link:";
-            qDebug() << QString::fromStdString(uri.to_string());
-            qDebug() << QString::fromStdString(ec.message());
+            qDebug_1 << "invalid magnet link:";
+            qDebug_1 << QString::fromStdString(uri.to_string());
+            qDebug_1 << QString::fromStdString(ec.message());
             return false;
         }
 
-    } else {
-        QFileInfo fi(url.path());
-        if (fi.suffix().toLower() == QLatin1String("torrent")) {
+        // https://www.libtorrent.org/manual-ref.html#magnet-links
+        p.file_priorities.clear();
+        // First 1,000,000 files in the torrent will not be downloaded
+        p.file_priorities.assign(1000000, lt::dont_download);
 
-            // Add from .torrent file
-            std::string torrent = torrentOrMagnetOrHash.toStdString();
+
+    } else {
+        if (isTorrentSource(source)) { // Add from .torrent file
+            std::string torrent = source.toStdString();
             lt::error_code ec;
             auto ti = std::make_shared<lt::torrent_info>(torrent, ec);
             if (ec) {
-                qDebug() << "failed to load torrent";
-                qDebug() << QString::fromStdString(torrent);
-                qDebug() << QString::fromStdString(ec.message());
+                qDebug_1 << "failed to load torrent";
+                qDebug_1 << QString::fromStdString(torrent);
+                qDebug_1 << QString::fromStdString(ec.message());
                 return false;
             }
             p.ti = ti;
@@ -625,7 +743,7 @@ bool TorrentContextPrivate::addTorrent(DownloadTorrentItem *item)
             // is the only known property of the torrent. i.e. you don't have a
             // .torrent file nor a magnet link.
 
-            lt::sha1_hash infohash(torrentOrMagnetOrHash.toStdString());
+            lt::sha1_hash infohash(source.toStdString());
             lt::add_torrent_params p;
             p.info_hash = infohash;
         }
@@ -641,9 +759,9 @@ bool TorrentContextPrivate::addTorrent(DownloadTorrentItem *item)
     lt::error_code ec2;
     lt::torrent_handle h = workerThread->addTorrent(std::move(p), ec2);
     if (ec2) {
-        qDebug() << "failed to load torrent";
-        qDebug() << QString::fromStdString(torrentOrMagnetOrHash.toStdString());
-        qDebug() << QString::fromStdString(ec2.message());
+        qDebug_1 << "failed to load torrent";
+        qDebug_1 << QString::fromStdString(source.toStdString());
+        qDebug_1 << QString::fromStdString(ec2.message());
         return false;
     }
 
@@ -662,6 +780,7 @@ bool TorrentContextPrivate::addTorrent(DownloadTorrentItem *item)
  ******************************************************************************/
 void TorrentContextPrivate::removeTorrent(DownloadTorrentItem *item)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         workerThread->removeTorrent(h); // needs calling lt::session
@@ -674,7 +793,7 @@ void TorrentContextPrivate::removeTorrent(DownloadTorrentItem *item)
  ******************************************************************************/
 void TorrentContextPrivate::resumeTorrent(DownloadTorrentItem *item)
 {
-    qDebug() << Q_FUNC_INFO;
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         h.resume();
@@ -683,7 +802,7 @@ void TorrentContextPrivate::resumeTorrent(DownloadTorrentItem *item)
 
 void TorrentContextPrivate::pauseTorrent(DownloadTorrentItem *item)
 {
-    qDebug() << Q_FUNC_INFO;
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         h.pause();
@@ -694,6 +813,7 @@ void TorrentContextPrivate::pauseTorrent(DownloadTorrentItem *item)
  ******************************************************************************/
 void TorrentContextPrivate::moveQueueUp(DownloadTorrentItem *item)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         h.queue_position_up();
@@ -702,6 +822,7 @@ void TorrentContextPrivate::moveQueueUp(DownloadTorrentItem *item)
 
 void TorrentContextPrivate::moveQueueDown(DownloadTorrentItem *item)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         h.queue_position_down();
@@ -710,6 +831,7 @@ void TorrentContextPrivate::moveQueueDown(DownloadTorrentItem *item)
 
 void TorrentContextPrivate::moveQueueTop(DownloadTorrentItem *item)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         h.queue_position_top();
@@ -718,6 +840,7 @@ void TorrentContextPrivate::moveQueueTop(DownloadTorrentItem *item)
 
 void TorrentContextPrivate::moveQueueBottom(DownloadTorrentItem *item)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         h.queue_position_bottom();
@@ -729,6 +852,7 @@ void TorrentContextPrivate::moveQueueBottom(DownloadTorrentItem *item)
 void TorrentContextPrivate::changeFilePriority(DownloadTorrentItem *item,
                                                int index, TorrentFileInfo::Priority p)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         lt::file_index_t findex = static_cast<lt::file_index_t>(index);
@@ -741,6 +865,7 @@ void TorrentContextPrivate::changeFilePriority(DownloadTorrentItem *item,
  ******************************************************************************/
 void TorrentContextPrivate::addSeed(DownloadTorrentItem *item, const TorrentWebSeedMetaInfo &seed)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         if (seed.type == TorrentWebSeedMetaInfo::Type::UrlSeed) {
@@ -753,6 +878,7 @@ void TorrentContextPrivate::addSeed(DownloadTorrentItem *item, const TorrentWebS
 
 void TorrentContextPrivate::removeSeed(DownloadTorrentItem *item, const TorrentWebSeedMetaInfo &seed)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         if (seed.type == TorrentWebSeedMetaInfo::Type::UrlSeed) {
@@ -765,6 +891,7 @@ void TorrentContextPrivate::removeSeed(DownloadTorrentItem *item, const TorrentW
 
 void TorrentContextPrivate::removeAllSeeds(DownloadTorrentItem *item)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         std::set<std::string>::iterator i, end;
@@ -786,6 +913,7 @@ void TorrentContextPrivate::removeAllSeeds(DownloadTorrentItem *item)
  ******************************************************************************/
 void TorrentContextPrivate::addPeer(DownloadTorrentItem *item, const TorrentPeerMetaInfo &peer)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         lt::tcp::endpoint endpoint = fromEndPoint(peer.endpoint);
@@ -798,6 +926,7 @@ void TorrentContextPrivate::addPeer(DownloadTorrentItem *item, const TorrentPeer
 void TorrentContextPrivate::addTracker(DownloadTorrentItem *item,
                                        const TorrentTrackerInfo &tracker)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         lt::announce_entry entry = fromTorrentTrackerInfo(tracker);
@@ -808,6 +937,7 @@ void TorrentContextPrivate::addTracker(DownloadTorrentItem *item,
 void TorrentContextPrivate::removeTracker(DownloadTorrentItem *item,
                                           const TorrentTrackerInfo &tracker)
 {
+    qDebug_1 << Q_FUNC_INFO;
     Q_UNUSED(item)
     Q_UNUSED(tracker)
     /// \todo
@@ -818,6 +948,7 @@ void TorrentContextPrivate::removeTracker(DownloadTorrentItem *item,
  ******************************************************************************/
 void TorrentContextPrivate::forceRecheck(DownloadTorrentItem *item)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         h.force_recheck();
@@ -826,6 +957,7 @@ void TorrentContextPrivate::forceRecheck(DownloadTorrentItem *item)
 
 void TorrentContextPrivate::forceReannounce(DownloadTorrentItem *item)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         h.force_reannounce();
@@ -834,6 +966,7 @@ void TorrentContextPrivate::forceReannounce(DownloadTorrentItem *item)
 
 void TorrentContextPrivate::forceDHTReannounce(DownloadTorrentItem *item)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         h.force_dht_announce();
@@ -844,6 +977,7 @@ void TorrentContextPrivate::forceDHTReannounce(DownloadTorrentItem *item)
  ******************************************************************************/
 void TorrentContextPrivate::setSSLCertificatePath(DownloadTorrentItem *item, const QString &path)
 {
+    qDebug_1 << Q_FUNC_INFO;
     Q_UNUSED(item)
     Q_UNUSED(path)
     // todo
@@ -853,6 +987,7 @@ void TorrentContextPrivate::setSSLCertificatePath(DownloadTorrentItem *item, con
  ******************************************************************************/
 void TorrentContextPrivate::scrapeTracker(DownloadTorrentItem *item, int index)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         h.scrape_tracker(index);
@@ -863,6 +998,7 @@ void TorrentContextPrivate::scrapeTracker(DownloadTorrentItem *item, int index)
  ******************************************************************************/
 void TorrentContextPrivate::setUploadBandwidth(DownloadTorrentItem *item, int limit)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         h.set_upload_limit(limit);
@@ -871,6 +1007,7 @@ void TorrentContextPrivate::setUploadBandwidth(DownloadTorrentItem *item, int li
 
 void TorrentContextPrivate::setDownloadBandwidth(DownloadTorrentItem *item, int limit)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         h.set_download_limit(limit);
@@ -881,6 +1018,7 @@ void TorrentContextPrivate::setDownloadBandwidth(DownloadTorrentItem *item, int 
  ******************************************************************************/
 void TorrentContextPrivate::setMaxUploads(DownloadTorrentItem *item, int limit)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         h.set_max_uploads(limit);
@@ -889,6 +1027,7 @@ void TorrentContextPrivate::setMaxUploads(DownloadTorrentItem *item, int limit)
 
 void TorrentContextPrivate::setMaxConnections(DownloadTorrentItem *item, int limit)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         h.set_max_connections(limit);
@@ -899,6 +1038,7 @@ void TorrentContextPrivate::setMaxConnections(DownloadTorrentItem *item, int lim
  ******************************************************************************/
 void TorrentContextPrivate::renameFile(DownloadTorrentItem *item, int index, const QString &newName)
 {
+    qDebug_1 << Q_FUNC_INFO;
     lt::torrent_handle h = find(item);
     if (h.is_valid()) {
         lt::file_index_t findex = static_cast<lt::file_index_t>(index);
@@ -910,13 +1050,16 @@ void TorrentContextPrivate::renameFile(DownloadTorrentItem *item, int index, con
  ******************************************************************************/
 inline DownloadTorrentItem* TorrentContextPrivate::find(const UniqueId &uuid)
 {
+    qDebug_1 << Q_FUNC_INFO;
     return hashMap.value(uuid, nullptr);
 }
 
 inline lt::torrent_handle TorrentContextPrivate::find(DownloadTorrentItem *item)
 {
+    qDebug_1 << Q_FUNC_INFO;
     const UniqueId info_hash = hashMap.key(item, UniqueId());
     return workerThread->findTorrent(info_hash);
+    //    return hashMap.key(item, lt::torrent_handle());
 }
 
 /******************************************************************************
@@ -946,6 +1089,7 @@ bool WorkerThread::isEnabled() const
 
 void WorkerThread::setEnabled(bool enabled)
 {
+    qDebug_2 << Q_FUNC_INFO << enabled;
     Q_ASSERT(m_session_ptr);
     if (m_session_ptr && m_session_ptr->is_valid()) {
         if (enabled) {
@@ -1005,7 +1149,7 @@ TorrentInitialMetaInfo WorkerThread::dump(const QString &filename) const
                                            cfg.max_decode_depth,
                                            cfg.max_decode_tokens);
     if (ec) {
-        qDebug() << "failed to decode: '"
+        qDebug_2 << "failed to decode: '"
                  << QString::fromStdString(ec.message())
                  << "' at character: " << pos;
         return TorrentInitialMetaInfo();
@@ -1021,6 +1165,7 @@ TorrentInitialMetaInfo WorkerThread::dump(const QString &filename) const
 lt::torrent_handle WorkerThread::addTorrent(lt::add_torrent_params const& params,
                                             lt::error_code& ec)
 {
+    qDebug_2 << Q_FUNC_INFO;
     Q_ASSERT(m_session_ptr);
     if (m_session_ptr && m_session_ptr->is_valid()) {
         return m_session_ptr->add_torrent(params, ec);
@@ -1032,6 +1177,7 @@ lt::torrent_handle WorkerThread::addTorrent(lt::add_torrent_params const& params
  ******************************************************************************/
 void WorkerThread::removeTorrent(const lt::torrent_handle& h, lt::remove_flags_t options)
 {
+    qDebug_2 << Q_FUNC_INFO;
     Q_ASSERT(m_session_ptr);
     if (m_session_ptr && m_session_ptr->is_valid()) {
         m_session_ptr->remove_torrent(h, options);
@@ -1042,6 +1188,7 @@ void WorkerThread::removeTorrent(const lt::torrent_handle& h, lt::remove_flags_t
  ******************************************************************************/
 lt::torrent_handle WorkerThread::findTorrent(const UniqueId &uuid) const
 {
+    qDebug_2 << Q_FUNC_INFO;
     Q_ASSERT(m_session_ptr);
     if (m_session_ptr && m_session_ptr->is_valid()) {
         return m_session_ptr->find_torrent(uuid);
@@ -1054,7 +1201,7 @@ lt::torrent_handle WorkerThread::findTorrent(const UniqueId &uuid) const
  ******************************************************************************/
 void WorkerThread::run()
 {
-    qDebug() << Q_FUNC_INFO;
+    qDebug_2 << Q_FUNC_INFO;
 
     lt::session& session = *m_session_ptr;
 
@@ -1113,7 +1260,7 @@ void WorkerThread::run()
         }
     } // end of main loop
 
-    qDebug() << Q_FUNC_INFO << "Closing session... ";
+    qDebug_2 << Q_FUNC_INFO << "Closing session... ";
 
     /*
      * The session destructor is blocking by default
@@ -1187,9 +1334,12 @@ void WorkerThread::signalizeAlert(lt::alert* a)
         log(s);
     }
     else if (lt::add_torrent_alert* s = lt::alert_cast<lt::add_torrent_alert>(a)) {
+        log(s);
         onTorrentAdded(s->handle, s->params, s->error);
     }
     else if (lt::state_update_alert* s = lt::alert_cast<lt::state_update_alert>(a)) {
+        /* Note: This alert is emitted very often (each loop) */
+        // log(s);
         onStateUpdated(s->status);
     }
 
@@ -1199,6 +1349,7 @@ void WorkerThread::signalizeAlert(lt::alert* a)
         log(s);
     }
     else if (lt::metadata_received_alert* s = lt::alert_cast<lt::metadata_received_alert>(a)) {
+        log(s);
         onMetadataReceived(s->handle);
     }
 
@@ -1442,8 +1593,6 @@ void WorkerThread::signalizeAlert(lt::alert* a)
         Q_UNUSED(s) //  emit peerInvalidPieceReceived();
     }
     else if (lt::piece_finished_alert* s = lt::alert_cast<lt::piece_finished_alert>(a)) {
-        //        lt::torrent_handle handle = s->handle;
-        //        lt::piece_index_t piece_index = s->piece_index;
         Q_UNUSED(s) //  emit pieceFinished();
     }
     else if (lt::lsd_peer_alert* s = lt::alert_cast<lt::lsd_peer_alert>(a)) {
@@ -1459,8 +1608,6 @@ void WorkerThread::signalizeAlert(lt::alert* a)
 
     /* block_progress_notification */
     else if (lt::request_dropped_alert* s = lt::alert_cast<lt::request_dropped_alert>(a)) {
-        // lt::torrent_handle handle = s->handle;
-        // lt::piece_index_t piece_index = s->piece_index;
         Q_UNUSED(s) //  emit peerPieceRejected();
     }
     else if (lt::block_timeout_alert* s = lt::alert_cast<lt::block_timeout_alert>(a)) {
@@ -1495,7 +1642,7 @@ void WorkerThread::signalizeAlert(lt::alert* a)
     else {
         // if we didn't handle the alert, print it to the log
         QString message = QString::fromStdString(s->message());
-        qDebug() << Q_FUNC_INFO << "didn't handle the alert: " << message;
+        qDebug_2 << Q_FUNC_INFO << "didn't handle the alert: " << message;
     }
 }
 
@@ -1514,6 +1661,7 @@ inline void WorkerThread::onTorrentAdded(const lt::torrent_handle &handle,
                                          const lt::add_torrent_params &params,
                                          const lt::error_code &error)
 {
+    qDebug_2 << Q_FUNC_INFO;
     if (error) {
         // Failed to add the torrent
 
@@ -1532,35 +1680,32 @@ inline void WorkerThread::onTorrentAdded(const lt::torrent_handle &handle,
 /******************************************************************************
  ******************************************************************************/
 inline void WorkerThread::onMetadataReceived(const lt::torrent_handle &handle)
-{
-    // magnet link received metadata at this point
-
+{    
+    qDebug_2 << Q_FUNC_INFO;
+    // received torrent's metadata from magnet link at this point
     if (handle.is_valid()) {
+
+        // set all the files priority to zero, to not download them
+        if (handle.torrent_file()) {
+            int fileCount = handle.torrent_file()->num_files();
+            for (int i = 0; i < fileCount; i++) {
+                lt::file_index_t findex = static_cast<lt::file_index_t>(i);
+                handle.file_priority(findex, lt::dont_download);
+            }
+        }
         handle.pause();
 
         TorrentData d;
         d.unique_id = handle.info_hash();
         d.detail = toTorrentHandleInfo(handle);
-
-        //        d.metaInfo = toTorrentMetaInfo(params);
         if (handle.is_valid()) {
-            //            std::shared_ptr<lt::torrent_info> ti = handle.torrent_file();
             std::shared_ptr<lt::torrent_info const> ti = handle.torrent_file();
             if (ti) {
                 d.metaInfo.initialMetaInfo = toTorrentInitialMetaInfo(ti);
             }
         }
-
-
-
-        emit dataUpdated(d);
+        emit metadataUpdated(d);
     }
-    //        Q_UNUSED(s)
-    //        lt::torrent_handle h = s->handle;
-    //                        h.save_resume_data(lt::torrent_handle::save_info_dict);
-    //                        h.save_resume_data(torrent_handle::save_info_dict | torrent_handle::only_if_modified);
-    //                ++num_outstanding_resume_data;
-    //        emit metadataReceived();
 }
 
 /******************************************************************************
@@ -1577,6 +1722,10 @@ inline void WorkerThread::onStateUpdated(const std::vector<lt::torrent_status> &
 inline void WorkerThread::signalizeDataUpdated(const lt::torrent_handle &handle,
                                                const lt::add_torrent_params &params)
 {
+    qDebug_2 << Q_FUNC_INFO;
+    if (!handle.is_valid()) {
+        return;
+    }
     TorrentData d;
     d.unique_id = handle.info_hash();
     d.detail = toTorrentHandleInfo(handle);
@@ -1595,7 +1744,11 @@ inline void WorkerThread::signalizeDataUpdated(const lt::torrent_handle &handle,
  ******************************************************************************/
 inline void WorkerThread::signalizeStatusUpdated(const lt::torrent_status &status)
 {
+    qDebug_2 << Q_FUNC_INFO;
     lt::torrent_handle handle = status.handle;
+    if (!handle.is_valid()) {
+        return;
+    }
 
     TorrentStatus s;
     s.unique_id = handle.info_hash();
@@ -1712,11 +1865,10 @@ inline void WorkerThread::signalizeStatusUpdated(const lt::torrent_status &statu
  ******************************************************************************/
 inline TorrentInitialMetaInfo WorkerThread::toTorrentInitialMetaInfo(std::shared_ptr<lt::torrent_info const> ti) const
 {
-    if (!ti || !ti->is_valid()) {
-        return TorrentInitialMetaInfo();
-    }
-
     TorrentInitialMetaInfo m;
+    if (!ti || !ti->is_valid()) {
+        return m;
+    }
 
     m.bytesTotal        = ti->total_size();
     m.pieceCount        = ti->num_pieces();
@@ -1813,8 +1965,11 @@ inline TorrentInitialMetaInfo WorkerThread::toTorrentInitialMetaInfo(std::shared
  ******************************************************************************/
 inline TorrentHandleInfo WorkerThread::toTorrentHandleInfo(const lt::torrent_handle &handle) const
 {
-    // qDebug() << Q_FUNC_INFO;
+    qDebug_2 << Q_FUNC_INFO;
     TorrentHandleInfo t;
+    if (!handle.is_valid()) {
+        return t;
+    }
 
     t.uploadBandwidthLimit      = handle.upload_limit();
     t.downloadBandwidthLimit    = handle.download_limit();
@@ -2093,7 +2248,7 @@ static inline TorrentError toTorrentError(const lt::error_code &errc, const lt::
     } else {
         error.message = QString::fromStdString(errc.message());
 
-        qDebug() << Q_FUNC_INFO << error.message;
+        qDebug_2 << Q_FUNC_INFO << error.message;
 
         if (error_file == lt::torrent_status::error_file_none) { /* -1 */
             // Other error type (not file error)
@@ -2209,5 +2364,5 @@ inline std::string WorkerThread::userAgent()
  ******************************************************************************/
 void WorkerThread::log(lt::alert *s)
 {
-    qDebug() << "[alert]" << QString::fromStdString(s->message());
+    qDebug_2 << "[alert]" << QString::fromStdString(s->message());
 }
