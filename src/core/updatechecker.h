@@ -23,6 +23,8 @@
 
 #include <QtCore/QObject>
 
+class StreamUpgrader;
+
 class UpdateChecker : public QObject, private CAutoUpdaterGithub::UpdateStatusListener
 {
     Q_OBJECT
@@ -51,6 +53,7 @@ signals:
 private:
     QString m_latestUpdateUrl;
     CAutoUpdaterGithub m_updater;
+    StreamUpgrader *m_streamUpgrader;
 
     void onUpdateAvailable(CAutoUpdaterGithub::ChangeLog changelog) Q_DECL_OVERRIDE;
     void onUpdateDownloadProgress(float percentageDownloaded) Q_DECL_OVERRIDE;

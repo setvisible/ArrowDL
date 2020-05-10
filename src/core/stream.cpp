@@ -580,6 +580,70 @@ bool StreamInfoDownloader::parseJSON(const QByteArray &data, StreamInfos *infos)
 
 /******************************************************************************
  ******************************************************************************/
+StreamUpgrader::StreamUpgrader(QObject *parent) : QObject(parent)
+  , m_process(new QProcess(this))
+{
+    connect(m_process, SIGNAL(started()),
+            this, SLOT(onStarted()));
+#if QT_VERSION >= 0x050600
+    connect(m_process, SIGNAL(errorOccurred(QProcess::ProcessError)),
+            this, SLOT(onError(QProcess::ProcessError)));
+#endif
+    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(onFinished(int, QProcess::ExitStatus)));
+    connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onStandardOutputReady()));
+    connect(m_process, SIGNAL(readyReadStandardError()), this, SLOT(onStandardErrorReady()));
+}
+
+StreamUpgrader::~StreamUpgrader()
+{
+    m_process->kill();
+    m_process->deleteLater();
+}
+
+void StreamUpgrader::runAsync()
+{
+    if (m_process->state() == QProcess::NotRunning) {
+        m_process->start(C_PROGRAM_NAME, QStringList() << "--update");
+        qDebug() << Q_FUNC_INFO << toString(m_process);
+    }
+}
+
+void StreamUpgrader::onStarted()
+{
+    qDebug() << Q_FUNC_INFO;
+}
+
+void StreamUpgrader::onError(QProcess::ProcessError error)
+{
+    qDebug() << Q_FUNC_INFO << generateErrorMessage(error);
+}
+
+void StreamUpgrader::onStandardOutputReady()
+{
+    QString data = QString::fromLatin1(m_process->readAllStandardOutput());
+    data = data.simplified();
+    qDebug() << data;
+}
+
+void StreamUpgrader::onStandardErrorReady()
+{
+    QString data = QString::fromLatin1(m_process->readAllStandardError());
+    data = data.simplified();
+    qDebug() << "Error:" << data;
+}
+
+void StreamUpgrader::onFinished(int exitCode, QProcess::ExitStatus /*exitStatus*/)
+{
+    if (exitCode != 0) {
+        auto message = generateErrorMessage(m_process->error());
+        qDebug() << "Error:" << message;
+    }
+    emit done();
+}
+
+/******************************************************************************
+ ******************************************************************************/
 StreamExtractorListCollector::StreamExtractorListCollector(QObject *parent) : QObject(parent)
   , m_processExtractors(new QProcess(this))
   , m_processDescriptions(new QProcess(this))

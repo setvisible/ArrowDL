@@ -256,6 +256,29 @@ private:
     bool stopped = false;
 };
 
+class StreamUpgrader : public QObject
+{
+    Q_OBJECT
+public:
+    explicit StreamUpgrader(QObject *parent);
+    ~StreamUpgrader() Q_DECL_OVERRIDE;
+
+    void runAsync();
+
+signals:
+    void done();
+
+private slots:
+    void onStarted();
+    void onError(QProcess::ProcessError error);
+    void onStandardOutputReady();
+    void onStandardErrorReady();
+    void onFinished(int exitCode, QProcess::ExitStatus exitStatus);
+
+private:
+    QProcess *m_process;
+};
+
 class StreamExtractorListCollector : public QObject
 {
     Q_OBJECT
