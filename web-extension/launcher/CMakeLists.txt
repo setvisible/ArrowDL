@@ -44,17 +44,36 @@ install(TARGETS ${Launcher_NAME}
     DESTINATION ${CMAKE_INSTALL_PREFIX}
     )
 
-set(Launcher_DOCS
-    ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/launcher/launcher-manifest-chrome.json
-    ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/launcher/launcher-manifest-firefox.json
-    ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/setup/ReadMe.txt
-    ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/setup/install.bat
-    ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/setup/uninstall.bat
-    )
+if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
+    set(Launcher_DOCS
+        ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/launcher/windows/launcher-manifest-chrome.json
+        ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/launcher/windows/launcher-manifest-firefox.json
+        ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/setup/windows/ReadMe.txt
+        ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/setup/windows/install.bat
+        ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/setup/windows/uninstall.bat
+        )
+
+else() # MacOS or Unix Compilers
+    if(UNIX AND NOT APPLE) # Linux or FreeBSD
+        set(Launcher_DOCS
+            ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/launcher/unix/launcher-manifest-chrome.json
+            ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/launcher/unix/launcher-manifest-firefox.json
+            ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/setup/unix/README
+            ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/setup/unix/install.sh
+            ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/setup/unix/uninstall.sh
+            )
+
+    else() # MacOS
+        set(Launcher_DOCS
+            ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/launcher/macx/launcher-manifest-chrome.json
+            ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/launcher/macx/launcher-manifest-firefox.json
+            ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/setup/macx/TODO
+            )
+    endif()
+endif()
 
 install (
     FILES ${Launcher_DOCS}
     DESTINATION ${CMAKE_INSTALL_PREFIX}
     COMPONENT release_docs
     )
-
