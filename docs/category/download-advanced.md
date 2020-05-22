@@ -66,11 +66,11 @@ The next table explains the differences between the packages.
 
 [^1]: MSVC means it's built with the *Microsoft Visual C++* compiler. 
     Prefer this version if you are on Windows.
-    It uses the *Chromium* engine and *Google Gumbo*.
+    It uses the *Chromium* engine and parses HTML and Javascript.
 
 [^2]: MinGW means it's built with the *MinGW GCC* compiler. 
     Basic version.
-    It does't use *Chromium*, so parses HTML but not Javascript.
+    It does't use *Chromium*. It uses *Google Gumbo* instead, that parses HTML but not Javascript.
 
 
 #### Linux<a name="download-plateform-unix"></a>
@@ -78,15 +78,15 @@ The next table explains the differences between the packages.
 - [Portable GCC 64-bit](https://github.com/setvisible/DownZemAll/releases/latest/) [^3]
 - [Portable GCC 32-bit](https://github.com/setvisible/DownZemAll/releases/latest/)
 
-[^3]: Currently untested. Built with GCC.
+[^3]: Built with GCC. Currently only 64-bit version is available from GitHub.
+
 
 #### MacOS<a name="download-plateform-macos"></a>
 
 - [Portable GCC 64-bit](https://github.com/setvisible/DownZemAll/releases/latest/) [^4]
 - [Portable GCC 32-bit](https://github.com/setvisible/DownZemAll/releases/latest/)
 
-
-[^4]: Currently untested. Built with GCC.
+[^4]: Built with GCC. Currently only 64-bit version is available from GitHub.
 
 
 ### Last build status<a name="last-build-status"></a>

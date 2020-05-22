@@ -120,7 +120,11 @@ CPU architecture, browser, or release version, have a look at
 
   /* CPU architecture detection */
   var arch = "";
-  if (navigator.userAgent.indexOf("WOW64") != -1 || navigator.userAgent.indexOf("Win64") != -1 ){
+  if (navigator.userAgent.indexOf("WOW64") != -1
+      || navigator.userAgent.indexOf("Win64") != -1
+      || navigator.userAgent.indexOf("IA64") != -1
+      || navigator.userAgent.indexOf("x64") != -1
+      || navigator.userAgent.indexOf("x86_64") != -1){
     arch = "x64";
   } else {
     arch = "x86";
