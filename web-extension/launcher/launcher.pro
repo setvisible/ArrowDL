@@ -81,14 +81,41 @@ DESTDIR = $${OUT_PWD}/../../downzemall_install
 #
 
 # instructions for 'make install'
+win32{
+    manifests_to_copy.files += $$PWD/windows/launcher-manifest-chrome.json
+    manifests_to_copy.files += $$PWD/windows/launcher-manifest-firefox.json
+    manifests_to_copy.path = $${DESTDIR}/
+    INSTALLS += manifests_to_copy
+}
+unix{
+    manifests_to_copy.files += $$PWD/unix/launcher-manifest-chrome.json
+    manifests_to_copy.files += $$PWD/unix/launcher-manifest-firefox.json
+    manifests_to_copy.path = $${DESTDIR}/
+    INSTALLS += manifests_to_copy
+}
+macx{
+    manifests_to_copy.files += $$PWD/macx/launcher-manifest-chrome.json
+    manifests_to_copy.files += $$PWD/macx/launcher-manifest-firefox.json
+    manifests_to_copy.path = $${DESTDIR}/
+    INSTALLS += manifests_to_copy
+}
 
-manifests_to_copy.files += $$PWD/launcher-manifest-chrome.json
-manifests_to_copy.files += $$PWD/launcher-manifest-firefox.json
-manifests_to_copy.path = $${DESTDIR}/
-INSTALLS += manifests_to_copy
-
-scripts_to_copy.files += $$PWD/../setup/ReadMe.txt
-scripts_to_copy.files += $$PWD/../setup/install.bat
-scripts_to_copy.files += $$PWD/../setup/uninstall.bat
-scripts_to_copy.path = $${DESTDIR}/
-INSTALLS += scripts_to_copy
+win32{
+    scripts_to_copy.files += $$PWD/../setup/windows/ReadMe.txt
+    scripts_to_copy.files += $$PWD/../setup/windows/install.bat
+    scripts_to_copy.files += $$PWD/../setup/windows/uninstall.bat
+    scripts_to_copy.path = $${DESTDIR}/
+    INSTALLS += scripts_to_copy
+}
+unix{
+    scripts_to_copy.files += $$PWD/../setup/unix/README
+    scripts_to_copy.files += $$PWD/../setup/unix/install.sh
+    scripts_to_copy.files += $$PWD/../setup/unix/uninstall.sh
+    scripts_to_copy.path = $${DESTDIR}/
+    INSTALLS += scripts_to_copy
+}
+macx{
+    scripts_to_copy.files += $$PWD/../setup/macx/TODO
+    scripts_to_copy.path = $${DESTDIR}/
+    INSTALLS += scripts_to_copy
+}

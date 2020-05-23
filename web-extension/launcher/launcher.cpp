@@ -14,6 +14,13 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* ********************************************************* */
+/* To debug the Launcher, uncomment one of these lines:      */
+//#define DEBUG_WEB_ADDON_TO_LAUNCHER 1
+//#define DEBUG_LAUNCHER_TO_APP 1
+/* ********************************************************* */
+
+
 /* C Standard Library */
 #include <iostream>     /* std::cout, std::cin */
 #include <sstream>      /* std::stringstream */
@@ -27,6 +34,16 @@
 #include <QtCore/QProcess>
 #include <QtCore/QSharedMemory>
 
+#if defined(DEBUG_WEB_ADDON_TO_LAUNCHER)
+#  include <QtCore/QDebug>
+#  include <QtCore/QFile>
+#  include <QtCore/QFileInfo>
+#endif
+
+#if defined(DEBUG_LAUNCHER)
+#  include <QtCore/QDebug>
+#endif
+
 #ifdef Q_OS_WIN
 #  include <qt_windows.h>   /* CREATE_BREAKAWAY_FROM_JOB */
 #endif
@@ -35,19 +52,25 @@
 #  include <io.h>           /* _setmode */
 #endif
 
+// forward declarations
+void log(const QString &message);
+void log(const char* label, const std::string &message);
+void log(const char* label,
+         const QString &message1 = QString(),
+         const QString &message2 = QString());
+void log(const QString &label, const std::string &message);
 
-// To debug the Launcher, uncomment this line:
-//#define DEBUG_LAUNCHER 1
-
-#if defined(DEBUG_LAUNCHER)
-#  include <QtCore/QDebug>
-#endif
 
 // Constants: Launcher <-> Application
 #include "./../../src/ipc/constants.h"
 
 // Constants: Launcher <-> Browser
+#ifdef Q_OS_WIN
 static const std::string C_PROCESS              ("./DownZemAll.exe");
+#elif defined(Q_OS_UNIX)
+static const std::string C_PROCESS              ("./DownZemAll");
+#else
+#endif
 static const std::string C_HAND_SHAKE_QUESTION  ("\"areyouthere");
 static const std::string C_HAND_SHAKE_ANSWER    ("somewhere");
 static const std::string C_LAUNCH               ("\"launch ");
@@ -76,12 +99,47 @@ void mSleep(int ms)
 #endif
 }
 
+void log(const char* label, const std::string &message)
+{
+    log(QString::fromUtf8(label), message);
+}
+
+void log(const char* label, const QString &message1, const QString &message2)
+{
+    log(QString("%0: %1 %2").arg(label).arg(message1).arg(message2));
+}
+
+void log(const QString &label, const std::string &message)
+{
+    log(QString("%0: %1").arg(label).arg(QString::fromStdString(message)));
+}
+
+void log(const QString &message)
+{
+#if defined(DEBUG_WEB_ADDON_TO_LAUNCHER)
+    QFile file("log.txt");
+    if (file.open(QIODevice::WriteOnly | QIODevice::Append)) {
+        file.write(message.toUtf8());
+        file.write(QString('\n').toUtf8());
+        file.close();
+    }
+    QFileInfo fi(file);
+    qDebug() << Q_FUNC_INFO << fi.canonicalFilePath();
+#else
+    Q_UNUSED(message)
+#endif
+}
+
+
 static void sendDataToExtension(const std::string &message)
 {
+    log(Q_FUNC_INFO, message);
 #if defined(Q_OS_WIN)
     _setmode(_fileno(stdout), O_BINARY);
+#elif defined(Q_OS_UNIX)
+    // Nothing
 #else
-    freopen("file_out.txt", "wb", stdout); /* w = write, b = binary */
+    // freopen("file_out.txt", "wb", stdout); /* w = write, b = binary */
 #endif
     try {
         std::string json = "{\"text\": \"" + message + "\"}";
@@ -118,6 +176,7 @@ static void sendDataToExtension(const std::string &message)
  */
 static std::string cleanChromeMessage(const std::string &message)
 {
+    log(Q_FUNC_INFO, message);
     std::string cleaned(message);
     if (cleaned.compare(0, C_CHROMIUM_HEADER.length(), C_CHROMIUM_HEADER) == 0) {
         cleaned.erase(0, C_CHROMIUM_HEADER.length());
@@ -128,11 +187,15 @@ static std::string cleanChromeMessage(const std::string &message)
 
 static std::string openStandardStreamIn()
 {
+    log(Q_FUNC_INFO);
+
     std::cout.setf(std::ios_base::unitbuf);
 #if defined(Q_OS_WIN)
     _setmode(_fileno(stdin), _O_BINARY); /* Keep \n instead of \r\n */
+#elif defined(Q_OS_UNIX)
+    // Nothing
 #else
-    freopen("file_in.txt", "rb", stdin); /* r = read, b = binary */
+    // freopen("file_in.txt", "rb", stdin); /* r = read, b = binary */
 #endif
 
     int size = 0;
@@ -151,6 +214,8 @@ static std::string openStandardStreamIn()
 
 static bool startInteractiveMode(const QString &program)
 {
+    log(Q_FUNC_INFO, program);
+
     QProcess process;
     process.setProgram(program);
     process.setArguments(QStringList() << "-i");
@@ -179,6 +244,8 @@ static bool startInteractiveMode(const QString &program)
 
 static bool sendCommandToProcess(const QString &program, const QString &arguments)
 {
+    log(Q_FUNC_INFO, program, arguments);
+
     QSharedMemory sharedMemory;
     sharedMemory.setKey(C_SHARED_MEMORY_KEY);
 
@@ -209,21 +276,28 @@ static bool sendCommandToProcess(const QString &program, const QString &argument
             }
 
         } else {
-            /*
-             * Unable to attach to the shared memory segment.
-             *
-             * Use sharedMemory.error() and sharedMemory.errorString()
-             * to investigate the error.
-             */
+            log(Q_FUNC_INFO, QString("Unable to attach to the shared memory segment"));
+            log(Q_FUNC_INFO, sharedMemory.errorString());
             return false;
         }
     } else {
-        /*
-         * Unable to create shared memory segment.
-         *
-         * Use sharedMemory.error() and sharedMemory.errorString()
-         * to investigate the error.
-         */
+        log(Q_FUNC_INFO, QString("Unable to create shared memory segment"));
+        log(Q_FUNC_INFO, sharedMemory.errorString());
+
+#if defined(Q_OS_UNIX)
+        // Unix: QSharedMemory "owns" the shared memory segment.
+        // When the last thread or process that has an instance
+        // of QSharedMemory attached to a particular shared memory
+        // segment detaches from the segment by destroying its
+        // instance of QSharedMemory, the Unix kernel release
+        // the shared memory segment. But if that last thread or
+        // process crashes without running the QSharedMemory destructor,
+        // the shared memory segment survives the crash.
+
+        // Trick to detach properly
+        sharedMemory.attach();
+        sharedMemory.detach(); // This should delete the shm if no process use it
+#endif
         return false;
     }
 
@@ -264,13 +338,13 @@ static bool sendCommandToProcess(const std::string &program, const std::string &
 {
     const QString programQt = QString::fromUtf8(program.c_str());
     const QString argumentsQt = QString::fromUtf8(arguments.c_str());
-
     return sendCommandToProcess(programQt, argumentsQt);
 }
 
 
 std::string compress(const std::string &command)
 {
+    log(Q_FUNC_INFO, command);
     /*
      * Try to retrieve the current Url, normally
      * between blocks C_KEYWORD_CURRENT_URL and C_KEYWORD_LINKS
@@ -320,8 +394,14 @@ int main(int argc, char* argv[])
     return 0;
 #endif
 
+    log(QLatin1String("******************** start ********************"));
+    for (int i = 0; i < argc; ++i) {
+        const std::string unquoted = unquote(argv[i]);
+        log(QString("arg[%0]").arg(QString::number(i)), unquoted);
+    }
     std::string input = "";
     while ((input = openStandardStreamIn()) != "") {
+        log(QLatin1String("input"), input);
 
         try {
             if (input.compare(0, C_HAND_SHAKE_QUESTION.length(), C_HAND_SHAKE_QUESTION) == 0) {
@@ -367,5 +447,7 @@ int main(int argc, char* argv[])
             throw;
         }
     }
+
+    log(QLatin1String("******************** end ********************"));
     return 0;
 }

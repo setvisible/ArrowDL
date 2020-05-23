@@ -24,7 +24,7 @@ Indeed there are now 4 categories of downloadable things:
 - **Magnet Link, Torrent**: downloads the content of a *.torrent* file.
 
 
-![Torrent download](../assets/images/2.0/get_started.png)
+![Torrent download](/DownZemAll/assets/images/2.0/get_started.png)
 
 
 > Get started!

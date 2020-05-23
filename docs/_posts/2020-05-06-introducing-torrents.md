@@ -47,11 +47,11 @@ See pictures below to know how to use it:
 
 (yes, this is the icon of transmission)
 
-![Torrent download](../assets/images/2.0/torrent_01.png)
+![Torrent download](/DownZemAll/assets/images/2.0/torrent_01.png)
 
-![Torrent download](../assets/images/2.0/torrent_02.png)
+![Torrent download](/DownZemAll/assets/images/2.0/torrent_02.png)
 
 Torrent settings are customizable:
 
-![Download torrents](../assets/images/2.0/torrent_prefs.png)
+![Download torrents](/DownZemAll/assets/images/2.0/torrent_prefs.png)
 

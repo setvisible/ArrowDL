@@ -23,12 +23,32 @@
 
 #include <QtCore/QCommandLineParser>
 
-
 Q_DECLARE_METATYPE(QList<int>)
+
+#ifndef QT_DEBUG
+void releaseMessageHandler(QtMsgType type, const QMessageLogContext &, const QString &msg)
+{
+    QByteArray localMsg = msg.toLocal8Bit();
+    switch (type) {
+    case QtDebugMsg:
+        // In release mode, ignore debug messages but show fatal and warning.
+        break;
+    case QtInfoMsg: fprintf(stderr, "Info: %s\n", localMsg.constData()); break;
+    case QtWarningMsg: fprintf(stderr, "Warning: %s\n", localMsg.constData()); break;
+    case QtCriticalMsg: fprintf(stderr, "Critical: %s\n", localMsg.constData()); break;
+    case QtFatalMsg: fprintf(stderr, "Fatal: %s\n", localMsg.constData()); break;
+    }
+}
+#endif
 
 int main(int argc, char *argv[])
 {
     Q_INIT_RESOURCE(resources);
+#ifndef QT_DEBUG
+    qInstallMessageHandler(releaseMessageHandler);
+#else
+    qInstallMessageHandler(Q_NULLPTR); // default handler
+#endif
 
     QtSingleApplication application(argc, argv);
 

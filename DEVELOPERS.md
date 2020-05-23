@@ -8,13 +8,53 @@ Here's the software you'll need before you start building (mandatory in bold)
 
 - **Standard C++ Library** (>= C++11)
 - **Qt5** (>= 5.5)
-- **Boost** (>= 1.49)
+- **Boost** (>= 1.58)
 - CMake (>= 3.1.0) or QMake (>= 5.5)
-- GNU C++ Compiler (>= 5.3.0) 
+- GNU C++ Compiler (gcc/g++ >= 5.3.0)
   or Microsoft Visual Studio (>= 2017)
 
 Other 3rd-party libraries are included within the project, so built and linked
 automatically.
+
+
+### Setup Development Tools for Windows
+
+Follow official instructions of each tool.
+
+
+### Setup Development Tools for Unix
+
+(tested on Ubuntu 20.04 LTS 64bits)
+
+#### Install GCC, CMake, Git...
+
+    sudo apt install build-essential
+    sudo apt install cmake-qt-gui
+    sudo apt install git
+    
+#### Install Qt5
+
+    sudo apt install qt5-default
+    whereis qt5
+    $ qt5: /usr/lib/x86_64-linux-gnu/qt5 /usr/lib/qt5 /usr/share/qt5
+    
+#### Install Qt5 IDE (QtCreator) and SDK
+
+    sudo apt install qtcreator
+    
+Or follow [instructions](https://wiki.qt.io/Install_Qt_5_on_Ubuntu
+"https://wiki.qt.io/Install_Qt_5_on_Ubuntu").
+
+    sudo apt-get install libfontconfig1
+    sudo apt-get install mesa-common-dev
+    sudo apt-get install libglu1-mesa-dev -y
+    
+    wget https://download.qt.io/official_releases/qt/5.14/5.14.2/qt-opensource-linux-x64-5.14.2.run
+
+    chmod +x qt-opensource-linux-x64-5.14.2.run
+    sudo ./qt-opensource-linux-x64-5.14.2.run
+
+It install the tools and SDK on `/opt/Qt5.14.2/`.
 
 
 ## Build with GCC or MinGW
@@ -23,40 +63,42 @@ Use **CMake** or **QMake** (with *QtCreator*).
 
 Setup the project:
 
-	> unzip . downzemall-src.zip
-	> mkdir "build"
-	> cd ./build/
+    unzip . downzemall-src.zip
+    mkdir "build"
+    cd ./build/
 
 Setup the *Boost* library:
 
 - For CMake:
-    Add variable `BOOST_ROOT_DIR` with the path to Boost
+    Add variable `BOOST_ROOT_DIR` (type: PATH) with the path to Boost
+    PS: or configure `Boost_INCLUDE_DIR`
     
 - For QMake:
     Open `./3rd/boost/boost.pri`- 
-    and add line `INCLUDEPATH += <here-absolute-path-to-boost>/Boost/boost_1_49_0`
+    and add path manually to variable `BOOST_ROOT_DIR`,
+    that gives the following line: 
+    `BOOST_ROOT_DIR = <here-absolute-path-to-boost>/Boost/boost_1_58_0`
 
 
 
 Build the application:
 
-	> make -j8
-	...
-	[ 99%] Linking CXX executable DownZemAll.exe
-	[100%] Built target DownZemAll
+    make -j8
+    $ ...
+    $ [ 99%] Linking CXX executable DownZemAll.exe
+    $ [100%] Built target DownZemAll
 
 
 Run the tests:
 
-	> ctest .
-	or
-	> ctest . --verbose
+    ctest .
+    ctest . --verbose
 
 
-Finally install the binary:
+Finally install the binary and clean:
 
-	> make install
-	> make clean
+    make install
+    make clean
 
 
 ## Build with MSVC
@@ -65,54 +107,50 @@ Use **CMake**.
 
 Setup the project:
 
-	> unzip . downzemall-src.zip
-	> mkdir "build"
-	> cd ./build/
+    unzip . downzemall-src.zip
+    mkdir "build"
+    cd ./build/
 
 
 Build the application:
 
-	> cmake --build . --config Release 
-	...
-	[ 99%] Linking CXX executable DownZemAll.exe
-	[100%] Built target DownZemAll
+    cmake --build . --parallel 8 --config Release
+    $ ...
+    $ [ 99%] Linking CXX executable DownZemAll.exe
+    $ [100%] Built target DownZemAll
 
 
 Run the tests:
 
-	> ctest .
-	or
-	> ctest . --verbose
+    ctest . -C Release
+    ctest . -C Release --verbose
 
 
-Finally install the binary:
+Finally install the binary and clean:
 
-	> cmake --build . --target install
+    cmake --build . --target install --config Release
+    cmake --build . --target clean --config Release
 
 
 ## Run
 
 Launch *DownZemAll*:
 
-	> ./DownZemAll.exe
+    DownZemAll
 
+Show help and version:
+
+    DownZemAll -h (or --help)
+    DownZemAll -v (or --version)
 
 Launch and download links from an URL:
 
-	> ./DownZemAll.exe "https://www.example.com/docs/2019/10/index.htm"
-
-
-Show more information:
-
-	> ./DownZemAll.exe -h
-	> ./DownZemAll.exe -v
+    DownZemAll "https://www.example.com/docs/2019/10/index.htm"
 
 
 Launch in Interactive mode (reserved for WebExtension communication):
 
-	> ./DownZemAll.exe -i [...]
-	or
-	> ./DownZemAll.exe --interactive [...]
+    DownZemAll -i (or --interactive) <urls>
 
 
 ## Troubleshooting

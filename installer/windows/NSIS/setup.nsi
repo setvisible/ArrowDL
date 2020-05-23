@@ -82,8 +82,8 @@ FunctionEnd
 ;--------------------------------
 ;Interface Settings
 
-    !define MUI_ICON "..\..\src\icons\logo\icon.ico"
-    !define MUI_UNICON "..\..\src\icons\logo\icon.ico"
+    !define MUI_ICON "..\..\..\src\icons\logo\icon.ico"
+    !define MUI_UNICON "..\..\..\src\icons\logo\icon.ico"
 
     ; Banner (welcome and finish page) for installer
     !define MUI_WELCOMEFINISHPAGE_BITMAP "branding.bmp"

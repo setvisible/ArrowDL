@@ -5,8 +5,9 @@
 /.*
 /*
 !/.gitignore
+!/macx
+!/unix
+!/windows
 !/CMakeLists.txt
 !/launcher.cpp
 !/launcher.pro
-!/launcher-manifest-chrome.json
-!/launcher-manifest-firefox.json

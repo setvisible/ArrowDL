@@ -442,7 +442,7 @@ after_test:
           /DPATH_OUT="C:\projects\DownZemAll\bin"
           /DVERSION="%AppVersion%" 
           /DBIN_PATH="C:\projects\install-DownZemAll-cmake" 
-          C:\projects\DownZemAll\installer\NSIS\setup.nsi &&
+          C:\projects\DownZemAll\installer\windows\NSIS\setup.nsi &&
       rename "DownZemAllSetup.exe" "DownZemAll_%PLATFORM%_Setup.exe"
     ) else (
       echo Disable installer build. NSIS not invoked.

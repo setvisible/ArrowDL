@@ -45,38 +45,28 @@ configure_file( ./src/config.h.cmake ./src/config.h )
 # Rename the executable for DEBUG and RELEASE
 ##############################################################################
 
-if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
+if(MSVC) # MSVC Compiler
+    # CMAKE_BUILD_TYPE and CMAKE_CONFIGURATION_TYPES only work with Unix makefiles, not with Visual projects.
+    message(STATUS "To build a release with MSVC, there's no command in CMAKE. So use cmake --build . --config Release")
+    set(RELEASE_MODE 1)
 
-    if(MSYS OR MINGW)
-        # Change the default build type to Release
-        if(NOT CMAKE_BUILD_TYPE)
-            set(CMAKE_BUILD_TYPE Release CACHE STRING
-                "Choose the type of build, options are: Debug Release." FORCE)
-            set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS None Debug Release RelWithDebInfo MinSizeRel)
-        endif(NOT CMAKE_BUILD_TYPE)
+else() # Other Windows compilers (MSYS, MINGW) and MacOS or Unix Compilers
 
-        # to distinguish between debug and release
-        set(CMAKE_DEBUG_POSTFIX "d")
+    # Change the default build type to Release
+    if(NOT CMAKE_BUILD_TYPE)
+        set(CMAKE_BUILD_TYPE Release CACHE STRING
+            "Choose the type of build, options are: Debug Release." FORCE)
+        set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS None Debug Release RelWithDebInfo MinSizeRel)
+    endif(NOT CMAKE_BUILD_TYPE)
 
-        if(CMAKE_BUILD_TYPE STREQUAL "Release")
-            set(RELEASE_MODE 1)
-        else()
-            set(RELEASE_MODE 0)
-        endif()
+    # to distinguish between debug and release
+    set(CMAKE_DEBUG_POSTFIX "d")
 
-    else() # MSVC Compiler
-        #
-        # CMAKE_BUILD_TYPE and CMAKE_CONFIGURATION_TYPES obviously only
-        # apply for Unix makefiles, not for Visual projects.
-        #
-        message(STATUS "To build a release with MSVC, there's no command in CMAKE. So use cmake --build . --config Release")
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
         set(RELEASE_MODE 1)
-
+    else()
+        set(RELEASE_MODE 0)
     endif()
-
-else() # MacOS or Unix Compilers
-
-    # to do
 
 endif()
 

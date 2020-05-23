@@ -159,7 +159,7 @@ script:
 # DownZemAll_v1.2.0_windows-msvc-x64.zip
 # DownZemAll_v1.2.0_x86_64-linux-gnu.tar.gz
   - ZIP_FILE="DownZemAll_v${AppVersion}_${GCCDumpMachine}.tar.gz"
-  - tar -czvf ${ZIP_FILE} ./../../install-DownZemAll-cmake/*
+  - tar -zcvf ${ZIP_FILE} -C ./../../install-DownZemAll-cmake .
 
 
 # .tar.bz2

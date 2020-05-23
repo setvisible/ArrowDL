@@ -38,7 +38,10 @@ win32{
     DEFINES += WIN32_LEAN_AND_MEAN  # prevent winsock1 to be included
 }
 unix{
-    LIBS += -lpthreads # todo check that dep
+    # todo check that dep
+    # QMAKE_CFLAGS += -pthread
+    # QMAKE_CXXFLAGS += -pthread
+    # LIBS += -pthread
 }
 
 win32-msvc* {
