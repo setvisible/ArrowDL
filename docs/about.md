@@ -10,8 +10,9 @@ SetVisible(0!=1)
 [Curriculum Vitae](Curriculum_Vitae.txt "Curriculum Vitae")
 
 * GitHub: [https://github.com/setvisible](https://github.com/setvisible "https://github.com/setvisible")
-* Facebook: I'm not on Facebook
-* Twitter: same
-* Pinterest: same
+* Touiteur: [@DownZemAll](https://twitter.com/downzemall "https://twitter.com/downzemall")
+* Feycebouque: (-_-)
+* Pinterest: (O_O;)
+
 
 ![logo](favicon.png)

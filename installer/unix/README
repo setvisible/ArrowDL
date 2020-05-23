@@ -1,0 +1,8 @@
+To run DownZemAll with a 'double-clickable' shortcut instead of as command line
+from a terminal, use the following scripts to add (or remove) the desktop 
+shortcut:
+
+- install_shortcut_desktop.sh
+( uninstall_shortcut_desktop.sh )
+
+=> The script configures DownZemAll.desktop and copies it to the desktop.

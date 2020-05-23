@@ -105,4 +105,27 @@ install(TARGETS ${DownZemAll_NAME}
     DESTINATION ${CMAKE_INSTALL_PREFIX}
     )
 
+if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
+    # Nothing
+
+else() # MacOS or Unix Compilers
+    if(UNIX AND NOT APPLE) # Linux or FreeBSD
+        set(Desktop_Shortcut
+            ${CMAKE_CURRENT_SOURCE_DIR}/installer/unix/DownZemAll.desktop
+            ${CMAKE_CURRENT_SOURCE_DIR}/installer/unix/icon_DZA_64px64px.png
+            ${CMAKE_CURRENT_SOURCE_DIR}/installer/unix/install_shortcut_desktop.sh
+            ${CMAKE_CURRENT_SOURCE_DIR}/installer/unix/uninstall_shortcut_desktop.sh
+            ${CMAKE_CURRENT_SOURCE_DIR}/installer/unix/README
+            )
+
+    else() # MacOS
+        # Nothing
+    endif()
+endif()
+
+install (
+    FILES ${Desktop_Shortcut}
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/desktop_shortcut
+    COMPONENT release_docs
+    )
 

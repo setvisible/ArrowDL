@@ -3,7 +3,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rd/autoupdater/github-releases-
 if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     set(SPECIFIC "updateinstaller_win.cpp" )
 else() # MacOS or Unix Compilers
-    if(UNIX AND NOT APPLE) # Linux of FreeBSD
+    if(UNIX AND NOT APPLE) # Linux or FreeBSD
         if(${CMAKE_SYSTEM_NAME} STREQUAL "FreeBSD") # FreeBSD
             set(SPECIFIC "updateinstaller_freebsd.cpp" )
         else() # Linux 
