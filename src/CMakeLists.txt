@@ -115,6 +115,7 @@ else() # MacOS or Unix Compilers
             ${CMAKE_CURRENT_SOURCE_DIR}/installer/unix/icon_DZA_64px64px.png
             ${CMAKE_CURRENT_SOURCE_DIR}/installer/unix/install_shortcut_desktop.sh
             ${CMAKE_CURRENT_SOURCE_DIR}/installer/unix/uninstall_shortcut_desktop.sh
+            ${CMAKE_CURRENT_SOURCE_DIR}/installer/unix/README
             )
 
     else() # MacOS

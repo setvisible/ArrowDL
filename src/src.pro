@@ -267,6 +267,7 @@ unix{
     desktop_shortcut_to_copy.files += $$PWD/../installer/unix/icon_DZA_64px64px.png
     desktop_shortcut_to_copy.files += $$PWD/../installer/unix/install_shortcut_desktop.sh
     desktop_shortcut_to_copy.files += $$PWD/../installer/unix/uninstall_shortcut_desktop.sh
+    desktop_shortcut_to_copy.files += $$PWD/../installer/unix/README
     desktop_shortcut_to_copy.path = $${DESTDIR}/desktop_shortcut/
     INSTALLS += desktop_shortcut_to_copy
 }
