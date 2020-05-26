@@ -25,6 +25,7 @@
 #include <Core/DownloadManager>
 #include <Core/FileAccessManager>
 #include <Core/Format>
+#include <Core/Locale>
 #include <Core/Settings>
 #include <Core/Torrent>
 #include <Core/TorrentContext>
@@ -166,6 +167,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     refreshTitleAndStatus();
     refreshMenus();
 
+    Locale::applyLanguage(m_settings->language());
+
     ui->splitter->setStretchFactor(0, 1);
     ui->splitter->setStretchFactor(1, 0);
 
@@ -208,6 +211,11 @@ void MainWindow::changeEvent(QEvent *event)
              ) {
             m_systemTray->hideParentWidget();
         }
+    } else if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+        refreshTitleAndStatus();
+        refreshMenus();
+        refreshSplitter();
     }
     QMainWindow::changeEvent(event);
 }

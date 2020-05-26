@@ -27,6 +27,7 @@
 static const QString REGISTRY_EXISTING_FILE    = "ExistingFile";
 
 // Tab Interface
+static const QString REGISTRY_UI_LANGUAGE      = "Language";
 static const QString REGISTRY_DONT_SHOW_TUTO   = "DontShowTutorial";
 static const QString REGISTRY_SHOW_SYSTEM_TRAY = "SystemTrayIconEnabled";
 static const QString REGISTRY_HIDE_MINIMIZED   = "HideWhenMinimized";
@@ -84,6 +85,7 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     addDefaultSettingInt(REGISTRY_EXISTING_FILE, static_cast<int>(ExistingFileOption::Skip));
 
     // Tab Interface
+    addDefaultSettingString(REGISTRY_UI_LANGUAGE, QLatin1String(""));
     addDefaultSettingBool(REGISTRY_DONT_SHOW_TUTO, false);
     addDefaultSettingBool(REGISTRY_SHOW_SYSTEM_TRAY, true);
     addDefaultSettingBool(REGISTRY_HIDE_MINIMIZED, false);
@@ -168,6 +170,16 @@ void Settings::setExistingFileOption(ExistingFileOption option)
 /******************************************************************************
  ******************************************************************************/
 // Tab Interface
+QString Settings::language() const
+{
+    return getSettingString(REGISTRY_UI_LANGUAGE);
+}
+
+void Settings::setLanguage(const QString &language)
+{
+    setSettingString(REGISTRY_UI_LANGUAGE, language);
+}
+
 bool Settings::isDontShowTutorialEnabled() const
 {
     return getSettingBool(REGISTRY_DONT_SHOW_TUTO);

@@ -131,6 +131,21 @@ win32|unix {
     RC_FILE += $$PWD/resources_win.rc
 }
 
+TRANSLATIONS += \
+    $$PWD/locale/dza_en_US.ts   # English (default)
+
+
+lupdate_only{
+    # By default, lupdate parses all the repository including boost,
+    # libtorrent, -etc.-, from the '3rd' directory.
+    # There's nothing to translate there, so we limit the lupdate's analysis
+    # to the 'src' directory only, excluding '3rd' and also the Qt path.
+    message("excluding 3rd/ and include/ directories")
+    TR_EXCLUDE += $$PWD/../3rd/*
+    TR_EXCLUDE += $$PWD/../include/*
+    message("excluding $(QTDIR)")
+    TR_EXCLUDE += $(QTDIR)/include/*
+}
 
 #-------------------------------------------------
 # BUILD OPTIONS
@@ -184,6 +199,13 @@ DESTDIR = $${OUT_PWD}/../downzemall_install
 #
 
 # instructions for 'make install'
+
+
+# install translations
+translation_files.files = $$PWD/locale/*.qm
+translation_files.path = $${DESTDIR}/locale
+INSTALLS += translation_files
+
 
 # install Qt binaries (for Windows only)
 # This is a hack for 'windeployqt'
