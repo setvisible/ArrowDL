@@ -19,6 +19,7 @@
 #include <Core/Settings>
 
 #include <QtCore/QDebug>
+#include <QtCore/QEvent>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QMenu>
 
@@ -27,6 +28,7 @@ SystemTray::SystemTray(QWidget *parent) : QWidget(parent)
   , m_settings(Q_NULLPTR)
   , m_trayIcon(new QSystemTrayIcon(this))
   , m_titleAction(Q_NULLPTR)
+  , m_restoreAction(Q_NULLPTR)
   , m_hideWhenMinimizedAction(Q_NULLPTR)
 {
     Q_ASSERT(parent);
@@ -43,7 +45,6 @@ SystemTray::SystemTray(QWidget *parent) : QWidget(parent)
 
     m_trayIcon->setIcon(QIcon(":/icons/logo/icon16.png"));
     m_trayIcon->hide();
-
 }
 
 /******************************************************************************
@@ -84,23 +85,25 @@ void SystemTray::setupContextMenu(
     m_titleAction->setEnabled(false);
     m_titleAction->setIconVisibleInMenu(false);
 
-    auto restoreAction = new QAction(tr("&Restore"), this);
-    auto font = restoreAction->font();
+    m_restoreAction = new QAction(this);
+    auto font = m_restoreAction->font();
     font.setBold(true);
-    restoreAction->setFont(font);
-    connect(restoreAction, &QAction::triggered, parentWidget(), &QWidget::showNormal);
+    m_restoreAction->setFont(font);
+    connect(m_restoreAction, &QAction::triggered, parentWidget(), &QWidget::showNormal);
 
-    m_hideWhenMinimizedAction = new QAction(tr("&Hide when Minimized"), this);
+    m_hideWhenMinimizedAction = new QAction(this);
     m_hideWhenMinimizedAction->setCheckable(true);
     connect(m_hideWhenMinimizedAction, SIGNAL(triggered()), this, SLOT(onHideWhenMinimized()));
 
     menu->addAction(m_titleAction);
     menu->addSeparator();
-    menu->addAction(restoreAction);
+    menu->addAction(m_restoreAction);
     menu->addAction(actionPreferences);
     menu->addAction(m_hideWhenMinimizedAction);
     menu->addSeparator();
     menu->addAction(actionQuit);
+
+    retranslateUi();
 
     m_trayIcon->setContextMenu(menu);
 }
@@ -178,6 +181,21 @@ void SystemTray::hideParentWidget()
     }
 }
 
+/******************************************************************************
+ ******************************************************************************/
+void SystemTray::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange) {
+        retranslateUi();
+    }
+    QWidget::changeEvent(event);
+}
+
+void SystemTray::retranslateUi()
+{
+    m_restoreAction->setText(tr("&Restore"));
+    m_hideWhenMinimizedAction->setText(tr("&Hide when Minimized"));
+}
 
 /******************************************************************************
  ******************************************************************************/

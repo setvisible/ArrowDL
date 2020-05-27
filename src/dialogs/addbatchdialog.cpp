@@ -17,6 +17,7 @@
 #include "addbatchdialog.h"
 #include "ui_addbatchdialog.h"
 
+#include <Globals>
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
 #include <Core/Mask>
@@ -46,6 +47,9 @@ AddBatchDialog::AddBatchDialog(const QUrl &url, DownloadManager *downloadManager
 {
     ui->setupUi(this);
 
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME)
+                   .arg(tr("Add Batch and Single File")));
+
     adjustSize();
     setFixedHeight(height());
 
@@ -54,6 +58,21 @@ AddBatchDialog::AddBatchDialog(const QUrl &url, DownloadManager *downloadManager
     ui->urlLineEdit->setText(url.toString());
     ui->urlLineEdit->setFocus();
     ui->urlLineEdit->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    ui->titleListLabel->setToolTip(
+                QString("<html><head/><body><p>"
+                        "%0"
+                        "</p><p>- "
+                        "%1"
+                        "</p><p>- "
+                        "%2"
+                        "</p><p>- "
+                        "%3"
+                        "</p></body></html>")
+                .arg(tr("Batch descriptors:"))
+                .arg(tr("Must start with '[' or '('"))
+                .arg(tr("Must contain two numbers, separated by ':', '-' or a space character"))
+                .arg(tr("Must end with ']' or ')'")));
 
     if (m_settings && m_settings->isCustomBatchEnabled()) {
         ui->tagButton_Custom->setText(m_settings->customBatchButtonLabel());
@@ -135,16 +154,21 @@ void AddBatchDialog::reject()
 
 /******************************************************************************
  ******************************************************************************/
+QString AddBatchDialog::insertName(const QString &name) const
+{
+    return QString("%0 [ %1 ]").arg(tr("Insert").arg(name));
+}
+
 void AddBatchDialog::showContextMenu(const QPoint &/*pos*/)
 {
     QMenu *contextMenu = ui->urlLineEdit->createStandardContextMenu();
     QAction *first = contextMenu->actions().first();
 
-    QAction action_1_to_10(tr("Insert [ 1 -> 10 ]"), contextMenu);
-    QAction action_1_to_100(tr("Insert [ 1 -> 100 ]"), contextMenu);
-    QAction action_01_to_10(tr("Insert [ 01 -> 10 ]"), contextMenu);
-    QAction action_001_to_100(tr("Insert [ 001 -> 100 ]"), contextMenu);
-    QAction action_custom(tr("Insert [ %0 ]").arg(ui->tagButton_Custom->text()), contextMenu);
+    QAction action_1_to_10(insertName(tr("1 -> 10")), contextMenu);
+    QAction action_1_to_100(insertName(tr("1 -> 100")), contextMenu);
+    QAction action_01_to_10(insertName(tr("01 -> 10")), contextMenu);
+    QAction action_001_to_100(insertName(tr("001 -> 100")), contextMenu);
+    QAction action_custom(insertName(ui->tagButton_Custom->text()), contextMenu);
 
     connect(&action_1_to_10, SIGNAL(triggered()), this, SLOT(insert_1_to_10()));
     connect(&action_1_to_100, SIGNAL(triggered()), this, SLOT(insert_1_to_100()));
@@ -248,12 +272,11 @@ QMessageBox::StandardButton AddBatchDialog::askBatchDownloading(QList<IDownloadI
         msgBox.setWindowTitle(tr("Download Batch"));
         msgBox.setText(tr("It seems that you are using some batch descriptors."));
         msgBox.setInformativeText(
-                    tr("Do you really want to start %0 downloads?\n"
-                       "\n"
-                       "%1\n"
-                       "...\n"
-                       "%2")
-                    .arg(items.count())
+                    QString("%0\n\n"
+                            "%1\n"
+                            "...\n"
+                            "%2")
+                    .arg(tr("Do you really want to start %0 downloads?").arg(items.count()))
                     .arg(firstItem->resource()->url())
                     .arg(lastItem->resource()->url()));
 

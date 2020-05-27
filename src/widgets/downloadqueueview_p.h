@@ -28,8 +28,12 @@ class AbstractDownloadItem;
 class QueueItem : public QObject, public QTreeWidgetItem
 {
     Q_OBJECT
-
 public:
+    enum ProgressBar {
+        StateRole = Qt::UserRole + 1,
+        ProgressRole
+    };
+
     explicit QueueItem(AbstractDownloadItem *downloadItem, QTreeWidget *view);
 
     AbstractDownloadItem* downloadItem() const { return m_downloadItem; }

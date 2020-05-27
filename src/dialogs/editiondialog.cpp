@@ -17,6 +17,7 @@
 #include "editiondialog.h"
 #include "ui_editiondialog.h"
 
+#include <Globals>
 #include <Core/DownloadItem>
 #include <Core/IDownloadItem>
 #include <Core/ResourceItem>
@@ -38,6 +39,8 @@ EditionDialog::EditionDialog(const QList<IDownloadItem*> &items, QWidget *parent
     , m_items(items)
 {
     ui->setupUi(this);
+
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Smart Edit")));
 
     connect(ui->editor, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
 

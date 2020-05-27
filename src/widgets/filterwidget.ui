@@ -113,21 +113,21 @@ QGroupBox {
          <bool>true</bool>
         </property>
         <property name="currentText">
-         <string>^.*\.(java|f77|c(?:pp))$</string>
+         <string notr="true">^.*\.(java|f77|c(?:pp))$</string>
         </property>
         <item>
          <property name="text">
-          <string>^.*\.(java|f77|c(?:pp))$</string>
+          <string notr="true">^.*\.(java|f77|c(?:pp))$</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>^.*\.(htm(l?))$</string>
+          <string notr="true">^.*\.(htm(l?))$</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>^.*\.(js)$</string>
+          <string notr="true">^.*\.(js)$</string>
          </property>
         </item>
        </widget>

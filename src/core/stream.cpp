@@ -1040,7 +1040,7 @@ static QString generateErrorMessage(QProcess::ProcessError error)
         message = QObject::tr("The process has timed out.");
         break;
     case QProcess::WriteError:
-        message = QObject::tr("The process has encountered a write error");
+        message = QObject::tr("The process has encountered a write error.");
         break;
     case QProcess::ReadError:
         message = QObject::tr("The process has encountered a read error.");

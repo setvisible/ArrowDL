@@ -117,13 +117,13 @@ void tst_Format::fileSizeToString_data()
     QTest::addColumn<BigInteger>("size");
     QTest::addColumn<QString>("expected");
 
-    QTest::newRow("zero") << BigInteger(0) << "0 bytes";
-    QTest::newRow("negative zero") << BigInteger(-0) << "0 bytes";
+    QTest::newRow("zero") << BigInteger(0) << "0 byte";
+    QTest::newRow("negative zero") << BigInteger(-0) << "0 byte";
 
     QTest::newRow("negative") << BigInteger(-1) << "Unknown";
     QTest::newRow("negative 1024 bytes") << BigInteger(-1024) << "Unknown";
 
-    QTest::newRow("1 bytes") << BigInteger(1) << "1 byte";
+    QTest::newRow("1 byte") << BigInteger(1) << "1 byte";
     QTest::newRow("8 bytes") << BigInteger(8) << "8 bytes";
     QTest::newRow("256 bytes") << BigInteger(256) << "256 bytes";
     QTest::newRow("512 bytes") << BigInteger(512) << "512 bytes";

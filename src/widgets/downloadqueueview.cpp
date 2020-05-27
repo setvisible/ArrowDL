@@ -61,64 +61,7 @@ static const QColor s_darkGreen     = QColor(0, 143, 0);
 static const QColor s_darkYellow    = QColor(255, 204, 0);
 static const QColor s_darkRed       = QColor(177, 40, 1);
 
-static inline QString stateToString(IDownloadItem::State state)
-{
-    QString stateString;
-    switch (state) {
-    case IDownloadItem::Idle:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Idle");
-        break;
-    case IDownloadItem::Paused:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Paused");
-        break;
-    case IDownloadItem::Stopped:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Canceled");
-        break;
-    case IDownloadItem::Preparing:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Preparing");
-        break;
-    case IDownloadItem::Connecting:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Connecting");
-        break;
-    case IDownloadItem::DownloadingMetadata:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Downloading Metadata");
-        break;
-    case IDownloadItem::Downloading:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Downloading");
-        break;
-    case IDownloadItem::Endgame:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Finishing");
-        break;
-    case IDownloadItem::Completed:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Complete");
-        break;
-    case IDownloadItem::Seeding:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Seeding");
-        break;
-    case IDownloadItem::Skipped:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Skipped");
-        break;
-    case IDownloadItem::NetworkError:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "Server error");
-        break;
-    case IDownloadItem::FileError:
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "File error");
-        break;
-    default:
-        Q_UNREACHABLE();
-        stateString = QT_TRANSLATE_NOOP(DownloadItem, "????");
-        break;
-    }
-    return stateString ;
-}
 
-enum ProgressBar {
-    StateRole = Qt::UserRole + 1,
-    ProgressRole
-};
-
-/******************************************************************************
- ******************************************************************************/
 QueueView::QueueView(QWidget *parent)
     : QTreeWidget(parent)
 {
@@ -254,8 +197,8 @@ void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
 
     } else if (index.column() == C_COL_2_PROGRESS_BAR) {
 
-        const int progress = index.data(ProgressBar::ProgressRole).toInt();
-        auto state = static_cast<IDownloadItem::State>(index.data(ProgressBar::StateRole).toInt());
+        const int progress = index.data(QueueItem::ProgressRole).toInt();
+        auto state = static_cast<IDownloadItem::State>(index.data(QueueItem::StateRole).toInt());
 
         CustomStyleOptionProgressBar progressBarOption;
         progressBarOption.state = QStyle::State_Enabled;
@@ -402,7 +345,7 @@ void QueueItem::updateItem()
         size = tr("Unknown");
     }
 
-    QString estTime = stateToString(m_downloadItem->state());
+    QString estTime = m_downloadItem->stateToString();
     if (m_downloadItem->state() == IDownloadItem::NetworkError) {
 
         if (m_downloadItem->streamErrorMessage().isEmpty()) {
@@ -428,8 +371,8 @@ void QueueItem::updateItem()
     this->setText(C_COL_0_FILE_NAME       , m_downloadItem->localFileName());
     this->setText(C_COL_1_WEBSITE_DOMAIN  , m_downloadItem->sourceUrl().host()); // todo domain only
 
-    this->setData(C_COL_2_PROGRESS_BAR, ProgressBar::StateRole, m_downloadItem->state());
-    this->setData(C_COL_2_PROGRESS_BAR, ProgressBar::ProgressRole, m_downloadItem->progress());
+    this->setData(C_COL_2_PROGRESS_BAR    , StateRole, m_downloadItem->state());
+    this->setData(C_COL_2_PROGRESS_BAR    , ProgressRole, m_downloadItem->progress());
 
     this->setText(C_COL_3_PERCENT         , QString("%0%").arg(qMax(0, m_downloadItem->progress())));
     this->setText(C_COL_4_SIZE            , size);
@@ -444,27 +387,15 @@ void QueueItem::updateItem()
  ******************************************************************************/
 DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
   , m_downloadEngine(Q_NULLPTR)
+  , m_queueView(new QueueView(this))
   , m_contextMenu(Q_NULLPTR)
 {
     this->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
             this, SLOT(showContextMenu(const QPoint &)));
 
-    // Initialize some static strings
-    QStringList headers;
-    headers << tr("Download/Name")
-            << tr("Domain")
-            << tr("Progress")
-            << tr("Percent")
-            << tr("Size")
-            << tr("Est. time")      /* Hidden by default */
-            << tr("Speed")          /* Hidden by default */
-               ;
-
     // Main queue list
-    m_queueView = new QueueView(this);
     m_queueView->setItemDelegate(new QueueViewItemDelegate(this));
-    m_queueView->setHeaderLabels(headers);
     m_queueView->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_queueView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     m_queueView->setAlternatingRowColors(false);
@@ -493,6 +424,8 @@ DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
     layout->setContentsMargins(0, 0, 0, 0);
 
     this->setLayout(layout);
+
+    retranslateUi();
 }
 
 DownloadQueueView::~DownloadQueueView()
@@ -628,6 +561,41 @@ void DownloadQueueView::setEngine(DownloadEngine *downloadEngine)
     if (m_downloadEngine) {
         for (const Cx *cx = &connections[0]; cx->signal; cx++) {
             QObject::connect(m_downloadEngine, cx->signal, this, cx->slot);
+        }
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void DownloadQueueView::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange) {
+        retranslateUi();
+    }
+    QWidget::changeEvent(event);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void DownloadQueueView::retranslateUi()
+{
+    Q_ASSERT(m_queueView);
+    QStringList headers;
+    headers << tr("Download/Name")
+            << tr("Domain")
+            << tr("Progress")
+            << tr("Percent")
+            << tr("Size")
+            << tr("Est. time")      /* Hidden by default */
+            << tr("Speed")          /* Hidden by default */
+               ;
+    m_queueView->setHeaderLabels(headers);
+
+    for (int index = 0, count = m_queueView->topLevelItemCount(); index < count; ++index) {
+        auto treeItem = m_queueView->topLevelItem(index);
+        auto queueItem = dynamic_cast<QueueItem *>(treeItem);
+        if (queueItem) {
+            queueItem->updateItem();
         }
     }
 }

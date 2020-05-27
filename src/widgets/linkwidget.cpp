@@ -399,7 +399,7 @@ void LinkWidget::showContextMenu(const QPoint &/*pos*/)
     actionSelectFiltered.setShortcut(QKeySequence(Qt::CTRL + Qt::Key_F));
     connect(&actionSelectFiltered, SIGNAL(triggered()), this, SLOT(selectFiltered()));
 
-    QAction actionInvertSelection(tr("Invert Selection "), contextMenu);
+    QAction actionInvertSelection(tr("Invert Selection"), contextMenu);
     actionInvertSelection.setIcon(QIcon(":/icons/menu/select_invert_32x32.png"));
     actionInvertSelection.setShortcut(QKeySequence(Qt::CTRL + Qt::Key_I));
     connect(&actionInvertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
@@ -541,7 +541,7 @@ inline QString LinkWidget::textForOpenAction() const
         }
     }
     if (urlIndexes.count() == 0) {
-        return tr("-");
+        return QLatin1String("-");
     }
     if (urlIndexes.count() == 1) {
         const QModelIndex urlIndex = urlIndexes.first();

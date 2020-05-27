@@ -17,6 +17,7 @@
 #include "addstreamdialog.h"
 #include "ui_addstreamdialog.h"
 
+#include <Globals>
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
 #include <Core/DownloadStreamItem>
@@ -46,6 +47,8 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
     , m_settings(settings)
 {
     ui->setupUi(this);
+
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Add Stream")));
 
     adjustSize();
 

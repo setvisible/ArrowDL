@@ -551,7 +551,8 @@ void TorrentContextPrivate::onNetworkReplyFinished()
     if (reply->error() != QNetworkReply::NoError) {
         TorrentMetaInfo m = item->metaInfo();
         m.error.type = TorrentError::MetadataDownloadError;
-        m.error.message = tr("Network request cannot download.\n\n%0\n\n%1")
+        m.error.message = QString("%0\n\n%1\n\n%2")
+                .arg(tr("Can't download metadata."))
                 .arg(url.toEncoded().constData())
                 .arg(qPrintable(reply->errorString()));
         item->setMetaInfo(m);

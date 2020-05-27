@@ -435,7 +435,7 @@ QTabBar::tab:hover:!selected {
             <item row="0" column="2">
              <widget class="QLabel" name="maxSimultaneousDownloadLabel">
               <property name="text">
-               <string>10</string>
+               <string notr="true">10</string>
               </property>
              </widget>
             </item>
@@ -810,7 +810,7 @@ QTabBar::tab:hover:!selected {
        <item>
         <widget class="QGroupBox" name="groupBox_7">
          <property name="title">
-          <string>GroupBox</string>
+          <string>Filter</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
           <item row="0" column="0">

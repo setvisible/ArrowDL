@@ -21,8 +21,9 @@
 #include <QtCore/QString>
 #include <QtCore/QTime>
 
-class Format
+class Format : public QObject
 {
+    Q_OBJECT
 public:
     static QString infinity();
 

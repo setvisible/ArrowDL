@@ -10,9 +10,6 @@
     <height>500</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>MainWindow</string>
-  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="leftMargin">
@@ -267,7 +264,7 @@
      <normaloff>:/icons/menu/wizard_add_16x16.png</normaloff>:/icons/menu/wizard_add_16x16.png</iconset>
    </property>
    <property name="text">
-    <string>Download Content... </string>
+    <string>Download Content...</string>
    </property>
    <property name="toolTip">
     <string>Download Web Page Content</string>

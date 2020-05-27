@@ -10,9 +10,6 @@
     <height>550</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Check for Updates</string>
-  </property>
   <property name="modal">
    <bool>true</bool>
   </property>
@@ -64,7 +61,7 @@
        <item>
         <widget class="QLabel" name="errorMessage">
          <property name="text">
-          <string>message</string>
+          <string notr="true">message</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
@@ -110,7 +107,7 @@
          <item>
           <widget class="QLabel" name="progressBarValue">
            <property name="text">
-            <string>...</string>
+            <string notr="true">...</string>
            </property>
           </widget>
          </item>
@@ -132,7 +129,7 @@
        <item>
         <widget class="QLabel" name="downloadedToLabel">
          <property name="text">
-          <string>Downloaded to &lt;a href=&quot;https://www.example.org/tutorial.html&quot;&gt;C:\Temp\&lt;/a&gt;</string>
+          <string notr="true">Downloaded to &lt;a href=&quot;https://www.example.org/tutorial.html&quot;&gt;C:\Temp\&lt;/a&gt;</string>
          </property>
          <property name="textFormat">
           <enum>Qt::AutoText</enum>
@@ -198,7 +195,7 @@
 }</string>
            </property>
            <property name="text">
-            <string>&gt;&gt; Install new version &lt;&lt;</string>
+            <string notr="true">&gt;&gt; Install new version &lt;&lt;</string>
            </property>
           </widget>
          </item>

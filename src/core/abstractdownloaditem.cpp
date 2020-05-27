@@ -65,6 +65,25 @@ void AbstractDownloadItem::setState(State state)
     }
 }
 
+QString AbstractDownloadItem::stateToString() const
+{
+    switch (m_state) {
+    case IDownloadItem::Idle:                return tr("Idle");
+    case IDownloadItem::Paused:              return tr("Paused");
+    case IDownloadItem::Stopped:             return tr("Canceled");
+    case IDownloadItem::Preparing:           return tr("Preparing");
+    case IDownloadItem::Connecting:          return tr("Connecting");
+    case IDownloadItem::DownloadingMetadata: return tr("Downloading Metadata");
+    case IDownloadItem::Downloading:         return tr("Downloading");
+    case IDownloadItem::Endgame:             return tr("Finishing");
+    case IDownloadItem::Completed:           return tr("Complete");
+    case IDownloadItem::Seeding:             return tr("Seeding");
+    case IDownloadItem::Skipped:             return tr("Skipped");
+    case IDownloadItem::NetworkError:        return tr("Server error");
+    case IDownloadItem::FileError:           return tr("File error");
+    }
+}
+
 /******************************************************************************
  ******************************************************************************/
 qint64 AbstractDownloadItem::bytesReceived() const

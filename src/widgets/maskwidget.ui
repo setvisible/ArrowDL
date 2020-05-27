@@ -38,26 +38,26 @@
       <bool>true</bool>
      </property>
      <property name="currentText">
-      <string>*url*\*subdirs*\*name*.*ext*</string>
+      <string notr="true">*url*\*subdirs*\*name*.*ext*</string>
      </property>
      <item>
       <property name="text">
-       <string>*url*\*subdirs*\*name*.*ext*</string>
+       <string notr="true">*url*\*subdirs*\*name*.*ext*</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>*name*.*ext*</string>
+       <string notr="true">*name*.*ext*</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>*flatsubdirs*</string>
+       <string notr="true">*flatsubdirs*</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>*curl*</string>
+       <string notr="true">*curl*</string>
       </property>
      </item>
     </widget>
