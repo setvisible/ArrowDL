@@ -85,6 +85,11 @@ Due to rapid evolution of web technology, *DownZemAll!* is designed to implement
 Click [here](DEVELOPERS.md "DEVELOPERS.md") for build instructions.
 
 
+## Translations
+
+Click [here](TRANSLATORS.md "TRANSLATORS.md") for translator guide.
+
+
 ## License and Disclaimer
 
 The code is released under the GNU [Lesser General Public License (LGPL)](LICENSE "LICENSE").
