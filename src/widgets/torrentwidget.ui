@@ -195,7 +195,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -225,7 +225,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -255,7 +255,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -271,7 +271,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -294,7 +294,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -317,7 +317,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -354,7 +354,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -370,7 +370,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -393,7 +393,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -409,7 +409,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -425,7 +425,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -441,7 +441,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -471,7 +471,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -507,7 +507,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -523,7 +523,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -546,7 +546,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -562,7 +562,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -578,7 +578,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -601,7 +601,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -617,7 +617,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -640,7 +640,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -656,7 +656,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -714,7 +714,7 @@ QGroupBox {
                        <enum>Qt::StrongFocus</enum>
                       </property>
                       <property name="text">
-                       <string>TextLabel</string>
+                       <string notr="true">TextLabel</string>
                       </property>
                       <property name="wordWrap">
                        <bool>true</bool>
@@ -820,14 +820,14 @@ QGroupBox {
             </font>
            </property>
            <property name="text">
-            <string>Torrent Error</string>
+            <string notr="true">Torrent Error</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="labelErrorMessage">
            <property name="text">
-            <string>&lt;message&gt;</string>
+            <string notr="true">&lt;message&gt;</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>

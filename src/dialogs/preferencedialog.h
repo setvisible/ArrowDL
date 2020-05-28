@@ -39,6 +39,7 @@ signals:
 
 protected:
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
     void accept() Q_DECL_OVERRIDE;
@@ -48,6 +49,10 @@ public slots:
 private slots:
     void filterSelectionChanged();
     void filterTextChanged();
+
+    void languageChanged(int value);
+    void resetLanguage();
+
     void maxSimultaneousDownloadSlided(int value);
 
     void bandwidthSettingsChanged(int value);
@@ -63,6 +68,7 @@ private:
     void connectUi();
     void initializeUi();
     void initializeWarnings();
+    void refreshTitle();
 
     void read();
     void write();

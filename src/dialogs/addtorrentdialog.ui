@@ -10,9 +10,6 @@
     <height>353</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>DownZemAll - Add Magnet Links and Torrent</string>
-  </property>
   <property name="modal">
    <bool>true</bool>
   </property>
@@ -34,7 +31,7 @@
         </font>
        </property>
        <property name="text">
-        <string>   C:\User\My Documents\hello_world.torrent
+        <string notr="true">   C:\User\My Documents\hello_world.torrent
    magnet:?xt=urn:btih:0123456789abcdef0123456789abcdef&amp;dn=Hello+World</string>
        </property>
       </widget>

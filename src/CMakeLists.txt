@@ -105,6 +105,12 @@ install(TARGETS ${DownZemAll_NAME}
     DESTINATION ${CMAKE_INSTALL_PREFIX}
     )
 
+install (
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/locale/
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/locale
+    FILES_MATCHING PATTERN "*.qm"
+    )
+
 if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     # Nothing
 

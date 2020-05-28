@@ -25,6 +25,7 @@
 #include <Core/DownloadManager>
 #include <Core/FileAccessManager>
 #include <Core/Format>
+#include <Core/Locale>
 #include <Core/Settings>
 #include <Core/Torrent>
 #include <Core/TorrentContext>
@@ -166,6 +167,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     refreshTitleAndStatus();
     refreshMenus();
 
+    Locale::applyLanguage(m_settings->language());
+
     ui->splitter->setStretchFactor(0, 1);
     ui->splitter->setStretchFactor(1, 0);
 
@@ -208,6 +211,13 @@ void MainWindow::changeEvent(QEvent *event)
              ) {
             m_systemTray->hideParentWidget();
         }
+    } else if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+        createContextMenu();
+        propagateToolTips(); // propagate tooltips translations
+        refreshTitleAndStatus();
+        refreshMenus();
+        refreshSplitter();
     }
     QMainWindow::changeEvent(event);
 }
@@ -239,11 +249,17 @@ void MainWindow::dropEvent(QDropEvent *event)
 void MainWindow::createActions()
 {
     //! [0] File
+    connect(ui->actionHome, &QAction::triggered, this, &MainWindow::home);
+    //--
+    connect(ui->actionAddContent, SIGNAL(triggered()), this, SLOT(addContent()));
+    connect(ui->actionAddBatch,   SIGNAL(triggered()), this, SLOT(addBatch()));
+    connect(ui->actionAddStream,  SIGNAL(triggered()), this, SLOT(addStream()));
+    connect(ui->actionAddTorrent, SIGNAL(triggered()), this, SLOT(addTorrent()));
+    // --
     connect(ui->actionImportFromFile, SIGNAL(triggered()), this, SLOT(importFromFile()));
     connect(ui->actionExportSelectedToFile, SIGNAL(triggered()), this, SLOT(exportSelectedToFile()));
     // --
     ui->actionQuit->setShortcuts(QKeySequence::Quit);
-    ui->actionQuit->setToolTip(tr("Quit %0").arg(STR_APPLICATION_NAME));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close())); //&QWidget::close
     //! [0]
 
@@ -280,13 +296,6 @@ void MainWindow::createActions()
     //! [2]
 
     //! [3] Download
-    connect(ui->actionHome, &QAction::triggered, this, &MainWindow::home);
-    //--
-    connect(ui->actionAddContent, SIGNAL(triggered()), this, SLOT(addContent()));
-    connect(ui->actionAddBatch,   SIGNAL(triggered()), this, SLOT(addBatch()));
-    connect(ui->actionAddStream,  SIGNAL(triggered()), this, SLOT(addStream()));
-    connect(ui->actionAddTorrent, SIGNAL(triggered()), this, SLOT(addTorrent()));
-    //--
     connect(ui->actionResume, SIGNAL(triggered()), this, SLOT(resume()));
     connect(ui->actionPause, SIGNAL(triggered()), this, SLOT(pause()));
     connect(ui->actionCancel, SIGNAL(triggered()), this, SLOT(cancel()));
@@ -327,7 +336,15 @@ void MainWindow::createActions()
 
 void MainWindow::createContextMenu()
 {
-    auto contextMenu = new QMenu(this);
+    // delete previous menu if any
+    QMenu *contextMenu = ui->downloadQueueView->contextMenu();
+    ui->downloadQueueView->setContextMenu(Q_NULLPTR);
+    if (contextMenu) {
+        delete contextMenu;
+        contextMenu = Q_NULLPTR;
+    }
+
+    contextMenu = new QMenu(this);
 
     contextMenu->addAction(ui->actionInformation);
     contextMenu->addSeparator();
@@ -396,17 +413,13 @@ void MainWindow::createSystemTray()
 
 void MainWindow::propagateToolTips()
 {
-    // Propagate tooltip to whatthis and statustip
+    // Propagate tooltip to whatsThis and statusTip
     QList<QAction*> actions = this->findChildren<QAction*>();
     foreach (QAction *action, actions) {
         if (!action->isSeparator()) {
             auto str = action->toolTip();
-            if (action->whatsThis().isEmpty()) {
-                action->setWhatsThis(str);
-            }
-            if (action->statusTip().isEmpty()) {
-                action->setStatusTip(str);
-            }
+            action->setWhatsThis(str);
+            action->setStatusTip(str);
         }
     }
 }
@@ -513,7 +526,8 @@ void MainWindow::openFile(IDownloadItem *downloadItem)
     if (!QDesktopServices::openUrl(url)) {
         QMessageBox::information(
                     this, tr("Error"),
-                    tr("File not found:\n\n%0")
+                    QString("%0:\n\n%1")
+                    .arg(tr("File not found"))
                     .arg(url.toLocalFile()));
     }
 }
@@ -560,7 +574,8 @@ void MainWindow::openDirectory()
         if (!QDesktopServices::openUrl(url)) {
             QMessageBox::information(
                         this, tr("Error"),
-                        tr("Destination directory not found:\n\n%0")
+                        QString("%0\n\n%1")
+                        .arg(tr("Destination directory not found:"))
                         .arg(url.toLocalFile()));
         }
     }
@@ -579,7 +594,7 @@ bool MainWindow::askConfirmation(const QString &text)
         msgbox.addButton(QMessageBox::No);
         msgbox.setDefaultButton(QMessageBox::No);
 
-        QCheckBox *cb = new QCheckBox("Don't ask again");
+        QCheckBox *cb = new QCheckBox(tr("Don't ask again"));
         msgbox.setCheckBox(cb);
         QObject::connect(cb, &QCheckBox::stateChanged, [this](int state){
             if (static_cast<Qt::CheckState>(state) == Qt::CheckState::Checked) {
@@ -730,7 +745,9 @@ void MainWindow::addContent()
     // ask for the Url
     QInputDialog dialog(this);
     dialog.setWindowTitle(tr("Website URL"));
-    dialog.setLabelText(tr("URL of the HTML page:  (ex: \"https://www.site.com/folder/page\")"));
+    dialog.setLabelText(QString("%0  %1")
+                        .arg(tr("URL of the HTML page:"))
+                        .arg(tr("(ex: %0)").arg(QLatin1String("\"https://www.site.com/folder/page\""))));
     dialog.setTextValue(urlFromClipboard().toString());
     dialog.setOkButtonText(tr("Start!"));
     dialog.setTextEchoMode(QLineEdit::Normal);
@@ -941,15 +958,21 @@ void MainWindow::onSelectionChanged()
 void MainWindow::onJobRenamed(QString oldName, QString newName, bool success)
 {
     if (!success) {
-        const QString comment = tr("The new name might already be used, or invalid.");
+        const QString comment = tr("The new name is already used or invalid.");
         const QString message = newName.isEmpty()
-                ? tr("Cannot rename \"%0\" to its default value.\n\n"
-                     "%1").arg(oldName, comment)
-                : tr("Cannot rename\n"
-                     "   \"%0\"\n"
-                     "to\n"
-                     "   \"%1\"\n\n"
-                     "%2").arg(oldName, newName, comment);
+                ? QString("%0 \n\n%1")
+                  .arg(tr("Can't rename \"%0\" as its initial name.").arg(oldName))
+                  .arg(comment)
+                : QString("%0\n"
+                          "   \"%1\"\n"
+                          "%2\n"
+                          "   \"%3\"\n\n"
+                          "%4")
+                  .arg(tr("Can't rename"))
+                  .arg(oldName)
+                  .arg(tr("as"))
+                  .arg(newName)
+                  .arg(comment);
         QMessageBox::information(this, tr("File Error"), message);
     }
 }
@@ -981,13 +1004,13 @@ void MainWindow::refreshTitleAndStatus()
 
     this->setWindowTitle(windowTitle);
 
-    auto title = QString("Done: %0 Running: %1 Total: %2")
+    auto title = tr("Done: %0 Running: %1 Total: %2")
             .arg(doneCount).arg(runningCount).arg(count);
     m_systemTray->setTitle(title);
     m_systemTray->setToolTip(windowTitle);
 
     m_statusBarLabel->setText(
-                QString("%0 of %1 (%2), %3 running  %4 | Torrent: %5")
+                tr("%0 of %1 (%2), %3 running  %4 | Torrent: %5")
                 .arg(doneCount)
                 .arg(count)
                 .arg(count)
@@ -1249,10 +1272,10 @@ bool MainWindow::saveFile(const QString &path)
 {
     FileWriter writer(path);
     if (!writer.write(m_downloadManager)) {
-        qWarning("Couldn't open save file.");
-        QMessageBox::warning(this, tr("Cannot save file"),
-                             tr("Cannot write to file %1:\n%2.")
-                             .arg(path)
+        qWarning() << tr("Can't save file.");
+        QMessageBox::warning(this, tr("Error"),
+                             QString("%0\n%2")
+                             .arg(tr("Can't save file %0:").arg(path))
                              .arg(writer.errorString()));
         return false;
     }
@@ -1268,10 +1291,10 @@ bool MainWindow::loadFile(const QString &path)
 {
     FileReader reader(path);
     if (!reader.read(m_downloadManager)) {
-        qWarning("Couldn't open file.");
+        qWarning() << tr("Can't load file.");
         QMessageBox::warning(this, tr("Error"),
-                             tr("Cannot read file %1:\n%2.")
-                             .arg(path)
+                             QString("%0\n%2")
+                             .arg(tr("Can't load file %0:").arg(path))
                              .arg(reader.errorString()));
         return false;
     }

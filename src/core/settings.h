@@ -56,6 +56,9 @@ public:
     void setExistingFileOption(ExistingFileOption option);
 
     // Tab Interface
+    QString language() const;
+    void setLanguage(const QString &language);
+
     bool isDontShowTutorialEnabled() const;
     void setDontShowTutorialEnabled(bool enabled);
 

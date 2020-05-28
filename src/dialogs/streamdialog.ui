@@ -10,9 +10,6 @@
     <height>441</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Stream Download Infos</string>
-  </property>
   <property name="modal">
    <bool>true</bool>
   </property>
@@ -28,21 +25,21 @@
         </font>
        </property>
        <property name="text">
-        <string>Title</string>
+        <string notr="true">Title</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="version">
        <property name="text">
-        <string>version</string>
+        <string notr="true">version</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="link">
        <property name="text">
-        <string>Link</string>
+        <string notr="true">Link</string>
        </property>
        <property name="openExternalLinks">
         <bool>true</bool>

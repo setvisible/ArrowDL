@@ -52,6 +52,9 @@ signals:
     void doubleClicked(IDownloadItem *item);
     void selectionChanged();
 
+protected slots:
+    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+
 private slots:
     void onJobAdded(DownloadRange range);
     void onJobRemoved(DownloadRange range);
@@ -70,6 +73,8 @@ private:
     DownloadEngine *m_downloadEngine;
     QueueView *m_queueView;
     QMenu *m_contextMenu;
+
+    void retranslateUi();
 
     QList<int> columnWidths() const;
     void setColumnWidths(const QList<int> &widths);

@@ -11,6 +11,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/fileaccessmanager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/format.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/htmlparser.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/locale.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/mask.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/mimedatabase.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/model.cpp

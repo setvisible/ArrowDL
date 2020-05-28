@@ -17,6 +17,7 @@
 #include "informationdialog.h"
 #include "ui_informationdialog.h"
 
+#include <Globals>
 #include <Core/DownloadItem>
 #include <Core/Format>
 #include <Core/IDownloadItem>
@@ -33,6 +34,7 @@ InformationDialog::InformationDialog(const QList<IDownloadItem*> &jobs, QWidget 
 {
     ui->setupUi(this);
 
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Properties")));
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(nullptr, nullptr);
 
     initialize(jobs);

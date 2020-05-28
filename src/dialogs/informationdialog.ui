@@ -10,9 +10,6 @@
     <height>400</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Properties</string>
-  </property>
   <property name="modal">
    <bool>true</bool>
   </property>
@@ -32,7 +29,7 @@
         <enum>Qt::StrongFocus</enum>
        </property>
        <property name="text">
-        <string>https://filename</string>
+        <string notr="true">https://filename</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -55,7 +52,7 @@
         <enum>Qt::StrongFocus</enum>
        </property>
        <property name="text">
-        <string>Filename</string>
+        <string notr="true">Filename</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>

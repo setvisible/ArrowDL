@@ -17,6 +17,7 @@
 #include "addcontentdialog.h"
 #include "ui_addcontentdialog.h"
 
+#include <Globals>
 #include <Core/HtmlParser>
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
@@ -78,6 +79,8 @@ AddContentDialog::AddContentDialog(DownloadManager *downloadManager,
     , m_settings(settings)
 {
     ui->setupUi(this);
+
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Web Page Content")));
 
     ui->pathWidget->setPathType(PathWidget::Directory);
     ui->linkWidget->setModel(m_model);
@@ -172,7 +175,9 @@ void AddContentDialog::loadUrl(const QUrl &url)
 {
     if (!url.isValid()) {
         QMessageBox::warning(this, tr("Warning"),
-                             tr("Error: The url is not valid:\n\n%0").arg(url.toString()));
+                             QString("%0\n\n%1")
+                             .arg(tr("Error: The url is not valid:"))
+                             .arg(url.toString()));
     } else {
         m_url = url;
 
@@ -343,9 +348,8 @@ void AddContentDialog::setNetworkError(const QString &errorString)
                                    ui->progressPage->width() - 200);
 
     const QString message =
-            tr("The wizard can't connect to URL:\n\n"
-               "%0\n\n"
-               "%1")
+            QString("%0\n\n%1\n\n%2")
+            .arg(tr("The wizard can't connect to URL:"))
             .arg(elidedUrl)
             .arg(errorString);
 

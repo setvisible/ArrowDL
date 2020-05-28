@@ -46,36 +46,6 @@ public:
 
 /******************************************************************************
  ******************************************************************************/
-class Headers // Holds column header's widths and titles
-{
-public:
-    Headers() = default;
-    Headers(const QList<QPair<int, QString> > &l) {d = l; }
-    Headers &operator=(const QList<QPair<int, QString> > &l) { d = l; return *this; }
-
-    int count() const { return d.count(); }
-
-    QString title(int index) const {
-        return (index >= 0 && index < d.count()) ? d.at(index).second : QString();
-    }
-
-    int width(int index) const {
-        return (index >= 0 && index < d.count()) ? d.at(index).first : 100;
-    }
-
-    QList<int> widths() const
-    {
-        QList<int> widths;
-        foreach (auto header, d) { widths << header.first; }
-        return widths;
-    }
-
-private:
-    QList<QPair<int, QString> > d;
-};
-
-/******************************************************************************
- ******************************************************************************/
 class AbstractTorrentTableModel: public QAbstractTableModel
 {
     Q_OBJECT
@@ -88,7 +58,7 @@ public:
                         int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
 protected:
-    Headers m_headers;
+    QStringList m_headers;
 };
 
 /******************************************************************************
@@ -99,14 +69,13 @@ class TorrentFileTableModel: public AbstractTorrentTableModel
 public:
     explicit TorrentFileTableModel(DownloadTorrentItem *parent);
 
-    static QList<int> defaultColumnWidths();
-
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
-
     void refreshMetaData(QList<TorrentFileMetaInfo> files);
     void refreshData(QList<TorrentFileInfo> files);
+    void retranslateUi();
+
 private:
     QList<TorrentFileMetaInfo> m_filesMeta;
     QList<TorrentFileInfo> m_files;
@@ -124,12 +93,12 @@ class TorrentPeerTableModel: public AbstractTorrentTableModel
 public:
     explicit TorrentPeerTableModel(DownloadTorrentItem *parent);
 
-    static QList<int> defaultColumnWidths();
-
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
     void refreshData(QList<TorrentPeerInfo> peers);
+    void retranslateUi();
+
 private:
     QList<TorrentPeerInfo> m_peers;
 };
@@ -142,12 +111,12 @@ class TorrentTrackerTableModel: public AbstractTorrentTableModel
 public:
     explicit TorrentTrackerTableModel(DownloadTorrentItem *parent);
 
-    static QList<int> defaultColumnWidths();
-
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
     void refreshData(QList<TorrentTrackerInfo> trackers);
+    void retranslateUi();
+
 private:
     QList<TorrentTrackerInfo> m_trackers;
 };

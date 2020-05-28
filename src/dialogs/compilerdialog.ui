@@ -10,9 +10,6 @@
     <height>424</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Infos</string>
-  </property>
   <property name="modal">
    <bool>true</bool>
   </property>
@@ -77,7 +74,7 @@
           <item row="0" column="1">
            <widget class="QLabel" name="compilerName">
             <property name="text">
-             <string>compilerName</string>
+             <string notr="true">compilerName</string>
             </property>
            </widget>
           </item>
@@ -91,7 +88,7 @@
           <item row="1" column="1">
            <widget class="QLabel" name="compilerVersion">
             <property name="text">
-             <string>compilerVersion</string>
+             <string notr="true">compilerVersion</string>
             </property>
            </widget>
           </item>
@@ -105,7 +102,7 @@
           <item row="2" column="1">
            <widget class="QLabel" name="compilerCpuArchitecture">
             <property name="text">
-             <string>compilerCpuArchitecture</string>
+             <string notr="true">compilerCpuArchitecture</string>
             </property>
            </widget>
           </item>
@@ -119,7 +116,7 @@
           <item row="3" column="1">
            <widget class="QLabel" name="compilerBuildDate">
             <property name="text">
-             <string>compilerBuildDate</string>
+             <string notr="true">compilerBuildDate</string>
             </property>
            </widget>
           </item>
@@ -135,70 +132,70 @@
           <item row="0" column="0">
            <widget class="QLabel" name="QtVersionLabel">
             <property name="text">
-             <string>Qt:</string>
+             <string notr="true">Qt:</string>
             </property>
            </widget>
           </item>
           <item row="0" column="1">
            <widget class="QLabel" name="QtVersion">
             <property name="text">
-             <string>QtVersion</string>
+             <string notr="true">QtVersion</string>
             </property>
            </widget>
           </item>
           <item row="2" column="0">
            <widget class="QLabel" name="googleGumboVersionLabel">
             <property name="text">
-             <string>Google Gumbo:</string>
+             <string notr="true">Google Gumbo:</string>
             </property>
            </widget>
           </item>
           <item row="2" column="1">
            <widget class="QLabel" name="googleGumboVersion">
             <property name="text">
-             <string>googleGumboVersion</string>
+             <string notr="true">googleGumboVersion</string>
             </property>
            </widget>
           </item>
           <item row="3" column="0">
            <widget class="QLabel" name="youtubeDLVersionLabel">
             <property name="text">
-             <string>YoutubeDL:</string>
+             <string notr="true">YoutubeDL:</string>
             </property>
            </widget>
           </item>
           <item row="3" column="1">
            <widget class="QLabel" name="youtubeDLVersion">
             <property name="text">
-             <string>youtubeDLVersion</string>
+             <string notr="true">youtubeDLVersion</string>
             </property>
            </widget>
           </item>
           <item row="4" column="0">
            <widget class="QLabel" name="libtorrentVersionLabel">
             <property name="text">
-             <string>libtorrent:</string>
+             <string notr="true">libtorrent:</string>
             </property>
            </widget>
           </item>
           <item row="4" column="1">
            <widget class="QLabel" name="libtorrentVersion">
             <property name="text">
-             <string>libtorrentVersion</string>
+             <string notr="true">libtorrentVersion</string>
             </property>
            </widget>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="boostVersionLabel">
             <property name="text">
-             <string>Boost</string>
+             <string notr="true">Boost</string>
             </property>
            </widget>
           </item>
           <item row="1" column="1">
            <widget class="QLabel" name="boostVersion">
             <property name="text">
-             <string>boostVersion</string>
+             <string notr="true">boostVersion</string>
             </property>
            </widget>
           </item>
@@ -247,7 +244,7 @@
           <item row="0" column="1">
            <widget class="QLabel" name="currentOS">
             <property name="text">
-             <string>currentOS</string>
+             <string notr="true">currentOS</string>
             </property>
            </widget>
           </item>
@@ -261,7 +258,7 @@
           <item row="1" column="1">
            <widget class="QLabel" name="currentVersion">
             <property name="text">
-             <string>currentVersion</string>
+             <string notr="true">currentVersion</string>
             </property>
            </widget>
           </item>
@@ -275,7 +272,7 @@
           <item row="2" column="1">
            <widget class="QLabel" name="currentCpuArchitecture">
             <property name="text">
-             <string>currentCpuArchitecture</string>
+             <string notr="true">currentCpuArchitecture</string>
             </property>
            </widget>
           </item>
@@ -285,7 +282,7 @@
        <item>
         <widget class="QGroupBox" name="groupBox_4">
          <property name="title">
-          <string>OpenSSL</string>
+          <string notr="true">OpenSSL</string>
          </property>
          <layout class="QFormLayout" name="formLayout_2">
           <item row="1" column="0">
@@ -298,7 +295,7 @@
           <item row="0" column="0" colspan="2">
            <widget class="QLabel" name="description">
             <property name="text">
-             <string>description</string>
+             <string notr="true">description</string>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -311,7 +308,7 @@
           <item row="1" column="1">
            <widget class="QLabel" name="sslLibraryVersion">
             <property name="text">
-             <string>sslLibraryVersion</string>
+             <string notr="true">sslLibraryVersion</string>
             </property>
            </widget>
           </item>
@@ -328,7 +325,7 @@
           <item row="2" column="1">
            <widget class="QLabel" name="sslLibraryBuildVersion">
             <property name="text">
-             <string>sslLibraryBuildVersion</string>
+             <string notr="true">sslLibraryBuildVersion</string>
             </property>
            </widget>
           </item>
@@ -363,7 +360,7 @@
                <item row="1" column="1">
                 <widget class="QLabel" name="libSsl">
                  <property name="text">
-                  <string>libSsl</string>
+                  <string notr="true">libSsl</string>
                  </property>
                 </widget>
                </item>
@@ -377,7 +374,7 @@
                <item row="2" column="1">
                 <widget class="QLabel" name="libCrypto">
                  <property name="text">
-                  <string>libCrypto</string>
+                  <string notr="true">libCrypto</string>
                  </property>
                 </widget>
                </item>
@@ -423,14 +420,14 @@
      <item>
       <widget class="QLabel" name="version">
        <property name="text">
-        <string>version</string>
+        <string notr="true">version</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="link">
        <property name="text">
-        <string>Link</string>
+        <string notr="true">Link</string>
        </property>
        <property name="openExternalLinks">
         <bool>true</bool>

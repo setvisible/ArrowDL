@@ -29,6 +29,8 @@ StreamDialog::StreamDialog(QWidget *parent)
 {
     ui->setupUi(this);
 
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Stream Download Infos")));
+
     adjustSize();
 
     ui->title->setText(QLatin1String("Youtube-DL"));
@@ -84,7 +86,7 @@ void StreamDialog::askStreamExtractorsAsync()
 
 void StreamDialog::onError(QString errorMessage)
 {
-    ui->plainTextEdit->setPlainText(tr("Error:\n\n%0").arg(errorMessage));
+    ui->plainTextEdit->setPlainText(QString("%0\n\n%1").arg(tr("Error:")).arg(errorMessage));
     ui->plainTextEdit->setEnabled(true);
 }
 

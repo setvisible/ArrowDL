@@ -17,6 +17,7 @@
 #include "updatedialog.h"
 #include "ui_updatedialog.h"
 
+#include <Globals>
 #include <Core/UpdateChecker>
 
 #include <QtCore/QDebug>
@@ -31,6 +32,13 @@ UpdateDialog::UpdateDialog(UpdateChecker *updateChecker, QWidget *parent)
     , m_updateChecker(updateChecker)
 {
     ui->setupUi(this);
+
+    setWindowTitle(QString("%0 %1").arg(STR_APPLICATION_NAME).arg(tr("Check for Updates")));
+
+    ui->downloadedToLabel->setText(QString("%0 <a href=\"https://www.example.org/tutorial.html\">C:\\Temp\\</a>")
+                                   .arg(tr("Downloaded to")));
+
+    ui->installButton->setText(QString(">> %0 <<").arg(tr("Install new version")));
 
     connect(ui->checkButton, SIGNAL(released()), this, SLOT(check()));
     connect(ui->installButton, SIGNAL(released()), this, SLOT(install()));
@@ -117,7 +125,9 @@ void UpdateDialog::onUpdateAvailable(CAutoUpdaterGithub::ChangeLog changelog)
     if (!changelog.empty()) {
         ui->stackedWidget->setCurrentWidget(ui->pageNewVersionAvailable);
         ui->changeLogViewer->clear();
-        ui->changeLogViewer->append(tr("Current version: %0\n\n").arg(m_updateChecker->currentVersion()));
+        ui->changeLogViewer->append(QString("%0 %1\n\n")
+                                    .arg(tr("Current version:"))
+                                    .arg(m_updateChecker->currentVersion()));
         for (const auto& changelogItem: changelog) {
             QString text = "<b>" % changelogItem.versionString % "</b>" % '\n' % changelogItem.versionChanges % "<p></p>";
             ui->changeLogViewer->append(text);
@@ -148,8 +158,9 @@ void UpdateDialog::onUpdateDownloadFinished()
     QMessageBox msg(
                 QMessageBox::Warning,
                 tr("Close the application"),
-                tr("The application needs to close to continue the update.\n\n"
-                   "Do you want to close now?"),
+                QString("%0\n\n%1")
+                .arg(tr("The application needs to close to continue the update."))
+                .arg(tr("Do you want to close now?")),
                 QMessageBox::Yes | QMessageBox::No,
                 this);
 

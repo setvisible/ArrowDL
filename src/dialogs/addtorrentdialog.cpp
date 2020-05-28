@@ -17,6 +17,7 @@
 #include "addtorrentdialog.h"
 #include "ui_addtorrentdialog.h"
 
+#include <Globals>
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
 #include <Core/DownloadTorrentItem>
@@ -41,6 +42,8 @@ AddTorrentDialog::AddTorrentDialog(const QUrl &url, DownloadManager *downloadMan
     , m_settings(settings)
 {
     ui->setupUi(this);
+
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Add Magnet Links and Torrent")));
 
     adjustSize();
     setFixedHeight(height());

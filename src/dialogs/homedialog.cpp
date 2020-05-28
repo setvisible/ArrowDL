@@ -17,6 +17,8 @@
 #include "homedialog.h"
 #include "ui_homedialog.h"
 
+#include <Globals>
+
 #include <QtWidgets/QCommandLinkButton>
 #include <QtWidgets/QPushButton>
 
@@ -25,6 +27,8 @@ HomeDialog::HomeDialog(QWidget *parent) : QDialog(parent)
   , ui(new Ui::HomeDialog)
 {
     ui->setupUi(this);
+
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Getting Started")));
 
     adjustSize();
     setFixedSize(size());

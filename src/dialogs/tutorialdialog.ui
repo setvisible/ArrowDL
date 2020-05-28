@@ -10,9 +10,6 @@
     <height>340</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>DownZemAll Tutorial</string>
-  </property>
   <property name="styleSheet">
    <string notr="true">/* QGroupBox exposes the title as QString (even if internally its probably a QLabel) */
 QGroupBox {
@@ -60,14 +57,14 @@ QGroupBox {
          </font>
         </property>
         <property name="text">
-         <string>Welcome to DownZemAll</string>
+         <string notr="true">Welcome to DownZemAll</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QLabel" name="subtitleLabel">
         <property name="text">
-         <string>        This brief tutorial will help you use the application for the first time.</string>
+         <string notr="true">        This brief tutorial will help you use the application for the first time.</string>
         </property>
        </widget>
       </item>
@@ -99,9 +96,9 @@ QGroupBox {
       <number>9</number>
      </property>
      <item>
-      <widget class="QLabel" name="label_1">
+      <widget class="QLabel" name="quickTutorialLabel">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Quick tutorial&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Quick tutorial&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -111,16 +108,16 @@ QGroupBox {
         <number>20</number>
        </property>
        <item>
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="label_1">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Go to the Quick Sample page on the website:&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Go to the Quick Sample page on the website:&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QLabel" name="link">
          <property name="text">
-          <string>&lt;a href=&quot;https://www.example.org/tutorial.html&quot;&gt;https://www.example.org/tutorial.html&lt;/a&gt;</string>
+          <string notr="true">&lt;a href=&quot;https://www.example.org/tutorial.html&quot;&gt;https://www.example.org/tutorial.html&lt;/a&gt;</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -133,7 +130,7 @@ QGroupBox {
        <item>
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Read the tutorial. The page contains quick sample files:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You can mass-download them&lt;br/&gt;&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Try the powerful batch-download mode too!&lt;br/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Read the tutorial. The page contains quick sample files:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You can mass-download them&lt;br/&gt;&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Try the powerful batch-download mode too!&lt;br/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>

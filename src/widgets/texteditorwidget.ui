@@ -238,7 +238,7 @@
       <enum>QPlainTextEdit::NoWrap</enum>
      </property>
      <property name="plainText">
-      <string>Hello World
+      <string notr="true">Hello World
 Hello World
 Hello World
 Hello World</string>

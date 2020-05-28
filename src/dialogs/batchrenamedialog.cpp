@@ -17,6 +17,7 @@
 #include "batchrenamedialog.h"
 #include "ui_batchrenamedialog.h"
 
+#include <Globals>
 #include <Core/DownloadItem>
 #include <Core/IDownloadItem>
 #include <Core/ResourceItem>
@@ -47,6 +48,8 @@ BatchRenameDialog::BatchRenameDialog(const QList<IDownloadItem*> &items, QWidget
     , m_items(items)
 {
     ui->setupUi(this);
+
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Tools")));
 
     adjustSize();
 

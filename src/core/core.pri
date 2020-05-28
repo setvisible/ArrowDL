@@ -14,6 +14,7 @@ HEADERS += \
     $$PWD/htmlparser.h \
     $$PWD/idownloaditem.h \
     $$PWD/ifileaccessmanager.h \
+    $$PWD/locale.h \
     $$PWD/mask.h \
     $$PWD/mimedatabase.h \
     $$PWD/model.h \
@@ -42,6 +43,7 @@ SOURCES += \
     $$PWD/fileaccessmanager.cpp \
     $$PWD/format.cpp \
     $$PWD/htmlparser.cpp \
+    $$PWD/locale.cpp \
     $$PWD/mask.cpp \
     $$PWD/mimedatabase.cpp \
     $$PWD/model.cpp \

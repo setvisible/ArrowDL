@@ -17,7 +17,6 @@
 #include "torrentwidget.h"
 #include "ui_torrentwidget.h"
 
-
 #include <Core/DownloadTorrentItem>
 #include <Core/Format>
 #include <Core/Torrent>
@@ -32,15 +31,91 @@
 #define C_ROW_DEFAULT_HEIGHT         18
 
 
+/******************************************************************************
+ ******************************************************************************/
+class Headers // Holds column header's widths and titles
+{
+public:
+    Headers() = default;
+    Headers(const QList<QPair<int, QString> > &l) {d = l; }
+    Headers &operator=(const QList<QPair<int, QString> > &l) { d = l; return *this; }
+
+    int count() const { return d.count(); }
+
+    QString title(int index) const {
+        return (index >= 0 && index < d.count()) ? d.at(index).second : QString();
+    }
+
+    int width(int index) const {
+        return (index >= 0 && index < d.count()) ? d.at(index).first : 100;
+    }
+
+    QList<int> widths() const
+    {
+        QList<int> widths;
+        foreach (auto header, d) { widths << header.first; }
+        return widths;
+    }
+
+private:
+    QList<QPair<int, QString> > d;
+};
+
+/******************************************************************************
+ ******************************************************************************/
+static const Headers fileTableHeaders
+({
+     { 320, QLatin1String("Name")},
+     { 460, QLatin1String("Path")},
+     {  60, QLatin1String("Size")},
+     {  60, QLatin1String("Done")},
+     {  60, QLatin1String("%")},
+     {  60, QLatin1String("First Piece")},
+     {  60, QLatin1String("# Pieces")},
+     { 120, QLatin1String("Pieces")},   /// \todo graph
+     {  60, QLatin1String("Priority")},
+     { 120, QLatin1String("Modification date")},
+     { 100, QLatin1String("SHA-1")},
+     { 100, QLatin1String("CRC-32")}
+ });
+
+static const Headers peerTableHeaders
+({
+     { 280, QLatin1String("IP")},
+     {  50, QLatin1String("Port")},
+     { 120, QLatin1String("Client")},
+     {  80, QLatin1String("Downloaded")},
+     {  80, QLatin1String("Uploaded")},
+     {  80, QLatin1String("Request Time")},
+     {  80, QLatin1String("Active Time")},
+     {  80, QLatin1String("Queue Time")},
+     { 200, QLatin1String("Flags")},
+     { 100, QLatin1String("Source Flags")}
+ });
+
+static const Headers trackerTableHeaders
+({
+     { 360, QLatin1String("Url")},
+     {  60, QLatin1String("Id")},
+     { 240, QLatin1String("Number of listened sockets (endpoints)")},
+     { 160, QLatin1String("Tier this tracker belongs to")},
+     { 120, QLatin1String("Max number of failures")},
+     {  80, QLatin1String("Source")},
+     {  80, QLatin1String("Verified?")}
+ });
+
+
+/******************************************************************************
+ ******************************************************************************/
 TorrentWidget::TorrentWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::TorrentWidget)
   , m_item(Q_NULLPTR)
 {
     ui->setupUi(this);
 
-    m_fileColumnsWidths    = DownloadTorrentItem::defaultFileColumnWidths();
-    m_peerColumnsWidths    = DownloadTorrentItem::defaultPeerColumnWidths();
-    m_trackerColumnsWidths = DownloadTorrentItem::defaultTrackerColumnWidths();
+    m_fileColumnsWidths    = fileTableHeaders.widths();
+    m_peerColumnsWidths    = peerTableHeaders.widths();
+    m_trackerColumnsWidths = trackerTableHeaders.widths();
 
     setupUiTableView(ui->fileTableView);
     setupUiTableView(ui->peerTableView);
@@ -133,6 +208,17 @@ bool TorrentWidget::restoreState(const QByteArray &state, int version)
 
 /******************************************************************************
  ******************************************************************************/
+void TorrentWidget::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+        retranslateUi();
+    }
+    QWidget::changeEvent(event);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void TorrentWidget::onChanged()
 {
     updateWidget();
@@ -143,6 +229,8 @@ void TorrentWidget::onChanged()
 void TorrentWidget::resetUi()
 {
     if (m_item) {
+        m_item->retranslateUi();
+
         QAbstractTableModel* fileModel = m_item->fileModel();
         QAbstractTableModel* peerModel = m_item->peerModel();
         QAbstractTableModel* trackerModel = m_item->trackerModel();
@@ -170,6 +258,14 @@ void TorrentWidget::resetUi()
     }
 
     updateWidget();
+}
+
+void TorrentWidget::retranslateUi()
+{
+    if (m_item) {
+        resetUi();
+    }
+    updateTorrentPage();
 }
 
 /******************************************************************************
