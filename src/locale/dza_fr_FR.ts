@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fr_FR">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr_FR" version="2.1">
 <context>
     <name>AbstractDownloadItem</name>
     <message>
@@ -145,7 +143,7 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="51"/>
         <source>Add Batch and Single File</source>
-        <translation>Fichier ou grappe de fichiers</translation>
+        <translation>Ajouter fichier ou grappe de fichiers</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="72"/>
@@ -173,6 +171,11 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
         <translation>Insérer</translation>
     </message>
     <message>
+        <location filename="../dialogs/addbatchdialog.cpp" line="279"/>
+        <source>Do you really want to start %0 downloads?</source>
+        <translation>Voulez-vous vraiment démarrer %0 téléchargements ?</translation>
+    </message>
+    <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="272"/>
         <location filename="../dialogs/addbatchdialog.cpp" line="283"/>
         <source>Download Batch</source>
@@ -182,11 +185,6 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
         <location filename="../dialogs/addbatchdialog.cpp" line="273"/>
         <source>It seems that you are using some batch descriptors.</source>
         <translation>Il semble qu&apos;il y ait des délimiteurs de grappe.</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="279"/>
-        <source>Do you really want to start %0 downloads?</source>
-        <translation>Voulez-vous vraiment démarrer %0 téléchargements ?</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="284"/>
@@ -518,7 +516,7 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="186"/>
         <source>000001 ... 123456</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="195"/>
@@ -790,7 +788,7 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
     <message>
         <location filename="../io/filereader.cpp" line="53"/>
         <source>Invalid device</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../io/filereader.cpp" line="68"/>
@@ -818,7 +816,7 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
     <message>
         <location filename="../io/filewriter.cpp" line="52"/>
         <source>Device is not set</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../io/filewriter.cpp" line="58"/>
@@ -1263,7 +1261,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../mainwindow.ui" line="273"/>
         <source>Ctrl+X</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="282"/>
@@ -1323,7 +1321,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../mainwindow.ui" line="345"/>
         <source>Alt+PgUp</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="354"/>
@@ -1333,7 +1331,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../mainwindow.ui" line="357"/>
         <source>Alt+Home</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="366"/>
@@ -1343,7 +1341,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../mainwindow.ui" line="369"/>
         <source>Alt+PgDown</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="378"/>
@@ -1353,7 +1351,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../mainwindow.ui" line="381"/>
         <source>Alt+End</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="390"/>
@@ -1368,7 +1366,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../mainwindow.ui" line="402"/>
         <source>Alt+I</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="411"/>
@@ -1383,7 +1381,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../mainwindow.ui" line="423"/>
         <source>F2</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="432"/>
@@ -1394,7 +1392,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
         <location filename="../mainwindow.ui" line="435"/>
         <location filename="../mainwindow.ui" line="543"/>
         <source>Ctrl+Del</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="444"/>
@@ -1409,7 +1407,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../mainwindow.ui" line="456"/>
         <source>Ctrl+A</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="465"/>
@@ -1419,7 +1417,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../mainwindow.ui" line="468"/>
         <source>Ctrl+I</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="477"/>
@@ -1444,7 +1442,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../mainwindow.ui" line="507"/>
         <source>Ctrl+Shift+R</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="516"/>
@@ -1454,7 +1452,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../mainwindow.ui" line="519"/>
         <source>Ctrl+Shift+O</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="528"/>
@@ -1464,7 +1462,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../mainwindow.ui" line="531"/>
         <source>Ctrl+Shift+S, Ctrl+S</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="540"/>
@@ -1479,7 +1477,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../mainwindow.ui" line="555"/>
         <source>Del</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="564"/>
@@ -1489,7 +1487,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../mainwindow.ui" line="567"/>
         <source>Ctrl+Shift+Del</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="576"/>
@@ -1549,7 +1547,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../mainwindow.ui" line="659"/>
         <source>Ctrl+C</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="664"/>
@@ -1630,7 +1628,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../mainwindow.cpp" line="613"/>
         <source>ALL</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="620"/>
@@ -1735,7 +1733,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../mainwindow.cpp" line="1013"/>
         <source>%0 of %1 (%2), %3 running  %4 | Torrent: %5</source>
-        <translation>%0 sur %1 (%2), %3 en cours  %4 | Torrent : %5</translation>
+        <translation>%0 sur %1 (%2), %3 en cours %4 | Torrent : %5</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1019"/>
@@ -1937,7 +1935,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
 -&amp;gt; host may be &amp;quot;&lt;span style=&quot; font-weight:600;&quot;&gt;abcvision.tv:player&lt;/span&gt;&amp;quot;, &amp;quot;abcvision&amp;quot; or &amp;quot;abcvision:player&amp;quot;
 &lt;/p&gt;
 &lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="398"/>
@@ -2038,7 +2036,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="609"/>
         <source>located at: &lt;a href=&quot;https://www.example.org/tutorial.html&quot;&gt;path/to/cache/dir/&lt;/a&gt;</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="650"/>
@@ -2130,7 +2128,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="916"/>
         <source>If enabled, this software becomes a torrent client. It shares DHT (distributed hash table) with peers, .torrents files you share (those in your torrent share folder actually) and .torrents files currently downloading in the download queue.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="929"/>
@@ -2190,7 +2188,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1071"/>
         <source>Note:  If not empty, these peers will be added to all torrents (format is &lt;IP:port&gt;. Ex: &quot;123.45.6.78:56789, 127.0.0.65:7894...&quot;)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1091"/>
@@ -2213,11 +2211,6 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="209"/>
-        <source>Preferences</source>
-        <translation>Préférences</translation>
-    </message>
-    <message>
         <location filename="../dialogs/preferencedialog.cpp" line="176"/>
         <source>Queue Database</source>
         <translation>Base de données de la liste</translation>
@@ -2231,6 +2224,11 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
         <location filename="../dialogs/preferencedialog.cpp" line="204"/>
         <source>Warning: The system tray doesn&apos;t support balloon messages.</source>
         <translation>Attention : Infobulles non disponibles.</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.cpp" line="209"/>
+        <source>Preferences</source>
+        <translation>Préférences</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="421"/>
@@ -2258,17 +2256,17 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../about.h" line="37"/>
         <source>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../about.h" line="45"/>
         <source>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../about.h" line="49"/>
         <source>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../about.h" line="74"/>
@@ -2278,6 +2276,16 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
 </context>
 <context>
     <name>QObject</name>
+    <message>
+        <location filename="../core/locale.cpp" line="106"/>
+        <source>translation &apos;%0&apos;, locale &apos;%1&apos;: %2</source>
+        <translation>traduction &apos;%0&apos;, localisation &apos;%1&apos;: %2</translation>
+    </message>
+    <message>
+        <location filename="../core/locale.cpp" line="116"/>
+        <source>Can&apos;t load %0</source>
+        <translation>Impossible de charger %0</translation>
+    </message>
     <message>
         <location filename="../core/stream.cpp" line="822"/>
         <source>Video %0 x %1%2%3</source>
@@ -2351,7 +2359,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
     <message>
         <location filename="../core/torrent.h" line="256"/>
         <source>program settings</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../core/torrent.h" line="257"/>
@@ -2408,16 +2416,6 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
         <source>Checking Resume Data...</source>
         <translation>Vérification des données en reprise...</translation>
     </message>
-    <message>
-        <location filename="../core/locale.cpp" line="106"/>
-        <source>translation &apos;%0&apos;, locale &apos;%1&apos;: %2</source>
-        <translation>traduction &apos;%0&apos;, localisation &apos;%1&apos;: %2</translation>
-    </message>
-    <message>
-        <location filename="../core/locale.cpp" line="116"/>
-        <source>Can&apos;t load %0</source>
-        <translation>Impossible de charger %0</translation>
-    </message>
 </context>
 <context>
     <name>QueueItem</name>
@@ -2435,7 +2433,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
         <location filename="../widgets/downloadqueueview.cpp" line="359"/>
         <location filename="../widgets/downloadqueueview.cpp" line="362"/>
         <source>(%0)</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2595,18 +2593,18 @@ Des exemples sont donnés ci-dessous. Cliquer pour recopier l&apos;exemple.</tra
 Help: if you get an error, follow these instructions:
 
 1. Verify the URL
-   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after &apos;?&apos; in the URL:
-   Ex: &apos;https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278&apos;
+   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after '?' in the URL:
+   Ex: 'https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278'
          becomes 
-         &apos;https://www.abc.com/watch?video=some_video&apos;
+         'https://www.abc.com/watch?video=some_video'
 
 2. Open the URL in a Web browser, and Play it
     (Rem: the Web browser can force the server to play the video)
 
-3. Click &apos;Continue&apos; button again
+3. Click 'Continue' button again
 
 4. Retry later</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2842,7 +2840,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../core/downloadtorrentitem_p.cpp" line="270"/>
         <source>Source</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../core/downloadtorrentitem_p.cpp" line="271"/>
