@@ -45,7 +45,10 @@ ExistingFileOption FileAccessManager::aboutToModify(const QString &filename)
 
     QMessageBox msgBox(m_parent);
     msgBox.setWindowTitle(tr("Existing File"));
-    msgBox.setText(tr("The file already exists:\n\n%0\n\nDo you want to Rename, Overwrite or Skip this file?").arg(filename));
+    msgBox.setText(QString("%0\n\n%1\n\n%2")
+                   .arg(tr("The file already exists:"))
+                   .arg(filename)
+                   .arg(tr("Do you want to Rename, Overwrite or Skip this file?")));
     msgBox.setIcon(QMessageBox::Icon::Question);
 
     QPushButton *renameButton = msgBox.addButton(tr("Rename"), QMessageBox::ActionRole);

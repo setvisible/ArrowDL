@@ -50,6 +50,9 @@ public:
     void showParentWidget();
     void hideParentWidget();
 
+protected slots:
+    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+
 private slots:
     void onSystemTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
     void onSystemTrayMessageClicked();
@@ -60,7 +63,10 @@ private:
     Settings *m_settings;
     QSystemTrayIcon *m_trayIcon;
     QAction* m_titleAction;
+    QAction* m_restoreAction;
     QAction* m_hideWhenMinimizedAction;
+
+    void retranslateUi();
 };
 
 #endif // WIDGETS_SYSTEM_TRAY_H

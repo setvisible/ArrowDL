@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
     qRegisterMetaTypeStreamOperators<QList<int> >("QList<int>");
 
     QCommandLineParser parser;
-    parser.setApplicationDescription(QT_TRANSLATE_NOOP("main", "\nAnother Download Manager"));
+    parser.setApplicationDescription(QString("\n%0").arg(QT_TRANSLATE_NOOP("main", "Another Download Manager")));
     parser.addHelpOption();
     parser.addVersionOption();
 

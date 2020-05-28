@@ -1,4 +1,6 @@
-# ![logo](/src/icons/logo/icon32.png) Developers Corner
+<img align="left" src="./src/icons/logo/icon64.png">
+
+# Developers Corner
 
 ## Prerequisites
 

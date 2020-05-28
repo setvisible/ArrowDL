@@ -44,6 +44,9 @@ public:
     QByteArray saveState(int version = 0) const;
     bool restoreState(const QByteArray &state, int version = 0);
 
+protected slots:
+    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+
 private slots:
     void onChanged();
 
@@ -55,6 +58,7 @@ private:
     QList<int> m_trackerColumnsWidths;
 
     void resetUi();
+    void retranslateUi();
 
     void setupUiTableView(QTableView *view);
 

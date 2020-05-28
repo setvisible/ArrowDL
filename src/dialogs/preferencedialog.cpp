@@ -17,6 +17,8 @@
 #include "preferencedialog.h"
 #include "ui_preferencedialog.h"
 
+#include <Globals>
+#include <Core/Locale>
 #include <Core/Settings>
 #include <Core/Stream>
 #include <Widgets/AdvancedSettingsWidget>
@@ -45,6 +47,8 @@ PreferenceDialog::PreferenceDialog(Settings *settings, QWidget *parent)
 {
     Q_ASSERT(m_settings);
     ui->setupUi(this);
+
+    refreshTitle();
 
     connectUi();
     initializeUi();
@@ -79,6 +83,15 @@ void PreferenceDialog::reject()
     QDialog::reject();
 }
 
+void PreferenceDialog::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+        refreshTitle();
+    }
+    QDialog::changeEvent(event);
+}
+
 /******************************************************************************
  ******************************************************************************/
 void PreferenceDialog::connectUi()
@@ -86,6 +99,8 @@ void PreferenceDialog::connectUi()
     // Tab General
 
     // Tab Interface
+    connect(ui->localeComboBox, SIGNAL(currentIndexChanged(int)),
+            this, SLOT(languageChanged(int)));
 
     // Tab Network
     connect(ui->maxSimultaneousDownloadSlider, SIGNAL(valueChanged(int)),
@@ -145,6 +160,9 @@ void PreferenceDialog::initializeUi()
     // Tab General
 
     // Tab Interface
+    const QSignalBlocker blocker(ui->localeComboBox);
+    ui->localeComboBox->clear();
+    ui->localeComboBox->addItems(Locale::availableLanguages());
     ui->showSystemTrayIconCheckBox->setEnabled(QSystemTrayIcon::isSystemTrayAvailable());
     ui->hideWhenMinimizedCheckBox->setEnabled(ui->showSystemTrayIconCheckBox->isChecked());
     ui->showSystemTrayBalloonCheckBox->setEnabled(ui->showSystemTrayIconCheckBox->isChecked());
@@ -186,6 +204,11 @@ void PreferenceDialog::initializeWarnings()
     ui->systemTrayBalloonWarning->setText(tr("Warning: The system tray doesn't support balloon messages."));
 }
 
+void PreferenceDialog::refreshTitle()
+{
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Preferences")));
+}
+
 /******************************************************************************
  ******************************************************************************/
 void PreferenceDialog::filterSelectionChanged()
@@ -215,6 +238,20 @@ void PreferenceDialog::filterTextChanged()
     }
 }
 
+/******************************************************************************
+ ******************************************************************************/
+void PreferenceDialog::languageChanged(int value)
+{
+    Locale::applyLanguage(Locale::toLanguage(value));
+}
+
+void PreferenceDialog::resetLanguage()
+{
+    Locale::applyLanguage(m_settings->language());
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void PreferenceDialog::maxSimultaneousDownloadSlided(int value)
 {
     ui->maxSimultaneousDownloadLabel->setText(QString::number(value));
@@ -265,6 +302,8 @@ void PreferenceDialog::read()
     setExistingFileOption(m_settings->existingFileOption());
 
     // Tab Interface
+    const QSignalBlocker blocker(ui->localeComboBox);
+    ui->localeComboBox->setCurrentIndex(Locale::fromLanguage(m_settings->language()));
     ui->dontShowTutorialCheckBox->setChecked(m_settings->isDontShowTutorialEnabled());
     ui->showSystemTrayIconCheckBox->setChecked(m_settings->isSystemTrayIconEnabled());
     ui->hideWhenMinimizedCheckBox->setChecked(m_settings->isHideWhenMinimizedEnabled());
@@ -310,6 +349,7 @@ void PreferenceDialog::write()
     m_settings->setExistingFileOption(existingFileOption());
 
     // Tab Interface
+    m_settings->setLanguage(Locale::toLanguage(ui->localeComboBox->currentIndex()));
     m_settings->setDontShowTutorialEnabled(ui->dontShowTutorialCheckBox->isChecked());
     m_settings->setSystemTrayIconEnabled(ui->showSystemTrayIconCheckBox->isChecked());
     m_settings->setHideWhenMinimizedEnabled(ui->hideWhenMinimizedCheckBox->isChecked());
@@ -455,6 +495,8 @@ void PreferenceDialog::writeSettings()
     settings.setValue("DialogSize", size());
     settings.setValue("TabIndex", ui->tabWidget->currentIndex());
     settings.endGroup();
+
+    resetLanguage();
 }
 
 /******************************************************************************

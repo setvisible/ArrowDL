@@ -18,7 +18,6 @@
 #include "ui_tutorialdialog.h"
 
 #include <Globals>
-
 #include <Core/Settings>
 
 #include <QtCore/QDebug>
@@ -32,6 +31,40 @@ TutorialDialog::TutorialDialog(Settings *settings, QWidget *parent)
     , m_settings(settings)
 {
     ui->setupUi(this);
+
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Tutorial")));
+
+    ui->titleLabel->setText(tr("Welcome to %0").arg(STR_APPLICATION_NAME));
+
+    ui->subtitleLabel->setText(QString("        %0")
+                               .arg(tr("This brief tutorial will help you use the"
+                                       " application for the first time.")));
+
+    ui->quickTutorialLabel->setText(
+                QString("<html><head/><body>"
+                        "<p><span style=\" font-size:10pt; font-weight:600;\">"
+                        "%0"
+                        "</span></p></body></html>")
+                .arg(tr("Quick tutorial")));
+
+    ui->label_1->setText(
+                QString("<html><head/><body><p>%0<br/></p></body></html>")
+                .arg(tr("Go to the Quick Sample page on the website:")));
+
+    ui->label_2->setText(
+                QString("<html><head/><body><p><br/>"
+                        "%0"
+                        "</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\">"
+                        "<li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">"
+                        "%1"
+                        "<br/></li>"
+                        "<li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">"
+                        "%2"
+                        "<br/></li></ul></body></html>")
+                .arg(tr("Read the tutorial. The page contains quick sample files:"))
+                .arg(tr("You can mass-download them"))
+                .arg(tr("Try the powerful batch-download mode too!"))
+                );
 
     ui->link->setText(QString("<a href=\"%0\">%0</a>").arg(STR_TUTORIAL_WEBSITE));
 

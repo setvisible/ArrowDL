@@ -130,34 +130,34 @@
      </column>
      <item>
       <property name="text">
-       <string>tab.visible</string>
+       <string notr="true">tab.visible</string>
       </property>
       <property name="text">
-       <string>true</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>tab.title</string>
-      </property>
-      <property name="text">
-       <string>Hello World</string>
+       <string notr="true">true</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>tab.max_count</string>
+       <string notr="true">tab.title</string>
       </property>
       <property name="text">
-       <string>330</string>
+       <string notr="true">Hello World</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>tab.length</string>
+       <string notr="true">tab.max_count</string>
       </property>
       <property name="text">
-       <string>1</string>
+       <string notr="true">330</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">tab.length</string>
+      </property>
+      <property name="text">
+       <string notr="true">1</string>
       </property>
      </item>
     </widget>

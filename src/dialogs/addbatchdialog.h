@@ -65,6 +65,8 @@ private:
     IDownloadItem* createItem(const QString &url) const;
     static inline QList<IDownloadItem*> toList(IDownloadItem *item);
 
+    inline QString insertName(const QString &name) const;
+
     void readSettings();
     void writeSettings();
 };

@@ -46,38 +46,38 @@ QVariant AbstractTorrentTableModel::headerData(
         int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
-        return m_headers.title(section);
+        if (section >= 0 && section < m_headers.count()) {
+            return m_headers.at(section);
+        } else {
+            return QString();
+        }
     }
     return QAbstractItemModel::headerData(section, orientation, role);
 }
 
 /******************************************************************************
  ******************************************************************************/
-static const Headers fileTableHeaders
-({
-     { 320, TorrentFileTableModel::tr("Name")},
-     { 460, TorrentFileTableModel::tr("Path")},
-     {  60, TorrentFileTableModel::tr("Size")},
-     {  60, TorrentFileTableModel::tr("Done")},
-     {  60, TorrentFileTableModel::tr("%")},
-     {  60, TorrentFileTableModel::tr("First Piece")},
-     {  60, TorrentFileTableModel::tr("# Pieces")},
-     { 120, TorrentFileTableModel::tr("Pieces")},   /// \todo graph
-     {  60, TorrentFileTableModel::tr("Priority")},
-     { 120, TorrentFileTableModel::tr("Modification date")},
-     { 100, TorrentFileTableModel::tr("SHA-1")},
-     { 100, TorrentFileTableModel::tr("CRC-32")}
- });
-
 TorrentFileTableModel::TorrentFileTableModel(DownloadTorrentItem *parent)
     : AbstractTorrentTableModel(parent)
-{
-    m_headers = fileTableHeaders;
+{    
+    retranslateUi();
 }
 
-QList<int> TorrentFileTableModel::defaultColumnWidths()
-{
-    return fileTableHeaders.widths();
+void TorrentFileTableModel::retranslateUi()
+{    
+    m_headers = QStringList()
+            << tr("Name")
+            << tr("Path")
+            << tr("Size")
+            << tr("Done")
+            << tr("%")
+            << tr("First Piece")
+            << tr("# Pieces")
+            << tr("Pieces")   /// \todo graph
+            << tr("Priority")
+            << tr("Modification date")
+            << tr("SHA-1")
+            << tr("CRC-32");
 }
 
 int TorrentFileTableModel::rowCount(const QModelIndex &parent) const
@@ -154,29 +154,25 @@ void TorrentFileTableModel::refreshData(QList<TorrentFileInfo> files)
 
 /******************************************************************************
  ******************************************************************************/
-static const Headers peerTableHeaders
-({
-     { 280, TorrentPeerTableModel::tr("IP")},
-     {  50, TorrentPeerTableModel::tr("Port")},
-     { 120, TorrentPeerTableModel::tr("Client")},
-     {  80, TorrentPeerTableModel::tr("Downloaded")},
-     {  80, TorrentPeerTableModel::tr("Uploaded")},
-     {  80, TorrentPeerTableModel::tr("Request Time")},
-     {  80, TorrentPeerTableModel::tr("Active Time")},
-     {  80, TorrentPeerTableModel::tr("Queue Time")},
-     { 200, TorrentPeerTableModel::tr("Flags")},
-     { 100, TorrentPeerTableModel::tr("Source Flags")}
- });
-
 TorrentPeerTableModel::TorrentPeerTableModel(DownloadTorrentItem *parent)
     : AbstractTorrentTableModel(parent)
 {
-    m_headers = peerTableHeaders;
+    retranslateUi();
 }
 
-QList<int> TorrentPeerTableModel::defaultColumnWidths()
+void TorrentPeerTableModel::retranslateUi()
 {
-    return peerTableHeaders.widths();
+    m_headers = QStringList()
+            << tr("IP")
+            << tr("Port")
+            << tr("Client")
+            << tr("Downloaded")
+            << tr("Uploaded")
+            << tr("Request Time")
+            << tr("Active Time")
+            << tr("Queue Time")
+            << tr("Flags")
+            << tr("Source Flags");
 }
 
 int TorrentPeerTableModel::rowCount(const QModelIndex &parent) const
@@ -257,26 +253,22 @@ void TorrentPeerTableModel::refreshData(QList<TorrentPeerInfo> peers)
 
 /******************************************************************************
  ******************************************************************************/
-static const Headers trackerTableHeaders
-({
-     { 360, TorrentTrackerTableModel::tr("Url")},
-     {  60, TorrentTrackerTableModel::tr("Id")},
-     { 240, TorrentTrackerTableModel::tr("Number of listened sockets (endpoints)")},
-     { 160, TorrentTrackerTableModel::tr("Tier this tracker belongs to")},
-     { 120, TorrentTrackerTableModel::tr("Max number of failures")},
-     {  80, TorrentTrackerTableModel::tr("Source")},
-     {  80, TorrentTrackerTableModel::tr("Verified?")}
- });
-
 TorrentTrackerTableModel::TorrentTrackerTableModel(DownloadTorrentItem *parent)
     : AbstractTorrentTableModel(parent)
 {
-    m_headers = trackerTableHeaders;
+    retranslateUi();
 }
 
-QList<int> TorrentTrackerTableModel::defaultColumnWidths()
+void TorrentTrackerTableModel::retranslateUi()
 {
-    return trackerTableHeaders.widths();
+    m_headers = QStringList()
+            << tr("Url")
+            << tr("Id")
+            << tr("Number of listened sockets (endpoints)")
+            << tr("Tier this tracker belongs to")
+            << tr("Max number of failures")
+            << tr("Source")
+            << tr("Verified?");
 }
 
 int TorrentTrackerTableModel::rowCount(const QModelIndex &parent) const

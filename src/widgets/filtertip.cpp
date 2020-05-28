@@ -25,6 +25,8 @@ FilterTip::FilterTip(QWidget *parent) : QFrame(parent)
     ui->setupUi(this);
     ui->groupBox->setLayout(new QVBoxLayout());
 
+    ui->title->setText(QString("-= %0 =-").arg(tr("Fast Filtering")));
+
     add("JavaScripts", "^.*\\.(js)$");
     add("HTML pages", "^.*\\.((?:m|d)htm(l?))$");
     add("Java, Fortran, C and C++ source files", "^.*\\.(java|f77|c(?:pp)|h)$");

@@ -16,9 +16,6 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="windowTitle">
-   <string>DownZemAll - Getting Started</string>
-  </property>
   <property name="modal">
    <bool>true</bool>
   </property>

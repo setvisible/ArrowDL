@@ -1,4 +1,6 @@
-# ![logo](/src/icons/logo/icon32.png) NativeClient
+<img align="left" src="./src/icons/logo/icon64.png">
+
+# NativeClient
 
 ## Install Native-Client
 
@@ -39,7 +41,7 @@ When surfing, click on *DownZemAll!* Button on your Firefox or Chrome toolbar (a
 
 The `native-client` plugin will send the URL of the current page to *DownZemAll!* as a command line argument:
 
-	.\DownZemAll.exe "https://www.mywebsite.com/2019-06/holidays.html"
+  	DownZemAll "https://www.mywebsite.com/2019-06/holidays.html"
 
 After clicking OK, *DownZemAll!* starts to collect the resources.
 

@@ -69,31 +69,31 @@ QString Format::timeToString(qint64 seconds)
 QString Format::fileSizeToString(qint64 size)
 {
     if (size < 0 || size >= INT64_MAX) {
-        return QObject::tr("Unknown");
+        return tr("Unknown");
     }
     if (size == 0) {
-        return QObject::tr("0 bytes");
+        return tr("0 byte");
     }
     if (size == 1) {
-        return "1 byte";
+        return tr("1 byte");
     }
     if (size < 1000) {
-        return QString::number(size) + " bytes";
+        return tr("%0 bytes").arg(QString::number(size));
     }
     double correctSize = size / 1024.0; // KB
     if (correctSize < 1000) {
-        return QString::number(correctSize > 0 ? correctSize : 0, 'f', 0) + " KB";
+        return tr("%0 KB").arg(QString::number(correctSize > 0 ? correctSize : 0, 'f', 0));
     }
     correctSize /= 1024; // MB
     if (correctSize < 1000) {
-        return QString::number(correctSize, 'f', 1) + " MB";
+        return tr("%0 MB").arg(QString::number(correctSize, 'f', 1));
     }
     correctSize /= 1024; // GB
     if (correctSize < 1000) {
-        return QString::number(correctSize, 'f', 2) + " GB";
+        return tr("%0 GB").arg(QString::number(correctSize, 'f', 2));
     }
     correctSize /= 1024; // TB
-    return QString::number(correctSize, 'f', 3) + " TB";
+    return tr("%0 TB").arg(QString::number(correctSize, 'f', 3));
 }
 
 /******************************************************************************
@@ -119,7 +119,7 @@ QString Format::fileSizeThousandSeparator(qint64 size)
  ******************************************************************************/
 QString Format::yesOrNo(bool yes)
 {
-    return yes ? QObject::tr("Yes") : QObject::tr("No");
+    return yes ? tr("Yes") : tr("No");
 }
 
 /******************************************************************************
@@ -134,14 +134,14 @@ QString Format::currentSpeedToString(qreal speed, bool showInfiniteSymbol)
     }
     speed /= 1024.0; // KB
     if (speed < 1000) {
-        return QString::number(speed > 0.5 ? speed : 0, 'f', 0) + " KB/s";
+        return tr("%0 KB/s").arg(QString::number(speed > 0.5 ? speed : 0, 'f', 0));
     }
     speed /= 1024; // MB
     if (speed < 1000) {
-        return QString::number(speed, 'f', 1) + " MB/s";
+        return tr("%0 MB/s").arg(QString::number(speed, 'f', 1));
     }
     speed /= 1024; // GB
-    return QString::number(speed, 'f', 2) + " GB/s";
+    return tr("%0 GB/s").arg(QString::number(speed, 'f', 2));
 }
 
 

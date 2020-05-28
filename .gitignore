@@ -4,6 +4,7 @@
 # ==============================================================================
 /.*
 /*
+!/.tx
 !/3rd
 !/data
 !/docs
@@ -25,6 +26,7 @@
 !/LICENSE
 !/NativeClient.md
 !/README.md
+!/TRANSLATORS.md
 !/TROUBLESHOOTING.md
 !/version
 

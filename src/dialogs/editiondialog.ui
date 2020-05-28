@@ -10,9 +10,6 @@
     <height>500</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Smart Edit</string>
-  </property>
   <property name="modal">
    <bool>true</bool>
   </property>
@@ -22,7 +19,7 @@
      <item row="1" column="2">
       <widget class="QLabel" name="subtitleLabel">
        <property name="text">
-        <string>n selected files to edit</string>
+        <string notr="true">n selected files to edit</string>
        </property>
       </widget>
      </item>
@@ -124,7 +121,7 @@
           <string notr="true">color: rgb(255, 0, 0);</string>
          </property>
          <property name="text">
-          <string>Warning: number of lines should be !</string>
+          <string notr="true">Warning: number of lines should be !</string>
          </property>
         </widget>
        </item>
