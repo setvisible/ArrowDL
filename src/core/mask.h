@@ -17,12 +17,14 @@
 #ifndef CORE_MASK_H
 #define CORE_MASK_H
 
+#include <QtCore/QObject>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QUrl>
 
-class Mask
+class Mask : public QObject
 {
+    Q_OBJECT
 public:
 
     static QUrl fromUserInput(const QString &input);

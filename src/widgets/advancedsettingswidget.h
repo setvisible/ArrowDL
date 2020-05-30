@@ -50,6 +50,9 @@ public:
 signals:
     void changed();
 
+protected:
+    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+
 private slots:
     void setPresetDefault();
     void setPresetMinCache();

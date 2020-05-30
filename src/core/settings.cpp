@@ -51,6 +51,7 @@ static const QString REGISTRY_DATABASE         = "Database";
 
 // Tab Filters
 static const QString REGISTRY_FILTER_KEY       = "FilterKey";
+static const QString REGISTRY_FILTER_NAME      = "FilterName";
 static const QString REGISTRY_FILTER_VALUE     = "FilterValue";
 
 // Tab Torrent
@@ -112,30 +113,43 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     // Tab Filters
     addDefaultSettingStringList(
                 REGISTRY_FILTER_KEY, QStringList()
-                << "All Files"
-                << "Archives (zip, rar...)"
-                << "Application (exe, xpi...)"
-                << "Audio (mp3, wav...)"
-                << "Documents (pdf, odf...)"
-                << "Images (jpg, png...)"
-                << "Images JPEG"
-                << "Images PNG"
-                << "Video (mpeg, avi...)"
+                << QLatin1String("KEY_ALL")
+                << QLatin1String("KEY_ARCHIVES")
+                << QLatin1String("KEY_APPLICATIONS")
+                << QLatin1String("KEY_AUDIO")
+                << QLatin1String("KEY_DOCUMENTS")
+                << QLatin1String("KEY_IMAGES")
+                << QLatin1String("KEY_IMAGES_JPEG")
+                << QLatin1String("KEY_IMAGES_PNG")
+                << QLatin1String("KEY_VIDEO")
+                );
+
+    addDefaultSettingStringList(
+                REGISTRY_FILTER_NAME, QStringList()
+                << QLatin1String("")
+                << QLatin1String("")
+                << QLatin1String("")
+                << QLatin1String("")
+                << QLatin1String("")
+                << QLatin1String("")
+                << QLatin1String("")
+                << QLatin1String("")
+                << QLatin1String("")
                 );
 
     addDefaultSettingStringList(
                 REGISTRY_FILTER_VALUE, QStringList()
-                << "^.*$"
-                << "^.*\\.(?:z(?:ip|[0-9]{2})|r(?:ar|[0-9]{2})|jar|bz2"
-                   "|gz|tar|rpm|7z(?:ip)?|lzma|xz)$"
-                << "^.*\\.(?:exe|msi|dmg|bin|xpi|iso)$"
-                << "^.*\\.(?:mp3|wav|og(?:g|a)|flac|midi?|rm|aac|wma|mka|ape)$"
-                << "^.*\\.(?:pdf|xlsx?|docx?|odf|odt|rtf)$"
-                << "^.*\\.(?:jp(?:e?g|e|2)|gif|png|tiff?|bmp|ico)$"
-                << "^.*\\.jp(e?g|e|2)$"
-                << "^.*\\.png$"
-                << "^.*\\.(?:mpeg|ra?m|avi|mp(?:g|e|4)|mov|divx|asf|qt"
-                   "|wmv|m\\dv|rv|vob|asx|ogm|ogv|webm|flv|mkv)$"
+                << QLatin1String("^.*$")
+                << QLatin1String("^.*\\.(?:z(?:ip|[0-9]{2})|r(?:ar|[0-9]{2})|jar|bz2"
+                                 "|gz|tar|rpm|7z(?:ip)?|lzma|xz)$")
+                << QLatin1String("^.*\\.(?:exe|msi|dmg|bin|xpi|iso)$")
+                << QLatin1String("^.*\\.(?:mp3|wav|og(?:g|a)|flac|midi?|rm|aac|wma|mka|ape)$")
+                << QLatin1String("^.*\\.(?:pdf|xlsx?|docx?|odf|odt|rtf)$")
+                << QLatin1String("^.*\\.(?:jp(?:e?g|e|2)|gif|png|tiff?|bmp|ico)$")
+                << QLatin1String("^.*\\.jp(e?g|e|2)$")
+                << QLatin1String("^.*\\.png$")
+                << QLatin1String("^.*\\.(?:mpeg|ra?m|avi|mp(?:g|e|4)|mov|divx|asf|qt"
+                                 "|wmv|m\\dv|rv|vob|asx|ogm|ogv|webm|flv|mkv)$")
                 );
 
     // Tab Torrent
@@ -351,33 +365,74 @@ void Settings::setDatabase(const QString &value)
 /******************************************************************************
  ******************************************************************************/
 // Tab Filters
-QList<Filter> Settings::filters() const
+QList<Filter> Settings::filters()
 {
-    QList<Filter> filters;
-    QStringList keys = getSettingStringList(REGISTRY_FILTER_KEY);
-    QStringList values = getSettingStringList(REGISTRY_FILTER_VALUE);
-    const int count = qMin(keys.count(), values.count());
-    for (int i = 0; i < count; ++i) {
-        Filter filter;
-        filter.title = keys.at(i);
-        filter.regexp = values.at(i);
-        if (!filter.title.isEmpty()) {
-            filters.append(filter);
-        }
-    }
-    return filters;
+    return defaultFilters(false);
 }
 
 void Settings::setFilters(const QList<Filter> &filters)
 {
     QStringList keys;
+    QStringList names;
     QStringList values;
     foreach (auto filter, filters) {
-        keys.append(filter.title);
-        values.append(filter.regexp);
+        keys.append(filter.key());
+        names.append(filter.name());
+        values.append(filter.regex());
     }
     setSettingStringList(REGISTRY_FILTER_KEY, keys);
+    setSettingStringList(REGISTRY_FILTER_NAME, names);
     setSettingStringList(REGISTRY_FILTER_VALUE, values);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QList<Filter> Settings::defaultFilters(bool defaults)
+{
+    QList<Filter> filters;
+
+    if (defaults) {
+        beginRestoreDefault();
+    }
+    QStringList keys = getSettingStringList(REGISTRY_FILTER_KEY);
+    QStringList names = getSettingStringList(REGISTRY_FILTER_NAME);
+    QStringList values = getSettingStringList(REGISTRY_FILTER_VALUE);
+    if (defaults) {
+        endRestoreDefault();
+    }
+
+    const int count = qMin(qMin(keys.count(), values.count()), names.count());
+    for (int i = 0; i < count; ++i) {
+        Filter filter;
+        filter.setKey(keys.at(i));
+        filter.setName(names.at(i));
+        filter.setRegex(values.at(i));
+        filters.append(filter);
+    }
+    return filters;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QString Settings::translateFilter(const QString &key, const QString &defaultName)
+{
+    if (!key.isEmpty()) {
+        if (key == QLatin1String("KEY_ALL")         ) return tr("All Files");
+        if (key == QLatin1String("KEY_ARCHIVES")    ) return tr("Archives (zip, rar...)");
+        if (key == QLatin1String("KEY_APPLICATIONS")) return tr("Application (exe, xpi...)");
+        if (key == QLatin1String("KEY_AUDIO")       ) return tr("Audio (mp3, wav...)");
+        if (key == QLatin1String("KEY_DOCUMENTS")   ) return tr("Documents (pdf, odf...)");
+        if (key == QLatin1String("KEY_IMAGES")      ) return tr("Images (jpg, png...)");
+        if (key == QLatin1String("KEY_IMAGES_JPEG") ) return tr("Images JPEG");
+        if (key == QLatin1String("KEY_IMAGES_PNG")  ) return tr("Images PNG");
+        if (key == QLatin1String("KEY_VIDEO")       ) return tr("Video (mpeg, avi...)");
+    }
+    return defaultName;
+}
+
+QString Filter::name() const
+{
+    return Settings::translateFilter(m_key, m_name);
 }
 
 /******************************************************************************

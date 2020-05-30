@@ -170,7 +170,7 @@ void FilterWidget::clearFilters()
     }
 }
 
-void FilterWidget::addFilter(const QString &title, const QString &regexp)
+void FilterWidget::addFilter(const QString &name, const QString &regexp)
 {
     const QList<QCheckBox*> checkboxes = ui->checkBoxGroup->findChildren<QCheckBox*>();
     const int count = checkboxes.count();
@@ -178,8 +178,8 @@ void FilterWidget::addFilter(const QString &title, const QString &regexp)
     const int row = dv.quot;
     const int column = dv.rem;
 
-    QCheckBox *checkbox = new QCheckBox(title, ui->checkBoxGroup);
-    checkbox->setToolTip(QString("%0\n%1").arg(title).arg(regexp));
+    QCheckBox *checkbox = new QCheckBox(name, ui->checkBoxGroup);
+    checkbox->setToolTip(QString("%0\n%1").arg(name).arg(regexp));
     checkbox->setProperty("regexp", regexp);
 
     connect(checkbox, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));

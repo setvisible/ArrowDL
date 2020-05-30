@@ -34,10 +34,22 @@ enum class CheckUpdateBeatMode{
     OnceAWeek = 2
 };
 
-struct Filter
+class Filter
 {
-    QString title;
-    QString regexp;
+public:
+    QString key() const { return m_key; }
+    void setKey(const QString &key) { m_key = key; }
+
+    QString name() const;
+    void setName(const QString &name) { m_name = name; }
+
+    QString regex() const { return m_regex; }
+    void setRegex(const QString &regex) { m_regex = regex; }
+
+private:
+    QString m_key;
+    QString m_name;
+    QString m_regex;
 };
 
 /*!
@@ -110,8 +122,11 @@ public:
     void setDatabase(const QString &value);
 
     // Tab Filters
-    QList<Filter> filters() const;
+    QList<Filter> filters();
     void setFilters(const QList<Filter> &filters);
+
+    QList<Filter> defaultFilters(bool defaults = true);
+    static QString translateFilter(const QString &key, const QString &defaultName);
 
     // Tab Torrent
     bool isTorrentEnabled() const;
