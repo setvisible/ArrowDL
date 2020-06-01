@@ -1,10 +1,9 @@
 [Desktop Entry]
 Version=1.0
-Encoding=UTF-8
 Type=Application
 Name=DownZemAll
-Comment=DownZemAll
-NoDsiplay=true
-Exec=/ABSOLUTE/PATH/TO/APP/DIRECTORY/DownZemAll %f
+Comment=The Right Mass Downloader
+Comment[en]=The Right Mass Downloader
+Comment[fr]=Le parfait téléchargeur de masse
+Exec=/ABSOLUTE/PATH/TO/APP/DIRECTORY/../DownZemAll %U
 Icon=/ABSOLUTE/PATH/TO/APP/DIRECTORY/icon_DZA_64px64px.png
-Name[en_US]=DownZemAll
