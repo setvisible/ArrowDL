@@ -265,16 +265,17 @@ QStringList Mask::tags()
  */
 QString Mask::description(const QString &tag)
 {
-    if (tag == NAME        ) return QT_TRANSLATE_NOOP(Mask, "File name");
-    if (tag == EXT         ) return QT_TRANSLATE_NOOP(Mask, "Extension");
-    if (tag == URL         ) return QT_TRANSLATE_NOOP(Mask, "Base URL");
-    if (tag == CURL        ) return QT_TRANSLATE_NOOP(Mask, "Full URL");
-    if (tag == FLATURL     ) return QT_TRANSLATE_NOOP(Mask, "Flat full URL");
-    if (tag == SUBDIRS     ) return QT_TRANSLATE_NOOP(Mask, "URL subdirectories");
-    if (tag == FLATSUBDIRS ) return QT_TRANSLATE_NOOP(Mask, "Flat URL subdirectories");
-    if (tag == QSTRING     ) return QT_TRANSLATE_NOOP(Mask, "Query string");
+    if (tag == NAME        ) return tr("File name");
+    if (tag == EXT         ) return tr("Extension");
+    if (tag == URL         ) return tr("Base URL");
+    if (tag == CURL        ) return tr("Full URL");
+    if (tag == FLATURL     ) return tr("Flat full URL");
+    if (tag == SUBDIRS     ) return tr("URL subdirectories");
+    if (tag == FLATSUBDIRS ) return tr("Flat URL subdirectories");
+    if (tag == QSTRING     ) return tr("Query string");
     return QString();
 }
+
 /******************************************************************************
  ******************************************************************************/
 /*!

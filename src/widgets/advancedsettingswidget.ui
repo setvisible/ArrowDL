@@ -85,7 +85,7 @@
      <item>
       <widget class="QLineEdit" name="searchLineEdit">
        <property name="placeholderText">
-        <string>&lt;Search for setting&gt;</string>
+        <string>Search for setting</string>
        </property>
       </widget>
      </item>

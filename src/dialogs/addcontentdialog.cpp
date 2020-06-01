@@ -411,7 +411,7 @@ void AddContentDialog::refreshFilters()
     QList<Filter> filters = m_settings->filters();
     ui->filterWidget->clearFilters();
     foreach (auto filter, filters) {
-        ui->filterWidget->addFilter(filter.title, filter.regexp);
+        ui->filterWidget->addFilter(filter.name(), filter.regex());
     }
 }
 

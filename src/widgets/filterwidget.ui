@@ -38,63 +38,63 @@ QGroupBox {
       <item row="2" column="0">
        <widget class="QCheckBox" name="checkBoxApplication">
         <property name="text">
-         <string>Application (exe, xpi...)</string>
+         <string notr="true">Application (exe, xpi...)</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
        <widget class="QCheckBox" name="checkBoxDocument">
         <property name="text">
-         <string>Documents (pdf, odf...)</string>
+         <string notr="true">Documents (pdf, odf...)</string>
         </property>
        </widget>
       </item>
       <item row="0" column="0">
        <widget class="QCheckBox" name="checkBoxAll">
         <property name="text">
-         <string>All Files</string>
+         <string notr="true">All Files</string>
         </property>
        </widget>
       </item>
       <item row="2" column="1">
        <widget class="QCheckBox" name="checkBoxAudio">
         <property name="text">
-         <string>Audio (mp3, wav...)</string>
+         <string notr="true">Audio (mp3, wav...)</string>
         </property>
        </widget>
       </item>
       <item row="0" column="2">
        <widget class="QCheckBox" name="checkBoxArchive">
         <property name="text">
-         <string>Archives (zip, rar...)</string>
+         <string notr="true">Archives (zip, rar...)</string>
         </property>
        </widget>
       </item>
       <item row="1" column="2">
        <widget class="QCheckBox" name="checkBoxImageJpeg">
         <property name="text">
-         <string>Images JPEG</string>
+         <string notr="true">Images JPEG</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
        <widget class="QCheckBox" name="checkBoxVideo">
         <property name="text">
-         <string>Videos (mpeg, avi...)</string>
+         <string notr="true">Videos (mpeg, avi...)</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
        <widget class="QCheckBox" name="checkBoxImage">
         <property name="text">
-         <string>Images (jpg, png...)</string>
+         <string notr="true">Images (jpg, png...)</string>
         </property>
        </widget>
       </item>
       <item row="2" column="2">
        <widget class="QCheckBox" name="checkBoxImagePng">
         <property name="text">
-         <string>Images PNG</string>
+         <string notr="true">Images PNG</string>
         </property>
        </widget>
       </item>
