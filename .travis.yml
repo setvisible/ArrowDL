@@ -78,6 +78,8 @@ install:
   - GPPDumpMachine=`g++ -dumpmachine`
   - echo "GCC Dump Machine = '${GCCDumpMachine}'"  # x86_64-linux-gnu
   - echo "G++ Dump Machine = '${GPPDumpMachine}'"  # x86_64-linux-gnu
+  - CpuArchitecture=${GCCDumpMachine%"-linux-gnu"} # remove suffix
+  - echo "CpuArchitecture = '${CpuArchitecture}'"  # x86_64
 
   - echo "Boost"
 #  - sudo apt-get install libboost-all-dev # Not good : may install wrong version libboost-all-1.54.0
@@ -143,29 +145,24 @@ script:
 #after_test:
   - cmake --build . --target install
 
+  - strip "./../install-DownZemAll-cmake/DownZemAll"
 
 #---------------------------------#
 #      artifacts configuration    #
 #---------------------------------#
+# archiving
+  - mkdir -p ./../Distrib
+  - cd ./../Distrib
 
-# creating archives
-  - mkdir ./../DownZemAll/bin
-  - cd ./../DownZemAll/bin
+  - FILE_NAME="DownZemAll_v${AppVersion}_${CpuArchitecture}"   # ex: DownZemAll_v1.2.0_x86_64
 
-# zip the files
-# DownZemAll_v1.2.0_windows-mingw-x86.zip
-# DownZemAll_v1.2.0_windows-mingw-x64.zip
-# DownZemAll_v1.2.0_windows-msvc-x86.zip
-# DownZemAll_v1.2.0_windows-msvc-x64.zip
-# DownZemAll_v1.2.0_x86_64-linux-gnu.tar.gz
-  - ZIP_FILE="DownZemAll_v${AppVersion}_${GCCDumpMachine}.tar.gz"
-  - tar -zcvf ${ZIP_FILE} -C ./../../install-DownZemAll-cmake .
+# creating tarball
+# ================
+  - TARBALL_NAME="${FILE_NAME}.tar.gz"
+  - tar -zcvf ${TARBALL_NAME} -C ./../install-DownZemAll-cmake .
 
 
-# .tar.bz2
-# .deb
-# .apk
-# .dmg // MacOS
+
 
 #---------------------------------#
 #     deployment configuration    #
@@ -177,7 +174,8 @@ deploy:
   provider: releases
   api_key: $TOKEN       # Set in the settings page of your repository, as a secure variable
   file_glob: true       # Enable wildcard pattern
-  file: $ZIP_FILE
+  file:
+    - "*.tar.gz"
   skip_cleanup: true
   draft: true           # Draft Release 
   prerelease: false
