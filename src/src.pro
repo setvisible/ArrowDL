@@ -293,11 +293,11 @@ isEmpty(INSTALLS){
 
 # install desktop shortcut
 unix{
-    desktop_shortcut_to_copy.files += $$PWD/../installer/unix/DownZemAll.desktop
-    desktop_shortcut_to_copy.files += $$PWD/../installer/unix/icon_DZA_64px64px.png
-    desktop_shortcut_to_copy.files += $$PWD/../installer/unix/install_shortcut_desktop.sh
-    desktop_shortcut_to_copy.files += $$PWD/../installer/unix/uninstall_shortcut_desktop.sh
-    desktop_shortcut_to_copy.files += $$PWD/../installer/unix/README
+    desktop_shortcut_to_copy.files += $$PWD/../installer/unix/portable/DownZemAll.desktop
+    desktop_shortcut_to_copy.files += $$PWD/../installer/unix/portable/DownZemAll_64x64.png
+    desktop_shortcut_to_copy.files += $$PWD/../installer/unix/portable/install_shortcut_desktop.sh
+    desktop_shortcut_to_copy.files += $$PWD/../installer/unix/portable/uninstall_shortcut_desktop.sh
+    desktop_shortcut_to_copy.files += $$PWD/../installer/unix/portable/README
     desktop_shortcut_to_copy.path = $${DESTDIR}/desktop_shortcut/
     INSTALLS += desktop_shortcut_to_copy
 }

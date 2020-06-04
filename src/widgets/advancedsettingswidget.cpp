@@ -76,6 +76,17 @@ AdvancedSettingsWidget::~AdvancedSettingsWidget()
 
 /******************************************************************************
  ******************************************************************************/
+void AdvancedSettingsWidget::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+        setupPresetToolTip();
+    }
+    QWidget::changeEvent(event);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 /*!
  * Returns the non-default settings only.
  */

@@ -21,6 +21,7 @@
 #include <QtWidgets/QDialog>
 
 class Settings;
+class QTableWidgetItem;
 
 namespace Ui {
 class PreferenceDialog;
@@ -48,7 +49,12 @@ public slots:
 
 private slots:
     void filterSelectionChanged();
-    void filterTextChanged();
+    void filterChanged(QTableWidgetItem *item);
+    void filterReset();
+    void filterContextMenu(const QPoint &pos);
+    void filterAdded();
+    void filterUpdated();
+    void filterRemoved();
 
     void languageChanged(int value);
     void resetLanguage();
@@ -77,9 +83,13 @@ private:
 
     QStringList streamHosts() const;
     void setStreamHosts(const QStringList &streamHosts);
+    void setupStreamToolTip();
 
     QList<Filter> filters() const;
     void setFilters(const QList<Filter> &filters);
+    void addFilter(const Filter & filter);
+    void addFilter(const QString & key, const QString & name, const QString & regex);
+    void retranslateFilters();
 
     ExistingFileOption existingFileOption() const;
     void setExistingFileOption(ExistingFileOption option);

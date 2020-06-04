@@ -33,7 +33,7 @@ public:
     ~FilterWidget() Q_DECL_OVERRIDE;
 
     void clearFilters();
-    void addFilter(const QString &title, const QString &regexp);
+    void addFilter(const QString &name, const QString &regexp);
 
     QRegExp regex() const;
 
