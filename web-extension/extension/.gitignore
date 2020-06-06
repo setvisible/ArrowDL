@@ -1,0 +1,12 @@
+# ==============================================================================
+# Below we forbid everything and only allow what we know, that's much easier
+# than blocking about 500 different test files and bug report outputs.
+# ==============================================================================
+/.*
+/*
+!/src
+!/.gitignore
+!/make.bat
+!/README.md
+!/substitute.py
+!/synchronize_versions.bat

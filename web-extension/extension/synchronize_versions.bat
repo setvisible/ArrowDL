@@ -8,9 +8,20 @@
 :: with the current value present in <root>/version
 ::
 
+if not "%1"=="--output-directory" (
+    echo.Error: Bad argurment.
+    echo.   Must be: synchronize_versions.bat --output-directory DIR
+    exit 1
+)
+
+set currentpath=%~dp0
+:: echo %currentpath:~0,-1% without the trailing '\'
+
+set out=%2
+
 echo.Updating version...
 
-python substitute.py "0.0.65536" .\..\..\version .\chromium\manifest.json
-python substitute.py "0.0.65536" .\..\..\version  .\firefox\manifest.json
+python %currentpath%\substitute.py "0.0.65536" %currentpath%\..\..\version %out%\chromium\manifest.json
+python %currentpath%\substitute.py "0.0.65536" %currentpath%\..\..\version %out%\firefox\manifest.json
 
 echo.Version updated. 
