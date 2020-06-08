@@ -32,9 +32,9 @@ static QString buildAbout(const QString &paragraphDelimiter)
            "Copyright (C) %0 %1. All rights reserved."
            ).arg(STR_APPLICATION_DATE).arg(STR_APPLICATION_AUTHOR) +
        paragraphDelimiter +
-       QCoreApplication::tr("GNU LGPL License") +
+       QLatin1String("GNU LGPL License") +
        paragraphDelimiter +
-       QCoreApplication::tr(
+       QLatin1String(
            "Permission is hereby granted, free of charge, to any person obtaining a copy "
            "of this software and associated documentation files (the \"Software\"), to deal "
            "in the Software without restriction, including without limitation the rights "
@@ -42,11 +42,11 @@ static QString buildAbout(const QString &paragraphDelimiter)
            "copies of the Software, and to permit persons to whom the Software is "
            "furnished to do so, subject to the following conditions: ") +
        paragraphDelimiter +
-       QCoreApplication::tr(
+       QLatin1String(
            "The above copyright notice and this permission notice shall be included in all "
            "copies or substantial portions of the Software. ") +
        paragraphDelimiter +
-       QCoreApplication::tr(
+       QLatin1String(
            "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR "
            "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, "
            "FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE "

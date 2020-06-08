@@ -1,28 +1,35 @@
 "use strict";
 
-const application = "DownRightNow";
+const application = "com.setvisible.downrightnow";
 
 /* ***************************** */
 /* Options                       */
 /* ***************************** */
 function restoreOptions() {
   function onOptionResponse(response) {
-    setApplicationRadio( response.radioApplicationId );
-    setMediaRadio( response.radioMediaId );
-    setStartPaused( response.startPaused );
+    if (chrome.runtime.lastError) {
+      console.log(chrome.runtime.lastError.message);
+      onOptionError(response);
+    }
+    if (response === undefined) {
+      onOptionError(response);
+    } else {
+      setApplicationRadio( response.radioApplicationId );
+      setMediaRadio( response.radioMediaId );
+      setStartPaused( response.startPaused );    
+    }
   }
 
   function onOptionError(error) {
     console.log(`Error: ${error}`);
   }
 
-  var getting = browser.storage.local.get();
-  getting.then(onOptionResponse, onOptionError);
+  chrome.storage.local.get(onOptionResponse);
 }
 
 function saveOptions() {
   var options = getOptions();
-  browser.storage.local.set(options);
+  chrome.storage.local.set(options);
 }
 
 function getOptions() {
@@ -135,28 +142,40 @@ function showOptions(visible) {
 /* ***************************** */
 function checkConnection() {
   function onHelloResponse(response) {
-    console.log(`Message from the launcher:  ${response.text}`);
-    var connectionStatus = "✓ Ok";
-    var details = "<br><br>Detected path:<br><code>" + response.text + "</code>";
-    safeInnerHtmlAssignment(connectionStatus, details, "MediumSeaGreen");
-    showOptions(true);
+    if (chrome.runtime.lastError) {
+      console.log(chrome.runtime.lastError.message);
+      onHelloError(response);
+    }
+    if (response === undefined) {
+      onHelloError(response);
+    } else {
+      console.log(`Message from the launcher:  ${response.text}`);
+      var messageOk = chrome.i18n.getMessage("optionsOk");
+      var messageDetectedPath = chrome.i18n.getMessage("optionsDetectedPath");
+      var connectionStatus = "✓ " + messageOk;
+      var details = "<br><br>" + messageDetectedPath + "<br><code>" + response.text + "</code>";
+      safeInnerHtmlAssignment(connectionStatus, details, "MediumSeaGreen");
+      showOptions(true);
+    }
   }
 
   function onHelloError(error) {
     console.log(`Launcher didn't send any message. ${error}.`);
-    var connectionStatus = "⚠ Error: Can't find the launcher";
-    var details = "<br><br>Follow the instructions below.";
+    var messageError = chrome.i18n.getMessage("optionsError");
+    var messageInstructions = chrome.i18n.getMessage("optionsInstructions");
+    var connectionStatus = "⚠ " + messageError;
+    var details = "<br><br>" + messageInstructions;
     safeInnerHtmlAssignment(connectionStatus, details, "Tomato");
     showOptions(false);
   }
 
   var data = "areyouthere";
-  var sending = browser.runtime.sendNativeMessage(application, data);
-  sending.then(onHelloResponse, onHelloError);
+  chrome.runtime.sendNativeMessage(application, { "text": data }, onHelloResponse);
 }
 
 function safeInnerHtmlAssignment(connectionStatus, details, color) {
-  const statusTag = `<span>Status:&nbsp;&nbsp;<span style="padding: 5px 10px 5px 10px; solid ${color}; background-color:${color}; color:White;">${connectionStatus}</span>&nbsp;&nbsp;&nbsp;&nbsp;${details}</span>`;
+  var messageStatus = chrome.i18n.getMessage("optionsStatus");
+  const statusTag = `<span>${messageStatus}&nbsp;&nbsp;<span style="padding: 5px 10px 5px 10px; solid ${color}; background-color:${color}; color:White;">${connectionStatus}</span>&nbsp;&nbsp;&nbsp;&nbsp;${details}</span>`;
 
   const parser = new DOMParser()
   const parsed = parser.parseFromString(statusTag, `text/html`)
@@ -177,14 +196,21 @@ function notifyBackgroundPage() {
    * that the options have been updated.
    */
   function onResponse(message) {
-    // console.log(`Message from the background.js:  ${message.response}`);
+    if (chrome.runtime.lastError) {
+      console.log(chrome.runtime.lastError.message);
+      onError(message);
+    }
+    if (message === undefined) {
+      onError(message);
+    } else {
+      // console.log(`Message from the background.js:  ${message.response}`);
+    }
   }
   function onError(error) {
     console.log(`Error: ${error}`);
   }
   var options = getOptions();
-  var sending = browser.runtime.sendMessage(options);
-  sending.then(onResponse, onError);
+  chrome.runtime.sendMessage(options, onResponse);
 }
 
 /* ***************************** */
@@ -215,3 +241,20 @@ document.addEventListener("DOMContentLoaded", loadPage);
 document.getElementById("button-check").addEventListener("click", () => {
     checkInstallation();
 })
+
+/* ***************************** */
+/* Internationalization          */
+/* ***************************** */
+document.getElementById("main-title").innerHTML           = chrome.i18n.getMessage("optionsMainTitle");
+document.getElementById("toolbar-menu").innerHTML         = chrome.i18n.getMessage("optionsToolbarMenu");
+document.getElementById("show-simple-menu").innerHTML     = chrome.i18n.getMessage("optionsShowSimpleMenu");
+document.getElementById("show-full-menu").innerHTML       = chrome.i18n.getMessage("optionsShowFullMenu");
+document.getElementById("full_menu_label").innerHTML      = chrome.i18n.getMessage("optionsShowFullMenuDescription");
+document.getElementById("choice-get-links").innerHTML     = chrome.i18n.getMessage("optionsChoiceGetLinks");
+document.getElementById("choice-get-content").innerHTML   = chrome.i18n.getMessage("optionsChoiceGetContent");
+document.getElementById("choice-start-paused").innerHTML  = chrome.i18n.getMessage("optionsChoiceStartPaused");
+document.getElementById("about").innerHTML                = chrome.i18n.getMessage("optionsAbout");
+document.getElementById("install").innerHTML              = chrome.i18n.getMessage("optionsInstall");
+document.getElementById("install-message").innerHTML      = chrome.i18n.getMessage("optionsInstallMessage", 
+                                                                                   "https://setvisible.github.io/DownZemAll/category/download.html");
+document.getElementById("button-check").innerHTML         = chrome.i18n.getMessage("optionsRefresh", "»");

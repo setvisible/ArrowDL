@@ -1,0 +1,193 @@
+{
+  "extensionName": {
+    "message": "Down Right Now",
+    "description": "Name of the extension."
+  },
+  "extensionDescription": {
+    "message": "Gestionnaire de téléchargement de masse pour votre navigateur",
+    "description": "Description of the extension."
+  },
+
+
+  "contextMenuSavePage": {
+    "message": "Sauvegarder la page",
+    "description": "Title of the context menu for Save page"
+  },
+  "contextMenuSaveFrame": {
+    "message": "Sauvegarder le cadre",
+    "description": "Title of the context menu for Save frame"
+  },
+  "contextMenuSaveSelection": {
+    "message": "Sauvegarder la sélection",
+    "description": "Title of the context menu for Save selection"
+  },
+  "contextMenuSaveLink": {
+    "message": "Sauvegarder le lien",
+    "description": "Title of the context menu for Save link"
+  },
+  "contextMenuSaveEditable": {
+    "message": "Sauvegarder l'élément éditable",
+    "description": "Title of the context menu for Save editable"
+  },
+  "contextMenuSaveImage": {
+    "message": "Sauvegarder l'image",
+    "description": "Title of the context menu for Save image"
+  },
+  "contextMenuSaveVideo": {
+    "message": "Sauvegarder la vidéo",
+    "description": "Title of the context menu for Save video"
+  },
+  "contextMenuSaveAudio": {
+    "message": "Sauvegarder l'audio",
+    "description": "Title of the context menu for Save audio"
+  },
+  "contextMenuSaveLauncher": {
+    "message": "Sauvegarder le launcher",
+    "description": "Title of the context menu for Save launcher"
+  },
+
+
+  "popupDownload": {
+    "message": "Télécharger...",
+    "description": "Title of the context menu for Download..."
+  },
+  "popupDownloadLinks": {
+    "message": "Télécharger les liens",
+    "description": "Title of the context menu for Download links"
+  },
+  "popupDownloadLinksPaused": {
+    "message": "Télécharger les liens (pause)",
+    "description": "Title of the context menu for Download links (paused)"
+  },
+  "popupDownloadContent": {
+    "message": "Télécharger le contenu",
+    "description": "Title of the context menu for Download content"
+  },
+  "popupDownloadContentPaused": {
+    "message": "Télécharger le contenu (pause)",
+    "description": "Title of the context menu for Download content (paused)"
+  },
+  "popupOpen": {
+    "message": "Ouvrir DZA!",
+    "description": "Title of the context menu for Open DZA!"
+  },
+  "popupPreferences": {
+    "message": "Préférences...",
+    "description": "Title of the context menu for Preferences..."
+  },
+  "popupOptions": {
+    "message": "Options...",
+    "description": "Title of the context menu for Options..."
+  },
+  "popupVisitWebsite": {
+    "message": "Visiter le site web DZA",
+    "description": "Title of the context menu for Visit DZA website"
+  },
+
+  "popupError": {
+    "message": "Erreur",
+    "description": "Title of Error"
+  },
+  "popupError1": {
+    "message": "Application non trouvée",
+    "description": "Error message 1"
+  },
+  "popupError2": {
+    "message": "Cliquer sur 'Options' pour les détails",
+    "description": "Error message 2"
+  },
+  "popupRemark": {
+    "message": "Remarque",
+    "description": "Title of Remark"
+  },
+  "popupRemark1": {
+    "message": "Le mode Incognito désactive <br />certaines fonctions de téléchargement",
+    "description": "Remark message 1"
+  },
+
+
+  "optionsMainTitle": {
+    "message": "Options",
+    "description": "Title of Options"
+  },
+  "optionsToolbarMenu": {
+    "message": "Menu de barre à outils",
+    "description": "Title of Toolbar Menu"
+  },
+  "optionsShowSimpleMenu": {
+    "message": "Afficher le menu simplifié (toujours demander quoi faire)",
+    "description": "Title of Show simple menu"
+  },
+  "optionsShowFullMenu": {
+    "message": "Afficher le menu complet",
+    "description": "Title of Show full menu"
+  },
+  "optionsShowFullMenuDescription": {
+    "message": "Téléchargement immédiat des :",
+    "description": "Description of Show full menu"
+  },
+  "optionsChoiceGetLinks": {
+    "message": "Liens référencés dans la page",
+    "description": "Title of Links"
+  },
+  "optionsChoiceGetContent": {
+    "message": "Médias contenus dans la page",
+    "description": "Title of Content"
+  },
+  "optionsChoiceStartPaused": {
+    "message": "Mettre en pause",
+    "description": "Title of Start paused"
+  },
+  "optionsAbout": {
+    "message": "A propos",
+    "description": "Title of About"
+  },
+  "optionsInstall": {
+    "message": "Installer",
+    "description": "Title of Installation"
+  },
+  "optionsInstallMessage": {
+    "message": "Aller à la page $START$téléchargements$END$ pour installer l'application sur votre système d'exploitation.",
+    "description": "Tells the user how to install the application.",
+    "placeholders": {
+      "start" : {
+        "content" : "<a href=\"$1\">",
+        "description": "HTML tag <a>"
+      },
+      "end" : {
+        "content" : "</a>",
+        "description": "HTML tag </a>"
+      }
+    }
+  },
+  "optionsRefresh": {
+    "message": "Rafraîchir les infos $SYMBOL$",
+    "description": "Title of Refresh information",
+    "placeholders": {
+      "symbol" : {
+        "content" : "$1"
+      }
+    }
+  },
+
+  "optionsStatus": {
+    "message": "Statut :",
+    "description": "Title of Status"
+  },
+  "optionsOk": {
+    "message": "Ok",
+    "description": "Title of Ok"
+  },
+  "optionsDetectedPath": {
+    "message": "Chemin détecté:",
+    "description": "Title of Detected path"
+  },
+  "optionsError": {
+    "message": "Erreur: Launcher pas trouvé",
+    "description": "Title of Error"
+  },
+  "optionsInstructions": {
+    "message": "Suivez les instructions ci-dessous.",
+    "description": "Title of Instructions"
+  }
+}

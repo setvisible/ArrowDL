@@ -2234,26 +2234,6 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
         <translation>Copyright (C) %0 %1. Tous droits réservés.</translation>
     </message>
     <message>
-        <location filename="../about.h" line="35"/>
-        <source>GNU LGPL License</source>
-        <translation>Licence GNU LGPL</translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="37"/>
-        <source>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../about.h" line="45"/>
-        <source>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../about.h" line="49"/>
-        <source>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../about.h" line="74"/>
         <source>About %0</source>
         <translation>À propos de %0</translation>
@@ -2726,17 +2706,17 @@ Astuce: si vous rencontrez une erreur :
 <context>
     <name>TorrentContextPrivate</name>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="536"/>
+        <location filename="../core/torrentcontext_p.cpp" line="504"/>
         <source>Network request rejected.</source>
         <translation>Rejet de la requête réseau.</translation>
     </message>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="587"/>
+        <location filename="../core/torrentcontext_p.cpp" line="555"/>
         <source>Can&apos;t download metadata.</source>
         <translation>Impossible de réceptionner les métadonnées.</translation>
     </message>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="598"/>
+        <location filename="../core/torrentcontext_p.cpp" line="566"/>
         <source>No metadata downloaded.</source>
         <translation>Aucune métadonnée récupérée.</translation>
     </message>
