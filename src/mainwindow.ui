@@ -59,14 +59,15 @@
     <property name="title">
      <string>&amp;Help</string>
     </property>
+    <addaction name="actionAbout"/>
+    <addaction name="separator"/>
     <addaction name="actionCheckForUpdates"/>
     <addaction name="separator"/>
     <addaction name="actionTutorial"/>
-    <addaction name="separator"/>
-    <addaction name="actionAbout"/>
-    <addaction name="actionAboutYoutubeDL"/>
-    <addaction name="actionAboutQt"/>
     <addaction name="actionAboutCompiler"/>
+    <addaction name="separator"/>
+    <addaction name="actionAboutQt"/>
+    <addaction name="actionAboutYoutubeDL"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">

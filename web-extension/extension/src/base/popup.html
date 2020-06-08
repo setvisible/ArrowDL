@@ -11,7 +11,7 @@
         <ul>
             <li id="button-start">
                 <img srcset="style/start_16x16.png, style/start_16x16@2x.png 2x" />
-                <span>Download...</span>
+                <span id="button-download">Download...</span>
             </li>
             <li id="button-immediate-download">
                 <img srcset="style/start_16x16.png, style/start_16x16@2x.png 2x" />
@@ -22,18 +22,18 @@
             </li>
             <li id="button-manager">
                 <img srcset="style/manager_16x16.png, style/manager_16x16@2x.png 2x" />
-                <span>Open DZA!</span>
+                <span id="button-open">Open DZA!</span>
             </li>
             <li class="separator">
                 <hr/>
             </li>
             <li id="button-preference">
                 <span class="icon icon-settings"/>
-                <span>Preferences...</span>
+                <span id="button-preferences">Preferences...</span>
             </li>
             <li id="button-options-page">
                 <span class="icon icon-settings"/>
-                <span>Options...</span>
+                <span id="button-options">Options...</span>
             </li>
             <li class="separator">
                 <hr/>
@@ -44,18 +44,24 @@
             <div id="warning-area" style="display:none;">
                 <br/>
                 <div class="alert alert-danger">
-                    <p><strong>Error</strong><br />
-                    Can't find the application<br />
-                    Open 'Options' to check</p>
+                    <p>
+                    <strong><span id="msg-error">Error</span></strong>
+                    <br />
+                    <span id="msg-error-1">Can't find the application</span>
+                    <br />
+                    <span id="msg-error-2">Open 'Options' to check</span>
+                    </p>
                 </div>
             </div>
             <div id="warning-area-incognito" style="display:none;">
                 <br/>
                 <div class="alert alert-warning">
-                    <p><strong>Remark</strong><br />
-                    Incognito Mode disables<br />
-                    download features<br />
-                    (Firefox bug <a class="alert-warning alert-link" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1329304">#1329304</a>)</p>
+                    <p>
+                    <strong><span id="msg-remark">Remark</span></strong>
+                    <br />
+                    <span id="msg-remark-1">Incognito Mode disables download features</span>
+                    <br />
+                    (Firefox bug <a id="bug-link" class="alert-warning alert-link" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1329304">#1329304</a>)</p>
                 </div>
             </div>
         </ul>

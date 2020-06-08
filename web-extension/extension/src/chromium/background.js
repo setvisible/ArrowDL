@@ -1,36 +1,38 @@
 "use strict";
 
-const application = "DownRightNow";
+const application = "com.setvisible.downrightnow";
 
 /* ***************************** */
 /* Context Menu                  */
 /* ***************************** */
-browser.contextMenus.removeAll(
+function contextMenusCreateCallback() {
+    if (chrome.runtime.lastError) {
+        console.log(chrome.runtime.lastError.message);
+    }
+};
+
+chrome.contextMenus.removeAll(
   function() {
     function addAction(actionId, actionTitle, actionContext) {
-      browser.contextMenus.create({
+      chrome.contextMenus.create({
         id: actionId,
         title: actionTitle,
-        icons: {
-            "16": "icons/icon16.png",
-            "32": "icons/icon32.png"
-          },
         contexts: [actionContext]
-      });
+        }, contextMenusCreateCallback);
     }
-    addAction("save-page",        "Down Right Now",                       "page");
-    addAction("save-frame",       "Save frame with Down Right Now",       "frame");
-    addAction("save-selection",   "Save selection with Down Right Now",   "selection");
-    addAction("save-link",        "Save link with Down Right Now",        "link");
-    addAction("save-editable",    "Save editable with Down Right Now",    "editable");
-    addAction("save-image",       "Save image with Down Right Now",       "image");
-    addAction("save-video",       "Save video with Down Right Now",       "video");
-    addAction("save-audio",       "Save audio with Down Right Now",       "audio");
-    addAction("save-launcher",    "Save launcher with Down Right Now",    "launcher");  
+    addAction("save-page",      chrome.i18n.getMessage("contextMenuSavePage"),      "page");
+    addAction("save-frame",     chrome.i18n.getMessage("contextMenuSaveFrame"),     "frame");
+    addAction("save-selection", chrome.i18n.getMessage("contextMenuSaveSelection"), "selection");
+    addAction("save-link",      chrome.i18n.getMessage("contextMenuSaveLink"),      "link");
+    addAction("save-editable",  chrome.i18n.getMessage("contextMenuSaveEditable"),  "editable");
+    addAction("save-image",     chrome.i18n.getMessage("contextMenuSaveImage"),     "image");
+    addAction("save-video",     chrome.i18n.getMessage("contextMenuSaveVideo"),     "video");
+    addAction("save-audio",     chrome.i18n.getMessage("contextMenuSaveAudio"),     "audio");
+    addAction("save-launcher",  chrome.i18n.getMessage("contextMenuSaveLauncher"),  "launcher");
   }
 );
 
-browser.contextMenus.onClicked.addListener(
+chrome.contextMenus.onClicked.addListener(
   function(info, tab) {
            if (info.menuItemId === "save-page"        ) { save_page(info, tab);
     } else if (info.menuItemId === "save-frame"       ) { save_page(info, tab);
@@ -66,14 +68,21 @@ var mySettings = undefined;
 
 function getDownloadActionChoice() {
   function onOptionResponse(response) {
-    mySettings = response;
-    // console.log("Settings changed: " + JSON.stringify(mySettings));
+    if (chrome.runtime.lastError) {
+      console.log(chrome.runtime.lastError.message);
+      onOptionError(response);
+    }
+    if (response === undefined) {
+      onOptionError(response);
+    } else {
+      mySettings = response;
+      // console.log("Settings changed: " + JSON.stringify(mySettings));
+    }
   }
   function onOptionError(error) {
     console.log(`Error: ${error}`);
   }
-  var getting = browser.storage.local.get();
-  getting.then(onOptionResponse, onOptionError);
+  chrome.storage.local.get(onOptionResponse);
 }
 
 getDownloadActionChoice();
@@ -165,7 +174,7 @@ function collectDOMandSendData() {
 
   var myArgument = JSON.stringify(mySettings);
 
-  // We have permission to access the activeTab, so we can call browser.tabs.executeScript.
+  // We have permission to access the activeTab, so we can call chrome.tabs.executeScript.
   /* Remark:
    * code: "<some code here>"
    * The value of "<some code here>" is actually the function's code of myFunction.
@@ -174,9 +183,12 @@ function collectDOMandSendData() {
    */
   var codeToExecute = "(" + myFunction + ")(" + myArgument + ");";
 
-  browser.tabs.executeScript({
+  chrome.tabs.executeScript({
       "code": codeToExecute
-    }, function(results) {
+    }, function(results) {  
+      if (chrome.runtime.lastError) {
+        console.log(chrome.runtime.lastError.message);
+      }
       sendData(results[0]);
     }
   );
@@ -201,14 +213,22 @@ function handleMessage(request, sender, sendResponse) {
   sendResponse({response: "ok"});
 }
 
-browser.runtime.onMessage.addListener(handleMessage);
+chrome.runtime.onMessage.addListener(handleMessage);
 
 /* ***************************** */
 /* Native Message                */
 /* ***************************** */
 function sendData(links) {
-  function onResponse(message) {
-    console.log(`Message from the launcher:  ${message.text}`);
+  function onResponse(response) {
+    if (chrome.runtime.lastError) {
+      console.log(chrome.runtime.lastError.message);
+      onError(response);
+    }
+    if (response === undefined) {
+      onError(response);
+    } else {
+      console.log("Message from the launcher:  " + response.text);
+    }
   }
 
   function onError(error) {
@@ -217,8 +237,7 @@ function sendData(links) {
 
   var data = "launch " + links;
   console.log("Sending message to launcher:  " + data);
-  var sending = browser.runtime.sendNativeMessage(application, data);
-  sending.then(onResponse, onError);
+  chrome.runtime.sendNativeMessage(application, { "text": data }, onResponse);
 }
 
 /* ***************************** */

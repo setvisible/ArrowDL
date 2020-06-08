@@ -418,11 +418,9 @@ after_test:
   - set ZIP_FILE="DownZemAll_v%AppVersion%_windows-%COMPILER%-%PLATFORM%.zip"
   - 7z a %ZIP_FILE% .\..\..\install-DownZemAll-cmake\*
 
-# zip the browser addons
-
-# update manifest.json versions
+# make the browser addons
   - cd C:\projects\DownZemAll\web-extension\extension
-  - .\synchronize_versions.bat
+  - .\make.bat --output-directory .
   - cd C:\projects\DownZemAll\bin
 
 # DownRightNow_webextension_firefox_v1.2.0.xpi

@@ -12,16 +12,11 @@
       "64": "icons/icon64.png",
       "128": "icons/icon128.png"
     },
-    "default_title": "Down Right Now",
+    "default_title": "__MSG_extensionName__",
     "default_popup": "popup.html"
   },
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "DownRightNow@example.org",
-      "strict_min_version": "57.0"
-    }
-  },
-  "description": "The Right Download Manager for your browser",
+  "default_locale": "en",
+  "description": "__MSG_extensionDescription__",
   "homepage_url": "https://setvisible.github.io/DownZemAll",
   "icons": {
     "16": "icons/icon16.png",
@@ -32,16 +27,14 @@
     "128": "icons/icon128.png"
   },
   "manifest_version": 2,
-  "name": "Down Right Now",
+  "name": "__MSG_extensionName__",
   "options_ui": {
     "page": "options.html",
-    "browser_style": false
+    "chrome_style": false
   },
   "permissions": [
-    "<all_urls>",
     "activeTab",
     "contextMenus",
-    "menus",
     "nativeMessaging",
     "storage",
     "tabs"
