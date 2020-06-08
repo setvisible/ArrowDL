@@ -54,18 +54,22 @@ function setVisible(name, visible) {
 }
 
 function immediateButtonLabel() {
-  var label = "Download ";
   var mediaId = getBackgroundPage().getSettingMediaId();
-  if (mediaId === 1) {
-    label += " links";
-  } else if (mediaId === 2) {
-    label += " content";
-  }
   var startPaused = getBackgroundPage().isSettingStartPaused();
-  if (startPaused) {
-    label += " (paused)";
+  if (mediaId === 1) {
+    if (startPaused) {
+      return browser.i18n.getMessage("popupDownloadLinksPaused")
+    } else {
+      return browser.i18n.getMessage("popupDownloadLinks")
+    }
+  } else if (mediaId === 2) {
+    if (startPaused) {
+      return browser.i18n.getMessage("popupDownloadContentPaused")
+    } else {
+      return browser.i18n.getMessage("popupDownloadContent")
+    }
   }
-  return label;
+  return "";
 }
 
 function safeInnerHtmlAssignment(elementId, label) {
@@ -198,3 +202,24 @@ document.getElementById("button-website").addEventListener('click', () => {
     window.open(document.getElementById("website-link").getAttribute("href"), "_blank");
     window.close();
 });
+
+document.getElementById("bug-link").addEventListener('click', () => {
+    window.open(document.getElementById("bug-link").getAttribute("href"), "_blank");
+    window.close();
+});
+
+/* ***************************** */
+/* Internationalization          */
+/* ***************************** */
+document.getElementById("button-download").innerHTML     = browser.i18n.getMessage("popupDownload");
+document.getElementById("button-open").innerHTML         = browser.i18n.getMessage("popupOpen");
+document.getElementById("button-preferences").innerHTML  = browser.i18n.getMessage("popupPreferences");
+document.getElementById("button-options").innerHTML      = browser.i18n.getMessage("popupOptions");
+document.getElementById("website-link").innerHTML        = browser.i18n.getMessage("popupVisitWebsite");
+
+document.getElementById("msg-error").innerHTML           = browser.i18n.getMessage("popupError");
+document.getElementById("msg-error-1").innerHTML         = browser.i18n.getMessage("popupError1");
+document.getElementById("msg-error-2").innerHTML         = browser.i18n.getMessage("popupError2");
+
+document.getElementById("msg-remark").innerHTML          = browser.i18n.getMessage("popupRemark");
+document.getElementById("msg-remark-1").innerHTML        = browser.i18n.getMessage("popupRemark1");

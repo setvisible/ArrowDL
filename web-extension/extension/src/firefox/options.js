@@ -136,16 +136,20 @@ function showOptions(visible) {
 function checkConnection() {
   function onHelloResponse(response) {
     console.log(`Message from the launcher:  ${response.text}`);
-    var connectionStatus = "✓ Ok";
-    var details = "<br><br>Detected path:<br><code>" + response.text + "</code>";
+    var messageOk = browser.i18n.getMessage("optionsOk");
+    var messageDetectedPath = browser.i18n.getMessage("optionsDetectedPath");
+    var connectionStatus = "✓ " + messageOk;
+    var details = "<br><br>" + messageDetectedPath + "<br><code>" + response.text + "</code>";
     safeInnerHtmlAssignment(connectionStatus, details, "MediumSeaGreen");
     showOptions(true);
   }
 
   function onHelloError(error) {
     console.log(`Launcher didn't send any message. ${error}.`);
-    var connectionStatus = "⚠ Error: Can't find the launcher";
-    var details = "<br><br>Follow the instructions below.";
+    var messageError = browser.i18n.getMessage("optionsError");
+    var messageInstructions = browser.i18n.getMessage("optionsInstructions");
+    var connectionStatus = "⚠ " + messageError;
+    var details = "<br><br>" + messageInstructions;
     safeInnerHtmlAssignment(connectionStatus, details, "Tomato");
     showOptions(false);
   }
@@ -156,7 +160,8 @@ function checkConnection() {
 }
 
 function safeInnerHtmlAssignment(connectionStatus, details, color) {
-  const statusTag = `<span>Status:&nbsp;&nbsp;<span style="padding: 5px 10px 5px 10px; solid ${color}; background-color:${color}; color:White;">${connectionStatus}</span>&nbsp;&nbsp;&nbsp;&nbsp;${details}</span>`;
+  var messageStatus = browser.i18n.getMessage("optionsStatus");
+  const statusTag = `<span>${messageStatus}&nbsp;&nbsp;<span style="padding: 5px 10px 5px 10px; solid ${color}; background-color:${color}; color:White;">${connectionStatus}</span>&nbsp;&nbsp;&nbsp;&nbsp;${details}</span>`;
 
   const parser = new DOMParser()
   const parsed = parser.parseFromString(statusTag, `text/html`)
@@ -215,3 +220,21 @@ document.addEventListener("DOMContentLoaded", loadPage);
 document.getElementById("button-check").addEventListener("click", () => {
     checkInstallation();
 })
+
+/* ***************************** */
+/* Internationalization          */
+/* ***************************** */
+document.getElementById("main-title").innerHTML           = browser.i18n.getMessage("optionsMainTitle");
+document.getElementById("toolbar-menu").innerHTML         = browser.i18n.getMessage("optionsToolbarMenu");
+document.getElementById("show-simple-menu").innerHTML     = browser.i18n.getMessage("optionsShowSimpleMenu");
+document.getElementById("show-full-menu").innerHTML       = browser.i18n.getMessage("optionsShowFullMenu");
+document.getElementById("full_menu_label").innerHTML      = browser.i18n.getMessage("optionsShowFullMenuDescription");
+document.getElementById("choice-get-links").innerHTML     = browser.i18n.getMessage("optionsChoiceGetLinks");
+document.getElementById("choice-get-content").innerHTML   = browser.i18n.getMessage("optionsChoiceGetContent");
+document.getElementById("choice-start-paused").innerHTML  = browser.i18n.getMessage("optionsChoiceStartPaused");
+document.getElementById("about").innerHTML                = browser.i18n.getMessage("optionsAbout");
+document.getElementById("install").innerHTML              = browser.i18n.getMessage("optionsInstall");
+document.getElementById("install-message").innerHTML      = browser.i18n.getMessage("optionsInstallMessage", 
+                                                                                    "https://setvisible.github.io/DownZemAll/category/download.html");
+document.getElementById("button-check").innerHTML         = browser.i18n.getMessage("optionsRefresh", "»");
+

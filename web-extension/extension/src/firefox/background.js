@@ -18,15 +18,15 @@ browser.contextMenus.removeAll(
         contexts: [actionContext]
       });
     }
-    addAction("save-page",        "Down Right Now",                       "page");
-    addAction("save-frame",       "Save frame with Down Right Now",       "frame");
-    addAction("save-selection",   "Save selection with Down Right Now",   "selection");
-    addAction("save-link",        "Save link with Down Right Now",        "link");
-    addAction("save-editable",    "Save editable with Down Right Now",    "editable");
-    addAction("save-image",       "Save image with Down Right Now",       "image");
-    addAction("save-video",       "Save video with Down Right Now",       "video");
-    addAction("save-audio",       "Save audio with Down Right Now",       "audio");
-    addAction("save-launcher",    "Save launcher with Down Right Now",    "launcher");  
+    addAction("save-page",      browser.i18n.getMessage("contextMenuSavePage"),      "page");
+    addAction("save-frame",     browser.i18n.getMessage("contextMenuSaveFrame"),     "frame");
+    addAction("save-selection", browser.i18n.getMessage("contextMenuSaveSelection"), "selection");
+    addAction("save-link",      browser.i18n.getMessage("contextMenuSaveLink"),      "link");
+    addAction("save-editable",  browser.i18n.getMessage("contextMenuSaveEditable"),  "editable");
+    addAction("save-image",     browser.i18n.getMessage("contextMenuSaveImage"),     "image");
+    addAction("save-video",     browser.i18n.getMessage("contextMenuSaveVideo"),     "video");
+    addAction("save-audio",     browser.i18n.getMessage("contextMenuSaveAudio"),     "audio");
+    addAction("save-launcher",  browser.i18n.getMessage("contextMenuSaveLauncher"),  "launcher");
   }
 );
 
