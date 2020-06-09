@@ -135,7 +135,7 @@
     "description": "Title of Content"
   },
   "optionsChoiceStartPaused": {
-    "message": "Mettre en pause",
+    "message": "Ajouter en pause",
     "description": "Title of Start paused"
   },
   "optionsAbout": {

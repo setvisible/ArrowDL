@@ -224,15 +224,15 @@ document.getElementById("button-website").addEventListener('click', () => {
 /* ***************************** */
 /* Internationalization          */
 /* ***************************** */
-document.getElementById("button-download").innerHTML     = chrome.i18n.getMessage("popupDownload");
-document.getElementById("button-open").innerHTML         = chrome.i18n.getMessage("popupOpen");
-document.getElementById("button-preferences").innerHTML  = chrome.i18n.getMessage("popupPreferences");
-document.getElementById("button-options").innerHTML      = chrome.i18n.getMessage("popupOptions");
-document.getElementById("website-link").innerHTML        = chrome.i18n.getMessage("popupVisitWebsite");
+safeInnerHtmlAssignment("button-download",    chrome.i18n.getMessage("popupDownload"));
+safeInnerHtmlAssignment("button-open",        chrome.i18n.getMessage("popupOpen"));
+safeInnerHtmlAssignment("button-preferences", chrome.i18n.getMessage("popupPreferences"));
+safeInnerHtmlAssignment("button-options",     chrome.i18n.getMessage("popupOptions"));
+safeInnerHtmlAssignment("website-link",       chrome.i18n.getMessage("popupVisitWebsite"));
 
-document.getElementById("msg-error").innerHTML           = chrome.i18n.getMessage("popupError");
-document.getElementById("msg-error-1").innerHTML         = chrome.i18n.getMessage("popupError1");
-document.getElementById("msg-error-2").innerHTML         = chrome.i18n.getMessage("popupError2");
+safeInnerHtmlAssignment("msg-error",          chrome.i18n.getMessage("popupError"));
+safeInnerHtmlAssignment("msg-error-1",        chrome.i18n.getMessage("popupError1"));
+safeInnerHtmlAssignment("msg-error-2",        chrome.i18n.getMessage("popupError2"));
 
-document.getElementById("msg-remark").innerHTML          = chrome.i18n.getMessage("popupRemark");
-document.getElementById("msg-remark-1").innerHTML        = chrome.i18n.getMessage("popupRemark1");
+safeInnerHtmlAssignment("msg-remark",         chrome.i18n.getMessage("popupRemark"));
+safeInnerHtmlAssignment("msg-remark-1",       chrome.i18n.getMessage("popupRemark1"));
