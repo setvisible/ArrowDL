@@ -17,8 +17,9 @@
 #include "torrentwidget.h"
 #include "ui_torrentwidget.h"
 
-#include <Core/DownloadTorrentItem>
 #include <Core/Format>
+#include <Core/ITorrentContext>
+#include <Core/Torrent>
 #include <Core/TorrentMessage>
 
 #include <QtCore/QDebug>
@@ -109,7 +110,8 @@ static const Headers trackerTableHeaders
  ******************************************************************************/
 TorrentWidget::TorrentWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::TorrentWidget)
-  , m_item(Q_NULLPTR)
+  , m_torrentContext(Q_NULLPTR)
+  , m_torrent(Q_NULLPTR)
 {
     ui->setupUi(this);
 
@@ -133,36 +135,47 @@ TorrentWidget::~TorrentWidget()
 
 /******************************************************************************
  ******************************************************************************/
+ITorrentContext *TorrentWidget::torrentContext() const
+{
+    return m_torrentContext;
+}
+
+void TorrentWidget::setTorrentContext(ITorrentContext *torrentContext)
+{
+    m_torrentContext = torrentContext;
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void TorrentWidget::clear()
 {
-    m_item = Q_NULLPTR;
+    m_torrent = Q_NULLPTR;
     resetUi();
 }
 
 bool TorrentWidget::isEmpty() const
 {
-    return m_item == Q_NULLPTR;
+    return m_torrent == Q_NULLPTR;
 }
 
 /******************************************************************************
  ******************************************************************************/
-IDownloadItem *TorrentWidget::downloadItem() const
+Torrent *TorrentWidget::torrent() const
 {
-    return m_item;
+    return m_torrent;
 }
 
-void TorrentWidget::setDownloadItem(IDownloadItem *item)
-{    
-    DownloadTorrentItem *torrentItem = dynamic_cast<DownloadTorrentItem*>(item);
-    if (m_item == torrentItem) {
+void TorrentWidget::setTorrent(Torrent *torrent)
+{
+    if (m_torrent == torrent) {
         return;
     }
-    if (m_item) {
-        disconnect(m_item, &DownloadTorrentItem::changed, this, &TorrentWidget::onChanged);
+    if (m_torrent) {
+        disconnect(m_torrent, &Torrent::changed, this, &TorrentWidget::onChanged);
     }
-    m_item = torrentItem;
-    if (m_item) {
-        connect(m_item, &DownloadTorrentItem::changed, this, &TorrentWidget::onChanged);
+    m_torrent = torrent;
+    if (m_torrent) {
+        connect(m_torrent, &Torrent::changed, this, &TorrentWidget::onChanged);
     }
     resetUi();
 }
@@ -228,12 +241,12 @@ void TorrentWidget::onChanged()
  ******************************************************************************/
 void TorrentWidget::resetUi()
 {
-    if (m_item) {
-        m_item->retranslateUi();
+    if (m_torrent) {
+        m_torrent->retranslateUi();
 
-        QAbstractTableModel* fileModel = m_item->fileModel();
-        QAbstractTableModel* peerModel = m_item->peerModel();
-        QAbstractTableModel* trackerModel = m_item->trackerModel();
+        QAbstractTableModel* fileModel = m_torrent->fileModel();
+        QAbstractTableModel* peerModel = m_torrent->peerModel();
+        QAbstractTableModel* trackerModel = m_torrent->trackerModel();
 
         ui->fileTableView->setModel(fileModel);
         ui->peerTableView->setModel(peerModel);
@@ -262,7 +275,7 @@ void TorrentWidget::resetUi()
 
 void TorrentWidget::retranslateUi()
 {
-    if (m_item) {
+    if (m_torrent) {
         resetUi();
     }
     updateTorrentPage();
@@ -272,17 +285,17 @@ void TorrentWidget::retranslateUi()
  ******************************************************************************/
 void TorrentWidget::updateWidget()
 {
-    if (!m_item) {
+    if (!m_torrent) {
         ui->stackedWidget->setCurrentWidget(ui->pageGeneral);
 
     } else {
-        if (m_item->metaInfo().error.type == TorrentError::NoError) {
+        if (m_torrent->metaInfo().error.type == TorrentError::NoError) {
             updateProgressBar();
             updateTorrentPage();
             ui->stackedWidget->setCurrentWidget(ui->pageTorrent);
 
         } else {
-            ui->labelErrorMessage->setText(m_item->metaInfo().error.message);
+            ui->labelErrorMessage->setText(m_torrent->metaInfo().error.message);
             ui->stackedWidget->setCurrentWidget(ui->pageTorrentError);
         }
     }
@@ -292,8 +305,8 @@ void TorrentWidget::updateWidget()
  ******************************************************************************/
 void TorrentWidget::updateProgressBar()
 {
-    if (m_item && m_item->progress() >= 0) {
-        ui->downloadedProgressBar->setValue(m_item->progress());
+    if (m_torrent && m_torrent->progress() >= 0) {
+        ui->downloadedProgressBar->setValue(m_torrent->progress());
     } else {
         ui->downloadedProgressBar->setValue(0);
     }
@@ -303,11 +316,11 @@ void TorrentWidget::updateProgressBar()
  ******************************************************************************/
 void TorrentWidget::updateTorrentPage()
 {
-    if (!m_item) {
+    if (!m_torrent) {
         return;
     }
-    const TorrentMetaInfo &mi = m_item->metaInfo();
-    const TorrentInfo &ti = m_item->info();
+    const TorrentMetaInfo &mi = m_torrent->metaInfo();
+    const TorrentInfo &ti = m_torrent->info();
 
     auto wasted         = tr("%0 (%1 hashfails)")
             .arg(Format::fileSizeToString(ti.bytesFailed + ti.bytesRedundant))
@@ -332,7 +345,7 @@ void TorrentWidget::updateTorrentPage()
             .arg(text(mi.peersInSwarm));
 
     auto shareRatio     = text(QString("0.000"));
-    auto status         = text(m_item ? m_item->status() : QString());
+    auto status         = text(m_torrent ? m_torrent->status() : QString());
 
     auto pieces         = tr("%0 x %1")
             .arg(text(mi.initialMetaInfo.pieceCount))

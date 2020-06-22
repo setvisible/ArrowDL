@@ -65,9 +65,6 @@ SOURCES     += $$PWD/../../../src/core/downloadstreamitem.cpp
 HEADERS     += $$PWD/../../../src/core/downloadtorrentitem.h
 SOURCES     += $$PWD/../../../src/core/downloadtorrentitem.cpp
 
-HEADERS     += $$PWD/../../../src/core/downloadtorrentitem_p.h
-SOURCES     += $$PWD/../../../src/core/downloadtorrentitem_p.cpp
-
 HEADERS     += $$PWD/../../../src/core/file.h
 SOURCES     += $$PWD/../../../src/core/file.cpp
 
@@ -77,6 +74,8 @@ SOURCES     += $$PWD/../../../src/core/format.cpp
 HEADERS     += $$PWD/../../../src/core/ifileaccessmanager.h
 
 HEADERS     += $$PWD/../../../src/core/idownloaditem.h
+
+HEADERS     += $$PWD/../../../src/core/itorrentcontext.h
 
 HEADERS     += $$PWD/../../../src/core/resourceitem.h
 SOURCES     += $$PWD/../../../src/core/resourceitem.cpp
@@ -92,6 +91,9 @@ SOURCES     += $$PWD/../../../src/core/settings.cpp
 
 HEADERS     += $$PWD/../../../src/core/stream.h
 SOURCES     += $$PWD/../../../src/core/stream.cpp
+
+HEADERS     += $$PWD/../../../src/core/torrent.h
+SOURCES     += $$PWD/../../../src/core/torrent.cpp
 
 HEADERS     += $$PWD/../../../src/core/torrentcontext.h
 SOURCES     += $$PWD/../../../src/core/torrentcontext.cpp

@@ -375,6 +375,7 @@ void QueueItem::updateItem()
     }
 
     QString estTime = m_downloadItem->stateToString();
+
     if (m_downloadItem->state() == IDownloadItem::NetworkError) {
 
         if (m_downloadItem->errorMessage().isEmpty()) {
@@ -388,6 +389,12 @@ void QueueItem::updateItem()
             estTime += tr(" (%0)").arg(httpErrorNumber);
 
         } else {
+            estTime += tr(" (%0)").arg(m_downloadItem->errorMessage());
+        }
+
+    } else if (m_downloadItem->state() == IDownloadItem::FileError) {
+
+        if (!m_downloadItem->errorMessage().isEmpty()) {
             estTime += tr(" (%0)").arg(m_downloadItem->errorMessage());
         }
 

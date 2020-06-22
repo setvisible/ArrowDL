@@ -23,10 +23,12 @@
 
 #include <Core/IDownloadItem>
 #include <Core/DownloadManager>
+#include <Core/DownloadTorrentItem>
 #include <Core/FileAccessManager>
 #include <Core/Format>
 #include <Core/Locale>
 #include <Core/Settings>
+#include <Core/Torrent>
 #include <Core/TorrentContext>
 #include <Core/TorrentMessage>
 #include <Core/UpdateChecker>
@@ -129,6 +131,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     /* Connect the GUI to the DownloadManager. */
     ui->downloadQueueView->setEngine(m_downloadManager);
+
+    /* Connect the GUI to the TorrentContext. */
+    ui->torrentWidget->setTorrentContext(&torrentContext);
 
     /* Connect the SceneManager to the MainWindow. */
     /* The SceneManager centralizes the changes. */
@@ -1142,9 +1147,10 @@ void MainWindow::refreshSplitter()
 {
     if (m_downloadManager->selection().count() == 1) {
         IDownloadItem *item = m_downloadManager->selection().first();
-        ui->torrentWidget->setDownloadItem(item);
+        DownloadTorrentItem *torrentItem = dynamic_cast<DownloadTorrentItem*>(item);
+        ui->torrentWidget->setTorrent(torrentItem ? torrentItem->torrent() : Q_NULLPTR);
     } else {
-        ui->torrentWidget->setDownloadItem(Q_NULLPTR);
+        ui->torrentWidget->setTorrent(Q_NULLPTR);
     }
     if (!ui->torrentWidget->isEmpty() /*&& option.showable */) {
         ui->torrentWidget->show();

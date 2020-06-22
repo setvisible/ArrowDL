@@ -11,7 +11,6 @@ set(MY_TEST_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadmanager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadstreamitem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadtorrentitem.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadtorrentitem_p.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/format.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/file.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/mask.cpp
@@ -19,6 +18,7 @@ set(MY_TEST_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/session.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/settings.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/stream.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrent.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrentcontext.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrentcontext_p.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrentmessage.cpp

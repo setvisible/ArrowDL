@@ -72,6 +72,9 @@ public:
     bool isTorrentEnabled() const;
     void setTorrentEnabled(bool enabled);
 
+    QString torrentPreferredFilePriorities() const;
+    void setTorrentPreferredFilePriorities(const QString &priorities);
+
     bool isSelected() const; // OBSOLETE
     void setSelected(bool isSelected); // OBSOLETE
 
@@ -91,6 +94,7 @@ private:
     qint64 m_streamFileSize;
 
     bool m_isTorrentEnabled;
+    QString m_torrentPreferredFilePriorities;
 
     bool m_isSelected = false;
 

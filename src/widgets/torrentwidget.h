@@ -19,10 +19,12 @@
 
 #include <QtWidgets/QWidget>
 
-class QTableView;
+class ITorrentContext;
+class Torrent;
 
-class IDownloadItem;
-class DownloadTorrentItem;
+class QAction;
+class QLabel;
+class QTableView;
 
 namespace Ui {
 class TorrentWidget;
@@ -35,11 +37,14 @@ public:
     explicit TorrentWidget(QWidget *parent);
     ~TorrentWidget() Q_DECL_OVERRIDE;
 
+    ITorrentContext* torrentContext() const;
+    void setTorrentContext(ITorrentContext *torrentContext);
+
     void clear();
     bool isEmpty() const;
 
-    IDownloadItem* downloadItem() const;
-    void setDownloadItem(IDownloadItem *item);
+    Torrent* torrent() const;
+    void setTorrent(Torrent *torrent);
 
     QByteArray saveState(int version = 0) const;
     bool restoreState(const QByteArray &state, int version = 0);
@@ -52,7 +57,8 @@ private slots:
 
 private:
     Ui::TorrentWidget *ui;
-    DownloadTorrentItem *m_item;
+    ITorrentContext *m_torrentContext;
+    Torrent *m_torrent;
     QList<int> m_fileColumnsWidths;
     QList<int> m_peerColumnsWidths;
     QList<int> m_trackerColumnsWidths;

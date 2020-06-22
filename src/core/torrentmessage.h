@@ -19,17 +19,17 @@
 
 #include <Core/IDownloadItem>
 
-#include <QtCore/QObject>
-#include <QtCore/QList>
+#include <QtCore/QBitArray>
 #include <QtCore/QDateTime>
 #include <QtCore/QFlag>
 #include <QtCore/QFlags>
 #include <QtCore/QHash>
+#include <QtCore/QList>
+#include <QtCore/QObject>
 #include <QtCore/QPair>
 #include <QtCore/QString>
 #include <QtCore/QTime>
 
-#include "libtorrent/sha1_hash.hpp"
 
 template<typename Enum>
 static inline void _q_set_flag(QFlags<Enum> *f, Enum flag, bool on = true)
@@ -51,7 +51,6 @@ public:
         NoError,
 
         /* Errors when adding the torrent to the queue */
-
         // Couldn't download Magnet link or torrent file Metadata
         MetadataDownloadError,
 
@@ -90,6 +89,27 @@ public:
     QString ip;
     int port = 0;
 
+    EndPoint() {}
+    EndPoint(QString _ip, int _port) : ip(_ip), port(_port)
+    {
+    }
+    EndPoint(QString input)
+    {
+        fromString(input);
+    }
+
+    void fromString(const QString &input)
+    {
+        auto fragments = input.split(':');
+        ip = fragments.at(0);
+        port = fragments.at(1).toInt();
+    }
+
+    QString toString() const
+    {
+        return QString("%0:%1").arg(ip).arg(port);
+    }
+
     bool operator==(const EndPoint &other) const { return (ip == other.ip && port == other.port); }
     bool operator!=(const EndPoint &other) const { return !(*this == other); }
 
@@ -115,6 +135,19 @@ public:
     QString symlink;
     QString fileName;
     QString filePath;
+
+    QString shortFilePath() const
+    {
+        // Remove the name of the torrent file from the path to make the path shorter
+        int i = filePath.indexOf(QChar('\\'));
+        if (i < 0)
+            i = filePath.lastIndexOf(QChar('/'));
+        if (i >= 0)
+            i++;
+        return filePath.mid(i);
+    }
+
+
     bool isPathAbsolute = false;
     bool isPadFile = false;
 
@@ -212,10 +245,13 @@ public:
         return ret;
     }
 
+    TorrentPeerInfo() {}
+    TorrentPeerInfo(EndPoint _endpoint, QString _client) : endpoint(_endpoint), client(_client) {}
+
     EndPoint endpoint;
     QString client;
 
-    /// \todo piecesHoldByThePeer
+    QBitArray availablePieces; // 1: peer has that piece, 0: peer miss that piece
 
     qint64 bytesDownloaded = 0;
     qint64 bytesUploaded = 0;
@@ -260,6 +296,8 @@ public:
         default:              return QObject::tr("no source");
         }
     }
+
+    TorrentTrackerInfo(QString _url) : url(_url) {}
 
     QString url;
     QString trackerId; // '&trackerid=' argument passed to the tracker
@@ -338,6 +376,9 @@ public:
 
     qint64 bytesFailed = 0;
     qint64 bytesRedundant = 0;
+
+    QBitArray downloadedPieces;
+    QBitArray verifiedPieces; // seed mode only
 
     qint64 bytesReceived = 0;
     qint64 bytesTotal = 0;
@@ -447,14 +488,6 @@ public:
 
 /******************************************************************************
  ******************************************************************************/
-class TorrentPeerMetaInfo /// \todo remove
-{
-public:
-    EndPoint endpoint;
-};
-
-/******************************************************************************
- ******************************************************************************/
 class TorrentInitialMetaInfo
 {
 public:
@@ -538,8 +571,11 @@ public:
     QList<QString> httpSeeds; // if not empty, this list overrides the ones given in .torrent file
     QList<QString> urlSeeds; /// \todo unify seeds QLists
 
-    QList<TorrentPeerMetaInfo> defaultPeers;
-    QList<TorrentPeerMetaInfo> bannedPeers;
+    QList<TorrentPeerInfo> defaultPeers;
+    QList<TorrentPeerInfo> bannedPeers;
+
+    QBitArray downloadedPieces;
+    QBitArray verifiedPieces; // seed mode only
 
     QDateTime lastTimeDownload;
     QDateTime lastTimeUpload;
@@ -548,16 +584,7 @@ public:
 
 /******************************************************************************
  ******************************************************************************/
-typedef lt::sha1_hash UniqueId;
-
-/*
- * Note: qHash() must be declared inside the object's namespace
- */
-namespace libtorrent {
-inline uint qHash(const sha1_hash &key, uint seed) {
-    return qHash(QString::fromStdString(key.to_string()), seed);
-}
-}
+typedef QString UniqueId;
 
 struct TorrentData
 {
