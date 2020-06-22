@@ -18,7 +18,7 @@
 #define CORE_DOWNLOAD_TORRENT_ITEM_H
 
 #include <Core/DownloadItem>
-#include <Core/Torrent>
+#include <Core/TorrentMessage>
 
 #include <QtCore/QObject>
 #include <QtCore/QString>

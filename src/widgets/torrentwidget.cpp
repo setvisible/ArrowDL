@@ -19,7 +19,7 @@
 
 #include <Core/DownloadTorrentItem>
 #include <Core/Format>
-#include <Core/Torrent>
+#include <Core/TorrentMessage>
 
 #include <QtCore/QDebug>
 #include <QtCore/QAbstractTableModel>

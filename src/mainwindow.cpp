@@ -27,8 +27,8 @@
 #include <Core/Format>
 #include <Core/Locale>
 #include <Core/Settings>
-#include <Core/Torrent>
 #include <Core/TorrentContext>
+#include <Core/TorrentMessage>
 #include <Core/UpdateChecker>
 #include <Dialogs/AddBatchDialog>
 #include <Dialogs/AddContentDialog>

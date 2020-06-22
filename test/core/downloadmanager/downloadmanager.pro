@@ -93,12 +93,11 @@ SOURCES     += $$PWD/../../../src/core/settings.cpp
 HEADERS     += $$PWD/../../../src/core/stream.h
 SOURCES     += $$PWD/../../../src/core/stream.cpp
 
-HEADERS     += $$PWD/../../../src/core/torrent.h
-SOURCES     += $$PWD/../../../src/core/torrent.cpp
-
 HEADERS     += $$PWD/../../../src/core/torrentcontext.h
 SOURCES     += $$PWD/../../../src/core/torrentcontext.cpp
 
 HEADERS     += $$PWD/../../../src/core/torrentcontext_p.h
 SOURCES     += $$PWD/../../../src/core/torrentcontext_p.cpp
 
+HEADERS     += $$PWD/../../../src/core/torrentmessage.h
+SOURCES     += $$PWD/../../../src/core/torrentmessage.cpp

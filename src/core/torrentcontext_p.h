@@ -19,7 +19,7 @@
 
 #include "torrentcontext.h"
 
-#include <Core/Torrent>
+#include <Core/TorrentMessage>
 
 #include <QtCore/QObject>
 #include <QtCore/QThread>

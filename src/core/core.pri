@@ -24,9 +24,9 @@ HEADERS += \
     $$PWD/session.h \
     $$PWD/settings.h \
     $$PWD/stream.h \
-    $$PWD/torrent.h \
     $$PWD/torrentcontext.h \
     $$PWD/torrentcontext_p.h \
+    $$PWD/torrentmessage.h \
     $$PWD/updatechecker.h \
     $$PWD/updatechecker_p.h
 
@@ -53,7 +53,7 @@ SOURCES += \
     $$PWD/session.cpp \
     $$PWD/settings.cpp \
     $$PWD/stream.cpp \
-    $$PWD/torrent.cpp \
     $$PWD/torrentcontext.cpp \
     $$PWD/torrentcontext_p.cpp \
+    $$PWD/torrentmessage.cpp \
     $$PWD/updatechecker.cpp

@@ -17,7 +17,7 @@
 #include "downloadtorrentitem_p.h"
 
 #include <Core/Format>
-#include <Core/Torrent>
+#include <Core/TorrentMessage>
 
 #include <QtCore/QDebug>
 
