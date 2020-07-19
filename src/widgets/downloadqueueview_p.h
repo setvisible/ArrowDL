@@ -19,7 +19,6 @@
 
 #include "downloadqueueview.h"
 
-#include <QtWidgets/QStyledItemDelegate>
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QTreeWidgetItem>
 
