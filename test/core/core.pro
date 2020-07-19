@@ -9,4 +9,5 @@ SUBDIRS += $$PWD/mask
 SUBDIRS += $$PWD/regex
 SUBDIRS += $$PWD/resourceitem
 SUBDIRS += $$PWD/stream
+SUBDIRS += $$PWD/torrentcontext
 SUBDIRS += $$PWD/updatechecker
