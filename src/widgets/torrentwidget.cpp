@@ -21,15 +21,34 @@
 #include <Core/ITorrentContext>
 #include <Core/Torrent>
 #include <Core/TorrentMessage>
+#include <Widgets/CustomStyle>
+#include <Widgets/CustomStyleOptionProgressBar>
+#include <Widgets/TorrentProgressBar>
 
 #include <QtCore/QDebug>
 #include <QtCore/QAbstractTableModel>
-#include <QtWidgets/QTableView>
+#include <QtCore/QBitArray>
+#include <QtCore/QPair>
+#include <QtCore/QVector>
+#include <QtGui/QClipboard>
+#include <QtGui/QPainter>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QInputDialog>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QStackedWidget>
+#include <QtWidgets/QTableView>
 
 #define C_COLUMN_MINIMUM_WIDTH       10
 #define C_COLUMN_DEFAULT_WIDTH      100
 #define C_ROW_DEFAULT_HEIGHT         18
+
+/* Constant */
+static const QColor s_black         = QColor(0, 0, 0);
+static const QColor s_lightBlue     = QColor(205, 232, 255);
+static const QColor s_darkGrey      = QColor(160, 160, 160);
+static const QColor s_green         = QColor(170, 224, 97);
+static const QColor s_darkGreen     = QColor(0, 143, 0);
 
 
 /******************************************************************************
@@ -70,10 +89,10 @@ static const Headers fileTableHeaders
      { 460, QLatin1String("Path")},
      {  60, QLatin1String("Size")},
      {  60, QLatin1String("Done")},
-     {  60, QLatin1String("%")},
+     {  60, QLatin1String("Percent")},
      {  60, QLatin1String("First Piece")},
      {  60, QLatin1String("# Pieces")},
-     { 120, QLatin1String("Pieces")},   /// \todo graph
+     { 120, QLatin1String("Pieces")},
      {  60, QLatin1String("Priority")},
      { 120, QLatin1String("Modification date")},
      { 100, QLatin1String("SHA-1")},
@@ -108,6 +127,51 @@ static const Headers trackerTableHeaders
 
 /******************************************************************************
  ******************************************************************************/
+FileTableViewItemDelegate::FileTableViewItemDelegate(QObject *parent)
+    : QStyledItemDelegate(parent)
+{
+}
+
+void FileTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
+                                      const QModelIndex &index ) const
+{
+    QStyleOptionViewItem myOption = option;
+    initStyleOption(&myOption, index);
+
+    myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
+    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
+
+    if (index.column() == 7) {
+        const int progress = index.data(AbstractTorrentTableModel::ProgressRole).toInt();
+
+        QBitArray segments = index.data(AbstractTorrentTableModel::SegmentRole).toBitArray();
+
+        CustomStyleOptionProgressBar progressBarOption;
+        progressBarOption.state = QStyle::State_Enabled;
+        progressBarOption.direction = QApplication::layoutDirection();
+        progressBarOption.rect = myOption.rect;
+        progressBarOption.fontMetrics = QApplication::fontMetrics();
+        progressBarOption.minimum = 0;
+        progressBarOption.maximum = 100;
+        progressBarOption.textAlignment = Qt::AlignCenter;
+        progressBarOption.textVisible = false;
+        progressBarOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
+        progressBarOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
+        progressBarOption.progress = progress;
+        progressBarOption.color = progress < 100 ? s_green : s_darkGreen;
+        progressBarOption.icon = QIcon();
+
+        progressBarOption.hasSegments = true;
+        progressBarOption.segments = segments;
+
+        QApplication::style()->drawControl(QStyle::CE_ProgressBar, &progressBarOption, painter);
+    } else {
+        QStyledItemDelegate::paint(painter, option, index);
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
 TorrentWidget::TorrentWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::TorrentWidget)
   , m_torrentContext(Q_NULLPTR)
@@ -123,7 +187,10 @@ TorrentWidget::TorrentWidget(QWidget *parent) : QWidget(parent)
     setupUiTableView(ui->peerTableView);
     setupUiTableView(ui->trackerTableView);
 
-    ui->downloadedProgressBar->setRange(0, 100);
+    ui->fileTableView->setItemDelegate(new FileTableViewItemDelegate(this));
+
+    setupContextMenus();
+    setupInfoCopy();
 
     resetUi();
 }
@@ -180,7 +247,6 @@ void TorrentWidget::setTorrent(Torrent *torrent)
     resetUi();
 }
 
-
 /******************************************************************************
  ******************************************************************************/
 QByteArray TorrentWidget::saveState(int version) const
@@ -235,6 +301,335 @@ void TorrentWidget::changeEvent(QEvent *event)
 void TorrentWidget::onChanged()
 {
     updateWidget();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void TorrentWidget::setupUiTableView(QTableView *view)
+{
+    view->setSelectionBehavior(QAbstractItemView::SelectRows);
+    view->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    view->setAlternatingRowColors(false);
+    view->setMidLineWidth(3);
+    view->setShowGrid(false);
+    view->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    view->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    view->verticalHeader()->setHighlightSections(false);
+    view->verticalHeader()->setDefaultSectionSize(C_ROW_DEFAULT_HEIGHT);
+    view->verticalHeader()->setMinimumSectionSize(C_ROW_DEFAULT_HEIGHT);
+    view->horizontalHeader()->setHighlightSections(false);
+    view->horizontalHeader()->setDefaultSectionSize(C_COLUMN_DEFAULT_WIDTH);
+    view->horizontalHeader()->setMinimumSectionSize(C_COLUMN_MINIMUM_WIDTH);
+    view->verticalHeader()->setVisible(false);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void TorrentWidget::setupInfoCopy()
+{
+    setupInfoCopy(ui->addedOnLabel      , ui->addedOnLineEdit);
+    setupInfoCopy(ui->commentLabel      , ui->commentLineEdit);
+    setupInfoCopy(ui->completedOnLabel  , ui->completedOnLineEdit);
+    setupInfoCopy(ui->createdByLabel    , ui->createdByLineEdit);
+    setupInfoCopy(ui->createdOnLabel    , ui->createdOnLineEdit);
+    setupInfoCopy(ui->downLimitLabel    , ui->downLimitLineEdit);
+    setupInfoCopy(ui->downSpeedLabel    , ui->downSpeedLineEdit);
+    setupInfoCopy(ui->downloadedLabel   , ui->downloadedLineEdit);
+    setupInfoCopy(ui->hashLabel         , ui->hashLineEdit);
+    setupInfoCopy(ui->magnetLinkLabel   , ui->magnetLinkLineEdit);
+    setupInfoCopy(ui->peersLabel        , ui->peersLineEdit);
+    setupInfoCopy(ui->piecesLabel       , ui->piecesLineEdit);
+    setupInfoCopy(ui->saveAsLabel       , ui->saveAsLineEdit);
+    setupInfoCopy(ui->seedsLabel        , ui->seedsLineEdit);
+    setupInfoCopy(ui->shareRatioLabel   , ui->shareRatioLineEdit);
+    setupInfoCopy(ui->statusLabel       , ui->statusLineEdit);
+    setupInfoCopy(ui->timeElapsedLabel  , ui->timeElapsedLineEdit);
+    setupInfoCopy(ui->timeRemainingLabel, ui->timeRemainingLineEdit);
+    setupInfoCopy(ui->totalSizeLabel    , ui->totalSizeLineEdit);
+    setupInfoCopy(ui->upLimitLabel      , ui->upLimitLineEdit);
+    setupInfoCopy(ui->upSpeedLabel      , ui->upSpeedLineEdit);
+    setupInfoCopy(ui->uploadedLabel     , ui->uploadedLineEdit);
+    setupInfoCopy(ui->wastedLabel       , ui->wastedLineEdit);
+}
+
+void TorrentWidget::setupInfoCopy(QLabel* label, QLabel* field)
+{
+    Q_ASSERT(label);
+    Q_ASSERT(field);
+
+    // General properties
+    field->setWordWrap(true);
+    field->setFocusPolicy(Qt::StrongFocus);
+
+    // Context menu > Copy
+    QAction *copyAction = new QAction(tr("Copy"), field);
+    connect(copyAction, SIGNAL(triggered()), this, SLOT(copy()));
+
+    label->setBuddy(field);
+    label->setContextMenuPolicy(Qt::ActionsContextMenu);
+    field->setContextMenuPolicy(Qt::ActionsContextMenu);
+    label->addAction(copyAction);
+    field->addAction(copyAction);
+}
+
+void TorrentWidget::copy()
+{
+    QAction *copyAction = qobject_cast<QAction*>(sender());
+    if (copyAction) {
+        QLabel *field = qobject_cast<QLabel*>(copyAction->parentWidget());
+        if (field) {
+            QClipboard *clipboard = QApplication::clipboard();
+            clipboard->setText(field->text());
+        }
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void TorrentWidget::setupContextMenus()
+{
+    ui->fileTableView->setContextMenuPolicy(Qt::CustomContextMenu);
+    ui->peerTableView->setContextMenuPolicy(Qt::CustomContextMenu);
+    ui->trackerTableView->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    connect(ui->fileTableView, SIGNAL(customContextMenuRequested(const QPoint &)),
+            this, SLOT(showContextMenuFileTable(const QPoint &)));
+    connect(ui->peerTableView, SIGNAL(customContextMenuRequested(const QPoint &)),
+            this, SLOT(showContextMenuPeerTable(const QPoint &)));
+    connect(ui->trackerTableView, SIGNAL(customContextMenuRequested(const QPoint &)),
+            this, SLOT(showContextMenuTrackerTable(const QPoint &)));
+
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void TorrentWidget::showContextMenuFileTable(const QPoint &/*pos*/)
+{
+    QMenu *contextMenu = new QMenu(this);
+
+    QAction actionOpen(tr("Open"), contextMenu);
+    QAction actionOpenFolder(tr("Open Containing Folder"), contextMenu);
+    QAction actionScan(tr("Scan for viruses"), contextMenu);
+    QAction actionByOrder(tr("Priorize by File order"), contextMenu);
+    QAction actionHigh(tr("Priorize: High"), contextMenu);
+    QAction actionNormal(tr("Priorize: Normal"), contextMenu);
+    QAction actionLow(tr("Priorize: Low"), contextMenu);
+    QAction actionSkip(tr("Don't download"), contextMenu);
+    QAction actionRelocate(tr("Relocate..."), contextMenu);
+
+    connect(&actionByOrder, &QAction::triggered, this, &TorrentWidget::setPriorityByFileOrder);
+    connect(&actionHigh, &QAction::triggered, this, &TorrentWidget::setPriorityHigh);
+    connect(&actionNormal, &QAction::triggered, this, &TorrentWidget::setPriorityNormal);
+    connect(&actionLow, &QAction::triggered, this, &TorrentWidget::setPriorityLow);
+    connect(&actionSkip, &QAction::triggered, this, &TorrentWidget::setPrioritySkip);
+
+    actionOpen.setEnabled(false);
+    actionOpenFolder.setEnabled(false);
+    actionScan.setEnabled(false);
+    actionRelocate.setEnabled(false);
+
+    contextMenu->addAction(&actionOpen);
+    contextMenu->addAction(&actionOpenFolder);
+    contextMenu->addSeparator();
+    contextMenu->addAction(&actionScan);
+    contextMenu->addSeparator();
+    contextMenu->addAction(&actionByOrder);
+    contextMenu->addSeparator();
+    contextMenu->addAction(&actionHigh);
+    contextMenu->addAction(&actionNormal);
+    contextMenu->addAction(&actionLow);
+    contextMenu->addSeparator();
+    contextMenu->addAction(&actionSkip);
+    contextMenu->addSeparator();
+    contextMenu->addAction(&actionRelocate);
+
+    contextMenu->exec(QCursor::pos());
+    contextMenu->deleteLater();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void TorrentWidget::setPriorityHigh()
+{
+    setPriority(TorrentFileInfo::High);
+}
+
+void TorrentWidget::setPriorityNormal()
+{
+    setPriority(TorrentFileInfo::Normal);
+}
+
+void TorrentWidget::setPriorityLow()
+{
+    setPriority(TorrentFileInfo::Low);
+}
+
+void TorrentWidget::setPrioritySkip()
+{
+    setPriority(TorrentFileInfo::Ignore);
+}
+
+void TorrentWidget::setPriorityByFileOrder()
+{
+    if (!m_torrentContext) {
+        return;
+    }
+    QModelIndexList selection = ui->fileTableView->selectionModel()->selectedRows();
+    int count = ui->fileTableView->model()->rowCount();
+    for (int row = 0; row < count; ++row) {
+        for (int i = 0; i < selection.count(); ++i) {
+            QModelIndex index = selection.at(i);
+            if (row == index.row()) {
+                TorrentFileInfo::Priority priority = assessPriority(row, count);
+                Q_ASSERT(m_torrentContext);
+                m_torrentContext->setPriority(m_torrent, row, priority);
+                continue;
+            }
+        }
+    }
+}
+
+TorrentFileInfo::Priority TorrentWidget::assessPriority(int row, int count)
+{
+    if (count < 3) {
+        return TorrentFileInfo::Normal;
+    }
+    int pos = 100 * (row + 1) / count;
+    if (pos < 33) {
+        return TorrentFileInfo::High;
+    } else if (pos < 66) {
+        return TorrentFileInfo::Normal;
+    } else {
+        return TorrentFileInfo::Low;
+    }
+}
+
+void TorrentWidget::setPriority(TorrentFileInfo::Priority priority)
+{
+    qDebug() << Q_FUNC_INFO << priority;
+    if (!m_torrentContext) {
+        return;
+    }
+    QModelIndexList selection = ui->fileTableView->selectionModel()->selectedRows();
+    for (int i = 0; i < selection.count(); ++i) {
+        QModelIndex index = selection.at(i);
+        int row = index.row();
+        Q_ASSERT(m_torrentContext);
+        m_torrentContext->setPriority(m_torrent, row, priority);
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void TorrentWidget::showContextMenuPeerTable(const QPoint &/*pos*/)
+{
+    QMenu *contextMenu = new QMenu(this);
+
+    QAction actionAdd(tr("Add Peer..."), contextMenu);
+    QAction actionCopy(tr("Copy Peer List"), contextMenu);
+
+    connect(&actionAdd, &QAction::triggered, this, &TorrentWidget::addPeer);
+    connect(&actionCopy, &QAction::triggered, this, &TorrentWidget::copyPeerList);
+
+    contextMenu->addAction(&actionAdd);
+    contextMenu->addSeparator();
+    contextMenu->addAction(&actionCopy);
+
+    contextMenu->exec(QCursor::pos());
+    contextMenu->deleteLater();
+}
+
+void TorrentWidget::addPeer()
+{
+    bool ok;
+    QString input = QInputDialog::getText(
+                this, tr("Add Peer"),
+                tr("Enter the IP:port / [IPv6]:port of the peer to add:"),
+                QLineEdit::Normal, QString(), &ok);
+    if (ok && !input.isEmpty()) {
+        m_torrent->addPeer(input);
+    }
+}
+
+void TorrentWidget::copyPeerList()
+{
+    qDebug() << Q_FUNC_INFO;
+    QStringList addresses;
+    foreach (const TorrentPeerInfo &peer, m_torrent->detail().peers) {
+        addresses << peer.endpoint.toString();
+    }
+    QString text;
+    foreach (auto address, addresses) {
+        text += address;
+        text += QChar::LineFeed; // '\n'
+    }
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(text);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void TorrentWidget::showContextMenuTrackerTable(const QPoint &/*pos*/)
+{
+    QMenu *contextMenu = new QMenu(this);
+
+    QAction actionAdd(tr("Add Tracker..."), contextMenu);
+    QAction actionRemove(tr("Remove Tracker"), contextMenu);
+    QAction actionCopy(tr("Copy Tracker List"), contextMenu);
+
+    connect(&actionAdd, &QAction::triggered, this, &TorrentWidget::addTracker);
+    connect(&actionRemove, &QAction::triggered, this, &TorrentWidget::removeTracker);
+    connect(&actionCopy, &QAction::triggered, this, &TorrentWidget::copyTrackerList);
+
+    auto selected = !ui->trackerTableView->selectionModel()->selectedRows().isEmpty();
+    actionRemove.setEnabled(selected);
+
+    contextMenu->addAction(&actionAdd);
+    contextMenu->addSeparator();
+    contextMenu->addAction(&actionRemove);
+    contextMenu->addSeparator();
+    contextMenu->addAction(&actionCopy);
+
+    contextMenu->exec(QCursor::pos());
+    contextMenu->deleteLater();
+}
+
+void TorrentWidget::addTracker()
+{
+    bool ok;
+    QString input = QInputDialog::getText(
+                this, tr("Add Tracker"),
+                tr("Enter the URL of the tracker to add:"),
+                QLineEdit::Normal, QString(), &ok);
+    if (ok && !input.isEmpty()) {
+        m_torrent->addTracker(input);
+    }
+}
+
+void TorrentWidget::removeTracker()
+{
+    QModelIndexList selection = ui->trackerTableView->selectionModel()->selectedRows();
+    for (int i = 0; i < selection.count(); ++i) {
+        QModelIndex index = selection.at(i);
+        int row = index.row();
+        m_torrent->removeTrackerAt(row);
+    }
+}
+
+void TorrentWidget::copyTrackerList()
+{
+    QStringList urls;
+    foreach (const TorrentTrackerInfo &tracker, m_torrent->detail().trackers) {
+        urls << tracker.url;
+    }
+    QString text;
+    foreach (auto url, urls) {
+        text += url;
+        text += QChar::LineFeed;
+    }
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(text);
+
 }
 
 /******************************************************************************
@@ -306,9 +701,11 @@ void TorrentWidget::updateWidget()
 void TorrentWidget::updateProgressBar()
 {
     if (m_torrent && m_torrent->progress() >= 0) {
-        ui->downloadedProgressBar->setValue(m_torrent->progress());
+        ui->torrentProgressBar->setValue(m_torrent->progress());
+        ui->torrentProgressBar->setPieces(m_torrent->info().downloadedPieces);
     } else {
-        ui->downloadedProgressBar->setValue(0);
+        ui->torrentProgressBar->setValue(0);
+        ui->torrentProgressBar->clearPieces();
     }
 }
 
@@ -381,26 +778,6 @@ void TorrentWidget::updateTorrentPage()
     ui->hashLineEdit->setText(          text(mi.initialMetaInfo.infohash));
     ui->commentLineEdit->setText(       text(mi.initialMetaInfo.comment));
     ui->magnetLinkLineEdit->setText(    text(mi.initialMetaInfo.magnetLink));
-}
-
-/******************************************************************************
- ******************************************************************************/
-void TorrentWidget::setupUiTableView(QTableView *view)
-{
-    view->setSelectionBehavior(QAbstractItemView::SelectRows);
-    view->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    view->setAlternatingRowColors(false);
-    view->setMidLineWidth(3);
-    view->setShowGrid(false);
-    view->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
-    view->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-    view->verticalHeader()->setHighlightSections(false);
-    view->verticalHeader()->setDefaultSectionSize(C_ROW_DEFAULT_HEIGHT);
-    view->verticalHeader()->setMinimumSectionSize(C_ROW_DEFAULT_HEIGHT);
-    view->horizontalHeader()->setHighlightSections(false);
-    view->horizontalHeader()->setDefaultSectionSize(C_COLUMN_DEFAULT_WIDTH);
-    view->horizontalHeader()->setMinimumSectionSize(C_COLUMN_MINIMUM_WIDTH);
-    view->verticalHeader()->setVisible(false);
 }
 
 /******************************************************************************

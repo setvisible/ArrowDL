@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,24 +14,27 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef WIDGETS_CUSTOM_STYLE_OPTION_PROGRESS_BAR_H
-#define WIDGETS_CUSTOM_STYLE_OPTION_PROGRESS_BAR_H
+#ifndef WIDGETS_TORRENT_PROGRESS_BAR_H
+#define WIDGETS_TORRENT_PROGRESS_BAR_H
 
+#include <QtWidgets/QProgressBar>
 #include <QtCore/QBitArray>
-#include <QtWidgets/QStyleOptionProgressBar>
-#include <QtGui/QColor>
-#include <QtGui/QIcon>
 
-class CustomStyleOptionProgressBar : public QStyleOptionProgressBar
+class TorrentProgressBar : public QProgressBar
 {
+    Q_OBJECT
 public:
-    QColor color;
-    QIcon icon;
+    explicit TorrentProgressBar(QWidget *parent = Q_NULLPTR);
+    ~TorrentProgressBar() Q_DECL_OVERRIDE = default;
 
-    bool hasSegments = false;
-    QBitArray segments;
+    void clearPieces();
+    void setPieces(const QBitArray &downloadedPieces);
 
-    CustomStyleOptionProgressBar();
+protected:
+    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
+
+private:
+    QBitArray m_downloadedPieces;
 };
 
-#endif // WIDGETS_CUSTOM_STYLE_OPTION_PROGRESS_BAR_H
+#endif // WIDGETS_TORRENT_PROGRESS_BAR_H

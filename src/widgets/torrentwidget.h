@@ -17,6 +17,9 @@
 #ifndef WIDGETS_TORRENT_WIDGET_H
 #define WIDGETS_TORRENT_WIDGET_H
 
+#include <Core/Torrent>
+
+#include <QtWidgets/QStyledItemDelegate>
 #include <QtWidgets/QWidget>
 
 class ITorrentContext;
@@ -55,10 +58,30 @@ protected slots:
 private slots:
     void onChanged();
 
+    void showContextMenuFileTable(const QPoint &pos);
+    void showContextMenuPeerTable(const QPoint &pos);
+    void showContextMenuTrackerTable(const QPoint &pos);
+
+    void setPriorityHigh();
+    void setPriorityNormal();
+    void setPriorityLow();
+    void setPrioritySkip();
+    void setPriorityByFileOrder();
+
+    void copy();
+
+    void addPeer();
+    void copyPeerList();
+
+    void addTracker();
+    void removeTracker();
+    void copyTrackerList();
+
 private:
     Ui::TorrentWidget *ui;
     ITorrentContext *m_torrentContext;
     Torrent *m_torrent;
+
     QList<int> m_fileColumnsWidths;
     QList<int> m_peerColumnsWidths;
     QList<int> m_trackerColumnsWidths;
@@ -67,6 +90,12 @@ private:
     void retranslateUi();
 
     void setupUiTableView(QTableView *view);
+    void setupInfoCopy();
+    void setupInfoCopy(QLabel* label, QLabel* field);
+    void setupContextMenus();
+
+    void setPriority(TorrentFileInfo::Priority priority);
+    TorrentFileInfo::Priority assessPriority(int row, int count);
 
     void getColumnWidths(QTableView *view, QList<int> *widths);
     void setColumnWidths(QTableView *view, const QList<int> &widths);
@@ -78,6 +107,21 @@ private:
     static inline QString text(int value, bool showInfiniteSymbol = false);
     static inline QString text(const QString &text);
     static inline QString text(const QDateTime &datetime);
+};
+
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * FileTableViewItemDelegate is used to draw the progress bar.
+ */
+class FileTableViewItemDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
+public:
+    explicit FileTableViewItemDelegate(QObject *parent = Q_NULLPTR);
+
+    void paint(QPainter *painter, const QStyleOptionViewItem &option,
+               const QModelIndex &index ) const Q_DECL_OVERRIDE;
 };
 
 #endif // WIDGETS_TORRENT_WIDGET_H

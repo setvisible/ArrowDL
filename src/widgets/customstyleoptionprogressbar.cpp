@@ -18,6 +18,8 @@
 
 CustomStyleOptionProgressBar::CustomStyleOptionProgressBar()
     : QStyleOptionProgressBar()
-    , color(Qt::blue), icon(QIcon())
+    , color(Qt::blue)
+    , icon(QIcon())
+    , hasSegments(false)
 {
 }
