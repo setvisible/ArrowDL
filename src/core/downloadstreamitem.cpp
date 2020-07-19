@@ -170,6 +170,6 @@ void DownloadStreamItem::onError(QString errorMessage)
     qDebug() << Q_FUNC_INFO << errorMessage;
     file()->cancel();
     setHttpErrorNumber(static_cast<int>(404));
-    setStreamErrorMessage(errorMessage);
+    setErrorMessage(errorMessage);
     setState(NetworkError);
 }

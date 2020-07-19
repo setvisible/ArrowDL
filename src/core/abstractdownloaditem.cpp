@@ -146,14 +146,14 @@ void AbstractDownloadItem::setHttpErrorNumber(int error)
 
 /******************************************************************************
  ******************************************************************************/
-QString AbstractDownloadItem::streamErrorMessage() const
+QString AbstractDownloadItem::errorMessage() const
 {
-    return m_streamErrorMessage;
+    return m_errorMessage;
 }
 
-void AbstractDownloadItem::setStreamErrorMessage(const QString &errorMessage)
+void AbstractDownloadItem::setErrorMessage(const QString &message)
 {
-    m_streamErrorMessage = errorMessage;
+    m_errorMessage = message;
 }
 
 /******************************************************************************

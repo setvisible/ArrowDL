@@ -34,6 +34,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMenu>
+#include <QtWidgets/QStyledItemDelegate>
 
 
 #define C_COL_0_FILE_NAME          0
@@ -189,7 +190,7 @@ void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
         const QPixmap pixmap = MimeDatabase::fileIcon(url, 16);
 
         myOption.icon.addPixmap(pixmap);
-        myOption.decorationAlignment = Qt::AlignHCenter |Qt::AlignVCenter;
+        myOption.decorationAlignment = Qt::AlignHCenter | Qt::AlignVCenter;
         myOption.decorationPosition = QStyleOptionViewItem::Left;
         myOption.features = myOption.features | QStyleOptionViewItem::HasDecoration;
 
@@ -348,7 +349,7 @@ void QueueItem::updateItem()
     QString estTime = m_downloadItem->stateToString();
     if (m_downloadItem->state() == IDownloadItem::NetworkError) {
 
-        if (m_downloadItem->streamErrorMessage().isEmpty()) {
+        if (m_downloadItem->errorMessage().isEmpty()) {
 
             /*
              * See QNetworkReply::NetworkError Documentation for conversion
@@ -356,10 +357,10 @@ void QueueItem::updateItem()
             int httpErrorNumber = m_downloadItem->httpErrorNumber();
             if (httpErrorNumber == 201) httpErrorNumber = 401;
             if (httpErrorNumber == 203) httpErrorNumber = 404;
-            estTime += tr("(%0)").arg(httpErrorNumber);
+            estTime += tr(" (%0)").arg(httpErrorNumber);
 
         } else {
-            estTime += tr("(%0)").arg(m_downloadItem->streamErrorMessage());
+            estTime += tr(" (%0)").arg(m_downloadItem->errorMessage());
         }
 
     } else if (m_downloadItem->state() == IDownloadItem::Downloading) {
