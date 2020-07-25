@@ -84,42 +84,70 @@ void QueueView::mousePressEvent(QMouseEvent *event)
 
 void QueueView::mouseMoveEvent(QMouseEvent *event)
 {
-    if (!(event->buttons() & Qt::LeftButton))
+    if (!(event->buttons() & Qt::LeftButton)) {
         return;
+    }
     if ((event->pos() - dragStartPosition).manhattanLength()
-            < QApplication::startDragDistance())
+            < QApplication::startDragDistance()) {
         return;
+    }
+    const QList<QueueItem*> queueItems = toQueueItem(selectedItems());
 
-    const QList<QTreeWidgetItem*> items = selectedItems();
-    if (items.isEmpty())
+    QPixmap pixmap;
+    QList<QUrl> urls;
+    foreach (auto queueItem, queueItems) {
+        auto url = urlFrom(queueItem);
+        if (!url.isEmpty()) {
+            if (pixmap.isNull()) {
+                pixmap = MimeDatabase::fileIcon(url);
+            }
+            urls << url;
+        }
+    }
+    if (urls.isEmpty())
         return;
-
-    auto queueItem = dynamic_cast<QueueItem*>(items.first());
-    if (!queueItem)
-        return;
-
-    AbstractDownloadItem* downloadItem = queueItem->downloadItem();
-    if (!downloadItem)
-        return;
-
-    QFileInfo fi(downloadItem->localFullFileName());
-    if (!fi.exists())
-        return;
-
-    const QUrl url = QUrl::fromLocalFile(downloadItem->localFullFileName());
-    const QPixmap pixmap = MimeDatabase::fileIcon(url);
 
     auto drag = new QDrag(this);
     auto mimeData = new QMimeData;
-    mimeData->setUrls(QList<QUrl>() << url);
+    mimeData->setUrls(urls);
     drag->setMimeData(mimeData);
     drag->setPixmap(pixmap);
     drag->setHotSpot(QPoint(drag->pixmap().width()/2, drag->pixmap().height()/2));
 
     Qt::DropAction dropAction = drag->exec(Qt::MoveAction);
     if (dropAction == Qt::MoveAction) {
-        emit dropped(queueItem);
+        foreach (auto queueItem, queueItems) {
+            emit dropped(queueItem);
+        }
     }
+}
+
+QList<QueueItem*> QueueView::toQueueItem(const QList<QTreeWidgetItem*> items) const
+{
+    QList<QueueItem*> queueItems;
+    foreach (auto item, items) {
+        auto queueItem = dynamic_cast<QueueItem*>(item);
+        if (queueItem)
+            queueItems << queueItem;
+    }
+    return queueItems;
+}
+
+QUrl QueueView::urlFrom(const QueueItem *queueItem) const
+{
+    if (!queueItem)
+        return QUrl();
+
+    const AbstractDownloadItem* downloadItem = queueItem->downloadItem();
+    if (!downloadItem)
+        return QUrl();
+
+    const QFileInfo fi(downloadItem->localFullFileName());
+    if (!fi.exists())
+        return QUrl();
+
+    const QUrl url = QUrl::fromLocalFile(downloadItem->localFullFileName());
+    return url;
 }
 
 /******************************************************************************
