@@ -6,7 +6,6 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadmanager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadstreamitem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadtorrentitem.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadtorrentitem_p.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/file.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/fileaccessmanager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/format.cpp
@@ -24,6 +23,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrent.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrentcontext.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrentcontext_p.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrentmessage.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/updatechecker.cpp
     )
 

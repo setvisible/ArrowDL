@@ -19,7 +19,7 @@
 
 #include "torrentcontext.h"
 
-#include <Core/Torrent>
+#include <Core/TorrentMessage>
 
 #include <QtCore/QObject>
 #include <QtCore/QThread>
@@ -30,13 +30,15 @@
 #include <ctime>  // std::time_t, definition required by MSVC 2017
 
 #include "libtorrent/fwd.hpp"
+#include "libtorrent/bitfield.hpp"      // lt::typed_bitfield
 #include "libtorrent/error_code.hpp"    // lt::error_code
 #include "libtorrent/session_types.hpp" // lt::remove_flags_t
 #include "libtorrent/string_view.hpp"   // lt:string_view
+#include "libtorrent/sha1_hash.hpp"     // lt::sha1_hash
 
 
-class DownloadTorrentItem;
 class Settings;
+class Torrent;
 class WorkerThread;
 
 class TorrentContextPrivate : public QObject
@@ -52,46 +54,46 @@ public:
     QList<TorrentSettingItem> presetMinCache() const;
     QList<TorrentSettingItem> presetHighPerf() const;
 
-    void prepareTorrent(DownloadTorrentItem *item);
-    void stopPrepare(DownloadTorrentItem *item);
+    void prepareTorrent(Torrent *torrent);
+    void stopPrepare(Torrent *torrent);
 
-    bool hasTorrent(DownloadTorrentItem *item);
+    bool hasTorrent(Torrent *item);
 
-    bool addTorrent(DownloadTorrentItem *item); // return false on failure
-    void removeTorrent(DownloadTorrentItem *item);
+    bool addTorrent(Torrent *torrent); // return false on failure
+    void removeTorrent(Torrent *torrent);
 
-    void resumeTorrent(DownloadTorrentItem *item);
-    void pauseTorrent(DownloadTorrentItem *item);
+    void resumeTorrent(Torrent *item);
+    void pauseTorrent(Torrent *torrent);
 
-    void moveQueueUp(DownloadTorrentItem *item);
-    void moveQueueDown(DownloadTorrentItem *item);
-    void moveQueueTop(DownloadTorrentItem *item);
-    void moveQueueBottom(DownloadTorrentItem *item);
+    void moveQueueUp(Torrent *torrent);
+    void moveQueueDown(Torrent *torrent);
+    void moveQueueTop(Torrent *torrent);
+    void moveQueueBottom(Torrent *torrent);
 
-    void changeFilePriority(DownloadTorrentItem *item, int index, TorrentFileInfo::Priority p);
+    void changeFilePriority(Torrent *torrent, int index, TorrentFileInfo::Priority p);
 
-    void addSeed(DownloadTorrentItem *item, const TorrentWebSeedMetaInfo &seed);
-    void removeSeed(DownloadTorrentItem *item, const TorrentWebSeedMetaInfo &seed);
-    void removeAllSeeds(DownloadTorrentItem *item);
+    void addSeed(Torrent *torrent, const TorrentWebSeedMetaInfo &seed);
+    void removeSeed(Torrent *torrent, const TorrentWebSeedMetaInfo &seed);
+    void removeAllSeeds(Torrent *torrent);
 
-    void addPeer(DownloadTorrentItem *item, const TorrentPeerMetaInfo &peer);
+    void addPeer(Torrent *torrent, const TorrentPeerInfo &peer);
 
-    void addTracker(DownloadTorrentItem *item, const TorrentTrackerInfo &tracker);
-    void removeTracker(DownloadTorrentItem *item, const TorrentTrackerInfo &tracker);
+    void addTracker(Torrent *torrent, const TorrentTrackerInfo &tracker);
+    void removeTracker(Torrent *torrent, const TorrentTrackerInfo &tracker);
 
-    void forceRecheck(DownloadTorrentItem *item);
-    void forceReannounce(DownloadTorrentItem *item);
-    void forceDHTReannounce(DownloadTorrentItem *item);
-    void setSSLCertificatePath(DownloadTorrentItem *item, const QString &path);
-    void scrapeTracker(DownloadTorrentItem *item, int index = -1);
+    void forceRecheck(Torrent *torrent);
+    void forceReannounce(Torrent *torrent);
+    void forceDHTReannounce(Torrent *torrent);
+    void setSSLCertificatePath(Torrent *torrent, const QString &path);
+    void scrapeTracker(Torrent *torrent, int index = -1);
 
-    void setUploadBandwidth(DownloadTorrentItem *item, int limit);
-    void setDownloadBandwidth(DownloadTorrentItem *item, int limit);
+    void setUploadBandwidth(Torrent *torrent, int limit);
+    void setDownloadBandwidth(Torrent *torrent, int limit);
 
-    void setMaxUploads(DownloadTorrentItem *item, int limit);
-    void setMaxConnections(DownloadTorrentItem *item, int limit);
+    void setMaxUploads(Torrent *torrent, int limit);
+    void setMaxConnections(Torrent *torrent, int limit);
 
-    void renameFile(DownloadTorrentItem *item, int index, const QString &newName);
+    void renameFile(Torrent *torrent, int index, const QString &newName);
 
 public slots:
     void onSettingsChanged();
@@ -105,31 +107,32 @@ public:
     TorrentContext *q;
     WorkerThread *workerThread;
     Settings *settings;
-    QHash<UniqueId, DownloadTorrentItem*> hashMap;
+    QHash<UniqueId, Torrent*> hashMap;
 
-    inline DownloadTorrentItem* find(const UniqueId &uuid);
-    inline lt::torrent_handle find(DownloadTorrentItem *item);
-
+    inline Torrent *find(const UniqueId &uuid);
+    inline lt::torrent_handle find(Torrent *torrent);
 
 private slots:
     void onNetworkReplyFinished();
 private:
     QNetworkAccessManager m_networkManager;
-    QMap<QNetworkReply*, DownloadTorrentItem*> m_currentDownloads;
-    void downloadMagnetLink(DownloadTorrentItem *item);
-    void downloadTorrentFile(DownloadTorrentItem *item);
-    void abortNetworkReply(DownloadTorrentItem *item);
+    QMap<QNetworkReply*, Torrent*> m_currentDownloads;
+    void downloadMagnetLink(Torrent *torrent);
+    void downloadTorrentFile(Torrent *torrent);
+    void abortNetworkReply(Torrent *torrent);
 
     void archiveExistingFile(const QString &filename);
     void writeTorrentFile(const QString &filename, QIODevice *data);    
     void writeTorrentFileFromMagnet(
             const QString &filename, std::shared_ptr<lt::torrent_info const> ti);
-    void readTorrentFile(const QString &filename, DownloadTorrentItem *item);
+    void readTorrentFile(const QString &filename, Torrent *torrent);
 
     QList<TorrentSettingItem> _toPreset(const lt::settings_pack all) const;
     static QVariant _get_str(const lt::settings_pack &pack, const int index);
     static QVariant _get_int(const lt::settings_pack &pack, const int index);
     static QVariant _get_bool(const lt::settings_pack &pack, const int index);
+
+    void ensureDestinationPathExists(Torrent *torrent);
 };
 
 class WorkerThread : public QThread
@@ -154,6 +157,9 @@ public:
     lt::torrent_handle findTorrent(const UniqueId &uuid) const;
 
     TorrentInitialMetaInfo dump(const QString &filename) const;
+
+    static UniqueId toUniqueId(const lt::sha1_hash &hash);
+    static lt::sha1_hash fromUniqueId(const UniqueId &uuid);
 
 signals:
     void metadataUpdated(TorrentData data);
@@ -193,6 +199,8 @@ private:
     inline QString toString(const lt::string_view &s) const;
 
     inline QString toString(const lt::sha1_hash &hash) const;
+
+    inline QBitArray toBitArray(const lt::typed_bitfield<lt::piece_index_t> &pieces) const;
 
     inline QDateTime toDateTime(const std::time_t &time) const;
 

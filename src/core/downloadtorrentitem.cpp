@@ -14,19 +14,22 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "downloadtorrentitem_p.h"
+#include "downloadtorrentitem.h"
 
 #include <Core/DownloadManager>
 #include <Core/File>
 #include <Core/Format>
 #include <Core/ResourceItem>
+#include <Core/Torrent>
 #include <Core/TorrentContext>
 
 
 DownloadTorrentItem::DownloadTorrentItem(DownloadManager *downloadManager)
     : DownloadItem(downloadManager)
-    , d(new DownloadTorrentItemPrivate(this))
+    , m_torrent(new Torrent(this))
 {
+    connect(m_torrent, &Torrent::changed, this, &DownloadTorrentItem::onTorrentChanged);
+
 }
 
 DownloadTorrentItem::~DownloadTorrentItem()
@@ -43,6 +46,9 @@ DownloadTorrentItem::~DownloadTorrentItem()
  */
 void DownloadTorrentItem::setResource(ResourceItem *resource)
 {
+    if (!resource) {
+        return;
+    }
     /*
      * For torrent, mask is "*name*.*ext*" to not make extra sub-directories.
      * Subdirs are already managed by the torrent engine.
@@ -52,136 +58,161 @@ void DownloadTorrentItem::setResource(ResourceItem *resource)
     DownloadItem::setResource(resource);
 
 
+    m_torrent->setLocalFullFileName(this->localFullFileName());
+    m_torrent->setLocalFilePath(this->localFilePath());
+    m_torrent->setUrl(this->resource()->url());
+
+    QString fileStates = this->resource()->torrentPreferredFilePriorities();
     // Download the metadata (the .torrent file) if not already downloaded
-    TorrentContext::getInstance().prepareTorrent(this);
+    TorrentContext::getInstance().prepareTorrent(m_torrent);
+
+    // At this point, the torrent is loaded.
+
+    // Restore the previous session's data.
+    m_torrent->setPreferredFilePriorities(fileStates);
     emit changed();
 }
 
 /******************************************************************************
  ******************************************************************************/
-QString DownloadTorrentItem::status() const
+Torrent* DownloadTorrentItem::torrent() const
 {
-    return d->info.torrentStateString();
+    return m_torrent;
 }
 
 /******************************************************************************
  ******************************************************************************/
-TorrentMetaInfo DownloadTorrentItem::metaInfo() const
+void DownloadTorrentItem::onTorrentChanged()
 {
-    return d->metaInfo;
-}
-
-void DownloadTorrentItem::setMetaInfo(TorrentMetaInfo metaInfo)
-{
-    d->metaInfo = metaInfo;
-
-    // requires a GUI update signal, because metaInfo can change
-    // even if the downloadItem is Paused or Stopped
-    emit changed();
-}
-
-/******************************************************************************
- ******************************************************************************/
-TorrentInfo DownloadTorrentItem::info() const
-{
-    return d->info;
-}
-
-void DownloadTorrentItem::setInfo(TorrentInfo info)
-{
-    qDebug() << Q_FUNC_INFO << info.torrentStateString() << info.bytesTotal << info.bytesReceived;
-    d->info = info;
+    // save file priorities and states
+    this->resource()->setTorrentPreferredFilePriorities(m_torrent->preferredFilePriorities());
 
     // info.bytesTotal is > 0 for state 'downloading' only,
     // otherwise info.bytesTotal == 0, even when 'completed'.
     // After completion, we want to see the bytesTotal.
-    IDownloadItem::State downloadItemState;
+    IDownloadItem::State downloadItemState = IDownloadItem::Paused;
 
-    switch (static_cast<int>(info.state)) {
-    case TorrentInfo::stopped:
-        downloadItemState = IDownloadItem::Paused;
+    if (m_torrent->info().error.type != TorrentError::NoError) {
 
-        break;
-    case TorrentInfo::checking_files:
-        downloadItemState = IDownloadItem::Preparing;
-        break;
+        qDebug() << Q_FUNC_INFO
+                 << m_torrent->info().error.type
+                 << m_torrent->info().error.fileIndex
+                 << m_torrent->info().error.message;
 
-    case TorrentInfo::downloading_metadata:
-        downloadItemState = IDownloadItem::DownloadingMetadata;
+        QString message;
 
-        break;
-    case TorrentInfo::downloading:
-        downloadItemState = IDownloadItem::Downloading;
-        updateInfo(info.bytesReceived, info.bytesTotal);
+        switch (static_cast<int>(m_torrent->info().error.type)) {
+        case TorrentError::NoError:
+            Q_UNREACHABLE();
+            break;
 
-        break;
-    case TorrentInfo::finished:
-        downloadItemState = IDownloadItem::Completed;
-        // here, info.bytesTotal == 0
-        updateInfo(d->metaInfo.initialMetaInfo.bytesTotal,
-                   d->metaInfo.initialMetaInfo.bytesTotal);
+            /* Errors when adding the torrent to the queue */
+        case TorrentError::MetadataDownloadError:
+        case TorrentError::FailedToAddError:
+        case TorrentError::NoInfoYetError:
+            downloadItemState = IDownloadItem::NetworkError;
+            break;
 
-        break;
-    case TorrentInfo::seeding:
-        downloadItemState = IDownloadItem::Seeding;
-        // here, info.bytesTotal == 0
-        updateInfo(d->metaInfo.initialMetaInfo.bytesTotal,
-                   d->metaInfo.initialMetaInfo.bytesTotal);
+            /* Errors when downloading */
+        case TorrentError::FileError:
+        case TorrentError::SSLContextError:
+        case TorrentError::FileMetadataError:
+        case TorrentError::FileExceptionError:
+        case TorrentError::PartFileError:
+        case TorrentError::UnknownError:
+            downloadItemState = IDownloadItem::FileError;
+            break;
 
-        break;
-    case TorrentInfo::allocating:
-    case TorrentInfo::checking_resume_data:
-        downloadItemState = IDownloadItem::Endgame;
+        default:
+            Q_UNREACHABLE();
+            break;
+        }
 
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
+        int fileIndex = m_torrent->info().error.fileIndex;
+        QString filename;
+        QList<TorrentFileMetaInfo> files = m_torrent->metaInfo().initialMetaInfo.files;
+        if (fileIndex >= 0 && fileIndex < files.count()) {
+            filename = files.at(fileIndex).shortFilePath();
+        }
+        switch (static_cast<int>(m_torrent->info().error.type)) {
+        case TorrentError::NoError: Q_UNREACHABLE(); break;
+
+            /* Errors when adding the torrent to the queue */
+        case TorrentError::MetadataDownloadError: message = tr("Couldn't download metadata"); break;
+        case TorrentError::FailedToAddError: message = tr("Couldn't download, bad .torrent format"); break;
+        case TorrentError::NoInfoYetError: message = tr("Couldn't resolve metadata"); break;
+
+            /* Errors when downloading */
+        case TorrentError::FileError: message = tr("Error in file '%0'").arg(filename); break;
+        case TorrentError::SSLContextError: message = tr("Bad SSL context"); break;
+        case TorrentError::FileMetadataError: message = tr("Bad .torrent metadata"); break;
+        case TorrentError::FileExceptionError: message = tr("Bad .torrent access permission"); break;
+        case TorrentError::PartFileError: message = tr("Bad part-file"); break;
+
+            /* Other */
+        case TorrentError::UnknownError: message = tr("Unknown error"); break;
+        default:
+            Q_UNREACHABLE();
+            break;
+        }
+
+        setErrorMessage(message);
+
+        updateInfo(0, // or m_torrent->info().bytesReceived ?
+                   m_torrent->metaInfo().initialMetaInfo.bytesTotal);
+        //stop();
+
+    } else {
+
+        qDebug() << Q_FUNC_INFO
+                 << m_torrent->info().torrentStateString()
+                 << m_torrent->info().bytesTotal
+                 << m_torrent->info().bytesReceived;
+
+        switch (static_cast<int>(m_torrent->info().state)) {
+        case TorrentInfo::stopped:
+            downloadItemState = IDownloadItem::Paused;
+
+            break;
+        case TorrentInfo::checking_files:
+            downloadItemState = IDownloadItem::Preparing;
+            break;
+
+        case TorrentInfo::downloading_metadata:
+            downloadItemState = IDownloadItem::DownloadingMetadata;
+
+            break;
+        case TorrentInfo::downloading:
+            downloadItemState = IDownloadItem::Downloading;
+            updateInfo(m_torrent->info().bytesReceived, m_torrent->info().bytesTotal);
+
+            break;
+        case TorrentInfo::finished:
+            downloadItemState = IDownloadItem::Completed;
+            // here, info.bytesTotal == 0
+            updateInfo(m_torrent->metaInfo().initialMetaInfo.bytesTotal,
+                       m_torrent->metaInfo().initialMetaInfo.bytesTotal);
+
+            break;
+        case TorrentInfo::seeding:
+            downloadItemState = IDownloadItem::Seeding;
+            // here, info.bytesTotal == 0
+            updateInfo(m_torrent->metaInfo().initialMetaInfo.bytesTotal,
+                       m_torrent->metaInfo().initialMetaInfo.bytesTotal);
+
+            break;
+        case TorrentInfo::allocating:
+        case TorrentInfo::checking_resume_data:
+            downloadItemState = IDownloadItem::Endgame;
+
+            break;
+        default:
+            Q_UNREACHABLE();
+            break;
+        }
     }
 
     setState(downloadItemState);
-}
-
-/******************************************************************************
- ******************************************************************************/
-TorrentHandleInfo DownloadTorrentItem::detail() const
-{
-    return d->detail;
-}
-
-void DownloadTorrentItem::setDetail(TorrentHandleInfo detail)
-{
-    d->detail = detail;
-
-    // requires a GUI update signal, because detail can change
-    // even if the downloadItem is Paused or Stopped
-    emit changed();
-}
-
-/******************************************************************************
- ******************************************************************************/
-QAbstractTableModel* DownloadTorrentItem::fileModel() const
-{
-    return d->m_fileModel;
-}
-
-QAbstractTableModel* DownloadTorrentItem::peerModel() const
-{
-    return d->m_peerModel;
-}
-
-QAbstractTableModel* DownloadTorrentItem::trackerModel() const
-{
-    return d->m_trackerModel;
-}
-
-/******************************************************************************
- ******************************************************************************/
-void DownloadTorrentItem::retranslateUi()
-{
-    d->m_fileModel->retranslateUi();
-    d->m_peerModel->retranslateUi();
-    d->m_trackerModel->retranslateUi();
 }
 
 /******************************************************************************
@@ -204,25 +235,28 @@ void DownloadTorrentItem::resume()
      * we don't check if the torrent already exists.
      */
 
-    if (!TorrentContext::getInstance().hasTorrent(this)) {
-        bool ok = TorrentContext::getInstance().addTorrent(this);
+    m_torrent->setLocalFullFileName(this->localFullFileName());
+    m_torrent->setLocalFilePath(this->localFilePath());
+    m_torrent->setUrl(resource()->url());
+    m_torrent->setPreferredFilePriorities(this->resource()->torrentPreferredFilePriorities());
+
+    if (!TorrentContext::getInstance().hasTorrent(m_torrent)) {
+        bool ok = TorrentContext::getInstance().addTorrent(m_torrent);
         if (!ok) {
-            d->metaInfo.error.type = TorrentError::FailedToAddError;
-            d->metaInfo.error.message = tr("Bad .torrent format: Can't download it.");
             stop();
             return;
         }
 
     }
-    TorrentContext::getInstance().resumeTorrent(this);
+    TorrentContext::getInstance().resumeTorrent(m_torrent);
     this->tearDownResume();
 }
 
 void DownloadTorrentItem::pause()
 {
     if (isSeeding()) {
-        if (TorrentContext::getInstance().hasTorrent(this)) {
-            TorrentContext::getInstance().removeTorrent(this);
+        if (TorrentContext::getInstance().hasTorrent(m_torrent)) {
+            TorrentContext::getInstance().removeTorrent(m_torrent);
         }
         // Pausing a seeding item stops the seeding but keep the item completed.
         AbstractDownloadItem::preFinish(true);
@@ -230,11 +264,11 @@ void DownloadTorrentItem::pause()
         return;
     }
     if (isPreparing()) {
-        TorrentContext::getInstance().stopPrepare(this);
+        TorrentContext::getInstance().stopPrepare(m_torrent);
 
     } else {
-        if (TorrentContext::getInstance().hasTorrent(this)) {
-            TorrentContext::getInstance().pauseTorrent(this);
+        if (TorrentContext::getInstance().hasTorrent(m_torrent)) {
+            TorrentContext::getInstance().pauseTorrent(m_torrent);
         }
     }
     AbstractDownloadItem::pause();
@@ -245,14 +279,21 @@ void DownloadTorrentItem::stop()
     file()->cancel();
 
     if (isPreparing()) {
-        TorrentContext::getInstance().stopPrepare(this);
+        TorrentContext::getInstance().stopPrepare(m_torrent);
 
     } else {
-        if (TorrentContext::getInstance().hasTorrent(this)) {
-            TorrentContext::getInstance().removeTorrent(this);
+        if (TorrentContext::getInstance().hasTorrent(m_torrent)) {
+            TorrentContext::getInstance().removeTorrent(m_torrent);
         }
     }
     AbstractDownloadItem::stop();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void DownloadTorrentItem::rename(const QString &/*newName*/)
+{
+    /// \todo bool success = TorrentContext::getInstance().rename(m_torrent, newName);
 }
 
 /******************************************************************************

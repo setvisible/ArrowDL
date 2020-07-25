@@ -20,6 +20,7 @@
 #include <Widgets/CustomStyleOptionProgressBar>
 
 #include <QtCore/QtMath>
+#include <QtCore/QBitArray>
 #include <QtGui/QPainter>
 #include <QtWidgets/QStyleOption>
 
@@ -70,6 +71,8 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
     case CE_ProgressBar:
         if (auto pb = qstyleoption_cast<const CustomStyleOptionProgressBar *>(opt)) {
 
+            bool hasIcon = !pb->icon.isNull();
+
             /* Draw the selection background */
             if (pb->state & State_Selected) {
                 QColor bgColor = pb->palette.color(QPalette::Normal, QPalette::Highlight);
@@ -79,7 +82,7 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
             }
 
             /* Draw the icon */
-            {
+            if (hasIcon) {
                 int size = C_ICON_SIZE;
                 int margin = (qMax(size, pb->rect.height()) - size ) / 2;
                 QRect iconRect = QRect(pb->rect.x() + margin , pb->rect.y() + margin, size, size);
@@ -94,7 +97,11 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
                 QRect frameRect = pb->rect;
                 frameRect.setTop(frameRect.top() + marginV);
                 frameRect.setBottom(frameRect.bottom() - marginV);
-                frameRect.setLeft(frameRect.left() + marginH + C_ICON_WIDTH);
+                if (hasIcon) {
+                    frameRect.setLeft(frameRect.left() + marginH + C_ICON_WIDTH);
+                } else {
+                    frameRect.setLeft(frameRect.left() + marginH);
+                }
                 frameRect.setRight(frameRect.right() - marginH);
 
                 p->setPen(QPen(s_darkGrey, 1));
@@ -111,10 +118,47 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
 
                 const int margin = 2;
                 QRect indicatorRect = frameRect;
-                indicatorRect.setTop(indicatorRect.top() + margin);
-                indicatorRect.setBottom(indicatorRect.bottom() + 1 - margin);
                 indicatorRect.setLeft(indicatorRect.left() + margin);
                 indicatorRect.setRight(indicatorRect.right() + 1 - margin);
+
+                if (pb->hasSegments) {
+                    const int indicatorBarHeight = 2;
+
+                    // Top bar: Detailed segments
+                    {
+                        QRect segmentRect = indicatorRect;
+                        segmentRect.setTop(segmentRect.top() + margin);
+                        segmentRect.setBottom(segmentRect.bottom() + 1 - margin - indicatorBarHeight);
+
+                        QBitArray segments = pb->segments;
+                        int size = segments.size();
+
+                        QImage segmentImage(qMax(1, size), 1, QImage::Format_RGB32);
+                        segmentImage.fill(s_lightGrey);
+                        QRgb rgb = color.rgb();
+                        for (int i = 0; i < size; ++i) {
+                            if (segments.testBit(i)) {
+                                segmentImage.setPixel(i, 0, rgb);
+                            }
+                        }
+                        QPixmap segmentPixmap = QPixmap::fromImage(segmentImage);
+                        QPixmap scaled = segmentPixmap.scaled(
+                                    segmentRect.size(),
+                                    Qt::IgnoreAspectRatio,
+                                    Qt::FastTransformation);
+
+                        p->drawPixmap(segmentRect, scaled);
+                    }
+
+                    // Bottom bar: Progress indicator bar
+                    int bottom = indicatorRect.bottom() + 1 - margin;
+                    indicatorRect.setTop(bottom - indicatorBarHeight);
+                    indicatorRect.setBottom(bottom);
+
+                } else {
+                    indicatorRect.setTop(indicatorRect.top() + margin);
+                    indicatorRect.setBottom(indicatorRect.bottom() + 1 - margin);
+                }
 
                 if (progress < 0 || (minimum == 0 && maximum == 0)) {
                     QRgb rgb = color.rgb();

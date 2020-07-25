@@ -51,7 +51,7 @@ QGroupBox {
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_12">
          <item>
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="labelTitle">
            <property name="font">
             <font>
              <pointsize>18</pointsize>
@@ -63,7 +63,7 @@ QGroupBox {
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="labelMessage">
            <property name="text">
             <string>Select a torrent</string>
            </property>
@@ -138,14 +138,14 @@ QGroupBox {
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
-              <widget class="QLabel" name="downloadedLabel_2">
+              <widget class="QLabel" name="downloadLabel">
                <property name="text">
                 <string>Downloaded:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QProgressBar" name="downloadedProgressBar">
+              <widget class="TorrentProgressBar" name="torrentProgressBar">
                <property name="value">
                 <number>24</number>
                </property>
@@ -191,17 +191,8 @@ QGroupBox {
                     </item>
                     <item row="0" column="1">
                      <widget class="QLabel" name="timeElapsedLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
@@ -221,17 +212,8 @@ QGroupBox {
                     </item>
                     <item row="2" column="5">
                      <widget class="QLabel" name="peersLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
@@ -251,33 +233,15 @@ QGroupBox {
                     </item>
                     <item row="1" column="5">
                      <widget class="QLabel" name="seedsLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
                     <item row="0" column="5">
                      <widget class="QLabel" name="wastedLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
@@ -290,17 +254,8 @@ QGroupBox {
                     </item>
                     <item row="3" column="3">
                      <widget class="QLabel" name="upLimitLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
@@ -313,17 +268,8 @@ QGroupBox {
                     </item>
                     <item row="2" column="1">
                      <widget class="QLabel" name="downSpeedLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
@@ -350,33 +296,15 @@ QGroupBox {
                     </item>
                     <item row="3" column="5">
                      <widget class="QLabel" name="shareRatioLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
                     <item row="1" column="1">
                      <widget class="QLabel" name="downloadedLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
@@ -389,65 +317,29 @@ QGroupBox {
                     </item>
                     <item row="2" column="3">
                      <widget class="QLabel" name="upSpeedLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
                     <item row="3" column="1">
                      <widget class="QLabel" name="downLimitLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
                     <item row="1" column="3">
                      <widget class="QLabel" name="uploadedLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
                     <item row="0" column="3">
                      <widget class="QLabel" name="timeRemainingLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
@@ -467,17 +359,8 @@ QGroupBox {
                     </item>
                     <item row="4" column="1">
                      <widget class="QLabel" name="statusLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
@@ -503,33 +386,15 @@ QGroupBox {
                     </item>
                     <item row="2" column="3">
                      <widget class="QLabel" name="createdByLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
                     <item row="3" column="3">
                      <widget class="QLabel" name="completedOnLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
@@ -542,49 +407,22 @@ QGroupBox {
                     </item>
                     <item row="4" column="1" colspan="3">
                      <widget class="QLabel" name="hashLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
                     <item row="1" column="1">
                      <widget class="QLabel" name="totalSizeLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
                     <item row="1" column="3">
                      <widget class="QLabel" name="piecesLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
@@ -597,33 +435,15 @@ QGroupBox {
                     </item>
                     <item row="0" column="1" colspan="3">
                      <widget class="QLabel" name="saveAsLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
                     <item row="5" column="1" colspan="3">
                      <widget class="QLabel" name="commentLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
@@ -636,33 +456,15 @@ QGroupBox {
                     </item>
                     <item row="3" column="1">
                      <widget class="QLabel" name="addedOnLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
                     <item row="2" column="1">
                      <widget class="QLabel" name="createdOnLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
@@ -710,17 +512,8 @@ QGroupBox {
                     </item>
                     <item row="6" column="1" colspan="3">
                      <widget class="QLabel" name="magnetLinkLineEdit">
-                      <property name="focusPolicy">
-                       <enum>Qt::StrongFocus</enum>
-                      </property>
                       <property name="text">
                        <string notr="true">TextLabel</string>
-                      </property>
-                      <property name="wordWrap">
-                       <bool>true</bool>
-                      </property>
-                      <property name="textInteractionFlags">
-                       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                       </property>
                      </widget>
                     </item>
@@ -792,6 +585,28 @@ QGroupBox {
            </item>
           </layout>
          </widget>
+         <widget class="QWidget" name="tabPieceMap">
+          <attribute name="title">
+           <string>Piece Map</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_14">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="TorrentPieceMap" name="torrentPieceMap" native="true"/>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>
@@ -855,6 +670,19 @@ QGroupBox {
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TorrentPieceMap</class>
+   <extends>QWidget</extends>
+   <header>Widgets/TorrentPieceMap</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TorrentProgressBar</class>
+   <extends>QProgressBar</extends>
+   <header>Widgets/TorrentProgressBar</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

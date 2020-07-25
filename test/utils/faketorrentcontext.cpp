@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,24 +14,18 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef WIDGETS_CUSTOM_STYLE_OPTION_PROGRESS_BAR_H
-#define WIDGETS_CUSTOM_STYLE_OPTION_PROGRESS_BAR_H
+#include "faketorrentcontext.h"
 
-#include <QtCore/QBitArray>
-#include <QtWidgets/QStyleOptionProgressBar>
-#include <QtGui/QColor>
-#include <QtGui/QIcon>
+#include <Core/Torrent>
+#include <Core/TorrentMessage>
 
-class CustomStyleOptionProgressBar : public QStyleOptionProgressBar
+FakeTorrentContext::FakeTorrentContext()
 {
-public:
-    QColor color;
-    QIcon icon;
+}
 
-    bool hasSegments = false;
-    QBitArray segments;
+void FakeTorrentContext::setPriority(Torrent *torrent, int index, TorrentFileInfo::Priority p)
+{
+    Q_ASSERT(torrent);
+    torrent->setFilePriority(index, p);
+}
 
-    CustomStyleOptionProgressBar();
-};
-
-#endif // WIDGETS_CUSTOM_STYLE_OPTION_PROGRESS_BAR_H

@@ -14,24 +14,20 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef WIDGETS_CUSTOM_STYLE_OPTION_PROGRESS_BAR_H
-#define WIDGETS_CUSTOM_STYLE_OPTION_PROGRESS_BAR_H
+#include "mainwindow.h"
 
-#include <QtCore/QBitArray>
-#include <QtWidgets/QStyleOptionProgressBar>
-#include <QtGui/QColor>
-#include <QtGui/QIcon>
+#include <Widgets/CustomStyle>
 
-class CustomStyleOptionProgressBar : public QStyleOptionProgressBar
+#include <QtWidgets/QApplication>
+
+int main(int argc, char *argv[])
 {
-public:
-    QColor color;
-    QIcon icon;
+    QApplication app(argc, argv);
 
-    bool hasSegments = false;
-    QBitArray segments;
+    app.setStyle(new CustomStyle);
 
-    CustomStyleOptionProgressBar();
-};
+    MainWindow window;
+    window.show();
 
-#endif // WIDGETS_CUSTOM_STYLE_OPTION_PROGRESS_BAR_H
+    return app.exec();
+}

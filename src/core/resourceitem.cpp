@@ -230,6 +230,18 @@ void ResourceItem::setTorrentEnabled(bool enabled)
 
 /******************************************************************************
  ******************************************************************************/
+QString ResourceItem::torrentPreferredFilePriorities() const
+{
+    return m_torrentPreferredFilePriorities;
+}
+
+void ResourceItem::setTorrentPreferredFilePriorities(const QString &priorities)
+{
+    m_torrentPreferredFilePriorities = priorities;
+}
+
+/******************************************************************************
+ ******************************************************************************/
 bool ResourceItem::isSelected() const
 {
     return m_isSelected;

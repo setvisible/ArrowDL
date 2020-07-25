@@ -16,6 +16,8 @@ HEADERS += \
     $$PWD/systemtray.h \
     $$PWD/textedit.h \
     $$PWD/texteditorwidget.h \
+    $$PWD/torrentpiecemap.h \
+    $$PWD/torrentprogressbar.h \
     $$PWD/torrentwidget.h \
     $$PWD/urlformwidget.h \
     $$PWD/urllineedit.h
@@ -37,6 +39,8 @@ SOURCES += \
     $$PWD/systemtray.cpp \
     $$PWD/textedit.cpp \
     $$PWD/texteditorwidget.cpp \
+    $$PWD/torrentpiecemap.cpp \
+    $$PWD/torrentprogressbar.cpp \
     $$PWD/torrentwidget.cpp \
     $$PWD/urlformwidget.cpp\
     $$PWD/urllineedit.cpp
@@ -51,5 +55,6 @@ FORMS += \
     $$PWD/pathwidget.ui \
     $$PWD/streamwidget.ui \
     $$PWD/texteditorwidget.ui \
+    $$PWD/torrentpiecemap.ui \
     $$PWD/torrentwidget.ui \
     $$PWD/urlformwidget.ui
