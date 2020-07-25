@@ -67,6 +67,7 @@ static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *do
     resourceItem->setStreamFormatId(json["streamFormatId"].toString());
     resourceItem->setStreamFileSize(json["streamFileSize"].toInt());
     resourceItem->setTorrentEnabled(json["torrentEnabled"].toBool());
+    resourceItem->setTorrentPreferredFilePriorities(json["torrentPreferredFilePriorities"].toString());
 
     DownloadItem *item;
     if (resourceItem->isTorrentEnabled()) {
@@ -102,6 +103,7 @@ static inline void writeJob(const DownloadItem *item, QJsonObject &json)
     json["streamFormatId"] = item->resource()->streamFormatId();
     json["streamFileSize"] = item->resource()->streamFileSize();
     json["torrentEnabled"] = item->resource()->isTorrentEnabled();
+    json["torrentPreferredFilePriorities"] = item->resource()->torrentPreferredFilePriorities();
 
     json["state"] = stateToInt(item->state());
     json["bytesReceived"] = item->bytesReceived();

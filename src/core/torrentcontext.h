@@ -17,13 +17,14 @@
 #ifndef CORE_TORRENT_CONTEXT_H
 #define CORE_TORRENT_CONTEXT_H
 
+#include <Core/ITorrentContext>
+
 #include <QtCore/QObject>
 #include <QtCore/QString>
 #include <QtCore/QVariant>
 
-class DownloadTorrentItem;
 class Settings;
-
+class Torrent;
 class TorrentContextPrivate;
 
 struct TorrentSettingItem
@@ -38,7 +39,7 @@ struct TorrentSettingItem
  * @class TorrentContext
  * @brief Represents the libtorrent context.
  */
-class TorrentContext : public QObject
+class TorrentContext : public QObject, public ITorrentContext
 {
     Q_OBJECT
     // Note:
@@ -49,7 +50,7 @@ class TorrentContext : public QObject
     // before deleted status
 private:
     TorrentContext();
-    ~TorrentContext();
+    ~TorrentContext() Q_DECL_OVERRIDE;
 public:
     TorrentContext(TorrentContext const&) = delete; // Don't Implement
     void operator=(TorrentContext const&) = delete; // Don't implement
@@ -79,15 +80,17 @@ public:
     void setEnabled(bool enabled);
 
     /* Torrents */
-    void prepareTorrent(DownloadTorrentItem *item);
-    void stopPrepare(DownloadTorrentItem *item);
+    void prepareTorrent(Torrent *torrent);
+    void stopPrepare(Torrent *torrent);
 
-    bool hasTorrent(DownloadTorrentItem *item);
-    bool addTorrent(DownloadTorrentItem *item);
-    void removeTorrent(DownloadTorrentItem *item);
+    bool hasTorrent(Torrent *torrent);
+    bool addTorrent(Torrent *torrent);
+    void removeTorrent(Torrent *torrent);
 
-    void resumeTorrent(DownloadTorrentItem *item);
-    void pauseTorrent(DownloadTorrentItem *item);
+    void resumeTorrent(Torrent *torrent);
+    void pauseTorrent(Torrent *torrent);
+
+    void setPriority(Torrent *torrent, int index, TorrentFileInfo::Priority p) Q_DECL_OVERRIDE;
 
 signals:
     void changed();

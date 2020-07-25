@@ -285,7 +285,7 @@ QMessageBox::StandardButton AddBatchDialog::askBatchDownloading(QList<IDownloadI
         QPushButton *cancelButton = msgBox.addButton(QMessageBox::Cancel);
         msgBox.setDefaultButton(batchButton);
 
-        QCheckBox *cb = new QCheckBox("Don't ask again, always download batch");
+        QCheckBox *cb = new QCheckBox(tr("Don't ask again, always download batch"));
         msgBox.setCheckBox(cb);
         QObject::connect(cb, &QCheckBox::stateChanged, [this](int state){
             if (static_cast<Qt::CheckState>(state) == Qt::CheckState::Checked) {

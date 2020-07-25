@@ -1,6 +1,7 @@
 "use strict";
 
 const application = "com.setvisible.downrightnow";
+const website_download_link = "https://setvisible.github.io/DownZemAll/category/download.html";
 
 /* ***************************** */
 /* Options                       */
@@ -154,7 +155,7 @@ function checkConnection() {
       var messageDetectedPath = chrome.i18n.getMessage("optionsDetectedPath");
       var connectionStatus = "✓ " + messageOk;
       var details = "<br><br>" + messageDetectedPath + "<br><code>" + response.text + "</code>";
-      safeInnerHtmlAssignment(connectionStatus, details, "MediumSeaGreen");
+      setConnectionStatus(connectionStatus, details, "MediumSeaGreen");
       showOptions(true);
     }
   }
@@ -165,7 +166,7 @@ function checkConnection() {
     var messageInstructions = chrome.i18n.getMessage("optionsInstructions");
     var connectionStatus = "⚠ " + messageError;
     var details = "<br><br>" + messageInstructions;
-    safeInnerHtmlAssignment(connectionStatus, details, "Tomato");
+    setConnectionStatus(connectionStatus, details, "Tomato");
     showOptions(false);
   }
 
@@ -173,17 +174,30 @@ function checkConnection() {
   chrome.runtime.sendNativeMessage(application, { "text": data }, onHelloResponse);
 }
 
-function safeInnerHtmlAssignment(connectionStatus, details, color) {
+function setConnectionStatus(connectionStatus, details, color) {
   var messageStatus = chrome.i18n.getMessage("optionsStatus");
   const statusTag = `<span>${messageStatus}&nbsp;&nbsp;<span style="padding: 5px 10px 5px 10px; solid ${color}; background-color:${color}; color:White;">${connectionStatus}</span>&nbsp;&nbsp;&nbsp;&nbsp;${details}</span>`;
 
-  const parser = new DOMParser()
-  const parsed = parser.parseFromString(statusTag, `text/html`)
-  const tags = parsed.getElementsByTagName(`body`)
+  safeInnerHtmlAssignment2("status-message", statusTag);
+}
 
-  document.getElementById("status-message").innerHTML = ``
+function safeInnerHtmlAssignment2(elementId, htmlText) {
+  const parser = new DOMParser()
+  const parsed = parser.parseFromString(htmlText, `text/html`)
+  const tags = parsed.getElementsByTagName(`body`)
+  document.getElementById(elementId).innerHTML = ``
   for (const tag of tags) {
-    document.getElementById("status-message").appendChild(tag)
+    document.getElementById(elementId).appendChild(tag)
+  }
+}
+
+function safeInnerHtmlAssignment(elementId, label) {
+  const parser = new DOMParser();
+  const parsed = parser.parseFromString(`${label}`, `text/html`);
+  const tags = parsed.getElementsByTagName(`body`);
+  document.getElementById(elementId).innerHTML = ``;
+  for (const tag of tags) {
+    document.getElementById(elementId).appendChild(tag.lastChild);
   }
 }
 
@@ -245,16 +259,15 @@ document.getElementById("button-check").addEventListener("click", () => {
 /* ***************************** */
 /* Internationalization          */
 /* ***************************** */
-document.getElementById("main-title").innerHTML           = chrome.i18n.getMessage("optionsMainTitle");
-document.getElementById("toolbar-menu").innerHTML         = chrome.i18n.getMessage("optionsToolbarMenu");
-document.getElementById("show-simple-menu").innerHTML     = chrome.i18n.getMessage("optionsShowSimpleMenu");
-document.getElementById("show-full-menu").innerHTML       = chrome.i18n.getMessage("optionsShowFullMenu");
-document.getElementById("full_menu_label").innerHTML      = chrome.i18n.getMessage("optionsShowFullMenuDescription");
-document.getElementById("choice-get-links").innerHTML     = chrome.i18n.getMessage("optionsChoiceGetLinks");
-document.getElementById("choice-get-content").innerHTML   = chrome.i18n.getMessage("optionsChoiceGetContent");
-document.getElementById("choice-start-paused").innerHTML  = chrome.i18n.getMessage("optionsChoiceStartPaused");
-document.getElementById("about").innerHTML                = chrome.i18n.getMessage("optionsAbout");
-document.getElementById("install").innerHTML              = chrome.i18n.getMessage("optionsInstall");
-document.getElementById("install-message").innerHTML      = chrome.i18n.getMessage("optionsInstallMessage", 
-                                                                                   "https://setvisible.github.io/DownZemAll/category/download.html");
-document.getElementById("button-check").innerHTML         = chrome.i18n.getMessage("optionsRefresh", "»");
+safeInnerHtmlAssignment("main-title"          , chrome.i18n.getMessage("optionsMainTitle"));
+safeInnerHtmlAssignment("toolbar-menu"        , chrome.i18n.getMessage("optionsToolbarMenu"));
+safeInnerHtmlAssignment("show-simple-menu"    , chrome.i18n.getMessage("optionsShowSimpleMenu"));
+safeInnerHtmlAssignment("show-full-menu"      , chrome.i18n.getMessage("optionsShowFullMenu"));
+safeInnerHtmlAssignment("full_menu_label"     , chrome.i18n.getMessage("optionsShowFullMenuDescription"));
+safeInnerHtmlAssignment("choice-get-links"    , chrome.i18n.getMessage("optionsChoiceGetLinks"));
+safeInnerHtmlAssignment("choice-get-content"  , chrome.i18n.getMessage("optionsChoiceGetContent"));
+safeInnerHtmlAssignment("choice-start-paused" , chrome.i18n.getMessage("optionsChoiceStartPaused"));
+safeInnerHtmlAssignment("about"               , chrome.i18n.getMessage("optionsAbout"));
+safeInnerHtmlAssignment("install"             , chrome.i18n.getMessage("optionsInstall"));
+safeInnerHtmlAssignment("install-message"     , chrome.i18n.getMessage("optionsInstallMessage", website_download_link));
+safeInnerHtmlAssignment("button-check"        , chrome.i18n.getMessage("optionsRefresh", "»"));

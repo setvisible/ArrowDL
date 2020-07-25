@@ -17,7 +17,7 @@
 #include "torrentcontext_p.h"
 
 #include <Core/Settings>
-#include <Core/Settings>
+#include <Core/Torrent>
 
 #include <QtCore/QObject>
 #include <QtCore/QDebug>
@@ -145,43 +145,58 @@ void TorrentContext::setEnabled(bool enabled)
 
 /******************************************************************************
  ******************************************************************************/
-void TorrentContext::prepareTorrent(DownloadTorrentItem *item)
+void TorrentContext::prepareTorrent(Torrent *torrent)
 {
-    d->prepareTorrent(item);
+    d->prepareTorrent(torrent);
 }
 
-void TorrentContext::stopPrepare(DownloadTorrentItem *item)
+void TorrentContext::stopPrepare(Torrent *torrent)
 {
-    d->stopPrepare(item);
-}
-
-/******************************************************************************
- ******************************************************************************/
-bool TorrentContext::hasTorrent(DownloadTorrentItem *item)
-{
-    return d->hasTorrent(item);
+    d->stopPrepare(torrent);
 }
 
 /******************************************************************************
  ******************************************************************************/
-bool TorrentContext::addTorrent(DownloadTorrentItem *item)
+bool TorrentContext::hasTorrent(Torrent *torrent)
 {
-    return d->addTorrent(item);
-}
-
-void TorrentContext::removeTorrent(DownloadTorrentItem *item)
-{
-    d->removeTorrent(item);
+    return d->hasTorrent(torrent);
 }
 
 /******************************************************************************
  ******************************************************************************/
-void TorrentContext::resumeTorrent(DownloadTorrentItem *item)
+bool TorrentContext::addTorrent(Torrent *torrent)
 {
-    d->resumeTorrent(item);
+    if (!d->addTorrent(torrent)) {
+        torrent->setError(TorrentError::FailedToAddError,
+                          tr("Bad .torrent format: Can't download it."));
+        return false;
+    }
+    return true;
+
 }
 
-void TorrentContext::pauseTorrent(DownloadTorrentItem *item)
+void TorrentContext::removeTorrent(Torrent *torrent)
 {
-    d->pauseTorrent(item);
+    d->removeTorrent(torrent);
 }
+
+/******************************************************************************
+ ******************************************************************************/
+void TorrentContext::resumeTorrent(Torrent *torrent)
+{
+    d->resumeTorrent(torrent);
+}
+
+void TorrentContext::pauseTorrent(Torrent *torrent)
+{
+    d->pauseTorrent(torrent);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void TorrentContext::setPriority(Torrent *torrent, int index, TorrentFileInfo::Priority p)
+{
+    torrent->setFilePriority(index, p);
+    d->changeFilePriority(torrent, index, p);
+}
+

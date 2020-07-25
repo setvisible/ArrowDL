@@ -17,7 +17,7 @@
 #include "torrenthandler.h"
 
 #include <Core/IDownloadItem>
-#include <Core/Torrent>
+#include <Core/TorrentMessage>
 
 #include <QtCore/QDebug>
 #include <QtCore/QFile>

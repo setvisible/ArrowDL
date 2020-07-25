@@ -67,6 +67,8 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
     connect(m_streamInfoDownloader, SIGNAL(collected(StreamInfosPtr)), this, SLOT(onCollected(StreamInfosPtr)));
 
     readSettings();
+
+    onContinueClicked();
 }
 
 AddStreamDialog::~AddStreamDialog()

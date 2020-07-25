@@ -17,6 +17,7 @@
 #ifndef WIDGETS_CUSTOM_STYLE_OPTION_PROGRESS_BAR_H
 #define WIDGETS_CUSTOM_STYLE_OPTION_PROGRESS_BAR_H
 
+#include <QtCore/QBitArray>
 #include <QtWidgets/QStyleOptionProgressBar>
 #include <QtGui/QColor>
 #include <QtGui/QIcon>
@@ -26,6 +27,9 @@ class CustomStyleOptionProgressBar : public QStyleOptionProgressBar
 public:
     QColor color;
     QIcon icon;
+
+    bool hasSegments = false;
+    QBitArray segments;
 
     CustomStyleOptionProgressBar();
 };

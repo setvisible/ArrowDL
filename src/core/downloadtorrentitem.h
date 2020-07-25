@@ -22,18 +22,9 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
-#include <QtCore/QAbstractTableModel>
 
-QT_BEGIN_NAMESPACE
-class QAbstractItemModel;
-class QStandardItemModel;
-QT_END_NAMESPACE
 
 class DownloadManager;
-class TorrentFileTableModel;
-class TorrentPeerTableModel;
-class TorrentTrackerTableModel;
-class DownloadTorrentItemPrivate;
 
 class DownloadTorrentItem : public DownloadItem
 {
@@ -49,31 +40,15 @@ public:
     void pause() Q_DECL_OVERRIDE;
     void stop() Q_DECL_OVERRIDE;
 
-    /* Metadata and info */
-    QString status() const;
+    void rename(const QString &newName) Q_DECL_OVERRIDE;
 
-    TorrentMetaInfo metaInfo() const;
-    void setMetaInfo(TorrentMetaInfo metaInfo);
+    Torrent* torrent() const;
 
-    TorrentInfo info() const;
-    void setInfo(TorrentInfo info);
-
-    TorrentHandleInfo detail() const;
-    void setDetail(TorrentHandleInfo detail);
-
-    /* Data Tables */
-    QAbstractTableModel* fileModel() const;
-    QAbstractTableModel* peerModel() const;
-    QAbstractTableModel* trackerModel() const;
-
-    void retranslateUi();
+private slots:
+    void onTorrentChanged();
 
 private:
-    DownloadTorrentItemPrivate *d;
-    friend class DownloadTorrentItemPrivate;
-    friend class TorrentContextPrivate;
-
-    inline DownloadTorrentItemPrivate* data() { return d; }
+    Torrent *m_torrent;
 
     bool isPreparing() const;
     bool isSeeding() const;

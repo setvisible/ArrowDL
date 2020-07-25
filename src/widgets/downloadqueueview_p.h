@@ -19,7 +19,6 @@
 
 #include "downloadqueueview.h"
 
-#include <QtWidgets/QStyledItemDelegate>
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QTreeWidgetItem>
 
@@ -67,6 +66,9 @@ protected:
 
 private:
     QPoint dragStartPosition;
+
+    QList<QueueItem*> toQueueItem(const QList<QTreeWidgetItem*> items) const;
+    QUrl urlFrom(const QueueItem *queueItem) const;
 };
 
 #endif // WIDGETS_DOWNLOAD_QUEUE_VIEW_P_H
