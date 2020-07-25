@@ -2215,7 +2215,7 @@ inline QString WorkerThread::toString(const lt::sha1_hash &hash) const
 
 /******************************************************************************
  ******************************************************************************/
-inline QBitArray WorkerThread::toBitArray(const lt::typed_bitfield<lt::piece_index_t> &vec) const
+QBitArray WorkerThread::toBitArray(const lt::typed_bitfield<lt::piece_index_t> &vec) const
 {
     auto size = vec.size();    
     QBitArray ba(size, false);
