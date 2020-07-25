@@ -48,7 +48,7 @@
 
 
   "popupDownload": {
-    "message": "Download...",
+    "message": "Descargar...",
     "description": "Title of the context menu for Download..."
   },
   "popupDownloadLinks": {
@@ -68,19 +68,19 @@
     "description": "Title of the context menu for Download content (paused)"
   },
   "popupOpen": {
-    "message": "Open DZA!",
+    "message": "Abrir DZA!",
     "description": "Title of the context menu for Open DZA!"
   },
   "popupPreferences": {
-    "message": "Preferences...",
+    "message": "Preferencias...",
     "description": "Title of the context menu for Preferences..."
   },
   "popupOptions": {
-    "message": "Options...",
+    "message": "Opciones...",
     "description": "Title of the context menu for Options..."
   },
   "popupVisitWebsite": {
-    "message": "Visit DZA website",
+    "message": "Visitar DZA sitio",
     "description": "Title of the context menu for Visit DZA website"
   },
 
@@ -89,7 +89,7 @@
     "description": "Title of Error"
   },
   "popupError1": {
-    "message": "Can't find the application",
+    "message": "No se pudo encontrar la aplicación",
     "description": "Error message 1"
   },
   "popupError2": {
@@ -97,7 +97,7 @@
     "description": "Error message 2"
   },
   "popupRemark": {
-    "message": "Remark",
+    "message": "Nota",
     "description": "Title of Remark"
   },
   "popupRemark1": {
@@ -107,11 +107,11 @@
 
 
   "optionsMainTitle": {
-    "message": "Options",
+    "message": "Opciones",
     "description": "Title of Options"
   },
   "optionsToolbarMenu": {
-    "message": "Toolbar Menu",
+    "message": "Menú de barra de herramientas",
     "description": "Title of Toolbar Menu"
   },
   "optionsShowSimpleMenu": {
@@ -127,7 +127,7 @@
     "description": "Description of Show full menu"
   },
   "optionsChoiceGetLinks": {
-    "message": "Links",
+    "message": "Enlaces",
     "description": "Title of Links"
   },
   "optionsChoiceGetContent": {
@@ -171,11 +171,11 @@
   },
 
   "optionsStatus": {
-    "message": "Status:",
+    "message": "Estatus:",
     "description": "Title of Status"
   },
   "optionsOk": {
-    "message": "Ok",
+    "message": "Aceptar",
     "description": "Title of Ok"
   },
   "optionsDetectedPath": {
