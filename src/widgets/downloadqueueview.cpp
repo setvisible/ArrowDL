@@ -386,16 +386,16 @@ void QueueItem::updateItem()
             int httpErrorNumber = m_downloadItem->httpErrorNumber();
             if (httpErrorNumber == 201) httpErrorNumber = 401;
             if (httpErrorNumber == 203) httpErrorNumber = 404;
-            estTime += tr(" (%0)").arg(httpErrorNumber);
+            estTime += QString(" (%0)").arg(httpErrorNumber);
 
         } else {
-            estTime += tr(" (%0)").arg(m_downloadItem->errorMessage());
+            estTime += QString(" (%0)").arg(m_downloadItem->errorMessage());
         }
 
     } else if (m_downloadItem->state() == IDownloadItem::FileError) {
 
         if (!m_downloadItem->errorMessage().isEmpty()) {
-            estTime += tr(" (%0)").arg(m_downloadItem->errorMessage());
+            estTime += QString(" (%0)").arg(m_downloadItem->errorMessage());
         }
 
     } else if (m_downloadItem->state() == IDownloadItem::Downloading) {

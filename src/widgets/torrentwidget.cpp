@@ -361,9 +361,12 @@ void TorrentWidget::setupInfoCopy(QLabel* label, QLabel* field)
     field->setWordWrap(true);
     field->setFocusPolicy(Qt::StrongFocus);
 
+    foreach (auto action, label->actions()) { label->removeAction(action); }
+    foreach (auto action, field->actions()) { field->removeAction(action); }
+
     // Context menu > Copy
     QAction *copyAction = new QAction(tr("Copy"), field);
-    connect(copyAction, SIGNAL(triggered()), this, SLOT(copy()));
+    connect(copyAction, &QAction::triggered, this, &TorrentWidget::copy);
 
     label->setBuddy(field);
     label->setContextMenuPolicy(Qt::ActionsContextMenu);
@@ -674,6 +677,7 @@ void TorrentWidget::retranslateUi()
         resetUi();
     }
     updateTorrentPage();
+    setupInfoCopy();
 }
 
 /******************************************************************************
