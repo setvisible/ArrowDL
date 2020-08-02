@@ -2038,7 +2038,7 @@ inline TorrentHandleInfo WorkerThread::toTorrentHandleInfo(const lt::torrent_han
         QString peerIp = toString(peer.ip.address().to_string());
         int peerPort = peer.ip.port();
         d.endpoint = EndPoint(peerIp, peerPort);
-        d.client = toString(peer.client);
+        d.userAgent = toString(peer.client);
 
         d.availablePieces = toBitArray(peer.pieces);
 

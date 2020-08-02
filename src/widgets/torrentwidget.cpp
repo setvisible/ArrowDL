@@ -103,7 +103,7 @@ static const Headers peerTableHeaders
 ({
      { 280, QLatin1String("IP")},
      {  50, QLatin1String("Port")},
-     { 120, QLatin1String("Client")},
+     { 120, QLatin1String("User Agent")},
      {  80, QLatin1String("Downloaded")},
      {  80, QLatin1String("Uploaded")},
      {  80, QLatin1String("Request Time")},
