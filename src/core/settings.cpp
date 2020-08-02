@@ -48,6 +48,7 @@ static const QString REGISTRY_REMOVE_COMPLETED = "PrivacyRemoveCompleted";
 static const QString REGISTRY_REMOVE_CANCELED  = "PrivacyRemoveCanceled";
 static const QString REGISTRY_REMOVE_PAUSED    = "PrivacyRemovePaused";
 static const QString REGISTRY_DATABASE         = "Database";
+static const QString REGISTRY_HTTP_USER_AGENT  = "HttpUserAgent";
 
 // Tab Filters
 static const QString REGISTRY_FILTER_KEY       = "FilterKey";
@@ -109,6 +110,7 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     addDefaultSettingString(
                 REGISTRY_DATABASE,
                 QString("%0/queue.json").arg(qApp->applicationDirPath()));
+    addDefaultSettingString(REGISTRY_HTTP_USER_AGENT, httpUserAgents().at(0));
 
     // Tab Filters
     addDefaultSettingStringList(
@@ -360,6 +362,30 @@ QString Settings::database() const
 void Settings::setDatabase(const QString &value)
 {
     setSettingString(REGISTRY_DATABASE, value);
+}
+
+QString Settings::httpUserAgent() const
+{
+    return getSettingString(REGISTRY_HTTP_USER_AGENT);
+}
+
+void Settings::setHttpUserAgent(const QString &value)
+{
+    setSettingString(REGISTRY_HTTP_USER_AGENT, value);
+}
+
+QStringList Settings::httpUserAgents()
+{
+    return QStringList()
+            << QLatin1String("Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/43.4")
+            << QLatin1String("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.3")
+            << QLatin1String("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36")
+            << QLatin1String("Mozilla/5.0 (iPhone; CPU iPhone OS 11_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko)")
+            << QLatin1String("Version/10.0 Mobile/14E304 Safari/602.1")
+            << QLatin1String("DownZemAll/2.x")
+            << QLatin1String("Java1.1.4")
+            << QLatin1String("Lynx/2.8rel.3 libwww-FM/2.14")
+            << QLatin1String("HyperBrowser (Cray; I; OrganicOS 9.7.42beta-27)");
 }
 
 /******************************************************************************

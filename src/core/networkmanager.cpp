@@ -52,8 +52,11 @@ QNetworkReply* NetworkManager::get(const QUrl &url)
 {
     Q_ASSERT(m_networkAccessManager);
 
+    const QString httpUserAgent = m_settings ? m_settings->httpUserAgent() : QLatin1String("");
+
     QNetworkRequest request;
     request.setUrl(url);
+    request.setHeader(QNetworkRequest::UserAgentHeader, httpUserAgent);
     request.setSslConfiguration(QSslConfiguration::defaultConfiguration()); // HTTPS
 #if QT_VERSION >= 0x050600
     request.setMaximumRedirectsAllowed(5);

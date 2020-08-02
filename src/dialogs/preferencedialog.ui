@@ -65,7 +65,7 @@ QTabBar::tab:hover:!selected {
 }</string>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <property name="iconSize">
       <size>
@@ -516,130 +516,52 @@ QTabBar::tab:hover:!selected {
       <attribute name="title">
        <string>Privacy</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_8" stretch="0,0,0,1,0,1">
+      <layout class="QVBoxLayout" name="verticalLayout_8" stretch="0,0,0,1">
        <item>
-        <widget class="QGroupBox" name="groupBox_5">
-         <property name="title">
-          <string>When Manager window is closed</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_6">
-          <item>
-           <widget class="QCheckBox" name="privacyRemoveCompletedCheckBox">
-            <property name="text">
-             <string>Remove completed downloads</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="privacyRemoveCanceledCheckBox">
-            <property name="text">
-             <string>Remove canceled/failed downloads</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="privacyRemovePausedCheckBox">
-            <property name="text">
-             <string>Remove unfinished (paused) downloads</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_6">
-         <property name="title">
-          <string>Database</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_7">
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>The current downloads queue is temporarly saved in:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="PathWidget" name="browseDatabaseFile" native="true"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_12">
-         <property name="title">
-          <string>Stream Cache</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_20">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_14">
-            <property name="rightMargin">
-             <number>10</number>
-            </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0">
+         <item>
+          <widget class="QGroupBox" name="groupBox_5">
+           <property name="title">
+            <string>When Manager window is closed</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
             <item>
-             <widget class="QPushButton" name="streamCleanCacheButton">
+             <widget class="QCheckBox" name="privacyRemoveCompletedCheckBox">
               <property name="text">
-               <string>Clean Cache</string>
+               <string>Remove completed downloads</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="streamCleanCacheLabel">
+             <widget class="QCheckBox" name="privacyRemoveCanceledCheckBox">
               <property name="text">
-               <string>located at: &lt;a href=&quot;https://www.example.org/tutorial.html&quot;&gt;path/to/cache/dir/&lt;/a&gt;</string>
-              </property>
-              <property name="openExternalLinks">
-               <bool>true</bool>
+               <string>Remove canceled/failed downloads</string>
               </property>
              </widget>
             </item>
             <item>
-             <spacer name="horizontalSpacer_7">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+             <widget class="QCheckBox" name="privacyRemovePausedCheckBox">
+              <property name="text">
+               <string>Remove unfinished (paused) downloads</string>
               </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>468</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
+             </widget>
             </item>
            </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>157</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_9">
-         <property name="title">
-          <string>Auto Update</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_11">
-          <item>
-           <widget class="QLabel" name="label_10">
-            <property name="text">
-             <string>Check for updates automatically:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_9">
+           <property name="title">
+            <string>Auto Update</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_11">
+            <item>
+             <widget class="QLabel" name="label_10">
+              <property name="text">
+               <string>Check for updates automatically:</string>
+              </property>
+             </widget>
+            </item>
             <item>
              <widget class="QComboBox" name="checkUpdateComboBox">
               <property name="minimumSize">
@@ -666,36 +588,6 @@ QTabBar::tab:hover:!selected {
              </widget>
             </item>
             <item>
-             <spacer name="horizontalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
-            <item>
-             <spacer name="horizontalSpacer_6">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
              <widget class="QPushButton" name="checkUpdateNowPushButton">
               <property name="styleSheet">
                <string notr="true">QPushButton {
@@ -708,18 +600,98 @@ QTabBar::tab:hover:!selected {
               </property>
              </widget>
             </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,0">
+         <item>
+          <widget class="QGroupBox" name="groupBox_6">
+           <property name="title">
+            <string>Database</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_7">
             <item>
-             <spacer name="horizontalSpacer_5">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>The current downloads queue is temporarly saved in:</string>
               </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
+             </widget>
+            </item>
+            <item>
+             <widget class="PathWidget" name="browseDatabaseFile" native="true"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_12">
+           <property name="title">
+            <string>Stream Cache</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_20">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_14">
+              <property name="rightMargin">
+               <number>10</number>
               </property>
-             </spacer>
+              <item>
+               <widget class="QPushButton" name="streamCleanCacheButton">
+                <property name="text">
+                 <string>Clean Cache</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="streamCleanCacheLabel">
+                <property name="text">
+                 <string>located at: &lt;a href=&quot;https://www.example.org/tutorial.html&quot;&gt;path/to/cache/dir/&lt;/a&gt;</string>
+                </property>
+                <property name="openExternalLinks">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_14">
+         <property name="title">
+          <string>Identification</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_22">
+          <item>
+           <widget class="QLabel" name="label_25">
+            <property name="text">
+             <string>Servers might use HTTP identification contained in the HTTP request to log client attributes. Some server even don't respond to the client if the identification attribute is empty. The fields allow you to send fake information, to protect privacy.</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QFormLayout" name="formLayout_3">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_12">
+              <property name="text">
+               <string>HTTP User Agent:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QComboBox" name="httpUserAgentComboBox">
+              <property name="editable">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -727,14 +699,14 @@ QTabBar::tab:hover:!selected {
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer_5">
+        <spacer name="verticalSpacer_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>40</height>
+           <height>157</height>
           </size>
          </property>
         </spacer>

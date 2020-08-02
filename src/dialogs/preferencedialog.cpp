@@ -188,6 +188,11 @@ void PreferenceDialog::initializeUi()
     ui->streamCleanCacheLabel->setText(QString("Located at <a href=\"%0\">%0</a>")
                                        .arg(StreamCleanCache::cacheDir()));
 
+    ui->httpUserAgentComboBox->clear();
+    ui->httpUserAgentComboBox->setEditable(true);
+    ui->httpUserAgentComboBox->addItem(tr("(none)")); // index == 0
+    ui->httpUserAgentComboBox->addItems(m_settings->httpUserAgents());
+
     // Tab Filters
     ui->filterTableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
     ui->filterTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -407,6 +412,12 @@ void PreferenceDialog::read()
     int index = static_cast<int>(m_settings->checkUpdateBeatMode());
     ui->checkUpdateComboBox->setCurrentIndex(index);
 
+    if (m_settings->httpUserAgent().isEmpty()) {
+        ui->httpUserAgentComboBox->setCurrentIndex(0);
+    } else {
+        ui->httpUserAgentComboBox->setCurrentText(m_settings->httpUserAgent());
+    }
+
     // Tab Filters
     setFilters(m_settings->filters());
 
@@ -454,6 +465,14 @@ void PreferenceDialog::write()
                 ui->checkUpdateComboBox->currentIndex());
     m_settings->setCheckUpdateBeatMode(mode);
 
+
+    if (ui->httpUserAgentComboBox->currentText() == ui->httpUserAgentComboBox->itemText(0)) {
+        /* Rem: can't use currentItemIndex() as condition, because is always == 0 */
+        m_settings->setHttpUserAgent(QLatin1String(""));
+    } else {
+        m_settings->setHttpUserAgent(ui->httpUserAgentComboBox->currentText());
+    }
+
     // Tab Filters
     m_settings->setFilters(filters());
 
@@ -490,6 +509,7 @@ QStringList PreferenceDialog::streamHosts() const
     }
     return streamHosts;
 }
+
 /******************************************************************************
  ******************************************************************************/
 static QString _html(const QString &text)
