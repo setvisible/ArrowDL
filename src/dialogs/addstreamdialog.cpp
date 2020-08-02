@@ -113,12 +113,14 @@ void AddStreamDialog::reject()
  ******************************************************************************/
 void AddStreamDialog::onContinueClicked()
 {
+    if (m_streamInfoDownloader->isRunning()) {
+        m_streamInfoDownloader->stop();
+        return;
+    }
     setGuiEnabled(false);
     ui->streamWidget->setState(StreamWidget::Downloading);
-
     const QString url = ui->urlLineEdit->text();
     m_streamInfoDownloader->runAsync(url);
-
     onChanged(QString());
 }
 
@@ -187,6 +189,7 @@ inline QList<IDownloadItem*> AddStreamDialog::toList(IDownloadItem *item)
  ******************************************************************************/
 void AddStreamDialog::setGuiEnabled(bool enabled)
 {
+    ui->continueButton->setText(enabled ? tr("Continue") : tr("Stop"));
     ui->urlLineEdit->setEnabled(enabled);
     ui->continueButton->setEnabled(enabled);
     ui->urlFormWidget->setChildrenEnabled(enabled);
