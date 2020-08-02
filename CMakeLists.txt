@@ -1,6 +1,6 @@
 # CMakeLists.txt
 #
-# Copyright (C) 2019-2020 Sebastien Vavassori
+# Copyright (C) 2019-present Sebastien Vavassori
 #
 # This code is released under the LGPL license v3.0.
 # For conditions of distribution and use, see the disclaimer

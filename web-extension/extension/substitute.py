@@ -1,6 +1,6 @@
 #substitute.py
 #
-# Copyright 2019 Sebastien Vavassori. All rights reserved.
+# Copyright 2019-present Sebastien Vavassori. All rights reserved.
 # Use of this source code is governed by a LGPL license that can be
 # found in the LICENSE file.
 #
