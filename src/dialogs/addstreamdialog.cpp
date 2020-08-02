@@ -54,11 +54,6 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
 
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
 
-    ui->urlLineEdit->setText(url.toString());
-    ui->urlLineEdit->setFocus();
-    ui->streamWidget->setState(StreamWidget::Empty);
-
-
     connect(ui->urlLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onChanged(QString)));
     connect(ui->urlFormWidget, SIGNAL(changed(QString)), this, SLOT(onChanged(QString)));
     connect(ui->continueButton, SIGNAL(released()), this, SLOT(onContinueClicked()));
@@ -68,7 +63,13 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
 
     readSettings();
 
-    onContinueClicked();
+    ui->streamWidget->setState(StreamWidget::Empty);
+    ui->urlLineEdit->setText(url.toString());
+    ui->urlLineEdit->setFocus();
+
+    if (!url.isEmpty()) {
+        onContinueClicked();
+    }
 }
 
 AddStreamDialog::~AddStreamDialog()
