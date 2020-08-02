@@ -77,6 +77,9 @@ HEADERS     += $$PWD/../../../src/core/idownloaditem.h
 
 HEADERS     += $$PWD/../../../src/core/itorrentcontext.h
 
+HEADERS     += $$PWD/../../../src/core/networkmanager.h
+SOURCES     += $$PWD/../../../src/core/networkmanager.cpp
+
 HEADERS     += $$PWD/../../../src/core/resourceitem.h
 SOURCES     += $$PWD/../../../src/core/resourceitem.cpp
 

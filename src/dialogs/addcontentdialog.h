@@ -27,8 +27,6 @@ class Settings;
 
 #ifdef USE_QT_WEBENGINE
 class QWebEngineView;
-#else
-class QNetworkAccessManager;
 #endif
 
 namespace Ui {
@@ -48,7 +46,6 @@ public:
 
     void loadResources(const QString &message);
     void loadUrl(const QUrl &url);
-
 
 protected:
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
@@ -83,8 +80,6 @@ private:
     Model *m_model;
 #ifdef USE_QT_WEBENGINE
     QWebEngineView *m_webEngineView;
-#else
-    QNetworkAccessManager *m_networkAccessManager;
 #endif
     Settings *m_settings;
     QUrl m_url;

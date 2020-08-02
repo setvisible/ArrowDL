@@ -17,6 +17,7 @@
 #include "torrentcontext_p.h"
 
 #include <Globals>
+#include <Core/NetworkManager>
 #include <Core/ResourceItem>
 #include <Core/Settings>
 #include <Core/Torrent>
@@ -28,7 +29,6 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QUrl>
 #include <QtCore/QtMath>
-#include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 
 #include <algorithm> // std::min, std::max
@@ -99,6 +99,7 @@ TorrentContextPrivate::TorrentContextPrivate(TorrentContext *qq)
     , q(qq)
     , workerThread(Q_NULLPTR)
     , settings(Q_NULLPTR)
+    , networkManager(Q_NULLPTR)
 {
     qRegisterMetaType<TorrentData>();
     qRegisterMetaType<TorrentStatus>();
@@ -480,11 +481,11 @@ void TorrentContextPrivate::downloadTorrentFile(Torrent *torrent)
 {
     const QString source = torrent->url();
     const QUrl url = QUrl::fromUserInput(source);
-    // const QUrl url = QUrl::fromEncoded(source.toLocal8Bit()); // when url is received as program argument
 
     qDebug_1 << Q_FUNC_INFO << url;
 
-    QNetworkReply *reply = m_networkManager.get(QNetworkRequest(url));
+    Q_ASSERT(networkManager);
+    QNetworkReply *reply = networkManager->get(url);
     if (!reply) {
         auto m = torrent->metaInfo();
         m.error.type = TorrentError::MetadataDownloadError;

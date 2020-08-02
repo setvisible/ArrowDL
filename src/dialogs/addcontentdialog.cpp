@@ -22,6 +22,7 @@
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
 #include <Core/Model>
+#include <Core/NetworkManager>
 #include <Core/ResourceItem>
 #include <Core/ResourceModel>
 #include <Core/Settings>
@@ -40,8 +41,6 @@
 #  include <QtWebEngineWidgets/QWebEngineView>
 #  include <QtWebEngineWidgets/QWebEngineSettings>
 #else
-#  include <QtNetwork/QNetworkAccessManager>
-#  include <QtNetwork/QNetworkRequest>
 #  include <QtNetwork/QNetworkReply>
 #endif
 
@@ -53,7 +52,7 @@
 #define C_COLUMN_MASK_WIDTH         200
 
 
-static QList<IDownloadItem*> createItems( QList<ResourceItem*> resources, DownloadManager *downloadManager)
+static QList<IDownloadItem*> createItems(QList<ResourceItem*> resources, DownloadManager *downloadManager)
 {
     QList<IDownloadItem*> items;
     foreach (auto resource, resources) {
@@ -73,8 +72,6 @@ AddContentDialog::AddContentDialog(DownloadManager *downloadManager,
     , m_model(new Model(this))
     #ifdef USE_QT_WEBENGINE
     , m_webEngineView(Q_NULLPTR)
-    #else
-    , m_networkAccessManager(new QNetworkAccessManager(this))
     #endif
     , m_settings(settings)
 {
@@ -206,7 +203,8 @@ void AddContentDialog::loadUrl(const QUrl &url)
         m_webEngineView->load(m_url);
 #else
         qDebug() << Q_FUNC_INFO << "GOOGLE GUMBO";
-        QNetworkReply *reply = m_networkAccessManager->get(QNetworkRequest(m_url));
+        NetworkManager *networkManager = m_downloadManager->networkManager();
+        QNetworkReply *reply = networkManager->get(m_url);
         connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
         connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
 #endif

@@ -17,8 +17,7 @@
 #ifndef CORE_UPDATE_CHECKER_PRIVATE_H
 #define CORE_UPDATE_CHECKER_PRIVATE_H
 
-#include <functional>
-#include <vector>
+#include <functional> /* std::function */
 
 #include <QtCore/QString>
 

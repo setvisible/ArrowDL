@@ -18,6 +18,7 @@
 
 #include <Core/DownloadItem>
 #include <Core/DownloadTorrentItem>
+#include <Core/NetworkManager>
 #include <Core/ResourceItem>
 #include <Core/Session>
 #include <Core/Settings>
@@ -26,16 +27,18 @@
 #include <QtCore/QSettings>
 #include <QtCore/QTimer>
 #include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkRequest>
+#include <QtNetwork/QNetworkReply>
 
 
 /*!
  * \class DownloadManager
  *
  * The DownloadManager class manages:
- * \li settings
- * \li load/save of the queue
+ * \li settings persistence
+ * \li queue persistence
  * \li selection?
- * \li network management
+ * \li network requests (GET, POST, PUT, HEAD...)
  *
  */
 
@@ -43,7 +46,7 @@
  * \brief Constructor
  */
 DownloadManager::DownloadManager(QObject *parent) : DownloadEngine(parent)
-  , m_networkManager(new QNetworkAccessManager(this))
+  , m_networkManager(new NetworkManager(this))
   , m_settings(Q_NULLPTR)
   , m_dirtyQueueTimer(Q_NULLPTR)
   , m_queueFile(QString())
@@ -82,6 +85,7 @@ void DownloadManager::setSettings(Settings *settings)
     if (m_settings) {
         connect(m_settings, SIGNAL(changed()), this, SLOT(onSettingsChanged()));
     }
+    m_networkManager->setSettings(m_settings);
 }
 
 void DownloadManager::onSettingsChanged()
@@ -180,7 +184,7 @@ void DownloadManager::onQueueChanged()
 
 /******************************************************************************
  ******************************************************************************/
-QNetworkAccessManager* DownloadManager::networkManager()
+NetworkManager* DownloadManager::networkManager() const
 {
     return m_networkManager;
 }
