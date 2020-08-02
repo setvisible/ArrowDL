@@ -35,7 +35,6 @@ public:
 
     State state() const Q_DECL_OVERRIDE;
     void setState(State state);
-    QString stateToString() const;
 
     qint64 bytesReceived() const Q_DECL_OVERRIDE;
     void setBytesReceived(qint64 bytesReceived);
@@ -45,9 +44,6 @@ public:
 
     double speed() const Q_DECL_OVERRIDE;
     int progress() const Q_DECL_OVERRIDE;
-
-    int httpErrorNumber() const;
-    void setHttpErrorNumber(int error);
 
     QString errorMessage() const;
     void setErrorMessage(const QString &message);
@@ -97,7 +93,6 @@ private:
     qint64 m_bytesReceived;
     qint64 m_bytesTotal;
 
-    int m_httpErrorNumber;
     QString m_errorMessage;
 
     int m_maxConnectionSegments;

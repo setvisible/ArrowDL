@@ -70,6 +70,8 @@ protected:
 private:
     DownloadItemPrivate *d;
     friend class DownloadItemPrivate;
+
+    QString statusToHttp(QNetworkReply::NetworkError error);
 };
 
 #endif // CORE_DOWNLOAD_ITEM_H
