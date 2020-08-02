@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  */
 
 #ifndef DIALOGS_COMPILER_DIALOG_H
