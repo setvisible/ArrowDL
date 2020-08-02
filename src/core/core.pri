@@ -18,6 +18,7 @@ HEADERS += \
     $$PWD/mask.h \
     $$PWD/mimedatabase.h \
     $$PWD/model.h \
+    $$PWD/networkmanager.h \
     $$PWD/regex.h \
     $$PWD/resourceitem.h \
     $$PWD/resourcemodel.h \
@@ -47,6 +48,7 @@ SOURCES += \
     $$PWD/mask.cpp \
     $$PWD/mimedatabase.cpp \
     $$PWD/model.cpp \
+    $$PWD/networkmanager.cpp \
     $$PWD/regex.cpp \
     $$PWD/resourceitem.cpp \
     $$PWD/resourcemodel.cpp \

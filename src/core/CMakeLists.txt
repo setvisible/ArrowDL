@@ -14,6 +14,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/mask.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/mimedatabase.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/model.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/networkmanager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/regex.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/resourceitem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/resourcemodel.cpp

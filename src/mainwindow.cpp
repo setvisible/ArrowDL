@@ -104,6 +104,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     TorrentContext& torrentContext =  TorrentContext::getInstance();
     torrentContext.setSettings(m_settings);
+    torrentContext.setNetworkManager(m_downloadManager->networkManager());
+
+    m_updateChecker->setNetworkManager(m_downloadManager->networkManager());
 
     Qt::WindowFlags flags = Qt::Window
             | Qt::WindowTitleHint

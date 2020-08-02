@@ -26,7 +26,8 @@ class ResourceItem;
 class Settings;
 
 class QTimer;
-class QNetworkAccessManager;
+class NetworkManager;
+class QNetworkReply;
 
 class DownloadManager : public DownloadEngine
 {
@@ -41,7 +42,7 @@ public:
     void setSettings(Settings *settings);
 
     /* Queue Management */
-    QNetworkAccessManager *networkManager();
+    NetworkManager* networkManager() const;
 
     /* Utility */
     IDownloadItem* createItem(const QUrl &url) Q_DECL_OVERRIDE;
@@ -58,10 +59,11 @@ private slots:
     void saveQueue();
 
 private:
-    QNetworkAccessManager *m_networkManager;
+    /* Network parameters (SSL, Proxy, UserAgent...) */
+    NetworkManager *m_networkManager;
     Settings *m_settings;
 
-    // Crash Recovery
+    /* Crash Recovery */
     QTimer* m_dirtyQueueTimer;
     QString m_queueFile;
 

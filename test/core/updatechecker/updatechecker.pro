@@ -8,7 +8,6 @@ CONFIG      += c++11
 
 # Include:
 #INCLUDEPATH += ../../../include
-INCLUDEPATH += $$PWD/../../../src/core/
 
 # Resources:
 HEADERS     += $$PWD/../../../src/core/updatechecker_p.h

@@ -24,7 +24,6 @@
 #include <QtCore/QObject>
 #include <QtCore/QThread>
 #include <QtCore/QMap>
-#include <QtNetwork/QNetworkAccessManager>
 
 #include <vector> // std::vector
 #include <ctime>  // std::time_t, definition required by MSVC 2017
@@ -36,10 +35,13 @@
 #include "libtorrent/string_view.hpp"   // lt:string_view
 #include "libtorrent/sha1_hash.hpp"     // lt::sha1_hash
 
-
+class NetworkManager;
 class Settings;
 class Torrent;
 class WorkerThread;
+
+class QIODevice;
+class QNetworkReply;
 
 class TorrentContextPrivate : public QObject
 {  
@@ -107,6 +109,7 @@ public:
     TorrentContext *q;
     WorkerThread *workerThread;
     Settings *settings;
+    NetworkManager *networkManager;
     QHash<UniqueId, Torrent*> hashMap;
 
     inline Torrent *find(const UniqueId &uuid);
@@ -115,7 +118,6 @@ public:
 private slots:
     void onNetworkReplyFinished();
 private:
-    QNetworkAccessManager m_networkManager;
     QMap<QNetworkReply*, Torrent*> m_currentDownloads;
     void downloadMagnetLink(Torrent *torrent);
     void downloadTorrentFile(Torrent *torrent);

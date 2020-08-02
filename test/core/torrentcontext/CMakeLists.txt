@@ -6,6 +6,7 @@ set(MY_TEST_TARGET tst_torrentcontext)
 set(MY_TEST_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/abstractsettings.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/format.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/networkmanager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/settings.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrent.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrentcontext.cpp

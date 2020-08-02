@@ -121,6 +121,10 @@ public:
     QString database() const;
     void setDatabase(const QString &value);
 
+    QString httpUserAgent() const;
+    void setHttpUserAgent(const QString &value);
+    static QStringList httpUserAgents();
+
     // Tab Filters
     QList<Filter> filters();
     void setFilters(const QList<Filter> &filters);

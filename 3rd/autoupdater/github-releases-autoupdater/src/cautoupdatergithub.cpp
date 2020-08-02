@@ -4,6 +4,7 @@
 #include <QtCore/QCollator>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
+#include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 
@@ -17,6 +18,23 @@
 #define UPDATE_FILE_EXTENSION QLatin1String(".AppImage")
 #endif
 
+static QNetworkAccessManager defaultNetworkManager;
+
+static const auto defaultNetworkGetCallback = [](const QUrl& url)
+{
+	QNetworkRequest request;
+	request.setUrl(url);
+	request.setSslConfiguration(QSslConfiguration::defaultConfiguration()); // HTTPS
+#if QT_VERSION >= 0x050600
+	request.setMaximumRedirectsAllowed(5);
+#endif
+#if QT_VERSION >= 0x050900
+	request.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
+						 QNetworkRequest::NoLessSafeRedirectPolicy);
+#endif
+	QNetworkReply *reply = defaultNetworkManager.get(request);
+	return reply;
+};
 
 static const auto defaultAddressMatcher = [](const QString& address) {
 	return address.endsWith(UPDATE_FILE_EXTENSION);
@@ -29,12 +47,15 @@ static const auto naturalSortQstringComparator = [](const QString& l, const QStr
 	return collator.compare(l, r) == -1;
 };
 
-CAutoUpdaterGithub::CAutoUpdaterGithub(const QString& githubRepositoryAddress,
+CAutoUpdaterGithub::CAutoUpdaterGithub(
+		const QString& githubRepositoryAddress,
 		const QString& currentVersionString,
-		const std::function<bool (const QString &)>& addressMatcher,
+		const std::function<QNetworkReply* (const QUrl&)>& callbackNetworkGet,
+		const std::function<bool (const QString&)>& addressMatcher,
 		const std::function<bool (const QString&, const QString&)>& versionStringComparatorLessThan) :
 	_updatePageAddress(githubRepositoryAddress + "/releases/"),
 	_currentVersionString(currentVersionString),
+	_callbackNetworkGet(callbackNetworkGet ? callbackNetworkGet : defaultNetworkGetCallback),
 	_addressMatcher(addressMatcher ? addressMatcher : defaultAddressMatcher),
 	_lessThanVersionStringComparator(versionStringComparatorLessThan ? versionStringComparatorLessThan : naturalSortQstringComparator)
 {
@@ -49,7 +70,8 @@ void CAutoUpdaterGithub::setUpdateStatusListener(UpdateStatusListener* listener)
 
 void CAutoUpdaterGithub::checkForUpdates()
 {
-	QNetworkReply * reply = _networkManager.get(QNetworkRequest(QUrl(_updatePageAddress)));
+	QUrl url(_updatePageAddress);
+	QNetworkReply *reply = _callbackNetworkGet(url);
 	if (!reply)
 	{
 		if (_listener)
@@ -62,7 +84,7 @@ void CAutoUpdaterGithub::checkForUpdates()
 
 QString CAutoUpdaterGithub::installTempDir() const
 {
-    return QDir::tempPath();
+	return QDir::tempPath();
 }
 
 void CAutoUpdaterGithub::downloadAndInstallUpdate(const QString& updateUrl)
@@ -78,16 +100,7 @@ void CAutoUpdaterGithub::downloadAndInstallUpdate(const QString& updateUrl)
 			_listener->onUpdateError("Failed to open temporary file " + _downloadedBinaryFile.fileName());
 		return;
 	}
-
-	QNetworkRequest request(url);
-	request.setSslConfiguration(QSslConfiguration::defaultConfiguration()); // HTTPS
-#if QT_VERSION >= 0x050600
-	request.setMaximumRedirectsAllowed(5);
-#endif
-#if QT_VERSION >= 0x050900
-	request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-#endif
-	QNetworkReply * reply = _networkManager.get(request);
+	QNetworkReply *reply = _callbackNetworkGet(url);
 	if (!reply)
 	{
 		if (_listener)

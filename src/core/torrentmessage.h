@@ -246,10 +246,10 @@ public:
     }
 
     TorrentPeerInfo() {}
-    TorrentPeerInfo(EndPoint _endpoint, QString _client) : endpoint(_endpoint), client(_client) {}
+    TorrentPeerInfo(EndPoint _endpoint, QString _userAgent) : endpoint(_endpoint), userAgent(_userAgent) {}
 
     EndPoint endpoint;
-    QString client;
+    QString userAgent;
 
     QBitArray availablePieces; // 1: peer has that piece, 0: peer miss that piece
 

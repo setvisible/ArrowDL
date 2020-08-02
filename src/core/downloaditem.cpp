@@ -18,6 +18,7 @@
 
 #include <Core/DownloadManager>
 #include <Core/File>
+#include <Core/NetworkManager>
 #include <Core/ResourceItem>
 
 #include <QtCore/QFile>
@@ -28,7 +29,7 @@
 DownloadItemPrivate::DownloadItemPrivate(DownloadItem *qq)
     : q(qq)
 {
-    networkManager = Q_NULLPTR;
+    downloadManager = Q_NULLPTR;
     resource = Q_NULLPTR;
     reply = Q_NULLPTR;
     file = new File(qq);
@@ -39,7 +40,7 @@ DownloadItemPrivate::DownloadItemPrivate(DownloadItem *qq)
 DownloadItem::DownloadItem(DownloadManager *downloadManager) : AbstractDownloadItem(downloadManager)
   , d(new DownloadItemPrivate(this))
 {
-    d->networkManager = downloadManager->networkManager();
+    d->downloadManager = downloadManager;
 }
 
 DownloadItem::~DownloadItem()
@@ -78,17 +79,8 @@ void DownloadItem::resume()
     /* Prepare the connection, try to contact the server */
     if (this->checkResume(connected)) {
 
-        QNetworkRequest request;
-        request.setUrl(d->resource->url());
-#if QT_VERSION >= 0x050600 && QT_VERSION < 0x050900
-        request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
-#if QT_VERSION >= 0x050900
-        request.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
-                             QNetworkRequest::NoLessSafeRedirectPolicy);
-#endif
-
-        d->reply = d->networkManager->get(request);
+        QUrl url(d->resource->url());
+        d->reply = d->downloadManager->networkManager()->get(url);
         d->reply->setParent(this);
 
         /* Signals/Slots of QNetworkReply */
@@ -161,7 +153,7 @@ void DownloadItem::onMetaDataChanged()
 {
 #if defined QT_DEBUG
     /*
-     * Check if the metadata change is a redirection
+     * For info only. Check if the metadata change is a redirection
      */
     if (d->reply) {
         const QUrl oldUrl = d->resource->url();

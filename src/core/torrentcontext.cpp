@@ -16,6 +16,7 @@
 
 #include "torrentcontext_p.h"
 
+#include <Core/NetworkManager>
 #include <Core/Settings>
 #include <Core/Torrent>
 
@@ -83,6 +84,13 @@ QString TorrentContext::version()
 QString TorrentContext::website()
 {
     return QString("libtorrent");
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void TorrentContext::setNetworkManager(NetworkManager *networkManager)
+{
+    d->networkManager = networkManager;
 }
 
 /******************************************************************************

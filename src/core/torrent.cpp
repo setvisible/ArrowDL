@@ -568,7 +568,7 @@ QVariant TorrentPeerTableModel::data(const QModelIndex &item, int role) const
         switch (item.column()) {
         case 0: return peer.endpoint.ip;
         case 1: return peer.endpoint.port;
-        case 2: return peer.client;
+        case 2: return peer.userAgent;
         case 3: return Format::fileSizeToString(peer.bytesDownloaded);
         case 4: return Format::fileSizeToString(peer.bytesUploaded);
         case 5: return Format::timeToString(peer.lastTimeRequested);

@@ -14,6 +14,7 @@ set(MY_TEST_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/format.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/file.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/mask.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/networkmanager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/resourceitem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/session.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/settings.cpp

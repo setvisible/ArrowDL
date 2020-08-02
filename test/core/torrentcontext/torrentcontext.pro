@@ -52,6 +52,9 @@ SOURCES     += $$PWD/../../../src/core/format.cpp
 
 HEADERS     += $$PWD/../../../src/core/itorrentcontext.h
 
+HEADERS     += $$PWD/../../../src/core/networkmanager.h
+SOURCES     += $$PWD/../../../src/core/networkmanager.cpp
+
 HEADERS     += $$PWD/../../../src/core/settings.h
 SOURCES     += $$PWD/../../../src/core/settings.cpp
 
