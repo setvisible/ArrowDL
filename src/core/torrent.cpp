@@ -548,16 +548,16 @@ QVariant TorrentPeerTableModel::data(const QModelIndex &item, int role) const
         case  0:
         case  1:
         case  2:
-            return Qt::AlignLeft;
+            return int(Qt::AlignLeft | Qt::AlignVCenter);
         case  3:
         case  4:
-            return Qt::AlignRight;
+            return int(Qt::AlignRight | Qt::AlignVCenter);
         case  5:
         case  6:
         case  7:
         case  8:
         case  9:
-            return Qt::AlignLeft;
+            return int(Qt::AlignLeft | Qt::AlignVCenter);
         default:
             break;
         }
@@ -662,14 +662,14 @@ QVariant TorrentTrackerTableModel::data(const QModelIndex &item, int role) const
         switch (item.column()) {
         case  0:
         case  1:
-            return Qt::AlignLeft;
+            return int(Qt::AlignLeft | Qt::AlignVCenter);
         case  2:
         case  3:
         case  4:
-            return Qt::AlignRight;
+            return int(Qt::AlignRight | Qt::AlignVCenter);
         case  5:
         case  6:
-            return Qt::AlignLeft;
+            return int(Qt::AlignLeft | Qt::AlignVCenter);
         default:
             break;
         }

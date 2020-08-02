@@ -54,11 +54,6 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
 
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
 
-    ui->urlLineEdit->setText(url.toString());
-    ui->urlLineEdit->setFocus();
-    ui->streamWidget->setState(StreamWidget::Empty);
-
-
     connect(ui->urlLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onChanged(QString)));
     connect(ui->urlFormWidget, SIGNAL(changed(QString)), this, SLOT(onChanged(QString)));
     connect(ui->continueButton, SIGNAL(released()), this, SLOT(onContinueClicked()));
@@ -68,7 +63,13 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
 
     readSettings();
 
-    onContinueClicked();
+    ui->streamWidget->setState(StreamWidget::Empty);
+    ui->urlLineEdit->setText(url.toString());
+    ui->urlLineEdit->setFocus();
+
+    if (!url.isEmpty()) {
+        onContinueClicked();
+    }
 }
 
 AddStreamDialog::~AddStreamDialog()
@@ -112,12 +113,14 @@ void AddStreamDialog::reject()
  ******************************************************************************/
 void AddStreamDialog::onContinueClicked()
 {
+    if (m_streamInfoDownloader->isRunning()) {
+        m_streamInfoDownloader->stop();
+        return;
+    }
     setGuiEnabled(false);
     ui->streamWidget->setState(StreamWidget::Downloading);
-
     const QString url = ui->urlLineEdit->text();
     m_streamInfoDownloader->runAsync(url);
-
     onChanged(QString());
 }
 
@@ -186,6 +189,7 @@ inline QList<IDownloadItem*> AddStreamDialog::toList(IDownloadItem *item)
  ******************************************************************************/
 void AddStreamDialog::setGuiEnabled(bool enabled)
 {
+    ui->continueButton->setText(enabled ? tr("Continue") : tr("Stop"));
     ui->urlLineEdit->setEnabled(enabled);
     ui->continueButton->setEnabled(enabled);
     ui->urlFormWidget->setChildrenEnabled(enabled);

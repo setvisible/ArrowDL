@@ -220,6 +220,9 @@ public:
     ~StreamInfoDownloader() Q_DECL_OVERRIDE;
 
     void runAsync(const QString &url);
+    void stop();
+
+    bool isRunning() const;
 
 signals:
     void error(QString errorMessage);
@@ -236,6 +239,7 @@ private:
     StreamCleanCache *m_streamCleanCache;
 
     QString m_url;
+    bool m_cancelled;
 
     bool parseJSON(const QByteArray &data, StreamInfos *infos);
 };

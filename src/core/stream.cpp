@@ -474,6 +474,7 @@ StreamInfoDownloader::StreamInfoDownloader(QObject *parent) : QObject(parent)
   , m_process(new QProcess(this))
   , m_streamCleanCache(new StreamCleanCache(this))
   , m_url(QString())
+  , m_cancelled(false)
 {
     connect(m_process, SIGNAL(started()), this, SLOT(onStarted()));
 #if QT_VERSION >= 0x050600
@@ -494,10 +495,24 @@ StreamInfoDownloader::~StreamInfoDownloader()
 void StreamInfoDownloader::runAsync(const QString &url)
 {
     m_url = url;
+    m_cancelled = false;
     if (m_process->state() == QProcess::NotRunning) {
         m_process->start(C_PROGRAM_NAME, QStringList() << "--dump-json" << url);
         qDebug() << Q_FUNC_INFO << toString(m_process);
     }
+}
+
+void StreamInfoDownloader::stop()
+{
+    if (m_process->state() != QProcess::NotRunning) {
+        m_cancelled = true;
+        m_process->kill();
+    }
+}
+
+bool StreamInfoDownloader::isRunning() const
+{
+    return m_process->state() != QProcess::NotRunning;
 }
 
 void StreamInfoDownloader::onStarted()
@@ -514,6 +529,10 @@ void StreamInfoDownloader::onFinished(int exitCode, QProcess::ExitStatus /*exitS
 {
     //qDebug() << Q_FUNC_INFO << exitCode << exitStatus;
     if (exitCode != 0) {
+        if (m_cancelled) {
+            emit error(tr("Cancelled."));
+            return;
+        }
         if (!m_streamCleanCache->isCleaned()) {
             m_streamCleanCache->runAsync(); // clean cache and retry
             return;

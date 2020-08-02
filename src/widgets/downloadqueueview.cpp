@@ -374,33 +374,11 @@ void QueueItem::updateItem()
         size = tr("Unknown");
     }
 
-    QString estTime = m_downloadItem->stateToString();
-
-    if (m_downloadItem->state() == IDownloadItem::NetworkError) {
-
-        if (m_downloadItem->errorMessage().isEmpty()) {
-
-            /*
-             * See QNetworkReply::NetworkError Documentation for conversion
-             */
-            int httpErrorNumber = m_downloadItem->httpErrorNumber();
-            if (httpErrorNumber == 201) httpErrorNumber = 401;
-            if (httpErrorNumber == 203) httpErrorNumber = 404;
-            estTime += QString(" (%0)").arg(httpErrorNumber);
-
-        } else {
-            estTime += QString(" (%0)").arg(m_downloadItem->errorMessage());
-        }
-
-    } else if (m_downloadItem->state() == IDownloadItem::FileError) {
-
-        if (!m_downloadItem->errorMessage().isEmpty()) {
-            estTime += QString(" (%0)").arg(m_downloadItem->errorMessage());
-        }
-
-    } else if (m_downloadItem->state() == IDownloadItem::Downloading) {
-        estTime = Format::timeToString(m_downloadItem->remainingTime());
-    }
+    QString estTime =
+            (m_downloadItem->state() == IDownloadItem::NetworkError ||
+             m_downloadItem->state() == IDownloadItem::FileError) ?
+                m_downloadItem->errorMessage() :
+                Format::timeToString(m_downloadItem->remainingTime());
 
     QString speed = Format::currentSpeedToString(m_downloadItem->speed());
 
