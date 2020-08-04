@@ -22,6 +22,7 @@
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
+#include <QtNetwork/QNetworkProxy>
 
 
 NetworkManager::NetworkManager(QObject *parent) : QObject(parent)
@@ -43,7 +44,65 @@ Settings *NetworkManager::settings() const
 
 void NetworkManager::setSettings(Settings *settings)
 {
+    if (m_settings) {
+        disconnect(m_settings, SIGNAL(changed()), this, SLOT(onSettingsChanged()));
+    }
     m_settings = settings;
+    if (m_settings) {
+        connect(m_settings, SIGNAL(changed()), this, SLOT(onSettingsChanged()));
+    }
+}
+
+
+void NetworkManager::onSettingsChanged()
+{
+    setProxySettings(m_settings);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QStringList NetworkManager::proxyTypeNames()
+{
+    return QStringList(
+    { tr("(none)"),
+      tr("Default"),
+      tr("SOCKS5"),
+      tr("HTTP") });
+}
+
+static QNetworkProxy::ProxyType toProxyType(int index)
+{
+    switch (index) {
+    case 0: return QNetworkProxy::NoProxy;
+    case 1: return QNetworkProxy::DefaultProxy;
+    case 2: return QNetworkProxy::Socks5Proxy;
+    case 3: return QNetworkProxy::HttpProxy;
+    default:
+        break;
+    }
+    return QNetworkProxy::NoProxy;
+}
+
+void NetworkManager::setProxySettings(Settings *settings)
+{
+    Q_ASSERT(m_networkAccessManager);
+    if (!settings) {
+        return;
+    }
+    QNetworkProxy::ProxyType type = toProxyType(settings->proxyType());
+    if (type == QNetworkProxy::NoProxy) {
+        QNetworkProxy::setApplicationProxy(type);
+        m_networkAccessManager->setProxy(type);
+    } else {
+        QNetworkProxy proxy;
+        proxy.setType(type);
+        proxy.setHostName(settings->proxyHostName());
+        proxy.setPort(static_cast<quint16>(settings->proxyPort()));
+        proxy.setUser(settings->proxyUser());
+        proxy.setPassword(settings->proxyPassword());
+        QNetworkProxy::setApplicationProxy(proxy);
+        m_networkAccessManager->setProxy(proxy);
+    }
 }
 
 /******************************************************************************

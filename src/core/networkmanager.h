@@ -38,7 +38,10 @@ public:
 
     QNetworkReply* get(const QUrl &url);
 
+    static QStringList proxyTypeNames();
+
 private slots:
+    void onSettingsChanged();
     void onMetaDataChanged();
     void onRedirected(const QUrl &url);
 
@@ -46,6 +49,8 @@ private:
     /* Network parameters (SSL, Proxy, UserAgent...) */
     QNetworkAccessManager *m_networkAccessManager;
     Settings *m_settings;
+
+    void setProxySettings(Settings *settings);
 };
 
 #endif // CORE_NETWORK_MANAGER_H
