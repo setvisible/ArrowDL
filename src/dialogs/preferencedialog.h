@@ -60,6 +60,9 @@ private slots:
     void resetLanguage();
 
     void maxSimultaneousDownloadSlided(int value);
+    void proxyTypeIndexChanged(int index);
+    void proxyAuthToggled(bool checked);
+    void proxyShowPwdToggled(bool checked);
 
     void bandwidthSettingsChanged(int value);
     void setBandwidthSettings();

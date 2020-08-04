@@ -34,6 +34,12 @@ static const QString REGISTRY_HIDE_MINIMIZED   = "HideWhenMinimized";
 static const QString REGISTRY_SHOW_BALLOON     = "SystemTrayBalloonEnabled";
 static const QString REGISTRY_CONFIRM_REMOVAL  = "ConfirmRemoval";
 static const QString REGISTRY_CONFIRM_BATCH    = "ConfirmBatchDownload";
+static const QString REGISTRY_PROXY_TYPE       = "ProxyType";
+static const QString REGISTRY_PROXY_HOSTNAME   = "ProxyHostName";
+static const QString REGISTRY_PROXY_PORT       = "ProxyPort";
+static const QString REGISTRY_PROXY_IS_AUTH    = "ProxyAuth";
+static const QString REGISTRY_PROXY_USERNAME   = "ProxyUser";
+static const QString REGISTRY_PROXY_PASSWORD   = "ProxyPwd";
 
 // Tab Network
 static const QString REGISTRY_MAX_SIMULTANEOUS = "MaxSimultaneous";
@@ -102,6 +108,13 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     addDefaultSettingString(REGISTRY_CUSTOM_BATCH_RGE, QLatin1String("[1:25]"));
     addDefaultSettingBool(REGISTRY_STREAM_HOST, true);
     addDefaultSettingString(REGISTRY_STREAM_HOST_LIST, defaultStreamHost());
+
+    addDefaultSettingInt(REGISTRY_PROXY_TYPE, 0);
+    addDefaultSettingString(REGISTRY_PROXY_HOSTNAME, QLatin1String("proxy.example.com"));
+    addDefaultSettingInt(REGISTRY_PROXY_PORT, 1080);
+    addDefaultSettingBool(REGISTRY_PROXY_IS_AUTH, false);
+    addDefaultSettingString(REGISTRY_PROXY_USERNAME, QLatin1String(""));
+    addDefaultSettingString(REGISTRY_PROXY_PASSWORD, QLatin1String(""));
 
     // Tab Privacy
     addDefaultSettingBool(REGISTRY_REMOVE_COMPLETED, false);
@@ -319,6 +332,66 @@ QString Settings::customBatchRange() const
 void Settings::setCustomBatchRange(const QString &text)
 {
     setSettingString(REGISTRY_CUSTOM_BATCH_RGE, text);
+}
+
+int Settings::proxyType() const
+{
+    return getSettingInt(REGISTRY_PROXY_TYPE);
+}
+
+void Settings::setProxyType(int number)
+{
+    setSettingInt(REGISTRY_PROXY_TYPE, number);
+}
+
+QString Settings::proxyHostName() const
+{
+    return getSettingString(REGISTRY_PROXY_HOSTNAME);
+}
+
+void Settings::setProxyHostName(const QString &text)
+{
+    setSettingString(REGISTRY_PROXY_HOSTNAME, text);
+}
+
+int Settings::proxyPort() const
+{
+    return getSettingInt(REGISTRY_PROXY_PORT);
+}
+
+void Settings::setProxyPort(int number)
+{
+    setSettingInt(REGISTRY_PROXY_PORT, number);
+}
+
+bool Settings::isProxyAuthEnabled() const
+{
+    return getSettingBool(REGISTRY_PROXY_IS_AUTH);
+}
+
+void Settings::setProxyAuthEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_PROXY_IS_AUTH, enabled);
+}
+
+QString Settings::proxyUser() const
+{
+    return getSettingString(REGISTRY_PROXY_USERNAME);
+}
+
+void Settings::setProxyUser(const QString &text)
+{
+    setSettingString(REGISTRY_PROXY_USERNAME, text);
+}
+
+QString Settings::proxyPassword() const
+{
+    return getSettingString(REGISTRY_PROXY_PASSWORD);
+}
+
+void Settings::setProxyPwd(const QString &text)
+{
+    setSettingString(REGISTRY_PROXY_PASSWORD, text);
 }
 
 /******************************************************************************

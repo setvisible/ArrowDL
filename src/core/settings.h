@@ -108,6 +108,24 @@ public:
     QString customBatchRange() const;
     void setCustomBatchRange(const QString &text);
 
+    int proxyType() const;
+    void setProxyType(int number);
+
+    QString proxyHostName() const;
+    void setProxyHostName(const QString &text);
+
+    int proxyPort() const;
+    void setProxyPort(int number);
+
+    bool isProxyAuthEnabled() const;
+    void setProxyAuthEnabled(bool enabled);
+
+    QString proxyUser() const;
+    void setProxyUser(const QString &text);
+
+    QString proxyPassword() const;
+    void setProxyPwd(const QString &text);
+
     // Tab Privacy
     bool isRemoveCompletedEnabled() const;
     void setRemoveCompletedEnabled(bool enabled);

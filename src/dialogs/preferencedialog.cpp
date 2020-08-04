@@ -19,6 +19,7 @@
 
 #include <Globals>
 #include <Core/Locale>
+#include <Core/NetworkManager>
 #include <Core/Settings>
 #include <Core/Stream>
 #include <Widgets/AdvancedSettingsWidget>
@@ -110,6 +111,13 @@ void PreferenceDialog::connectUi()
     connect(ui->maxSimultaneousDownloadSlider, SIGNAL(valueChanged(int)),
             this, SLOT(maxSimultaneousDownloadSlided(int)));
 
+    connect(ui->proxyTypeComboBox, SIGNAL(currentIndexChanged(int)),
+            this, SLOT(proxyTypeIndexChanged(int)));
+    connect(ui->proxyAuthCheckBox, SIGNAL(toggled(bool)),
+            this, SLOT(proxyAuthToggled(bool)));
+    connect(ui->proxyShowPwdCheckBox, SIGNAL(toggled(bool)),
+            this, SLOT(proxyShowPwdToggled(bool)));
+
     // Tab Privacy
     connect(ui->browseDatabaseFile, SIGNAL(currentPathValidityChanged(bool)),
             ui->okButton, SLOT(setEnabled(bool)));
@@ -179,6 +187,17 @@ void PreferenceDialog::initializeUi()
     setupStreamToolTip();
 
     // Tab Network
+    ui->proxyTypeComboBox->clear();
+    ui->proxyTypeComboBox->addItems(NetworkManager::proxyTypeNames());
+    ui->proxyTypeComboBox->setCurrentIndex(0);
+    ui->proxyAddressLineEdit->setEnabled(false);
+    proxyTypeIndexChanged(0);
+    proxyAuthToggled(false);
+    proxyShowPwdToggled(false);
+    ui->proxyPortLineEdit->setValidator(
+                new QIntValidator(std::numeric_limits<quint16>::min(),
+                                  std::numeric_limits<quint16>::max(), this));
+
 
     // Tab Privacy
     ui->browseDatabaseFile->setPathType(PathWidget::File);
@@ -339,6 +358,32 @@ void PreferenceDialog::maxSimultaneousDownloadSlided(int value)
     ui->maxSimultaneousDownloadLabel->setText(QString::number(value));
 }
 
+void PreferenceDialog::proxyTypeIndexChanged(int index)
+{
+    auto enabled = index != 0;
+    auto checked = ui->proxyAuthCheckBox->isChecked();
+    ui->proxyAddressLineEdit->setEnabled(enabled);
+    ui->proxyPortLineEdit->setEnabled(enabled);
+    ui->proxyAuthCheckBox->setEnabled(enabled);
+    ui->proxyUserLineEdit->setEnabled(enabled && checked);
+    ui->proxyPwdLineEdit->setEnabled(enabled && checked);
+    ui->proxyShowPwdCheckBox->setEnabled(enabled && checked);
+}
+
+void PreferenceDialog::proxyAuthToggled(bool checked)
+{
+    auto enabled = ui->proxyTypeComboBox->currentIndex() != 0;
+    ui->proxyUserLineEdit->setEnabled(enabled && checked);
+    ui->proxyPwdLineEdit->setEnabled(enabled && checked);
+    ui->proxyShowPwdCheckBox->setEnabled(enabled && checked);
+}
+
+void PreferenceDialog::proxyShowPwdToggled(bool checked)
+{
+    ui->proxyPwdLineEdit->setEchoMode(checked ? QLineEdit::Normal : QLineEdit::Password);
+
+}
+
 /******************************************************************************
  ******************************************************************************/
 void PreferenceDialog::bandwidthSettingsChanged(int /*value*/)
@@ -402,6 +447,14 @@ void PreferenceDialog::read()
     ui->customBatchButtonLabelLineEdit->setText(m_settings->customBatchButtonLabel());
     ui->customBatchRangeLineEdit->setText(m_settings->customBatchRange());
 
+    int proxyIndex = qMax(0, qMin(m_settings->proxyType(), ui->proxyTypeComboBox->count() - 1));
+    ui->proxyTypeComboBox->setCurrentIndex(proxyIndex);
+    ui->proxyAddressLineEdit->setText(m_settings->proxyHostName());
+    ui->proxyPortLineEdit->setText(QString::number(m_settings->proxyPort()));
+    ui->proxyAuthCheckBox->setChecked(m_settings->isProxyAuthEnabled());
+    ui->proxyUserLineEdit->setText(m_settings->proxyUser());
+    ui->proxyPwdLineEdit->setText(m_settings->proxyPassword());
+
     // Tab Privacy
     ui->privacyRemoveCompletedCheckBox->setChecked(m_settings->isRemoveCompletedEnabled());
     ui->privacyRemoveCanceledCheckBox->setChecked(m_settings->isRemoveCanceledEnabled());
@@ -453,6 +506,13 @@ void PreferenceDialog::write()
     m_settings->setCustomBatchEnabled(ui->customBatchGroupBox->isChecked());
     m_settings->setCustomBatchButtonLabel(ui->customBatchButtonLabelLineEdit->text());
     m_settings->setCustomBatchRange(ui->customBatchRangeLineEdit->text());
+
+    m_settings->setProxyType(ui->proxyTypeComboBox->currentIndex());
+    m_settings->setProxyHostName(ui->proxyAddressLineEdit->text());
+    m_settings->setProxyPort(ui->proxyPortLineEdit->text().toInt());
+    m_settings->setProxyAuthEnabled(ui->proxyAuthCheckBox->isChecked());
+    m_settings->setProxyUser(ui->proxyUserLineEdit->text());
+    m_settings->setProxyPwd(ui->proxyPwdLineEdit->text());
 
     // Tab Privacy
     m_settings->setRemoveCompletedEnabled(ui->privacyRemoveCompletedCheckBox->isChecked());
