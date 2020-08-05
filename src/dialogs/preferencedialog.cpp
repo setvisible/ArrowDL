@@ -92,6 +92,7 @@ void PreferenceDialog::changeEvent(QEvent *event)
         ui->retranslateUi(this);
         retranslateFilters();
         setupStreamToolTip();
+        setupHttpToolTips();
         refreshTitle();
     }
     QDialog::changeEvent(event);
@@ -127,6 +128,9 @@ void PreferenceDialog::connectUi()
 
     connect(ui->checkUpdateNowPushButton, SIGNAL(released()),
             this, SIGNAL(checkUpdate()), Qt::QueuedConnection);
+
+    connect(ui->httpReferringPageCheckBox, SIGNAL(toggled(bool)),
+            ui->httpReferringPageLineEdit, SLOT(setEnabled(bool)));
 
     // Tab Filters
     connect(ui->filterTableWidget, SIGNAL(customContextMenuRequested(const QPoint &)),
@@ -185,6 +189,7 @@ void PreferenceDialog::initializeUi()
 
     ui->streamHostPlainTextEdit->setEnabled(ui->streamHostCheckBox->isChecked());
     setupStreamToolTip();
+    setupHttpToolTips();
 
     // Tab Network
     ui->proxyTypeComboBox->clear();
@@ -211,6 +216,8 @@ void PreferenceDialog::initializeUi()
     ui->httpUserAgentComboBox->setEditable(true);
     ui->httpUserAgentComboBox->addItem(tr("(none)")); // index == 0
     ui->httpUserAgentComboBox->addItems(m_settings->httpUserAgents());
+    ui->httpReferringPageCheckBox->setChecked(false);
+    ui->httpReferringPageLineEdit->setEnabled(false);
 
     // Tab Filters
     ui->filterTableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -470,6 +477,8 @@ void PreferenceDialog::read()
     } else {
         ui->httpUserAgentComboBox->setCurrentText(m_settings->httpUserAgent());
     }
+    ui->httpReferringPageCheckBox->setChecked(m_settings->isHttpReferringPageEnabled());
+    ui->httpReferringPageLineEdit->setText(m_settings->httpReferringPage());
 
     // Tab Filters
     setFilters(m_settings->filters());
@@ -532,6 +541,8 @@ void PreferenceDialog::write()
     } else {
         m_settings->setHttpUserAgent(ui->httpUserAgentComboBox->currentText());
     }
+    m_settings->setHttpReferringPageEnabled(ui->httpReferringPageCheckBox->isChecked());
+    m_settings->setHttpReferringPage(ui->httpReferringPageLineEdit->text());
 
     // Tab Filters
     m_settings->setFilters(filters());
@@ -617,6 +628,21 @@ void PreferenceDialog::setupStreamToolTip()
     }
     tooltip += "</body></html>";
     ui->streamHelpWidget->setToolTip(tooltip);
+}
+
+void PreferenceDialog::setupHttpToolTips()
+{
+    ui->httpUserAgentHelpWidget->setToolTip(
+                QString("<html><head/><body><p>%0</p></body></html>").arg(
+                    tr("Servers might use HTTP identification contained in the HTTP "
+                       "request to log client attributes. Some server even don't "
+                       "respond to the client if the identification attribute is empty. "
+                       "The fields allow you to send fake information, to protect privacy.")));
+    ui->httpReferringPageHelpWidget->setToolTip(
+                QString("<html><head/><body><p>%0</p></body></html>").arg(
+                    tr("Referring Page (or Referrer) contains the address of the "
+                       "previous web page from which the resource is requested. "
+                       "To protect privacy, give to Referrer an empty of a fake address.")));
 }
 
 /******************************************************************************

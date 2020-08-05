@@ -44,18 +44,22 @@
 #  include <QtNetwork/QNetworkReply>
 #endif
 
-#define C_DEFAULT_WIDTH         800
-#define C_DEFAULT_HEIGHT        600
-#define C_DEFAULT_INDEX         0
-
+#define C_DEFAULT_WIDTH             800
+#define C_DEFAULT_HEIGHT            600
+#define C_DEFAULT_INDEX               0
 #define C_COLUMN_DOWNLOAD_WIDTH     400
 #define C_COLUMN_MASK_WIDTH         200
 
 
-static QList<IDownloadItem*> createItems(QList<ResourceItem*> resources, DownloadManager *downloadManager)
+static QList<IDownloadItem*> createItems(QList<ResourceItem*> resources,
+                                         DownloadManager *downloadManager,
+                                         const Settings *settings)
 {
     QList<IDownloadItem*> items;
     foreach (auto resource, resources) {
+        if (settings && settings->isHttpReferringPageEnabled()) {
+            resource->setReferringPage(settings->httpReferringPage());
+        }
         auto item = new DownloadItem(downloadManager);
         item->setResource(resource);
         items << item;
@@ -154,7 +158,7 @@ void AddContentDialog::reject()
 void AddContentDialog::start(bool started)
 {
     if (m_downloadManager) {
-        QList<IDownloadItem*> items = createItems(m_model->selection(), m_downloadManager);
+        auto items = createItems(m_model->selection(), m_downloadManager, m_settings);
         m_downloadManager->append(items, started);
     }
 }

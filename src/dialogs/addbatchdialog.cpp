@@ -54,6 +54,9 @@ AddBatchDialog::AddBatchDialog(const QUrl &url, DownloadManager *downloadManager
     setFixedHeight(height());
 
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
+    if (m_settings->isHttpReferringPageEnabled()) {
+        ui->urlFormWidget->setReferringPage(m_settings->httpReferringPage());
+    }
 
     ui->urlLineEdit->setText(url.toString());
     ui->urlLineEdit->setFocus();

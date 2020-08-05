@@ -53,6 +53,9 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
     adjustSize();
 
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
+    if (m_settings->isHttpReferringPageEnabled()) {
+        ui->urlFormWidget->setReferringPage(m_settings->httpReferringPage());
+    }
 
     connect(ui->urlLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onChanged(QString)));
     connect(ui->urlFormWidget, SIGNAL(changed(QString)), this, SLOT(onChanged(QString)));

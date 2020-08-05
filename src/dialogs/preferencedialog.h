@@ -87,6 +87,7 @@ private:
     QStringList streamHosts() const;
     void setStreamHosts(const QStringList &streamHosts);
     void setupStreamToolTip();
+    void setupHttpToolTips();
 
     QList<Filter> filters() const;
     void setFilters(const QList<Filter> &filters);

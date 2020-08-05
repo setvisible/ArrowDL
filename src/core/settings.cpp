@@ -55,6 +55,8 @@ static const QString REGISTRY_REMOVE_CANCELED  = "PrivacyRemoveCanceled";
 static const QString REGISTRY_REMOVE_PAUSED    = "PrivacyRemovePaused";
 static const QString REGISTRY_DATABASE         = "Database";
 static const QString REGISTRY_HTTP_USER_AGENT  = "HttpUserAgent";
+static const QString REGISTRY_HTTP_REFERRER_ON = "HttpReferringPageEnabled";
+static const QString REGISTRY_HTTP_REFERRER    = "HttpReferringPage";
 
 // Tab Filters
 static const QString REGISTRY_FILTER_KEY       = "FilterKey";
@@ -124,6 +126,8 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
                 REGISTRY_DATABASE,
                 QString("%0/queue.json").arg(qApp->applicationDirPath()));
     addDefaultSettingString(REGISTRY_HTTP_USER_AGENT, httpUserAgents().at(0));
+    addDefaultSettingBool(REGISTRY_HTTP_REFERRER_ON, false);
+    addDefaultSettingString(REGISTRY_HTTP_REFERRER, QLatin1String("https://www.example.com/"));
 
     // Tab Filters
     addDefaultSettingStringList(
@@ -459,6 +463,26 @@ QStringList Settings::httpUserAgents()
             << QLatin1String("Java1.1.4")
             << QLatin1String("Lynx/2.8rel.3 libwww-FM/2.14")
             << QLatin1String("HyperBrowser (Cray; I; OrganicOS 9.7.42beta-27)");
+}
+
+bool Settings::isHttpReferringPageEnabled() const
+{
+    return getSettingBool(REGISTRY_HTTP_REFERRER_ON);
+}
+
+void Settings::setHttpReferringPageEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_HTTP_REFERRER_ON, enabled);
+}
+
+QString Settings::httpReferringPage() const
+{
+    return getSettingString(REGISTRY_HTTP_REFERRER);
+}
+
+void Settings::setHttpReferringPage(const QString &value)
+{
+    setSettingString(REGISTRY_HTTP_REFERRER, value);
 }
 
 /******************************************************************************
