@@ -49,6 +49,9 @@ AddTorrentDialog::AddTorrentDialog(const QUrl &url, DownloadManager *downloadMan
     setFixedHeight(height());
 
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
+    if (m_settings->isHttpReferringPageEnabled()) {
+        ui->urlFormWidget->setReferringPage(m_settings->httpReferringPage());
+    }
 
     // The input URL can be a .torrent on local drive, or a remote .torrent.
     if (url.isLocalFile()) {

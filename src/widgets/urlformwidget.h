@@ -36,6 +36,7 @@ public:
     ~UrlFormWidget() Q_DECL_OVERRIDE;
 
     void setExternalUrlLabelAndLineEdit(QLabel *urlLabel, QLineEdit *urlLineEdit);
+    void setReferringPage(const QString &referringPage);
 
     bool isValid() const;
 

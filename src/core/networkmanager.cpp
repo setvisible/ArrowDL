@@ -107,16 +107,26 @@ void NetworkManager::setProxySettings(Settings *settings)
 
 /******************************************************************************
  ******************************************************************************/
-QNetworkReply* NetworkManager::get(const QUrl &url)
+QNetworkReply* NetworkManager::get(const QUrl &url, const QString &referer)
 {
     Q_ASSERT(m_networkAccessManager);
 
-    const QString httpUserAgent = m_settings ? m_settings->httpUserAgent() : QLatin1String("");
-
     QNetworkRequest request;
     request.setUrl(url);
+
+    // User-Agent
+    const QString httpUserAgent = m_settings ? m_settings->httpUserAgent() : QLatin1String("");
     request.setHeader(QNetworkRequest::UserAgentHeader, httpUserAgent);
+
+    // Referer
+    if (!referer.isEmpty()) {
+        QByteArray rawReferer = referer.toUtf8();
+        request.setRawHeader(QByteArray("Referer"), rawReferer);
+    }
+
+    // SSL
     request.setSslConfiguration(QSslConfiguration::defaultConfiguration()); // HTTPS
+
 #if QT_VERSION >= 0x050600
     request.setMaximumRedirectsAllowed(5);
 #endif

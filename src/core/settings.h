@@ -143,6 +143,12 @@ public:
     void setHttpUserAgent(const QString &value);
     static QStringList httpUserAgents();
 
+    bool isHttpReferringPageEnabled() const;
+    void setHttpReferringPageEnabled(bool enabled);
+
+    QString httpReferringPage() const;
+    void setHttpReferringPage(const QString &value);
+
     // Tab Filters
     QList<Filter> filters();
     void setFilters(const QList<Filter> &filters);

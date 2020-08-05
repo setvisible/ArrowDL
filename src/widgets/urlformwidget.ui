@@ -26,7 +26,7 @@
    <item>
     <layout class="QGridLayout" name="gridLayout">
      <item row="2" column="0">
-      <widget class="QLabel" name="referrerLabel">
+      <widget class="QLabel" name="referringPageLabel">
        <property name="font">
         <font>
          <family>Segoe UI</family>
@@ -58,7 +58,7 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="referrerLineEdit">
+      <widget class="QLineEdit" name="referringPageLineEdit">
        <property name="placeholderText">
         <string>Enter referrer URI</string>
        </property>
@@ -203,11 +203,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>UrlLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>Widgets/UrlLineEdit</header>
-  </customwidget>
-  <customwidget>
    <class>PathWidget</class>
    <extends>QWidget</extends>
    <header>Widgets/PathWidget</header>
@@ -219,11 +214,16 @@
    <header>Widgets/MaskWidget</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>UrlLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>Widgets/UrlLineEdit</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>urlLineEdit</tabstop>
   <tabstop>customFileNameLineEdit</tabstop>
-  <tabstop>referrerLineEdit</tabstop>
+  <tabstop>referringPageLineEdit</tabstop>
   <tabstop>descriptionLineEdit</tabstop>
   <tabstop>pathWidget</tabstop>
   <tabstop>maskWidget</tabstop>
