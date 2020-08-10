@@ -53,7 +53,7 @@ private slots:
     void onChanged(QString);
 
     void onError(QString errorMessage);
-    void onCollected(StreamInfoPtr info);
+    void onCollected(QList<StreamInfoPtr> streamInfoList);
 
 private:
     Ui::AddStreamDialog *ui;
@@ -63,8 +63,8 @@ private:
 
     void doAccept(bool started);
 
-    IDownloadItem* createItem() const;
-    static inline QList<IDownloadItem*> toList(IDownloadItem *item);
+    QList<IDownloadItem*> createItems() const;
+    IDownloadItem* createItem(const StreamInfoPtr &streamInfo) const;
 
     void setGuiEnabled(bool enabled);
 

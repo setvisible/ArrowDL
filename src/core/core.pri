@@ -1,6 +1,7 @@
 HEADERS += \
     $$PWD/abstractdownloaditem.h \
     $$PWD/abstractsettings.h \
+    $$PWD/checkabletablemodel.h \
     $$PWD/downloadengine.h \
     $$PWD/downloaditem.h \
     $$PWD/downloaditem_p.h \
@@ -36,6 +37,7 @@ HEADERS += \
 SOURCES += \
     $$PWD/abstractdownloaditem.cpp \
     $$PWD/abstractsettings.cpp \
+    $$PWD/checkabletablemodel.cpp \
     $$PWD/downloadengine.cpp \
     $$PWD/downloaditem.cpp \
     $$PWD/downloadmanager.cpp \

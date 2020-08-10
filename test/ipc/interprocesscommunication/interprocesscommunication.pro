@@ -10,6 +10,9 @@ CONFIG      += c++11
 INCLUDEPATH += $$PWD/../../../include/
 
 # Resources:
+HEADERS     += $$PWD/../../../src/core/checkabletablemodel.h
+SOURCES     += $$PWD/../../../src/core/checkabletablemodel.cpp
+
 HEADERS     += $$PWD/../../../src/core/mask.h
 SOURCES     += $$PWD/../../../src/core/mask.cpp
 

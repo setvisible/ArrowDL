@@ -242,18 +242,6 @@ void ResourceItem::setTorrentPreferredFilePriorities(const QString &priorities)
 
 /******************************************************************************
  ******************************************************************************/
-bool ResourceItem::isSelected() const
-{
-    return m_isSelected;
-}
-
-void ResourceItem::setSelected(bool isSelected)
-{
-    m_isSelected = isSelected;
-}
-
-/******************************************************************************
- ******************************************************************************/
 inline QString ResourceItem::localFilePath(const QString &customFileName) const
 {
     if (QUrl(m_url).scheme() == "magnet") {

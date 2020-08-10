@@ -17,35 +17,31 @@
 #ifndef CORE_RESOURCE_MODEL_H
 #define CORE_RESOURCE_MODEL_H
 
-#include <QtCore/QAbstractTableModel>
+#include <Core/CheckableTableModel>
 
 class ResourceItem;
 
-class ResourceModel : public QAbstractTableModel
+class ResourceModel : public CheckableTableModel
 {
     Q_OBJECT
 
 public:
-    enum {
-        IsSelectedRole = Qt::UserRole + 1
-    };
-
     explicit ResourceModel(QObject *parent);
     ~ResourceModel() Q_DECL_OVERRIDE = default;
 
-    void clear();
+    void clear() Q_DECL_OVERRIDE;
 
-    void addResource(ResourceItem *item);
-    QList<ResourceItem*> resourceItems() const;
+    QList<ResourceItem*> items() const;
+    void add(ResourceItem *item);
 
-    QList<ResourceItem*> selectedResourceItems() const;
+    QList<ResourceItem*> selection() const;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
-    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) Q_DECL_OVERRIDE;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-    Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
+
+    void retranslateUi();
 
 signals:
     void resourceChanged();
@@ -60,6 +56,7 @@ private slots:
     void onResourceChanged();
 
 private:
+    QStringList m_headers;
     QList<ResourceItem*> m_items;
 };
 

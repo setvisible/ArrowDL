@@ -1,6 +1,8 @@
 HEADERS += \
     $$PWD/advancedsettingswidget.h \
     $$PWD/autoclosedialog.h \
+    $$PWD/checkableitemdelegate.h \
+    $$PWD/checkabletableview.h \
     $$PWD/combobox.h \
     $$PWD/customstyle.h \
     $$PWD/customstyleoptionprogressbar.h \
@@ -12,6 +14,7 @@ HEADERS += \
     $$PWD/masktip.h \
     $$PWD/maskwidget.h \
     $$PWD/pathwidget.h \
+    $$PWD/streamlistwidget.h \
     $$PWD/streamwidget.h \
     $$PWD/systemtray.h \
     $$PWD/textedit.h \
@@ -25,6 +28,8 @@ HEADERS += \
 SOURCES += \
     $$PWD/advancedsettingswidget.cpp \
     $$PWD/autoclosedialog.cpp \
+    $$PWD/checkableitemdelegate.cpp \
+    $$PWD/checkabletableview.cpp \
     $$PWD/combobox.cpp \
     $$PWD/customstyle.cpp \
     $$PWD/customstyleoptionprogressbar.cpp \
@@ -35,6 +40,7 @@ SOURCES += \
     $$PWD/masktip.cpp \
     $$PWD/maskwidget.cpp \
     $$PWD/pathwidget.cpp \
+    $$PWD/streamlistwidget.cpp \
     $$PWD/streamwidget.cpp \
     $$PWD/systemtray.cpp \
     $$PWD/textedit.cpp \
@@ -53,6 +59,7 @@ FORMS += \
     $$PWD/masktip.ui \
     $$PWD/maskwidget.ui \
     $$PWD/pathwidget.ui \
+    $$PWD/streamlistwidget.ui \
     $$PWD/streamwidget.ui \
     $$PWD/texteditorwidget.ui \
     $$PWD/torrentpiecemap.ui \

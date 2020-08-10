@@ -1,6 +1,8 @@
 set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/advancedsettingswidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/autoclosedialog.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/checkableitemdelegate.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/checkabletableview.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/combobox.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/customstyle.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/customstyleoptionprogressbar.cpp
@@ -11,6 +13,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/masktip.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/maskwidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/pathwidget.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamlistwidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamwidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/systemtray.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/textedit.cpp
@@ -26,6 +29,8 @@ set(MY_SOURCES ${MY_SOURCES}
 set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/advancedsettingswidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/autoclosedialog.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/checkableitemdelegate.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/checkabletableview.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/combobox.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/downloadqueueview.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/filtertip.h
@@ -34,6 +39,7 @@ set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/masktip.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/maskwidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/pathwidget.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamlistwidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamwidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/systemtray.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/textedit.h
@@ -53,6 +59,7 @@ set(MY_FORMS ${MY_FORMS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/masktip.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/maskwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/pathwidget.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamlistwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/texteditorwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/torrentpiecemap.ui

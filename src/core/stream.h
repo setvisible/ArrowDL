@@ -80,15 +80,24 @@ class StreamInfo : public QObject
 {
     Q_OBJECT
 public:
+    enum Error{
+        NoError = 0,
+        ErrorJsonFormat
+    };
     explicit StreamInfo(QObject *parent = nullptr);
     explicit StreamInfo(const StreamInfo &other);
     ~StreamInfo() Q_DECL_OVERRIDE;
 
-    qint64 guestimateFullSize(const QString &format_id) const;
+    qint64 guestimateFullSize() const;
+    qint64 guestimateFullSize(const QString &defaultFormatId) const;
 
-    QString safeTitle() const;
+    QString title() const;
+
+    QString fullFileName() const;
     QString fileBaseName() const;
+    QString fileExtension() const;
     QString fileExtension(const QString &formatId) const;
+
     QString formatId() const;
 
     QList<StreamFormat*> defaultFormats() const;
@@ -99,16 +108,23 @@ public:
 
     QString _filename;
     QString fulltitle;      // (string): Video title
-    QString title;          // (string): Video title
-    QString ext;            // (string): Video filename extension
+    QString defaultTitle;   // (string): Video title
+    QString defaultSuffix;  // (string): Video filename suffix (complete extension)
     QString description;    // (string): Video description
     QString thumbnail;      // (string): thumbnail URL
     QString extractor;      // (string): Name of the extractor
     QString extractor_key;  // (string): Key name of the extractor
-    QString format_id;      // (string): Format code specified by --format
+    QString defaultFormatId;// (string): Format code specified by --format
     QList<StreamFormat*> formats;
     QString playlist;       // (string): Name or id of the playlist that contains the video
     QString playlist_index; // (numeric): Index of the video in the playlist padded with leading zeros according to the total length of the playlist
+
+    // User data
+    QString userTitle;
+    QString userSuffix;
+    QString userFormatId;
+
+    Error error;
 };
 
 class Stream : public QObject
@@ -225,9 +241,11 @@ public:
 
     bool isRunning() const;
 
+    static QList<StreamInfoPtr> parse(const QByteArray &data);
+
 signals:
     void error(QString errorMessage);
-    void collected(StreamInfoPtr info);
+    void collected(QList<StreamInfoPtr> streamInfoList);
 
 private slots:
     void onStarted();
@@ -242,7 +260,7 @@ private:
     QString m_url;
     bool m_cancelled;
 
-    bool parseJSON(const QByteArray &data, StreamInfo *info);
+    static StreamInfoPtr parseJSON(const QByteArray &data);
 };
 
 class AskStreamVersionThread : public QThread

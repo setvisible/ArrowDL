@@ -198,7 +198,7 @@ bool Stream::isEmpty()
  ******************************************************************************/
 void Stream::initializeWithStreamInfo(const StreamInfo &streamInfo)
 {
-    m_selectedFormatId = streamInfo.format_id;
+    m_selectedFormatId = streamInfo.defaultFormatId;
     m_bytesReceived = 0;
     m_bytesReceivedCurrentSection = 0;
     m_bytesTotal = 0;
@@ -560,9 +560,9 @@ void StreamInfoDownloader::onFinished(int exitCode, QProcess::ExitStatus /*exitS
         emit error(message);
     } else {
         QByteArray data = m_process->readAllStandardOutput();
-        StreamInfoPtr info(new StreamInfo());
-        if (parseJSON(data, info.data())) {
-            emit collected(info);
+        QList<StreamInfoPtr> streamInfoList = parse(data);
+        if (!streamInfoList.isEmpty()) {
+            emit collected(streamInfoList);
         } else {
             emit error(tr("Couldn't parse JSON file."));
         }
@@ -574,27 +574,42 @@ void StreamInfoDownloader::onCacheCleaned()
     runAsync(m_url); // retry
 }
 
-bool StreamInfoDownloader::parseJSON(const QByteArray &data, StreamInfo *info)
+QList<StreamInfoPtr> StreamInfoDownloader::parse(const QByteArray &data)
 {
+    QList<StreamInfoPtr> streamInfoList;
+    QList<QByteArray> lines = data.split(QChar('\n').toLatin1());
+    foreach (auto line, lines) {
+        if (!line.isEmpty()) {
+            StreamInfoPtr info = parseJSON(line);
+            streamInfoList << info;
+        }
+    }
+    return streamInfoList;
+}
+
+StreamInfoPtr StreamInfoDownloader::parseJSON(const QByteArray &data)
+{
+    StreamInfoPtr info(new StreamInfo());
     QJsonParseError ok;
     QJsonDocument loadDoc(QJsonDocument::fromJson(data, &ok));
     if (ok.error != QJsonParseError::NoError) {
-        return false;
+        info->error = StreamInfo::ErrorJsonFormat;
+        return info;
     }
     QJsonObject json = loadDoc.object();
 
     info->_filename         = json[QLatin1String("_filename")].toString();
     info->fulltitle         = json[QLatin1String("fulltitle")].toString();
-    info->title             = json[QLatin1String("title")].toString();
-    info->ext               = json[QLatin1String("ext")].toString();
+    info->defaultTitle      = json[QLatin1String("title")].toString();
+    info->defaultSuffix     = json[QLatin1String("ext")].toString();
     info->description       = json[QLatin1String("description")].toString();
     info->thumbnail         = json[QLatin1String("thumbnail")].toString();
     info->extractor         = json[QLatin1String("extractor")].toString();
     info->extractor_key     = json[QLatin1String("extractor_key")].toString();
-    info->format_id         = json[QLatin1String("format_id")].toString();
+    info->defaultFormatId   = json[QLatin1String("format_id")].toString();
     QJsonArray jobsArray    = json[QLatin1String("formats")].toArray();
     for (int i = 0; i < jobsArray.size(); ++i) {
-        StreamFormat *format = new StreamFormat(info);
+        StreamFormat *format = new StreamFormat(info.data());
         QJsonObject jobObject = jobsArray[i].toObject();
         format->format_id    = jobObject[QLatin1String("format_id")].toString();
         format->ext          = jobObject[QLatin1String("ext")].toString();
@@ -612,7 +627,8 @@ bool StreamInfoDownloader::parseJSON(const QByteArray &data, StreamInfo *info)
     }
     info->playlist          = json[QLatin1String("playlist")].toString();
     info->playlist_index    = json[QLatin1String("playlist_index")].toString();
-    return true;
+    info->error             = StreamInfo::NoError;
+    return info;
 }
 
 /******************************************************************************
@@ -907,27 +923,37 @@ QString StreamFormat::debug_description() const
 /******************************************************************************
  ******************************************************************************/
 StreamInfo::StreamInfo(QObject *parent) : QObject(parent)
+  , error(NoError)
 {
 }
 
 StreamInfo::StreamInfo(const StreamInfo &other): QObject(other.parent())
 {
-    this->_filename        = other._filename      ;
-    this->fulltitle        = other.fulltitle      ;
-    this->title            = other.title          ;
-    this->ext              = other.ext            ;
-    this->description      = other.description    ;
-    this->thumbnail        = other.thumbnail      ;
-    this->extractor        = other.extractor      ;
-    this->extractor_key    = other.extractor_key  ;
-    this->format_id        = other.format_id      ;
-    this->formats          = other.formats        ;
-    this->playlist         = other.playlist       ;
-    this->playlist_index   = other.playlist_index ;
+    this->_filename        = other._filename       ;
+    this->fulltitle        = other.fulltitle       ;
+    this->defaultTitle     = other.defaultTitle    ;
+    this->defaultSuffix    = other.defaultSuffix   ;
+    this->description      = other.description     ;
+    this->thumbnail        = other.thumbnail       ;
+    this->extractor        = other.extractor       ;
+    this->extractor_key    = other.extractor_key   ;
+    this->defaultFormatId  = other.defaultFormatId ;
+    this->formats          = other.formats         ;
+    this->playlist         = other.playlist        ;
+    this->playlist_index   = other.playlist_index  ;
+    this->userTitle        = other.userTitle       ;
+    this->userSuffix       = other.userSuffix      ;
+    this->userFormatId     = other.userFormatId    ;
+    this->error            = other.error           ;
 }
 
 StreamInfo::~StreamInfo()
 {
+}
+
+qint64 StreamInfo::guestimateFullSize() const
+{
+    return guestimateFullSize(formatId());
 }
 
 qint64 StreamInfo::guestimateFullSize(const QString &format_id) const
@@ -947,9 +973,9 @@ qint64 StreamInfo::guestimateFullSize(const QString &format_id) const
     return estimedSize;
 }
 
-QString StreamInfo::safeTitle() const
+QString StreamInfo::title() const
 {
-    return this->title;
+    return userTitle.isEmpty() ? defaultTitle : userTitle;
 }
 
 static QString cleanFileName(const QString &fileName)
@@ -970,20 +996,33 @@ static QString cleanFileName(const QString &fileName)
     return ret.simplified();
 }
 
+
+QString StreamInfo::fullFileName() const
+{
+    return fileExtension().isEmpty()
+            ? fileBaseName()
+            : QString("%0.%1").arg(fileBaseName()).arg(fileExtension());
+}
+
 QString StreamInfo::fileBaseName() const
 {
-    return cleanFileName(this->title);
+    return cleanFileName(title());
+}
+
+QString StreamInfo::fileExtension() const
+{
+    return userSuffix.isEmpty() ? fileExtension(formatId()) : userSuffix;
 }
 
 QString StreamInfo::fileExtension(const QString &formatId) const
 {
-    if (format_id.isEmpty()) {
+    if (defaultFormatId.isEmpty()) {
         return QLatin1String("???");
     }
-    if (this->format_id == formatId) {
-        return this->ext;
+    if (this->defaultFormatId == formatId) {
+        return this->defaultSuffix;
     }
-    QString estimedExt = this->ext;
+    QString estimedExt = this->defaultSuffix;
     QStringList ids = formatId.split(QChar('+'));
     for (auto id : ids) {
         for (auto format : formats) {
@@ -1000,7 +1039,7 @@ QString StreamInfo::fileExtension(const QString &formatId) const
 
 QString StreamInfo::formatId() const
 {
-    return this->format_id;
+    return userFormatId.isEmpty() ? defaultFormatId : userFormatId;
 }
 
 QList<StreamFormat*> StreamInfo::defaultFormats() const
@@ -1051,13 +1090,13 @@ QString StreamInfo::debug_description() const
     descr.append(QString("StreamInfo '%0' (%1, %2, %3, %4, %5, %6, %7, %8, %9, %10)")
                  .arg(_filename)
                  .arg(fulltitle)
-                 .arg(title)
-                 .arg(ext)
+                 .arg(defaultTitle)
+                 .arg(defaultSuffix)
                  .arg(description)
                  .arg(thumbnail)
                  .arg(extractor)
                  .arg(extractor_key)
-                 .arg(format_id)
+                 .arg(defaultFormatId)
                  .arg(playlist)
                  .arg(playlist_index));
     foreach (auto format, formats) {

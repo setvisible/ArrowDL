@@ -38,7 +38,6 @@ private slots:
     void onContinueClicked();
     void onResetClicked();
     void onError(QString errorMessage);
-    void onCollected(StreamInfoPtr info);
     void onCollected(QList<StreamInfoPtr> streamInfoList);
 
     void onEmptyButtonClicked();
@@ -46,6 +45,7 @@ private slots:
     void onDailymotionButtonClicked();
     void onOtherSiteButtonClicked();
     void onUrlMp4ButtonClicked();
+    void onPlaylistButtonClicked();
 
 private:
     Ui::MainWindow *ui;

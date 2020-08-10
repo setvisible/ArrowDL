@@ -46,6 +46,11 @@ private slots:
 
     void readStandardError();
 
+    void parse_empty();
+    void parse_single();
+    void parse_playlist();
+    void parse_bad_json();
+
     void fileBaseName_data();
     void fileBaseName();
 
@@ -289,6 +294,46 @@ void tst_Stream::readStandardError()
 
 /******************************************************************************
  ******************************************************************************/
+void tst_Stream::parse_empty()
+{
+    QByteArray input("\n\n");
+    QList<StreamInfoPtr> actualList = StreamInfoDownloader::parse(input);
+    QVERIFY(actualList.isEmpty());
+}
+
+void tst_Stream::parse_single()
+{
+    QByteArray input = DummyStreamFactory::dumpSingleVideo();
+    QList<StreamInfoPtr> actualList = StreamInfoDownloader::parse(input);
+    QCOMPARE(actualList.size(), 1);
+    QCOMPARE(actualList.at(0)->fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actualList.at(0)->error, StreamInfo::NoError);
+}
+
+void tst_Stream::parse_playlist()
+{
+    QByteArray input = DummyStreamFactory::dumpPlaylist();
+    QList<StreamInfoPtr> actualList = StreamInfoDownloader::parse(input);
+    QCOMPARE(actualList.size(), 3);
+    QCOMPARE(actualList.at(0)->fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actualList.at(1)->fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actualList.at(2)->fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actualList.at(0)->error, StreamInfo::NoError);
+    QCOMPARE(actualList.at(1)->error, StreamInfo::NoError);
+    QCOMPARE(actualList.at(2)->error, StreamInfo::NoError);
+}
+
+void tst_Stream::parse_bad_json()
+{
+    QByteArray input("{ name:'hello', data:[ type:'mp3'  }\n");
+    //                                 unclosed list [] ^
+    QList<StreamInfoPtr> actualList = StreamInfoDownloader::parse(input);
+    QCOMPARE(actualList.size(), 1);
+    QCOMPARE(actualList.at(0)->error, StreamInfo::ErrorJsonFormat);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void tst_Stream::fileBaseName_data()
 {
     QTest::addColumn<QString>("input");
@@ -323,7 +368,7 @@ void tst_Stream::fileBaseName()
     QFETCH(QString, expected);
 
     StreamInfo target(this);
-    target.title = input;
+    target.defaultTitle = input;
     target.fulltitle = input;
 
     auto actual = target.fileBaseName();

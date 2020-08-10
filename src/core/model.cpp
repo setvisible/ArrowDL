@@ -22,8 +22,8 @@
 #include <QtCore/QDebug>
 
 Model::Model(QObject *parent) : QObject(parent)
-    , m_linkModel(new ResourceModel(this))
-    , m_contentModel(new ResourceModel(this))
+  , m_linkModel(new ResourceModel(this))
+  , m_contentModel(new ResourceModel(this))
 {
     connect(m_linkModel, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
     connect(m_contentModel, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
@@ -41,7 +41,7 @@ void Model::setCurrentTab(Tab currentTab)
 
 QList<ResourceItem*> Model::selection() const
 {
-    return currentModel()->selectedResourceItems();
+    return currentModel()->selection();
 }
 
 /******************************************************************************
@@ -88,12 +88,8 @@ void Model::select(const QRegExp &regex)
 ResourceModel* Model::currentModel() const
 {
     switch (m_currentTab) {
-    case LINK:
-        return m_linkModel;
-        break;
-    case CONTENT:
-        return m_contentModel;
-        break;
+    case LINK:     return m_linkModel;
+    case CONTENT:  return m_contentModel;
     default:
         Q_UNREACHABLE();
         break;

@@ -19,11 +19,9 @@
 
 #include <Core/Stream>
 
-#include <QtCore/QMap>
 #include <QtWidgets/QWidget>
 
 class QRadioButton;
-class QToolButton;
 class QComboBox;
 
 namespace Ui {
@@ -34,40 +32,25 @@ class StreamWidget : public QWidget
 {
     Q_OBJECT
 public:
-    enum State {
-        Empty,
-        Downloading,
-        Normal,
-        Error
-    };
-
     explicit StreamWidget(QWidget *parent);
     ~StreamWidget() Q_DECL_OVERRIDE;
 
     void clear();
-
-    State state() const;
-    void setState(State state);
-
-    void setErrorMessage(QString errorMessage);
     void setStreamInfo(StreamInfoPtr streamInfo);
 
     QString selectedFormatId() const;
     void setSelectedFormatId(const QString &format_id);
-
-    QString fileName() const;
-    qint64 fileSize() const;
-    QString fileExtension() const;
 
 private slots:
     void updateButtonBar();
     void onCurrentIndexChanged(int index);
     void onChanged();
 
+    void onTitleChanged(const QString &);
+    void onSuffixChanged(const QString &);
+
 private:
     Ui::StreamWidget *ui;
-    State m_state = Empty;
-
     StreamInfoPtr m_streamInfo;
 
     void clearDetectedFormat();

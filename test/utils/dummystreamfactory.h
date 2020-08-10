@@ -27,6 +27,9 @@ public:
     static StreamInfoPtr createDummyStreamInfo_Youtube();
     static StreamInfoPtr createDummyStreamInfo_Dailymotion();
     static StreamInfoPtr createDummyStreamInfo_Other();
+
+    static QByteArray dumpSingleVideo();
+    static QByteArray dumpPlaylist();
 };
 
 #endif // DUMMY_STREAM_FACTORY_H

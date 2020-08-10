@@ -18,10 +18,11 @@
 #define WIDGETS_LINK_WIDGET_H
 
 #include <QtWidgets/QWidget>
-#include <QtWidgets/QStyledItemDelegate>
 
 class Model;
-class QTableView;
+class CheckableTableView;
+
+class QMenu;
 
 namespace Ui {
 class LinkWidget;
@@ -40,41 +41,29 @@ public:
     QList<int> columnWidths() const;
     void setColumnWidths(const QList<int> &widths);
 
+    void contextMenuCallback(QMenu *contextMenu);
+
 protected:
     virtual void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
     void onCurrentTabChanged(int index);
     void onResourceChanged();
-    void onSectionCountChanged(int oldCount, int newCount);
     void onSectionResized(int logicalIndex, int oldSize, int newSize);
 
-    void showContextMenu(const QPoint &pos);
-
-    void checkSelected();
-    void uncheckSelected();
-    void toggleCheck();
-    // --
     void customizeMask();
-    // --
-    void selectAll();
-    void selectFiltered();
-    void invertSelection();
-    // --
     void copyLinks();
-    // --
     void open();
 
 private:
     Ui::LinkWidget *ui;
     Model *m_model;
 
-    void setup(QTableView *view);
-    void resizeSection(QTableView *view, int logicalIndex, int newSize);
+    void setup(CheckableTableView *view);
+    void resizeSection(CheckableTableView *view, int logicalIndex, int newSize);
 
     inline QString textForOpenAction() const;
-    inline QModelIndexList selectedIndexesAtColumn(int column);
-    inline QTableView* currentTableView() const;
+    inline CheckableTableView *currentTableView() const;
 };
 
 #endif // WIDGETS_LINK_WIDGET_H

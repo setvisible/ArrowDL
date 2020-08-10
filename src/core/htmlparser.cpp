@@ -119,7 +119,7 @@ static void searchForLinks(GumboNode* node, Model *model, const QUrl &url)
         ResourceItem *item = createResourceItem(node->v.element, url);
         if (item) {
             ResourceModel *linkModel = model->linkModel();
-            linkModel->addResource(item);
+            linkModel->add(item);
         }
 
     } else if (node->v.element.tag == GUMBO_TAG_IMAGE ||
@@ -138,7 +138,7 @@ static void searchForLinks(GumboNode* node, Model *model, const QUrl &url)
         ResourceItem *item = createResourceItem(node->v.element, url);
         if (item) {
             ResourceModel *contentModel = model->contentModel();
-            contentModel->addResource(item);
+            contentModel->add(item);
         }
     }
 
