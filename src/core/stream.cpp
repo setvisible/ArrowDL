@@ -35,7 +35,8 @@
 static QString generateErrorMessage(QProcess::ProcessError error);
 static QString toString(QProcess *process);
 
-static QString s_youtubedl_version;
+static QString s_youtubedl_version = QString();
+static QString s_youtubedl_user_agent = QString();
 
 #if defined Q_OS_WIN
 static const QString C_PROGRAM_NAME  = QLatin1String("youtube-dl.exe");
@@ -91,7 +92,9 @@ QString Stream::version()
 {
     if (s_youtubedl_version.isEmpty()) {
         QProcess process;
-        process.start(C_PROGRAM_NAME, QStringList() << "--version");
+        process.start(
+                    C_PROGRAM_NAME, QStringList()
+                    << QLatin1String("--version"));
         if (!process.waitForStarted()) {
             return QLatin1String("unknown");
         }
@@ -107,6 +110,11 @@ QString Stream::version()
 QString Stream::website()
 {
     return C_WEBSITE_URL;
+}
+
+void Stream::setUserAgent(const QString &userAgent)
+{
+    s_youtubedl_user_agent = userAgent;
 }
 
 /******************************************************************************
@@ -225,14 +233,14 @@ void Stream::setLocalFullOutputPath(const QString &outputPath)
 
 /******************************************************************************
  ******************************************************************************/
-QString Stream::refererUrl() const
+QString Stream::referringPage() const
 {
-    return m_refererUrl;
+    return m_referringPage;
 }
 
-void Stream::setRefererUrl(const QString &refererUrl)
+void Stream::setReferringPage(const QString &referringPage)
 {
-    m_refererUrl = refererUrl;
+    m_referringPage = referringPage;
 }
 
 /******************************************************************************
@@ -282,15 +290,18 @@ void Stream::start()
     if (!isEmpty() && m_process->state() == QProcess::NotRunning) {
         // Usage: youtube-dl.exe [OPTIONS] URL [URL...]
         QStringList arguments;
-        arguments << "--output" << m_outputPath
-                  << "--no-check-certificate"
-                  << "--no-overwrites"      // If option in settings !
-                  << "--no-continue"
-                  << "--ignore-config"
-                  << "--format" << m_selectedFormatId
+        arguments << QLatin1String("--output") << m_outputPath
+                  << QLatin1String("--no-check-certificate")
+                  << QLatin1String("--no-overwrites")  // If option in settings!
+                  << QLatin1String("--no-continue")
+                  << QLatin1String("--ignore-config")
+                  << QLatin1String("--format") << m_selectedFormatId
                   << m_url;
-        if (!m_refererUrl.isEmpty()) {
-            arguments << "--referer" << m_refererUrl;
+        if (!s_youtubedl_user_agent.isNull()) {
+            arguments << QLatin1String("--user-agent") << s_youtubedl_user_agent;
+        }
+        if (!m_referringPage.isEmpty()) {
+            arguments << QLatin1String("--referer") << m_referringPage;
         }
         m_process->start(C_PROGRAM_NAME, arguments);
         qDebug() << Q_FUNC_INFO << toString(m_process);
@@ -359,7 +370,7 @@ void Stream::parseStandardOutput(const QString &data)
     }
 
     if ( tokens.count() > 3 &&
-         tokens.at(1).contains('%') &&
+         tokens.at(1).contains(QChar('%')) &&
          tokens.at(2) == QLatin1String("of")) {
 
         const QString percentToken = tokens.at(1);
@@ -396,7 +407,7 @@ void Stream::parseStandardError(const QString &data)
                 data.startsWith(C_WARNING_msg_header_02, Qt::CaseInsensitive)) {
 
         if (data.contains(C_WARNING_merge_output_format, Qt::CaseInsensitive)) {
-            m_fileExtension = "mkv";   // TODO change extension
+            m_fileExtension = QLatin1String("mkv");   // TODO change extension
             emit downloadMetadataChanged();
         }
     }
@@ -431,7 +442,9 @@ StreamCleanCache::~StreamCleanCache()
 void StreamCleanCache::runAsync()
 {
     if (m_process->state() == QProcess::NotRunning) {
-        m_process->start(C_PROGRAM_NAME, QStringList() << "--rm-cache-dir");
+        m_process->start(
+                    C_PROGRAM_NAME, QStringList()
+                    << QLatin1String("--rm-cache-dir"));
         qDebug() << Q_FUNC_INFO << toString(m_process);
     }
 }
@@ -497,7 +510,13 @@ void StreamInfoDownloader::runAsync(const QString &url)
     m_url = url;
     m_cancelled = false;
     if (m_process->state() == QProcess::NotRunning) {
-        m_process->start(C_PROGRAM_NAME, QStringList() << "--dump-json" << url);
+        QStringList arguments;
+        arguments << QLatin1String("--dump-json")
+                  << m_url;
+        if (!s_youtubedl_user_agent.isNull()) {
+            arguments << QLatin1String("--user-agent") << s_youtubedl_user_agent;
+        }
+        m_process->start(C_PROGRAM_NAME, arguments);
         qDebug() << Q_FUNC_INFO << toString(m_process);
     }
 }
@@ -623,7 +642,9 @@ StreamUpgrader::~StreamUpgrader()
 void StreamUpgrader::runAsync()
 {
     if (m_process->state() == QProcess::NotRunning) {
-        m_process->start(C_PROGRAM_NAME, QStringList() << "--update");
+        m_process->start(
+                    C_PROGRAM_NAME, QStringList()
+                    << QLatin1String("--update"));
         qDebug() << Q_FUNC_INFO << toString(m_process);
     }
 }
@@ -697,11 +718,15 @@ StreamExtractorListCollector::~StreamExtractorListCollector()
 void StreamExtractorListCollector::runAsync()
 {
     if (m_processExtractors->state() == QProcess::NotRunning) {
-        m_processExtractors->start(C_PROGRAM_NAME, QStringList() << "--list-extractors");
+        m_processExtractors->start(
+                    C_PROGRAM_NAME, QStringList()
+                    << QLatin1String("--list-extractors"));
         qDebug() << Q_FUNC_INFO << toString(m_processExtractors);
     }
     if (m_processDescriptions->state() == QProcess::NotRunning) {
-        m_processDescriptions->start(C_PROGRAM_NAME, QStringList() << "--extractor-descriptions");
+        m_processDescriptions->start(
+                    C_PROGRAM_NAME, QStringList()
+                    << QLatin1String("--extractor-descriptions"));
         qDebug() << Q_FUNC_INFO << toString(m_processDescriptions);
     }
 }
@@ -726,7 +751,7 @@ void StreamExtractorListCollector::onFinishedExtractors(int exitCode, QProcess::
         emit finished();
     } else {
         QString data = QString::fromLatin1(m_processExtractors->readAllStandardOutput());
-        m_extractors = data.split("\n", QString::KeepEmptyParts);
+        m_extractors = data.split(QChar('\n'), QString::KeepEmptyParts);
         onFinished();
     }
 }
@@ -916,7 +941,7 @@ qint64 StreamInfos::guestimateFullSize(const QString &format_id) const
         sizes.insert(format->format_id, format->filesize);
     }
     qint64 estimedSize = 0;
-    QStringList ids = format_id.split("+");
+    QStringList ids = format_id.split(QChar('+'));
     for (auto id : ids) {
         estimedSize += sizes.value(id, 0);
     }
@@ -942,7 +967,7 @@ static QString cleanFileName(const QString &fileName)
             *it = QChar('_');
         }
     }
-    ret = ret.replace(QRegExp("_+"), "_");
+    ret = ret.replace(QRegExp("_+"), QLatin1String("_"));
     return ret.simplified();
 }
 
@@ -960,7 +985,7 @@ QString StreamInfos::fileExtension(const QString &formatId) const
         return this->ext;
     }
     QString estimedExt = this->ext;
-    QStringList ids = formatId.split("+");
+    QStringList ids = formatId.split(QChar('+'));
     for (auto id : ids) {
         for (auto format : formats) {
             if (id == format->format_id) {

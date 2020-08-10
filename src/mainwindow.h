@@ -21,6 +21,7 @@
 
 class IDownloadItem;
 class DownloadManager;
+class StreamManager;
 class FileAccessManager;
 class Settings;
 class UpdateChecker;
@@ -138,6 +139,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     DownloadManager *m_downloadManager;
+    StreamManager *m_streamManager;
     FileAccessManager *m_fileAccessManager;
     Settings *m_settings;
     QLabel *m_statusBarLabel;

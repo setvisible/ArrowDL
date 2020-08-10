@@ -53,7 +53,6 @@ void NetworkManager::setSettings(Settings *settings)
     }
 }
 
-
 void NetworkManager::onSettingsChanged()
 {
     setProxySettings(m_settings);

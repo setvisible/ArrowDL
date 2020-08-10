@@ -64,7 +64,7 @@ void DownloadStreamItem::resume()
         m_stream->setLocalFullOutputPath(outputPath);
 
         m_stream->setUrl(resource()->url());
-        m_stream->setRefererUrl(resource()->referringPage());
+        m_stream->setReferringPage(resource()->referringPage());
         m_stream->setSelectedFormatId(resource()->streamFormatId());
         m_stream->setFileSizeInBytes(resource()->streamFileSize());
 
