@@ -24,10 +24,10 @@ class IDownloadItem;
 class DownloadManager;
 class Settings;
 
-class StreamInfos;
+class StreamInfo;
 class StreamInfoDownloader;
 
-typedef QSharedPointer<StreamInfos> StreamInfosPtr;
+typedef QSharedPointer<StreamInfo> StreamInfoPtr;
 
 namespace Ui {
 class AddStreamDialog;
@@ -53,7 +53,7 @@ private slots:
     void onChanged(QString);
 
     void onError(QString errorMessage);
-    void onCollected(StreamInfosPtr infos);
+    void onCollected(StreamInfoPtr info);
 
 private:
     Ui::AddStreamDialog *ui;

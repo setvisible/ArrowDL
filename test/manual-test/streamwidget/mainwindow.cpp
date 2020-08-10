@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     ui->urlMp4Button->setToolTip(s_urlMp4Link);
 
     connect(m_streamInfoDownloader, SIGNAL(error(QString)), this, SLOT(onError(QString)));
-    connect(m_streamInfoDownloader, SIGNAL(collected(StreamInfosPtr)), this, SLOT(onCollected(StreamInfosPtr)));
+    connect(m_streamInfoDownloader, SIGNAL(collected(StreamInfoPtr)), this, SLOT(onCollected(StreamInfoPtr)));
 
     onResetClicked();
 }
@@ -85,26 +85,26 @@ void MainWindow::start(const QString &url)
  ******************************************************************************/
 void MainWindow::onEmptyButtonClicked()
 {
-    StreamInfosPtr infos = DummyStreamFactory::createDummyStreamInfos();
-    ui->streamWidget->showStreamInfos(infos);
+    auto info = DummyStreamFactory::createDummyStreamInfo();
+    ui->streamWidget->showStreamInfo(info);
 }
 
 void MainWindow::onYoutubeButtonClicked()
 {
-    StreamInfosPtr infos = DummyStreamFactory::createDummyStreamInfos_Youtube();
-    ui->streamWidget->showStreamInfos(infos);
+    auto info = DummyStreamFactory::createDummyStreamInfo_Youtube();
+    ui->streamWidget->showStreamInfo(info);
 }
 
 void MainWindow::onDailymotionButtonClicked()
 {
-    StreamInfosPtr infos = DummyStreamFactory::createDummyStreamInfos_Dailymotion();
-    ui->streamWidget->showStreamInfos(infos);
+    auto info = DummyStreamFactory::createDummyStreamInfo_Dailymotion();
+    ui->streamWidget->showStreamInfo(info);
 }
 
 void MainWindow::onOtherSiteButtonClicked()
 {
-    StreamInfosPtr infos = DummyStreamFactory::createDummyStreamInfos_Other();
-    ui->streamWidget->showStreamInfos(infos);
+    auto info = DummyStreamFactory::createDummyStreamInfo_Other();
+    ui->streamWidget->showStreamInfo(info);
 }
 
 void MainWindow::onUrlMp4ButtonClicked()
@@ -120,8 +120,8 @@ void MainWindow::onError(QString errorMessage)
     ui->streamWidget->showErrorMessage(errorMessage);
 }
 
-void MainWindow::onCollected(StreamInfosPtr infos)
+void MainWindow::onCollected(StreamInfoPtr info)
 {
     ui->continueButton->setEnabled(true);
-    ui->streamWidget->showStreamInfos(infos);
+    ui->streamWidget->showStreamInfo(info);
 }

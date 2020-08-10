@@ -49,8 +49,8 @@ public:
     State state() const;
     void setState(State state);
 
-    void showErrorMessage(QString errorMessage);
-    void showStreamInfos(StreamInfosPtr infos);
+    void setErrorMessage(QString errorMessage);
+    void setStreamInfo(StreamInfoPtr streamInfo);
 
     QString selectedFormatId() const;
     void setSelectedFormatId(const QString &format_id);
@@ -68,7 +68,7 @@ private:
     Ui::StreamWidget *ui;
     State m_state = Empty;
 
-    StreamInfosPtr m_infos;
+    StreamInfoPtr m_streamInfo;
 
     void clearDetectedFormat();
     void populateDefaultFormats(const QList<StreamFormat*> &formats);

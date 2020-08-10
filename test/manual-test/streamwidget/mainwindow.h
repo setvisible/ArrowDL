@@ -19,9 +19,9 @@
 
 #include <QtWidgets/QMainWindow>
 
-class StreamInfos;
+class StreamInfo;
 class StreamInfoDownloader;
-typedef QSharedPointer<StreamInfos> StreamInfosPtr;
+typedef QSharedPointer<StreamInfo> StreamInfoPtr;
 
 namespace Ui {
 class MainWindow;
@@ -38,7 +38,8 @@ private slots:
     void onContinueClicked();
     void onResetClicked();
     void onError(QString errorMessage);
-    void onCollected(StreamInfosPtr infos);
+    void onCollected(StreamInfoPtr info);
+    void onCollected(QList<StreamInfoPtr> streamInfoList);
 
     void onEmptyButtonClicked();
     void onYoutubeButtonClicked();

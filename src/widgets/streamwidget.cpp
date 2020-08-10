@@ -96,30 +96,30 @@ void StreamWidget::setState(State state)
 
 /******************************************************************************
  ******************************************************************************/
-void StreamWidget::showStreamInfos(StreamInfosPtr infos)
+void StreamWidget::setStreamInfo(StreamInfoPtr streamInfo)
 {
-    Q_ASSERT(infos);
+    Q_ASSERT(streamInfo);
     clear();
 
-    qDebug() << Q_FUNC_INFO << infos;
+    qDebug() << Q_FUNC_INFO << streamInfo;
 
-    m_infos.swap(infos);
+    m_streamInfo.swap(streamInfo);
 
     setState(StreamWidget::Normal);
-    if (m_infos) {
-        ui->titleLabel->setText(m_infos->safeTitle());
-        ui->fileNameEdit->setText(m_infos->fileBaseName());
-        ui->fileExtensionEdit->setText(m_infos->fileExtension(m_infos->format_id));
+    if (m_streamInfo) {
+        ui->titleLabel->setText(m_streamInfo->safeTitle());
+        ui->fileNameEdit->setText(m_streamInfo->fileBaseName());
+        ui->fileExtensionEdit->setText(m_streamInfo->fileExtension(m_streamInfo->format_id));
 
-        populateDefaultFormats(m_infos->defaultFormats());
-        populateComboBox(m_infos->audioFormats(), ui->audioComboBox);
-        populateComboBox(m_infos->videoFormats(), ui->videoComboBox);
+        populateDefaultFormats(m_streamInfo->defaultFormats());
+        populateComboBox(m_streamInfo->audioFormats(), ui->audioComboBox);
+        populateComboBox(m_streamInfo->videoFormats(), ui->videoComboBox);
 
-        setSelectedFormatId(m_infos->formatId());
+        setSelectedFormatId(m_streamInfo->formatId());
     }
 }
 
-void StreamWidget::showErrorMessage(QString errorMessage)
+void StreamWidget::setErrorMessage(QString errorMessage)
 {
     clear();
     setState(StreamWidget::Error);
@@ -175,8 +175,8 @@ QString StreamWidget::fileName() const
 qint64 StreamWidget::fileSize() const
 {
     auto formatId = selectedFormatId();
-    if (m_infos) {
-        return m_infos->guestimateFullSize(formatId);
+    if (m_streamInfo) {
+        return m_streamInfo->guestimateFullSize(formatId);
     }
     return -1;
 }
@@ -184,8 +184,8 @@ qint64 StreamWidget::fileSize() const
 QString StreamWidget::fileExtension() const
 {
     auto formatId = selectedFormatId();
-    if (m_infos) {
-        return m_infos->fileExtension(formatId);
+    if (m_streamInfo) {
+        return m_streamInfo->fileExtension(formatId);
     }
     return QString();
 }

@@ -41,7 +41,7 @@ public:
     void setColumnWidths(const QList<int> &widths);
 
 protected:
-    virtual void keyPressEvent(QKeyEvent *event);
+    virtual void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
     void onCurrentTabChanged(int index);

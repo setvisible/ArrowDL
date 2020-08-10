@@ -103,16 +103,16 @@ void Locale::applyLanguage(const QString &language)
     const QLocale locale = !language.isEmpty() ? QLocale(language) : QLocale::system();
     const QString localeName = locale.name();
     const QString localeFilename = translationFileName(localeName);
-    const QString infos = QObject::tr("translation '%0', locale '%1': %2")
+    const QString localeInfo = QObject::tr("translation '%0', locale '%1': %2")
             .arg(language).arg(localeName).arg(localeFilename);
 
     s_translator = new QTranslator();
     if (s_translator->load(localeFilename)) {
         qApp->installTranslator(s_translator);
-        // qInfo() << QObject::tr("Loaded %0").arg(infos);
+        // qInfo() << QObject::tr("Loaded %0").arg(localeInfo);
     } else {
         delete s_translator;
         s_translator = nullptr;
-        qWarning() << QObject::tr("Can't load %0").arg(infos);
+        qWarning() << QObject::tr("Can't load %0").arg(localeInfo);
     }
 }

@@ -29,7 +29,7 @@ StreamDialog::StreamDialog(QWidget *parent)
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Stream Download Infos")));
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Stream Download Info")));
 
     adjustSize();
 

@@ -70,7 +70,7 @@ public:
 };
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::readStandardOutput()
 {
     // Given
@@ -103,7 +103,7 @@ void tst_Stream::readStandardOutput()
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::readStandardOutputWithEstimedSize()
 {
     // Given
@@ -173,7 +173,7 @@ void tst_Stream::readStandardOutputWithEstimedSize()
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::readStandardOutputWithTwoStreams()
 {
     // Given
@@ -221,7 +221,7 @@ void tst_Stream::readStandardOutputWithTwoStreams()
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::readStandardOutputHTTPError()
 {
     // Given
@@ -281,13 +281,14 @@ void tst_Stream::readStandardOutputHTTPError()
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::readStandardError()
 {
+    /// \todo
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::fileBaseName_data()
 {
     QTest::addColumn<QString>("input");
@@ -321,7 +322,7 @@ void tst_Stream::fileBaseName()
     QFETCH(QString, input);
     QFETCH(QString, expected);
 
-    StreamInfos target(this);
+    StreamInfo target(this);
     target.title = input;
     target.fulltitle = input;
 
@@ -331,7 +332,7 @@ void tst_Stream::fileBaseName()
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::guestimateFullSize_data()
 {
     QTest::addColumn<QString>("input");
@@ -362,14 +363,14 @@ void tst_Stream::guestimateFullSize()
     QFETCH(QString, input);
     QFETCH(BigInteger, expected);
 
-    auto target = DummyStreamFactory::createDummyStreamInfos_Youtube();
+    auto target = DummyStreamFactory::createDummyStreamInfo_Youtube();
     qint64 actual = target->guestimateFullSize(input);
 
     QCOMPARE(actual, expected.value);
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::fileExtension_data()
 {
     QTest::addColumn<QString>("input");
@@ -400,17 +401,17 @@ void tst_Stream::fileExtension()
     QFETCH(QString, input);
     QFETCH(QString, expected);
 
-    auto target = DummyStreamFactory::createDummyStreamInfos_Youtube();
+    auto target = DummyStreamFactory::createDummyStreamInfo_Youtube();
     auto actual = target->fileExtension(input);
 
     QCOMPARE(actual, expected);
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::defaultFormats()
 {
-    auto target = DummyStreamFactory::createDummyStreamInfos_Dailymotion();
+    auto target = DummyStreamFactory::createDummyStreamInfo_Dailymotion();
     auto actual = target->defaultFormats();
 
     QList<StreamFormat*> expected;
@@ -430,7 +431,7 @@ void tst_Stream::defaultFormats()
 
 void tst_Stream::defaultFormats_2()
 {
-    auto target = DummyStreamFactory::createDummyStreamInfos_Other();
+    auto target = DummyStreamFactory::createDummyStreamInfo_Other();
     auto actual = target->defaultFormats();
 
     QList<StreamFormat*> expected;
@@ -448,7 +449,7 @@ void tst_Stream::defaultFormats_2()
 
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::matchesHost_data()
 {
     QTest::addColumn<QString>("inputHost");
@@ -495,7 +496,7 @@ void tst_Stream::matchesHost()
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 QTEST_APPLESS_MAIN(tst_Stream)
 
 #include "tst_stream.moc"

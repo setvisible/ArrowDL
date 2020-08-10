@@ -62,7 +62,7 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
     connect(ui->continueButton, SIGNAL(released()), this, SLOT(onContinueClicked()));
 
     connect(m_streamInfoDownloader, SIGNAL(error(QString)), this, SLOT(onError(QString)));
-    connect(m_streamInfoDownloader, SIGNAL(collected(StreamInfosPtr)), this, SLOT(onCollected(StreamInfosPtr)));
+    connect(m_streamInfoDownloader, SIGNAL(collected(StreamInfoPtr)), this, SLOT(onCollected(StreamInfoPtr)));
 
     readSettings();
 
@@ -130,14 +130,14 @@ void AddStreamDialog::onContinueClicked()
 void AddStreamDialog::onError(QString errorMessage)
 {
     setGuiEnabled(true);
-    ui->streamWidget->showErrorMessage(errorMessage);
+    ui->streamWidget->setErrorMessage(errorMessage);
     onChanged(QString());
 }
 
-void AddStreamDialog::onCollected(StreamInfosPtr infos)
+void AddStreamDialog::onCollected(StreamInfoPtr info)
 {
     setGuiEnabled(true);
-    ui->streamWidget->showStreamInfos(infos);
+    ui->streamWidget->setStreamInfo(info);
     onChanged(QString());
 }
 

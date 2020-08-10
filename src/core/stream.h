@@ -28,8 +28,8 @@ class QDebug;
 QT_END_NAMESPACE
 
 class StreamCleanCache;
-class StreamInfos;
-typedef QSharedPointer<StreamInfos> StreamInfosPtr;
+class StreamInfo;
+typedef QSharedPointer<StreamInfo> StreamInfoPtr;
 
 class StreamFormat : public QObject
 {
@@ -76,13 +76,13 @@ public:
     int tbr;             // (numeric): Average bitrate of audio and video in KBit/s
 };
 
-class StreamInfos : public QObject
+class StreamInfo : public QObject
 {
     Q_OBJECT
 public:
-    explicit StreamInfos(QObject *parent = nullptr);
-    explicit StreamInfos(const StreamInfos &other);
-    ~StreamInfos() Q_DECL_OVERRIDE;
+    explicit StreamInfo(QObject *parent = nullptr);
+    explicit StreamInfo(const StreamInfo &other);
+    ~StreamInfo() Q_DECL_OVERRIDE;
 
     qint64 guestimateFullSize(const QString &format_id) const;
 
@@ -145,7 +145,7 @@ public:
     qint64 fileSizeInBytes() const;
     void setFileSizeInBytes(qint64 fileSizeInBytes);
 
-    void initializeWithStreamInfos(const StreamInfos &streamInfos);
+    void initializeWithStreamInfo(const StreamInfo &streamInfo);
 
 public slots:
     void start();
@@ -227,7 +227,7 @@ public:
 
 signals:
     void error(QString errorMessage);
-    void collected(StreamInfosPtr infos);
+    void collected(StreamInfoPtr info);
 
 private slots:
     void onStarted();
@@ -242,7 +242,7 @@ private:
     QString m_url;
     bool m_cancelled;
 
-    bool parseJSON(const QByteArray &data, StreamInfos *infos);
+    bool parseJSON(const QByteArray &data, StreamInfo *info);
 };
 
 class AskStreamVersionThread : public QThread
@@ -316,22 +316,22 @@ private:
 
 
 Q_DECLARE_TYPEINFO(StreamFormat, Q_PRIMITIVE_TYPE);
-Q_DECLARE_TYPEINFO(StreamInfos, Q_PRIMITIVE_TYPE);
+Q_DECLARE_TYPEINFO(StreamInfo, Q_PRIMITIVE_TYPE);
 
 #ifdef QT_TESTLIB_LIB
 char *toString(const StreamFormat &streamFormat);
-char *toString(const StreamInfos &streamInfos);
+char *toString(const StreamInfo &streamInfo);
 #endif
 
 Q_DECLARE_METATYPE(StreamFormat);
-Q_DECLARE_METATYPE(StreamInfos);
+Q_DECLARE_METATYPE(StreamInfo);
 
 #ifdef QT_DEBUG
 QT_BEGIN_NAMESPACE
 QDebug operator<<(QDebug dbg, const StreamFormat &streamFormat);
 QDebug operator<<(QDebug dbg, const StreamFormat *streamFormat);
-QDebug operator<<(QDebug dbg, const StreamInfos &streamInfos);
-QDebug operator<<(QDebug dbg, const StreamInfos *streamInfos);
+QDebug operator<<(QDebug dbg, const StreamInfo &streamInfo);
+QDebug operator<<(QDebug dbg, const StreamInfo *streamInfo);
 QT_END_NAMESPACE
 #endif
 
