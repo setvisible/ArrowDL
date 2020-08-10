@@ -60,6 +60,7 @@ AddTorrentDialog::AddTorrentDialog(const QUrl &url, DownloadManager *downloadMan
         ui->urlLineEdit->setText(url.toString());
     }
     ui->urlLineEdit->setFocus();
+    ui->urlLineEdit->setClearButtonEnabled(true);
 
     connect(ui->urlLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onChanged(QString)));
     connect(ui->urlFormWidget, SIGNAL(changed(QString)), this, SLOT(onChanged(QString)));

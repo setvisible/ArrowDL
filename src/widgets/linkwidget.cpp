@@ -69,7 +69,7 @@ class LinkWidgetItemDelegate : public QStyledItemDelegate
 public:
     inline LinkWidgetItemDelegate(QObject *parent = Q_NULLPTR);
 
-    ~LinkWidgetItemDelegate() {}
+    ~LinkWidgetItemDelegate() Q_DECL_OVERRIDE {}
 
     // painting
     void paint(QPainter *painter, const QStyleOptionViewItem &option,

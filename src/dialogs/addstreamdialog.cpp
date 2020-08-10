@@ -69,6 +69,7 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
     ui->streamWidget->setState(StreamWidget::Empty);
     ui->urlLineEdit->setText(url.toString());
     ui->urlLineEdit->setFocus();
+    ui->urlLineEdit->setClearButtonEnabled(true);
 
     if (!url.isEmpty()) {
         onContinueClicked();

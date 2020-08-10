@@ -61,6 +61,7 @@ AddBatchDialog::AddBatchDialog(const QUrl &url, DownloadManager *downloadManager
     ui->urlLineEdit->setText(url.toString());
     ui->urlLineEdit->setFocus();
     ui->urlLineEdit->setContextMenuPolicy(Qt::CustomContextMenu);
+    ui->urlLineEdit->setClearButtonEnabled(true);
 
     ui->titleListLabel->setToolTip(
                 QString("<html><head/><body><p>"

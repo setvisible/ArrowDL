@@ -543,7 +543,7 @@ QTabBar::tab:hover:!selected {
                <string/>
               </property>
               <property name="placeholderText">
-               <string>proxy.example.com</string>
+               <string notr="true">proxy.example.com</string>
               </property>
              </widget>
             </item>
@@ -582,7 +582,7 @@ QTabBar::tab:hover:!selected {
                <string/>
               </property>
               <property name="placeholderText">
-               <string>1080</string>
+               <string notr="true">1080</string>
               </property>
              </widget>
             </item>
@@ -593,7 +593,7 @@ QTabBar::tab:hover:!selected {
             <item>
              <widget class="QCheckBox" name="proxyAuthCheckBox">
               <property name="text">
-               <string>Authentification</string>
+               <string>Authentication</string>
               </property>
              </widget>
             </item>
