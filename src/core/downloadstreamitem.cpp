@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -64,7 +64,7 @@ void DownloadStreamItem::resume()
         m_stream->setLocalFullOutputPath(outputPath);
 
         m_stream->setUrl(resource()->url());
-        m_stream->setRefererUrl(resource()->referringPage());
+        m_stream->setReferringPage(resource()->referringPage());
         m_stream->setSelectedFormatId(resource()->streamFormatId());
         m_stream->setFileSizeInBytes(resource()->streamFileSize());
 
@@ -169,7 +169,6 @@ void DownloadStreamItem::onError(QString errorMessage)
 {
     qDebug() << Q_FUNC_INFO << errorMessage;
     file()->cancel();
-    setHttpErrorNumber(static_cast<int>(404));
     setErrorMessage(errorMessage);
     setState(NetworkError);
 }

@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -238,18 +238,6 @@ QString ResourceItem::torrentPreferredFilePriorities() const
 void ResourceItem::setTorrentPreferredFilePriorities(const QString &priorities)
 {
     m_torrentPreferredFilePriorities = priorities;
-}
-
-/******************************************************************************
- ******************************************************************************/
-bool ResourceItem::isSelected() const
-{
-    return m_isSelected;
-}
-
-void ResourceItem::setSelected(bool isSelected)
-{
-    m_isSelected = isSelected;
 }
 
 /******************************************************************************

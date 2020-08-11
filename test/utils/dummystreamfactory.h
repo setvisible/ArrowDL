@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,11 +22,14 @@
 class DummyStreamFactory
 {
 public:
-    static StreamInfosPtr createDummyStreamInfos();
+    static StreamInfoPtr createDummyStreamInfo();
 
-    static StreamInfosPtr createDummyStreamInfos_Youtube();
-    static StreamInfosPtr createDummyStreamInfos_Dailymotion();
-    static StreamInfosPtr createDummyStreamInfos_Other();
+    static StreamInfoPtr createDummyStreamInfo_Youtube();
+    static StreamInfoPtr createDummyStreamInfo_Dailymotion();
+    static StreamInfoPtr createDummyStreamInfo_Other();
+
+    static QByteArray dumpSingleVideo();
+    static QByteArray dumpPlaylist();
 };
 
 #endif // DUMMY_STREAM_FACTORY_H

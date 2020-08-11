@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,12 +17,16 @@
 #ifndef CORE_UPDATE_CHECKER_H
 #define CORE_UPDATE_CHECKER_H
 
-#include <Core/Settings>
+#include <functional> /* std::function */
 
+#include <Core/Settings>
 #include <CAutoUpdaterGithub>
 
 #include <QtCore/QObject>
 
+class QNetworkReply;
+
+class NetworkManager;
 class StreamUpgrader;
 
 class UpdateChecker : public QObject, private CAutoUpdaterGithub::UpdateStatusListener
@@ -34,6 +38,8 @@ public:
     ~UpdateChecker() Q_DECL_OVERRIDE = default;
 
     QString currentVersion() const;
+
+    void setNetworkManager(NetworkManager *networkManager);
 
     void checkForUpdates(const Settings *settings);
     void checkForUpdates();
@@ -59,6 +65,9 @@ private:
     void onUpdateDownloadProgress(float percentageDownloaded) Q_DECL_OVERRIDE;
     void onUpdateDownloadFinished() Q_DECL_OVERRIDE;
     void onUpdateError(QString errorMessage) Q_DECL_OVERRIDE;
+
+    static const std::function<QNetworkReply* (const QUrl&)> createNetworkGetCallback();
+    static const std::function<bool (const QString&)> createAddressMatcherCallback(bool isHost64Bit);
 
     inline qint64 daysSinceLastCheck();
     inline void storeDate();

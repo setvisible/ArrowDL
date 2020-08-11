@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,9 +19,9 @@
 
 #include <QtWidgets/QMainWindow>
 
-class StreamInfos;
+class StreamInfo;
 class StreamInfoDownloader;
-typedef QSharedPointer<StreamInfos> StreamInfosPtr;
+typedef QSharedPointer<StreamInfo> StreamInfoPtr;
 
 namespace Ui {
 class MainWindow;
@@ -38,13 +38,14 @@ private slots:
     void onContinueClicked();
     void onResetClicked();
     void onError(QString errorMessage);
-    void onCollected(StreamInfosPtr infos);
+    void onCollected(QList<StreamInfoPtr> streamInfoList);
 
     void onEmptyButtonClicked();
     void onYoutubeButtonClicked();
     void onDailymotionButtonClicked();
     void onOtherSiteButtonClicked();
     void onUrlMp4ButtonClicked();
+    void onPlaylistButtonClicked();
 
 private:
     Ui::MainWindow *ui;

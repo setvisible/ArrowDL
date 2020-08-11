@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,6 +21,7 @@
 
 class IDownloadItem;
 class DownloadManager;
+class StreamManager;
 class FileAccessManager;
 class Settings;
 class UpdateChecker;
@@ -138,6 +139,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     DownloadManager *m_downloadManager;
+    StreamManager *m_streamManager;
     FileAccessManager *m_fileAccessManager;
     Settings *m_settings;
     QLabel *m_statusBarLabel;

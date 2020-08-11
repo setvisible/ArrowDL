@@ -91,7 +91,7 @@ font: 8pt;
         <number>0</number>
        </property>
        <item>
-        <widget class="QTableView" name="linkTableView"/>
+        <widget class="CheckableTableView" name="linkTableView"/>
        </item>
       </layout>
      </widget>
@@ -113,7 +113,7 @@ font: 8pt;
         <number>0</number>
        </property>
        <item>
-        <widget class="QTableView" name="contentTableView"/>
+        <widget class="CheckableTableView" name="contentTableView"/>
        </item>
       </layout>
      </widget>
@@ -121,6 +121,13 @@ font: 8pt;
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CheckableTableView</class>
+   <extends>QTableView</extends>
+   <header>Widgets/CheckableTableView</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

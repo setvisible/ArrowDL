@@ -25,22 +25,31 @@ lessThan(QT_VERSION, 5.0) {
 # Dependencies
 #-------------------------------------------------
 HEADERS += \
+    $$PWD/../../../src/core/checkabletablemodel.h \
     $$PWD/../../../src/core/format.h \
     $$PWD/../../../src/core/stream.h \
+    $$PWD/../../../src/widgets/checkableitemdelegate.h \
+    $$PWD/../../../src/widgets/checkabletableview.h \
     $$PWD/../../../src/widgets/customstyle.h \
     $$PWD/../../../src/widgets/customstyleoptionprogressbar.h \
+    $$PWD/../../../src/widgets/streamlistwidget.h \
     $$PWD/../../../src/widgets/streamwidget.h \
     $$PWD/../../../test/utils/dummystreamfactory.h
 
 SOURCES += \
+    $$PWD/../../../src/core/checkabletablemodel.cpp \
     $$PWD/../../../src/core/format.cpp \
     $$PWD/../../../src/core/stream.cpp \
+    $$PWD/../../../src/widgets/checkableitemdelegate.cpp \
+    $$PWD/../../../src/widgets/checkabletableview.cpp \
     $$PWD/../../../src/widgets/customstyle.cpp \
     $$PWD/../../../src/widgets/customstyleoptionprogressbar.cpp \
+    $$PWD/../../../src/widgets/streamlistwidget.cpp \
     $$PWD/../../../src/widgets/streamwidget.cpp \
     $$PWD/../../../test/utils/dummystreamfactory.cpp
 
 FORMS += \
+    $$PWD/../../../src/widgets/streamlistwidget.ui \
     $$PWD/../../../src/widgets/streamwidget.ui
 
 

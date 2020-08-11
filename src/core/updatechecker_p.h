@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,8 +17,7 @@
 #ifndef CORE_UPDATE_CHECKER_PRIVATE_H
 #define CORE_UPDATE_CHECKER_PRIVATE_H
 
-#include <functional>
-#include <vector>
+#include <functional> /* std::function */
 
 #include <QtCore/QString>
 

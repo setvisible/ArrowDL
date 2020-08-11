@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -63,6 +63,13 @@ void UrlFormWidget::setExternalUrlLabelAndLineEdit(QLabel *urlLabel, QLineEdit *
 
 /******************************************************************************
  ******************************************************************************/
+void UrlFormWidget::setReferringPage(const QString &referringPage)
+{
+    ui->referringPageLineEdit->setText(referringPage);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 bool UrlFormWidget::isValid() const
 {
     return !ui->urlLineEdit->text().isEmpty() &&
@@ -77,7 +84,7 @@ ResourceItem* UrlFormWidget::createResourceItem() const
     auto resource = new ResourceItem();
     resource->setUrl(this->url());
     resource->setCustomFileName(ui->customFileNameLineEdit->text());
-    resource->setReferringPage(ui->referrerLineEdit->text());
+    resource->setReferringPage(ui->referringPageLineEdit->text());
     resource->setDescription(ui->descriptionLineEdit->text());
     resource->setDestination(ui->pathWidget->currentPath());
     resource->setMask(ui->maskWidget->currentMask());
@@ -90,7 +97,7 @@ void UrlFormWidget::setResource(const ResourceItem *resource)
     if (resource) {
         ui->urlLineEdit->setText(resource->url());
         ui->customFileNameLineEdit->setText(resource->customFileName());
-        ui->referrerLineEdit->setText(resource->referringPage());
+        ui->referringPageLineEdit->setText(resource->referringPage());
         ui->descriptionLineEdit->setText(resource->description());
         ui->pathWidget->setCurrentPath(resource->destination());
         ui->maskWidget->setCurrentMask(resource->mask());
@@ -108,7 +115,7 @@ bool UrlFormWidget::isChildrenEnabled() const
 void UrlFormWidget::setChildrenEnabled(bool enabled)
 {
     ui->customFileNameLineEdit->setEnabled(enabled);
-    ui->referrerLineEdit->setEnabled(enabled);
+    ui->referringPageLineEdit->setEnabled(enabled);
     ui->descriptionLineEdit->setEnabled(enabled);
     ui->pathWidget->setEnabled(enabled);
     ui->maskWidget->setEnabled(enabled);

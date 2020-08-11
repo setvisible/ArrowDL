@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,6 +28,7 @@
 #include <Core/Format>
 #include <Core/Locale>
 #include <Core/Settings>
+#include <Core/StreamManager>
 #include <Core/Torrent>
 #include <Core/TorrentContext>
 #include <Core/TorrentMessage>
@@ -92,6 +93,7 @@
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
   , m_downloadManager(new DownloadManager(this))
+  , m_streamManager(new StreamManager(this))
   , m_fileAccessManager(new FileAccessManager(this))
   , m_settings(new Settings(this))
   , m_statusBarLabel(new QLabel(this))
@@ -102,8 +104,13 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     m_downloadManager->setSettings(m_settings);
 
+    m_streamManager->setSettings(m_settings);
+
     TorrentContext& torrentContext =  TorrentContext::getInstance();
     torrentContext.setSettings(m_settings);
+    torrentContext.setNetworkManager(m_downloadManager->networkManager());
+
+    m_updateChecker->setNetworkManager(m_downloadManager->networkManager());
 
     Qt::WindowFlags flags = Qt::Window
             | Qt::WindowTitleHint

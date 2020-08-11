@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -49,6 +49,9 @@ AddTorrentDialog::AddTorrentDialog(const QUrl &url, DownloadManager *downloadMan
     setFixedHeight(height());
 
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
+    if (m_settings->isHttpReferringPageEnabled()) {
+        ui->urlFormWidget->setReferringPage(m_settings->httpReferringPage());
+    }
 
     // The input URL can be a .torrent on local drive, or a remote .torrent.
     if (url.isLocalFile()) {
@@ -57,6 +60,7 @@ AddTorrentDialog::AddTorrentDialog(const QUrl &url, DownloadManager *downloadMan
         ui->urlLineEdit->setText(url.toString());
     }
     ui->urlLineEdit->setFocus();
+    ui->urlLineEdit->setClearButtonEnabled(true);
 
     connect(ui->urlLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onChanged(QString)));
     connect(ui->urlFormWidget, SIGNAL(changed(QString)), this, SLOT(onChanged(QString)));

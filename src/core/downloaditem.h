@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -70,6 +70,8 @@ protected:
 private:
     DownloadItemPrivate *d;
     friend class DownloadItemPrivate;
+
+    QString statusToHttp(QNetworkReply::NetworkError error);
 };
 
 #endif // CORE_DOWNLOAD_ITEM_H

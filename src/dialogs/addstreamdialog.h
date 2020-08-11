@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,10 +24,10 @@ class IDownloadItem;
 class DownloadManager;
 class Settings;
 
-class StreamInfos;
+class StreamInfo;
 class StreamInfoDownloader;
 
-typedef QSharedPointer<StreamInfos> StreamInfosPtr;
+typedef QSharedPointer<StreamInfo> StreamInfoPtr;
 
 namespace Ui {
 class AddStreamDialog;
@@ -53,7 +53,7 @@ private slots:
     void onChanged(QString);
 
     void onError(QString errorMessage);
-    void onCollected(StreamInfosPtr infos);
+    void onCollected(QList<StreamInfoPtr> streamInfoList);
 
 private:
     Ui::AddStreamDialog *ui;
@@ -63,8 +63,8 @@ private:
 
     void doAccept(bool started);
 
-    IDownloadItem* createItem() const;
-    static inline QList<IDownloadItem*> toList(IDownloadItem *item);
+    QList<IDownloadItem*> createItems() const;
+    IDownloadItem* createItem(const StreamInfoPtr &streamInfo) const;
 
     void setGuiEnabled(bool enabled);
 

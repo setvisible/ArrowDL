@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,8 +27,6 @@ class Settings;
 
 #ifdef USE_QT_WEBENGINE
 class QWebEngineView;
-#else
-class QNetworkAccessManager;
 #endif
 
 namespace Ui {
@@ -48,7 +46,6 @@ public:
 
     void loadResources(const QString &message);
     void loadUrl(const QUrl &url);
-
 
 protected:
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
@@ -83,8 +80,6 @@ private:
     Model *m_model;
 #ifdef USE_QT_WEBENGINE
     QWebEngineView *m_webEngineView;
-#else
-    QNetworkAccessManager *m_networkAccessManager;
 #endif
     Settings *m_settings;
     QUrl m_url;

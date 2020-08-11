@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>497</width>
-    <height>348</height>
+    <width>600</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -78,6 +78,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="playlistButton">
+        <property name="text">
+         <string>Playlist</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -99,7 +106,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="StreamWidget" name="streamWidget" native="true"/>
+        <widget class="StreamListWidget" name="streamListWidget" native="true"/>
        </item>
       </layout>
      </widget>
@@ -111,7 +118,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>497</width>
+     <width>600</width>
      <height>21</height>
     </rect>
    </property>
@@ -119,9 +126,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>StreamWidget</class>
+   <class>StreamListWidget</class>
    <extends>QWidget</extends>
-   <header>Widgets/StreamWidget</header>
+   <header>Widgets/StreamListWidget</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

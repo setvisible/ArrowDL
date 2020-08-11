@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -34,6 +34,12 @@ static const QString REGISTRY_HIDE_MINIMIZED   = "HideWhenMinimized";
 static const QString REGISTRY_SHOW_BALLOON     = "SystemTrayBalloonEnabled";
 static const QString REGISTRY_CONFIRM_REMOVAL  = "ConfirmRemoval";
 static const QString REGISTRY_CONFIRM_BATCH    = "ConfirmBatchDownload";
+static const QString REGISTRY_PROXY_TYPE       = "ProxyType";
+static const QString REGISTRY_PROXY_HOSTNAME   = "ProxyHostName";
+static const QString REGISTRY_PROXY_PORT       = "ProxyPort";
+static const QString REGISTRY_PROXY_IS_AUTH    = "ProxyAuth";
+static const QString REGISTRY_PROXY_USERNAME   = "ProxyUser";
+static const QString REGISTRY_PROXY_PASSWORD   = "ProxyPwd";
 
 // Tab Network
 static const QString REGISTRY_MAX_SIMULTANEOUS = "MaxSimultaneous";
@@ -48,6 +54,9 @@ static const QString REGISTRY_REMOVE_COMPLETED = "PrivacyRemoveCompleted";
 static const QString REGISTRY_REMOVE_CANCELED  = "PrivacyRemoveCanceled";
 static const QString REGISTRY_REMOVE_PAUSED    = "PrivacyRemovePaused";
 static const QString REGISTRY_DATABASE         = "Database";
+static const QString REGISTRY_HTTP_USER_AGENT  = "HttpUserAgent";
+static const QString REGISTRY_HTTP_REFERRER_ON = "HttpReferringPageEnabled";
+static const QString REGISTRY_HTTP_REFERRER    = "HttpReferringPage";
 
 // Tab Filters
 static const QString REGISTRY_FILTER_KEY       = "FilterKey";
@@ -102,6 +111,13 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     addDefaultSettingBool(REGISTRY_STREAM_HOST, true);
     addDefaultSettingString(REGISTRY_STREAM_HOST_LIST, defaultStreamHost());
 
+    addDefaultSettingInt(REGISTRY_PROXY_TYPE, 0);
+    addDefaultSettingString(REGISTRY_PROXY_HOSTNAME, QLatin1String("proxy.example.com"));
+    addDefaultSettingInt(REGISTRY_PROXY_PORT, 1080);
+    addDefaultSettingBool(REGISTRY_PROXY_IS_AUTH, false);
+    addDefaultSettingString(REGISTRY_PROXY_USERNAME, QLatin1String(""));
+    addDefaultSettingString(REGISTRY_PROXY_PASSWORD, QLatin1String(""));
+
     // Tab Privacy
     addDefaultSettingBool(REGISTRY_REMOVE_COMPLETED, false);
     addDefaultSettingBool(REGISTRY_REMOVE_CANCELED, false);
@@ -109,6 +125,9 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     addDefaultSettingString(
                 REGISTRY_DATABASE,
                 QString("%0/queue.json").arg(qApp->applicationDirPath()));
+    addDefaultSettingString(REGISTRY_HTTP_USER_AGENT, httpUserAgents().at(0));
+    addDefaultSettingBool(REGISTRY_HTTP_REFERRER_ON, false);
+    addDefaultSettingString(REGISTRY_HTTP_REFERRER, QLatin1String("https://www.example.com/"));
 
     // Tab Filters
     addDefaultSettingStringList(
@@ -319,6 +338,66 @@ void Settings::setCustomBatchRange(const QString &text)
     setSettingString(REGISTRY_CUSTOM_BATCH_RGE, text);
 }
 
+int Settings::proxyType() const
+{
+    return getSettingInt(REGISTRY_PROXY_TYPE);
+}
+
+void Settings::setProxyType(int number)
+{
+    setSettingInt(REGISTRY_PROXY_TYPE, number);
+}
+
+QString Settings::proxyHostName() const
+{
+    return getSettingString(REGISTRY_PROXY_HOSTNAME);
+}
+
+void Settings::setProxyHostName(const QString &text)
+{
+    setSettingString(REGISTRY_PROXY_HOSTNAME, text);
+}
+
+int Settings::proxyPort() const
+{
+    return getSettingInt(REGISTRY_PROXY_PORT);
+}
+
+void Settings::setProxyPort(int number)
+{
+    setSettingInt(REGISTRY_PROXY_PORT, number);
+}
+
+bool Settings::isProxyAuthEnabled() const
+{
+    return getSettingBool(REGISTRY_PROXY_IS_AUTH);
+}
+
+void Settings::setProxyAuthEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_PROXY_IS_AUTH, enabled);
+}
+
+QString Settings::proxyUser() const
+{
+    return getSettingString(REGISTRY_PROXY_USERNAME);
+}
+
+void Settings::setProxyUser(const QString &text)
+{
+    setSettingString(REGISTRY_PROXY_USERNAME, text);
+}
+
+QString Settings::proxyPassword() const
+{
+    return getSettingString(REGISTRY_PROXY_PASSWORD);
+}
+
+void Settings::setProxyPwd(const QString &text)
+{
+    setSettingString(REGISTRY_PROXY_PASSWORD, text);
+}
+
 /******************************************************************************
  ******************************************************************************/
 // Tab Privacy
@@ -360,6 +439,50 @@ QString Settings::database() const
 void Settings::setDatabase(const QString &value)
 {
     setSettingString(REGISTRY_DATABASE, value);
+}
+
+QString Settings::httpUserAgent() const
+{
+    return getSettingString(REGISTRY_HTTP_USER_AGENT);
+}
+
+void Settings::setHttpUserAgent(const QString &value)
+{
+    setSettingString(REGISTRY_HTTP_USER_AGENT, value);
+}
+
+QStringList Settings::httpUserAgents()
+{
+    return QStringList()
+            << QLatin1String("Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/43.4")
+            << QLatin1String("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.3")
+            << QLatin1String("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36")
+            << QLatin1String("Mozilla/5.0 (iPhone; CPU iPhone OS 11_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko)")
+            << QLatin1String("Version/10.0 Mobile/14E304 Safari/602.1")
+            << QLatin1String("DownZemAll/2.x")
+            << QLatin1String("Java1.1.4")
+            << QLatin1String("Lynx/2.8rel.3 libwww-FM/2.14")
+            << QLatin1String("HyperBrowser (Cray; I; OrganicOS 9.7.42beta-27)");
+}
+
+bool Settings::isHttpReferringPageEnabled() const
+{
+    return getSettingBool(REGISTRY_HTTP_REFERRER_ON);
+}
+
+void Settings::setHttpReferringPageEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_HTTP_REFERRER_ON, enabled);
+}
+
+QString Settings::httpReferringPage() const
+{
+    return getSettingString(REGISTRY_HTTP_REFERRER);
+}
+
+void Settings::setHttpReferringPage(const QString &value)
+{
+    setSettingString(REGISTRY_HTTP_REFERRER, value);
 }
 
 /******************************************************************************

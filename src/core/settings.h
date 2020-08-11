@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -108,6 +108,24 @@ public:
     QString customBatchRange() const;
     void setCustomBatchRange(const QString &text);
 
+    int proxyType() const;
+    void setProxyType(int number);
+
+    QString proxyHostName() const;
+    void setProxyHostName(const QString &text);
+
+    int proxyPort() const;
+    void setProxyPort(int number);
+
+    bool isProxyAuthEnabled() const;
+    void setProxyAuthEnabled(bool enabled);
+
+    QString proxyUser() const;
+    void setProxyUser(const QString &text);
+
+    QString proxyPassword() const;
+    void setProxyPwd(const QString &text);
+
     // Tab Privacy
     bool isRemoveCompletedEnabled() const;
     void setRemoveCompletedEnabled(bool enabled);
@@ -120,6 +138,16 @@ public:
 
     QString database() const;
     void setDatabase(const QString &value);
+
+    QString httpUserAgent() const;
+    void setHttpUserAgent(const QString &value);
+    static QStringList httpUserAgents();
+
+    bool isHttpReferringPageEnabled() const;
+    void setHttpReferringPageEnabled(bool enabled);
+
+    QString httpReferringPage() const;
+    void setHttpReferringPage(const QString &value);
 
     // Tab Filters
     QList<Filter> filters();

@@ -2,6 +2,7 @@
 set(MY_TEST_TARGET tst_interprocesscommunication)
 
 set(MY_TEST_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/checkabletablemodel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/mask.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/model.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/resourceitem.cpp

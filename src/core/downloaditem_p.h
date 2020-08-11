@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,10 +19,10 @@
 
 #include "downloaditem.h"
 
+class DownloadManager;
 class File;
 class ResourceItem;
 
-class QNetworkAccessManager;
 class QNetworkReply;
 
 class DownloadItemPrivate
@@ -30,7 +30,7 @@ class DownloadItemPrivate
 public:
     DownloadItemPrivate(DownloadItem *qq);
 
-    QNetworkAccessManager *networkManager;
+    DownloadManager *downloadManager;
     ResourceItem *resource;
     QNetworkReply *reply;
     File *file;

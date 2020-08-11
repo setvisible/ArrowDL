@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -60,6 +60,9 @@ private slots:
     void resetLanguage();
 
     void maxSimultaneousDownloadSlided(int value);
+    void proxyTypeIndexChanged(int index);
+    void proxyAuthToggled(bool checked);
+    void proxyShowPwdToggled(bool checked);
 
     void bandwidthSettingsChanged(int value);
     void setBandwidthSettings();
@@ -84,6 +87,7 @@ private:
     QStringList streamHosts() const;
     void setStreamHosts(const QStringList &streamHosts);
     void setupStreamToolTip();
+    void setupHttpToolTips();
 
     QList<Filter> filters() const;
     void setFilters(const QList<Filter> &filters);

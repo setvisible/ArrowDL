@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,6 +22,7 @@
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
 #include <Core/Model>
+#include <Core/NetworkManager>
 #include <Core/ResourceItem>
 #include <Core/ResourceModel>
 #include <Core/Settings>
@@ -40,23 +41,25 @@
 #  include <QtWebEngineWidgets/QWebEngineView>
 #  include <QtWebEngineWidgets/QWebEngineSettings>
 #else
-#  include <QtNetwork/QNetworkAccessManager>
-#  include <QtNetwork/QNetworkRequest>
 #  include <QtNetwork/QNetworkReply>
 #endif
 
-#define C_DEFAULT_WIDTH         800
-#define C_DEFAULT_HEIGHT        600
-#define C_DEFAULT_INDEX         0
-
+#define C_DEFAULT_WIDTH             800
+#define C_DEFAULT_HEIGHT            600
+#define C_DEFAULT_INDEX               0
 #define C_COLUMN_DOWNLOAD_WIDTH     400
 #define C_COLUMN_MASK_WIDTH         200
 
 
-static QList<IDownloadItem*> createItems( QList<ResourceItem*> resources, DownloadManager *downloadManager)
+static QList<IDownloadItem*> createItems(QList<ResourceItem*> resources,
+                                         DownloadManager *downloadManager,
+                                         const Settings *settings)
 {
     QList<IDownloadItem*> items;
     foreach (auto resource, resources) {
+        if (settings && settings->isHttpReferringPageEnabled()) {
+            resource->setReferringPage(settings->httpReferringPage());
+        }
         auto item = new DownloadItem(downloadManager);
         item->setResource(resource);
         items << item;
@@ -73,8 +76,6 @@ AddContentDialog::AddContentDialog(DownloadManager *downloadManager,
     , m_model(new Model(this))
     #ifdef USE_QT_WEBENGINE
     , m_webEngineView(Q_NULLPTR)
-    #else
-    , m_networkAccessManager(new QNetworkAccessManager(this))
     #endif
     , m_settings(settings)
 {
@@ -157,7 +158,7 @@ void AddContentDialog::reject()
 void AddContentDialog::start(bool started)
 {
     if (m_downloadManager) {
-        QList<IDownloadItem*> items = createItems(m_model->selection(), m_downloadManager);
+        auto items = createItems(m_model->selection(), m_downloadManager, m_settings);
         m_downloadManager->append(items, started);
     }
 }
@@ -206,7 +207,8 @@ void AddContentDialog::loadUrl(const QUrl &url)
         m_webEngineView->load(m_url);
 #else
         qDebug() << Q_FUNC_INFO << "GOOGLE GUMBO";
-        QNetworkReply *reply = m_networkAccessManager->get(QNetworkRequest(m_url));
+        NetworkManager *networkManager = m_downloadManager->networkManager();
+        QNetworkReply *reply = networkManager->get(m_url);
         connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
         connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
 #endif
@@ -380,11 +382,11 @@ void AddContentDialog::setProgressInfo(int percent, const QString &text)
 void AddContentDialog::onSelectionChanged()
 {
     const ResourceModel *currentModel = m_model->currentModel();
-    const int selectionCount = currentModel->selectedResourceItems().count();
+    const int selectionCount = currentModel->selection().count();
     if (selectionCount == 0) {
         ui->tipLabel->setText(tr("After selecting links, click on Start!"));
     } else {
-        const int count = currentModel->resourceItems().count();
+        const int count = currentModel->items().count();
         ui->tipLabel->setText(tr("Selected links: %0 of %1").arg(selectionCount).arg(count));
     }
     onChanged(QString());
@@ -395,7 +397,7 @@ void AddContentDialog::onSelectionChanged()
 void AddContentDialog::onChanged(QString)
 {
     const ResourceModel *currentModel = m_model->currentModel();
-    const int selectionCount = currentModel->selectedResourceItems().count();
+    const int selectionCount = currentModel->selection().count();
     const bool enabled =
             !ui->pathWidget->currentPath().isEmpty() &&
             !ui->maskWidget->currentMask().isEmpty() &&

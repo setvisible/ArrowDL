@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -91,7 +91,7 @@ private:
 
     void setupUiTableView(QTableView *view);
     void setupInfoCopy();
-    void setupInfoCopy(QLabel* label, QLabel* field);
+    void setupInfoCopy(QLabel *label, QFrame *buddy);
     void setupContextMenus();
 
     void setPriority(TorrentFileInfo::Priority priority);

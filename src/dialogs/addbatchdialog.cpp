@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -54,10 +54,14 @@ AddBatchDialog::AddBatchDialog(const QUrl &url, DownloadManager *downloadManager
     setFixedHeight(height());
 
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
+    if (m_settings->isHttpReferringPageEnabled()) {
+        ui->urlFormWidget->setReferringPage(m_settings->httpReferringPage());
+    }
 
     ui->urlLineEdit->setText(url.toString());
     ui->urlLineEdit->setFocus();
     ui->urlLineEdit->setContextMenuPolicy(Qt::CustomContextMenu);
+    ui->urlLineEdit->setClearButtonEnabled(true);
 
     ui->titleListLabel->setToolTip(
                 QString("<html><head/><body><p>"

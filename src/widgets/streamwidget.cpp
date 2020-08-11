@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,12 +20,8 @@
 #include <Core/Format>
 
 #include <QtCore/QDebug>
-#include <QtCore/QtMath>
-#include <QtGui/QMovie>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QRadioButton>
-#include <QtWidgets/QStackedWidget>
-#include <QtWidgets/QToolButton>
 
 static const char *identifierKey = "identifier";
 
@@ -35,8 +31,6 @@ StreamWidget::StreamWidget(QWidget *parent) : QWidget(parent)
     ui->setupUi(this);
 
     adjustSize();
-
-    setState(Empty);
 
     connect(ui->defaultButton, SIGNAL(released()), this, SLOT(updateButtonBar()));
     connect(ui->customAudioButton, SIGNAL(released()), this, SLOT(updateButtonBar()));
@@ -48,10 +42,8 @@ StreamWidget::StreamWidget(QWidget *parent) : QWidget(parent)
     connect(ui->audioComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
     connect(ui->videoComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
 
-    /* Fancy GIF animation */
-    QMovie *movie = new QMovie(":/icons/menu/stream_wait_16x16.gif");
-    ui->waitingIconLabel->setMovie(movie);
-    movie->start();
+    connect(ui->fileNameEdit, SIGNAL(textChanged(QString)), this, SLOT(onTitleChanged(QString)));
+    connect(ui->fileExtensionEdit, SIGNAL(textChanged(QString)), this, SLOT(onSuffixChanged(QString)));
 
     updateButtonBar();
 }
@@ -70,69 +62,34 @@ void StreamWidget::clear()
 
 /******************************************************************************
  ******************************************************************************/
-StreamWidget::State StreamWidget::state() const
+void StreamWidget::setStreamInfo(StreamInfoPtr streamInfo)
 {
-    return m_state;
-}
-
-void StreamWidget::setState(State state)
-{
-    m_state = state;
-    switch (m_state) {
-    case Empty:
-        ui->stackedWidget->setCurrentWidget(ui->pageEmpty);
-        break;
-    case Downloading:
-        ui->stackedWidget->setCurrentWidget(ui->pageDownloading);
-        break;
-    case Normal:
-        ui->stackedWidget->setCurrentWidget(ui->pageNormal);
-        break;
-    case Error:
-        ui->stackedWidget->setCurrentWidget(ui->pageError);
-        break;
-    }
-}
-
-/******************************************************************************
- ******************************************************************************/
-void StreamWidget::showStreamInfos(StreamInfosPtr infos)
-{
-    Q_ASSERT(infos);
+    Q_ASSERT(streamInfo);
     clear();
 
-    qDebug() << Q_FUNC_INFO << infos;
+    qDebug() << Q_FUNC_INFO << streamInfo;
 
-    m_infos.swap(infos);
+    m_streamInfo.swap(streamInfo);
 
-    setState(StreamWidget::Normal);
-    if (m_infos) {
-        ui->titleLabel->setText(m_infos->safeTitle());
-        ui->fileNameEdit->setText(m_infos->fileBaseName());
-        ui->fileExtensionEdit->setText(m_infos->fileExtension(m_infos->format_id));
+    if (m_streamInfo) {
+        ui->titleLabel->setText(m_streamInfo->title());
+        ui->fileNameEdit->setText(m_streamInfo->fileBaseName());
+        ui->fileExtensionEdit->setText(m_streamInfo->fileExtension());
 
-        populateDefaultFormats(m_infos->defaultFormats());
-        populateComboBox(m_infos->audioFormats(), ui->audioComboBox);
-        populateComboBox(m_infos->videoFormats(), ui->videoComboBox);
+        populateDefaultFormats(m_streamInfo->defaultFormats());
+        populateComboBox(m_streamInfo->audioFormats(), ui->audioComboBox);
+        populateComboBox(m_streamInfo->videoFormats(), ui->videoComboBox);
 
-        setSelectedFormatId(m_infos->formatId());
+        setSelectedFormatId(m_streamInfo->formatId());
+
+        ui->fileExtensionEdit->setText(m_streamInfo->fileExtension()); // supersede with user data
     }
-}
-
-void StreamWidget::showErrorMessage(QString errorMessage)
-{
-    clear();
-    setState(StreamWidget::Error);
-    ui->errorMessageLabel->setText(errorMessage);
 }
 
 /******************************************************************************
  ******************************************************************************/
 QString StreamWidget::selectedFormatId() const
 {
-    if (m_state != Normal) {
-        return QString();
-    }
     if (ui->defaultButton->isChecked()) {
         return selectedRadio();
     }
@@ -147,47 +104,16 @@ QString StreamWidget::selectedFormatId() const
 void StreamWidget::setSelectedFormatId(const QString &format_id)
 {
     qDebug() << Q_FUNC_INFO << format_id;
-    if (m_state != Normal) {
-        return;
+    if (!format_id.isEmpty()) {
+        auto ids = format_id.split("+", QString::SkipEmptyParts);
+        foreach (auto id, ids) {
+            selectRadio(id);
+            selectAudioComboBoxItem(id);
+            selectVideoComboBoxItem(id);
+        }
+        updateButtonBar();
+        onChanged();
     }
-    auto ids = format_id.split("+", QString::SkipEmptyParts);
-    foreach (auto id, ids) {
-        selectRadio(id);
-        selectAudioComboBoxItem(id);
-        selectVideoComboBoxItem(id);
-    }
-    updateButtonBar();
-    onChanged();
-}
-
-/******************************************************************************
- ******************************************************************************/
-QString StreamWidget::fileName() const
-{
-    auto fileBaseName = ui->fileNameEdit->text();
-    auto fileExtension = ui->fileExtensionEdit->text();
-    if (fileExtension.isEmpty()) {
-        return fileBaseName;
-    }
-    return QString("%0.%1").arg(fileBaseName).arg(fileExtension);
-}
-
-qint64 StreamWidget::fileSize() const
-{
-    auto formatId = selectedFormatId();
-    if (m_infos) {
-        return m_infos->guestimateFullSize(formatId);
-    }
-    return -1;
-}
-
-QString StreamWidget::fileExtension() const
-{
-    auto formatId = selectedFormatId();
-    if (m_infos) {
-        return m_infos->fileExtension(formatId);
-    }
-    return QString();
 }
 
 /******************************************************************************
@@ -218,8 +144,25 @@ void StreamWidget::onCurrentIndexChanged(int /*index*/)
 
 void StreamWidget::onChanged()
 {
-    ui->fileExtensionEdit->setText(fileExtension());
-    ui->estimedSizeLabel->setText(Format::fileSizeToString(fileSize()));
+    if (m_streamInfo) {
+        m_streamInfo->userFormatId = selectedFormatId();
+        ui->fileExtensionEdit->setText(m_streamInfo->fileExtension());
+        ui->estimedSizeLabel->setText(Format::fileSizeToString(m_streamInfo->guestimateFullSize()));
+    }
+}
+
+void StreamWidget::onTitleChanged(const QString &)
+{
+    if (m_streamInfo) {
+        m_streamInfo->userTitle = ui->fileNameEdit->text();
+    }
+}
+
+void StreamWidget::onSuffixChanged(const QString &)
+{
+    if (m_streamInfo) {
+        m_streamInfo->userSuffix = ui->fileExtensionEdit->text();
+    }
 }
 
 /******************************************************************************

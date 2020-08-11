@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -75,9 +75,6 @@ public:
     QString torrentPreferredFilePriorities() const;
     void setTorrentPreferredFilePriorities(const QString &priorities);
 
-    bool isSelected() const; // OBSOLETE
-    void setSelected(bool isSelected); // OBSOLETE
-
 private:
     QString m_url;              // QUrl ?
     QString m_destination;      // QDir ?
@@ -95,8 +92,6 @@ private:
 
     bool m_isTorrentEnabled;
     QString m_torrentPreferredFilePriorities;
-
-    bool m_isSelected = false;
 
     inline QString localFilePath(const QString &customFileName) const;
     inline QString localStreamFile(const QString &customFileName) const;

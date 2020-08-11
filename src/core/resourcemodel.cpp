@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,9 +18,11 @@
 
 #include <Core/ResourceItem>
 
-ResourceModel::ResourceModel(QObject *parent) : QAbstractTableModel(parent)
+ResourceModel::ResourceModel(QObject *parent) : CheckableTableModel(parent)
 {
     connect(this, SIGNAL(resourceChanged()), this, SLOT(onResourceChanged()));
+
+    retranslateUi();
 }
 
 /******************************************************************************
@@ -28,6 +30,7 @@ ResourceModel::ResourceModel(QObject *parent) : QAbstractTableModel(parent)
 void ResourceModel::clear()
 {
     beginResetModel();
+    CheckableTableModel::clear();
     m_items.clear();
     endResetModel();
     emit resourceChanged();
@@ -35,7 +38,12 @@ void ResourceModel::clear()
 
 /******************************************************************************
  ******************************************************************************/
-void ResourceModel::addResource(ResourceItem *item)
+QList<ResourceItem*> ResourceModel::items() const
+{
+    return m_items;
+}
+
+void ResourceModel::add(ResourceItem *item)
 {
     foreach (auto itemOld, m_items) {
         if (itemOld->url() == item->url()) {
@@ -48,19 +56,12 @@ void ResourceModel::addResource(ResourceItem *item)
     emit resourceChanged();
 }
 
-QList<ResourceItem*> ResourceModel::resourceItems() const
-{
-    return m_items;
-}
-
-/******************************************************************************
- ******************************************************************************/
-QList<ResourceItem*> ResourceModel::selectedResourceItems() const
+QList<ResourceItem*> ResourceModel::selection() const
 {
     QList<ResourceItem*> selection;
-    foreach (auto item, m_items) {
-        if (item->isSelected()) {
-            selection << item;
+    foreach (int row, this->checkedRows()) {
+        if (row >= 0 && row < m_items.count()) {
+            selection << m_items.at(row);
         }
     }
     return selection;
@@ -89,8 +90,10 @@ void ResourceModel::setMask(const QString &mask)
 void ResourceModel::select(const QRegExp &regex)
 {
     beginResetModel();
-    foreach (auto item, m_items) {
-        item->setSelected(!regex.isEmpty() && regex.indexIn(item->url(), 0) != -1);
+    for (int i = 0; i < m_items.count(); ++i) {
+        auto item = m_items.at(i);
+        bool isChecked = (!regex.isEmpty() && regex.indexIn(item->url(), 0) != -1);
+        this->setData(this->index(i, 0), isChecked, CheckableTableModel::CheckStateRole);
     }
     endResetModel();
     emit selectionChanged();
@@ -108,109 +111,56 @@ void ResourceModel::onResourceChanged()
 
 /******************************************************************************
  ******************************************************************************/
-int ResourceModel::rowCount(const QModelIndex &) const
+void ResourceModel::retranslateUi()
 {
-    return m_items.count();
-}
-
-int ResourceModel::columnCount(const QModelIndex &) const
-{
-    return 5;
+    m_headers = QStringList()
+            << QString() // checkbox
+            << tr("Download")
+            << tr("Resource Name")
+            << tr("Description")
+            << tr("Mask");
 }
 
 /******************************************************************************
  ******************************************************************************/
+int ResourceModel::columnCount(const QModelIndex &parent) const
+{
+    return parent.isValid() ? 0 : m_headers.count();
+}
+
+QVariant ResourceModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
+        if (section >= 0 && section < m_headers.count()) {
+            return m_headers.at(section);
+        } else {
+            return QVariant();
+        }
+    }
+    return QAbstractItemModel::headerData(section, orientation, role);
+}
+
+int ResourceModel::rowCount(const QModelIndex &parent) const
+{
+    return parent.isValid() ? 0 : m_items.count();
+}
+
 QVariant ResourceModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
         return QVariant();
     }
-
     ResourceItem *item = m_items.at(index.row());
-
-    if (role == IsSelectedRole) {
-        return item->isSelected();
-    }
-
     if (role == Qt::DisplayRole) {
-        const int col = index.column();
-        if (col == 0) {
-            return QVariant();
-        }
-        if (col == 1) {
-            return item->url();
-        }
-        if (col == 2) {
-            return item->customFileName();
-        }
-        if (col == 3) {
-            return item->description();
-        }
-        if (col == 4) {
-            return item->mask();
+        switch ( index.column()) {
+        case 0: return QVariant();
+        case 1: return item->url();
+        case 2: return item->customFileName();
+        case 3: return item->description();
+        case 4: return item->mask();
+        default:
+            break;
         }
     }
-    return QVariant();
-}
-
-bool ResourceModel::setData(const QModelIndex &index, const QVariant &value, int role)
-{
-    if (!index.isValid()) {
-        return false;
-    }
-    if (index.column() == 0 && role == IsSelectedRole) {
-        const bool selected = value.toBool();
-
-        auto item = m_items.at(index.row());
-        item->setSelected(selected);
-
-        emit selectionChanged();
-
-        QModelIndex topLeft = index;
-        QModelIndex bottomRight = this->index(index.row(), columnCount());
-        emit dataChanged(topLeft, bottomRight);
-        return true;
-    }
-    return false;
-}
-
-/******************************************************************************
- ******************************************************************************/
-QVariant ResourceModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
-        if (section == 0) {
-            return tr("");
-        }
-        if (section == 1) {
-            return tr("Download");
-        }
-        if (section == 2) {
-            return tr("Resource Name");
-        }
-        if (section == 3) {
-            return tr("Description");
-        }
-        if (section == 4) {
-            return tr("Mask");
-        }
-    }
-    return QVariant();
-}
-
-/******************************************************************************
- ******************************************************************************/
-Qt::ItemFlags ResourceModel::flags(const QModelIndex &index) const
-{
-    Qt::ItemFlags flags = QAbstractItemModel::flags(index);
-
-    // We use the flags() function to ensure that views
-    // know that the model is read-only.
-    //    if (!index.isValid()) {
-    //        return 0;
-    //    }
-    //    if (index.column() == 0) {
-    //       flags |= Qt::ItemIsUserCheckable               ;
-    //    }
-    return flags;
+    return CheckableTableModel::data(index, role);
 }

@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,6 +23,7 @@
 #include <QtCore/QString>
 #include <QtCore/QVariant>
 
+class NetworkManager;
 class Settings;
 class Torrent;
 class TorrentContextPrivate;
@@ -64,6 +65,8 @@ public:
 
     static QString version();
     static QString website();
+
+    void setNetworkManager(NetworkManager *networkManager);
 
     /* Settings */
     Settings* settings() const;

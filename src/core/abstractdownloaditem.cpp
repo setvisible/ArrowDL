@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,7 +27,6 @@
  *
  */
 
-#define NETWORK_REPLY_NO_ERROR    0
 #define TIMEOUT_UPDATE_MSEC     150 // in milliseconds
 
 /*!
@@ -43,8 +42,6 @@ AbstractDownloadItem::AbstractDownloadItem(QObject *parent) : QObject(parent)
     m_speed = -1;
     m_bytesReceived = 0;
     m_bytesTotal = 0;
-
-    m_httpErrorNumber = NETWORK_REPLY_NO_ERROR;
 
     m_maxConnectionSegments = 4;
     m_maxConnections = 1;
@@ -62,25 +59,6 @@ void AbstractDownloadItem::setState(State state)
     if (m_state != state) {
         m_state = state;
         emit changed();
-    }
-}
-
-QString AbstractDownloadItem::stateToString() const
-{
-    switch (m_state) {
-    case IDownloadItem::Idle:                return tr("Idle");
-    case IDownloadItem::Paused:              return tr("Paused");
-    case IDownloadItem::Stopped:             return tr("Canceled");
-    case IDownloadItem::Preparing:           return tr("Preparing");
-    case IDownloadItem::Connecting:          return tr("Connecting");
-    case IDownloadItem::DownloadingMetadata: return tr("Downloading Metadata");
-    case IDownloadItem::Downloading:         return tr("Downloading");
-    case IDownloadItem::Endgame:             return tr("Finishing");
-    case IDownloadItem::Completed:           return tr("Complete");
-    case IDownloadItem::Seeding:             return tr("Seeding");
-    case IDownloadItem::Skipped:             return tr("Skipped");
-    case IDownloadItem::NetworkError:        return tr("Server error");
-    case IDownloadItem::FileError:           return tr("File error");
     }
 }
 
@@ -130,18 +108,6 @@ int AbstractDownloadItem::progress() const
         return 100;
     }
     return -1; // Undefined
-}
-
-/******************************************************************************
- ******************************************************************************/
-int AbstractDownloadItem::httpErrorNumber() const
-{
-    return m_httpErrorNumber;
-}
-
-void AbstractDownloadItem::setHttpErrorNumber(int error)
-{
-    m_httpErrorNumber = error;
 }
 
 /******************************************************************************

@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,6 +18,7 @@
 #include "updatechecker_p.h"
 
 #include <Globals>
+#include <Core/NetworkManager>
 #include <Core/Stream>
 
 #include <QtCore/QDebug>
@@ -25,10 +26,14 @@
 #include <QtCore/QSettings>
 
 
+static NetworkManager *s_networkManager;
+
+
 UpdateChecker::UpdateChecker(QObject *parent) : QObject(parent)
   , m_updater(STR_GITHUB_REPO_ADDRESS,
               currentVersion(),
-              UpdateCheckerNS::addressMatcher(IS_HOST_64BIT))
+              createNetworkGetCallback(),
+              createAddressMatcherCallback(IS_HOST_64BIT))
   , m_streamUpgrader(new StreamUpgrader(this))
 {
     m_updater.setUpdateStatusListener(this);
@@ -39,6 +44,13 @@ UpdateChecker::UpdateChecker(QObject *parent) : QObject(parent)
 QString UpdateChecker::currentVersion() const
 {
     return STR_APPLICATION_VERSION;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void UpdateChecker::setNetworkManager(NetworkManager *networkManager)
+{
+    s_networkManager = networkManager;
 }
 
 /******************************************************************************
@@ -122,4 +134,25 @@ void UpdateChecker::onUpdateDownloadFinished()
 void UpdateChecker::onUpdateError(QString errorMessage)
 {
     emit updateError(errorMessage);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+const std::function<QNetworkReply* (const QUrl&)> UpdateChecker::createNetworkGetCallback()
+{
+    const auto networkGetCallback = [](const QUrl &url)
+    {
+        if (s_networkManager) {
+            return s_networkManager->get(url);
+        }
+        return static_cast<QNetworkReply*>(Q_NULLPTR);
+    };
+    return networkGetCallback;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+const std::function<bool (const QString &)> UpdateChecker::createAddressMatcherCallback(bool isHost64Bit)
+{
+    return UpdateCheckerNS::addressMatcher(isHost64Bit);
 }

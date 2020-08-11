@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public
@@ -16,6 +16,7 @@
 
 #include "torrentcontext_p.h"
 
+#include <Core/NetworkManager>
 #include <Core/Settings>
 #include <Core/Torrent>
 
@@ -83,6 +84,13 @@ QString TorrentContext::version()
 QString TorrentContext::website()
 {
     return QString("libtorrent");
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void TorrentContext::setNetworkManager(NetworkManager *networkManager)
+{
+    d->networkManager = networkManager;
 }
 
 /******************************************************************************

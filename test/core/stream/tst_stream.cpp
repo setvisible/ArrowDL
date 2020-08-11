@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-2020 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -46,6 +46,11 @@ private slots:
 
     void readStandardError();
 
+    void parse_empty();
+    void parse_single();
+    void parse_playlist();
+    void parse_bad_json();
+
     void fileBaseName_data();
     void fileBaseName();
 
@@ -70,7 +75,7 @@ public:
 };
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::readStandardOutput()
 {
     // Given
@@ -103,7 +108,7 @@ void tst_Stream::readStandardOutput()
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::readStandardOutputWithEstimedSize()
 {
     // Given
@@ -173,7 +178,7 @@ void tst_Stream::readStandardOutputWithEstimedSize()
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::readStandardOutputWithTwoStreams()
 {
     // Given
@@ -221,7 +226,7 @@ void tst_Stream::readStandardOutputWithTwoStreams()
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::readStandardOutputHTTPError()
 {
     // Given
@@ -281,13 +286,54 @@ void tst_Stream::readStandardOutputHTTPError()
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::readStandardError()
 {
+    /// \todo
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
+void tst_Stream::parse_empty()
+{
+    QByteArray input("\n\n");
+    QList<StreamInfoPtr> actualList = StreamInfoDownloader::parse(input);
+    QVERIFY(actualList.isEmpty());
+}
+
+void tst_Stream::parse_single()
+{
+    QByteArray input = DummyStreamFactory::dumpSingleVideo();
+    QList<StreamInfoPtr> actualList = StreamInfoDownloader::parse(input);
+    QCOMPARE(actualList.size(), 1);
+    QCOMPARE(actualList.at(0)->fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actualList.at(0)->error, StreamInfo::NoError);
+}
+
+void tst_Stream::parse_playlist()
+{
+    QByteArray input = DummyStreamFactory::dumpPlaylist();
+    QList<StreamInfoPtr> actualList = StreamInfoDownloader::parse(input);
+    QCOMPARE(actualList.size(), 3);
+    QCOMPARE(actualList.at(0)->fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actualList.at(1)->fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actualList.at(2)->fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actualList.at(0)->error, StreamInfo::NoError);
+    QCOMPARE(actualList.at(1)->error, StreamInfo::NoError);
+    QCOMPARE(actualList.at(2)->error, StreamInfo::NoError);
+}
+
+void tst_Stream::parse_bad_json()
+{
+    QByteArray input("{ name:'hello', data:[ type:'mp3'  }\n");
+    //                                 unclosed list [] ^
+    QList<StreamInfoPtr> actualList = StreamInfoDownloader::parse(input);
+    QCOMPARE(actualList.size(), 1);
+    QCOMPARE(actualList.at(0)->error, StreamInfo::ErrorJsonFormat);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void tst_Stream::fileBaseName_data()
 {
     QTest::addColumn<QString>("input");
@@ -321,8 +367,8 @@ void tst_Stream::fileBaseName()
     QFETCH(QString, input);
     QFETCH(QString, expected);
 
-    StreamInfos target(this);
-    target.title = input;
+    StreamInfo target(this);
+    target.defaultTitle = input;
     target.fulltitle = input;
 
     auto actual = target.fileBaseName();
@@ -331,7 +377,7 @@ void tst_Stream::fileBaseName()
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::guestimateFullSize_data()
 {
     QTest::addColumn<QString>("input");
@@ -362,14 +408,14 @@ void tst_Stream::guestimateFullSize()
     QFETCH(QString, input);
     QFETCH(BigInteger, expected);
 
-    auto target = DummyStreamFactory::createDummyStreamInfos_Youtube();
+    auto target = DummyStreamFactory::createDummyStreamInfo_Youtube();
     qint64 actual = target->guestimateFullSize(input);
 
     QCOMPARE(actual, expected.value);
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::fileExtension_data()
 {
     QTest::addColumn<QString>("input");
@@ -400,17 +446,17 @@ void tst_Stream::fileExtension()
     QFETCH(QString, input);
     QFETCH(QString, expected);
 
-    auto target = DummyStreamFactory::createDummyStreamInfos_Youtube();
+    auto target = DummyStreamFactory::createDummyStreamInfo_Youtube();
     auto actual = target->fileExtension(input);
 
     QCOMPARE(actual, expected);
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::defaultFormats()
 {
-    auto target = DummyStreamFactory::createDummyStreamInfos_Dailymotion();
+    auto target = DummyStreamFactory::createDummyStreamInfo_Dailymotion();
     auto actual = target->defaultFormats();
 
     QList<StreamFormat*> expected;
@@ -430,7 +476,7 @@ void tst_Stream::defaultFormats()
 
 void tst_Stream::defaultFormats_2()
 {
-    auto target = DummyStreamFactory::createDummyStreamInfos_Other();
+    auto target = DummyStreamFactory::createDummyStreamInfo_Other();
     auto actual = target->defaultFormats();
 
     QList<StreamFormat*> expected;
@@ -448,7 +494,7 @@ void tst_Stream::defaultFormats_2()
 
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 void tst_Stream::matchesHost_data()
 {
     QTest::addColumn<QString>("inputHost");
@@ -495,7 +541,7 @@ void tst_Stream::matchesHost()
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 QTEST_APPLESS_MAIN(tst_Stream)
 
 #include "tst_stream.moc"

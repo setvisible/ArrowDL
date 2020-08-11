@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019 Sebastien Vavassori
+/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -189,12 +189,12 @@ void InterProcessCommunication::parseMessage(const QString &message, Model *mode
             if (mode == Link) {
                 auto item = new ResourceItem();
                 item->setUrl(resource);
-                model->linkModel()->addResource(item);
+                model->linkModel()->add(item);
 
             } else if (mode == Media) {
                 auto item = new ResourceItem();
                 item->setUrl(resource);
-                model->contentModel()->addResource(item);
+                model->contentModel()->add(item);
             }
         }
     }

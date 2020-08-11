@@ -1,73 +1,5 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="fr_FR" version="2.1">
 <context>
-    <name>AbstractDownloadItem</name>
-    <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="71"/>
-        <source>Idle</source>
-        <translation>Inactif</translation>
-    </message>
-    <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="72"/>
-        <source>Paused</source>
-        <translation>En pause</translation>
-    </message>
-    <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="73"/>
-        <source>Canceled</source>
-        <translation>Annulé</translation>
-    </message>
-    <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="74"/>
-        <source>Preparing</source>
-        <translation>Préparation</translation>
-    </message>
-    <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="75"/>
-        <source>Connecting</source>
-        <translation>Connexion</translation>
-    </message>
-    <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="76"/>
-        <source>Downloading Metadata</source>
-        <translation>Réception des métadonnées</translation>
-    </message>
-    <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="77"/>
-        <source>Downloading</source>
-        <translation>Réception</translation>
-    </message>
-    <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="78"/>
-        <source>Finishing</source>
-        <translation>Finalisation</translation>
-    </message>
-    <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="79"/>
-        <source>Complete</source>
-        <translation>Terminé</translation>
-    </message>
-    <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="80"/>
-        <source>Seeding</source>
-        <translation>Ensemancement</translation>
-    </message>
-    <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="81"/>
-        <source>Skipped</source>
-        <translation>Passé</translation>
-    </message>
-    <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="82"/>
-        <source>Server error</source>
-        <translation>Erreur serveur</translation>
-    </message>
-    <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="83"/>
-        <source>File error</source>
-        <translation>Erreur de fichier</translation>
-    </message>
-</context>
-<context>
     <name>AddBatchDialog</name>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="22"/>
@@ -83,25 +15,25 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="87"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="167"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="171"/>
         <source>1 -&gt; 10</source>
         <translation>1 -&gt; 10</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="100"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="168"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="172"/>
         <source>1 -&gt; 100</source>
         <translation>1 -&gt; 100</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="113"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="169"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="173"/>
         <source>01 -&gt; 10</source>
         <translation>01 -&gt; 10</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="126"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="170"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="174"/>
         <source>001 -&gt; 100</source>
         <translation>001 -&gt; 100</translation>
     </message>
@@ -146,53 +78,53 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
         <translation>Ajouter fichier ou grappe de fichiers</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="72"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="76"/>
         <source>Batch descriptors:</source>
         <translation>Délimiteurs de grappe :</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="73"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="77"/>
         <source>Must start with &apos;[&apos; or &apos;(&apos;</source>
         <translation>Doit commencer par un &apos;[&apos; ou &apos;(&apos;</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="74"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="78"/>
         <source>Must contain two numbers, separated by &apos;:&apos;, &apos;-&apos; or a space character</source>
         <translation>Doit contenir deux nombres séparés par un &apos;:&apos;, &apos;,&apos; ou un espace</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="75"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="79"/>
         <source>Must end with &apos;]&apos; or &apos;)&apos;</source>
         <translation>Doit terminer avec un &apos;]&apos; ou &apos;)&apos;</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="159"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="163"/>
         <source>Insert</source>
         <translation>Insérer</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="279"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="283"/>
         <source>Do you really want to start %0 downloads?</source>
         <translation>Voulez-vous vraiment démarrer %0 téléchargements ?</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="288"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="292"/>
         <source>Don&apos;t ask again, always download batch</source>
         <translation>Ne plus demander, toujours télécharger comme grappe de fichiers</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="272"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="283"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="276"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="287"/>
         <source>Download Batch</source>
         <translation>Télécharger comme grappe de fichiers</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="273"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="277"/>
         <source>It seems that you are using some batch descriptors.</source>
         <translation>Il semble qu&apos;il y ait des délimiteurs de grappe.</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="284"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="288"/>
         <source>Single Download</source>
         <translation>Télécharger comme fichier unique</translation>
     </message>
@@ -236,55 +168,55 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
         <translation>Préférences</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="177"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="178"/>
         <source>Warning</source>
         <translation>Attention</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="83"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="84"/>
         <source>Web Page Content</source>
         <translation>Contenu de page Web</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="179"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="180"/>
         <source>Error: The url is not valid:</source>
         <translation>Erreur : l&apos;URL n&apos;est pas valide :</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="213"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="215"/>
         <source>Connecting...</source>
         <translation>Connexion...</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="224"/>
-        <location filename="../dialogs/addcontentdialog.cpp" line="259"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="226"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="261"/>
         <source>Downloading...</source>
         <translation>Réception...</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="279"/>
-        <location filename="../dialogs/addcontentdialog.cpp" line="319"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="281"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="321"/>
         <source>Collecting links...</source>
         <translation>Récupération des liens...</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="287"/>
-        <location filename="../dialogs/addcontentdialog.cpp" line="331"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="289"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="333"/>
         <source>Finished</source>
         <translation>Terminé</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="352"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="354"/>
         <source>The wizard can&apos;t connect to URL:</source>
         <translation>L&apos;assistant ne peut pas se connecter à l&apos;URL :</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="385"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="387"/>
         <source>After selecting links, click on Start!</source>
         <translation>Après sélection, cliquer sur Lancer !</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="388"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="390"/>
         <source>Selected links: %0 of %1</source>
         <translation>Liens sélectionnés : %0 sur %1</translation>
     </message>
@@ -292,49 +224,55 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
 <context>
     <name>AddStreamDialog</name>
     <message>
-        <location filename="../dialogs/addstreamdialog.ui" line="35"/>
+        <location filename="../dialogs/addstreamdialog.ui" line="22"/>
         <source>Enter the address of the stream, or a list of streams, to download.</source>
         <translation>Indiquer l&apos;adresse du flux ou d&apos;une liste de flux à télécharger.</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.ui" line="51"/>
+        <location filename="../dialogs/addstreamdialog.ui" line="38"/>
         <source>Download:</source>
         <translation>Télécharger :</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.ui" line="65"/>
+        <location filename="../dialogs/addstreamdialog.ui" line="93"/>
         <source>Examples:</source>
         <translation>Exemples :</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.ui" line="90"/>
+        <location filename="../dialogs/addstreamdialog.ui" line="57"/>
+        <location filename="../dialogs/addstreamdialog.cpp" line="194"/>
         <source>Continue</source>
         <translation>Continuer</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.ui" line="104"/>
+        <location filename="../dialogs/addstreamdialog.ui" line="71"/>
         <source>Stream</source>
         <translation>Flux vidéo/audio</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.ui" line="163"/>
+        <location filename="../dialogs/addstreamdialog.ui" line="166"/>
         <source>&amp;Start!</source>
         <translation>&amp;Lancer !</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.ui" line="179"/>
+        <location filename="../dialogs/addstreamdialog.ui" line="182"/>
         <source>Add &amp;paused</source>
         <translation>Ajouter en &amp;pause</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.ui" line="192"/>
+        <location filename="../dialogs/addstreamdialog.ui" line="195"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.cpp" line="51"/>
+        <location filename="../dialogs/addstreamdialog.cpp" line="47"/>
         <source>Add Stream</source>
         <translation>Flux vidéo/audio</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/addstreamdialog.cpp" line="194"/>
+        <source>Stop</source>
+        <translation>Annuler</translation>
     </message>
 </context>
 <context>
@@ -550,6 +488,39 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
     </message>
 </context>
 <context>
+    <name>CheckableTableView</name>
+    <message>
+        <location filename="../widgets/checkabletableview.cpp" line="131"/>
+        <source>Check Selected Items</source>
+        <translation>Cocher sélectionnés</translation>
+    </message>
+    <message>
+        <location filename="../widgets/checkabletableview.cpp" line="135"/>
+        <source>Uncheck Selected Items</source>
+        <translation>Décocher sélectionnés</translation>
+    </message>
+    <message>
+        <location filename="../widgets/checkabletableview.cpp" line="139"/>
+        <source>Toggle Check for Selected Items</source>
+        <translation>Commuter sélectionnés</translation>
+    </message>
+    <message>
+        <location filename="../widgets/checkabletableview.cpp" line="143"/>
+        <source>Select All</source>
+        <translation>Sélectionner tout</translation>
+    </message>
+    <message>
+        <location filename="../widgets/checkabletableview.cpp" line="148"/>
+        <source>Select Filtered</source>
+        <translation>Sélectionner filtrés</translation>
+    </message>
+    <message>
+        <location filename="../widgets/checkabletableview.cpp" line="153"/>
+        <source>Invert Selection</source>
+        <translation>Inverser sélection</translation>
+    </message>
+</context>
+<context>
     <name>ComboBox</name>
     <message>
         <location filename="../widgets/combobox.cpp" line="164"/>
@@ -559,11 +530,6 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
 </context>
 <context>
     <name>CompilerDialog</name>
-    <message>
-        <location filename="../dialogs/compilerdialog.cpp" line="42"/>
-        <source>Infos</source>
-        <translation>Informations</translation>
-    </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="35"/>
         <source>&amp;Ok</source>
@@ -642,6 +608,11 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
         <translation>Librairies et version de compilation</translation>
     </message>
     <message>
+        <location filename="../dialogs/compilerdialog.cpp" line="42"/>
+        <source>Info</source>
+        <translation>Informations</translation>
+    </message>
+    <message>
         <location filename="../dialogs/compilerdialog.cpp" line="47"/>
         <source>%0 %1 version %2</source>
         <translation>%0 %1 version %2</translation>
@@ -681,39 +652,213 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
     </message>
 </context>
 <context>
+    <name>DownloadItem</name>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="252"/>
+        <source>No Error</source>
+        <translation>Pas d&apos;erreur</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="255"/>
+        <source>3xx Redirect connection refused</source>
+        <translation>3xx Connexion au serveur de redirection refusée</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="256"/>
+        <source>3xx Redirect remote host closed</source>
+        <translation>3xx Connexion au serveur de redirection fermée</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="257"/>
+        <source>3xx Redirect host not found</source>
+        <translation>3xx Serveur de redirection non trouvé</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="258"/>
+        <source>3xx Redirect timeout</source>
+        <translation>3xx Temps de redirection expiré</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="259"/>
+        <source>3xx Redirect operation canceled</source>
+        <translation>3xx Redirection annulée</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="260"/>
+        <source>3xx Redirect SSL handshake failed</source>
+        <translation>3xx Echec de la poignée de main SSL avec le serveur de redirection</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="261"/>
+        <source>3xx Redirect temporary network failure</source>
+        <translation>3xx Serveur de redirection temporairement indisponible</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="262"/>
+        <source>3xx Redirect network session failed</source>
+        <translation>3xx Echec de la session du serveur de redirection</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="263"/>
+        <source>3xx Redirect background request not allowed</source>
+        <translation>3xx Requête d&apos;arrière-plan au serveur de redirection non autorisée</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="265"/>
+        <source>3xx Too many redirects</source>
+        <translation>3xx Trop de redirections</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="266"/>
+        <source>3xx Insecure redirect</source>
+        <translation>3xx Redirection non sécurisée</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="268"/>
+        <source>3xx Unknown redirect error</source>
+        <translation>3xx Erreur de redirection inconnue</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="271"/>
+        <source>5xx Proxy connection refused</source>
+        <translation>5xx Connexion au Proxy refusée</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="272"/>
+        <source>5xx Proxy connection closed</source>
+        <translation>5xx Connexion au Proxy fermée</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="273"/>
+        <source>5xx Proxy not found</source>
+        <translation>5xx Proxy non trouvé</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="274"/>
+        <source>504 Proxy timeout error</source>
+        <translation>504 Temps de connexion au Proxy expiré</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="275"/>
+        <source>407 Proxy authentication required</source>
+        <translation>407 Proxy requiert une authentification
+ </translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="276"/>
+        <source>5xx Unknown proxy error</source>
+        <translation>5xx Erreur de Proxy inconnue</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="279"/>
+        <source>403 Access denied</source>
+        <translation>403 Accès serveur refusé</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="280"/>
+        <source>405 Method not allowed</source>
+        <translation>405 Méthode de requête non autorisée</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="281"/>
+        <source>404 Not found</source>
+        <translation>404 Ressource non trouvée</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="282"/>
+        <source>401 Authorization required</source>
+        <translation>401 Authentification nécessaire</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="283"/>
+        <source>4xx Resend error</source>
+        <translation>4xx Erreur de renvoi de requête</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="284"/>
+        <source>409 Conflict</source>
+        <translation>409 Conflit</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="285"/>
+        <source>410 Content no longer available</source>
+        <translation>410 La ressource n&apos;est plus disponible </translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="286"/>
+        <source>4xx Unknown content error</source>
+        <translation>4xx Erreur inconnue de ressource</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="289"/>
+        <source>4xx Unknown protocol error</source>
+        <translation>4xx Erreur inconnue de protocole</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="290"/>
+        <source>400 Bad request</source>
+        <translation>400 Syntaxe de requête erronée</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="291"/>
+        <source>4xx Protocol failure</source>
+        <translation>4xx Echec de protocole</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="294"/>
+        <source>500 Internal server error</source>
+        <translation>500 Erreur interne du serveur</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="295"/>
+        <source>501 Server does not support this functionality</source>
+        <translation>501 Fonctionnalité réclamée non supportée par le serveur</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="296"/>
+        <source>503 Service unavailable</source>
+        <translation>503 Service temporairement indisponible</translation>
+    </message>
+    <message>
+        <location filename="../core/downloaditem.cpp" line="297"/>
+        <source>5xx Unknown serveur error</source>
+        <translation>5xx Erreur de serveur inconnue</translation>
+    </message>
+</context>
+<context>
     <name>DownloadQueueView</name>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="620"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="598"/>
         <source>Download/Name</source>
         <translation>Fichier</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="621"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="599"/>
         <source>Domain</source>
         <translation>Domaine</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="622"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="600"/>
         <source>Progress</source>
         <translation>Progression</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="623"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="601"/>
         <source>Percent</source>
         <translation>%</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="624"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="602"/>
         <source>Size</source>
         <translation>Taille</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="625"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="603"/>
         <source>Est. time</source>
         <translation>Temps estimé</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="626"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="604"/>
         <source>Speed</source>
         <translation>Vitesse</translation>
     </message>
@@ -1100,62 +1245,32 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
         <translation>Médias</translation>
     </message>
     <message>
-        <location filename="../widgets/linkwidget.cpp" line="366"/>
+        <location filename="../widgets/linkwidget.cpp" line="225"/>
         <source>Links (%0)</source>
         <translation>Liens (%0)</translation>
     </message>
     <message>
-        <location filename="../widgets/linkwidget.cpp" line="367"/>
+        <location filename="../widgets/linkwidget.cpp" line="226"/>
         <source>Pictures and Media (%0)</source>
         <translation>Médias (%0)</translation>
     </message>
     <message>
-        <location filename="../widgets/linkwidget.cpp" line="376"/>
-        <source>Check Selected Items</source>
-        <translation>Cocher sélectionnés</translation>
-    </message>
-    <message>
-        <location filename="../widgets/linkwidget.cpp" line="380"/>
-        <source>Uncheck Selected Items</source>
-        <translation>Décocher sélectionnés</translation>
-    </message>
-    <message>
-        <location filename="../widgets/linkwidget.cpp" line="384"/>
-        <source>Toggle Check for Selected Items</source>
-        <translation>Commuter sélectionnés</translation>
-    </message>
-    <message>
-        <location filename="../widgets/linkwidget.cpp" line="388"/>
+        <location filename="../widgets/linkwidget.cpp" line="236"/>
         <source>Mask...</source>
         <translation>Masque...</translation>
     </message>
     <message>
-        <location filename="../widgets/linkwidget.cpp" line="392"/>
-        <source>Select All</source>
-        <translation>Sélectionner tout</translation>
-    </message>
-    <message>
-        <location filename="../widgets/linkwidget.cpp" line="397"/>
-        <source>Select Filtered</source>
-        <translation>Sélectionner filtrés</translation>
-    </message>
-    <message>
-        <location filename="../widgets/linkwidget.cpp" line="402"/>
-        <source>Invert Selection</source>
-        <translation>Inverser sélection</translation>
-    </message>
-    <message>
-        <location filename="../widgets/linkwidget.cpp" line="407"/>
+        <location filename="../widgets/linkwidget.cpp" line="240"/>
         <source>Copy Links</source>
         <translation>Copier les liens dans le Presse-Papier</translation>
     </message>
     <message>
-        <location filename="../widgets/linkwidget.cpp" line="549"/>
+        <location filename="../widgets/linkwidget.cpp" line="308"/>
         <source>Open %0</source>
         <translation>Ouvrir %0</translation>
     </message>
     <message>
-        <location filename="../widgets/linkwidget.cpp" line="551"/>
+        <location filename="../widgets/linkwidget.cpp" line="310"/>
         <source>Open %0 Links</source>
         <translation>Ouvrir %0 liens</translation>
     </message>
@@ -1194,7 +1309,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
     </message>
     <message>
         <location filename="../mainwindow.ui" line="105"/>
-        <location filename="../mainwindow.cpp" line="371"/>
+        <location filename="../mainwindow.cpp" line="378"/>
         <source>Other</source>
         <translation>Autre</translation>
     </message>
@@ -1570,198 +1685,198 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
         <translation>À propos de YoutubeDL...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="328"/>
-        <location filename="../mainwindow.cpp" line="919"/>
+        <location filename="../mainwindow.cpp" line="335"/>
+        <location filename="../mainwindow.cpp" line="926"/>
         <source>About %0</source>
         <translation>À propos de %0</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="332"/>
+        <location filename="../mainwindow.cpp" line="339"/>
         <source>About Qt</source>
         <translation>À propos de Qt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="390"/>
+        <location filename="../mainwindow.cpp" line="397"/>
         <source>Advanced</source>
         <translation>Avancé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="533"/>
-        <location filename="../mainwindow.cpp" line="581"/>
-        <location filename="../mainwindow.cpp" line="1282"/>
-        <location filename="../mainwindow.cpp" line="1301"/>
+        <location filename="../mainwindow.cpp" line="540"/>
+        <location filename="../mainwindow.cpp" line="588"/>
+        <location filename="../mainwindow.cpp" line="1289"/>
+        <location filename="../mainwindow.cpp" line="1308"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="559"/>
-        <location filename="../mainwindow.cpp" line="595"/>
+        <location filename="../mainwindow.cpp" line="566"/>
+        <location filename="../mainwindow.cpp" line="602"/>
         <source>Remove Downloads</source>
         <translation>Retirer les téléchargements</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="560"/>
-        <location filename="../mainwindow.cpp" line="596"/>
+        <location filename="../mainwindow.cpp" line="567"/>
+        <location filename="../mainwindow.cpp" line="603"/>
         <source>Are you sure to remove %0 downloads?</source>
         <translation>Êtes-vous sûrs de retirer ces %0 téléchargements ?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="562"/>
+        <location filename="../mainwindow.cpp" line="569"/>
         <source>Delete</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="535"/>
+        <location filename="../mainwindow.cpp" line="542"/>
         <source>File not found</source>
         <translation>Fichier introuvable</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="583"/>
+        <location filename="../mainwindow.cpp" line="590"/>
         <source>Destination directory not found:</source>
         <translation>Dossier de destination non trouvé :</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="602"/>
+        <location filename="../mainwindow.cpp" line="609"/>
         <source>Don&apos;t ask again</source>
         <translation>Ne plus demander</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="618"/>
+        <location filename="../mainwindow.cpp" line="625"/>
         <source>ALL</source>
         <translation>tous</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="625"/>
+        <location filename="../mainwindow.cpp" line="632"/>
         <source>selected</source>
         <translation>sélectionné(s)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="637"/>
+        <location filename="../mainwindow.cpp" line="644"/>
         <source>completed</source>
         <translation>terminé(s)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="644"/>
+        <location filename="../mainwindow.cpp" line="651"/>
         <source>waiting</source>
         <translation>en attente</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="651"/>
+        <location filename="../mainwindow.cpp" line="658"/>
         <source>paused</source>
         <translation>en pause</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="658"/>
+        <location filename="../mainwindow.cpp" line="665"/>
         <source>failed</source>
         <translation>échoué(s)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="666"/>
+        <location filename="../mainwindow.cpp" line="673"/>
         <source>running</source>
         <translation>en cours</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="752"/>
+        <location filename="../mainwindow.cpp" line="759"/>
         <source>Website URL</source>
         <translation>URL du site</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="754"/>
+        <location filename="../mainwindow.cpp" line="761"/>
         <source>URL of the HTML page:</source>
         <translation>URL de la page HTML :</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="755"/>
+        <location filename="../mainwindow.cpp" line="762"/>
         <source>(ex: %0)</source>
         <translation>(ex: %0)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="966"/>
+        <location filename="../mainwindow.cpp" line="973"/>
         <source>The new name is already used or invalid.</source>
         <translation>Le nouveau nom est déjà utilisé ou invalide.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="969"/>
+        <location filename="../mainwindow.cpp" line="976"/>
         <source>Can&apos;t rename &quot;%0&quot; as its initial name.</source>
         <translation>Impossible de renommer &quot;%0&quot; avec son nom initial.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="976"/>
+        <location filename="../mainwindow.cpp" line="983"/>
         <source>Can&apos;t rename</source>
         <translation>Impossible de renommer</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="978"/>
+        <location filename="../mainwindow.cpp" line="985"/>
         <source>as</source>
         <translation>par</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1281"/>
+        <location filename="../mainwindow.cpp" line="1288"/>
         <source>Can&apos;t save file.</source>
         <translation>Impossible d&apos;enregistrer le fichier.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1284"/>
+        <location filename="../mainwindow.cpp" line="1291"/>
         <source>Can&apos;t save file %0:</source>
         <translation>Impossible d&apos;enregistrer le fichier %0 :</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1300"/>
+        <location filename="../mainwindow.cpp" line="1307"/>
         <source>Can&apos;t load file.</source>
         <translation>Impossible de lire le fichier.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1303"/>
+        <location filename="../mainwindow.cpp" line="1310"/>
         <source>Can&apos;t load file %0:</source>
         <translation>Impossible de lire le fichier %0 :</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="757"/>
+        <location filename="../mainwindow.cpp" line="764"/>
         <source>Start!</source>
         <translation>Lancer !</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="981"/>
+        <location filename="../mainwindow.cpp" line="988"/>
         <source>File Error</source>
         <translation>Erreur dans le fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1012"/>
+        <location filename="../mainwindow.cpp" line="1019"/>
         <source>Done: %0 Running: %1 Total: %2</source>
         <translation>Terminé(s) : %0 En cours : %1 Total : %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1018"/>
+        <location filename="../mainwindow.cpp" line="1025"/>
         <source>%0 of %1 (%2), %3 running  %4 | Torrent: %5</source>
         <translation>%0 sur %1 (%2), %3 en cours %4 | Torrent : %5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1024"/>
+        <location filename="../mainwindow.cpp" line="1031"/>
         <source>active</source>
         <translation>activé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1024"/>
+        <location filename="../mainwindow.cpp" line="1031"/>
         <source>inactive</source>
         <translation>désactivé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1290"/>
+        <location filename="../mainwindow.cpp" line="1297"/>
         <source>File saved</source>
         <translation>Fichier enregistré</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1309"/>
+        <location filename="../mainwindow.cpp" line="1316"/>
         <source>File loaded</source>
         <translation>Fichier chargé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.h" line="171"/>
+        <location filename="../mainwindow.h" line="173"/>
         <source>Save As</source>
         <translation>Enregistrer sous</translation>
     </message>
     <message>
-        <location filename="../mainwindow.h" line="172"/>
+        <location filename="../mainwindow.h" line="174"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>
@@ -1827,6 +1942,29 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
     </message>
 </context>
 <context>
+    <name>NetworkManager</name>
+    <message>
+        <location filename="../core/networkmanager.cpp" line="66"/>
+        <source>(none)</source>
+        <translation>(aucun)</translation>
+    </message>
+    <message>
+        <location filename="../core/networkmanager.cpp" line="67"/>
+        <source>Default</source>
+        <translation>Défaut</translation>
+    </message>
+    <message>
+        <location filename="../core/networkmanager.cpp" line="68"/>
+        <source>SOCKS5</source>
+        <translation>SOCKS5</translation>
+    </message>
+    <message>
+        <location filename="../core/networkmanager.cpp" line="69"/>
+        <source>HTTP</source>
+        <translation>HTTP</translation>
+    </message>
+</context>
+<context>
     <name>PathWidget</name>
     <message>
         <location filename="../widgets/pathwidget.ui" line="42"/>
@@ -1854,7 +1992,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
     <name>PreferenceDialog</name>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="82"/>
-        <location filename="../dialogs/preferencedialog.ui" line="877"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1069"/>
         <source>General</source>
         <translation>Général</translation>
     </message>
@@ -1954,314 +2092,384 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
         <translation>Utiliser le téléchargeur de flux lorsque l&apos;hôte de l&apos;URL est :</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="379"/>
+        <location filename="../dialogs/preferencedialog.ui" line="382"/>
         <source>Network</source>
         <translation>Réseau</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="385"/>
+        <location filename="../dialogs/preferencedialog.ui" line="388"/>
         <source>Downloads</source>
         <translation>Téléchargements</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="412"/>
+        <location filename="../dialogs/preferencedialog.ui" line="415"/>
         <source>Concurrent downloads:</source>
         <translation>Téléchargements en parallèle :</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="799"/>
+        <location filename="../dialogs/preferencedialog.ui" line="502"/>
+        <source>Proxy</source>
+        <translation>Proxy</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="510"/>
+        <source>Type:</source>
+        <translation>Type :</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="536"/>
+        <source>Proxy:</source>
+        <translation>Proxy :</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="569"/>
+        <source>Port:</source>
+        <translation>Port :</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="619"/>
+        <source>Username:</source>
+        <translation>Utilisateur :</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="645"/>
+        <source>Password:</source>
+        <translation>Mot de passe :</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="659"/>
+        <source>Show</source>
+        <translation>Afficher</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="839"/>
+        <source>Identification</source>
+        <translation>Identification</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.cpp" line="637"/>
+        <source>Servers might use HTTP identification contained in the HTTP request to log client attributes. Some server even don&apos;t respond to the client if the identification attribute is empty. The fields allow you to send fake information, to protect privacy.</source>
+        <translation>Les serveurs HTTP utilisent l&apos;identification contenue dans la requête HTTP pour enregistrer l&apos;identité des clients. Certains serveurs bloquent la connexion si ces informations ne sont pas envoyées. Les champs ci-dessous vous permettent de modifier et d&apos;obfusquer ces informations, afin de protéger votre droit au respect de la vie privée.</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="847"/>
+        <source>HTTP User Agent:</source>
+        <translation>Agent utilisateur HTTP:</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="991"/>
         <source>Filter</source>
         <translation>Filtre</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="444"/>
+        <location filename="../dialogs/preferencedialog.ui" line="447"/>
         <source>Enable Custom Batch Button in &quot;Add download&quot; Dialog</source>
         <translation>Activer le bouton personnalisé dans &quot;Ajouter un téléchargement&quot;</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="456"/>
+        <location filename="../dialogs/preferencedialog.ui" line="459"/>
         <source>Ex: &quot;1 -&gt; 50&quot;, &quot;001 -&gt; 200&quot;, ...</source>
         <translation>Exemple : &quot;1 -&gt; 50&quot;, &quot;001 -&gt; 200&quot;, ...</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="463"/>
+        <location filename="../dialogs/preferencedialog.ui" line="466"/>
         <source>Custom button label:</source>
         <translation>Texte du bouton :</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="470"/>
+        <location filename="../dialogs/preferencedialog.ui" line="473"/>
         <source>Ex: &quot;[1:50]&quot;, &quot;[001:200]&quot;, ...</source>
         <translation>Exemple : &quot;[1:50]&quot;, &quot;[001:200]&quot;, ...</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="477"/>
+        <location filename="../dialogs/preferencedialog.ui" line="480"/>
         <source>Range:</source>
         <translation>Intervalle :</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="489"/>
+        <location filename="../dialogs/preferencedialog.ui" line="492"/>
         <source>Rem: must describe a range of numbers &quot;[x:y]&quot; with x &lt; y</source>
         <translation>Remarque : doit être de la forme &quot;[x:y]&quot; avec x &lt; y</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="517"/>
+        <location filename="../dialogs/preferencedialog.ui" line="596"/>
+        <source>Authentication</source>
+        <translation>Authentification</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="689"/>
         <source>Privacy</source>
         <translation>Confidentialité</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="523"/>
+        <location filename="../dialogs/preferencedialog.ui" line="697"/>
         <source>When Manager window is closed</source>
         <translation>Lorsque le gestionnaire est fermé</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="529"/>
+        <location filename="../dialogs/preferencedialog.ui" line="703"/>
         <source>Remove completed downloads</source>
         <translation>Retirer terminés</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="536"/>
+        <location filename="../dialogs/preferencedialog.ui" line="710"/>
         <source>Remove canceled/failed downloads</source>
         <translation>Retirer annulés/échoués</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="543"/>
+        <location filename="../dialogs/preferencedialog.ui" line="717"/>
         <source>Remove unfinished (paused) downloads</source>
         <translation>Retirer non-terminés/en pause</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="553"/>
+        <location filename="../dialogs/preferencedialog.ui" line="785"/>
         <source>Database</source>
         <translation>Stockage des données</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="559"/>
+        <location filename="../dialogs/preferencedialog.ui" line="791"/>
         <source>The current downloads queue is temporarly saved in:</source>
         <translation>La liste des travaux en cours est sauvegardée sous :</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="572"/>
+        <location filename="../dialogs/preferencedialog.ui" line="804"/>
         <source>Stream Cache</source>
         <translation>Cache de flux</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="583"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="557"/>
+        <location filename="../dialogs/preferencedialog.ui" line="815"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="666"/>
         <source>Clean Cache</source>
         <translation>Vider le cache</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="590"/>
+        <location filename="../dialogs/preferencedialog.ui" line="822"/>
         <source>located at: &lt;a href=&quot;https://www.example.org/tutorial.html&quot;&gt;path/to/cache/dir/&lt;/a&gt;</source>
         <translation>situé sous : &lt;a href=&quot;https://www.example.org/tutorial.html&quot;&gt;path/to/cache/dir/&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="631"/>
+        <location filename="../dialogs/preferencedialog.ui" line="727"/>
         <source>Auto Update</source>
         <translation>Mise à jour automatique</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="637"/>
+        <location filename="../dialogs/preferencedialog.ui" line="733"/>
         <source>Check for updates automatically:</source>
         <translation>Vérifier automatiquement si une mise à jour est disponible :</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="653"/>
+        <location filename="../dialogs/preferencedialog.ui" line="747"/>
         <source>Never</source>
         <translation>Jamais</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="658"/>
+        <location filename="../dialogs/preferencedialog.ui" line="752"/>
         <source>Once a day</source>
         <translation>Une fois par jour</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="663"/>
+        <location filename="../dialogs/preferencedialog.ui" line="757"/>
         <source>Once a week</source>
         <translation>Une fois par semaine</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="707"/>
+        <location filename="../dialogs/preferencedialog.ui" line="771"/>
         <source>Check updates now...</source>
         <translation>Vérifier maintenant...</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="750"/>
+        <location filename="../dialogs/preferencedialog.ui" line="883"/>
+        <source>Enable Referrer:</source>
+        <translation>Activer la page référante :</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="942"/>
         <source>Filters</source>
         <translation>Filtres</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="197"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="228"/>
         <source>Caption</source>
         <translation>Libellé</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="198"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="229"/>
         <source>Extensions</source>
         <translation>Extensions</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="808"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1000"/>
         <source>Caption:</source>
         <translation>Libellé :</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="815"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1007"/>
         <source>Filtered Extensions:</source>
         <translation>Extensions filtrées :</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="827"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1019"/>
         <source>Add New Filter</source>
         <translation>Ajouter un nouveau filtre</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="834"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1026"/>
         <source>Update Filter</source>
         <translation>Appliquer</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="841"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1033"/>
         <source>Remove Filter</source>
         <translation>Supprimer le filtre</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="871"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1063"/>
         <source>Torrent</source>
         <translation>Torrents</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="883"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1075"/>
         <source>Enable Torrent</source>
         <translation>Activer Torrent</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="890"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1082"/>
         <source>If enabled, this software becomes a torrent client. It shares DHT (distributed hash table) with peers, .torrents files you share (those in your torrent share folder actually) and .torrents files currently downloading in the download queue.</source>
         <translation>Si activé, le logiciel devient un client torrent. En ce sens, il partage la DHT (table de hachage distribuée) avec les pairs, émet les fichiers .torrents semés (ceux situés dans le dossier de partage) et émet/reçoit les fichiers .torrents en cours de téléchargement.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="903"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1095"/>
         <source>Directory</source>
         <translation>Répertoire</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="909"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1101"/>
         <source>Share folder:</source>
         <translation>Dossier de partage :</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="924"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1116"/>
         <source>Bandwidth</source>
         <translation>Bande passante</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="932"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1124"/>
         <source>Max Upload Rate* (kB/s):</source>
         <translation>Débit d&apos;émission maximal* (Ko/s) :</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="949"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1141"/>
         <source>Max Download Rate* (kB/s):</source>
         <translation>Débit de réception maximal* (Ko/s) :</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="966"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1158"/>
         <source>Max Number of Connections:</source>
         <translation># de connexions simultanées maximal :</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="983"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1175"/>
         <source>Max Number of Peers per Torrent:</source>
         <translation># de pairs simultanés maximal :</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1002"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1194"/>
         <source>* (0: unlimited)</source>
         <translation>* (0: illimité)</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1025"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1217"/>
         <source>Connection</source>
         <translation>Connexion</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1031"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1223"/>
         <source>Peers:</source>
         <translation>Pairs :</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1038"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1230"/>
         <source>Ex: 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894</source>
         <translation>Exemple : 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1045"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1237"/>
         <source>Note:  If not empty, these peers will be added to all torrents (format is &lt;IP:port&gt;. Ex: &quot;123.45.6.78:56789, 127.0.0.65:7894...&quot;)</source>
         <translation>Note:  Si ce champ n&apos;est pas vide, ces pairs seront ajoutés à tous les torrents (le format est &lt;IP:port&gt;. Ex: &quot;123.45.6.78:56789, 127.0.0.65:7894...&quot;)</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1065"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1257"/>
         <source>Advanced</source>
         <translation>Avancé</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1113"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1305"/>
         <source>Restore default settings</source>
         <translation>Restaurer les paramètres par défaut</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1139"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1331"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1155"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1347"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="185"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="209"/>
         <source>Queue Database</source>
         <translation>Base de données de la liste</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="218"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="217"/>
+        <source>(none)</source>
+        <translation>(aucun)</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.cpp" line="249"/>
         <source>Warning: The system tray is not available.</source>
         <translation>Attention : Barre de notification non disponible.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="221"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="252"/>
         <source>Warning: The system tray doesn&apos;t support balloon messages.</source>
         <translation>Attention : Infobulles non disponibles.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="226"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="257"/>
         <source>Preferences</source>
         <translation>Préférences</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="270"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="301"/>
         <source>Reset all filters</source>
         <translation>Réinitialiser tous les filtres</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="512"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="521"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="603"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="612"/>
         <source>The host may be %0, %1 or %2</source>
         <translation>L&apos;hôte peut être %0, %1 ou %2</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="517"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="608"/>
         <source>The host may be %0 but not %1</source>
         <translation>L&apos;hôte peut être %0 mais pas %1</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="528"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="619"/>
         <source>Examples:</source>
         <translation>Exemples :</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="546"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="643"/>
+        <source>Referring Page (or Referrer) is an HTTP option that communicates to the server the address of the previous web page from which the resource is requested. This typically allows the HTTP server to track a visitor&apos;s browsing, page after page. To protect privacy, enter an empty or fake Referrer address.</source>
+        <translation>La page référente (ou Referrer) est une option HTTP qui communique au serveur l’adresse de la page web à partir de laquelle la ressource est demandée. Cela permet généralement au serveur HTTP de suivre la navigation d’un visiteur, page après page. Pour protéger votre droit à la vie privée, renseignez une adresse bidon.</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.cpp" line="655"/>
         <source>Cleaning...</source>
         <translation>Nettoyage...</translation>
     </message>
@@ -2297,47 +2505,47 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
         <translation>Impossible de charger %0</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="822"/>
+        <location filename="../core/stream.cpp" line="881"/>
         <source>Video %0 x %1%2%3</source>
         <translation>Vidéo %0 x %1%2%3</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="829"/>
+        <location filename="../core/stream.cpp" line="888"/>
         <source>[%0] %1 x %2 (%3 fps) @ %4 KBit/s, codec: %5</source>
         <translation>[%0] %1 x %2 (%3 fps) @ %4 kBit/s, codec: %5</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="838"/>
+        <location filename="../core/stream.cpp" line="897"/>
         <source>[%0] %1 Hz @ %2 KBit/s, codec: %3</source>
         <translation>[%0] %1 Hz @ %2 kBit/s, codec: %3</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1034"/>
+        <location filename="../core/stream.cpp" line="1116"/>
         <source>The process failed to start.</source>
         <translation>Le processus n&apos;a pas pu démarrer.</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1037"/>
+        <location filename="../core/stream.cpp" line="1119"/>
         <source>The process crashed while attempting to run.</source>
         <translation>Le processus a planté au démarrage.</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1040"/>
+        <location filename="../core/stream.cpp" line="1122"/>
         <source>The process has timed out.</source>
         <translation>Le processus a dépassé le délai d&apos;attente.</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1043"/>
+        <location filename="../core/stream.cpp" line="1125"/>
         <source>The process has encountered a write error.</source>
         <translation>Le processus a rencontré une erreur d&apos;écriture.</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1046"/>
+        <location filename="../core/stream.cpp" line="1128"/>
         <source>The process has encountered a read error.</source>
         <translation>Le processus a rencontré une erreur de lecture.</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1049"/>
+        <location filename="../core/stream.cpp" line="1131"/>
         <source>The process has encountered an unknown error.</source>
         <translation>Le processus a rencontré une erreur inconnue.</translation>
     </message>
@@ -2443,22 +2651,22 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
 <context>
     <name>ResourceModel</name>
     <message>
-        <location filename="../core/resourcemodel.cpp" line="186"/>
+        <location filename="../core/resourcemodel.cpp" line="118"/>
         <source>Download</source>
         <translation>Téléchargement</translation>
     </message>
     <message>
-        <location filename="../core/resourcemodel.cpp" line="189"/>
+        <location filename="../core/resourcemodel.cpp" line="119"/>
         <source>Resource Name</source>
         <translation>Nom de la ressource</translation>
     </message>
     <message>
-        <location filename="../core/resourcemodel.cpp" line="192"/>
+        <location filename="../core/resourcemodel.cpp" line="120"/>
         <source>Description</source>
         <translation>Description</translation>
     </message>
     <message>
-        <location filename="../core/resourcemodel.cpp" line="195"/>
+        <location filename="../core/resourcemodel.cpp" line="121"/>
         <source>Mask</source>
         <translation>Masque</translation>
     </message>
@@ -2466,58 +2674,53 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../core/settings.cpp" line="420"/>
+        <location filename="../core/settings.cpp" line="543"/>
         <source>All Files</source>
         <translation>Tous les fichiers</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="421"/>
+        <location filename="../core/settings.cpp" line="544"/>
         <source>Archives (zip, rar...)</source>
         <translation>Archives (zip, rar...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="422"/>
+        <location filename="../core/settings.cpp" line="545"/>
         <source>Application (exe, xpi...)</source>
         <translation>Applications (exe, xpi...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="423"/>
+        <location filename="../core/settings.cpp" line="546"/>
         <source>Audio (mp3, wav...)</source>
         <translation>Audios (mp3, wav...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="424"/>
+        <location filename="../core/settings.cpp" line="547"/>
         <source>Documents (pdf, odf...)</source>
         <translation>Documents (pdf, odf...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="425"/>
+        <location filename="../core/settings.cpp" line="548"/>
         <source>Images (jpg, png...)</source>
         <translation>Images (jpg, png...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="426"/>
+        <location filename="../core/settings.cpp" line="549"/>
         <source>Images JPEG</source>
         <translation>Images JPEG</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="427"/>
+        <location filename="../core/settings.cpp" line="550"/>
         <source>Images PNG</source>
         <translation>Images PNG</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="428"/>
+        <location filename="../core/settings.cpp" line="551"/>
         <source>Video (mpeg, avi...)</source>
         <translation>Vidéos (mpeg, avi...)</translation>
     </message>
 </context>
 <context>
     <name>StreamDialog</name>
-    <message>
-        <location filename="../dialogs/streamdialog.cpp" line="32"/>
-        <source>Stream Download Infos</source>
-        <translation>Infos sur le téléchargeur de flux</translation>
-    </message>
     <message>
         <location filename="../dialogs/streamdialog.ui" line="54"/>
         <source>Extractors</source>
@@ -2527,6 +2730,11 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
         <location filename="../dialogs/streamdialog.ui" line="88"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/streamdialog.cpp" line="32"/>
+        <source>Stream Download Info</source>
+        <translation>Infos sur le téléchargeur de flux</translation>
     </message>
     <message>
         <location filename="../dialogs/streamdialog.cpp" line="37"/>
@@ -2557,90 +2765,45 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
 <context>
     <name>StreamInfoDownloader</name>
     <message>
-        <location filename="../core/stream.cpp" line="529"/>
+        <location filename="../core/stream.cpp" line="552"/>
+        <source>Cancelled.</source>
+        <translation>Annulé.</translation>
+    </message>
+    <message>
+        <location filename="../core/stream.cpp" line="567"/>
         <source>Couldn&apos;t parse JSON file.</source>
         <translation>Impossible de scanner le fichier JSON.</translation>
     </message>
 </context>
 <context>
-    <name>StreamWidget</name>
+    <name>StreamListWidget</name>
     <message>
-        <location filename="../widgets/streamwidget.ui" line="47"/>
+        <location filename="../widgets/streamlistwidget.ui" line="63"/>
         <source>Detected Media:</source>
         <translation>Média détecté :</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.ui" line="64"/>
+        <location filename="../widgets/streamlistwidget.ui" line="80"/>
         <source>Please wait, checking URL...</source>
         <translation>Veuillez patienter, vérification de l&apos;URL...</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.ui" line="162"/>
-        <source>Simple</source>
-        <translation>Simple</translation>
+        <location filename="../widgets/streamlistwidget.ui" line="166"/>
+        <source>Choose resources to download:</source>
+        <translation>Choisir les ressources à télécharger :</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.ui" line="195"/>
-        <source>Advanced:</source>
-        <translation>Avancé :</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamwidget.ui" line="214"/>
-        <source>Audio</source>
-        <translation>Audio</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamwidget.ui" line="243"/>
-        <source>Video</source>
-        <translation>Vidéo</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamwidget.ui" line="288"/>
-        <source>Detected media:</source>
-        <translation>Média détecté :</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamwidget.ui" line="399"/>
-        <source>Audio:</source>
-        <translation>Audio :</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamwidget.ui" line="415"/>
-        <source>Video:</source>
-        <translation>Vidéo :</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamwidget.ui" line="431"/>
-        <source>audio/video information is not available</source>
-        <translation>Information sur les flux audio/vidéo non disponible</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamwidget.ui" line="458"/>
-        <source>Metadata</source>
-        <translation>Métadonnées</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamwidget.ui" line="467"/>
-        <source>Simplified name:</source>
-        <translation>Nom simplifié :</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamwidget.ui" line="501"/>
-        <source>Estimed size:</source>
-        <translation>Taille estimée :</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamwidget.ui" line="522"/>
+        <location filename="../widgets/streamlistwidget.ui" line="205"/>
         <source>Error:</source>
         <translation>Erreur :</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.ui" line="529"/>
+        <location filename="../widgets/streamlistwidget.ui" line="212"/>
         <source>Can&apos;t find the URL stream</source>
         <translation>Impossible de trouver le flux</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.ui" line="536"/>
+        <location filename="../widgets/streamlistwidget.ui" line="219"/>
         <source>---
 Help: if you get an error, follow these instructions:
 
@@ -2671,6 +2834,77 @@ Astuce: si vous rencontrez une erreur :
 3. Cliquer de nouveau sur &apos;Continuer&apos;
 
 4. Réessayer plus tard</translation>
+    </message>
+</context>
+<context>
+    <name>StreamTableModel</name>
+    <message>
+        <location filename="../widgets/streamlistwidget.cpp" line="198"/>
+        <source>#</source>
+        <translation>#</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamlistwidget.cpp" line="199"/>
+        <source>Title</source>
+        <translation>Titre</translation>
+    </message>
+</context>
+<context>
+    <name>StreamWidget</name>
+    <message>
+        <location filename="../widgets/streamwidget.ui" line="96"/>
+        <source>Simple</source>
+        <translation>Simple</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamwidget.ui" line="129"/>
+        <source>Advanced:</source>
+        <translation>Avancé :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamwidget.ui" line="148"/>
+        <source>Audio</source>
+        <translation>Audio</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamwidget.ui" line="177"/>
+        <source>Video</source>
+        <translation>Vidéo</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamwidget.ui" line="222"/>
+        <source>Detected media:</source>
+        <translation>Média détecté :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamwidget.ui" line="333"/>
+        <source>Audio:</source>
+        <translation>Audio :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamwidget.ui" line="349"/>
+        <source>Video:</source>
+        <translation>Vidéo :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamwidget.ui" line="365"/>
+        <source>audio/video information is not available</source>
+        <translation>Information sur les flux audio/vidéo non disponible</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamwidget.ui" line="392"/>
+        <source>Metadata</source>
+        <translation>Métadonnées</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamwidget.ui" line="401"/>
+        <source>Simplified name:</source>
+        <translation>Nom simplifié :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamwidget.ui" line="435"/>
+        <source>Estimed size:</source>
+        <translation>Taille estimée :</translation>
     </message>
 </context>
 <context>
@@ -2745,7 +2979,7 @@ Astuce: si vous rencontrez une erreur :
 <context>
     <name>TorrentContext</name>
     <message>
-        <location filename="../core/torrentcontext.cpp" line="171"/>
+        <location filename="../core/torrentcontext.cpp" line="179"/>
         <source>Bad .torrent format: Can&apos;t download it.</source>
         <translation>Format .torrent erroné. Impossible de télécharger.</translation>
     </message>
@@ -2753,17 +2987,17 @@ Astuce: si vous rencontrez une erreur :
 <context>
     <name>TorrentContextPrivate</name>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="491"/>
+        <location filename="../core/torrentcontext_p.cpp" line="492"/>
         <source>Network request rejected.</source>
         <translation>Rejet de la requête réseau.</translation>
     </message>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="542"/>
+        <location filename="../core/torrentcontext_p.cpp" line="543"/>
         <source>Can&apos;t download metadata.</source>
         <translation>Impossible de réceptionner les métadonnées.</translation>
     </message>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="553"/>
+        <location filename="../core/torrentcontext_p.cpp" line="554"/>
         <source>No metadata downloaded.</source>
         <translation>Aucune métadonnée récupérée.</translation>
     </message>
@@ -2771,62 +3005,62 @@ Astuce: si vous rencontrez une erreur :
 <context>
     <name>TorrentFileTableModel</name>
     <message>
-        <location filename="../core/torrent.cpp" line="352"/>
+        <location filename="../core/torrent.cpp" line="351"/>
         <source>Name</source>
         <translation>Nom</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="353"/>
+        <location filename="../core/torrent.cpp" line="352"/>
         <source>Path</source>
         <translation>Chemin</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="354"/>
+        <location filename="../core/torrent.cpp" line="353"/>
         <source>Size</source>
         <translation>Taille</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="355"/>
+        <location filename="../core/torrent.cpp" line="354"/>
         <source>Done</source>
         <translation>Fait</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="356"/>
+        <location filename="../core/torrent.cpp" line="355"/>
         <source>Percent</source>
         <translation>%</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="357"/>
+        <location filename="../core/torrent.cpp" line="356"/>
         <source>First Piece</source>
         <translation>Première pièce</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="358"/>
+        <location filename="../core/torrent.cpp" line="357"/>
         <source># Pieces</source>
         <translation># de pièces</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="359"/>
+        <location filename="../core/torrent.cpp" line="358"/>
         <source>Pieces</source>
         <translation>Pièces</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="360"/>
+        <location filename="../core/torrent.cpp" line="359"/>
         <source>Priority</source>
         <translation>Priorité</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="361"/>
+        <location filename="../core/torrent.cpp" line="360"/>
         <source>Modification date</source>
         <translation>Date de modification</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="362"/>
+        <location filename="../core/torrent.cpp" line="361"/>
         <source>SHA-1</source>
         <translation>SHA-1</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="363"/>
+        <location filename="../core/torrent.cpp" line="362"/>
         <source>CRC-32</source>
         <translation>CRC-32</translation>
     </message>
@@ -2834,52 +3068,52 @@ Astuce: si vous rencontrez une erreur :
 <context>
     <name>TorrentPeerTableModel</name>
     <message>
-        <location filename="../core/torrent.cpp" line="521"/>
+        <location filename="../core/torrent.cpp" line="520"/>
         <source>IP</source>
         <translation>IP</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="522"/>
+        <location filename="../core/torrent.cpp" line="521"/>
         <source>Port</source>
         <translation>Port</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="523"/>
+        <location filename="../core/torrent.cpp" line="522"/>
         <source>Client</source>
         <translation>Client</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="524"/>
+        <location filename="../core/torrent.cpp" line="523"/>
         <source>Downloaded</source>
         <translation>Reçu</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="525"/>
+        <location filename="../core/torrent.cpp" line="524"/>
         <source>Uploaded</source>
         <translation>Émis</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="526"/>
+        <location filename="../core/torrent.cpp" line="525"/>
         <source>Request Time</source>
         <translation>Durée de requête</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="527"/>
+        <location filename="../core/torrent.cpp" line="526"/>
         <source>Active Time</source>
         <translation>Durée d&apos;activité</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="528"/>
+        <location filename="../core/torrent.cpp" line="527"/>
         <source>Queue Time</source>
         <translation>Durée d&apos;attente</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="529"/>
+        <location filename="../core/torrent.cpp" line="528"/>
         <source>Flags</source>
         <translation>Étiquettes</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="530"/>
+        <location filename="../core/torrent.cpp" line="529"/>
         <source>Source Flags</source>
         <translation>Étiquettes de la source</translation>
     </message>
@@ -2887,47 +3121,47 @@ Astuce: si vous rencontrez une erreur :
 <context>
     <name>TorrentTrackerTableModel</name>
     <message>
-        <location filename="../core/torrent.cpp" line="639"/>
+        <location filename="../core/torrent.cpp" line="638"/>
         <source>Url</source>
         <translation>URL</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="640"/>
+        <location filename="../core/torrent.cpp" line="639"/>
         <source>Id</source>
         <translation>Identifiant</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="641"/>
+        <location filename="../core/torrent.cpp" line="640"/>
         <source>Number of listened sockets (endpoints)</source>
         <translation>Nombre de sockets écoutés (terminaux)</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="642"/>
+        <location filename="../core/torrent.cpp" line="641"/>
         <source>Tier this tracker belongs to</source>
         <translation>Propriétaire du traqueur</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="643"/>
+        <location filename="../core/torrent.cpp" line="642"/>
         <source>Max number of failures</source>
         <translation>Nombre maximal d&apos;échecs</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="644"/>
+        <location filename="../core/torrent.cpp" line="643"/>
         <source>Source</source>
         <translation>Source</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="645"/>
+        <location filename="../core/torrent.cpp" line="644"/>
         <source>Verified?</source>
         <translation>Vérifié ?</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="687"/>
+        <location filename="../core/torrent.cpp" line="686"/>
         <source>verified</source>
         <translation>vérifié</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="687"/>
+        <location filename="../core/torrent.cpp" line="686"/>
         <source>not verified</source>
         <translation>non vérifié</translation>
     </message>

@@ -1,6 +1,7 @@
 HEADERS += \
     $$PWD/abstractdownloaditem.h \
     $$PWD/abstractsettings.h \
+    $$PWD/checkabletablemodel.h \
     $$PWD/downloadengine.h \
     $$PWD/downloaditem.h \
     $$PWD/downloaditem_p.h \
@@ -18,12 +19,14 @@ HEADERS += \
     $$PWD/mask.h \
     $$PWD/mimedatabase.h \
     $$PWD/model.h \
+    $$PWD/networkmanager.h \
     $$PWD/regex.h \
     $$PWD/resourceitem.h \
     $$PWD/resourcemodel.h \
     $$PWD/session.h \
     $$PWD/settings.h \
     $$PWD/stream.h \
+    $$PWD/streammanager.h \
     $$PWD/torrent.h \
     $$PWD/torrentcontext.h \
     $$PWD/torrentcontext_p.h \
@@ -34,6 +37,7 @@ HEADERS += \
 SOURCES += \
     $$PWD/abstractdownloaditem.cpp \
     $$PWD/abstractsettings.cpp \
+    $$PWD/checkabletablemodel.cpp \
     $$PWD/downloadengine.cpp \
     $$PWD/downloaditem.cpp \
     $$PWD/downloadmanager.cpp \
@@ -47,12 +51,14 @@ SOURCES += \
     $$PWD/mask.cpp \
     $$PWD/mimedatabase.cpp \
     $$PWD/model.cpp \
+    $$PWD/networkmanager.cpp \
     $$PWD/regex.cpp \
     $$PWD/resourceitem.cpp \
     $$PWD/resourcemodel.cpp \
     $$PWD/session.cpp \
     $$PWD/settings.cpp \
     $$PWD/stream.cpp \
+    $$PWD/streammanager.cpp \
     $$PWD/torrent.cpp \
     $$PWD/torrentcontext.cpp \
     $$PWD/torrentcontext_p.cpp \
