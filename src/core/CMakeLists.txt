@@ -1,6 +1,7 @@
 set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/abstractdownloaditem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/abstractsettings.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/checkabletablemodel.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadengine.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloaditem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadmanager.cpp
@@ -21,6 +22,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/session.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/settings.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/stream.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/streammanager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrent.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrentcontext.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrentcontext_p.cpp

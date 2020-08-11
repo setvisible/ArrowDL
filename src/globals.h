@@ -49,7 +49,7 @@ const QString STR_APPLICATION_BUILD =
         .arg(BUILD_SEC, 2, 10, QChar('0'));
 
 
-/* Compiler Infos */
+/* Compiler Info */
 const QString STR_COMPILER_WORDSIZE(QString("%0-bit").arg(QSysInfo::WordSize));
 const QString STR_COMPILER_BUILD_ABI = QSysInfo::buildAbi();
 const QString STR_COMPILER_BUILD_CPU = QSysInfo::buildCpuArchitecture();

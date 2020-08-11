@@ -382,11 +382,11 @@ void AddContentDialog::setProgressInfo(int percent, const QString &text)
 void AddContentDialog::onSelectionChanged()
 {
     const ResourceModel *currentModel = m_model->currentModel();
-    const int selectionCount = currentModel->selectedResourceItems().count();
+    const int selectionCount = currentModel->selection().count();
     if (selectionCount == 0) {
         ui->tipLabel->setText(tr("After selecting links, click on Start!"));
     } else {
-        const int count = currentModel->resourceItems().count();
+        const int count = currentModel->items().count();
         ui->tipLabel->setText(tr("Selected links: %0 of %1").arg(selectionCount).arg(count));
     }
     onChanged(QString());
@@ -397,7 +397,7 @@ void AddContentDialog::onSelectionChanged()
 void AddContentDialog::onChanged(QString)
 {
     const ResourceModel *currentModel = m_model->currentModel();
-    const int selectionCount = currentModel->selectedResourceItems().count();
+    const int selectionCount = currentModel->selection().count();
     const bool enabled =
             !ui->pathWidget->currentPath().isEmpty() &&
             !ui->maskWidget->currentMask().isEmpty() &&

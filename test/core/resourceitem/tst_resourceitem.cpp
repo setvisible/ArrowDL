@@ -75,6 +75,7 @@ void tst_ResourceItem::localFileUrl_data()
             << "A NEW FILE NAME"
             << QUrl("file:///C:/Temp/www.myweb.com/images/01/A NEW FILE NAME.gz");
 
+    /// \todo Unsupported Url Protocol
 
     // Magnet URI protocol
     // https://en.wikipedia.org/wiki/Magnet_URI_scheme

@@ -39,7 +39,7 @@ CompilerDialog::CompilerDialog(QWidget *parent)
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Infos")));
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Info")));
 
     adjustSize();
     setFixedSize(size());

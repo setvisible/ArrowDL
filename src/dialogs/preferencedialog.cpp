@@ -640,9 +640,12 @@ void PreferenceDialog::setupHttpToolTips()
                        "The fields allow you to send fake information, to protect privacy.")));
     ui->httpReferringPageHelpWidget->setToolTip(
                 QString("<html><head/><body><p>%0</p></body></html>").arg(
-                    tr("Referring Page (or Referrer) contains the address of the "
-                       "previous web page from which the resource is requested. "
-                       "To protect privacy, give to Referrer an empty of a fake address.")));
+                    tr("Referring Page (or Referrer) is an HTTP option that "
+                       "communicates to the server the address of the previous "
+                       "web page from which the resource is requested. "
+                       "This typically allows the HTTP server to track a visitor's browsing, "
+                       "page after page. "
+                       "To protect privacy, enter an empty or fake Referrer address.")));
 }
 
 /******************************************************************************

@@ -28,8 +28,8 @@ class QDebug;
 QT_END_NAMESPACE
 
 class StreamCleanCache;
-class StreamInfos;
-typedef QSharedPointer<StreamInfos> StreamInfosPtr;
+class StreamInfo;
+typedef QSharedPointer<StreamInfo> StreamInfoPtr;
 
 class StreamFormat : public QObject
 {
@@ -76,19 +76,28 @@ public:
     int tbr;             // (numeric): Average bitrate of audio and video in KBit/s
 };
 
-class StreamInfos : public QObject
+class StreamInfo : public QObject
 {
     Q_OBJECT
 public:
-    explicit StreamInfos(QObject *parent = nullptr);
-    explicit StreamInfos(const StreamInfos &other);
-    ~StreamInfos() Q_DECL_OVERRIDE;
+    enum Error{
+        NoError = 0,
+        ErrorJsonFormat
+    };
+    explicit StreamInfo(QObject *parent = nullptr);
+    explicit StreamInfo(const StreamInfo &other);
+    ~StreamInfo() Q_DECL_OVERRIDE;
 
-    qint64 guestimateFullSize(const QString &format_id) const;
+    qint64 guestimateFullSize() const;
+    qint64 guestimateFullSize(const QString &defaultFormatId) const;
 
-    QString safeTitle() const;
+    QString title() const;
+
+    QString fullFileName() const;
     QString fileBaseName() const;
+    QString fileExtension() const;
     QString fileExtension(const QString &formatId) const;
+
     QString formatId() const;
 
     QList<StreamFormat*> defaultFormats() const;
@@ -99,16 +108,23 @@ public:
 
     QString _filename;
     QString fulltitle;      // (string): Video title
-    QString title;          // (string): Video title
-    QString ext;            // (string): Video filename extension
+    QString defaultTitle;   // (string): Video title
+    QString defaultSuffix;  // (string): Video filename suffix (complete extension)
     QString description;    // (string): Video description
     QString thumbnail;      // (string): thumbnail URL
     QString extractor;      // (string): Name of the extractor
     QString extractor_key;  // (string): Key name of the extractor
-    QString format_id;      // (string): Format code specified by --format
+    QString defaultFormatId;// (string): Format code specified by --format
     QList<StreamFormat*> formats;
     QString playlist;       // (string): Name or id of the playlist that contains the video
     QString playlist_index; // (numeric): Index of the video in the playlist padded with leading zeros according to the total length of the playlist
+
+    // User data
+    QString userTitle;
+    QString userSuffix;
+    QString userFormatId;
+
+    Error error;
 };
 
 class Stream : public QObject
@@ -121,6 +137,7 @@ public:
 
     static QString version();
     static QString website();
+    static void setUserAgent(const QString &userAgent);
 
     static bool matchesHost(const QString &host, const QStringList &regexHosts);
 
@@ -133,8 +150,8 @@ public:
     QString localFullOutputPath() const;
     void setLocalFullOutputPath(const QString &outputPath);
 
-    QString refererUrl() const;
-    void setRefererUrl(const QString &url);
+    QString referringPage() const;
+    void setReferringPage(const QString &referringPage);
 
     QString selectedFormatId() const;
     void setSelectedFormatId(const QString &formatId);
@@ -144,7 +161,7 @@ public:
     qint64 fileSizeInBytes() const;
     void setFileSizeInBytes(qint64 fileSizeInBytes);
 
-    void initializeWithStreamInfos(const StreamInfos &streamInfos);
+    void initializeWithStreamInfo(const StreamInfo &streamInfo);
 
 public slots:
     void start();
@@ -173,7 +190,7 @@ private:
 
     QString m_url;
     QString m_outputPath;
-    QString m_refererUrl;
+    QString m_referringPage;
     QString m_selectedFormatId;
 
     qint64 m_bytesReceived;
@@ -224,9 +241,11 @@ public:
 
     bool isRunning() const;
 
+    static QList<StreamInfoPtr> parse(const QByteArray &data);
+
 signals:
     void error(QString errorMessage);
-    void collected(StreamInfosPtr infos);
+    void collected(QList<StreamInfoPtr> streamInfoList);
 
 private slots:
     void onStarted();
@@ -241,7 +260,7 @@ private:
     QString m_url;
     bool m_cancelled;
 
-    bool parseJSON(const QByteArray &data, StreamInfos *infos);
+    static StreamInfoPtr parseJSON(const QByteArray &data);
 };
 
 class AskStreamVersionThread : public QThread
@@ -315,22 +334,22 @@ private:
 
 
 Q_DECLARE_TYPEINFO(StreamFormat, Q_PRIMITIVE_TYPE);
-Q_DECLARE_TYPEINFO(StreamInfos, Q_PRIMITIVE_TYPE);
+Q_DECLARE_TYPEINFO(StreamInfo, Q_PRIMITIVE_TYPE);
 
 #ifdef QT_TESTLIB_LIB
 char *toString(const StreamFormat &streamFormat);
-char *toString(const StreamInfos &streamInfos);
+char *toString(const StreamInfo &streamInfo);
 #endif
 
 Q_DECLARE_METATYPE(StreamFormat);
-Q_DECLARE_METATYPE(StreamInfos);
+Q_DECLARE_METATYPE(StreamInfo);
 
 #ifdef QT_DEBUG
 QT_BEGIN_NAMESPACE
 QDebug operator<<(QDebug dbg, const StreamFormat &streamFormat);
 QDebug operator<<(QDebug dbg, const StreamFormat *streamFormat);
-QDebug operator<<(QDebug dbg, const StreamInfos &streamInfos);
-QDebug operator<<(QDebug dbg, const StreamInfos *streamInfos);
+QDebug operator<<(QDebug dbg, const StreamInfo &streamInfo);
+QDebug operator<<(QDebug dbg, const StreamInfo *streamInfo);
 QT_END_NAMESPACE
 #endif
 

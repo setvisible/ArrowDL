@@ -133,7 +133,7 @@ public:
     explicit TorrentFileTableModel(Torrent *parent);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
     void refreshMetaData(QList<TorrentFileMetaInfo> files);
     void refreshData(QList<TorrentFileInfo> files);
@@ -166,7 +166,7 @@ public:
     explicit TorrentPeerTableModel(Torrent *parent);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
     void refreshData(QList<TorrentPeerInfo> peers);
     void retranslateUi();
@@ -184,7 +184,7 @@ public:
     explicit TorrentTrackerTableModel(Torrent *parent);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
     void refreshData(QList<TorrentTrackerInfo> trackers);
     void retranslateUi();

@@ -325,8 +325,7 @@ int AbstractTorrentTableModel::columnCount(const QModelIndex &parent) const
     return parent.isValid() ? 0 : m_headers.count();
 }
 
-QVariant AbstractTorrentTableModel::headerData(
-        int section, Qt::Orientation orientation, int role) const
+QVariant AbstractTorrentTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         if (section >= 0 && section < m_headers.count()) {
@@ -422,21 +421,21 @@ QBitArray TorrentFileTableModel::pieceSegments(const TorrentFileMetaInfo &mi) co
     return ba;
 }
 
-QVariant TorrentFileTableModel::data(const QModelIndex &item, int role) const
+QVariant TorrentFileTableModel::data(const QModelIndex &index, int role) const
 {
-    if (!item.isValid()) {
+    if (!index.isValid()) {
         return QVariant();
     }
-    if (item.row() >= rowCount() || item.row() < 0) {
+    if (index.row() >= rowCount() || index.row() < 0) {
         return QVariant();
     }
-    TorrentFileMetaInfo mi = m_filesMeta.at(item.row());
+    TorrentFileMetaInfo mi = m_filesMeta.at(index.row());
     TorrentFileInfo ti;
-    if (item.row() < m_files.count()) {
-        ti = m_files.at(item.row());
+    if (index.row() < m_files.count()) {
+        ti = m_files.at(index.row());
     }
     if (role == Qt::TextAlignmentRole) {
-        switch (item.column()) {
+        switch (index.column()) {
         case  0:
         case  1:
             return int(Qt::AlignLeft | Qt::AlignVCenter);
@@ -463,7 +462,7 @@ QVariant TorrentFileTableModel::data(const QModelIndex &item, int role) const
         return pieceSegments(mi);
 
     } else if (role == Qt::DisplayRole) {
-        switch (item.column()) {
+        switch (index.column()) {
         case  0: return mi.fileName;
         case  1: return mi.shortFilePath();
         case  2: return Format::fileSizeToString(mi.bytesTotal);
@@ -535,16 +534,16 @@ int TorrentPeerTableModel::rowCount(const QModelIndex &parent) const
     return parent.isValid() ? 0 : m_peers.count();
 }
 
-QVariant TorrentPeerTableModel::data(const QModelIndex &item, int role) const
+QVariant TorrentPeerTableModel::data(const QModelIndex &index, int role) const
 {
-    if (!item.isValid()) {
+    if (!index.isValid()) {
         return QVariant();
     }
-    if (item.row() >= rowCount() || item.row() < 0) {
+    if (index.row() >= rowCount() || index.row() < 0) {
         return QVariant();
     }
     if (role == Qt::TextAlignmentRole) {
-        switch (item.column()) {
+        switch (index.column()) {
         case  0:
         case  1:
         case  2:
@@ -563,9 +562,9 @@ QVariant TorrentPeerTableModel::data(const QModelIndex &item, int role) const
         }
 
     } else if (role == Qt::DisplayRole) {
-        const TorrentPeerInfo peer = m_peers.at(item.row());
+        const TorrentPeerInfo peer = m_peers.at(index.row());
 
-        switch (item.column()) {
+        switch (index.column()) {
         case 0: return peer.endpoint.ip;
         case 1: return peer.endpoint.port;
         case 2: return peer.userAgent;
@@ -650,16 +649,16 @@ int TorrentTrackerTableModel::rowCount(const QModelIndex &parent) const
     return parent.isValid() ? 0 : m_trackers.count();
 }
 
-QVariant TorrentTrackerTableModel::data(const QModelIndex &item, int role) const
+QVariant TorrentTrackerTableModel::data(const QModelIndex &index, int role) const
 {
-    if (!item.isValid()) {
+    if (!index.isValid()) {
         return QVariant();
     }
-    if (item.row() >= rowCount() || item.row() < 0) {
+    if (index.row() >= rowCount() || index.row() < 0) {
         return QVariant();
     }
     if (role == Qt::TextAlignmentRole) {
-        switch (item.column()) {
+        switch (index.column()) {
         case  0:
         case  1:
             return int(Qt::AlignLeft | Qt::AlignVCenter);
@@ -675,8 +674,8 @@ QVariant TorrentTrackerTableModel::data(const QModelIndex &item, int role) const
         }
 
     } else if (role == Qt::DisplayRole) {
-        TorrentTrackerInfo tracker = m_trackers.at(item.row());
-        switch (item.column()) {
+        TorrentTrackerInfo tracker = m_trackers.at(index.row());
+        switch (index.column()) {
         case 0: return tracker.url;
         case 1: return tracker.trackerId;
         case 2: return tracker.endpoints.size();

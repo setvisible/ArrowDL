@@ -35,7 +35,8 @@
 static QString generateErrorMessage(QProcess::ProcessError error);
 static QString toString(QProcess *process);
 
-static QString s_youtubedl_version;
+static QString s_youtubedl_version = QString();
+static QString s_youtubedl_user_agent = QString();
 
 #if defined Q_OS_WIN
 static const QString C_PROGRAM_NAME  = QLatin1String("youtube-dl.exe");
@@ -91,7 +92,9 @@ QString Stream::version()
 {
     if (s_youtubedl_version.isEmpty()) {
         QProcess process;
-        process.start(C_PROGRAM_NAME, QStringList() << "--version");
+        process.start(
+                    C_PROGRAM_NAME, QStringList()
+                    << QLatin1String("--version"));
         if (!process.waitForStarted()) {
             return QLatin1String("unknown");
         }
@@ -107,6 +110,11 @@ QString Stream::version()
 QString Stream::website()
 {
     return C_WEBSITE_URL;
+}
+
+void Stream::setUserAgent(const QString &userAgent)
+{
+    s_youtubedl_user_agent = userAgent;
 }
 
 /******************************************************************************
@@ -188,15 +196,15 @@ bool Stream::isEmpty()
 
 /******************************************************************************
  ******************************************************************************/
-void Stream::initializeWithStreamInfos(const StreamInfos &streamInfos)
+void Stream::initializeWithStreamInfo(const StreamInfo &streamInfo)
 {
-    m_selectedFormatId = streamInfos.format_id;
+    m_selectedFormatId = streamInfo.defaultFormatId;
     m_bytesReceived = 0;
     m_bytesReceivedCurrentSection = 0;
     m_bytesTotal = 0;
-    m_bytesTotalCurrentSection = streamInfos.guestimateFullSize(m_selectedFormatId);
-    m_fileBaseName = streamInfos.fileBaseName();
-    m_fileExtension = streamInfos.fileExtension(m_selectedFormatId);
+    m_bytesTotalCurrentSection = streamInfo.guestimateFullSize(m_selectedFormatId);
+    m_fileBaseName = streamInfo.fileBaseName();
+    m_fileExtension = streamInfo.fileExtension(m_selectedFormatId);
 }
 
 /******************************************************************************
@@ -225,14 +233,14 @@ void Stream::setLocalFullOutputPath(const QString &outputPath)
 
 /******************************************************************************
  ******************************************************************************/
-QString Stream::refererUrl() const
+QString Stream::referringPage() const
 {
-    return m_refererUrl;
+    return m_referringPage;
 }
 
-void Stream::setRefererUrl(const QString &refererUrl)
+void Stream::setReferringPage(const QString &referringPage)
 {
-    m_refererUrl = refererUrl;
+    m_referringPage = referringPage;
 }
 
 /******************************************************************************
@@ -282,15 +290,18 @@ void Stream::start()
     if (!isEmpty() && m_process->state() == QProcess::NotRunning) {
         // Usage: youtube-dl.exe [OPTIONS] URL [URL...]
         QStringList arguments;
-        arguments << "--output" << m_outputPath
-                  << "--no-check-certificate"
-                  << "--no-overwrites"      // If option in settings !
-                  << "--no-continue"
-                  << "--ignore-config"
-                  << "--format" << m_selectedFormatId
+        arguments << QLatin1String("--output") << m_outputPath
+                  << QLatin1String("--no-check-certificate")
+                  << QLatin1String("--no-overwrites")  // If option in settings!
+                  << QLatin1String("--no-continue")
+                  << QLatin1String("--ignore-config")
+                  << QLatin1String("--format") << m_selectedFormatId
                   << m_url;
-        if (!m_refererUrl.isEmpty()) {
-            arguments << "--referer" << m_refererUrl;
+        if (!s_youtubedl_user_agent.isNull()) {
+            arguments << QLatin1String("--user-agent") << s_youtubedl_user_agent;
+        }
+        if (!m_referringPage.isEmpty()) {
+            arguments << QLatin1String("--referer") << m_referringPage;
         }
         m_process->start(C_PROGRAM_NAME, arguments);
         qDebug() << Q_FUNC_INFO << toString(m_process);
@@ -359,7 +370,7 @@ void Stream::parseStandardOutput(const QString &data)
     }
 
     if ( tokens.count() > 3 &&
-         tokens.at(1).contains('%') &&
+         tokens.at(1).contains(QChar('%')) &&
          tokens.at(2) == QLatin1String("of")) {
 
         const QString percentToken = tokens.at(1);
@@ -396,7 +407,7 @@ void Stream::parseStandardError(const QString &data)
                 data.startsWith(C_WARNING_msg_header_02, Qt::CaseInsensitive)) {
 
         if (data.contains(C_WARNING_merge_output_format, Qt::CaseInsensitive)) {
-            m_fileExtension = "mkv";   // TODO change extension
+            m_fileExtension = QLatin1String("mkv");   // TODO change extension
             emit downloadMetadataChanged();
         }
     }
@@ -431,7 +442,9 @@ StreamCleanCache::~StreamCleanCache()
 void StreamCleanCache::runAsync()
 {
     if (m_process->state() == QProcess::NotRunning) {
-        m_process->start(C_PROGRAM_NAME, QStringList() << "--rm-cache-dir");
+        m_process->start(
+                    C_PROGRAM_NAME, QStringList()
+                    << QLatin1String("--rm-cache-dir"));
         qDebug() << Q_FUNC_INFO << toString(m_process);
     }
 }
@@ -497,7 +510,13 @@ void StreamInfoDownloader::runAsync(const QString &url)
     m_url = url;
     m_cancelled = false;
     if (m_process->state() == QProcess::NotRunning) {
-        m_process->start(C_PROGRAM_NAME, QStringList() << "--dump-json" << url);
+        QStringList arguments;
+        arguments << QLatin1String("--dump-json")
+                  << m_url;
+        if (!s_youtubedl_user_agent.isNull()) {
+            arguments << QLatin1String("--user-agent") << s_youtubedl_user_agent;
+        }
+        m_process->start(C_PROGRAM_NAME, arguments);
         qDebug() << Q_FUNC_INFO << toString(m_process);
     }
 }
@@ -541,9 +560,9 @@ void StreamInfoDownloader::onFinished(int exitCode, QProcess::ExitStatus /*exitS
         emit error(message);
     } else {
         QByteArray data = m_process->readAllStandardOutput();
-        StreamInfosPtr infos(new StreamInfos());
-        if (parseJSON(data, infos.data())) {
-            emit collected(infos);
+        QList<StreamInfoPtr> streamInfoList = parse(data);
+        if (!streamInfoList.isEmpty()) {
+            emit collected(streamInfoList);
         } else {
             emit error(tr("Couldn't parse JSON file."));
         }
@@ -555,27 +574,42 @@ void StreamInfoDownloader::onCacheCleaned()
     runAsync(m_url); // retry
 }
 
-bool StreamInfoDownloader::parseJSON(const QByteArray &data, StreamInfos *infos)
+QList<StreamInfoPtr> StreamInfoDownloader::parse(const QByteArray &data)
 {
+    QList<StreamInfoPtr> streamInfoList;
+    QList<QByteArray> lines = data.split(QChar('\n').toLatin1());
+    foreach (auto line, lines) {
+        if (!line.isEmpty()) {
+            StreamInfoPtr info = parseJSON(line);
+            streamInfoList << info;
+        }
+    }
+    return streamInfoList;
+}
+
+StreamInfoPtr StreamInfoDownloader::parseJSON(const QByteArray &data)
+{
+    StreamInfoPtr info(new StreamInfo());
     QJsonParseError ok;
     QJsonDocument loadDoc(QJsonDocument::fromJson(data, &ok));
     if (ok.error != QJsonParseError::NoError) {
-        return false;
+        info->error = StreamInfo::ErrorJsonFormat;
+        return info;
     }
     QJsonObject json = loadDoc.object();
 
-    infos->_filename         = json[QLatin1String("_filename")].toString();
-    infos->fulltitle         = json[QLatin1String("fulltitle")].toString();
-    infos->title             = json[QLatin1String("title")].toString();
-    infos->ext               = json[QLatin1String("ext")].toString();
-    infos->description       = json[QLatin1String("description")].toString();
-    infos->thumbnail         = json[QLatin1String("thumbnail")].toString();
-    infos->extractor         = json[QLatin1String("extractor")].toString();
-    infos->extractor_key     = json[QLatin1String("extractor_key")].toString();
-    infos->format_id         = json[QLatin1String("format_id")].toString();
+    info->_filename         = json[QLatin1String("_filename")].toString();
+    info->fulltitle         = json[QLatin1String("fulltitle")].toString();
+    info->defaultTitle      = json[QLatin1String("title")].toString();
+    info->defaultSuffix     = json[QLatin1String("ext")].toString();
+    info->description       = json[QLatin1String("description")].toString();
+    info->thumbnail         = json[QLatin1String("thumbnail")].toString();
+    info->extractor         = json[QLatin1String("extractor")].toString();
+    info->extractor_key     = json[QLatin1String("extractor_key")].toString();
+    info->defaultFormatId   = json[QLatin1String("format_id")].toString();
     QJsonArray jobsArray    = json[QLatin1String("formats")].toArray();
     for (int i = 0; i < jobsArray.size(); ++i) {
-        StreamFormat *format = new StreamFormat(infos);
+        StreamFormat *format = new StreamFormat(info.data());
         QJsonObject jobObject = jobsArray[i].toObject();
         format->format_id    = jobObject[QLatin1String("format_id")].toString();
         format->ext          = jobObject[QLatin1String("ext")].toString();
@@ -589,12 +623,12 @@ bool StreamInfoDownloader::parseJSON(const QByteArray &data, StreamInfos *infos)
         format->height       = jobObject[QLatin1String("height")].toInt();
         format->fps          = jobObject[QLatin1String("fps")].toInt();
         format->tbr          = jobObject[QLatin1String("tbr")].toInt();
-        infos->formats << format;
+        info->formats << format;
     }
-    infos->playlist          = json[QLatin1String("playlist")].toString();
-    infos->playlist_index    = json[QLatin1String("playlist_index")].toString();
-
-    return true;
+    info->playlist          = json[QLatin1String("playlist")].toString();
+    info->playlist_index    = json[QLatin1String("playlist_index")].toString();
+    info->error             = StreamInfo::NoError;
+    return info;
 }
 
 /******************************************************************************
@@ -623,7 +657,9 @@ StreamUpgrader::~StreamUpgrader()
 void StreamUpgrader::runAsync()
 {
     if (m_process->state() == QProcess::NotRunning) {
-        m_process->start(C_PROGRAM_NAME, QStringList() << "--update");
+        m_process->start(
+                    C_PROGRAM_NAME, QStringList()
+                    << QLatin1String("--update"));
         qDebug() << Q_FUNC_INFO << toString(m_process);
     }
 }
@@ -697,11 +733,15 @@ StreamExtractorListCollector::~StreamExtractorListCollector()
 void StreamExtractorListCollector::runAsync()
 {
     if (m_processExtractors->state() == QProcess::NotRunning) {
-        m_processExtractors->start(C_PROGRAM_NAME, QStringList() << "--list-extractors");
+        m_processExtractors->start(
+                    C_PROGRAM_NAME, QStringList()
+                    << QLatin1String("--list-extractors"));
         qDebug() << Q_FUNC_INFO << toString(m_processExtractors);
     }
     if (m_processDescriptions->state() == QProcess::NotRunning) {
-        m_processDescriptions->start(C_PROGRAM_NAME, QStringList() << "--extractor-descriptions");
+        m_processDescriptions->start(
+                    C_PROGRAM_NAME, QStringList()
+                    << QLatin1String("--extractor-descriptions"));
         qDebug() << Q_FUNC_INFO << toString(m_processDescriptions);
     }
 }
@@ -726,7 +766,7 @@ void StreamExtractorListCollector::onFinishedExtractors(int exitCode, QProcess::
         emit finished();
     } else {
         QString data = QString::fromLatin1(m_processExtractors->readAllStandardOutput());
-        m_extractors = data.split("\n", QString::KeepEmptyParts);
+        m_extractors = data.split(QChar('\n'), QString::KeepEmptyParts);
         onFinished();
     }
 }
@@ -882,31 +922,41 @@ QString StreamFormat::debug_description() const
 
 /******************************************************************************
  ******************************************************************************/
-StreamInfos::StreamInfos(QObject *parent) : QObject(parent)
+StreamInfo::StreamInfo(QObject *parent) : QObject(parent)
+  , error(NoError)
 {
 }
 
-StreamInfos::StreamInfos(const StreamInfos &other): QObject(other.parent())
+StreamInfo::StreamInfo(const StreamInfo &other): QObject(other.parent())
 {
-    this->_filename        = other._filename      ;
-    this->fulltitle        = other.fulltitle      ;
-    this->title            = other.title          ;
-    this->ext              = other.ext            ;
-    this->description      = other.description    ;
-    this->thumbnail        = other.thumbnail      ;
-    this->extractor        = other.extractor      ;
-    this->extractor_key    = other.extractor_key  ;
-    this->format_id        = other.format_id      ;
-    this->formats          = other.formats        ;
-    this->playlist         = other.playlist       ;
-    this->playlist_index   = other.playlist_index ;
+    this->_filename        = other._filename       ;
+    this->fulltitle        = other.fulltitle       ;
+    this->defaultTitle     = other.defaultTitle    ;
+    this->defaultSuffix    = other.defaultSuffix   ;
+    this->description      = other.description     ;
+    this->thumbnail        = other.thumbnail       ;
+    this->extractor        = other.extractor       ;
+    this->extractor_key    = other.extractor_key   ;
+    this->defaultFormatId  = other.defaultFormatId ;
+    this->formats          = other.formats         ;
+    this->playlist         = other.playlist        ;
+    this->playlist_index   = other.playlist_index  ;
+    this->userTitle        = other.userTitle       ;
+    this->userSuffix       = other.userSuffix      ;
+    this->userFormatId     = other.userFormatId    ;
+    this->error            = other.error           ;
 }
 
-StreamInfos::~StreamInfos()
+StreamInfo::~StreamInfo()
 {
 }
 
-qint64 StreamInfos::guestimateFullSize(const QString &format_id) const
+qint64 StreamInfo::guestimateFullSize() const
+{
+    return guestimateFullSize(formatId());
+}
+
+qint64 StreamInfo::guestimateFullSize(const QString &format_id) const
 {
     if (format_id.isEmpty()) {
         return -1;
@@ -916,16 +966,16 @@ qint64 StreamInfos::guestimateFullSize(const QString &format_id) const
         sizes.insert(format->format_id, format->filesize);
     }
     qint64 estimedSize = 0;
-    QStringList ids = format_id.split("+");
+    QStringList ids = format_id.split(QChar('+'));
     for (auto id : ids) {
         estimedSize += sizes.value(id, 0);
     }
     return estimedSize;
 }
 
-QString StreamInfos::safeTitle() const
+QString StreamInfo::title() const
 {
-    return this->title;
+    return userTitle.isEmpty() ? defaultTitle : userTitle;
 }
 
 static QString cleanFileName(const QString &fileName)
@@ -942,25 +992,38 @@ static QString cleanFileName(const QString &fileName)
             *it = QChar('_');
         }
     }
-    ret = ret.replace(QRegExp("_+"), "_");
+    ret = ret.replace(QRegExp("_+"), QLatin1String("_"));
     return ret.simplified();
 }
 
-QString StreamInfos::fileBaseName() const
+
+QString StreamInfo::fullFileName() const
 {
-    return cleanFileName(this->title);
+    return fileExtension().isEmpty()
+            ? fileBaseName()
+            : QString("%0.%1").arg(fileBaseName()).arg(fileExtension());
 }
 
-QString StreamInfos::fileExtension(const QString &formatId) const
+QString StreamInfo::fileBaseName() const
 {
-    if (format_id.isEmpty()) {
+    return cleanFileName(title());
+}
+
+QString StreamInfo::fileExtension() const
+{
+    return userSuffix.isEmpty() ? fileExtension(formatId()) : userSuffix;
+}
+
+QString StreamInfo::fileExtension(const QString &formatId) const
+{
+    if (defaultFormatId.isEmpty()) {
         return QLatin1String("???");
     }
-    if (this->format_id == formatId) {
-        return this->ext;
+    if (this->defaultFormatId == formatId) {
+        return this->defaultSuffix;
     }
-    QString estimedExt = this->ext;
-    QStringList ids = formatId.split("+");
+    QString estimedExt = this->defaultSuffix;
+    QStringList ids = formatId.split(QChar('+'));
     for (auto id : ids) {
         for (auto format : formats) {
             if (id == format->format_id) {
@@ -974,12 +1037,12 @@ QString StreamInfos::fileExtension(const QString &formatId) const
     return estimedExt;
 }
 
-QString StreamInfos::formatId() const
+QString StreamInfo::formatId() const
 {
-    return this->format_id;
+    return userFormatId.isEmpty() ? defaultFormatId : userFormatId;
 }
 
-QList<StreamFormat*> StreamInfos::defaultFormats() const
+QList<StreamFormat*> StreamInfo::defaultFormats() const
 {
     // Map avoids duplicate entries
     QMap<QString, StreamFormat*> map;
@@ -999,7 +1062,7 @@ QList<StreamFormat*> StreamInfos::defaultFormats() const
     return map.values();
 }
 
-QList<StreamFormat*> StreamInfos::audioFormats() const
+QList<StreamFormat*> StreamInfo::audioFormats() const
 {
     QList<StreamFormat*> list;
     for (auto format : formats) {
@@ -1010,7 +1073,7 @@ QList<StreamFormat*> StreamInfos::audioFormats() const
     return list;
 }
 
-QList<StreamFormat*> StreamInfos::videoFormats() const
+QList<StreamFormat*> StreamInfo::videoFormats() const
 {
     QList<StreamFormat*> list;
     for (auto format : formats) {
@@ -1021,19 +1084,19 @@ QList<StreamFormat*> StreamInfos::videoFormats() const
     return list;
 }
 
-QString StreamInfos::debug_description() const
+QString StreamInfo::debug_description() const
 {
     QString descr;
-    descr.append(QString("StreamInfos '%0' (%1, %2, %3, %4, %5, %6, %7, %8, %9, %10)")
+    descr.append(QString("StreamInfo '%0' (%1, %2, %3, %4, %5, %6, %7, %8, %9, %10)")
                  .arg(_filename)
                  .arg(fulltitle)
-                 .arg(title)
-                 .arg(ext)
+                 .arg(defaultTitle)
+                 .arg(defaultSuffix)
                  .arg(description)
                  .arg(thumbnail)
                  .arg(extractor)
                  .arg(extractor_key)
-                 .arg(format_id)
+                 .arg(defaultFormatId)
                  .arg(playlist)
                  .arg(playlist_index));
     foreach (auto format, formats) {
@@ -1096,13 +1159,13 @@ char *toString(const StreamFormat &streamFormat)
     return toString(streamFormat.debug_description());
 }
 
-char *toString(const StreamInfos &streamInfos)
+char *toString(const StreamInfo &streamInfo)
 {
     // bring QTest::toString overloads into scope:
     using QTest::toString;
 
     // delegate char* handling to QTest::toString(QByteArray):
-    return toString(streamInfos.debug_description());
+    return toString(streamInfo.debug_description());
 }
 #endif
 
@@ -1123,21 +1186,21 @@ QDebug operator<<(QDebug dbg, const StreamFormat *streamFormat)
     return dbg.space();
 }
 
-QDebug operator<<(QDebug dbg, const StreamInfos &streamInfos)
+QDebug operator<<(QDebug dbg, const StreamInfo &streamInfo)
 {
-    dbg.nospace() << streamInfos.debug_description();
+    dbg.nospace() << streamInfo.debug_description();
     return dbg.maybeSpace();
 }
 
-QDebug operator<<(QDebug dbg, const StreamInfos *streamInfos)
+QDebug operator<<(QDebug dbg, const StreamInfo *streamInfo)
 {
-    if (streamInfos)
+    if (streamInfo)
         // Here, noquote() is called,
         // because it doesn't escape non-text characters contrary to nospace()
-        // Each streamInfos should appear in a separated line
-        dbg.noquote() << *streamInfos;
+        // Each streamInfo should appear in a separated line
+        dbg.noquote() << *streamInfo;
     else
-        dbg.nospace() << QLatin1String("StreamInfos(): nullptr");
+        dbg.nospace() << QLatin1String("StreamInfo(): nullptr");
     return dbg.space();
 }
 #endif
