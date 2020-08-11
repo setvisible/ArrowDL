@@ -336,7 +336,7 @@ void TorrentWidget::setupInfoCopy()
     setupInfoCopy(ui->downSpeedLabel    , ui->downSpeedLineEdit);
     setupInfoCopy(ui->downloadedLabel   , ui->downloadedLineEdit);
     setupInfoCopy(ui->hashLabel         , ui->hashLineEdit);
-    setupInfoCopy(ui->magnetLinkLabel   , ui->magnetLinkLineEdit);
+    setupInfoCopy(ui->magnetLinkLabel   , ui->magnetLinkEdit);
     setupInfoCopy(ui->peersLabel        , ui->peersLineEdit);
     setupInfoCopy(ui->piecesLabel       , ui->piecesLineEdit);
     setupInfoCopy(ui->saveAsLabel       , ui->saveAsLineEdit);
@@ -352,38 +352,50 @@ void TorrentWidget::setupInfoCopy()
     setupInfoCopy(ui->wastedLabel       , ui->wastedLineEdit);
 }
 
-void TorrentWidget::setupInfoCopy(QLabel* label, QLabel* field)
+void TorrentWidget::setupInfoCopy(QLabel *label, QFrame *buddy)
 {
     Q_ASSERT(label);
-    Q_ASSERT(field);
+    Q_ASSERT(buddy);
+
+    label->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
     // General properties
-    field->setWordWrap(true);
-    field->setFocusPolicy(Qt::StrongFocus);
+    buddy->setFocusPolicy(Qt::StrongFocus);
+
+    if (auto buddyLabel = qobject_cast<QLabel*>(buddy)) {
+        buddyLabel->setWordWrap(true);
+        buddyLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    }
+    if (auto buddyTextEdit = qobject_cast<QPlainTextEdit*>(buddy)) {
+        buddyTextEdit->setReadOnly(true);
+        buddyTextEdit->setFrameShape(QFrame::NoFrame);
+    }
 
     foreach (auto action, label->actions()) { label->removeAction(action); }
-    foreach (auto action, field->actions()) { field->removeAction(action); }
+    foreach (auto action, buddy->actions()) { buddy->removeAction(action); }
 
     // Context menu > Copy
-    QAction *copyAction = new QAction(tr("Copy"), field);
+    QAction *copyAction = new QAction(tr("Copy"), buddy);
     connect(copyAction, &QAction::triggered, this, &TorrentWidget::copy);
 
-    label->setBuddy(field);
+    label->setBuddy(buddy);
     label->setContextMenuPolicy(Qt::ActionsContextMenu);
-    field->setContextMenuPolicy(Qt::ActionsContextMenu);
+    buddy->setContextMenuPolicy(Qt::ActionsContextMenu);
     label->addAction(copyAction);
-    field->addAction(copyAction);
+    buddy->addAction(copyAction);
 }
 
 void TorrentWidget::copy()
 {
     QAction *copyAction = qobject_cast<QAction*>(sender());
-    if (copyAction) {
-        QLabel *field = qobject_cast<QLabel*>(copyAction->parentWidget());
-        if (field) {
-            QClipboard *clipboard = QApplication::clipboard();
-            clipboard->setText(field->text());
-        }
+    if (!copyAction) {
+        return;
+    }
+    if (auto buddy = qobject_cast<QLabel*>(copyAction->parentWidget())) {
+        QApplication::clipboard()->setText(buddy->text());
+
+    } else if (auto buddy = qobject_cast<QPlainTextEdit*>(copyAction->parentWidget())) {
+        QApplication::clipboard()->setText(buddy->toPlainText());
     }
 }
 
@@ -781,7 +793,7 @@ void TorrentWidget::updateTorrentPage()
     ui->completedOnLineEdit->setText(   text(mi.completedTime));
     ui->hashLineEdit->setText(          text(mi.initialMetaInfo.infohash));
     ui->commentLineEdit->setText(       text(mi.initialMetaInfo.comment));
-    ui->magnetLinkLineEdit->setText(    text(mi.initialMetaInfo.magnetLink));
+    ui->magnetLinkEdit->setPlainText(   text(mi.initialMetaInfo.magnetLink));
 }
 
 /******************************************************************************

@@ -91,7 +91,7 @@ private:
 
     void setupUiTableView(QTableView *view);
     void setupInfoCopy();
-    void setupInfoCopy(QLabel* label, QLabel* field);
+    void setupInfoCopy(QLabel *label, QFrame *buddy);
     void setupContextMenus();
 
     void setPriority(TorrentFileInfo::Priority priority);
