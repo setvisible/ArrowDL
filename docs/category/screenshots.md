@@ -3,6 +3,17 @@ layout: category
 title: Screenshots
 ---
 
+## Version 2.0.5
+
+Playlist streams:
+
+![Playlist Wizard](../assets/images/2.0/playlist_dialog_01.png)
+
+Downloading the playlist:
+
+![Downloading the playlist](../assets/images/2.0/playlist_dialog_02.png)
+
+
 ## Version 2.0.0
 
 Download lot of media types:
