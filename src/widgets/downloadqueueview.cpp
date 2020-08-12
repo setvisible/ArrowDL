@@ -363,6 +363,19 @@ QueueItem::QueueItem(AbstractDownloadItem *downloadItem, QTreeWidget *view)
     updateItem();
 }
 
+static QString estimatedTime(AbstractDownloadItem *downloadItem)
+{
+    switch (downloadItem->state()) {
+    case IDownloadItem::Downloading:
+        return Format::timeToString(downloadItem->remainingTime());
+    case IDownloadItem::NetworkError:
+    case IDownloadItem::FileError:
+        return downloadItem->errorMessage();
+    default:
+        return downloadItem->stateToString();
+    }
+}
+
 void QueueItem::updateItem()
 {
     QString size;
@@ -374,23 +387,15 @@ void QueueItem::updateItem()
         size = tr("Unknown");
     }
 
-    QString estTime =
-            (m_downloadItem->state() == IDownloadItem::NetworkError ||
-             m_downloadItem->state() == IDownloadItem::FileError) ?
-                m_downloadItem->errorMessage() :
-                Format::timeToString(m_downloadItem->remainingTime());
-
     QString speed = Format::currentSpeedToString(m_downloadItem->speed());
 
     this->setText(C_COL_0_FILE_NAME       , m_downloadItem->localFileName());
-    this->setText(C_COL_1_WEBSITE_DOMAIN  , m_downloadItem->sourceUrl().host()); // todo domain only
-
+    this->setText(C_COL_1_WEBSITE_DOMAIN  , m_downloadItem->sourceUrl().host()); /// \todo domain only
     this->setData(C_COL_2_PROGRESS_BAR    , StateRole, m_downloadItem->state());
     this->setData(C_COL_2_PROGRESS_BAR    , ProgressRole, m_downloadItem->progress());
-
     this->setText(C_COL_3_PERCENT         , QString("%0%").arg(qMax(0, m_downloadItem->progress())));
     this->setText(C_COL_4_SIZE            , size);
-    this->setText(C_COL_5_ESTIMATED_TIME  , estTime);
+    this->setText(C_COL_5_ESTIMATED_TIME  , estimatedTime(m_downloadItem));
     this->setText(C_COL_6_SPEED           , speed);
 
     //item->setText(C_COL_7_SEGMENTS, "Unknown");
