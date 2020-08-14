@@ -90,6 +90,7 @@ void PreferenceDialog::changeEvent(QEvent *event)
 {
     if (event->type() == QEvent::LanguageChange) {
         ui->retranslateUi(this);
+        retranslateComboBox();
         retranslateFilters();
         setupStreamToolTip();
         setupHttpToolTips();
@@ -665,6 +666,17 @@ void PreferenceDialog::cleaned()
 {
     ui->streamCleanCacheButton->setText(tr("Clean Cache"));
     ui->streamCleanCacheButton->setEnabled(true);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void PreferenceDialog::retranslateComboBox()
+{
+    // Tab Network
+    auto index = ui->proxyTypeComboBox->currentIndex();
+    ui->proxyTypeComboBox->clear();
+    ui->proxyTypeComboBox->addItems(NetworkManager::proxyTypeNames());
+    ui->proxyTypeComboBox->setCurrentIndex(index);
 }
 
 /******************************************************************************

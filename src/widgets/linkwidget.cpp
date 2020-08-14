@@ -41,7 +41,7 @@
 /******************************************************************************
  ******************************************************************************/
 /*!
- * LinkWidgetItemDelegate is used to draw the mimetype icon.
+ * \class LinkWidgetItemDelegate is used to draw the mimetype icon.
  */
 class LinkWidgetItemDelegate : public CheckableItemDelegate
 {

@@ -44,6 +44,7 @@
 #define C_ROW_DEFAULT_HEIGHT         18
 
 /* Constant */
+/// \todo these colors are from downloadqueueview.cpp
 static const QColor s_black         = QColor(0, 0, 0);
 static const QColor s_lightBlue     = QColor(205, 232, 255);
 static const QColor s_darkGrey      = QColor(160, 160, 160);
