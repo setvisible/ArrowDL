@@ -36,6 +36,15 @@ static const QColor s_lightGreen    = QColor(236, 255, 179);
 static const QColor s_lightYellow   = QColor(255, 255, 179);
 
 
+static QModelIndex getSiblingAtColumn(const QModelIndex &index, int acolumn)
+{
+#if QT_VERSION >= 0x051100
+    return index.siblingAtColumn(acolumn);
+#else
+    return index.sibling(index.row(), acolumn);
+#endif
+}
+
 /*!
  * CheckableItemDelegate is used to draw customized check-state icons.
  */
@@ -53,7 +62,8 @@ void CheckableItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
     QStyleOptionViewItem myOption = option;
     initStyleOption(&myOption, index);
 
-    const bool selected = index.model()->data(index, CheckableTableModel::CheckStateRole).toBool();
+    auto sibling = getSiblingAtColumn(index, 0);
+    const bool selected = index.model()->data(sibling, CheckableTableModel::CheckStateRole).toBool();
 
     if (selected) {
         painter->fillRect(option.rect, s_lightYellow);
@@ -65,8 +75,6 @@ void CheckableItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
     if (myOption.state & QStyle::State_Selected) {
         myOption.font.setBold(true);
     }
-
-    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
 
     if (index.column() == 0) {
         QStyleOptionButton button;
