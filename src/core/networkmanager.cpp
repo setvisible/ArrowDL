@@ -64,7 +64,6 @@ QStringList NetworkManager::proxyTypeNames()
 {
     return QStringList(
     { tr("(none)"),
-      tr("Default"),
       tr("SOCKS5"),
       tr("HTTP") });
 }
@@ -73,9 +72,8 @@ static QNetworkProxy::ProxyType toProxyType(int index)
 {
     switch (index) {
     case 0: return QNetworkProxy::NoProxy;
-    case 1: return QNetworkProxy::DefaultProxy;
-    case 2: return QNetworkProxy::Socks5Proxy;
-    case 3: return QNetworkProxy::HttpProxy;
+    case 1: return QNetworkProxy::Socks5Proxy;
+    case 2: return QNetworkProxy::HttpProxy;
     default:
         break;
     }
