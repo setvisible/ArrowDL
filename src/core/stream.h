@@ -27,31 +27,24 @@ QT_BEGIN_NAMESPACE
 class QDebug;
 QT_END_NAMESPACE
 
-class StreamCleanCache;
-class StreamInfo;
-typedef QSharedPointer<StreamInfo> StreamInfoPtr;
 
-class StreamFormat : public QObject
+class StreamFormat
 {
-    Q_OBJECT
 public:
-    explicit StreamFormat(QObject *parent = nullptr);
-    explicit StreamFormat(const StreamFormat &other);
-    explicit StreamFormat(
-            QString format_id,
-            QString ext,
-            QString format_note,
-            int filesize,
-            QString acodec,
-            int abr,
-            int asr,
-            QString vcodec,
-            int width,
-            int height,
-            int fps,
-            int tbr,
-            QObject *parent = nullptr);
-    ~StreamFormat() Q_DECL_OVERRIDE;
+    explicit StreamFormat();
+    explicit StreamFormat(QString format_id,
+                          QString ext,
+                          QString format_note,
+                          int filesize,
+                          QString acodec,
+                          int abr,
+                          int asr,
+                          QString vcodec,
+                          int width,
+                          int height,
+                          int fps,
+                          int tbr);
+    ~StreamFormat();
 
     bool operator==(const StreamFormat &other) const;
     bool operator!=(const StreamFormat &other) const;
@@ -76,17 +69,15 @@ public:
     int tbr;             // (numeric): Average bitrate of audio and video in KBit/s
 };
 
-class StreamInfo : public QObject
+class StreamInfo
 {
-    Q_OBJECT
 public:
     enum Error{
         NoError = 0,
         ErrorJsonFormat
     };
-    explicit StreamInfo(QObject *parent = nullptr);
-    explicit StreamInfo(const StreamInfo &other);
-    ~StreamInfo() Q_DECL_OVERRIDE;
+    explicit StreamInfo();
+    ~StreamInfo();
 
     qint64 guestimateFullSize() const;
     qint64 guestimateFullSize(const QString &defaultFormatId) const;
@@ -100,9 +91,9 @@ public:
 
     QString formatId() const;
 
-    QList<StreamFormat*> defaultFormats() const;
-    QList<StreamFormat*> audioFormats() const;
-    QList<StreamFormat*> videoFormats() const;
+    QList<StreamFormat> defaultFormats() const;
+    QList<StreamFormat> audioFormats() const;
+    QList<StreamFormat> videoFormats() const;
 
     QString debug_description() const;
 
@@ -115,11 +106,11 @@ public:
     QString extractor;      // (string): Name of the extractor
     QString extractor_key;  // (string): Key name of the extractor
     QString defaultFormatId;// (string): Format code specified by --format
-    QList<StreamFormat*> formats;
+    QList<StreamFormat> formats;
     QString playlist;       // (string): Name or id of the playlist that contains the video
     QString playlist_index; // (numeric): Index of the video in the playlist padded with leading zeros according to the total length of the playlist
 
-    // User data
+    /* User data */
     QString userTitle;
     QString userSuffix;
     QString userFormatId;
@@ -241,11 +232,11 @@ public:
 
     bool isRunning() const;
 
-    static QList<StreamInfoPtr> parse(const QByteArray &data);
+    static QList<StreamInfo> parse(const QByteArray &data);
 
 signals:
     void error(QString errorMessage);
-    void collected(QList<StreamInfoPtr> streamInfoList);
+    void collected(QList<StreamInfo> streamInfoList);
 
 private slots:
     void onStarted();
@@ -260,7 +251,7 @@ private:
     QString m_url;
     bool m_cancelled;
 
-    static StreamInfoPtr parseJSON(const QByteArray &data);
+    static StreamInfo parseJSON(const QByteArray &data);
 };
 
 class AskStreamVersionThread : public QThread

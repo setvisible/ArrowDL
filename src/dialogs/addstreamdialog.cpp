@@ -23,7 +23,6 @@
 #include <Core/DownloadStreamItem>
 #include <Core/ResourceItem>
 #include <Core/Settings>
-#include <Core/Stream>
 #include <Widgets/UrlFormWidget>
 
 #include <QtCore/QDebug>
@@ -58,9 +57,9 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
     connect(ui->continueButton, SIGNAL(released()), this, SLOT(onContinueClicked()));
 
     connect(m_streamInfoDownloader, SIGNAL(error(QString)), this, SLOT(onError(QString)));
-    connect(m_streamInfoDownloader, SIGNAL(collected(StreamInfoPtr)), this, SLOT(onCollected(StreamInfoPtr)));
-    connect(m_streamInfoDownloader, SIGNAL(collected(QList<StreamInfoPtr>)),
-            this, SLOT(onCollected(QList<StreamInfoPtr>)));
+    connect(m_streamInfoDownloader, SIGNAL(collected(StreamInfo)), this, SLOT(onCollected(StreamInfo)));
+    connect(m_streamInfoDownloader, SIGNAL(collected(QList<StreamInfo>)),
+            this, SLOT(onCollected(QList<StreamInfo>)));
 
     readSettings();
 
@@ -132,7 +131,7 @@ void AddStreamDialog::onError(QString errorMessage)
     onChanged(QString());
 }
 
-void AddStreamDialog::onCollected(QList<StreamInfoPtr> streamInfoList)
+void AddStreamDialog::onCollected(QList<StreamInfo> streamInfoList)
 {
     setGuiEnabled(true);
     ui->streamListWidget->setStreamInfoList(streamInfoList);
@@ -173,14 +172,14 @@ QList<IDownloadItem*> AddStreamDialog::createItems() const
     return items;
 }
 
-IDownloadItem* AddStreamDialog::createItem(const StreamInfoPtr &streamInfo) const
+IDownloadItem* AddStreamDialog::createItem(const StreamInfo &streamInfo) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
 
     resource->setStreamEnabled(true);
-    resource->setStreamFileName(streamInfo->fullFileName());
-    resource->setStreamFileSize(streamInfo->guestimateFullSize());
-    resource->setStreamFormatId(streamInfo->formatId());
+    resource->setStreamFileName(streamInfo.fullFileName());
+    resource->setStreamFileSize(streamInfo.guestimateFullSize());
+    resource->setStreamFormatId(streamInfo.formatId());
 
     auto item = new DownloadStreamItem(m_downloadManager);
     item->setResource(resource);

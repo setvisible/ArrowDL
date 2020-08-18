@@ -62,28 +62,25 @@ void StreamWidget::clear()
 
 /******************************************************************************
  ******************************************************************************/
-void StreamWidget::setStreamInfo(StreamInfoPtr streamInfo)
+void StreamWidget::setStreamInfo(StreamInfo streamInfo)
 {
-    Q_ASSERT(streamInfo);
     clear();
 
     qDebug() << Q_FUNC_INFO << streamInfo;
 
-    m_streamInfo.swap(streamInfo);
+    m_streamInfo = streamInfo;
 
-    if (m_streamInfo) {
-        ui->titleLabel->setText(m_streamInfo->title());
-        ui->fileNameEdit->setText(m_streamInfo->fileBaseName());
-        ui->fileExtensionEdit->setText(m_streamInfo->fileExtension());
+    ui->titleLabel->setText(m_streamInfo.title());
+    ui->fileNameEdit->setText(m_streamInfo.fileBaseName());
+    ui->fileExtensionEdit->setText(m_streamInfo.fileExtension());
 
-        populateDefaultFormats(m_streamInfo->defaultFormats());
-        populateComboBox(m_streamInfo->audioFormats(), ui->audioComboBox);
-        populateComboBox(m_streamInfo->videoFormats(), ui->videoComboBox);
+    populateDefaultFormats(m_streamInfo.defaultFormats());
+    populateComboBox(m_streamInfo.audioFormats(), ui->audioComboBox);
+    populateComboBox(m_streamInfo.videoFormats(), ui->videoComboBox);
 
-        setSelectedFormatId(m_streamInfo->formatId());
+    setSelectedFormatId(m_streamInfo.formatId());
 
-        ui->fileExtensionEdit->setText(m_streamInfo->fileExtension()); // supersede with user data
-    }
+    ui->fileExtensionEdit->setText(m_streamInfo.fileExtension()); // supersede with user data
 }
 
 /******************************************************************************
@@ -144,25 +141,19 @@ void StreamWidget::onCurrentIndexChanged(int /*index*/)
 
 void StreamWidget::onChanged()
 {
-    if (m_streamInfo) {
-        m_streamInfo->userFormatId = selectedFormatId();
-        ui->fileExtensionEdit->setText(m_streamInfo->fileExtension());
-        ui->estimedSizeLabel->setText(Format::fileSizeToString(m_streamInfo->guestimateFullSize()));
-    }
+    m_streamInfo.userFormatId = selectedFormatId();
+    ui->fileExtensionEdit->setText(m_streamInfo.fileExtension());
+    ui->estimedSizeLabel->setText(Format::fileSizeToString(m_streamInfo.guestimateFullSize()));
 }
 
 void StreamWidget::onTitleChanged(const QString &)
 {
-    if (m_streamInfo) {
-        m_streamInfo->userTitle = ui->fileNameEdit->text();
-    }
+    m_streamInfo.userTitle = ui->fileNameEdit->text();
 }
 
 void StreamWidget::onSuffixChanged(const QString &)
 {
-    if (m_streamInfo) {
-        m_streamInfo->userSuffix = ui->fileExtensionEdit->text();
-    }
+    m_streamInfo.userSuffix = ui->fileExtensionEdit->text();
 }
 
 /******************************************************************************
@@ -182,11 +173,11 @@ void StreamWidget::clearDetectedFormat()
     }
 }
 
-void StreamWidget::populateDefaultFormats(const QList<StreamFormat*> &formats)
+void StreamWidget::populateDefaultFormats(const QList<StreamFormat> &formats)
 {
     for (auto format : formats) {
-        auto button = appendDetectedFormat(format->toString());
-        button->setProperty(identifierKey, format->format_id);
+        auto button = appendDetectedFormat(format.toString());
+        button->setProperty(identifierKey, format.format_id);
     }
     QWidget *parent = ui->detectedMediaCheckBoxList;
     QList<QRadioButton *> buttons = parent->findChildren<QRadioButton *>();
@@ -209,11 +200,11 @@ QRadioButton* StreamWidget::appendDetectedFormat(const QString &text)
 
 /******************************************************************************
  ******************************************************************************/
-void StreamWidget::populateComboBox(const QList<StreamFormat*> &formats, QComboBox *comboBox)
+void StreamWidget::populateComboBox(const QList<StreamFormat> &formats, QComboBox *comboBox)
 {
     comboBox->clear();
     for (auto format : formats) {
-        comboBox->addItem(format->toString(), format->format_id);
+        comboBox->addItem(format.toString(), format.format_id);
     }
 }
 

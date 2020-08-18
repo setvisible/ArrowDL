@@ -95,12 +95,12 @@ void StreamListWidget::setErrorMessage(QString errorMessage)
     m_model->clear();
 }
 
-void StreamListWidget::setStreamInfoList(StreamInfoPtr streamInfo)
+void StreamListWidget::setStreamInfoList(StreamInfo streamInfo)
 {
-    setStreamInfoList(QList<StreamInfoPtr>() << streamInfo);
+    setStreamInfoList(QList<StreamInfo>() << streamInfo);
 }
 
-void StreamListWidget::setStreamInfoList(QList<StreamInfoPtr> streamInfoList)
+void StreamListWidget::setStreamInfoList(QList<StreamInfo> streamInfoList)
 {
     setState(StreamListWidget::Normal);
     m_model->setStreamInfoList(streamInfoList);
@@ -155,7 +155,7 @@ void StreamListWidget::onSelectionChanged(const QItemSelection &, const QItemSel
     }
     auto list = rows.toList();
     if (list.count() == 1) {
-        StreamInfoPtr streamInfo = m_model->itemAt(list.first());
+        StreamInfo streamInfo = m_model->itemAt(list.first());
         ui->streamWidget->setStreamInfo(streamInfo);
         ui->streamWidget->setVisible(true);
     } else {
@@ -171,7 +171,7 @@ void StreamListWidget::onCheckStateChanged()
 
 /******************************************************************************
  ******************************************************************************/
-QList<StreamInfoPtr> StreamListWidget::selection() const
+QList<StreamInfo> StreamListWidget::selection() const
 {
     return m_model->selection();
 }
@@ -199,7 +199,7 @@ void StreamTableModel::retranslateUi()
             << tr("Title");
 }
 
-void StreamTableModel::setStreamInfoList(QList<StreamInfoPtr> streamInfoList)
+void StreamTableModel::setStreamInfoList(QList<StreamInfo> streamInfoList)
 {
     clear();
     if (!streamInfoList.isEmpty()) {
@@ -211,15 +211,15 @@ void StreamTableModel::setStreamInfoList(QList<StreamInfoPtr> streamInfoList)
     }
 }
 
-StreamInfoPtr StreamTableModel::itemAt(int row) const
+StreamInfo StreamTableModel::itemAt(int row) const
 {
     Q_ASSERT(row >= 0 && row < m_items.count());
     return m_items.at(row);
 }
 
-QList<StreamInfoPtr> StreamTableModel::selection() const
+QList<StreamInfo> StreamTableModel::selection() const
 {
-    QList<StreamInfoPtr> selection;
+    QList<StreamInfo> selection;
     foreach (int row, this->checkedRows()) {
         if (row >= 0 && row < m_items.count()) {
             selection << m_items.at(row);
@@ -258,12 +258,12 @@ QVariant StreamTableModel::data(const QModelIndex &index, int role) const
     if (index.row() >= rowCount() || index.row() < 0) {
         return QVariant();
     }
-    StreamInfoPtr streamInfo = m_items.at(index.row());
+    StreamInfo streamInfo = m_items.at(index.row());
     if (role == Qt::DisplayRole) {
         switch (index.column()) {
         case  0: return QVariant();
-        case  1: return streamInfo->playlist_index;
-        case  2: return streamInfo->fulltitle;
+        case  1: return streamInfo.playlist_index;
+        case  2: return streamInfo.fulltitle;
         default:
             break;
         }

@@ -297,39 +297,39 @@ void tst_Stream::readStandardError()
 void tst_Stream::parse_empty()
 {
     QByteArray input("\n\n");
-    QList<StreamInfoPtr> actualList = StreamInfoDownloader::parse(input);
+    QList<StreamInfo> actualList = StreamInfoDownloader::parse(input);
     QVERIFY(actualList.isEmpty());
 }
 
 void tst_Stream::parse_single()
 {
     QByteArray input = DummyStreamFactory::dumpSingleVideo();
-    QList<StreamInfoPtr> actualList = StreamInfoDownloader::parse(input);
+    QList<StreamInfo> actualList = StreamInfoDownloader::parse(input);
     QCOMPARE(actualList.size(), 1);
-    QCOMPARE(actualList.at(0)->fulltitle, QLatin1String("Fun Test: Which is real?"));
-    QCOMPARE(actualList.at(0)->error, StreamInfo::NoError);
+    QCOMPARE(actualList.at(0).fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actualList.at(0).error, StreamInfo::NoError);
 }
 
 void tst_Stream::parse_playlist()
 {
     QByteArray input = DummyStreamFactory::dumpPlaylist();
-    QList<StreamInfoPtr> actualList = StreamInfoDownloader::parse(input);
+    QList<StreamInfo> actualList = StreamInfoDownloader::parse(input);
     QCOMPARE(actualList.size(), 3);
-    QCOMPARE(actualList.at(0)->fulltitle, QLatin1String("Fun Test: Which is real?"));
-    QCOMPARE(actualList.at(1)->fulltitle, QLatin1String("Fun Test: Which is real?"));
-    QCOMPARE(actualList.at(2)->fulltitle, QLatin1String("Fun Test: Which is real?"));
-    QCOMPARE(actualList.at(0)->error, StreamInfo::NoError);
-    QCOMPARE(actualList.at(1)->error, StreamInfo::NoError);
-    QCOMPARE(actualList.at(2)->error, StreamInfo::NoError);
+    QCOMPARE(actualList.at(0).fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actualList.at(1).fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actualList.at(2).fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actualList.at(0).error, StreamInfo::NoError);
+    QCOMPARE(actualList.at(1).error, StreamInfo::NoError);
+    QCOMPARE(actualList.at(2).error, StreamInfo::NoError);
 }
 
 void tst_Stream::parse_bad_json()
 {
     QByteArray input("{ name:'hello', data:[ type:'mp3'  }\n");
     //                                 unclosed list [] ^
-    QList<StreamInfoPtr> actualList = StreamInfoDownloader::parse(input);
+    QList<StreamInfo> actualList = StreamInfoDownloader::parse(input);
     QCOMPARE(actualList.size(), 1);
-    QCOMPARE(actualList.at(0)->error, StreamInfo::ErrorJsonFormat);
+    QCOMPARE(actualList.at(0).error, StreamInfo::ErrorJsonFormat);
 }
 
 /******************************************************************************
@@ -367,7 +367,7 @@ void tst_Stream::fileBaseName()
     QFETCH(QString, input);
     QFETCH(QString, expected);
 
-    StreamInfo target(this);
+    StreamInfo target;
     target.defaultTitle = input;
     target.fulltitle = input;
 
@@ -409,7 +409,7 @@ void tst_Stream::guestimateFullSize()
     QFETCH(BigInteger, expected);
 
     auto target = DummyStreamFactory::createDummyStreamInfo_Youtube();
-    qint64 actual = target->guestimateFullSize(input);
+    qint64 actual = target.guestimateFullSize(input);
 
     QCOMPARE(actual, expected.value);
 }
@@ -447,7 +447,7 @@ void tst_Stream::fileExtension()
     QFETCH(QString, expected);
 
     auto target = DummyStreamFactory::createDummyStreamInfo_Youtube();
-    auto actual = target->fileExtension(input);
+    auto actual = target.fileExtension(input);
 
     QCOMPARE(actual, expected);
 }
@@ -457,38 +457,36 @@ void tst_Stream::fileExtension()
 void tst_Stream::defaultFormats()
 {
     auto target = DummyStreamFactory::createDummyStreamInfo_Dailymotion();
-    auto actual = target->defaultFormats();
+    auto actual = target.defaultFormats();
 
-    QList<StreamFormat*> expected;
-    expected << new StreamFormat("http-144-1" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.42000b",  192,  112, 0, 0);
-    expected << new StreamFormat("http-240-1" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d000d",  320,  184, 0, 0);
-    expected << new StreamFormat("http-380-1" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d0016",  512,  288, 0, 0);
-    expected << new StreamFormat("http-480-1" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f",  848,  480, 0, 0);
-    expected << new StreamFormat("http-720-1" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f", 1280,  720, 0, 0);
-    expected << new StreamFormat("http-1080-1", "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640028", 1920, 1080, 0, 0);
+    QList<StreamFormat> expected;
+    expected << StreamFormat("http-144-1" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.42000b",  192,  112, 0, 0);
+    expected << StreamFormat("http-240-1" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d000d",  320,  184, 0, 0);
+    expected << StreamFormat("http-380-1" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d0016",  512,  288, 0, 0);
+    expected << StreamFormat("http-480-1" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f",  848,  480, 0, 0);
+    expected << StreamFormat("http-720-1" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f", 1280,  720, 0, 0);
+    expected << StreamFormat("http-1080-1", "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640028", 1920, 1080, 0, 0);
 
     QCOMPARE(actual.count(), 6);
     for (int index = 0; index < 6; ++index) {
-        //qDebug() << actual.at(index)->toString();
-        QCOMPARE(*actual.at(index), *expected.at(index)); // call (*ptr)->operator==()
+        QCOMPARE(actual.at(index), expected.at(index));
     }
 }
 
 void tst_Stream::defaultFormats_2()
 {
     auto target = DummyStreamFactory::createDummyStreamInfo_Other();
-    auto actual = target->defaultFormats();
+    auto actual = target.defaultFormats();
 
-    QList<StreamFormat*> expected;
-    expected << new StreamFormat("240p"     , "mp4", "", 0, ""         , 0, 0, ""           ,   0, 240,  0, 400);
-    expected << new StreamFormat("480p"     , "mp4", "", 0, ""         , 0, 0, ""           ,   0, 480,  0, 600);
-    expected << new StreamFormat("hls-287-1", "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640015", 430, 240, 24,   0);
-    expected << new StreamFormat("hls-703"  , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001e", 860, 480, 24,   0);
+    QList<StreamFormat> expected;
+    expected << StreamFormat("240p"     , "mp4", "", 0, ""         , 0, 0, ""           ,   0, 240,  0, 400);
+    expected << StreamFormat("480p"     , "mp4", "", 0, ""         , 0, 0, ""           ,   0, 480,  0, 600);
+    expected << StreamFormat("hls-287-1", "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640015", 430, 240, 24,   0);
+    expected << StreamFormat("hls-703"  , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001e", 860, 480, 24,   0);
 
     QCOMPARE(actual.count(), 4);
     for (int index = 0; index < 4; ++index) {
-        //qDebug() << actual.at(index)->toString();
-        QCOMPARE(*actual.at(index), *expected.at(index)); // call (*ptr)->operator==()
+        QCOMPARE(actual.at(index), expected.at(index));
     }
 }
 

@@ -22,11 +22,11 @@
 class DummyStreamFactory
 {
 public:
-    static StreamInfoPtr createDummyStreamInfo();
+    static StreamInfo createDummyStreamInfo();
 
-    static StreamInfoPtr createDummyStreamInfo_Youtube();
-    static StreamInfoPtr createDummyStreamInfo_Dailymotion();
-    static StreamInfoPtr createDummyStreamInfo_Other();
+    static StreamInfo createDummyStreamInfo_Youtube();
+    static StreamInfo createDummyStreamInfo_Dailymotion();
+    static StreamInfo createDummyStreamInfo_Other();
 
     static QByteArray dumpSingleVideo();
     static QByteArray dumpPlaylist();

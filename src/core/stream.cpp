@@ -560,7 +560,7 @@ void StreamInfoDownloader::onFinished(int exitCode, QProcess::ExitStatus /*exitS
         emit error(message);
     } else {
         QByteArray data = m_process->readAllStandardOutput();
-        QList<StreamInfoPtr> streamInfoList = parse(data);
+        QList<StreamInfo> streamInfoList = parse(data);
         if (!streamInfoList.isEmpty()) {
             emit collected(streamInfoList);
         } else {
@@ -574,60 +574,59 @@ void StreamInfoDownloader::onCacheCleaned()
     runAsync(m_url); // retry
 }
 
-QList<StreamInfoPtr> StreamInfoDownloader::parse(const QByteArray &data)
+QList<StreamInfo> StreamInfoDownloader::parse(const QByteArray &data)
 {
-    QList<StreamInfoPtr> streamInfoList;
+    QList<StreamInfo> streamInfoList;
     QList<QByteArray> lines = data.split(QChar('\n').toLatin1());
     foreach (auto line, lines) {
         if (!line.isEmpty()) {
-            StreamInfoPtr info = parseJSON(line);
+            StreamInfo info = parseJSON(line);
             streamInfoList << info;
         }
     }
     return streamInfoList;
 }
 
-StreamInfoPtr StreamInfoDownloader::parseJSON(const QByteArray &data)
+StreamInfo StreamInfoDownloader::parseJSON(const QByteArray &data)
 {
-    StreamInfoPtr info(new StreamInfo());
+    StreamInfo info;
     QJsonParseError ok;
     QJsonDocument loadDoc(QJsonDocument::fromJson(data, &ok));
     if (ok.error != QJsonParseError::NoError) {
-        info->error = StreamInfo::ErrorJsonFormat;
+        info.error = StreamInfo::ErrorJsonFormat;
         return info;
     }
     QJsonObject json = loadDoc.object();
-
-    info->_filename         = json[QLatin1String("_filename")].toString();
-    info->fulltitle         = json[QLatin1String("fulltitle")].toString();
-    info->defaultTitle      = json[QLatin1String("title")].toString();
-    info->defaultSuffix     = json[QLatin1String("ext")].toString();
-    info->description       = json[QLatin1String("description")].toString();
-    info->thumbnail         = json[QLatin1String("thumbnail")].toString();
-    info->extractor         = json[QLatin1String("extractor")].toString();
-    info->extractor_key     = json[QLatin1String("extractor_key")].toString();
-    info->defaultFormatId   = json[QLatin1String("format_id")].toString();
+    info._filename          = json[QLatin1String("_filename")].toString();
+    info.fulltitle          = json[QLatin1String("fulltitle")].toString();
+    info.defaultTitle       = json[QLatin1String("title")].toString();
+    info.defaultSuffix      = json[QLatin1String("ext")].toString();
+    info.description        = json[QLatin1String("description")].toString();
+    info.thumbnail          = json[QLatin1String("thumbnail")].toString();
+    info.extractor          = json[QLatin1String("extractor")].toString();
+    info.extractor_key      = json[QLatin1String("extractor_key")].toString();
+    info.defaultFormatId    = json[QLatin1String("format_id")].toString();
     QJsonArray jobsArray    = json[QLatin1String("formats")].toArray();
     for (int i = 0; i < jobsArray.size(); ++i) {
-        StreamFormat *format = new StreamFormat(info.data());
+        StreamFormat format;
         QJsonObject jobObject = jobsArray[i].toObject();
-        format->format_id    = jobObject[QLatin1String("format_id")].toString();
-        format->ext          = jobObject[QLatin1String("ext")].toString();
-        format->format_note  = jobObject[QLatin1String("format_note")].toString();
-        format->filesize     = jobObject[QLatin1String("filesize")].toInt();
-        format->acodec       = jobObject[QLatin1String("acodec")].toString();
-        format->abr          = jobObject[QLatin1String("abr")].toInt();
-        format->asr          = jobObject[QLatin1String("asr")].toInt();
-        format->vcodec       = jobObject[QLatin1String("vcodec")].toString();
-        format->width        = jobObject[QLatin1String("width")].toInt();
-        format->height       = jobObject[QLatin1String("height")].toInt();
-        format->fps          = jobObject[QLatin1String("fps")].toInt();
-        format->tbr          = jobObject[QLatin1String("tbr")].toInt();
-        info->formats << format;
+        format.format_id    = jobObject[QLatin1String("format_id")].toString();
+        format.ext          = jobObject[QLatin1String("ext")].toString();
+        format.format_note  = jobObject[QLatin1String("format_note")].toString();
+        format.filesize     = jobObject[QLatin1String("filesize")].toInt();
+        format.acodec       = jobObject[QLatin1String("acodec")].toString();
+        format.abr          = jobObject[QLatin1String("abr")].toInt();
+        format.asr          = jobObject[QLatin1String("asr")].toInt();
+        format.vcodec       = jobObject[QLatin1String("vcodec")].toString();
+        format.width        = jobObject[QLatin1String("width")].toInt();
+        format.height       = jobObject[QLatin1String("height")].toInt();
+        format.fps          = jobObject[QLatin1String("fps")].toInt();
+        format.tbr          = jobObject[QLatin1String("tbr")].toInt();
+        info.formats << format;
     }
-    info->playlist          = json[QLatin1String("playlist")].toString();
-    info->playlist_index    = json[QLatin1String("playlist_index")].toString();
-    info->error             = StreamInfo::NoError;
+    info.playlist           = json[QLatin1String("playlist")].toString();
+    info.playlist_index     = json[QLatin1String("playlist_index")].toString();
+    info.error              = StreamInfo::NoError;
     return info;
 }
 
@@ -794,40 +793,22 @@ void StreamExtractorListCollector::onFinished()
 
 /******************************************************************************
  ******************************************************************************/
-StreamFormat::StreamFormat(QObject *parent) : QObject(parent)
+StreamFormat::StreamFormat()
 {
 }
 
-StreamFormat::StreamFormat(const StreamFormat &other) : QObject(other.parent())
-{
-    this->format_id    = other.format_id   ;
-    this->ext          = other.ext         ;
-    this->format_note  = other.format_note ;
-    this->filesize     = other.filesize    ;
-    this->acodec       = other.acodec      ;
-    this->abr          = other.abr         ;
-    this->asr          = other.asr         ;
-    this->vcodec       = other.vcodec      ;
-    this->width        = other.width       ;
-    this->height       = other.height      ;
-    this->fps          = other.fps         ;
-    this->tbr          = other.tbr         ;
-}
-
-StreamFormat::StreamFormat(
-        QString format_id,
-        QString ext,
-        QString format_note,
-        int filesize,
-        QString acodec,
-        int abr,
-        int asr,
-        QString vcodec,
-        int width,
-        int height,
-        int fps,
-        int tbr,
-        QObject *parent) : QObject(parent)
+StreamFormat::StreamFormat(QString format_id,
+                           QString ext,
+                           QString format_note,
+                           int filesize,
+                           QString acodec,
+                           int abr,
+                           int asr,
+                           QString vcodec,
+                           int width,
+                           int height,
+                           int fps,
+                           int tbr)
 {
     this->format_id    = format_id   ;
     this->ext          = ext         ;
@@ -922,29 +903,9 @@ QString StreamFormat::debug_description() const
 
 /******************************************************************************
  ******************************************************************************/
-StreamInfo::StreamInfo(QObject *parent) : QObject(parent)
-  , error(NoError)
+StreamInfo::StreamInfo()
+    : error(NoError)
 {
-}
-
-StreamInfo::StreamInfo(const StreamInfo &other): QObject(other.parent())
-{
-    this->_filename        = other._filename       ;
-    this->fulltitle        = other.fulltitle       ;
-    this->defaultTitle     = other.defaultTitle    ;
-    this->defaultSuffix    = other.defaultSuffix   ;
-    this->description      = other.description     ;
-    this->thumbnail        = other.thumbnail       ;
-    this->extractor        = other.extractor       ;
-    this->extractor_key    = other.extractor_key   ;
-    this->defaultFormatId  = other.defaultFormatId ;
-    this->formats          = other.formats         ;
-    this->playlist         = other.playlist        ;
-    this->playlist_index   = other.playlist_index  ;
-    this->userTitle        = other.userTitle       ;
-    this->userSuffix       = other.userSuffix      ;
-    this->userFormatId     = other.userFormatId    ;
-    this->error            = other.error           ;
 }
 
 StreamInfo::~StreamInfo()
@@ -963,14 +924,14 @@ qint64 StreamInfo::guestimateFullSize(const QString &format_id) const
     }
     QMap<QString, qint64> sizes;
     for (auto format : formats) {
-        sizes.insert(format->format_id, format->filesize);
+        sizes.insert(format.format_id, format.filesize);
     }
-    qint64 estimedSize = 0;
+    qint64 estimatedSize = 0;
     QStringList ids = format_id.split(QChar('+'));
     for (auto id : ids) {
-        estimedSize += sizes.value(id, 0);
+        estimatedSize += sizes.value(id, 0);
     }
-    return estimedSize;
+    return estimatedSize;
 }
 
 QString StreamInfo::title() const
@@ -1022,19 +983,19 @@ QString StreamInfo::fileExtension(const QString &formatId) const
     if (this->defaultFormatId == formatId) {
         return this->defaultSuffix;
     }
-    QString estimedExt = this->defaultSuffix;
+    QString estimatedExt = this->defaultSuffix;
     QStringList ids = formatId.split(QChar('+'));
     for (auto id : ids) {
         for (auto format : formats) {
-            if (id == format->format_id) {
-                if (format->hasVideo()) {
-                    return format->ext;
+            if (id == format.format_id) {
+                if (format.hasVideo()) {
+                    return format.ext;
                 }
-                estimedExt = format->ext;
+                estimatedExt = format.ext;
             }
         }
     }
-    return estimedExt;
+    return estimatedExt;
 }
 
 QString StreamInfo::formatId() const
@@ -1042,19 +1003,19 @@ QString StreamInfo::formatId() const
     return userFormatId.isEmpty() ? defaultFormatId : userFormatId;
 }
 
-QList<StreamFormat*> StreamInfo::defaultFormats() const
+QList<StreamFormat> StreamInfo::defaultFormats() const
 {
     // Map avoids duplicate entries
-    QMap<QString, StreamFormat*> map;
+    QMap<QString, StreamFormat> map;
     for (auto format : formats) {
-        if (format->hasVideo() && format->hasMusic()) {
+        if (format.hasVideo() && format.hasMusic()) {
 
             // The output list should be sorted in ascending order of
             // video resolution, then in ascending order of codec name
             auto unique_sort_identifier = QString("%0 %1 %2")
-                    .arg(format->width, 16, 10, QChar('0'))
-                    .arg(format->height, 16, 10, QChar('0'))
-                    .arg(format->toString());
+                    .arg(format.width, 16, 10, QChar('0'))
+                    .arg(format.height, 16, 10, QChar('0'))
+                    .arg(format.toString());
 
             map.insert(unique_sort_identifier, format);
         }
@@ -1062,22 +1023,22 @@ QList<StreamFormat*> StreamInfo::defaultFormats() const
     return map.values();
 }
 
-QList<StreamFormat*> StreamInfo::audioFormats() const
+QList<StreamFormat> StreamInfo::audioFormats() const
 {
-    QList<StreamFormat*> list;
+    QList<StreamFormat> list;
     for (auto format : formats) {
-        if (!format->hasVideo() && format->hasMusic()) {
+        if (!format.hasVideo() && format.hasMusic()) {
             list.append(format);
         }
     }
     return list;
 }
 
-QList<StreamFormat*> StreamInfo::videoFormats() const
+QList<StreamFormat> StreamInfo::videoFormats() const
 {
-    QList<StreamFormat*> list;
+    QList<StreamFormat> list;
     for (auto format : formats) {
-        if (format->hasVideo() && !format->hasMusic()) {
+        if (format.hasVideo() && !format.hasMusic()) {
             list.append(format);
         }
     }
@@ -1101,7 +1062,7 @@ QString StreamInfo::debug_description() const
                  .arg(playlist_index));
     foreach (auto format, formats) {
         descr.append("\n");
-        descr.append(format->debug_description());
+        descr.append(format.debug_description());
     }
     return descr;
 }

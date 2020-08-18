@@ -17,11 +17,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QtWidgets/QMainWindow>
+#include <Core/Stream>
 
-class StreamInfo;
-class StreamInfoDownloader;
-typedef QSharedPointer<StreamInfo> StreamInfoPtr;
+#include <QtWidgets/QMainWindow>
 
 namespace Ui {
 class MainWindow;
@@ -38,7 +36,7 @@ private slots:
     void onContinueClicked();
     void onResetClicked();
     void onError(QString errorMessage);
-    void onCollected(QList<StreamInfoPtr> streamInfoList);
+    void onCollected(QList<StreamInfo> streamInfoList);
 
     void onEmptyButtonClicked();
     void onYoutubeButtonClicked();

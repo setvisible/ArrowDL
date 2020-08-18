@@ -19,7 +19,6 @@
 
 #include "../../utils/dummystreamfactory.h"
 
-#include <Core/Stream>
 #include <Widgets/StreamListWidget>
 
 #include <QtCore/QDebug>
@@ -52,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     ui->urlMp4Button->setToolTip(s_urlMp4Link);
 
     connect(m_streamInfoDownloader, SIGNAL(error(QString)), this, SLOT(onError(QString)));
-    connect(m_streamInfoDownloader, SIGNAL(collected(QList<StreamInfoPtr>)), this, SLOT(onCollected(QList<StreamInfoPtr>)));
+    connect(m_streamInfoDownloader, SIGNAL(collected(QList<StreamInfo>)), this, SLOT(onCollected(QList<StreamInfo>)));
 
     onResetClicked();
 }
@@ -118,7 +117,7 @@ void MainWindow::onUrlMp4ButtonClicked()
 
 void MainWindow::onPlaylistButtonClicked()
 {
-    QList<StreamInfoPtr> list;
+    QList<StreamInfo> list;
     list << DummyStreamFactory::createDummyStreamInfo_Youtube();
     list << DummyStreamFactory::createDummyStreamInfo_Dailymotion();
     list << DummyStreamFactory::createDummyStreamInfo_Other();
@@ -133,7 +132,7 @@ void MainWindow::onError(QString errorMessage)
     ui->streamListWidget->setErrorMessage(errorMessage);
 }
 
-void MainWindow::onCollected(QList<StreamInfoPtr> streamInfoList)
+void MainWindow::onCollected(QList<StreamInfo> streamInfoList)
 {
     ui->continueButton->setEnabled(true);
     ui->streamListWidget->setStreamInfoList(streamInfoList);

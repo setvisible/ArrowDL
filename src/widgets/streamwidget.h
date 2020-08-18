@@ -36,7 +36,7 @@ public:
     ~StreamWidget() Q_DECL_OVERRIDE;
 
     void clear();
-    void setStreamInfo(StreamInfoPtr streamInfo);
+    void setStreamInfo(StreamInfo streamInfo);
 
     QString selectedFormatId() const;
     void setSelectedFormatId(const QString &format_id);
@@ -51,13 +51,13 @@ private slots:
 
 private:
     Ui::StreamWidget *ui;
-    StreamInfoPtr m_streamInfo;
+    StreamInfo m_streamInfo;
 
     void clearDetectedFormat();
-    void populateDefaultFormats(const QList<StreamFormat*> &formats);
+    void populateDefaultFormats(const QList<StreamFormat> &formats);
     QRadioButton* appendDetectedFormat(const QString &text);
 
-    void populateComboBox(const QList<StreamFormat*> &formats, QComboBox *comboBox);
+    void populateComboBox(const QList<StreamFormat> &formats, QComboBox *comboBox);
 
     void selectRadio(const QString &id);
     void selectAudioComboBoxItem(const QString &id);

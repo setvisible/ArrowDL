@@ -46,10 +46,10 @@ public:
     void setEmpty();
     void setWaitMessage();
     void setErrorMessage(QString errorMessage);
-    void setStreamInfoList(StreamInfoPtr streamInfo);
-    void setStreamInfoList(QList<StreamInfoPtr> streamInfoList);
+    void setStreamInfoList(StreamInfo streamInfo);
+    void setStreamInfoList(QList<StreamInfo> streamInfoList);
 
-    QList<StreamInfoPtr> selection() const;
+    QList<StreamInfo> selection() const;
 
 
 protected slots:
@@ -91,10 +91,10 @@ public:
 
     void retranslateUi();
 
-    void setStreamInfoList(QList<StreamInfoPtr> streamInfoList);
+    void setStreamInfoList(QList<StreamInfo> streamInfoList);
 
-    StreamInfoPtr itemAt(int row) const;
-    QList<StreamInfoPtr> selection() const;
+    StreamInfo itemAt(int row) const;
+    QList<StreamInfo> selection() const;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
@@ -103,7 +103,7 @@ public:
 
 private:
     QStringList m_headers;
-    QList<StreamInfoPtr> m_items;
+    QList<StreamInfo> m_items;
 };
 
 #endif // WIDGETS_STREAM_LIST_WIDGET_H
