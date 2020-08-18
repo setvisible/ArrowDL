@@ -21,8 +21,6 @@
 
 #include <QtWidgets/QWidget>
 
-class QRadioButton;
-class QComboBox;
 
 namespace Ui {
 class StreamWidget;
@@ -35,37 +33,16 @@ public:
     explicit StreamWidget(QWidget *parent);
     ~StreamWidget() Q_DECL_OVERRIDE;
 
-    void clear();
     void setStreamInfo(StreamInfo streamInfo);
 
-    QString selectedFormatId() const;
-    void setSelectedFormatId(const QString &format_id);
-
 private slots:
-    void updateButtonBar();
-    void onCurrentIndexChanged(int index);
-    void onChanged();
-
+    void onStreamFormatPickerChanged();
     void onTitleChanged(const QString &);
     void onSuffixChanged(const QString &);
 
 private:
     Ui::StreamWidget *ui;
     StreamInfo m_streamInfo;
-
-    void clearDetectedFormat();
-    void populateDefaultFormats(const QList<StreamFormat> &formats);
-    QRadioButton* appendDetectedFormat(const QString &text);
-
-    void populateComboBox(const QList<StreamFormat> &formats, QComboBox *comboBox);
-
-    void selectRadio(const QString &id);
-    void selectAudioComboBoxItem(const QString &id);
-    void selectVideoComboBoxItem(const QString &id);
-
-    QString selectedRadio() const;
-    QString selectedAudioComboBoxItem() const;
-    QString selectedVideoComboBoxItem() const;
 };
 
 #endif // WIDGETS_STREAM_WIDGET_H
