@@ -50,6 +50,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="errorButton">
+        <property name="text">
+         <string>Error</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="youtubeButton">
         <property name="text">
          <string>Youtube</string>

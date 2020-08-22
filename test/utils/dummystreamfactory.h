@@ -23,6 +23,7 @@ class DummyStreamFactory
 {
 public:
     static StreamInfo createDummyStreamInfo();
+    static StreamInfo createDummyErrorStreamInfo();
 
     static StreamInfo createDummyStreamInfo_Youtube();
     static StreamInfo createDummyStreamInfo_Dailymotion();
@@ -31,8 +32,14 @@ public:
     static StreamInfo createDummyStreamInfo_unavailable();
 
     static QByteArray dumpSingleVideo();
+    static QByteArray dumpSingleVideo(const QString &id);
     static QByteArray dumpPlaylist();
     static QByteArray dumpPlaylistStandardError();
+
+    static QByteArray flatSingleVideo();
+    static QByteArray flatSingleVideo(const QString &id);
+    static QByteArray flatPlaylist();
+
 };
 
 #endif // DUMMY_STREAM_FACTORY_H

@@ -39,6 +39,7 @@ private slots:
     void onCollected(QList<StreamInfo> streamInfoList);
 
     void onEmptyButtonClicked();
+    void onErrorButtonClicked();
     void onYoutubeButtonClicked();
     void onDailymotionButtonClicked();
     void onOtherSiteButtonClicked();

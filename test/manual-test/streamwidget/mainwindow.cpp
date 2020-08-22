@@ -42,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     connect(ui->continueButton, SIGNAL(released()), this, SLOT(onContinueClicked()));
 
     connect(ui->emptyButton,       SIGNAL(released()), this, SLOT(onEmptyButtonClicked()));
+    connect(ui->errorButton,       SIGNAL(released()), this, SLOT(onErrorButtonClicked()));
     connect(ui->youtubeButton,     SIGNAL(released()), this, SLOT(onYoutubeButtonClicked()));
     connect(ui->dailymotionButton, SIGNAL(released()), this, SLOT(onDailymotionButtonClicked()));
     connect(ui->otherSiteButton,   SIGNAL(released()), this, SLOT(onOtherSiteButtonClicked()));
@@ -92,6 +93,12 @@ void MainWindow::onEmptyButtonClicked()
     ui->streamListWidget->setStreamInfoList(info);
 }
 
+void MainWindow::onErrorButtonClicked()
+{
+    auto info = DummyStreamFactory::createDummyErrorStreamInfo();
+    ui->streamListWidget->setStreamInfoList(info);
+}
+
 void MainWindow::onYoutubeButtonClicked()
 {
     auto info = DummyStreamFactory::createDummyStreamInfo_Youtube();
@@ -120,12 +127,12 @@ void MainWindow::onPlaylistButtonClicked()
     QList<StreamInfo> list;
     list << DummyStreamFactory::createDummyStreamInfo_Youtube();
     list << DummyStreamFactory::createDummyStreamInfo_Dailymotion();
-    list << DummyStreamFactory::createDummyStreamInfo_Other();
     list << DummyStreamFactory::createDummyStreamInfo_unavailable();
+    list << DummyStreamFactory::createDummyStreamInfo_Other();
     for (int i = 0; i < list.count(); ++i) {
         auto item = list.at(i);
         item.playlist = QLatin1String("Playlist of favorite streams");
-        item.playlist_index = QString::number(i);
+        item.playlist_index = QString::number(i + 1);
         list.replace(i, item);
     }
     ui->streamListWidget->setStreamInfoList(list);
