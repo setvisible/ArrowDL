@@ -32,8 +32,8 @@ class StreamListWidget;
 class StreamListWidget : public QWidget
 {
     Q_OBJECT
-public:
 
+public:
     explicit StreamListWidget(QWidget *parent);
     ~StreamListWidget() Q_DECL_OVERRIDE;
 
@@ -43,25 +43,28 @@ public:
     void setColumnWidths(const QList<int> &widths);
 
     bool isValid() const;
-    void setEmpty();
-    void setWaitMessage();
-    void setErrorMessage(QString errorMessage);
+
+    void setMessageEmpty();
+    void setMessageWait();
+    void setMessageError(QString errorMessage);
+
     void setStreamInfoList(StreamInfo streamInfo);
     void setStreamInfoList(QList<StreamInfo> streamInfoList);
 
     QList<StreamInfo> selection() const;
 
-
 protected slots:
     void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
-    void onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-    void onCheckStateChanged();
+    void onSelectionChanged(const QItemSelection &selected,
+                            const QItemSelection &deselected);
+    void onStreamInfoChanged(StreamInfo streamInfo);
+    void onCheckStateChanged(QModelIndex index, bool checked);
 
 private:
     Ui::StreamListWidget *ui;
-    StreamTableModel *m_model;
+    StreamTableModel *m_playlistModel;
 
     enum State {
         Empty,
@@ -74,7 +77,7 @@ private:
     State state() const;
     void setState(State state);
 
-    inline QModelIndexList selectedIndexesAtColumn(int column);
+    QList<int> selectedRows() const;
 };
 
 /******************************************************************************
@@ -94,6 +97,8 @@ public:
     void setStreamInfoList(QList<StreamInfo> streamInfoList);
 
     StreamInfo itemAt(int row) const;
+    void setItemAt(int row, const StreamInfo &streamInfo);
+
     QList<StreamInfo> selection() const;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
@@ -104,6 +109,7 @@ public:
 private:
     QStringList m_headers;
     QList<StreamInfo> m_items;
+    QString filenameOrErrorMessage(const StreamInfo &streamInfo) const;
 };
 
 #endif // WIDGETS_STREAM_LIST_WIDGET_H

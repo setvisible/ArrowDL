@@ -18,29 +18,86 @@
 #include "ui_streamformatpicker.h"
 
 #include <Core/Format>
+#include <Core/Stream>
 
 #include <QtCore/QDebug>
+#include <QtGui/QStandardItemModel>
 #include <QtWidgets/QComboBox>
-#include <QtWidgets/QRadioButton>
 
-static const char *identifierKey = "identifier";
 
+/******************************************************************************
+ ******************************************************************************/
+RadioItemDelegate::RadioItemDelegate(QObject *parent) : QStyledItemDelegate(parent)
+{
+}
+
+void RadioItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
+                              const QModelIndex &index) const
+{
+    QStyleOptionViewItem myOption = option;
+    initStyleOption(&myOption, index);
+    auto text = index.data(Qt::DisplayRole).toString();
+    auto checked = index.data(StreamFormatPicker::CheckStateRole).toBool();
+    if (index.column() == 0) {
+        QStyleOptionButton radio;
+        radio.rect = myOption.rect;
+        radio.palette = myOption.palette;
+        radio.text = text;
+        radio.features |= QStyleOptionButton::Flat;
+        radio.state |= QStyle::State_Enabled;
+        radio.state |= checked ? QStyle::State_On : QStyle::State_Off;
+        QApplication::style()->drawControl(QStyle::CE_RadioButton, &radio, painter);
+    } else {
+        QStyledItemDelegate::paint(painter, myOption, index);
+    }
+}
+
+bool RadioItemDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
+                                    const QStyleOptionViewItem &option,
+                                    const QModelIndex &index)
+{
+    if (event->type() == QEvent::MouseButtonRelease && index.column() == 0) {
+        for (int row = 0; row < index.model()->rowCount(); ++row) {
+            auto checked = row == index.row();
+            model->setData(model->index(row, 0), checked, StreamFormatPicker::CheckStateRole);
+        }
+        return true;
+    }
+    return QStyledItemDelegate::editorEvent(event, model, option, index);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 StreamFormatPicker::StreamFormatPicker(QWidget *parent) : QWidget(parent)
   , ui(new Ui::StreamFormatPicker)
+  , m_model(new QStandardItemModel(0, 1, this))
 {
     ui->setupUi(this);
 
+    ui->listView->setItemDelegate(new RadioItemDelegate(ui->listView));
+    ui->listView->setModel(m_model);
+    ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->listView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->listView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->listView->setSpacing(3);
+    ui->listView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    ui->listView->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    ui->listView->viewport()->setAutoFillBackground(false); // transparent background
+    ui->listView->setFrameShape(QAbstractItemView::NoFrame);
+    ui->listView->setCursor(Qt::PointingHandCursor);
+    ui->listView->setUniformItemSizes(true);
+    ui->listView->setSizeAdjustPolicy(QAbstractItemView::AdjustToContents);
+
     adjustSize();
 
-    connect(ui->defaultButton, SIGNAL(released()), this, SLOT(updateButtonBar()));
-    connect(ui->customAudioButton, SIGNAL(released()), this, SLOT(updateButtonBar()));
-    connect(ui->customVideoButton, SIGNAL(released()), this, SLOT(updateButtonBar()));
+    connect(ui->categorySimpleButton, SIGNAL(released()), this, SLOT(onCategoryChanged()));
+    connect(ui->categoryAudioButton, SIGNAL(released()), this, SLOT(onCategoryChanged()));
+    connect(ui->categoryVideoButton, SIGNAL(released()), this, SLOT(onCategoryChanged()));
 
-    connect(ui->defaultButton, SIGNAL(released()), this, SLOT(onChanged()));
-    connect(ui->customAudioButton, SIGNAL(released()), this, SLOT(onChanged()));
-    connect(ui->customVideoButton, SIGNAL(released()), this, SLOT(onChanged()));
     connect(ui->audioComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
     connect(ui->videoComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
+    connect(ui->listView->selectionModel(), SIGNAL(currentChanged(QModelIndex, QModelIndex)),
+            this, SLOT(onCurrentChanged(QModelIndex, QModelIndex)));
 
     updateButtonBar();
 }
@@ -52,46 +109,76 @@ StreamFormatPicker::~StreamFormatPicker()
 
 /******************************************************************************
  ******************************************************************************/
-void StreamFormatPicker::setStreamInfo(StreamInfo streamInfo)
+void StreamFormatPicker::clear()
 {
-    clearDetectedFormat();
+    // Don't clear() to keep the columns
+    m_model->removeRows(0, m_model->rowCount());
+}
 
-    qDebug() << Q_FUNC_INFO << streamInfo;
+void StreamFormatPicker::setData(const StreamInfo &streamInfo)
+{
+    QSignalBlocker blocker(this);
+    clear();
 
-    populateDefaultFormats(streamInfo.defaultFormats());
+    populateSimple(streamInfo.defaultFormats());
     populateComboBox(streamInfo.audioFormats(), ui->audioComboBox);
     populateComboBox(streamInfo.videoFormats(), ui->videoComboBox);
 
-    setSelectedFormatId(streamInfo.formatId());
+    select(streamInfo.formatId());
 }
 
 /******************************************************************************
  ******************************************************************************/
-QString StreamFormatPicker::selectedFormatId() const
+void StreamFormatPicker::select(const StreamFormatId &formatId)
 {
-    if (ui->defaultButton->isChecked()) {
-        return selectedRadio();
+    if (!formatId.isEmpty()) {
+        const QSignalBlocker blocker(this);
+        foreach (auto compoundId, formatId.compoundIds()) {
+            setCurrentSimple(compoundId);
+            setCurrentAudio(compoundId);
+            setCurrentVideo(compoundId);
+        }
     }
-    auto id = selectedAudioComboBoxItem();
-    if (ui->videoGroup->isVisible()) {
-        // The first format must contain the video.
-        return selectedVideoComboBoxItem() + "+" + id;
-    }
-    return id;
+    onCategoryChanged();
 }
 
-void StreamFormatPicker::setSelectedFormatId(const QString &format_id)
+StreamFormatId StreamFormatPicker::selection() const
 {
-    qDebug() << Q_FUNC_INFO << format_id;
-    if (!format_id.isEmpty()) {
-        auto ids = format_id.split("+", QString::SkipEmptyParts);
-        foreach (auto id, ids) {
-            selectRadio(id);
-            selectAudioComboBoxItem(id);
-            selectVideoComboBoxItem(id);
-        }
-        updateButtonBar();
-        onChanged();
+    if (ui->categorySimpleButton->isChecked()) {
+        return currentSimple();
+    }
+    if (ui->videoGroup->isVisible()) {
+        /* The first format must be the video. */
+        return currentVideo() + currentAudio();
+    }
+    return currentAudio();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void StreamFormatPicker::onCurrentChanged(const QModelIndex &current,
+                                          const QModelIndex &/*previous*/)
+{
+    auto formatId = current.data(StreamFormatPicker::FormatIdRole).value<StreamFormatId>();
+    if (!formatId.isEmpty()) {
+        emit selectionChanged(formatId);
+    }
+}
+
+void StreamFormatPicker::onCurrentIndexChanged(int /*index*/)
+{
+    auto formatId = selection();
+    if (!formatId.isEmpty()) {
+        emit selectionChanged(formatId);
+    }
+}
+
+void StreamFormatPicker::onCategoryChanged()
+{
+    updateButtonBar();
+    auto formatId = selection();
+    if (!formatId.isEmpty()) {
+        emit selectionChanged(formatId);
     }
 }
 
@@ -99,7 +186,7 @@ void StreamFormatPicker::setSelectedFormatId(const QString &format_id)
  ******************************************************************************/
 void StreamFormatPicker::updateButtonBar()
 {
-    if (ui->defaultButton->isChecked()) {
+    if (ui->categorySimpleButton->isChecked()) {
         ui->choiceStackedWidget->setCurrentWidget(ui->pageDefault);
     } else {
         ui->choiceStackedWidget->setCurrentWidget(ui->pageCustom);
@@ -112,107 +199,95 @@ void StreamFormatPicker::updateButtonBar()
         ui->videoGroup->setVisible(false);
     } else{
         ui->audioGroup->setVisible(true);
-        ui->videoGroup->setVisible(!ui->customAudioButton->isChecked());
+        ui->videoGroup->setVisible(!ui->categoryAudioButton->isChecked());
     }
-}
-
-void StreamFormatPicker::onCurrentIndexChanged(int /*index*/)
-{
-    onChanged();
-}
-
-void StreamFormatPicker::onChanged()
-{
-    emit ddd();
 }
 
 /******************************************************************************
  ******************************************************************************/
-void StreamFormatPicker::clearDetectedFormat()
+void StreamFormatPicker::populateSimple(const QList<StreamFormat> &formats)
 {
-    QWidget *parent = ui->detectedMediaCheckBoxList;
-    if (!parent->layout()) {
-        parent->setLayout(new QVBoxLayout());
-    }
-    QLayoutItem *wItem;
-    while ((wItem = parent->layout()->takeAt(0)) != nullptr) {
-        if (wItem->widget()) {
-            wItem->widget()->setParent(nullptr);
-        }
-        delete wItem;
-    }
-}
-
-void StreamFormatPicker::populateDefaultFormats(const QList<StreamFormat> &formats)
-{
+    bool checked = true;
     for (auto format : formats) {
-        auto button = appendDetectedFormat(format.toString());
-        button->setProperty(identifierKey, format.format_id);
+        auto item = new QStandardItem(format.toString());
+
+        item->setData(checked, StreamFormatPicker::CheckStateRole);
+        checked = false;
+
+        QVariant variant;
+        variant.setValue(format.formatId);
+        item->setData(variant, StreamFormatPicker::FormatIdRole);
+
+        m_model->appendRow(item);
     }
-    QWidget *parent = ui->detectedMediaCheckBoxList;
-    QList<QRadioButton *> buttons = parent->findChildren<QRadioButton *>();
-    if (!buttons.isEmpty()) {
-        buttons.first()->setChecked(true);
+    if (m_model->rowCount() > 0) {
+        ui->listView->selectionModel()->setCurrentIndex(m_model->index(0, 0), QItemSelectionModel::ClearAndSelect);
     }
 }
 
-QRadioButton* StreamFormatPicker::appendDetectedFormat(const QString &text)
-{
-    QWidget *parent = ui->detectedMediaCheckBoxList;
-    QRadioButton *button = new QRadioButton(parent);
-    button->setText(text);
-    button->setAutoExclusive(true);
-    button->setCursor(Qt::PointingHandCursor);
-    connect(button, SIGNAL(released()), this, SLOT(onChanged()));
-    parent->layout()->addWidget(button);
-    return button;
-}
-
-/******************************************************************************
- ******************************************************************************/
 void StreamFormatPicker::populateComboBox(const QList<StreamFormat> &formats, QComboBox *comboBox)
 {
     comboBox->clear();
     for (auto format : formats) {
-        comboBox->addItem(format.toString(), format.format_id);
+        QVariant variant;
+        variant.setValue(format.formatId);
+        comboBox->addItem(format.toString(), variant);
     }
 }
 
 /******************************************************************************
  ******************************************************************************/
-void StreamFormatPicker::selectRadio(const QString &id)
+QModelIndex StreamFormatPicker::find(const StreamFormatId &id) const
 {
-    QWidget *parent = ui->detectedMediaCheckBoxList;
-    QList<QRadioButton *> buttons = parent->findChildren<QRadioButton *>();
-    for (auto button: buttons) {
-        QString identifier = button->property(identifierKey).toString();
-        if (identifier == id) {
-            button->setChecked(true);
-            ui->defaultButton->setChecked(true);
-            return;
+    for (int row = 0; row < m_model->rowCount(); ++row) {
+        auto index = m_model->index(row, 0);
+        auto indexId = index.data(StreamFormatPicker::FormatIdRole).value<StreamFormatId>();
+        if (id == indexId) {
+            return index;
+        }
+    }
+    return QModelIndex();
+}
+
+void StreamFormatPicker::setCurrentSimple(const StreamFormatId &id)
+{
+    // Uncheck all rows
+    for (int row = 0; row < m_model->rowCount(); ++row) {
+        auto index = m_model->index(row, 0);
+        m_model->setData(index, false, StreamFormatPicker::CheckStateRole);
+    }
+
+    // Check current or first row
+    QModelIndex indexToSelect = find(id);
+    if (indexToSelect.isValid()) {
+        m_model->setData(indexToSelect, true, StreamFormatPicker::CheckStateRole);
+        ui->categorySimpleButton->setChecked(true);
+    } else {
+        if (m_model->rowCount() > 0) {
+            m_model->setData(m_model->index(0, 0), true, StreamFormatPicker::CheckStateRole);
         }
     }
 }
 
-void StreamFormatPicker::selectAudioComboBoxItem(const QString &id)
+void StreamFormatPicker::setCurrentAudio(const StreamFormatId &id)
 {
     for (int i = 0; i < ui->audioComboBox->count(); ++i) {
-        if (ui->audioComboBox->itemData(i, Qt::UserRole).toString() == id) {
+        if (ui->audioComboBox->itemData(i, Qt::UserRole).value<StreamFormatId>() == id) {
             ui->audioComboBox->setCurrentIndex(i);
-            if (!ui->customVideoButton->isChecked()) {
-                ui->customAudioButton->setChecked(true);
+            if (!ui->categoryVideoButton->isChecked()) {
+                ui->categoryAudioButton->setChecked(true);
             }
             return;
         }
     }
 }
 
-void StreamFormatPicker::selectVideoComboBoxItem(const QString &id)
+void StreamFormatPicker::setCurrentVideo(const StreamFormatId &id)
 {
     for (int i = 0; i < ui->videoComboBox->count(); ++i) {
-        if (ui->videoComboBox->itemData(i, Qt::UserRole).toString() == id) {
+        if (ui->videoComboBox->itemData(i, Qt::UserRole).value<StreamFormatId>() == id) {
             ui->videoComboBox->setCurrentIndex(i);
-            ui->customVideoButton->setChecked(true);
+            ui->categoryVideoButton->setChecked(true);
             return;
         }
     }
@@ -220,24 +295,24 @@ void StreamFormatPicker::selectVideoComboBoxItem(const QString &id)
 
 /******************************************************************************
  ******************************************************************************/
-QString StreamFormatPicker::selectedRadio() const
+StreamFormatId StreamFormatPicker::currentSimple() const
 {
-    QWidget *parent = ui->detectedMediaCheckBoxList;
-    QList<QRadioButton *> buttons = parent->findChildren<QRadioButton *>();
-    for (auto button: buttons) {
-        if (button->isChecked()) {
-            return button->property(identifierKey).toString();
+    for (int row = 0; row < m_model->rowCount(); ++row) {
+        auto index = m_model->index(row, 0);
+        auto checked = index.data(StreamFormatPicker::CheckStateRole).toBool();
+        if (checked) {
+            return index.data(StreamFormatPicker::FormatIdRole).value<StreamFormatId>();
         }
     }
-    return QString();
+    return StreamFormatId();
 }
 
-QString StreamFormatPicker::selectedAudioComboBoxItem() const
+StreamFormatId StreamFormatPicker::currentAudio() const
 {
-    return ui->audioComboBox->currentData(Qt::UserRole).toString();
+    return ui->audioComboBox->currentData(Qt::UserRole).value<StreamFormatId>();
 }
 
-QString StreamFormatPicker::selectedVideoComboBoxItem() const
+StreamFormatId StreamFormatPicker::currentVideo() const
 {
-    return ui->videoComboBox->currentData(Qt::UserRole).toString();
+    return ui->videoComboBox->currentData(Qt::UserRole).value<StreamFormatId>();
 }

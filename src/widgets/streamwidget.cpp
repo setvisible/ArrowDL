@@ -29,9 +29,14 @@ StreamWidget::StreamWidget(QWidget *parent) : QWidget(parent)
 
     adjustSize();
 
-    connect(ui->streamFormatPicker, SIGNAL(ddd()), this, SLOT(onStreamFormatPickerChanged()));
-    connect(ui->fileNameEdit, SIGNAL(textChanged(QString)), this, SLOT(onTitleChanged(QString)));
-    connect(ui->fileExtensionEdit, SIGNAL(textChanged(QString)), this, SLOT(onSuffixChanged(QString)));
+    connect(ui->streamFormatPicker, SIGNAL(selectionChanged(StreamFormatId)),
+            this, SLOT(onFormatSelected(StreamFormatId)));
+    connect(ui->fileNameEdit, SIGNAL(textChanged(QString)),
+            this, SLOT(onTitleChanged(QString)));
+    connect(ui->fileExtensionEdit, SIGNAL(textChanged(QString)),
+            this, SLOT(onSuffixChanged(QString)));
+
+    ui->stackedWidget->setCurrentWidget(ui->pageInfo);
 }
 
 StreamWidget::~StreamWidget()
@@ -43,34 +48,38 @@ StreamWidget::~StreamWidget()
  ******************************************************************************/
 void StreamWidget::setStreamInfo(StreamInfo streamInfo)
 {
-    qDebug() << Q_FUNC_INFO << streamInfo;
-
     m_streamInfo = streamInfo;
-
     ui->titleLabel->setText(m_streamInfo.title());
-    ui->fileNameEdit->setText(m_streamInfo.fileBaseName());
-    ui->fileExtensionEdit->setText(m_streamInfo.fileExtension());
 
-    ui->streamFormatPicker->setStreamInfo(streamInfo);
+    if (streamInfo.isAvailable()) {
+        ui->streamFormatPicker->setData(streamInfo);
+        ui->fileNameEdit->setText(m_streamInfo.fileBaseName());
+        ui->fileExtensionEdit->setText(m_streamInfo.suffix());
 
-    ui->fileExtensionEdit->setText(m_streamInfo.fileExtension()); // supersede with user data
+        ui->stackedWidget->setCurrentWidget(ui->pageInfo);
+    } else {
+        ui->stackedWidget->setCurrentWidget(ui->pageError);
+    }
 }
 
 /******************************************************************************
  ******************************************************************************/
-void StreamWidget::onStreamFormatPickerChanged()
+void StreamWidget::onFormatSelected(StreamFormatId formatId)
 {
-    m_streamInfo.userFormatId = ui->streamFormatPicker->selectedFormatId();
-    ui->fileExtensionEdit->setText(m_streamInfo.fileExtension());
+    m_streamInfo.setFormatId(formatId);
+    ui->fileExtensionEdit->setText(m_streamInfo.suffix());
     ui->estimatedSizeEdit->setText(Format::fileSizeToString(m_streamInfo.guestimateFullSize()));
+    emit streamInfoChanged(m_streamInfo);
 }
 
 void StreamWidget::onTitleChanged(const QString &)
 {
-    m_streamInfo.userTitle = ui->fileNameEdit->text();
+    m_streamInfo.setTitle(ui->fileNameEdit->text());
+    emit streamInfoChanged(m_streamInfo);
 }
 
 void StreamWidget::onSuffixChanged(const QString &)
 {
-    m_streamInfo.userSuffix = ui->fileExtensionEdit->text();
+    m_streamInfo.setSuffix(ui->fileExtensionEdit->text());
+    emit streamInfoChanged(m_streamInfo);
 }

@@ -35,8 +35,11 @@ public:
 
     void setStreamInfo(StreamInfo streamInfo);
 
+signals:
+    void streamInfoChanged(StreamInfo);
+
 private slots:
-    void onStreamFormatPickerChanged();
+    void onFormatSelected(StreamFormatId formatId);
     void onTitleChanged(const QString &);
     void onSuffixChanged(const QString &);
 

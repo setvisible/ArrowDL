@@ -19,10 +19,12 @@
 
 #include <Core/Stream>
 
+#include <QtCore/QItemSelection>
 #include <QtWidgets/QWidget>
+#include <QtWidgets/QStyledItemDelegate>
 
-class QRadioButton;
 class QComboBox;
+class QStandardItemModel;
 
 namespace Ui {
 class StreamFormatPicker;
@@ -32,40 +34,65 @@ class StreamFormatPicker : public QWidget
 {
     Q_OBJECT
 public:
+    enum ItemDataRole {
+        FormatIdRole = Qt::UserRole + 1,
+        CheckStateRole
+    };
+
     explicit StreamFormatPicker(QWidget *parent);
     ~StreamFormatPicker() Q_DECL_OVERRIDE;
 
-    void setStreamInfo(StreamInfo streamInfo);
+    void clear();
+    void setData(const StreamInfo &streamInfo);
 
-    QString selectedFormatId() const;
-    void setSelectedFormatId(const QString &format_id);
+    void select(const StreamFormatId &formatId);
+
+    StreamFormatId selection() const;
 
 signals:
-    void ddd();
-
-public slots:
+    void selectionChanged(StreamFormatId formatId);
 
 private slots:
-    void updateButtonBar();
+    void onCurrentChanged(const QModelIndex &current, const QModelIndex &previous);
     void onCurrentIndexChanged(int index);
-    void onChanged();
+    void onCategoryChanged();
 
 private:
     Ui::StreamFormatPicker *ui;
+    QStandardItemModel *m_model;
 
-    void clearDetectedFormat();
-    void populateDefaultFormats(const QList<StreamFormat> &formats);
-    QRadioButton* appendDetectedFormat(const QString &text);
+    void updateButtonBar();
 
+    void populateSimple(const QList<StreamFormat> &formats);
     void populateComboBox(const QList<StreamFormat> &formats, QComboBox *comboBox);
 
-    void selectRadio(const QString &id);
-    void selectAudioComboBoxItem(const QString &id);
-    void selectVideoComboBoxItem(const QString &id);
+    QModelIndex find(const StreamFormatId &id) const;
 
-    QString selectedRadio() const;
-    QString selectedAudioComboBoxItem() const;
-    QString selectedVideoComboBoxItem() const;
+    void setCurrentSimple(const StreamFormatId &id);
+    void setCurrentAudio(const StreamFormatId &id);
+    void setCurrentVideo(const StreamFormatId &id);
+
+    StreamFormatId currentSimple() const;
+    StreamFormatId currentAudio() const;
+    StreamFormatId currentVideo() const;
+};
+
+/******************************************************************************
+ ******************************************************************************/
+class RadioItemDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
+public:
+    explicit RadioItemDelegate(QObject *parent = Q_NULLPTR);
+
+    // painting
+    void paint(QPainter *painter, const QStyleOptionViewItem &option,
+               const QModelIndex &index) const Q_DECL_OVERRIDE;
+
+    // editing
+    bool editorEvent(QEvent *event, QAbstractItemModel *model,
+                     const QStyleOptionViewItem &option,
+                     const QModelIndex &index) Q_DECL_OVERRIDE;
 };
 
 #endif // WIDGETS_STREAM_FORMAT_PICKER_H

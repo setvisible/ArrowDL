@@ -387,8 +387,8 @@ void tst_Stream::guestimateFullSize_data()
     QTest::newRow("empty") << "" << BigInteger(-1);
     QTest::newRow("default") << "244+140" << BigInteger(294311 + 280597);
 
-    QTest::newRow("audio") << "18" << BigInteger(552999);
-    QTest::newRow("audio") << "43" << BigInteger(287596);
+    QTest::newRow("audio") << "18" << BigInteger(1552999);
+    QTest::newRow("audio") << "43" << BigInteger(2875968);
     QTest::newRow("audio") << "140" << BigInteger(280597);
 
     QTest::newRow("audio+video") << "160+140" << BigInteger(63901 + 280597);

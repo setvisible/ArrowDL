@@ -74,7 +74,7 @@ bool CheckableTableModel::setData(const QModelIndex &index, const QVariant &valu
         } else {
             m_checkedIndexes.remove(index);
         }
-        emit checkStateChanged();
+        emit checkStateChanged(index, checked);
 
         QModelIndex topLeft = index;
         QModelIndex bottomRight = this->index(index.row(), columnCount());

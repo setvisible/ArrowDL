@@ -77,10 +77,10 @@ void MainWindow::start(const QString &url)
 {
     qDebug() << Q_FUNC_INFO << url;
     if (!url.isEmpty()) {
-        ui->streamListWidget->setWaitMessage();
+        ui->streamListWidget->setMessageWait();
         m_streamInfoDownloader->runAsync(url);
     } else {
-        ui->streamListWidget->setEmpty();
+        ui->streamListWidget->setMessageEmpty();
     }
 }
 
@@ -121,6 +121,13 @@ void MainWindow::onPlaylistButtonClicked()
     list << DummyStreamFactory::createDummyStreamInfo_Youtube();
     list << DummyStreamFactory::createDummyStreamInfo_Dailymotion();
     list << DummyStreamFactory::createDummyStreamInfo_Other();
+    list << DummyStreamFactory::createDummyStreamInfo_unavailable();
+    for (int i = 0; i < list.count(); ++i) {
+        auto item = list.at(i);
+        item.playlist = QLatin1String("Playlist of favorite streams");
+        item.playlist_index = QString::number(i);
+        list.replace(i, item);
+    }
     ui->streamListWidget->setStreamInfoList(list);
 }
 
@@ -129,7 +136,7 @@ void MainWindow::onPlaylistButtonClicked()
 void MainWindow::onError(QString errorMessage)
 {
     ui->continueButton->setEnabled(true);
-    ui->streamListWidget->setErrorMessage(errorMessage);
+    ui->streamListWidget->setMessageError(errorMessage);
 }
 
 void MainWindow::onCollected(QList<StreamInfo> streamInfoList)

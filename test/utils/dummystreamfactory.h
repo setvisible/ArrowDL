@@ -28,8 +28,11 @@ public:
     static StreamInfo createDummyStreamInfo_Dailymotion();
     static StreamInfo createDummyStreamInfo_Other();
 
+    static StreamInfo createDummyStreamInfo_unavailable();
+
     static QByteArray dumpSingleVideo();
     static QByteArray dumpPlaylist();
+    static QByteArray dumpPlaylistStandardError();
 };
 
 #endif // DUMMY_STREAM_FACTORY_H

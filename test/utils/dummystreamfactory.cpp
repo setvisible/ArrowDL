@@ -24,7 +24,9 @@ StreamInfo DummyStreamFactory::createDummyStreamInfo()
 StreamInfo DummyStreamFactory::createDummyStreamInfo_Youtube()
 {
     StreamInfo info;
+    info.id               = "C0DPdy98e4c";
     info._filename        = "TEST VIDEO-C0DPdy98e4c.webm";
+    info.webpage_url      = "https://www.youtube.com/watch?v=C0DPdy98e4c";
     info.fulltitle        = "TEST VIDEO";
     info.defaultTitle     = "TEST VIDEO";
     info.defaultSuffix    = "webm";
@@ -32,10 +34,10 @@ StreamInfo DummyStreamFactory::createDummyStreamInfo_Youtube()
     info.thumbnail        = "https://i.ytimg.com/vi/C0DPdy98e4c/hqdefault.jpg";
     info.extractor        = "youtube";
     info.extractor_key    = "Youtube";
-    info.defaultFormatId  = "244+140";
+    info.defaultFormatId  = StreamFormatId("244+140");
     info.formats.clear();
-    info.formats << StreamFormat("18", "mp4", "360p", 552999, "mp4a.40.2", 96, 44100, "avc1.42001E", 480, 360, 0, 0);
-    info.formats << StreamFormat("43", "webm", "360p", 287596, "vorbis", 128, 0, "vp8.0", 640, 360, 0, 0);
+    info.formats << StreamFormat("18", "mp4", "360p", 1552999, "mp4a.40.2", 96, 44100, "avc1.42001E", 480, 360, 0, 0);
+    info.formats << StreamFormat("43", "webm", "360p", 2875968, "vorbis", 128, 0, "vp8.0", 640, 360, 0, 0);
     info.formats << StreamFormat("133", "mp4", "240p", 87155, "none", 0, 0, "avc1.4d400d", 320, 240, 25, 0);
     info.formats << StreamFormat("134", "mp4", "360p", 142316, "none", 0, 0, "avc1.4d4015", 480, 360, 25, 0);
     info.formats << StreamFormat("135", "mp4", "480p", 202392, "none", 0, 0, "avc1.4d401e", 640, 480, 25, 0);
@@ -56,15 +58,17 @@ StreamInfo DummyStreamFactory::createDummyStreamInfo_Youtube()
 StreamInfo DummyStreamFactory::createDummyStreamInfo_Dailymotion()
 {
     StreamInfo info;
-    info._filename        = "NBA - Beyoncé a rendu hommage à Kobe Bryant-x7s6a9i.mp4";
-    info.fulltitle        = "NBA - Beyoncé a rendu hommage à Kobe Bryant";
-    info.defaultTitle     = "NBA - Beyoncé a rendu hommage à Kobe Bryant";
+    info.id               = "eLCvrLUvC0E";
+    info._filename        = "Tatort - Das goldene Band | NDR-eLCvrLUvC0E.mp4";
+    info.webpage_url      = "https://www.youtube.com/watch?v=eLCvrLUvC0E";
+    info.fulltitle        = "Tatort - Das goldene Band | NDR";
+    info.defaultTitle     = "Tatort - Das goldene Band | NDR";
     info.defaultSuffix    = "mp4";
     info.description      = "";
-    info.thumbnail        = "https://s1.dmcdn.net/v/S395s1ULG5qKOgCMB/x1080";
+    info.thumbnail        = "https://i.ytimg.com/vi/eLCvrLUvC0E/hqdefault.jpg";
     info.extractor        = "dailymotion";
     info.extractor_key    = "Dailymotion";
-    info.defaultFormatId  = "http-1080-1";
+    info.defaultFormatId  = StreamFormatId("http-1080-1");
     info.formats.clear();
     info.formats << StreamFormat("hls-144-0"  , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.42000b",  192,  112, 0, 0);
     info.formats << StreamFormat("hls-144-1"  , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.42000b",  192,  112, 0, 0);
@@ -98,7 +102,9 @@ StreamInfo DummyStreamFactory::createDummyStreamInfo_Dailymotion()
 StreamInfo DummyStreamFactory::createDummyStreamInfo_Other()
 {
     StreamInfo info;
+    info.id               = "a1b2f3f4gh5t4";
     info._filename        = "San Francisco-a1b2f3f4gh5t4.mp4";
+    info.webpage_url      = "https://videos.com/videos/a1b2f3f4gh5t4";
     info.fulltitle        = "San Francisco";
     info.defaultTitle     = "San Francisco";
     info.defaultSuffix    = "mp4";
@@ -106,7 +112,7 @@ StreamInfo DummyStreamFactory::createDummyStreamInfo_Other()
     info.thumbnail        = "https://videos.com/videos/2019/10/27/SanFrancisco-27164.jpg";
     info.extractor        = "videos";
     info.extractor_key    = "videos";
-    info.defaultFormatId  = "hls-703";
+    info.defaultFormatId  = StreamFormatId("hls-703");
     info.formats.clear();
     info.formats << StreamFormat("hls-287-0", "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640015", 430, 240, 24,   0);
     info.formats << StreamFormat("hls-287-1", "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640015", 430, 240, 24,   0);
@@ -116,6 +122,15 @@ StreamInfo DummyStreamFactory::createDummyStreamInfo_Other()
     info.formats << StreamFormat("hls-703"  , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001e", 860, 480, 24,   0);
     info.playlist         = "";
     info.playlist_index   = "";
+    return info;
+}
+
+StreamInfo DummyStreamFactory::createDummyStreamInfo_unavailable()
+{
+    StreamInfo info;
+    info.defaultTitle     = "Les Kaka, les sosos, les Kassos";
+    info.webpage_url      = "v2D6gf5d2sM";
+    info.error            = StreamInfo::ErrorUnavailable;
     return info;
 }
 
@@ -323,4 +338,12 @@ QByteArray DummyStreamFactory::dumpPlaylist()
     ba.append(dumpSingleVideo());
     ba.append(dumpSingleVideo());
     return ba;
+}
+
+QByteArray DummyStreamFactory::dumpPlaylistStandardError()
+{
+    return QByteArray(
+                "ERROR: LdRxXID_b28: YouTube said: Unable to extract video data\n"
+                "ERROR: TB_QmSWVY7o: YouTube said: Unable to extract video data\n"
+                "\n");
 }

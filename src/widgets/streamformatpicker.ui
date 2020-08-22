@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>335</width>
-    <height>143</height>
+    <height>154</height>
    </rect>
   </property>
   <property name="styleSheet">
@@ -53,7 +53,7 @@ QGroupBox {
          <number>0</number>
         </property>
         <item>
-         <widget class="QPushButton" name="defaultButton">
+         <widget class="QPushButton" name="categorySimpleButton">
           <property name="font">
            <font>
             <family>MS Shell Dlg 2</family>
@@ -105,7 +105,7 @@ QGroupBox {
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="customAudioButton">
+         <widget class="QPushButton" name="categoryAudioButton">
           <property name="font">
            <font>
             <family>MS Shell Dlg 2</family>
@@ -134,7 +134,7 @@ QGroupBox {
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="customVideoButton">
+         <widget class="QPushButton" name="categoryVideoButton">
           <property name="font">
            <font>
             <family>MS Shell Dlg 2</family>
@@ -168,7 +168,7 @@ QGroupBox {
      <item>
       <widget class="QStackedWidget" name="choiceStackedWidget">
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="pageDefault">
         <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -198,82 +198,10 @@ QGroupBox {
              </widget>
             </item>
             <item>
-             <widget class="QScrollArea" name="scrollArea">
-              <property name="frameShape">
-               <enum>QFrame::NoFrame</enum>
+             <widget class="QListView" name="listView">
+              <property name="sizeAdjustPolicy">
+               <enum>QAbstractScrollArea::AdjustToContents</enum>
               </property>
-              <property name="widgetResizable">
-               <bool>true</bool>
-              </property>
-              <widget class="QWidget" name="scrollAreaWidgetContents">
-               <property name="geometry">
-                <rect>
-                 <x>0</x>
-                 <y>0</y>
-                 <width>511</width>
-                 <height>323</height>
-                </rect>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_7">
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>0</number>
-                </property>
-                <item>
-                 <widget class="QWidget" name="detectedMediaCheckBoxList" native="true">
-                  <layout class="QVBoxLayout" name="verticalLayout_2">
-                   <property name="leftMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <widget class="QRadioButton" name="radioButton">
-                     <property name="text">
-                      <string notr="true">RadioButton</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QRadioButton" name="radioButton_7">
-                     <property name="text">
-                      <string notr="true">RadioButton</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="verticalSpacer_4">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>0</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </widget>
              </widget>
             </item>
            </layout>
