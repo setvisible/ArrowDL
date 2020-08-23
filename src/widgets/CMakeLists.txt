@@ -13,6 +13,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/masktip.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/maskwidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/pathwidget.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamformatpicker.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamlistwidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamwidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/systemtray.cpp
@@ -39,6 +40,7 @@ set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/masktip.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/maskwidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/pathwidget.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamformatpicker.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamlistwidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamwidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/systemtray.h
@@ -59,6 +61,7 @@ set(MY_FORMS ${MY_FORMS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/masktip.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/maskwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/pathwidget.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamformatpicker.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamlistwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/texteditorwidget.ui

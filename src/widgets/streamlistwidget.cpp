@@ -17,36 +17,115 @@
 #include "streamlistwidget.h"
 #include "ui_streamlistwidget.h"
 
+#include <Core/Format>
 #include <Widgets/CheckableItemDelegate>
 
 #include <QtCore/QDebug>
 #include <QtGui/QMovie>
 
+#include <algorithm> /* std::sort */
 
+#define C_COLUMN_ID_WIDTH         10
+#define C_COLUMN_NAME_WIDTH      200
+
+/* Constant */
+/// \todo these colors are from downloadqueueview.cpp
+static const QColor s_red           = QColor(205, 0, 0);
+static const QColor s_lightRed      = QColor(224, 97, 170);
+
+
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * \class StreamListItemDelegate is used to draw unavailable video in a different color.
+ */
+class StreamListItemDelegate : public CheckableItemDelegate
+{
+    /*
+     * Remark:
+     * If use Q_OBJECT, signals and slots in nested classes, add
+     * <code>
+     * #include "streamlistwidget.moc"
+     * </code>
+     * at this file's end.
+     */
+    Q_OBJECT
+
+public:
+    explicit StreamListItemDelegate(QObject *parent = Q_NULLPTR)
+        : CheckableItemDelegate(parent)
+    {}
+
+    ~StreamListItemDelegate() Q_DECL_OVERRIDE {}
+
+    void paint(QPainter *painter, const QStyleOptionViewItem &option,
+               const QModelIndex &index) const Q_DECL_OVERRIDE;
+};
+
+void StreamListItemDelegate::paint(QPainter *painter,
+                                   const QStyleOptionViewItem &option,
+                                   const QModelIndex &index) const
+{
+    QStyleOptionViewItem myOption = option;
+    initStyleOption(&myOption, index);
+
+    auto model = qobject_cast<const StreamTableModel*>(index.model());
+    if (model) {
+        const StreamInfo streamInfo = model->itemAt(index.row());
+        if (!streamInfo.isAvailable()){
+            myOption.palette.setColor(QPalette::All, QPalette::Text, s_red);
+        }
+    }
+
+    /* Inactive keep same colors as Active */
+    auto p = myOption.palette;
+    p.setColor(QPalette::Active, QPalette::HighlightedText,
+               p.color(QPalette::Active, QPalette::Text)); // otherwise it's another color
+    p.setColor(QPalette::Inactive, QPalette::Base,
+               p.color(QPalette::Active, QPalette::Base));
+    p.setColor(QPalette::Inactive, QPalette::Highlight,
+               p.color(QPalette::Active, QPalette::Highlight));
+    p.setColor(QPalette::Inactive, QPalette::HighlightedText,
+               p.color(QPalette::Active, QPalette::HighlightedText));
+    p.setColor(QPalette::Inactive, QPalette::Text,
+               p.color(QPalette::Active, QPalette::Text));
+    myOption.palette = p;
+
+    CheckableItemDelegate::paint(painter, myOption, index);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 StreamListWidget::StreamListWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::StreamListWidget)
-  , m_model(new StreamTableModel(this))
+  , m_playlistModel(new StreamTableModel(this))
 {
     ui->setupUi(this);
 
-    ui->playlistTableView->setItemDelegate(new CheckableItemDelegate(ui->playlistTableView));
-    ui->playlistTableView->setModel(m_model);
+    ui->playlistView->setItemDelegate(new StreamListItemDelegate(ui->playlistView));
+    ui->playlistView->setModel(m_playlistModel);
+
+    QList<int> defaultWidths = {-1, C_COLUMN_ID_WIDTH, C_COLUMN_NAME_WIDTH, -1, -1, -1};
+    setColumnWidths(defaultWidths);
 
     adjustSize();
 
-    connect(m_model, &CheckableTableModel::checkStateChanged,
-            this, &StreamListWidget::onCheckStateChanged);
+    connect(m_playlistModel, SIGNAL(checkStateChanged(QModelIndex, bool)),
+            this, SLOT(onCheckStateChanged(QModelIndex, bool)));
 
-    connect(ui->playlistTableView->selectionModel(),
+    connect(ui->playlistView->selectionModel(),
             SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
             this, SLOT(onSelectionChanged(const QItemSelection &, const QItemSelection &)));
+
+    connect(ui->streamWidget, SIGNAL(streamInfoChanged(StreamInfo)),
+            this, SLOT(onStreamInfoChanged(StreamInfo)));
 
     /* Fancy GIF animation */
     QMovie *movie = new QMovie(":/icons/menu/stream_wait_16x16.gif");
     ui->waitingIconLabel->setMovie(movie);
     movie->start();
 
-    setEmpty();
+    setMessageEmpty();
     retranslateUi();
 }
 
@@ -66,56 +145,120 @@ void StreamListWidget::changeEvent(QEvent *event)
 
 void StreamListWidget::retranslateUi()
 {
-    m_model->retranslateUi();
+    m_playlistModel->retranslateUi();
 }
 
-/******************************************************************************
- ******************************************************************************/
 bool StreamListWidget::isValid() const
 {
     return m_state == Normal;
 }
 
-void StreamListWidget::setEmpty()
+/******************************************************************************
+ ******************************************************************************/
+void StreamListWidget::setMessageEmpty()
 {
     setState(Empty);
-    m_model->clear();
+    m_playlistModel->clear();
 }
 
-void StreamListWidget::setWaitMessage()
+void StreamListWidget::setMessageWait()
 {
     setState(Downloading);
-    m_model->clear();
+    m_playlistModel->clear();
 }
 
-void StreamListWidget::setErrorMessage(QString errorMessage)
+void StreamListWidget::setMessageError(QString errorMessage)
 {
     setState(StreamListWidget::Error);
     ui->errorMessageLabel->setText(errorMessage);
-    m_model->clear();
+    m_playlistModel->clear();
 }
 
-void StreamListWidget::setStreamInfoList(StreamInfoPtr streamInfo)
+/******************************************************************************
+ ******************************************************************************/
+void StreamListWidget::setStreamInfoList(StreamInfo streamInfo)
 {
-    setStreamInfoList(QList<StreamInfoPtr>() << streamInfo);
+    setStreamInfoList(QList<StreamInfo>() << streamInfo);
 }
 
-void StreamListWidget::setStreamInfoList(QList<StreamInfoPtr> streamInfoList)
+void StreamListWidget::setStreamInfoList(QList<StreamInfo> streamInfoList)
 {
     setState(StreamListWidget::Normal);
-    m_model->setStreamInfoList(streamInfoList);
+    m_playlistModel->setStreamInfoList(streamInfoList);
     if (!streamInfoList.isEmpty()) {
-        // Check all the playlist
+        auto first = streamInfoList.first();
+        ui->playlistTitleLabel->setText(first.playlist);
+
+        // Check all available videos in the playlist
         for (int i = 0; i < streamInfoList.count(); ++i) {
-            m_model->setData(m_model->index(i, 0), true, CheckableTableModel::CheckStateRole);
+            auto streamInfo = streamInfoList.at(i);
+            if (streamInfo.isAvailable()) {
+                m_playlistModel->setData(m_playlistModel->index(i, 0), true, CheckableTableModel::CheckStateRole);
+            }
         }
         // Select the first entry
-        ui->playlistTableView->selectRow(0);
+        ui->playlistView->selectRow(0);
+        // Force signal
     }
     // Eventually, hide the playlist panel
     ui->playlistPanelWidget->setVisible(streamInfoList.count() > 1);
 }
 
+/******************************************************************************
+ ******************************************************************************/
+QList<int> StreamListWidget::columnWidths() const
+{
+    return ui->playlistView->columnWidths();
+}
+
+void StreamListWidget::setColumnWidths(const QList<int> &widths)
+{
+    ui->playlistView->setColumnWidths(widths);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void StreamListWidget::onSelectionChanged(const QItemSelection &, const QItemSelection &)
+{
+    auto rows = selectedRows();
+    if (rows.count() == 1) {
+        auto streamInfo = m_playlistModel->itemAt(rows.first());
+        ui->streamWidget->setStreamInfo(streamInfo);
+        ui->streamWidget->setVisible(true);
+    } else {
+        ui->streamWidget->setVisible(false);
+    }
+}
+
+void StreamListWidget::onStreamInfoChanged(StreamInfo streamInfo)
+{
+    auto selectedRows = ui->playlistView->selectionModel()->selectedRows(0);
+    if (selectedRows.count() == 1) {
+        auto index = selectedRows.first();
+        m_playlistModel->setItemAt(index.row(), streamInfo);
+    }
+}
+
+void StreamListWidget::onCheckStateChanged(QModelIndex index, bool checked)
+{
+    if (checked) {
+        auto streamInfo = m_playlistModel->itemAt(index.row());
+        if (!streamInfo.isAvailable()) {
+            m_playlistModel->setData(index, false, CheckableTableModel::CheckStateRole);
+        }
+    }
+}
+
+
+/******************************************************************************
+ ******************************************************************************/
+QList<StreamInfo> StreamListWidget::selection() const
+{
+    return m_playlistModel->selection();
+}
+
+/******************************************************************************
+ ******************************************************************************/
 StreamListWidget::State StreamListWidget::state() const
 {
     return m_state;
@@ -132,48 +275,17 @@ void StreamListWidget::setState(State state)
     }
 }
 
-/******************************************************************************
- ******************************************************************************/
-QList<int> StreamListWidget::columnWidths() const
+QList<int> StreamListWidget::selectedRows() const
 {
-    return ui->playlistTableView->columnWidths();
-}
-
-void StreamListWidget::setColumnWidths(const QList<int> &widths)
-{
-    ui->playlistTableView->setColumnWidths(widths);
-}
-
-/******************************************************************************
- ******************************************************************************/
-void StreamListWidget::onSelectionChanged(const QItemSelection &, const QItemSelection &)
-{
-    auto selectedRows = ui->playlistTableView->selectionModel()->selectedRows(0);
     QSet<int> rows;
-    foreach (auto index, selectedRows) {
-        rows << index.row();
+    auto indexes = ui->playlistView->selectionModel()->selectedRows(0);
+    foreach (auto index, indexes) {
+        rows.insert(index.row());
     }
     auto list = rows.toList();
-    if (list.count() == 1) {
-        StreamInfoPtr streamInfo = m_model->itemAt(list.first());
-        ui->streamWidget->setStreamInfo(streamInfo);
-        ui->streamWidget->setVisible(true);
-    } else {
-        ui->streamWidget->setVisible(false);
-    }
-}
+    std::sort(list.begin(), list.end());
+    return list;
 
-void StreamListWidget::onCheckStateChanged()
-{
-    qDebug() << Q_FUNC_INFO;
-    // selected items changed -> recalc le size total
-}
-
-/******************************************************************************
- ******************************************************************************/
-QList<StreamInfoPtr> StreamListWidget::selection() const
-{
-    return m_model->selection();
 }
 
 /******************************************************************************
@@ -194,32 +306,48 @@ void StreamTableModel::clear()
 void StreamTableModel::retranslateUi()
 {
     m_headers = QStringList()
-            << QString() // checkbox
+            << QString() // checkbox column
             << tr("#")
-            << tr("Title");
+            << tr("File Name")
+            << tr("Title")
+            << tr("Size")
+            << tr("Format");
 }
 
-void StreamTableModel::setStreamInfoList(QList<StreamInfoPtr> streamInfoList)
+void StreamTableModel::setStreamInfoList(QList<StreamInfo> streamInfoList)
 {
     clear();
     if (!streamInfoList.isEmpty()) {
-        QModelIndex parent = QModelIndex(); // empty is always root
+        QModelIndex parent = QModelIndex(); // root is always empty
         beginInsertRows(parent, 0, streamInfoList.count());
         m_items = streamInfoList;
         endInsertRows();
-        // emit dataChanged(index(0, 0), index(rowCount(), columnCount()), {Qt::DisplayRole});
     }
 }
 
-StreamInfoPtr StreamTableModel::itemAt(int row) const
+/******************************************************************************
+ ******************************************************************************/
+StreamInfo StreamTableModel::itemAt(int row) const
 {
     Q_ASSERT(row >= 0 && row < m_items.count());
     return m_items.at(row);
 }
 
-QList<StreamInfoPtr> StreamTableModel::selection() const
+void StreamTableModel::setItemAt(int row, const StreamInfo &streamInfo)
 {
-    QList<StreamInfoPtr> selection;
+    Q_ASSERT(row >= 0 && row < m_items.count());
+    auto oldStreamInfo = m_items.at(row);
+    if (streamInfo != oldStreamInfo) {
+        m_items.replace(row, streamInfo);
+        emit dataChanged(index(row, 0), index(row, columnCount()), {Qt::DisplayRole});
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QList<StreamInfo> StreamTableModel::selection() const
+{
+    QList<StreamInfo> selection;
     foreach (int row, this->checkedRows()) {
         if (row >= 0 && row < m_items.count()) {
             selection << m_items.at(row);
@@ -258,15 +386,41 @@ QVariant StreamTableModel::data(const QModelIndex &index, int role) const
     if (index.row() >= rowCount() || index.row() < 0) {
         return QVariant();
     }
-    StreamInfoPtr streamInfo = m_items.at(index.row());
-    if (role == Qt::DisplayRole) {
+    if (role == Qt::TextAlignmentRole) {
+        switch (index.column()) {
+        case  0:
+        case  1: return int(Qt::AlignCenter | Qt::AlignVCenter);
+        case  2:
+        case  3: return int(Qt::AlignLeft | Qt::AlignVCenter);
+        case  4: return int(Qt::AlignRight | Qt::AlignVCenter);
+        case  5: return int(Qt::AlignLeft | Qt::AlignVCenter);
+        default:
+            break;
+        }
+
+    } else if (role == Qt::DisplayRole) {
+        auto streamInfo = m_items.at(index.row());
         switch (index.column()) {
         case  0: return QVariant();
-        case  1: return streamInfo->playlist_index;
-        case  2: return streamInfo->fulltitle;
+        case  1: return streamInfo.playlist_index;
+        case  2: return filenameOrErrorMessage(streamInfo);
+        case  3: return streamInfo.defaultTitle;
+        case  4: return Format::fileSizeToString(streamInfo.guestimateFullSize());
+        case  5: return streamInfo.formatToString();
         default:
             break;
         }
     }
     return CheckableTableModel::data(index, role);
 }
+
+QString StreamTableModel::filenameOrErrorMessage(const StreamInfo &streamInfo) const
+{
+    if (streamInfo.isAvailable()) {
+        return streamInfo.fullFileName();
+    } else {
+        return QString("[%0]").arg(tr("Video unavailable"));
+    }
+}
+
+#include "streamlistwidget.moc"

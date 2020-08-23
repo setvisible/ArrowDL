@@ -168,7 +168,7 @@ QGroupBox {
             </widget>
            </item>
            <item>
-            <widget class="CheckableTableView" name="playlistTableView"/>
+            <widget class="CheckableTableView" name="playlistView"/>
            </item>
           </layout>
          </widget>
