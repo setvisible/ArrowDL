@@ -22,36 +22,90 @@
 #include <QtCore/QSharedPointer>
 #include <QtCore/QMetaType>
 #include <QtCore/QThread>
+#include <QtCore/QMap>
 
 QT_BEGIN_NAMESPACE
 class QDebug;
 QT_END_NAMESPACE
 
-class StreamCleanCache;
-class StreamInfo;
-typedef QSharedPointer<StreamInfo> StreamInfoPtr;
-
-class StreamFormat : public QObject
+/*!
+ * \brief The StreamFormatId class represents a format identifier
+ *
+ * Ex: "mp4_h264_opus", "19", "214+299"
+ *
+ * It identifies an Audio stream, a Video stream, or a compound of
+ * an Audio and Video streams.
+ */
+class StreamFormatId
 {
-    Q_OBJECT
 public:
-    explicit StreamFormat(QObject *parent = nullptr);
-    explicit StreamFormat(const StreamFormat &other);
-    explicit StreamFormat(
-            QString format_id,
-            QString ext,
-            QString format_note,
-            int filesize,
-            QString acodec,
-            int abr,
-            int asr,
-            QString vcodec,
-            int width,
-            int height,
-            int fps,
-            int tbr,
-            QObject *parent = nullptr);
-    ~StreamFormat() Q_DECL_OVERRIDE;
+    StreamFormatId() = default;
+    ~StreamFormatId() = default;
+    StreamFormatId(const StreamFormatId &) = default;
+    StreamFormatId &operator=(const StreamFormatId &) = default;
+
+    StreamFormatId(const QString &format_id);
+
+    /*!
+     * \remark The first format must contain the video.
+     * If the video is 299 and the audio is 251,
+     * then pass "299+251", not "251+299".
+     */
+    QString toString() const;
+    void fromString(const QString &format_id);
+
+    QList<StreamFormatId> compoundIds() const;
+
+    bool isEmpty() const;
+    bool operator==(const StreamFormatId &other) const; /* required by QHash */
+    bool operator!=(const StreamFormatId &other) const;
+
+    bool operator<(const StreamFormatId &other) const; /* required by QMap */
+
+    friend StreamFormatId operator+(StreamFormatId lhs, const StreamFormatId& rhs)
+    {
+        // Operator +:
+        // ===========
+        // - "friend X"     : Friend functions have no "this"
+        // - "X lhs"        : Passing lhs by value helps optimize chained a+b+c
+        // - "const X& rhs" : otherwise, both parameters may be const references
+        return StreamFormatId(lhs.toString() + QChar('+') + rhs.toString());
+    }
+private:
+    QStringList m_identifiers;
+};
+
+/* Enable the type to be used with QVariant. */
+Q_DECLARE_METATYPE(StreamFormatId);
+
+/* Note: qHash() must be declared inside the object's namespace */
+inline uint qHash(const StreamFormatId &key, uint seed) {
+    return qHash(key.toString(), seed);
+}
+
+/*!
+ * \brief The StreamFormat class stores the properties of an encoded stream.
+ */
+class StreamFormat
+{
+public:
+    StreamFormat() = default;
+    ~StreamFormat() = default;
+    StreamFormat(const StreamFormat &) = default;
+    StreamFormat &operator=(const StreamFormat &) = default;
+
+    StreamFormat(QString format_id,
+                 QString ext,
+                 QString format_note,
+                 int filesize,
+                 QString acodec,
+                 int abr,
+                 int asr,
+                 QString vcodec,
+                 int width,
+                 int height,
+                 int fps,
+                 int tbr);
 
     bool operator==(const StreamFormat &other) const;
     bool operator!=(const StreamFormat &other) const;
@@ -62,71 +116,113 @@ public:
 
     QString debug_description() const;
 
-    QString format_id;   // (string): Format code specified by --format
-    QString ext;         // (string): Video filename extension
-    QString format_note; // (string): Additional info about the format
-    int filesize;        // (numeric): The number of bytes, if known in advance
-    QString acodec;      // (string): Name of the audio codec in use
-    int abr;             // (numeric): Average audio bitrate in KBit/s
-    int asr;             // (numeric): Audio sampling rate in Hertz
-    QString vcodec;      // (string): Name of the video codec in use
-    int width;           // (numeric): Width of the video
-    int height;          // (numeric): Height of the video
-    int fps;             // (numeric): Frame rate
-    int tbr;             // (numeric): Average bitrate of audio and video in KBit/s
+    StreamFormatId formatId;    // (string): Format code specified by --format
+    QString ext;                // (string): Video filename extension
+    QString format_note;        // (string): Additional info about the format
+    int filesize;               // (numeric): The number of bytes, if known in advance
+    QString acodec;             // (string): Name of the audio codec in use
+    int abr;                    // (numeric): Average audio bitrate in KBit/s
+    int asr;                    // (numeric): Audio sampling rate in Hertz
+    QString vcodec;             // (string): Name of the video codec in use
+    int width;                  // (numeric): Width of the video
+    int height;                 // (numeric): Height of the video
+    int fps;                    // (numeric): Frame rate
+    int tbr;                    // (numeric): Average bitrate of audio and video in KBit/s
 };
 
-class StreamInfo : public QObject
+typedef QString StreamId; // Represents a 11 alphanumeric characters Unique Id (ex: "aBcDEfg1234")
+
+struct StreamFlatListItem
 {
-    Q_OBJECT
+    QString _type;
+    StreamId id;
+    QString ie_key;
+    QString title;
+    QString url;
+};
+typedef QList<StreamFlatListItem> StreamFlatList;
+
+
+/*!
+ * \brief The StreamInfo class represents the stream properties and options
+ * provided by the stream server.
+ */
+class StreamInfo
+{
 public:
+    StreamInfo();
+    ~StreamInfo() = default;
+    StreamInfo(const StreamInfo &) = default;
+    StreamInfo &operator=(const StreamInfo &) = default;
+
+    bool operator==(const StreamInfo &other) const;
+    bool operator!=(const StreamInfo &other) const;
+
     enum Error{
         NoError = 0,
-        ErrorJsonFormat
+        ErrorJsonFormat,
+        ErrorUnavailable
     };
-    explicit StreamInfo(QObject *parent = nullptr);
-    explicit StreamInfo(const StreamInfo &other);
-    ~StreamInfo() Q_DECL_OVERRIDE;
+    Error error() const;
+    void setError(const Error error);
 
     qint64 guestimateFullSize() const;
-    qint64 guestimateFullSize(const QString &defaultFormatId) const;
+    qint64 guestimateFullSize(const StreamFormatId &formatId) const;
 
     QString title() const;
+    void setTitle(const QString &title);
 
     QString fullFileName() const;
     QString fileBaseName() const;
-    QString fileExtension() const;
-    QString fileExtension(const QString &formatId) const;
 
-    QString formatId() const;
+    QString suffix() const;
+    QString suffix(const StreamFormatId &formatId) const;
+    void setSuffix(const QString &suffix);
 
-    QList<StreamFormat*> defaultFormats() const;
-    QList<StreamFormat*> audioFormats() const;
-    QList<StreamFormat*> videoFormats() const;
+    StreamFormatId formatId() const;
+    void setFormatId(const StreamFormatId &formatId);
+    QString formatToString() const;
+
+    QList<StreamFormat> defaultFormats() const;
+    QList<StreamFormat> audioFormats() const;
+    QList<StreamFormat> videoFormats() const;
+
+    bool isAvailable() const;
 
     QString debug_description() const;
 
+    /* Immutable data, not modifiable by the user */
+    StreamId id;                    // (string): Video identifier
     QString _filename;
-    QString fulltitle;      // (string): Video title
-    QString defaultTitle;   // (string): Video title
-    QString defaultSuffix;  // (string): Video filename suffix (complete extension)
-    QString description;    // (string): Video description
-    QString thumbnail;      // (string): thumbnail URL
-    QString extractor;      // (string): Name of the extractor
-    QString extractor_key;  // (string): Key name of the extractor
-    QString defaultFormatId;// (string): Format code specified by --format
-    QList<StreamFormat*> formats;
-    QString playlist;       // (string): Name or id of the playlist that contains the video
-    QString playlist_index; // (numeric): Index of the video in the playlist padded with leading zeros according to the total length of the playlist
+    QString webpage_url;            // (string): URL to the video webpage
+    QString fulltitle;              // (string): Video title
+    QString defaultTitle;           // (string): Video title
+    QString defaultSuffix;          // (string): Video filename suffix (complete extension)
+    QString description;            // (string): Video description
+    QString thumbnail;              // (string): thumbnail URL
+    QString extractor;              // (string): Name of the extractor
+    QString extractor_key;          // (string): Key name of the extractor
+    StreamFormatId defaultFormatId; // (string): Format code specified by --format
+    QList<StreamFormat> formats;
+    QString playlist;               // (string): Name or id of the playlist that contains the video
+    QString playlist_index;         // (numeric): Index of the video in the playlist padded with leading zeros according to the total length of the playlist
 
-    // User data
-    QString userTitle;
-    QString userSuffix;
-    QString userFormatId;
 
-    Error error;
+private:
+    /* Error */
+    Error m_error = NoError;
+
+    /* User data, modifiable */
+    QString m_userTitle;
+    QString m_userSuffix;
+    StreamFormatId m_userFormatId;
 };
 
+typedef QMap<StreamId, StreamInfo> StreamDumpMap;
+
+/*!
+ * \brief The Stream class is the main class to download a stream.
+ */
 class Stream : public QObject
 {
     Q_OBJECT
@@ -153,8 +249,8 @@ public:
     QString referringPage() const;
     void setReferringPage(const QString &referringPage);
 
-    QString selectedFormatId() const;
-    void setSelectedFormatId(const QString &formatId);
+    StreamFormatId selectedFormatId() const;
+    void setSelectedFormatId(const StreamFormatId &formatId);
 
     QString fileName() const;
 
@@ -191,7 +287,7 @@ private:
     QString m_url;
     QString m_outputPath;
     QString m_referringPage;
-    QString m_selectedFormatId;
+    StreamFormatId m_selectedFormatId;
 
     qint64 m_bytesReceived;
     qint64 m_bytesReceivedCurrentSection;
@@ -202,7 +298,12 @@ private:
     QString m_fileExtension;
 
     qint64 _q_bytesTotal() const;
+    bool isMergeFormat(const QString &suffix) const;
 };
+
+/******************************************************************************
+ * UTILS CLASSES
+ ******************************************************************************/
 
 class StreamCleanCache : public QObject
 {
@@ -241,26 +342,40 @@ public:
 
     bool isRunning() const;
 
-    static QList<StreamInfoPtr> parse(const QByteArray &data);
+    static StreamDumpMap parseDumpMap(const QByteArray &stdoutBytes, const QByteArray &stderrBytes);
+    static StreamFlatList parseFlatList(const QByteArray &stdoutBytes, const QByteArray &stderrBytes);
 
 signals:
     void error(QString errorMessage);
-    void collected(QList<StreamInfoPtr> streamInfoList);
+    void collected(QList<StreamInfo> streamInfoList);
 
 private slots:
     void onStarted();
     void onError(QProcess::ProcessError error);
-    void onFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void onCacheCleaned();
 
-private:
-    QProcess *m_process;
-    StreamCleanCache *m_streamCleanCache;
+    void onFinishedDumpJson(int exitCode, QProcess::ExitStatus exitStatus);
+    void onFinishedFlatList(int exitCode, QProcess::ExitStatus exitStatus);
 
+private:
+    QProcess *m_processDumpJson;
+    QProcess *m_processFlatList;
+    StreamCleanCache *m_streamCleanCache;
     QString m_url;
     bool m_cancelled;
 
-    static StreamInfoPtr parseJSON(const QByteArray &data);
+    StreamDumpMap m_dumpMap;
+    StreamFlatList m_flatList;
+
+    void runAsyncDumpJson();
+    void runAsyncFlatList();
+    void onFinished();
+
+    static StreamInfo parseDumpItemStdOut(const QByteArray &data);
+    static StreamInfo parseDumpItemStdErr(const QByteArray &data);
+
+    static StreamFlatListItem parseFlatItem(const QByteArray &data);
+    StreamInfo createStreamInfo(const StreamFlatListItem &flatItem) const;
 };
 
 class AskStreamVersionThread : public QThread

@@ -25,7 +25,7 @@ static const qint64 KILOBYTES = 1024;
 static const qint64 BLOCK_SIZE_BYTES = 16 * KILOBYTES;
 
 
-static QBitArray createRandomBitArray(int size, int percent);
+static QBitArray createRandomBitArray(qint64 size, int percent);
 
 class BasicTorrent
 {
@@ -58,18 +58,18 @@ private:
     };
     QList<BasicFile> basicFiles;
 
-    TorrentPeerInfo makePeer(const EndPoint &endpoint, const QString &client, int size);
+    TorrentPeerInfo makePeer(const EndPoint &endpoint, const QString &userAgent, qint64 size);
 };
 
 /******************************************************************************
  ******************************************************************************/
-TorrentPeerInfo BasicTorrent::makePeer(const EndPoint &endpoint, const QString &client, int size)
+TorrentPeerInfo BasicTorrent::makePeer(const EndPoint &endpoint, const QString &userAgent, qint64 size)
 {
     int percent = int((100 * qrand()) / RAND_MAX);
 
     TorrentPeerInfo peer;
     peer.endpoint = endpoint;
-    peer.client = client;
+    peer.userAgent = userAgent;
     peer.availablePieces = createRandomBitArray(size, percent);
     return peer;
 }
@@ -99,6 +99,9 @@ TorrentPtr BasicTorrent::toTorrent(QObject *parent)
     foreach (auto tracker, trackers) {
         magnetLink += QString("&tr=%0")
                 .arg(tracker.replace(':', "%3A").replace('/', "%2F"));
+    }
+    for (int i = 0; i < 30; ++i) {
+        magnetLink += QString("saltsaltsaltsaltsaltsaltsaltsaltsaltsaltsaltsaltsalt");
     }
 
     t->setLocalFullFileName(QString("C:\\Temp\\DZA-torrent-widget-test\\%0").arg(name));
@@ -219,7 +222,7 @@ TorrentPtr DummyTorrentFactory::createDummyTorrent(QObject *parent)
 
 /******************************************************************************
  ******************************************************************************/
-static QBitArray createRandomBitArray(int size, int percent)
+static QBitArray createRandomBitArray(qint64 size, int percent)
 {
     if (percent <= 0) {
         return QBitArray(size, false);

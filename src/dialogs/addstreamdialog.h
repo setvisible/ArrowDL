@@ -17,17 +17,14 @@
 #ifndef DIALOGS_ADD_STREAM_DIALOG_H
 #define DIALOGS_ADD_STREAM_DIALOG_H
 
+#include <Core/Stream>
+
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QMessageBox>
 
 class IDownloadItem;
 class DownloadManager;
 class Settings;
-
-class StreamInfo;
-class StreamInfoDownloader;
-
-typedef QSharedPointer<StreamInfo> StreamInfoPtr;
 
 namespace Ui {
 class AddStreamDialog;
@@ -53,7 +50,7 @@ private slots:
     void onChanged(QString);
 
     void onError(QString errorMessage);
-    void onCollected(QList<StreamInfoPtr> streamInfoList);
+    void onCollected(QList<StreamInfo> streamInfoList);
 
 private:
     Ui::AddStreamDialog *ui;
@@ -64,7 +61,7 @@ private:
     void doAccept(bool started);
 
     QList<IDownloadItem*> createItems() const;
-    IDownloadItem* createItem(const StreamInfoPtr &streamInfo) const;
+    IDownloadItem* createItem(const StreamInfo &streamInfo) const;
 
     void setGuiEnabled(bool enabled);
 

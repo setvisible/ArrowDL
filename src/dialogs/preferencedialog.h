@@ -89,6 +89,8 @@ private:
     void setupStreamToolTip();
     void setupHttpToolTips();
 
+    void retranslateComboBox();
+
     QList<Filter> filters() const;
     void setFilters(const QList<Filter> &filters);
     void addFilter(const Filter & filter);

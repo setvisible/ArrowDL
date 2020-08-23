@@ -19,7 +19,6 @@
 
 #include "../../utils/dummystreamfactory.h"
 
-#include <Core/Stream>
 #include <Widgets/StreamListWidget>
 
 #include <QtCore/QDebug>
@@ -43,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     connect(ui->continueButton, SIGNAL(released()), this, SLOT(onContinueClicked()));
 
     connect(ui->emptyButton,       SIGNAL(released()), this, SLOT(onEmptyButtonClicked()));
+    connect(ui->errorButton,       SIGNAL(released()), this, SLOT(onErrorButtonClicked()));
     connect(ui->youtubeButton,     SIGNAL(released()), this, SLOT(onYoutubeButtonClicked()));
     connect(ui->dailymotionButton, SIGNAL(released()), this, SLOT(onDailymotionButtonClicked()));
     connect(ui->otherSiteButton,   SIGNAL(released()), this, SLOT(onOtherSiteButtonClicked()));
@@ -52,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     ui->urlMp4Button->setToolTip(s_urlMp4Link);
 
     connect(m_streamInfoDownloader, SIGNAL(error(QString)), this, SLOT(onError(QString)));
-    connect(m_streamInfoDownloader, SIGNAL(collected(QList<StreamInfoPtr>)), this, SLOT(onCollected(QList<StreamInfoPtr>)));
+    connect(m_streamInfoDownloader, SIGNAL(collected(QList<StreamInfo>)), this, SLOT(onCollected(QList<StreamInfo>)));
 
     onResetClicked();
 }
@@ -78,10 +78,10 @@ void MainWindow::start(const QString &url)
 {
     qDebug() << Q_FUNC_INFO << url;
     if (!url.isEmpty()) {
-        ui->streamListWidget->setWaitMessage();
+        ui->streamListWidget->setMessageWait();
         m_streamInfoDownloader->runAsync(url);
     } else {
-        ui->streamListWidget->setEmpty();
+        ui->streamListWidget->setMessageEmpty();
     }
 }
 
@@ -90,6 +90,12 @@ void MainWindow::start(const QString &url)
 void MainWindow::onEmptyButtonClicked()
 {
     auto info = DummyStreamFactory::createDummyStreamInfo();
+    ui->streamListWidget->setStreamInfoList(info);
+}
+
+void MainWindow::onErrorButtonClicked()
+{
+    auto info = DummyStreamFactory::createDummyErrorStreamInfo();
     ui->streamListWidget->setStreamInfoList(info);
 }
 
@@ -118,10 +124,17 @@ void MainWindow::onUrlMp4ButtonClicked()
 
 void MainWindow::onPlaylistButtonClicked()
 {
-    QList<StreamInfoPtr> list;
+    QList<StreamInfo> list;
     list << DummyStreamFactory::createDummyStreamInfo_Youtube();
     list << DummyStreamFactory::createDummyStreamInfo_Dailymotion();
+    list << DummyStreamFactory::createDummyStreamInfo_unavailable();
     list << DummyStreamFactory::createDummyStreamInfo_Other();
+    for (int i = 0; i < list.count(); ++i) {
+        auto item = list.at(i);
+        item.playlist = QLatin1String("Playlist of favorite streams");
+        item.playlist_index = QString::number(i + 1);
+        list.replace(i, item);
+    }
     ui->streamListWidget->setStreamInfoList(list);
 }
 
@@ -130,10 +143,10 @@ void MainWindow::onPlaylistButtonClicked()
 void MainWindow::onError(QString errorMessage)
 {
     ui->continueButton->setEnabled(true);
-    ui->streamListWidget->setErrorMessage(errorMessage);
+    ui->streamListWidget->setMessageError(errorMessage);
 }
 
-void MainWindow::onCollected(QList<StreamInfoPtr> streamInfoList)
+void MainWindow::onCollected(QList<StreamInfo> streamInfoList)
 {
     ui->continueButton->setEnabled(true);
     ui->streamListWidget->setStreamInfoList(streamInfoList);

@@ -32,6 +32,7 @@ HEADERS += \
     $$PWD/../../../src/widgets/checkabletableview.h \
     $$PWD/../../../src/widgets/customstyle.h \
     $$PWD/../../../src/widgets/customstyleoptionprogressbar.h \
+    $$PWD/../../../src/widgets/streamformatpicker.h \
     $$PWD/../../../src/widgets/streamlistwidget.h \
     $$PWD/../../../src/widgets/streamwidget.h \
     $$PWD/../../../test/utils/dummystreamfactory.h
@@ -44,11 +45,13 @@ SOURCES += \
     $$PWD/../../../src/widgets/checkabletableview.cpp \
     $$PWD/../../../src/widgets/customstyle.cpp \
     $$PWD/../../../src/widgets/customstyleoptionprogressbar.cpp \
+    $$PWD/../../../src/widgets/streamformatpicker.cpp \
     $$PWD/../../../src/widgets/streamlistwidget.cpp \
     $$PWD/../../../src/widgets/streamwidget.cpp \
     $$PWD/../../../test/utils/dummystreamfactory.cpp
 
 FORMS += \
+    $$PWD/../../../src/widgets/streamformatpicker.ui \
     $$PWD/../../../src/widgets/streamlistwidget.ui \
     $$PWD/../../../src/widgets/streamwidget.ui
 

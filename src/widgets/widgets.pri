@@ -14,6 +14,7 @@ HEADERS += \
     $$PWD/masktip.h \
     $$PWD/maskwidget.h \
     $$PWD/pathwidget.h \
+    $$PWD/streamformatpicker.h \
     $$PWD/streamlistwidget.h \
     $$PWD/streamwidget.h \
     $$PWD/systemtray.h \
@@ -40,6 +41,7 @@ SOURCES += \
     $$PWD/masktip.cpp \
     $$PWD/maskwidget.cpp \
     $$PWD/pathwidget.cpp \
+    $$PWD/streamformatpicker.cpp \
     $$PWD/streamlistwidget.cpp \
     $$PWD/streamwidget.cpp \
     $$PWD/systemtray.cpp \
@@ -59,6 +61,7 @@ FORMS += \
     $$PWD/masktip.ui \
     $$PWD/maskwidget.ui \
     $$PWD/pathwidget.ui \
+    $$PWD/streamformatpicker.ui \
     $$PWD/streamlistwidget.ui \
     $$PWD/streamwidget.ui \
     $$PWD/texteditorwidget.ui \

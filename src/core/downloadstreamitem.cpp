@@ -65,7 +65,7 @@ void DownloadStreamItem::resume()
 
         m_stream->setUrl(resource()->url());
         m_stream->setReferringPage(resource()->referringPage());
-        m_stream->setSelectedFormatId(resource()->streamFormatId());
+        m_stream->setSelectedFormatId(StreamFormatId(resource()->streamFormatId()));
         m_stream->setFileSizeInBytes(resource()->streamFileSize());
 
         connect(m_stream, SIGNAL(downloadMetadataChanged()), this, SLOT(onMetaDataChanged()));

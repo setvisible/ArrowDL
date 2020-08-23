@@ -18,6 +18,7 @@
 
 #include <QtCore/QAbstractTableModel>
 
+#include <algorithm> /* std::sort */
 
 CheckableTableModel::CheckableTableModel(QObject *parent) : QAbstractTableModel(parent)
 {
@@ -36,11 +37,13 @@ QSet<QModelIndex> CheckableTableModel::checkedIndexes() const
 QList<int> CheckableTableModel::checkedRows() const
 {
     QSet<int> rows;
-    QList<QModelIndex> indexes = m_checkedIndexes.toList();
+    auto indexes = m_checkedIndexes.toList();
     foreach (auto index, indexes) {
         rows.insert(index.row());
     }
-    return rows.toList();
+    auto list = rows.toList();
+    std::sort(list.begin(), list.end());
+    return list;
 }
 
 /******************************************************************************
@@ -71,7 +74,7 @@ bool CheckableTableModel::setData(const QModelIndex &index, const QVariant &valu
         } else {
             m_checkedIndexes.remove(index);
         }
-        emit checkStateChanged();
+        emit checkStateChanged(index, checked);
 
         QModelIndex topLeft = index;
         QModelIndex bottomRight = this->index(index.row(), columnCount());

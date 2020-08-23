@@ -39,7 +39,7 @@ public:
     // Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
 
 signals:
-    void checkStateChanged();
+    void checkStateChanged(QModelIndex index, bool checked);
 
 protected:
     QList<int> checkedRows() const;
