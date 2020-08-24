@@ -21,6 +21,7 @@
 #include <Widgets/CheckableItemDelegate>
 
 #include <QtCore/QDebug>
+#include <QtGui/QKeyEvent>
 #include <QtGui/QMovie>
 
 #include <algorithm> /* std::sort */
@@ -132,6 +133,37 @@ StreamListWidget::StreamListWidget(QWidget *parent) : QWidget(parent)
 StreamListWidget::~StreamListWidget()
 {
     delete ui;
+}
+
+static void moveCursor(CheckableTableView *view, int key)
+{
+    Q_ASSERT(view);
+    auto rowMax = view->model()->rowCount() - 1;
+    auto currentIndex = view->currentIndex();
+    auto row = currentIndex.row();
+    switch (key) {
+    case Qt::Key_Up:    row = qMax(0, row-1);       break;
+    case Qt::Key_Down:  row = qMin(rowMax, row+1);  break;
+    case Qt::Key_Home:  row = 0;                    break;
+    case Qt::Key_End:   row = rowMax;               break;
+    default: break;
+    }
+    view->setCurrentIndex(view->model()->index(row, currentIndex.column()));
+}
+
+void StreamListWidget::keyPressEvent(QKeyEvent *event)
+{
+    switch (event->key()) {
+    case Qt::Key_Up:
+    case Qt::Key_Down:
+    case Qt::Key_Home:
+    case Qt::Key_End:
+        moveCursor(ui->playlistView, event->key());
+        break;
+    default:
+        break;
+    }
+    QWidget::keyPressEvent(event);
 }
 
 void StreamListWidget::changeEvent(QEvent *event)

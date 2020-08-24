@@ -54,6 +54,7 @@ public:
     QList<StreamInfo> selection() const;
 
 protected slots:
+    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
     void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
