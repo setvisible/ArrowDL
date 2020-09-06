@@ -62,6 +62,7 @@ private slots:
                             const QItemSelection &deselected);
     void onStreamInfoChanged(StreamInfo streamInfo);
     void onCheckStateChanged(QModelIndex index, bool checked);
+    void onTrackNumberChecked(int state);
 
 private:
     Ui::StreamListWidget *ui;
@@ -96,6 +97,7 @@ public:
     void retranslateUi();
 
     void setStreamInfoList(QList<StreamInfo> streamInfoList);
+    void enableTrackNumberPrefix(bool enable);
 
     StreamInfo itemAt(int row) const;
     void setItemAt(int row, const StreamInfo &streamInfo);

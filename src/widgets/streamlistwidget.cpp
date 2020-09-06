@@ -121,6 +121,9 @@ StreamListWidget::StreamListWidget(QWidget *parent) : QWidget(parent)
     connect(ui->streamWidget, SIGNAL(streamInfoChanged(StreamInfo)),
             this, SLOT(onStreamInfoChanged(StreamInfo)));
 
+    connect(ui->trackNumberCheckBox, SIGNAL(stateChanged(int)), this,
+            SLOT(onTrackNumberChecked(int)));
+
     /* Fancy GIF animation */
     QMovie *movie = new QMovie(":/icons/menu/stream_wait_16x16.gif");
     ui->waitingIconLabel->setMovie(movie);
@@ -281,6 +284,12 @@ void StreamListWidget::onCheckStateChanged(QModelIndex index, bool checked)
     }
 }
 
+void StreamListWidget::onTrackNumberChecked(int state)
+{
+    auto checked = static_cast<Qt::CheckState>(state) == Qt::Checked;
+    m_playlistModel->enableTrackNumberPrefix(checked);
+    onSelectionChanged(QItemSelection(), QItemSelection());
+}
 
 /******************************************************************************
  ******************************************************************************/
@@ -355,6 +364,28 @@ void StreamTableModel::setStreamInfoList(QList<StreamInfo> streamInfoList)
         m_items = streamInfoList;
         endInsertRows();
     }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void StreamTableModel::enableTrackNumberPrefix(bool enable)
+{
+    for (int row = 0; row < m_items.count(); ++row) {
+        auto item = m_items.at(row); // copy!
+        auto title = item.title();
+        auto prefix = QString("%0 ").arg(item.playlist_index);
+
+        // remove previous track number
+        if (title.startsWith(prefix)) {
+            title.remove(0, prefix.length());
+        }
+        if (enable) {
+            title.prepend(prefix);
+        }
+        item.setTitle(title);
+        m_items.replace(row, item);
+    }
+    emit dataChanged(index(0, 0), index(rowCount(), columnCount()), {Qt::DisplayRole});
 }
 
 /******************************************************************************
