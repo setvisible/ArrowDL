@@ -78,6 +78,7 @@ QString AbstractDownloadItem::stateToString() const
     case IDownloadItem::Skipped:             return tr("Skipped");
     case IDownloadItem::NetworkError:        return tr("Server error");
     case IDownloadItem::FileError:           return tr("File error");
+    default: Q_UNREACHABLE(); return QLatin1String("#undef!");
     }
 }
 

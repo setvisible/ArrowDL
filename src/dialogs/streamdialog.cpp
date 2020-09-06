@@ -100,7 +100,9 @@ void StreamDialog::onCollected(QStringList extractors, QStringList descriptions)
                                        .arg(extractors.count()));
     ui->plainTextEdit->appendPlainText(QLatin1String("===================="));
     ui->plainTextEdit->appendPlainText(QString());
-    ui->plainTextEdit->appendPlainText(tr("Site\tDescription"));
+    ui->plainTextEdit->appendPlainText(QString("%0\t%1")
+                                       .arg(tr("Site"))
+                                       .arg(tr("Description")));
     ui->plainTextEdit->appendPlainText(QString());
     for (int i = 0; i < count; ++i) {
         ui->plainTextEdit->appendPlainText(

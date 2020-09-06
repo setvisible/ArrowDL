@@ -170,6 +170,13 @@ QGroupBox {
            <item>
             <widget class="CheckableTableView" name="playlistView"/>
            </item>
+           <item>
+            <widget class="QCheckBox" name="trackNumberCheckBox">
+             <property name="text">
+              <string>Add track number to filename</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
          <widget class="StreamWidget" name="streamWidget" native="true"/>
