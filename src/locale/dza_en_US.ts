@@ -2567,48 +2567,18 @@ Some examples are given below.  Click to paste the example.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1172"/>
+        <location filename="../core/stream.cpp" line="1169"/>
         <source>Video %0 x %1%2%3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1179"/>
+        <location filename="../core/stream.cpp" line="1176"/>
         <source>[%0] %1 x %2 (%3 fps) @ %4 KBit/s, codec: %5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1188"/>
+        <location filename="../core/stream.cpp" line="1185"/>
         <source>[%0] %1 Hz @ %2 KBit/s, codec: %3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="1456"/>
-        <source>The process failed to start.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="1459"/>
-        <source>The process crashed while attempting to run.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="1462"/>
-        <source>The process has timed out.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="1465"/>
-        <source>The process has encountered a write error.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="1468"/>
-        <source>The process has encountered a read error.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="1471"/>
-        <source>The process has encountered an unknown error.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2784,7 +2754,7 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>Stream</name>
     <message>
-        <location filename="../core/stream.cpp" line="364"/>
+        <location filename="../core/stream.cpp" line="365"/>
         <source>The process crashed.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2840,8 +2810,8 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>StreamExtractorListCollector</name>
     <message>
-        <location filename="../core/stream.cpp" line="1033"/>
-        <location filename="../core/stream.cpp" line="1051"/>
+        <location filename="../core/stream.cpp" line="1030"/>
+        <location filename="../core/stream.cpp" line="1048"/>
         <source>The process crashed.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2892,28 +2862,28 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>StreamInfoDownloader</name>
     <message>
-        <location filename="../core/stream.cpp" line="705"/>
-        <location filename="../core/stream.cpp" line="729"/>
+        <location filename="../core/stream.cpp" line="704"/>
+        <location filename="../core/stream.cpp" line="728"/>
         <source>The process crashed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="723"/>
+        <location filename="../core/stream.cpp" line="722"/>
         <source>Couldn&apos;t parse playlist (no data received).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="726"/>
+        <location filename="../core/stream.cpp" line="725"/>
         <source>Couldn&apos;t parse playlist (ill-formed JSON file).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="860"/>
+        <location filename="../core/stream.cpp" line="859"/>
         <source>Cancelled.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="702"/>
+        <location filename="../core/stream.cpp" line="701"/>
         <source>Couldn&apos;t parse JSON file.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2973,32 +2943,32 @@ Help: if you get an error, follow these instructions:
 <context>
     <name>StreamTableModel</name>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="352"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="351"/>
         <source>#</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="353"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="352"/>
         <source>File Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="354"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="353"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="355"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="354"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="356"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="355"/>
         <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="492"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="485"/>
         <source>Video unavailable</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3772,13 +3742,13 @@ Help: if you get an error, follow these instructions:
 <context>
     <name>main</name>
     <message>
-        <location filename="../main.cpp" line="65"/>
+        <location filename="../main.cpp" line="76"/>
         <source>Another Download Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="72"/>
-        <source>target URL to proceed.</source>
+        <location filename="../main.cpp" line="86"/>
+        <source>target URL to proceed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

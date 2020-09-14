@@ -2568,49 +2568,19 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
         <translation>Impossible de charger %0</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1172"/>
+        <location filename="../core/stream.cpp" line="1169"/>
         <source>Video %0 x %1%2%3</source>
         <translation>Vidéo %0 x %1%2%3</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1179"/>
+        <location filename="../core/stream.cpp" line="1176"/>
         <source>[%0] %1 x %2 (%3 fps) @ %4 KBit/s, codec: %5</source>
         <translation>[%0] %1 x %2 (%3 fps) @ %4 kBit/s, codec: %5</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1188"/>
+        <location filename="../core/stream.cpp" line="1185"/>
         <source>[%0] %1 Hz @ %2 KBit/s, codec: %3</source>
         <translation>[%0] %1 Hz @ %2 kBit/s, codec: %3</translation>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="1456"/>
-        <source>The process failed to start.</source>
-        <translation>Le processus n&apos;a pas pu démarrer.</translation>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="1459"/>
-        <source>The process crashed while attempting to run.</source>
-        <translation>Le processus a planté au démarrage.</translation>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="1462"/>
-        <source>The process has timed out.</source>
-        <translation>Le processus a dépassé le délai d&apos;attente.</translation>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="1465"/>
-        <source>The process has encountered a write error.</source>
-        <translation>Le processus a rencontré une erreur d&apos;écriture.</translation>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="1468"/>
-        <source>The process has encountered a read error.</source>
-        <translation>Le processus a rencontré une erreur de lecture.</translation>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="1471"/>
-        <source>The process has encountered an unknown error.</source>
-        <translation>Le processus a rencontré une erreur inconnue.</translation>
     </message>
     <message>
         <location filename="../core/torrentmessage.h" line="187"/>
@@ -2785,7 +2755,7 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
 <context>
     <name>Stream</name>
     <message>
-        <location filename="../core/stream.cpp" line="364"/>
+        <location filename="../core/stream.cpp" line="365"/>
         <source>The process crashed.</source>
         <translation>Le processus a planté.</translation>
     </message>
@@ -2841,8 +2811,8 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
 <context>
     <name>StreamExtractorListCollector</name>
     <message>
-        <location filename="../core/stream.cpp" line="1033"/>
-        <location filename="../core/stream.cpp" line="1051"/>
+        <location filename="../core/stream.cpp" line="1030"/>
+        <location filename="../core/stream.cpp" line="1048"/>
         <source>The process crashed.</source>
         <translation>Le processus a planté.</translation>
     </message>
@@ -2893,28 +2863,28 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
 <context>
     <name>StreamInfoDownloader</name>
     <message>
-        <location filename="../core/stream.cpp" line="705"/>
-        <location filename="../core/stream.cpp" line="729"/>
+        <location filename="../core/stream.cpp" line="704"/>
+        <location filename="../core/stream.cpp" line="728"/>
         <source>The process crashed.</source>
         <translation>Le processus a planté.</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="723"/>
+        <location filename="../core/stream.cpp" line="722"/>
         <source>Couldn&apos;t parse playlist (no data received).</source>
         <translation>Impossible de lire la playlist (données non reçues).</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="726"/>
+        <location filename="../core/stream.cpp" line="725"/>
         <source>Couldn&apos;t parse playlist (ill-formed JSON file).</source>
         <translation>Impossible de lire la playlist (fichier JSON non conforme).</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="860"/>
+        <location filename="../core/stream.cpp" line="859"/>
         <source>Cancelled.</source>
         <translation>Annulé.</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="702"/>
+        <location filename="../core/stream.cpp" line="701"/>
         <source>Couldn&apos;t parse JSON file.</source>
         <translation>Impossible de scanner le fichier JSON.</translation>
     </message>
@@ -2988,32 +2958,32 @@ Astuce: si vous rencontrez une erreur :
 <context>
     <name>StreamTableModel</name>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="352"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="351"/>
         <source>#</source>
         <translation>#</translation>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="353"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="352"/>
         <source>File Name</source>
         <translation>Nom de fichier</translation>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="354"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="353"/>
         <source>Title</source>
         <translation>Titre</translation>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="355"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="354"/>
         <source>Size</source>
         <translation>Taille</translation>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="356"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="355"/>
         <source>Format</source>
         <translation>Format</translation>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="492"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="485"/>
         <source>Video unavailable</source>
         <translation>Vidéo non disponible</translation>
     </message>
@@ -3787,14 +3757,14 @@ Astuce: si vous rencontrez une erreur :
 <context>
     <name>main</name>
     <message>
-        <location filename="../main.cpp" line="65"/>
+        <location filename="../main.cpp" line="76"/>
         <source>Another Download Manager</source>
         <translation>Et un gestionnaire de téléchargements de plus</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="72"/>
-        <source>target URL to proceed.</source>
-        <translation>URL à télécharger.</translation>
+        <location filename="../main.cpp" line="86"/>
+        <source>target URL to proceed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>
