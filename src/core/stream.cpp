@@ -37,7 +37,7 @@
 #if defined Q_OS_WIN
 static const QString C_PROGRAM_NAME  = QLatin1String("youtube-dl.exe");
 #else
-static const QString C_PROGRAM_NAME  = QLatin1String("./youtube-dl");
+static const QString C_PROGRAM_NAME  = QLatin1String("youtube-dl");
 #endif
 
 static const QString C_WEBSITE_URL   = QLatin1String("http://ytdl-org.github.io/youtube-dl/");
@@ -101,6 +101,7 @@ QString Stream::version()
 {
     if (s_youtubedl_version.isEmpty()) {
         QProcess process;
+        process.setWorkingDirectory(qApp->applicationDirPath());
         process.start(
                     C_PROGRAM_NAME, QStringList()
                     << QLatin1String("--no-color")
@@ -323,6 +324,7 @@ void Stream::start()
         if (isMergeFormat(m_fileExtension)) {
             arguments << QLatin1String("--merge-output-format") << m_fileExtension;
         }
+        m_process->setWorkingDirectory(qApp->applicationDirPath());
         m_process->start(C_PROGRAM_NAME, arguments);
         qDebug() << Q_FUNC_INFO << toString(m_process);
     }
@@ -481,6 +483,7 @@ StreamCleanCache::~StreamCleanCache()
 void StreamCleanCache::runAsync()
 {
     if (m_process->state() == QProcess::NotRunning) {
+        m_process->setWorkingDirectory(qApp->applicationDirPath());
         m_process->start(
                     C_PROGRAM_NAME, QStringList()
                     << QLatin1String("--no-color")
@@ -595,6 +598,7 @@ void StreamInfoDownloader::runAsyncDumpJson()
             // --user-agent option requires non-empty argument
             arguments << QLatin1String("--user-agent") << s_youtubedl_user_agent;
         }
+        m_processDumpJson->setWorkingDirectory(qApp->applicationDirPath());
         m_processDumpJson->start(C_PROGRAM_NAME, arguments);
         qDebug() << Q_FUNC_INFO << toString(m_processDumpJson);
     }
@@ -616,6 +620,7 @@ void StreamInfoDownloader::runAsyncFlatList()
             // --user-agent option requires non-empty argument
             arguments << QLatin1String("--user-agent") << s_youtubedl_user_agent;
         }
+        m_processFlatList->setWorkingDirectory(qApp->applicationDirPath());
         m_processFlatList->start(C_PROGRAM_NAME, arguments);
         qDebug() << Q_FUNC_INFO << toString(m_processFlatList);
     }
@@ -920,6 +925,7 @@ StreamUpgrader::~StreamUpgrader()
 void StreamUpgrader::runAsync()
 {
     if (m_process->state() == QProcess::NotRunning) {
+        m_process->setWorkingDirectory(qApp->applicationDirPath());
         m_process->start(
                     C_PROGRAM_NAME, QStringList()
                     << QLatin1String("--no-color")
@@ -989,6 +995,7 @@ StreamExtractorListCollector::~StreamExtractorListCollector()
 void StreamExtractorListCollector::runAsync()
 {
     if (m_processExtractors->state() == QProcess::NotRunning) {
+        m_processExtractors->setWorkingDirectory(qApp->applicationDirPath());
         m_processExtractors->start(
                     C_PROGRAM_NAME, QStringList()
                     << QLatin1String("--no-color")
@@ -996,6 +1003,7 @@ void StreamExtractorListCollector::runAsync()
         qDebug() << Q_FUNC_INFO << toString(m_processExtractors);
     }
     if (m_processDescriptions->state() == QProcess::NotRunning) {
+        m_processDescriptions->setWorkingDirectory(qApp->applicationDirPath());
         m_processDescriptions->start(
                     C_PROGRAM_NAME, QStringList()
                     << QLatin1String("--no-color")
