@@ -66,6 +66,7 @@ static const QString C_DOWNLOAD_next_section = QLatin1String("Destination:");
 static QString s_youtubedl_version = QString();
 static QString s_youtubedl_user_agent = QString();
 
+static void debug(QObject *sender, QProcess::ProcessError error);
 static QString generateErrorMessage(QProcess::ProcessError error);
 static QString toString(QProcess *process);
 
@@ -326,7 +327,6 @@ void Stream::start()
         }
         m_process->setWorkingDirectory(qApp->applicationDirPath());
         m_process->start(C_PROGRAM_NAME, arguments);
-        qDebug() << Q_FUNC_INFO << toString(m_process);
     }
 }
 
@@ -340,7 +340,6 @@ void Stream::abort()
  ******************************************************************************/
 void Stream::onStarted()
 {
-    qDebug() << Q_FUNC_INFO;
 }
 
 void Stream::onError(QProcess::ProcessError error)
@@ -348,7 +347,7 @@ void Stream::onError(QProcess::ProcessError error)
     // Issue with the process configuration, or argument,
     // or invalid path to "youtube-dl" program,
     // but not due to an invalid user input like invalid URL.
-    qDebug() << Q_FUNC_INFO << generateErrorMessage(error);
+    debug(sender(), error);
 }
 
 void Stream::onFinished(int exitCode, QProcess::ExitStatus exitStatus)
@@ -488,7 +487,6 @@ void StreamCleanCache::runAsync()
                     C_PROGRAM_NAME, QStringList()
                     << QLatin1String("--no-color")
                     << QLatin1String("--rm-cache-dir"));
-        qDebug() << Q_FUNC_INFO << toString(m_process);
     }
 }
 
@@ -510,12 +508,11 @@ bool StreamCleanCache::isCleaned() const
 
 void StreamCleanCache::onStarted()
 {
-    qDebug() << Q_FUNC_INFO;
 }
 
 void StreamCleanCache::onError(QProcess::ProcessError error)
 {
-    qDebug() << Q_FUNC_INFO << generateErrorMessage(error);
+    debug(sender(), error);
 }
 
 void StreamCleanCache::onFinished(int exitCode, QProcess::ExitStatus exitStatus)
@@ -600,7 +597,6 @@ void StreamInfoDownloader::runAsyncDumpJson()
         }
         m_processDumpJson->setWorkingDirectory(qApp->applicationDirPath());
         m_processDumpJson->start(C_PROGRAM_NAME, arguments);
-        qDebug() << Q_FUNC_INFO << toString(m_processDumpJson);
     }
 }
 
@@ -622,7 +618,6 @@ void StreamInfoDownloader::runAsyncFlatList()
         }
         m_processFlatList->setWorkingDirectory(qApp->applicationDirPath());
         m_processFlatList->start(C_PROGRAM_NAME, arguments);
-        qDebug() << Q_FUNC_INFO << toString(m_processFlatList);
     }
 }
 
@@ -647,12 +642,11 @@ bool StreamInfoDownloader::isRunning() const
 
 void StreamInfoDownloader::onStarted()
 {
-    qDebug() << Q_FUNC_INFO;
 }
 
 void StreamInfoDownloader::onError(QProcess::ProcessError error)
 {
-    qDebug() << Q_FUNC_INFO << generateErrorMessage(error);
+    debug(sender(), error);
     m_dumpMap.clear();
     m_flatList.clear();
     /// \todo verify race condition
@@ -930,18 +924,16 @@ void StreamUpgrader::runAsync()
                     C_PROGRAM_NAME, QStringList()
                     << QLatin1String("--no-color")
                     << QLatin1String("--update"));
-        qDebug() << Q_FUNC_INFO << toString(m_process);
     }
 }
 
 void StreamUpgrader::onStarted()
 {
-    qDebug() << Q_FUNC_INFO;
 }
 
 void StreamUpgrader::onError(QProcess::ProcessError error)
 {
-    qDebug() << Q_FUNC_INFO << generateErrorMessage(error);
+    debug(sender(), error);
 }
 
 void StreamUpgrader::onStandardOutputReady()
@@ -1000,7 +992,6 @@ void StreamExtractorListCollector::runAsync()
                     C_PROGRAM_NAME, QStringList()
                     << QLatin1String("--no-color")
                     << QLatin1String("--list-extractors"));
-        qDebug() << Q_FUNC_INFO << toString(m_processExtractors);
     }
     if (m_processDescriptions->state() == QProcess::NotRunning) {
         m_processDescriptions->setWorkingDirectory(qApp->applicationDirPath());
@@ -1008,18 +999,16 @@ void StreamExtractorListCollector::runAsync()
                     C_PROGRAM_NAME, QStringList()
                     << QLatin1String("--no-color")
                     << QLatin1String("--extractor-descriptions"));
-        qDebug() << Q_FUNC_INFO << toString(m_processDescriptions);
     }
 }
 
 void StreamExtractorListCollector::onStarted()
 {
-    qDebug() << Q_FUNC_INFO;
 }
 
 void StreamExtractorListCollector::onError(QProcess::ProcessError error)
 {
-    qDebug() << Q_FUNC_INFO << generateErrorMessage(error);
+    debug(sender(), error);
     m_extractors.clear();
     m_descriptions.clear();
     /// \todo verify race condition
@@ -1456,38 +1445,38 @@ void StreamInfo::setError(const Error error)
 
 /******************************************************************************
  ******************************************************************************/
+static void debug(QObject *sender, QProcess::ProcessError error)
+{
+    QProcess* process = qobject_cast<QProcess*>(sender);
+    if (process) {
+        qDebug().noquote() << toString(process);
+        qDebug().noquote() << generateErrorMessage(error);
+    } else {
+        qDebug().noquote() << generateErrorMessage(error);
+    }
+}
+
 static QString generateErrorMessage(QProcess::ProcessError error)
 {
-    QString message;
     switch(error) {
-    case QProcess::FailedToStart:
-        message = QObject::tr("The process failed to start.");
-        break;
-    case QProcess::Crashed:
-        message = QObject::tr("The process crashed while attempting to run.");
-        break;
-    case QProcess::Timedout:
-        message = QObject::tr("The process has timed out.");
-        break;
-    case QProcess::WriteError:
-        message = QObject::tr("The process has encountered a write error.");
-        break;
-    case QProcess::ReadError:
-        message = QObject::tr("The process has encountered a read error.");
-        break;
-    case QProcess::UnknownError:
-        message = QObject::tr("The process has encountered an unknown error.");
-        break;
+    case QProcess::FailedToStart: return QLatin1String("The process failed to start.");
+    case QProcess::Crashed:       return QLatin1String("The process crashed while attempting to run.");
+    case QProcess::Timedout:      return QLatin1String("The process has timed out.");
+    case QProcess::WriteError:    return QLatin1String("The process has encountered a write error.");
+    case QProcess::ReadError:     return QLatin1String("The process has encountered a read error.");
+    case QProcess::UnknownError:  return QLatin1String("The process has encountered an unknown error.");
+    default:
+        Q_UNREACHABLE();
     }
-    return message;
+    return QString();
 }
 
 static QString toString(QProcess *process)
 {
     if (!process) {
-        return QString("ERROR: invalid process");
+        return QLatin1String("ERROR: invalid process");
     }
-    return QString("[pid:%0] %1 %2 %3")
+    return QString("[pid:%0] pwd='%1' cmd='%2 %3'")
             .arg(process->processId())
             .arg(process->workingDirectory())
             .arg(process->program())

@@ -37,6 +37,15 @@ StreamWidget::StreamWidget(QWidget *parent) : QWidget(parent)
             this, SLOT(onSuffixChanged(QString)));
 
     ui->stackedWidget->setCurrentWidget(ui->pageInfo);
+
+    QFontMetrics fm(ui->fileExtensionEdit->font());
+#if QT_VERSION >= 0x051100
+    int pixelsWide = fm.horizontalAdvance(".webm3");
+#else
+    int pixelsWide = fm.width(".webm3");
+#endif
+    ui->fileExtensionEdit->setMaximumWidth(pixelsWide);
+    ui->fileExtensionEdit->setMinimumWidth(pixelsWide);
 }
 
 StreamWidget::~StreamWidget()

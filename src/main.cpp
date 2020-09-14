@@ -26,7 +26,18 @@
 Q_DECLARE_METATYPE(QList<int>)
 
 #ifndef QT_DEBUG
-void releaseMessageHandler(QtMsgType type, const QMessageLogContext &, const QString &msg)
+void releaseVerboseMessageHandler(QtMsgType type, const QMessageLogContext &, const QString &msg)
+{
+    QByteArray localMsg = msg.toLocal8Bit();
+    switch (type) {
+    case QtDebugMsg: fprintf(stderr, "Debug: %s\n", localMsg.constData()); break;
+    case QtInfoMsg: fprintf(stderr, "Info: %s\n", localMsg.constData()); break;
+    case QtWarningMsg: fprintf(stderr, "Warning: %s\n", localMsg.constData()); break;
+    case QtCriticalMsg: fprintf(stderr, "Critical: %s\n", localMsg.constData()); break;
+    case QtFatalMsg: fprintf(stderr, "Fatal: %s\n", localMsg.constData()); break;
+    }
+}
+void releaseDefaultMessageHandler(QtMsgType type, const QMessageLogContext &, const QString &msg)
 {
     QByteArray localMsg = msg.toLocal8Bit();
     switch (type) {
@@ -44,11 +55,6 @@ void releaseMessageHandler(QtMsgType type, const QMessageLogContext &, const QSt
 int main(int argc, char *argv[])
 {
     Q_INIT_RESOURCE(resources);
-#ifndef QT_DEBUG
-    qInstallMessageHandler(releaseMessageHandler);
-#else
-    qInstallMessageHandler(Q_NULLPTR); // default handler
-#endif
 
     QtSingleApplication application(argc, argv);
 
@@ -66,19 +72,29 @@ int main(int argc, char *argv[])
     parser.addHelpOption();
     parser.addVersionOption();
 
-    QCommandLineOption interactiveOption(QStringList() << "i" << "interactive", "Interactive mode.");
+    QCommandLineOption verboseOption(QStringList() << "V" << "verbose", "Verbose (debug) mode");
+    parser.addOption(verboseOption);
+
+    QCommandLineOption interactiveOption(QStringList() << "i" << "interactive", "Interactive mode");
     parser.addOption(interactiveOption);
 
-    parser.addPositionalArgument("url", QT_TRANSLATE_NOOP("main", "target URL to proceed."));
+    parser.addPositionalArgument("url", QT_TRANSLATE_NOOP("main", "target URL to proceed"));
 
     parser.process(application);
 
+#ifndef QT_DEBUG
+    if (parser.isSet(verboseOption)) {
+        qInstallMessageHandler(releaseVerboseMessageHandler);
+    } else {
+        qInstallMessageHandler(releaseDefaultMessageHandler);
+    }
+#else
+    qInstallMessageHandler(Q_NULLPTR); // default handler (show all messages)
+#endif
+
     QString message;
-    const bool interactive = parser.isSet(interactiveOption);
-    if (interactive) {
-
+    if (parser.isSet(interactiveOption)) {
         message = InterProcessCommunication::readMessageFromLauncher();
-
     } else {
         const QStringList positionalArguments = parser.positionalArguments();
         foreach (auto positionalArgument, positionalArguments) {
