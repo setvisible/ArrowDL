@@ -269,5 +269,6 @@ safeInnerHtmlAssignment("choice-get-content"  , chrome.i18n.getMessage("optionsC
 safeInnerHtmlAssignment("choice-start-paused" , chrome.i18n.getMessage("optionsChoiceStartPaused"));
 safeInnerHtmlAssignment("about"               , chrome.i18n.getMessage("optionsAbout"));
 safeInnerHtmlAssignment("install"             , chrome.i18n.getMessage("optionsInstall"));
-safeInnerHtmlAssignment("install-message"     , chrome.i18n.getMessage("optionsInstallMessage", website_download_link));
+safeInnerHtmlAssignment("install-message"     , chrome.i18n.getMessage("optionsInstallMessage"));
+safeInnerHtmlAssignment("install-message-link", chrome.i18n.getMessage("optionsInstallMessageLink"));
 safeInnerHtmlAssignment("button-check"        , chrome.i18n.getMessage("optionsRefresh", "»"));
