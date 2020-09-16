@@ -248,5 +248,6 @@ safeInnerHtmlAssignment("choice-get-content"  , browser.i18n.getMessage("options
 safeInnerHtmlAssignment("choice-start-paused" , browser.i18n.getMessage("optionsChoiceStartPaused"));
 safeInnerHtmlAssignment("about"               , browser.i18n.getMessage("optionsAbout"));
 safeInnerHtmlAssignment("install"             , browser.i18n.getMessage("optionsInstall"));
-safeInnerHtmlAssignment("install-message"     , browser.i18n.getMessage("optionsInstallMessage", website_download_link));
+safeInnerHtmlAssignment("install-message"     , browser.i18n.getMessage("optionsInstallMessage"));
+safeInnerHtmlAssignment("install-message-link", browser.i18n.getMessage("optionsInstallMessageLink"));
 safeInnerHtmlAssignment("button-check"        , browser.i18n.getMessage("optionsRefresh", "»"));
