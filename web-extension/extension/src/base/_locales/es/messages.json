@@ -148,17 +148,11 @@
   },
   "optionsInstallMessage": {
     "message": "Go to $START$Download$END$ page to install the application for your operating system.",
-    "description": "Tells the user how to install the application.",
-    "placeholders": {
-      "start" : {
-        "content" : "<a href=\"$1\">",
-        "description": "HTML tag <a>"
-      },
-      "end" : {
-        "content" : "</a>",
-        "description": "HTML tag </a>"
-      }
-    }
+    "description": "Tells the user how to install the application."
+  },
+  "optionsInstallMessageLink": {
+    "message": "Visit DZA website",
+    "description": "Link to the application URL."
   },
   "optionsRefresh": {
     "message": "Refresh information $SYMBOL$",

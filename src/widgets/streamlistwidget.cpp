@@ -21,6 +21,7 @@
 #include <Widgets/CheckableItemDelegate>
 
 #include <QtCore/QDebug>
+#include <QtGui/QKeyEvent>
 #include <QtGui/QMovie>
 
 #include <algorithm> /* std::sort */
@@ -120,6 +121,9 @@ StreamListWidget::StreamListWidget(QWidget *parent) : QWidget(parent)
     connect(ui->streamWidget, SIGNAL(streamInfoChanged(StreamInfo)),
             this, SLOT(onStreamInfoChanged(StreamInfo)));
 
+    connect(ui->trackNumberCheckBox, SIGNAL(stateChanged(int)), this,
+            SLOT(onTrackNumberChecked(int)));
+
     /* Fancy GIF animation */
     QMovie *movie = new QMovie(":/icons/menu/stream_wait_16x16.gif");
     ui->waitingIconLabel->setMovie(movie);
@@ -132,6 +136,37 @@ StreamListWidget::StreamListWidget(QWidget *parent) : QWidget(parent)
 StreamListWidget::~StreamListWidget()
 {
     delete ui;
+}
+
+static void moveCursor(CheckableTableView *view, int key)
+{
+    Q_ASSERT(view);
+    auto rowMax = view->model()->rowCount() - 1;
+    auto currentIndex = view->currentIndex();
+    auto row = currentIndex.row();
+    switch (key) {
+    case Qt::Key_Up:    row = qMax(0, row-1);       break;
+    case Qt::Key_Down:  row = qMin(rowMax, row+1);  break;
+    case Qt::Key_Home:  row = 0;                    break;
+    case Qt::Key_End:   row = rowMax;               break;
+    default: break;
+    }
+    view->setCurrentIndex(view->model()->index(row, currentIndex.column()));
+}
+
+void StreamListWidget::keyPressEvent(QKeyEvent *event)
+{
+    switch (event->key()) {
+    case Qt::Key_Up:
+    case Qt::Key_Down:
+    case Qt::Key_Home:
+    case Qt::Key_End:
+        moveCursor(ui->playlistView, event->key());
+        break;
+    default:
+        break;
+    }
+    QWidget::keyPressEvent(event);
 }
 
 void StreamListWidget::changeEvent(QEvent *event)
@@ -249,6 +284,12 @@ void StreamListWidget::onCheckStateChanged(QModelIndex index, bool checked)
     }
 }
 
+void StreamListWidget::onTrackNumberChecked(int state)
+{
+    auto checked = static_cast<Qt::CheckState>(state) == Qt::Checked;
+    m_playlistModel->enableTrackNumberPrefix(checked);
+    onSelectionChanged(QItemSelection(), QItemSelection());
+}
 
 /******************************************************************************
  ******************************************************************************/
@@ -323,6 +364,28 @@ void StreamTableModel::setStreamInfoList(QList<StreamInfo> streamInfoList)
         m_items = streamInfoList;
         endInsertRows();
     }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void StreamTableModel::enableTrackNumberPrefix(bool enable)
+{
+    for (int row = 0; row < m_items.count(); ++row) {
+        auto item = m_items.at(row); // copy!
+        auto title = item.title();
+        auto prefix = QString("%0 ").arg(item.playlist_index);
+
+        // remove previous track number
+        if (title.startsWith(prefix)) {
+            title.remove(0, prefix.length());
+        }
+        if (enable) {
+            title.prepend(prefix);
+        }
+        item.setTitle(title);
+        m_items.replace(row, item);
+    }
+    emit dataChanged(index(0, 0), index(rowCount(), columnCount()), {Qt::DisplayRole});
 }
 
 /******************************************************************************

@@ -20,6 +20,7 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QEvent>
+#include <QtGui/QCloseEvent>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QMenu>
 
@@ -183,6 +184,11 @@ void SystemTray::hideParentWidget()
 
 /******************************************************************************
  ******************************************************************************/
+void SystemTray::closeEvent(QCloseEvent */*event*/)
+{
+    deleteLater();
+}
+
 void SystemTray::changeEvent(QEvent *event)
 {
     if (event->type() == QEvent::LanguageChange) {

@@ -147,18 +147,12 @@
     "description": "Title of Installation"
   },
   "optionsInstallMessage": {
-    "message": "Aller à la page $START$téléchargements$END$ pour installer l'application sur votre système d'exploitation.",
-    "description": "Tells the user how to install the application.",
-    "placeholders": {
-      "start" : {
-        "content" : "<a href=\"$1\">",
-        "description": "HTML tag <a>"
-      },
-      "end" : {
-        "content" : "</a>",
-        "description": "HTML tag </a>"
-      }
-    }
+    "message": "Aller à la page ci-dessous pour installer l'application sur votre système d'exploitation.",
+    "description": "Tells the user how to install the application."
+  },
+  "optionsInstallMessageLink": {
+    "message": "Visiter le site web DZA",
+    "description": "Link to the application URL."
   },
   "optionsRefresh": {
     "message": "Rafraîchir les infos $SYMBOL$",
