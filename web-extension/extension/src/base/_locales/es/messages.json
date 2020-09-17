@@ -147,7 +147,7 @@
     "description": "Title of Installation"
   },
   "optionsInstallMessage": {
-    "message": "Go to $START$Download$END$ page to install the application for your operating system.",
+    "message": "Go to link below to install the application for your operating system.",
     "description": "Tells the user how to install the application."
   },
   "optionsInstallMessageLink": {
