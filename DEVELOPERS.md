@@ -33,6 +33,7 @@ Follow official instructions of each tool.
     sudo apt install build-essential
     sudo apt install cmake-qt-gui
     sudo apt install git
+    sudo apt install git-gui
     
 #### Install Qt5
 
@@ -47,16 +48,37 @@ Follow official instructions of each tool.
 Or follow [instructions](https://wiki.qt.io/Install_Qt_5_on_Ubuntu
 "https://wiki.qt.io/Install_Qt_5_on_Ubuntu").
 
-    sudo apt-get install libfontconfig1
-    sudo apt-get install mesa-common-dev
-    sudo apt-get install libglu1-mesa-dev -y
+    sudo apt install libfontconfig1
+    sudo apt install mesa-common-dev
+    sudo apt install libglu1-mesa-dev
     
     wget https://download.qt.io/official_releases/qt/5.14/5.14.2/qt-opensource-linux-x64-5.14.2.run
 
     chmod +x qt-opensource-linux-x64-5.14.2.run
     sudo ./qt-opensource-linux-x64-5.14.2.run
 
-It install the tools and SDK on `/opt/Qt5.14.2/`.
+Select a dummy proxy, to skip the login page.
+
+It install the tools (QtCreator 4.11.1) and SDK on `/opt/Qt5.14.2/`.
+
+Run it:
+
+    /opt/Qt5.14.2/Tools/QtCreator/bin/qtcreator
+
+Create a shortcut (Ubuntu, KDE...):
+
+    mkdir ~/.local/share/applications
+    cp /opt/Qt5.14.2/Tools/QtCreator/share/applications/org.qt-project.qtcreator.desktop ~/.local/share/applications
+
+
+
+#### Install Boost C++ Library
+
+    wget https://dl.bintray.com/boostorg/release/1.74.0/source/boost_1_74_0.tar.gz
+    tar -zxvf boost_1_74_0.tar.gz
+
+
+Or download and unzip manually an older version of [Boost](https://www.boost.org/users/history/).
 
 
 ## Build with GCC or MinGW
@@ -76,7 +98,7 @@ Setup the *Boost* library:
     PS: or configure `Boost_INCLUDE_DIR`
     
 - For QMake:
-    Open `./3rd/boost/boost.pri`- 
+    Open `./3rd/boost/boost.pri`
     and add path manually to variable `BOOST_ROOT_DIR`,
     that gives the following line: 
     `BOOST_ROOT_DIR = <here-absolute-path-to-boost>/Boost/boost_1_58_0`
