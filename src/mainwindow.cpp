@@ -203,6 +203,7 @@ MainWindow::~MainWindow()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     writeSettings();
+    m_systemTray->close();
     event->accept();
 }
 
