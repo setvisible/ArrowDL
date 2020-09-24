@@ -207,19 +207,24 @@ QString Torrent::preferredFilePriorities() const
 
 void Torrent::setPreferredFilePriorities(const QString &priorities)
 {
+    bool hasChanged = false;
     for (int fi = 0; fi < fileCount(); ++fi) {
-        if (fi > priorities.length() - 1) {
-            return;
+        if (fi < priorities.length()) {
+            auto priority = TorrentFileInfo::Normal;
+            switch (priorities.at(fi).toLatin1()) {
+            case '-': priority = TorrentFileInfo::Ignore; break;
+            case 'L': priority = TorrentFileInfo::Low; break;
+            case 'N': priority = TorrentFileInfo::Normal; break;
+            case 'H': priority = TorrentFileInfo::High; break;
+            default: break;
+            }
+            QSignalBlocker blocker(this);
+            setFilePriority(fi, priority);
+            hasChanged = true;
         }
-        auto priority = TorrentFileInfo::Normal;
-        switch (priorities.at(fi).toLatin1()) {
-        case '-': priority = TorrentFileInfo::Ignore; break;
-        case 'L': priority = TorrentFileInfo::Low; break;
-        case 'N': priority = TorrentFileInfo::Normal; break;
-        case 'H': priority = TorrentFileInfo::High; break;
-        default: break;
-        }
-        setFilePriority(fi, priority);
+    }
+    if (hasChanged) {
+        emit changed();
     }
 }
 
