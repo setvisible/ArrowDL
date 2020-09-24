@@ -894,37 +894,37 @@ You can also use batch descriptors to download multiple files at one time.</sour
 <context>
     <name>DownloadQueueView</name>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="603"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="595"/>
         <source>Download/Name</source>
         <translation>Имя файла</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="604"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="596"/>
         <source>Domain</source>
         <translation>Домен</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="605"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="597"/>
         <source>Progress</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="606"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="598"/>
         <source>Percent</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="607"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="599"/>
         <source>Size</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="608"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="600"/>
         <source>Est. time</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="609"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="601"/>
         <source>Speed</source>
         <translation type="unfinished"/>
     </message>
@@ -1374,7 +1374,7 @@ Some examples are given below.  Click to paste the example.</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="105"/>
-        <location filename="../mainwindow.cpp" line="378"/>
+        <location filename="../mainwindow.cpp" line="379"/>
         <source>Other</source>
         <translation type="unfinished"/>
     </message>
@@ -1750,188 +1750,188 @@ Some examples are given below.  Click to paste the example.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="335"/>
-        <location filename="../mainwindow.cpp" line="926"/>
+        <location filename="../mainwindow.cpp" line="336"/>
+        <location filename="../mainwindow.cpp" line="927"/>
         <source>About %0</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="339"/>
+        <location filename="../mainwindow.cpp" line="340"/>
         <source>About Qt</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="397"/>
+        <location filename="../mainwindow.cpp" line="398"/>
         <source>Advanced</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="540"/>
-        <location filename="../mainwindow.cpp" line="588"/>
-        <location filename="../mainwindow.cpp" line="1289"/>
-        <location filename="../mainwindow.cpp" line="1308"/>
+        <location filename="../mainwindow.cpp" line="541"/>
+        <location filename="../mainwindow.cpp" line="589"/>
+        <location filename="../mainwindow.cpp" line="1290"/>
+        <location filename="../mainwindow.cpp" line="1309"/>
         <source>Error</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="566"/>
-        <location filename="../mainwindow.cpp" line="602"/>
-        <source>Remove Downloads</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="567"/>
         <location filename="../mainwindow.cpp" line="603"/>
+        <source>Remove Downloads</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="568"/>
+        <location filename="../mainwindow.cpp" line="604"/>
         <source>Are you sure to remove %0 downloads?</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="569"/>
+        <location filename="../mainwindow.cpp" line="570"/>
         <source>Delete</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="542"/>
+        <location filename="../mainwindow.cpp" line="543"/>
         <source>File not found</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="590"/>
+        <location filename="../mainwindow.cpp" line="591"/>
         <source>Destination directory not found:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="609"/>
+        <location filename="../mainwindow.cpp" line="610"/>
         <source>Don&apos;t ask again</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="625"/>
+        <location filename="../mainwindow.cpp" line="626"/>
         <source>ALL</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="632"/>
+        <location filename="../mainwindow.cpp" line="633"/>
         <source>selected</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="644"/>
+        <location filename="../mainwindow.cpp" line="645"/>
         <source>completed</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="651"/>
+        <location filename="../mainwindow.cpp" line="652"/>
         <source>waiting</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="658"/>
+        <location filename="../mainwindow.cpp" line="659"/>
         <source>paused</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="665"/>
+        <location filename="../mainwindow.cpp" line="666"/>
         <source>failed</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="673"/>
+        <location filename="../mainwindow.cpp" line="674"/>
         <source>running</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="759"/>
+        <location filename="../mainwindow.cpp" line="760"/>
         <source>Website URL</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="761"/>
+        <location filename="../mainwindow.cpp" line="762"/>
         <source>URL of the HTML page:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="762"/>
+        <location filename="../mainwindow.cpp" line="763"/>
         <source>(ex: %0)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="973"/>
+        <location filename="../mainwindow.cpp" line="974"/>
         <source>The new name is already used or invalid.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="976"/>
+        <location filename="../mainwindow.cpp" line="977"/>
         <source>Can&apos;t rename &quot;%0&quot; as its initial name.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="983"/>
+        <location filename="../mainwindow.cpp" line="984"/>
         <source>Can&apos;t rename</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="985"/>
+        <location filename="../mainwindow.cpp" line="986"/>
         <source>as</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1288"/>
+        <location filename="../mainwindow.cpp" line="1289"/>
         <source>Can&apos;t save file.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1291"/>
+        <location filename="../mainwindow.cpp" line="1292"/>
         <source>Can&apos;t save file %0:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1307"/>
+        <location filename="../mainwindow.cpp" line="1308"/>
         <source>Can&apos;t load file.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1310"/>
+        <location filename="../mainwindow.cpp" line="1311"/>
         <source>Can&apos;t load file %0:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="764"/>
+        <location filename="../mainwindow.cpp" line="765"/>
         <source>Start!</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="988"/>
+        <location filename="../mainwindow.cpp" line="989"/>
         <source>File Error</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1019"/>
+        <location filename="../mainwindow.cpp" line="1020"/>
         <source>Done: %0 Running: %1 Total: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1025"/>
+        <location filename="../mainwindow.cpp" line="1026"/>
         <source>%0 of %1 (%2), %3 running  %4 | Torrent: %5</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1031"/>
+        <location filename="../mainwindow.cpp" line="1032"/>
         <source>active</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1031"/>
+        <location filename="../mainwindow.cpp" line="1032"/>
         <source>inactive</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1297"/>
+        <location filename="../mainwindow.cpp" line="1298"/>
         <source>File saved</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1316"/>
+        <location filename="../mainwindow.cpp" line="1317"/>
         <source>File loaded</source>
         <translation type="unfinished"/>
     </message>
@@ -2580,87 +2580,87 @@ Some examples are given below.  Click to paste the example.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="187"/>
+        <location filename="../core/torrentmessage.h" line="178"/>
         <source>ignore</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="188"/>
+        <location filename="../core/torrentmessage.h" line="179"/>
         <source>low</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="189"/>
+        <location filename="../core/torrentmessage.h" line="180"/>
         <source>high</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="191"/>
+        <location filename="../core/torrentmessage.h" line="182"/>
         <source>normal</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="300"/>
+        <location filename="../core/torrentmessage.h" line="291"/>
         <source>.torrent file</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="301"/>
+        <location filename="../core/torrentmessage.h" line="292"/>
         <source>program settings</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="302"/>
+        <location filename="../core/torrentmessage.h" line="293"/>
         <source>magnet link</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="303"/>
+        <location filename="../core/torrentmessage.h" line="294"/>
         <source>tracker exchange</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="305"/>
+        <location filename="../core/torrentmessage.h" line="296"/>
         <source>no source</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="362"/>
+        <location filename="../core/torrentmessage.h" line="353"/>
         <source>Stopped</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="363"/>
+        <location filename="../core/torrentmessage.h" line="354"/>
         <source>Checking Files...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="364"/>
+        <location filename="../core/torrentmessage.h" line="355"/>
         <source>Downloading Metadata...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="365"/>
+        <location filename="../core/torrentmessage.h" line="356"/>
         <source>Downloading...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="366"/>
+        <location filename="../core/torrentmessage.h" line="357"/>
         <source>Finished</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="367"/>
+        <location filename="../core/torrentmessage.h" line="358"/>
         <source>Seeding...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="368"/>
+        <location filename="../core/torrentmessage.h" line="359"/>
         <source>Allocating...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="369"/>
+        <location filename="../core/torrentmessage.h" line="360"/>
         <source>Checking Resume Data...</source>
         <translation type="unfinished"/>
     </message>
@@ -2668,12 +2668,12 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>QueueItem</name>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="383"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="375"/>
         <source>%0 of %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="387"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="379"/>
         <source>Unknown</source>
         <translation type="unfinished"/>
     </message>
@@ -2858,35 +2858,6 @@ Some examples are given below.  Click to paste the example.</source>
     </message>
 </context>
 <context>
-    <name>StreamInfoDownloader</name>
-    <message>
-        <location filename="../core/stream.cpp" line="704"/>
-        <location filename="../core/stream.cpp" line="728"/>
-        <source>The process crashed.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="722"/>
-        <source>Couldn&apos;t parse playlist (no data received).</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="725"/>
-        <source>Couldn&apos;t parse playlist (ill-formed JSON file).</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="859"/>
-        <source>Cancelled.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="701"/>
-        <source>Couldn&apos;t parse JSON file.</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
     <name>StreamListWidget</name>
     <message>
         <location filename="../widgets/streamlistwidget.ui" line="63"/>
@@ -2939,34 +2910,63 @@ Help: if you get an error, follow these instructions:
     </message>
 </context>
 <context>
+    <name>StreamObjectDownloader</name>
+    <message>
+        <location filename="../core/stream.cpp" line="701"/>
+        <source>Couldn&apos;t parse JSON file.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../core/stream.cpp" line="704"/>
+        <location filename="../core/stream.cpp" line="728"/>
+        <source>The process crashed.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../core/stream.cpp" line="722"/>
+        <source>Couldn&apos;t parse playlist (no data received).</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../core/stream.cpp" line="725"/>
+        <source>Couldn&apos;t parse playlist (ill-formed JSON file).</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../core/stream.cpp" line="859"/>
+        <source>Cancelled.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>StreamTableModel</name>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="351"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="333"/>
         <source>#</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="352"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="334"/>
         <source>File Name</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="353"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="335"/>
         <source>Title</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="354"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="336"/>
         <source>Size</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="355"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="337"/>
         <source>Format</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="485"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="467"/>
         <source>Video unavailable</source>
         <translation type="unfinished"/>
     </message>
@@ -2997,12 +2997,12 @@ Help: if you get an error, follow these instructions:
 <context>
     <name>SystemTray</name>
     <message>
-        <location filename="../widgets/systemtray.cpp" line="196"/>
+        <location filename="../widgets/systemtray.cpp" line="202"/>
         <source>&amp;Restore</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/systemtray.cpp" line="197"/>
+        <location filename="../widgets/systemtray.cpp" line="203"/>
         <source>&amp;Hide when Minimized</source>
         <translation type="unfinished"/>
     </message>
@@ -3066,7 +3066,7 @@ Help: if you get an error, follow these instructions:
 <context>
     <name>TorrentContext</name>
     <message>
-        <location filename="../core/torrentcontext.cpp" line="180"/>
+        <location filename="../core/torrentcontext.cpp" line="179"/>
         <source>Bad .torrent format: Can&apos;t download it.</source>
         <translation type="unfinished"/>
     </message>
@@ -3074,17 +3074,17 @@ Help: if you get an error, follow these instructions:
 <context>
     <name>TorrentContextPrivate</name>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="523"/>
+        <location filename="../core/torrentcontext_p.cpp" line="492"/>
         <source>Network request rejected.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="574"/>
+        <location filename="../core/torrentcontext_p.cpp" line="543"/>
         <source>Can&apos;t download metadata.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="585"/>
+        <location filename="../core/torrentcontext_p.cpp" line="554"/>
         <source>No metadata downloaded.</source>
         <translation type="unfinished"/>
     </message>
@@ -3092,62 +3092,62 @@ Help: if you get an error, follow these instructions:
 <context>
     <name>TorrentFileTableModel</name>
     <message>
-        <location filename="../core/torrent.cpp" line="366"/>
+        <location filename="../core/torrent.cpp" line="356"/>
         <source>Name</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="367"/>
+        <location filename="../core/torrent.cpp" line="357"/>
         <source>Path</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="368"/>
+        <location filename="../core/torrent.cpp" line="358"/>
         <source>Size</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="369"/>
+        <location filename="../core/torrent.cpp" line="359"/>
         <source>Done</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="370"/>
+        <location filename="../core/torrent.cpp" line="360"/>
         <source>Percent</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="371"/>
+        <location filename="../core/torrent.cpp" line="361"/>
         <source>First Piece</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="372"/>
+        <location filename="../core/torrent.cpp" line="362"/>
         <source># Pieces</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="373"/>
+        <location filename="../core/torrent.cpp" line="363"/>
         <source>Pieces</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="374"/>
+        <location filename="../core/torrent.cpp" line="364"/>
         <source>Priority</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="375"/>
+        <location filename="../core/torrent.cpp" line="365"/>
         <source>Modification date</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="376"/>
+        <location filename="../core/torrent.cpp" line="366"/>
         <source>SHA-1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="377"/>
+        <location filename="../core/torrent.cpp" line="367"/>
         <source>CRC-32</source>
         <translation type="unfinished"/>
     </message>
@@ -3155,52 +3155,52 @@ Help: if you get an error, follow these instructions:
 <context>
     <name>TorrentPeerTableModel</name>
     <message>
-        <location filename="../core/torrent.cpp" line="536"/>
+        <location filename="../core/torrent.cpp" line="525"/>
         <source>IP</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="537"/>
+        <location filename="../core/torrent.cpp" line="526"/>
         <source>Port</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="538"/>
+        <location filename="../core/torrent.cpp" line="527"/>
         <source>Client</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="539"/>
+        <location filename="../core/torrent.cpp" line="528"/>
         <source>Downloaded</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="540"/>
+        <location filename="../core/torrent.cpp" line="529"/>
         <source>Uploaded</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="541"/>
+        <location filename="../core/torrent.cpp" line="530"/>
         <source>Request Time</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="542"/>
+        <location filename="../core/torrent.cpp" line="531"/>
         <source>Active Time</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="543"/>
+        <location filename="../core/torrent.cpp" line="532"/>
         <source>Queue Time</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="544"/>
+        <location filename="../core/torrent.cpp" line="533"/>
         <source>Flags</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="545"/>
+        <location filename="../core/torrent.cpp" line="534"/>
         <source>Source Flags</source>
         <translation type="unfinished"/>
     </message>
@@ -3208,47 +3208,47 @@ Help: if you get an error, follow these instructions:
 <context>
     <name>TorrentTrackerTableModel</name>
     <message>
-        <location filename="../core/torrent.cpp" line="654"/>
+        <location filename="../core/torrent.cpp" line="643"/>
         <source>Url</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="655"/>
+        <location filename="../core/torrent.cpp" line="644"/>
         <source>Id</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="656"/>
+        <location filename="../core/torrent.cpp" line="645"/>
         <source>Number of listened sockets (endpoints)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="657"/>
+        <location filename="../core/torrent.cpp" line="646"/>
         <source>Tier this tracker belongs to</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="658"/>
+        <location filename="../core/torrent.cpp" line="647"/>
         <source>Max number of failures</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="659"/>
+        <location filename="../core/torrent.cpp" line="648"/>
         <source>Source</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="660"/>
+        <location filename="../core/torrent.cpp" line="649"/>
         <source>Verified?</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="702"/>
+        <location filename="../core/torrent.cpp" line="691"/>
         <source>verified</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="702"/>
+        <location filename="../core/torrent.cpp" line="691"/>
         <source>not verified</source>
         <translation type="unfinished"/>
     </message>
@@ -3417,119 +3417,119 @@ Help: if you get an error, follow these instructions:
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="379"/>
+        <location filename="../widgets/torrentwidget.cpp" line="372"/>
         <source>Copy</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="426"/>
+        <location filename="../widgets/torrentwidget.cpp" line="419"/>
         <source>Open</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="427"/>
+        <location filename="../widgets/torrentwidget.cpp" line="420"/>
         <source>Open Containing Folder</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="428"/>
+        <location filename="../widgets/torrentwidget.cpp" line="421"/>
         <source>Scan for viruses</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="429"/>
+        <location filename="../widgets/torrentwidget.cpp" line="422"/>
         <source>Priorize by File order</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="430"/>
+        <location filename="../widgets/torrentwidget.cpp" line="423"/>
         <source>Priorize: High</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="431"/>
+        <location filename="../widgets/torrentwidget.cpp" line="424"/>
         <source>Priorize: Normal</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="432"/>
+        <location filename="../widgets/torrentwidget.cpp" line="425"/>
         <source>Priorize: Low</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="433"/>
+        <location filename="../widgets/torrentwidget.cpp" line="426"/>
         <source>Don&apos;t download</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="434"/>
+        <location filename="../widgets/torrentwidget.cpp" line="427"/>
         <source>Relocate...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="545"/>
+        <location filename="../widgets/torrentwidget.cpp" line="537"/>
         <source>Add Peer...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="546"/>
+        <location filename="../widgets/torrentwidget.cpp" line="538"/>
         <source>Copy Peer List</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="563"/>
+        <location filename="../widgets/torrentwidget.cpp" line="555"/>
         <source>Add Peer</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="564"/>
+        <location filename="../widgets/torrentwidget.cpp" line="556"/>
         <source>Enter the IP:port / [IPv6]:port of the peer to add:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="593"/>
+        <location filename="../widgets/torrentwidget.cpp" line="585"/>
         <source>Add Tracker...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="594"/>
+        <location filename="../widgets/torrentwidget.cpp" line="586"/>
         <source>Remove Tracker</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="595"/>
+        <location filename="../widgets/torrentwidget.cpp" line="587"/>
         <source>Copy Tracker List</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="618"/>
+        <location filename="../widgets/torrentwidget.cpp" line="610"/>
         <source>Add Tracker</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="619"/>
+        <location filename="../widgets/torrentwidget.cpp" line="611"/>
         <source>Enter the URL of the tracker to add:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="747"/>
+        <location filename="../widgets/torrentwidget.cpp" line="732"/>
         <source>%0 (%1 hashfails)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="751"/>
-        <location filename="../widgets/torrentwidget.cpp" line="755"/>
+        <location filename="../widgets/torrentwidget.cpp" line="736"/>
+        <location filename="../widgets/torrentwidget.cpp" line="740"/>
         <source>%0 (total %1)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="759"/>
-        <location filename="../widgets/torrentwidget.cpp" line="764"/>
+        <location filename="../widgets/torrentwidget.cpp" line="744"/>
+        <location filename="../widgets/torrentwidget.cpp" line="749"/>
         <source>%0 of %1 connected (%2 in swarm)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="772"/>
+        <location filename="../widgets/torrentwidget.cpp" line="757"/>
         <source>%0 x %1</source>
         <translation type="unfinished"/>
     </message>
@@ -3740,12 +3740,12 @@ Help: if you get an error, follow these instructions:
 <context>
     <name>main</name>
     <message>
-        <location filename="../main.cpp" line="76"/>
+        <location filename="../main.cpp" line="71"/>
         <source>Another Download Manager</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../main.cpp" line="86"/>
+        <location filename="../main.cpp" line="81"/>
         <source>target URL to proceed</source>
         <translation type="unfinished"/>
     </message>
