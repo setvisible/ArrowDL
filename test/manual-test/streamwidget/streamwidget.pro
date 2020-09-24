@@ -32,6 +32,7 @@ HEADERS += \
     $$PWD/../../../src/widgets/checkabletableview.h \
     $$PWD/../../../src/widgets/customstyle.h \
     $$PWD/../../../src/widgets/customstyleoptionprogressbar.h \
+    $$PWD/../../../src/widgets/globals.h \
     $$PWD/../../../src/widgets/streamformatpicker.h \
     $$PWD/../../../src/widgets/streamlistwidget.h \
     $$PWD/../../../src/widgets/streamwidget.h \

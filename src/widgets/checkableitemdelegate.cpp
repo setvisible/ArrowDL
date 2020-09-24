@@ -70,6 +70,15 @@ void CheckableItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
         myOption.font.setBold(true);
     }
 
+    // Otherwise it's another color
+    myOption.palette.setColor(QPalette::Active, QPalette::HighlightedText, myOption.palette.color(QPalette::Active, QPalette::Text));
+
+    /* Inactive palette keep same colors as Active */
+    myOption.palette.setColor(QPalette::Inactive, QPalette::Base, myOption.palette.color(QPalette::Active, QPalette::Base));
+    myOption.palette.setColor(QPalette::Inactive, QPalette::Highlight, myOption.palette.color(QPalette::Active, QPalette::Highlight));
+    myOption.palette.setColor(QPalette::Inactive, QPalette::HighlightedText, myOption.palette.color(QPalette::Active, QPalette::HighlightedText));
+    myOption.palette.setColor(QPalette::Inactive, QPalette::Text, myOption.palette.color(QPalette::Active, QPalette::Text));
+
     if (index.column() == 0) {
         QStyleOptionButton button;
         button.rect = myOption.rect;

@@ -31,6 +31,7 @@ HEADERS += \
     $$PWD/../../../src/core/torrentmessage.h \
     $$PWD/../../../src/widgets/customstyle.h \
     $$PWD/../../../src/widgets/customstyleoptionprogressbar.h \
+    $$PWD/../../../src/widgets/globals.h \
     $$PWD/../../../src/widgets/torrentpiecemap.h \
     $$PWD/../../../src/widgets/torrentprogressbar.h \
     $$PWD/../../../src/widgets/torrentwidget.h \

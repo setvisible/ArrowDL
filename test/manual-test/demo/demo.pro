@@ -33,7 +33,8 @@ HEADERS += \
     $$PWD/../../../src/widgets/customstyle.h \
     $$PWD/../../../src/widgets/customstyleoptionprogressbar.h \
     $$PWD/../../../src/widgets/downloadqueueview.h \
-    $$PWD/../../../src/widgets/downloadqueueview_p.h
+    $$PWD/../../../src/widgets/downloadqueueview_p.h \
+    $$PWD/../../../src/widgets/globals.h
 
 SOURCES += \
     $$PWD/../../../src/core/abstractdownloaditem.cpp \

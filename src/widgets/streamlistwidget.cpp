@@ -74,20 +74,6 @@ void StreamListItemDelegate::paint(QPainter *painter,
         }
     }
 
-    /* Inactive keep same colors as Active */
-    auto p = myOption.palette;
-    p.setColor(QPalette::Active, QPalette::HighlightedText,
-               p.color(QPalette::Active, QPalette::Text)); // otherwise it's another color
-    p.setColor(QPalette::Inactive, QPalette::Base,
-               p.color(QPalette::Active, QPalette::Base));
-    p.setColor(QPalette::Inactive, QPalette::Highlight,
-               p.color(QPalette::Active, QPalette::Highlight));
-    p.setColor(QPalette::Inactive, QPalette::HighlightedText,
-               p.color(QPalette::Active, QPalette::HighlightedText));
-    p.setColor(QPalette::Inactive, QPalette::Text,
-               p.color(QPalette::Active, QPalette::Text));
-    myOption.palette = p;
-
     CheckableItemDelegate::paint(painter, myOption, index);
 }
 
