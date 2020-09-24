@@ -130,12 +130,16 @@ public:
     int tbr;                    // (numeric): Average bitrate of audio and video in KBit/s
 };
 
-typedef QString StreamId; // Represents a 11 alphanumeric characters Unique Id (ex: "aBcDEfg1234")
+/*!
+ * \typedef StreamObjectId
+ * \brief Represents a 11-alphanumeric characters Unique Id (ex: "aBcDEfg1234")
+ */
+typedef QString StreamObjectId;
 
 struct StreamFlatListItem
 {
     QString _type;
-    StreamId id;
+    StreamObjectId id;
     QString ie_key;
     QString title;
     QString url;
@@ -192,7 +196,7 @@ public:
     QString debug_description() const;
 
     /* Immutable data, not modifiable by the user */
-    StreamId id;                    // (string): Video identifier
+    StreamObjectId id;              // (string): Video identifier
     QString _filename;
     QString webpage_url;            // (string): URL to the video webpage
     QString fulltitle;              // (string): Video title
@@ -218,7 +222,7 @@ private:
     StreamFormatId m_userFormatId;
 };
 
-typedef QMap<StreamId, StreamInfo> StreamDumpMap;
+typedef QMap<StreamObjectId, StreamInfo> StreamDumpMap;
 
 /*!
  * \brief The Stream class is the main class to download a stream.

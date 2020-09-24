@@ -796,7 +796,7 @@ StreamInfo StreamInfoDownloader::parseDumpItemStdOut(const QByteArray &data)
     return info;
 }
 
-static StreamId getStreamId(const QByteArray &data)
+static StreamObjectId findId(const QByteArray &data)
 {
     /*
      * "ERROR: 0123456789a: YouTube said: Unable to extract video data"
@@ -804,14 +804,14 @@ static StreamId getStreamId(const QByteArray &data)
      */
     QString str = QString::fromLatin1(data);
     QStringList values = str.split(QLatin1String(":"), QString::SkipEmptyParts);
-    return values.count() > 1 ? values.at(1).trimmed() : StreamId();
+    return values.count() > 1 ? values.at(1).trimmed() : StreamObjectId();
 }
 
 StreamInfo StreamInfoDownloader::parseDumpItemStdErr(const QByteArray &data)
 {
     qDebug() << Q_FUNC_INFO << data;
     StreamInfo ret;
-    ret.id                  = getStreamId(data);
+    ret.id = findId(data);
     ret.setError(StreamInfo::ErrorUnavailable);
     return ret;
 }
