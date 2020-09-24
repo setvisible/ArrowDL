@@ -148,19 +148,20 @@ typedef QList<StreamFlatListItem> StreamFlatList;
 
 
 /*!
- * \brief The StreamInfo class represents the stream properties and options
+ * \class StreamObject
+ * \brief The StreamObject class represents the stream properties and options
  * provided by the stream server.
  */
-class StreamInfo
+class StreamObject
 {
 public:
-    StreamInfo();
-    ~StreamInfo() = default;
-    StreamInfo(const StreamInfo &) = default;
-    StreamInfo &operator=(const StreamInfo &) = default;
+    StreamObject();
+    ~StreamObject() = default;
+    StreamObject(const StreamObject &) = default;
+    StreamObject &operator=(const StreamObject &) = default;
 
-    bool operator==(const StreamInfo &other) const;
-    bool operator!=(const StreamInfo &other) const;
+    bool operator==(const StreamObject &other) const;
+    bool operator!=(const StreamObject &other) const;
 
     enum Error{
         NoError = 0,
@@ -222,7 +223,7 @@ private:
     StreamFormatId m_userFormatId;
 };
 
-typedef QMap<StreamObjectId, StreamInfo> StreamDumpMap;
+typedef QMap<StreamObjectId, StreamObject> StreamDumpMap;
 
 /*!
  * \brief The Stream class is the main class to download a stream.
@@ -261,7 +262,7 @@ public:
     qint64 fileSizeInBytes() const;
     void setFileSizeInBytes(qint64 fileSizeInBytes);
 
-    void initializeWithStreamInfo(const StreamInfo &streamInfo);
+    void initialize(const StreamObject &streamObject);
 
 public slots:
     void start();
@@ -334,12 +335,12 @@ private:
     bool m_isCleaned;
 };
 
-class StreamInfoDownloader : public QObject
+class StreamObjectDownloader : public QObject
 {
     Q_OBJECT
 public:
-    explicit StreamInfoDownloader(QObject *parent);
-    ~StreamInfoDownloader() Q_DECL_OVERRIDE;
+    explicit StreamObjectDownloader(QObject *parent);
+    ~StreamObjectDownloader() Q_DECL_OVERRIDE;
 
     void runAsync(const QString &url);
     void stop();
@@ -351,7 +352,7 @@ public:
 
 signals:
     void error(QString errorMessage);
-    void collected(QList<StreamInfo> streamInfoList);
+    void collected(QList<StreamObject> streamObjects);
 
 private slots:
     void onStarted();
@@ -375,11 +376,11 @@ private:
     void runAsyncFlatList();
     void onFinished();
 
-    static StreamInfo parseDumpItemStdOut(const QByteArray &data);
-    static StreamInfo parseDumpItemStdErr(const QByteArray &data);
+    static StreamObject parseDumpItemStdOut(const QByteArray &data);
+    static StreamObject parseDumpItemStdErr(const QByteArray &data);
 
     static StreamFlatListItem parseFlatItem(const QByteArray &data);
-    StreamInfo createStreamInfo(const StreamFlatListItem &flatItem) const;
+    StreamObject createStreamObject(const StreamFlatListItem &flatItem) const;
 };
 
 class AskStreamVersionThread : public QThread
@@ -453,22 +454,22 @@ private:
 
 
 Q_DECLARE_TYPEINFO(StreamFormat, Q_PRIMITIVE_TYPE);
-Q_DECLARE_TYPEINFO(StreamInfo, Q_PRIMITIVE_TYPE);
+Q_DECLARE_TYPEINFO(StreamObject, Q_PRIMITIVE_TYPE);
 
 #ifdef QT_TESTLIB_LIB
 char *toString(const StreamFormat &streamFormat);
-char *toString(const StreamInfo &streamInfo);
+char *toString(const StreamObject &streamObject);
 #endif
 
 Q_DECLARE_METATYPE(StreamFormat);
-Q_DECLARE_METATYPE(StreamInfo);
+Q_DECLARE_METATYPE(StreamObject);
 
 #ifdef QT_DEBUG
 QT_BEGIN_NAMESPACE
 QDebug operator<<(QDebug dbg, const StreamFormat &streamFormat);
 QDebug operator<<(QDebug dbg, const StreamFormat *streamFormat);
-QDebug operator<<(QDebug dbg, const StreamInfo &streamInfo);
-QDebug operator<<(QDebug dbg, const StreamInfo *streamInfo);
+QDebug operator<<(QDebug dbg, const StreamObject &streamObject);
+QDebug operator<<(QDebug dbg, const StreamObject *streamObject);
 QT_END_NAMESPACE
 #endif
 

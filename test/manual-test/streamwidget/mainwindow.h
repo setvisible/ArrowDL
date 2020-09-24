@@ -36,7 +36,7 @@ private slots:
     void onContinueClicked();
     void onResetClicked();
     void onError(QString errorMessage);
-    void onCollected(QList<StreamInfo> streamInfoList);
+    void onCollected(QList<StreamObject> streamObjects);
 
     void onEmptyButtonClicked();
     void onErrorButtonClicked();
@@ -48,7 +48,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    StreamInfoDownloader *m_streamInfoDownloader;
+    StreamObjectDownloader *m_streamObjectDownloader;
 
     void start(const QString &url = QString());
 };

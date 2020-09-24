@@ -37,7 +37,7 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
     : QDialog(parent)
     , ui(new Ui::AddStreamDialog)
     , m_downloadManager(downloadManager)
-    , m_streamInfoDownloader(new StreamInfoDownloader(this))
+    , m_streamObjectDownloader(new StreamObjectDownloader(this))
     , m_settings(settings)
 {
     ui->setupUi(this);
@@ -55,8 +55,8 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
     connect(ui->urlFormWidget, SIGNAL(changed(QString)), this, SLOT(onChanged(QString)));
     connect(ui->continueButton, SIGNAL(released()), this, SLOT(onContinueClicked()));
 
-    connect(m_streamInfoDownloader, SIGNAL(error(QString)), this, SLOT(onError(QString)));
-    connect(m_streamInfoDownloader, SIGNAL(collected(QList<StreamInfo>)), this, SLOT(onCollected(QList<StreamInfo>)));
+    connect(m_streamObjectDownloader, SIGNAL(error(QString)), this, SLOT(onError(QString)));
+    connect(m_streamObjectDownloader, SIGNAL(collected(QList<StreamObject>)), this, SLOT(onCollected(QList<StreamObject>)));
 
     readSettings();
 
@@ -110,14 +110,14 @@ void AddStreamDialog::reject()
  ******************************************************************************/
 void AddStreamDialog::onContinueClicked()
 {
-    if (m_streamInfoDownloader->isRunning()) {
-        m_streamInfoDownloader->stop();
+    if (m_streamObjectDownloader->isRunning()) {
+        m_streamObjectDownloader->stop();
         return;
     }
     setGuiEnabled(false);
     ui->streamListWidget->setMessageWait();
     const QString url = ui->urlLineEdit->text();
-    m_streamInfoDownloader->runAsync(url);
+    m_streamObjectDownloader->runAsync(url);
     onChanged(QString());
 }
 
@@ -128,10 +128,10 @@ void AddStreamDialog::onError(QString errorMessage)
     onChanged(QString());
 }
 
-void AddStreamDialog::onCollected(QList<StreamInfo> streamInfoList)
+void AddStreamDialog::onCollected(QList<StreamObject> streamObjects)
 {
     setGuiEnabled(true);
-    ui->streamListWidget->setStreamInfoList(streamInfoList);
+    ui->streamListWidget->setStreamObjects(streamObjects);
     onChanged(QString());
 }
 
@@ -169,19 +169,19 @@ QList<IDownloadItem*> AddStreamDialog::createItems() const
     return items;
 }
 
-IDownloadItem* AddStreamDialog::createItem(const StreamInfo &streamInfo) const
+IDownloadItem* AddStreamDialog::createItem(const StreamObject &streamObject) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
 
-    if (!streamInfo.webpage_url.isEmpty()) {
+    if (!streamObject.webpage_url.isEmpty()) {
         // Replace playlist URL with the video url
-        resource->setUrl(streamInfo.webpage_url);
+        resource->setUrl(streamObject.webpage_url);
     }
 
     resource->setType(ResourceItem::Type::Stream);
-    resource->setStreamFileName(streamInfo.fullFileName());
-    resource->setStreamFileSize(streamInfo.guestimateFullSize());
-    resource->setStreamFormatId(streamInfo.formatId().toString());
+    resource->setStreamFileName(streamObject.fullFileName());
+    resource->setStreamFileSize(streamObject.guestimateFullSize());
+    resource->setStreamFormatId(streamObject.formatId().toString());
 
     auto item = new DownloadStreamItem(m_downloadManager);
     item->setResource(resource);
