@@ -20,6 +20,7 @@
 #include "../../utils/fakedownloaditem.h"
 #include "../../utils/fakedownloadmanager.h"
 
+#include <Core/Format>
 #include <Widgets/DownloadQueueView>
 
 #include <QtCore/QDebug>
@@ -343,16 +344,22 @@ void MainWindow::onSelectionChanged()
 
 void MainWindow::refreshTitleAndStatus()
 {
-    const QString totalSpeed = m_downloadManager->totalSpeed();
+    auto speed = m_downloadManager->totalSpeed();
+    auto totalSpeed = speed > 0
+            ? QString("~%0").arg(Format::currentSpeedToString(speed))
+            : QString();
+
     const int completedCount = m_downloadManager->completedJobs().count();
     // const int runningCount = m_downloadManager->runningJobs().count();
+    const int failedCount = m_downloadManager->failedJobs().count();
     const int count = m_downloadManager->count();
+    const int doneCount = completedCount + failedCount;
 
-    this->setWindowTitle(QString("%0 %1/%2 - %3")
-                         .arg(totalSpeed)
-                         .arg(completedCount)
-                         .arg(count)
-                         .arg("Demo - Download Queue View").trimmed());
+    auto windowTitle = QString("%0 %1/%2 - %3")
+            .arg(totalSpeed).arg(doneCount).arg(count)
+            .arg(QLatin1String("Demo - Download Queue View")).trimmed();
+
+    this->setWindowTitle(windowTitle);
 }
 
 void MainWindow::refreshMenus()
@@ -393,7 +400,7 @@ void MainWindow::refreshMenus()
     //ui->actionImportWizard->setEnabled(hasSelection);
     // --
     //ui->actionImportFromFile->setEnabled(hasSelection);
-//    ui->actionExportSelectedToFile->setEnabled(hasSelection);
+    //ui->actionExportSelectedToFile->setEnabled(hasSelection);
     // --
     //ui->actionExit->setEnabled(hasSelection);
     //! [0]
@@ -410,12 +417,12 @@ void MainWindow::refreshMenus()
     //! [1]
 
     //! [2] View
-//    ui->actionInformation->setEnabled(hasOnlyOneSelected);
-//    // --
-//    ui->actionOpenFile->setEnabled(hasOnlyCompletedSelected);
-//    ui->actionRenameFile->setEnabled(hasOnlyOneSelected);
-//    ui->actionDeleteFile->setEnabled(hasOnlyCompletedSelected);
-//    ui->actionOpenDirectory->setEnabled(hasOnlyOneSelected);
+    //ui->actionInformation->setEnabled(hasOnlyOneSelected);
+    // --
+    //ui->actionOpenFile->setEnabled(hasOnlyCompletedSelected);
+    //ui->actionRenameFile->setEnabled(hasOnlyOneSelected);
+    //ui->actionDeleteFile->setEnabled(hasOnlyCompletedSelected);
+    //ui->actionOpenDirectory->setEnabled(hasOnlyOneSelected);
     // --
     ui->actionRemoveCompletedDownloads->setEnabled(hasJobs);
     ui->actionRemoveAll1->setEnabled(hasJobs);
