@@ -178,7 +178,7 @@ IDownloadItem* AddStreamDialog::createItem(const StreamInfo &streamInfo) const
         resource->setUrl(streamInfo.webpage_url);
     }
 
-    resource->setStreamEnabled(true);
+    resource->setType(ResourceItem::Type::Stream);
     resource->setStreamFileName(streamInfo.fullFileName());
     resource->setStreamFileSize(streamInfo.guestimateFullSize());
     resource->setStreamFormatId(streamInfo.formatId().toString());
