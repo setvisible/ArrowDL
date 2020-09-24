@@ -19,6 +19,7 @@
 
 #include <Core/Format>
 #include <Widgets/CheckableItemDelegate>
+#include <Widgets/Globals>
 
 #include <QtCore/QDebug>
 #include <QtGui/QKeyEvent>
@@ -28,11 +29,6 @@
 
 #define C_COLUMN_ID_WIDTH         10
 #define C_COLUMN_NAME_WIDTH      200
-
-/* Constant */
-/// \todo these colors are from downloadqueueview.cpp
-static const QColor s_red           = QColor(205, 0, 0);
-static const QColor s_lightRed      = QColor(224, 97, 170);
 
 
 /******************************************************************************

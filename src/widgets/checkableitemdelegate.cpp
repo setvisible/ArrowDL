@@ -17,6 +17,7 @@
 #include "checkableitemdelegate.h"
 
 #include <Core/CheckableTableModel>
+#include <Widgets/Globals>
 
 #include <QtCore/QDebug>
 #include <QtCore/QModelIndex>
@@ -27,13 +28,6 @@
 #define C_CHECKBOX_SIZE            12
 #define C_CHECKBOX_WIDTH           16
 #define C_THUMBNAIL_WIDTH          16
-
-
-static const QColor s_black         = QColor(0, 0, 0);
-static const QColor s_darkYellow    = QColor(210, 210, 100);
-static const QColor s_lightBlue     = QColor(205, 232, 255);
-static const QColor s_lightGreen    = QColor(236, 255, 179);
-static const QColor s_lightYellow   = QColor(255, 255, 179);
 
 
 static QModelIndex getSiblingAtColumn(const QModelIndex &index, int acolumn)

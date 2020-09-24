@@ -10,6 +10,7 @@ HEADERS += \
     $$PWD/downloadqueueview_p.h \
     $$PWD/filtertip.h \
     $$PWD/filterwidget.h \
+    $$PWD/globals.h \
     $$PWD/linkwidget.h \
     $$PWD/masktip.h \
     $$PWD/maskwidget.h \
