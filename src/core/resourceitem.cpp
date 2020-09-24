@@ -22,20 +22,54 @@
 #include <QtCore/QFile>
 #include <QtCore/QUrl>
 
+static const QString s_regular = QLatin1String("regular");
+static const QString s_stream  = QLatin1String("stream");
+static const QString s_torrent = QLatin1String("torrent");
+
+
 ResourceItem::ResourceItem()
-    : m_url(QString())
+    : m_type(Type::Regular)
+    , m_url(QString())
     , m_destination(QString())
     , m_mask(QString())
     , m_customFileName(QString())
     , m_referringPage(QString())
     , m_description(QString())
     , m_checkSum(QString())
-    , m_isStreamEnabled(false)
     , m_streamFileName(QString())
     , m_streamFormatId(QString())
     , m_streamFileSize(0)
-    , m_isTorrentEnabled(false)
+    , m_torrentPreferredFilePriorities(QString())
 {
+}
+
+/******************************************************************************
+ ******************************************************************************/
+ResourceItem::Type ResourceItem::type() const
+{
+    return m_type;
+}
+
+void ResourceItem::setType(Type type)
+{
+    m_type = type;
+}
+
+QString ResourceItem::toString(Type type)
+{
+    switch (type) {
+    case Type::Stream:  return s_stream;
+    case Type::Torrent: return s_torrent;
+    default:
+        return s_regular;
+    }
+}
+
+ResourceItem::Type ResourceItem::fromString(const QString &str)
+{
+    if (str.toLower() == s_stream)  return Type::Stream;
+    if (str.toLower() == s_torrent) return Type::Torrent;
+    return Type::Regular;
 }
 
 /******************************************************************************
@@ -170,18 +204,6 @@ void ResourceItem::setCheckSum(const QString &checkSum)
 
 /******************************************************************************
  ******************************************************************************/
-bool ResourceItem::isStreamEnabled() const
-{
-    return m_isStreamEnabled;
-}
-
-void ResourceItem::setStreamEnabled(bool enabled)
-{
-    m_isStreamEnabled = enabled;
-}
-
-/******************************************************************************
- ******************************************************************************/
 QString ResourceItem::streamFileName() const
 {
     return m_streamFileName;
@@ -218,18 +240,6 @@ void ResourceItem::setStreamFileSize(qint64 streamFileSize)
 
 /******************************************************************************
  ******************************************************************************/
-bool ResourceItem::isTorrentEnabled() const
-{
-    return m_isTorrentEnabled;
-}
-
-void ResourceItem::setTorrentEnabled(bool enabled)
-{
-    m_isTorrentEnabled = enabled;
-}
-
-/******************************************************************************
- ******************************************************************************/
 QString ResourceItem::torrentPreferredFilePriorities() const
 {
     return m_torrentPreferredFilePriorities;
@@ -247,7 +257,7 @@ inline QString ResourceItem::localFilePath(const QString &customFileName) const
     if (QUrl(m_url).scheme() == "magnet") {
         return localMagnetFile(customFileName);
     }
-    if (m_isStreamEnabled) {
+    if (m_type == Type::Stream) {
         return localStreamFile(customFileName);
     }
     return localFile(m_destination, m_url, customFileName, m_mask);

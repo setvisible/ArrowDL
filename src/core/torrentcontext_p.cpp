@@ -647,8 +647,10 @@ void TorrentContextPrivate::readTorrentFile(const QString &filename, Torrent *to
 
     // Do a fake 'detail' update, to initialize the torrent.
     TorrentHandleInfo detail = torrent->detail();
+    detail.files.clear();
     for (int index = 0; index < metaInfo.initialMetaInfo.files.count(); ++index) {
         TorrentFileInfo fi;
+        fi.priority = TorrentFileInfo::Normal;
         detail.files.append(fi);
     }
     torrent->setDetail(detail, false);
@@ -1171,7 +1173,7 @@ UniqueId WorkerThread::toUniqueId(const lt::sha1_hash &hash)
 
 lt::sha1_hash WorkerThread::fromUniqueId(const UniqueId &uuid)
 {
-    lt::span<char const> in = uuid.toStdString();
+    lt::span<char const> in(uuid.toStdString());
     lt::sha1_hash out;
     if (!lt::aux::from_hex(in, out.data())) {
         qDebug_2 << "invalid info-hash";
@@ -2355,7 +2357,7 @@ static inline lt::download_priority_t fromPriority(const TorrentFileInfo::Priori
     case TorrentFileInfo::Priority::Ignore: return lt::dont_download;
     case TorrentFileInfo::Priority::Low:    return lt::low_priority;
     case TorrentFileInfo::Priority::High:   return lt::top_priority;
-    case TorrentFileInfo::Priority::Normal:
+    // case TorrentFileInfo::Priority::Normal:
     default:                                return lt::default_priority;
     }
 }
@@ -2382,7 +2384,7 @@ static inline lt::torrent_status::state_t fromState(const TorrentInfo::TorrentSt
     case TorrentInfo::finished              : return lt::torrent_status::finished;
     case TorrentInfo::seeding               : return lt::torrent_status::seeding;
     case TorrentInfo::allocating            : return lt::torrent_status::allocating;
-    case TorrentInfo::checking_resume_data  : return lt::torrent_status::checking_resume_data;
+    // case TorrentInfo::checking_resume_data:
     default:                                  return lt::torrent_status::checking_resume_data;
     }
 }

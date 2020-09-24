@@ -55,15 +55,15 @@ StreamWidget::~StreamWidget()
 
 /******************************************************************************
  ******************************************************************************/
-void StreamWidget::setStreamInfo(StreamInfo streamInfo)
+void StreamWidget::setStreamObject(StreamObject streamObject)
 {
-    m_streamInfo = streamInfo;
-    ui->titleLabel->setText(m_streamInfo.title());
+    m_streamObject = streamObject;
+    ui->titleLabel->setText(m_streamObject.title());
 
-    if (streamInfo.isAvailable()) {
-        ui->streamFormatPicker->setData(streamInfo);
-        ui->fileNameEdit->setText(m_streamInfo.fileBaseName());
-        ui->fileExtensionEdit->setText(m_streamInfo.suffix());
+    if (streamObject.isAvailable()) {
+        ui->streamFormatPicker->setData(streamObject);
+        ui->fileNameEdit->setText(m_streamObject.fileBaseName());
+        ui->fileExtensionEdit->setText(m_streamObject.suffix());
 
         ui->stackedWidget->setCurrentWidget(ui->pageInfo);
     } else {
@@ -75,20 +75,20 @@ void StreamWidget::setStreamInfo(StreamInfo streamInfo)
  ******************************************************************************/
 void StreamWidget::onFormatSelected(StreamFormatId formatId)
 {
-    m_streamInfo.setFormatId(formatId);
-    ui->fileExtensionEdit->setText(m_streamInfo.suffix());
-    ui->estimatedSizeEdit->setText(Format::fileSizeToString(m_streamInfo.guestimateFullSize()));
-    emit streamInfoChanged(m_streamInfo);
+    m_streamObject.setFormatId(formatId);
+    ui->fileExtensionEdit->setText(m_streamObject.suffix());
+    ui->estimatedSizeEdit->setText(Format::fileSizeToString(m_streamObject.guestimateFullSize()));
+    emit streamObjectChanged(m_streamObject);
 }
 
 void StreamWidget::onTitleChanged(const QString &)
 {
-    m_streamInfo.setTitle(ui->fileNameEdit->text());
-    emit streamInfoChanged(m_streamInfo);
+    m_streamObject.setTitle(ui->fileNameEdit->text());
+    emit streamObjectChanged(m_streamObject);
 }
 
 void StreamWidget::onSuffixChanged(const QString &)
 {
-    m_streamInfo.setSuffix(ui->fileExtensionEdit->text());
-    emit streamInfoChanged(m_streamInfo);
+    m_streamObject.setSuffix(ui->fileExtensionEdit->text());
+    emit streamObjectChanged(m_streamObject);
 }

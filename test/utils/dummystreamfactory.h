@@ -22,14 +22,14 @@
 class DummyStreamFactory
 {
 public:
-    static StreamInfo createDummyStreamInfo();
-    static StreamInfo createDummyErrorStreamInfo();
+    static StreamObject createDummyStreamObject();
+    static StreamObject createDummyErrorStreamObject();
 
-    static StreamInfo createDummyStreamInfo_Youtube();
-    static StreamInfo createDummyStreamInfo_Dailymotion();
-    static StreamInfo createDummyStreamInfo_Other();
+    static StreamObject createDummyStreamObject_Youtube();
+    static StreamObject createDummyStreamObject_Dailymotion();
+    static StreamObject createDummyStreamObject_Other();
 
-    static StreamInfo createDummyStreamInfo_unavailable();
+    static StreamObject createDummyStreamObject_unavailable();
 
     static QByteArray dumpSingleVideo();
     static QByteArray dumpSingleVideo(const QString &id);

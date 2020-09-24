@@ -202,7 +202,7 @@ IDownloadItem* DownloadManager::createItem(const QUrl &url)
 IDownloadItem* DownloadManager::createTorrentItem(const QUrl &url)
 {
     ResourceItem* resource = createResourceItem(url);
-    resource->setTorrentEnabled(true);
+    resource->setType(ResourceItem::Type::Torrent);
     auto item = new DownloadTorrentItem(this);
     item->setResource(resource);
     return item;

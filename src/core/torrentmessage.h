@@ -178,7 +178,7 @@ public:
         case Ignore:    return QObject::tr("ignore");
         case Low:       return QObject::tr("low");
         case High:      return QObject::tr("high");
-        case Normal:
+        // case Normal:
         default:        return QObject::tr("normal");
         }
     }

@@ -27,6 +27,18 @@ public:
     ResourceItem();
     ~ResourceItem() = default;
 
+    enum class Type {
+        Regular = 0,    ///< The resource is a regular file
+        Stream  = 1,    ///< The resource is a stream
+        Torrent = 2     ///< The resource is a torrent
+    };
+
+    Type type() const;
+    void setType(Type type);
+
+    static QString toString(Type type);
+    static Type fromString(const QString &str);
+
     /* Source */
     QString url() const;
     void setUrl(const QString &url);
@@ -57,9 +69,6 @@ public:
     QString checkSum() const;
     void setCheckSum(const QString &checkSum);
 
-    bool isStreamEnabled() const;
-    void setStreamEnabled(bool enabled);
-
     QString streamFileName() const;
     void setStreamFileName(const QString &streamFileName);
 
@@ -69,13 +78,11 @@ public:
     qint64 streamFileSize() const;
     void setStreamFileSize(qint64 streamFileSize);
 
-    bool isTorrentEnabled() const;
-    void setTorrentEnabled(bool enabled);
-
     QString torrentPreferredFilePriorities() const;
     void setTorrentPreferredFilePriorities(const QString &priorities);
 
 private:
+    Type m_type;
     QString m_url;              // QUrl ?
     QString m_destination;      // QDir ?
     QString m_mask;             // Mask ?
@@ -83,14 +90,16 @@ private:
 
     QString m_referringPage;
     QString m_description;
+
+    /* Regular file-specific properties */
     QString m_checkSum;
 
-    bool m_isStreamEnabled; // true=download the stream; false=download the page
+    /* Stream-specific properties */
     QString m_streamFileName;
     QString m_streamFormatId;
     qint64 m_streamFileSize;
 
-    bool m_isTorrentEnabled;
+    /* Torrent-specific properties */
     QString m_torrentPreferredFilePriorities;
 
     inline QString localFilePath(const QString &customFileName) const;

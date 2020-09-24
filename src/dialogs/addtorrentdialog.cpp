@@ -130,7 +130,7 @@ IDownloadItem* AddTorrentDialog::createItem(const QString &url) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
-    resource->setTorrentEnabled(true);
+    resource->setType(ResourceItem::Type::Torrent);
     auto item = new DownloadTorrentItem(m_downloadManager);
     item->setResource(resource);
     return item;
