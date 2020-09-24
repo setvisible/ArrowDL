@@ -48,10 +48,10 @@ public:
     void setMessageWait();
     void setMessageError(QString errorMessage);
 
-    void setStreamInfoList(StreamInfo streamInfo);
-    void setStreamInfoList(QList<StreamInfo> streamInfoList);
+    void setStreamObjects(StreamObject streamObject);
+    void setStreamObjects(QList<StreamObject> streamObjects);
 
-    QList<StreamInfo> selection() const;
+    QList<StreamObject> selection() const;
 
 protected slots:
     void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
@@ -60,7 +60,7 @@ protected slots:
 private slots:
     void onSelectionChanged(const QItemSelection &selected,
                             const QItemSelection &deselected);
-    void onStreamInfoChanged(StreamInfo streamInfo);
+    void onStreamObjectChanged(StreamObject streamObject);
     void onCheckStateChanged(QModelIndex index, bool checked);
     void onTrackNumberChecked(int state);
 
@@ -96,13 +96,13 @@ public:
 
     void retranslateUi();
 
-    void setStreamInfoList(QList<StreamInfo> streamInfoList);
+    void setStreamObjects(QList<StreamObject> streamObjects);
     void enableTrackNumberPrefix(bool enable);
 
-    StreamInfo itemAt(int row) const;
-    void setItemAt(int row, const StreamInfo &streamInfo);
+    StreamObject itemAt(int row) const;
+    void setItemAt(int row, const StreamObject &streamObject);
 
-    QList<StreamInfo> selection() const;
+    QList<StreamObject> selection() const;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
@@ -111,8 +111,8 @@ public:
 
 private:
     QStringList m_headers;
-    QList<StreamInfo> m_items;
-    QString filenameOrErrorMessage(const StreamInfo &streamInfo) const;
+    QList<StreamObject> m_items;
+    QString filenameOrErrorMessage(const StreamObject &streamObject) const;
 };
 
 #endif // WIDGETS_STREAM_LIST_WIDGET_H

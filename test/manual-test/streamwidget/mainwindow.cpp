@@ -32,7 +32,7 @@ static const QString s_urlMp4Link = "http://camendesign.com/code/video_for_every
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
-  , m_streamInfoDownloader(new StreamInfoDownloader(this))
+  , m_streamObjectDownloader(new StreamObjectDownloader(this))
 {
     ui->setupUi(this);
 
@@ -51,8 +51,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     ui->urlMp4Button->setToolTip(s_urlMp4Link);
 
-    connect(m_streamInfoDownloader, SIGNAL(error(QString)), this, SLOT(onError(QString)));
-    connect(m_streamInfoDownloader, SIGNAL(collected(QList<StreamInfo>)), this, SLOT(onCollected(QList<StreamInfo>)));
+    connect(m_streamObjectDownloader, SIGNAL(error(QString)), this, SLOT(onError(QString)));
+    connect(m_streamObjectDownloader, SIGNAL(collected(QList<StreamObject>)), this, SLOT(onCollected(QList<StreamObject>)));
 
     onResetClicked();
 }
@@ -79,7 +79,7 @@ void MainWindow::start(const QString &url)
     qDebug() << Q_FUNC_INFO << url;
     if (!url.isEmpty()) {
         ui->streamListWidget->setMessageWait();
-        m_streamInfoDownloader->runAsync(url);
+        m_streamObjectDownloader->runAsync(url);
     } else {
         ui->streamListWidget->setMessageEmpty();
     }
@@ -89,32 +89,32 @@ void MainWindow::start(const QString &url)
  ******************************************************************************/
 void MainWindow::onEmptyButtonClicked()
 {
-    auto info = DummyStreamFactory::createDummyStreamInfo();
-    ui->streamListWidget->setStreamInfoList(info);
+    auto obj = DummyStreamFactory::createDummyStreamObject();
+    ui->streamListWidget->setStreamObjects(obj);
 }
 
 void MainWindow::onErrorButtonClicked()
 {
-    auto info = DummyStreamFactory::createDummyErrorStreamInfo();
-    ui->streamListWidget->setStreamInfoList(info);
+    auto obj = DummyStreamFactory::createDummyErrorStreamObject();
+    ui->streamListWidget->setStreamObjects(obj);
 }
 
 void MainWindow::onYoutubeButtonClicked()
 {
-    auto info = DummyStreamFactory::createDummyStreamInfo_Youtube();
-    ui->streamListWidget->setStreamInfoList(info);
+    auto obj = DummyStreamFactory::createDummyStreamObject_Youtube();
+    ui->streamListWidget->setStreamObjects(obj);
 }
 
 void MainWindow::onDailymotionButtonClicked()
 {
-    auto info = DummyStreamFactory::createDummyStreamInfo_Dailymotion();
-    ui->streamListWidget->setStreamInfoList(info);
+    auto obj = DummyStreamFactory::createDummyStreamObject_Dailymotion();
+    ui->streamListWidget->setStreamObjects(obj);
 }
 
 void MainWindow::onOtherSiteButtonClicked()
 {
-    auto info = DummyStreamFactory::createDummyStreamInfo_Other();
-    ui->streamListWidget->setStreamInfoList(info);
+    auto obj = DummyStreamFactory::createDummyStreamObject_Other();
+    ui->streamListWidget->setStreamObjects(obj);
 }
 
 void MainWindow::onUrlMp4ButtonClicked()
@@ -124,18 +124,18 @@ void MainWindow::onUrlMp4ButtonClicked()
 
 void MainWindow::onPlaylistButtonClicked()
 {
-    QList<StreamInfo> list;
-    list << DummyStreamFactory::createDummyStreamInfo_Youtube();
-    list << DummyStreamFactory::createDummyStreamInfo_Dailymotion();
-    list << DummyStreamFactory::createDummyStreamInfo_unavailable();
-    list << DummyStreamFactory::createDummyStreamInfo_Other();
+    QList<StreamObject> list;
+    list << DummyStreamFactory::createDummyStreamObject_Youtube();
+    list << DummyStreamFactory::createDummyStreamObject_Dailymotion();
+    list << DummyStreamFactory::createDummyStreamObject_unavailable();
+    list << DummyStreamFactory::createDummyStreamObject_Other();
     for (int i = 0; i < list.count(); ++i) {
         auto item = list.at(i);
         item.playlist = QLatin1String("Playlist of favorite streams");
         item.playlist_index = QString::number(i + 1);
         list.replace(i, item);
     }
-    ui->streamListWidget->setStreamInfoList(list);
+    ui->streamListWidget->setStreamObjects(list);
 }
 
 /******************************************************************************
@@ -146,8 +146,8 @@ void MainWindow::onError(QString errorMessage)
     ui->streamListWidget->setMessageError(errorMessage);
 }
 
-void MainWindow::onCollected(QList<StreamInfo> streamInfoList)
+void MainWindow::onCollected(QList<StreamObject> streamObjects)
 {
     ui->continueButton->setEnabled(true);
-    ui->streamListWidget->setStreamInfoList(streamInfoList);
+    ui->streamListWidget->setStreamObjects(streamObjects);
 }

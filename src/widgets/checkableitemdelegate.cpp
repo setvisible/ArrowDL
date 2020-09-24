@@ -17,6 +17,7 @@
 #include "checkableitemdelegate.h"
 
 #include <Core/CheckableTableModel>
+#include <Widgets/Globals>
 
 #include <QtCore/QDebug>
 #include <QtCore/QModelIndex>
@@ -27,13 +28,6 @@
 #define C_CHECKBOX_SIZE            12
 #define C_CHECKBOX_WIDTH           16
 #define C_THUMBNAIL_WIDTH          16
-
-
-static const QColor s_black         = QColor(0, 0, 0);
-static const QColor s_darkYellow    = QColor(210, 210, 100);
-static const QColor s_lightBlue     = QColor(205, 232, 255);
-static const QColor s_lightGreen    = QColor(236, 255, 179);
-static const QColor s_lightYellow   = QColor(255, 255, 179);
 
 
 static QModelIndex getSiblingAtColumn(const QModelIndex &index, int acolumn)
@@ -75,6 +69,15 @@ void CheckableItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
     if (myOption.state & QStyle::State_Selected) {
         myOption.font.setBold(true);
     }
+
+    // Otherwise it's another color
+    myOption.palette.setColor(QPalette::Active, QPalette::HighlightedText, myOption.palette.color(QPalette::Active, QPalette::Text));
+
+    /* Inactive palette keep same colors as Active */
+    myOption.palette.setColor(QPalette::Inactive, QPalette::Base, myOption.palette.color(QPalette::Active, QPalette::Base));
+    myOption.palette.setColor(QPalette::Inactive, QPalette::Highlight, myOption.palette.color(QPalette::Active, QPalette::Highlight));
+    myOption.palette.setColor(QPalette::Inactive, QPalette::HighlightedText, myOption.palette.color(QPalette::Active, QPalette::HighlightedText));
+    myOption.palette.setColor(QPalette::Inactive, QPalette::Text, myOption.palette.color(QPalette::Active, QPalette::Text));
 
     if (index.column() == 0) {
         QStyleOptionButton button;

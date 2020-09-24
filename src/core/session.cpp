@@ -55,6 +55,23 @@ static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *do
 {
     ResourceItem *resourceItem = new ResourceItem();
 
+    resourceItem->setType(ResourceItem::fromString(json["type"].toString()));
+
+    /// \deprecated since 2.0.8
+    if (json.contains("streamEnabled")) {
+        qDebug() << Q_FUNC_INFO << "Deprecated tag: streamEnabled";
+        if (json["streamEnabled"].toBool()) {
+            resourceItem->setType(ResourceItem::Type::Stream);
+        }
+    }
+    /// \deprecated since 2.0.8
+    if (json.contains("torrentEnabled")) {
+        qDebug() << Q_FUNC_INFO << "Deprecated tag: torrentEnabled";
+        if (json["torrentEnabled"].toBool()) {
+            resourceItem->setType(ResourceItem::Type::Torrent);
+        }
+    }
+
     resourceItem->setUrl(json["url"].toString());
     resourceItem->setDestination(json["destination"].toString());
     resourceItem->setMask(json["mask"].toString());
@@ -62,21 +79,24 @@ static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *do
     resourceItem->setReferringPage(json["referringPage"].toString());
     resourceItem->setDescription(json["description"].toString());
     resourceItem->setCheckSum(json["checkSum"].toString());
-    resourceItem->setStreamEnabled(json["streamEnabled"].toBool());
+
     resourceItem->setStreamFileName(json["streamFileName"].toString());
     resourceItem->setStreamFormatId(json["streamFormatId"].toString());
     resourceItem->setStreamFileSize(json["streamFileSize"].toInt());
-    resourceItem->setTorrentEnabled(json["torrentEnabled"].toBool());
+
     resourceItem->setTorrentPreferredFilePriorities(json["torrentPreferredFilePriorities"].toString());
 
     DownloadItem *item;
-    if (resourceItem->isTorrentEnabled()) {
-        item = new DownloadTorrentItem(downloadManager);
-
-    } else if (resourceItem->isStreamEnabled()) {
+    switch (resourceItem->type()) {
+    case ResourceItem::Type::Stream:
         item = new DownloadStreamItem(downloadManager);
-    } else {
+        break;
+    case ResourceItem::Type::Torrent:
+        item = new DownloadTorrentItem(downloadManager);
+        break;
+    default:
         item = new DownloadItem(downloadManager);
+        break;
     }
     item->setResource(resourceItem);
 
@@ -91,6 +111,7 @@ static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *do
 
 static inline void writeJob(const DownloadItem *item, QJsonObject &json)
 {
+    json["type"] = ResourceItem::toString(item->resource()->type());
     json["url"] = item->resource()->url();
     json["destination"] = item->resource()->destination();
     json["mask"] = item->resource()->mask();
@@ -98,11 +119,11 @@ static inline void writeJob(const DownloadItem *item, QJsonObject &json)
     json["referringPage"] = item->resource()->referringPage();
     json["description"] = item->resource()->description();
     json["checkSum"] = item->resource()->checkSum();
-    json["streamEnabled"] = item->resource()->isStreamEnabled();
+
     json["streamFileName"] = item->resource()->streamFileName();
     json["streamFormatId"] = item->resource()->streamFormatId();
     json["streamFileSize"] = item->resource()->streamFileSize();
-    json["torrentEnabled"] = item->resource()->isTorrentEnabled();
+
     json["torrentPreferredFilePriorities"] = item->resource()->torrentPreferredFilePriorities();
 
     json["state"] = stateToInt(item->state());

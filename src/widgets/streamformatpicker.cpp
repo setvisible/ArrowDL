@@ -115,16 +115,16 @@ void StreamFormatPicker::clear()
     m_model->removeRows(0, m_model->rowCount());
 }
 
-void StreamFormatPicker::setData(const StreamInfo &streamInfo)
+void StreamFormatPicker::setData(const StreamObject &streamObject)
 {
     QSignalBlocker blocker(this);
     clear();
 
-    populateSimple(streamInfo.defaultFormats());
-    populateComboBox(streamInfo.audioFormats(), ui->audioComboBox);
-    populateComboBox(streamInfo.videoFormats(), ui->videoComboBox);
+    populateSimple(streamObject.defaultFormats());
+    populateComboBox(streamObject.audioFormats(), ui->audioComboBox);
+    populateComboBox(streamObject.videoFormats(), ui->videoComboBox);
 
-    select(streamInfo.formatId());
+    select(streamObject.formatId());
 }
 
 /******************************************************************************

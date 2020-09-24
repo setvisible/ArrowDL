@@ -16,131 +16,131 @@
 
 #include "dummystreamfactory.h"
 
-StreamInfo DummyStreamFactory::createDummyStreamInfo()
+StreamObject DummyStreamFactory::createDummyStreamObject()
 {
-    return StreamInfo();
+    return StreamObject();
 }
 
-StreamInfo DummyStreamFactory::createDummyErrorStreamInfo()
+StreamObject DummyStreamFactory::createDummyErrorStreamObject()
 {
-    StreamInfo info;
-    info.id               = "C0DPdy98e4c";
-    info.defaultTitle     = "TEST VIDEO";
-    info.setError(StreamInfo::ErrorUnavailable);
-    return info;
+    StreamObject obj;
+    obj.id               = "C0DPdy98e4c";
+    obj.defaultTitle     = "TEST VIDEO";
+    obj.setError(StreamObject::ErrorUnavailable);
+    return obj;
 }
 
-StreamInfo DummyStreamFactory::createDummyStreamInfo_Youtube()
+StreamObject DummyStreamFactory::createDummyStreamObject_Youtube()
 {
-    StreamInfo info;
-    info.id               = "C0DPdy98e4c";
-    info._filename        = "TEST VIDEO-C0DPdy98e4c.webm";
-    info.webpage_url      = "https://www.youtube.com/watch?v=C0DPdy98e4c";
-    info.fulltitle        = "TEST VIDEO";
-    info.defaultTitle     = "TEST VIDEO";
-    info.defaultSuffix    = "webm";
-    info.description      = "COUNTING LEADER AND TONE";
-    info.thumbnail        = "https://i.ytimg.com/vi/C0DPdy98e4c/hqdefault.jpg";
-    info.extractor        = "youtube";
-    info.extractor_key    = "Youtube";
-    info.defaultFormatId  = StreamFormatId("244+140");
-    info.formats.clear();
-    info.formats << StreamFormat("18", "mp4", "360p", 1552999, "mp4a.40.2", 96, 44100, "avc1.42001E", 480, 360, 0, 0);
-    info.formats << StreamFormat("43", "webm", "360p", 2875968, "vorbis", 128, 0, "vp8.0", 640, 360, 0, 0);
-    info.formats << StreamFormat("133", "mp4", "240p", 87155, "none", 0, 0, "avc1.4d400d", 320, 240, 25, 0);
-    info.formats << StreamFormat("134", "mp4", "360p", 142316, "none", 0, 0, "avc1.4d4015", 480, 360, 25, 0);
-    info.formats << StreamFormat("135", "mp4", "480p", 202392, "none", 0, 0, "avc1.4d401e", 640, 480, 25, 0);
-    info.formats << StreamFormat("140", "m4a", "tiny", 280597, "mp4a.40.2", 128, 44100, "none", 0, 0, 0, 0);
-    info.formats << StreamFormat("160", "mp4", "144p", 63901, "none", 0, 0, "avc1.4d400b", 192, 144, 25, 0);
-    info.formats << StreamFormat("242", "webm", "240p", 134629, "none", 0, 0, "vp9", 320, 240, 25, 0);
-    info.formats << StreamFormat("243", "webm", "360p", 205692, "none", 0, 0, "vp9", 480, 360, 25, 0);
-    info.formats << StreamFormat("244", "webm", "480p", 294311, "none", 0, 0, "vp9", 640, 480, 25, 0);
-    info.formats << StreamFormat("249", "webm", "tiny", 44319, "opus", 50, 48000, "none", 0, 0, 0, 0);
-    info.formats << StreamFormat("250", "webm", "tiny", 60843, "opus", 70, 48000, "none", 0, 0, 0, 0);
-    info.formats << StreamFormat("251", "webm", "tiny", 87201, "opus", 160, 48000, "none", 0, 0, 0, 0);
-    info.formats << StreamFormat("278", "webm", "144p", 53464, "none", 0, 0, "vp9", 192, 144, 13, 0);
-    info.playlist         = "";
-    info.playlist_index   = "";
-    return info;
+    StreamObject obj;
+    obj.id               = "C0DPdy98e4c";
+    obj._filename        = "TEST VIDEO-C0DPdy98e4c.webm";
+    obj.webpage_url      = "https://www.youtube.com/watch?v=C0DPdy98e4c";
+    obj.fulltitle        = "TEST VIDEO";
+    obj.defaultTitle     = "TEST VIDEO";
+    obj.defaultSuffix    = "webm";
+    obj.description      = "COUNTING LEADER AND TONE";
+    obj.thumbnail        = "https://i.ytimg.com/vi/C0DPdy98e4c/hqdefault.jpg";
+    obj.extractor        = "youtube";
+    obj.extractor_key    = "Youtube";
+    obj.defaultFormatId  = StreamFormatId("244+140");
+    obj.formats.clear();
+    obj.formats << StreamFormat("18", "mp4", "360p", 1552999, "mp4a.40.2", 96, 44100, "avc1.42001E", 480, 360, 0, 0);
+    obj.formats << StreamFormat("43", "webm", "360p", 2875968, "vorbis", 128, 0, "vp8.0", 640, 360, 0, 0);
+    obj.formats << StreamFormat("133", "mp4", "240p", 87155, "none", 0, 0, "avc1.4d400d", 320, 240, 25, 0);
+    obj.formats << StreamFormat("134", "mp4", "360p", 142316, "none", 0, 0, "avc1.4d4015", 480, 360, 25, 0);
+    obj.formats << StreamFormat("135", "mp4", "480p", 202392, "none", 0, 0, "avc1.4d401e", 640, 480, 25, 0);
+    obj.formats << StreamFormat("140", "m4a", "tiny", 280597, "mp4a.40.2", 128, 44100, "none", 0, 0, 0, 0);
+    obj.formats << StreamFormat("160", "mp4", "144p", 63901, "none", 0, 0, "avc1.4d400b", 192, 144, 25, 0);
+    obj.formats << StreamFormat("242", "webm", "240p", 134629, "none", 0, 0, "vp9", 320, 240, 25, 0);
+    obj.formats << StreamFormat("243", "webm", "360p", 205692, "none", 0, 0, "vp9", 480, 360, 25, 0);
+    obj.formats << StreamFormat("244", "webm", "480p", 294311, "none", 0, 0, "vp9", 640, 480, 25, 0);
+    obj.formats << StreamFormat("249", "webm", "tiny", 44319, "opus", 50, 48000, "none", 0, 0, 0, 0);
+    obj.formats << StreamFormat("250", "webm", "tiny", 60843, "opus", 70, 48000, "none", 0, 0, 0, 0);
+    obj.formats << StreamFormat("251", "webm", "tiny", 87201, "opus", 160, 48000, "none", 0, 0, 0, 0);
+    obj.formats << StreamFormat("278", "webm", "144p", 53464, "none", 0, 0, "vp9", 192, 144, 13, 0);
+    obj.playlist         = "";
+    obj.playlist_index   = "";
+    return obj;
 }
 
-StreamInfo DummyStreamFactory::createDummyStreamInfo_Dailymotion()
+StreamObject DummyStreamFactory::createDummyStreamObject_Dailymotion()
 {
-    StreamInfo info;
-    info.id               = "eLCvrLUvC0E";
-    info._filename        = "Tatort - Das goldene Band | NDR-eLCvrLUvC0E.mp4";
-    info.webpage_url      = "https://www.youtube.com/watch?v=eLCvrLUvC0E";
-    info.fulltitle        = "Tatort - Das goldene Band | NDR";
-    info.defaultTitle     = "Tatort - Das goldene Band | NDR";
-    info.defaultSuffix    = "mp4";
-    info.description      = "";
-    info.thumbnail        = "https://i.ytimg.com/vi/eLCvrLUvC0E/hqdefault.jpg";
-    info.extractor        = "dailymotion";
-    info.extractor_key    = "Dailymotion";
-    info.defaultFormatId  = StreamFormatId("http-1080-1");
-    info.formats.clear();
-    info.formats << StreamFormat("hls-144-0"  , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.42000b",  192,  112, 0, 0);
-    info.formats << StreamFormat("hls-144-1"  , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.42000b",  192,  112, 0, 0);
-    info.formats << StreamFormat("http-144-0" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.42000b",  192,  112, 0, 0);
-    info.formats << StreamFormat("http-144-1" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.42000b",  192,  112, 0, 0);
-    info.formats << StreamFormat("hls-240-0"  , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d000d",  320,  184, 0, 0);
-    info.formats << StreamFormat("hls-240-1"  , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d000d",  320,  184, 0, 0);
-    info.formats << StreamFormat("http-240-0" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d000d",  320,  184, 0, 0);
-    info.formats << StreamFormat("http-240-1" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d000d",  320,  184, 0, 0);
-    info.formats << StreamFormat("hls-380-0"  , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d0016",  512,  288, 0, 0);
-    info.formats << StreamFormat("hls-380-1"  , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d0016",  512,  288, 0, 0);
-    info.formats << StreamFormat("http-380-0" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d0016",  512,  288, 0, 0);
-    info.formats << StreamFormat("http-380-1" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d0016",  512,  288, 0, 0);
-    info.formats << StreamFormat("hls-480-0"  , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f",  848,  480, 0, 0);
-    info.formats << StreamFormat("hls-480-1"  , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f",  848,  480, 0, 0);
-    info.formats << StreamFormat("http-480-0" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f",  848,  480, 0, 0);
-    info.formats << StreamFormat("http-480-1" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f",  848,  480, 0, 0);
-    info.formats << StreamFormat("hls-720-0"  , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f", 1280,  720, 0, 0);
-    info.formats << StreamFormat("hls-720-1"  , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f", 1280,  720, 0, 0);
-    info.formats << StreamFormat("http-720-0" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f", 1280,  720, 0, 0);
-    info.formats << StreamFormat("http-720-1" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f", 1280,  720, 0, 0);
-    info.formats << StreamFormat("hls-1080-0" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640028", 1920, 1080, 0, 0);
-    info.formats << StreamFormat("hls-1080-1" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640028", 1920, 1080, 0, 0);
-    info.formats << StreamFormat("http-1080-0", "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640028", 1920, 1080, 0, 0);
-    info.formats << StreamFormat("http-1080-1", "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640028", 1920, 1080, 0, 0);
-    info.playlist         = "";
-    info.playlist_index   = "";
-    return info;
+    StreamObject obj;
+    obj.id               = "eLCvrLUvC0E";
+    obj._filename        = "Tatort - Das goldene Band | NDR-eLCvrLUvC0E.mp4";
+    obj.webpage_url      = "https://www.youtube.com/watch?v=eLCvrLUvC0E";
+    obj.fulltitle        = "Tatort - Das goldene Band | NDR";
+    obj.defaultTitle     = "Tatort - Das goldene Band | NDR";
+    obj.defaultSuffix    = "mp4";
+    obj.description      = "";
+    obj.thumbnail        = "https://i.ytimg.com/vi/eLCvrLUvC0E/hqdefault.jpg";
+    obj.extractor        = "dailymotion";
+    obj.extractor_key    = "Dailymotion";
+    obj.defaultFormatId  = StreamFormatId("http-1080-1");
+    obj.formats.clear();
+    obj.formats << StreamFormat("hls-144-0"  , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.42000b",  192,  112, 0, 0);
+    obj.formats << StreamFormat("hls-144-1"  , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.42000b",  192,  112, 0, 0);
+    obj.formats << StreamFormat("http-144-0" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.42000b",  192,  112, 0, 0);
+    obj.formats << StreamFormat("http-144-1" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.42000b",  192,  112, 0, 0);
+    obj.formats << StreamFormat("hls-240-0"  , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d000d",  320,  184, 0, 0);
+    obj.formats << StreamFormat("hls-240-1"  , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d000d",  320,  184, 0, 0);
+    obj.formats << StreamFormat("http-240-0" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d000d",  320,  184, 0, 0);
+    obj.formats << StreamFormat("http-240-1" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d000d",  320,  184, 0, 0);
+    obj.formats << StreamFormat("hls-380-0"  , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d0016",  512,  288, 0, 0);
+    obj.formats << StreamFormat("hls-380-1"  , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d0016",  512,  288, 0, 0);
+    obj.formats << StreamFormat("http-380-0" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d0016",  512,  288, 0, 0);
+    obj.formats << StreamFormat("http-380-1" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.4d0016",  512,  288, 0, 0);
+    obj.formats << StreamFormat("hls-480-0"  , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f",  848,  480, 0, 0);
+    obj.formats << StreamFormat("hls-480-1"  , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f",  848,  480, 0, 0);
+    obj.formats << StreamFormat("http-480-0" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f",  848,  480, 0, 0);
+    obj.formats << StreamFormat("http-480-1" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f",  848,  480, 0, 0);
+    obj.formats << StreamFormat("hls-720-0"  , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f", 1280,  720, 0, 0);
+    obj.formats << StreamFormat("hls-720-1"  , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f", 1280,  720, 0, 0);
+    obj.formats << StreamFormat("http-720-0" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f", 1280,  720, 0, 0);
+    obj.formats << StreamFormat("http-720-1" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001f", 1280,  720, 0, 0);
+    obj.formats << StreamFormat("hls-1080-0" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640028", 1920, 1080, 0, 0);
+    obj.formats << StreamFormat("hls-1080-1" , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640028", 1920, 1080, 0, 0);
+    obj.formats << StreamFormat("http-1080-0", "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640028", 1920, 1080, 0, 0);
+    obj.formats << StreamFormat("http-1080-1", "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640028", 1920, 1080, 0, 0);
+    obj.playlist         = "";
+    obj.playlist_index   = "";
+    return obj;
 }
 
-StreamInfo DummyStreamFactory::createDummyStreamInfo_Other()
+StreamObject DummyStreamFactory::createDummyStreamObject_Other()
 {
-    StreamInfo info;
-    info.id               = "a1b2f3f4gh5t4";
-    info._filename        = "San Francisco-a1b2f3f4gh5t4.mp4";
-    info.webpage_url      = "https://videos.com/videos/a1b2f3f4gh5t4";
-    info.fulltitle        = "San Francisco";
-    info.defaultTitle     = "San Francisco";
-    info.defaultSuffix    = "mp4";
-    info.description      = "";
-    info.thumbnail        = "https://videos.com/videos/2019/10/27/SanFrancisco-27164.jpg";
-    info.extractor        = "videos";
-    info.extractor_key    = "videos";
-    info.defaultFormatId  = StreamFormatId("hls-703");
-    info.formats.clear();
-    info.formats << StreamFormat("hls-287-0", "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640015", 430, 240, 24,   0);
-    info.formats << StreamFormat("hls-287-1", "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640015", 430, 240, 24,   0);
-    info.formats << StreamFormat("240p"     , "mp4", "", 0, ""         , 0, 0, ""           ,   0, 240,  0, 400);
-    info.formats << StreamFormat("hls-468"  , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001e", 860, 480, 24,   0);
-    info.formats << StreamFormat("480p"     , "mp4", "", 0, ""         , 0, 0, ""           ,   0, 480,  0, 600);
-    info.formats << StreamFormat("hls-703"  , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001e", 860, 480, 24,   0);
-    info.playlist         = "";
-    info.playlist_index   = "";
-    return info;
+    StreamObject obj;
+    obj.id               = "a1b2f3f4gh5t4";
+    obj._filename        = "San Francisco-a1b2f3f4gh5t4.mp4";
+    obj.webpage_url      = "https://videos.com/videos/a1b2f3f4gh5t4";
+    obj.fulltitle        = "San Francisco";
+    obj.defaultTitle     = "San Francisco";
+    obj.defaultSuffix    = "mp4";
+    obj.description      = "";
+    obj.thumbnail        = "https://videos.com/videos/2019/10/27/SanFrancisco-27164.jpg";
+    obj.extractor        = "videos";
+    obj.extractor_key    = "videos";
+    obj.defaultFormatId  = StreamFormatId("hls-703");
+    obj.formats.clear();
+    obj.formats << StreamFormat("hls-287-0", "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640015", 430, 240, 24,   0);
+    obj.formats << StreamFormat("hls-287-1", "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.640015", 430, 240, 24,   0);
+    obj.formats << StreamFormat("240p"     , "mp4", "", 0, ""         , 0, 0, ""           ,   0, 240,  0, 400);
+    obj.formats << StreamFormat("hls-468"  , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001e", 860, 480, 24,   0);
+    obj.formats << StreamFormat("480p"     , "mp4", "", 0, ""         , 0, 0, ""           ,   0, 480,  0, 600);
+    obj.formats << StreamFormat("hls-703"  , "mp4", "", 0, "mp4a.40.2", 0, 0, "avc1.64001e", 860, 480, 24,   0);
+    obj.playlist         = "";
+    obj.playlist_index   = "";
+    return obj;
 }
 
-StreamInfo DummyStreamFactory::createDummyStreamInfo_unavailable()
+StreamObject DummyStreamFactory::createDummyStreamObject_unavailable()
 {
-    StreamInfo info;
-    info.defaultTitle     = "Les Kaka, les sosos, les Kassos";
-    info.webpage_url      = "v2D6gf5d2sM";
-    info.setError(StreamInfo::ErrorUnavailable);
-    return info;
+    StreamObject obj;
+    obj.defaultTitle     = "Les Kaka, les sosos, les Kassos";
+    obj.webpage_url      = "v2D6gf5d2sM";
+    obj.setError(StreamObject::ErrorUnavailable);
+    return obj;
 }
 
 /******************************************************************************

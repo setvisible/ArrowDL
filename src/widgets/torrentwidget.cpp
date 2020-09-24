@@ -23,6 +23,7 @@
 #include <Core/TorrentMessage>
 #include <Widgets/CustomStyle>
 #include <Widgets/CustomStyleOptionProgressBar>
+#include <Widgets/Globals>
 #include <Widgets/TorrentProgressBar>
 
 #include <QtCore/QDebug>
@@ -42,14 +43,6 @@
 #define C_COLUMN_MINIMUM_WIDTH       10
 #define C_COLUMN_DEFAULT_WIDTH      100
 #define C_ROW_DEFAULT_HEIGHT         18
-
-/* Constant */
-/// \todo these colors are from downloadqueueview.cpp
-static const QColor s_black         = QColor(0, 0, 0);
-static const QColor s_lightBlue     = QColor(205, 232, 255);
-static const QColor s_darkGrey      = QColor(160, 160, 160);
-static const QColor s_green         = QColor(170, 224, 97);
-static const QColor s_darkGreen     = QColor(0, 143, 0);
 
 
 /******************************************************************************

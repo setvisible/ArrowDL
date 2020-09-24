@@ -43,7 +43,7 @@ public:
     ~StreamFormatPicker() Q_DECL_OVERRIDE;
 
     void clear();
-    void setData(const StreamInfo &streamInfo);
+    void setData(const StreamObject &streamObject);
 
     void select(const StreamFormatId &formatId);
 

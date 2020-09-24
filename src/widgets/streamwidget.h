@@ -33,10 +33,10 @@ public:
     explicit StreamWidget(QWidget *parent);
     ~StreamWidget() Q_DECL_OVERRIDE;
 
-    void setStreamInfo(StreamInfo streamInfo);
+    void setStreamObject(StreamObject streamObject);
 
 signals:
-    void streamInfoChanged(StreamInfo);
+    void streamObjectChanged(StreamObject);
 
 private slots:
     void onFormatSelected(StreamFormatId formatId);
@@ -45,7 +45,7 @@ private slots:
 
 private:
     Ui::StreamWidget *ui;
-    StreamInfo m_streamInfo;
+    StreamObject m_streamObject;
 };
 
 #endif // WIDGETS_STREAM_WIDGET_H

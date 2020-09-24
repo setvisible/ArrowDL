@@ -18,6 +18,7 @@
 
 #include <Core/IDownloadItem>
 #include <Widgets/CustomStyleOptionProgressBar>
+#include <Widgets/Globals>
 
 #include <QtCore/QtMath>
 #include <QtCore/QBitArray>
@@ -28,29 +29,6 @@
 #define C_ICON_SIZE               16
 #define C_ICON_WIDTH              19
 
-static const QColor s_darkGrey     = QColor(160, 160, 160);
-static const QColor s_lightGrey     = QColor(240, 240, 240);
-
-static const char* xpm[] = {
-    "16 16 2 1",
-    "   c #F0F0F0",         // light grey
-    "+  c #AAE061",         // light green
-    "++++++++        ",
-    " ++++++++       ",
-    "  ++++++++      ",
-    "   ++++++++     ",
-    "    ++++++++    ",
-    "     ++++++++   ",
-    "      ++++++++  ",
-    "       ++++++++ ",
-    "        ++++++++",
-    "+        +++++++",
-    "++        ++++++",
-    "+++        +++++",
-    "++++        ++++",
-    "+++++        +++",
-    "++++++        ++",
-    "+++++++        +"};
 
 /*!
  * \class CustomStyle
@@ -61,7 +39,7 @@ static const char* xpm[] = {
 
 CustomStyle::CustomStyle()
 {
-    m_textureImage = QImage(xpm);
+    m_textureImage = QImage(s_xpm);
 }
 
 void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,

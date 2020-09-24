@@ -50,18 +50,18 @@ private slots:
     void onChanged(QString);
 
     void onError(QString errorMessage);
-    void onCollected(QList<StreamInfo> streamInfoList);
+    void onCollected(QList<StreamObject> streamObjects);
 
 private:
     Ui::AddStreamDialog *ui;
     DownloadManager *m_downloadManager;
-    StreamInfoDownloader *m_streamInfoDownloader;
+    StreamObjectDownloader *m_streamObjectDownloader;
     Settings *m_settings;
 
     void doAccept(bool started);
 
     QList<IDownloadItem*> createItems() const;
-    IDownloadItem* createItem(const StreamInfo &streamInfo) const;
+    IDownloadItem* createItem(const StreamObject &streamObject) const;
 
     void setGuiEnabled(bool enabled);
 

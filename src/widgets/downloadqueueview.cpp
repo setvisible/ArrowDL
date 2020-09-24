@@ -22,6 +22,7 @@
 #include <Core/MimeDatabase>
 #include <Widgets/CustomStyle>
 #include <Widgets/CustomStyleOptionProgressBar>
+#include <Widgets/Globals>
 
 #include <QtCore/QDebug>
 #include <QtCore/QMimeData>
@@ -52,15 +53,6 @@
 #define C_COLUMN_DEFAULT_WIDTH   100
 #define C_COLUMN_0_DEFAULT_WIDTH 300
 #define C_ROW_DEFAULT_HEIGHT      22
-
-/* Constant */
-static const QColor s_black         = QColor(0, 0, 0);
-static const QColor s_lightBlue     = QColor(205, 232, 255);
-static const QColor s_darkGrey      = QColor(160, 160, 160);
-static const QColor s_green         = QColor(170, 224, 97);
-static const QColor s_darkGreen     = QColor(0, 143, 0);
-static const QColor s_darkYellow    = QColor(255, 204, 0);
-static const QColor s_darkRed       = QColor(177, 40, 1);
 
 
 QueueView::QueueView(QWidget *parent)
@@ -289,7 +281,7 @@ QColor QueueViewItemDelegate::stateColor(IDownloadItem::State state) const
         return s_darkGrey;
 
     case IDownloadItem::Paused:
-        return s_darkYellow;
+        return s_orange;
 
     case IDownloadItem::Preparing:
     case IDownloadItem::Connecting:
