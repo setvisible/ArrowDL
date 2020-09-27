@@ -53,6 +53,7 @@ public slots:
     void select(const QRegExp &regex);
 
 private slots:
+    void onCheckStateChanged(QModelIndex index, bool checked);
     void onResourceChanged();
 
 private:

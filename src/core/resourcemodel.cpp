@@ -20,6 +20,8 @@
 
 ResourceModel::ResourceModel(QObject *parent) : CheckableTableModel(parent)
 {
+    connect(this, SIGNAL(checkStateChanged(QModelIndex , bool)),
+            this, SLOT(onCheckStateChanged(QModelIndex , bool)));
     connect(this, SIGNAL(resourceChanged()), this, SLOT(onResourceChanged()));
 
     retranslateUi();
@@ -90,17 +92,24 @@ void ResourceModel::setMask(const QString &mask)
 void ResourceModel::select(const QRegExp &regex)
 {
     beginResetModel();
+    QSignalBlocker blocker(this);
     for (int i = 0; i < m_items.count(); ++i) {
         auto item = m_items.at(i);
         bool isChecked = (!regex.isEmpty() && regex.indexIn(item->url(), 0) != -1);
         this->setData(this->index(i, 0), isChecked, CheckableTableModel::CheckStateRole);
     }
+    blocker.unblock();
     endResetModel();
     emit selectionChanged();
 }
 
 /******************************************************************************
  ******************************************************************************/
+void ResourceModel::onCheckStateChanged(QModelIndex /*index*/, bool /*checked*/)
+{
+    emit selectionChanged();
+}
+
 void ResourceModel::onResourceChanged()
 {
     // just ensure dataChanged() too;
