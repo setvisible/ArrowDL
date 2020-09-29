@@ -260,12 +260,20 @@ void TorrentPieceMap::populateScene(const TorrentPieceData &pieceData)
                     m_rootItem);
 
         auto flags = item->flags();
+#if QT_VERSION >= 0x050700
         flags.setFlag(QGraphicsItem::ItemIsMovable, false);
         flags.setFlag(QGraphicsItem::ItemIsSelectable, false);
         flags.setFlag(QGraphicsItem::ItemIsFocusable, false);
         flags.setFlag(QGraphicsItem::ItemSendsGeometryChanges, false);
         flags.setFlag(QGraphicsItem::ItemSendsScenePositionChanges, false);
-
+#else
+        flags &= ~QGraphicsItem::ItemIsMovable;
+        flags &= ~QGraphicsItem::ItemIsMovable;
+        flags &= ~QGraphicsItem::ItemIsSelectable;
+        flags &= ~QGraphicsItem::ItemIsFocusable;
+        flags &= ~QGraphicsItem::ItemSendsGeometryChanges;
+        flags &= ~QGraphicsItem::ItemSendsScenePositionChanges;
+#endif
         item->setFlags(flags);
         m_items.append(item);
     }
