@@ -14,41 +14,45 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef UTILS_TORRENT_ANIMATOR_H
+#define UTILS_TORRENT_ANIMATOR_H
 
-#include <QtWidgets/QMainWindow>
+#include <QtCore/QObject>
+#include <QtCore/QTimer>
 
-class DummyTorrentAnimator;
-class ITorrentContext;
 class Torrent;
-typedef QSharedPointer<Torrent> TorrentPtr;
 
-namespace Ui {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow
+class DummyTorrentAnimator : public QObject
 {
     Q_OBJECT
 public:
-    explicit MainWindow(QWidget *parent = Q_NULLPTR);
-    ~MainWindow();
+    DummyTorrentAnimator(QObject *parent = Q_NULLPTR);
+
+    Torrent* torrent() const;
+    void setTorrent(Torrent *torrent);
+
+    void setProgress(int percent);
+
+    bool isStarted() const;
+    void start();
+    void stop();
+
+signals:
+    void started(bool started);
 
 private slots:
-    void onStartClicked();
-    void onZeroPercentClicked();
-    void onCompletedClicked();
-    void onRandomClicked();
-    void onHalfClicked();
-
-    void onAnimatorStarted(bool started);
+    void animate();
 
 private:
-    Ui::MainWindow *ui;
-    ITorrentContext *m_torrentContext;
-    DummyTorrentAnimator *m_animator;
-    TorrentPtr m_torrent;
+    QTimer *m_timer{Q_NULLPTR};
+    Torrent *m_torrent;
+    QList<int> m_timeouts;
+    QList<int> m_ticks;
+
+    void randomize();
+    void animateFile(int index);
+
+    static QBitArray createRandomBitArray(int size, int percent);
 };
 
-#endif // MAINWINDOW_H
+#endif // UTILS_TORRENT_ANIMATOR_H

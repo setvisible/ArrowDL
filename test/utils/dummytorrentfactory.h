@@ -17,7 +17,8 @@
 #ifndef DUMMY_TORRENT_FACTORY_H
 #define DUMMY_TORRENT_FACTORY_H
 
-#include <Core/Stream>
+#include <QtCore/QObject>
+#include <QtCore/QSharedPointer>
 
 class Torrent;
 typedef QSharedPointer<Torrent> TorrentPtr;
@@ -26,8 +27,6 @@ class DummyTorrentFactory
 {
 public:
     static TorrentPtr createDummyTorrent(QObject *parent);
-
-    static void setProgress(TorrentPtr torrent, int percent);
 };
 
 #endif // DUMMY_TORRENT_FACTORY_H

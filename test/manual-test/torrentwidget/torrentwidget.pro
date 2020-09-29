@@ -35,6 +35,7 @@ HEADERS += \
     $$PWD/../../../src/widgets/torrentpiecemap.h \
     $$PWD/../../../src/widgets/torrentprogressbar.h \
     $$PWD/../../../src/widgets/torrentwidget.h \
+    $$PWD/../../../test/utils/dummytorrentanimator.h \
     $$PWD/../../../test/utils/dummytorrentfactory.h \
     $$PWD/../../../test/utils/faketorrentcontext.h
 
@@ -47,6 +48,7 @@ SOURCES += \
     $$PWD/../../../src/widgets/torrentpiecemap.cpp \
     $$PWD/../../../src/widgets/torrentprogressbar.cpp \
     $$PWD/../../../src/widgets/torrentwidget.cpp \
+    $$PWD/../../../test/utils/dummytorrentanimator.cpp \
     $$PWD/../../../test/utils/dummytorrentfactory.cpp \
     $$PWD/../../../test/utils/faketorrentcontext.cpp
 
