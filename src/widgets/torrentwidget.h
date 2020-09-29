@@ -124,4 +124,31 @@ public:
                const QModelIndex &index ) const Q_DECL_OVERRIDE;
 };
 
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * PeerTableViewItemDelegate is used to draw the pieces owned by the peer.
+ */
+class PeerTableViewItemDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
+public:
+    explicit PeerTableViewItemDelegate(QObject *parent = Q_NULLPTR);
+
+    void paint(QPainter *painter, const QStyleOptionViewItem &option,
+               const QModelIndex &index ) const Q_DECL_OVERRIDE;
+};
+
+/******************************************************************************
+ ******************************************************************************/
+class TrackerTableViewItemDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
+public:
+    explicit TrackerTableViewItemDelegate(QObject *parent = Q_NULLPTR);
+
+    void paint(QPainter *painter, const QStyleOptionViewItem &option,
+               const QModelIndex &index ) const Q_DECL_OVERRIDE;
+};
+
 #endif // WIDGETS_TORRENT_WIDGET_H

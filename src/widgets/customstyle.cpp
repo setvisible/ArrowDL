@@ -51,13 +51,28 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
 
             bool hasIcon = !pb->icon.isNull();
 
-            /* Draw the selection background */
-            if (pb->state & State_Selected) {
-                QColor bgColor = pb->palette.color(QPalette::Normal, QPalette::Highlight);
-                p->setPen(Qt::NoPen);
-                p->setBrush(bgColor);
-                p->drawRect(pb->rect);
+            QPalette::ColorGroup cg;
+            QPalette::ColorRole cr;
+
+            if ((pb->state & State_Enabled) == 0) {
+                cg = QPalette::Disabled;
+            } else if (pb->state & QStyle::State_Active) {
+                cg = QPalette::Active;
+            } else {
+                cg = QPalette::Inactive;
             }
+
+            if (pb->state & State_Selected) {
+                cr = QPalette::Highlight;
+            } else {
+                cr = QPalette::Window;
+            }
+
+            /* Draw the selection background */
+            QColor bgColor = pb->palette.color(cg, cr);
+            p->setPen(Qt::NoPen);
+            p->setBrush(bgColor);
+            p->drawRect(pb->rect);
 
             /* Draw the icon */
             if (hasIcon) {

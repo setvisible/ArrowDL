@@ -38,9 +38,7 @@ Torrent::Torrent(QObject *parent) : QObject(parent)
 
 Torrent::~Torrent()
 {
-
 }
-
 
 /******************************************************************************
  ******************************************************************************/
@@ -232,7 +230,7 @@ void Torrent::setPreferredFilePriorities(const QString &priorities)
  ******************************************************************************/
 void Torrent::addPeer(const QString &input)
 {
-    qDebug() << Q_FUNC_INFO;
+    qDebug() << Q_FUNC_INFO << input;
 
     emit changed();
 }
@@ -304,7 +302,7 @@ int Torrent::progress() const
         break;
     }
     if (bytesTotal > 0) {
-        return qMin(qFloor(100.0 * bytesReceived / bytesTotal), 100);
+        return qMin(qFloor(qreal(100 * bytesReceived) / bytesTotal), 100);
     }
     return -1; // Undefined
 }
@@ -384,7 +382,7 @@ int TorrentFileTableModel::percent(const TorrentFileMetaInfo &mi,
 int TorrentFileTableModel::firstPieceIndex(const TorrentFileMetaInfo &mi) const
 {
     if (m_pieceByteSize != 0) {
-        return qCeil(mi.bytesOffset / m_pieceByteSize);
+        return qCeil(qreal(mi.bytesOffset) / m_pieceByteSize);
     }
     return 0;
 }
@@ -392,7 +390,7 @@ int TorrentFileTableModel::firstPieceIndex(const TorrentFileMetaInfo &mi) const
 int TorrentFileTableModel::lastPieceIndex(const TorrentFileMetaInfo &mi) const
 {
     if (m_pieceByteSize != 0) {
-        return qCeil((mi.bytesOffset + mi.bytesTotal) / m_pieceByteSize);
+        return qCeil(qreal(mi.bytesOffset + mi.bytesTotal) / m_pieceByteSize);
     }
     return 0;
 }
@@ -460,7 +458,7 @@ QVariant TorrentFileTableModel::data(const QModelIndex &index, int role) const
             break;
         }
 
-    } else if (role == ProgressRole) { /*&& item.column() == 7*/
+    } else if (role == ProgressRole) {
         return percent(mi, ti);
 
     } else if (role == SegmentRole) {
@@ -527,6 +525,7 @@ void TorrentPeerTableModel::retranslateUi()
             << tr("Client")
             << tr("Downloaded")
             << tr("Uploaded")
+            << tr("Pieces")
             << tr("Request Time")
             << tr("Active Time")
             << tr("Queue Time")
@@ -547,6 +546,7 @@ QVariant TorrentPeerTableModel::data(const QModelIndex &index, int role) const
     if (index.row() >= rowCount() || index.row() < 0) {
         return QVariant();
     }
+    const TorrentPeerInfo peer = m_peers.at(index.row());
     if (role == Qt::TextAlignmentRole) {
         switch (index.column()) {
         case  0:
@@ -561,25 +561,33 @@ QVariant TorrentPeerTableModel::data(const QModelIndex &index, int role) const
         case  7:
         case  8:
         case  9:
+        case 10:
             return int(Qt::AlignLeft | Qt::AlignVCenter);
         default:
             break;
         }
 
-    } else if (role == Qt::DisplayRole) {
-        const TorrentPeerInfo peer = m_peers.at(index.row());
+    } else if (role == ProgressRole) {
+        auto total = peer.availablePieces.count();
+        auto done = peer.availablePieces.count(true);
+        return total > 0 ? qMin(qCeil(qreal(100 * done) / total), 100) : 0;
 
+    } else if (role == SegmentRole) {
+        return peer.availablePieces;
+
+    } else if (role == Qt::DisplayRole) {
         switch (index.column()) {
-        case 0: return peer.endpoint.ip;
-        case 1: return peer.endpoint.port;
-        case 2: return peer.userAgent;
-        case 3: return Format::fileSizeToString(peer.bytesDownloaded);
-        case 4: return Format::fileSizeToString(peer.bytesUploaded);
-        case 5: return Format::timeToString(peer.lastTimeRequested);
-        case 6: return Format::timeToString(peer.lastTimeActive);
-        case 7: return Format::timeToString(peer.timeDownloadQueue);
-        case 8: return peer.flagString();
-        case 9: return peer.sourceFlagString();
+        case  0: return peer.endpoint.ip;
+        case  1: return peer.endpoint.port;
+        case  2: return peer.userAgent;
+        case  3: return Format::fileSizeToString(peer.bytesDownloaded);
+        case  4: return Format::fileSizeToString(peer.bytesUploaded);
+        case  5: return QVariant(); // Progress bar
+        case  6: return Format::timeToString(peer.lastTimeRequested);
+        case  7: return Format::timeToString(peer.lastTimeActive);
+        case  8: return Format::timeToString(peer.timeDownloadQueue);
+        case  9: return peer.flagString();
+        case 10: return peer.sourceFlagString();
         default:
             break;
         }

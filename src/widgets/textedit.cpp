@@ -487,7 +487,7 @@ void TextEdit::mousePressEvent(QMouseEvent *e)
             // Mouse Left + Alt without Shift = block start selection
 
             const int line = cursorUnderMouse.blockNumber();
-            const int column = qCeil((e->pos().x()) / QFontMetricsF(font()).width(QLatin1Char(' ')));
+            const int column = qCeil(qreal(e->pos().x()) / QFontMetricsF(font()).width(QLatin1Char(' ')));
             m_blockSelector.setPosition(line, column);
             e->accept();
             return;
@@ -505,7 +505,7 @@ void TextEdit::mousePressEvent(QMouseEvent *e)
             }
             selection.setPosition( cursorUnderMouse.position(), QTextCursor::KeepAnchor );
             const int line = cursorUnderMouse.blockNumber();
-            const int column = qCeil((e->pos().x()) / QFontMetricsF(font()).width(QLatin1Char(' ')));
+            const int column = qCeil(qreal(e->pos().x()) / QFontMetricsF(font()).width(QLatin1Char(' ')));
             m_blockSelector.setPosition(line, column, BlockSelector::KeepAnchor);
             return;
 
@@ -551,7 +551,7 @@ void TextEdit::mouseMoveEvent(QMouseEvent *e)
 
             const QTextCursor cursorUnderMouse = cursorForPosition(e->pos());
             const int line = cursorUnderMouse.blockNumber();
-            const int column = qCeil((e->pos().x()) / QFontMetricsF(font()).width(QLatin1Char(' ')));
+            const int column = qCeil(qreal(e->pos().x()) / QFontMetricsF(font()).width(QLatin1Char(' ')));
             m_blockSelector.setPosition(line, column, BlockSelector::KeepAnchor);
 
         } else {
