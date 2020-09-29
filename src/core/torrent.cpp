@@ -302,7 +302,7 @@ int Torrent::progress() const
         break;
     }
     if (bytesTotal > 0) {
-        return qMin(qFloor(100.0 * bytesReceived / bytesTotal), 100);
+        return qMin(qFloor(qreal(100 * bytesReceived) / bytesTotal), 100);
     }
     return -1; // Undefined
 }
@@ -382,7 +382,7 @@ int TorrentFileTableModel::percent(const TorrentFileMetaInfo &mi,
 int TorrentFileTableModel::firstPieceIndex(const TorrentFileMetaInfo &mi) const
 {
     if (m_pieceByteSize != 0) {
-        return qCeil(mi.bytesOffset / m_pieceByteSize);
+        return qCeil(qreal(mi.bytesOffset) / m_pieceByteSize);
     }
     return 0;
 }
@@ -390,7 +390,7 @@ int TorrentFileTableModel::firstPieceIndex(const TorrentFileMetaInfo &mi) const
 int TorrentFileTableModel::lastPieceIndex(const TorrentFileMetaInfo &mi) const
 {
     if (m_pieceByteSize != 0) {
-        return qCeil((mi.bytesOffset + mi.bytesTotal) / m_pieceByteSize);
+        return qCeil(qreal(mi.bytesOffset + mi.bytesTotal) / m_pieceByteSize);
     }
     return 0;
 }

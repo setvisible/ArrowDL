@@ -221,8 +221,8 @@ void AddContentDialog::loadUrl(const QUrl &url)
 #ifdef USE_QT_WEBENGINE
 void AddContentDialog::onLoadProgress(int progress)
 {
-    /* Between 1% and 90% */
-    progress = qMin(qFloor(0.90 * progress), 90);
+    /* Between 0% and 90% */
+    progress = qMin(qCeil(0.90 * qreal(progress)), 90);
     setProgressInfo(progress, tr("Downloading..."));
 }
 
@@ -256,7 +256,7 @@ void AddContentDialog::onDownloadProgress(qint64 bytesReceived, qint64 bytesTota
     /* Between 1% and 90% */
     int percent = 1;
     if (bytesTotal > 0) {
-        percent = qMin(qFloor(90.0 * bytesReceived / bytesTotal), 90);
+        percent = qMin(qCeil(qreal(90 * bytesReceived) / bytesTotal), 90);
     }
     setProgressInfo(percent, tr("Downloading..."));
 }
