@@ -31,7 +31,7 @@ class Torrent : public QObject
     Q_OBJECT
 
 public:
-    explicit Torrent(QObject *parent);
+    explicit Torrent(QObject *parent = Q_NULLPTR);
     ~Torrent() Q_DECL_OVERRIDE;
 
     void clear();

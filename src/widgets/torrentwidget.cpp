@@ -86,7 +86,7 @@ static const Headers fileTableHeaders
      {  60, QLatin1String("Percent")},
      {  60, QLatin1String("First Piece")},
      {  60, QLatin1String("# Pieces")},
-     { 120, QLatin1String("Pieces")},
+     { 120, QLatin1String("Pieces")}, // drawn as a progress bar
      {  60, QLatin1String("Priority")},
      { 120, QLatin1String("Modification date")},
      { 100, QLatin1String("SHA-1")},
@@ -95,15 +95,16 @@ static const Headers fileTableHeaders
 
 static const Headers peerTableHeaders
 ({
-     { 280, QLatin1String("IP")},
+     { 120, QLatin1String("IP")},
      {  50, QLatin1String("Port")},
      { 120, QLatin1String("User Agent")},
      {  80, QLatin1String("Downloaded")},
      {  80, QLatin1String("Uploaded")},
+     { 120, QLatin1String("Pieces")}, // drawn as a progress bar
      {  80, QLatin1String("Request Time")},
      {  80, QLatin1String("Active Time")},
      {  80, QLatin1String("Queue Time")},
-     { 200, QLatin1String("Flags")},
+     { 160, QLatin1String("Flags")},
      { 100, QLatin1String("Source Flags")}
  });
 
@@ -160,6 +161,47 @@ void FileTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
 
         QApplication::style()->drawControl(QStyle::CE_ProgressBar, &progressBarOption, painter);
     } else {
+        QStyledItemDelegate::paint(painter, myOption, index);
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+PeerTableViewItemDelegate::PeerTableViewItemDelegate(QObject *parent)
+    : QStyledItemDelegate(parent)
+{
+}
+
+void PeerTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
+                                      const QModelIndex &index) const
+{
+    QStyleOptionViewItem myOption = option;
+    initStyleOption(&myOption, index);
+
+    if (index.column() == 5) {
+        const int progress = index.data(AbstractTorrentTableModel::ProgressRole).toInt();
+        QBitArray segments = index.data(AbstractTorrentTableModel::SegmentRole).toBitArray();
+
+        CustomStyleOptionProgressBar progressBarOption;
+        progressBarOption.state = QStyle::State_Enabled;
+        progressBarOption.direction = QApplication::layoutDirection();
+        progressBarOption.rect = myOption.rect;
+        progressBarOption.fontMetrics = QApplication::fontMetrics();
+        progressBarOption.minimum = 0;
+        progressBarOption.maximum = 100;
+        progressBarOption.textAlignment = Qt::AlignCenter;
+        progressBarOption.textVisible = false;
+        progressBarOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
+        progressBarOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
+        progressBarOption.progress = progress;
+        progressBarOption.color = progress < 100 ? s_purple : s_darkPurple;
+        progressBarOption.icon = QIcon();
+
+        progressBarOption.hasSegments = true;
+        progressBarOption.segments = segments;
+
+        QApplication::style()->drawControl(QStyle::CE_ProgressBar, &progressBarOption, painter);
+    } else {
         QStyledItemDelegate::paint(painter, option, index);
     }
 }
@@ -182,6 +224,7 @@ TorrentWidget::TorrentWidget(QWidget *parent) : QWidget(parent)
     setupUiTableView(ui->trackerTableView);
 
     ui->fileTableView->setItemDelegate(new FileTableViewItemDelegate(this));
+    ui->peerTableView->setItemDelegate(new PeerTableViewItemDelegate(this));
 
     setupContextMenus();
     setupInfoCopy();
