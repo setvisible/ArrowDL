@@ -309,6 +309,7 @@ Torrent *TorrentWidget::torrent() const
 
 void TorrentWidget::setTorrent(Torrent *torrent)
 {
+    ui->torrentPieceMap->setTorrent(torrent);
     if (m_torrent == torrent) {
         return;
     }
