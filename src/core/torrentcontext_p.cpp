@@ -137,8 +137,11 @@ void TorrentContextPrivate::onSettingsChanged()
     lt::settings_pack pack = lt::default_settings(); /*= fromSettings(settings)*/
 
     const QMap<QString, QVariant> map = settings->torrentSettings();
-    foreach (auto key, map.keys()) {
-        QVariant value = map.value(key);
+    QMapIterator<QString, QVariant> it(map);
+    while (it.hasNext()) {
+        it.next();
+        auto key = it.key();
+        auto value = it.value();
 
         int name = lt::setting_by_name(key.toUtf8().data());
 

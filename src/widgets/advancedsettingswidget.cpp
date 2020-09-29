@@ -106,9 +106,10 @@ QMap<QString, QVariant> AdvancedSettingsWidget::torrentSettings() const
 
 void AdvancedSettingsWidget::setTorrentSettings(const QMap<QString, QVariant> &map)
 {
-    foreach (auto key, map.keys()) {
-        QVariant value = map.value(key);
-        setValue(findItem(key), value);
+    QMapIterator<QString, QVariant> it(map);
+    while (it.hasNext()) {
+        it.next();
+        setValue(findItem(it.key()), it.value());
     }
 }
 
