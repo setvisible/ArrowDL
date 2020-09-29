@@ -25,9 +25,16 @@ Model::Model(QObject *parent) : QObject(parent)
   , m_linkModel(new ResourceModel(this))
   , m_contentModel(new ResourceModel(this))
 {
-    connect(m_linkModel, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
-    connect(m_contentModel, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
+    connect(m_linkModel, SIGNAL(selectionChanged()),
+            this, SIGNAL(selectionChanged()), Qt::DirectConnection);
+    connect(m_contentModel, SIGNAL(selectionChanged()),
+            this, SIGNAL(selectionChanged()), Qt::DirectConnection);
 }
+
+/*!
+ * \fn void Model::selectionChanged()
+ *  This signal is emitted when the model selection has changed.
+ */
 
 /******************************************************************************
  ******************************************************************************/
@@ -58,13 +65,6 @@ ResourceModel* Model::contentModel() const
 
 /******************************************************************************
  ******************************************************************************/
-void Model::onSelectionChanged()
-{
-    emit selectionChanged();
-}
-
-/******************************************************************************
- ******************************************************************************/
 void Model::setDestination(const QString &destination)
 {
     m_linkModel->setDestination(destination);
@@ -89,10 +89,7 @@ ResourceModel* Model::currentModel() const
 {
     switch (m_currentTab) {
     case LINK:     return m_linkModel;
-    case CONTENT:  return m_contentModel;
-    default:
-        Q_UNREACHABLE();
-        break;
+    case CONTENT:  return m_contentModel;   
     }
-    return Q_NULLPTR;
+    Q_UNREACHABLE();
 }

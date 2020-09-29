@@ -50,9 +50,6 @@ public slots:
     void setMask(const QString &mask);
     void select(const QRegExp &regex);
 
-private slots:
-    void onSelectionChanged();
-
 private:
     ResourceModel *m_linkModel;
     ResourceModel *m_contentModel;
