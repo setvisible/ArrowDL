@@ -28,7 +28,7 @@ PathWidget::PathWidget(QWidget *parent) : QWidget(parent)
 {
     ui->setupUi(this);
 
-    ui->comboBox->setInputIsValidWhen( [](QString t) { return !t.isEmpty(); } );
+    ui->comboBox->setInputIsValidWhen( [](const QString &t) { return !t.isEmpty(); } );
 
     connect(ui->browseButton, SIGNAL(released()), this, SLOT(onBrowseButtonReleased()));
     connect(ui->comboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
@@ -133,7 +133,7 @@ void PathWidget::onBrowseButtonReleased()
 {
     QString path = ui->comboBox->currentText();
     if (m_pathType == File) {
-        const QString filter = tr("All Files (*);;%0 (*%1)").arg(m_suffixName).arg(m_suffix);
+        const QString filter = tr("All Files (*);;%0 (*%1)").arg(m_suffixName, m_suffix);
         path = QFileDialog::getOpenFileName(this, tr("Please select a file"), path, filter);
     } else {
         if (path.isEmpty()) {

@@ -38,11 +38,6 @@ TorrentContext::TorrentContext() : QObject()
 {
 }
 
-TorrentContext::~TorrentContext()
-{
-    qDebug() << Q_FUNC_INFO;
-}
-
 /******************************************************************************
  ******************************************************************************/
 static inline QString get_setting_key(int s)

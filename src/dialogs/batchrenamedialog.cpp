@@ -27,21 +27,19 @@
 #include <QtGui/QCloseEvent>
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QComboBox>
-#include <QtWidgets/QStyledItemDelegate>
 #include <QtWidgets/QAbstractItemView>
 
+constexpr int row_height = 40;
 
-class PopupItemDelegate: public QStyledItemDelegate
+QSize PopupItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-public:
-    using QStyledItemDelegate::QStyledItemDelegate;
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override {
-        QSize size = QStyledItemDelegate::sizeHint(option, index);
-        size.setHeight(40);
-        return size;
-    }
-};
+    QSize size = QStyledItemDelegate::sizeHint(option, index);
+    size.setHeight(row_height);
+    return size;
+}
 
+/******************************************************************************
+ ******************************************************************************/
 BatchRenameDialog::BatchRenameDialog(const QList<IDownloadItem*> &items, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::BatchRenameDialog)
@@ -49,7 +47,7 @@ BatchRenameDialog::BatchRenameDialog(const QList<IDownloadItem*> &items, QWidget
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Tools")));
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Tools")));
 
     adjustSize();
 
@@ -96,7 +94,7 @@ void BatchRenameDialog::accept()
 void BatchRenameDialog::renameToDefault()
 {
     foreach (auto item, m_items) {
-        DownloadItem *downloadItem = static_cast<DownloadItem*>(item);
+        auto downloadItem = dynamic_cast<DownloadItem*>(item);
         rename(downloadItem, QString());
     }
 }
@@ -119,7 +117,7 @@ void BatchRenameDialog::renameToEnumeration()
 
     int i = from;
     foreach (auto item, m_items) {
-        DownloadItem *downloadItem = static_cast<DownloadItem*>(item);
+        auto downloadItem = dynamic_cast<DownloadItem*>(item);
         QString newName = QString("%0").arg(i);
         if (digits > newName.count()) {
             newName = newName.rightJustified(digits, QChar('0'));

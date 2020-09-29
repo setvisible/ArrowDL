@@ -30,6 +30,7 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 
+constexpr int msec_auto_save = 3000; ///< Autosave the queue every 3 seconds.
 
 /*!
  * \class DownloadManager
@@ -42,9 +43,6 @@
  *
  */
 
-/*!
- * \brief Constructor
- */
 DownloadManager::DownloadManager(QObject *parent) : DownloadEngine(parent)
   , m_networkManager(new NetworkManager(this))
   , m_settings(Q_NULLPTR)
@@ -160,7 +158,7 @@ void DownloadManager::saveQueue()
 }
 
 
-void DownloadManager::onQueueChanged(DownloadRange /*range*/)
+void DownloadManager::onQueueChanged(const DownloadRange &/*range*/)
 {
     onQueueChanged();
 }
@@ -178,7 +176,7 @@ void DownloadManager::onQueueChanged()
         connect(m_dirtyQueueTimer, SIGNAL(timeout()), SLOT(saveQueue()));
     }
     if (!m_dirtyQueueTimer->isActive()) {
-        m_dirtyQueueTimer->start(3000);
+        m_dirtyQueueTimer->start(msec_auto_save);
     }
 }
 

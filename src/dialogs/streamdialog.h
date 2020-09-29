@@ -32,10 +32,10 @@ public:
     ~StreamDialog() Q_DECL_OVERRIDE;
 
 private slots:
-    void on_okButton_released();
+    void onOkButtonReleased();
 
-    void onError(QString errorMessage);
-    void onCollected(QStringList extractors, QStringList descriptions);
+    void onError(const QString &errorMessage);
+    void onCollected(const QStringList &extractors, const QStringList &descriptions);
 
 private:
     Ui::StreamDialog *ui;

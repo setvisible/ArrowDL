@@ -67,7 +67,7 @@ protected:
 private:
     QPoint dragStartPosition;
 
-    QList<QueueItem*> toQueueItem(const QList<QTreeWidgetItem*> items) const;
+    QList<QueueItem*> toQueueItem(const QList<QTreeWidgetItem*> &items) const;
     QUrl urlFrom(const QueueItem *queueItem) const;
 };
 

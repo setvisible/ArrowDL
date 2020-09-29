@@ -99,9 +99,9 @@ const QString STR_COMPILER_NAME=
 ;
 
 const QString STR_CURRENT_PLATFORM = QSysInfo::prettyProductName();
-const QString STR_CURRENT_VERSION = QString("%0 (kernel: %1)")
-        .arg(QSysInfo::productVersion())
-        .arg(QSysInfo::kernelVersion());
+const QString STR_CURRENT_VERSION = QString("%0 (kernel: %1)").arg(
+            QSysInfo::productVersion(),
+            QSysInfo::kernelVersion());
 const QString STR_CURRENT_CPU = QSysInfo::currentCpuArchitecture();
 const bool IS_HOST_64BIT = STR_CURRENT_CPU.contains(QLatin1String("64"));
 

@@ -66,8 +66,8 @@ private:
     void onUpdateDownloadFinished() Q_DECL_OVERRIDE;
     void onUpdateError(QString errorMessage) Q_DECL_OVERRIDE;
 
-    static const std::function<QNetworkReply* (const QUrl&)> createNetworkGetCallback();
-    static const std::function<bool (const QString&)> createAddressMatcherCallback(bool isHost64Bit);
+    static std::function<QNetworkReply* (const QUrl&)> createNetworkGetCallback();
+    static std::function<bool (const QString &)> createAddressMatcherCallback(bool isHost64Bit);
 
     inline qint64 daysSinceLastCheck();
     inline void storeDate();

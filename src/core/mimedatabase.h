@@ -22,7 +22,7 @@
 #include <QtCore/QStringList>
 #include <QtGui/QPixmap>
 
-#define C_DEFAULT_ICON_SIZE  32
+constexpr int default_icon_size = 32;
 
 
 /*!
@@ -32,7 +32,7 @@
 class MimeDatabase
 {
 public:
-    static QPixmap fileIcon(const QUrl &url, int extend = C_DEFAULT_ICON_SIZE);
+    static QPixmap fileIcon(const QUrl &url, int extend = default_icon_size);
 
 };
 

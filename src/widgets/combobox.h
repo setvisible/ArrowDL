@@ -19,7 +19,7 @@
 
 #include <QtWidgets/QComboBox>
 
-typedef bool (*InputValidityPtr)(QString); /* function pointer */
+using InputValidityPtr = bool(*)(const QString &); /* function pointer */
 
 class ComboBox : public QComboBox
 {

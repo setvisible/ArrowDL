@@ -35,8 +35,6 @@ bool TorrentHandler::canWrite() const
 
 bool TorrentHandler::read(DownloadEngine *engine)
 {
-    qDebug() << Q_FUNC_INFO;
-
     if (!engine) {
         qWarning("TorrentHandler::read() cannot read into null pointer");
         return false;
@@ -53,7 +51,7 @@ bool TorrentHandler::read(DownloadEngine *engine)
      * and finally download the data of the file itself.
      */
     QUrl url;
-    QFile* f = static_cast<QFile*>(d);
+    auto f = dynamic_cast<QFile*>(d);
     if (f) {
         auto filename = f->fileName();
         url = QUrl(filename);

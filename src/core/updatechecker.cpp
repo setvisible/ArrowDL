@@ -138,7 +138,7 @@ void UpdateChecker::onUpdateError(QString errorMessage)
 
 /******************************************************************************
  ******************************************************************************/
-const std::function<QNetworkReply* (const QUrl&)> UpdateChecker::createNetworkGetCallback()
+std::function<QNetworkReply* (const QUrl &)> UpdateChecker::createNetworkGetCallback()
 {
     const auto networkGetCallback = [](const QUrl &url)
     {
@@ -152,7 +152,7 @@ const std::function<QNetworkReply* (const QUrl&)> UpdateChecker::createNetworkGe
 
 /******************************************************************************
  ******************************************************************************/
-const std::function<bool (const QString &)> UpdateChecker::createAddressMatcherCallback(bool isHost64Bit)
+std::function<bool (const QString &)> UpdateChecker::createAddressMatcherCallback(bool isHost64Bit)
 {
     return UpdateCheckerNS::addressMatcher(isHost64Bit);
 }

@@ -43,7 +43,7 @@ AddTorrentDialog::AddTorrentDialog(const QUrl &url, DownloadManager *downloadMan
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Add Magnet Links and Torrent")));
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Add Magnet Links and Torrent")));
 
     adjustSize();
     setFixedHeight(height());
@@ -79,11 +79,10 @@ bool AddTorrentDialog::isTorrentUrl(const QUrl &url)
 {
     if (url.scheme().toLower() == QLatin1String("magnet")) {
         return true;
-    } else {
-        QFileInfo fi(url.path());
-        if (fi.suffix().toLower() == QLatin1String("torrent")) {
-            return true;
-        }
+    }
+    QFileInfo fi(url.path());
+    if (fi.suffix().toLower() == QLatin1String("torrent")) {
+        return true;
     }
     return false;
 }

@@ -229,6 +229,6 @@ qint64 Format::parseBytes(const QString &text)
      * => Issue when the filesize is greater than 1.999 GiB...
      */
     // qint64 bytes = qCeil(decimal * multiple);
-    qint64 bytes = static_cast<qint64>(std::ceil(decimal * multiple));
+    auto bytes = static_cast<qint64>(std::ceil(decimal * multiple));
     return bytes;
 }

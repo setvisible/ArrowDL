@@ -29,9 +29,11 @@ StreamDialog::StreamDialog(QWidget *parent)
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Stream Download Info")));
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Stream Download Info")));
 
     adjustSize();
+
+    connect(ui->okButton, &QPushButton::released, this, &StreamDialog::onOkButtonReleased);
 
     ui->title->setText(QLatin1String("Youtube-DL"));
     ui->version->setText(tr("Reading..."));
@@ -55,16 +57,16 @@ StreamDialog::~StreamDialog()
 
 /******************************************************************************
  ******************************************************************************/
-void StreamDialog::on_okButton_released()
+void StreamDialog::onOkButtonReleased()
 {
-    QDialog::reject();
+    QDialog::accept();
 }
 
 /******************************************************************************
  ******************************************************************************/
 void StreamDialog::askStreamVersionAsync()
 {
-    AskStreamVersionThread *w = new AskStreamVersionThread();
+    auto w = new AskStreamVersionThread();
     connect(this, &QObject::destroyed, w, &AskStreamVersionThread::stop);
     connect(w, &AskStreamVersionThread::resultReady, ui->version, &QLabel::setText);
     connect(w, &AskStreamVersionThread::finished, w, &QObject::deleteLater);
@@ -75,7 +77,7 @@ void StreamDialog::askStreamVersionAsync()
  ******************************************************************************/
 void StreamDialog::askStreamExtractorsAsync()
 {
-    StreamExtractorListCollector *w = new StreamExtractorListCollector(this);
+    auto w = new StreamExtractorListCollector(this);
 
     connect(w, &StreamExtractorListCollector::error, this, &StreamDialog::onError);
     connect(w, &StreamExtractorListCollector::collected, this, &StreamDialog::onCollected);
@@ -84,36 +86,29 @@ void StreamDialog::askStreamExtractorsAsync()
     w->runAsync();
 }
 
-void StreamDialog::onError(QString errorMessage)
+void StreamDialog::onError(const QString &errorMessage)
 {
-    ui->plainTextEdit->setPlainText(QString("%0\n\n%1").arg(tr("Error:")).arg(errorMessage));
+    ui->plainTextEdit->setPlainText(QString("%0\n\n%1").arg(tr("Error:"), errorMessage));
     ui->plainTextEdit->setEnabled(true);
 }
 
-void StreamDialog::onCollected(QStringList extractors, QStringList descriptions)
+void StreamDialog::onCollected(const QStringList &extractors, const QStringList &descriptions)
 {
     auto count = qMin(extractors.count(), descriptions.count());
-    qDebug() << Q_FUNC_INFO << extractors.count() << descriptions.count();
-
     ui->plainTextEdit->clear();
-    ui->plainTextEdit->appendPlainText(tr("Youtube-DL supports %0 sites:")
-                                       .arg(extractors.count()));
+    ui->plainTextEdit->appendPlainText(tr("Youtube-DL supports %0 sites:").arg(extractors.count()));
     ui->plainTextEdit->appendPlainText(QLatin1String("===================="));
     ui->plainTextEdit->appendPlainText(QString());
-    ui->plainTextEdit->appendPlainText(QString("%0\t%1")
-                                       .arg(tr("Site"))
-                                       .arg(tr("Description")));
+    ui->plainTextEdit->appendPlainText(QString("%0\t%1").arg(tr("Site"), tr("Description")));
     ui->plainTextEdit->appendPlainText(QString());
     for (int i = 0; i < count; ++i) {
-        ui->plainTextEdit->appendPlainText(
-                    QString("%0\t%1")
-                    .arg(extractors.at(i))
-                    .arg(descriptions.at(i)));
+        ui->plainTextEdit->appendPlainText(QString("%0\t%1").arg(
+                                               extractors.at(i),
+                                               descriptions.at(i)));
     }
     for (int i = count, total = extractors.count(); i < total; ++i) {
-        ui->plainTextEdit->appendPlainText(
-                    QString("%0")
-                    .arg(extractors.at(i)));
+        ui->plainTextEdit->appendPlainText(QString("%0").arg(
+                                               extractors.at(i)));
     }
 
     ui->plainTextEdit->setEnabled(true);

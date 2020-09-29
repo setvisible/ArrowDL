@@ -80,11 +80,11 @@ static const QList<QString> DEFAULT_STREAM_HOST_LIST =
 {
     #include "settings_default_hosts.h.txt"
 };
-static const QString defaultStreamHost() {
+static QString defaultStreamHost() {
     return DEFAULT_STREAM_HOST_LIST.join(STREAM_HOST_SEPARATOR);
 }
 
-static const QString defaultTorrentShareFolder() {
+static QString defaultTorrentShareFolder() {
     return QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
 }
 

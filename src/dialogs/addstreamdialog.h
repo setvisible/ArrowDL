@@ -49,8 +49,8 @@ private slots:
     void onContinueClicked();
     void onChanged(QString);
 
-    void onError(QString errorMessage);
-    void onCollected(QList<StreamObject> streamObjects);
+    void onError(const QString &errorMessage);
+    void onCollected(const QList<StreamObject> &streamObjects);
 
 private:
     Ui::AddStreamDialog *ui;

@@ -23,7 +23,7 @@
 
 #include <QtCore/QDebug>
 
-#define MAX_HISTORY_COUNT 10
+constexpr int max_history_count = 10;
 
 /*!
  * \class ComboBox
@@ -36,7 +36,7 @@
 ComboBox::ComboBox(QWidget *parent) : QComboBox(parent)
 {
     setDuplicatesEnabled(false);
-    setMaxCount(MAX_HISTORY_COUNT);
+    setMaxCount(max_history_count);
 
     connect(this, SIGNAL(currentTextChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
     connect(this, SIGNAL(currentIndexChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
@@ -61,12 +61,12 @@ QStringList ComboBox::history() const
 
 void ComboBox::setHistory(const QStringList &history)
 {
-    const QString text = currentText();
+    auto text = currentText();
     clear();
-    int i = qMin(MAX_HISTORY_COUNT, history.count());
+    int i = qMin(max_history_count, history.count());
     while (i > 0) {
         i--;
-        const QString item = history.at(i);
+        auto item = history.at(i);
         addToHistory(item);
     }
     setCurrentText(text);

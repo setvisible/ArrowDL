@@ -32,7 +32,7 @@ class Torrent : public QObject
 
 public:
     explicit Torrent(QObject *parent = Q_NULLPTR);
-    ~Torrent() Q_DECL_OVERRIDE;
+    ~Torrent() Q_DECL_OVERRIDE = default;
 
     void clear();
     bool isEmpty();
@@ -50,13 +50,13 @@ public:
     QString status() const;
 
     TorrentMetaInfo metaInfo() const;
-    void setMetaInfo(TorrentMetaInfo metaInfo);
+    void setMetaInfo(const TorrentMetaInfo &metaInfo);
 
     TorrentInfo info() const;
-    void setInfo(TorrentInfo info, bool mustRefreshMetaInfo);
+    void setInfo(const TorrentInfo &info, bool mustRefreshMetaInfo);
 
     TorrentHandleInfo detail() const;
-    void setDetail(TorrentHandleInfo detail, bool mustRefreshMetaInfo);
+    void setDetail(const TorrentHandleInfo &detail, bool mustRefreshMetaInfo);
 
     int progress() const;
 
@@ -99,7 +99,6 @@ private:
     TorrentFileTableModel* m_fileModel;
     TorrentPeerTableModel* m_peerModel;
     TorrentTrackerTableModel* m_trackerModel;
-
 };
 
 /******************************************************************************
@@ -135,8 +134,8 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
-    void refreshMetaData(QList<TorrentFileMetaInfo> files);
-    void refreshData(QList<TorrentFileInfo> files);
+    void refreshMetaData(const QList<TorrentFileMetaInfo> &files);
+    void refreshData(const QList<TorrentFileInfo> &files);
     void retranslateUi();
 
 private:
@@ -168,7 +167,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
-    void refreshData(QList<TorrentPeerInfo> peers);
+    void refreshData(const QList<TorrentPeerInfo> &peers);
     void retranslateUi();
 
 private:
@@ -186,7 +185,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
-    void refreshData(QList<TorrentTrackerInfo> trackers);
+    void refreshData(const QList<TorrentTrackerInfo> &trackers);
     void retranslateUi();
 
 private:

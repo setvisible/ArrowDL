@@ -23,7 +23,7 @@
 
 namespace UpdateCheckerNS
 {
-const std::function<bool (const QString &)> addressMatcher(bool isHost64Bit)
+inline std::function<bool (const QString &)> addressMatcher(bool isHost64Bit)
 {
 #if defined _WIN32
     if (isHost64Bit) {

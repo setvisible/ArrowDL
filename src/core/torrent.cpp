@@ -36,10 +36,6 @@ Torrent::Torrent(QObject *parent) : QObject(parent)
     clear();
 }
 
-Torrent::~Torrent()
-{
-}
-
 /******************************************************************************
  ******************************************************************************/
 void Torrent::clear()
@@ -101,7 +97,7 @@ TorrentMetaInfo Torrent::metaInfo() const
     return m_metaInfo;
 }
 
-void Torrent::setMetaInfo(TorrentMetaInfo metaInfo)
+void Torrent::setMetaInfo(const TorrentMetaInfo &metaInfo)
 {
     m_metaInfo = metaInfo;
     m_fileModel->refreshMetaData(m_metaInfo.initialMetaInfo.files);
@@ -120,7 +116,7 @@ TorrentInfo Torrent::info() const
     return m_info;
 }
 
-void Torrent::setInfo(TorrentInfo info, bool mustRefreshMetaInfo)
+void Torrent::setInfo(const TorrentInfo &info, bool mustRefreshMetaInfo)
 {
     m_info = info;
     if (mustRefreshMetaInfo) {
@@ -136,7 +132,7 @@ TorrentHandleInfo Torrent::detail() const
     return m_detail;
 }
 
-void Torrent::setDetail(TorrentHandleInfo detail, bool mustRefreshMetaInfo)
+void Torrent::setDetail(const TorrentHandleInfo &detail, bool mustRefreshMetaInfo)
 {
     m_detail = detail;
     if (mustRefreshMetaInfo) {
@@ -228,10 +224,9 @@ void Torrent::setPreferredFilePriorities(const QString &priorities)
 
 /******************************************************************************
  ******************************************************************************/
-void Torrent::addPeer(const QString &input)
+void Torrent::addPeer(const QString &/*input*/)
 {
-    qDebug() << Q_FUNC_INFO << input;
-
+    qWarning("todo: addPeer() not implemented yet.");
     emit changed();
 }
 
@@ -333,9 +328,8 @@ QVariant AbstractTorrentTableModel::headerData(int section, Qt::Orientation orie
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         if (section >= 0 && section < m_headers.count()) {
             return m_headers.at(section);
-        } else {
-            return QString();
         }
+        return QString();
     }
     return QAbstractItemModel::headerData(section, orientation, role);
 }
@@ -485,13 +479,13 @@ QVariant TorrentFileTableModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void TorrentFileTableModel::refreshMetaData(QList<TorrentFileMetaInfo> files)
+void TorrentFileTableModel::refreshMetaData(const QList<TorrentFileMetaInfo> &files)
 {
     beginResetModel();
     m_filesMeta = files;
     m_files.clear();
 
-    Torrent *torrent = static_cast<Torrent*>(parent());
+    auto torrent = static_cast<Torrent*>(parent());
     if (torrent) {
         m_pieceByteSize = torrent->metaInfo().initialMetaInfo.pieceByteSize;
     }
@@ -499,10 +493,10 @@ void TorrentFileTableModel::refreshMetaData(QList<TorrentFileMetaInfo> files)
     endResetModel();
 }
 
-void TorrentFileTableModel::refreshData(QList<TorrentFileInfo> files)
+void TorrentFileTableModel::refreshData(const QList<TorrentFileInfo> &files)
 {
     m_files = files;
-    Torrent *torrent = static_cast<Torrent*>(parent());
+    auto torrent = static_cast<Torrent*>(parent());
     if (torrent) {
         m_downloadedPieces = torrent->info().downloadedPieces;
     }
@@ -595,7 +589,7 @@ QVariant TorrentPeerTableModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void TorrentPeerTableModel::refreshData(QList<TorrentPeerInfo> peers)
+void TorrentPeerTableModel::refreshData(const QList<TorrentPeerInfo> &peers)
 {    
     /// \todo  trier les peers suivant leur status: peer_info::connecting, peer_info::handshake...
 
@@ -704,7 +698,7 @@ QVariant TorrentTrackerTableModel::data(const QModelIndex &index, int role) cons
     return QVariant();
 }
 
-void TorrentTrackerTableModel::refreshData(QList<TorrentTrackerInfo> trackers)
+void TorrentTrackerTableModel::refreshData(const QList<TorrentTrackerInfo> &trackers)
 {
     if (trackers.isEmpty()) {
         return;

@@ -21,7 +21,7 @@
 #include <QtCore/QModelIndex>
 
 class IDownloadItem;
-typedef QList<IDownloadItem*> DownloadRange;
+using DownloadRange = QList<IDownloadItem *>;
 class DownloadEngine;
 class QueueItem;
 class QueueView;
@@ -32,7 +32,7 @@ class DownloadQueueView : public QWidget
     Q_OBJECT
 public:
     explicit DownloadQueueView(QWidget *parent);
-    ~DownloadQueueView() Q_DECL_OVERRIDE;
+    ~DownloadQueueView() Q_DECL_OVERRIDE = default;
 
     DownloadEngine* engine() const;
     void setEngine(DownloadEngine *downloadEngine);
@@ -56,8 +56,8 @@ protected slots:
     void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
-    void onJobAdded(DownloadRange range);
-    void onJobRemoved(DownloadRange range);
+    void onJobAdded(const DownloadRange &range);
+    void onJobRemoved(const DownloadRange &range);
     void onJobStateChanged(IDownloadItem *item);
     void onSelectionChanged();
     void onSortChanged();

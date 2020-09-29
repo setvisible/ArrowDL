@@ -28,9 +28,9 @@ class CheckableTableView : public QTableView
     Q_OBJECT
 public:
     explicit CheckableTableView(QWidget *parent);
-    ~CheckableTableView() Q_DECL_OVERRIDE;
+    ~CheckableTableView() Q_DECL_OVERRIDE = default;
 
-    void setContextMenuCallback(std::function<void (QMenu*)> callback);
+    void setContextMenuCallback(const std::function<void(QMenu*)> &callback);
 
     QList<int> columnWidths() const;
     void setColumnWidths(const QList<int> &widths);

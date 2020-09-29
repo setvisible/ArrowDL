@@ -77,7 +77,7 @@ void MimeDatabaseSingleton::init()
      * Construction of QFileIconProvider is heavy
      */
     m_fileIconProvider.setOptions(QFileIconProvider::DontUseCustomDirectoryIcons);
-    m_defaultPixmap = fileIcon(QUrl("page.html"), C_DEFAULT_ICON_SIZE);
+    m_defaultPixmap = fileIcon(QUrl("page.html"), default_icon_size);
 }
 
 /******************************************************************************
@@ -111,7 +111,7 @@ QPixmap MimeDatabaseSingleton::fileIcon(const QUrl &url, int extend)
 
         const QDir dir(QDir::tempPath());
         if (!dir.exists()) {
-            qDebug() << Q_FUNC_INFO << "Can't find: " << dir.path();
+            qWarning("Can't find: '%s'.", dir.path().toLatin1().data());
             return QPixmap();
         }
 
@@ -132,11 +132,10 @@ QPixmap MimeDatabaseSingleton::fileIcon(const QUrl &url, int extend)
         pixmap = icon.pixmap(extend);
         if (!pixmap.isNull()) {
             QPixmapCache::insert(key, pixmap);
-            qDebug() << Q_FUNC_INFO
-                     << "Cached file type:"
-                     << "key:" << key
-                     << "suffix:" << fileInfo.suffix()
-                     << "type" << m_fileIconProvider.type(tempFileInfo);
+            qInfo("Mimetype icon cached {key:'%s', suffix:'%s', type:'%s'}.",
+                  key.toLatin1().data(),
+                  fileInfo.suffix().toLatin1().data(),
+                  m_fileIconProvider.type(tempFileInfo).toLatin1().data());
         }
     }
     if (pixmap.isNull()) {

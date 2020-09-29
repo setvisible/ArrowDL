@@ -30,7 +30,7 @@ class StreamManager : public QObject
 
 public:
     explicit StreamManager(QObject *parent = nullptr);
-    ~StreamManager() Q_DECL_OVERRIDE;
+    ~StreamManager() Q_DECL_OVERRIDE = default;
 
     Settings* settings() const;
     void setSettings(Settings *settings);
@@ -45,7 +45,7 @@ private slots:
     void onSettingsChanged();
 
 private:
-    Settings *m_settings;
+    Settings *m_settings{Q_NULLPTR};
 
     void setProxySettings(Settings *settings);
 };

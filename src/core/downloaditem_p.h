@@ -30,9 +30,9 @@ class DownloadItemPrivate
 public:
     DownloadItemPrivate(DownloadItem *qq);
 
-    DownloadManager *downloadManager;
-    ResourceItem *resource;
-    QNetworkReply *reply;
+    DownloadManager *downloadManager{Q_NULLPTR};
+    ResourceItem *resource{Q_NULLPTR};
+    QNetworkReply *reply{Q_NULLPTR};
     File *file;
 
     DownloadItem *q;

@@ -130,9 +130,9 @@ private:
     void readTorrentFile(const QString &filename, Torrent *torrent);
 
     QList<TorrentSettingItem> _toPreset(const lt::settings_pack all) const;
-    static QVariant _get_str(const lt::settings_pack &pack, const int index);
-    static QVariant _get_int(const lt::settings_pack &pack, const int index);
-    static QVariant _get_bool(const lt::settings_pack &pack, const int index);
+    static QVariant _get_str(const lt::settings_pack &pack, int index);
+    static QVariant _get_int(const lt::settings_pack &pack, int index);
+    static QVariant _get_bool(const lt::settings_pack &pack, int index);
 
     void ensureDestinationPathExists(Torrent *torrent);
 };

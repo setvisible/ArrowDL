@@ -71,7 +71,6 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QCheckBox>
-#include <QtWidgets/QDesktopWidget>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QLabel>
@@ -84,10 +83,11 @@
 #  include <QtWinExtras/QWinTaskbarProgress>
 #endif
 
-#define C_DEFAULT_WIDTH    1000
-#define C_DEFAULT_HEIGHT    700
-#define C_DEFAULT_X         100
-#define C_DEFAULT_Y         100
+constexpr int default_width = 1000;
+constexpr int default_height = 700;
+constexpr int default_x = 100;
+constexpr int default_y = 100;
+constexpr int column_width = 200;
 
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
@@ -338,7 +338,7 @@ void MainWindow::createActions()
 
     ui->actionAboutQt->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_F1));
     ui->actionAboutQt->setToolTip(tr("About Qt"));
-    connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    connect(ui->actionAboutQt, SIGNAL(triggered()), QApplication::instance(), SLOT(aboutQt()));
 
     connect(ui->actionAboutCompiler, SIGNAL(triggered()), this, SLOT(aboutCompiler()));
     connect(ui->actionAboutYoutubeDL, SIGNAL(triggered()), this, SLOT(aboutStream()));
@@ -491,8 +491,8 @@ void MainWindow::copy()
 }
 
 void MainWindow::manageMirrors()
-{    
-    qDebug() << Q_FUNC_INFO << "TODO";
+{
+    qWarning("todo: manageMirrors() not implemented yet.");
 }
 
 void MainWindow::oneMoreSegment()
@@ -539,9 +539,9 @@ void MainWindow::openFile(IDownloadItem *downloadItem)
     if (!QDesktopServices::openUrl(url)) {
         QMessageBox::information(
                     this, tr("Error"),
-                    QString("%0:\n\n%1")
-                    .arg(tr("File not found"))
-                    .arg(url.toLocalFile()));
+                    QString("%0:\n\n%1").arg(
+                        tr("File not found"),
+                        url.toLocalFile()));
     }
 }
 
@@ -573,8 +573,7 @@ void MainWindow::deleteFile()
 
         msgbox.exec();
         if (msgbox.clickedButton() == deleteButton) {
-
-            qDebug() << Q_FUNC_INFO << "TODO Move to trash";
+            qWarning("todo: MoveToTrash() not implemented yet.");
         }
     }
 }
@@ -587,9 +586,9 @@ void MainWindow::openDirectory()
         if (!QDesktopServices::openUrl(url)) {
             QMessageBox::information(
                         this, tr("Error"),
-                        QString("%0\n\n%1")
-                        .arg(tr("Destination directory not found:"))
-                        .arg(url.toLocalFile()));
+                        QString("%0\n\n%1").arg(
+                            tr("Destination directory not found:"),
+                            url.toLocalFile()));
         }
     }
 }
@@ -637,7 +636,7 @@ void MainWindow::removeSelected()
 
 void MainWindow::removeDuplicates()
 {
-    qDebug() << Q_FUNC_INFO << "TODO remove Duplicates";
+    qWarning("todo: removeDuplicates() not implemented yet.");
 }
 
 void MainWindow::removeCompleted()
@@ -680,7 +679,7 @@ void MainWindow::removeRunning()
  ******************************************************************************/
 void MainWindow::handleMessage(const QString &message)
 {
-    qDebug() << Q_FUNC_INFO << message;
+    // qDebug() << Q_FUNC_INFO << message;
     const QString cleaned = InterProcessCommunication::clean(message);
     if (!cleaned.isEmpty()) {
 
@@ -758,9 +757,10 @@ void MainWindow::addContent()
     // ask for the Url
     QInputDialog dialog(this);
     dialog.setWindowTitle(tr("Website URL"));
-    dialog.setLabelText(QString("%0  %1")
-                        .arg(tr("URL of the HTML page:"))
-                        .arg(tr("(ex: %0)").arg(QLatin1String("\"https://www.site.com/folder/page\""))));
+    dialog.setLabelText(QString("%0  %1").arg(
+                            tr("URL of the HTML page:"),
+                            tr("(ex: %0)").arg(
+                                QLatin1String("\"https://www.site.com/folder/page\""))));
     dialog.setTextValue(urlFromClipboard().toString());
     dialog.setOkButtonText(tr("Start!"));
     dialog.setTextEchoMode(QLineEdit::Normal);
@@ -875,18 +875,16 @@ void MainWindow::bottom()
 
 void MainWindow::speedLimit()
 {    
-    qDebug() << Q_FUNC_INFO << "TODO";
+    qWarning("todo: speedLimit() not implemented yet.");
 }
 
 void MainWindow::addDomainSpecificLimit()
 {
-    qDebug() << Q_FUNC_INFO << "TODO";
+    qWarning("todo: addDomainSpecificLimit() not implemented yet.");
 }
 
 void MainWindow::forceStart()
 {
-    qDebug() << Q_FUNC_INFO << "TODO";
-
     foreach (auto item, m_downloadManager->selection()) {
         /// todo Maybe run the item instantly (in a higher priority queue?)
         m_downloadManager->cancel(item);
@@ -942,7 +940,7 @@ void MainWindow::aboutStream()
 
 /******************************************************************************
  ******************************************************************************/
-void MainWindow::onJobAddedOrRemoved(DownloadRange /*range*/)
+void MainWindow::onJobAddedOrRemoved(const DownloadRange &/*range*/)
 {
     refreshTitleAndStatus();
 }
@@ -968,24 +966,20 @@ void MainWindow::onSelectionChanged()
     refreshSplitter();
 }
 
-void MainWindow::onJobRenamed(QString oldName, QString newName, bool success)
+void MainWindow::onJobRenamed(const QString &oldName, const QString &newName, bool success)
 {
     if (!success) {
         const QString comment = tr("The new name is already used or invalid.");
         const QString message = newName.isEmpty()
-                ? QString("%0 \n\n%1")
-                  .arg(tr("Can't rename \"%0\" as its initial name.").arg(oldName))
-                  .arg(comment)
+                ? QString("%0 \n\n%1").arg(
+                      tr("Can't rename \"%0\" as its initial name.").arg(oldName),
+                      comment)
                 : QString("%0\n"
                           "   \"%1\"\n"
                           "%2\n"
                           "   \"%3\"\n\n"
-                          "%4")
-                  .arg(tr("Can't rename"))
-                  .arg(oldName)
-                  .arg(tr("as"))
-                  .arg(newName)
-                  .arg(comment);
+                          "%4").arg(
+                      tr("Can't rename"), oldName, tr("as"), newName, comment);
         QMessageBox::information(this, tr("File Error"), message);
     }
 }
@@ -1154,7 +1148,7 @@ void MainWindow::refreshMenus()
 void MainWindow::refreshSplitter()
 {
     if (m_downloadManager->selection().count() == 1) {
-        IDownloadItem *item = m_downloadManager->selection().first();
+        auto item = m_downloadManager->selection().first();
         DownloadTorrentItem *torrentItem = dynamic_cast<DownloadTorrentItem*>(item);
         ui->torrentWidget->setTorrent(torrentItem ? torrentItem->torrent() : Q_NULLPTR);
     } else {
@@ -1189,8 +1183,8 @@ void MainWindow::readSettings()
 {
     QSettings settings;
     if ( !isMaximized() ) {
-        const QPoint defaultPosition(C_DEFAULT_X, C_DEFAULT_Y);
-        const QSize defaultSize(C_DEFAULT_WIDTH, C_DEFAULT_HEIGHT);
+        const QPoint defaultPosition(default_x, default_y);
+        const QSize defaultSize(default_width, default_height);
         QPoint position = settings.value("Position", defaultPosition).toPoint();
         QSize size = settings.value("Size", defaultSize).toSize();
 
@@ -1288,9 +1282,9 @@ bool MainWindow::saveFile(const QString &path)
     if (!writer.write(m_downloadManager)) {
         qWarning() << tr("Can't save file.");
         QMessageBox::warning(this, tr("Error"),
-                             QString("%0\n%2")
-                             .arg(tr("Can't save file %0:").arg(path))
-                             .arg(writer.errorString()));
+                             QString("%0\n%1").arg(
+                                 tr("Can't save file %0:").arg(path),
+                                 writer.errorString()));
         return false;
     }
     this->refreshTitleAndStatus();
@@ -1307,9 +1301,9 @@ bool MainWindow::loadFile(const QString &path)
     if (!reader.read(m_downloadManager)) {
         qWarning() << tr("Can't load file.");
         QMessageBox::warning(this, tr("Error"),
-                             QString("%0\n%2")
-                             .arg(tr("Can't load file %0:").arg(path))
-                             .arg(reader.errorString()));
+                             QString("%0\n%1").arg(
+                                 tr("Can't load file %0:").arg(path),
+                                 reader.errorString()));
         return false;
     }
     this->refreshTitleAndStatus();

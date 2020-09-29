@@ -22,7 +22,8 @@ UrlLineEdit::UrlLineEdit(QWidget *parent) : QLineEdit(parent)
 {
     setPlaceholderText(tr("Enter URL to download"));
 
-    auto f = QFont("Courier", 10);
+    auto f = font();
+    f.setFamily(QLatin1String("Courier"));
     f.setStyleHint(QFont::Courier);
     setFont(f);
 }

@@ -208,7 +208,7 @@ void StreamFormatPicker::updateButtonBar()
 void StreamFormatPicker::populateSimple(const QList<StreamFormat> &formats)
 {
     bool checked = true;
-    for (auto format : formats) {
+    foreach (auto format, formats) {
         auto item = new QStandardItem(format.toString());
 
         item->setData(checked, StreamFormatPicker::CheckStateRole);
@@ -228,7 +228,7 @@ void StreamFormatPicker::populateSimple(const QList<StreamFormat> &formats)
 void StreamFormatPicker::populateComboBox(const QList<StreamFormat> &formats, QComboBox *comboBox)
 {
     comboBox->clear();
-    for (auto format : formats) {
+    foreach (auto format, formats) {
         QVariant variant;
         variant.setValue(format.formatId);
         comboBox->addItem(format.toString(), variant);
@@ -246,7 +246,7 @@ QModelIndex StreamFormatPicker::find(const StreamFormatId &id) const
             return index;
         }
     }
-    return QModelIndex();
+    return {};
 }
 
 void StreamFormatPicker::setCurrentSimple(const StreamFormatId &id)

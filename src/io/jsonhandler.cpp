@@ -46,7 +46,7 @@ bool JsonHandler::read(DownloadEngine *engine)
         return false;
     }
     QByteArray saveData = d->readAll();
-    QJsonParseError ok;
+    QJsonParseError ok{};
     QJsonDocument loadDoc( QJsonDocument::fromJson(saveData, &ok) );
 
     if (ok.error != QJsonParseError::NoError) {

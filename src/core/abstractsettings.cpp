@@ -44,7 +44,7 @@ static int stringToInt(const QString &str) { return str.toInt(); }
 
 struct AbstractSettings::SettingsItem
 {
-    AbstractSettings::KeyType keyType;
+    AbstractSettings::KeyType keyType{BOOL};
     QString key;
     QString value;
     QString defaultValue;

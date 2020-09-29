@@ -177,17 +177,18 @@ void TorrentPieceMapWorker::run()
     /* Expensive operation */
     foreach (auto peer, peers) {
         QBitArray peerAvailablePieces = peer.availablePieces;
-        if (peerAvailablePieces.size() == pieceData.size) {
+        if (peerAvailablePieces.size() != pieceData.size) {
+            qWarning("Peer has not the same number of pieces as You "
+                     "(peer:'%i', you:'%i').",
+                     peerAvailablePieces.size(),
+                     pieceData.size);
+        } else {
             for (int i = 0; i < pieceData.size; ++i) {
                 pieceData.availablePieces |= peerAvailablePieces;
                 if (peerAvailablePieces.testBit(i)) {
                     pieceData.totalPeers[i]++;
                 }
             }
-        } else {
-            qDebug() << Q_FUNC_INFO << "Not the same size!"
-                     << "expected:" << pieceData.size
-                     << "actual:" << peerAvailablePieces.size();
         }
     }
     emit resultReady(pieceData);

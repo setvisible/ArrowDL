@@ -25,18 +25,19 @@
 #include <QtGui/QPaintEvent>
 #include <QtWidgets/QApplication>
 
+constexpr int min_progress = 0;
+constexpr int max_progress = 100;
 
 /*!
  * \class TorrentProgressBar
  *
  * A 'segmented' QProgressBar.
- *
  */
 TorrentProgressBar::TorrentProgressBar(QWidget *parent) : QProgressBar(parent)
   , m_downloadedPieces(QBitArray())
 {    
-    setRange(0, 100);
-    setValue(0);
+    setRange(min_progress, max_progress);
+    setValue(min_progress);
 }
 
 /******************************************************************************
@@ -74,13 +75,13 @@ void TorrentProgressBar::paintEvent(QPaintEvent *)
     progressBarOption.direction = QApplication::layoutDirection();
     progressBarOption.rect = myOption.rect;
     progressBarOption.fontMetrics = QApplication::fontMetrics();
-    progressBarOption.minimum = 0;
-    progressBarOption.maximum = 100;
+    progressBarOption.minimum = min_progress;
+    progressBarOption.maximum = max_progress;
     progressBarOption.textAlignment = Qt::AlignCenter;
     progressBarOption.textVisible = false;
     progressBarOption.palette = myOption.palette;
     progressBarOption.progress = progress;
-    progressBarOption.color = progress < 100 ? s_green : s_darkGreen;
+    progressBarOption.color = progress < max_progress ? s_green : s_darkGreen;
     progressBarOption.icon = QIcon();
 
     progressBarOption.hasSegments = true;

@@ -25,9 +25,8 @@
 #include <QtGui/QPainter>
 #include <QtWidgets/QStyleOption>
 
-
-#define C_ICON_SIZE               16
-#define C_ICON_WIDTH              19
+constexpr int icon_size  = 16;
+constexpr int icon_width = 19;
 
 
 /*!
@@ -76,10 +75,10 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
 
             /* Draw the icon */
             if (hasIcon) {
-                int size = C_ICON_SIZE;
+                int size = icon_size;
                 int margin = (qMax(size, pb->rect.height()) - size ) / 2;
                 QRect iconRect = QRect(pb->rect.x() + margin , pb->rect.y() + margin, size, size);
-                p->drawPixmap(iconRect, pb->icon.pixmap(C_ICON_SIZE));
+                p->drawPixmap(iconRect, pb->icon.pixmap(icon_size));
             }
 
             /* Draw the progress bar */
@@ -91,7 +90,7 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
                 frameRect.setTop(frameRect.top() + marginV);
                 frameRect.setBottom(frameRect.bottom() - marginV);
                 if (hasIcon) {
-                    frameRect.setLeft(frameRect.left() + marginH + C_ICON_WIDTH);
+                    frameRect.setLeft(frameRect.left() + marginH + icon_width);
                 } else {
                     frameRect.setLeft(frameRect.left() + marginH);
                 }
@@ -102,9 +101,9 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
                 p->drawRect(frameRect);
 
                 /* Draw the progress bar indicator */
-                qint64 minimum = qint64(pb->minimum);
-                qint64 maximum = qint64(pb->maximum);
-                qint64 progress = qint64(pb->progress);
+                auto minimum = qint64(pb->minimum);
+                auto maximum = qint64(pb->maximum);
+                auto progress = qint64(pb->progress);
 
                 QColor color = pb->color;
                 QBrush brush;
@@ -161,9 +160,9 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
                     brush.setTexture(pixmap);
 
                 } else {
-                    qreal p_v = progress - minimum;
-                    qreal t_s = (maximum - minimum) ? (maximum - minimum) : qreal(1);
-                    qreal r = p_v / t_s;
+                    auto p_v = qreal(progress - minimum);
+                    auto t_s = (maximum - minimum) ? qreal(maximum - minimum) : qreal(1);
+                    auto r = qreal(p_v / t_s);
                     int w = qMax(qCeil(r * indicatorRect.width()), 1);
                     indicatorRect.setWidth(w);
                     brush.setStyle(Qt::SolidPattern);

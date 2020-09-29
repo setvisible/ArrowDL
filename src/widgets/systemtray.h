@@ -61,11 +61,11 @@ private slots:
     void onSettingsChanged();
 
 private:
-    Settings *m_settings;
+    Settings *m_settings{Q_NULLPTR};
     QSystemTrayIcon *m_trayIcon;
-    QAction* m_titleAction;
-    QAction* m_restoreAction;
-    QAction* m_hideWhenMinimizedAction;
+    QAction* m_titleAction{Q_NULLPTR};
+    QAction* m_restoreAction{Q_NULLPTR};
+    QAction* m_hideWhenMinimizedAction{Q_NULLPTR};
 
     void retranslateUi();
 };

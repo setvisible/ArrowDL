@@ -40,10 +40,14 @@
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTableView>
 
-#define C_COLUMN_MINIMUM_WIDTH       10
-#define C_COLUMN_DEFAULT_WIDTH      100
-#define C_ROW_DEFAULT_HEIGHT         18
+constexpr int column_minimum_width = 10;
+constexpr int column_default_width = 100;
+constexpr int row_default_height = 18;
 
+constexpr int min_progress = 0;
+constexpr int max_progress = 100;
+
+constexpr int version_marker = 0xff;
 
 /******************************************************************************
  ******************************************************************************/
@@ -61,7 +65,7 @@ public:
     }
 
     int width(int index) const {
-        return (index >= 0 && index < d.count()) ? d.at(index).first : 100;
+        return (index >= 0 && index < d.count()) ? d.at(index).first : column_default_width;
     }
 
     QList<int> widths() const
@@ -151,8 +155,8 @@ void FileTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
         progressBarOption.direction = QApplication::layoutDirection();
         progressBarOption.rect = myOption.rect;
         progressBarOption.fontMetrics = QApplication::fontMetrics();
-        progressBarOption.minimum = 0;
-        progressBarOption.maximum = 100;
+        progressBarOption.minimum = min_progress;
+        progressBarOption.maximum = max_progress;
         progressBarOption.textAlignment = Qt::AlignCenter;
         progressBarOption.textVisible = false;
         progressBarOption.palette = myOption.palette;
@@ -200,8 +204,8 @@ void PeerTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
         progressBarOption.direction = QApplication::layoutDirection();
         progressBarOption.rect = myOption.rect;
         progressBarOption.fontMetrics = QApplication::fontMetrics();
-        progressBarOption.minimum = 0;
-        progressBarOption.maximum = 100;
+        progressBarOption.minimum = min_progress;
+        progressBarOption.maximum = max_progress;
         progressBarOption.textAlignment = Qt::AlignCenter;
         progressBarOption.textVisible = false;
         progressBarOption.palette = myOption.palette;
@@ -329,7 +333,7 @@ QByteArray TorrentWidget::saveState(int version) const
 {
     QByteArray data;
     QDataStream stream(&data, QIODevice::WriteOnly);
-    stream << 0xff; // VersionMarker
+    stream << version_marker;
     stream << version;
     stream << ui->tabWidget->currentIndex();
     stream << m_fileColumnsWidths;
@@ -345,10 +349,11 @@ bool TorrentWidget::restoreState(const QByteArray &state, int version)
     }
     QByteArray sd = state;
     QDataStream stream(&sd, QIODevice::ReadOnly);
-    int marker, v;
+    int marker;
+    int v;
     stream >> marker;
     stream >> v;
-    if (stream.status() != QDataStream::Ok || marker != 0xff || v != version) {
+    if (stream.status() != QDataStream::Ok || marker != version_marker || v != version) {
         return false;
     }
     int currentTabIndex = 0;
@@ -391,11 +396,11 @@ void TorrentWidget::setupUiTableView(QTableView *view)
     view->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
     view->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     view->verticalHeader()->setHighlightSections(false);
-    view->verticalHeader()->setDefaultSectionSize(C_ROW_DEFAULT_HEIGHT);
-    view->verticalHeader()->setMinimumSectionSize(C_ROW_DEFAULT_HEIGHT);
+    view->verticalHeader()->setDefaultSectionSize(row_default_height);
+    view->verticalHeader()->setMinimumSectionSize(row_default_height);
     view->horizontalHeader()->setHighlightSections(false);
-    view->horizontalHeader()->setDefaultSectionSize(C_COLUMN_DEFAULT_WIDTH);
-    view->horizontalHeader()->setMinimumSectionSize(C_COLUMN_MINIMUM_WIDTH);
+    view->horizontalHeader()->setDefaultSectionSize(column_default_width);
+    view->horizontalHeader()->setMinimumSectionSize(column_minimum_width);
     view->verticalHeader()->setVisible(false);
 }
 
@@ -463,7 +468,7 @@ void TorrentWidget::setupInfoCopy(QLabel *label, QFrame *buddy)
 
 void TorrentWidget::copy()
 {
-    QAction *copyAction = qobject_cast<QAction*>(sender());
+    auto copyAction = qobject_cast<QAction*>(sender());
     if (!copyAction) {
         return;
     }
@@ -496,7 +501,7 @@ void TorrentWidget::setupContextMenus()
  ******************************************************************************/
 void TorrentWidget::showContextMenuFileTable(const QPoint &/*pos*/)
 {
-    QMenu *contextMenu = new QMenu(this);
+    auto contextMenu = new QMenu(this);
 
     QAction actionOpen(tr("Open"), contextMenu);
     QAction actionOpenFolder(tr("Open Containing Folder"), contextMenu);
@@ -585,19 +590,17 @@ TorrentFileInfo::Priority TorrentWidget::assessPriority(int row, int count)
     if (count < 3) {
         return TorrentFileInfo::Normal;
     }
-    int pos = 100 * (row + 1) / count;
-    if (pos < 33) {
+    qreal pos = qreal(row + 1) / count;
+    if (pos < 0.3333) {
         return TorrentFileInfo::High;
-    } else if (pos < 66) {
+    } else if (pos < 0.6666) {
         return TorrentFileInfo::Normal;
-    } else {
-        return TorrentFileInfo::Low;
     }
+    return TorrentFileInfo::Low;
 }
 
 void TorrentWidget::setPriority(TorrentFileInfo::Priority priority)
 {
-    qDebug() << Q_FUNC_INFO << priority;
     if (!m_torrentContext) {
         return;
     }
@@ -644,7 +647,6 @@ void TorrentWidget::addPeer()
 
 void TorrentWidget::copyPeerList()
 {
-    qDebug() << Q_FUNC_INFO;
     QStringList addresses;
     foreach (const TorrentPeerInfo &peer, m_torrent->detail().peers) {
         addresses << peer.endpoint.toString();
@@ -811,34 +813,34 @@ void TorrentWidget::updateTorrentPage()
     const TorrentMetaInfo &mi = m_torrent->metaInfo();
     const TorrentInfo &ti = m_torrent->info();
 
-    auto wasted         = tr("%0 (%1 hashfails)")
-            .arg(Format::fileSizeToString(ti.bytesFailed + ti.bytesRedundant))
-            .arg(Format::fileSizeToString(ti.bytesFailed));
+    auto wasted = tr("%0 (%1 hashfails)").arg(
+                Format::fileSizeToString(ti.bytesFailed + ti.bytesRedundant),
+                Format::fileSizeToString(ti.bytesFailed));
 
-    auto downloaded     = tr("%0 (total %1)")
-            .arg(Format::fileSizeToString(ti.bytesSessionDownloaded))
-            .arg(Format::fileSizeToString(ti.bytesSessionDownloaded + mi.bytesTotalDownloaded));
+    auto downloaded = tr("%0 (total %1)").arg(
+                Format::fileSizeToString(ti.bytesSessionDownloaded),
+                Format::fileSizeToString(ti.bytesSessionDownloaded + mi.bytesTotalDownloaded));
 
-    auto uploaded       = tr("%0 (total %1)")
-            .arg(Format::fileSizeToString(ti.bytesSessionUploaded))
-            .arg(Format::fileSizeToString(ti.bytesSessionUploaded + mi.bytesTotalUploaded));
+    auto uploaded = tr("%0 (total %1)").arg(
+                Format::fileSizeToString(ti.bytesSessionUploaded),
+                Format::fileSizeToString(ti.bytesSessionUploaded + mi.bytesTotalUploaded));
 
-    auto seeds          = tr("%0 of %1 connected (%2 in swarm)")
-            .arg(text(ti.connectedSeedsCount))
-            .arg(text(ti.seedsCount))
-            .arg(text(mi.seedsInSwarm));
+    auto seeds = tr("%0 of %1 connected (%2 in swarm)").arg(
+                text(ti.connectedSeedsCount),
+                text(ti.seedsCount),
+                text(mi.seedsInSwarm));
 
-    auto peers          = tr("%0 of %1 connected (%2 in swarm)")
-            .arg(text(ti.connectedPeersCount))
-            .arg(text(ti.peersCount))
-            .arg(text(mi.peersInSwarm));
+    auto peers = tr("%0 of %1 connected (%2 in swarm)").arg(
+                text(ti.connectedPeersCount),
+                text(ti.peersCount),
+                text(mi.peersInSwarm));
 
-    auto shareRatio     = text(QString("0.000"));
-    auto status         = text(m_torrent ? m_torrent->status() : QString());
+    auto shareRatio = text(QString("0.000"));
+    auto status = text(m_torrent ? m_torrent->status() : QString());
 
-    auto pieces         = tr("%0 x %1")
-            .arg(text(mi.initialMetaInfo.pieceCount))
-            .arg(Format::fileSizeToString(mi.initialMetaInfo.pieceByteSize));
+    auto pieces = tr("%0 x %1").arg(
+                text(mi.initialMetaInfo.pieceCount),
+                Format::fileSizeToString(mi.initialMetaInfo.pieceByteSize));
 
 
     // GroupBox Transfer
@@ -893,7 +895,7 @@ void TorrentWidget::setColumnWidths(QTableView *view, const QList<int> &widths)
                 auto width = widths.at(column);
                 view->setColumnWidth(column, width);
             } else {
-                view->setColumnWidth(column, C_COLUMN_DEFAULT_WIDTH);
+                view->setColumnWidth(column, column_default_width);
             }
         }
     }

@@ -24,9 +24,9 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMenu>
 
-#define C_VERTICAL_HEADER_WIDTH    22
-#define C_COLUMN_DEFAULT_WIDTH    100
-#define C_COLUMN_MAX_WIDTH       1000
+constexpr int vertical_header_width = 22;
+constexpr int column_default_width = 100;
+constexpr int column_max_width = 1000;
 
 
 CheckableTableView::CheckableTableView(QWidget *parent) : QTableView(parent) 
@@ -45,7 +45,7 @@ CheckableTableView::CheckableTableView(QWidget *parent) : QTableView(parent)
 
     QHeaderView *vHeader = verticalHeader();
     vHeader->setSectionResizeMode(QHeaderView::Fixed);
-    vHeader->setDefaultSectionSize(C_VERTICAL_HEADER_WIDTH);
+    vHeader->setDefaultSectionSize(vertical_header_width);
     vHeader->setVisible(false);
 
     QHeaderView *hHeader = horizontalHeader();
@@ -60,13 +60,9 @@ CheckableTableView::CheckableTableView(QWidget *parent) : QTableView(parent)
             this, SLOT(showContextMenu(const QPoint &)));
 }
 
-CheckableTableView::~CheckableTableView()
-{
-}
-
 /******************************************************************************
  ******************************************************************************/
-void CheckableTableView::setContextMenuCallback(std::function<void(QMenu*)> callback)
+void CheckableTableView::setContextMenuCallback(const std::function<void(QMenu*)> &callback)
 {
     m_contextMenuCallback = callback;
 }
@@ -97,12 +93,12 @@ void CheckableTableView::setColumnWidths(const QList<int> &widths)
                 setColumnWidth(column, CheckableItemDelegate::widthHint());
             } else if (column > 0 && column < widths.count()) {
                 int width = widths.at(column);
-                if (width < 0 || width > C_COLUMN_MAX_WIDTH) {
-                    width =  C_COLUMN_DEFAULT_WIDTH;
+                if (width < 0 || width > column_max_width) {
+                    width =  column_default_width;
                 }
                 setColumnWidth(column, width);
             } else {
-                setColumnWidth(column, C_COLUMN_DEFAULT_WIDTH);
+                setColumnWidth(column, column_default_width);
             }
         }
     }

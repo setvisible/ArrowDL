@@ -106,7 +106,7 @@ QMap<QString, QVariant> AdvancedSettingsWidget::torrentSettings() const
 
 void AdvancedSettingsWidget::setTorrentSettings(const QMap<QString, QVariant> &map)
 {
-    foreach (QString key, map.keys()) {
+    foreach (auto key, map.keys()) {
         QVariant value = map.value(key);
         setValue(findItem(key), value);
     }
@@ -130,7 +130,7 @@ QVector<int> AdvancedSettingsWidget::bandwidthSettings() const
     return settings;
 }
 
-void AdvancedSettingsWidget::setBandwidthSettings(QVector<int> settings)
+void AdvancedSettingsWidget::setBandwidthSettings(const QVector<int> &settings)
 {
     setValue(findItem(TorrentContext::upload_rate_limit()  ), settings.at(0));
     setValue(findItem(TorrentContext::download_rate_limit()), settings.at(1));
@@ -276,7 +276,7 @@ void AdvancedSettingsWidget::populate()
     const QList<TorrentSettingItem> &params
             = TorrentContext::getInstance().allSettingsKeysAndValues();
     foreach (auto param, params) {
-        QTreeWidgetItem* item = new QTreeWidgetItem(ui->treeWidget);
+        auto item = new QTreeWidgetItem(ui->treeWidget);
         setKey(item, param.key, param.displayKey);
         setValue(item, param.value);
         setDefaultValue(item, param.defaultValue);
@@ -346,7 +346,7 @@ inline QTreeWidgetItem* AdvancedSettingsWidget::findItem(const QString &key) con
             return item;
         }
     }
-    qDebug() << Q_FUNC_INFO << "Can't find setting with key:" << key;
+    qWarning("Can't find setting key '%s'.", key.toLatin1().data());
     return Q_NULLPTR;
 }
 

@@ -15,11 +15,3 @@
  * \variable CustomStyleOptionProgressBar::icon
  * \brief the icon for the progress bar
  */
-
-CustomStyleOptionProgressBar::CustomStyleOptionProgressBar()
-    : QStyleOptionProgressBar()
-    , color(Qt::blue)
-    , icon(QIcon())
-    , hasSegments(false)
-{
-}

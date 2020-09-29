@@ -26,16 +26,12 @@
 
 
 SystemTray::SystemTray(QWidget *parent) : QWidget(parent)
-  , m_settings(Q_NULLPTR)
   , m_trayIcon(new QSystemTrayIcon(this))
-  , m_titleAction(Q_NULLPTR)
-  , m_restoreAction(Q_NULLPTR)
-  , m_hideWhenMinimizedAction(Q_NULLPTR)
 {
     Q_ASSERT(parent);
 
     if (!QSystemTrayIcon::isSystemTrayAvailable()) {
-        qDebug() << Q_FUNC_INFO << "System Tray Icon not supported.";
+        qWarning("System Tray Icon not supported.");
     }
 
     connect(m_trayIcon, &QSystemTrayIcon::activated,
