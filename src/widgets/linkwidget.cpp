@@ -56,15 +56,16 @@ class LinkWidgetItemDelegate : public CheckableItemDelegate
     Q_OBJECT
 
 public:
-    explicit LinkWidgetItemDelegate(QObject *parent = Q_NULLPTR)
-        : CheckableItemDelegate(parent)
-    {}
-
-    ~LinkWidgetItemDelegate() Q_DECL_OVERRIDE {}
+    explicit LinkWidgetItemDelegate(QObject *parent = Q_NULLPTR);
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const Q_DECL_OVERRIDE;
 };
+
+LinkWidgetItemDelegate::LinkWidgetItemDelegate(QObject *parent)
+    : CheckableItemDelegate(parent)
+{
+}
 
 void LinkWidgetItemDelegate::paint(QPainter *painter,
                                    const QStyleOptionViewItem &option,

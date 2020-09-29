@@ -62,13 +62,15 @@ void TorrentProgressBar::paintEvent(QPaintEvent *)
     CustomStyleOptionProgressBar myOption;
     initStyleOption(&myOption);
 
+    myOption.palette.setColor(QPalette::All, QPalette::Window, s_white);
+    myOption.palette.setColor(QPalette::All, QPalette::WindowText, s_black);
     myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
     myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
 
     const int progress = value();
 
     CustomStyleOptionProgressBar progressBarOption;
-    progressBarOption.state = QStyle::State_Enabled;
+    progressBarOption.state = myOption.state;
     progressBarOption.direction = QApplication::layoutDirection();
     progressBarOption.rect = myOption.rect;
     progressBarOption.fontMetrics = QApplication::fontMetrics();
@@ -76,8 +78,7 @@ void TorrentProgressBar::paintEvent(QPaintEvent *)
     progressBarOption.maximum = 100;
     progressBarOption.textAlignment = Qt::AlignCenter;
     progressBarOption.textVisible = false;
-    progressBarOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
-    progressBarOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
+    progressBarOption.palette = myOption.palette;
     progressBarOption.progress = progress;
     progressBarOption.color = progress < 100 ? s_green : s_darkGreen;
     progressBarOption.icon = QIcon();

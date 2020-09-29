@@ -25,7 +25,6 @@ class CheckableItemDelegate : public QStyledItemDelegate
 
 public:
     explicit CheckableItemDelegate(QObject *parent = Q_NULLPTR);
-    ~CheckableItemDelegate() Q_DECL_OVERRIDE {}
 
     // painting
     void paint(QPainter *painter, const QStyleOptionViewItem &option,

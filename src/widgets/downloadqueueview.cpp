@@ -201,6 +201,8 @@ void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
         myOption.font.setBold(true);
     }
 
+    myOption.palette.setColor(QPalette::All, QPalette::Window, s_white);
+    myOption.palette.setColor(QPalette::All, QPalette::WindowText, s_black);
     myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
     myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
 
@@ -222,7 +224,7 @@ void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
         auto state = static_cast<IDownloadItem::State>(index.data(QueueItem::StateRole).toInt());
 
         CustomStyleOptionProgressBar progressBarOption;
-        progressBarOption.state = QStyle::State_Enabled;
+        progressBarOption.state = myOption.state;
         progressBarOption.direction = QApplication::layoutDirection();
         progressBarOption.rect = myOption.rect;
         progressBarOption.fontMetrics = QApplication::fontMetrics();
@@ -230,15 +232,14 @@ void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
         progressBarOption.maximum = 100;
         progressBarOption.textAlignment = Qt::AlignCenter;
         progressBarOption.textVisible = false;
-        progressBarOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
-        progressBarOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
+        progressBarOption.palette = myOption.palette;
         progressBarOption.progress = progress;
         progressBarOption.color = stateColor(state);
         progressBarOption.icon = stateIcon(state);
 
         QApplication::style()->drawControl(QStyle::CE_ProgressBar, &progressBarOption, painter);
     } else {
-        QStyledItemDelegate::paint(painter, option, index);
+        QStyledItemDelegate::paint(painter, myOption, index);
     }
 }
 
