@@ -43,7 +43,6 @@ struct TorrentPieceData
     QBitArray verifiedPieces;
     QVector<int> totalPeers;
 };
-Q_DECLARE_METATYPE(TorrentPieceData)
 
 class TorrentPieceMap : public QWidget
 {

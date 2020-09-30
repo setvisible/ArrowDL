@@ -24,7 +24,7 @@
 
 class IDownloadItem;
 
-typedef QList<IDownloadItem*> DownloadRange;
+using DownloadRange = QList<IDownloadItem *>;
 
 class DownloadEngine : public QObject
 {
@@ -104,7 +104,7 @@ public slots:
 private slots:
     void onChanged();
     void onFinished();
-    void onRenamed(QString oldName, QString newName, bool success);
+    void onRenamed(const QString &oldName, const QString &newName, bool success);
     void startNext(IDownloadItem *item);
 
 private slots:

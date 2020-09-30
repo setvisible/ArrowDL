@@ -23,9 +23,6 @@
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 
-FileReader::FileReader()
-{
-}
 
 FileReader::FileReader(QIODevice *device)
     : m_device(device)
@@ -39,8 +36,7 @@ FileReader::FileReader(const QString &fileName)
 
 FileReader::~FileReader()
 {
-    if (m_device)
-        delete m_device;
+    delete m_device;
 }
 
 /******************************************************************************

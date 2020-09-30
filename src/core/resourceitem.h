@@ -82,7 +82,7 @@ public:
     void setTorrentPreferredFilePriorities(const QString &priorities);
 
 private:
-    Type m_type;
+    Type m_type{Type::Regular};
     QString m_url;              // QUrl ?
     QString m_destination;      // QDir ?
     QString m_mask;             // Mask ?
@@ -97,7 +97,7 @@ private:
     /* Stream-specific properties */
     QString m_streamFileName;
     QString m_streamFormatId;
-    qint64 m_streamFileSize;
+    qint64 m_streamFileSize{0};
 
     /* Torrent-specific properties */
     QString m_torrentPreferredFilePriorities;

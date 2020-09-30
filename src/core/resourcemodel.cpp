@@ -142,9 +142,8 @@ QVariant ResourceModel::headerData(int section, Qt::Orientation orientation, int
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         if (section >= 0 && section < m_headers.count()) {
             return m_headers.at(section);
-        } else {
-            return QVariant();
         }
+        return QVariant();
     }
     return QAbstractItemModel::headerData(section, orientation, role);
 }

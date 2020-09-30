@@ -19,7 +19,7 @@ public:
     ~CompilerDialog() Q_DECL_OVERRIDE;
 
 private slots:
-    void on_okButton_released();
+    void onOkButtonReleased();
 
 private:
     Ui::CompilerDialog *ui;

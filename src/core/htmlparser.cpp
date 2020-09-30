@@ -88,15 +88,6 @@ static ResourceItem* createResourceItem(const GumboElement &element, const QUrl 
         fullfilename = QDir::toNativeSeparators(fullfilename);
     }
 
-    QFileInfo fi(fullfilename);
-    QString baseName = fi.baseName();
-    QString extension = fi.completeSuffix();
-
-   // QString fileName = fi.fileName();
-
-    QString fileName = url3.fileName();
-
-
     QString titles = title ? QString(title->value) : QString();
     QString alts = alt ? QString(alt->value) : QString();
 

@@ -23,9 +23,6 @@
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 
-FileWriter::FileWriter()
-{
-}
 
 FileWriter::FileWriter(QIODevice *device)
     : m_device(device)

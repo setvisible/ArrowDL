@@ -27,8 +27,8 @@
 
 #include <algorithm> /* std::sort */
 
-#define C_COLUMN_ID_WIDTH         10
-#define C_COLUMN_NAME_WIDTH      200
+constexpr int column_id_width = 10;
+constexpr int column_name_width = 200;
 
 
 /******************************************************************************
@@ -53,7 +53,7 @@ public:
         : CheckableItemDelegate(parent)
     {}
 
-    ~StreamListItemDelegate() Q_DECL_OVERRIDE {}
+    ~StreamListItemDelegate() Q_DECL_OVERRIDE = default;
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const Q_DECL_OVERRIDE;
@@ -88,7 +88,7 @@ StreamListWidget::StreamListWidget(QWidget *parent) : QWidget(parent)
     ui->playlistView->setItemDelegate(new StreamListItemDelegate(ui->playlistView));
     ui->playlistView->setModel(m_playlistModel);
 
-    QList<int> defaultWidths = {-1, C_COLUMN_ID_WIDTH, C_COLUMN_NAME_WIDTH, -1, -1, -1};
+    QList<int> defaultWidths = {-1, column_id_width, column_name_width, -1, -1, -1};
     setColumnWidths(defaultWidths);
 
     adjustSize();
@@ -184,7 +184,7 @@ void StreamListWidget::setMessageWait()
     m_playlistModel->clear();
 }
 
-void StreamListWidget::setMessageError(QString errorMessage)
+void StreamListWidget::setMessageError(const QString &errorMessage)
 {
     setState(StreamListWidget::Error);
     ui->errorMessageLabel->setText(errorMessage);
@@ -193,12 +193,12 @@ void StreamListWidget::setMessageError(QString errorMessage)
 
 /******************************************************************************
  ******************************************************************************/
-void StreamListWidget::setStreamObjects(StreamObject streamObject)
+void StreamListWidget::setStreamObjects(const StreamObject &streamObject)
 {
     setStreamObjects(QList<StreamObject>() << streamObject);
 }
 
-void StreamListWidget::setStreamObjects(QList<StreamObject> streamObjects)
+void StreamListWidget::setStreamObjects(const QList<StreamObject> &streamObjects)
 {
     setState(StreamListWidget::Normal);
     m_playlistModel->setStreamObjects(streamObjects);
@@ -247,7 +247,7 @@ void StreamListWidget::onSelectionChanged(const QItemSelection &, const QItemSel
     }
 }
 
-void StreamListWidget::onStreamObjectChanged(StreamObject streamObject)
+void StreamListWidget::onStreamObjectChanged(const StreamObject &streamObject)
 {
     auto selectedRows = ui->playlistView->selectionModel()->selectedRows(0);
     if (selectedRows.count() == 1) {
@@ -256,7 +256,7 @@ void StreamListWidget::onStreamObjectChanged(StreamObject streamObject)
     }
 }
 
-void StreamListWidget::onCheckStateChanged(QModelIndex index, bool checked)
+void StreamListWidget::onCheckStateChanged(const QModelIndex &index, bool checked)
 {
     if (checked) {
         auto streamObject = m_playlistModel->itemAt(index.row());
@@ -337,7 +337,7 @@ void StreamTableModel::retranslateUi()
             << tr("Format");
 }
 
-void StreamTableModel::setStreamObjects(QList<StreamObject> streamObjects)
+void StreamTableModel::setStreamObjects(const QList<StreamObject> &streamObjects)
 {
     clear();
     if (!streamObjects.isEmpty()) {
@@ -411,9 +411,8 @@ QVariant StreamTableModel::headerData(int section, Qt::Orientation orientation, 
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         if (section >= 0 && section < m_headers.count()) {
             return m_headers.at(section);
-        } else {
-            return QVariant();
         }
+        return QVariant();
     }
     return QAbstractItemModel::headerData(section, orientation, role);
 }
@@ -463,9 +462,8 @@ QString StreamTableModel::filenameOrErrorMessage(const StreamObject &streamObjec
 {
     if (streamObject.isAvailable()) {
         return streamObject.fullFileName();
-    } else {
-        return QString("[%0]").arg(tr("Video unavailable"));
     }
+    return QString("[%0]").arg(tr("Video unavailable"));
 }
 
 #include "streamlistwidget.moc"

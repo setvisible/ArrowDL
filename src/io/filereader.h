@@ -36,7 +36,7 @@ public:
         InvalidDataError
     };
 
-    FileReader();
+    FileReader() = default;
     explicit FileReader(QIODevice *device);
     explicit FileReader(const QString &fileName);
     ~FileReader();
@@ -50,7 +50,7 @@ public:
 
 private:
     /* Device */
-    QIODevice *m_device = Q_NULLPTR;
+    QIODevice *m_device{Q_NULLPTR};
     IFileHandlerPtr m_handler;
 
     bool initHandler();

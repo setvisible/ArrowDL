@@ -72,12 +72,12 @@ public:
         UnknownError
     };
 
-    TorrentError() {}
+    TorrentError() = default;
     explicit TorrentError(Type _type, int _fileIndex = -1)
         : type(_type), fileIndex(_fileIndex), message(QString()) {}
 
-    Type type = NoError;
-    int fileIndex = -1;
+    Type type{NoError};
+    int fileIndex{-1};
     QString message;
 };
 
@@ -89,11 +89,11 @@ public:
     QString ip;
     int port = 0;
 
-    EndPoint() {}
-    EndPoint(QString _ip, int _port) : ip(_ip), port(_port)
+    EndPoint() = default;
+    EndPoint(const QString &_ip, int _port) : ip(_ip), port(_port)
     {
     }
-    EndPoint(QString input)
+    EndPoint(const QString &input)
     {
         fromString(input);
     }
@@ -178,9 +178,9 @@ public:
         case Ignore:    return QObject::tr("ignore");
         case Low:       return QObject::tr("low");
         case High:      return QObject::tr("high");
-        // case Normal:
-        default:        return QObject::tr("normal");
+        case Normal:    return QObject::tr("normal");
         }
+        Q_UNREACHABLE();
     }
 
     qint64 bytesReceived = 0;
@@ -245,8 +245,9 @@ public:
         return ret;
     }
 
-    TorrentPeerInfo() {}
-    TorrentPeerInfo(EndPoint _endpoint, QString _userAgent) : endpoint(_endpoint), userAgent(_userAgent) {}
+    TorrentPeerInfo() = default;
+    TorrentPeerInfo(const EndPoint &_endpoint, const QString &_userAgent)
+        : endpoint(_endpoint), userAgent(_userAgent) {}
 
     EndPoint endpoint;
     QString userAgent;
@@ -292,12 +293,12 @@ public:
         case Client:          return QObject::tr("program settings");
         case MagnetLink:      return QObject::tr("magnet link");
         case TrackerExchange: return QObject::tr("tracker exchange");
-        case NoSource:
-        default:              return QObject::tr("no source");
+        case NoSource:        return QObject::tr("no source");
         }
+        Q_UNREACHABLE();
     }
 
-    TorrentTrackerInfo(QString _url) : url(_url) {}
+    TorrentTrackerInfo(const QString &_url) : url(_url) {}
 
     QString url;
     QString trackerId; // '&trackerid=' argument passed to the tracker
@@ -307,7 +308,7 @@ public:
     int tier = 0;
     int failLimit = 0; // 0 means unlimited
     Source source = NoSource;
-    bool isVerified = 0;
+    bool isVerified = false;
 };
 
 /******************************************************************************
@@ -321,11 +322,9 @@ public:
     int maxUploads = -1; // -1 means unlimited
     int maxConnections = -1;
 
-
     QList<TorrentFileInfo> files;
     QList<TorrentPeerInfo> peers;
     QList<TorrentTrackerInfo> trackers;
-
 
     QList<QString> httpSeeds; // if not empty, this list overrides the ones given in .torrent file
     QList<QString> urlSeeds; /// \todo unify seeds QLists
@@ -358,13 +357,29 @@ public:
         case TorrentInfo::seeding                : return QObject::tr("Seeding...");
         case TorrentInfo::allocating             : return QObject::tr("Allocating...");
         case TorrentInfo::checking_resume_data   : return QObject::tr("Checking Resume Data...");
-        default: return QString();
         }
+        Q_UNREACHABLE();
+    }
+
+    /*! C string for printf() */
+    const char* torrentState_c_str() const
+    {
+        switch (state) {
+        case TorrentInfo::stopped                : return QLatin1String("Stopped").data();
+        case TorrentInfo::checking_files         : return QLatin1String("Checking files").data();
+        case TorrentInfo::downloading_metadata   : return QLatin1String("Downloading metadata").data();
+        case TorrentInfo::downloading            : return QLatin1String("Downloaded").data();
+        case TorrentInfo::finished               : return QLatin1String("Finished").data();
+        case TorrentInfo::seeding                : return QLatin1String("Seeding").data();
+        case TorrentInfo::allocating             : return QLatin1String("Allocating").data();
+        case TorrentInfo::checking_resume_data   : return QLatin1String("Checking resume data").data();
+        }
+        Q_UNREACHABLE();
     }
 
     TorrentError error;
 
-    TorrentState state;
+    TorrentState state{stopped};
 
     QString lastWorkingTrackerUrl;
 
@@ -462,8 +477,8 @@ public:
 class TorrentNodeInfo
 {
 public:
-    TorrentNodeInfo() {}
-    explicit TorrentNodeInfo(QString _host, int _port)
+    TorrentNodeInfo() = default;
+    explicit TorrentNodeInfo(const QString &_host, int _port)
         : host(_host), port(_port)
     {}
     QString host;
@@ -584,7 +599,7 @@ public:
 
 /******************************************************************************
  ******************************************************************************/
-typedef QString UniqueId;
+using UniqueId = QString;
 
 struct TorrentData
 {

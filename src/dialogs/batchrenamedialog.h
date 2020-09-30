@@ -19,6 +19,7 @@
 
 #include <QtCore/QList>
 #include <QtWidgets/QDialog>
+#include <QtWidgets/QStyledItemDelegate>
 
 class IDownloadItem;
 class DownloadItem;
@@ -54,6 +55,15 @@ private:
 
     void readSettings();
     void writeSettings();
+};
+
+class PopupItemDelegate: public QStyledItemDelegate
+{
+    Q_OBJECT
+public:
+    using QStyledItemDelegate::QStyledItemDelegate;
+
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE;
 };
 
 #endif // DIALOGS_BATCH_RENAME_DIALOG_H

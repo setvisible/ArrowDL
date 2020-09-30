@@ -28,7 +28,7 @@ HomeDialog::HomeDialog(QWidget *parent) : QDialog(parent)
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Getting Started")));
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Getting Started")));
 
     adjustSize();
     setFixedSize(size());

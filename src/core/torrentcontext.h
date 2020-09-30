@@ -51,7 +51,7 @@ class TorrentContext : public QObject, public ITorrentContext
     // before deleted status
 private:
     TorrentContext();
-    ~TorrentContext() Q_DECL_OVERRIDE;
+    ~TorrentContext() Q_DECL_OVERRIDE = default;
 public:
     TorrentContext(TorrentContext const&) = delete; // Don't Implement
     void operator=(TorrentContext const&) = delete; // Don't implement

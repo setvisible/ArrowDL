@@ -39,10 +39,12 @@ CompilerDialog::CompilerDialog(QWidget *parent)
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Info")));
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Info")));
 
     adjustSize();
     setFixedSize(size());
+
+    connect(ui->okButton, &QPushButton::released, this, &CompilerDialog::onOkButtonReleased);
 
     auto version = tr("%0 %1 version %2").arg(STR_APPLICATION_NAME,
                                               STR_COMPILER_WORDSIZE,
@@ -103,7 +105,7 @@ CompilerDialog::CompilerDialog(QWidget *parent)
     try {
         populateOpenSSL();
     } catch (...) {
-        qDebug() << Q_FUNC_INFO << "Catch library exception";
+        qWarning("CompilerDialog: OpenSSL library fatal error.");
     }
 }
 
@@ -114,16 +116,16 @@ CompilerDialog::~CompilerDialog()
 
 /******************************************************************************
  ******************************************************************************/
-void CompilerDialog::on_okButton_released()
+void CompilerDialog::onOkButtonReleased()
 {
-    QDialog::reject();
+    QDialog::accept();
 }
 
 /******************************************************************************
  ******************************************************************************/
 void CompilerDialog::askStreamVersionAsync()
 {
-    AskStreamVersionThread *w = new AskStreamVersionThread();
+    auto w = new AskStreamVersionThread();
     connect(this, &QObject::destroyed, w, &AskStreamVersionThread::stop);
     connect(w, &AskStreamVersionThread::resultReady, ui->youtubeDLVersion, &QLabel::setText);
     connect(w, &AskStreamVersionThread::finished, w, &QObject::deleteLater);

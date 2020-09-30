@@ -37,22 +37,25 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QStyledItemDelegate>
 
+constexpr int col_0_file_name         =  0;
+constexpr int col_1_website_domain    =  1;
+constexpr int col_2_progress_bar      =  2;
+constexpr int col_3_percent           =  3;
+constexpr int col_4_size              =  4;
+constexpr int col_5_estimated_time    =  5;
+constexpr int col_6_speed             =  6;
+// constexpr int col_7_segments          =  7; /* hidden */
+// constexpr int col_8_mask              =  8; /* hidden */
+// constexpr int col_9_save_path         =  9; /* hidden */
+// constexpr int col_10_checksum         = 10; /* hidden */
 
-#define C_COL_0_FILE_NAME          0
-#define C_COL_1_WEBSITE_DOMAIN     1
-#define C_COL_2_PROGRESS_BAR       2
-#define C_COL_3_PERCENT            3
-#define C_COL_4_SIZE               4
-#define C_COL_5_ESTIMATED_TIME     5
-#define C_COL_6_SPEED              6
-#define C_COL_7_SEGMENTS           7  /* hidden */
-#define C_COL_8_MASK               8  /* hidden */
-#define C_COL_9_SAVE_PATH          9  /* hidden */
-#define C_COL_10_CHECKSUM         10  /* hidden */
+constexpr int column_default_width    = 100;
+constexpr int column_0_default_width  = 300;
+constexpr int row_default_height      =  22;
 
-#define C_COLUMN_DEFAULT_WIDTH   100
-#define C_COLUMN_0_DEFAULT_WIDTH 300
-#define C_ROW_DEFAULT_HEIGHT      22
+constexpr int min_progress = 0;
+constexpr int max_progress = 100;
+constexpr int version_marker = 0xff;
 
 
 QueueView::QueueView(QWidget *parent)
@@ -114,7 +117,7 @@ void QueueView::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
-QList<QueueItem*> QueueView::toQueueItem(const QList<QTreeWidgetItem*> items) const
+QList<QueueItem*> QueueView::toQueueItem(const QList<QTreeWidgetItem *> &items) const
 {
     QList<QueueItem*> queueItems;
     foreach (auto item, items) {
@@ -206,7 +209,7 @@ void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
     myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
     myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
 
-    if (index.column() == C_COL_0_FILE_NAME) {
+    if (index.column() == col_0_file_name) {
 
         const QUrl url(myOption.text);
         const QPixmap pixmap = MimeDatabase::fileIcon(url, 16);
@@ -218,7 +221,7 @@ void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
 
         QStyledItemDelegate::paint(painter, myOption, index);
 
-    } else if (index.column() == C_COL_2_PROGRESS_BAR) {
+    } else if (index.column() == col_2_progress_bar) {
 
         const int progress = index.data(QueueItem::ProgressRole).toInt();
         auto state = static_cast<IDownloadItem::State>(index.data(QueueItem::StateRole).toInt());
@@ -228,8 +231,8 @@ void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
         progressBarOption.direction = QApplication::layoutDirection();
         progressBarOption.rect = myOption.rect;
         progressBarOption.fontMetrics = QApplication::fontMetrics();
-        progressBarOption.minimum = 0;
-        progressBarOption.maximum = 100;
+        progressBarOption.minimum = min_progress;
+        progressBarOption.maximum = max_progress;
         progressBarOption.textAlignment = Qt::AlignCenter;
         progressBarOption.textVisible = false;
         progressBarOption.palette = myOption.palette;
@@ -250,7 +253,7 @@ QWidget* QueueViewItemDelegate::createEditor(QWidget *parent,
     if (!index.isValid())
         return Q_NULLPTR;
 
-    if (index.column() != C_COL_0_FILE_NAME)
+    if (index.column() != col_0_file_name)
         return Q_NULLPTR;
 
     auto editor = new QLineEdit(parent);
@@ -348,7 +351,7 @@ QueueItem::QueueItem(AbstractDownloadItem *downloadItem, QTreeWidget *view)
     , QTreeWidgetItem(view, QTreeWidgetItem::UserType)
     , m_downloadItem(downloadItem)
 {
-    this->setSizeHint(C_COL_2_PROGRESS_BAR, QSize(C_COLUMN_DEFAULT_WIDTH, C_ROW_DEFAULT_HEIGHT));
+    this->setSizeHint(col_2_progress_bar, QSize(column_default_width, row_default_height));
     this->setFlags(Qt::ItemIsEditable | flags());
 
     connect(m_downloadItem, SIGNAL(changed()), this, SLOT(updateItem()));
@@ -373,23 +376,23 @@ void QueueItem::updateItem()
 {
     QString size;
     if (m_downloadItem->bytesTotal() > 0) {
-        size = tr("%0 of %1")
-                .arg(Format::fileSizeToString(m_downloadItem->bytesReceived()))
-                .arg(Format::fileSizeToString(m_downloadItem->bytesTotal()));
+        size = tr("%0 of %1").arg(
+                    Format::fileSizeToString(m_downloadItem->bytesReceived()),
+                    Format::fileSizeToString(m_downloadItem->bytesTotal()));
     } else {
         size = tr("Unknown");
     }
 
     QString speed = Format::currentSpeedToString(m_downloadItem->speed());
 
-    this->setText(C_COL_0_FILE_NAME       , m_downloadItem->localFileName());
-    this->setText(C_COL_1_WEBSITE_DOMAIN  , m_downloadItem->sourceUrl().host()); /// \todo domain only
-    this->setData(C_COL_2_PROGRESS_BAR    , StateRole, m_downloadItem->state());
-    this->setData(C_COL_2_PROGRESS_BAR    , ProgressRole, m_downloadItem->progress());
-    this->setText(C_COL_3_PERCENT         , QString("%0%").arg(qMax(0, m_downloadItem->progress())));
-    this->setText(C_COL_4_SIZE            , size);
-    this->setText(C_COL_5_ESTIMATED_TIME  , estimatedTime(m_downloadItem));
-    this->setText(C_COL_6_SPEED           , speed);
+    this->setText(col_0_file_name      , m_downloadItem->localFileName());
+    this->setText(col_1_website_domain , m_downloadItem->sourceUrl().host()); /// \todo domain only
+    this->setData(col_2_progress_bar   , StateRole, m_downloadItem->state());
+    this->setData(col_2_progress_bar   , ProgressRole, m_downloadItem->progress());
+    this->setText(col_3_percent        , QString("%0%").arg(qMax(0, m_downloadItem->progress())));
+    this->setText(col_4_size           , size);
+    this->setText(col_5_estimated_time , estimatedTime(m_downloadItem));
+    this->setText(col_6_speed          , speed);
 
     //item->setText(C_COL_7_SEGMENTS, "Unknown");
     // todo etc...
@@ -440,10 +443,6 @@ DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
     retranslateUi();
 }
 
-DownloadQueueView::~DownloadQueueView()
-{
-}
-
 /******************************************************************************
  ******************************************************************************/
 QSize DownloadQueueView::sizeHint() const
@@ -467,7 +466,7 @@ QByteArray DownloadQueueView::saveState(int version) const
 {
     QByteArray data;
     QDataStream stream(&data, QIODevice::WriteOnly);
-    stream << 0xff; // VersionMarker
+    stream << version_marker;
     stream << version;
     stream << columnWidths();
     return data;
@@ -480,10 +479,11 @@ bool DownloadQueueView::restoreState(const QByteArray &state, int version)
     }
     QByteArray sd = state;
     QDataStream stream(&sd, QIODevice::ReadOnly);
-    int marker, v;
+    int marker;
+    int v;
     stream >> marker;
     stream >> v;
-    if (stream.status() != QDataStream::Ok || marker != 0xff || v != version) {
+    if (stream.status() != QDataStream::Ok || marker != version_marker || v != version) {
         return false;
     }
     QList<int> widths;
@@ -507,7 +507,7 @@ QList<int> DownloadQueueView::columnWidths() const
 
 static int defaultColumnWidth(int index)
 {
-    return index == 0 ? C_COLUMN_0_DEFAULT_WIDTH : C_COLUMN_DEFAULT_WIDTH;
+    return index == 0 ? column_0_default_width : column_default_width;
 }
 
 void DownloadQueueView::setColumnWidths(const QList<int> &widths)
@@ -528,8 +528,8 @@ void DownloadQueueView::rename()
 {
     if (!m_queueView->selectedItems().isEmpty()) {
         auto treeItem = m_queueView->selectedItems().first();
-        m_queueView->setCurrentItem(treeItem, C_COL_0_FILE_NAME);
-        m_queueView->editItem(treeItem, C_COL_0_FILE_NAME);
+        m_queueView->setCurrentItem(treeItem, col_0_file_name);
+        m_queueView->editItem(treeItem, col_0_file_name);
     }
 }
 
@@ -614,7 +614,7 @@ void DownloadQueueView::retranslateUi()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadQueueView::onJobAdded(DownloadRange range)
+void DownloadQueueView::onJobAdded(const DownloadRange &range)
 {
     foreach (auto item, range) {
         auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
@@ -623,7 +623,7 @@ void DownloadQueueView::onJobAdded(DownloadRange range)
     }
 }
 
-void DownloadQueueView::onJobRemoved(DownloadRange range)
+void DownloadQueueView::onJobRemoved(const DownloadRange &range)
 {
     foreach (auto item, range) {
         auto index = getIndex(item);

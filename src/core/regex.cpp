@@ -37,7 +37,7 @@ struct Capture
     QStringList interpretedCapture;
 };
 
-static const QList<Capture> capture(const QString &str)
+static QList<Capture> capture(const QString &str)
 {
     QList<Capture> captures;
     const QRegExp rx(pattern);

@@ -177,17 +177,18 @@ void TorrentPieceMapWorker::run()
     /* Expensive operation */
     foreach (auto peer, peers) {
         QBitArray peerAvailablePieces = peer.availablePieces;
-        if (peerAvailablePieces.size() == pieceData.size) {
+        if (peerAvailablePieces.size() != pieceData.size) {
+            qWarning("Peer has not the same number of pieces as You "
+                     "(peer:'%i', you:'%i').",
+                     peerAvailablePieces.size(),
+                     pieceData.size);
+        } else {
             for (int i = 0; i < pieceData.size; ++i) {
                 pieceData.availablePieces |= peerAvailablePieces;
                 if (peerAvailablePieces.testBit(i)) {
                     pieceData.totalPeers[i]++;
                 }
             }
-        } else {
-            qDebug() << Q_FUNC_INFO << "Not the same size!"
-                     << "expected:" << pieceData.size
-                     << "actual:" << peerAvailablePieces.size();
         }
     }
     emit resultReady(pieceData);
@@ -259,12 +260,20 @@ void TorrentPieceMap::populateScene(const TorrentPieceData &pieceData)
                     m_rootItem);
 
         auto flags = item->flags();
+#if QT_VERSION >= 0x050700
         flags.setFlag(QGraphicsItem::ItemIsMovable, false);
         flags.setFlag(QGraphicsItem::ItemIsSelectable, false);
         flags.setFlag(QGraphicsItem::ItemIsFocusable, false);
         flags.setFlag(QGraphicsItem::ItemSendsGeometryChanges, false);
         flags.setFlag(QGraphicsItem::ItemSendsScenePositionChanges, false);
-
+#else
+        flags &= ~QGraphicsItem::ItemIsMovable;
+        flags &= ~QGraphicsItem::ItemIsMovable;
+        flags &= ~QGraphicsItem::ItemIsSelectable;
+        flags &= ~QGraphicsItem::ItemIsFocusable;
+        flags &= ~QGraphicsItem::ItemSendsGeometryChanges;
+        flags &= ~QGraphicsItem::ItemSendsScenePositionChanges;
+#endif
         item->setFlags(flags);
         m_items.append(item);
     }

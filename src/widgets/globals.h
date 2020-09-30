@@ -40,7 +40,7 @@ static const QColor s_purple        = QColor(200, 191, 231);
 static const QColor s_white         = QColor(255, 255, 255);
 
 
-static const char* s_xpm[] = {
+static const char* const s_xpm[] = {
     "16 16 2 1",
     "   c #F0F0F0",         // light grey
     "+  c #AAE061",         // light green

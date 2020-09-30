@@ -35,7 +35,7 @@ public:
         InvalidFileError
     };
 
-    FileWriter();
+    FileWriter() = default;
     explicit FileWriter(QIODevice *device);
     explicit FileWriter(const QString &fileName);
     ~FileWriter();
@@ -51,7 +51,7 @@ public:
 
 private:
     /* Device */
-    QIODevice *m_device = Q_NULLPTR;
+    QIODevice *m_device{Q_NULLPTR};
     IFileHandlerPtr m_handler;
 
     bool canWriteHelper();

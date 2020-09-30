@@ -31,7 +31,7 @@ class DownloadStreamItem : public DownloadItem
 
 public:
     DownloadStreamItem(DownloadManager *downloadManager);
-    ~DownloadStreamItem() Q_DECL_OVERRIDE;
+    ~DownloadStreamItem() Q_DECL_OVERRIDE = default;
 
     void resume() Q_DECL_OVERRIDE;
     void pause() Q_DECL_OVERRIDE;
@@ -41,7 +41,7 @@ private slots:
     void onMetaDataChanged();
     void onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void onFinished();
-    void onError(QString errorMessage);
+    void onError(const QString &errorMessage);
 
 private:
     Stream *m_stream;

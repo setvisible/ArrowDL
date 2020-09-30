@@ -113,24 +113,7 @@
   <tabstop>okButton</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>okButton</sender>
-   <signal>released()</signal>
-   <receiver>StreamDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>678</x>
-     <y>499</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>79</x>
-     <y>509</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <slots>
   <slot>acceptPaused()</slot>
  </slots>

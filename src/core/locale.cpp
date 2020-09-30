@@ -33,7 +33,7 @@ static QString languageDirectory()
 
 static QString translationFileName(const QString &localeName)
 {
-    return QString("%0/dza_%1.qm").arg(languageDirectory()).arg(localeName);
+    return QString("%0/dza_%1.qm").arg(languageDirectory(), localeName);
 }
 
 static void populateLocales()
@@ -70,7 +70,7 @@ QStringList Locale::availableLanguages()
 QString Locale::toLanguage(int index)
 {
     if (index >= 0 && index < s_locales.count()) {
-        QLocale locale = s_locales.at(index);
+        const QLocale &locale = s_locales.at(index);
         return locale.name();
     }
     return QString();
@@ -82,7 +82,7 @@ int Locale::fromLanguage(QString language)
         language = QLocale::system().name();
     }
     for (int index = 0; index < s_locales.count(); ++index) {
-        QLocale locale = s_locales.at(index);
+        const QLocale &locale = s_locales.at(index);
         QString localeLanguage = locale.name();
         if (localeLanguage.compare(language, Qt::CaseInsensitive) == 0) {
             return index;

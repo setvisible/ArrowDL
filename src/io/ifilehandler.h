@@ -26,7 +26,7 @@ class QIODevice;
 class IFileHandler
 {    
 public:
-    IFileHandler();
+    IFileHandler() = default;
     virtual ~IFileHandler() noexcept = default; // IMPORTANT: virtual destructor
 
     void setDevice(QIODevice *device);
@@ -51,11 +51,11 @@ public:
 
 
 private:
-    QIODevice *m_device = Q_NULLPTR;
+    QIODevice *m_device{Q_NULLPTR};
 
     Q_DISABLE_COPY(IFileHandler)
 };
 
-typedef QSharedPointer<IFileHandler> IFileHandlerPtr;
+using IFileHandlerPtr = QSharedPointer<IFileHandler>;
 
 #endif // IO_I_FILE_HANDLE_H

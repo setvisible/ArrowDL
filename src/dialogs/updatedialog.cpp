@@ -26,6 +26,9 @@
 #  include <QtGui/QDesktopServices>
 #endif
 
+constexpr int min_progress = 0;
+constexpr int max_progress = 100;
+
 UpdateDialog::UpdateDialog(UpdateChecker *updateChecker, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::UpdateDialog)
@@ -33,7 +36,7 @@ UpdateDialog::UpdateDialog(UpdateChecker *updateChecker, QWidget *parent)
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("%0 %1").arg(STR_APPLICATION_NAME).arg(tr("Check for Updates")));
+    setWindowTitle(QString("%0 %1").arg(STR_APPLICATION_NAME, tr("Check for Updates")));
 
     ui->downloadedToLabel->setText(QString("%0 <a href=\"https://www.example.org/tutorial.html\">C:\\Temp\\</a>")
                                    .arg(tr("Downloaded to")));
@@ -55,9 +58,9 @@ UpdateDialog::UpdateDialog(UpdateChecker *updateChecker, QWidget *parent)
     ui->stackedWidget->setCurrentWidget(ui->pageAlreadyUpToDate);
     ui->progressBar->setVisible(false);
     ui->progressBarValue->setVisible(false);
-    ui->progressBar->setMinimum(0);
-    ui->progressBar->setMaximum(100);
-    ui->progressBar->setValue(0);
+    ui->progressBar->setMinimum(min_progress);
+    ui->progressBar->setMaximum(max_progress);
+    ui->progressBar->setValue(min_progress);
     ui->installButton->setEnabled(false);
 
     ui->downloadedToLabel->setText(QString("Downloaded to <a href=\"%0\">%0</a>")
@@ -89,9 +92,9 @@ void UpdateDialog::check()
 void UpdateDialog::install()
 {
 #ifdef _WIN32
-    ui->progressBar->setMinimum(0);
-    ui->progressBar->setMaximum(100);
-    ui->progressBar->setValue(0);
+    ui->progressBar->setMinimum(min_progress);
+    ui->progressBar->setMaximum(max_progress);
+    ui->progressBar->setValue(min_progress);
     // ui->progressBar->setVisible(true);
     ui->progressBarValue->setVisible(true);
     ui->downloadedToLabel->setVisible(true);
@@ -120,14 +123,14 @@ void UpdateDialog::install()
 
 /******************************************************************************
  ******************************************************************************/
-void UpdateDialog::onUpdateAvailable(CAutoUpdaterGithub::ChangeLog changelog)
+void UpdateDialog::onUpdateAvailable(const CAutoUpdaterGithub::ChangeLog &changelog)
 {
     if (!changelog.empty()) {
         ui->stackedWidget->setCurrentWidget(ui->pageNewVersionAvailable);
         ui->changeLogViewer->clear();
-        ui->changeLogViewer->append(QString("%0 %1\n\n")
-                                    .arg(tr("Current version:"))
-                                    .arg(m_updateChecker->currentVersion()));
+        ui->changeLogViewer->append(QString("%0 %1\n\n").arg(
+                                        tr("Current version:"),
+                                        m_updateChecker->currentVersion()));
         for (const auto& changelogItem: changelog) {
             QString text = "<b>" % changelogItem.versionString % "</b>" % '\n' % changelogItem.versionChanges % "<p></p>";
             ui->changeLogViewer->append(text);
@@ -158,9 +161,9 @@ void UpdateDialog::onUpdateDownloadFinished()
     QMessageBox msg(
                 QMessageBox::Warning,
                 tr("Close the application"),
-                QString("%0\n\n%1")
-                .arg(tr("The application needs to close to continue the update."))
-                .arg(tr("Do you want to close now?")),
+                QString("%0\n\n%1").arg(
+                    tr("The application needs to close to continue the update."),
+                    tr("Do you want to close now?")),
                 QMessageBox::Yes | QMessageBox::No,
                 this);
 
@@ -170,7 +173,7 @@ void UpdateDialog::onUpdateDownloadFinished()
     accept();
 }
 
-void UpdateDialog::onUpdateError(QString errorMessage)
+void UpdateDialog::onUpdateError(const QString &errorMessage)
 {
     ui->checkButton->setEnabled(true);
     ui->stackedWidget->setCurrentWidget(ui->pageError);

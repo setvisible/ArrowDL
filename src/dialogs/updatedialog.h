@@ -27,10 +27,10 @@ private slots:
     void check();
     void install();
 
-    void onUpdateAvailable(CAutoUpdaterGithub::ChangeLog changelog);
+    void onUpdateAvailable(const CAutoUpdaterGithub::ChangeLog &changelog);
     void onUpdateDownloadProgress(float percentageDownloaded);
     void onUpdateDownloadFinished();
-    void onUpdateError(QString errorMessage);
+    void onUpdateError(const QString &errorMessage);
 
 private:
     Ui::UpdateDialog *ui;
