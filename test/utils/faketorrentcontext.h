@@ -22,7 +22,7 @@
 class FakeTorrentContext : public ITorrentContext
 {
 public:
-    explicit FakeTorrentContext();
+    explicit FakeTorrentContext() = default;
     ~FakeTorrentContext() Q_DECL_OVERRIDE = default;
 
     void setPriority(Torrent *torrent, int index, TorrentFileInfo::Priority p) Q_DECL_OVERRIDE;

@@ -56,6 +56,7 @@ public:
 
 protected:
     void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
+    void hideEvent(QHideEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 
 protected slots:
@@ -99,7 +100,14 @@ class TorrentPieceMapWorker : public QThread
 public:
     TorrentPieceMapWorker(QObject *parent = Q_NULLPTR): QThread(parent) {}
 
+    bool isUseful();
+    void setUseful(bool useful);
+
+    bool isDirty();
+    void setDirty(bool dirty);
+
     void doWork(const TorrentPieceData &pieceData, const QList<TorrentPeerInfo> &peers);
+
 
 signals:
     void resultReady(const TorrentPieceData &pieceData);
@@ -109,7 +117,9 @@ protected:
 
 private:
     QReadWriteLock m_lock;
-    bool m_isDirty = false;
+    bool m_isUseful{false};
+    bool m_isDirty{false};
+
     TorrentPieceData m_pieceData;
     QList<TorrentPeerInfo> m_peers;
 };

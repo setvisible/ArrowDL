@@ -27,6 +27,12 @@
 #include <QtWidgets/QGraphicsScene>
 #include <QtWidgets/QGraphicsItem>
 
+#define ENABLE_MONITORING false
+
+
+#if (ENABLE_MONITORING)
+#include <QtCore/QElapsedTimer>
+#endif
 
 static QColor color(TorrentPieceItem::Status status)
 {
@@ -62,7 +68,8 @@ TorrentPieceMap::TorrentPieceMap(QWidget *parent) : QWidget(parent)
 
     /* Calculate metrics */
     m_tileFont = font();
-    // m_tileFont.setPixelSize(8);
+    // const int pointSize = m_tileFont.pointSize();
+    // m_tileFont.setPointSize(pointSize - 1);
 
     qRegisterMetaType<TorrentPieceData>("TorrentPieceData");
 
@@ -135,6 +142,13 @@ void TorrentPieceMap::setTorrent(Torrent *torrent)
 void TorrentPieceMap::showEvent(QShowEvent */*event*/)
 {
     adjustScene();
+    m_workerThread->setUseful(true);
+}
+
+void TorrentPieceMap::hideEvent(QHideEvent */*event*/)
+{
+    // the worker doesn't need to work when the widget is hidden.
+    m_workerThread->setUseful(false);
 }
 
 void TorrentPieceMap::resizeEvent(QResizeEvent */*event*/)
@@ -144,6 +158,39 @@ void TorrentPieceMap::resizeEvent(QResizeEvent */*event*/)
 
 /******************************************************************************
  ******************************************************************************/
+bool TorrentPieceMapWorker::isUseful()
+{
+    m_lock.lockForRead();
+    auto v = m_isUseful;
+    m_lock.unlock();
+    return v;
+}
+
+void TorrentPieceMapWorker::setUseful(bool useful)
+{
+    m_lock.lockForWrite();
+    m_isUseful = useful;
+    m_lock.unlock();
+    if (!isRunning()) {
+        start();
+    }
+}
+
+bool TorrentPieceMapWorker::isDirty()
+{
+    m_lock.lockForRead();
+    auto v = m_isDirty;
+    m_lock.unlock();
+    return v;
+}
+
+void TorrentPieceMapWorker::setDirty(bool dirty)
+{
+    m_lock.lockForWrite();
+    m_isDirty = dirty;
+    m_lock.unlock();
+}
+
 void TorrentPieceMapWorker::doWork(const TorrentPieceData &pieceData,
                                    const QList<TorrentPeerInfo> &peers)
 {
@@ -152,12 +199,12 @@ void TorrentPieceMapWorker::doWork(const TorrentPieceData &pieceData,
     // The idea behind this construct is to cache the input data into a buffer
     // shared between the producer (caller) and the consumer (worker).
     // That is, when the worker is free, it just consumes the most recent data.
-    //
     m_lock.lockForWrite();
     m_pieceData = pieceData;
     m_peers = peers;
-    m_isDirty = true;
     m_lock.unlock();
+
+    setDirty(true);
 
     if (!isRunning()) {
         start();
@@ -166,13 +213,24 @@ void TorrentPieceMapWorker::doWork(const TorrentPieceData &pieceData,
 
 void TorrentPieceMapWorker::run()
 {
+    if (!isUseful() || !isDirty()) {
+        return;
+    }
+
+#if (ENABLE_MONITORING)
+    QElapsedTimer timer;
+    timer.start();
+    static int s_id = 0;
+    const int id = ++s_id;
+    qDebug() << Q_FUNC_INFO << this->thread() << id << "a started";
+#endif
+
     m_lock.lockForRead();
     TorrentPieceData pieceData = m_pieceData;
     const QList<TorrentPeerInfo> peers = m_peers;
     m_lock.unlock();
-    m_lock.lockForWrite();
-    m_isDirty = false;
-    m_lock.unlock();
+
+    setDirty(false);
 
     /* Expensive operation */
     foreach (auto peer, peers) {
@@ -193,16 +251,13 @@ void TorrentPieceMapWorker::run()
     }
     emit resultReady(pieceData);
 
-    /* Once finished, relaunch the worker if the buffer was updated during the process. */
-    m_lock.lockForRead();
-    const bool isDirty = m_isDirty;
-    m_lock.unlock();
-    if (isDirty) {
-        m_lock.lockForWrite();
-        m_isDirty = false;
-        m_lock.unlock();
-        start();
-    }
+#if (ENABLE_MONITORING)
+    qDebug() << Q_FUNC_INFO << this->thread() << id << "finished in" << timer.elapsed() << "ms";
+#endif
+
+    // Once finished, relaunch the worker.
+    // Indeed, hhe buffer has maybe been updated during the current run().
+    start();
 }
 
 /******************************************************************************
@@ -313,30 +368,25 @@ void TorrentPieceMap::updateScene(const TorrentPieceData &pieceData)
     const int size = pieceData.size;
     for (int i = 0; i < size; ++i) {
         TorrentPieceItem *item = m_items.at(i);
-        const int totalPeers = i < pieceData.totalPeers.size()
-                ? pieceData.totalPeers.at(i)
-                : 0;
-        const bool availablePiece = i < pieceData.availablePieces.size()
-                ? pieceData.availablePieces.at(i)
-                : false;
-        const bool downloadedPiece = i < pieceData.downloadedPieces.size()
-                ? pieceData.downloadedPieces.at(i)
-                : false;
-        const bool verifiedPiece = i < pieceData.verifiedPieces.size()
-                ? pieceData.verifiedPieces.at(i)
-                : false;
 
-        TorrentPieceItem::Status status =
-                verifiedPiece
-                ? TorrentPieceItem::Status::Verified
-                : downloadedPiece
-                  ? TorrentPieceItem::Status::Downloaded
-                  : availablePiece
-                    ? TorrentPieceItem::Status::Available
-                    : TorrentPieceItem::Status::NotAvailable;
-
+        int totalPeers = 0;
+        if (i < pieceData.totalPeers.size()) {
+            totalPeers = pieceData.totalPeers.at(i);
+        }
         item->setValue(totalPeers);
+
+        TorrentPieceItem::Status status = TorrentPieceItem::Status::NotAvailable;
+        if (i < pieceData.verifiedPieces.size() && pieceData.verifiedPieces.at(i)) {
+            status = TorrentPieceItem::Status::Verified;
+
+        } else if (i < pieceData.downloadedPieces.size() && pieceData.downloadedPieces.at(i)) {
+            status = TorrentPieceItem::Status::Downloaded;
+
+        } else if (i < pieceData.availablePieces.size() && pieceData.availablePieces.at(i)) {
+            status = TorrentPieceItem::Status::Available;
+        }
         item->setStatus(status);
+
         item->update();
     }
 }

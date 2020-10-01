@@ -20,13 +20,18 @@
 #include <QtCore/QObject>
 #include <QtCore/QSharedPointer>
 
-class Torrent;
-typedef QSharedPointer<Torrent> TorrentPtr;
+#include <Core/Torrent>
+
+using TorrentPtr = QSharedPointer<Torrent>;
 
 class DummyTorrentFactory
 {
 public:
     static TorrentPtr createDummyTorrent(QObject *parent);
+
+    static TorrentPeerInfo createDummyPeer(const EndPoint &endpoint,
+                                           const QString &pieceSketch,
+                                           const QString &userAgent, qint64 size);
 };
 
 #endif // DUMMY_TORRENT_FACTORY_H

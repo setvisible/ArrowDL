@@ -20,6 +20,10 @@
 #include <QtCore/QObject>
 #include <QtCore/QTimer>
 
+namespace Utils {
+int randomBetween(int a, int b);
+}
+
 class Torrent;
 
 class DummyTorrentAnimator : public QObject
@@ -44,15 +48,19 @@ private slots:
     void animate();
 
 private:
-    QTimer *m_timer{Q_NULLPTR};
-    Torrent *m_torrent;
+    Torrent *m_torrent{Q_NULLPTR};
+    QTimer m_fileTimer;
+    QTimer m_peerTimer;
     QList<int> m_timeouts;
     QList<int> m_ticks;
 
     void randomize();
     void animateFile(int index);
+    void animatePieces();
+    void animatePeers();
 
-    static QBitArray createRandomBitArray(int size, int percent);
+    void setPiecesRandomly(QBitArray &pieces);
+    QBitArray createRandomBitArray(int size, int percent);
 };
 
 #endif // UTILS_TORRENT_ANIMATOR_H

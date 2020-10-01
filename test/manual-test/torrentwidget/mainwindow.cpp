@@ -84,7 +84,7 @@ void MainWindow::onCompletedClicked()
 void MainWindow::onRandomClicked()
 {
     m_animator->stop();
-    int percent = int((100 * qrand()) / RAND_MAX);
+    const int percent = Utils::randomBetween(1, 100);
     m_animator->setProgress(percent);
 }
 
