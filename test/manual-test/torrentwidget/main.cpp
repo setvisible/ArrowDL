@@ -24,10 +24,10 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    app.setStyle(new CustomStyle);
+    QApplication::setStyle(new CustomStyle);
 
     MainWindow window;
     window.show();
 
-    return app.exec();
+    return QApplication::exec();
 }

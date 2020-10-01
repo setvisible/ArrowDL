@@ -22,14 +22,33 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QtMath>
+#include <QtCore/QTimer>
 
-#define TICK_MSEC 10
+constexpr int msec_file_refresh = 10;
+constexpr int msec_peer_refresh = 500;
+
+/*!
+ * Return a random number between \a a and \a b, including these numbers.
+ */
+namespace Utils {
+int randomBetween(int a, int b)
+{
+    const int rand = qrand(); // Beween 0 and RAND_MAX
+    const int offset = qMin(a, b);
+    const int range = qMax(a, b) - offset;
+    return (((range * rand) / RAND_MAX) + offset);
+}
+}
 
 
 DummyTorrentAnimator::DummyTorrentAnimator(QObject *parent)
     : QObject(parent)
 {
-    qsrand(QDateTime::currentDateTime().toTime_t());
+    qsrand(QDateTime::currentDateTimeUtc().toTime_t());
+
+    connect(&m_fileTimer, &QTimer::timeout, this, QOverload<>::of(&DummyTorrentAnimator::animate));
+    connect(&m_peerTimer, &QTimer::timeout, this, QOverload<>::of(&DummyTorrentAnimator::animatePeers));
+
 }
 
 /******************************************************************************
@@ -131,7 +150,7 @@ QBitArray DummyTorrentAnimator::createRandomBitArray(int size, int percent)
     } else {
         qsrand(QDateTime::currentDateTime().toTime_t());
         for (int i = 0; i < size; ++i) {
-            int v = int((100 * qrand()) / RAND_MAX);
+            const int v = Utils::randomBetween(0, 100);
             if (v <= percent) {
                 ba.setBit(i);
             }
@@ -144,29 +163,28 @@ QBitArray DummyTorrentAnimator::createRandomBitArray(int size, int percent)
  ******************************************************************************/
 bool DummyTorrentAnimator::isStarted() const
 {
-    return m_timer != Q_NULLPTR;
+    return m_fileTimer.isActive();
 }
 
 
 void DummyTorrentAnimator::start()
 {
-    if (!m_timer) {
-        randomize();
-        m_timer = new QTimer(this);
-        connect(m_timer, &QTimer::timeout, this, QOverload<>::of(&DummyTorrentAnimator::animate));
-        m_timer->start(TICK_MSEC);
-        emit started(true);
+    if (isStarted()) {
+        return;
     }
+    randomize();
+
+    m_fileTimer.start(msec_file_refresh);
+    m_peerTimer.start(msec_peer_refresh);
+
+    emit started(true);
 }
 
 void DummyTorrentAnimator::stop()
 {
-    if (m_timer) {
-        m_timer->stop();
-        m_timer->deleteLater();
-        m_timer = Q_NULLPTR;
-        emit started(false);
-    }
+    m_fileTimer.stop();
+    m_peerTimer.stop();
+    emit started(false);
 }
 
 /******************************************************************************
@@ -183,8 +201,11 @@ void DummyTorrentAnimator::animate()
             animateFile(i);
         }
     }
+    animatePieces();
 }
 
+/******************************************************************************
+ ******************************************************************************/
 void DummyTorrentAnimator::animateFile(int index)
 {
     Q_ASSERT(m_torrent);
@@ -210,6 +231,85 @@ void DummyTorrentAnimator::animateFile(int index)
     m_torrent->setDetail(detail, false); // emit changed
 }
 
+void DummyTorrentAnimator::animatePieces()
+{
+    TorrentInfo info = m_torrent->info();
+    setPiecesRandomly(info.downloadedPieces);
+    if (info.downloadedPieces.count(true) >=  info.downloadedPieces.count()) {
+        setPiecesRandomly(info.verifiedPieces);
+    }
+    m_torrent->setInfo(info, false);
+}
+
+void DummyTorrentAnimator::animatePeers()
+{
+    static int counter = 0;
+    counter += msec_peer_refresh;
+    const TorrentInfo info = m_torrent->info();
+    const int total_pieces_count = info.downloadedPieces.count();
+
+    TorrentHandleInfo detail = m_torrent->detail();
+    const int count = detail.peers.count();
+
+    if (count >= 10) {
+        for (int i = 0; i < 7; ++i) {
+            detail.peers.removeFirst(); // keep 3
+        }
+    }
+    if (counter >= 10000) {//every 10 seconds
+        counter = 0;
+        auto fct = DummyTorrentFactory::createDummyPeer;
+        detail.peers << fct(EndPoint("164.10.201.129:30025"), "XA-AA----A", "rTorrent v1.2.3", total_pieces_count);
+        detail.peers << fct(EndPoint("103.217.176.75:44851"), "XXXXXXXXXX", "", total_pieces_count);
+        detail.peers << fct(EndPoint("217.63.14.13:14082"  ), "-X-A-----A", "bitTorrent", total_pieces_count);
+        detail.peers << fct(EndPoint("178.214.192.253:6881"), "-----X----", "toto", total_pieces_count);
+        detail.peers << fct(EndPoint("71.206.231.37:49958" ), "-A-------A", "libTorrent", total_pieces_count);
+        detail.peers << fct(EndPoint("82.69.12.239:59333"  ), "----------", "qBitTorrent", total_pieces_count);
+        detail.peers << fct(EndPoint("86.120.101.138:42624"), "XA--------", "", total_pieces_count);
+        detail.peers << fct(EndPoint("175.158.201.29:32725"), "XXXXXX--X-", "", total_pieces_count);
+
+    } else {
+        QString randomIP = QString("%0.%1.%2.%3:%4").arg(
+                    QString::number(Utils::randomBetween(1, 255)),
+                    QString::number(Utils::randomBetween(1, 255)),
+                    QString::number(Utils::randomBetween(1, 255)),
+                    QString::number(Utils::randomBetween(1, 255)),
+                    QString::number(Utils::randomBetween(1, 65535)));
+        auto fct = DummyTorrentFactory::createDummyPeer;
+        detail.peers << fct(EndPoint(randomIP), "----------", "", total_pieces_count);
+
+    }
+    m_torrent->setDetail(detail, false); // emit changed
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void DummyTorrentAnimator::setPiecesRandomly(QBitArray &pieces)
+{
+    const int count = pieces.count();
+    if (pieces.count(true) >  count - 10) {
+        pieces.fill(true);
+        return;
+    }
+
+    // turn random bits to 1
+    for (int i = 0; i < 3; ++i) {
+        const int index = Utils::randomBetween(0, count - 1);
+        pieces.setBit(index);
+    }
+
+    // turn first 0-bits to 1
+    int i = -1;
+    int counter = 0;
+    while (i < count - 1 && counter < 3) {
+        i++;
+        if (pieces.testBit(i) == false) {
+            pieces.setBit(i, true);
+            counter++;
+        }
+    }
+}
+
 /******************************************************************************
  ******************************************************************************/
 void DummyTorrentAnimator::randomize()
@@ -219,7 +319,7 @@ void DummyTorrentAnimator::randomize()
     m_timeouts.clear();
     m_ticks.clear();
     for (int i = 0; i < total; ++i) {
-        int timeout = TICK_MSEC * (((9 * qrand()) / RAND_MAX) + 1);
+        int timeout = msec_file_refresh * Utils::randomBetween(1, 10);
         m_timeouts << timeout;
     }
 }

@@ -19,10 +19,6 @@
 #include <Core/Torrent>
 #include <Core/TorrentMessage>
 
-FakeTorrentContext::FakeTorrentContext()
-{
-}
-
 void FakeTorrentContext::setPriority(Torrent *torrent, int index, TorrentFileInfo::Priority p)
 {
     Q_ASSERT(torrent);

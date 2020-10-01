@@ -22,7 +22,7 @@
 class DummyTorrentAnimator;
 class ITorrentContext;
 class Torrent;
-typedef QSharedPointer<Torrent> TorrentPtr;
+using TorrentPtr = QSharedPointer<Torrent>;
 
 namespace Ui {
 class MainWindow;
@@ -33,7 +33,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 public:
     explicit MainWindow(QWidget *parent = Q_NULLPTR);
-    ~MainWindow();
+    ~MainWindow() Q_DECL_OVERRIDE;
 
 private slots:
     void onStartClicked();
