@@ -24,8 +24,12 @@
 #include <QtCore/QtMath>
 #include <QtCore/QTimer>
 
+#include <math.h> /* log */
+
 constexpr int msec_file_refresh = 10;
 constexpr int msec_peer_refresh = 500;
+constexpr qint64 piece_size = 32*1024*8;
+constexpr qint64 max_torrent_size = 1024*1024;
 
 /*!
  * Return a random number between \a a and \a b, including these numbers.
@@ -33,10 +37,24 @@ constexpr int msec_peer_refresh = 500;
 namespace Utils {
 int randomBetween(int a, int b)
 {
-    const int rand = qrand(); // Beween 0 and RAND_MAX
-    const int offset = qMin(a, b);
-    const int range = qMax(a, b) - offset;
-    return (((range * rand) / RAND_MAX) + offset);
+    auto rand = qrand(); // Beween 0 and RAND_MAX
+    auto offset = qMin(a, b);
+    auto range = qMax(a, b) - offset;
+    return qCeil((range * rand) / RAND_MAX) + offset;
+}
+
+/*!
+ * Return a random number between \a a and \a b,
+ * Logarithm scale, left-screwed, means that there
+ *  is a higher probability to be closer to a than to b.
+ */
+int randomBetweenLog(int a, int b)
+{
+    auto rand = qrand(); // Beween 0 and RAND_MAX
+    auto offset = qMin(a, b);
+    auto range = qMax(a, b) - offset;
+    auto normal_rand = qCeil((range * rand) / RAND_MAX) + offset;
+    return qCeil(range * (1.0 - log(1 + normal_rand - offset) / log(range))) + offset;
 }
 }
 
@@ -211,20 +229,18 @@ void DummyTorrentAnimator::animateFile(int index)
     Q_ASSERT(m_torrent);
 
     // qDebug() << Q_FUNC_INFO << index;
-    const qint64 receivedPieceSize = 32*1024*8;
-
     TorrentMetaInfo metaInfo = m_torrent->metaInfo();
     auto bytesTotal = metaInfo.initialMetaInfo.files.at(index).bytesTotal;
 
     TorrentHandleInfo detail = m_torrent->detail();
-    detail.files[index].bytesReceived += receivedPieceSize;
+    detail.files[index].bytesReceived += piece_size;
     detail.files[index].bytesReceived = qMin(detail.files[index].bytesReceived, bytesTotal);
 
     TorrentInfo info = m_torrent->info();
-    info.bytesReceived += receivedPieceSize;
+    info.bytesReceived += piece_size;
     info.bytesReceived = qMin(info.bytesReceived, info.bytesTotal);
-    info.bytesSessionDownloaded += receivedPieceSize;
-    info.bytesSessionUploaded += receivedPieceSize >> 2;
+    info.bytesSessionDownloaded += piece_size;
+    info.bytesSessionUploaded += piece_size >> 2;
     info.state = TorrentInfo::downloading;
 
     m_torrent->setInfo(info, false);
@@ -275,9 +291,10 @@ void DummyTorrentAnimator::animatePeers()
                     QString::number(Utils::randomBetween(1, 255)),
                     QString::number(Utils::randomBetween(1, 255)),
                     QString::number(Utils::randomBetween(1, 65535)));
-        auto fct = DummyTorrentFactory::createDummyPeer;
-        detail.peers << fct(EndPoint(randomIP), "----------", "", total_pieces_count);
-
+        auto fct = DummyTorrentFactory::createDummyPeer2;
+        detail.peers << fct(EndPoint(randomIP), "XXXXXX--X-", "", total_pieces_count,
+                            (max_torrent_size / 1024) * Utils::randomBetweenLog(0, 1024),
+                            (max_torrent_size / 1024) * Utils::randomBetweenLog(0, 1024));
     }
     m_torrent->setDetail(detail, false); // emit changed
 }

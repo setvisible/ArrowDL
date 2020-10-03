@@ -29,6 +29,7 @@ static const QColor s_darkRed       = QColor(177, 40, 1);
 static const QColor s_darkPurple    = QColor(64, 32, 64);
 static const QColor s_darkYellow    = QColor(210, 210, 100);
 static const QColor s_green         = QColor(170, 224, 97);
+static const QColor s_grey          = QColor(200, 200, 200);
 static const QColor s_lightBlue     = QColor(205, 232, 255);
 static const QColor s_lightGreen    = QColor(236, 255, 179);
 static const QColor s_lightGrey     = QColor(240, 240, 240);

@@ -101,8 +101,8 @@ TorrentContextPrivate::TorrentContextPrivate(TorrentContext *qq)
     , settings(Q_NULLPTR)
     , networkManager(Q_NULLPTR)
 {
-    qRegisterMetaType<TorrentData>();
-    qRegisterMetaType<TorrentStatus>();
+    qRegisterMetaType<TorrentData>("TorrentData");
+    qRegisterMetaType<TorrentStatus>("TorrentStatus");
 
     workerThread = new WorkerThread(this);
 
@@ -2255,8 +2255,8 @@ static inline EndPoint toEndPoint(const lt::tcp::endpoint &endpoint)
 static inline lt::tcp::endpoint fromEndPoint(const EndPoint &endpoint)
 {
     lt::tcp::endpoint ret;
-    ret.address(boost::asio::ip::make_address(endpoint.ip.toStdString()));
-    ret.port(static_cast<unsigned short>(endpoint.port));
+    ret.address(boost::asio::ip::make_address(endpoint.ipToString().toStdString()));
+    ret.port(static_cast<unsigned short>(endpoint.port()));
     return ret;
 }
 

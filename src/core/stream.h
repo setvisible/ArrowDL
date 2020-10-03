@@ -461,6 +461,7 @@ char *toString(const StreamFormat &streamFormat);
 char *toString(const StreamObject &streamObject);
 #endif
 
+/* Enable the type to be used with QVariant. */
 Q_DECLARE_METATYPE(StreamFormat);
 Q_DECLARE_METATYPE(StreamObject);
 
