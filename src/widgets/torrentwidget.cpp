@@ -201,6 +201,13 @@ void PeerTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
         myOption.font.setBold(true);
     }
 
+    const bool connected = index.data(AbstractTorrentTableModel::ConnectRole).toBool();
+    if (!connected) {
+        myOption.palette.setColor(QPalette::All, QPalette::Text, s_darkGrey);
+        myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_darkGrey);
+        myOption.font.setItalic(true);
+    }
+
     if (index.column() == peer_table_progress_bar_column_index) {
         const int progress = index.data(AbstractTorrentTableModel::ProgressRole).toInt();
         const QBitArray segments = index.data(AbstractTorrentTableModel::SegmentRole).toBitArray();
@@ -216,7 +223,11 @@ void PeerTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
         progressBarOption.textVisible = false;
         progressBarOption.palette = myOption.palette;
         progressBarOption.progress = progress;
-        progressBarOption.color = progress < 100 ? s_purple : s_darkPurple;
+        if (connected) {
+            progressBarOption.color = progress < 100 ? s_purple : s_darkPurple;
+        } else {
+            progressBarOption.color = progress < 100 ? s_grey : s_darkGrey;
+        }
         progressBarOption.icon = QIcon();
 
         progressBarOption.hasSegments = true;

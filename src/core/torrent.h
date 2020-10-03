@@ -121,6 +121,7 @@ public:
     enum Role {
         ProgressRole = Qt::UserRole + 1, ///< The progress value. (int, between 0 and 100)
         SegmentRole, ///< The data to render the segments. (QBitArray)
+        ConnectRole, ///< The connection state of the peer or tracker. (bool)
         SortRole
     };
 
@@ -184,6 +185,9 @@ public:
 
 private:
     QList<TorrentPeerInfo> m_peers;
+    QSet<EndPoint> m_connectedPeers;
+
+    void appendRemainingSafely(const QList<TorrentPeerInfo> &peers);
 };
 
 /******************************************************************************

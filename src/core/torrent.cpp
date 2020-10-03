@@ -26,6 +26,8 @@
 #  include <QtTest/QTest>
 #endif
 
+constexpr int max_peer_list_count = 1024;
+
 
 Torrent::Torrent(QObject *parent) : QObject(parent)
 {
@@ -539,6 +541,7 @@ void TorrentFileTableModel::refreshData(const QList<TorrentFileInfo> &files)
 TorrentPeerTableModel::TorrentPeerTableModel(Torrent *parent)
     : AbstractTorrentTableModel(parent)
 {
+    m_peers.reserve(max_peer_list_count);
     retranslateUi();
 }
 
@@ -600,6 +603,9 @@ QVariant TorrentPeerTableModel::data(const QModelIndex &index, int role) const
     } else if (role == SegmentRole) {
         return peer.availablePieces;
 
+    } else if (role == ConnectRole) {
+        return m_connectedPeers.contains(peer.endpoint);
+
     } else if (role == SortRole) {
         switch (index.column()) {
         case  0: return peer.endpoint.sortableIp();
@@ -643,22 +649,19 @@ void TorrentPeerTableModel::refreshData(const QList<TorrentPeerInfo> &peers)
     if (peers.isEmpty()) {
         return;
     }
-
-    QModelIndex parent = QModelIndex(); // root (empty)
-
+    m_connectedPeers.clear();
     QList<TorrentPeerInfo> newItems;
 
-    for (int i = 0, count = peers.count(); i < count; ++i) {
-        auto newItem = peers.at(i);
+    foreach (auto newItem, peers) {
+        m_connectedPeers.insert(newItem.endpoint);
         bool replaced = false;
-        for (int j = 0, count2 = m_peers.count(); j < count2; ++j) {
-            auto item = m_peers.at(j);
+        for (int i = 0, count = m_peers.count(); i < count; ++i) {
+            auto item = m_peers.at(i);
 
             // Try update
             if (item.endpoint == newItem.endpoint) {
-                m_peers.removeAt(j);
-                m_peers.insert(j, newItem);
-                emit dataChanged(index(j, 0), index(j, columnCount()), {Qt::DisplayRole});
+                m_peers.replace(i, newItem);
+                emit dataChanged(index(i, 0), index(i, columnCount()), {Qt::DisplayRole});
                 replaced = true;
                 break;
             }
@@ -667,15 +670,39 @@ void TorrentPeerTableModel::refreshData(const QList<TorrentPeerInfo> &peers)
             newItems.append(newItem);
         }
     }
-    // Otherwise append
-    if (!newItems.isEmpty()) {
+    // Append remaining items
+    appendRemainingSafely(newItems);
+}
+
+void TorrentPeerTableModel::appendRemainingSafely(const QList<TorrentPeerInfo> &newItems)
+{
+    if (newItems.isEmpty()) {
+        return;
+    }
+    int ptr = 0;
+    if (m_peers.count() < max_peer_list_count) {
+        ptr = qMin(newItems.count(), max_peer_list_count - m_peers.count());
+
         const int first = m_peers.count();
-        const int last = first + newItems.count() - 1;
-        beginInsertRows(parent, first, last);
-        m_peers.append(newItems);
+        const int last = qMin(first + ptr - 1, max_peer_list_count - 1);
+        beginInsertRows(QModelIndex(), first, last);
+        m_peers.append(newItems.mid(0, ptr));
         endInsertRows();
     }
-
+    if (ptr < newItems.count()) {
+        for (int i = m_peers.count() - 1; i >= 0; --i) {
+            auto peer = m_peers.at(i);
+            if (m_connectedPeers.contains(peer.endpoint)) {
+                continue;
+            }
+            m_peers.replace(i, newItems.at(ptr));
+            emit dataChanged(index(i, 0), index(i, columnCount()), {Qt::DisplayRole});
+            ptr++;
+            if (ptr >=newItems.count() ) {
+                break;
+            }
+        }
+    }
 }
 
 /******************************************************************************
