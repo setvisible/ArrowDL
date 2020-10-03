@@ -515,6 +515,29 @@ QVariant TorrentFileTableModel::data(const QModelIndex &index, int role) const
         default:
             break;
         }
+
+    } else if (role == Qt::ToolTipRole) {
+        switch (index.column()) {
+        case  0:
+        case  1:
+        case  2:
+        case  3:
+        case  4:
+        case  5:
+        case  6:return QVariant();
+        case  7:
+        case  8: {
+            auto done = QString::number(percent(mi, ti));
+            auto total = QString::number(pieceCount(mi));
+            return tr("%0% of %1 pieces").arg(done, total); // Progress bar
+        }
+        case  9:
+        case 10:
+        case 11:
+        case 12: return QVariant();
+        default:
+            break;
+        }
     }
     return QVariant();
 }
@@ -643,6 +666,27 @@ QVariant TorrentPeerTableModel::data(const QModelIndex &index, int role) const
         case  8: return Format::timeToString(peer.timeDownloadQueue);
         case  9: return peer.flagString();
         case 10: return peer.sourceFlagString();
+        default:
+            break;
+        }
+
+    } else if (role == Qt::ToolTipRole) {
+        switch (index.column()) {
+        case  0:
+        case  1:
+        case  2:
+        case  3:
+        case  4: return QVariant();
+        case  5: {
+            auto done = QString::number(peer.availablePieces.count(true));
+            auto total = QString::number(peer.availablePieces.count());
+            return tr("%0 of %1 pieces").arg(done, total); // Progress bar
+        }
+        case  6:
+        case  7:
+        case  8: return QVariant();
+        case  9: return TorrentPeerInfo::flagTooltip();
+        case 10: return TorrentPeerInfo::sourceFlagTooltip();
         default:
             break;
         }

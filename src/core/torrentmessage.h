@@ -31,6 +31,28 @@
 #include <QtCore/QTime>
 #include <QtNetwork/QHostAddress>
 
+static const QString s_glasses = QString::fromUtf8("\xf0\x9f\x91\x93"); //👓
+static const QString s_smile = QString::fromUtf8("\xF0\x9F\x98\x83"); //😃
+static const QString s_sad = QString::fromUtf8("\xf0\x9f\x98\x9e "); //😞
+static const QString s_love = QString::fromUtf8("\xf0\x9f\x92\x8c"); // 💌
+static const QString s_bomb = QString::fromUtf8("\xf0\x9f\x92\xa3"); // 💣
+static const QString s_thumb_up = QString::fromUtf8("\xf0\x9f\x91\x8d"); // 👍
+static const QString s_red_flag = QString::fromUtf8("\xf0\x9f\x9a\xa9"); // 🚩
+static const QString s_hand_shake = QString::fromUtf8("\xf0\x9f\xa4\x9d"); // 🤝
+static const QString s_collision = QString::fromUtf8("\xf0\x9f\x92\xa5"); // 💥
+static const QString s_upload = QString::fromUtf8("\xf0\x9f\x93\xa4"); // 📤
+static const QString s_dice_game = QString::fromUtf8("\xf0\x9f\x8e\xb2"); // 🎲
+static const QString s_electric_plug = QString::fromUtf8("\xf0\x9f\x94\x8c"); // 🔌
+static const QString s_light_bulb = QString::fromUtf8("\xf0\x9f\x92\xa1"); // 💡
+static const QString s_banana = QString::fromUtf8("\xf0\x9f\x8d\x8c"); // 🍌
+static const QString s_speech = QString::fromUtf8("\xf0\x9f\x92\xac"); // 💬
+static const QString s_dog_face = QString::fromUtf8("\xf0\x9f\x90\xb6"); // 🐶
+static const QString s_receipt = QString::fromUtf8("\xf0\x9f\xa7\xbe"); // 🧾
+static const QString s_hole = QString::fromUtf8("\xf0\x9f\x95\xb3\xef\xb8\x8f"); // 🕳️
+static const QString s_key = QString::fromUtf8("\xf0\x9f\x94\x91"); // 🔑
+static const QString s_locked = QString::fromUtf8("\xf0\x9f\x94\x92"); // 🔒
+static const QString s_unlocked = QString::fromUtf8("\xf0\x9f\x94\x93"); // 🔓
+
 
 template<typename Enum>
 static inline void _q_set_flag(QFlags<Enum> *f, Enum flag, bool on = true)
@@ -225,26 +247,26 @@ class TorrentPeerInfo
 {
 public:
     enum Flag {
-        Interesting          ,
-        Choked               ,
-        RemoteInterested     ,
-        RemoteChoked         ,
-        SupportsExtensions   ,
-        LocalConnection      ,
-        Handshake            ,
-        Connecting           ,
-        //Queued               ,
-        OnParole             ,
-        Seed                 ,
-        OptimisticUnchoke    ,
-        Snubbed              ,
-        UploadOnly           ,
-        Endgame_Mode         ,
-        Holepunched          ,
-        I2pSocket            ,
-        UtpSocket            ,
-        SslSocket            ,
-        Rc4Encrypted         ,
+        Interesting,
+        Choked,
+        RemoteInterested,
+        RemoteChoked,
+        SupportsExtensions,
+        LocalConnection,
+        Handshake,
+        Connecting,
+        //Queued,
+        OnParole,
+        Seed,
+        OptimisticUnchoke,
+        Snubbed,
+        UploadOnly,
+        Endgame_Mode,
+        Holepunched,
+        I2pSocket,
+        UtpSocket,
+        SslSocket,
+        Rc4Encrypted,
         Plaintextencrypted
     };
     Q_DECLARE_FLAGS(Flags, Flag)
@@ -259,11 +281,91 @@ public:
     };
     Q_DECLARE_FLAGS(SourceFlags, SourceFlag)
 
+    static QString flagUnicodeSymbol(Flag flag) {
+        switch (flag) {
+        case Interesting          : return s_glasses;
+        case Choked               : return s_bomb;
+        case RemoteInterested     : return s_love;
+        case RemoteChoked         : return s_red_flag;
+        case SupportsExtensions   : return s_receipt;
+        case LocalConnection      : return s_smile;
+        case Handshake            : return s_hand_shake;
+        case Connecting           : return s_thumb_up;
+            //case Queued
+        case OnParole             : return s_speech;
+        case Seed                 : return s_dog_face;
+        case OptimisticUnchoke    : return s_sad;
+        case Snubbed              : return s_collision;
+        case UploadOnly           : return s_upload;
+        case Endgame_Mode         : return s_dice_game;
+        case Holepunched          : return s_hole;
+        case I2pSocket            : return s_electric_plug;
+        case UtpSocket            : return s_light_bulb;
+        case SslSocket            : return s_banana;
+        case Rc4Encrypted         : return s_key;
+        case Plaintextencrypted   : return s_locked;
+        }
+        Q_UNREACHABLE();
+    }
+
+    static QString sourceFlagUnicodeSymbol(SourceFlag flag) {
+        switch (flag) {
+        case FromTracker                : return s_banana;
+        case FromDHT                    : return s_bomb;
+        case FromPeerExchange           : return s_love;
+        case FromLocalServiceDiscovery  : return s_red_flag;
+        case FromFastResumeData         : return s_dice_game;
+        case FromPeerIncomingData       : return s_hand_shake;
+        }
+        Q_UNREACHABLE();
+    }
+
+    static QString flagComment(Flag flag) {
+        switch (flag) {
+        case Interesting          : return QLatin1String("We are interested in pieces from this peer.");
+        case Choked               : return QLatin1String("We have choked this peer.");
+        case RemoteInterested     : return QLatin1String("The peer is interested in us");
+        case RemoteChoked         : return QLatin1String("The peer has choked us.");
+        case SupportsExtensions   : return QLatin1String("The peer supports the extension protocol.");
+        case LocalConnection      : return QLatin1String("The peer connection was opened by us.");
+        case Handshake            : return QLatin1String("The handshake is done.");
+        case Connecting           : return QLatin1String("The connection is in a half-open state.");
+            //case Queued              : return QLatin1String("The connection is currently queued for a connection attempt.");
+        case OnParole             : return QLatin1String("The peer has failed the hash check.");
+        case Seed                 : return QLatin1String("The peer is a seed (it has all the pieces).");
+        case OptimisticUnchoke    : return QLatin1String("The peer is subject to an optimistic unchoke.");
+        case Snubbed              : return QLatin1String("The peer has recently failed to send a block.");
+        case UploadOnly           : return QLatin1String("The peer told us that it will not downloading anything more.");
+        case Endgame_Mode         : return QLatin1String("All pieces this peer has were already requested from other peers.");
+        case Holepunched          : return QLatin1String("The peer is in holepunch mode (NAT holepunch mechanism).");
+        case I2pSocket            : return QLatin1String("The socket is running on I2P transport.");
+        case UtpSocket            : return QLatin1String("The socket is a uTP socket.");
+        case SslSocket            : return QLatin1String("The socket is running on SSL (TLS) channel.");
+        case Rc4Encrypted         : return QLatin1String("The connection is obfuscated with RC4.");
+        case Plaintextencrypted   : return QLatin1String("The connection handshake was obfuscated with a Diffie-Hellman exchange.");
+        }
+        Q_UNREACHABLE();
+    }
+
+    static QString sourceFlagComment(SourceFlag flag) {
+        switch (flag) {
+        case FromTracker               : return QLatin1String("The peer was received from the tracker.");
+        case FromDHT                   : return QLatin1String("The peer was received from the kademlia DHT.");
+        case FromPeerExchange          : return QLatin1String("The peer was received from the peer exchange extension.");
+        case FromLocalServiceDiscovery : return QLatin1String("The peer was received from the local service discovery (The peer is on the local network).");
+        case FromFastResumeData        : return QLatin1String("The peer was added from the fast resume data.");
+        case FromPeerIncomingData      : return QLatin1String("We received an incoming connection from this peer.");
+        }
+        Q_UNREACHABLE();
+    }
+
     QString flagString() const
     {
         QString ret;
         for (int i = Interesting; i < Plaintextencrypted; ++i) {
-            ret += flags.testFlag(Flag(i)) ? QLatin1String("X") : QLatin1String("-");
+            if (flags.testFlag(Flag(i))) {
+                ret += TorrentPeerInfo::flagUnicodeSymbol(Flag(i));
+            }
         }
         return ret;
     }
@@ -271,7 +373,29 @@ public:
     {
         QString ret;
         for (int i = FromTracker; i < FromPeerIncomingData; ++i) {
-            ret += flags.testFlag(Flag(i)) ? QLatin1String("X") : QLatin1String("-");
+            if (sourceFlags.testFlag(SourceFlag(i))) {
+                ret += TorrentPeerInfo::sourceFlagUnicodeSymbol(SourceFlag(i));
+            }
+        }
+        return ret;
+    }
+
+    static QString flagTooltip() {
+        QString ret = QLatin1String("Flags:");
+        for (int i = Interesting; i < Plaintextencrypted; ++i) {
+            ret += QString("\n- %0 : %1").arg(
+                        TorrentPeerInfo::flagUnicodeSymbol(Flag(i)),
+                        TorrentPeerInfo::flagComment(Flag(i)));
+        }
+        return ret;
+    }
+
+    static QString sourceFlagTooltip() {
+        QString ret = QLatin1String("Source Flags:");
+        for (int i = FromTracker; i < FromPeerIncomingData; ++i) {
+            ret += QString("\n- %0 : %1").arg(
+                        TorrentPeerInfo::sourceFlagUnicodeSymbol(SourceFlag(i)),
+                        TorrentPeerInfo::sourceFlagComment(SourceFlag(i)));
         }
         return ret;
     }
