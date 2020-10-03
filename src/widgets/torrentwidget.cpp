@@ -562,6 +562,7 @@ void TorrentWidget::showContextMenuFileTable(const QPoint &/*pos*/)
     connect(&actionLow, &QAction::triggered, this, &TorrentWidget::setPriorityLow);
     connect(&actionSkip, &QAction::triggered, this, &TorrentWidget::setPrioritySkip);
 
+    /// \todo implement
     actionOpen.setEnabled(false);
     actionOpenFolder.setEnabled(false);
     actionScan.setEnabled(false);
@@ -666,13 +667,17 @@ void TorrentWidget::showContextMenuPeerTable(const QPoint &/*pos*/)
 
     QAction actionAdd(tr("Add Peer..."), contextMenu);
     QAction actionCopy(tr("Copy Peer List"), contextMenu);
+    QAction actionRemove(tr("Remove Unconnected"), contextMenu);
 
     connect(&actionAdd, &QAction::triggered, this, &TorrentWidget::addPeer);
     connect(&actionCopy, &QAction::triggered, this, &TorrentWidget::copyPeerList);
+    connect(&actionRemove, &QAction::triggered, this, &TorrentWidget::removeUnconnected);
 
     contextMenu->addAction(&actionAdd);
     contextMenu->addSeparator();
     contextMenu->addAction(&actionCopy);
+    contextMenu->addSeparator();
+    contextMenu->addAction(&actionRemove);
 
     contextMenu->exec(QCursor::pos());
     contextMenu->deleteLater();
@@ -706,6 +711,11 @@ void TorrentWidget::copyPeerList()
     }
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(text);
+}
+
+void TorrentWidget::removeUnconnected()
+{
+    m_torrent->removeUnconnectedPeers();
 }
 
 /******************************************************************************

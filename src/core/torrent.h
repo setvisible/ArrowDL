@@ -73,6 +73,7 @@ public:
     void setPreferredFilePriorities(const QString &priorities);
 
     void addPeer(const QString &input);
+    void removeUnconnectedPeers();
 
     int trackerCount() const;
     void addTracker(const QString &url);
@@ -182,6 +183,8 @@ public:
 
     void refreshData(const QList<TorrentPeerInfo> &peers);
     void retranslateUi();
+
+    void removeUnconnectedPeers();
 
 private:
     QList<TorrentPeerInfo> m_peers;

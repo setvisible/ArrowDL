@@ -74,6 +74,7 @@ private slots:
 
     void addPeer();
     void copyPeerList();
+    void removeUnconnected();
 
     void addTracker();
     void removeTracker();

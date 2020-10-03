@@ -231,6 +231,12 @@ void Torrent::addPeer(const QString &/*input*/)
     emit changed();
 }
 
+void Torrent::removeUnconnectedPeers()
+{
+    m_peerModel->removeUnconnectedPeers();
+    emit changed();
+}
+
 
 /******************************************************************************
  ******************************************************************************/
@@ -374,6 +380,7 @@ int TorrentFileTableModel::rowCount(const QModelIndex &parent) const
     return parent.isValid() ? 0 : m_filesMeta.count();
 }
 
+/// \todo move to torrentmessage?
 int TorrentFileTableModel::percent(const TorrentFileMetaInfo &mi,
                                    const TorrentFileInfo &ti) const
 {
@@ -643,6 +650,18 @@ QVariant TorrentPeerTableModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+void TorrentPeerTableModel::removeUnconnectedPeers()
+{
+    beginResetModel();
+    QList<TorrentPeerInfo> peers;
+    foreach (auto peer, m_peers) {
+        if (m_connectedPeers.contains(peer.endpoint)) {
+            peers.append(peer);
+        }
+    }
+    m_peers = peers;
+    endResetModel();
+}
 
 void TorrentPeerTableModel::refreshData(const QList<TorrentPeerInfo> &peers)
 {
