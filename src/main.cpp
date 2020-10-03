@@ -23,6 +23,7 @@
 
 #include <QtCore/QCommandLineParser>
 
+/* Enable the type to be used with QVariant. */
 Q_DECLARE_METATYPE(QList<int>)
 
 constexpr int msec_message_timeout = 2000;

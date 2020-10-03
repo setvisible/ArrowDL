@@ -58,6 +58,8 @@ protected slots:
 private slots:
     void onChanged();
 
+    void onSectionClicked(int logicalIndex);
+
     void showContextMenuFileTable(const QPoint &pos);
     void showContextMenuPeerTable(const QPoint &pos);
     void showContextMenuTrackerTable(const QPoint &pos);

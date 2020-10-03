@@ -44,6 +44,10 @@ struct TorrentPieceData
     QVector<int> totalPeers;
 };
 
+/* Enable the type to be used with QVariant. */
+Q_DECLARE_METATYPE(TorrentPieceData)
+
+
 class TorrentPieceMap : public QWidget
 {
     Q_OBJECT

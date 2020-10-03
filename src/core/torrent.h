@@ -20,6 +20,8 @@
 #include <Core/TorrentMessage>
 
 #include <QtCore/QAbstractTableModel>
+#include <QtCore/QSet>
+#include <QtCore/QSortFilterProxyModel>
 
 class TorrentFileTableModel;
 class TorrentPeerTableModel;
@@ -103,16 +105,26 @@ private:
 
 /******************************************************************************
  ******************************************************************************/
+class SortFilterProxyModel: public QSortFilterProxyModel
+{
+    Q_OBJECT
+public:
+    explicit SortFilterProxyModel(QObject *parent = Q_NULLPTR);
+};
+
+/******************************************************************************
+ ******************************************************************************/
 class AbstractTorrentTableModel: public QAbstractTableModel
 {
     Q_OBJECT
 public:
     enum Role {
-        ProgressRole = Qt::UserRole + 1,
-        SegmentRole
+        ProgressRole = Qt::UserRole + 1, ///< The progress value. (int, between 0 and 100)
+        SegmentRole, ///< The data to render the segments. (QBitArray)
+        SortRole
     };
 
-    explicit AbstractTorrentTableModel(Torrent *parent);
+    explicit AbstractTorrentTableModel(Torrent *parent = Q_NULLPTR);
 
     int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
@@ -129,7 +141,7 @@ class TorrentFileTableModel: public AbstractTorrentTableModel
 {
     Q_OBJECT
 public:
-    explicit TorrentFileTableModel(Torrent *parent);
+    explicit TorrentFileTableModel(Torrent *parent = Q_NULLPTR);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
@@ -162,7 +174,7 @@ class TorrentPeerTableModel: public AbstractTorrentTableModel
 {
     Q_OBJECT
 public:
-    explicit TorrentPeerTableModel(Torrent *parent);
+    explicit TorrentPeerTableModel(Torrent *parent = Q_NULLPTR);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
@@ -180,7 +192,7 @@ class TorrentTrackerTableModel: public AbstractTorrentTableModel
 {
     Q_OBJECT
 public:
-    explicit TorrentTrackerTableModel(Torrent *parent);
+    explicit TorrentTrackerTableModel(Torrent *parent = Q_NULLPTR);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;

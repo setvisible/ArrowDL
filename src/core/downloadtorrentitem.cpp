@@ -160,18 +160,6 @@ void DownloadTorrentItem::onTorrentChanged()
 
     } else {
 
-        if (m_torrent->info().state == TorrentInfo::stopped) {
-            qInfo("%s '%s' (%lli of %lli bytes).",
-                  m_torrent->info().torrentState_c_str(),
-                  m_torrent->metaInfo().initialMetaInfo.name.toLatin1().data(),
-                  m_torrent->info().bytesTotal,
-                  m_torrent->info().bytesReceived);
-        } else {
-            qInfo("%s '%s'.",
-                  m_torrent->info().torrentState_c_str(),
-                  m_torrent->metaInfo().initialMetaInfo.name.toLatin1().data());
-        }
-
         switch (static_cast<int>(m_torrent->info().state)) {
         case TorrentInfo::stopped:
             downloadItemState = IDownloadItem::Paused;

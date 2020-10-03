@@ -81,10 +81,14 @@ private:
 
 /******************************************************************************
  ******************************************************************************/
+constexpr int file_table_hidden_column_index = 1; // Hide 'Name' column
+constexpr int file_table_progress_bar_column_index = 8;
+
 static const Headers fileTableHeaders
 ({
+     {  30, QLatin1String("#")},
      { 320, QLatin1String("Name")},
-     { 460, QLatin1String("Path")},
+     { 320, QLatin1String("Path")},
      {  60, QLatin1String("Size")},
      {  60, QLatin1String("Done")},
      {  60, QLatin1String("Percent")},
@@ -96,6 +100,8 @@ static const Headers fileTableHeaders
      { 100, QLatin1String("SHA-1")},
      { 100, QLatin1String("CRC-32")}
  });
+
+constexpr int peer_table_progress_bar_column_index = 5;
 
 static const Headers peerTableHeaders
 ({
@@ -146,7 +152,7 @@ void FileTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
         myOption.font.setBold(true);
     }
 
-    if (index.column() == 7) {
+    if (index.column() == file_table_progress_bar_column_index) {
         const int progress = index.data(AbstractTorrentTableModel::ProgressRole).toInt();
         const QBitArray segments = index.data(AbstractTorrentTableModel::SegmentRole).toBitArray();
 
@@ -195,7 +201,7 @@ void PeerTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
         myOption.font.setBold(true);
     }
 
-    if (index.column() == 5) {
+    if (index.column() == peer_table_progress_bar_column_index) {
         const int progress = index.data(AbstractTorrentTableModel::ProgressRole).toInt();
         const QBitArray segments = index.data(AbstractTorrentTableModel::SegmentRole).toBitArray();
 
@@ -386,6 +392,29 @@ void TorrentWidget::onChanged()
 
 /******************************************************************************
  ******************************************************************************/
+void TorrentWidget::onSectionClicked(int logicalIndex)
+{
+    auto header = qobject_cast<QHeaderView*>(sender());
+    if (header) {
+        auto view = qobject_cast<QTableView*>(header->parent());
+        if (view) {
+            auto model = view->model();
+            if (model) {
+                auto proxyModel = qobject_cast<SortFilterProxyModel*>(model);
+                if (!proxyModel) {
+                    proxyModel = new SortFilterProxyModel(this);
+                    proxyModel->setSourceModel(model);
+                    view->setModel(proxyModel);
+                    view->setSortingEnabled(true);
+                    view->sortByColumn(logicalIndex, Qt::DescendingOrder);
+                }
+            }
+        }
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void TorrentWidget::setupUiTableView(QTableView *view)
 {
     view->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -402,6 +431,9 @@ void TorrentWidget::setupUiTableView(QTableView *view)
     view->horizontalHeader()->setDefaultSectionSize(column_default_width);
     view->horizontalHeader()->setMinimumSectionSize(column_minimum_width);
     view->verticalHeader()->setVisible(false);
+
+    connect(view->horizontalHeader(), SIGNAL(sectionClicked(int)),
+            this, SLOT(onSectionClicked(int)));
 }
 
 /******************************************************************************
@@ -601,15 +633,17 @@ TorrentFileInfo::Priority TorrentWidget::assessPriority(int row, int count)
 
 void TorrentWidget::setPriority(TorrentFileInfo::Priority priority)
 {
-    if (!m_torrentContext) {
-        return;
+    QItemSelection selection = ui->fileTableView->selectionModel()->selection();
+    auto proxymodel = qobject_cast<SortFilterProxyModel *>(ui->fileTableView->model());
+    if (proxymodel) {
+        selection = proxymodel->mapSelectionToSource(selection);
     }
-    QModelIndexList selection = ui->fileTableView->selectionModel()->selectedRows();
-    for (int i = 0; i < selection.count(); ++i) {
-        QModelIndex index = selection.at(i);
-        int row = index.row();
-        Q_ASSERT(m_torrentContext);
-        m_torrentContext->setPriority(m_torrent, row, priority);
+    QModelIndexList indexes = selection.indexes();
+
+    foreach (auto index, indexes) {
+        if (m_torrentContext) {
+            m_torrentContext->setPriority(m_torrent, index.row(), priority);
+        }
     }
 }
 
@@ -739,6 +773,10 @@ void TorrentWidget::resetUi()
         QAbstractTableModel* peerModel = m_torrent->peerModel();
         QAbstractTableModel* trackerModel = m_torrent->trackerModel();
 
+        Q_ASSERT(fileTableHeaders.count() == fileModel->columnCount());
+        Q_ASSERT(peerTableHeaders.count() == peerModel->columnCount());
+        Q_ASSERT(trackerTableHeaders.count() == trackerModel->columnCount());
+
         ui->fileTableView->setModel(fileModel);
         ui->peerTableView->setModel(peerModel);
         ui->trackerTableView->setModel(trackerModel);
@@ -747,8 +785,8 @@ void TorrentWidget::resetUi()
         setColumnWidths(ui->peerTableView, m_peerColumnsWidths);
         setColumnWidths(ui->trackerTableView, m_trackerColumnsWidths);
 
-        // hide column 0
-        ui->fileTableView->hideColumn(0);
+        // hide column
+        ui->fileTableView->hideColumn(file_table_hidden_column_index);
 
     } else {
 

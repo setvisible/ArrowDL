@@ -101,8 +101,8 @@ TorrentContextPrivate::TorrentContextPrivate(TorrentContext *qq)
     , settings(Q_NULLPTR)
     , networkManager(Q_NULLPTR)
 {
-    qRegisterMetaType<TorrentData>();
-    qRegisterMetaType<TorrentStatus>();
+    qRegisterMetaType<TorrentData>("TorrentData");
+    qRegisterMetaType<TorrentStatus>("TorrentStatus");
 
     workerThread = new WorkerThread(this);
 

@@ -646,6 +646,7 @@ struct TorrentStatus
     TorrentHandleInfo detail;
 };
 
+/* Enable the type to be used with QVariant. */
 Q_DECLARE_METATYPE(TorrentData)
 Q_DECLARE_METATYPE(TorrentStatus)
 
