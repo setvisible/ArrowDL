@@ -571,8 +571,8 @@ QVariant TorrentPeerTableModel::data(const QModelIndex &index, int role) const
 
     } else if (role == Qt::DisplayRole) {
         switch (index.column()) {
-        case  0: return peer.endpoint.ip;
-        case  1: return peer.endpoint.port;
+        case  0: return peer.endpoint.ip().toString();
+        case  1: return peer.endpoint.port();
         case  2: return peer.userAgent;
         case  3: return Format::fileSizeToString(peer.bytesDownloaded);
         case  4: return Format::fileSizeToString(peer.bytesUploaded);

@@ -29,6 +29,7 @@
 #include <QtCore/QPair>
 #include <QtCore/QString>
 #include <QtCore/QTime>
+#include <QtNetwork/QHostAddress>
 
 
 template<typename Enum>
@@ -86,34 +87,64 @@ public:
 class EndPoint // ex: TCP Socket
 {
 public:
-    QString ip;
-    int port = 0;
-
     EndPoint() = default;
-    EndPoint(const QString &_ip, int _port) : ip(_ip), port(_port)
+    EndPoint(const QString &address, int port) : m_ip(QHostAddress(address)), m_port(port)
     {
     }
-    EndPoint(const QString &input)
+    EndPoint(const QString &addressAndPort)
     {
-        fromString(input);
+        setAddressAndPort(addressAndPort);
     }
 
-    void fromString(const QString &input)
+    QHostAddress ip() const { return m_ip; }
+    QString ipToString() const { return m_ip.toString(); }
+
+    int port() const { return m_port; }
+
+    void setAddressAndPort(const QString &addressAndPort)
     {
-        auto fragments = input.split(':');
-        ip = fragments.at(0);
-        port = fragments.at(1).toInt();
+        if (!addressAndPort.contains(QLatin1Char(':'))) {
+            m_ip = QHostAddress(addressAndPort);
+            m_port = 0;
+        } else {
+            auto pos = addressAndPort.lastIndexOf(QLatin1Char(':'));
+            auto ipFragment = addressAndPort.mid(0, pos - 1);
+            auto portFragment = addressAndPort.mid(pos + 1);
+            m_ip = QHostAddress(ipFragment);
+            m_port = portFragment.toInt();
+        }
     }
 
     QString toString() const
     {
-        return QString("%0:%1").arg(ip).arg(port);
+        return QString("%0:%1").arg(m_ip.toString(), QString::number(m_port));
     }
 
-    bool operator==(const EndPoint &other) const { return (ip == other.ip && port == other.port); }
+    // Used to sort the ip addresses.
+    // Make sure that 2.0.0.0 follows 1.0.0.0 instead of 102.0.0.0
+    QString sortableIp() const
+    {
+        auto ipv6 = m_ip.toIPv6Address();
+        QString ret;
+        for (int i = 0; i < 16; ++i) {
+            const quint8 f = ipv6[i]; // 0 - 255
+            ret.append(QString::number(f).rightJustified(3, QLatin1Char('0')));
+        }
+        return ret;
+    }
+
+    bool operator==(const EndPoint &other) const { return (m_ip == other.m_ip && m_port == other.m_port); }
     bool operator!=(const EndPoint &other) const { return !(*this == other); }
 
+private:
+    QHostAddress m_ip;
+    int m_port{0};
 };
+
+/* Note: qHash() must be declared inside the object's namespace */
+inline uint qHash(const EndPoint &key, uint seed) {
+    return qHash(key.toString(), seed);
+}
 
 /******************************************************************************
  ******************************************************************************/

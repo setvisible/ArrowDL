@@ -638,7 +638,10 @@ void TorrentWidget::addPeer()
     bool ok;
     QString input = QInputDialog::getText(
                 this, tr("Add Peer"),
-                tr("Enter the IP:port / [IPv6]:port of the peer to add:"),
+                tr("Enter the IP address and port number of the peer to add.\n"
+                   "Ex:\n"
+                   " - for IPv4, type 'x.x.x.x:p'\n"
+                   " - for IPv6, type '[x:x:x:x:x:x:x:x]:p'\n"),
                 QLineEdit::Normal, QString(), &ok);
     if (ok && !input.isEmpty()) {
         m_torrent->addPeer(input);
@@ -648,8 +651,8 @@ void TorrentWidget::addPeer()
 void TorrentWidget::copyPeerList()
 {
     QStringList addresses;
-    foreach (const TorrentPeerInfo &peer, m_torrent->detail().peers) {
-        addresses << peer.endpoint.toString();
+    foreach (auto peer, m_torrent->detail().peers) {
+        addresses.append(peer.endpoint.toString());
     }
     QString text;
     foreach (auto address, addresses) {
