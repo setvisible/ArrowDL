@@ -246,14 +246,22 @@ static QBitArray toAvailablePieces(int size, const QString &pieceSketch)
  * '-' means no piece in the section is available
  *
  */
-TorrentPeerInfo DummyTorrentFactory::createDummyPeer(const EndPoint &endpoint,
-                                        const QString &pieceSketch,
-                                        const QString &userAgent,
-                                        qint64 size)
+TorrentPeerInfo DummyTorrentFactory::createDummyPeer(
+        const EndPoint &endpoint, const QString &pieceSketch, const QString &userAgent,
+        qint64 size)
+{
+    return createDummyPeer2(endpoint, pieceSketch, userAgent, size, 0, 0);
+}
+
+TorrentPeerInfo DummyTorrentFactory::createDummyPeer2(
+        const EndPoint &endpoint, const QString &pieceSketch, const QString &userAgent,
+        qint64 size, qint64 bytesDownloaded, qint64 bytesUploaded)
 {
     TorrentPeerInfo peer;
     peer.endpoint = endpoint;
     peer.userAgent = userAgent;
     peer.availablePieces = toAvailablePieces(static_cast<int>(size), pieceSketch);
+    peer.bytesDownloaded = bytesDownloaded;
+    peer.bytesUploaded = bytesUploaded;
     return peer;
 }

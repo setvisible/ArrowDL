@@ -22,6 +22,7 @@
 
 namespace Utils {
 int randomBetween(int a, int b);
+int randomBetweenLog(int a, int b);
 }
 
 class Torrent;
