@@ -137,7 +137,7 @@ double AbstractDownloadItem::speed() const
 int AbstractDownloadItem::progress() const
 {
     if (m_bytesTotal > 0) {
-        return qMin(qFloor(qreal(100 * m_bytesReceived) / m_bytesTotal), 100);
+        return qBound(0, qFloor(qreal(100 * m_bytesReceived) / m_bytesTotal), 100);
     }
     if (m_state == Idle) {
         return 0;

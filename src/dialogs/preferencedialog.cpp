@@ -455,7 +455,7 @@ void PreferenceDialog::read()
     ui->customBatchButtonLabelLineEdit->setText(m_settings->customBatchButtonLabel());
     ui->customBatchRangeLineEdit->setText(m_settings->customBatchRange());
 
-    int proxyIndex = qMax(0, qMin(m_settings->proxyType(), ui->proxyTypeComboBox->count() - 1));
+    int proxyIndex = qBound(0, m_settings->proxyType(), ui->proxyTypeComboBox->count() - 1);
     ui->proxyTypeComboBox->setCurrentIndex(proxyIndex);
     ui->proxyAddressLineEdit->setText(m_settings->proxyHostName());
     ui->proxyPortLineEdit->setText(QString::number(m_settings->proxyPort()));

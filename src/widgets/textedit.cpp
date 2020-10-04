@@ -18,7 +18,7 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QMimeData>
-#include <QtCore/QRegExp>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QtMath>
 #include <QtGui/QClipboard>
 #include <QtGui/QPainter>
@@ -69,8 +69,8 @@ void BlockSelector::setPosition(int line, int column, MoveMode anchor)
 
     setActive(true);
 
-    cursorLine = qMax( 0, qMin( m_editor->document()->blockCount()-1 , line ) );
-    cursorColumn = qMax( 0, column );
+    cursorLine = qBound(0, line, m_editor->document()->blockCount() - 1);
+    cursorColumn = qMax(0, column);
 
     if (anchor != KeepAnchor) {
         anchorLine = cursorLine;
@@ -606,7 +606,7 @@ void TextEdit::pasteBlockSelection()
 
 QString TextEdit::fragmentToPaste(const QString &input)
 {
-    QStringList list = input.split(QRegExp("[\\r\\n]"), QString::KeepEmptyParts);
+    QStringList list = input.split(QRegularExpression("[\\r\\n]"), QString::KeepEmptyParts);
     if (!list.isEmpty()) {
         return list.first();
     }

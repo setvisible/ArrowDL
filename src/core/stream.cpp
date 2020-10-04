@@ -28,6 +28,7 @@
 #include <QtCore/QJsonArray>
 #include <QtCore/QMap>
 #include <QtCore/QtMath>
+#include <QtCore/QRegularExpression>
 #ifdef QT_TESTLIB_LIB
 #  include <QtTest/QTest>
 #endif
@@ -155,7 +156,7 @@ static inline bool matches(const QString &host, const QString &regexHost)
      * matches("videos.absnews.com", "absnews:videos"); // == true
      * matches("videos.absnews.com", "absnews.com:videos"); // == true
      */
-    static QRegExp delimiters("[.|:]");
+    static QRegularExpression delimiters("[.|:]");
 
     auto domains = host.split('.', QString::SkipEmptyParts);
     auto mandatoryDomains = regexHost.split(delimiters, QString::SkipEmptyParts);
@@ -1282,7 +1283,7 @@ static QString cleanFileName(const QString &fileName)
             *it = QChar('_');
         }
     }
-    ret = ret.replace(QRegExp("_+"), QLatin1String("_"));
+    ret = ret.replace(QRegularExpression("_+"), QLatin1String("_"));
     return ret.simplified();
 }
 

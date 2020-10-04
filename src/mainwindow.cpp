@@ -1004,26 +1004,32 @@ void MainWindow::refreshTitleAndStatus()
 
     const bool torrent = TorrentContext::getInstance().isEnabled();
 
-    auto windowTitle = QString("%0 %1/%2 - %3 v%4")
-            .arg(totalSpeed).arg(doneCount).arg(count)
-            .arg(STR_APPLICATION_NAME)
-            .arg(STR_APPLICATION_VERSION).trimmed();
+    auto windowTitle = QString("%0 %1/%2 - %3 v%4").arg(
+                totalSpeed,
+                QString::number(doneCount),
+                QString::number(count),
+                STR_APPLICATION_NAME,
+                STR_APPLICATION_VERSION).trimmed();
 
     this->setWindowTitle(windowTitle);
 
-    auto title = tr("Done: %0 Running: %1 Total: %2")
-            .arg(doneCount).arg(runningCount).arg(count);
+    auto title = tr("Done: %0 Running: %1 Total: %2").arg(
+                QString::number(doneCount),
+                QString::number(runningCount),
+                QString::number(count));
+
     m_systemTray->setTitle(title);
     m_systemTray->setToolTip(windowTitle);
 
-    m_statusBarLabel->setText(
-                tr("%0 of %1 (%2), %3 running  %4 | Torrent: %5")
-                .arg(doneCount)
-                .arg(count)
-                .arg(count)
-                .arg(runningCount)
-                .arg(totalSpeed).trimmed()
-                .arg(torrent ? tr("active") : tr("inactive")));
+    auto state = tr("%0 of %1 (%2), %3 running  %4 | Torrent: %5").arg(
+                QString::number(doneCount),
+                QString::number(count),
+                QString::number(count),
+                QString::number(runningCount),
+                totalSpeed,
+                torrent ? tr("active") : tr("inactive"));
+
+    m_statusBarLabel->setText(state);
 
 #ifdef USE_QT_WINEXTRAS
     if (m_winTaskbarProgress) {

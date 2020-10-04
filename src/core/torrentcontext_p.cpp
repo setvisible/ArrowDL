@@ -2397,7 +2397,7 @@ static inline lt::torrent_status::state_t fromState(const TorrentInfo::TorrentSt
  ******************************************************************************/
 inline std::string WorkerThread::userAgent()
 {
-    return QString("%0 %1").arg(STR_APPLICATION_NAME).arg(STR_APPLICATION_VERSION).toStdString();
+    return QString("%0 %1").arg(STR_APPLICATION_NAME, STR_APPLICATION_VERSION).toStdString();
 }
 
 /******************************************************************************

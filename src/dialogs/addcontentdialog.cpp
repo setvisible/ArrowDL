@@ -31,8 +31,9 @@
 #include <QtCore/QDebug>
 #include <QtCore/QList>
 #include <QtCore/QtMath>
-#include <QtCore/QUrl>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QSettings>
+#include <QtCore/QUrl>
 #include <QtGui/QCloseEvent>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QMessageBox>
@@ -93,7 +94,7 @@ AddContentDialog::AddContentDialog(DownloadManager *downloadManager,
     connect(ui->maskWidget, SIGNAL(currentMaskChanged(QString)), m_model, SLOT(setMask(QString)));
     connect(ui->maskWidget, SIGNAL(currentMaskChanged(QString)), this, SLOT(onChanged(QString)));
 
-    connect(ui->filterWidget, SIGNAL(regexChanged(QRegExp)), m_model, SLOT(select(QRegExp)));
+    connect(ui->filterWidget, SIGNAL(regexChanged(QRegularExpression)), m_model, SLOT(select(QRegularExpression)));
 
     connect(m_model, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 
@@ -385,7 +386,9 @@ void AddContentDialog::onSelectionChanged()
         ui->tipLabel->setText(tr("After selecting links, click on Start!"));
     } else {
         const int count = currentModel->items().count();
-        ui->tipLabel->setText(tr("Selected links: %0 of %1").arg(selectionCount).arg(count));
+        ui->tipLabel->setText(tr("Selected links: %0 of %1").arg(
+                                  QString::number(selectionCount),
+                                  QString::number(count)));
     }
     onChanged(QString());
 }

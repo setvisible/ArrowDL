@@ -104,7 +104,7 @@ void Locale::applyLanguage(const QString &language)
     const QString localeName = locale.name();
     const QString localeFilename = translationFileName(localeName);
     const QString localeInfo = QObject::tr("translation '%0', locale '%1': %2")
-            .arg(language).arg(localeName).arg(localeFilename);
+            .arg(language, localeName, localeFilename);
 
     s_translator = new QTranslator();
     if (s_translator->load(localeFilename)) {

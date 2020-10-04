@@ -20,10 +20,10 @@
 #include <Widgets/AutoCloseDialog>
 #include <Widgets/FilterTip>
 
+#include <QtCore/QDebug>
 #include <QtCore/QtMath>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QMessageBox>
-#include <QtCore/QDebug>
 
 
 static uint encode(const QList<QCheckBox*> &checkboxes)
@@ -51,18 +51,20 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
 {
     ui->setupUi(this);
 
-    auto inputValidityPtr = [](const QString &t) { QRegExp regex(t); return regex.isValid(); };
+    auto inputValidityPtr = [](const QString &t) {
+        QRegularExpression regex(t);
+        return regex.isValid();
+    };
     ui->fastFilteringComboBox->setInputIsValidWhen( inputValidityPtr );
 
     clearFilters();
 
-    connect(ui->fastFilteringOnlyCheckBox, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));
+    connect(ui->fastFilteringOnlyCheckBox, SIGNAL(stateChanged(int)),
+            this, SLOT(onFilterChanged(int)));
     connect(ui->fastFilteringComboBox, SIGNAL(currentTextChanged(QString)),
             this, SLOT(onFilterChanged(QString)));
-
     connect(ui->fastFilteringTipToolButton, SIGNAL(released()),
             this, SLOT(onFilterTipToolReleased()));
-
 }
 
 FilterWidget::~FilterWidget()
@@ -190,7 +192,7 @@ void FilterWidget::addFilter(const QString &name, const QString &regexp)
 
 /******************************************************************************
  ******************************************************************************/
-QRegExp FilterWidget::regex() const
+QRegularExpression FilterWidget::regex() const
 {
     QString filter;
 
@@ -221,6 +223,5 @@ QRegExp FilterWidget::regex() const
             }
         }
     }
-    QRegExp regex(filter, Qt::CaseInsensitive, QRegExp::RegExp);
-    return regex;
+    return QRegularExpression(filter, QRegularExpression::CaseInsensitiveOption);
 }

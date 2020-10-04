@@ -30,7 +30,7 @@ static QString buildAbout(const QString &paragraphDelimiter)
        paragraphDelimiter +
        QCoreApplication::tr(
            "Copyright (C) %0 %1. All rights reserved."
-           ).arg(STR_APPLICATION_DATE).arg(STR_APPLICATION_AUTHOR) +
+           ).arg(STR_APPLICATION_DATE, STR_APPLICATION_AUTHOR) +
        paragraphDelimiter +
        QLatin1String("GNU LGPL License") +
        paragraphDelimiter +

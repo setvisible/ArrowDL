@@ -170,7 +170,7 @@ inline QString File::nextAvailableName(const QString &name)
     QString newFileName = name;
     int i = 0;
     do {
-        newFileName = QString("%0%1%2").arg(prefix).arg(i).arg(suffix);
+        newFileName = QString("%0%1%2").arg(prefix, QString::number(i), suffix);
         i++;
     } while (QFile::exists(newFileName));
     return newFileName;

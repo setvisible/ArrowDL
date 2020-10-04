@@ -127,10 +127,10 @@ static void moveCursor(CheckableTableView *view, int key)
     auto currentIndex = view->currentIndex();
     auto row = currentIndex.row();
     switch (key) {
-    case Qt::Key_Up:    row = qMax(0, row-1);       break;
-    case Qt::Key_Down:  row = qMin(rowMax, row+1);  break;
-    case Qt::Key_Home:  row = 0;                    break;
-    case Qt::Key_End:   row = rowMax;               break;
+    case Qt::Key_Up:    row = qBound(0, row - 1, rowMax); break;
+    case Qt::Key_Down:  row = qBound(0, row + 1, rowMax); break;
+    case Qt::Key_Home:  row = 0; break;
+    case Qt::Key_End:   row = rowMax; break;
     default: break;
     }
     view->setCurrentIndex(view->model()->index(row, currentIndex.column()));

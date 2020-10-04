@@ -18,6 +18,9 @@
 
 #include <Core/ResourceItem>
 
+#include <QtCore/QRegularExpression>
+
+
 ResourceModel::ResourceModel(QObject *parent) : CheckableTableModel(parent)
 {
     connect(this, SIGNAL(checkStateChanged(QModelIndex , bool)),
@@ -89,13 +92,14 @@ void ResourceModel::setMask(const QString &mask)
 
 /******************************************************************************
  ******************************************************************************/
-void ResourceModel::select(const QRegExp &regex)
+void ResourceModel::select(const QRegularExpression &regex)
 {
     beginResetModel();
     QSignalBlocker blocker(this);
     for (int i = 0; i < m_items.count(); ++i) {
         auto item = m_items.at(i);
-        bool isChecked = (!regex.isEmpty() && regex.indexIn(item->url(), 0) != -1);
+        auto url = item->url();
+        auto isChecked = (regex.isValid() && regex.match(url).hasMatch());
         this->setData(this->index(i, 0), isChecked, CheckableTableModel::CheckStateRole);
     }
     blocker.unblock();

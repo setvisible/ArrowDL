@@ -50,7 +50,7 @@ signals:
 public slots:
     void setDestination(const QString &destination);
     void setMask(const QString &mask);
-    void select(const QRegExp &regex);
+    void select(const QRegularExpression &regex);
 
 private slots:
     void onCheckStateChanged(QModelIndex index, bool checked);
