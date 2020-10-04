@@ -103,7 +103,7 @@ QPixmap MimeDatabaseSingleton::fileIcon(const QUrl &url, int extend)
         return pixmap;
     }
 
-    const QString key = QString("%0 %1").arg(fileInfo.suffix()).arg(extend);
+    const QString key = QString("%0 %1").arg(fileInfo.suffix(), extend);
 
     if (!QPixmapCache::find(key, &pixmap)) {
 

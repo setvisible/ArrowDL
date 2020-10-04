@@ -386,7 +386,9 @@ void AddContentDialog::onSelectionChanged()
         ui->tipLabel->setText(tr("After selecting links, click on Start!"));
     } else {
         const int count = currentModel->items().count();
-        ui->tipLabel->setText(tr("Selected links: %0 of %1").arg(selectionCount).arg(count));
+        ui->tipLabel->setText(tr("Selected links: %0 of %1").arg(
+                                  QString::number(selectionCount),
+                                  QString::number(count)));
     }
     onChanged(QString());
 }

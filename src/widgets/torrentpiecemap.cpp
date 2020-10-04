@@ -49,7 +49,7 @@ static void colorize(QWidget *widget, TorrentPieceItem::Status status)
 {
     QColor _color = color(status);
     QPalette pal = widget->palette();
-    pal.setColor(QPalette::Background, _color);
+    pal.setColor(QPalette::Window, _color);
     widget->setAutoFillBackground(true);
     widget->setPalette(pal);
     widget->setStyleSheet(QString());

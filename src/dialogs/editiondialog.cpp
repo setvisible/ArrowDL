@@ -96,8 +96,9 @@ void EditionDialog::onTextChanged()
     ui->buttonBox->setEnabled(lineCount == itemCount);
     ui->warningLabel->setVisible(lineCount != itemCount);
     ui->warningLabel->setText(
-                tr("Warning: number of lines is <%0> but should be <%1>!")
-                .arg(lineCount).arg(itemCount));
+                tr("Warning: number of lines is <%0> but should be <%1>!").arg(
+                    QString::number(lineCount),
+                    QString::number(itemCount)));
 }
 
 /******************************************************************************
