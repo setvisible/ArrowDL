@@ -69,8 +69,8 @@ void BlockSelector::setPosition(int line, int column, MoveMode anchor)
 
     setActive(true);
 
-    cursorLine = qMax( 0, qMin( m_editor->document()->blockCount()-1 , line ) );
-    cursorColumn = qMax( 0, column );
+    cursorLine = qBound(0, line, m_editor->document()->blockCount() - 1);
+    cursorColumn = qMax(0, column);
 
     if (anchor != KeepAnchor) {
         anchorLine = cursorLine;
