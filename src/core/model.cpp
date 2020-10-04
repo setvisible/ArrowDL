@@ -20,6 +20,7 @@
 #include <Core/ResourceItem>
 
 #include <QtCore/QDebug>
+#include <QtCore/QRegularExpression>
 
 Model::Model(QObject *parent) : QObject(parent)
   , m_linkModel(new ResourceModel(this))
@@ -77,7 +78,7 @@ void Model::setMask(const QString &mask)
     m_contentModel->setMask(mask);
 }
 
-void Model::select(const QRegExp &regex)
+void Model::select(const QRegularExpression &regex)
 {
     m_linkModel->select(regex);
     m_contentModel->select(regex);

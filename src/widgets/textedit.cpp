@@ -18,7 +18,7 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QMimeData>
-#include <QtCore/QRegExp>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QtMath>
 #include <QtGui/QClipboard>
 #include <QtGui/QPainter>
@@ -606,7 +606,7 @@ void TextEdit::pasteBlockSelection()
 
 QString TextEdit::fragmentToPaste(const QString &input)
 {
-    QStringList list = input.split(QRegExp("[\\r\\n]"), QString::KeepEmptyParts);
+    QStringList list = input.split(QRegularExpression("[\\r\\n]"), QString::KeepEmptyParts);
     if (!list.isEmpty()) {
         return list.first();
     }

@@ -20,6 +20,7 @@
 
 #include <QtCore/QDir>
 #include <QtCore/QFile>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QUrl>
 
 static const QString s_regular = QLatin1String("regular");
@@ -284,20 +285,21 @@ inline QString ResourceItem::localMagnetFile(const QString &customFileName) cons
 inline QString ResourceItem::parseMagnetUrl(const QString &url) const
 {
     /// todo move to Mask::interpretMagnet ?
-    QRegExp regex("^"
-                  + QRegExp::escape("magnet:?")
-                  + ".*"+ QRegExp::escape("&") + "?"
-                  + QRegExp::escape("dn=")
+    QRegularExpression regex("^"
+                  + QRegularExpression::escape("magnet:?")
+                  + ".*"+ QRegularExpression::escape("&") + "?"
+                  + QRegularExpression::escape("dn=")
                   // *********************
                   // captured group #1
                   // rem: [^A] means anything not A
-                  + "([^" + QRegExp::escape("&") + "]*)"
+                  + "([^" + QRegularExpression::escape("&") + "]*)"
                   // *********************
-                  + "(" + QRegExp::escape("&") + ".*)?"
+                  + "(" + QRegularExpression::escape("&") + ".*)?"
                   + "$"
                   );
-    if (regex.indexIn(url) != -1) {
-        QString displayName = regex.cap(1);
+    QRegularExpressionMatch match = regex.match(url);
+    if (match.hasMatch()) {
+        QString displayName = match.captured(1);
         displayName = Mask::decodeMagnetEncoding(displayName);
         return displayName;
     }

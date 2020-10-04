@@ -18,6 +18,7 @@
 
 #include <QtCore/QtMath>
 #include <QtCore/QDebug>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QTime>
 
 static const QString s_infinite_symbol = QString::fromUtf8("\xE2\x88\x9E");
@@ -179,7 +180,7 @@ qint64 Format::parseBytes(const QString &text)
     textwithoutTilde.remove(QChar('~'));
 
     QString numberString = textwithoutTilde;
-    numberString.remove(QRegExp("[a-zA-Z]*"));
+    numberString.remove(QRegularExpression("[a-zA-Z]*"));
     qreal decimal = 0;
     if (!parseDouble(numberString, decimal)) {
         return -1;

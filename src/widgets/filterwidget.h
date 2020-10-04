@@ -17,6 +17,7 @@
 #ifndef WIDGETS_FILTER_WIDGET_H
 #define WIDGETS_FILTER_WIDGET_H
 
+#include <QtCore/QRegularExpression>
 #include <QtWidgets/QWidget>
 
 class QCheckBox;
@@ -35,7 +36,7 @@ public:
     void clearFilters();
     void addFilter(const QString &name, const QString &regexp);
 
-    QRegExp regex() const;
+    QRegularExpression regex() const;
 
     uint state() const;
     void setState(uint code);
@@ -47,7 +48,7 @@ public:
     void setFilterHistory(const QStringList &filters);
 
 signals:
-    void regexChanged(QRegExp regex);
+    void regexChanged(const QRegularExpression &regex);
 
 private slots:
     void onFilterChanged(int);
