@@ -75,7 +75,7 @@ TorrentPieceMap::TorrentPieceMap(QWidget *parent) : QWidget(parent)
 
     QFontMetrics fm(m_tileFont);
 #if QT_VERSION >= 0x051100
-    squareWidth = fm.horizontalAdvance("999");
+    m_tileWidth = fm.horizontalAdvance("999");
 #else
     m_tileWidth = fm.width("999");
 #endif
