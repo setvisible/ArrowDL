@@ -19,10 +19,32 @@
 #include <Core/Torrent>
 
 
-/******************************************************************************
- ******************************************************************************/
 void TorrentBaseContext::setPriority(Torrent *torrent, int fileIndex, TorrentFileInfo::Priority p)
 {
     Q_ASSERT(torrent);
     torrent->setFilePriority(fileIndex, p);
+}
+
+void TorrentBaseContext::setPriorityByFileOrder(Torrent *torrent, const QList<int> &fileIndexes)
+{
+    Q_ASSERT(torrent);
+    auto fileCount = torrent->fileCount();
+    foreach (auto fileIndex, fileIndexes) {
+        auto priority = TorrentBaseContext::computePriority(fileIndex, fileCount);
+        setPriority(torrent, fileIndex, priority);
+    }
+}
+
+TorrentFileInfo::Priority TorrentBaseContext::computePriority(int row, int count)
+{
+    if (count < 3) {
+        return TorrentFileInfo::Normal;
+    }
+    qreal pos = qreal(row + 1) / count;
+    if (pos < 0.3333) {
+        return TorrentFileInfo::High;
+    } else if (pos < 0.6666) {
+        return TorrentFileInfo::Normal;
+    }
+    return TorrentFileInfo::Low;
 }

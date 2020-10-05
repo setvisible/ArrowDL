@@ -98,7 +98,6 @@ private:
     void setupContextMenus();
 
     void setPriority(TorrentFileInfo::Priority priority);
-    TorrentFileInfo::Priority assessPriority(int row, int count);
 
     void getColumnWidths(QTableView *view, QList<int> *widths);
     void setColumnWidths(QTableView *view, const QList<int> &widths);

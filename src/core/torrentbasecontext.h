@@ -28,6 +28,9 @@ public:
     virtual ~TorrentBaseContext() = default;
 
     virtual void setPriority(Torrent *torrent, int index, TorrentFileInfo::Priority p);
+    virtual void setPriorityByFileOrder(Torrent *torrent, const QList<int> &rows);
+
+    static TorrentFileInfo::Priority computePriority(int row, int count);
 };
 
 #endif // CORE_TORRENT_BASE_CONTEXT_H

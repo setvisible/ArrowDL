@@ -23,6 +23,7 @@ if(ENABLE_TESTS)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/regex/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/resourceitem/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/stream/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/torrentbasecontext/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/torrentcontext/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/updatechecker/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/io/jsonhandler/CMakeLists.txt)
@@ -62,6 +63,7 @@ if(ENABLE_TESTS)
         tst_regex
         tst_resourceitem
         tst_stream
+        tst_torrentbasecontext
         tst_torrentcontext
         tst_updatechecker
         tst_jsonhandler
