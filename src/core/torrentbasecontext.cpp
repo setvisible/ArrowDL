@@ -41,9 +41,9 @@ TorrentFileInfo::Priority TorrentBaseContext::computePriority(int row, int count
         return TorrentFileInfo::Normal;
     }
     qreal pos = qreal(row + 1) / count;
-    if (pos < 0.3333) {
+    if (pos < 0.3334) {
         return TorrentFileInfo::High;
-    } else if (pos < 0.6666) {
+    } else if (pos < 0.6667) {
         return TorrentFileInfo::Normal;
     }
     return TorrentFileInfo::Low;
