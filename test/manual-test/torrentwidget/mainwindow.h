@@ -20,8 +20,8 @@
 #include <QtWidgets/QMainWindow>
 
 class DummyTorrentAnimator;
-class ITorrentContext;
 class Torrent;
+class TorrentBaseContext;
 using TorrentPtr = QSharedPointer<Torrent>;
 
 namespace Ui {
@@ -46,7 +46,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    ITorrentContext *m_torrentContext;
+    TorrentBaseContext *m_torrentContext;
     DummyTorrentAnimator *m_animator;
     TorrentPtr m_torrent;
 };

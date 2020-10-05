@@ -3,6 +3,22 @@ layout: category
 title: Screenshots
 ---
 
+## Version 2.1.0
+
+Torrent Improved:
+
+![Torrent Improved](../assets/images/2.1/torrent_01.png)
+
+Peer Flags:
+
+![Peer Flags](../assets/images/2.1/torrent_02.png)
+
+
+Piece Map:
+
+![Piece Map](../assets/images/2.1/torrent_03.png)
+
+
 ## Version 2.0.5
 
 Playlist streams:

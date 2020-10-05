@@ -175,7 +175,6 @@ bool TorrentContext::addTorrent(Torrent *torrent)
         return false;
     }
     return true;
-
 }
 
 void TorrentContext::removeTorrent(Torrent *torrent)
@@ -199,7 +198,6 @@ void TorrentContext::pauseTorrent(Torrent *torrent)
  ******************************************************************************/
 void TorrentContext::setPriority(Torrent *torrent, int index, TorrentFileInfo::Priority p)
 {
-    torrent->setFilePriority(index, p);
+    TorrentBaseContext::setPriority(torrent, index, p);
     d->changeFilePriority(torrent, index, p);
 }
-

@@ -14,7 +14,6 @@ HEADERS += \
     $$PWD/htmlparser.h \
     $$PWD/idownloaditem.h \
     $$PWD/ifileaccessmanager.h \
-    $$PWD/itorrentcontext.h \
     $$PWD/locale.h \
     $$PWD/mask.h \
     $$PWD/mimedatabase.h \
@@ -28,6 +27,7 @@ HEADERS += \
     $$PWD/stream.h \
     $$PWD/streammanager.h \
     $$PWD/torrent.h \
+    $$PWD/torrentbasecontext.h \
     $$PWD/torrentcontext.h \
     $$PWD/torrentcontext_p.h \
     $$PWD/torrentmessage.h \
@@ -60,6 +60,7 @@ SOURCES += \
     $$PWD/stream.cpp \
     $$PWD/streammanager.cpp \
     $$PWD/torrent.cpp \
+    $$PWD/torrentbasecontext.cpp \
     $$PWD/torrentcontext.cpp \
     $$PWD/torrentcontext_p.cpp \
     $$PWD/torrentmessage.cpp \

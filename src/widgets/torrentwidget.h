@@ -22,7 +22,7 @@
 #include <QtWidgets/QStyledItemDelegate>
 #include <QtWidgets/QWidget>
 
-class ITorrentContext;
+class TorrentBaseContext;
 class Torrent;
 
 class QAction;
@@ -40,8 +40,8 @@ public:
     explicit TorrentWidget(QWidget *parent);
     ~TorrentWidget() Q_DECL_OVERRIDE;
 
-    ITorrentContext* torrentContext() const;
-    void setTorrentContext(ITorrentContext *torrentContext);
+    TorrentBaseContext* torrentContext() const;
+    void setTorrentContext(TorrentBaseContext *torrentContext);
 
     void clear();
     bool isEmpty() const;
@@ -82,7 +82,7 @@ private slots:
 
 private:
     Ui::TorrentWidget *ui;
-    ITorrentContext *m_torrentContext;
+    TorrentBaseContext *m_torrentContext;
     Torrent *m_torrent;
 
     QList<int> m_fileColumnsWidths;
@@ -98,7 +98,6 @@ private:
     void setupContextMenus();
 
     void setPriority(TorrentFileInfo::Priority priority);
-    TorrentFileInfo::Priority assessPriority(int row, int count);
 
     void getColumnWidths(QTableView *view, QList<int> *widths);
     void setColumnWidths(QTableView *view, const QList<int> &widths);

@@ -10,6 +10,8 @@ CONFIG      += c++11
 INCLUDEPATH += ../../../include
 
 # Resources:
-HEADERS     += $$PWD/../../../src/core/regex.h
-SOURCES     += $$PWD/../../../src/core/regex.cpp
+HEADERS = \
+    $$PWD/../../../src/core/regex.h
 
+SOURCES = \
+    $$PWD/../../../src/core/regex.cpp

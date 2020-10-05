@@ -10,13 +10,13 @@ CONFIG      += c++11
 INCLUDEPATH += ../../../include
 
 # Resources:
-HEADERS     += $$PWD/../../../src/core/format.h
-SOURCES     += $$PWD/../../../src/core/format.cpp
+HEADERS = \
+    $$PWD/../../../src/core/format.h \
+    $$PWD/../../../src/core/stream.h \
+    $$PWD/../../../test/utils/biginteger.h \
+    $$PWD/../../../test/utils/dummystreamfactory.h
 
-HEADERS     += $$PWD/../../../src/core/stream.h
-SOURCES     += $$PWD/../../../src/core/stream.cpp
-
-HEADERS     += $$PWD/../../../test/utils/biginteger.h
-
-HEADERS     += $$PWD/../../../test/utils/dummystreamfactory.h
-SOURCES     += $$PWD/../../../test/utils/dummystreamfactory.cpp
+SOURCES = \
+    $$PWD/../../../src/core/format.cpp \
+    $$PWD/../../../src/core/stream.cpp \
+    $$PWD/../../../test/utils/dummystreamfactory.cpp

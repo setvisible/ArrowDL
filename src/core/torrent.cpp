@@ -489,7 +489,7 @@ QVariant TorrentFileTableModel::data(const QModelIndex &index, int role) const
         case  6: return firstPieceIndex(mi);
         case  7: return pieceCount(mi);
         case  8: return percent(mi, ti);
-        case  9: return ti.priorityString();
+        case  9: return ti.priority;
         case 10: return mi.modifiedTime;
         case 11: return mi.hash;
         case 12: return mi.crc32FilePathHash;

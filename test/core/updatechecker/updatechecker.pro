@@ -11,5 +11,3 @@ CONFIG      += c++11
 
 # Resources:
 HEADERS     += $$PWD/../../../src/core/updatechecker_p.h
-
-

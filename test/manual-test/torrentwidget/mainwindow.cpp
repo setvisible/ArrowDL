@@ -18,11 +18,11 @@
 #include "ui_mainwindow.h"
 
 #include <Core/Torrent>
+#include <Core/TorrentBaseContext>
 #include <Widgets/TorrentWidget>
 
 #include "../../utils/dummytorrentanimator.h"
 #include "../../utils/dummytorrentfactory.h"
-#include "../../utils/faketorrentcontext.h"
 
 #include <QtCore/QDebug>
 #include <QtCore/QTimer>
@@ -31,7 +31,7 @@
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
-  , m_torrentContext(new FakeTorrentContext())
+  , m_torrentContext(new TorrentBaseContext())
   , m_animator(new DummyTorrentAnimator(this))
 {
     ui->setupUi(this);

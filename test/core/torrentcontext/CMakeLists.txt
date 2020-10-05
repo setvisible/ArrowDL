@@ -9,6 +9,7 @@ set(MY_TEST_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/networkmanager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/settings.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrent.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrentbasecontext.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrentcontext.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrentcontext_p.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrentmessage.cpp

@@ -18,8 +18,8 @@
 #include "ui_torrentwidget.h"
 
 #include <Core/Format>
-#include <Core/ITorrentContext>
 #include <Core/Torrent>
+#include <Core/TorrentBaseContext>
 #include <Core/TorrentMessage>
 #include <Widgets/CustomStyle>
 #include <Widgets/CustomStyleOptionProgressBar>
@@ -298,12 +298,12 @@ TorrentWidget::~TorrentWidget()
 
 /******************************************************************************
  ******************************************************************************/
-ITorrentContext *TorrentWidget::torrentContext() const
+TorrentBaseContext *TorrentWidget::torrentContext() const
 {
     return m_torrentContext;
 }
 
-void TorrentWidget::setTorrentContext(ITorrentContext *torrentContext)
+void TorrentWidget::setTorrentContext(TorrentBaseContext *torrentContext)
 {
     m_torrentContext = torrentContext;
 }
@@ -611,36 +611,14 @@ void TorrentWidget::setPrioritySkip()
 
 void TorrentWidget::setPriorityByFileOrder()
 {
-    if (!m_torrentContext) {
-        return;
+    QSet<int> rows;
+    auto indexes = ui->fileTableView->selectionModel()->selectedRows();
+    foreach (auto index, indexes) {
+        rows.insert(index.row());
     }
-    QModelIndexList selection = ui->fileTableView->selectionModel()->selectedRows();
-    int count = ui->fileTableView->model()->rowCount();
-    for (int row = 0; row < count; ++row) {
-        for (int i = 0; i < selection.count(); ++i) {
-            QModelIndex index = selection.at(i);
-            if (row == index.row()) {
-                TorrentFileInfo::Priority priority = assessPriority(row, count);
-                Q_ASSERT(m_torrentContext);
-                m_torrentContext->setPriority(m_torrent, row, priority);
-                continue;
-            }
-        }
+    if (m_torrentContext) {
+        m_torrentContext->setPriorityByFileOrder(m_torrent, rows.toList());
     }
-}
-
-TorrentFileInfo::Priority TorrentWidget::assessPriority(int row, int count)
-{
-    if (count < 3) {
-        return TorrentFileInfo::Normal;
-    }
-    qreal pos = qreal(row + 1) / count;
-    if (pos < 0.3333) {
-        return TorrentFileInfo::High;
-    } else if (pos < 0.6666) {
-        return TorrentFileInfo::Normal;
-    }
-    return TorrentFileInfo::Low;
 }
 
 void TorrentWidget::setPriority(TorrentFileInfo::Priority priority)
