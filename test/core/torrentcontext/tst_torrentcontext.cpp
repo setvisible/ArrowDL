@@ -26,23 +26,6 @@ class tst_TorrentContext : public QObject
 {
     Q_OBJECT
 
-    /**
-     * Helper function to initialize a bitarray from a string
-     */
-    static inline QBitArray QStringToQBitArray(const QString &str)
-    {
-        QBitArray ba;
-        ba.resize(str.length());
-        int i;
-        QChar tru('1');
-        for (i = 0; i < str.length(); i++) {
-            if (str.at(i) == tru) {
-                ba.setBit(i, true);
-            }
-        }
-        return ba;
-    }
-
 private slots:
     void toBitArray_data();
     void toBitArray();
@@ -57,6 +40,23 @@ public:
 
 /******************************************************************************
 ******************************************************************************/
+/**
+ * Helper function to initialize a bitarray from a string
+ */
+static QBitArray QStringToQBitArray(const QString &str)
+{
+    QBitArray ba;
+    ba.resize(str.length());
+    int i;
+    QChar tru('1');
+    for (i = 0; i < str.length(); i++) {
+        if (str.at(i) == tru) {
+            ba.setBit(i, true);
+        }
+    }
+    return ba;
+}
+
 void tst_TorrentContext::toBitArray_data()
 {
     QTest::addColumn<QBitArray>("input");

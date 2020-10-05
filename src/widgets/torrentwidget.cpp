@@ -18,8 +18,8 @@
 #include "ui_torrentwidget.h"
 
 #include <Core/Format>
-#include <Core/ITorrentContext>
 #include <Core/Torrent>
+#include <Core/TorrentBaseContext>
 #include <Core/TorrentMessage>
 #include <Widgets/CustomStyle>
 #include <Widgets/CustomStyleOptionProgressBar>
@@ -298,12 +298,12 @@ TorrentWidget::~TorrentWidget()
 
 /******************************************************************************
  ******************************************************************************/
-ITorrentContext *TorrentWidget::torrentContext() const
+TorrentBaseContext *TorrentWidget::torrentContext() const
 {
     return m_torrentContext;
 }
 
-void TorrentWidget::setTorrentContext(ITorrentContext *torrentContext)
+void TorrentWidget::setTorrentContext(TorrentBaseContext *torrentContext)
 {
     m_torrentContext = torrentContext;
 }

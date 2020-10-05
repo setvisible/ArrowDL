@@ -29,6 +29,7 @@ HEADERS += \
     $$PWD/../../../src/core/format.h \
     $$PWD/../../../src/core/itorrentcontext.h \
     $$PWD/../../../src/core/torrent.h \
+    $$PWD/../../../src/core/torrentbasecontext.h \
     $$PWD/../../../src/core/torrentmessage.h \
     $$PWD/../../../src/widgets/customstyle.h \
     $$PWD/../../../src/widgets/customstyleoptionprogressbar.h \
@@ -37,12 +38,12 @@ HEADERS += \
     $$PWD/../../../src/widgets/torrentprogressbar.h \
     $$PWD/../../../src/widgets/torrentwidget.h \
     $$PWD/../../../test/utils/dummytorrentanimator.h \
-    $$PWD/../../../test/utils/dummytorrentfactory.h \
-    $$PWD/../../../test/utils/faketorrentcontext.h
+    $$PWD/../../../test/utils/dummytorrentfactory.h
 
 SOURCES += \
     $$PWD/../../../src/core/format.cpp \
     $$PWD/../../../src/core/torrent.cpp \
+    $$PWD/../../../src/core/torrentbasecontext.cpp \
     $$PWD/../../../src/core/torrentmessage.cpp \
     $$PWD/../../../src/widgets/customstyle.cpp \
     $$PWD/../../../src/widgets/customstyleoptionprogressbar.cpp \
@@ -50,8 +51,7 @@ SOURCES += \
     $$PWD/../../../src/widgets/torrentprogressbar.cpp \
     $$PWD/../../../src/widgets/torrentwidget.cpp \
     $$PWD/../../../test/utils/dummytorrentanimator.cpp \
-    $$PWD/../../../test/utils/dummytorrentfactory.cpp \
-    $$PWD/../../../test/utils/faketorrentcontext.cpp
+    $$PWD/../../../test/utils/dummytorrentfactory.cpp
 
 FORMS += \
     $$PWD/../../../src/widgets/torrentpiecemap.ui \

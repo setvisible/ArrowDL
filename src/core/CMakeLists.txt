@@ -24,6 +24,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/stream.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/streammanager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrent.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrentbasecontext.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrentcontext.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrentcontext_p.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/torrentmessage.cpp

@@ -14,19 +14,15 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FAKE_TORRENT_CONTEXT_H
-#define FAKE_TORRENT_CONTEXT_H
+#include "torrentbasecontext.h"
 
-#include <Core/ITorrentContext>
+#include <Core/Torrent>
 
-class FakeTorrentContext : public ITorrentContext
+
+/******************************************************************************
+ ******************************************************************************/
+void TorrentBaseContext::setPriority(Torrent *torrent, int fileIndex, TorrentFileInfo::Priority p)
 {
-public:
-    explicit FakeTorrentContext() = default;
-    ~FakeTorrentContext() Q_DECL_OVERRIDE = default;
-
-    void setPriority(Torrent *torrent, int index, TorrentFileInfo::Priority p) Q_DECL_OVERRIDE;
-
-};
-
-#endif // FAKE_TORRENT_CONTEXT_H
+    Q_ASSERT(torrent);
+    torrent->setFilePriority(fileIndex, p);
+}
