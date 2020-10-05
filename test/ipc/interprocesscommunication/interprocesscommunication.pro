@@ -10,20 +10,18 @@ CONFIG      += c++11
 INCLUDEPATH += $$PWD/../../../include/
 
 # Resources:
-HEADERS     += $$PWD/../../../src/core/checkabletablemodel.h
-SOURCES     += $$PWD/../../../src/core/checkabletablemodel.cpp
+HEADERS += \
+    $$PWD/../../../src/core/checkabletablemodel.h \
+    $$PWD/../../../src/core/mask.h \
+    $$PWD/../../../src/core/model.h \
+    $$PWD/../../../src/core/resourceitem.h \
+    $$PWD/../../../src/core/resourcemodel.h \
+    $$PWD/../../../src/ipc/interprocesscommunication.h
 
-HEADERS     += $$PWD/../../../src/core/mask.h
-SOURCES     += $$PWD/../../../src/core/mask.cpp
-
-HEADERS     += $$PWD/../../../src/core/model.h
-SOURCES     += $$PWD/../../../src/core/model.cpp
-
-HEADERS     += $$PWD/../../../src/core/resourceitem.h
-SOURCES     += $$PWD/../../../src/core/resourceitem.cpp
-
-HEADERS     += $$PWD/../../../src/core/resourcemodel.h
-SOURCES     += $$PWD/../../../src/core/resourcemodel.cpp
-
-HEADERS     += $$PWD/../../../src/ipc/interprocesscommunication.h
-SOURCES     += $$PWD/../../../src/ipc/interprocesscommunication.cpp
+SOURCES += \
+    $$PWD/../../../src/core/checkabletablemodel.cpp \
+    $$PWD/../../../src/core/mask.cpp \
+    $$PWD/../../../src/core/model.cpp \
+    $$PWD/../../../src/core/resourceitem.cpp \
+    $$PWD/../../../src/core/resourcemodel.cpp \
+    $$PWD/../../../src/ipc/interprocesscommunication.cpp

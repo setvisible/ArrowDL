@@ -6,12 +6,12 @@ set(MY_TEST_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadengine.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/io/ifilehandler.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/io/jsonhandler.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test/utils/fakedownloaditem.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test/utils/fakedownloadmanager.cpp
     )
 
 add_executable(${MY_TEST_TARGET} WIN32
     ${CMAKE_CURRENT_SOURCE_DIR}/test/io/jsonhandler/tst_jsonhandler.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/test/utils/fakedownloaditem.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/test/utils/fakedownloadmanager.cpp
     ${MY_TEST_SOURCES}
     )
 

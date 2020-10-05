@@ -10,6 +10,8 @@ CONFIG      += c++11
 INCLUDEPATH += ../../../include
 
 # Resources:
-HEADERS     += $$PWD/../../../src/core/abstractsettings.h
-SOURCES     += $$PWD/../../../src/core/abstractsettings.cpp
+HEADERS = \
+    $$PWD/../../../src/core/abstractsettings.h
 
+SOURCES = \
+    $$PWD/../../../src/core/abstractsettings.cpp

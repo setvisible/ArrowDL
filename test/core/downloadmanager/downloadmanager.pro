@@ -43,69 +43,50 @@ include($$PWD/../../../3rd/libtorrent/libtorrent-config.pri)
 INCLUDEPATH += ../../../include
 
 # Resources:
-HEADERS     += $$PWD/../../../src/core/abstractdownloaditem.h
-SOURCES     += $$PWD/../../../src/core/abstractdownloaditem.cpp
+HEADERS += \
+    $$PWD/../../../src/core/abstractdownloaditem.h \
+    $$PWD/../../../src/core/abstractsettings.h \
+    $$PWD/../../../src/core/downloadengine.h \
+    $$PWD/../../../src/core/downloaditem.h \
+    $$PWD/../../../src/core/downloaditem_p.h \
+    $$PWD/../../../src/core/downloadmanager.h \
+    $$PWD/../../../src/core/downloadstreamitem.h \
+    $$PWD/../../../src/core/downloadtorrentitem.h \
+    $$PWD/../../../src/core/file.h \
+    $$PWD/../../../src/core/format.h \
+    $$PWD/../../../src/core/idownloaditem.h \
+    $$PWD/../../../src/core/ifileaccessmanager.h \
+    $$PWD/../../../src/core/itorrentcontext.h \
+    $$PWD/../../../src/core/mask.h \
+    $$PWD/../../../src/core/networkmanager.h \
+    $$PWD/../../../src/core/resourceitem.h \
+    $$PWD/../../../src/core/session.h \
+    $$PWD/../../../src/core/settings.h \
+    $$PWD/../../../src/core/stream.h \
+    $$PWD/../../../src/core/torrent.h \
+    $$PWD/../../../src/core/torrentbasecontext.h \
+    $$PWD/../../../src/core/torrentcontext.h \
+    $$PWD/../../../src/core/torrentcontext_p.h \
+    $$PWD/../../../src/core/torrentmessage.h       
 
-HEADERS     += $$PWD/../../../src/core/abstractsettings.h
-SOURCES     += $$PWD/../../../src/core/abstractsettings.cpp
-
-HEADERS     += $$PWD/../../../src/core/downloadengine.h
-SOURCES     += $$PWD/../../../src/core/downloadengine.cpp
-
-HEADERS     += $$PWD/../../../src/core/downloaditem.h
-HEADERS     += $$PWD/../../../src/core/downloaditem_p.h
-SOURCES     += $$PWD/../../../src/core/downloaditem.cpp
-
-HEADERS     += $$PWD/../../../src/core/downloadmanager.h
-SOURCES     += $$PWD/../../../src/core/downloadmanager.cpp
-
-HEADERS     += $$PWD/../../../src/core/downloadstreamitem.h
-SOURCES     += $$PWD/../../../src/core/downloadstreamitem.cpp
-
-HEADERS     += $$PWD/../../../src/core/downloadtorrentitem.h
-SOURCES     += $$PWD/../../../src/core/downloadtorrentitem.cpp
-
-HEADERS     += $$PWD/../../../src/core/file.h
-SOURCES     += $$PWD/../../../src/core/file.cpp
-
-HEADERS     += $$PWD/../../../src/core/format.h
-SOURCES     += $$PWD/../../../src/core/format.cpp
-
-HEADERS     += $$PWD/../../../src/core/ifileaccessmanager.h
-
-HEADERS     += $$PWD/../../../src/core/idownloaditem.h
-
-HEADERS     += $$PWD/../../../src/core/itorrentcontext.h
-
-HEADERS     += $$PWD/../../../src/core/networkmanager.h
-SOURCES     += $$PWD/../../../src/core/networkmanager.cpp
-
-HEADERS     += $$PWD/../../../src/core/resourceitem.h
-SOURCES     += $$PWD/../../../src/core/resourceitem.cpp
-
-HEADERS     += $$PWD/../../../src/core/mask.h
-SOURCES     += $$PWD/../../../src/core/mask.cpp
-
-HEADERS     += $$PWD/../../../src/core/session.h
-SOURCES     += $$PWD/../../../src/core/session.cpp
-
-HEADERS     += $$PWD/../../../src/core/settings.h
-SOURCES     += $$PWD/../../../src/core/settings.cpp
-
-HEADERS     += $$PWD/../../../src/core/stream.h
-SOURCES     += $$PWD/../../../src/core/stream.cpp
-
-HEADERS     += $$PWD/../../../src/core/torrent.h
-SOURCES     += $$PWD/../../../src/core/torrent.cpp
-
-HEADERS     += $$PWD/../../../src/core/torrentbasecontext.h
-SOURCES     += $$PWD/../../../src/core/torrentbasecontext.cpp
-
-HEADERS     += $$PWD/../../../src/core/torrentcontext.h
-SOURCES     += $$PWD/../../../src/core/torrentcontext.cpp
-
-HEADERS     += $$PWD/../../../src/core/torrentcontext_p.h
-SOURCES     += $$PWD/../../../src/core/torrentcontext_p.cpp
-
-HEADERS     += $$PWD/../../../src/core/torrentmessage.h
-SOURCES     += $$PWD/../../../src/core/torrentmessage.cpp
+SOURCES += \      
+    $$PWD/../../../src/core/abstractdownloaditem.cpp \
+    $$PWD/../../../src/core/abstractsettings.cpp \
+    $$PWD/../../../src/core/downloadengine.cpp \
+    $$PWD/../../../src/core/downloaditem.cpp \
+    $$PWD/../../../src/core/downloadmanager.cpp \
+    $$PWD/../../../src/core/downloadstreamitem.cpp \
+    $$PWD/../../../src/core/downloadtorrentitem.cpp \
+    $$PWD/../../../src/core/file.cpp \
+    $$PWD/../../../src/core/format.cpp \
+    $$PWD/../../../src/core/mask.cpp \
+    $$PWD/../../../src/core/networkmanager.cpp \
+    $$PWD/../../../src/core/resourceitem.cpp \
+    $$PWD/../../../src/core/session.cpp \
+    $$PWD/../../../src/core/settings.cpp \
+    $$PWD/../../../src/core/stream.cpp \
+    $$PWD/../../../src/core/torrent.cpp \
+    $$PWD/../../../src/core/torrentbasecontext.cpp \
+    $$PWD/../../../src/core/torrentcontext.cpp \
+    $$PWD/../../../src/core/torrentcontext_p.cpp \
+    $$PWD/../../../src/core/torrentmessage.cpp
