@@ -134,7 +134,7 @@ void TorrentContextPrivate::onSettingsChanged()
     if (!settings) {
         return;
     }
-    lt::settings_pack pack = lt::default_settings(); /*= fromSettings(settings)*/
+    lt::settings_pack pack = lt::default_settings(); /* = fromSettings(settings)*/
 
     const QMap<QString, QVariant> map = settings->torrentSettings();
     QMapIterator<QString, QVariant> it(map);
