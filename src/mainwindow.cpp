@@ -61,11 +61,12 @@
 #include <QtCore/QSettings>
 #include <QtCore/QStandardPaths>
 #include <QtCore/QUrl>
+#include <QtGui/QClipboard>
 #include <QtGui/QCloseEvent>
+#include <QtGui/QDesktopServices>
 #include <QtGui/QDragEnterEvent>
 #include <QtGui/QDropEvent>
-#include <QtGui/QClipboard>
-#include <QtGui/QDesktopServices>
+#include <QtGui/QKeyEvent>
 #include <QtGui/QScreen>
 #include <QtWidgets/QAbstractButton>
 #include <QtWidgets/QPushButton>
@@ -87,7 +88,6 @@ constexpr int default_width = 1000;
 constexpr int default_height = 700;
 constexpr int default_x = 100;
 constexpr int default_y = 100;
-constexpr int column_width = 200;
 
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
@@ -233,6 +233,14 @@ void MainWindow::changeEvent(QEvent *event)
         refreshSplitter();
     }
     QMainWindow::changeEvent(event);
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Escape
+            && m_settings->isMinimizeEscapeEnabled()) {
+        setWindowState(Qt::WindowMinimized);
+    }
 }
 
 /******************************************************************************

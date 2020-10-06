@@ -443,6 +443,7 @@ void PreferenceDialog::read()
     ui->showSystemTrayIconCheckBox->setChecked(m_settings->isSystemTrayIconEnabled());
     ui->hideWhenMinimizedCheckBox->setChecked(m_settings->isHideWhenMinimizedEnabled());
     ui->showSystemTrayBalloonCheckBox->setChecked(m_settings->isSystemTrayBalloonEnabled());
+    ui->minimizeWhenEscPressedCheckBox->setChecked(m_settings->isMinimizeEscapeEnabled());
     ui->confirmRemovalCheckBox->setChecked(m_settings->isConfirmRemovalEnabled());
     ui->confirmBatchCheckBox->setChecked(m_settings->isConfirmBatchDownloadEnabled());
     ui->streamHostCheckBox->setChecked(m_settings->isStreamHostEnabled());
@@ -505,6 +506,7 @@ void PreferenceDialog::write()
     m_settings->setSystemTrayIconEnabled(ui->showSystemTrayIconCheckBox->isChecked());
     m_settings->setHideWhenMinimizedEnabled(ui->hideWhenMinimizedCheckBox->isChecked());
     m_settings->setSystemTrayBalloonEnabled(ui->showSystemTrayBalloonCheckBox->isChecked());
+    m_settings->setMinimizeEscapeEnabled(ui->minimizeWhenEscPressedCheckBox->isChecked());
     m_settings->setConfirmRemovalEnabled(ui->confirmRemovalCheckBox->isChecked());
     m_settings->setConfirmBatchDownloadEnabled(ui->confirmBatchCheckBox->isChecked());
     m_settings->setStreamHostEnabled(ui->streamHostCheckBox->isChecked());

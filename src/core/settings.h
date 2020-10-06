@@ -83,6 +83,9 @@ public:
     bool isSystemTrayBalloonEnabled() const;
     void setSystemTrayBalloonEnabled(bool enabled);
 
+    bool isMinimizeEscapeEnabled() const;
+    void setMinimizeEscapeEnabled(bool enabled);
+
     bool isConfirmRemovalEnabled() const;
     void setConfirmRemovalEnabled(bool enabled);
 
