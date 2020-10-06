@@ -32,10 +32,6 @@ DownloadTorrentItem::DownloadTorrentItem(DownloadManager *downloadManager)
 
 }
 
-DownloadTorrentItem::~DownloadTorrentItem()
-{
-}
-
 /******************************************************************************
  ******************************************************************************/
 /*!
@@ -94,10 +90,10 @@ void DownloadTorrentItem::onTorrentChanged()
 
     if (m_torrent->info().error.type != TorrentError::NoError) {
 
-        qDebug() << Q_FUNC_INFO
-                 << m_torrent->info().error.type
-                 << m_torrent->info().error.fileIndex
-                 << m_torrent->info().error.message;
+        qInfo("Error ('%i'), file %i: '%s'.",
+              m_torrent->info().error.type,
+              m_torrent->info().error.fileIndex,
+              m_torrent->info().error.message.toLatin1().data());
 
         QString message;
 
@@ -164,11 +160,6 @@ void DownloadTorrentItem::onTorrentChanged()
 
     } else {
 
-        qDebug() << Q_FUNC_INFO
-                 << m_torrent->info().torrentStateString()
-                 << m_torrent->info().bytesTotal
-                 << m_torrent->info().bytesReceived;
-
         switch (static_cast<int>(m_torrent->info().state)) {
         case TorrentInfo::stopped:
             downloadItemState = IDownloadItem::Paused;
@@ -222,11 +213,9 @@ void DownloadTorrentItem::resume()
     if (isPreparing()) {
         return;
     }
-
-    qDebug() << Q_FUNC_INFO
-             << localFullFileName()  // localdrive/destination/t.torrent
-             << resource()->url() // remote/origine/t.torrent
-             << localFilePath(); // localdrive/destination/
+    qInfo("Resume '%s' (destination: '%s').",
+          resource()->url().toLatin1().data(), // remote/origine/t.torrent
+          localFullFileName().toLatin1().data()); // localdrive/destination/t.torrent
 
     this->beginResume();
 
@@ -254,6 +243,7 @@ void DownloadTorrentItem::resume()
 
 void DownloadTorrentItem::pause()
 {
+    qInfo("Pause '%s'.", resource()->url().toLatin1().data());
     if (isSeeding()) {
         if (TorrentContext::getInstance().hasTorrent(m_torrent)) {
             TorrentContext::getInstance().removeTorrent(m_torrent);
@@ -276,6 +266,7 @@ void DownloadTorrentItem::pause()
 
 void DownloadTorrentItem::stop()
 {
+    qInfo("Stop '%s'.", resource()->url().toLatin1().data());
     file()->cancel();
 
     if (isPreparing()) {

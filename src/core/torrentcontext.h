@@ -17,7 +17,7 @@
 #ifndef CORE_TORRENT_CONTEXT_H
 #define CORE_TORRENT_CONTEXT_H
 
-#include <Core/ITorrentContext>
+#include <Core/TorrentBaseContext>
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
@@ -40,7 +40,7 @@ struct TorrentSettingItem
  * @class TorrentContext
  * @brief Represents the libtorrent context.
  */
-class TorrentContext : public QObject, public ITorrentContext
+class TorrentContext : public QObject, public TorrentBaseContext
 {
     Q_OBJECT
     // Note:
@@ -51,7 +51,7 @@ class TorrentContext : public QObject, public ITorrentContext
     // before deleted status
 private:
     TorrentContext();
-    ~TorrentContext() Q_DECL_OVERRIDE;
+    ~TorrentContext() Q_DECL_OVERRIDE = default;
 public:
     TorrentContext(TorrentContext const&) = delete; // Don't Implement
     void operator=(TorrentContext const&) = delete; // Don't implement

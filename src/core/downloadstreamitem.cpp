@@ -29,15 +29,13 @@ DownloadStreamItem::DownloadStreamItem(DownloadManager *downloadManager)
 {
 }
 
-DownloadStreamItem::~DownloadStreamItem()
-{
-}
-
 /******************************************************************************
  ******************************************************************************/
 void DownloadStreamItem::resume()
 {
-    qDebug() << Q_FUNC_INFO << localFullFileName() << resource()->url();
+    qInfo("Resume '%s' (destination: '%s').",
+          resource()->url().toLatin1().data(),
+          localFullFileName().toLatin1().data());
 
     this->beginResume();
 
@@ -81,12 +79,14 @@ void DownloadStreamItem::resume()
 
 void DownloadStreamItem::pause()
 {
-    // TODO
+    /// \todo implement?
+    qInfo("Pause '%s'.", resource()->url().toLatin1().data());
     AbstractDownloadItem::pause();
 }
 
 void DownloadStreamItem::stop()
 {
+    qInfo("Stop '%s'.", resource()->url().toLatin1().data());
     file()->cancel();
     if (m_stream) {
         m_stream->abort();
@@ -100,20 +100,28 @@ void DownloadStreamItem::stop()
  ******************************************************************************/
 void DownloadStreamItem::onMetaDataChanged()
 {
-    qDebug() << Q_FUNC_INFO;
-    resource()->setStreamFileName(m_stream->fileName());
+    auto oldFileName = resource()->streamFileName();
+    auto newFileName = m_stream->fileName();
+    if (oldFileName != newFileName) {
+        qInfo("HTTP redirect: '%s' to '%s'.",
+              oldFileName.toLatin1().data(),
+              newFileName.toLatin1().data());
+        resource()->setStreamFileName(newFileName);
+    }
 }
 
 void DownloadStreamItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
-    // qDebug() << Q_FUNC_INFO << bytesReceived << "/" << bytesTotal;
+    if (bytesReceived > 0 && bytesTotal > 0) {
+        qInfo("Downloaded '%s' (%lli of %lli bytes).",
+              resource()->url().toLatin1().data(), bytesReceived, bytesTotal);
+    }
     updateInfo(bytesReceived, bytesTotal);
 }
 
 void DownloadStreamItem::onFinished()
 {
-    qDebug() << Q_FUNC_INFO << state();
-
+    qInfo("Finished (%s) '%s'.", state_c_str(), localFullFileName().toLatin1().data());
     switch (state()) {
     case Idle:
     case Preparing:
@@ -157,17 +165,15 @@ void DownloadStreamItem::onFinished()
         file()->cancel();
         emit changed();
         break;
-
-    default:
-        Q_UNREACHABLE();
-        break;
     }
     this->finish();
 }
 
-void DownloadStreamItem::onError(QString errorMessage)
+void DownloadStreamItem::onError(const QString &errorMessage)
 {
-    qDebug() << Q_FUNC_INFO << errorMessage;
+    qInfo("Error '%s': '%s'.",
+          resource()->url().toLatin1().data(),
+          errorMessage.toLatin1().data());
     file()->cancel();
     setErrorMessage(errorMessage);
     setState(NetworkError);

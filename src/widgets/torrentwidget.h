@@ -22,7 +22,7 @@
 #include <QtWidgets/QStyledItemDelegate>
 #include <QtWidgets/QWidget>
 
-class ITorrentContext;
+class TorrentBaseContext;
 class Torrent;
 
 class QAction;
@@ -40,8 +40,8 @@ public:
     explicit TorrentWidget(QWidget *parent);
     ~TorrentWidget() Q_DECL_OVERRIDE;
 
-    ITorrentContext* torrentContext() const;
-    void setTorrentContext(ITorrentContext *torrentContext);
+    TorrentBaseContext* torrentContext() const;
+    void setTorrentContext(TorrentBaseContext *torrentContext);
 
     void clear();
     bool isEmpty() const;
@@ -58,6 +58,8 @@ protected slots:
 private slots:
     void onChanged();
 
+    void onSectionClicked(int logicalIndex);
+
     void showContextMenuFileTable(const QPoint &pos);
     void showContextMenuPeerTable(const QPoint &pos);
     void showContextMenuTrackerTable(const QPoint &pos);
@@ -72,6 +74,7 @@ private slots:
 
     void addPeer();
     void copyPeerList();
+    void removeUnconnected();
 
     void addTracker();
     void removeTracker();
@@ -79,7 +82,7 @@ private slots:
 
 private:
     Ui::TorrentWidget *ui;
-    ITorrentContext *m_torrentContext;
+    TorrentBaseContext *m_torrentContext;
     Torrent *m_torrent;
 
     QList<int> m_fileColumnsWidths;
@@ -95,7 +98,6 @@ private:
     void setupContextMenus();
 
     void setPriority(TorrentFileInfo::Priority priority);
-    TorrentFileInfo::Priority assessPriority(int row, int count);
 
     void getColumnWidths(QTableView *view, QList<int> *widths);
     void setColumnWidths(QTableView *view, const QList<int> &widths);
@@ -119,6 +121,33 @@ class FileTableViewItemDelegate : public QStyledItemDelegate
     Q_OBJECT
 public:
     explicit FileTableViewItemDelegate(QObject *parent = Q_NULLPTR);
+
+    void paint(QPainter *painter, const QStyleOptionViewItem &option,
+               const QModelIndex &index ) const Q_DECL_OVERRIDE;
+};
+
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * PeerTableViewItemDelegate is used to draw the pieces owned by the peer.
+ */
+class PeerTableViewItemDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
+public:
+    explicit PeerTableViewItemDelegate(QObject *parent = Q_NULLPTR);
+
+    void paint(QPainter *painter, const QStyleOptionViewItem &option,
+               const QModelIndex &index ) const Q_DECL_OVERRIDE;
+};
+
+/******************************************************************************
+ ******************************************************************************/
+class TrackerTableViewItemDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
+public:
+    explicit TrackerTableViewItemDelegate(QObject *parent = Q_NULLPTR);
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index ) const Q_DECL_OVERRIDE;

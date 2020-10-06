@@ -18,33 +18,101 @@
 #include "ui_torrentpiecemap.h"
 
 #include <Core/Torrent>
+#include <Widgets/Globals>
 
 #include <QtCore/QDebug>
+#include <QtCore/QtMath>
+#include <QtGui/QPainter>
+#include <QtGui/QPaintEvent>
+#include <QtWidgets/QGraphicsScene>
+#include <QtWidgets/QGraphicsItem>
+
+#define ENABLE_MONITORING false
+
+
+#if (ENABLE_MONITORING)
+#include <QtCore/QElapsedTimer>
+#endif
+
+static QColor color(TorrentPieceItem::Status status)
+{
+    switch (status) {
+    case TorrentPieceItem::Status::NotAvailable:   return s_lightGrey;
+    case TorrentPieceItem::Status::Available:      return s_orange;
+    case TorrentPieceItem::Status::Downloaded:     return s_green;
+    case TorrentPieceItem::Status::Verified:       return s_purple;
+    }
+    Q_UNREACHABLE();
+}
+
+static void colorize(QWidget *widget, TorrentPieceItem::Status status)
+{
+    QColor _color = color(status);
+    QPalette pal = widget->palette();
+    pal.setColor(QPalette::Window, _color);
+    widget->setAutoFillBackground(true);
+    widget->setPalette(pal);
+    widget->setStyleSheet(QString());
+}
 
 TorrentPieceMap::TorrentPieceMap(QWidget *parent) : QWidget(parent)
   , ui(new Ui::TorrentPieceMap)
-  , m_torrent(Q_NULLPTR)
+  , m_scene(new QGraphicsScene(this))
 {
     ui->setupUi(this);
+
+    colorize(ui->boxNotAvailable, TorrentPieceItem::Status::NotAvailable);
+    colorize(ui->boxAvailable,    TorrentPieceItem::Status::Available);
+    colorize(ui->boxDownloaded,   TorrentPieceItem::Status::Downloaded);
+    colorize(ui->boxVerified,     TorrentPieceItem::Status::Verified);
+
+    /* Calculate metrics */
+    m_tileFont = font();
+    // const int pointSize = m_tileFont.pointSize();
+    // m_tileFont.setPointSize(pointSize - 1);
+
+    qRegisterMetaType<TorrentPieceData>("TorrentPieceData");
+
+    QFontMetrics fm(m_tileFont);
+#if QT_VERSION >= 0x051100
+    m_tileWidth = fm.horizontalAdvance("999");
+#else
+    m_tileWidth = fm.width("999");
+#endif
+    m_tileHeight = fm.height() + 2 * m_tilePadding;
+    m_tileWidth += 2 * m_tilePadding;
+
+    /* Graphics Scene */
+    m_rootItem = m_scene->addRect(QRectF(0, 0, 0, 0));
+    m_rootItem->setFlags(QGraphicsItem::ItemHasNoContents);
+    m_scene->setBackgroundBrush(QBrush(s_darkPurple));
+
+    /* Indexing is efficient for static scenes */
+    /* But here items will move around, so disable it. */
+    m_scene->setItemIndexMethod(QGraphicsScene::NoIndex);
+
+    /* Graphics View */
+    ui->graphicsView->setScene(m_scene);
+    ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->graphicsView->setRenderHint(QPainter::TextAntialiasing);
+    ui->graphicsView->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+
+    /* Cache pre-rendered content in a pixmap, which is then drawn onto the viewport */
+    ui->graphicsView->setCacheMode(QGraphicsView::CacheBackground);
+
+    /* Worker thread */
+    m_workerThread = new TorrentPieceMapWorker(this);
+    connect(m_workerThread, &TorrentPieceMapWorker::resultReady, this, &TorrentPieceMap::handleResults);
+
     resetUi();
 }
 
 TorrentPieceMap::~TorrentPieceMap()
 {
     delete ui;
-}
-
-/******************************************************************************
- ******************************************************************************/
-void TorrentPieceMap::clear()
-{
-    m_torrent = Q_NULLPTR;
-    resetUi();
-}
-
-bool TorrentPieceMap::isEmpty() const
-{
-    return m_torrent == Q_NULLPTR;
+    m_workerThread->quit();
+    m_workerThread->wait();
+    m_workerThread->deleteLater();
 }
 
 /******************************************************************************
@@ -71,6 +139,260 @@ void TorrentPieceMap::setTorrent(Torrent *torrent)
 
 /******************************************************************************
  ******************************************************************************/
+void TorrentPieceMap::showEvent(QShowEvent */*event*/)
+{
+    adjustScene();
+    m_workerThread->setUseful(true);
+}
+
+void TorrentPieceMap::hideEvent(QHideEvent */*event*/)
+{
+    // the worker doesn't need to work when the widget is hidden.
+    m_workerThread->setUseful(false);
+}
+
+void TorrentPieceMap::resizeEvent(QResizeEvent */*event*/)
+{
+    adjustScene();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+bool TorrentPieceMapWorker::isUseful()
+{
+    m_lock.lockForRead();
+    auto v = m_isUseful;
+    m_lock.unlock();
+    return v;
+}
+
+void TorrentPieceMapWorker::setUseful(bool useful)
+{
+    m_lock.lockForWrite();
+    m_isUseful = useful;
+    m_lock.unlock();
+    if (!isRunning()) {
+        start();
+    }
+}
+
+bool TorrentPieceMapWorker::isDirty()
+{
+    m_lock.lockForRead();
+    auto v = m_isDirty;
+    m_lock.unlock();
+    return v;
+}
+
+void TorrentPieceMapWorker::setDirty(bool dirty)
+{
+    m_lock.lockForWrite();
+    m_isDirty = dirty;
+    m_lock.unlock();
+}
+
+void TorrentPieceMapWorker::doWork(const TorrentPieceData &pieceData,
+                                   const QList<TorrentPeerInfo> &peers)
+{
+    // This method is called every 10~20 milliseconds,
+    // while the worker needs >100 milliseconds to complete the task.
+    // The idea behind this construct is to cache the input data into a buffer
+    // shared between the producer (caller) and the consumer (worker).
+    // That is, when the worker is free, it just consumes the most recent data.
+    m_lock.lockForWrite();
+    m_pieceData = pieceData;
+    m_peers = peers;
+    m_lock.unlock();
+
+    setDirty(true);
+
+    if (!isRunning()) {
+        start();
+    }
+}
+
+void TorrentPieceMapWorker::run()
+{
+    if (!isUseful() || !isDirty()) {
+        return;
+    }
+
+#if (ENABLE_MONITORING)
+    QElapsedTimer timer;
+    timer.start();
+    static int s_id = 0;
+    const int id = ++s_id;
+    qDebug() << Q_FUNC_INFO << this->thread() << id << "a started";
+#endif
+
+    m_lock.lockForRead();
+    TorrentPieceData pieceData = m_pieceData;
+    const QList<TorrentPeerInfo> peers = m_peers;
+    m_lock.unlock();
+
+    setDirty(false);
+
+    /* Expensive operation */
+    foreach (auto peer, peers) {
+        QBitArray peerAvailablePieces = peer.availablePieces;
+        if (peerAvailablePieces.size() != pieceData.size) {
+            qWarning("Peer has not the same number of pieces as You "
+                     "(peer:'%i', you:'%i').",
+                     peerAvailablePieces.size(),
+                     pieceData.size);
+        } else {
+            for (int i = 0; i < pieceData.size; ++i) {
+                pieceData.availablePieces |= peerAvailablePieces;
+                if (peerAvailablePieces.testBit(i)) {
+                    pieceData.totalPeers[i]++;
+                }
+            }
+        }
+    }
+    emit resultReady(pieceData);
+
+#if (ENABLE_MONITORING)
+    qDebug() << Q_FUNC_INFO << this->thread() << id << "finished in" << timer.elapsed() << "ms";
+#endif
+
+    // Once finished, relaunch the worker.
+    // Indeed, hhe buffer has maybe been updated during the current run().
+    start();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void TorrentPieceMap::handleResults(const TorrentPieceData &pieceData)
+{
+    setPieceData(pieceData);
+}
+
+void TorrentPieceMap::updateWidget()
+{
+    if (m_torrent) {
+        TorrentPieceData pieceData;
+        pieceData.size = m_torrent->metaInfo().initialMetaInfo.pieceCount;
+        pieceData.downloadedPieces = m_torrent->info().downloadedPieces;
+        pieceData.verifiedPieces = m_torrent->info().verifiedPieces;
+        pieceData.availablePieces.resize(pieceData.size);
+        pieceData.totalPeers.resize(pieceData.size);
+
+        const QList<TorrentPeerInfo> peers = m_torrent->detail().peers;
+
+        m_workerThread->doWork(pieceData, peers);
+
+    } else {
+        clearScene();
+    }
+}
+
+void TorrentPieceMap::setPieceData(const TorrentPieceData &pieceData)
+{
+    if (pieceData.size != m_items.count()) {
+        clearScene();
+        populateScene(pieceData);
+        adjustScene();
+    }
+    updateScene(pieceData);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void TorrentPieceMap::clearScene()
+{
+    foreach (auto item, m_items) {
+        m_scene->removeItem(item);
+    }
+    m_items.clear();
+}
+
+void TorrentPieceMap::populateScene(const TorrentPieceData &pieceData)
+{
+    for (int i = 0; i < pieceData.size; ++i) {
+        auto item = new TorrentPieceItem(
+                    m_tileWidth, m_tileHeight,
+                    m_tilePadding, m_tileFont,
+                    m_rootItem);
+
+        auto flags = item->flags();
+#if QT_VERSION >= 0x050700
+        flags.setFlag(QGraphicsItem::ItemIsMovable, false);
+        flags.setFlag(QGraphicsItem::ItemIsSelectable, false);
+        flags.setFlag(QGraphicsItem::ItemIsFocusable, false);
+        flags.setFlag(QGraphicsItem::ItemSendsGeometryChanges, false);
+        flags.setFlag(QGraphicsItem::ItemSendsScenePositionChanges, false);
+#else
+        flags &= ~QGraphicsItem::ItemIsMovable;
+        flags &= ~QGraphicsItem::ItemIsMovable;
+        flags &= ~QGraphicsItem::ItemIsSelectable;
+        flags &= ~QGraphicsItem::ItemIsFocusable;
+        flags &= ~QGraphicsItem::ItemSendsGeometryChanges;
+        flags &= ~QGraphicsItem::ItemSendsScenePositionChanges;
+#endif
+        item->setFlags(flags);
+        m_items.append(item);
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * Items are moved around, to fill the width of the viewport.
+ */
+void TorrentPieceMap::adjustScene()
+{
+    const QSize viewportSize = ui->graphicsView->viewport()->size();
+    const int maxWidth = viewportSize.width();
+    const qreal width = m_tileWidth + 2 * m_tilePadding;
+    const qreal height = m_tileHeight + 2 * m_tilePadding;
+    qreal x = 0;
+    qreal y = 0;
+    foreach (auto item, m_items) {
+        if (x + width >= maxWidth) {
+            x = 0;
+            y += height;
+        }
+        item->setPos(x, y);
+        x += width;
+    }
+    const QRectF viewportRect(QPointF(0, 0), viewportSize);
+    const QRectF rect = m_scene->itemsBoundingRect().united(viewportRect);
+    m_scene->setSceneRect(rect);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void TorrentPieceMap::updateScene(const TorrentPieceData &pieceData)
+{
+    Q_ASSERT(pieceData.size == m_items.count());
+    const int size = pieceData.size;
+    for (int i = 0; i < size; ++i) {
+        TorrentPieceItem *item = m_items.at(i);
+
+        int totalPeers = 0;
+        if (i < pieceData.totalPeers.size()) {
+            totalPeers = pieceData.totalPeers.at(i);
+        }
+        item->setValue(totalPeers);
+
+        TorrentPieceItem::Status status = TorrentPieceItem::Status::NotAvailable;
+        if (i < pieceData.verifiedPieces.size() && pieceData.verifiedPieces.at(i)) {
+            status = TorrentPieceItem::Status::Verified;
+
+        } else if (i < pieceData.downloadedPieces.size() && pieceData.downloadedPieces.at(i)) {
+            status = TorrentPieceItem::Status::Downloaded;
+
+        } else if (i < pieceData.availablePieces.size() && pieceData.availablePieces.at(i)) {
+            status = TorrentPieceItem::Status::Available;
+        }
+        item->setStatus(status);
+
+        item->update();
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void TorrentPieceMap::changeEvent(QEvent *event)
 {
     if (event->type() == QEvent::LanguageChange) {
@@ -84,12 +406,60 @@ void TorrentPieceMap::changeEvent(QEvent *event)
  ******************************************************************************/
 void TorrentPieceMap::onChanged()
 {
+    updateWidget();
 }
 
 void TorrentPieceMap::resetUi()
 {
+    updateWidget();
 }
 
 void TorrentPieceMap::retranslateUi()
 {
+    // Nothing
+}
+
+/******************************************************************************
+ ******************************************************************************/
+TorrentPieceItem::TorrentPieceItem(int width, int height, int padding,
+                                   const QFont &font, QGraphicsItem *parent)
+    : QGraphicsItem(parent)
+    , m_font(font)
+    , m_width(width)
+    , m_height(height)
+    , m_padding(padding)
+    , m_value(0)
+    , m_status(Status::NotAvailable)
+{
+}
+
+void TorrentPieceItem::setValue(int value)
+{
+    m_value = value;
+}
+
+void TorrentPieceItem::setStatus(Status status)
+{
+    m_status = status;
+}
+
+QRectF TorrentPieceItem::boundingRect() const
+{
+    return {0, 0, m_width + 2* m_padding, m_height + 2* m_padding};
+}
+
+QPainterPath TorrentPieceItem::shape() const
+{
+    QPainterPath path;
+    path.addRect(m_padding, m_padding, m_width, m_height);
+    return path;
+}
+
+void TorrentPieceItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+{
+    QRectF tileRect = QRectF(m_padding, m_padding, m_width, m_height);
+    QColor tileColor = color(m_status);
+    painter->fillRect(tileRect, tileColor);
+    painter->setFont(m_font);
+    painter->drawText(tileRect, Qt::AlignCenter, QString::number(m_value));
 }

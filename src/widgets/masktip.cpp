@@ -43,7 +43,7 @@ MaskTip::~MaskTip()
 
 void MaskTip::add(const QString &text, const QString &link)
 {
-    QLabel *label = new QLabel(QString("<a href='%1'>%1</a> : %0").arg(text).arg(link));
+    QLabel *label = new QLabel(QString("<a href='%1'>%1</a> : %0").arg(text, link));
     label->setTextFormat(Qt::RichText);
     label->setCursor(Qt::PointingHandCursor);
     label->setTextInteractionFlags(label->textInteractionFlags()

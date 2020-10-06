@@ -36,6 +36,7 @@ public:
     State state() const Q_DECL_OVERRIDE;
     void setState(State state);
     QString stateToString() const;
+    const char* state_c_str() const;
 
     qint64 bytesReceived() const Q_DECL_OVERRIDE;
     void setBytesReceived(qint64 bytesReceived);

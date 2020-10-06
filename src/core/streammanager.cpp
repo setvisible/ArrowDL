@@ -22,11 +22,6 @@
 
 
 StreamManager::StreamManager(QObject *parent) : QObject(parent)
-  , m_settings(Q_NULLPTR)
-{
-}
-
-StreamManager::~StreamManager()
 {
 }
 

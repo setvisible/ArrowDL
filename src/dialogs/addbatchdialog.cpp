@@ -47,8 +47,7 @@ AddBatchDialog::AddBatchDialog(const QUrl &url, DownloadManager *downloadManager
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME)
-                   .arg(tr("Add Batch and Single File")));
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Add Batch and Single File")));
 
     adjustSize();
     setFixedHeight(height());
@@ -72,11 +71,11 @@ AddBatchDialog::AddBatchDialog(const QUrl &url, DownloadManager *downloadManager
                         "%2"
                         "</p><p>- "
                         "%3"
-                        "</p></body></html>")
-                .arg(tr("Batch descriptors:"))
-                .arg(tr("Must start with '[' or '('"))
-                .arg(tr("Must contain two numbers, separated by ':', '-' or a space character"))
-                .arg(tr("Must end with ']' or ')'")));
+                        "</p></body></html>").arg(
+                    tr("Batch descriptors:"),
+                    tr("Must start with '[' or '('"),
+                    tr("Must contain two numbers, separated by ':', '-' or a space character"),
+                    tr("Must end with ']' or ')'")));
 
     if (m_settings && m_settings->isCustomBatchEnabled()) {
         ui->tagButton_Custom->setText(m_settings->customBatchButtonLabel());
@@ -160,7 +159,7 @@ void AddBatchDialog::reject()
  ******************************************************************************/
 QString AddBatchDialog::insertName(const QString &name) const
 {
-    return QString("%0 [ %1 ]").arg(tr("Insert").arg(name));
+    return QString("%0 [ %1 ]").arg(tr("Insert"), name);
 }
 
 void AddBatchDialog::showContextMenu(const QPoint &/*pos*/)
@@ -279,10 +278,10 @@ QMessageBox::StandardButton AddBatchDialog::askBatchDownloading(QList<IDownloadI
                     QString("%0\n\n"
                             "%1\n"
                             "...\n"
-                            "%2")
-                    .arg(tr("Do you really want to start %0 downloads?").arg(items.count()))
-                    .arg(firstItem->resource()->url())
-                    .arg(lastItem->resource()->url()));
+                            "%2").arg(
+                        tr("Do you really want to start %0 downloads?").arg(items.count()),
+                        firstItem->resource()->url(),
+                        lastItem->resource()->url()));
 
         QPushButton *batchButton = msgBox.addButton(tr("Download Batch"), QMessageBox::ActionRole);
         QPushButton *singleButton = msgBox.addButton(tr("Single Download"), QMessageBox::ActionRole);

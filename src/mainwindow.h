@@ -27,7 +27,7 @@ class Settings;
 class UpdateChecker;
 class SystemTray;
 
-typedef QList<IDownloadItem*> DownloadRange;
+using DownloadRange = QList<IDownloadItem *>;
 
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -58,6 +58,7 @@ protected:
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
     void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
     void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
@@ -129,10 +130,10 @@ public slots:
     void aboutStream();
 
 private slots:
-    void onJobAddedOrRemoved(DownloadRange range);
+    void onJobAddedOrRemoved(const DownloadRange &range);
     void onJobStateChanged(IDownloadItem *downloadItem);
     void onJobFinished(IDownloadItem *downloadItem);
-    void onJobRenamed(QString oldName, QString newName, bool success);
+    void onJobRenamed(const QString &oldName, const QString &newName, bool success);
     void onSelectionChanged();
     void onTorrentContextChanged();
 

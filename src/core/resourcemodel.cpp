@@ -18,8 +18,13 @@
 
 #include <Core/ResourceItem>
 
+#include <QtCore/QRegularExpression>
+
+
 ResourceModel::ResourceModel(QObject *parent) : CheckableTableModel(parent)
 {
+    connect(this, SIGNAL(checkStateChanged(QModelIndex , bool)),
+            this, SLOT(onCheckStateChanged(QModelIndex , bool)));
     connect(this, SIGNAL(resourceChanged()), this, SLOT(onResourceChanged()));
 
     retranslateUi();
@@ -87,20 +92,28 @@ void ResourceModel::setMask(const QString &mask)
 
 /******************************************************************************
  ******************************************************************************/
-void ResourceModel::select(const QRegExp &regex)
+void ResourceModel::select(const QRegularExpression &regex)
 {
     beginResetModel();
+    QSignalBlocker blocker(this);
     for (int i = 0; i < m_items.count(); ++i) {
         auto item = m_items.at(i);
-        bool isChecked = (!regex.isEmpty() && regex.indexIn(item->url(), 0) != -1);
+        auto url = item->url();
+        auto isChecked = (regex.isValid() && regex.match(url).hasMatch());
         this->setData(this->index(i, 0), isChecked, CheckableTableModel::CheckStateRole);
     }
+    blocker.unblock();
     endResetModel();
     emit selectionChanged();
 }
 
 /******************************************************************************
  ******************************************************************************/
+void ResourceModel::onCheckStateChanged(QModelIndex /*index*/, bool /*checked*/)
+{
+    emit selectionChanged();
+}
+
 void ResourceModel::onResourceChanged()
 {
     // just ensure dataChanged() too;
@@ -133,9 +146,8 @@ QVariant ResourceModel::headerData(int section, Qt::Orientation orientation, int
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         if (section >= 0 && section < m_headers.count()) {
             return m_headers.at(section);
-        } else {
-            return QVariant();
         }
+        return QVariant();
     }
     return QAbstractItemModel::headerData(section, orientation, role);
 }

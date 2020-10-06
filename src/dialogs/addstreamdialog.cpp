@@ -28,8 +28,8 @@
 #include <QtCore/QDebug>
 #include <QtCore/QSettings>
 
-#define C_DEFAULT_WIDTH             800
-#define C_DEFAULT_HEIGHT            600
+constexpr int default_width = 800;
+constexpr int default_height = 600;
 
 
 AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManager,
@@ -42,7 +42,7 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Add Stream")));
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Add Stream")));
 
     adjustSize();
 
@@ -121,14 +121,14 @@ void AddStreamDialog::onContinueClicked()
     onChanged(QString());
 }
 
-void AddStreamDialog::onError(QString errorMessage)
+void AddStreamDialog::onError(const QString &errorMessage)
 {
     setGuiEnabled(true);
     ui->streamListWidget->setMessageError(errorMessage);
     onChanged(QString());
 }
 
-void AddStreamDialog::onCollected(QList<StreamObject> streamObjects)
+void AddStreamDialog::onCollected(const QList<StreamObject> &streamObjects)
 {
     setGuiEnabled(true);
     ui->streamListWidget->setStreamObjects(streamObjects);
@@ -206,7 +206,7 @@ void AddStreamDialog::readSettings()
 {
     QSettings settings;
     settings.beginGroup("StreamDialog");
-    resize(settings.value("DialogSize", QSize(C_DEFAULT_WIDTH, C_DEFAULT_HEIGHT)).toSize());
+    resize(settings.value("DialogSize", QSize(default_width, default_height)).toSize());
 
     QList<int> defaultWidths = {};
     QVariant variant = QVariant::fromValue(defaultWidths);

@@ -20,13 +20,13 @@
 #include <Widgets/AutoCloseDialog>
 #include <Widgets/FilterTip>
 
+#include <QtCore/QDebug>
 #include <QtCore/QtMath>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QMessageBox>
-#include <QtCore/QDebug>
 
 
-static uint encode(const QList<QCheckBox*> checkboxes)
+static uint encode(const QList<QCheckBox*> &checkboxes)
 {
     uint code = 0;
     for (int i = 0; i < checkboxes.count(); ++i) {
@@ -38,7 +38,7 @@ static uint encode(const QList<QCheckBox*> checkboxes)
     return code;
 }
 
-static void decode(const uint code, QList<QCheckBox*> checkboxes)
+static void decode(const uint code, const QList<QCheckBox*> &checkboxes)
 {
     for (int i = 0; i < checkboxes.count(); ++i) {
         QCheckBox *checkBox = checkboxes.at(i);
@@ -51,18 +51,20 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
 {
     ui->setupUi(this);
 
-    auto inputValidityPtr = [](QString t) { QRegExp regex(t); return regex.isValid(); };
+    auto inputValidityPtr = [](const QString &t) {
+        QRegularExpression regex(t);
+        return regex.isValid();
+    };
     ui->fastFilteringComboBox->setInputIsValidWhen( inputValidityPtr );
 
     clearFilters();
 
-    connect(ui->fastFilteringOnlyCheckBox, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));
+    connect(ui->fastFilteringOnlyCheckBox, SIGNAL(stateChanged(int)),
+            this, SLOT(onFilterChanged(int)));
     connect(ui->fastFilteringComboBox, SIGNAL(currentTextChanged(QString)),
             this, SLOT(onFilterChanged(QString)));
-
     connect(ui->fastFilteringTipToolButton, SIGNAL(released()),
             this, SLOT(onFilterTipToolReleased()));
-
 }
 
 FilterWidget::~FilterWidget()
@@ -144,7 +146,7 @@ void FilterWidget::onFilterChanged(const QString &)
  ******************************************************************************/
 void FilterWidget::onFilterTipToolReleased()
 {
-    FilterTip *tip = new FilterTip(this);
+    auto tip = new FilterTip(this);
 
     connect(tip, SIGNAL(linkActivated(QString)),
             this, SLOT(onFilterTipToolLinkActivated(QString)));
@@ -178,8 +180,8 @@ void FilterWidget::addFilter(const QString &name, const QString &regexp)
     const int row = dv.quot;
     const int column = dv.rem;
 
-    QCheckBox *checkbox = new QCheckBox(name, ui->checkBoxGroup);
-    checkbox->setToolTip(QString("%0\n%1").arg(name).arg(regexp));
+    auto checkbox = new QCheckBox(name, ui->checkBoxGroup);
+    checkbox->setToolTip(QString("%0\n%1").arg(name, regexp));
     checkbox->setProperty("regexp", regexp);
 
     connect(checkbox, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));
@@ -190,7 +192,7 @@ void FilterWidget::addFilter(const QString &name, const QString &regexp)
 
 /******************************************************************************
  ******************************************************************************/
-QRegExp FilterWidget::regex() const
+QRegularExpression FilterWidget::regex() const
 {
     QString filter;
 
@@ -221,6 +223,5 @@ QRegExp FilterWidget::regex() const
             }
         }
     }
-    QRegExp regex(filter, Qt::CaseInsensitive, QRegExp::RegExp);
-    return regex;
+    return QRegularExpression(filter, QRegularExpression::CaseInsensitiveOption);
 }

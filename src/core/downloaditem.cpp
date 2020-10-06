@@ -29,9 +29,6 @@
 DownloadItemPrivate::DownloadItemPrivate(DownloadItem *qq)
     : q(qq)
 {
-    downloadManager = Q_NULLPTR;
-    resource = Q_NULLPTR;
-    reply = Q_NULLPTR;
     file = new File(qq);
 }
 
@@ -61,7 +58,9 @@ DownloadItem::~DownloadItem()
  ******************************************************************************/
 void DownloadItem::resume()
 {
-    qDebug() << Q_FUNC_INFO << localFullFileName() << d->resource->url();
+    qInfo("Resume '%s' (destination: '%s').",
+          d->resource->url().toLatin1().data(),
+          localFullFileName().toLatin1().data());
 
     this->beginResume();
 
@@ -102,12 +101,14 @@ void DownloadItem::resume()
 
 void DownloadItem::pause()
 {
-    // TODO
+    /// \todo implement?
+    qInfo("Pause '%s'.", d->resource->url().toLatin1().data());
     AbstractDownloadItem::pause();
 }
 
 void DownloadItem::stop()
 {
+    qInfo("Stop '%s'.", d->resource->url().toLatin1().data());
     d->file->cancel();
     if (d->reply) {
         d->reply->abort();
@@ -151,40 +152,39 @@ void DownloadItem::rename(const QString &newName)
  ******************************************************************************/
 void DownloadItem::onMetaDataChanged()
 {
-#if defined QT_DEBUG
-    /*
-     * For info only. Check if the metadata change is a redirection
-     */
     if (d->reply) {
         const QUrl oldUrl = d->resource->url();
         const QUrl newUrl = d->reply->header(QNetworkRequest::LocationHeader).toUrl();
+        /* Check if the metadata change is a redirection */
         if (newUrl.isValid() && oldUrl.isValid() && oldUrl != newUrl) {
-            qDebug() << Q_FUNC_INFO
-                     << "redirecting " << oldUrl.toString()
-                     << "to" << newUrl.toString();
-            return;
+            qInfo("HTTP redirect: '%s' to '%s'.",
+                  oldUrl.toString().toLatin1().data(),
+                  newUrl.toString().toLatin1().data());
         }
     }
-#endif
-    qDebug() << Q_FUNC_INFO;
 }
 
 void DownloadItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
-    qDebug() << Q_FUNC_INFO << bytesReceived << "/" << bytesTotal;
-
+    if (d->reply && bytesReceived > 0 && bytesTotal > 0) {
+        qInfo("Downloaded '%s' (%lli of %lli bytes).",
+              d->reply->url().toString().toLatin1().data(), bytesReceived, bytesTotal);
+    }
     updateInfo(bytesReceived, bytesTotal);
 }
 
 void DownloadItem::onRedirected(const QUrl &url)
 {
-    qDebug() << Q_FUNC_INFO << url.toString();
+    if (d->reply) {
+        qInfo("HTTP redirect: redirected '%s' to '%s'.",
+              d->reply->url().toString().toLatin1().data(),
+              url.toString().toLatin1().data());
+    }
 }
 
 void DownloadItem::onFinished()
 {
-    qDebug() << Q_FUNC_INFO << state();
-
+    qInfo("Finished (%s) '%s'.", state_c_str(), localFullFileName().toLatin1().data());
     switch (state()) {
     case Idle:
     case Preparing:
@@ -225,16 +225,11 @@ void DownloadItem::onFinished()
         d->file->cancel();
         emit changed();
         break;
-
-    default:
-        Q_UNREACHABLE();
-        break;
     }
     if (d->reply) {
         d->reply->deleteLater();
         d->reply = Q_NULLPTR;
     }
-
     this->finish();
 }
 
@@ -295,19 +290,17 @@ QString DownloadItem::statusToHttp(QNetworkReply::NetworkError error)
     case QNetworkReply::OperationNotImplementedError: return tr("501 Server does not support this functionality");
     case QNetworkReply::ServiceUnavailableError:      return tr("503 Service unavailable");
     case QNetworkReply::UnknownServerError:           return tr("5xx Unknown serveur error");
-
-    default:
-        Q_UNREACHABLE();
-        return QString();
     }
+    Q_UNREACHABLE();
 }
 
 void DownloadItem::onError(QNetworkReply::NetworkError error)
 {
-    qDebug() << Q_FUNC_INFO << error;
-    auto reply = qobject_cast<QNetworkReply*>(sender());
-    if (reply) {
-        qDebug() << reply->errorString();
+    /// \todo Use instead: auto reply = qobject_cast<QNetworkReply*>(sender());
+    if (d->reply) {
+        qInfo("Error '%s': '%s'.",
+              d->reply->url().toString().toLatin1().data(),
+              d->reply->errorString().toLatin1().data());
     }
     d->file->cancel();
     auto httpError = statusToHttp(error);
@@ -317,22 +310,16 @@ void DownloadItem::onError(QNetworkReply::NetworkError error)
 
 void DownloadItem::onReadyRead()
 {
-#if !defined QT_DEBUG
-    qDebug() << Q_FUNC_INFO;
-#endif
     if (!d->reply || !d->file) {
         return;
     }
     QByteArray data = d->reply->readAll();
-#if defined QT_DEBUG
-    qDebug() << Q_FUNC_INFO << "<<" << data.size() << "bytes";
-#endif
     d->file->write(data);
 }
 
 void DownloadItem::onAboutToClose()
 {
-    qDebug() << Q_FUNC_INFO;
+    qInfo("Finished (%s) '%s'.", state_c_str(), localFullFileName().toLatin1().data());
 }
 
 /******************************************************************************

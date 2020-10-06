@@ -48,7 +48,7 @@ class TorrentContextPrivate : public QObject
     Q_OBJECT
 
 public:
-    explicit TorrentContextPrivate(TorrentContext *qq);
+    explicit TorrentContextPrivate(TorrentContext *qq = Q_NULLPTR);
     ~TorrentContextPrivate() Q_DECL_OVERRIDE;
 
     QList<TorrentSettingItem> allSettingsKeysAndValues() const;
@@ -130,9 +130,9 @@ private:
     void readTorrentFile(const QString &filename, Torrent *torrent);
 
     QList<TorrentSettingItem> _toPreset(const lt::settings_pack all) const;
-    static QVariant _get_str(const lt::settings_pack &pack, const int index);
-    static QVariant _get_int(const lt::settings_pack &pack, const int index);
-    static QVariant _get_bool(const lt::settings_pack &pack, const int index);
+    static QVariant _get_str(const lt::settings_pack &pack, int index);
+    static QVariant _get_int(const lt::settings_pack &pack, int index);
+    static QVariant _get_bool(const lt::settings_pack &pack, int index);
 
     void ensureDestinationPathExists(Torrent *torrent);
 };

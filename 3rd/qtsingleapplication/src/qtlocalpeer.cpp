@@ -40,15 +40,16 @@
 
 
 #include "qtlocalpeer.h"
-#include <QCoreApplication>
-#include <QDataStream>
-#include <QTime>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QDataStream>
+#include <QtCore/QRegularExpression>
+#include <QtCore/QTime>
 
 #if defined(Q_OS_WIN)
-#include <QLibrary>
+#include <QtCore/QLibrary>
 #include <qt_windows.h>
 typedef BOOL(WINAPI*PProcessIdToSessionId)(DWORD,DWORD*);
-static PProcessIdToSessionId pProcessIdToSessionId = 0;
+static PProcessIdToSessionId pProcessIdToSessionId = Q_NULLPTR;
 #endif
 #if defined(Q_OS_UNIX)
 #include <sys/types.h>
@@ -78,7 +79,7 @@ QtLocalPeer::QtLocalPeer(QObject* parent, const QString &appId)
 #endif
         prefix = id.section(QLatin1Char('/'), -1);
     }
-    prefix.remove(QRegExp("[^a-zA-Z]"));
+    prefix.remove(QRegularExpression("[^a-zA-Z]"));
     prefix.truncate(6);
 
     QByteArray idc = id.toUtf8();

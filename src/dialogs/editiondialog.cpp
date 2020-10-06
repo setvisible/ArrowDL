@@ -29,8 +29,8 @@
 #include <QtGui/QTextBlock>
 #include <QtWidgets/QTextEdit>
 
-#define C_DEFAULT_WIDTH     700
-#define C_DEFAULT_HEIGHT    500
+constexpr int default_width = 700;
+constexpr int default_height = 500;
 
 
 EditionDialog::EditionDialog(const QList<IDownloadItem*> &items, QWidget *parent)
@@ -40,19 +40,18 @@ EditionDialog::EditionDialog(const QList<IDownloadItem*> &items, QWidget *parent
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Smart Edit")));
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Smart Edit")));
 
     connect(ui->editor, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
 
     ui->subtitleLabel->setText(tr("%0 selected files to edit").arg(m_items.count()));
     ui->warningLabel->setVisible(false);
 
-
     ui->editor->clear();
     foreach (auto item, items) {
-        const DownloadItem *downloadItem = static_cast<const DownloadItem*>(item);
+        auto downloadItem = dynamic_cast<const DownloadItem*>(item);
         if (downloadItem) {
-            const ResourceItem *resource = downloadItem->resource();
+            auto resource = downloadItem->resource();
             ui->editor->append(resource->url());
         }
     }
@@ -97,8 +96,9 @@ void EditionDialog::onTextChanged()
     ui->buttonBox->setEnabled(lineCount == itemCount);
     ui->warningLabel->setVisible(lineCount != itemCount);
     ui->warningLabel->setText(
-                tr("Warning: number of lines is <%0> but should be <%1>!")
-                .arg(lineCount).arg(itemCount));
+                tr("Warning: number of lines is <%0> but should be <%1>!").arg(
+                    QString::number(lineCount),
+                    QString::number(itemCount)));
 }
 
 /******************************************************************************
@@ -111,8 +111,8 @@ void EditionDialog::applyChanges()
     for (int index = 0; index < itemCount; ++index) {
 
         auto item = m_items.at(index);
-        DownloadItem *downloadItem = static_cast<DownloadItem*>(item);
-        ResourceItem *resource = downloadItem->resource();
+        auto downloadItem = dynamic_cast<DownloadItem*>(item);
+        auto resource = downloadItem->resource();
         auto oldUrl = resource->url();
 
         auto text = ui->editor->at(index);
@@ -132,7 +132,7 @@ void EditionDialog::readSettings()
 {
     QSettings settings;
     settings.beginGroup("EditionDialog");
-    const QSize defaultSize(C_DEFAULT_WIDTH, C_DEFAULT_HEIGHT);
+    const QSize defaultSize(default_width, default_height);
     resize(settings.value("DialogSize", defaultSize).toSize());
     settings.endGroup();
 }

@@ -34,7 +34,7 @@ InformationDialog::InformationDialog(const QList<IDownloadItem*> &jobs, QWidget 
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Properties")));
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Properties")));
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(nullptr, nullptr);
 
     initialize(jobs);
@@ -49,7 +49,7 @@ void InformationDialog::accept()
 {
     if (!m_items.isEmpty()) {
         IDownloadItem *item = m_items.first();
-        DownloadItem *downloadItem = static_cast<DownloadItem*>(item);
+        auto downloadItem = dynamic_cast<DownloadItem*>(item);
         if (downloadItem) {
             auto resource = downloadItem->resource();
             QScopedPointer<ResourceItem> copy(ui->urlFormWidget->createResourceItem());
@@ -76,7 +76,7 @@ void InformationDialog::initialize(const QList<IDownloadItem *> &items)
     }
     m_items = items;
     const IDownloadItem *item = items.first();
-    const DownloadItem *downloadItem = static_cast<const DownloadItem*>(item);
+    auto downloadItem = dynamic_cast<const DownloadItem*>(item);
 
     /* Title and subtitles */
     const QUrl localFileUrl = item->localFileUrl();
@@ -92,9 +92,9 @@ void InformationDialog::initialize(const QList<IDownloadItem *> &items)
 
     auto bytes = item->bytesTotal();
     if (bytes > 0) {
-        auto text = QString("%0 (%1 bytes)")
-                .arg(Format::fileSizeToString(bytes))
-                .arg(Format::fileSizeThousandSeparator(bytes));
+        auto text = QString("%0 (%1 bytes)").arg(
+                    Format::fileSizeToString(bytes),
+                    Format::fileSizeThousandSeparator(bytes));
         ui->sizeLabel->setText(text);
     } else {
         auto text = QString("%0").arg(Format::fileSizeToString(-1));

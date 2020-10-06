@@ -32,7 +32,7 @@ class DownloadTorrentItem : public DownloadItem
 
 public:
     DownloadTorrentItem(DownloadManager *downloadManager);
-    ~DownloadTorrentItem() Q_DECL_OVERRIDE;
+    ~DownloadTorrentItem() Q_DECL_OVERRIDE = default;
 
     void setResource(ResourceItem *resource) Q_DECL_OVERRIDE;
 

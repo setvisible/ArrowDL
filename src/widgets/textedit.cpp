@@ -18,7 +18,7 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QMimeData>
-#include <QtCore/QRegExp>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QtMath>
 #include <QtGui/QClipboard>
 #include <QtGui/QPainter>
@@ -39,7 +39,7 @@ BlockSelector::BlockSelector(TextEdit *parent)
 {
 }
 
-void BlockSelector::movePosition(const int diff_line, const int diff_col, MoveMode anchor)
+void BlockSelector::movePosition(int diff_line, int diff_col, MoveMode anchor)
 {
     setPosition(cursorLine + diff_line, cursorColumn + diff_col, anchor);
 }
@@ -53,7 +53,7 @@ int BlockSelector::cursorPosition(int blockNumber) const
     return -1;
 }
 
-void BlockSelector::setPosition(const int position, MoveMode anchor)
+void BlockSelector::setPosition(int position, MoveMode anchor)
 {
     Q_ASSERT(m_editor);
     QTextCursor cursor = m_editor->textCursor();
@@ -63,14 +63,14 @@ void BlockSelector::setPosition(const int position, MoveMode anchor)
     setPosition( line, col, anchor);
 }
 
-void BlockSelector::setPosition(const int line, const int column, MoveMode anchor)
+void BlockSelector::setPosition(int line, int column, MoveMode anchor)
 {
     Q_ASSERT(m_editor);
 
     setActive(true);
 
-    cursorLine = qMax( 0, qMin( m_editor->document()->blockCount()-1 , line ) );
-    cursorColumn = qMax( 0, column );
+    cursorLine = qBound(0, line, m_editor->document()->blockCount() - 1);
+    cursorColumn = qMax(0, column);
 
     if (anchor != KeepAnchor) {
         anchorLine = cursorLine;
@@ -112,10 +112,6 @@ TextEdit::TextEdit(QWidget *parent) : QPlainTextEdit(parent)
 
     setCursorWidth(2);
     setBlockModeEnabled(false);
-}
-
-TextEdit::~TextEdit()
-{
 }
 
 /******************************************************************************
@@ -263,8 +259,6 @@ void TextEdit::keyPressEvent(QKeyEvent *e)
         }
     }
 
-    const QTextCursor cursorLastPosition = textCursor();
-
     if (!ro && m_blockSelector.isActive()) {
         if (e == QKeySequence::Cut) {
             cut();
@@ -321,7 +315,8 @@ static void fillBackground(QPainter *p, const QRectF &rect, QBrush brush, const 
             QTransform m = QTransform::fromTranslate(gradientRect.left(), gradientRect.top());
             m.scale(gradientRect.width(), gradientRect.height());
             brush.setTransform(m);
-            const_cast<QGradient *>(brush.gradient())->setCoordinateMode(QGradient::LogicalMode);
+            QGradient *gradient = const_cast<QGradient *>(brush.gradient());
+            gradient->setCoordinateMode(QGradient::LogicalMode);
         }
     } else {
         p->setBrushOrigin(rect.topLeft());
@@ -358,8 +353,8 @@ void TextEdit::paintBlockSelector(QPaintEvent *e)
     painter.setBrushOrigin(offset);
 
     // keep right margin clean from full-width selection
-    int maxX = offset.x() + qMax((qreal)viewportRect.width(), maximumWidth)
-            - document()->documentMargin();
+    int maxX = qFloor(offset.x() + qMax(qreal(viewportRect.width()), maximumWidth)
+                      - document()->documentMargin());
     er.setRight(qMin(er.right(), maxX));
     painter.setClipRect(er);
 
@@ -398,8 +393,7 @@ void TextEdit::paintBlockSelector(QPaintEvent *e)
                 cursorPosition = m_blockSelector.cursorPosition(blnum);
             }
 
-            for (int i = 0; i < context.selections.size(); ++i) {
-                const QAbstractTextDocumentLayout::Selection &range = context.selections.at(i);
+            foreach (auto range, context.selections) {
                 const int selStart = range.cursor.selectionStart() - blpos;
                 const int selEnd = range.cursor.selectionEnd() - blpos;
                 if (selStart < bllen && selEnd > 0
@@ -487,7 +481,7 @@ void TextEdit::mousePressEvent(QMouseEvent *e)
             // Mouse Left + Alt without Shift = block start selection
 
             const int line = cursorUnderMouse.blockNumber();
-            const int column = qCeil((e->pos().x()) / QFontMetricsF(font()).width(QLatin1Char(' ')));
+            const int column = qCeil(qreal(e->pos().x()) / QFontMetricsF(font()).width(QLatin1Char(' ')));
             m_blockSelector.setPosition(line, column);
             e->accept();
             return;
@@ -505,7 +499,7 @@ void TextEdit::mousePressEvent(QMouseEvent *e)
             }
             selection.setPosition( cursorUnderMouse.position(), QTextCursor::KeepAnchor );
             const int line = cursorUnderMouse.blockNumber();
-            const int column = qCeil((e->pos().x()) / QFontMetricsF(font()).width(QLatin1Char(' ')));
+            const int column = qCeil(qreal(e->pos().x()) / QFontMetricsF(font()).width(QLatin1Char(' ')));
             m_blockSelector.setPosition(line, column, BlockSelector::KeepAnchor);
             return;
 
@@ -551,7 +545,7 @@ void TextEdit::mouseMoveEvent(QMouseEvent *e)
 
             const QTextCursor cursorUnderMouse = cursorForPosition(e->pos());
             const int line = cursorUnderMouse.blockNumber();
-            const int column = qCeil((e->pos().x()) / QFontMetricsF(font()).width(QLatin1Char(' ')));
+            const int column = qCeil(qreal(e->pos().x()) / QFontMetricsF(font()).width(QLatin1Char(' ')));
             m_blockSelector.setPosition(line, column, BlockSelector::KeepAnchor);
 
         } else {
@@ -588,7 +582,7 @@ void TextEdit::copyBlockSelection()
         text.append(fragment);
         text.append("\n");
     }
-    QMimeData *mimeData = new QMimeData();
+    auto mimeData = new QMimeData();
     mimeData->setText(text);
     QApplication::clipboard()->setMimeData(mimeData);
 }
@@ -612,7 +606,7 @@ void TextEdit::pasteBlockSelection()
 
 QString TextEdit::fragmentToPaste(const QString &input)
 {
-    QStringList list = input.split(QRegExp("[\\r\\n]"), QString::KeepEmptyParts);
+    QStringList list = input.split(QRegularExpression("[\\r\\n]"), QString::KeepEmptyParts);
     if (!list.isEmpty()) {
         return list.first();
     }
@@ -667,7 +661,7 @@ void TextEdit::removeBlockSelection(const QString &text)
 }
 
 
-void TextEdit::deleteBlockSelection(const bool after)
+void TextEdit::deleteBlockSelection(bool after)
 {
     if (m_blockSelector.isEmpty())
         return;

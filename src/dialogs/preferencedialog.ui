@@ -272,6 +272,13 @@ QTabBar::tab:hover:!selected {
               </item>
              </layout>
             </item>
+            <item>
+             <widget class="QCheckBox" name="minimizeWhenEscPressedCheckBox">
+              <property name="text">
+               <string>Minimize when ESC key is pressed</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </widget>
          </item>

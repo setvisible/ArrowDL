@@ -19,9 +19,10 @@
 
 #include <QtWidgets/QMainWindow>
 
-class ITorrentContext;
+class DummyTorrentAnimator;
 class Torrent;
-typedef QSharedPointer<Torrent> TorrentPtr;
+class TorrentBaseContext;
+using TorrentPtr = QSharedPointer<Torrent>;
 
 namespace Ui {
 class MainWindow;
@@ -32,7 +33,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 public:
     explicit MainWindow(QWidget *parent = Q_NULLPTR);
-    ~MainWindow();
+    ~MainWindow() Q_DECL_OVERRIDE;
 
 private slots:
     void onStartClicked();
@@ -41,23 +42,13 @@ private slots:
     void onRandomClicked();
     void onHalfClicked();
 
-    void animate();
+    void onAnimatorStarted(bool started);
 
 private:
     Ui::MainWindow *ui;
-    ITorrentContext *m_torrentContext;
-
+    TorrentBaseContext *m_torrentContext;
+    DummyTorrentAnimator *m_animator;
     TorrentPtr m_torrent;
-    QList<int> m_timeouts;
-    QList<int> m_ticks;
-    QTimer *m_timer;
-
-    void setupTorrent();
-    void randomize();
-    void startAnimation();
-    void stopAnimation();
-
-    void animateFile(int index);
 };
 
 #endif // MAINWINDOW_H

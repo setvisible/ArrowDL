@@ -35,7 +35,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QMenu>
 
-#define C_ELIDE_CHAR_COUNT         30
+constexpr int elide_char_count = 30;
 
 
 /******************************************************************************
@@ -56,15 +56,16 @@ class LinkWidgetItemDelegate : public CheckableItemDelegate
     Q_OBJECT
 
 public:
-    explicit LinkWidgetItemDelegate(QObject *parent = Q_NULLPTR)
-        : CheckableItemDelegate(parent)
-    {}
-
-    ~LinkWidgetItemDelegate() Q_DECL_OVERRIDE {}
+    explicit LinkWidgetItemDelegate(QObject *parent = Q_NULLPTR);
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const Q_DECL_OVERRIDE;
 };
+
+LinkWidgetItemDelegate::LinkWidgetItemDelegate(QObject *parent)
+    : CheckableItemDelegate(parent)
+{
+}
 
 void LinkWidgetItemDelegate::paint(QPainter *painter,
                                    const QStyleOptionViewItem &option,
@@ -284,8 +285,8 @@ void LinkWidget::open()
  ******************************************************************************/
 static inline QString elide(const QString &text)
 {
-    if (text.length() > 2 * C_ELIDE_CHAR_COUNT) {
-        return QString("%0...%1").arg(text.left(C_ELIDE_CHAR_COUNT)).arg(text.right(C_ELIDE_CHAR_COUNT));
+    if (text.length() > 2 * elide_char_count) {
+        return QString("%0...%1").arg(text.left(elide_char_count), text.right(elide_char_count));
     }
     return text;
 }

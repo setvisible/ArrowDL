@@ -31,8 +31,9 @@
 #include <QtCore/QDebug>
 #include <QtCore/QList>
 #include <QtCore/QtMath>
-#include <QtCore/QUrl>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QSettings>
+#include <QtCore/QUrl>
 #include <QtGui/QCloseEvent>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QMessageBox>
@@ -44,14 +45,13 @@
 #  include <QtNetwork/QNetworkReply>
 #endif
 
-#define C_DEFAULT_WIDTH             800
-#define C_DEFAULT_HEIGHT            600
-#define C_DEFAULT_INDEX               0
-#define C_COLUMN_DOWNLOAD_WIDTH     400
-#define C_COLUMN_MASK_WIDTH         200
+constexpr int default_width = 800;
+constexpr int default_height = 600;
+constexpr int column_download_width = 400;
+constexpr int column_mask_width = 200;
 
 
-static QList<IDownloadItem*> createItems(QList<ResourceItem*> resources,
+static QList<IDownloadItem*> createItems(const QList<ResourceItem*> &resources,
                                          DownloadManager *downloadManager,
                                          const Settings *settings)
 {
@@ -81,7 +81,7 @@ AddContentDialog::AddContentDialog(DownloadManager *downloadManager,
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Web Page Content")));
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Web Page Content")));
 
     ui->pathWidget->setPathType(PathWidget::Directory);
     ui->linkWidget->setModel(m_model);
@@ -94,7 +94,7 @@ AddContentDialog::AddContentDialog(DownloadManager *downloadManager,
     connect(ui->maskWidget, SIGNAL(currentMaskChanged(QString)), m_model, SLOT(setMask(QString)));
     connect(ui->maskWidget, SIGNAL(currentMaskChanged(QString)), this, SLOT(onChanged(QString)));
 
-    connect(ui->filterWidget, SIGNAL(regexChanged(QRegExp)), m_model, SLOT(select(QRegExp)));
+    connect(ui->filterWidget, SIGNAL(regexChanged(QRegularExpression)), m_model, SLOT(select(QRegularExpression)));
 
     connect(m_model, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 
@@ -176,14 +176,14 @@ void AddContentDialog::loadUrl(const QUrl &url)
 {
     if (!url.isValid()) {
         QMessageBox::warning(this, tr("Warning"),
-                             QString("%0\n\n%1")
-                             .arg(tr("Error: The url is not valid:"))
-                             .arg(url.toString()));
+                             QString("%0\n\n%1").arg(
+                                 tr("Error: The url is not valid:"),
+                                 url.toString()));
     } else {
         m_url = url;
 
 #ifdef USE_QT_WEBENGINE
-        qDebug() << Q_FUNC_INFO << "GOOGLE GUMBO + QT WEB ENGINE";
+        qInfo("Loading URL. HTML parser is Chromium.");
         if (!m_webEngineView) {
             m_webEngineView = new QWebEngineView(this);
 
@@ -206,7 +206,7 @@ void AddContentDialog::loadUrl(const QUrl &url)
         }
         m_webEngineView->load(m_url);
 #else
-        qDebug() << Q_FUNC_INFO << "GOOGLE GUMBO";
+        qInfo("Loading URL. HTML parser is Google Gumbo.");
         NetworkManager *networkManager = m_downloadManager->networkManager();
         QNetworkReply *reply = networkManager->get(m_url);
         connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
@@ -221,8 +221,8 @@ void AddContentDialog::loadUrl(const QUrl &url)
 #ifdef USE_QT_WEBENGINE
 void AddContentDialog::onLoadProgress(int progress)
 {
-    /* Between 1% and 90% */
-    progress = qMin(qFloor(0.90 * progress), 90);
+    /* Between 0% and 90% */
+    progress = qMin(qCeil(0.90 * qreal(progress)), 90);
     setProgressInfo(progress, tr("Downloading..."));
 }
 
@@ -256,7 +256,7 @@ void AddContentDialog::onDownloadProgress(qint64 bytesReceived, qint64 bytesTota
     /* Between 1% and 90% */
     int percent = 1;
     if (bytesTotal > 0) {
-        percent = qMin(qFloor(90.0 * bytesReceived / bytesTotal), 90);
+        percent = qMin(qCeil(qreal(90 * bytesReceived) / bytesTotal), 90);
     }
     setProgressInfo(percent, tr("Downloading..."));
 }
@@ -349,11 +349,10 @@ void AddContentDialog::setNetworkError(const QString &errorString)
             fontMetrics.elidedText(m_url.toString(), Qt::ElideRight,
                                    ui->progressPage->width() - 200);
 
-    const QString message =
-            QString("%0\n\n%1\n\n%2")
-            .arg(tr("The wizard can't connect to URL:"))
-            .arg(elidedUrl)
-            .arg(errorString);
+    const QString message = QString("%0\n\n%1\n\n%2").arg(
+                tr("The wizard can't connect to URL:"),
+                elidedUrl,
+                errorString);
 
     setProgressInfo(-1, message);
 }
@@ -387,7 +386,9 @@ void AddContentDialog::onSelectionChanged()
         ui->tipLabel->setText(tr("After selecting links, click on Start!"));
     } else {
         const int count = currentModel->items().count();
-        ui->tipLabel->setText(tr("Selected links: %0 of %1").arg(selectionCount).arg(count));
+        ui->tipLabel->setText(tr("Selected links: %0 of %1").arg(
+                                  QString::number(selectionCount),
+                                  QString::number(count)));
     }
     onChanged(QString());
 }
@@ -423,12 +424,12 @@ void AddContentDialog::readSettings()
 {
     QSettings settings;
     settings.beginGroup("Wizard");
-    resize(settings.value("DialogSize", QSize(C_DEFAULT_WIDTH, C_DEFAULT_HEIGHT)).toSize());
+    resize(settings.value("DialogSize", QSize(default_width, default_height)).toSize());
     ui->filterWidget->setState(settings.value("FilterState", 0).toUInt());
     ui->filterWidget->setCurrentFilter(settings.value("Filter", QString()).toString());
     ui->filterWidget->setFilterHistory(settings.value("FilterHistory", QString()).toStringList());
 
-    QList<int> defaultWidths = {-1, C_COLUMN_DOWNLOAD_WIDTH, -1, -1, C_COLUMN_MASK_WIDTH};
+    QList<int> defaultWidths = {-1, column_download_width, -1, -1, column_mask_width};
     QVariant variant = QVariant::fromValue(defaultWidths);
     ui->linkWidget->setColumnWidths(settings.value("ColumnWidths", variant).value<QList<int> >());
 

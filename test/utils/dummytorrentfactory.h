@@ -17,17 +17,24 @@
 #ifndef DUMMY_TORRENT_FACTORY_H
 #define DUMMY_TORRENT_FACTORY_H
 
-#include <Core/Stream>
+#include <QtCore/QObject>
+#include <QtCore/QSharedPointer>
 
-class Torrent;
-typedef QSharedPointer<Torrent> TorrentPtr;
+#include <Core/Torrent>
+
+using TorrentPtr = QSharedPointer<Torrent>;
 
 class DummyTorrentFactory
 {
 public:
     static TorrentPtr createDummyTorrent(QObject *parent);
 
-    static void setProgress(TorrentPtr torrent, int percent);
+    static TorrentPeerInfo createDummyPeer(
+            const EndPoint &endpoint, const QString &pieceSketch, const QString &userAgent,
+            qint64 size);
+    static TorrentPeerInfo createDummyPeer2(
+            const EndPoint &endpoint, const QString &pieceSketch, const QString &userAgent,
+            qint64 size, qint64 bytesDownloaded, qint64 bytesUploaded);
 };
 
 #endif // DUMMY_TORRENT_FACTORY_H

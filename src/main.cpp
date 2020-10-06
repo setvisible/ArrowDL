@@ -23,7 +23,11 @@
 
 #include <QtCore/QCommandLineParser>
 
+/* Enable the type to be used with QVariant. */
 Q_DECLARE_METATYPE(QList<int>)
+
+constexpr int msec_message_timeout = 2000;
+
 
 #ifndef QT_DEBUG
 void releaseVerboseMessageHandler(QtMsgType type, const QMessageLogContext &, const QString &msg)
@@ -58,7 +62,7 @@ int main(int argc, char *argv[])
 
     QtSingleApplication application(argc, argv);
 
-    application.setStyle(new CustomStyle);
+    QApplication::setStyle(new CustomStyle);
 
     QCoreApplication::setApplicationName(STR_APPLICATION_NAME);
     QCoreApplication::setOrganizationName(STR_APPLICATION_ORGANIZATION);
@@ -106,7 +110,7 @@ int main(int argc, char *argv[])
     if (application.isRunning()) {
         qWarning("Another instance is running...");
         // Rem: Even if is empty, the message is still sent to activate the window.
-        bool ok = application.sendMessage(message, 2000);
+        bool ok = application.sendMessage(message, msec_message_timeout);
         if (!ok) {
             qCritical("Message sending failed; the application may be frozen.");
         }
@@ -125,5 +129,5 @@ int main(int argc, char *argv[])
     QObject::connect(&application, SIGNAL(messageReceived(const QString&)),
                      &window, SLOT(handleMessage(const QString&)));
 
-    return application.exec();
+    return QtSingleApplication::exec();
 }

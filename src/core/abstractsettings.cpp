@@ -44,7 +44,7 @@ static int stringToInt(const QString &str) { return str.toInt(); }
 
 struct AbstractSettings::SettingsItem
 {
-    AbstractSettings::KeyType keyType;
+    AbstractSettings::KeyType keyType{BOOL};
     QString key;
     QString value;
     QString defaultValue;
@@ -175,7 +175,7 @@ QStringList AbstractSettings::getSettingStringList(const QString &key) const
 {
     QStringList ret;
     for (int i = 0; i < m_items.count(); ++i) {
-        const QString subkey = QString("%0%1").arg(key).arg(i);
+        const QString subkey = QString("%0%1").arg(key, QString::number(i));
         foreach (auto item, m_items) {
             if (item->key == subkey) {
                 ret << (m_default ? item->defaultValue : item->value);
@@ -188,7 +188,7 @@ QStringList AbstractSettings::getSettingStringList(const QString &key) const
 void AbstractSettings::addDefaultSettingStringList(const QString &key, const QStringList &defaultValue)
 {
     for (int i = 0; i < defaultValue.count(); ++i) {
-        const QString subkey = QString("%0%1").arg(key).arg(i);
+        const QString subkey = QString("%0%1").arg(key, QString::number(i));
         const QString& subvalue = defaultValue.at(i);
         addDefaultSettingString(subkey, subvalue);
     }
@@ -197,7 +197,7 @@ void AbstractSettings::addDefaultSettingStringList(const QString &key, const QSt
 void AbstractSettings::setSettingStringList(const QString &key, const QStringList &value)
 {
     for (int i = 0; i < value.count(); ++i) {
-        const QString subkey = QString("%0%1").arg(key).arg(i);
+        const QString subkey = QString("%0%1").arg(key, QString::number(i));
         const QString& subvalue = value.at(i);
         setSettingString(subkey, subvalue);
     }

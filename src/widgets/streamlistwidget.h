@@ -46,10 +46,10 @@ public:
 
     void setMessageEmpty();
     void setMessageWait();
-    void setMessageError(QString errorMessage);
+    void setMessageError(const QString &errorMessage);
 
-    void setStreamObjects(StreamObject streamObject);
-    void setStreamObjects(QList<StreamObject> streamObjects);
+    void setStreamObjects(const StreamObject &streamObject);
+    void setStreamObjects(const QList<StreamObject> &streamObjects);
 
     QList<StreamObject> selection() const;
 
@@ -60,8 +60,8 @@ protected slots:
 private slots:
     void onSelectionChanged(const QItemSelection &selected,
                             const QItemSelection &deselected);
-    void onStreamObjectChanged(StreamObject streamObject);
-    void onCheckStateChanged(QModelIndex index, bool checked);
+    void onStreamObjectChanged(const StreamObject &streamObject);
+    void onCheckStateChanged(const QModelIndex &index, bool checked);
     void onTrackNumberChecked(int state);
 
 private:
@@ -96,7 +96,7 @@ public:
 
     void retranslateUi();
 
-    void setStreamObjects(QList<StreamObject> streamObjects);
+    void setStreamObjects(const QList<StreamObject> &streamObjects);
     void enableTrackNumberPrefix(bool enable);
 
     StreamObject itemAt(int row) const;

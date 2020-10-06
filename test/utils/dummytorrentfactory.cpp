@@ -20,72 +20,66 @@
 
 #include <QtCore/QtMath>
 
+constexpr qint64 kilobytes = 1024;
+constexpr qint64 block_size_bytes = 16 * kilobytes;
 
-static const qint64 KILOBYTES = 1024;
-static const qint64 BLOCK_SIZE_BYTES = 16 * KILOBYTES;
 
-
-static QBitArray createRandomBitArray(qint64 size, int percent);
-
-class BasicTorrent
+/*!
+ * \class TorrentSkeleton
+ *  \brief Contains minimal data to generate a valid and reproduceable torrent.
+ */
+class TorrentSkeleton
 {
 public:
-    BasicTorrent(QString _name, qint64 _piece_size_in_KB = 32)
-        : name(_name), piece_size_in_KB(_piece_size_in_KB)
-    {
-        qsrand(QDateTime::currentDateTime().toTime_t());
-    }
+    TorrentSkeleton(const QString &name, int piece_size_in_KB = 32);
 
-    void addFile(qint64 size, QString name)
-    {
-        basicFiles << BasicFile(name, size);
-    }
+    void addFile(qint64 size, const QString &name);
 
     TorrentPtr toTorrent(QObject *parent);
 
 private:
-    QString name;
-    qint64 piece_size_in_KB;
+    QString m_name;
+    int m_piece_size_in_KB;
 
     struct BasicFile
     {
-        BasicFile(QString _name, qint64 _size_in_KB)
-            : name(_name), size_in_KB(_size_in_KB) {}
+        BasicFile(const QString &_name, qint64 _size_in_KB)
+            : name(_name)
+            , size_in_KB(_size_in_KB)
+        {}
 
         QString name;
         qint64 size_in_KB;
 
     };
-    QList<BasicFile> basicFiles;
-
-    TorrentPeerInfo makePeer(const EndPoint &endpoint, const QString &userAgent, qint64 size);
+    QList<BasicFile> m_basicFiles;
 };
 
 /******************************************************************************
  ******************************************************************************/
-TorrentPeerInfo BasicTorrent::makePeer(const EndPoint &endpoint, const QString &userAgent, qint64 size)
+TorrentSkeleton::TorrentSkeleton(const QString &name, int piece_size_in_KB)
+    : m_name(name)
+    , m_piece_size_in_KB(piece_size_in_KB)
 {
-    int percent = int((100 * qrand()) / RAND_MAX);
+}
 
-    TorrentPeerInfo peer;
-    peer.endpoint = endpoint;
-    peer.userAgent = userAgent;
-    peer.availablePieces = createRandomBitArray(size, percent);
-    return peer;
+void TorrentSkeleton::addFile(qint64 size, const QString &name)
+{
+    m_basicFiles << BasicFile(name, size);
 }
 
 /******************************************************************************
  ******************************************************************************/
-TorrentPtr BasicTorrent::toTorrent(QObject *parent)
+TorrentPtr TorrentSkeleton::toTorrent(QObject *parent)
 {
     TorrentPtr t(new Torrent(parent));
 
-    qint64 total_size_in_KB = 0;
-    foreach (auto basicFile, basicFiles) {
+    int total_size_in_KB = 0;
+    foreach (auto basicFile, m_basicFiles) {
         total_size_in_KB += basicFile.size_in_KB;
     }
-    qint64 total_pieces_count = qCeil(qreal(total_size_in_KB) / qreal(piece_size_in_KB));
-    qint64 last_piece_size_in_KB = total_size_in_KB - (total_pieces_count - 1) * piece_size_in_KB;
+    int total_pieces_count = qCeil(qreal(total_size_in_KB) / m_piece_size_in_KB);
+    int last_piece_size_in_KB = total_size_in_KB - (total_pieces_count - 1) * m_piece_size_in_KB;
 
     QString infohash = "A1C231234D653E65D2149056688D2EF93210C1858";
     QStringList trackers;
@@ -93,9 +87,8 @@ TorrentPtr BasicTorrent::toTorrent(QObject *parent)
     trackers << "udp://tracker.example.com:1337";
 
     QString magnetLink;
-    magnetLink = QString("magnet:?xt=urn:btih:%0&dn=%1")
-            .arg(infohash)
-            .arg(name.replace(".zip", "-ZIP"));
+    magnetLink = QString("magnet:?xt=urn:btih:%0&dn=%1").arg(
+                infohash, m_name.replace(".zip", "-ZIP"));
     foreach (auto tracker, trackers) {
         magnetLink += QString("&tr=%0")
                 .arg(tracker.replace(':', "%3A").replace('/', "%2F"));
@@ -104,7 +97,7 @@ TorrentPtr BasicTorrent::toTorrent(QObject *parent)
         magnetLink += QString("saltsaltsaltsaltsaltsaltsaltsaltsaltsaltsaltsaltsalt");
     }
 
-    t->setLocalFullFileName(QString("C:\\Temp\\DZA-torrent-widget-test\\%0").arg(name));
+    t->setLocalFullFileName(QString("C:\\Temp\\DZA-torrent-widget-test\\%0").arg(m_name));
     t->setUrl(magnetLink);
 
     TorrentInfo info;
@@ -115,15 +108,16 @@ TorrentPtr BasicTorrent::toTorrent(QObject *parent)
     info.state = TorrentInfo::stopped;
 
     info.downloadedPieces = QBitArray(total_pieces_count, false);
+    info.verifiedPieces = QBitArray(total_pieces_count, false);
 
     info.bytesReceived = 0;
-    info.bytesTotal = total_size_in_KB * KILOBYTES;
+    info.bytesTotal = total_size_in_KB * kilobytes;
     info.percent = 0;
-    info.blockSizeInByte = BLOCK_SIZE_BYTES;
+    info.blockSizeInByte = block_size_bytes;
 
 
     auto offset_in_KB = 0;
-    foreach (auto file, basicFiles) {
+    foreach (auto file, m_basicFiles) {
 
         TorrentFileMetaInfo::Flags flags;
         if (file.name.contains(".exe")) {
@@ -141,8 +135,8 @@ TorrentPtr BasicTorrent::toTorrent(QObject *parent)
 
         TorrentFileMetaInfo fileMetaInfo;
         fileMetaInfo.filePath = file.name;
-        fileMetaInfo.bytesOffset = offset_in_KB * KILOBYTES;
-        fileMetaInfo.bytesTotal = file.size_in_KB * KILOBYTES;
+        fileMetaInfo.bytesOffset = offset_in_KB * kilobytes;
+        fileMetaInfo.bytesTotal = file.size_in_KB * kilobytes;
         fileMetaInfo.flags = flags;
 
         TorrentFileInfo fileInfo;
@@ -153,14 +147,15 @@ TorrentPtr BasicTorrent::toTorrent(QObject *parent)
         metaInfo.initialMetaInfo.files << fileMetaInfo;
     }
 
-    detail.peers << makePeer(EndPoint("175.158.201.29:32725"), "rTorrent v1.2.3", total_pieces_count);
-    detail.peers << makePeer(EndPoint("103.217.176.75:44851"), "", total_pieces_count);
-    detail.peers << makePeer(EndPoint("217.63.14.13:14082"  ), "bitTorrent", total_pieces_count);
-    detail.peers << makePeer(EndPoint("178.214.192.253:6881"), "toto", total_pieces_count);
-    detail.peers << makePeer(EndPoint("71.206.231.37:49958" ), "libTorrent", total_pieces_count);
-    detail.peers << makePeer(EndPoint("82.69.12.239:59333"  ), "qBitTorrent", total_pieces_count);
-    detail.peers << makePeer(EndPoint("86.120.101.138:42624"), "", total_pieces_count);
-    detail.peers << makePeer(EndPoint("175.158.201.29:32725"), "", total_pieces_count);
+    auto fct = DummyTorrentFactory::createDummyPeer;
+    detail.peers << fct(EndPoint("164.10.201.129:30025"), "XA-AA----A", "rTorrent v1.2.3", total_pieces_count);
+    detail.peers << fct(EndPoint("103.217.176.75:44851"), "XXXXXXXXXX", "", total_pieces_count);
+    detail.peers << fct(EndPoint("217.63.14.13:14082"  ), "-X-A-----A", "bitTorrent", total_pieces_count);
+    detail.peers << fct(EndPoint("178.214.192.253:6881"), "-----X----", "toto", total_pieces_count);
+    detail.peers << fct(EndPoint("71.206.231.37:49958" ), "-A-------A", "libTorrent", total_pieces_count);
+    detail.peers << fct(EndPoint("82.69.12.239:59333"  ), "----------", "qBitTorrent", total_pieces_count);
+    detail.peers << fct(EndPoint("86.120.101.138:42624"), "XA--------", "", total_pieces_count);
+    detail.peers << fct(EndPoint("175.158.201.29:32725"), "XXXXXX--X-", "", total_pieces_count);
 
     foreach (auto tracker, trackers) {
         detail.trackers << TorrentTrackerInfo(tracker);
@@ -173,12 +168,12 @@ TorrentPtr BasicTorrent::toTorrent(QObject *parent)
     metaInfo.peersInSwarm = 64;
     metaInfo.downloadsInSwarm = 12;
 
-    metaInfo.defaultPeers << makePeer(EndPoint("126.0.0.12:655"), "qBitTorrent", total_pieces_count);
+    metaInfo.defaultPeers << fct(EndPoint("126.0.0.12:655"), "XXXXXX--XX", "qBitTorrent", total_pieces_count);
 
-    metaInfo.bannedPeers << makePeer(EndPoint("99.66.125.255:81"), "_torrent_H4ck", total_pieces_count);
-    metaInfo.bannedPeers << makePeer(EndPoint("99.66.125.255:82"), "_torrent_H4ck", total_pieces_count);
+    metaInfo.bannedPeers << fct(EndPoint("99.66.125.255:81"), "XXXXXX--XX", "_torrent_H4ck", total_pieces_count);
+    metaInfo.bannedPeers << fct(EndPoint("99.66.125.255:82"), "-XXXA----x", "_torrent_H4ck", total_pieces_count);
 
-    metaInfo.initialMetaInfo.name = name;
+    metaInfo.initialMetaInfo.name = m_name;
     metaInfo.initialMetaInfo.creationDate = QDateTime(QDate(2020, 1, 1), QTime(16, 42, 57));
     metaInfo.initialMetaInfo.creator = "f0o1";
     metaInfo.initialMetaInfo.comment = "My dummy Torrent file";
@@ -186,11 +181,11 @@ TorrentPtr BasicTorrent::toTorrent(QObject *parent)
     metaInfo.initialMetaInfo.magnetLink = magnetLink;
 
     metaInfo.initialMetaInfo.bytesMetaData = 0;
-    metaInfo.initialMetaInfo.bytesTotal = total_size_in_KB * KILOBYTES;
+    metaInfo.initialMetaInfo.bytesTotal = total_size_in_KB * kilobytes;
 
     metaInfo.initialMetaInfo.pieceCount = total_pieces_count;
-    metaInfo.initialMetaInfo.pieceByteSize = piece_size_in_KB * KILOBYTES;
-    metaInfo.initialMetaInfo.pieceLastByteSize = last_piece_size_in_KB * KILOBYTES;
+    metaInfo.initialMetaInfo.pieceByteSize = m_piece_size_in_KB * kilobytes;
+    metaInfo.initialMetaInfo.pieceLastByteSize = last_piece_size_in_KB * kilobytes;
 
     metaInfo.initialMetaInfo.nodes << TorrentNodeInfo("udp://example.com/", 56408);
 
@@ -205,7 +200,7 @@ TorrentPtr BasicTorrent::toTorrent(QObject *parent)
  ******************************************************************************/
 TorrentPtr DummyTorrentFactory::createDummyTorrent(QObject *parent)
 {
-    BasicTorrent b("My.Torrent.zip");
+    TorrentSkeleton b("My.Torrent.zip");
 
     b.addFile(     10, "My.Torrent/README.txt");
     b.addFile(      2, "My.Torrent/Link.txt");
@@ -222,97 +217,51 @@ TorrentPtr DummyTorrentFactory::createDummyTorrent(QObject *parent)
 
 /******************************************************************************
  ******************************************************************************/
-static QBitArray createRandomBitArray(qint64 size, int percent)
+static QBitArray toAvailablePieces(int size, const QString &pieceSketch)
 {
-    if (percent <= 0) {
-        return QBitArray(size, false);
-    }
-    if (percent >= 100) {
-        return QBitArray(size, true);
-    }
     QBitArray ba = QBitArray(size, false);
-    if (percent == 50) {
-        for (int i = 0; i < size; i+=2) {
-            ba.setBit(i);
-        }
-    } else {
-        qsrand(QDateTime::currentDateTime().toTime_t());
-        for (int i = 0; i < size; ++i) {
-            int v = int((100 * qrand()) / RAND_MAX);
-            if (v <= percent) {
-                ba.setBit(i);
+    const int count = pieceSketch.count();
+    const int sectionSize = qCeil(qreal(size) / count);
+    for (int i = 0; i < count; ++i) {
+        auto sectionBegin = i * sectionSize;
+        auto sectionEnd = qMin(size, (i + 1) * sectionSize);
+        auto ch = pieceSketch.at(i);
+        if (ch == QLatin1Char('X')) {
+            for (int j = sectionBegin; j < sectionEnd; ++j) {
+                ba.setBit(j);
+            }
+        } else if (ch == QLatin1Char('A')) {
+            for (int j = sectionBegin; j < sectionEnd; j += 2) {
+                ba.setBit(j);
             }
         }
     }
     return ba;
 }
 
-/******************************************************************************
- ******************************************************************************/
-/**
- * @brief DummyTorrentFactory::setProgress
- * @param torrent Torrent
- * @param percent Progress between 0 (stopped) and 100 (completed)
+/*! ex: "XXX---AA"
+ *
+ * 'X' means all the pieces in the section are available
+ * 'A' means half the pieces in the section are available ('alternate')
+ * '-' means no piece in the section is available
+ *
  */
-void DummyTorrentFactory::setProgress(TorrentPtr torrent, int percent)
+TorrentPeerInfo DummyTorrentFactory::createDummyPeer(
+        const EndPoint &endpoint, const QString &pieceSketch, const QString &userAgent,
+        qint64 size)
 {
-    Q_ASSERT(torrent);
-
-    const TorrentMetaInfo metaInfo = torrent->metaInfo();
-    TorrentInfo info = torrent->info();
-
-    auto pieceCount = metaInfo.initialMetaInfo.pieceCount;
-    auto pieceByteSize = metaInfo.initialMetaInfo.pieceByteSize;
-
-    Q_ASSERT(pieceByteSize > 0);
-
-    qint64 bytesReceived = 0;
-
-    // First, create a random piece map
-    info.downloadedPieces = createRandomBitArray(pieceCount, percent);
-
-    TorrentHandleInfo detail = torrent->detail();
-    int total = metaInfo.initialMetaInfo.files.count();
-    for (int i = 0; i < total; ++i) {
-        auto fileMetaInfo = metaInfo.initialMetaInfo.files.at(i);
-
-        qint64 bytesOffset = fileMetaInfo.bytesOffset;
-        qint64 bytesTotal = fileMetaInfo.bytesTotal;
-
-        auto firstPieceIndex = qCeil(bytesOffset / pieceByteSize);
-        auto lastPieceIndex = qCeil((bytesOffset + bytesTotal) / pieceByteSize);
-        auto filePieceCount = 1 + lastPieceIndex - firstPieceIndex;
-        filePieceCount = qMin(filePieceCount, pieceCount);
-
-        // Count pieces for each file
-        qint64 received = 0;
-        for (int j = 0; j < filePieceCount; ++j) {
-            if (info.downloadedPieces.testBit(j)) {
-                received++;
-            }
-        }
-        received *= pieceByteSize;
-        received = qMin(received, bytesTotal);
-
-        detail.files[i].bytesReceived = received;
-        bytesReceived += received;
-    }
-
-    bytesReceived = qMin(bytesReceived, info.bytesTotal);
-
-    info.bytesReceived = bytesReceived;
-    info.bytesSessionDownloaded = bytesReceived;
-    info.bytesSessionUploaded = bytesReceived >> 2;
-
-    if (percent <= 0) {
-        info.state = TorrentInfo::stopped;
-    } else if (percent >= 1) {
-        info.state = TorrentInfo::seeding;
-    } else {
-        info.state = TorrentInfo::downloading;
-    }
-
-    torrent->setInfo(info, false);
-    torrent->setDetail(detail, false); // emit changed
+    return createDummyPeer2(endpoint, pieceSketch, userAgent, size, 0, 0);
 }
 
+TorrentPeerInfo DummyTorrentFactory::createDummyPeer2(
+        const EndPoint &endpoint, const QString &pieceSketch, const QString &userAgent,
+        qint64 size, qint64 bytesDownloaded, qint64 bytesUploaded)
+{
+    TorrentPeerInfo peer;
+    peer.endpoint = endpoint;
+    peer.userAgent = userAgent;
+    peer.availablePieces = toAvailablePieces(static_cast<int>(size), pieceSketch);
+    peer.bytesDownloaded = bytesDownloaded;
+    peer.bytesUploaded = bytesUploaded;
+    return peer;
+}

@@ -17,9 +17,9 @@
 #include "mask.h"
 
 #include <QtCore/QDebug>
-#include <QtCore/QUrl>
 #include <QtCore/QFileInfo>
-
+#include <QtCore/QRegularExpression>
+#include <QtCore/QUrl>
 
 static const QString NAME          = "*name*";
 static const QString EXT           = "*ext*";
@@ -41,6 +41,7 @@ static const QStringList s_tags
     FLATSUBDIRS ,
     QSTRING
 };
+
 
 static QString decodePercentEncoding(const QString &input)
 {
@@ -237,9 +238,9 @@ QString Mask::interpret(const QUrl &url,
     decodedMask.replace( QSTRING      , query         );
 
     /* Remove the trailing '.' and duplicated '/' */
-    decodedMask.replace(QRegExp("/+"), "/");
-    decodedMask.replace(QRegExp("^/"), "");
-    decodedMask.replace(QRegExp("[/\\.]*$"), "");
+    decodedMask.replace(QRegularExpression("/+"), "/");
+    decodedMask.replace(QRegularExpression("^/"), "");
+    decodedMask.replace(QRegularExpression("[/\\.]*$"), "");
 
     /* Replace reserved characters */
     cleanNameForWindows(decodedMask);
@@ -289,8 +290,8 @@ void Mask::cleanNameForWindows(QString &input)
     /* Chars must be part of ANSI charset (ASCII + extended 128-255) (0x00-0xFF)  */
 
     /* Replace reserved characters */
-    input.replace(QRegExp("[<>:\"|?#*]"), "_");
+    input.replace(QRegularExpression("[<>:\"|?#*]"), "_");
 
     /* and more */
-    input.replace(QRegExp("[#]"), "_");
+    input.replace(QRegularExpression("[#]"), "_");
 }

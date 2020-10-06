@@ -94,14 +94,14 @@ public:
     StreamFormat(const StreamFormat &) = default;
     StreamFormat &operator=(const StreamFormat &) = default;
 
-    StreamFormat(QString format_id,
-                 QString ext,
-                 QString format_note,
+    StreamFormat(const QString &format_id,
+                 const QString &ext,
+                 const QString &format_note,
                  int filesize,
-                 QString acodec,
+                 const QString &acodec,
                  int abr,
                  int asr,
-                 QString vcodec,
+                 const QString &vcodec,
                  int width,
                  int height,
                  int fps,
@@ -119,22 +119,22 @@ public:
     StreamFormatId formatId;    // (string): Format code specified by --format
     QString ext;                // (string): Video filename extension
     QString format_note;        // (string): Additional info about the format
-    int filesize;               // (numeric): The number of bytes, if known in advance
+    int filesize{};             // (numeric): The number of bytes, if known in advance
     QString acodec;             // (string): Name of the audio codec in use
-    int abr;                    // (numeric): Average audio bitrate in KBit/s
-    int asr;                    // (numeric): Audio sampling rate in Hertz
+    int abr{};                  // (numeric): Average audio bitrate in KBit/s
+    int asr{};                  // (numeric): Audio sampling rate in Hertz
     QString vcodec;             // (string): Name of the video codec in use
-    int width;                  // (numeric): Width of the video
-    int height;                 // (numeric): Height of the video
-    int fps;                    // (numeric): Frame rate
-    int tbr;                    // (numeric): Average bitrate of audio and video in KBit/s
+    int width{};                // (numeric): Width of the video
+    int height{};               // (numeric): Height of the video
+    int fps{};                  // (numeric): Frame rate
+    int tbr{};                  // (numeric): Average bitrate of audio and video in KBit/s
 };
 
 /*!
  * \typedef StreamObjectId
  * \brief Represents a 11-alphanumeric characters Unique Id (ex: "aBcDEfg1234")
  */
-typedef QString StreamObjectId;
+using StreamObjectId = QString;
 
 struct StreamFlatListItem
 {
@@ -144,7 +144,7 @@ struct StreamFlatListItem
     QString title;
     QString url;
 };
-typedef QList<StreamFlatListItem> StreamFlatList;
+using StreamFlatList = QList<StreamFlatListItem>;
 
 
 /*!
@@ -155,7 +155,7 @@ typedef QList<StreamFlatListItem> StreamFlatList;
 class StreamObject
 {
 public:
-    StreamObject();
+    StreamObject() = default;
     ~StreamObject() = default;
     StreamObject(const StreamObject &) = default;
     StreamObject &operator=(const StreamObject &) = default;
@@ -169,7 +169,7 @@ public:
         ErrorUnavailable
     };
     Error error() const;
-    void setError(const Error error);
+    void setError(Error error);
 
     qint64 guestimateFullSize() const;
     qint64 guestimateFullSize(const StreamFormatId &formatId) const;
@@ -215,7 +215,7 @@ public:
 
 private:
     /* Error */
-    Error m_error = NoError;
+    Error m_error{NoError};
 
     /* User data, modifiable */
     QString m_userTitle;
@@ -223,7 +223,7 @@ private:
     StreamFormatId m_userFormatId;
 };
 
-typedef QMap<StreamObjectId, StreamObject> StreamDumpMap;
+using StreamDumpMap = QMap<StreamObjectId, StreamObject>;
 
 /*!
  * \brief The Stream class is the main class to download a stream.
@@ -461,6 +461,7 @@ char *toString(const StreamFormat &streamFormat);
 char *toString(const StreamObject &streamObject);
 #endif
 
+/* Enable the type to be used with QVariant. */
 Q_DECLARE_METATYPE(StreamFormat);
 Q_DECLARE_METATYPE(StreamObject);
 

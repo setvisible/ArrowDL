@@ -32,6 +32,7 @@ static const QString REGISTRY_DONT_SHOW_TUTO   = "DontShowTutorial";
 static const QString REGISTRY_SHOW_SYSTEM_TRAY = "SystemTrayIconEnabled";
 static const QString REGISTRY_HIDE_MINIMIZED   = "HideWhenMinimized";
 static const QString REGISTRY_SHOW_BALLOON     = "SystemTrayBalloonEnabled";
+static const QString REGISTRY_MINIMIZE_ESCAPE  = "MinimizeWhenEscapePressed";
 static const QString REGISTRY_CONFIRM_REMOVAL  = "ConfirmRemoval";
 static const QString REGISTRY_CONFIRM_BATCH    = "ConfirmBatchDownload";
 static const QString REGISTRY_PROXY_TYPE       = "ProxyType";
@@ -80,11 +81,11 @@ static const QList<QString> DEFAULT_STREAM_HOST_LIST =
 {
     #include "settings_default_hosts.h.txt"
 };
-static const QString defaultStreamHost() {
+static QString defaultStreamHost() {
     return DEFAULT_STREAM_HOST_LIST.join(STREAM_HOST_SEPARATOR);
 }
 
-static const QString defaultTorrentShareFolder() {
+static QString defaultTorrentShareFolder() {
     return QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
 }
 
@@ -100,6 +101,7 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     addDefaultSettingBool(REGISTRY_SHOW_SYSTEM_TRAY, true);
     addDefaultSettingBool(REGISTRY_HIDE_MINIMIZED, false);
     addDefaultSettingBool(REGISTRY_SHOW_BALLOON, true);
+    addDefaultSettingBool(REGISTRY_MINIMIZE_ESCAPE, false);
     addDefaultSettingBool(REGISTRY_CONFIRM_REMOVAL, true);
     addDefaultSettingBool(REGISTRY_CONFIRM_BATCH, true);
 
@@ -251,6 +253,16 @@ bool Settings::isSystemTrayBalloonEnabled() const
 void Settings::setSystemTrayBalloonEnabled(bool enabled)
 {
     setSettingBool(REGISTRY_SHOW_BALLOON, enabled);
+}
+
+bool Settings::isMinimizeEscapeEnabled() const
+{
+    return getSettingBool(REGISTRY_MINIMIZE_ESCAPE);
+}
+
+void Settings::setMinimizeEscapeEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_MINIMIZE_ESCAPE, enabled);
 }
 
 bool Settings::isConfirmRemovalEnabled() const

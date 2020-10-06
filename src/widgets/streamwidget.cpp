@@ -55,7 +55,7 @@ StreamWidget::~StreamWidget()
 
 /******************************************************************************
  ******************************************************************************/
-void StreamWidget::setStreamObject(StreamObject streamObject)
+void StreamWidget::setStreamObject(const StreamObject &streamObject)
 {
     m_streamObject = streamObject;
     ui->titleLabel->setText(m_streamObject.title());
@@ -73,7 +73,7 @@ void StreamWidget::setStreamObject(StreamObject streamObject)
 
 /******************************************************************************
  ******************************************************************************/
-void StreamWidget::onFormatSelected(StreamFormatId formatId)
+void StreamWidget::onFormatSelected(const StreamFormatId &formatId)
 {
     m_streamObject.setFormatId(formatId);
     ui->fileExtensionEdit->setText(m_streamObject.suffix());

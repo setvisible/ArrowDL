@@ -53,20 +53,20 @@ static inline int stateToInt(IDownloadItem::State state)
 
 static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *downloadManager)
 {
-    ResourceItem *resourceItem = new ResourceItem();
+    auto resourceItem = new ResourceItem();
 
     resourceItem->setType(ResourceItem::fromString(json["type"].toString()));
 
     /// \deprecated since 2.0.8
     if (json.contains("streamEnabled")) {
-        qDebug() << Q_FUNC_INFO << "Deprecated tag: streamEnabled";
+        qWarning("Deprecated tag in session file: 'streamEnabled'. Use tag 'type' instead.");
         if (json["streamEnabled"].toBool()) {
             resourceItem->setType(ResourceItem::Type::Stream);
         }
     }
     /// \deprecated since 2.0.8
     if (json.contains("torrentEnabled")) {
-        qDebug() << Q_FUNC_INFO << "Deprecated tag: torrentEnabled";
+        qWarning("Deprecated tag in session file: 'torrentEnabled'. Use tag 'type' instead.");
         if (json["torrentEnabled"].toBool()) {
             resourceItem->setType(ResourceItem::Type::Torrent);
         }
@@ -137,9 +137,9 @@ static inline void writeJob(const DownloadItem *item, QJsonObject &json)
  ******************************************************************************/
 static inline void readList(QList<DownloadItem *> &downloadItems, const QJsonObject &json, DownloadManager *downloadManager)
 {
-    QJsonArray jobsArray = json["jobs"].toArray();
-    for (int i = 0; i < jobsArray.size(); ++i) {
-        QJsonObject jobObject = jobsArray[i].toObject();
+    QJsonArray jobs = json["jobs"].toArray();
+    foreach (auto job, jobs) {
+        QJsonObject jobObject = job.toObject();
         auto item = readJob(jobObject, downloadManager);
         downloadItems.append(item);
     }
@@ -147,13 +147,13 @@ static inline void readList(QList<DownloadItem *> &downloadItems, const QJsonObj
 
 static inline void writeList(const QList<DownloadItem *> &downloadItems, QJsonObject &json)
 {
-    QJsonArray jobsArray;
+    QJsonArray jobs;
     foreach (auto item, downloadItems) {
         QJsonObject jobObject;
         writeJob(item, jobObject);
-        jobsArray.append(jobObject);
+        jobs.append(jobObject);
     }
-    json["jobs"] = jobsArray;
+    json["jobs"] = jobs;
 }
 
 

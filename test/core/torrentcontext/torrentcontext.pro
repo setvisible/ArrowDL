@@ -44,34 +44,26 @@ INCLUDEPATH += ../../../include
 
 
 # Resources:
-HEADERS     += $$PWD/../../../src/core/abstractsettings.h
-SOURCES     += $$PWD/../../../src/core/abstractsettings.cpp
 
-HEADERS     += $$PWD/../../../src/core/format.h
-SOURCES     += $$PWD/../../../src/core/format.cpp
+HEADERS += \
+    $$PWD/../../../src/core/abstractsettings.h \
+    $$PWD/../../../src/core/format.h \
+    $$PWD/../../../src/core/itorrentcontext.h \
+    $$PWD/../../../src/core/networkmanager.h \
+    $$PWD/../../../src/core/settings.h \
+    $$PWD/../../../src/core/torrent.h \
+    $$PWD/../../../src/core/torrentbasecontext.h \
+    $$PWD/../../../src/core/torrentcontext.h \
+    $$PWD/../../../src/core/torrentcontext_p.h \
+    $$PWD/../../../src/core/torrentmessage.h          
 
-HEADERS     += $$PWD/../../../src/core/itorrentcontext.h
-
-HEADERS     += $$PWD/../../../src/core/networkmanager.h
-SOURCES     += $$PWD/../../../src/core/networkmanager.cpp
-
-HEADERS     += $$PWD/../../../src/core/settings.h
-SOURCES     += $$PWD/../../../src/core/settings.cpp
-
-HEADERS     += $$PWD/../../../src/core/torrent.h
-SOURCES     += $$PWD/../../../src/core/torrent.cpp
-
-HEADERS     += $$PWD/../../../src/core/torrentcontext.h
-SOURCES     += $$PWD/../../../src/core/torrentcontext.cpp
-
-HEADERS     += $$PWD/../../../src/core/torrentcontext_p.h
-SOURCES     += $$PWD/../../../src/core/torrentcontext_p.cpp
-
-HEADERS     += $$PWD/../../../src/core/torrentmessage.h
-SOURCES     += $$PWD/../../../src/core/torrentmessage.cpp
-
-
-
-
-
-
+SOURCES += \
+    $$PWD/../../../src/core/abstractsettings.cpp \
+    $$PWD/../../../src/core/format.cpp \
+    $$PWD/../../../src/core/networkmanager.cpp \
+    $$PWD/../../../src/core/settings.cpp \
+    $$PWD/../../../src/core/torrent.cpp \
+    $$PWD/../../../src/core/torrentbasecontext.cpp \
+    $$PWD/../../../src/core/torrentcontext.cpp \
+    $$PWD/../../../src/core/torrentcontext_p.cpp \
+    $$PWD/../../../src/core/torrentmessage.cpp

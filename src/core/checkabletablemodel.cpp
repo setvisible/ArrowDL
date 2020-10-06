@@ -46,6 +46,12 @@ QList<int> CheckableTableModel::checkedRows() const
     return list;
 }
 
+/*!
+ * \fn void CheckableTableModel::checkStateChanged(QModelIndex index, bool checked)
+ *  This signal is emitted when the item at the \a index as argument has changed,
+ *  with the new \a checked status.
+ */
+
 /******************************************************************************
  ******************************************************************************/
 QVariant CheckableTableModel::data(const QModelIndex &index, int role) const

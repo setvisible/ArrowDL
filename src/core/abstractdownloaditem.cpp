@@ -27,7 +27,7 @@
  *
  */
 
-#define TIMEOUT_UPDATE_MSEC     150 // in milliseconds
+constexpr int timeout_update_msec = 150; // in milliseconds
 
 /*!
  * \brief Constructor
@@ -78,8 +78,29 @@ QString AbstractDownloadItem::stateToString() const
     case IDownloadItem::Skipped:             return tr("Skipped");
     case IDownloadItem::NetworkError:        return tr("Server error");
     case IDownloadItem::FileError:           return tr("File error");
-    default: Q_UNREACHABLE(); return QLatin1String("#undef!");
     }
+    Q_UNREACHABLE();
+}
+
+/*! C string for printf() */
+const char* AbstractDownloadItem::state_c_str() const
+{
+    switch (m_state) {
+    case IDownloadItem::Idle:                return QLatin1String("idle").data();
+    case IDownloadItem::Paused:              return QLatin1String("paused").data();
+    case IDownloadItem::Stopped:             return QLatin1String("canceled").data();
+    case IDownloadItem::Preparing:           return QLatin1String("preparing").data();
+    case IDownloadItem::Connecting:          return QLatin1String("connecting").data();
+    case IDownloadItem::DownloadingMetadata: return QLatin1String("downloading metadata").data();
+    case IDownloadItem::Downloading:         return QLatin1String("downloading").data();
+    case IDownloadItem::Endgame:             return QLatin1String("finishing").data();
+    case IDownloadItem::Completed:           return QLatin1String("complete").data();
+    case IDownloadItem::Seeding:             return QLatin1String("seeding").data();
+    case IDownloadItem::Skipped:             return QLatin1String("skipped").data();
+    case IDownloadItem::NetworkError:        return QLatin1String("server error").data();
+    case IDownloadItem::FileError:           return QLatin1String("file error").data();
+    }
+    Q_UNREACHABLE();
 }
 
 /******************************************************************************
@@ -116,7 +137,7 @@ double AbstractDownloadItem::speed() const
 int AbstractDownloadItem::progress() const
 {
     if (m_bytesTotal > 0) {
-        return qMin(qFloor(100.0 * m_bytesReceived / m_bytesTotal), 100);
+        return qBound(0, qFloor(qreal(100 * m_bytesReceived) / m_bytesTotal), 100);
     }
     if (m_state == Idle) {
         return 0;
@@ -281,8 +302,7 @@ void AbstractDownloadItem::tearDownResume()
      * This timer updates the speed/progress info.
      * It can be quicker than the countdown timer.
      */
-    m_updateInfoTimer.start(TIMEOUT_UPDATE_MSEC);
-
+    m_updateInfoTimer.start(timeout_update_msec);
 
     /* Start downloading now. */
     m_state = Downloading;
@@ -326,9 +346,9 @@ void AbstractDownloadItem::updateInfo(qint64 bytesReceived, qint64 bytesTotal)
     m_bytesTotal = bytesTotal;
     const int elapsed = m_downloadTime.elapsed();
     if (elapsed > 0) {
-        m_speed = bytesReceived / m_downloadTime.elapsed() * 1000.0;
+        m_speed = qreal(1000 * bytesReceived) / m_downloadTime.elapsed();
     } else {
-        m_speed = -1;
+        m_speed = qreal(-1);
     }
     /*
      * It's very tempting to add 'emit changed();' here, but don't do that.
@@ -343,7 +363,7 @@ void AbstractDownloadItem::updateInfo(qint64 bytesReceived, qint64 bytesTotal)
 void AbstractDownloadItem::updateInfo()
 {
     if (m_speed > 0 && m_bytesReceived > 0 && m_bytesTotal > 0) {
-        const int estimatedTime = qCeil((m_bytesTotal - m_bytesReceived) / m_speed);
+        const int estimatedTime = qCeil(qreal(m_bytesTotal - m_bytesReceived) / m_speed);
         QTime time(0, 0, 0);
         time = time.addSecs(estimatedTime);
         m_remainingTime = time;

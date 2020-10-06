@@ -25,9 +25,9 @@
 #include <QtGui/QPixmap>
 #include <QtWidgets/QApplication>
 
-#define C_CHECKBOX_SIZE            12
-#define C_CHECKBOX_WIDTH           16
-#define C_THUMBNAIL_WIDTH          16
+constexpr int checkbox_size   = 12;
+constexpr int checkbox_width  = 16;
+constexpr int thumbnail_width = 16;
 
 
 static QModelIndex getSiblingAtColumn(const QModelIndex &index, int acolumn)
@@ -56,14 +56,17 @@ void CheckableItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
     QStyleOptionViewItem myOption = option;
     initStyleOption(&myOption, index);
 
-    auto sibling = getSiblingAtColumn(index, 0);
-    const bool selected = index.model()->data(sibling, CheckableTableModel::CheckStateRole).toBool();
+    myOption.palette.setColor(QPalette::All, QPalette::Window, s_white);
+    myOption.palette.setColor(QPalette::All, QPalette::WindowText, s_black);
+    myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
+    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
 
-    if (selected) {
-        painter->fillRect(option.rect, s_lightYellow);
+    auto sibling = getSiblingAtColumn(index, 0);
+    auto checked = index.model()->data(sibling, CheckableTableModel::CheckStateRole).toBool();
+    if (checked) {
+        myOption.palette.setColor(QPalette::All, QPalette::Window, s_lightYellow);
         myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_darkYellow);
-    } else {
-        myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
+        painter->fillRect(myOption.rect, s_lightYellow); // hack
     }
 
     if (myOption.state & QStyle::State_Selected) {
@@ -83,10 +86,10 @@ void CheckableItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
         QStyleOptionButton button;
         button.rect = myOption.rect;
         button.palette = myOption.palette;
-        button.iconSize = QSize(C_CHECKBOX_SIZE, C_CHECKBOX_SIZE);
+        button.iconSize = QSize(checkbox_size, checkbox_size);
         button.icon = m_checkIcon;
         button.features |= QStyleOptionButton::Flat;
-        button.state |= selected ? QStyle::State_Enabled : QStyle::State_None;
+        button.state |= checked ? QStyle::State_Enabled : QStyle::State_None; // hack
         QApplication::style()->drawControl(QStyle::CE_PushButton, &button, painter);
     } else {
         QStyledItemDelegate::paint(painter, myOption, index);
@@ -102,12 +105,12 @@ QSize CheckableItemDelegate::sizeHint(const QStyleOptionViewItem &option, const 
 
 int CheckableItemDelegate::widthHint()
 {
-    return C_CHECKBOX_WIDTH;
+    return checkbox_width;
 }
 
 int CheckableItemDelegate::thumbnailHint()
 {
-    return C_THUMBNAIL_WIDTH;
+    return thumbnail_width;
 }
 
 /******************************************************************************

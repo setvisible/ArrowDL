@@ -45,7 +45,7 @@ public:
     void setTorrentSettings(const QMap<QString, QVariant> &map);
 
     QVector<int> bandwidthSettings() const;
-    void setBandwidthSettings(QVector<int> settings);
+    void setBandwidthSettings(const QVector<int> &settings);
 
 signals:
     void changed();

@@ -20,6 +20,8 @@
 #include <Core/TorrentMessage>
 
 #include <QtCore/QAbstractTableModel>
+#include <QtCore/QSet>
+#include <QtCore/QSortFilterProxyModel>
 
 class TorrentFileTableModel;
 class TorrentPeerTableModel;
@@ -31,8 +33,8 @@ class Torrent : public QObject
     Q_OBJECT
 
 public:
-    explicit Torrent(QObject *parent);
-    ~Torrent() Q_DECL_OVERRIDE;
+    explicit Torrent(QObject *parent = Q_NULLPTR);
+    ~Torrent() Q_DECL_OVERRIDE = default;
 
     void clear();
     bool isEmpty();
@@ -50,13 +52,13 @@ public:
     QString status() const;
 
     TorrentMetaInfo metaInfo() const;
-    void setMetaInfo(TorrentMetaInfo metaInfo);
+    void setMetaInfo(const TorrentMetaInfo &metaInfo);
 
     TorrentInfo info() const;
-    void setInfo(TorrentInfo info, bool mustRefreshMetaInfo);
+    void setInfo(const TorrentInfo &info, bool mustRefreshMetaInfo);
 
     TorrentHandleInfo detail() const;
-    void setDetail(TorrentHandleInfo detail, bool mustRefreshMetaInfo);
+    void setDetail(const TorrentHandleInfo &detail, bool mustRefreshMetaInfo);
 
     int progress() const;
 
@@ -71,6 +73,7 @@ public:
     void setPreferredFilePriorities(const QString &priorities);
 
     void addPeer(const QString &input);
+    void removeUnconnectedPeers();
 
     int trackerCount() const;
     void addTracker(const QString &url);
@@ -99,7 +102,15 @@ private:
     TorrentFileTableModel* m_fileModel;
     TorrentPeerTableModel* m_peerModel;
     TorrentTrackerTableModel* m_trackerModel;
+};
 
+/******************************************************************************
+ ******************************************************************************/
+class SortFilterProxyModel: public QSortFilterProxyModel
+{
+    Q_OBJECT
+public:
+    explicit SortFilterProxyModel(QObject *parent = Q_NULLPTR);
 };
 
 /******************************************************************************
@@ -109,11 +120,13 @@ class AbstractTorrentTableModel: public QAbstractTableModel
     Q_OBJECT
 public:
     enum Role {
-        ProgressRole = Qt::UserRole + 1,
-        SegmentRole
+        ProgressRole = Qt::UserRole + 1, ///< The progress value. (int, between 0 and 100)
+        SegmentRole, ///< The data to render the segments. (QBitArray)
+        ConnectRole, ///< The connection state of the peer or tracker. (bool)
+        SortRole
     };
 
-    explicit AbstractTorrentTableModel(Torrent *parent);
+    explicit AbstractTorrentTableModel(Torrent *parent = Q_NULLPTR);
 
     int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
@@ -130,13 +143,13 @@ class TorrentFileTableModel: public AbstractTorrentTableModel
 {
     Q_OBJECT
 public:
-    explicit TorrentFileTableModel(Torrent *parent);
+    explicit TorrentFileTableModel(Torrent *parent = Q_NULLPTR);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
-    void refreshMetaData(QList<TorrentFileMetaInfo> files);
-    void refreshData(QList<TorrentFileInfo> files);
+    void refreshMetaData(const QList<TorrentFileMetaInfo> &files);
+    void refreshData(const QList<TorrentFileInfo> &files);
     void retranslateUi();
 
 private:
@@ -163,16 +176,21 @@ class TorrentPeerTableModel: public AbstractTorrentTableModel
 {
     Q_OBJECT
 public:
-    explicit TorrentPeerTableModel(Torrent *parent);
+    explicit TorrentPeerTableModel(Torrent *parent = Q_NULLPTR);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
-    void refreshData(QList<TorrentPeerInfo> peers);
+    void refreshData(const QList<TorrentPeerInfo> &peers);
     void retranslateUi();
+
+    void removeUnconnectedPeers();
 
 private:
     QList<TorrentPeerInfo> m_peers;
+    QSet<EndPoint> m_connectedPeers;
+
+    void appendRemainingSafely(const QList<TorrentPeerInfo> &peers);
 };
 
 /******************************************************************************
@@ -181,12 +199,12 @@ class TorrentTrackerTableModel: public AbstractTorrentTableModel
 {
     Q_OBJECT
 public:
-    explicit TorrentTrackerTableModel(Torrent *parent);
+    explicit TorrentTrackerTableModel(Torrent *parent = Q_NULLPTR);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
-    void refreshData(QList<TorrentTrackerInfo> trackers);
+    void refreshData(const QList<TorrentTrackerInfo> &trackers);
     void retranslateUi();
 
 private:

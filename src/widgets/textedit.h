@@ -35,9 +35,9 @@ public:
     void clear() { anchorLine = cursorLine; anchorColumn = cursorColumn; }
 
     int cursorPosition(int blockNumber) const;
-    void setPosition(const int position , MoveMode anchor = MoveAnchor);
-    void setPosition(const int line, const int column, MoveMode anchor = MoveAnchor);
-    void movePosition(const int diff_line, const int diff_col, MoveMode anchor = MoveAnchor);
+    void setPosition(int position , MoveMode anchor = MoveAnchor);
+    void setPosition(int line, int column, MoveMode anchor = MoveAnchor);
+    void movePosition(int diff_line, int diff_col, MoveMode anchor = MoveAnchor);
 
     int topLine() const     { return qMin(anchorLine, cursorLine); }
     int bottomLine() const  { return qMax(anchorLine, cursorLine); }
@@ -67,7 +67,7 @@ class TextEdit : public QPlainTextEdit
     Q_OBJECT
 public:
     explicit TextEdit(QWidget *parent = Q_NULLPTR);
-    ~TextEdit() Q_DECL_OVERRIDE;
+    ~TextEdit() Q_DECL_OVERRIDE = default;
 
     bool isBlockModeEnabled() const;
 
@@ -102,7 +102,7 @@ private:
     void copyBlockSelection();
     void pasteBlockSelection();
     void removeBlockSelection(const QString &text = QString());
-    void deleteBlockSelection(const bool after = true);
+    void deleteBlockSelection(bool after = true);
     void clearBlockSelection();
 };
 

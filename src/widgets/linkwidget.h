@@ -44,7 +44,7 @@ public:
     void contextMenuCallback(QMenu *contextMenu);
 
 protected:
-    virtual void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
     void onCurrentTabChanged(int index);

@@ -51,7 +51,7 @@ public:
 private slots:
     void onSettingsChanged();
 
-    void onQueueChanged(DownloadRange range);
+    void onQueueChanged(const DownloadRange &range);
     void onQueueChanged(IDownloadItem* item);
     void onQueueChanged();
 

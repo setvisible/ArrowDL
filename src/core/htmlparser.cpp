@@ -23,9 +23,9 @@
 #include "gumbo.h"
 #include "error.h"
 
-#include <QtCore/QRegExp>
-#include <QtCore/QDir>
 #include <QtCore/QDebug>
+#include <QtCore/QDir>
+#include <QtCore/QRegularExpression>
 
 
 static ResourceItem* createResourceItem(const GumboElement &element, const QUrl &baseUrl)
@@ -74,7 +74,9 @@ static ResourceItem* createResourceItem(const GumboElement &element, const QUrl 
 
     {
         if (!fullfilename.isEmpty()) {
-            const QRegExp re{"^(.*)("+QRegExp::escape("/")+")$", Qt::CaseInsensitive};
+            const QRegularExpression re{
+                "^(.*)(" + QRegularExpression::escape("/") + ")$",
+                        QRegularExpression::CaseInsensitiveOption};
             fullfilename = fullfilename.replace(re, "\\1");
         }
         fullfilename.replace("http://", "", Qt::CaseInsensitive);
@@ -87,15 +89,6 @@ static ResourceItem* createResourceItem(const GumboElement &element, const QUrl 
         fullfilename = fullfilename.trimmed();
         fullfilename = QDir::toNativeSeparators(fullfilename);
     }
-
-    QFileInfo fi(fullfilename);
-    QString baseName = fi.baseName();
-    QString extension = fi.completeSuffix();
-
-   // QString fileName = fi.fileName();
-
-    QString fileName = url3.fileName();
-
 
     QString titles = title ? QString(title->value) : QString();
     QString alts = alt ? QString(alt->value) : QString();

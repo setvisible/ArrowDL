@@ -16,40 +16,36 @@
 
 #include "regex.h"
 
-#include <QtCore/QRegExp>
 #include <QtCore/QDebug>
+#include <QtCore/QRegularExpression>
 
 
-static QString pattern            = R"([\[\(]\d+[:-\s]\d+[\]\)])";
-static QString patternWithGroups  = R"([\[\(](\d+)[:-\s](\d+)[\]\)])";
+static const QRegularExpression reBatch("([\\[\\(]\\d+[:\\-\\s]\\d+[\\]\\)])");
+static const QRegularExpression reGroup("[\\[\\(](\\d+)[:\\-\\s](\\d+)[\\]\\)]");
 
-//static QString pattern            = "[\\[\\(]\\d+[:-\\s]\\d+[\\]\\)]";
-//static QString patternWithGroups  = "[\\[\\(](\\d+)[:-\\s](\\d+)[\\]\\)]";
-static int firstGroupPosition     = 1; // 0 is reseved to full string
-static int secondGroupPosition    = 2;
+constexpr int firstGroupPosition     = 1; // 0 is reseved to full string
+constexpr int secondGroupPosition    = 2;
 
 
 struct Capture
 {
     QString capture;
-    int pos{};
-    int len{};
+    int pos{0};
+    int len{0};
     QStringList interpretedCapture;
 };
 
-static const QList<Capture> capture(const QString &str)
+static QList<Capture> capture(const QString &str)
 {
     QList<Capture> captures;
-    const QRegExp rx(pattern);
-    int pos = 0;
-    while ((pos = rx.indexIn(str, pos)) != -1) {
+    QRegularExpressionMatchIterator i = reBatch.globalMatch(str);
+    while (i.hasNext()) {
+        QRegularExpressionMatch match = i.next();
         Capture cap;
-        cap.capture = rx.cap(0);
-        cap.pos = pos;
+        cap.capture = match.captured(0);
+        cap.pos = match.capturedStart();
         cap.len = cap.capture.length();
-
         captures << cap;
-        pos += rx.matchedLength();
     }
     return captures;
 }
@@ -95,21 +91,23 @@ QStringList Regex::interpret(const QString &str)
     for (int index = 0; index < captures.count(); ++index) {
         Capture &cap = captures[index];
 
-        const QRegExp rx(patternWithGroups);
-        int start = rx.indexIn(cap.capture, 0);
-        if (start != 0) {
+        QRegularExpressionMatch match = reGroup.match(cap.capture);
+        if (!match.hasMatch()) {
             Q_ASSERT(false);
         } else {
 
-            int fieldWidth = rx.cap(firstGroupPosition).length();
-            int begin = rx.cap(firstGroupPosition).toInt();
-            int end = rx.cap(secondGroupPosition).toInt();
+            auto strBegin = match.captured(firstGroupPosition);
+            auto strEnd = match.captured(secondGroupPosition);
+
+            int fieldWidth = strBegin.length();
+            int begin = strBegin.toInt();
+            int end = strEnd.toInt();
 
             if (begin > end) {
                 int t = end;
                 end = begin;
                 begin = t;
-                fieldWidth = rx.cap(secondGroupPosition).length();
+                fieldWidth = match.captured(secondGroupPosition).length();
             }
 
             for (int i = begin; i <= end; ++i) {
@@ -136,4 +134,14 @@ QStringList Regex::interpret(const QString &str)
         list.append(buffer);
     }
     return list;
+}
+
+QStringList Regex::getCaptures(const QString &str)
+{
+    QList<Capture> captures = capture(str);
+    QStringList ret;
+    foreach (auto capture, captures) {
+        ret.append(capture.capture);
+    }
+    return ret;
 }

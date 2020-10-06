@@ -32,7 +32,7 @@ TutorialDialog::TutorialDialog(Settings *settings, QWidget *parent)
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Tutorial")));
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Tutorial")));
 
     ui->titleLabel->setText(tr("Welcome to %0").arg(STR_APPLICATION_NAME));
 
@@ -60,10 +60,10 @@ TutorialDialog::TutorialDialog(Settings *settings, QWidget *parent)
                         "<br/></li>"
                         "<li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">"
                         "%2"
-                        "<br/></li></ul></body></html>")
-                .arg(tr("Read the tutorial. The page contains quick sample files:"))
-                .arg(tr("You can mass-download them"))
-                .arg(tr("Try the powerful batch-download mode too!"))
+                        "<br/></li></ul></body></html>").arg(
+                    tr("Read the tutorial. The page contains quick sample files:"),
+                    tr("You can mass-download them"),
+                    tr("Try the powerful batch-download mode too!"))
                 );
 
     ui->link->setText(QString("<a href=\"%0\">%0</a>").arg(STR_TUTORIAL_WEBSITE));

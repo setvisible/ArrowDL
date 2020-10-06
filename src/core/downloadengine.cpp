@@ -21,7 +21,8 @@
 #include <QtCore/QDebug>
 #include <QtCore/QtMath>
 
-#define C_SELECTION_DISPLAY_LIMIT  10
+constexpr int selection_display_limit = 10;
+constexpr int msec_speed_display_time = 2000;
 
 DownloadEngine::DownloadEngine(QObject *parent) : QObject(parent)
   , m_maxSimultaneousDownloads(4)
@@ -182,7 +183,7 @@ QList<IDownloadItem *> DownloadEngine::downloadItems() const
 }
 
 static inline QList<IDownloadItem*> filter(const QList<IDownloadItem*> &items,
-                                           const QList<IDownloadItem::State> states)
+                                           const QList<IDownloadItem::State> &states)
 {
     QList<IDownloadItem*> list;
     foreach (auto item, items) {
@@ -245,7 +246,7 @@ double DownloadEngine::totalSpeed()
     }
     if (speed > 0) {
         m_previouSpeed = speed;
-        m_speedTimer.start(2000);
+        m_speedTimer.start(msec_speed_display_time);
     }
     return m_previouSpeed;
 }
@@ -288,7 +289,7 @@ void DownloadEngine::onFinished()
     emit jobFinished(downloadItem);
 }
 
-void DownloadEngine::onRenamed(QString oldName, QString newName, bool success)
+void DownloadEngine::onRenamed(const QString &oldName, const QString &newName, bool success)
 {
     emit jobRenamed(oldName, newName, success);
 }
@@ -339,8 +340,8 @@ QString DownloadEngine::selectionToString() const
         ret += item->localFileName();
         ret += "\n";
         count++;
-        if (count > C_SELECTION_DISPLAY_LIMIT) {
-            ret += tr("... (%0 others)").arg(m_selectedItems.count() - C_SELECTION_DISPLAY_LIMIT);
+        if (count > selection_display_limit) {
+            ret += tr("... (%0 others)").arg(m_selectedItems.count() - selection_display_limit);
             break;
         }
     }

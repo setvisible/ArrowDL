@@ -37,10 +37,10 @@
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QSystemTrayIcon>
 
-#define C_DEFAULT_WIDTH     700
-#define C_DEFAULT_HEIGHT    500
-#define C_DEFAULT_INDEX     0
-#define C_COLUMN_WIDTH      200
+constexpr int default_width = 700;
+constexpr int default_height = 500;
+constexpr int default_index = 0;
+constexpr int column_width = 200;
 
 
 PreferenceDialog::PreferenceDialog(Settings *settings, QWidget *parent)
@@ -216,7 +216,7 @@ void PreferenceDialog::initializeUi()
     ui->httpUserAgentComboBox->clear();
     ui->httpUserAgentComboBox->setEditable(true);
     ui->httpUserAgentComboBox->addItem(tr("(none)")); // index == 0
-    ui->httpUserAgentComboBox->addItems(m_settings->httpUserAgents());
+    ui->httpUserAgentComboBox->addItems(Settings::httpUserAgents());
     ui->httpReferringPageCheckBox->setChecked(false);
     ui->httpReferringPageLineEdit->setEnabled(false);
 
@@ -229,7 +229,7 @@ void PreferenceDialog::initializeUi()
                                                      << tr("Caption")
                                                      << tr("Extensions"));
     ui->filterTableWidget->setColumnHidden(0, true);
-    ui->filterTableWidget->setColumnWidth(1, C_COLUMN_WIDTH);
+    ui->filterTableWidget->setColumnWidth(1, column_width);
 
     ui->filterAddButton->setEnabled(false);
     ui->filterUpdateButton->setEnabled(false);
@@ -255,7 +255,7 @@ void PreferenceDialog::initializeWarnings()
 
 void PreferenceDialog::refreshTitle()
 {
-    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME).arg(tr("Preferences")));
+    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Preferences")));
 }
 
 /******************************************************************************
@@ -443,6 +443,7 @@ void PreferenceDialog::read()
     ui->showSystemTrayIconCheckBox->setChecked(m_settings->isSystemTrayIconEnabled());
     ui->hideWhenMinimizedCheckBox->setChecked(m_settings->isHideWhenMinimizedEnabled());
     ui->showSystemTrayBalloonCheckBox->setChecked(m_settings->isSystemTrayBalloonEnabled());
+    ui->minimizeWhenEscPressedCheckBox->setChecked(m_settings->isMinimizeEscapeEnabled());
     ui->confirmRemovalCheckBox->setChecked(m_settings->isConfirmRemovalEnabled());
     ui->confirmBatchCheckBox->setChecked(m_settings->isConfirmBatchDownloadEnabled());
     ui->streamHostCheckBox->setChecked(m_settings->isStreamHostEnabled());
@@ -455,7 +456,7 @@ void PreferenceDialog::read()
     ui->customBatchButtonLabelLineEdit->setText(m_settings->customBatchButtonLabel());
     ui->customBatchRangeLineEdit->setText(m_settings->customBatchRange());
 
-    int proxyIndex = qMax(0, qMin(m_settings->proxyType(), ui->proxyTypeComboBox->count() - 1));
+    int proxyIndex = qBound(0, m_settings->proxyType(), ui->proxyTypeComboBox->count() - 1);
     ui->proxyTypeComboBox->setCurrentIndex(proxyIndex);
     ui->proxyAddressLineEdit->setText(m_settings->proxyHostName());
     ui->proxyPortLineEdit->setText(QString::number(m_settings->proxyPort()));
@@ -505,6 +506,7 @@ void PreferenceDialog::write()
     m_settings->setSystemTrayIconEnabled(ui->showSystemTrayIconCheckBox->isChecked());
     m_settings->setHideWhenMinimizedEnabled(ui->hideWhenMinimizedCheckBox->isChecked());
     m_settings->setSystemTrayBalloonEnabled(ui->showSystemTrayBalloonCheckBox->isChecked());
+    m_settings->setMinimizeEscapeEnabled(ui->minimizeWhenEscPressedCheckBox->isChecked());
     m_settings->setConfirmRemovalEnabled(ui->confirmRemovalCheckBox->isChecked());
     m_settings->setConfirmBatchDownloadEnabled(ui->confirmBatchCheckBox->isChecked());
     m_settings->setStreamHostEnabled(ui->streamHostCheckBox->isChecked());
@@ -531,7 +533,7 @@ void PreferenceDialog::write()
 
     m_settings->setDatabase(ui->browseDatabaseFile->currentPath());
 
-    CheckUpdateBeatMode mode = static_cast<CheckUpdateBeatMode>(
+    auto mode = static_cast<CheckUpdateBeatMode>(
                 ui->checkUpdateComboBox->currentIndex());
     m_settings->setCheckUpdateBeatMode(mode);
 
@@ -601,19 +603,19 @@ void PreferenceDialog::setupStreamToolTip()
 {
     QList<QPair<QString, QString>> presets = {
         { _html("https://<#>www.youtube.com</#>/watch?v=s-dSg5ljQI8")
-          , tr("The host may be %0, %1 or %2")
-          .arg(_html_quote("youtube.com"))
-          .arg(_html_quote("youtube"))
-          .arg(_html_quote("www.youtube.com")) },
+          , tr("The host may be %0, %1 or %2").arg(
+          _html_quote("youtube.com"),
+          _html_quote("youtube"),
+          _html_quote("www.youtube.com")) },
         { _html("https://<#>youtu.be</#>/s-dSg5ljQI8")
-          , tr("The host may be %0 but not %1")
-          .arg(_html_quote("youtu.be"))
-          .arg(_html_quote("youtu.me")) },
+          , tr("The host may be %0 but not %1").arg(
+          _html_quote("youtu.be"),
+          _html_quote("youtu.me")) },
         { _html("https://<#>player.abcvision.tv</#>/v=3451")
-          , tr("The host may be %0, %1 or %2")
-          .arg(_html_quote("abcvision.tv:player"))
-          .arg(_html_quote("abcvision"))
-          .arg(_html_quote("abcvision:player")) }
+          , tr("The host may be %0, %1 or %2").arg(
+          _html_quote("abcvision.tv:player"),
+          _html_quote("abcvision"),
+          _html_quote("abcvision:player")) }
     };
     QString tooltip;
     tooltip += "<html><head/><body>";
@@ -656,7 +658,7 @@ void PreferenceDialog::onStreamCleanCacheButtonReleased()
     ui->streamCleanCacheButton->setText(tr("Cleaning..."));
     ui->streamCleanCacheButton->setEnabled(false);
 
-    StreamCleanCache *s = new StreamCleanCache(this);
+    auto s = new StreamCleanCache(this);
     connect(s, &StreamCleanCache::done, this, &PreferenceDialog::cleaned);
     connect(s, &StreamCleanCache::done, s, &QObject::deleteLater);
     s->runAsync();
@@ -751,10 +753,10 @@ void PreferenceDialog::readSettings()
     QSettings settings;
     settings.beginGroup("Preference");
 
-    const QSize defaultSize(C_DEFAULT_WIDTH, C_DEFAULT_HEIGHT);
+    const QSize defaultSize(default_width, default_height);
     resize(settings.value("DialogSize", defaultSize).toSize());
 
-    const int index = settings.value("TabIndex", C_DEFAULT_INDEX).toInt();
+    const int index = settings.value("TabIndex", default_index).toInt();
     if (index >=0 && index < ui->tabWidget->count()) {
         ui->tabWidget->setCurrentIndex(index);
     }

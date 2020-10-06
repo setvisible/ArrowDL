@@ -101,8 +101,8 @@ TorrentContextPrivate::TorrentContextPrivate(TorrentContext *qq)
     , settings(Q_NULLPTR)
     , networkManager(Q_NULLPTR)
 {
-    qRegisterMetaType<TorrentData>();
-    qRegisterMetaType<TorrentStatus>();
+    qRegisterMetaType<TorrentData>("TorrentData");
+    qRegisterMetaType<TorrentStatus>("TorrentStatus");
 
     workerThread = new WorkerThread(this);
 
@@ -134,11 +134,14 @@ void TorrentContextPrivate::onSettingsChanged()
     if (!settings) {
         return;
     }
-    lt::settings_pack pack = lt::default_settings(); /*= fromSettings(settings)*/
+    lt::settings_pack pack = lt::default_settings(); /* = fromSettings(settings)*/
 
     const QMap<QString, QVariant> map = settings->torrentSettings();
-    foreach (QString key, map.keys()) {
-        QVariant value = map.value(key);
+    QMapIterator<QString, QVariant> it(map);
+    while (it.hasNext()) {
+        it.next();
+        auto key = it.key();
+        auto value = it.value();
 
         int name = lt::setting_by_name(key.toUtf8().data());
 
@@ -256,17 +259,17 @@ QList<TorrentSettingItem> TorrentContextPrivate::_toPreset(const lt::settings_pa
 
 /******************************************************************************
  ******************************************************************************/
-QVariant TorrentContextPrivate::_get_str(const lt::settings_pack &pack, const int index)
+QVariant TorrentContextPrivate::_get_str(const lt::settings_pack &pack, int index)
 {
     return QString::fromStdString(pack.get_str(index));
 }
 
-QVariant TorrentContextPrivate::_get_int(const lt::settings_pack &pack, const int index)
+QVariant TorrentContextPrivate::_get_int(const lt::settings_pack &pack, int index)
 {
     return pack.get_int(index);
 }
 
-QVariant TorrentContextPrivate::_get_bool(const lt::settings_pack &pack, const int index)
+QVariant TorrentContextPrivate::_get_bool(const lt::settings_pack &pack, int index)
 {
     return pack.get_bool(index);
 }
@@ -376,7 +379,7 @@ static bool isInfoHashSource(const QString &/*source*/)
 
 static QString localSource(const QString &source)
 {
-    if (QFileInfo(source).exists()) {
+    if (QFileInfo::exists(source)) {
         return source;
     }
 
@@ -384,17 +387,17 @@ static QString localSource(const QString &source)
     // Try to figure out the correct path
     const QUrl url = QUrl::fromUserInput(source);
     const QString localFile = url.toLocalFile();
-    if (QFileInfo(localFile).exists()) {
+    if (QFileInfo::exists(localFile)) {
         return localFile;
     }
     const QString fromPercentEncoding = QUrl::fromPercentEncoding(source.toUtf8());
-    if (QFileInfo(fromPercentEncoding).exists()) {
+    if (QFileInfo::exists(fromPercentEncoding)) {
         return fromPercentEncoding;
     }
 
     // Url from app's argument
     const QUrl url2 = QUrl::fromEncoded(source.toLocal8Bit());
-    if (QFileInfo(url2.path()).exists()) {
+    if (QFileInfo::exists(url2.path())) {
         return fromPercentEncoding;
     }
 
@@ -421,7 +424,7 @@ void TorrentContextPrivate::prepareTorrent(Torrent *torrent)
 
     QString torrentFile = torrent->localFullFileName(); // destination
 
-    if (QFileInfo(torrentFile).exists()) {
+    if (QFileInfo::exists(torrentFile)) {
         readTorrentFile(torrentFile, torrent);
         return;
 
@@ -539,10 +542,10 @@ void TorrentContextPrivate::onNetworkReplyFinished()
     if (reply->error() != QNetworkReply::NoError) {
         TorrentMetaInfo m = torrent->metaInfo();
         m.error.type = TorrentError::MetadataDownloadError;
-        m.error.message = QString("%0\n\n%1\n\n%2")
-                .arg(tr("Can't download metadata."))
-                .arg(url.toEncoded().constData())
-                .arg(qPrintable(reply->errorString()));
+        m.error.message = QString("%0\n\n%1\n\n%2").arg(
+                    tr("Can't download metadata."),
+                    url.toEncoded().constData(),
+                    qPrintable(reply->errorString()));
         torrent->setMetaInfo(m);
 
         reply->deleteLater();
@@ -574,10 +577,10 @@ void TorrentContextPrivate::onNetworkReplyFinished()
  ******************************************************************************/
 void TorrentContextPrivate::archiveExistingFile(const QString &filename)
 {
-    if (QFileInfo(filename).exists()) {
+    if (QFileInfo::exists(filename)) {
         QString archive = QString("%0.0.old").arg(filename);
         int i = 0;
-        while (QFileInfo(archive).exists()) {
+        while (QFileInfo::exists(archive)) {
             i++;
             archive = QString("%0.%1.old").arg(filename, QString::number(i));
         }
@@ -633,7 +636,7 @@ void TorrentContextPrivate::readTorrentFile(const QString &filename, Torrent *to
     if (!torrent) {
         return;
     }
-    if (!QFileInfo(filename).exists()) {
+    if (!QFileInfo::exists(filename)) {
         return;
     }
 
@@ -679,7 +682,7 @@ bool TorrentContextPrivate::addTorrent(Torrent *torrent) // resumeTorrent
     QString source = torrent->url();
     QString torrentFile = torrent->localFullFileName(); // destination
 
-    if (QFileInfo(torrentFile).exists()) {
+    if (QFileInfo::exists(torrentFile)) {
         source = torrentFile;
     }
 
@@ -1549,7 +1552,6 @@ void WorkerThread::signalizeAlert(lt::alert* a)
     /* tracker_notification & error_notification */
     else if (lt::tracker_error_alert* s = lt::alert_cast<lt::tracker_error_alert>(a)) {
         //        int times_in_row = s->times_in_row;
-        QString errorCode = QString::fromStdString(s->error.message());
         Q_UNUSED(s) //  emit trackerConnectionFailed(times_in_row, errorCode);
     }
     else if (lt::tracker_warning_alert* s = lt::alert_cast<lt::tracker_warning_alert>(a)) {
@@ -2220,7 +2222,7 @@ inline QString WorkerThread::toString(const lt::sha1_hash &hash) const
  ******************************************************************************/
 QBitArray WorkerThread::toBitArray(const lt::typed_bitfield<lt::piece_index_t> &vec) const
 {
-    auto size = vec.size();    
+    auto size = vec.size();
     QBitArray ba(size, false);
     for (int i = 0; i < size; ++i) {
         if (vec.get_bit(static_cast<lt::piece_index_t>(i))) {
@@ -2253,8 +2255,8 @@ static inline EndPoint toEndPoint(const lt::tcp::endpoint &endpoint)
 static inline lt::tcp::endpoint fromEndPoint(const EndPoint &endpoint)
 {
     lt::tcp::endpoint ret;
-    ret.address(boost::asio::ip::make_address(endpoint.ip.toStdString()));
-    ret.port(static_cast<unsigned short>(endpoint.port));
+    ret.address(boost::asio::ip::make_address(endpoint.ipToString().toStdString()));
+    ret.port(static_cast<unsigned short>(endpoint.port()));
     return ret;
 }
 
@@ -2357,9 +2359,9 @@ static inline lt::download_priority_t fromPriority(const TorrentFileInfo::Priori
     case TorrentFileInfo::Priority::Ignore: return lt::dont_download;
     case TorrentFileInfo::Priority::Low:    return lt::low_priority;
     case TorrentFileInfo::Priority::High:   return lt::top_priority;
-    // case TorrentFileInfo::Priority::Normal:
-    default:                                return lt::default_priority;
+    case TorrentFileInfo::Priority::Normal: return lt::default_priority;
     }
+    Q_UNREACHABLE();
 }
 
 /******************************************************************************
@@ -2373,27 +2375,29 @@ static inline TorrentInfo::TorrentState toState(const lt::torrent_status::state_
     else if (s == lt::torrent_status::seeding               ) return TorrentInfo::seeding               ;
     else if (s == lt::torrent_status::allocating            ) return TorrentInfo::allocating            ;
     else /* s == lt::torrent_status:: */ return TorrentInfo::stopped;
+    Q_UNREACHABLE();
 }
 
 static inline lt::torrent_status::state_t fromState(const TorrentInfo::TorrentState &s)
 {
     switch (s) {
+    case TorrentInfo::stopped               : return lt::torrent_status::finished; // ?
     case TorrentInfo::checking_files        : return lt::torrent_status::checking_files;
     case TorrentInfo::downloading_metadata  : return lt::torrent_status::downloading_metadata;
     case TorrentInfo::downloading           : return lt::torrent_status::downloading;
     case TorrentInfo::finished              : return lt::torrent_status::finished;
     case TorrentInfo::seeding               : return lt::torrent_status::seeding;
     case TorrentInfo::allocating            : return lt::torrent_status::allocating;
-    // case TorrentInfo::checking_resume_data:
-    default:                                  return lt::torrent_status::checking_resume_data;
+    case TorrentInfo::checking_resume_data  : return lt::torrent_status::checking_resume_data;
     }
+    Q_UNREACHABLE();
 }
 
 /******************************************************************************
  ******************************************************************************/
 inline std::string WorkerThread::userAgent()
 {
-    return QString("%0 %1").arg(STR_APPLICATION_NAME).arg(STR_APPLICATION_VERSION).toStdString();
+    return QString("%0 %1").arg(STR_APPLICATION_NAME, STR_APPLICATION_VERSION).toStdString();
 }
 
 /******************************************************************************

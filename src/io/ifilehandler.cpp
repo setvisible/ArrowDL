@@ -24,10 +24,6 @@
  * for all file formats in DZA.
  */
 
-IFileHandler::IFileHandler()
-{
-}
-
 void IFileHandler::setDevice(QIODevice *device)
 {
     m_device = device;
