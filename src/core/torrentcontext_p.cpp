@@ -29,6 +29,7 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QUrl>
 #include <QtCore/QtMath>
+#include <QtCore/QVector>
 #include <QtNetwork/QNetworkReply>
 
 #include <algorithm> // std::min, std::max
@@ -1159,7 +1160,6 @@ TorrentInitialMetaInfo WorkerThread::dump(const QString &filename) const
         return TorrentInitialMetaInfo();
     }
     lt::torrent_info const t(std::move(e), cfg);
-    // buf.clear();
     std::shared_ptr<lt::torrent_info> ti = std::make_shared<lt::torrent_info>(t);
     return toTorrentInitialMetaInfo(ti);
 }
@@ -1221,7 +1221,6 @@ lt::torrent_handle WorkerThread::findTorrent(const UniqueId &uuid) const
     }
     return lt::torrent_handle();
 }
-
 
 /******************************************************************************
  ******************************************************************************/
@@ -2104,6 +2103,30 @@ inline TorrentHandleInfo WorkerThread::toTorrentHandleInfo(const lt::torrent_han
     }
     for (const std::string &webSeed : handle.url_seeds()) {
         t.urlSeeds.append(toString(webSeed));
+    }
+
+    // ***************
+    // Blocks
+    // ***************
+    // std::vector<lt::partial_piece_info> queue;
+    // handle.get_download_queue(queue);
+
+    // ***************
+    // Pieces
+    // ***************
+    {
+        std::vector<int> avail;
+        handle.piece_availability(avail);
+        t.pieceAvailability = QVector<int>::fromStdVector(avail);
+    }
+
+    {
+        const std::vector<lt::download_priority_t> &priorities = handle.get_piece_priorities();
+        QVector<TorrentFileInfo::Priority> newPiecePriority;
+        foreach (const lt::download_priority_t &priority, priorities) {
+            newPiecePriority.append(toPriority(priority));
+        }
+        t.piecePriority.swap(newPiecePriority);
     }
 
     return t;

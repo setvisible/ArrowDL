@@ -55,6 +55,16 @@ static void colorize(QWidget *widget, TorrentPieceItem::Status status)
     widget->setStyleSheet(QString());
 }
 
+static QString decorate(int count, TorrentFileInfo::Priority priority)
+{
+    switch (priority) {
+    case TorrentFileInfo::High:   return QString("%0 ³").arg(QString::number(count));
+    case TorrentFileInfo::Normal: return QString("%0 ²").arg(QString::number(count));
+    case TorrentFileInfo::Low:    return QString("%0 ¹").arg(QString::number(count));
+    case TorrentFileInfo::Ignore: return QString("%0 °").arg(QString::number(count));
+    }
+}
+
 TorrentPieceMap::TorrentPieceMap(QWidget *parent) : QWidget(parent)
   , ui(new Ui::TorrentPieceMap)
   , m_scene(new QGraphicsScene(this))
@@ -66,6 +76,10 @@ TorrentPieceMap::TorrentPieceMap(QWidget *parent) : QWidget(parent)
     colorize(ui->boxDownloaded,   TorrentPieceItem::Status::Downloaded);
     colorize(ui->boxVerified,     TorrentPieceItem::Status::Verified);
 
+    ui->priorityLabel->setText(
+                tr("Priority: %0=high %1=normal %2=low %3=ignore").arg(
+                    QString("³"), QString("²"), QString("¹"), QString("°")));
+
     /* Calculate metrics */
     m_tileFont = font();
     // const int pointSize = m_tileFont.pointSize();
@@ -75,9 +89,9 @@ TorrentPieceMap::TorrentPieceMap(QWidget *parent) : QWidget(parent)
 
     QFontMetrics fm(m_tileFont);
 #if QT_VERSION >= 0x051100
-    m_tileWidth = fm.horizontalAdvance("999");
+    m_tileWidth = fm.horizontalAdvance(decorate(999, TorrentFileInfo::Low));
 #else
-    m_tileWidth = fm.width("999");
+    m_tileWidth = fm.width(decorate(999, TorrentFileInfo::Low));
 #endif
     m_tileHeight = fm.height() + 2 * m_tilePadding;
     m_tileWidth += 2 * m_tilePadding;
@@ -233,22 +247,9 @@ void TorrentPieceMapWorker::run()
     setDirty(false);
 
     /* Expensive operation */
-    foreach (auto peer, peers) {
-        QBitArray peerAvailablePieces = peer.availablePieces;
-        if (peerAvailablePieces.size() != pieceData.size) {
-            qWarning("Peer has not the same number of pieces as You "
-                     "(peer:'%i', you:'%i').",
-                     peerAvailablePieces.size(),
-                     pieceData.size);
-        } else {
-            for (int i = 0; i < pieceData.size; ++i) {
-                pieceData.availablePieces |= peerAvailablePieces;
-                if (peerAvailablePieces.testBit(i)) {
-                    pieceData.totalPeers[i]++;
-                }
-            }
-        }
-    }
+    // Rem : no more expensive task
+    /// \todo remove worker?
+
     emit resultReady(pieceData);
 
 #if (ENABLE_MONITORING)
@@ -275,8 +276,9 @@ void TorrentPieceMap::updateWidget()
         pieceData.downloadedPieces = m_torrent->info().downloadedPieces;
         pieceData.verifiedPieces = m_torrent->info().verifiedPieces;
         pieceData.availablePieces.resize(pieceData.size);
-        pieceData.totalPeers.resize(pieceData.size);
 
+        pieceData.pieceAvailability = m_torrent->detail().pieceAvailability;
+        pieceData.piecePriority = m_torrent->detail().piecePriority;
         const QList<TorrentPeerInfo> peers = m_torrent->detail().peers;
 
         m_workerThread->doWork(pieceData, peers);
@@ -369,11 +371,13 @@ void TorrentPieceMap::updateScene(const TorrentPieceData &pieceData)
     for (int i = 0; i < size; ++i) {
         TorrentPieceItem *item = m_items.at(i);
 
-        int totalPeers = 0;
-        if (i < pieceData.totalPeers.size()) {
-            totalPeers = pieceData.totalPeers.at(i);
+        if (i < pieceData.pieceAvailability.size()) {
+            item->setAvailability(pieceData.pieceAvailability.at(i));
         }
-        item->setValue(totalPeers);
+
+        if (i < pieceData.piecePriority.size()) {
+            item->setPriority(pieceData.piecePriority.at(i));
+        }
 
         TorrentPieceItem::Status status = TorrentPieceItem::Status::NotAvailable;
         if (i < pieceData.verifiedPieces.size() && pieceData.verifiedPieces.at(i)) {
@@ -428,14 +432,17 @@ TorrentPieceItem::TorrentPieceItem(int width, int height, int padding,
     , m_width(width)
     , m_height(height)
     , m_padding(padding)
-    , m_value(0)
-    , m_status(Status::NotAvailable)
 {
 }
 
-void TorrentPieceItem::setValue(int value)
+void TorrentPieceItem::setAvailability(int availability)
 {
-    m_value = value;
+    m_availability = availability;
+}
+
+void TorrentPieceItem::setPriority(TorrentFileInfo::Priority priority)
+{
+    m_priority = priority;
 }
 
 void TorrentPieceItem::setStatus(Status status)
@@ -461,5 +468,5 @@ void TorrentPieceItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     QColor tileColor = color(m_status);
     painter->fillRect(tileRect, tileColor);
     painter->setFont(m_font);
-    painter->drawText(tileRect, Qt::AlignCenter, QString::number(m_value));
+    painter->drawText(tileRect, Qt::AlignCenter, decorate(m_availability, m_priority));
 }

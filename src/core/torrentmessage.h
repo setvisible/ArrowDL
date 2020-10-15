@@ -483,8 +483,10 @@ public:
 
     QList<QString> httpSeeds; // if not empty, this list overrides the ones given in .torrent file
     QList<QString> urlSeeds; /// \todo unify seeds QLists
-};
 
+    QVector<int> pieceAvailability; // number of peers having the piece. 0 = unavailable piece.
+    QVector<TorrentFileInfo::Priority> piecePriority;
+};
 
 /******************************************************************************
  ******************************************************************************/

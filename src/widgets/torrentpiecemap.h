@@ -41,7 +41,8 @@ struct TorrentPieceData
     QBitArray availablePieces;
     QBitArray downloadedPieces;
     QBitArray verifiedPieces;
-    QVector<int> totalPeers;
+    QVector<int> pieceAvailability;
+    QVector<TorrentFileInfo::Priority> piecePriority;
 };
 
 /* Enable the type to be used with QVariant. */
@@ -112,7 +113,6 @@ public:
 
     void doWork(const TorrentPieceData &pieceData, const QList<TorrentPeerInfo> &peers);
 
-
 signals:
     void resultReady(const TorrentPieceData &pieceData);
 
@@ -136,7 +136,8 @@ public:
     explicit TorrentPieceItem(int width, int height, int padding,
                               const QFont &font, QGraphicsItem *parent = Q_NULLPTR);
 
-    void setValue(int value);
+    void setAvailability(int availability);
+    void setPriority(TorrentFileInfo::Priority priority);
 
     enum class Status {
         NotAvailable,
@@ -155,8 +156,9 @@ private:
     qreal m_width;
     qreal m_height;
     qreal m_padding;
-    int m_value;
-    Status m_status;
+    int m_availability{0};
+    TorrentFileInfo::Priority m_priority{TorrentFileInfo::Normal};
+    Status m_status{Status::NotAvailable};
 };
 
 #endif // WIDGETS_TORRENT_PIECE_MAP_H
