@@ -2184,9 +2184,8 @@ inline TorrentMetaInfo WorkerThread::toTorrentMetaInfo(const lt::add_torrent_par
         TorrentPeerInfo p(toEndPoint(banned_peer), QString());
         m.bannedPeers.append(p);
     }
-    // for (const std::string &unfinished_piece : params.unfinished_pieces) {
-    // }
 
+    m.unfinishedPieces = toBitArray(params.unfinished_pieces);
     m.downloadedPieces = toBitArray(params.have_pieces);
     m.verifiedPieces   = toBitArray(params.verified_pieces);
 
@@ -2228,6 +2227,23 @@ QBitArray WorkerThread::toBitArray(const lt::typed_bitfield<lt::piece_index_t> &
         if (vec.get_bit(static_cast<lt::piece_index_t>(i))) {
             ba.setBit(i);
         }
+    }
+    return ba;
+}
+
+QBitArray WorkerThread::toBitArray(const std::map<lt::piece_index_t, lt::bitfield> &map) const
+{
+    int size = 0;
+    QList<int> indexes;
+    for (const auto &kv : map) {
+        const lt::piece_index_t &key = kv.first;
+        auto index = static_cast<int>(key);
+        indexes.append(index);
+        size = qMax(size, index);
+    }
+    QBitArray ba(size, false);
+    foreach (auto index, indexes) {
+        ba.setBit(index);
     }
     return ba;
 }

@@ -744,6 +744,7 @@ public:
     QList<TorrentPeerInfo> defaultPeers;
     QList<TorrentPeerInfo> bannedPeers;
 
+    QBitArray unfinishedPieces;
     QBitArray downloadedPieces;
     QBitArray verifiedPieces; // seed mode only
 
