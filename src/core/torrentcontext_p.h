@@ -204,8 +204,6 @@ private:
 
     inline QDateTime toDateTime(const std::time_t &time) const;
 
-    inline std::string userAgent();
-
     inline void log(lt::alert *s);
 
 protected:

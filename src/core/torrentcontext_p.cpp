@@ -1121,7 +1121,7 @@ void WorkerThread::setSettings(lt::settings_pack &pack)
     if (m_session_ptr && m_session_ptr->is_valid()) {
 
         // Settings that can't be modified by the user
-        pack.set_str(lt::settings_pack::user_agent, userAgent());
+        pack.set_str(lt::settings_pack::user_agent, std::string());
         pack.set_int(lt::settings_pack::alert_mask, lt::alert::all_categories);
 
         m_session_ptr->apply_settings(pack);
@@ -2391,13 +2391,6 @@ static inline lt::torrent_status::state_t fromState(const TorrentInfo::TorrentSt
     case TorrentInfo::checking_resume_data  : return lt::torrent_status::checking_resume_data;
     }
     Q_UNREACHABLE();
-}
-
-/******************************************************************************
- ******************************************************************************/
-inline std::string WorkerThread::userAgent()
-{
-    return QString("%0 %1").arg(STR_APPLICATION_NAME, STR_APPLICATION_VERSION).toStdString();
 }
 
 /******************************************************************************
