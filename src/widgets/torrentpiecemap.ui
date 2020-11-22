@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>511</width>
+    <width>726</width>
     <height>231</height>
    </rect>
   </property>
@@ -30,7 +30,7 @@
        <number>0</number>
       </property>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0,0,0,0,0,10">
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0,0,0,0,0,0,0,10">
         <item>
          <widget class="QWidget" name="boxVerified" native="true">
           <property name="minimumSize">
@@ -122,6 +122,20 @@
          <widget class="QLabel" name="label_2">
           <property name="text">
            <string>Value: # of peers with the piece</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="line_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="priorityLabel">
+          <property name="text">
+           <string notr="true">Priority: ³=high ²=normal ¹=low °=ignore</string>
           </property>
          </widget>
         </item>
