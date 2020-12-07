@@ -204,12 +204,12 @@ private:
 
     inline QDateTime toDateTime(const std::time_t &time) const;
 
-    inline std::string userAgent();
-
     inline void log(lt::alert *s);
 
 protected:
     QBitArray toBitArray(const lt::typed_bitfield<lt::piece_index_t> &pieces) const;
+    QBitArray toBitArray(const std::map<lt::piece_index_t, lt::bitfield> &map) const;
+
 };
 
 #endif // CORE_TORRENT_CONTEXT_P_H

@@ -29,6 +29,7 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QUrl>
 #include <QtCore/QtMath>
+#include <QtCore/QVector>
 #include <QtNetwork/QNetworkReply>
 
 #include <algorithm> // std::min, std::max
@@ -1121,7 +1122,7 @@ void WorkerThread::setSettings(lt::settings_pack &pack)
     if (m_session_ptr && m_session_ptr->is_valid()) {
 
         // Settings that can't be modified by the user
-        pack.set_str(lt::settings_pack::user_agent, userAgent());
+        pack.set_str(lt::settings_pack::user_agent, std::string());
         pack.set_int(lt::settings_pack::alert_mask, lt::alert::all_categories);
 
         m_session_ptr->apply_settings(pack);
@@ -1159,7 +1160,6 @@ TorrentInitialMetaInfo WorkerThread::dump(const QString &filename) const
         return TorrentInitialMetaInfo();
     }
     lt::torrent_info const t(std::move(e), cfg);
-    // buf.clear();
     std::shared_ptr<lt::torrent_info> ti = std::make_shared<lt::torrent_info>(t);
     return toTorrentInitialMetaInfo(ti);
 }
@@ -1221,7 +1221,6 @@ lt::torrent_handle WorkerThread::findTorrent(const UniqueId &uuid) const
     }
     return lt::torrent_handle();
 }
-
 
 /******************************************************************************
  ******************************************************************************/
@@ -2106,6 +2105,30 @@ inline TorrentHandleInfo WorkerThread::toTorrentHandleInfo(const lt::torrent_han
         t.urlSeeds.append(toString(webSeed));
     }
 
+    // ***************
+    // Blocks
+    // ***************
+    // std::vector<lt::partial_piece_info> queue;
+    // handle.get_download_queue(queue);
+
+    // ***************
+    // Pieces
+    // ***************
+    {
+        std::vector<int> avail;
+        handle.piece_availability(avail);
+        t.pieceAvailability = QVector<int>::fromStdVector(avail);
+    }
+
+    {
+        const std::vector<lt::download_priority_t> &priorities = handle.get_piece_priorities();
+        QVector<TorrentFileInfo::Priority> newPiecePriority;
+        foreach (const lt::download_priority_t &priority, priorities) {
+            newPiecePriority.append(toPriority(priority));
+        }
+        t.piecePriority.swap(newPiecePriority);
+    }
+
     return t;
 }
 
@@ -2184,9 +2207,8 @@ inline TorrentMetaInfo WorkerThread::toTorrentMetaInfo(const lt::add_torrent_par
         TorrentPeerInfo p(toEndPoint(banned_peer), QString());
         m.bannedPeers.append(p);
     }
-    // for (const std::string &unfinished_piece : params.unfinished_pieces) {
-    // }
 
+    m.unfinishedPieces = toBitArray(params.unfinished_pieces);
     m.downloadedPieces = toBitArray(params.have_pieces);
     m.verifiedPieces   = toBitArray(params.verified_pieces);
 
@@ -2228,6 +2250,23 @@ QBitArray WorkerThread::toBitArray(const lt::typed_bitfield<lt::piece_index_t> &
         if (vec.get_bit(static_cast<lt::piece_index_t>(i))) {
             ba.setBit(i);
         }
+    }
+    return ba;
+}
+
+QBitArray WorkerThread::toBitArray(const std::map<lt::piece_index_t, lt::bitfield> &map) const
+{
+    int size = 0;
+    QList<int> indexes;
+    for (const auto &kv : map) {
+        const lt::piece_index_t &key = kv.first;
+        auto index = static_cast<int>(key);
+        indexes.append(index);
+        size = qMax(size, index);
+    }
+    QBitArray ba(size, false);
+    foreach (auto index, indexes) {
+        ba.setBit(index);
     }
     return ba;
 }
@@ -2391,13 +2430,6 @@ static inline lt::torrent_status::state_t fromState(const TorrentInfo::TorrentSt
     case TorrentInfo::checking_resume_data  : return lt::torrent_status::checking_resume_data;
     }
     Q_UNREACHABLE();
-}
-
-/******************************************************************************
- ******************************************************************************/
-inline std::string WorkerThread::userAgent()
-{
-    return QString("%0 %1").arg(STR_APPLICATION_NAME, STR_APPLICATION_VERSION).toStdString();
 }
 
 /******************************************************************************
