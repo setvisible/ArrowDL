@@ -2633,42 +2633,42 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
         <translation>pas de source</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="507"/>
+        <location filename="../core/torrentmessage.h" line="509"/>
         <source>Stopped</source>
         <translation>Arrêté</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="508"/>
+        <location filename="../core/torrentmessage.h" line="510"/>
         <source>Checking Files...</source>
         <translation>Vérification des fichiers...</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="509"/>
+        <location filename="../core/torrentmessage.h" line="511"/>
         <source>Downloading Metadata...</source>
         <translation>Téléchargement des métadonnées...</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="510"/>
+        <location filename="../core/torrentmessage.h" line="512"/>
         <source>Downloading...</source>
         <translation>Téléchargement...</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="511"/>
+        <location filename="../core/torrentmessage.h" line="513"/>
         <source>Finished</source>
         <translation>Terminé</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="512"/>
+        <location filename="../core/torrentmessage.h" line="514"/>
         <source>Seeding...</source>
         <translation>Ensemencement...</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="513"/>
+        <location filename="../core/torrentmessage.h" line="515"/>
         <source>Allocating...</source>
         <translation>Allocation...</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="514"/>
+        <location filename="../core/torrentmessage.h" line="516"/>
         <source>Checking Resume Data...</source>
         <translation>Vérification des données en reprise...</translation>
     </message>
@@ -3096,17 +3096,17 @@ Astuce: si vous rencontrez une erreur :
 <context>
     <name>TorrentContextPrivate</name>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="495"/>
+        <location filename="../core/torrentcontext_p.cpp" line="496"/>
         <source>Network request rejected.</source>
         <translation>Rejet de la requête réseau.</translation>
     </message>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="546"/>
+        <location filename="../core/torrentcontext_p.cpp" line="547"/>
         <source>Can&apos;t download metadata.</source>
         <translation>Impossible de réceptionner les métadonnées.</translation>
     </message>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="557"/>
+        <location filename="../core/torrentcontext_p.cpp" line="558"/>
         <source>No metadata downloaded.</source>
         <translation>Aucune métadonnée récupérée.</translation>
     </message>
@@ -3253,6 +3253,11 @@ Astuce: si vous rencontrez une erreur :
         <location filename="../widgets/torrentpiecemap.ui" line="124"/>
         <source>Value: # of peers with the piece</source>
         <translation>Valeur : # de pairs avec la pièce</translation>
+    </message>
+    <message>
+        <location filename="../widgets/torrentpiecemap.cpp" line="80"/>
+        <source>Priority: %0=high %1=normal %2=low %3=ignore</source>
+        <translation>Priorité: %0=haute %1=normale %2=basse %3=ignoré</translation>
     </message>
 </context>
 <context>

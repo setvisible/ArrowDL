@@ -4,47 +4,47 @@
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="68"/>
         <source>Idle</source>
-        <translation type="unfinished"/>
+        <translation>Leerlauf</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="69"/>
         <source>Paused</source>
-        <translation type="unfinished"/>
+        <translation>Pausierten</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="70"/>
         <source>Canceled</source>
-        <translation type="unfinished"/>
+        <translation>Annuliert</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="71"/>
         <source>Preparing</source>
-        <translation type="unfinished"/>
+        <translation>Vorbereiten</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="72"/>
         <source>Connecting</source>
-        <translation type="unfinished"/>
+        <translation>Verbinden</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="73"/>
         <source>Downloading Metadata</source>
-        <translation type="unfinished"/>
+        <translation>Metadaten herunterladen</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="74"/>
         <source>Downloading</source>
-        <translation type="unfinished"/>
+        <translation>Herunterladen</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="75"/>
         <source>Finishing</source>
-        <translation type="unfinished"/>
+        <translation>Beenden</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="76"/>
         <source>Complete</source>
-        <translation type="unfinished"/>
+        <translation>Fertig</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="77"/>
@@ -54,17 +54,17 @@
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="78"/>
         <source>Skipped</source>
-        <translation type="unfinished"/>
+        <translation>Übersprungene</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="79"/>
         <source>Server error</source>
-        <translation type="unfinished"/>
+        <translation>Server Fehler</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="80"/>
         <source>File error</source>
-        <translation type="unfinished"/>
+        <translation>Dateifehler</translation>
     </message>
 </context>
 <context>
@@ -78,7 +78,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="74"/>
         <source>Insert batch range:</source>
-        <translation type="unfinished"/>
+        <translation>Stapel Bereich einfügen:</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="87"/>
@@ -107,32 +107,32 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="139"/>
         <source>Custom</source>
-        <translation type="unfinished"/>
+        <translation>Benutzerdefiniert</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="167"/>
         <source>Batch and Single File</source>
-        <translation type="unfinished"/>
+        <translation>Stapel und einzelne Datei</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="186"/>
         <source>Download:</source>
-        <translation type="unfinished"/>
+        <translation>Herunterladen:</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="193"/>
         <source>Examples:</source>
-        <translation type="unfinished"/>
+        <translation>Beispiele:</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="252"/>
         <source>&amp;Start!</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Starten!</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="268"/>
         <source>Add &amp;paused</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Pausiert hinzufügen</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="281"/>
@@ -142,17 +142,17 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="50"/>
         <source>Add Batch and Single File</source>
-        <translation type="unfinished"/>
+        <translation>Stapel und einzelne Datei hinzufügen </translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="75"/>
         <source>Batch descriptors:</source>
-        <translation type="unfinished"/>
+        <translation>Stapel Deskriptors:</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="76"/>
         <source>Must start with &apos;[&apos; or &apos;(&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Muss mit &apos;[&apos; oder &apos;(&apos; beginnen</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="77"/>
@@ -162,12 +162,12 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="78"/>
         <source>Must end with &apos;]&apos; or &apos;)&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Muss mit &apos;]&apos; oder &apos;)&apos; beenden</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="162"/>
         <source>Insert</source>
-        <translation type="unfinished"/>
+        <translation>Einfügen</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="282"/>
@@ -177,13 +177,13 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="291"/>
         <source>Don&apos;t ask again, always download batch</source>
-        <translation type="unfinished"/>
+        <translation>Nicht mehr fragen, immer Stapel herunterladen</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="275"/>
         <location filename="../dialogs/addbatchdialog.cpp" line="286"/>
         <source>Download Batch</source>
-        <translation type="unfinished"/>
+        <translation>Stapel Herunterladen</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="276"/>
@@ -193,7 +193,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="287"/>
         <source>Single Download</source>
-        <translation type="unfinished"/>
+        <translation>Einzel-Download</translation>
     </message>
 </context>
 <context>
@@ -201,27 +201,27 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addcontentdialog.ui" line="143"/>
         <source>Collecting...</source>
-        <translation type="unfinished"/>
+        <translation>Sammeln...</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.ui" line="159"/>
         <source>Save files in:</source>
-        <translation type="unfinished"/>
+        <translation>Speichern Dateien in:</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.ui" line="178"/>
         <source>Default Mask:</source>
-        <translation type="unfinished"/>
+        <translation>Standardmaske:</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.ui" line="236"/>
         <source>&amp;Start!</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Starten!</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.ui" line="252"/>
         <source>Add &amp;paused</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Pausiert hinzufügen</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.ui" line="265"/>
@@ -232,45 +232,45 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <location filename="../dialogs/addcontentdialog.ui" line="311"/>
         <location filename="../dialogs/addcontentdialog.ui" line="314"/>
         <source>Preferences</source>
-        <translation type="unfinished"/>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="178"/>
         <source>Warning</source>
-        <translation type="unfinished"/>
+        <translation>Warnung</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="84"/>
         <source>Web Page Content</source>
-        <translation type="unfinished"/>
+        <translation>Webseiteninhalt</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="180"/>
         <source>Error: The url is not valid:</source>
-        <translation type="unfinished"/>
+        <translation>Fehler: Die URL ist ungültig:</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="215"/>
         <source>Connecting...</source>
-        <translation type="unfinished"/>
+        <translation>Verbinden...</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="226"/>
         <location filename="../dialogs/addcontentdialog.cpp" line="261"/>
         <source>Downloading...</source>
-        <translation type="unfinished"/>
+        <translation>Herunterladend...</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="281"/>
         <location filename="../dialogs/addcontentdialog.cpp" line="321"/>
         <source>Collecting links...</source>
-        <translation type="unfinished"/>
+        <translation>Sammeln von Web-Links...</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="289"/>
         <location filename="../dialogs/addcontentdialog.cpp" line="333"/>
         <source>Finished</source>
-        <translation type="unfinished"/>
+        <translation>Beendet</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="353"/>
@@ -285,7 +285,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="389"/>
         <source>Selected links: %0 of %1</source>
-        <translation type="unfinished"/>
+        <translation>Ausgewählte Links: %0 von %1</translation>
     </message>
 </context>
 <context>
@@ -298,33 +298,33 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="38"/>
         <source>Download:</source>
-        <translation type="unfinished"/>
+        <translation>Herunterladen:</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="93"/>
         <source>Examples:</source>
-        <translation type="unfinished"/>
+        <translation>Beispiele:</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="57"/>
         <location filename="../dialogs/addstreamdialog.cpp" line="195"/>
         <source>Continue</source>
-        <translation type="unfinished"/>
+        <translation>Fortsetzen</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="71"/>
         <source>Stream</source>
-        <translation type="unfinished"/>
+        <translation>Stream</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="166"/>
         <source>&amp;Start!</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Starten!</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="182"/>
         <source>Add &amp;paused</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Pausiert hinzufügen</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="195"/>
@@ -334,12 +334,12 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addstreamdialog.cpp" line="45"/>
         <source>Add Stream</source>
-        <translation type="unfinished"/>
+        <translation>Stream hinzufügen</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.cpp" line="195"/>
         <source>Stop</source>
-        <translation type="unfinished"/>
+        <translation>Stoppen</translation>
     </message>
 </context>
 <context>
@@ -347,12 +347,12 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="22"/>
         <source>Examples:</source>
-        <translation type="unfinished"/>
+        <translation>Beispiele:</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="48"/>
         <source>Download:</source>
-        <translation type="unfinished"/>
+        <translation>Herunterladen:</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="55"/>
@@ -362,22 +362,22 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="71"/>
         <source>Enter the .torrent file (or magnet link) to download</source>
-        <translation type="unfinished"/>
+        <translation>Geben die .torrent Datei (oder den Magnet Link) zum Herunterladen ein</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="100"/>
         <source>Magnet Link and Torrent</source>
-        <translation type="unfinished"/>
+        <translation>Magnet Link und Torrent</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="172"/>
         <source>&amp;Start!</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Starten!</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="188"/>
         <source>Add &amp;paused</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Pausiert hinzufügen</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="201"/>
@@ -387,7 +387,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addtorrentdialog.cpp" line="46"/>
         <source>Add Magnet Links and Torrent</source>
-        <translation type="unfinished"/>
+        <translation>Magnet Link and Torrent hinzufügen</translation>
     </message>
 </context>
 <context>
@@ -395,65 +395,65 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="17"/>
         <source>Select a preset, or configure manually.</source>
-        <translation type="unfinished"/>
+        <translation>Wählen eine Voreinstellung oder konfigurieren sie manuell.</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="24"/>
         <source>Presets</source>
-        <translation type="unfinished"/>
+        <translation>Voreinstellungen</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="30"/>
         <location filename="../widgets/advancedsettingswidget.cpp" line="359"/>
         <source>Default</source>
-        <translation type="unfinished"/>
+        <translation>Standard</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="37"/>
         <location filename="../widgets/advancedsettingswidget.cpp" line="360"/>
         <source>Minimize Memory Usage</source>
-        <translation type="unfinished"/>
+        <translation>Speichernutzung minimieren</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="44"/>
         <location filename="../widgets/advancedsettingswidget.cpp" line="361"/>
         <source>High Performance Seed</source>
-        <translation type="unfinished"/>
+        <translation>Seed Hochleistung</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="88"/>
         <source>Search for setting</source>
-        <translation type="unfinished"/>
+        <translation>Einstellungen suchen</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="95"/>
         <source>Clear</source>
-        <translation type="unfinished"/>
+        <translation>Löschen</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="123"/>
         <source>Key</source>
-        <translation type="unfinished"/>
+        <translation>Schlüssel</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="128"/>
         <source>Value</source>
-        <translation type="unfinished"/>
+        <translation>Wert</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="170"/>
         <source>Show modified only</source>
-        <translation type="unfinished"/>
+        <translation>Nur geändert anzeigen</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.cpp" line="148"/>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation>Bearbeiten</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.cpp" line="151"/>
         <source>Reset to Default</source>
-        <translation type="unfinished"/>
+        <translation>Zurücksetzen</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.cpp" line="359"/>
@@ -476,72 +476,72 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/batchrenamedialog.cpp" line="50"/>
         <source>Tools</source>
-        <translation type="unfinished"/>
+        <translation>Werkzeuge</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="22"/>
         <source>Files to rename</source>
-        <translation type="unfinished"/>
+        <translation>Dateien umbenennen</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="39"/>
         <source>Rename Tool</source>
-        <translation type="unfinished"/>
+        <translation>Umbenennen Werkzeuge</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="99"/>
         <source>Batch Rename</source>
-        <translation type="unfinished"/>
+        <translation>Stapel umbenennen</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="106"/>
         <source>Default names</source>
-        <translation type="unfinished"/>
+        <translation>Standard Namen</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="111"/>
         <source>Enumerated names</source>
-        <translation type="unfinished"/>
+        <translation>Aufgezählte Namen</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="127"/>
         <source>Options</source>
-        <translation type="unfinished"/>
+        <translation>Optionen</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="135"/>
         <source>Start enumeration from:</source>
-        <translation type="unfinished"/>
+        <translation>Starten die Aufzählung von:</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="167"/>
         <source>Style:</source>
-        <translation type="unfinished"/>
+        <translation>Stil:</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="176"/>
         <source>1 ... 123456</source>
-        <translation type="unfinished"/>
+        <translation>1 ... 123456</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="186"/>
         <source>000001 ... 123456</source>
-        <translation type="unfinished"/>
+        <translation>000001 ... 123456</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="195"/>
         <source>Custom number of digits:</source>
-        <translation type="unfinished"/>
+        <translation>Benutzerdefinierte Anzahl von Ziffern:</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="229"/>
         <source>Increment by:</source>
-        <translation type="unfinished"/>
+        <translation>Inkrement durch:</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="285"/>
         <source>Safe Rename*</source>
-        <translation type="unfinished"/>
+        <translation>Sicheres Umbenennen*</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="295"/>
@@ -551,7 +551,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/batchrenamedialog.cpp" line="54"/>
         <source>%0 selected files to rename</source>
-        <translation type="unfinished"/>
+        <translation>%0 ausgewählte Dateien zum Umbenennen</translation>
     </message>
 </context>
 <context>
@@ -559,32 +559,32 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../widgets/checkabletableview.cpp" line="127"/>
         <source>Check Selected Items</source>
-        <translation type="unfinished"/>
+        <translation>Ausgewählte Elemente aktivieren</translation>
     </message>
     <message>
         <location filename="../widgets/checkabletableview.cpp" line="131"/>
         <source>Uncheck Selected Items</source>
-        <translation type="unfinished"/>
+        <translation>Ausgewählte Elemente deaktivieren</translation>
     </message>
     <message>
         <location filename="../widgets/checkabletableview.cpp" line="135"/>
         <source>Toggle Check for Selected Items</source>
-        <translation type="unfinished"/>
+        <translation>Check umschalten für ausgewählte Elemente</translation>
     </message>
     <message>
         <location filename="../widgets/checkabletableview.cpp" line="139"/>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Alle wählen</translation>
     </message>
     <message>
         <location filename="../widgets/checkabletableview.cpp" line="144"/>
         <source>Select Filtered</source>
-        <translation type="unfinished"/>
+        <translation>Gefiltert wählen</translation>
     </message>
     <message>
         <location filename="../widgets/checkabletableview.cpp" line="149"/>
         <source>Invert Selection</source>
-        <translation type="unfinished"/>
+        <translation>Auswahl invertieren</translation>
     </message>
 </context>
 <context>
@@ -592,7 +592,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../widgets/combobox.cpp" line="164"/>
         <source>Clear History</source>
-        <translation type="unfinished"/>
+        <translation>Verlauf löschen</translation>
     </message>
 </context>
 <context>
@@ -605,84 +605,84 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="64"/>
         <source>Compiler</source>
-        <translation type="unfinished"/>
+        <translation>Konpiler</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="70"/>
         <source>Name:</source>
-        <translation type="unfinished"/>
+        <translation>Name:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="84"/>
         <location filename="../dialogs/compilerdialog.ui" line="254"/>
         <source>Version:</source>
-        <translation type="unfinished"/>
+        <translation>Version:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="98"/>
         <location filename="../dialogs/compilerdialog.ui" line="268"/>
         <source>CPU Architecture:</source>
-        <translation type="unfinished"/>
+        <translation>CPU Architektur:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="112"/>
         <source>Build date:</source>
-        <translation type="unfinished"/>
+        <translation>Erstellungsdatum:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="129"/>
         <source>Plugins</source>
-        <translation type="unfinished"/>
+        <translation>Plugins</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="225"/>
         <source>System</source>
-        <translation type="unfinished"/>
+        <translation>System</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="240"/>
         <source>OS:</source>
-        <translation type="unfinished"/>
+        <translation>Betriebssystem:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="291"/>
         <source>SSL Library Version:</source>
-        <translation type="unfinished"/>
+        <translation>SSL Library Version:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="318"/>
         <source>SSL Library Build Version:</source>
-        <translation type="unfinished"/>
+        <translation>SSL Library Build-Version:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="344"/>
         <source>Found in application path:</source>
-        <translation type="unfinished"/>
+        <translation>Gefunden im Anwendungspfad:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="356"/>
         <source>* OpenSSL SSL library:</source>
-        <translation type="unfinished"/>
+        <translation>* OpenSSL SSL Library:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="370"/>
         <source>* OpenSSL Crypto library:</source>
-        <translation type="unfinished"/>
+        <translation>* OpenSSL Crypto Library:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="416"/>
         <source>Libraries and Build Version</source>
-        <translation type="unfinished"/>
+        <translation>Libraries und Build-Version</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="42"/>
         <source>Info</source>
-        <translation type="unfinished"/>
+        <translation>Info</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="49"/>
         <source>%0 %1 version %2</source>
-        <translation type="unfinished"/>
+        <translation>%0 %1 version %2</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="69"/>
@@ -692,7 +692,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="78"/>
         <source>Reading...</source>
-        <translation type="unfinished"/>
+        <translation>Lesen...</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="84"/>
@@ -702,12 +702,12 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="89"/>
         <source>not found</source>
-        <translation type="unfinished"/>
+        <translation>nicht gefunden</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="99"/>
         <source>This application supports SSL.</source>
-        <translation type="unfinished"/>
+        <translation>Diese Software unterstützt SSL.</translation>
     </message>
 </context>
 <context>
@@ -715,7 +715,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../core/downloadengine.cpp" line="344"/>
         <source>... (%0 others)</source>
-        <translation type="unfinished"/>
+        <translation>... (%0 Andere)</translation>
     </message>
 </context>
 <context>
@@ -723,7 +723,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../core/downloaditem.cpp" line="247"/>
         <source>No Error</source>
-        <translation type="unfinished"/>
+        <translation>Keine Fehler</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="250"/>
@@ -738,7 +738,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../core/downloaditem.cpp" line="252"/>
         <source>3xx Redirect host not found</source>
-        <translation type="unfinished"/>
+        <translation>3xx Redirect Host nicht gefunden</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="253"/>
@@ -798,7 +798,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../core/downloaditem.cpp" line="268"/>
         <source>5xx Proxy not found</source>
-        <translation type="unfinished"/>
+        <translation>5xx Proxy nicht gefunden</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="269"/>
@@ -828,7 +828,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../core/downloaditem.cpp" line="276"/>
         <source>404 Not found</source>
-        <translation type="unfinished"/>
+        <translation>404 Nicht gefunden</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="277"/>
@@ -906,27 +906,27 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="598"/>
         <source>Progress</source>
-        <translation type="unfinished"/>
+        <translation>Fortschritt</translation>
     </message>
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="599"/>
         <source>Percent</source>
-        <translation type="unfinished"/>
+        <translation>Prozent</translation>
     </message>
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="600"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>Größe</translation>
     </message>
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="601"/>
         <source>Est. time</source>
-        <translation type="unfinished"/>
+        <translation>Geschätzte Zeit</translation>
     </message>
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="602"/>
         <source>Speed</source>
-        <translation type="unfinished"/>
+        <translation>Geschwindigkeit</translation>
     </message>
 </context>
 <context>
@@ -949,7 +949,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../core/downloadtorrentitem.cpp" line="142"/>
         <source>Error in file &apos;%0&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Dateifehler in &apos;%0&apos;</translation>
     </message>
     <message>
         <location filename="../core/downloadtorrentitem.cpp" line="143"/>
@@ -974,7 +974,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../core/downloadtorrentitem.cpp" line="149"/>
         <source>Unknown error</source>
-        <translation type="unfinished"/>
+        <translation>Unbekannter Fehler</translation>
     </message>
 </context>
 <context>
@@ -983,12 +983,12 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <location filename="../dialogs/editiondialog.ui" line="99"/>
         <location filename="../dialogs/editiondialog.cpp" line="43"/>
         <source>Smart Edit</source>
-        <translation type="unfinished"/>
+        <translation>Klug bearbeiten</translation>
     </message>
     <message>
         <location filename="../dialogs/editiondialog.ui" line="39"/>
         <source>Edit the Urls</source>
-        <translation type="unfinished"/>
+        <translation>Bearbeiten die URLs</translation>
     </message>
     <message>
         <location filename="../dialogs/editiondialog.ui" line="105"/>
@@ -998,7 +998,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/editiondialog.cpp" line="47"/>
         <source>%0 selected files to edit</source>
-        <translation type="unfinished"/>
+        <translation>%0 ausgewählte Dateien bearbeiten</translation>
     </message>
     <message>
         <location filename="../dialogs/editiondialog.cpp" line="99"/>
@@ -1011,12 +1011,12 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="45"/>
         <source>Existing File</source>
-        <translation type="unfinished"/>
+        <translation>Vorhandene Datei</translation>
     </message>
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="47"/>
         <source>The file already exists:</source>
-        <translation type="unfinished"/>
+        <translation>Die Datei existiert bereits:</translation>
     </message>
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="49"/>
@@ -1026,17 +1026,17 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="52"/>
         <source>Rename</source>
-        <translation type="unfinished"/>
+        <translation>Umbenennen</translation>
     </message>
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="53"/>
         <source>Overwrite</source>
-        <translation type="unfinished"/>
+        <translation>Überschreiben</translation>
     </message>
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="54"/>
         <source>Skip</source>
-        <translation type="unfinished"/>
+        <translation>Überspringen</translation>
     </message>
 </context>
 <context>
@@ -1044,27 +1044,27 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../io/filereader.cpp" line="49"/>
         <source>Invalid device</source>
-        <translation type="unfinished"/>
+        <translation>Ungültiges Gerät</translation>
     </message>
     <message>
         <location filename="../io/filereader.cpp" line="64"/>
         <source>File not found</source>
-        <translation type="unfinished"/>
+        <translation>Datei nicht gefunden</translation>
     </message>
     <message>
         <location filename="../io/filereader.cpp" line="71"/>
         <source>Unsupported format</source>
-        <translation type="unfinished"/>
+        <translation>Nicht unterstütztes Format</translation>
     </message>
     <message>
         <location filename="../io/filereader.cpp" line="91"/>
         <source>Unable to read data</source>
-        <translation type="unfinished"/>
+        <translation>Unmöglich Daten zu lesen</translation>
     </message>
     <message>
         <location filename="../io/filereader.cpp" line="105"/>
         <source>Unknown error</source>
-        <translation type="unfinished"/>
+        <translation>Unbekannter Fehler</translation>
     </message>
 </context>
 <context>
@@ -1072,32 +1072,32 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../io/filewriter.cpp" line="49"/>
         <source>Device is not set</source>
-        <translation type="unfinished"/>
+        <translation>Gerät ist nicht eingestellt</translation>
     </message>
     <message>
         <location filename="../io/filewriter.cpp" line="55"/>
         <source>Cannot open device for writing: %1</source>
-        <translation type="unfinished"/>
+        <translation>Unmöglich Gerät zu schreiben: %1</translation>
     </message>
     <message>
         <location filename="../io/filewriter.cpp" line="62"/>
         <source>Device not writable</source>
-        <translation type="unfinished"/>
+        <translation>Unmöglich Gerät zu schreiben</translation>
     </message>
     <message>
         <location filename="../io/filewriter.cpp" line="67"/>
         <source>Unsupported format</source>
-        <translation type="unfinished"/>
+        <translation>Nicht unterstütztes Format</translation>
     </message>
     <message>
         <location filename="../io/filewriter.cpp" line="98"/>
         <source>File is empty</source>
-        <translation type="unfinished"/>
+        <translation>Datei ist leer</translation>
     </message>
     <message>
         <location filename="../io/filewriter.h" line="62"/>
         <source>Unknown error</source>
-        <translation type="unfinished"/>
+        <translation>Unbekannter Fehler</translation>
     </message>
 </context>
 <context>
@@ -1111,7 +1111,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../widgets/filtertip.cpp" line="28"/>
         <source>Fast Filtering</source>
-        <translation type="unfinished"/>
+        <translation>Schnell Filtern</translation>
     </message>
 </context>
 <context>
@@ -1119,17 +1119,17 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../widgets/filterwidget.ui" line="35"/>
         <source>Filters</source>
-        <translation type="unfinished"/>
+        <translation>Filter</translation>
     </message>
     <message>
         <location filename="../widgets/filterwidget.ui" line="107"/>
         <source>Fast Filtering</source>
-        <translation type="unfinished"/>
+        <translation>Schnell Filtern</translation>
     </message>
     <message>
         <location filename="../widgets/filterwidget.ui" line="138"/>
         <source>Fast Filtering Tips...</source>
-        <translation type="unfinished"/>
+        <translation>Schnell Filtern Tipps...</translation>
     </message>
     <message>
         <location filename="../widgets/filterwidget.ui" line="152"/>
@@ -1142,67 +1142,67 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../core/format.cpp" line="73"/>
         <source>Unknown</source>
-        <translation type="unfinished"/>
+        <translation>Unbekannt</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="76"/>
         <source>0 byte</source>
-        <translation type="unfinished"/>
+        <translation>0 Byte</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="79"/>
         <source>1 byte</source>
-        <translation type="unfinished"/>
+        <translation>1 Byte</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="82"/>
         <source>%0 bytes</source>
-        <translation type="unfinished"/>
+        <translation>%0 Bytes</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="86"/>
         <source>%0 KB</source>
-        <translation type="unfinished"/>
+        <translation>%0 KB</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="90"/>
         <source>%0 MB</source>
-        <translation type="unfinished"/>
+        <translation>%0 MB</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="94"/>
         <source>%0 GB</source>
-        <translation type="unfinished"/>
+        <translation>%0 GB</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="97"/>
         <source>%0 TB</source>
-        <translation type="unfinished"/>
+        <translation>%0 TB</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="123"/>
         <source>Yes</source>
-        <translation type="unfinished"/>
+        <translation>Ja</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="123"/>
         <source>No</source>
-        <translation type="unfinished"/>
+        <translation>Nein</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="138"/>
         <source>%0 KB/s</source>
-        <translation type="unfinished"/>
+        <translation>%0 KB/s</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="142"/>
         <source>%0 MB/s</source>
-        <translation type="unfinished"/>
+        <translation>%0 MB/s</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="145"/>
         <source>%0 GB/s</source>
-        <translation type="unfinished"/>
+        <translation>%0 GB/s</translation>
     </message>
 </context>
 <context>
@@ -1211,7 +1211,7 @@ Some examples are given below.  Click to paste the example.</source>
         <location filename="../dialogs/homedialog.ui" line="45"/>
         <location filename="../dialogs/homedialog.cpp" line="31"/>
         <source>Getting Started</source>
-        <translation type="unfinished"/>
+        <translation>Erste Schritte</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="55"/>
@@ -1221,7 +1221,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/homedialog.ui" line="78"/>
         <source>Web Page Content</source>
-        <translation type="unfinished"/>
+        <translation>Webseiteninhalt</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="91"/>
@@ -1241,7 +1241,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/homedialog.ui" line="124"/>
         <source>Video/Audio Stream</source>
-        <translation type="unfinished"/>
+        <translation>Video/Audio Stream</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="137"/>
@@ -1251,7 +1251,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/homedialog.ui" line="147"/>
         <source>Magnet Link, Torrent</source>
-        <translation type="unfinished"/>
+        <translation>Magnet Link, Torrent</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="163"/>
@@ -1261,7 +1261,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/homedialog.ui" line="200"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>Schließen</translation>
     </message>
 </context>
 <context>
@@ -1269,32 +1269,32 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/informationdialog.cpp" line="37"/>
         <source>Properties</source>
-        <translation type="unfinished"/>
+        <translation>Eigenschaften</translation>
     </message>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="22"/>
         <source>Size:</source>
-        <translation type="unfinished"/>
+        <translation>Größe:</translation>
     </message>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="68"/>
         <source>From:</source>
-        <translation type="unfinished"/>
+        <translation>Von:</translation>
     </message>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="78"/>
         <source>Unkown</source>
-        <translation type="unfinished"/>
+        <translation>Unbekannt</translation>
     </message>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="119"/>
         <source>Download Information</source>
-        <translation type="unfinished"/>
+        <translation>Herunterladen Informationen</translation>
     </message>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="152"/>
         <source>Options</source>
-        <translation type="unfinished"/>
+        <translation>Optionen</translation>
     </message>
 </context>
 <context>
@@ -1302,17 +1302,17 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../widgets/linkwidget.ui" line="78"/>
         <source>Links</source>
-        <translation type="unfinished"/>
+        <translation>Links</translation>
     </message>
     <message>
         <location filename="../widgets/linkwidget.ui" line="100"/>
         <source>Pictures and Media</source>
-        <translation type="unfinished"/>
+        <translation>Bilder und Medien</translation>
     </message>
     <message>
         <location filename="../widgets/linkwidget.cpp" line="226"/>
         <source>Links (%0)</source>
-        <translation type="unfinished"/>
+        <translation>Links (%0)</translation>
     </message>
     <message>
         <location filename="../widgets/linkwidget.cpp" line="227"/>
@@ -1322,22 +1322,22 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../widgets/linkwidget.cpp" line="237"/>
         <source>Mask...</source>
-        <translation type="unfinished"/>
+        <translation>Maske...</translation>
     </message>
     <message>
         <location filename="../widgets/linkwidget.cpp" line="241"/>
         <source>Copy Links</source>
-        <translation type="unfinished"/>
+        <translation>Links kopieren</translation>
     </message>
     <message>
         <location filename="../widgets/linkwidget.cpp" line="309"/>
         <source>Open %0</source>
-        <translation type="unfinished"/>
+        <translation>Öffnen %0</translation>
     </message>
     <message>
         <location filename="../widgets/linkwidget.cpp" line="311"/>
         <source>Open %0 Links</source>
-        <translation type="unfinished"/>
+        <translation>Öffnen %0 Links</translation>
     </message>
 </context>
 <context>
@@ -1350,33 +1350,33 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="42"/>
         <source>Torrent download details</source>
-        <translation type="unfinished"/>
+        <translation>Torrent Hunterladen Details</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="60"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="74"/>
         <source>&amp;File</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Datei</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="90"/>
         <source>&amp;Option</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Option</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="101"/>
         <source>&amp;View</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Darstellung</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="105"/>
         <location filename="../mainwindow.cpp" line="387"/>
         <source>Other</source>
-        <translation type="unfinished"/>
+        <translation>Andere</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="128"/>
@@ -1386,37 +1386,37 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="141"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Bearbeiten</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="164"/>
         <source>File toolbar</source>
-        <translation type="unfinished"/>
+        <translation>Datei Symbolleiste</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="192"/>
         <source>View toolbar</source>
-        <translation type="unfinished"/>
+        <translation>Darstellung Symbolleiste</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="224"/>
         <source>&amp;Quit</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Verlassen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="229"/>
         <source>About Qt...</source>
-        <translation type="unfinished"/>
+        <translation>Über Qt...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="238"/>
         <source>About DownZemAll...</source>
-        <translation type="unfinished"/>
+        <translation>Über DownZemAll...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="247"/>
         <source>Preferences...</source>
-        <translation type="unfinished"/>
+        <translation>Einstellungen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="250"/>
@@ -1426,17 +1426,17 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="259"/>
         <source>Getting Started...</source>
-        <translation type="unfinished"/>
+        <translation>Erste Schritte...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="268"/>
         <source>Download Content...</source>
-        <translation type="unfinished"/>
+        <translation>Inhalt herunterladen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="271"/>
         <source>Download Web Page Content</source>
-        <translation type="unfinished"/>
+        <translation>Webseiteninhalt herunterladen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="274"/>
@@ -1446,7 +1446,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="283"/>
         <source>Download Batch...</source>
-        <translation type="unfinished"/>
+        <translation>Stapel herunterladen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="286"/>
@@ -1461,22 +1461,22 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="298"/>
         <source>Download Stream...</source>
-        <translation type="unfinished"/>
+        <translation>Stream herunterladen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="301"/>
         <source>Download Video/Audio Stream</source>
-        <translation type="unfinished"/>
+        <translation>Audio/Video Stream herunterladen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="310"/>
         <source>Download Torrent...</source>
-        <translation type="unfinished"/>
+        <translation>Torrent herunterladen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="313"/>
         <source>Download Magnet Links and Torrent</source>
-        <translation type="unfinished"/>
+        <translation>Magnet Link and Torrent herunterladen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="322"/>
@@ -1486,7 +1486,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="331"/>
         <source>Pause</source>
-        <translation type="unfinished"/>
+        <translation>Pausieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="334"/>
@@ -1496,7 +1496,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="343"/>
         <source>Up</source>
-        <translation type="unfinished"/>
+        <translation>Oben</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="346"/>
@@ -1506,7 +1506,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="355"/>
         <source>Top</source>
-        <translation type="unfinished"/>
+        <translation>Top</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="358"/>
@@ -1516,7 +1516,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="367"/>
         <source>Down</source>
-        <translation type="unfinished"/>
+        <translation>Nieder</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="370"/>
@@ -1526,7 +1526,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="379"/>
         <source>Bottom</source>
-        <translation type="unfinished"/>
+        <translation>Unterseite</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="382"/>
@@ -1536,12 +1536,12 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="391"/>
         <source>Resume</source>
-        <translation type="unfinished"/>
+        <translation>Fortsetzen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="400"/>
         <source>Download Information</source>
-        <translation type="unfinished"/>
+        <translation>Herunterladen Informationen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="403"/>
@@ -1551,12 +1551,12 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="412"/>
         <source>Open File</source>
-        <translation type="unfinished"/>
+        <translation>Datei öffnen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="421"/>
         <source>Rename File</source>
-        <translation type="unfinished"/>
+        <translation>Datei umbenennen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="424"/>
@@ -1566,7 +1566,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="433"/>
         <source>Delete File(s)</source>
-        <translation type="unfinished"/>
+        <translation>Datei(en) löschen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="436"/>
@@ -1577,12 +1577,12 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="445"/>
         <source>Open Directory</source>
-        <translation type="unfinished"/>
+        <translation>Verzeichnis öffnen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="454"/>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Alle wählen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="457"/>
@@ -1592,7 +1592,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="466"/>
         <source>Invert Selection</source>
-        <translation type="unfinished"/>
+        <translation>Auswahl invertieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="469"/>
@@ -1617,7 +1617,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="505"/>
         <source>Force Start</source>
-        <translation type="unfinished"/>
+        <translation>Start erzwingen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="508"/>
@@ -1627,7 +1627,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="517"/>
         <source>Import From File...</source>
-        <translation type="unfinished"/>
+        <translation>Aus Datei importieren...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="520"/>
@@ -1637,7 +1637,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="529"/>
         <source>Export &amp;Selected To File...</source>
-        <translation>In Datei exportieren...</translation>
+        <translation>Ausgewählte zu Datei exportieren...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="532"/>
@@ -1647,12 +1647,12 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="541"/>
         <source>Remove Completed</source>
-        <translation type="unfinished"/>
+        <translation>Fertig entfernen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="553"/>
         <source>Remove Selected</source>
-        <translation type="unfinished"/>
+        <translation>Ausgewählte entfernen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="556"/>
@@ -1662,7 +1662,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="565"/>
         <source>Remove All</source>
-        <translation type="unfinished"/>
+        <translation>Alle entfernen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="568"/>
@@ -1672,27 +1672,27 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="577"/>
         <source>Remove Waiting</source>
-        <translation type="unfinished"/>
+        <translation>Wartende entfernen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="586"/>
         <source>Remove Duplicates</source>
-        <translation type="unfinished"/>
+        <translation>Duplikate entfernen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="595"/>
         <source>Remove Running</source>
-        <translation type="unfinished"/>
+        <translation>Laufende entfernen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="604"/>
         <source>Remove Paused</source>
-        <translation type="unfinished"/>
+        <translation>Pausierten entfernen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="613"/>
         <source>Remove Failed</source>
-        <translation type="unfinished"/>
+        <translation>Fehlgeschlagene entfernen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="622"/>
@@ -1702,27 +1702,27 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="631"/>
         <source>Speed Limit...</source>
-        <translation type="unfinished"/>
+        <translation>Tempolimit...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="640"/>
         <source>Select None</source>
-        <translation type="unfinished"/>
+        <translation>Keine auswählen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="649"/>
         <source>Select Completed</source>
-        <translation type="unfinished"/>
+        <translation>Fertig auswählen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="654"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="657"/>
         <source>Copy Selection to Clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Auswahl zu Zwischenablage kopieren</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="660"/>
@@ -1732,38 +1732,38 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="665"/>
         <source>Compiler Info...</source>
-        <translation type="unfinished"/>
+        <translation>Konpiler Informationen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="670"/>
         <source>Check for updates...</source>
-        <translation type="unfinished"/>
+        <translation>Nach Updates suchen...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="675"/>
         <source>Tutorial</source>
-        <translation type="unfinished"/>
+        <translation>Lernprogramm</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="680"/>
         <source>About YoutubeDL...</source>
-        <translation type="unfinished"/>
+        <translation>Über YoutubeDL...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="344"/>
         <location filename="../mainwindow.cpp" line="933"/>
         <source>About %0</source>
-        <translation type="unfinished"/>
+        <translation>Über %0</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="348"/>
         <source>About Qt</source>
-        <translation type="unfinished"/>
+        <translation>Über Qt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="406"/>
         <source>Advanced</source>
-        <translation type="unfinished"/>
+        <translation>Fortgeschritten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="549"/>
@@ -1771,13 +1771,13 @@ Some examples are given below.  Click to paste the example.</source>
         <location filename="../mainwindow.cpp" line="1298"/>
         <location filename="../mainwindow.cpp" line="1317"/>
         <source>Error</source>
-        <translation type="unfinished"/>
+        <translation>Fehler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="575"/>
         <location filename="../mainwindow.cpp" line="610"/>
         <source>Remove Downloads</source>
-        <translation type="unfinished"/>
+        <translation>Downloads entfernen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="576"/>
@@ -1788,62 +1788,62 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.cpp" line="578"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Löschen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="551"/>
         <source>File not found</source>
-        <translation type="unfinished"/>
+        <translation>Datei nicht gefunden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="598"/>
         <source>Destination directory not found:</source>
-        <translation type="unfinished"/>
+        <translation>Zielverzeichnis nicht gefunden:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="617"/>
         <source>Don&apos;t ask again</source>
-        <translation type="unfinished"/>
+        <translation>Nicht mehr fragen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="633"/>
         <source>ALL</source>
-        <translation type="unfinished"/>
+        <translation>ALLES</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="640"/>
         <source>selected</source>
-        <translation type="unfinished"/>
+        <translation>ausgewählte</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="652"/>
         <source>completed</source>
-        <translation type="unfinished"/>
+        <translation>fertig</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="659"/>
         <source>waiting</source>
-        <translation type="unfinished"/>
+        <translation>wartende</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="666"/>
         <source>paused</source>
-        <translation type="unfinished"/>
+        <translation>pausierten</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="673"/>
         <source>failed</source>
-        <translation type="unfinished"/>
+        <translation>gescheitert</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="681"/>
         <source>running</source>
-        <translation type="unfinished"/>
+        <translation>auslaufen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="767"/>
         <source>Website URL</source>
-        <translation type="unfinished"/>
+        <translation>Webseite URL</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="769"/>
@@ -1898,12 +1898,12 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.cpp" line="773"/>
         <source>Start!</source>
-        <translation type="unfinished"/>
+        <translation>Starten!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="991"/>
         <source>File Error</source>
-        <translation type="unfinished"/>
+        <translation>Dateifehler</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1024"/>
@@ -2035,17 +2035,17 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../widgets/pathwidget.cpp" line="136"/>
         <source>All Files (*);;%0 (*%1)</source>
-        <translation type="unfinished"/>
+        <translation>Alle Dateien (*);;%0 (*%1)</translation>
     </message>
     <message>
         <location filename="../widgets/pathwidget.cpp" line="137"/>
         <source>Please select a file</source>
-        <translation type="unfinished"/>
+        <translation>Bitte wählen Sie eine Datei aus</translation>
     </message>
     <message>
         <location filename="../widgets/pathwidget.cpp" line="142"/>
         <source>Please select a directory</source>
-        <translation type="unfinished"/>
+        <translation>Bitte wählen Sie ein Verzeichnis</translation>
     </message>
 </context>
 <context>
@@ -2124,7 +2124,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="250"/>
         <source>Show balloon messages</source>
-        <translation type="unfinished"/>
+        <translation>Toast-Nachrichten anzeigen</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="278"/>
@@ -2274,7 +2274,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="710"/>
         <source>Remove completed downloads</source>
-        <translation type="unfinished"/>
+        <translation>Fertig Downloads entfernen</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="717"/>
@@ -2320,7 +2320,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="740"/>
         <source>Check for updates automatically:</source>
-        <translation type="unfinished"/>
+        <translation>Automatisch nach Updates suchen:</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="754"/>
@@ -2510,7 +2510,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="302"/>
         <source>Reset all filters</source>
-        <translation type="unfinished"/>
+        <translation>Alle Filter zurücksetzen</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="606"/>
@@ -2587,7 +2587,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../core/torrentmessage.h" line="231"/>
         <source>ignore</source>
-        <translation type="unfinished"/>
+        <translation>ignorieren</translation>
     </message>
     <message>
         <location filename="../core/torrentmessage.h" line="232"/>
@@ -2630,42 +2630,42 @@ Some examples are given below.  Click to paste the example.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="507"/>
+        <location filename="../core/torrentmessage.h" line="509"/>
         <source>Stopped</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="508"/>
+        <location filename="../core/torrentmessage.h" line="510"/>
         <source>Checking Files...</source>
-        <translation type="unfinished"/>
+        <translation>Dateien überprüfen...</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="509"/>
+        <location filename="../core/torrentmessage.h" line="511"/>
         <source>Downloading Metadata...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="510"/>
+        <location filename="../core/torrentmessage.h" line="512"/>
         <source>Downloading...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="511"/>
+        <location filename="../core/torrentmessage.h" line="513"/>
         <source>Finished</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="512"/>
+        <location filename="../core/torrentmessage.h" line="514"/>
         <source>Seeding...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="513"/>
+        <location filename="../core/torrentmessage.h" line="515"/>
         <source>Allocating...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="514"/>
+        <location filename="../core/torrentmessage.h" line="516"/>
         <source>Checking Resume Data...</source>
         <translation type="unfinished"/>
     </message>
@@ -2711,7 +2711,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../core/settings.cpp" line="555"/>
         <source>All Files</source>
-        <translation type="unfinished"/>
+        <translation>Alle Dateien</translation>
     </message>
     <message>
         <location filename="../core/settings.cpp" line="556"/>
@@ -2792,7 +2792,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/streamdialog.cpp" line="91"/>
         <source>Error:</source>
-        <translation type="unfinished"/>
+        <translation>Fehler:</translation>
     </message>
     <message>
         <location filename="../dialogs/streamdialog.cpp" line="99"/>
@@ -2887,7 +2887,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../widgets/streamlistwidget.ui" line="212"/>
         <source>Error:</source>
-        <translation type="unfinished"/>
+        <translation>Fehler:</translation>
     </message>
     <message>
         <location filename="../widgets/streamlistwidget.ui" line="219"/>
@@ -2940,7 +2940,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../core/stream.cpp" line="856"/>
         <source>Cancelled.</source>
-        <translation type="unfinished"/>
+        <translation>Annuliert.</translation>
     </message>
 </context>
 <context>
@@ -3020,7 +3020,7 @@ Help: if you get an error, follow these instructions:
         <location filename="../widgets/texteditorwidget.ui" line="28"/>
         <location filename="../widgets/texteditorwidget.ui" line="31"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Rückgängigmachen</translation>
     </message>
     <message>
         <location filename="../widgets/texteditorwidget.ui" line="51"/>
@@ -3028,7 +3028,7 @@ Help: if you get an error, follow these instructions:
         <location filename="../widgets/texteditorwidget.ui" line="57"/>
         <location filename="../widgets/texteditorwidget.ui" line="60"/>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>Wiederholen</translation>
     </message>
     <message>
         <location filename="../widgets/texteditorwidget.ui" line="87"/>
@@ -3044,7 +3044,7 @@ Help: if you get an error, follow these instructions:
         <location filename="../widgets/texteditorwidget.ui" line="122"/>
         <location filename="../widgets/texteditorwidget.ui" line="125"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <location filename="../widgets/texteditorwidget.ui" line="145"/>
@@ -3052,7 +3052,7 @@ Help: if you get an error, follow these instructions:
         <location filename="../widgets/texteditorwidget.ui" line="151"/>
         <location filename="../widgets/texteditorwidget.ui" line="154"/>
         <source>Paste</source>
-        <translation type="unfinished"/>
+        <translation>Einfügen</translation>
     </message>
     <message>
         <location filename="../widgets/texteditorwidget.ui" line="181"/>
@@ -3079,17 +3079,17 @@ Help: if you get an error, follow these instructions:
 <context>
     <name>TorrentContextPrivate</name>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="495"/>
+        <location filename="../core/torrentcontext_p.cpp" line="496"/>
         <source>Network request rejected.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="546"/>
+        <location filename="../core/torrentcontext_p.cpp" line="547"/>
         <source>Can&apos;t download metadata.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="557"/>
+        <location filename="../core/torrentcontext_p.cpp" line="558"/>
         <source>No metadata downloaded.</source>
         <translation type="unfinished"/>
     </message>
@@ -3104,7 +3104,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../core/torrent.cpp" line="364"/>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Name</translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="365"/>
@@ -3144,7 +3144,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../core/torrent.cpp" line="372"/>
         <source>Priority</source>
-        <translation type="unfinished"/>
+        <translation>Priorität</translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="373"/>
@@ -3227,7 +3227,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../core/torrent.cpp" line="683"/>
         <source>%0 of %1 pieces</source>
-        <translation type="unfinished"/>
+        <translation>%0 von %1 Stücke</translation>
     </message>
 </context>
 <context>
@@ -3237,18 +3237,23 @@ Help: if you get an error, follow these instructions:
         <source>Value: # of peers with the piece</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <location filename="../widgets/torrentpiecemap.cpp" line="80"/>
+        <source>Priority: %0=high %1=normal %2=low %3=ignore</source>
+        <translation>Priorität: %0=hoch %1=normal %2=niedrig %3=ignorieren</translation>
+    </message>
 </context>
 <context>
     <name>TorrentTrackerTableModel</name>
     <message>
         <location filename="../core/torrent.cpp" line="782"/>
         <source>Url</source>
-        <translation type="unfinished"/>
+        <translation>URL</translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="783"/>
         <source>Id</source>
-        <translation type="unfinished"/>
+        <translation>Id</translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="784"/>
@@ -3296,12 +3301,12 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/torrentwidget.ui" line="68"/>
         <source>Select a torrent</source>
-        <translation type="unfinished"/>
+        <translation>Wahl ein Torrent aus</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="113"/>
         <source>Files</source>
-        <translation type="unfinished"/>
+        <translation>Dateien</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="135"/>
@@ -3347,7 +3352,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/torrentwidget.ui" line="265"/>
         <source>Upload Speed:</source>
-        <translation type="unfinished"/>
+        <translation>Upload-Geschwindigkeit:</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="279"/>
@@ -3357,22 +3362,22 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/torrentwidget.ui" line="286"/>
         <source>Down Limit:</source>
-        <translation type="unfinished"/>
+        <translation>Down Limit:</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="293"/>
         <source>Download Speed:</source>
-        <translation type="unfinished"/>
+        <translation>Download-Geschwindigkeit:</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="314"/>
         <source>Share Ratio:</source>
-        <translation type="unfinished"/>
+        <translation>Teilenverhältnis:</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="349"/>
         <source>Up Limit:</source>
-        <translation type="unfinished"/>
+        <translation>Up Limit:</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="356"/>
@@ -3382,42 +3387,42 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/torrentwidget.ui" line="375"/>
         <source>General</source>
-        <translation type="unfinished"/>
+        <translation>Allgemeines</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="383"/>
         <source>Save As:</source>
-        <translation type="unfinished"/>
+        <translation>Speichern als:</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="404"/>
         <source>Added On:</source>
-        <translation type="unfinished"/>
+        <translation>Hinzugefügt zu:</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="432"/>
         <source>Pieces:</source>
-        <translation type="unfinished"/>
+        <translation>Stücke:</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="453"/>
         <source>Comments:</source>
-        <translation type="unfinished"/>
+        <translation>Bemerkungen:</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="474"/>
         <source>Completed On:</source>
-        <translation type="unfinished"/>
+        <translation>Fertig im:</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="481"/>
         <source>Created By:</source>
-        <translation type="unfinished"/>
+        <translation>Erstellt von:</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="488"/>
         <source>Total Size:</source>
-        <translation type="unfinished"/>
+        <translation>Gesamtgröße:</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="495"/>
@@ -3452,7 +3457,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/torrentwidget.cpp" line="502"/>
         <source>Copy</source>
-        <translation type="unfinished"/>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.cpp" line="549"/>
@@ -3477,17 +3482,17 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/torrentwidget.cpp" line="553"/>
         <source>Priorize: High</source>
-        <translation type="unfinished"/>
+        <translation>Priorität: Hoch</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.cpp" line="554"/>
         <source>Priorize: Normal</source>
-        <translation type="unfinished"/>
+        <translation>Priorität: Normal</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.cpp" line="555"/>
         <source>Priorize: Low</source>
-        <translation type="unfinished"/>
+        <translation>Priorität: Niedrig</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.cpp" line="556"/>
@@ -3586,7 +3591,7 @@ Ex:
     <message>
         <location filename="../dialogs/tutorialdialog.ui" line="210"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>Schließen </translation>
     </message>
     <message>
         <location filename="../dialogs/tutorialdialog.cpp" line="35"/>
@@ -3649,7 +3654,7 @@ Ex:
     <message>
         <location filename="../dialogs/updatedialog.ui" line="91"/>
         <source>Starting...</source>
-        <translation type="unfinished"/>
+        <translation>Startend...</translation>
     </message>
     <message>
         <location filename="../dialogs/updatedialog.ui" line="162"/>
@@ -3669,7 +3674,7 @@ Ex:
     <message>
         <location filename="../dialogs/updatedialog.ui" line="294"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Schließen</translation>
     </message>
     <message>
         <location filename="../dialogs/updatedialog.cpp" line="42"/>
@@ -3710,7 +3715,7 @@ Ex:
     <message>
         <location filename="../dialogs/updatedialog.cpp" line="163"/>
         <source>Close the application</source>
-        <translation type="unfinished"/>
+        <translation>Schließen die Anwendung</translation>
     </message>
     <message>
         <location filename="../dialogs/updatedialog.cpp" line="165"/>
@@ -3763,7 +3768,7 @@ Ex:
     <message>
         <location filename="../widgets/urlformwidget.ui" line="159"/>
         <source>Save files in:</source>
-        <translation type="unfinished"/>
+        <translation>Speichern Dateien in:</translation>
     </message>
     <message>
         <location filename="../widgets/urlformwidget.ui" line="174"/>
