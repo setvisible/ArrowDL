@@ -136,7 +136,8 @@ TRANSLATIONS += \
     $$PWD/locale/dza_zh_CN.ts \ # Chinese (Simplified & Traditional)
     $$PWD/locale/dza_ru_RU.ts \ # Russian
     $$PWD/locale/dza_es_ES.ts \ # Spanish
-    $$PWD/locale/dza_pt_PT.ts \ # Portuguese
+    $$PWD/locale/dza_pt_BR.ts \ # Portuguese (Brazil)
+    $$PWD/locale/dza_pt_PT.ts \ # Portuguese (Portugal)
     $$PWD/locale/dza_ko_KR.ts \ # Korean
     $$PWD/locale/dza_ar_EG.ts \ # Arabic
     $$PWD/locale/dza_de_DE.ts \ # German
