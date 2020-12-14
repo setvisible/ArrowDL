@@ -7,6 +7,29 @@
 [Current Status](http://htmlpreview.github.io/?https://github.com/setvisible/DownZemAll/blob/master/.tx/status.html)
 
 
+## Add a new translation
+
+To add the language 'xx' in country 'XX':
+
+1. Go to Transifex > Language > Add the language
+
+2. Add following line to `./src/src.pro`:
+        
+        TRANSLATIONS += $$PWD/locale/dza_xx_XX.ts
+        
+3. Run `lupdate ./src/src.pro -noobsolete`. It creates the *.ts.
+
+4. Copy file `messages.json` from **en** (or **en_US**) to:
+
+        ./web-extension/extension/src/base/_locales/xx_XX/messages.json
+
+5. Add following line to `lang_map` in the Transifex config file `./.tx/config`:
+
+        lang_map = [...], xx_XX: xx_XX
+
+6. That's it. Follow instructions in next sections to update, build and release it.
+
+
 ## Translators Corner
 
 If you are interested in translating this application to another language,

@@ -1,0 +1,187 @@
+{
+  "extensionName": {
+    "message": "Down Right Now",
+    "description": "Name of the extension."
+  },
+  "extensionDescription": {
+    "message": "O gerenciador de downloads certo para o seu navegador.",
+    "description": "Description of the extension."
+  },
+
+
+  "contextMenuSavePage": {
+    "message": "Salvar página",
+    "description": "Title of the context menu for Save page"
+  },
+  "contextMenuSaveFrame": {
+    "message": "Salvar quadro",
+    "description": "Title of the context menu for Save frame"
+  },
+  "contextMenuSaveSelection": {
+    "message": "Salvar seleção",
+    "description": "Title of the context menu for Save selection"
+  },
+  "contextMenuSaveLink": {
+    "message": "Salvar link",
+    "description": "Title of the context menu for Save link"
+  },
+  "contextMenuSaveEditable": {
+    "message": "Salvar editável",
+    "description": "Title of the context menu for Save editable"
+  },
+  "contextMenuSaveImage": {
+    "message": "Salvar imagem",
+    "description": "Title of the context menu for Save image"
+  },
+  "contextMenuSaveVideo": {
+    "message": "Salvar vídeo",
+    "description": "Title of the context menu for Save video"
+  },
+  "contextMenuSaveAudio": {
+    "message": "Salvar áudio",
+    "description": "Title of the context menu for Save audio"
+  },
+  "contextMenuSaveLauncher": {
+    "message": "Salvar lançador",
+    "description": "Title of the context menu for Save launcher"
+  },
+
+
+  "popupDownload": {
+    "message": "Baixar...",
+    "description": "Title of the context menu for Download..."
+  },
+  "popupDownloadLinks": {
+    "message": "Baixar links",
+    "description": "Title of the context menu for Download links"
+  },
+  "popupDownloadLinksPaused": {
+    "message": "Baixar links (pausado)",
+    "description": "Title of the context menu for Download links (paused)"
+  },
+  "popupDownloadContent": {
+    "message": "Baixar conteúdo",
+    "description": "Title of the context menu for Download content"
+  },
+  "popupDownloadContentPaused": {
+    "message": "Baixar conteúdo (pausado)",
+    "description": "Title of the context menu for Download content (paused)"
+  },
+  "popupOpen": {
+    "message": "Abrir o DZA!",
+    "description": "Title of the context menu for Open DZA!"
+  },
+  "popupPreferences": {
+    "message": "Preferências...",
+    "description": "Title of the context menu for Preferences..."
+  },
+  "popupOptions": {
+    "message": "Opções...",
+    "description": "Title of the context menu for Options..."
+  },
+  "popupVisitWebsite": {
+    "message": "Visitar o site do DZA",
+    "description": "Title of the context menu for Visit DZA website"
+  },
+
+  "popupError": {
+    "message": "Erro",
+    "description": "Title of Error"
+  },
+  "popupError1": {
+    "message": "Aplicativo não encontrado",
+    "description": "Error message 1"
+  },
+  "popupError2": {
+    "message": "Clique em 'Opções' para obter detalhes",
+    "description": "Error message 2"
+  },
+  "popupRemark": {
+    "message": "Observação",
+    "description": "Title of Remark"
+  },
+  "popupRemark1": {
+    "message": "O modo de navegação anônima desativa<br />as funções de download",
+    "description": "Remark message 1"
+  },
+
+
+  "optionsMainTitle": {
+    "message": "Opções",
+    "description": "Title of Options"
+  },
+  "optionsToolbarMenu": {
+    "message": "Menu da barra de ferramentas",
+    "description": "Title of Toolbar Menu"
+  },
+  "optionsShowSimpleMenu": {
+    "message": "Exibir menu simplificado (sempre perguntar o que fazer)",
+    "description": "Title of Show simple menu"
+  },
+  "optionsShowFullMenu": {
+    "message": "Exibir menu completo",
+    "description": "Title of Show full menu"
+  },
+  "optionsShowFullMenuDescription": {
+    "message": "Download simples e instantâneo de:",
+    "description": "Description of Show full menu"
+  },
+  "optionsChoiceGetLinks": {
+    "message": "Links",
+    "description": "Title of Links"
+  },
+  "optionsChoiceGetContent": {
+    "message": "Conteúdo contido na página",
+    "description": "Title of Content"
+  },
+  "optionsChoiceStartPaused": {
+    "message": "Iniciar pausado",
+    "description": "Title of Start paused"
+  },
+  "optionsAbout": {
+    "message": "Sobre",
+    "description": "Title of About"
+  },
+  "optionsInstall": {
+    "message": "Instalação",
+    "description": "Title of Installation"
+  },
+  "optionsInstallMessage": {
+    "message": "Vá até a página abaixo para instalar o aplicativo em seu sistema operacional.",
+    "description": "Tells the user how to install the application."
+  },
+  "optionsInstallMessageLink": {
+    "message": "Visite o site do DZA",
+    "description": "Link to the application URL."
+  },
+  "optionsRefresh": {
+    "message": "Atualizar informações $SYMBOL$",
+    "description": "Title of Refresh information",
+    "placeholders": {
+      "symbol" : {
+        "content" : "$1"
+      }
+    }
+  },
+
+  "optionsStatus": {
+    "message": "Estado:",
+    "description": "Title of Status"
+  },
+  "optionsOk": {
+    "message": "Ok",
+    "description": "Title of Ok"
+  },
+  "optionsDetectedPath": {
+    "message": "Caminho detectado:",
+    "description": "Title of Detected path"
+  },
+  "optionsError": {
+    "message": "Erro: lançador do aplicativo não encontrado",
+    "description": "Title of Error"
+  },
+  "optionsInstructions": {
+    "message": "Siga as instruções abaixo.",
+    "description": "Title of Instructions"
+  }
+}
