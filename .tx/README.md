@@ -10,7 +10,7 @@ Usage:
 
 Example:
 
-    lang_map = ar_EG: ar, de_DE: de, en_US: en, es_ES: es, fr_FR: fr, ko_KR: ko, pt_PT: pt_PT, ru_RU: ru, zh_CN: zh_CN
+    lang_map = ar_EG: ar, de_DE: de, en_US: en, es_ES: es, fr_FR: fr, ko_KR: ko, pt_BR: pt_BR, pt_PT: pt_PT, ru_RU: ru, zh_CN: zh_CN
 
 Where `ar_EG` is the Transifex code, `ar` is the Chrome code.
 
