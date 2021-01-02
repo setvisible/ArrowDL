@@ -17,14 +17,14 @@
    <item>
     <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,1">
      <item row="2" column="1">
-      <widget class="QLabel" name="label_1">
+      <widget class="QLabel" name="sizeLabel">
        <property name="text">
         <string>Size:</string>
        </property>
       </widget>
      </item>
      <item row="1" column="2">
-      <widget class="QLabel" name="urlLabel">
+      <widget class="QLabel" name="urlLineEdit">
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
@@ -40,7 +40,7 @@
       </widget>
      </item>
      <item row="0" column="1" colspan="2">
-      <widget class="QLabel" name="filenameLabel">
+      <widget class="QLabel" name="fileNameLineEdit">
        <property name="font">
         <font>
          <pointsize>10</pointsize>
@@ -63,14 +63,14 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="urlLabel">
        <property name="text">
         <string>From:</string>
        </property>
       </widget>
      </item>
      <item row="2" column="2">
-      <widget class="QLabel" name="sizeLabel">
+      <widget class="QLabel" name="sizeLineEdit">
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
@@ -175,9 +175,9 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>filenameLabel</tabstop>
-  <tabstop>urlLabel</tabstop>
-  <tabstop>sizeLabel</tabstop>
+  <tabstop>fileNameLineEdit</tabstop>
+  <tabstop>urlLineEdit</tabstop>
+  <tabstop>sizeLineEdit</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>urlFormWidget</tabstop>
  </tabstops>

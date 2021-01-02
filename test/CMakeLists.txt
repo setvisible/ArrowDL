@@ -18,6 +18,7 @@ if(ENABLE_TESTS)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/abstractsettings/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/downloadengine/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/downloadmanager/CMakeLists.txt)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/fileutils/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/format/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/mask/CMakeLists.txt)
     include(${CMAKE_CURRENT_SOURCE_DIR}/test/core/regex/CMakeLists.txt)
@@ -58,6 +59,7 @@ if(ENABLE_TESTS)
         tst_abstractsettings
         tst_downloadengine
         tst_downloadmanager
+        tst_fileutils
         tst_format
         tst_mask
         tst_regex

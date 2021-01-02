@@ -122,13 +122,13 @@ QNetworkReply* NetworkManager::get(const QUrl &url, const QString &referer)
     // SSL
     request.setSslConfiguration(QSslConfiguration::defaultConfiguration()); // HTTPS
 
-#if QT_VERSION >= 0x050600
+#if QT_VERSION >=  QT_VERSION_CHECK(5, 6, 0)
     request.setMaximumRedirectsAllowed(max_redirects_allowed);
 #endif
-#if QT_VERSION >= 0x050600 && QT_VERSION < 0x050900
+#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0) && QT_VERSION < QT_VERSION_CHECK(5, 9, 0)
     request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
 #endif
-#if QT_VERSION >= 0x050900
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
     request.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
                          QNetworkRequest::NoLessSafeRedirectPolicy);
 #endif

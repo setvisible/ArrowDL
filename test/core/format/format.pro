@@ -10,9 +10,9 @@ CONFIG      += c++11
 INCLUDEPATH += ../../../include
 
 # Resources:
-HEADERS = \
+HEADERS += \
     $$PWD/../../../src/core/format.h \
     $$PWD/../../../test/utils/biginteger.h
 
-SOURCES = \
+SOURCES += \
     $$PWD/../../../src/core/format.cpp

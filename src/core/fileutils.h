@@ -14,36 +14,15 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_MASK_H
-#define CORE_MASK_H
+#ifndef CORE_FILE_UTILS_H
+#define CORE_FILE_UTILS_H
 
-#include <QtCore/QObject>
 #include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QUrl>
 
-class Mask : public QObject
+class FileUtils
 {
-    Q_OBJECT
 public:
-    static QUrl fromUserInput(const QString &input);
-
-    static QString interpret(const QString &input,
-                             const QString &customFileName,
-                             const QString &mask);
-
-    static QString interpret(const QUrl &url,
-                             const QString &customFileName,
-                             const QString &mask);
-
-    static QStringList tags();
-    static QString description(const QString &tag);
-
-    static QString decodeMagnetEncoding(const QString &s);
-
-private:
-    static void cleanNameForWindows(QString &input);
-
+    static QString validateFileName(const QString &input, bool allowSubDir);
 };
 
-#endif // CORE_MASK_H
+#endif // CORE_FILE_UTILS_H

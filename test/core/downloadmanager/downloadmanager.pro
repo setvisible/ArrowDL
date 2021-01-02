@@ -53,10 +53,10 @@ HEADERS += \
     $$PWD/../../../src/core/downloadstreamitem.h \
     $$PWD/../../../src/core/downloadtorrentitem.h \
     $$PWD/../../../src/core/file.h \
+    $$PWD/../../../src/core/fileutils.h \
     $$PWD/../../../src/core/format.h \
     $$PWD/../../../src/core/idownloaditem.h \
     $$PWD/../../../src/core/ifileaccessmanager.h \
-    $$PWD/../../../src/core/itorrentcontext.h \
     $$PWD/../../../src/core/mask.h \
     $$PWD/../../../src/core/networkmanager.h \
     $$PWD/../../../src/core/resourceitem.h \
@@ -78,6 +78,7 @@ SOURCES += \
     $$PWD/../../../src/core/downloadstreamitem.cpp \
     $$PWD/../../../src/core/downloadtorrentitem.cpp \
     $$PWD/../../../src/core/file.cpp \
+    $$PWD/../../../src/core/fileutils.cpp \
     $$PWD/../../../src/core/format.cpp \
     $$PWD/../../../src/core/mask.cpp \
     $$PWD/../../../src/core/networkmanager.cpp \

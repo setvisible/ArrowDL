@@ -10,8 +10,8 @@ CONFIG      += c++11
 INCLUDEPATH += ../../../include
 
 # Resources:
-HEADERS = \
+HEADERS += \
     $$PWD/../../../src/core/mask.h
 
-SOURCES = \
+SOURCES += \
     $$PWD/../../../src/core/mask.cpp

@@ -38,6 +38,9 @@ public:
 
     static double parsePercentDecimal(const QString &text);
     static qint64 parseBytes(const QString &text);
+
+    static QString toHtmlMark(const QUrl &url, bool wrap = false);
+    static QString wrapText(const QString &text, int blockLength = 50);
 };
 
 #endif // CORE_FORMAT_H

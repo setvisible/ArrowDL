@@ -85,10 +85,16 @@ bool FileReader::read(DownloadEngine *engine)
     if (m_handler.isNull() && !initHandler()) {
         return false;
     }
-    const bool result = m_handler->read(engine);
-    if (!result) {
-        m_fileReaderError = InvalidDataError;
-        m_errorString = FileReader::tr("Unable to read data");
+    try {
+        const bool result = m_handler->read(engine);
+        if (!result) {
+            m_fileReaderError = InvalidDataError;
+            m_errorString = FileReader::tr("Unable to read data");
+            return false;
+        }
+    } catch (std::exception const& e) {
+        m_fileReaderError = UnknownError;
+        m_errorString = QString::fromUtf8(e.what());
         return false;
     }
     return true;

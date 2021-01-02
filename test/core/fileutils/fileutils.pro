@@ -1,8 +1,8 @@
 #isEmpty(TEMPLATE):TEMPLATE=app
-TARGET       = tst_abstractsettings
+TARGET       = tst_fileutils
 CONFIG      += testcase
 QT           = core testlib
-SOURCES     += tst_abstractsettings.cpp
+SOURCES     += tst_fileutils.cpp
 
 CONFIG      += c++11
 
@@ -11,7 +11,7 @@ INCLUDEPATH += ../../../include
 
 # Resources:
 HEADERS += \
-    $$PWD/../../../src/core/abstractsettings.h
+    $$PWD/../../../src/core/fileutils.h
 
 SOURCES += \
-    $$PWD/../../../src/core/abstractsettings.cpp
+    $$PWD/../../../src/core/fileutils.cpp

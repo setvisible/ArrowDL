@@ -235,7 +235,7 @@ static bool startInteractiveMode(const QString &program)
 #endif
 
     // Start the Application, detached from the Launcher
-#if QT_VERSION_MAJOR >= 5 && QT_VERSION_MINOR >= 10 // QT_VERSION >= 0x051000
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     return process.startDetached();
 #else
     return process.startDetached(program, QStringList() << "-i");

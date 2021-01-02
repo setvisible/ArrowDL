@@ -20,6 +20,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QTime>
+#include <QtCore/QUrl>
 
 static const QString s_infinite_symbol = QString::fromUtf8("\xE2\x88\x9E");
 
@@ -232,4 +233,49 @@ qint64 Format::parseBytes(const QString &text)
     // qint64 bytes = qCeil(decimal * multiple);
     auto bytes = static_cast<qint64>(std::ceil(decimal * multiple));
     return bytes;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * Return the given \a url as a HTML mark, composed by
+ * the hypertext link inside the anchor tag "<a></a>".
+ *
+ * If \a wrap is on, the displayed text of the HTML mark will contains
+ * a whitespace every 100 characters, so that QLabel can word-wrap it.
+ *
+ * This is a work-around for QLabel that doesn't allow Qt::WrapAnywhere.
+ */
+QString Format::toHtmlMark(const QUrl &url, bool wrap)
+{
+    QString urlDisplay= url.toString();
+    if (wrap) {
+        urlDisplay = Format::wrapText(urlDisplay);
+    }
+    return QString("<a href=\"%0\">%1</a>").arg(url.toString(), urlDisplay);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QString Format::wrapText(const QString &text, int blockLength)
+{
+    QString out;
+    int blockCounter = 0; // counter since the last whitespace
+    for (auto ch : text) {
+        out += ch;
+        blockCounter++;
+        if (ch.isSpace()) {
+            blockCounter = 0;
+            continue;
+        }
+        if (blockCounter < blockLength) {
+            continue;
+        }
+        if (ch.isPunct() || ch.isSymbol()) {
+            // Add some whitespaces to ease word wrap.
+            out += QChar::Space;
+            blockCounter = 0;
+        }
+    }
+    return out.trimmed();
 }

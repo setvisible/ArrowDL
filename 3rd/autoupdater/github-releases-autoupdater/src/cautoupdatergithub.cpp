@@ -25,10 +25,10 @@ static const auto defaultNetworkGetCallback = [](const QUrl& url)
 	QNetworkRequest request;
 	request.setUrl(url);
 	request.setSslConfiguration(QSslConfiguration::defaultConfiguration()); // HTTPS
-#if QT_VERSION >= 0x050600
+#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
 	request.setMaximumRedirectsAllowed(5);
 #endif
-#if QT_VERSION >= 0x050900
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
 	request.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
 						 QNetworkRequest::NoLessSafeRedirectPolicy);
 #endif
