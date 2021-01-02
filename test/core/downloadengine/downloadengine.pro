@@ -10,13 +10,13 @@ CONFIG      += c++11
 INCLUDEPATH += $$PWD/../../../include
 
 # Resources:
-HEADERS = \
+HEADERS += \
     $$PWD/../../../src/core/abstractdownloaditem.h \
     $$PWD/../../../src/core/downloadengine.h \
     $$PWD/../../../src/core/idownloaditem.h \
     $$PWD/../../utils/fakedownloaditem.h
 
-SOURCES = \
+SOURCES += \
     $$PWD/../../../src/core/abstractdownloaditem.cpp \
     $$PWD/../../../src/core/downloadengine.cpp \
     $$PWD/../../utils/fakedownloaditem.cpp
