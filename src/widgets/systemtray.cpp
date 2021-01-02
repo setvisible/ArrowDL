@@ -142,7 +142,7 @@ void SystemTray::showBalloon(const QString &title, const QString &message)
 {
     if (m_settings->isSystemTrayBalloonEnabled()) {
         if (QSystemTrayIcon::supportsMessages()) {
-#if QT_VERSION >= 0x050900
+#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
             m_trayIcon->showMessage(title, message, QIcon(":/icons/logo/icon48.png"));
 #else
             m_trayIcon->showMessage(title, message);

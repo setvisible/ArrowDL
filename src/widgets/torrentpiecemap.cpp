@@ -88,7 +88,7 @@ TorrentPieceMap::TorrentPieceMap(QWidget *parent) : QWidget(parent)
     qRegisterMetaType<TorrentPieceData>("TorrentPieceData");
 
     QFontMetrics fm(m_tileFont);
-#if QT_VERSION >= 0x051100
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
     m_tileWidth = fm.horizontalAdvance(decorate(999, TorrentFileInfo::Low));
 #else
     m_tileWidth = fm.width(decorate(999, TorrentFileInfo::Low));
@@ -317,7 +317,7 @@ void TorrentPieceMap::populateScene(const TorrentPieceData &pieceData)
                     m_rootItem);
 
         auto flags = item->flags();
-#if QT_VERSION >= 0x050700
+#if QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
         flags.setFlag(QGraphicsItem::ItemIsMovable, false);
         flags.setFlag(QGraphicsItem::ItemIsSelectable, false);
         flags.setFlag(QGraphicsItem::ItemIsFocusable, false);

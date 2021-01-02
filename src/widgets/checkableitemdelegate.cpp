@@ -32,7 +32,7 @@ constexpr int thumbnail_width = 16;
 
 static QModelIndex getSiblingAtColumn(const QModelIndex &index, int acolumn)
 {
-#if QT_VERSION >= 0x051100
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
     return index.siblingAtColumn(acolumn);
 #else
     return index.sibling(index.row(), acolumn);

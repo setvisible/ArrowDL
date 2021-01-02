@@ -164,7 +164,7 @@ void AdvancedSettingsWidget::showContextMenu(const QPoint &/*pos*/)
 void AdvancedSettingsWidget::edit(const QModelIndex &index)
 {
     QModelIndex sibling;
-#if QT_VERSION >= 0x051100
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
     sibling = index.siblingAtColumn(1);
 #else
     sibling = index.sibling(index.row(), 1);

@@ -13,6 +13,7 @@ set(MY_TEST_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/downloadtorrentitem.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/format.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/file.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/fileutils.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/mask.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/networkmanager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/resourceitem.cpp

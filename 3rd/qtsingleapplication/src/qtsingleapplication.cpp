@@ -170,7 +170,7 @@ QtSingleApplication::QtSingleApplication(const QString &appId, int &argc, char *
     sysInit(appId);
 }
 
-#if QT_VERSION < 0x050000
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
 
 /*!
     Creates a QtSingleApplication object. The application identifier
@@ -223,7 +223,7 @@ QtSingleApplication::QtSingleApplication(Display* dpy, const QString &appId, int
     sysInit(appId);
 }
 #  endif // Q_WS_X11
-#endif // QT_VERSION < 0x050000
+#endif // QT_VERSION
 
 
 /*!

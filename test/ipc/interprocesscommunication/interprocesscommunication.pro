@@ -12,6 +12,7 @@ INCLUDEPATH += $$PWD/../../../include/
 # Resources:
 HEADERS += \
     $$PWD/../../../src/core/checkabletablemodel.h \
+    $$PWD/../../../src/core/fileutils.h \
     $$PWD/../../../src/core/mask.h \
     $$PWD/../../../src/core/model.h \
     $$PWD/../../../src/core/resourceitem.h \
@@ -20,6 +21,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/../../../src/core/checkabletablemodel.cpp \
+    $$PWD/../../../src/core/fileutils.cpp \
     $$PWD/../../../src/core/mask.cpp \
     $$PWD/../../../src/core/model.cpp \
     $$PWD/../../../src/core/resourceitem.cpp \
