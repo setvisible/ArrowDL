@@ -57,7 +57,7 @@ static const QString s_unlocked = QString::fromUtf8("\xf0\x9f\x94\x93"); // 🔓
 template<typename Enum>
 static inline void _q_set_flag(QFlags<Enum> *f, Enum flag, bool on = true)
 {
-#if QT_VERSION >= 0x050700
+#if QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
     (*f).setFlag(flag, on);
 #else
     on ? (*f |= flag) : (*f &= ~flag);

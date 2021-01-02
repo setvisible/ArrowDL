@@ -39,7 +39,7 @@ StreamWidget::StreamWidget(QWidget *parent) : QWidget(parent)
     ui->stackedWidget->setCurrentWidget(ui->pageInfo);
 
     QFontMetrics fm(ui->fileExtensionEdit->font());
-#if QT_VERSION >= 0x051100
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
     int pixelsWide = fm.horizontalAdvance(".webm3");
 #else
     int pixelsWide = fm.width(".webm3");

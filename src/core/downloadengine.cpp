@@ -391,7 +391,7 @@ void DownloadEngine::moveUpTo(int targetIndex)
     for (int i = 0, total = m_selectedItems.size(); i < total; ++i) {
         auto indexToMove = m_items.indexOf(m_selectedItems.at(i));
         for (int j = indexToMove; j > targetIndex + i; --j) {
-#if QT_VERSION >= QT_VERSION_CHECK(5,13,0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
             m_items.swapItemsAt(j, j - 1);
 #else
             m_items.swap(j, j - 1);
@@ -408,7 +408,7 @@ void DownloadEngine::moveDownTo(int targetIndex)
         auto i2 = count - i;
         auto indexToMove = m_items.indexOf(m_selectedItems.at(i));
         for (int j = indexToMove; j < targetIndex - i2; ++j) {
-#if QT_VERSION >= QT_VERSION_CHECK(5,13,0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
             m_items.swapItemsAt(j, j + 1);
 #else
             m_items.swap(j, j + 1);
