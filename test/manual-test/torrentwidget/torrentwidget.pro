@@ -27,7 +27,6 @@ lessThan(QT_VERSION, 5.0) {
 #-------------------------------------------------
 HEADERS += \
     $$PWD/../../../src/core/format.h \
-    $$PWD/../../../src/core/itorrentcontext.h \
     $$PWD/../../../src/core/torrent.h \
     $$PWD/../../../src/core/torrentbasecontext.h \
     $$PWD/../../../src/core/torrentmessage.h \

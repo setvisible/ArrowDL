@@ -48,7 +48,6 @@ INCLUDEPATH += ../../../include
 HEADERS += \
     $$PWD/../../../src/core/abstractsettings.h \
     $$PWD/../../../src/core/format.h \
-    $$PWD/../../../src/core/itorrentcontext.h \
     $$PWD/../../../src/core/networkmanager.h \
     $$PWD/../../../src/core/settings.h \
     $$PWD/../../../src/core/torrent.h \

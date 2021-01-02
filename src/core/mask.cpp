@@ -121,6 +121,9 @@ QString Mask::decodeMagnetEncoding(const QString &s)
     return ret;
 }
 
+
+/******************************************************************************
+ ******************************************************************************/
 QUrl Mask::fromUserInput(const QString &input)
 {
     QString cleaned = decodePercentEncoding(input);

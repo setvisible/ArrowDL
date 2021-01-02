@@ -4,6 +4,7 @@ CONFIG  += ordered
 SUBDIRS += $$PWD/abstractsettings
 SUBDIRS += $$PWD/downloadmanager
 SUBDIRS += $$PWD/downloadengine
+SUBDIRS += $$PWD/fileutils
 SUBDIRS += $$PWD/format
 SUBDIRS += $$PWD/mask
 SUBDIRS += $$PWD/regex

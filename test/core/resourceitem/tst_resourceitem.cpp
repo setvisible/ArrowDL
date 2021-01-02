@@ -110,7 +110,7 @@ void tst_ResourceItem::localFileUrl_data()
             << "/home/me/documents/"
             << "*name*.*ext*"
             << ""
-            << QUrl("file:///home/me/documents/[Wait... Downloading metadata...].torrent");
+            << QUrl("file:///home/me/documents/[Wait, downloading metadata].torrent");
 
 }
 

@@ -17,6 +17,7 @@
 #include "resourceitem.h"
 
 #include <Core/Mask>
+#include <Core/FileUtils>
 
 #include <QtCore/QDir>
 #include <QtCore/QFile>
@@ -267,7 +268,8 @@ inline QString ResourceItem::localFilePath(const QString &customFileName) const
 inline QString ResourceItem::localStreamFile(const QString &customFileName) const
 {
     QString url = QUrl(m_url).host() + "/" + m_streamFileName;
-    const QString fileName = Mask::interpret(url, customFileName, m_mask);
+    QString fileName = Mask::interpret(url, customFileName, m_mask);
+    fileName = FileUtils::validateFileName(fileName, true);
     return QDir(m_destination).filePath(fileName);
 }
 
@@ -279,6 +281,8 @@ inline QString ResourceItem::localMagnetFile(const QString &customFileName) cons
 
     // Remark: No mask for magnets
     // const QString fileName = Mask::interpret(url, customFileName, m_mask);
+
+    fileName = FileUtils::validateFileName(fileName, false);
     return QDir(m_destination).filePath(fileName);
 }
 
@@ -303,7 +307,7 @@ inline QString ResourceItem::parseMagnetUrl(const QString &url) const
         displayName = Mask::decodeMagnetEncoding(displayName);
         return displayName;
     }
-    return QString("[Wait... Downloading metadata...]");
+    return QString("[Wait, downloading metadata]");
 }
 
 /******************************************************************************
@@ -311,6 +315,7 @@ inline QString ResourceItem::parseMagnetUrl(const QString &url) const
 inline QString ResourceItem::localFile(const QString &destination, const QUrl &url,
                                        const QString &customFileName, const QString &mask)
 {
-    const QString fileName = Mask::interpret(url, customFileName, mask);
+    QString fileName = Mask::interpret(url, customFileName, mask);
+    fileName = FileUtils::validateFileName(fileName, true);
     return QDir(destination).filePath(fileName);
 }

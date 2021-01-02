@@ -10,6 +10,7 @@ HEADERS += \
     $$PWD/downloadtorrentitem.h \
     $$PWD/file.h \
     $$PWD/fileaccessmanager.h \
+    $$PWD/fileutils.h \
     $$PWD/format.h \
     $$PWD/htmlparser.h \
     $$PWD/idownloaditem.h \
@@ -45,6 +46,7 @@ SOURCES += \
     $$PWD/downloadtorrentitem.cpp \
     $$PWD/file.cpp \
     $$PWD/fileaccessmanager.cpp \
+    $$PWD/fileutils.cpp \
     $$PWD/format.cpp \
     $$PWD/htmlparser.cpp \
     $$PWD/locale.cpp \
