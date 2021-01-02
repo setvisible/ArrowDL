@@ -81,13 +81,13 @@ void InformationDialog::initialize(const QList<IDownloadItem *> &items)
     /* Title and subtitles */
     const QUrl localFileUrl = item->localFileUrl();
     const QString filename = QDir::toNativeSeparators(localFileUrl.toLocalFile());
-    ui->fileNameLineEdit->setText(filename);
+    ui->fileNameLineEdit->setText(Format::wrapText(filename, 50));
 
     const QUrl url = item->sourceUrl();
-    const QString urlHtml = QString("<a href=\"%0\">%0</a>").arg(url.toString());
+    const QString urlHtml = Format::toHtmlMark(url, true);
     ui->urlLineEdit->setText(urlHtml);
     ui->urlLineEdit->setTextFormat(Qt::RichText);
-    ui->urlLineEdit->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    ui->urlLineEdit->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
     ui->urlLineEdit->setOpenExternalLinks(true);
 
     auto bytes = item->bytesTotal();

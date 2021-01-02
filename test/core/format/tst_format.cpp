@@ -47,6 +47,9 @@ private slots:
 
     void parseBytes_data();
     void parseBytes();
+
+    void wrapText_data();
+    void wrapText();
 };
 
 
@@ -311,6 +314,29 @@ void tst_Format::parseBytes()
     QFETCH(BigInteger, expected);
     qint64 actual = Format::parseBytes(str);
     QCOMPARE(actual, expected.value);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void tst_Format::wrapText_data()
+{
+    QTest::addColumn<QString>("str");
+    QTest::addColumn<int>("length");
+    QTest::addColumn<QString>("expected");
+
+    QTest::newRow("empty") << QString()  << 0 << QString();
+    QTest::newRow("dots") << "aa.aaaa.a."  << 0 << "aa. aaaa. a.";
+    QTest::newRow("dots") << "magnet:aa.aaaa.a"  << 0 << "magnet: aa. aaaa. a";
+    QTest::newRow("dots") << "ftp://aa/aaaa/a.aa" << 6 <<  "ftp:// aa/aaaa/ a.aa";
+}
+
+void tst_Format::wrapText()
+{
+    QFETCH(QString, str);
+    QFETCH(int, length);
+    QFETCH(QString, expected);
+    QString actual = Format::wrapText(str, length);
+    QCOMPARE(actual, expected);
 }
 
 /******************************************************************************
