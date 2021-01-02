@@ -53,7 +53,6 @@ void DownloadTorrentItem::setResource(ResourceItem *resource)
 
     DownloadItem::setResource(resource);
 
-
     m_torrent->setLocalFullFileName(this->localFullFileName());
     m_torrent->setLocalFilePath(this->localFilePath());
     m_torrent->setUrl(this->resource()->url());

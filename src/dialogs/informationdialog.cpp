@@ -81,24 +81,24 @@ void InformationDialog::initialize(const QList<IDownloadItem *> &items)
     /* Title and subtitles */
     const QUrl localFileUrl = item->localFileUrl();
     const QString filename = QDir::toNativeSeparators(localFileUrl.toLocalFile());
-    ui->filenameLabel->setText(filename);
+    ui->fileNameLineEdit->setText(Format::wrapText(filename, 50));
 
     const QUrl url = item->sourceUrl();
-    const QString urlHtml = QString("<a href=\"%0\">%0</a>").arg(url.toString());
-    ui->urlLabel->setText(urlHtml);
-    ui->urlLabel->setTextFormat(Qt::RichText);
-    ui->urlLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
-    ui->urlLabel->setOpenExternalLinks(true);
+    const QString urlHtml = Format::toHtmlMark(url, true);
+    ui->urlLineEdit->setText(urlHtml);
+    ui->urlLineEdit->setTextFormat(Qt::RichText);
+    ui->urlLineEdit->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
+    ui->urlLineEdit->setOpenExternalLinks(true);
 
     auto bytes = item->bytesTotal();
     if (bytes > 0) {
         auto text = QString("%0 (%1 bytes)").arg(
                     Format::fileSizeToString(bytes),
                     Format::fileSizeThousandSeparator(bytes));
-        ui->sizeLabel->setText(text);
+        ui->sizeLineEdit->setText(text);
     } else {
         auto text = QString("%0").arg(Format::fileSizeToString(-1));
-        ui->sizeLabel->setText(text);
+        ui->sizeLineEdit->setText(text);
     }
 
     const QPixmap pixmap = MimeDatabase::fileIcon(url, 256);
