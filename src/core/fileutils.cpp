@@ -82,9 +82,12 @@ QString FileUtils::validateFileName(const QString &name, bool allowSubDir)
                 fixedName += ch;
             }
 
-        } else {
-            /// \todo allow unicode chars in filename?
+        } else if (ch == 127) {
+            // DEL char
             fixedName += s_substitute_char;
+        } else {
+            // allow all other chars in filename
+            fixedName += ch;
         }
     }
 
