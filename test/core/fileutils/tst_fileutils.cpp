@@ -152,6 +152,10 @@ void tst_FileUtils::validateFileName_data()
     QTest::newRow("end char 1") << false << "my file." << "my file._";
     QTest::newRow("end char 2") << false << "my file " << "my file _";
     QTest::newRow("end char 3") << false << "my file ." << "my file ._";
+
+    // Unicode UTF chars
+    QTest::newRow("allowed utf char") << false << "لة الش.txt" << "لة الش.txt";
+    QTest::newRow("allowed utf char") << false << "番剧.txt" << "番剧.txt";
 }
 
 void tst_FileUtils::validateFileName()

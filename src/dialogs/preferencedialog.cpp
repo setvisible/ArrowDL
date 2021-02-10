@@ -285,7 +285,7 @@ void PreferenceDialog::filterSelectionChanged()
     }
 }
 
-void PreferenceDialog::filterChanged(QTableWidgetItem */*item*/)
+void PreferenceDialog::filterChanged(QTableWidgetItem * /*item*/)
 {
     filterSelectionChanged();
     filterUpdated();
