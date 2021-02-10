@@ -61,7 +61,8 @@ static QString decorate(int count, TorrentFileInfo::Priority priority)
     case TorrentFileInfo::High:   return QString("%0 ³").arg(QString::number(count));
     case TorrentFileInfo::Normal: return QString("%0 ²").arg(QString::number(count));
     case TorrentFileInfo::Low:    return QString("%0 ¹").arg(QString::number(count));
-    case TorrentFileInfo::Ignore: return QString("%0 °").arg(QString::number(count));
+    case TorrentFileInfo::Ignore:
+    default:                      return QString("%0 °").arg(QString::number(count));
     }
 }
 
@@ -153,19 +154,19 @@ void TorrentPieceMap::setTorrent(Torrent *torrent)
 
 /******************************************************************************
  ******************************************************************************/
-void TorrentPieceMap::showEvent(QShowEvent */*event*/)
+void TorrentPieceMap::showEvent(QShowEvent * /*event*/)
 {
     adjustScene();
     m_workerThread->setUseful(true);
 }
 
-void TorrentPieceMap::hideEvent(QHideEvent */*event*/)
+void TorrentPieceMap::hideEvent(QHideEvent * /*event*/)
 {
     // the worker doesn't need to work when the widget is hidden.
     m_workerThread->setUseful(false);
 }
 
-void TorrentPieceMap::resizeEvent(QResizeEvent */*event*/)
+void TorrentPieceMap::resizeEvent(QResizeEvent * /*event*/)
 {
     adjustScene();
 }

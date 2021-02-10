@@ -180,7 +180,7 @@ void SystemTray::hideParentWidget()
 
 /******************************************************************************
  ******************************************************************************/
-void SystemTray::closeEvent(QCloseEvent */*event*/)
+void SystemTray::closeEvent(QCloseEvent * /*event*/)
 {
     deleteLater();
 }
