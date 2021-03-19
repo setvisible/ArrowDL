@@ -1,48 +1,48 @@
 {
   "extensionName": {
-    "message": "Down Right Now",
+    "message": "Scarica ora",
     "description": "Name of the extension."
   },
   "extensionDescription": {
-    "message": "The Right Download Manager for your browser",
+    "message": "Il perfetto gestore download per il tuo browser",
     "description": "Description of the extension."
   },
 
 
   "contextMenuSavePage": {
-    "message": "Save page",
+    "message": "Salva pagina",
     "description": "Title of the context menu for Save page"
   },
   "contextMenuSaveFrame": {
-    "message": "Save frame",
+    "message": "Salva riquadro",
     "description": "Title of the context menu for Save frame"
   },
   "contextMenuSaveSelection": {
-    "message": "Save selection",
+    "message": "Salva selezione",
     "description": "Title of the context menu for Save selection"
   },
   "contextMenuSaveLink": {
-    "message": "Save link",
+    "message": "Salva collegamento",
     "description": "Title of the context menu for Save link"
   },
   "contextMenuSaveEditable": {
-    "message": "Save editable",
+    "message": "Salva modificabile",
     "description": "Title of the context menu for Save editable"
   },
   "contextMenuSaveImage": {
-    "message": "Save image",
+    "message": "Salva immagine",
     "description": "Title of the context menu for Save image"
   },
   "contextMenuSaveVideo": {
-    "message": "Save video",
+    "message": "Salva video",
     "description": "Title of the context menu for Save video"
   },
   "contextMenuSaveAudio": {
-    "message": "Save audio",
+    "message": "Salva audio",
     "description": "Title of the context menu for Save audio"
   },
   "contextMenuSaveLauncher": {
-    "message": "Save launcher",
+    "message": "Salva launcher",
     "description": "Title of the context menu for Save launcher"
   },
 
@@ -52,110 +52,110 @@
     "description": "Title of the context menu for Download..."
   },
   "popupDownloadLinks": {
-    "message": "Download links",
+    "message": "Download collegamenti",
     "description": "Title of the context menu for Download links"
   },
   "popupDownloadLinksPaused": {
-    "message": "Download links (paused)",
+    "message": "Download collegamenti (in pausa)",
     "description": "Title of the context menu for Download links (paused)"
   },
   "popupDownloadContent": {
-    "message": "Download content",
+    "message": "Download contenuto",
     "description": "Title of the context menu for Download content"
   },
   "popupDownloadContentPaused": {
-    "message": "Download content (paused)",
+    "message": "Download contenuto (in pausa)",
     "description": "Title of the context menu for Download content (paused)"
   },
   "popupOpen": {
-    "message": "Open DZA!",
+    "message": "Apri DZA!",
     "description": "Title of the context menu for Open DZA!"
   },
   "popupPreferences": {
-    "message": "Preferences...",
+    "message": "Impostazioni...",
     "description": "Title of the context menu for Preferences..."
   },
   "popupOptions": {
-    "message": "Options...",
+    "message": "Opzioni",
     "description": "Title of the context menu for Options..."
   },
   "popupVisitWebsite": {
-    "message": "Visit DZA website",
+    "message": "Visita sito web DZA",
     "description": "Title of the context menu for Visit DZA website"
   },
 
   "popupError": {
-    "message": "Error",
+    "message": "Errore",
     "description": "Title of Error"
   },
   "popupError1": {
-    "message": "Can't find the application",
+    "message": "Impossibile trovare l'applicazione",
     "description": "Error message 1"
   },
   "popupError2": {
-    "message": "Open 'Options' to check",
+    "message": "Apri 'Opzioni' per controllare",
     "description": "Error message 2"
   },
   "popupRemark": {
-    "message": "Remark",
+    "message": "Nota",
     "description": "Title of Remark"
   },
   "popupRemark1": {
-    "message": "Incognito Mode disables<br />download features",
+    "message": "Modo incognito disabilita<br />funzioni download",
     "description": "Remark message 1"
   },
 
 
   "optionsMainTitle": {
-    "message": "Options",
+    "message": "Opzioni",
     "description": "Title of Options"
   },
   "optionsToolbarMenu": {
-    "message": "Toolbar Menu",
+    "message": "Menu barra strumenti",
     "description": "Title of Toolbar Menu"
   },
   "optionsShowSimpleMenu": {
-    "message": "Show simple menu (always ask what to do)",
+    "message": "Visualizza menu semplice (chiedi sempre cosa fare)",
     "description": "Title of Show simple menu"
   },
   "optionsShowFullMenu": {
-    "message": "Show full menu",
+    "message": "Visualizza menu completo",
     "description": "Title of Show full menu"
   },
   "optionsShowFullMenuDescription": {
-    "message": "Simple download, and immediate download for:",
+    "message": "Download semplice ed immediato per:",
     "description": "Description of Show full menu"
   },
   "optionsChoiceGetLinks": {
-    "message": "Links",
+    "message": "Collegamenti",
     "description": "Title of Links"
   },
   "optionsChoiceGetContent": {
-    "message": "Content",
+    "message": "Contenuto",
     "description": "Title of Content"
   },
   "optionsChoiceStartPaused": {
-    "message": "Start paused",
+    "message": "Avvia attività in pausa",
     "description": "Title of Start paused"
   },
   "optionsAbout": {
-    "message": "About",
+    "message": "Info programma",
     "description": "Title of About"
   },
   "optionsInstall": {
-    "message": "Installation",
+    "message": "Installazione",
     "description": "Title of Installation"
   },
   "optionsInstallMessage": {
-    "message": "Go to link below to install the application for your operating system.",
+    "message": "Seleziona il collegamento qui sotto e installa l'applicazione per il sistema operativo del PC.",
     "description": "Tells the user how to install the application."
   },
   "optionsInstallMessageLink": {
-    "message": "Visit DZA website",
+    "message": "Visita sito web DZA",
     "description": "Link to the application URL."
   },
   "optionsRefresh": {
-    "message": "Refresh information $SYMBOL$",
+    "message": "Aggiorna informazioni $SYMBOL$",
     "description": "Title of Refresh information",
     "placeholders": {
       "symbol" : {
@@ -165,23 +165,23 @@
   },
 
   "optionsStatus": {
-    "message": "Status:",
+    "message": "Stato:",
     "description": "Title of Status"
   },
   "optionsOk": {
-    "message": "Ok",
+    "message": "OK",
     "description": "Title of Ok"
   },
   "optionsDetectedPath": {
-    "message": "Detected path:",
+    "message": "Percorso rilevato:",
     "description": "Title of Detected path"
   },
   "optionsError": {
-    "message": "Error: Can't find the launcher",
+    "message": "Errore: impossibile trovare il launcher",
     "description": "Title of Error"
   },
   "optionsInstructions": {
-    "message": "Follow the instructions below.",
+    "message": "Segui le istruzioni qui sotto.",
     "description": "Title of Instructions"
   }
 }
