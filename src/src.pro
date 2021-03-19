@@ -141,6 +141,7 @@ TRANSLATIONS += \
     $$PWD/locale/dza_ko_KR.ts \ # Korean
     $$PWD/locale/dza_ar_EG.ts \ # Arabic
     $$PWD/locale/dza_de_DE.ts \ # German
+    $$PWD/locale/dza_it_IT.ts \ # Italian
     $$PWD/locale/dza_en_US.ts   # English (default)
 
 
