@@ -123,10 +123,19 @@ FunctionEnd
   
 ;--------------------------------
 ;Languages
- 
-    !insertmacro MUI_LANGUAGE "English"
-    !insertmacro MUI_LANGUAGE "Italian"
+; reference: https://nsis.sourceforge.io/Examples/Modern%20UI/MultiLanguage.nsi
 
+    !insertmacro MUI_LANGUAGE "English"
+    !insertmacro MUI_LANGUAGE "Arabic"
+    !insertmacro MUI_LANGUAGE "SimpChinese"    
+    !insertmacro MUI_LANGUAGE "French"
+    !insertmacro MUI_LANGUAGE "German"
+    !insertmacro MUI_LANGUAGE "Korean"
+    !insertmacro MUI_LANGUAGE "Italian"
+    !insertmacro MUI_LANGUAGE "Portuguese"
+    !insertmacro MUI_LANGUAGE "PortugueseBR"
+    !insertmacro MUI_LANGUAGE "Russian"
+    !insertmacro MUI_LANGUAGE "Spanish"
 
 ;--------------------------------
 ;Installer Sections
