@@ -125,6 +125,8 @@ FunctionEnd
 ;Languages
  
     !insertmacro MUI_LANGUAGE "English"
+    !insertmacro MUI_LANGUAGE "Italian"
+
 
 ;--------------------------------
 ;Installer Sections
@@ -156,7 +158,7 @@ Section "Start Menu Shortcut" SectionStartMenuShortcut
     ;Create shortcuts in the start menu programs directory
     CreateDirectory "$SMPROGRAMS\DownZemAll"
     CreateShortCut "$SMPROGRAMS\DownZemAll\DownZemAll.lnk" "$INSTDIR\DownZemAll.exe"
-    CreateShortCut "$SMPROGRAMS\DownZemAll\Uninstall DownZemAll.lnk" "$INSTDIR\Uninstall.exe"
+    CreateShortCut "$SMPROGRAMS\DownZemAll\$(DESC_UninstallIconDescription).lnk" "$INSTDIR\Uninstall.exe"
 
 SectionEnd
 
@@ -172,10 +174,20 @@ SectionEnd
 ;Descriptions
 
     ;Language strings
+
+    ; Language strings (English)
     LangString DESC_SectionMainApplication ${LANG_ENGLISH} "The main application."
     LangString DESC_SectionLauncher ${LANG_ENGLISH} "The launcher, used for messaging with web browser."
     LangString DESC_SectionStartMenuShortcut ${LANG_ENGLISH} "Create Start Menu Shortcut."
     LangString DESC_SectionDesktopShortcut ${LANG_ENGLISH} "Create Desktop Shortcut."
+    LangString DESC_UninstallIconDescription ${LANG_ENGLISH} "Uninstall DownZemAll"
+
+    ; Language strings (Italian)
+    LangString DESC_SectionMainApplication ${LANG_ITALIAN} "Applicazione principale."
+    LangString DESC_SectionLauncher ${LANG_ITALIAN} "Il launcher, usato per i messaggi con il browser web."
+    LangString DESC_SectionStartMenuShortcut ${LANG_ITALIAN} "Crea gruppo programmi nel menu Start."
+    LangString DESC_SectionDesktopShortcut ${LANG_ITALIAN} "Crea collegamento programma sul desktop."
+    LangString DESC_UninstallIconDescription ${LANG_ITALIAN} "Disinstalla DownZemAll"
 
     ;Assign language strings to sections
     !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
