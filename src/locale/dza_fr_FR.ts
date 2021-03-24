@@ -934,47 +934,47 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
 <context>
     <name>DownloadTorrentItem</name>
     <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="137"/>
+        <location filename="../core/downloadtorrentitem.cpp" line="136"/>
         <source>Couldn&apos;t download metadata</source>
         <translation>Impossible de réceptionner les métadonnées</translation>
     </message>
     <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="138"/>
+        <location filename="../core/downloadtorrentitem.cpp" line="137"/>
         <source>Couldn&apos;t download, bad .torrent format</source>
         <translation>Impossible de télécharger. Format .torrent erroné</translation>
     </message>
     <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="139"/>
+        <location filename="../core/downloadtorrentitem.cpp" line="138"/>
         <source>Couldn&apos;t resolve metadata</source>
         <translation>Impossible d&apos;interpréter les métadonnées</translation>
     </message>
     <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="142"/>
+        <location filename="../core/downloadtorrentitem.cpp" line="141"/>
         <source>Error in file &apos;%0&apos;</source>
         <translation>Erreur dans le fichier &apos;%0&apos;</translation>
     </message>
     <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="143"/>
+        <location filename="../core/downloadtorrentitem.cpp" line="142"/>
         <source>Bad SSL context</source>
         <translation>Contexte SSL non valide</translation>
     </message>
     <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="144"/>
+        <location filename="../core/downloadtorrentitem.cpp" line="143"/>
         <source>Bad .torrent metadata</source>
         <translation>Format de métadonnée du .torrent non valide</translation>
     </message>
     <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="145"/>
+        <location filename="../core/downloadtorrentitem.cpp" line="144"/>
         <source>Bad .torrent access permission</source>
         <translation>Permission d&apos;accès au .torrent refusée</translation>
     </message>
     <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="146"/>
+        <location filename="../core/downloadtorrentitem.cpp" line="145"/>
         <source>Bad part-file</source>
         <translation>Part de fichier non valide</translation>
     </message>
     <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="149"/>
+        <location filename="../core/downloadtorrentitem.cpp" line="148"/>
         <source>Unknown error</source>
         <translation>Erreur inconnue</translation>
     </message>
@@ -1059,12 +1059,12 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
         <translation>Format non supporté</translation>
     </message>
     <message>
-        <location filename="../io/filereader.cpp" line="91"/>
+        <location filename="../io/filereader.cpp" line="92"/>
         <source>Unable to read data</source>
         <translation>Impossible de lire les données</translation>
     </message>
     <message>
-        <location filename="../io/filereader.cpp" line="105"/>
+        <location filename="../io/filereader.cpp" line="111"/>
         <source>Unknown error</source>
         <translation>Erreur inconnue</translation>
     </message>
@@ -1143,67 +1143,67 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
 <context>
     <name>Format</name>
     <message>
-        <location filename="../core/format.cpp" line="73"/>
+        <location filename="../core/format.cpp" line="74"/>
         <source>Unknown</source>
         <translation>Inconnu</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="76"/>
+        <location filename="../core/format.cpp" line="77"/>
         <source>0 byte</source>
         <translation>0 octet</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="79"/>
+        <location filename="../core/format.cpp" line="80"/>
         <source>1 byte</source>
         <translation>1 octet</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="82"/>
+        <location filename="../core/format.cpp" line="83"/>
         <source>%0 bytes</source>
         <translation>%0 octets</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="86"/>
+        <location filename="../core/format.cpp" line="87"/>
         <source>%0 KB</source>
         <translation>%0 Ko</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="90"/>
+        <location filename="../core/format.cpp" line="91"/>
         <source>%0 MB</source>
         <translation>%0 Mo</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="94"/>
+        <location filename="../core/format.cpp" line="95"/>
         <source>%0 GB</source>
         <translation>%0 Go</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="97"/>
+        <location filename="../core/format.cpp" line="98"/>
         <source>%0 TB</source>
         <translation>%0 To</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="123"/>
+        <location filename="../core/format.cpp" line="124"/>
         <source>Yes</source>
         <translation>Oui</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="123"/>
+        <location filename="../core/format.cpp" line="124"/>
         <source>No</source>
         <translation>Non</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="138"/>
+        <location filename="../core/format.cpp" line="139"/>
         <source>%0 KB/s</source>
         <translation>%0 Ko/s</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="142"/>
+        <location filename="../core/format.cpp" line="143"/>
         <source>%0 MB/s</source>
         <translation>%0 Mo/s</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="145"/>
+        <location filename="../core/format.cpp" line="146"/>
         <source>%0 GB/s</source>
         <translation>%0 Go/s</translation>
     </message>
@@ -1952,42 +1952,42 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
 <context>
     <name>Mask</name>
     <message>
-        <location filename="../core/mask.cpp" line="269"/>
+        <location filename="../core/mask.cpp" line="272"/>
         <source>File name</source>
         <translation>Nom de fichier</translation>
     </message>
     <message>
-        <location filename="../core/mask.cpp" line="270"/>
+        <location filename="../core/mask.cpp" line="273"/>
         <source>Extension</source>
         <translation>Extension</translation>
     </message>
     <message>
-        <location filename="../core/mask.cpp" line="271"/>
+        <location filename="../core/mask.cpp" line="274"/>
         <source>Base URL</source>
         <translation>URL de base</translation>
     </message>
     <message>
-        <location filename="../core/mask.cpp" line="272"/>
+        <location filename="../core/mask.cpp" line="275"/>
         <source>Full URL</source>
         <translation>URL complète</translation>
     </message>
     <message>
-        <location filename="../core/mask.cpp" line="273"/>
+        <location filename="../core/mask.cpp" line="276"/>
         <source>Flat full URL</source>
         <translation>URL complète plate</translation>
     </message>
     <message>
-        <location filename="../core/mask.cpp" line="274"/>
+        <location filename="../core/mask.cpp" line="277"/>
         <source>URL subdirectories</source>
         <translation>Sous-dossiers de l&apos;URL</translation>
     </message>
     <message>
-        <location filename="../core/mask.cpp" line="275"/>
+        <location filename="../core/mask.cpp" line="278"/>
         <source>Flat URL subdirectories</source>
         <translation>Sous-dossiers de l&apos;URL plate</translation>
     </message>
     <message>
-        <location filename="../core/mask.cpp" line="276"/>
+        <location filename="../core/mask.cpp" line="279"/>
         <source>Query string</source>
         <translation>Chaîne de requête</translation>
     </message>
@@ -3255,7 +3255,7 @@ Astuce: si vous rencontrez une erreur :
         <translation>Valeur : # de pairs avec la pièce</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentpiecemap.cpp" line="80"/>
+        <location filename="../widgets/torrentpiecemap.cpp" line="81"/>
         <source>Priority: %0=high %1=normal %2=low %3=ignore</source>
         <translation>Priorité: %0=haute %1=normale %2=basse %3=ignoré</translation>
     </message>
