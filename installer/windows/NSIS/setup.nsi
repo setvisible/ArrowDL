@@ -140,7 +140,7 @@ FunctionEnd
 ;--------------------------------
 ;Installer Sections
 
-Section "Application" SectionMainApplication
+Section "$(DESC_ApplicationSession)" SectionMainApplication
     SectionIn RO ;Make it read-only
     SetOutPath "$INSTDIR"
     SetOverwrite try
@@ -153,7 +153,7 @@ Section "Application" SectionMainApplication
 
 SectionEnd
 
-Section "Launcher" SectionLauncher
+Section "$(DESC_LauncherSession)" SectionLauncher
     SectionIn RO ;Make it read-only
 
     ;Run script that writes Regitry keys for the Launcher
@@ -162,7 +162,7 @@ Section "Launcher" SectionLauncher
 SectionEnd
 
 ;Shortcuts
-Section "Start Menu Shortcut" SectionStartMenuShortcut
+Section "$(DESC_StartMenuGroupSession)" SectionStartMenuShortcut
     
     ;Create shortcuts in the start menu programs directory
     CreateDirectory "$SMPROGRAMS\DownZemAll"
@@ -171,7 +171,7 @@ Section "Start Menu Shortcut" SectionStartMenuShortcut
 
 SectionEnd
 
-Section "Desktop Shortcut" SectionDesktopShortcut
+Section "$(DESC_DesktopShortcutSession)" SectionDesktopShortcut
     
     ;Create shortcuts in the start menu programs directory
     ;SetShellVarContext current
@@ -190,6 +190,10 @@ SectionEnd
     LangString DESC_SectionStartMenuShortcut ${LANG_ENGLISH} "Create Start Menu Shortcut."
     LangString DESC_SectionDesktopShortcut ${LANG_ENGLISH} "Create Desktop Shortcut."
     LangString DESC_UninstallIconDescription ${LANG_ENGLISH} "Uninstall DownZemAll"
+    LangString DESC_ApplicationSession ${LANG_ENGLISH} "Application"
+    LangString DESC_LauncherSession ${LANG_ENGLISH} "Launcher"
+    LangString DESC_StartMenuGroupSession ${LANG_ENGLISH} "Start Menu Shortcut"
+    LangString DESC_DesktopShortcutSession ${LANG_ENGLISH} "Desktop Shortcut"
 
     ; Language strings (Italian)
     LangString DESC_SectionMainApplication ${LANG_ITALIAN} "Applicazione principale."
@@ -197,6 +201,10 @@ SectionEnd
     LangString DESC_SectionStartMenuShortcut ${LANG_ITALIAN} "Crea gruppo programmi nel menu Start."
     LangString DESC_SectionDesktopShortcut ${LANG_ITALIAN} "Crea collegamento programma sul desktop."
     LangString DESC_UninstallIconDescription ${LANG_ITALIAN} "Disinstalla DownZemAll"
+    LangString DESC_ApplicationSession ${LANG_ITALIAN} "Applicazion"
+    LangString DESC_LauncherSession ${LANG_ITALIAN} "Launcher"
+    LangString DESC_StartMenuGroupSession ${LANG_ITALIAN} "Gruppo programmi Menu Shortcut"
+    LangString DESC_DesktopShortcutSession ${LANG_ITALIAN} "Collegamento sul desktop"
 
     ;Assign language strings to sections
     !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
