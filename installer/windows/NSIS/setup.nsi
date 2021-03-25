@@ -122,14 +122,33 @@ FunctionEnd
         !insertmacro MUI_UNPAGE_FINISH
   
 ;--------------------------------
-;Languages
- 
+; Languages
+; reference: https://nsis.sourceforge.io/Examples/Modern%20UI/MultiLanguage.nsi
+
+; Remember the installer language
+    !define MUI_LANGDLL_REGISTRY_ROOT "HKLM"
+    !define MUI_LANGDLL_REGISTRY_KEY "Software\${FOLDERNAME}"
+    !define MUI_LANGDLL_REGISTRY_VALUENAME "Installer Language"
+
+; always show language selection dialog
+    !define MUI_LANGDLL_ALWAYSSHOW
+
     !insertmacro MUI_LANGUAGE "English"
+    !insertmacro MUI_LANGUAGE "Arabic"
+    !insertmacro MUI_LANGUAGE "SimpChinese"    
+    !insertmacro MUI_LANGUAGE "French"
+    !insertmacro MUI_LANGUAGE "German"
+    !insertmacro MUI_LANGUAGE "Korean"
+    !insertmacro MUI_LANGUAGE "Italian"
+    !insertmacro MUI_LANGUAGE "Portuguese"
+    !insertmacro MUI_LANGUAGE "PortugueseBR"
+    !insertmacro MUI_LANGUAGE "Russian"
+    !insertmacro MUI_LANGUAGE "Spanish"
 
 ;--------------------------------
 ;Installer Sections
 
-Section "Application" SectionMainApplication
+Section "$(DESC_ApplicationSession)" SectionMainApplication
     SectionIn RO ;Make it read-only
     SetOutPath "$INSTDIR"
     SetOverwrite try
@@ -142,7 +161,7 @@ Section "Application" SectionMainApplication
 
 SectionEnd
 
-Section "Launcher" SectionLauncher
+Section "$(DESC_LauncherSession)" SectionLauncher
     SectionIn RO ;Make it read-only
 
     ;Run script that writes Regitry keys for the Launcher
@@ -151,16 +170,16 @@ Section "Launcher" SectionLauncher
 SectionEnd
 
 ;Shortcuts
-Section "Start Menu Shortcut" SectionStartMenuShortcut
+Section "$(DESC_StartMenuGroupSession)" SectionStartMenuShortcut
     
     ;Create shortcuts in the start menu programs directory
     CreateDirectory "$SMPROGRAMS\DownZemAll"
     CreateShortCut "$SMPROGRAMS\DownZemAll\DownZemAll.lnk" "$INSTDIR\DownZemAll.exe"
-    CreateShortCut "$SMPROGRAMS\DownZemAll\Uninstall DownZemAll.lnk" "$INSTDIR\Uninstall.exe"
+    CreateShortCut "$SMPROGRAMS\DownZemAll\$(DESC_UninstallIconDescription).lnk" "$INSTDIR\Uninstall.exe"
 
 SectionEnd
 
-Section "Desktop Shortcut" SectionDesktopShortcut
+Section "$(DESC_DesktopShortcutSession)" SectionDesktopShortcut
     
     ;Create shortcuts in the start menu programs directory
     ;SetShellVarContext current
@@ -172,10 +191,28 @@ SectionEnd
 ;Descriptions
 
     ;Language strings
+
+    ; Language strings (English)
     LangString DESC_SectionMainApplication ${LANG_ENGLISH} "The main application."
     LangString DESC_SectionLauncher ${LANG_ENGLISH} "The launcher, used for messaging with web browser."
     LangString DESC_SectionStartMenuShortcut ${LANG_ENGLISH} "Create Start Menu Shortcut."
     LangString DESC_SectionDesktopShortcut ${LANG_ENGLISH} "Create Desktop Shortcut."
+    LangString DESC_UninstallIconDescription ${LANG_ENGLISH} "Uninstall DownZemAll"
+    LangString DESC_ApplicationSession ${LANG_ENGLISH} "Application"
+    LangString DESC_LauncherSession ${LANG_ENGLISH} "Launcher"
+    LangString DESC_StartMenuGroupSession ${LANG_ENGLISH} "Start Menu Shortcut"
+    LangString DESC_DesktopShortcutSession ${LANG_ENGLISH} "Desktop Shortcut"
+
+    ; Language strings (Italian)
+    LangString DESC_SectionMainApplication ${LANG_ITALIAN} "Applicazione principale."
+    LangString DESC_SectionLauncher ${LANG_ITALIAN} "Il launcher, usato per i messaggi con il browser web."
+    LangString DESC_SectionStartMenuShortcut ${LANG_ITALIAN} "Crea gruppo programmi nel menu Start."
+    LangString DESC_SectionDesktopShortcut ${LANG_ITALIAN} "Crea collegamento programma sul desktop."
+    LangString DESC_UninstallIconDescription ${LANG_ITALIAN} "Disinstalla DownZemAll"
+    LangString DESC_ApplicationSession ${LANG_ITALIAN} "Applicazion"
+    LangString DESC_LauncherSession ${LANG_ITALIAN} "Launcher"
+    LangString DESC_StartMenuGroupSession ${LANG_ITALIAN} "Gruppo programmi Menu Shortcut"
+    LangString DESC_DesktopShortcutSession ${LANG_ITALIAN} "Collegamento sul desktop"
 
     ;Assign language strings to sections
     !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
