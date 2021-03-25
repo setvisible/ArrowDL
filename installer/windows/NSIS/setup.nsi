@@ -31,32 +31,20 @@ VIAddVersionKey "ProductName" "DownZemAll"
 VIAddVersionKey "ProductVersion" "${PRODUCT_VERSION}"
 VIAddVersionKey "LegalCopyright" "(C) Sebastien Vavassori. All Rights Reserved."
 
+!define REGISTRY_INSTALLER_FOLDER_NAME "DownZemAll"
 
 ManifestDPIAware true
 Unicode true
 
 ;--------------------------------
-;INCLUDES
-;--------------------------------
-!include macros.nsh
+;Includes
 
-;--------------------------------
-;Verify the application is closed
+    ;Include custom macros
+    !include macros.nsh
 
-;Installer
-Function .onInit
-    Call .quitIfRunning
-FunctionEnd
-
-;Uninstaller
-Function un.onInit
-    Call un.quitIfRunning
-FunctionEnd
-
-;--------------------------------
-;Include NSIS Modern User Interface (MUI)
-
+    ;Include NSIS Modern User Interface (MUI)
     !include "MUI2.nsh"
+
 
 ;--------------------------------
 ;General
@@ -127,7 +115,7 @@ FunctionEnd
 
 ; Remember the installer language
     !define MUI_LANGDLL_REGISTRY_ROOT "HKLM"
-    !define MUI_LANGDLL_REGISTRY_KEY "Software\${FOLDERNAME}"
+    !define MUI_LANGDLL_REGISTRY_KEY "Software\${REGISTRY_INSTALLER_FOLDER_NAME}"
     !define MUI_LANGDLL_REGISTRY_VALUENAME "Installer Language"
 
 ; always show language selection dialog
@@ -135,7 +123,7 @@ FunctionEnd
 
     !insertmacro MUI_LANGUAGE "English"
     !insertmacro MUI_LANGUAGE "Arabic"
-    !insertmacro MUI_LANGUAGE "SimpChinese"    
+    !insertmacro MUI_LANGUAGE "SimpChinese"
     !insertmacro MUI_LANGUAGE "French"
     !insertmacro MUI_LANGUAGE "German"
     !insertmacro MUI_LANGUAGE "Korean"
@@ -192,16 +180,21 @@ SectionEnd
 
     ;Language strings
 
+    ; Macro Default Language strings
+    !macro SetDefaultEnglishTranslation missing_lang
+        LangString DESC_SectionMainApplication ${missing_lang} "The main application."
+        LangString DESC_SectionLauncher ${missing_lang} "The launcher, used for messaging with web browser."
+        LangString DESC_SectionStartMenuShortcut ${missing_lang} "Create Start Menu Shortcut."
+        LangString DESC_SectionDesktopShortcut ${missing_lang} "Create Desktop Shortcut."
+        LangString DESC_UninstallIconDescription ${missing_lang} "Uninstall DownZemAll"
+        LangString DESC_ApplicationSession ${missing_lang} "Application (required)"
+        LangString DESC_LauncherSession ${missing_lang} "Launcher (required)"
+        LangString DESC_StartMenuGroupSession ${missing_lang} "Start Menu Shortcut"
+        LangString DESC_DesktopShortcutSession ${missing_lang} "Desktop Shortcut"
+    !macroend
+
     ; Language strings (English)
-    LangString DESC_SectionMainApplication ${LANG_ENGLISH} "The main application."
-    LangString DESC_SectionLauncher ${LANG_ENGLISH} "The launcher, used for messaging with web browser."
-    LangString DESC_SectionStartMenuShortcut ${LANG_ENGLISH} "Create Start Menu Shortcut."
-    LangString DESC_SectionDesktopShortcut ${LANG_ENGLISH} "Create Desktop Shortcut."
-    LangString DESC_UninstallIconDescription ${LANG_ENGLISH} "Uninstall DownZemAll"
-    LangString DESC_ApplicationSession ${LANG_ENGLISH} "Application"
-    LangString DESC_LauncherSession ${LANG_ENGLISH} "Launcher"
-    LangString DESC_StartMenuGroupSession ${LANG_ENGLISH} "Start Menu Shortcut"
-    LangString DESC_DesktopShortcutSession ${LANG_ENGLISH} "Desktop Shortcut"
+    !insertmacro SetDefaultEnglishTranslation ${LANG_ENGLISH}
 
     ; Language strings (Italian)
     LangString DESC_SectionMainApplication ${LANG_ITALIAN} "Applicazione principale."
@@ -213,6 +206,18 @@ SectionEnd
     LangString DESC_LauncherSession ${LANG_ITALIAN} "Launcher"
     LangString DESC_StartMenuGroupSession ${LANG_ITALIAN} "Gruppo programmi Menu Shortcut"
     LangString DESC_DesktopShortcutSession ${LANG_ITALIAN} "Collegamento sul desktop"
+
+    ; Other (missing) language strings
+    !insertmacro SetDefaultEnglishTranslation ${LANG_ARABIC}
+    !insertmacro SetDefaultEnglishTranslation ${LANG_FRENCH}
+    !insertmacro SetDefaultEnglishTranslation ${LANG_GERMAN}
+    !insertmacro SetDefaultEnglishTranslation ${LANG_KOREAN}
+    !insertmacro SetDefaultEnglishTranslation ${LANG_PORTUGUESE}
+    !insertmacro SetDefaultEnglishTranslation ${LANG_PORTUGUESEBR}
+    !insertmacro SetDefaultEnglishTranslation ${LANG_RUSSIAN}
+    !insertmacro SetDefaultEnglishTranslation ${LANG_SPANISH}
+    !insertmacro SetDefaultEnglishTranslation ${LANG_SIMPCHINESE}
+
 
     ;Assign language strings to sections
     !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
@@ -241,3 +246,22 @@ Section "Uninstall"
 
 SectionEnd
 
+;--------------------------------
+
+;Installer
+Function .onInit
+    ;Display languages
+    !insertmacro MUI_LANGDLL_DISPLAY
+
+    ;Verify the application is closed
+    Call .quitIfRunning
+FunctionEnd
+
+;Uninstaller
+Function un.onInit
+    ;Display languages
+    !insertmacro MUI_LANGDLL_DISPLAY
+
+    ;Verify the application is closed
+    Call un.quitIfRunning
+FunctionEnd
