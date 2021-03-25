@@ -122,8 +122,16 @@ FunctionEnd
         !insertmacro MUI_UNPAGE_FINISH
   
 ;--------------------------------
-;Languages
+; Languages
 ; reference: https://nsis.sourceforge.io/Examples/Modern%20UI/MultiLanguage.nsi
+
+; Remember the installer language
+    !define MUI_LANGDLL_REGISTRY_ROOT "HKLM"
+    !define MUI_LANGDLL_REGISTRY_KEY "Software\${FOLDERNAME}"
+    !define MUI_LANGDLL_REGISTRY_VALUENAME "Installer Language"
+
+; always show language selection dialog
+    !define MUI_LANGDLL_ALWAYSSHOW
 
     !insertmacro MUI_LANGUAGE "English"
     !insertmacro MUI_LANGUAGE "Arabic"
