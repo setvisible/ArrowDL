@@ -196,6 +196,28 @@ SectionEnd
     ; Language strings (English)
     !insertmacro SetDefaultEnglishTranslation ${LANG_ENGLISH}
 
+    ; Language strings (French)
+    LangString DESC_SectionMainApplication ${LANG_FRENCH} "L'application principale."
+    LangString DESC_SectionLauncher ${LANG_FRENCH} "Le launcher pour les messages avec le navigateur web."
+    LangString DESC_SectionStartMenuShortcut ${LANG_FRENCH} "Ajoute des icônes au menu Démarrer pour un accès facile."
+    LangString DESC_SectionDesktopShortcut ${LANG_FRENCH} "Ajoute une icône sur votre bureau pour un accès facile."
+    LangString DESC_UninstallIconDescription ${LANG_FRENCH} "Désinstaller DownZemAll"
+    LangString DESC_ApplicationSession ${LANG_FRENCH} "Application (requis)"
+    LangString DESC_LauncherSession ${LANG_FRENCH} "Launcher(requis)"
+    LangString DESC_StartMenuGroupSession ${LANG_FRENCH} "Raccourci dans le menu Démarrer"
+    LangString DESC_DesktopShortcutSession ${LANG_FRENCH} "Raccourci sur le bureau"
+
+    ; Language strings (German)
+    LangString DESC_SectionMainApplication ${LANG_GERMAN} "Die Hauptapplikation."
+    LangString DESC_SectionLauncher ${LANG_GERMAN} "Der launcher, das für Messaging mit Webbrowser verwendet wird."
+    LangString DESC_SectionStartMenuShortcut ${LANG_GERMAN} "Fügt Symbole im Startmenü für leichten Zugang hinzu."
+    LangString DESC_SectionDesktopShortcut ${LANG_GERMAN} "Fügt ein Desktopsymbol für leichten Zugang ein."
+    LangString DESC_UninstallIconDescription ${LANG_GERMAN} "Deinstallieren DownZemAll"
+    LangString DESC_ApplicationSession ${LANG_GERMAN} "Applikation (benötigt)"
+    LangString DESC_LauncherSession ${LANG_GERMAN} "Launcher (benötigt)"
+    LangString DESC_StartMenuGroupSession ${LANG_GERMAN} "Symbol im Startmenü"
+    LangString DESC_DesktopShortcutSession ${LANG_GERMAN} "Desktopsymbol"
+
     ; Language strings (Italian)
     LangString DESC_SectionMainApplication ${LANG_ITALIAN} "Applicazione principale."
     LangString DESC_SectionLauncher ${LANG_ITALIAN} "Il launcher, usato per i messaggi con il browser web."
@@ -209,8 +231,6 @@ SectionEnd
 
     ; Other (missing) language strings
     !insertmacro SetDefaultEnglishTranslation ${LANG_ARABIC}
-    !insertmacro SetDefaultEnglishTranslation ${LANG_FRENCH}
-    !insertmacro SetDefaultEnglishTranslation ${LANG_GERMAN}
     !insertmacro SetDefaultEnglishTranslation ${LANG_KOREAN}
     !insertmacro SetDefaultEnglishTranslation ${LANG_PORTUGUESE}
     !insertmacro SetDefaultEnglishTranslation ${LANG_PORTUGUESEBR}
