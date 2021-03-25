@@ -1070,6 +1070,16 @@ Nota he i numeri di linea non devono essere modificati.</translation>
         <source>Unknown error</source>
         <translation>Errore sconosciuto</translation>
     </message>
+    <message>
+        <location filename="../io/filereader.cpp" line="160"/>
+        <source>Any file (all types) (%0)</source>
+        <translation>Qualsiasi file (tutti i tipi) (%0)</translation>
+    </message>
+    <message>
+        <location filename="../io/filereader.cpp" line="174"/>
+        <source>All files (%0)</source>
+        <translation>Tutti i file (%0)</translation>
+    </message>
 </context>
 <context>
     <name>FileWriter</name>
@@ -1097,6 +1107,11 @@ Nota he i numeri di linea non devono essere modificati.</translation>
         <location filename="../io/filewriter.cpp" line="98"/>
         <source>File is empty</source>
         <translation>Il file è vuoto</translation>
+    </message>
+    <message>
+        <location filename="../io/filewriter.cpp" line="169"/>
+        <source>All files (%0)</source>
+        <translation>Tutti i file (%0)</translation>
     </message>
     <message>
         <location filename="../io/filewriter.h" line="62"/>
@@ -1486,6 +1501,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="322"/>
+        <location filename="../mainwindow.cpp" line="774"/>
         <source>Cancel</source>
         <translation>Annulla</translation>
     </message>
@@ -1757,7 +1773,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="344"/>
-        <location filename="../mainwindow.cpp" line="933"/>
+        <location filename="../mainwindow.cpp" line="934"/>
         <source>About %0</source>
         <translation>Info su %0</translation>
     </message>
@@ -1774,8 +1790,8 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="549"/>
         <location filename="../mainwindow.cpp" line="596"/>
-        <location filename="../mainwindow.cpp" line="1298"/>
-        <location filename="../mainwindow.cpp" line="1317"/>
+        <location filename="../mainwindow.cpp" line="1299"/>
+        <location filename="../mainwindow.cpp" line="1318"/>
         <source>Error</source>
         <translation>Errore</translation>
     </message>
@@ -1862,42 +1878,42 @@ Fai clic per incollare l&apos;esempio.</translation>
         <translation>(es: %0)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="980"/>
+        <location filename="../mainwindow.cpp" line="981"/>
         <source>The new name is already used or invalid.</source>
         <translation>Il nuovo nome esiste già o non è valido.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="983"/>
+        <location filename="../mainwindow.cpp" line="984"/>
         <source>Can&apos;t rename &quot;%0&quot; as its initial name.</source>
         <translation>Impossibile rinominare &quot;%0&quot; come nome iniziale.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="990"/>
+        <location filename="../mainwindow.cpp" line="991"/>
         <source>Can&apos;t rename</source>
         <translation>Impossibile rinominare</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="990"/>
+        <location filename="../mainwindow.cpp" line="991"/>
         <source>as</source>
         <translation>come</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1297"/>
+        <location filename="../mainwindow.cpp" line="1298"/>
         <source>Can&apos;t save file.</source>
         <translation>Impossibile salvare il file.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1300"/>
+        <location filename="../mainwindow.cpp" line="1301"/>
         <source>Can&apos;t save file %0:</source>
         <translation>Impossibile salvare il file %0:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1316"/>
+        <location filename="../mainwindow.cpp" line="1317"/>
         <source>Can&apos;t load file.</source>
         <translation>Impossibile caricare il file.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1319"/>
+        <location filename="../mainwindow.cpp" line="1320"/>
         <source>Can&apos;t load file %0:</source>
         <translation>Impossibile caricare il file %0:</translation>
     </message>
@@ -1907,37 +1923,37 @@ Fai clic per incollare l&apos;esempio.</translation>
         <translation>Avvia!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="991"/>
+        <location filename="../mainwindow.cpp" line="992"/>
         <source>File Error</source>
         <translation>Errore file</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1024"/>
+        <location filename="../mainwindow.cpp" line="1025"/>
         <source>Done: %0 Running: %1 Total: %2</source>
         <translation>Completati: %0,  in esecuzione: %1, totale: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1032"/>
+        <location filename="../mainwindow.cpp" line="1033"/>
         <source>%0 of %1 (%2), %3 running  %4 | Torrent: %5</source>
         <translation>%0 di %1 (%2), %3 in esecuzione  %4 | torrent: %5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1038"/>
+        <location filename="../mainwindow.cpp" line="1039"/>
         <source>active</source>
         <translation>attivi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1038"/>
+        <location filename="../mainwindow.cpp" line="1039"/>
         <source>inactive</source>
         <translation>non attivi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1306"/>
+        <location filename="../mainwindow.cpp" line="1307"/>
         <source>File saved</source>
         <translation>File salvato</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1325"/>
+        <location filename="../mainwindow.cpp" line="1326"/>
         <source>File loaded</source>
         <translation>File caricato</translation>
     </message>
@@ -2218,7 +2234,7 @@ Fai clic per incollare l&apos;esempio.</translation>
         <translation>Identificazione</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="640"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="642"/>
         <source>Servers might use HTTP identification contained in the HTTP request to log client attributes. Some server even don&apos;t respond to the client if the identification attribute is empty. The fields allow you to send fake information, to protect privacy.</source>
         <translation>I server potrebbero usare l&apos;identificazione HTTP contenuta nella richiesta HTTP per registrare gli attributi del client. 
 Alcuni server non rispondono nemmeno al client se l&apos;attributo di identificazione è vuoto. 
@@ -2311,14 +2327,9 @@ I campi consentono di inviare informazioni false, per proteggere la privacy.</tr
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="822"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="669"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="671"/>
         <source>Clean Cache</source>
         <translation>Svuota cache</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/preferencedialog.ui" line="829"/>
-        <source>located at: &lt;a href=&quot;https://www.example.org/tutorial.html&quot;&gt;path/to/cache/dir/&lt;/a&gt;</source>
-        <translation>situata in: &lt;a href=&quot;https://www.example.org/tutorial.html&quot;&gt;percorso/in/cache/cartella/&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="734"/>
@@ -2361,12 +2372,12 @@ I campi consentono di inviare informazioni false, per proteggere la privacy.</tr
         <translation>Filtri</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="229"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="231"/>
         <source>Caption</source>
         <translation>Cattura</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="230"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="232"/>
         <source>Extensions</source>
         <translation>Estensioni</translation>
     </message>
@@ -2497,55 +2508,60 @@ Condivide DHT (tabella hash distribuita) con i peer, i file .torrents che condiv
         <translation>Database coda</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="218"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="214"/>
+        <source>Located in %0</source>
+        <translation>Percorso: %0</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.cpp" line="220"/>
         <source>(none)</source>
         <translation>(nessuno)</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="250"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="252"/>
         <source>Warning: The system tray is not available.</source>
         <translation>Attenzione: l&apos;icona nella barra sistema non è disponibile.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="253"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="255"/>
         <source>Warning: The system tray doesn&apos;t support balloon messages.</source>
         <translation>Attenzioen: l&apos;icona nella barra sistema non supporta i messaggi di notifica.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="258"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="260"/>
         <source>Preferences</source>
         <translation>Impostazioni</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="302"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="304"/>
         <source>Reset all filters</source>
         <translation>Ripristina tutti i filtri</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="606"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="615"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="608"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="617"/>
         <source>The host may be %0, %1 or %2</source>
         <translation>L&apos;host può essere %0, %1 o %2</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="611"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="613"/>
         <source>The host may be %0 but not %1</source>
         <translation>L&apos;host può essere %0 ma non %1</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="622"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="624"/>
         <source>Examples:</source>
         <translation>Esempi:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="646"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="648"/>
         <source>Referring Page (or Referrer) is an HTTP option that communicates to the server the address of the previous web page from which the resource is requested. This typically allows the HTTP server to track a visitor&apos;s browsing, page after page. To protect privacy, enter an empty or fake Referrer address.</source>
         <translation>La pagina di riferimento (o Riferimento) è un&apos;opzione HTTP che comunica al server l&apos;indirizzo della pagina web precedente da cui viene richiesta la risorsa. 
 Ciò consente in genere al server HTTP di tenere traccia della navigazione di un visitatore, pagina dopo pagina. 
 Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="658"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="660"/>
         <source>Cleaning...</source>
         <translation>Pulizia....</translation>
     </message>
@@ -2561,6 +2577,26 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
         <location filename="../about.h" line="31"/>
         <source>Copyright (C) %0 %1. All rights reserved.</source>
         <translation>Copyright (C) %0 %1. Tutti i diritti riservati.</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="35"/>
+        <source>GNU LGPL License</source>
+        <translation>GNU LGPL License</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="37"/>
+        <source>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </source>
+        <translation>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="45"/>
+        <source>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </source>
+        <translation>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="49"/>
+        <source>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </source>
+        <translation>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </translation>
     </message>
     <message>
         <location filename="../about.h" line="74"/>
@@ -2679,6 +2715,21 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
         <location filename="../core/torrentmessage.h" line="516"/>
         <source>Checking Resume Data...</source>
         <translation>Controllo dati recupero...</translation>
+    </message>
+    <message>
+        <location filename="../io/format.h" line="37"/>
+        <source>Text Files</source>
+        <translation>File testo</translation>
+    </message>
+    <message>
+        <location filename="../io/format.h" line="38"/>
+        <source>Json Files</source>
+        <translation>File JSON</translation>
+    </message>
+    <message>
+        <location filename="../io/format.h" line="39"/>
+        <source>Torrent Files</source>
+        <translation>File torrent</translation>
     </message>
 </context>
 <context>

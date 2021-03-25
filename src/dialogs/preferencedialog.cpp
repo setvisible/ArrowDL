@@ -210,8 +210,10 @@ void PreferenceDialog::initializeUi()
     ui->browseDatabaseFile->setSuffixName(tr("Queue Database"));
     ui->browseDatabaseFile->setSuffix(".json");
 
-    ui->streamCleanCacheLabel->setText(QString("Located at <a href=\"%0\">%0</a>")
-                                       .arg(StreamCleanCache::cacheDir()));
+    ui->streamCleanCacheLabel->setText(
+                tr("Located in %0").arg(
+                    QString("<a href=\"%0\">%0</a>").arg(
+                        StreamCleanCache::cacheDir())));
 
     ui->httpUserAgentComboBox->clear();
     ui->httpUserAgentComboBox->setEditable(true);

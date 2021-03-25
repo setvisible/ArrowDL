@@ -771,6 +771,7 @@ void MainWindow::addContent()
                                 QLatin1String("\"https://www.site.com/folder/page\""))));
     dialog.setTextValue(urlFromClipboard().toString());
     dialog.setOkButtonText(tr("Start!"));
+    dialog.setCancelButtonText(tr("Cancel"));
     dialog.setTextEchoMode(QLineEdit::Normal);
     dialog.setInputMode(QInputDialog::TextInput);
     dialog.setInputMethodHints(Qt::ImhUrlCharactersOnly);

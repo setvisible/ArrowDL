@@ -30,6 +30,15 @@ struct FileFormat {
     const char *suffix;
     const char *text;
     const IFileHandlerPtr handler;
+
+    QString tr_text() const {
+        // Hack to force translation
+        auto tr_text = QString(text);
+        if (tr_text == "Text Files") {    return QObject::tr("Text Files"); }
+        if (tr_text == "Json Files") {    return QObject::tr("Json Files"); }
+        if (tr_text == "Torrent Files") { return QObject::tr("Torrent Files"); }
+        return QString();
+    }
 };
 
 static const FileFormat formats[] = {
@@ -43,7 +52,7 @@ static IFileHandlerPtr findHandlerFromSuffix(const QString &suffix)
 {
     IFileHandlerPtr handler;
     for (const FileFormat *fmt = &formats[0]; fmt->suffix; fmt++) {
-        if (suffix == fmt->suffix) {            
+        if (suffix == fmt->suffix) {
             handler = fmt->handler;
             break;
         }
