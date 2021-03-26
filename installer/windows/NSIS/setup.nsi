@@ -97,7 +97,7 @@ Unicode true
         !insertmacro MUI_PAGE_INSTFILES
     ;Finish page
         !define MUI_FINISHPAGE_RUN DownZemAll.exe
-        !define MUI_FINISHPAGE_LINK "${DESC_VisitWebSite} ${PRODUCT_WEB_SITE}"
+        ;!define MUI_FINISHPAGE_LINK "${DESC_VisitWebSite} ${PRODUCT_WEB_SITE}"  ; See hack
         !define MUI_FINISHPAGE_LINK_LOCATION "${PRODUCT_WEB_SITE}"
         !define MUI_FINISHPAGE_LINK_COLOR 0xFF8700 ; orange
         !insertmacro MUI_PAGE_FINISH
@@ -250,6 +250,10 @@ SectionEnd
         !insertmacro MUI_DESCRIPTION_TEXT ${SectionStartMenuShortcut} $(DESC_SectionStartMenuShortcut)
         !insertmacro MUI_DESCRIPTION_TEXT ${SectionDesktopShortcut} $(DESC_SectionDesktopShortcut)
     !insertmacro MUI_FUNCTION_DESCRIPTION_END
+
+;--------------------------------
+; Hack
+        !define MUI_FINISHPAGE_LINK "${DESC_VisitWebSite} ${PRODUCT_WEB_SITE}"
 
 ;--------------------------------
 ;Uninstaller Section
