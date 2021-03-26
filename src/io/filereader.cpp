@@ -147,7 +147,6 @@ QString FileReader::supportedFormats()
 {
     QString text;
     {
-        text.append("Any files (");
         QString allSuffixes;
         for (const Io::FileFormat *fmt = &Io::formats[0]; fmt->handler; fmt++) {
             if (!fmt->handler->canRead()) {
@@ -158,8 +157,7 @@ QString FileReader::supportedFormats()
             }
             allSuffixes.append(QString("*.%0").arg(fmt->suffix));
         }
-        text.append(allSuffixes);
-        text.append(")");
+        text.append(tr("Any file (all types) (%0)").arg(allSuffixes));
     }
     for (const Io::FileFormat *fmt = &Io::formats[0]; fmt->handler; fmt++) {
         if (!fmt->handler->canRead()) {
@@ -168,11 +166,11 @@ QString FileReader::supportedFormats()
         if (!text.isEmpty()) {
             text.append(";;");
         }
-        text.append(QString("%0 (*.%1)").arg(fmt->text, fmt->suffix));
+        text.append(QString("%0 (*.%1)").arg(fmt->tr_text(), fmt->suffix));
     }
     if (!text.isEmpty()) {
         text.append(";;");
     }
-    text.append("All files (*.*)");
+    text.append(tr("All files (%0)").arg(QString("*.*")));
     return text;
 }

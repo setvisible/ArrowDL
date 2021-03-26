@@ -161,11 +161,11 @@ QString FileWriter::supportedFormats()
         if (!text.isEmpty()) {
             text.append(";;");
         }
-        text.append(QString("%0 (*.%1)").arg(fmt->text, fmt->suffix));
+        text.append(QString("%0 (*.%1)").arg(fmt->tr_text(), fmt->suffix));
     }
     if (!text.isEmpty()) {
         text.append(";;");
     }
-    text.append("All files (*.*)");
+    text.append(tr("All files (%0)").arg(QString("*.*")));
     return text;
 }
