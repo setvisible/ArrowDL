@@ -97,7 +97,7 @@ Unicode true
         !insertmacro MUI_PAGE_INSTFILES
     ;Finish page
         !define MUI_FINISHPAGE_RUN DownZemAll.exe
-        !define MUI_FINISHPAGE_LINK "Visit our website: ${PRODUCT_WEB_SITE}"
+        !define MUI_FINISHPAGE_LINK "$(DESC_VisitWebSite) ${PRODUCT_WEB_SITE}"
         !define MUI_FINISHPAGE_LINK_LOCATION "${PRODUCT_WEB_SITE}"
         !define MUI_FINISHPAGE_LINK_COLOR 0xFF8700 ; orange
         !insertmacro MUI_PAGE_FINISH
@@ -191,6 +191,7 @@ SectionEnd
         LangString DESC_LauncherSession ${missing_lang} "Launcher (required)"
         LangString DESC_StartMenuGroupSession ${missing_lang} "Start Menu Shortcut"
         LangString DESC_DesktopShortcutSession ${missing_lang} "Desktop Shortcut"
+        LangString DESC_VisitWebSite ${missing_lang} "Visit our website:"
     !macroend
 
     ; Language strings (English)
@@ -199,23 +200,23 @@ SectionEnd
     ; Language strings (French)
     LangString DESC_SectionMainApplication ${LANG_FRENCH} "L'application principale."
     LangString DESC_SectionLauncher ${LANG_FRENCH} "Le launcher pour les messages avec le navigateur web."
-    LangString DESC_SectionStartMenuShortcut ${LANG_FRENCH} "Ajoute des icônes au menu Démarrer pour un accès facile."
-    LangString DESC_SectionDesktopShortcut ${LANG_FRENCH} "Ajoute une icône sur votre bureau pour un accès facile."
-    LangString DESC_UninstallIconDescription ${LANG_FRENCH} "Désinstaller DownZemAll"
+    LangString DESC_SectionStartMenuShortcut ${LANG_FRENCH} "Ajoute des icÃ´nes au menu DÃ©marrer pour un accÃ¨s facile."
+    LangString DESC_SectionDesktopShortcut ${LANG_FRENCH} "Ajoute une icÃ´ne sur votre bureau pour un accÃ¨s facile."
+    LangString DESC_UninstallIconDescription ${LANG_FRENCH} "DÃ©sinstaller DownZemAll"
     LangString DESC_ApplicationSession ${LANG_FRENCH} "Application (requis)"
     LangString DESC_LauncherSession ${LANG_FRENCH} "Launcher(requis)"
-    LangString DESC_StartMenuGroupSession ${LANG_FRENCH} "Raccourci dans le menu Démarrer"
+    LangString DESC_StartMenuGroupSession ${LANG_FRENCH} "Raccourci dans le menu DÃ©marrer"
     LangString DESC_DesktopShortcutSession ${LANG_FRENCH} "Raccourci sur le bureau"
 
     ; Language strings (German)
     LangString DESC_SectionMainApplication ${LANG_GERMAN} "Die Hauptapplikation."
-    LangString DESC_SectionLauncher ${LANG_GERMAN} "Der launcher, das für Messaging mit Webbrowser verwendet wird."
-    LangString DESC_SectionStartMenuShortcut ${LANG_GERMAN} "Fügt Symbole im Startmenü für leichten Zugang hinzu."
-    LangString DESC_SectionDesktopShortcut ${LANG_GERMAN} "Fügt ein Desktopsymbol für leichten Zugang ein."
+    LangString DESC_SectionLauncher ${LANG_GERMAN} "Der launcher, das fÃ¼r Messaging mit Webbrowser verwendet wird."
+    LangString DESC_SectionStartMenuShortcut ${LANG_GERMAN} "FÃ¼gt Symbole im StartmenÃ¼ fÃ¼r leichten Zugang hinzu."
+    LangString DESC_SectionDesktopShortcut ${LANG_GERMAN} "FÃ¼gt ein Desktopsymbol fÃ¼r leichten Zugang ein."
     LangString DESC_UninstallIconDescription ${LANG_GERMAN} "Deinstallieren DownZemAll"
-    LangString DESC_ApplicationSession ${LANG_GERMAN} "Applikation (benötigt)"
-    LangString DESC_LauncherSession ${LANG_GERMAN} "Launcher (benötigt)"
-    LangString DESC_StartMenuGroupSession ${LANG_GERMAN} "Symbol im Startmenü"
+    LangString DESC_ApplicationSession ${LANG_GERMAN} "Applikation (benÃ¶tigt)"
+    LangString DESC_LauncherSession ${LANG_GERMAN} "Launcher (benÃ¶tigt)"
+    LangString DESC_StartMenuGroupSession ${LANG_GERMAN} "Symbol im StartmenÃ¼"
     LangString DESC_DesktopShortcutSession ${LANG_GERMAN} "Desktopsymbol"
 
     ; Language strings (Italian)
@@ -228,6 +229,7 @@ SectionEnd
     LangString DESC_LauncherSession ${LANG_ITALIAN} "Launcher"
     LangString DESC_StartMenuGroupSession ${LANG_ITALIAN} "Gruppo programmi Menu Shortcut"
     LangString DESC_DesktopShortcutSession ${LANG_ITALIAN} "Collegamento sul desktop"
+    LangString DESC_VisitWebSite ${missing_lang} "Visita il nostro sito web:"
 
     ; Other (missing) language strings
     !insertmacro SetDefaultEnglishTranslation ${LANG_ARABIC}
