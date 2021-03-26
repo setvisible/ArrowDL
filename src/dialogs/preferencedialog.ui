@@ -826,7 +826,7 @@ QTabBar::tab:hover:!selected {
               <item>
                <widget class="QLabel" name="streamCleanCacheLabel">
                 <property name="text">
-                 <string>located at: &lt;a href=&quot;https://www.example.org/tutorial.html&quot;&gt;path/to/cache/dir/&lt;/a&gt;</string>
+                 <string notr="true">Located in &lt;a href=&quot;https://www.example.org/tutorial.html&quot;&gt;path/to/cache/dir/&lt;/a&gt;</string>
                 </property>
                 <property name="openExternalLinks">
                  <bool>true</bool>
