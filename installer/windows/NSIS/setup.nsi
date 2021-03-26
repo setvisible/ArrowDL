@@ -97,7 +97,7 @@ Unicode true
         !insertmacro MUI_PAGE_INSTFILES
     ;Finish page
         !define MUI_FINISHPAGE_RUN DownZemAll.exe
-        !define MUI_FINISHPAGE_LINK "Visit our website: ${PRODUCT_WEB_SITE}"
+        !define MUI_FINISHPAGE_LINK "${DESC_VisitWebSite} ${PRODUCT_WEB_SITE}"
         !define MUI_FINISHPAGE_LINK_LOCATION "${PRODUCT_WEB_SITE}"
         !define MUI_FINISHPAGE_LINK_COLOR 0xFF8700 ; orange
         !insertmacro MUI_PAGE_FINISH
@@ -191,6 +191,7 @@ SectionEnd
         LangString DESC_LauncherSession ${missing_lang} "Launcher (required)"
         LangString DESC_StartMenuGroupSession ${missing_lang} "Start Menu Shortcut"
         LangString DESC_DesktopShortcutSession ${missing_lang} "Desktop Shortcut"
+        LangString DESC_VisitWebSite ${missing_lang} "Visit our website:"
     !macroend
 
     ; Language strings (English)
@@ -206,6 +207,7 @@ SectionEnd
     LangString DESC_LauncherSession ${LANG_FRENCH} "Launcher(requis)"
     LangString DESC_StartMenuGroupSession ${LANG_FRENCH} "Raccourci dans le menu Démarrer"
     LangString DESC_DesktopShortcutSession ${LANG_FRENCH} "Raccourci sur le bureau"
+    LangString DESC_VisitWebSite ${LANG_FRENCH} "Visitez notre site Internet :"
 
     ; Language strings (German)
     LangString DESC_SectionMainApplication ${LANG_GERMAN} "Die Hauptapplikation."
@@ -217,6 +219,7 @@ SectionEnd
     LangString DESC_LauncherSession ${LANG_GERMAN} "Launcher (benötigt)"
     LangString DESC_StartMenuGroupSession ${LANG_GERMAN} "Symbol im Startmenü"
     LangString DESC_DesktopShortcutSession ${LANG_GERMAN} "Desktopsymbol"
+    LangString DESC_VisitWebSite ${LANG_GERMAN} "Besuche unsere Webseite:"
 
     ; Language strings (Italian)
     LangString DESC_SectionMainApplication ${LANG_ITALIAN} "Applicazione principale."
@@ -228,6 +231,7 @@ SectionEnd
     LangString DESC_LauncherSession ${LANG_ITALIAN} "Launcher"
     LangString DESC_StartMenuGroupSession ${LANG_ITALIAN} "Gruppo programmi Menu Shortcut"
     LangString DESC_DesktopShortcutSession ${LANG_ITALIAN} "Collegamento sul desktop"
+    LangString DESC_VisitWebSite ${LANG_ITALIAN} "Visita il nostro sito web:"
 
     ; Other (missing) language strings
     !insertmacro SetDefaultEnglishTranslation ${LANG_ARABIC}
