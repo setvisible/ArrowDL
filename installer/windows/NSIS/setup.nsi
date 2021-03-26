@@ -229,7 +229,7 @@ SectionEnd
     LangString DESC_LauncherSession ${LANG_ITALIAN} "Launcher"
     LangString DESC_StartMenuGroupSession ${LANG_ITALIAN} "Gruppo programmi Menu Shortcut"
     LangString DESC_DesktopShortcutSession ${LANG_ITALIAN} "Collegamento sul desktop"
-    LangString DESC_VisitWebSite ${missing_lang} "Visita il nostro sito web:"
+    LangString DESC_VisitWebSite ${LANG_ITALIAN} "Visita il nostro sito web:"
 
     ; Other (missing) language strings
     !insertmacro SetDefaultEnglishTranslation ${LANG_ARABIC}
