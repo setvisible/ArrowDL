@@ -1,0 +1,12 @@
+{
+    "DESC_SectionMainApplication": "主要应用",
+    "DESC_SectionLauncher": "启动器，用于通过Web浏览器进行消息传递",
+    "DESC_SectionStartMenuShortcut": "创建开始菜单快捷方式",
+    "DESC_SectionDesktopShortcut": "创建桌面快捷方式 ",
+    "DESC_UninstallIconDescription": "卸载 DownZemAll",
+    "DESC_ApplicationSession": "申请书（必填）",
+    "DESC_LauncherSession": "启动器（必填）",
+    "DESC_StartMenuGroupSession": "开始菜单快捷方式",
+    "DESC_DesktopShortcutSession": "桌面快捷方式",
+    "DESC_VisitWebSite": "访问我们的网站："
+}

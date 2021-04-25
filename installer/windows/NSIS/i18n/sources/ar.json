@@ -1,0 +1,12 @@
+{
+    "DESC_SectionMainApplication": "التطبيق الرئيسي.",
+    "DESC_SectionLauncher": "قاذفة ، تستخدم للمراسلة مع متصفح الويب.",
+    "DESC_SectionStartMenuShortcut": "إنشاء اختصار قائمة ابدأ.",
+    "DESC_SectionDesktopShortcut": "إنشاء اختصار سطح المكتب.",
+    "DESC_UninstallIconDescription": "قم بإلغاء تثبيت DownZemAll",
+    "DESC_ApplicationSession": "التطبيق (مطلوب)",
+    "DESC_LauncherSession": "قاذفة (مطلوب)",
+    "DESC_StartMenuGroupSession": "ابدأ اختصار القائمة",
+    "DESC_DesktopShortcutSession": "اختصار سطح المكتب",
+    "DESC_VisitWebSite": "قم بزيارة موقعنا على الإنترنت:"
+}

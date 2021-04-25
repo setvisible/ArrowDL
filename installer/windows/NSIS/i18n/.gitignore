@@ -4,8 +4,8 @@
 # ==============================================================================
 /.*
 /*
-!/i18n
-!/images
-!/COPYING.txt
-!/macros.nsh
-!/setup.nsi
+!/out
+!/sources
+!/json2nsh.py
+!/nsh2json.py
+!/nshutil.py
