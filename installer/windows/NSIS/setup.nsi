@@ -133,17 +133,15 @@ Unicode true
 ; always show language selection dialog
     !define MUI_LANGDLL_ALWAYSSHOW
 
-    !insertmacro MUI_LANGUAGE "English"
-    !insertmacro MUI_LANGUAGE "Arabic"
-    !insertmacro MUI_LANGUAGE "SimpChinese"
-    !insertmacro MUI_LANGUAGE "French"
-    !insertmacro MUI_LANGUAGE "German"
-    !insertmacro MUI_LANGUAGE "Korean"
-    !insertmacro MUI_LANGUAGE "Italian"
-    !insertmacro MUI_LANGUAGE "Portuguese"
-    !insertmacro MUI_LANGUAGE "PortugueseBR"
-    !insertmacro MUI_LANGUAGE "Russian"
-    !insertmacro MUI_LANGUAGE "Spanish"
+!macro LOAD_LANGUAGE LANGUAGE
+    !insertmacro MUI_LANGUAGE "${LANGUAGE}"
+    !include "i18n\out\${LANGUAGE}.nsh"
+!macroend
+
+    !insertmacro LOAD_LANGUAGE "English"
+    !insertmacro LOAD_LANGUAGE "French"
+    !insertmacro LOAD_LANGUAGE "German"
+    !insertmacro LOAD_LANGUAGE "Italian"
 
 ;--------------------------------
 ;Installer Sections
@@ -187,75 +185,7 @@ Section "$(DESC_DesktopShortcutSession)" SectionDesktopShortcut
 
 SectionEnd
 
-;--------------------------------
-;Descriptions
-
-    ;Language strings
-
-    ; Macro Default Language strings
-    !macro SetDefaultEnglishTranslation missing_lang
-        LangString DESC_SectionMainApplication ${missing_lang} "The main application."
-        LangString DESC_SectionLauncher ${missing_lang} "The launcher, used for messaging with web browser."
-        LangString DESC_SectionStartMenuShortcut ${missing_lang} "Create Start Menu Shortcut."
-        LangString DESC_SectionDesktopShortcut ${missing_lang} "Create Desktop Shortcut."
-        LangString DESC_UninstallIconDescription ${missing_lang} "Uninstall DownZemAll"
-        LangString DESC_ApplicationSession ${missing_lang} "Application (required)"
-        LangString DESC_LauncherSession ${missing_lang} "Launcher (required)"
-        LangString DESC_StartMenuGroupSession ${missing_lang} "Start Menu Shortcut"
-        LangString DESC_DesktopShortcutSession ${missing_lang} "Desktop Shortcut"
-        LangString DESC_VisitWebSite ${missing_lang} "Visit our website:"
-    !macroend
-
-    ; Language strings (English)
-    !insertmacro SetDefaultEnglishTranslation ${LANG_ENGLISH}
-
-    ; Language strings (French)
-    LangString DESC_SectionMainApplication ${LANG_FRENCH} "L'application principale."
-    LangString DESC_SectionLauncher ${LANG_FRENCH} "Le launcher pour les messages avec le navigateur web."
-    LangString DESC_SectionStartMenuShortcut ${LANG_FRENCH} "Ajoute des icônes au menu Démarrer pour un accès facile."
-    LangString DESC_SectionDesktopShortcut ${LANG_FRENCH} "Ajoute une icône sur votre bureau pour un accès facile."
-    LangString DESC_UninstallIconDescription ${LANG_FRENCH} "Désinstaller DownZemAll"
-    LangString DESC_ApplicationSession ${LANG_FRENCH} "Application (requis)"
-    LangString DESC_LauncherSession ${LANG_FRENCH} "Launcher(requis)"
-    LangString DESC_StartMenuGroupSession ${LANG_FRENCH} "Raccourci dans le menu Démarrer"
-    LangString DESC_DesktopShortcutSession ${LANG_FRENCH} "Raccourci sur le bureau"
-    LangString DESC_VisitWebSite ${LANG_FRENCH} "Visitez notre site Internet :"
-
-    ; Language strings (German)
-    LangString DESC_SectionMainApplication ${LANG_GERMAN} "Die Hauptapplikation."
-    LangString DESC_SectionLauncher ${LANG_GERMAN} "Der launcher, das für Messaging mit Webbrowser verwendet wird."
-    LangString DESC_SectionStartMenuShortcut ${LANG_GERMAN} "Fügt Symbole im Startmenü für leichten Zugang hinzu."
-    LangString DESC_SectionDesktopShortcut ${LANG_GERMAN} "Fügt ein Desktopsymbol für leichten Zugang ein."
-    LangString DESC_UninstallIconDescription ${LANG_GERMAN} "Deinstallieren DownZemAll"
-    LangString DESC_ApplicationSession ${LANG_GERMAN} "Applikation (benötigt)"
-    LangString DESC_LauncherSession ${LANG_GERMAN} "Launcher (benötigt)"
-    LangString DESC_StartMenuGroupSession ${LANG_GERMAN} "Symbol im Startmenü"
-    LangString DESC_DesktopShortcutSession ${LANG_GERMAN} "Desktopsymbol"
-    LangString DESC_VisitWebSite ${LANG_GERMAN} "Besuche unsere Webseite:"
-
-    ; Language strings (Italian)
-    LangString DESC_SectionMainApplication ${LANG_ITALIAN} "L'applicazione principale."
-    LangString DESC_SectionLauncher ${LANG_ITALIAN} "Il launcher, usato per i messaggi con il browser web."
-    LangString DESC_SectionStartMenuShortcut ${LANG_ITALIAN} "Crea gruppo programmi nel menu Start."
-    LangString DESC_SectionDesktopShortcut ${LANG_ITALIAN} "Crea collegamento programma sul desktop."
-    LangString DESC_UninstallIconDescription ${LANG_ITALIAN} "Disinstalla DownZemAll"
-    LangString DESC_ApplicationSession ${LANG_ITALIAN} "Applicazione"
-    LangString DESC_LauncherSession ${LANG_ITALIAN} "Launcher"
-    LangString DESC_StartMenuGroupSession ${LANG_ITALIAN} "Gruppo menu Start"
-    LangString DESC_DesktopShortcutSession ${LANG_ITALIAN} "Collegamento desktop"
-    LangString DESC_VisitWebSite ${LANG_ITALIAN} "Visita il nostro sito web:"
-
-    ; Other (missing) language strings
-    !insertmacro SetDefaultEnglishTranslation ${LANG_ARABIC}
-    !insertmacro SetDefaultEnglishTranslation ${LANG_KOREAN}
-    !insertmacro SetDefaultEnglishTranslation ${LANG_PORTUGUESE}
-    !insertmacro SetDefaultEnglishTranslation ${LANG_PORTUGUESEBR}
-    !insertmacro SetDefaultEnglishTranslation ${LANG_RUSSIAN}
-    !insertmacro SetDefaultEnglishTranslation ${LANG_SPANISH}
-    !insertmacro SetDefaultEnglishTranslation ${LANG_SIMPCHINESE}
-
-
-    ;Assign language strings to sections
+    ;Assign language strings to section names
     !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
         !insertmacro MUI_DESCRIPTION_TEXT ${SectionMainApplication} $(DESC_SectionMainApplication)
         !insertmacro MUI_DESCRIPTION_TEXT ${SectionLauncher} $(DESC_SectionLauncher)
