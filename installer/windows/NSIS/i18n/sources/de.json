@@ -1,0 +1,12 @@
+{
+    "DESC_SectionMainApplication": "Die Hauptapplikation.",
+    "DESC_SectionLauncher": "Der launcher, das für Messaging mit Webbrowser verwendet wird.",
+    "DESC_SectionStartMenuShortcut": "Fügt Symbole im Startmenü für leichten Zugang hinzu.",
+    "DESC_SectionDesktopShortcut": "Fügt ein Desktopsymbol für leichten Zugang ein.",
+    "DESC_UninstallIconDescription": "Deinstallieren DownZemAll",
+    "DESC_ApplicationSession": "Applikation (benötigt)",
+    "DESC_LauncherSession": "Launcher (benötigt)",
+    "DESC_StartMenuGroupSession": "Symbol im Startmenü",
+    "DESC_DesktopShortcutSession": "Desktopsymbol",
+    "DESC_VisitWebSite": "Besuche unsere Webseite:"
+}

@@ -1,0 +1,12 @@
+{
+    "DESC_SectionMainApplication": "L'application principale.",
+    "DESC_SectionLauncher": "Le launcher pour les messages avec le navigateur web.",
+    "DESC_SectionStartMenuShortcut": "Ajoute des icônes au menu Démarrer pour un accès facile.",
+    "DESC_SectionDesktopShortcut": "Ajoute une icône sur votre bureau pour un accès facile.",
+    "DESC_UninstallIconDescription": "Désinstaller DownZemAll",
+    "DESC_ApplicationSession": "Application (requis)",
+    "DESC_LauncherSession": "Launcher(requis)",
+    "DESC_StartMenuGroupSession": "Raccourci dans le menu Démarrer",
+    "DESC_DesktopShortcutSession": "Raccourci sur le bureau",
+    "DESC_VisitWebSite": "Visitez notre site Internet :"
+}

@@ -139,9 +139,16 @@ Unicode true
 !macroend
 
     !insertmacro LOAD_LANGUAGE "English"
+    !insertmacro LOAD_LANGUAGE "Arabic"
+    !insertmacro LOAD_LANGUAGE "SimpChinese"
     !insertmacro LOAD_LANGUAGE "French"
     !insertmacro LOAD_LANGUAGE "German"
+    !insertmacro LOAD_LANGUAGE "Korean"
     !insertmacro LOAD_LANGUAGE "Italian"
+    !insertmacro LOAD_LANGUAGE "Portuguese"
+    !insertmacro LOAD_LANGUAGE "PortugueseBR"
+    !insertmacro LOAD_LANGUAGE "Russian"
+    !insertmacro LOAD_LANGUAGE "Spanish"
 
 ;--------------------------------
 ;Installer Sections

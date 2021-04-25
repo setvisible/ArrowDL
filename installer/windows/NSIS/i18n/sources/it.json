@@ -1,0 +1,12 @@
+{
+    "DESC_SectionMainApplication": "L'applicazione principale.",
+    "DESC_SectionLauncher": "Il launcher, usato per i messaggi con il browser web.",
+    "DESC_SectionStartMenuShortcut": "Crea gruppo programmi nel menu Start.",
+    "DESC_SectionDesktopShortcut": "Crea collegamento programma sul desktop.",
+    "DESC_UninstallIconDescription": "Disinstalla DownZemAll",
+    "DESC_ApplicationSession": "Applicazione",
+    "DESC_LauncherSession": "Launcher",
+    "DESC_StartMenuGroupSession": "Gruppo menu Start",
+    "DESC_DesktopShortcutSession": "Collegamento desktop",
+    "DESC_VisitWebSite": "Visita il nostro sito web:"
+}
