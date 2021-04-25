@@ -21,6 +21,10 @@
     !define VERSION "0.0.65536"
 !endif
 
+!ifndef PLATFORM
+    !define PLATFORM ""
+!endif
+
 !define PRODUCT_NAME "DownZemAll"
 !define PRODUCT_VERSION ${VERSION}
 !define PRODUCT_GROUP "Sebastien Vavassori"
@@ -59,7 +63,12 @@ Unicode true
     OutFile "${PATH_OUT}\DownZemAllSetup.exe"
 
     ;Default installation folder
-    InstallDir "$LOCALAPPDATA\DownZemAll"
+    InstallDir "$LOCALAPPDATA\${PRODUCT_NAME}" ; todo local user (otherwise config files and auto-update might not work)
+    ;InstallDir "$PROGRAMFILES\${PRODUCT_NAME}" ; todo PLATFORM == "x86"
+    ;InstallDir "$PROGRAMFILES64\${PRODUCT_NAME}" ; todo PLATFORM == "x64"
+
+    ; The default installation directory
+    InstallDirRegKey HKLM "Software\${REGISTRY_INSTALLER_FOLDER_NAME}\${PRODUCT_NAME}" "InstallDir"
 
     ;Options
     ShowInstDetails show
@@ -70,7 +79,7 @@ Unicode true
 
     ;Request application privileges for Windows Vista
     ;and no admin privileges for Windows 8/8.1/10
-    RequestExecutionLevel user
+    RequestExecutionLevel user ; todo admin ?
 
 ;--------------------------------
 ;Interface Settings
@@ -94,6 +103,8 @@ Unicode true
 ;Pages
 
     ; --- Installer pages ---
+    ;Abort Warning
+        !define MUI_ABORTWARNING
     ;Welcome page
         !define MUI_WELCOMEPAGE_TITLE_3LINES
         !insertmacro MUI_PAGE_WELCOME
@@ -108,7 +119,8 @@ Unicode true
         !insertmacro MUI_PAGE_INSTFILES
     ;Finish page
         !define MUI_FINISHPAGE_RUN DownZemAll.exe
-        ;!define MUI_FINISHPAGE_LINK "${DESC_VisitWebSite} ${PRODUCT_WEB_SITE}"  ; See hack
+        ;!define MUI_FINISHPAGE_LINK "${DESC_VisitWebSite} ${PRODUCT_WEB_SITE}" ; todo Doesn't work
+        !define MUI_FINISHPAGE_LINK "${PRODUCT_WEB_SITE}"
         !define MUI_FINISHPAGE_LINK_LOCATION "${PRODUCT_WEB_SITE}"
         !define MUI_FINISHPAGE_LINK_COLOR 0xFF8700 ; orange
         !insertmacro MUI_PAGE_FINISH
@@ -120,7 +132,7 @@ Unicode true
         !insertmacro MUI_UNPAGE_INSTFILES
         !define MUI_UNPAGE_FINISH_TITLE_3LINES
         !insertmacro MUI_UNPAGE_FINISH
-  
+
 ;--------------------------------
 ; Languages
 ; reference: https://nsis.sourceforge.io/Examples/Modern%20UI/MultiLanguage.nsi
@@ -199,10 +211,6 @@ SectionEnd
         !insertmacro MUI_DESCRIPTION_TEXT ${SectionStartMenuShortcut} $(DESC_SectionStartMenuShortcut)
         !insertmacro MUI_DESCRIPTION_TEXT ${SectionDesktopShortcut} $(DESC_SectionDesktopShortcut)
     !insertmacro MUI_FUNCTION_DESCRIPTION_END
-
-;--------------------------------
-; Hack
-        !define MUI_FINISHPAGE_LINK "${DESC_VisitWebSite} ${PRODUCT_WEB_SITE}"
 
 ;--------------------------------
 ;Uninstaller Section

@@ -16,6 +16,7 @@
 makensis  ^
     /DPATH_OUT=".."  ^
     /DVERSION="0.0.0"  ^
+    /DPLATFORM="x64"  ^
     /DBIN_PATH="<INSTALL_PATH>"  ^
     .\NSIS\setup.nsi
 
