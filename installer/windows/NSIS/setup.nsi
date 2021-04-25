@@ -3,6 +3,9 @@
 ; (http://nsis.sourceforge.net) ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+!define PROJECT_PATH "..\..\.."
+
 ;Output directory (where the package will be saved)
 !ifndef PATH_OUT
     !define PATH_OUT "."
@@ -14,18 +17,20 @@
     Abort
 !endif
 
-!define PRODUCT_NAME "DownZemAll"
 !ifndef VERSION
     !define VERSION "0.0.65536"
 !endif
+
+!define PRODUCT_NAME "DownZemAll"
 !define PRODUCT_VERSION ${VERSION}
 !define PRODUCT_GROUP "Sebastien Vavassori"
 !define PRODUCT_PUBLISHER "Sebastien Vavassori"
 !define PRODUCT_WEB_SITE "https://setvisible.github.io/DownZemAll"
 
+; Adds info to the installer
 VIProductVersion "${PRODUCT_VERSION}.000"
 VIFileVersion "${VERSION}.000"
-VIAddVersionKey "FileDescription" "DownZemAll - Mass Download Manager"
+VIAddVersionKey "FileDescription" "Installation for ${PRODUCT_NAME}"
 VIAddVersionKey "FileVersion" "${VERSION}"
 VIAddVersionKey "ProductName" "DownZemAll"
 VIAddVersionKey "ProductVersion" "${PRODUCT_VERSION}"
@@ -40,7 +45,7 @@ Unicode true
 ;Includes
 
     ;Include custom macros
-    !include macros.nsh
+    !include "macros.nsh"
 
     ;Include NSIS Modern User Interface (MUI)
     !include "MUI2.nsh"
@@ -70,15 +75,20 @@ Unicode true
 ;--------------------------------
 ;Interface Settings
 
-    !define MUI_ICON "..\..\..\src\icons\logo\icon.ico"
-    !define MUI_UNICON "..\..\..\src\icons\logo\icon.ico"
+    !define MUI_ICON "${PROJECT_PATH}\src\icons\logo\icon.ico"
+    !define MUI_UNICON "${PROJECT_PATH}\src\icons\logo\icon.ico"
+
+    ; Make installer pretty
+    !define MUI_HEADERIMAGE
+    !define MUI_HEADERIMAGE_RIGHT
+    !define MUI_HEADERIMAGE_BITMAP "${PROJECT_PATH}\installer\windows\NSIS\images\header.bmp" ;
 
     ; Banner (welcome and finish page) for installer
-    !define MUI_WELCOMEFINISHPAGE_BITMAP "branding.bmp"
+    !define MUI_WELCOMEFINISHPAGE_BITMAP "${PROJECT_PATH}\installer\windows\NSIS\images\branding.bmp"
     !define MUI_BGCOLOR  0xFFFFFF
 
     ; Banner for uninstaller
-    !define MUI_UNWELCOMEFINISHPAGE_BITMAP "branding.bmp"
+    !define MUI_UNWELCOMEFINISHPAGE_BITMAP "${PROJECT_PATH}\installer\windows\NSIS\images\branding.bmp"
 
 ;--------------------------------
 ;Pages
@@ -88,8 +98,9 @@ Unicode true
         !define MUI_WELCOMEPAGE_TITLE_3LINES
         !insertmacro MUI_PAGE_WELCOME
     ;License page
-        !insertmacro MUI_PAGE_LICENSE "COPYING.txt"
+        !insertmacro MUI_PAGE_LICENSE "${PROJECT_PATH}\installer\windows\NSIS\COPYING.txt"
     ;Components page
+        !define MUI_COMPONENTSPAGE_SMALLDESC
         !insertmacro MUI_PAGE_COMPONENTS
     ;Directory page
         !insertmacro MUI_PAGE_DIRECTORY
@@ -107,6 +118,7 @@ Unicode true
         !insertmacro MUI_UNPAGE_WELCOME
         !insertmacro MUI_UNPAGE_CONFIRM
         !insertmacro MUI_UNPAGE_INSTFILES
+        !define MUI_UNPAGE_FINISH_TITLE_3LINES
         !insertmacro MUI_UNPAGE_FINISH
   
 ;--------------------------------
@@ -281,7 +293,7 @@ Function .onInit
     ;Display languages
     !insertmacro MUI_LANGDLL_DISPLAY
 
-    ;Verify the application is closed
+    ;Abort installation if the application is currently running
     Call .quitIfRunning
 FunctionEnd
 
@@ -290,6 +302,6 @@ Function un.onInit
     ;Display languages
     !insertmacro MUI_LANGDLL_DISPLAY
 
-    ;Verify the application is closed
+    ;Abort installation if the application is currently running
     Call un.quitIfRunning
 FunctionEnd
