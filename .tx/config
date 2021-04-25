@@ -1,3 +1,5 @@
+; See https://docs.transifex.com/client/client-configuration
+
 [main]
 host = https://www.transifex.com
 
@@ -16,3 +18,10 @@ source_file = web-extension/extension/src/base/_locales/en/messages.json
 source_lang = en
 type = CHROME
 lang_map = ar_EG: ar, de_DE: de, en_US: en, es_ES: es, fr_FR: fr, it_IT: it, ko_KR: ko, pt_BR: pt_BR, pt_PT: pt_PT, ru_RU: ru, zh_CN: zh_CN
+
+[downzemall.windows-installer]
+file_filter = installer/windows/NSIS/i18n/sources/<lang>.json
+source_file = installer/windows/NSIS/i18n/sources/en.json
+source_lang = en
+type = KEYVALUEJSON
+lang_map = ar_EG: ar, de_DE: de, en_US: en, es_ES: es, fr_FR: fr, it_IT: it, ko_KR: ko, pt_BR: pt_BR, pt_PT: pt, ru_RU: ru, zh_CN: zh_CN
