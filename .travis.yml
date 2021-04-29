@@ -33,13 +33,14 @@ branches:
 # Travis-CI:
 #  - GNU C++ Compiler version 5 works on Precise and Trusty
 #  - Precise ships with CMake 2.8.7
-#  - Trusty ships with CMake 3.9.2    => Use Trusty
+#  - Trusty ships with CMake 3.9.2
+#  - Xenial ships with CMake 3.12.4    => Use Xenial
 
 matrix:
   include:
     - os: linux
-      dist: trusty
-      env: QT_BASE=55 CXX_COMPILER=g++-5 C_COMPILER=gcc-5 BUILD_TYPE=Release
+      dist: xenial
+      env: QT_BASE=56 CXX_COMPILER=g++-5 C_COMPILER=gcc-5 BUILD_TYPE=Release
       addons:
         apt:
           sources:
@@ -54,12 +55,13 @@ matrix:
 
 before_install:
   - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
-  - if [ "$QT_BASE" = "55"  ]; then sudo add-apt-repository ppa:beineri/opt-qt551-trusty -y; fi
+  - if [ "$QT_BASE" = "56"  ]; then sudo add-apt-repository ppa:beineri/opt-qt562-xenial -y; fi
   - sudo apt-get update -qq
 
 
 install:
-  - if [ "$QT_BASE" = "55"  ]; then sudo apt-get install -qq qt55base qt55multimedia qt55translations qt55tools ; source /opt/qt55/bin/qt55-env.sh ; export QTHOME=/opt/qt55 ; fi
+  - sudo apt-get install -qq mesa-common-dev libglu1-mesa-dev
+  - if [ "$QT_BASE" = "56"  ]; then sudo apt-get install -qq qt56base qt56multimedia qt56translations qt56tools ; source /opt/qt56/bin/qt56-env.sh ; export QTHOME=/opt/qt56 ; fi
 
   # read the content of the file ./version
   - AppVersion=`cat version`
