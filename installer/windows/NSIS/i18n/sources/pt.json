@@ -1,0 +1,12 @@
+{
+    "DESC_SectionMainApplication": "O aplicativo principal.",
+    "DESC_SectionLauncher": "O iniciador, usado para mensagens com o navegador da web.",
+    "DESC_SectionStartMenuShortcut": "Crie um atalho do menu Iniciar.",
+    "DESC_SectionDesktopShortcut": "Crie um atalho na área de trabalho.",
+    "DESC_UninstallIconDescription": "Desinstalar DownZemAll",
+    "DESC_ApplicationSession": "Aplicação (obrigatório)",
+    "DESC_LauncherSession": "Launcher (obrigatório)",
+    "DESC_StartMenuGroupSession": "Atalho do menu Iniciar",
+    "DESC_DesktopShortcutSession": "Atalho da área de trabalho",
+    "DESC_VisitWebSite": "Visite o nosso site:"
+}

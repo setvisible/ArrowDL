@@ -3,6 +3,9 @@
 ; (http://nsis.sourceforge.net) ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+!define PROJECT_PATH "..\..\.."
+
 ;Output directory (where the package will be saved)
 !ifndef PATH_OUT
     !define PATH_OUT "."
@@ -14,18 +17,24 @@
     Abort
 !endif
 
-!define PRODUCT_NAME "DownZemAll"
 !ifndef VERSION
     !define VERSION "0.0.65536"
 !endif
+
+!ifndef PLATFORM
+    !define PLATFORM ""
+!endif
+
+!define PRODUCT_NAME "DownZemAll"
 !define PRODUCT_VERSION ${VERSION}
 !define PRODUCT_GROUP "Sebastien Vavassori"
 !define PRODUCT_PUBLISHER "Sebastien Vavassori"
 !define PRODUCT_WEB_SITE "https://setvisible.github.io/DownZemAll"
 
+; Adds info to the installer
 VIProductVersion "${PRODUCT_VERSION}.000"
 VIFileVersion "${VERSION}.000"
-VIAddVersionKey "FileDescription" "DownZemAll - Mass Download Manager"
+VIAddVersionKey "FileDescription" "Installation for ${PRODUCT_NAME}"
 VIAddVersionKey "FileVersion" "${VERSION}"
 VIAddVersionKey "ProductName" "DownZemAll"
 VIAddVersionKey "ProductVersion" "${PRODUCT_VERSION}"
@@ -40,7 +49,7 @@ Unicode true
 ;Includes
 
     ;Include custom macros
-    !include macros.nsh
+    !include "macros.nsh"
 
     ;Include NSIS Modern User Interface (MUI)
     !include "MUI2.nsh"
@@ -54,7 +63,12 @@ Unicode true
     OutFile "${PATH_OUT}\DownZemAllSetup.exe"
 
     ;Default installation folder
-    InstallDir "$LOCALAPPDATA\DownZemAll"
+    InstallDir "$LOCALAPPDATA\${PRODUCT_NAME}" ; todo local user (otherwise config files and auto-update might not work)
+    ;InstallDir "$PROGRAMFILES\${PRODUCT_NAME}" ; todo PLATFORM == "x86"
+    ;InstallDir "$PROGRAMFILES64\${PRODUCT_NAME}" ; todo PLATFORM == "x64"
+
+    ; The default installation directory
+    InstallDirRegKey HKLM "Software\${REGISTRY_INSTALLER_FOLDER_NAME}\${PRODUCT_NAME}" "InstallDir"
 
     ;Options
     ShowInstDetails show
@@ -65,31 +79,39 @@ Unicode true
 
     ;Request application privileges for Windows Vista
     ;and no admin privileges for Windows 8/8.1/10
-    RequestExecutionLevel user
+    RequestExecutionLevel user ; todo admin ?
 
 ;--------------------------------
 ;Interface Settings
 
-    !define MUI_ICON "..\..\..\src\icons\logo\icon.ico"
-    !define MUI_UNICON "..\..\..\src\icons\logo\icon.ico"
+    !define MUI_ICON "${PROJECT_PATH}\src\icons\logo\icon.ico"
+    !define MUI_UNICON "${PROJECT_PATH}\src\icons\logo\icon.ico"
+
+    ; Make installer pretty
+    !define MUI_HEADERIMAGE
+    !define MUI_HEADERIMAGE_RIGHT
+    !define MUI_HEADERIMAGE_BITMAP "${PROJECT_PATH}\installer\windows\NSIS\images\header.bmp" ;
 
     ; Banner (welcome and finish page) for installer
-    !define MUI_WELCOMEFINISHPAGE_BITMAP "branding.bmp"
+    !define MUI_WELCOMEFINISHPAGE_BITMAP "${PROJECT_PATH}\installer\windows\NSIS\images\branding.bmp"
     !define MUI_BGCOLOR  0xFFFFFF
 
     ; Banner for uninstaller
-    !define MUI_UNWELCOMEFINISHPAGE_BITMAP "branding.bmp"
+    !define MUI_UNWELCOMEFINISHPAGE_BITMAP "${PROJECT_PATH}\installer\windows\NSIS\images\branding.bmp"
 
 ;--------------------------------
 ;Pages
 
     ; --- Installer pages ---
+    ;Abort Warning
+        !define MUI_ABORTWARNING
     ;Welcome page
         !define MUI_WELCOMEPAGE_TITLE_3LINES
         !insertmacro MUI_PAGE_WELCOME
     ;License page
-        !insertmacro MUI_PAGE_LICENSE "COPYING.txt"
+        !insertmacro MUI_PAGE_LICENSE "${PROJECT_PATH}\installer\windows\NSIS\COPYING.txt"
     ;Components page
+        !define MUI_COMPONENTSPAGE_SMALLDESC
         !insertmacro MUI_PAGE_COMPONENTS
     ;Directory page
         !insertmacro MUI_PAGE_DIRECTORY
@@ -97,7 +119,8 @@ Unicode true
         !insertmacro MUI_PAGE_INSTFILES
     ;Finish page
         !define MUI_FINISHPAGE_RUN DownZemAll.exe
-        !define MUI_FINISHPAGE_LINK "${DESC_VisitWebSite} ${PRODUCT_WEB_SITE}"
+        ;!define MUI_FINISHPAGE_LINK "${DESC_VisitWebSite} ${PRODUCT_WEB_SITE}" ; todo Doesn't work
+        !define MUI_FINISHPAGE_LINK "${PRODUCT_WEB_SITE}"
         !define MUI_FINISHPAGE_LINK_LOCATION "${PRODUCT_WEB_SITE}"
         !define MUI_FINISHPAGE_LINK_COLOR 0xFF8700 ; orange
         !insertmacro MUI_PAGE_FINISH
@@ -107,8 +130,9 @@ Unicode true
         !insertmacro MUI_UNPAGE_WELCOME
         !insertmacro MUI_UNPAGE_CONFIRM
         !insertmacro MUI_UNPAGE_INSTFILES
+        !define MUI_UNPAGE_FINISH_TITLE_3LINES
         !insertmacro MUI_UNPAGE_FINISH
-  
+
 ;--------------------------------
 ; Languages
 ; reference: https://nsis.sourceforge.io/Examples/Modern%20UI/MultiLanguage.nsi
@@ -121,17 +145,22 @@ Unicode true
 ; always show language selection dialog
     !define MUI_LANGDLL_ALWAYSSHOW
 
-    !insertmacro MUI_LANGUAGE "English"
-    !insertmacro MUI_LANGUAGE "Arabic"
-    !insertmacro MUI_LANGUAGE "SimpChinese"
-    !insertmacro MUI_LANGUAGE "French"
-    !insertmacro MUI_LANGUAGE "German"
-    !insertmacro MUI_LANGUAGE "Korean"
-    !insertmacro MUI_LANGUAGE "Italian"
-    !insertmacro MUI_LANGUAGE "Portuguese"
-    !insertmacro MUI_LANGUAGE "PortugueseBR"
-    !insertmacro MUI_LANGUAGE "Russian"
-    !insertmacro MUI_LANGUAGE "Spanish"
+!macro LOAD_LANGUAGE LANGUAGE
+    !insertmacro MUI_LANGUAGE "${LANGUAGE}"
+    !include "i18n\out\${LANGUAGE}.nsh"
+!macroend
+
+    !insertmacro LOAD_LANGUAGE "English"
+    !insertmacro LOAD_LANGUAGE "Arabic"
+    !insertmacro LOAD_LANGUAGE "SimpChinese"
+    !insertmacro LOAD_LANGUAGE "French"
+    !insertmacro LOAD_LANGUAGE "German"
+    !insertmacro LOAD_LANGUAGE "Korean"
+    !insertmacro LOAD_LANGUAGE "Italian"
+    !insertmacro LOAD_LANGUAGE "Portuguese"
+    !insertmacro LOAD_LANGUAGE "PortugueseBR"
+    !insertmacro LOAD_LANGUAGE "Russian"
+    !insertmacro LOAD_LANGUAGE "Spanish"
 
 ;--------------------------------
 ;Installer Sections
@@ -175,75 +204,7 @@ Section "$(DESC_DesktopShortcutSession)" SectionDesktopShortcut
 
 SectionEnd
 
-;--------------------------------
-;Descriptions
-
-    ;Language strings
-
-    ; Macro Default Language strings
-    !macro SetDefaultEnglishTranslation missing_lang
-        LangString DESC_SectionMainApplication ${missing_lang} "The main application."
-        LangString DESC_SectionLauncher ${missing_lang} "The launcher, used for messaging with web browser."
-        LangString DESC_SectionStartMenuShortcut ${missing_lang} "Create Start Menu Shortcut."
-        LangString DESC_SectionDesktopShortcut ${missing_lang} "Create Desktop Shortcut."
-        LangString DESC_UninstallIconDescription ${missing_lang} "Uninstall DownZemAll"
-        LangString DESC_ApplicationSession ${missing_lang} "Application (required)"
-        LangString DESC_LauncherSession ${missing_lang} "Launcher (required)"
-        LangString DESC_StartMenuGroupSession ${missing_lang} "Start Menu Shortcut"
-        LangString DESC_DesktopShortcutSession ${missing_lang} "Desktop Shortcut"
-        LangString DESC_VisitWebSite ${missing_lang} "Visit our website:"
-    !macroend
-
-    ; Language strings (English)
-    !insertmacro SetDefaultEnglishTranslation ${LANG_ENGLISH}
-
-    ; Language strings (French)
-    LangString DESC_SectionMainApplication ${LANG_FRENCH} "L'application principale."
-    LangString DESC_SectionLauncher ${LANG_FRENCH} "Le launcher pour les messages avec le navigateur web."
-    LangString DESC_SectionStartMenuShortcut ${LANG_FRENCH} "Ajoute des icônes au menu Démarrer pour un accès facile."
-    LangString DESC_SectionDesktopShortcut ${LANG_FRENCH} "Ajoute une icône sur votre bureau pour un accès facile."
-    LangString DESC_UninstallIconDescription ${LANG_FRENCH} "Désinstaller DownZemAll"
-    LangString DESC_ApplicationSession ${LANG_FRENCH} "Application (requis)"
-    LangString DESC_LauncherSession ${LANG_FRENCH} "Launcher(requis)"
-    LangString DESC_StartMenuGroupSession ${LANG_FRENCH} "Raccourci dans le menu Démarrer"
-    LangString DESC_DesktopShortcutSession ${LANG_FRENCH} "Raccourci sur le bureau"
-    LangString DESC_VisitWebSite ${LANG_FRENCH} "Visitez notre site Internet :"
-
-    ; Language strings (German)
-    LangString DESC_SectionMainApplication ${LANG_GERMAN} "Die Hauptapplikation."
-    LangString DESC_SectionLauncher ${LANG_GERMAN} "Der launcher, das für Messaging mit Webbrowser verwendet wird."
-    LangString DESC_SectionStartMenuShortcut ${LANG_GERMAN} "Fügt Symbole im Startmenü für leichten Zugang hinzu."
-    LangString DESC_SectionDesktopShortcut ${LANG_GERMAN} "Fügt ein Desktopsymbol für leichten Zugang ein."
-    LangString DESC_UninstallIconDescription ${LANG_GERMAN} "Deinstallieren DownZemAll"
-    LangString DESC_ApplicationSession ${LANG_GERMAN} "Applikation (benötigt)"
-    LangString DESC_LauncherSession ${LANG_GERMAN} "Launcher (benötigt)"
-    LangString DESC_StartMenuGroupSession ${LANG_GERMAN} "Symbol im Startmenü"
-    LangString DESC_DesktopShortcutSession ${LANG_GERMAN} "Desktopsymbol"
-    LangString DESC_VisitWebSite ${LANG_GERMAN} "Besuche unsere Webseite:"
-
-    ; Language strings (Italian)
-    LangString DESC_SectionMainApplication ${LANG_ITALIAN} "Applicazione principale."
-    LangString DESC_SectionLauncher ${LANG_ITALIAN} "Il launcher, usato per i messaggi con il browser web."
-    LangString DESC_SectionStartMenuShortcut ${LANG_ITALIAN} "Crea gruppo programmi nel menu Start."
-    LangString DESC_SectionDesktopShortcut ${LANG_ITALIAN} "Crea collegamento programma sul desktop."
-    LangString DESC_UninstallIconDescription ${LANG_ITALIAN} "Disinstalla DownZemAll"
-    LangString DESC_ApplicationSession ${LANG_ITALIAN} "Applicazion"
-    LangString DESC_LauncherSession ${LANG_ITALIAN} "Launcher"
-    LangString DESC_StartMenuGroupSession ${LANG_ITALIAN} "Gruppo programmi Menu Shortcut"
-    LangString DESC_DesktopShortcutSession ${LANG_ITALIAN} "Collegamento sul desktop"
-    LangString DESC_VisitWebSite ${LANG_ITALIAN} "Visita il nostro sito web:"
-
-    ; Other (missing) language strings
-    !insertmacro SetDefaultEnglishTranslation ${LANG_ARABIC}
-    !insertmacro SetDefaultEnglishTranslation ${LANG_KOREAN}
-    !insertmacro SetDefaultEnglishTranslation ${LANG_PORTUGUESE}
-    !insertmacro SetDefaultEnglishTranslation ${LANG_PORTUGUESEBR}
-    !insertmacro SetDefaultEnglishTranslation ${LANG_RUSSIAN}
-    !insertmacro SetDefaultEnglishTranslation ${LANG_SPANISH}
-    !insertmacro SetDefaultEnglishTranslation ${LANG_SIMPCHINESE}
-
-
-    ;Assign language strings to sections
+    ;Assign language strings to section names
     !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
         !insertmacro MUI_DESCRIPTION_TEXT ${SectionMainApplication} $(DESC_SectionMainApplication)
         !insertmacro MUI_DESCRIPTION_TEXT ${SectionLauncher} $(DESC_SectionLauncher)
@@ -277,7 +238,7 @@ Function .onInit
     ;Display languages
     !insertmacro MUI_LANGDLL_DISPLAY
 
-    ;Verify the application is closed
+    ;Abort installation if the application is currently running
     Call .quitIfRunning
 FunctionEnd
 
@@ -286,6 +247,6 @@ Function un.onInit
     ;Display languages
     !insertmacro MUI_LANGDLL_DISPLAY
 
-    ;Verify the application is closed
+    ;Abort installation if the application is currently running
     Call un.quitIfRunning
 FunctionEnd

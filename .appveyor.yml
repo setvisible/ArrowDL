@@ -439,6 +439,7 @@ after_test:
       makensis 
           /DPATH_OUT="C:\projects\DownZemAll\bin"
           /DVERSION="%AppVersion%" 
+          /DPLATFORM="%PLATFORM%" 
           /DBIN_PATH="C:\projects\install-DownZemAll-cmake" 
           C:\projects\DownZemAll\installer\windows\NSIS\setup.nsi &&
       rename "DownZemAllSetup.exe" "DownZemAll_%PLATFORM%_Setup.exe"

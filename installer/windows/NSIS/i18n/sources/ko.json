@@ -1,0 +1,12 @@
+{
+    "DESC_SectionMainApplication": "주요 응용 프로그램입니다.",
+    "DESC_SectionLauncher": "웹 브라우저와의 메시징에 사용되는 런처.",
+    "DESC_SectionStartMenuShortcut": "시작 메뉴 바로 가기를 만듭니다.",
+    "DESC_SectionDesktopShortcut": "바탕 화면 바로 가기를 만듭니다.",
+    "DESC_UninstallIconDescription": "DownZemAll 제거",
+    "DESC_ApplicationSession": "신청 (필수)",
+    "DESC_LauncherSession": "런처 (필수)",
+    "DESC_StartMenuGroupSession": "시작 메뉴 바로 가기",
+    "DESC_DesktopShortcutSession": "바탕 화면 바로 가기",
+    "DESC_VisitWebSite": "우리 홈페이지에 방문 해주세요:"
+}
