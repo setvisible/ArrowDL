@@ -1,11 +1,5 @@
 # https://docs.travis-ci.com/
 
-# Rem:  travis-ci.org  or  travis-ci.com  ?
-#
-# Open source projects and their build history will continue to run on travis-ci.org.
-# However, you can be included in the closed beta testing to start migrating 
-# your open source repositories to travis-ci.com.
-
 #---------------------------------#
 #      general configuration      #
 #---------------------------------#
