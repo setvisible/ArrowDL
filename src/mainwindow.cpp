@@ -37,6 +37,7 @@
 #include <Dialogs/AddContentDialog>
 #include <Dialogs/AddStreamDialog>
 #include <Dialogs/AddTorrentDialog>
+#include <Dialogs/AddUrlsDialog>
 #include <Dialogs/BatchRenameDialog>
 #include <Dialogs/CompilerDialog>
 #include <Dialogs/EditionDialog>
@@ -276,6 +277,7 @@ void MainWindow::createActions()
     connect(ui->actionAddBatch,   SIGNAL(triggered()), this, SLOT(addBatch()));
     connect(ui->actionAddStream,  SIGNAL(triggered()), this, SLOT(addStream()));
     connect(ui->actionAddTorrent, SIGNAL(triggered()), this, SLOT(addTorrent()));
+    connect(ui->actionAddUrls,    SIGNAL(triggered()), this, SLOT(addUrls()));
     // --
     connect(ui->actionImportFromFile, SIGNAL(triggered()), this, SLOT(importFromFile()));
     connect(ui->actionExportSelectedToFile, SIGNAL(triggered()), this, SLOT(exportSelectedToFile()));
@@ -755,6 +757,8 @@ void MainWindow::home()
         addStream();
     } else if (reply == static_cast<int>(HomeDialog::Torrent)) {
         addTorrent();
+    } else if (reply == static_cast<int>(HomeDialog::Urls)) {
+        addUrls();
     }
 }
 
@@ -836,6 +840,19 @@ void MainWindow::addTorrent()
 void MainWindow::addTorrent(const QUrl &url)
 {
     AddTorrentDialog dialog(url, m_downloadManager, m_settings, this);
+    dialog.exec();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void MainWindow::addUrls()
+{
+    addUrls(fromClipboard());
+}
+
+void MainWindow::addUrls(const QString &text)
+{
+    AddUrlsDialog dialog(text, m_downloadManager, m_settings, this);
     dialog.exec();
 }
 
@@ -1270,11 +1287,16 @@ inline QUrl MainWindow::droppedUrl(const QMimeData* mimeData) const
     return QUrl();
 }
 
-inline QUrl MainWindow::urlFromClipboard() const
+inline QString MainWindow::fromClipboard() const
 {
     const QClipboard *clipboard = QApplication::clipboard();
     const QMimeData *mimeData = clipboard->mimeData();
-    return QUrl(mimeData->hasText() ? mimeData->text() : QString());
+    return mimeData->hasText() ? mimeData->text() : QString();
+}
+
+inline QUrl MainWindow::urlFromClipboard() const
+{
+    return QUrl(fromClipboard());
 }
 
 /******************************************************************************

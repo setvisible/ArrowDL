@@ -48,6 +48,7 @@
         <file>icons/menu/paused_autoretry_32x32.png</file>
         <file>icons/menu/paused_failed_32x32.png</file>
         <file>icons/menu/paused_undetermined_32x32.png</file>
+        <file>icons/menu/paste_48x48.png</file>
         <file>icons/menu/preference_advanced_32x32.png</file>
         <file>icons/menu/preference_filters_32x32.png</file>
         <file>icons/menu/preference_general_32x32.png</file>
@@ -69,6 +70,7 @@
         <file>icons/menu/status_speed_16x16.png</file>
         <file>icons/menu/stream_audio_16x16.png</file>
         <file>icons/menu/stream_video_16x16.png</file>
+        <file>icons/menu/stream_wait_16x16.gif</file>
         <file>icons/menu/tool_add_26x26.png</file>
         <file>icons/menu/tool_cancel_26x26.png</file>
         <file>icons/menu/tool_move_bottom_26x26.png</file>
@@ -81,13 +83,12 @@
         <file>icons/menu/wizard_add_32x32.png</file>
         <file>icons/menu/wizard_alert_32x32.png</file>
         <file>icons/menu/youtube_48x48.png</file>
-        <file>icons/overlay/overlay-run.ico</file>
-        <file>icons/menu/stream_wait_16x16.gif</file>
         <file>icons/menu-qt/editcopy.png</file>
         <file>icons/menu-qt/editcut.png</file>
         <file>icons/menu-qt/editpaste.png</file>
         <file>icons/menu-qt/editredo.png</file>
         <file>icons/menu-qt/editundo.png</file>
         <file>icons/menu-qt/textbold.png</file>
+        <file>icons/overlay/overlay-run.ico</file>
     </qresource>
 </RCC>
