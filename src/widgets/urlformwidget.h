@@ -37,6 +37,7 @@ public:
 
     void setExternalUrlLabelAndLineEdit(QLabel *urlLabel, QLineEdit *urlLineEdit);
     void setReferringPage(const QString &referringPage);
+    void hideCustomFile();
 
     bool isValid() const;
 
