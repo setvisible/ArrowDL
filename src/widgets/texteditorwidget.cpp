@@ -46,8 +46,8 @@ TextEditorWidget::TextEditorWidget(QWidget *parent) : QWidget(parent)
     connect(ui->textEdit, SIGNAL(blockModeEnabled(bool)), ui->editblockmode, SLOT(setChecked(bool)));
 
     /* Setup */
-    ui->editundo->setEnabled(ui->textEdit->document()->isUndoAvailable());
-    ui->editredo->setEnabled(ui->textEdit->document()->isRedoAvailable());
+    ui->editundo->setEnabled(false);
+    ui->editredo->setEnabled(false);
     ui->editcut->setEnabled(false);
     ui->editcopy->setEnabled(false);
 }
@@ -93,6 +93,7 @@ bool TextEditorWidget::isModified()
 void TextEditorWidget::setModified(bool modified)
 {
     ui->textEdit->document()->setModified(modified);
+    ui->textEdit->document()->clearUndoRedoStacks();
 }
 
 /******************************************************************************

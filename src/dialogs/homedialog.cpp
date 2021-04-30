@@ -37,6 +37,7 @@ HomeDialog::HomeDialog(QWidget *parent) : QDialog(parent)
     connect(ui->buttonBatch, &QPushButton::released, this, &HomeDialog::acceptBatch);
     connect(ui->buttonStream, &QPushButton::released, this, &HomeDialog::acceptStream);
     connect(ui->buttonTorrent, &QPushButton::clicked, this, &HomeDialog::acceptTorrent);
+    connect(ui->buttonUrls, &QPushButton::clicked, this, &HomeDialog::acceptUrls);
     connect(ui->cancelButton, &QPushButton::released, this, &HomeDialog::reject);
 }
 
@@ -63,4 +64,9 @@ void HomeDialog::acceptStream()
 void HomeDialog::acceptTorrent()
 {
     done(static_cast<int>(HomeDialog::Torrent));
+}
+
+void HomeDialog::acceptUrls()
+{
+    done(static_cast<int>(HomeDialog::Urls));
 }
