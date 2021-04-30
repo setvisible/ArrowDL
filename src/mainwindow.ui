@@ -79,6 +79,7 @@
     <addaction name="actionAddBatch"/>
     <addaction name="actionAddStream"/>
     <addaction name="actionAddTorrent"/>
+    <addaction name="actionAddUrls"/>
     <addaction name="separator"/>
     <addaction name="actionImportFromFile"/>
     <addaction name="actionExportSelectedToFile"/>
@@ -203,6 +204,7 @@
    <addaction name="actionAddBatch"/>
    <addaction name="actionAddStream"/>
    <addaction name="actionAddTorrent"/>
+   <addaction name="actionAddUrls"/>
    <addaction name="separator"/>
    <addaction name="separator"/>
    <addaction name="separator"/>
@@ -311,6 +313,18 @@
    </property>
    <property name="toolTip">
     <string>Download Magnet Links and Torrent</string>
+   </property>
+  </action>
+  <action name="actionAddUrls">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/menu/paste_48x48.png</normaloff>:/icons/menu/paste_48x48.png</iconset>
+   </property>
+   <property name="text">
+    <string>Download Urls...</string>
+   </property>
+   <property name="toolTip">
+    <string>Download a copy-pasted list of Urls</string>
    </property>
   </action>
   <action name="actionCancel">

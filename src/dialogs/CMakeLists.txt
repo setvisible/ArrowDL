@@ -3,6 +3,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/addcontentdialog.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/addstreamdialog.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/addtorrentdialog.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/addurlsdialog.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/batchrenamedialog.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/compilerdialog.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/editiondialog.cpp
@@ -20,6 +21,7 @@ set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/addcontentdialog.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/addstreamdialog.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/addtorrentdialog.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/addurlsdialog.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/batchrenamedialog.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/compilerdialog.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/editiondialog.h
@@ -36,6 +38,7 @@ set(MY_FORMS ${MY_FORMS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/addcontentdialog.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/addstreamdialog.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/addtorrentdialog.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/addurlsdialog.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/batchrenamedialog.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/compilerdialog.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dialogs/editiondialog.ui

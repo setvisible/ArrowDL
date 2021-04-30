@@ -31,7 +31,8 @@ public:
         Content = QDialog::Accepted + 100,
         Batch,
         Stream,
-        Torrent
+        Torrent,
+        Urls
     };
     explicit HomeDialog(QWidget *parent = Q_NULLPTR);
     ~HomeDialog() Q_DECL_OVERRIDE;
@@ -41,6 +42,7 @@ private slots:
     void acceptBatch();
     void acceptStream();
     void acceptTorrent();
+    void acceptUrls();
 
 private:
     Ui::HomeDialog *ui;
