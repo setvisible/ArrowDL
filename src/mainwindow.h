@@ -107,6 +107,8 @@ public slots:
     void addStream(const QUrl &url);
     void addTorrent();
     void addTorrent(const QUrl &url);
+    void addUrls();
+    void addUrls(const QString &text);
     void resume();
     void cancel();
     void pause();
@@ -167,6 +169,7 @@ private:
     inline bool askConfirmation(const QString &text);
 
     inline QUrl droppedUrl(const QMimeData* mimeData) const;
+    inline QString fromClipboard() const;
     inline QUrl urlFromClipboard() const;
 
     inline void setWorkingDirectory(const QString &path);

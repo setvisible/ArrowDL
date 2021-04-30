@@ -392,6 +392,44 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
     </message>
 </context>
 <context>
+    <name>AddUrlsDialog</name>
+    <message>
+        <location filename="../dialogs/addurlsdialog.ui" line="28"/>
+        <source>Copy-paste a list of Urls to download</source>
+        <translation>Copier-coller une liste d&apos;Urls à télécharger</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/addurlsdialog.ui" line="73"/>
+        <source>List of Urls</source>
+        <translation>Liste d&apos;Urls</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/addurlsdialog.ui" line="86"/>
+        <source>Download:</source>
+        <translation>Télécharger :</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/addurlsdialog.ui" line="132"/>
+        <source>&amp;Start!</source>
+        <translation>&amp;Lancer !</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/addurlsdialog.ui" line="148"/>
+        <source>Add &amp;paused</source>
+        <translation>Ajouter en &amp;pause</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/addurlsdialog.ui" line="161"/>
+        <source>Cancel</source>
+        <translation>Annuler</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/addurlsdialog.cpp" line="45"/>
+        <source>Add Urls</source>
+        <translation>Ajouter des Urls</translation>
+    </message>
+</context>
+<context>
     <name>AdvancedSettingsWidget</name>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="17"/>
@@ -1277,7 +1315,17 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
         <translation>Utiliser le protocole BitTorrent pour télécharger un fichier .torrent</translation>
     </message>
     <message>
-        <location filename="../dialogs/homedialog.ui" line="200"/>
+        <location filename="../dialogs/homedialog.ui" line="173"/>
+        <source>List of Urls</source>
+        <translation>Liste d&apos;Urls</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/homedialog.ui" line="189"/>
+        <source>Paste a list of Urls</source>
+        <translation>Coller une liste d&apos;Urls</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/homedialog.ui" line="226"/>
         <source>Close</source>
         <translation>Fermer</translation>
     </message>
@@ -1381,586 +1429,596 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="90"/>
+        <location filename="../mainwindow.ui" line="91"/>
         <source>&amp;Option</source>
         <translation>&amp;Options</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="101"/>
+        <location filename="../mainwindow.ui" line="102"/>
         <source>&amp;View</source>
         <translation>&amp;Vue</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="105"/>
-        <location filename="../mainwindow.cpp" line="387"/>
+        <location filename="../mainwindow.ui" line="106"/>
+        <location filename="../mainwindow.cpp" line="389"/>
         <source>Other</source>
         <translation>Autre</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="128"/>
+        <location filename="../mainwindow.ui" line="129"/>
         <source>&amp;Queue</source>
         <translation>&amp;Manager</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="141"/>
+        <location filename="../mainwindow.ui" line="142"/>
         <source>&amp;Edit</source>
         <translation>&amp;Édition</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="164"/>
+        <location filename="../mainwindow.ui" line="165"/>
         <source>File toolbar</source>
         <translation>Barre de menu Fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="192"/>
+        <location filename="../mainwindow.ui" line="193"/>
         <source>View toolbar</source>
         <translation>Barre de menu Vue</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="224"/>
+        <location filename="../mainwindow.ui" line="226"/>
         <source>&amp;Quit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="229"/>
+        <location filename="../mainwindow.ui" line="231"/>
         <source>About Qt...</source>
         <translation>À propos de Qt...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="238"/>
+        <location filename="../mainwindow.ui" line="240"/>
         <source>About DownZemAll...</source>
         <translation>À propos de DownZemAll...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="247"/>
+        <location filename="../mainwindow.ui" line="249"/>
         <source>Preferences...</source>
         <translation>Préférences...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="250"/>
+        <location filename="../mainwindow.ui" line="252"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="259"/>
+        <location filename="../mainwindow.ui" line="261"/>
         <source>Getting Started...</source>
         <translation>Nouveau...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="268"/>
+        <location filename="../mainwindow.ui" line="270"/>
         <source>Download Content...</source>
         <translation>Télécharger Contenu Web...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="271"/>
+        <location filename="../mainwindow.ui" line="273"/>
         <source>Download Web Page Content</source>
         <translation>Télécharger le contenu d&apos;une page Web</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="274"/>
+        <location filename="../mainwindow.ui" line="276"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="283"/>
+        <location filename="../mainwindow.ui" line="285"/>
         <source>Download Batch...</source>
         <translation>Télécharger Grappe...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="286"/>
+        <location filename="../mainwindow.ui" line="288"/>
         <source>Download Single File, Batch of Files with Regular Expression</source>
         <translation>Télécharger un fichier unique ou une grappe de fichiers</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="289"/>
+        <location filename="../mainwindow.ui" line="291"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="298"/>
+        <location filename="../mainwindow.ui" line="300"/>
         <source>Download Stream...</source>
         <translation>Télécharger Flux...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="301"/>
+        <location filename="../mainwindow.ui" line="303"/>
         <source>Download Video/Audio Stream</source>
         <translation>Télécharger un flux vidéo ou audio</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="310"/>
+        <location filename="../mainwindow.ui" line="312"/>
         <source>Download Torrent...</source>
         <translation>Télécharger Torrent...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="313"/>
+        <location filename="../mainwindow.ui" line="315"/>
         <source>Download Magnet Links and Torrent</source>
         <translation>Télécharger un lien magnet ou un fichier .torrent</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="322"/>
-        <location filename="../mainwindow.cpp" line="774"/>
+        <location filename="../mainwindow.ui" line="324"/>
+        <source>Download Urls...</source>
+        <translation>Télécharger des Urls...</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="327"/>
+        <source>Download a copy-pasted list of Urls</source>
+        <translation>Télécharger une liste copiée-collée d&apos;Urls</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="336"/>
+        <location filename="../mainwindow.cpp" line="778"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="331"/>
+        <location filename="../mainwindow.ui" line="345"/>
         <source>Pause</source>
         <translation>Pause</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="334"/>
+        <location filename="../mainwindow.ui" line="348"/>
         <source>Pause (completed torrent: stop seeding)</source>
         <translation>Pause (torrent terminé : Arrêter le semage)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="343"/>
+        <location filename="../mainwindow.ui" line="357"/>
         <source>Up</source>
         <translation>Déplacer vers le haut</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="346"/>
+        <location filename="../mainwindow.ui" line="360"/>
         <source>Alt+PgUp</source>
         <translation>Alt+PgUp</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="355"/>
+        <location filename="../mainwindow.ui" line="369"/>
         <source>Top</source>
         <translation>Déplacer en haut</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="358"/>
+        <location filename="../mainwindow.ui" line="372"/>
         <source>Alt+Home</source>
         <translation>Alt+Home</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="367"/>
+        <location filename="../mainwindow.ui" line="381"/>
         <source>Down</source>
         <translation>Déplacer vers le bas</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="370"/>
+        <location filename="../mainwindow.ui" line="384"/>
         <source>Alt+PgDown</source>
         <translation>Alt+PgDown</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="379"/>
+        <location filename="../mainwindow.ui" line="393"/>
         <source>Bottom</source>
         <translation>Déplacer en bas</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="382"/>
+        <location filename="../mainwindow.ui" line="396"/>
         <source>Alt+End</source>
         <translation>Alt+End</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="391"/>
+        <location filename="../mainwindow.ui" line="405"/>
         <source>Resume</source>
         <translation>Reprendre</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="400"/>
+        <location filename="../mainwindow.ui" line="414"/>
         <source>Download Information</source>
         <translation>Information sur le fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="403"/>
+        <location filename="../mainwindow.ui" line="417"/>
         <source>Alt+I</source>
         <translation>Alt+I</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="412"/>
+        <location filename="../mainwindow.ui" line="426"/>
         <source>Open File</source>
         <translation>Ouvrir le fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="421"/>
+        <location filename="../mainwindow.ui" line="435"/>
         <source>Rename File</source>
         <translation>Renommer</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="424"/>
+        <location filename="../mainwindow.ui" line="438"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="433"/>
+        <location filename="../mainwindow.ui" line="447"/>
         <source>Delete File(s)</source>
         <translation>Supprimer le(s) fichier(s)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="436"/>
-        <location filename="../mainwindow.ui" line="544"/>
+        <location filename="../mainwindow.ui" line="450"/>
+        <location filename="../mainwindow.ui" line="558"/>
         <source>Ctrl+Del</source>
         <translation>Ctrl+Del</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="445"/>
+        <location filename="../mainwindow.ui" line="459"/>
         <source>Open Directory</source>
         <translation>Ouvrir le dossier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="454"/>
+        <location filename="../mainwindow.ui" line="468"/>
         <source>Select All</source>
         <translation>Sélectionner tout</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="457"/>
+        <location filename="../mainwindow.ui" line="471"/>
         <source>Ctrl+A</source>
         <translation>Ctrl+A</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="466"/>
+        <location filename="../mainwindow.ui" line="480"/>
         <source>Invert Selection</source>
         <translation>Inverser sélection</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="469"/>
+        <location filename="../mainwindow.ui" line="483"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="478"/>
+        <location filename="../mainwindow.ui" line="492"/>
         <source>Manage Download Mirror Locations...</source>
         <translation>Gérer les serveurs mirroir...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="487"/>
+        <location filename="../mainwindow.ui" line="501"/>
         <source>One More Segment</source>
         <translation>Ajouter un segment</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="496"/>
+        <location filename="../mainwindow.ui" line="510"/>
         <source>One Fewer Segment</source>
         <translation>Retirer un segment</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="505"/>
+        <location filename="../mainwindow.ui" line="519"/>
         <source>Force Start</source>
         <translation>Forcer démarrage</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="508"/>
+        <location filename="../mainwindow.ui" line="522"/>
         <source>Ctrl+Shift+R</source>
         <translation>Ctrl+Shift+R</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="517"/>
+        <location filename="../mainwindow.ui" line="531"/>
         <source>Import From File...</source>
         <translation>Importer depuis un fichier...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="520"/>
+        <location filename="../mainwindow.ui" line="534"/>
         <source>Ctrl+Shift+O</source>
         <translation>Ctrl+Shift+O</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="529"/>
+        <location filename="../mainwindow.ui" line="543"/>
         <source>Export &amp;Selected To File...</source>
         <translation>Exporter &amp;sélection vers un fichier...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="532"/>
+        <location filename="../mainwindow.ui" line="546"/>
         <source>Ctrl+Shift+S, Ctrl+S</source>
         <translation>Ctrl+Shift+S, Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="541"/>
+        <location filename="../mainwindow.ui" line="555"/>
         <source>Remove Completed</source>
         <translation>Retirer terminés</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="553"/>
+        <location filename="../mainwindow.ui" line="567"/>
         <source>Remove Selected</source>
         <translation>Retirer sélectionnés</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="556"/>
+        <location filename="../mainwindow.ui" line="570"/>
         <source>Del</source>
         <translation>Del</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="565"/>
+        <location filename="../mainwindow.ui" line="579"/>
         <source>Remove All</source>
         <translation>Retirer tout</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="568"/>
+        <location filename="../mainwindow.ui" line="582"/>
         <source>Ctrl+Shift+Del</source>
         <translation>Ctrl+Shift+Del</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="577"/>
+        <location filename="../mainwindow.ui" line="591"/>
         <source>Remove Waiting</source>
         <translation>Retirer en attente</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="586"/>
+        <location filename="../mainwindow.ui" line="600"/>
         <source>Remove Duplicates</source>
         <translation>Retirer dupliqués</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="595"/>
+        <location filename="../mainwindow.ui" line="609"/>
         <source>Remove Running</source>
         <translation>Retirer en cours</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="604"/>
+        <location filename="../mainwindow.ui" line="618"/>
         <source>Remove Paused</source>
         <translation>Retirer en pause</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="613"/>
+        <location filename="../mainwindow.ui" line="627"/>
         <source>Remove Failed</source>
         <translation>Retirer échoués</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="622"/>
+        <location filename="../mainwindow.ui" line="636"/>
         <source>Add Domain Specific Limit...</source>
         <translation>Ajouter des limites au domaine...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="631"/>
+        <location filename="../mainwindow.ui" line="645"/>
         <source>Speed Limit...</source>
         <translation>Limites...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="640"/>
+        <location filename="../mainwindow.ui" line="654"/>
         <source>Select None</source>
         <translation>Sélectionner aucun</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="649"/>
+        <location filename="../mainwindow.ui" line="663"/>
         <source>Select Completed</source>
         <translation>Sélectionner seulement terminés</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="654"/>
+        <location filename="../mainwindow.ui" line="668"/>
         <source>Copy</source>
         <translation>Copier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="657"/>
+        <location filename="../mainwindow.ui" line="671"/>
         <source>Copy Selection to Clipboard</source>
         <translation>Copier sélection dans Presse-Papier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="660"/>
+        <location filename="../mainwindow.ui" line="674"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="665"/>
+        <location filename="../mainwindow.ui" line="679"/>
         <source>Compiler Info...</source>
         <translation>Infos de compilation...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="670"/>
+        <location filename="../mainwindow.ui" line="684"/>
         <source>Check for updates...</source>
         <translation>Mettre à jour...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="675"/>
+        <location filename="../mainwindow.ui" line="689"/>
         <source>Tutorial</source>
         <translation>Tutoriel</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="680"/>
+        <location filename="../mainwindow.ui" line="694"/>
         <source>About YoutubeDL...</source>
         <translation>À propos de YoutubeDL...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="344"/>
-        <location filename="../mainwindow.cpp" line="934"/>
+        <location filename="../mainwindow.cpp" line="346"/>
+        <location filename="../mainwindow.cpp" line="951"/>
         <source>About %0</source>
         <translation>À propos de %0</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="348"/>
+        <location filename="../mainwindow.cpp" line="350"/>
         <source>About Qt</source>
         <translation>À propos de Qt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="406"/>
+        <location filename="../mainwindow.cpp" line="408"/>
         <source>Advanced</source>
         <translation>Avancé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="549"/>
-        <location filename="../mainwindow.cpp" line="596"/>
-        <location filename="../mainwindow.cpp" line="1299"/>
-        <location filename="../mainwindow.cpp" line="1318"/>
+        <location filename="../mainwindow.cpp" line="551"/>
+        <location filename="../mainwindow.cpp" line="598"/>
+        <location filename="../mainwindow.cpp" line="1321"/>
+        <location filename="../mainwindow.cpp" line="1340"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="575"/>
-        <location filename="../mainwindow.cpp" line="610"/>
+        <location filename="../mainwindow.cpp" line="577"/>
+        <location filename="../mainwindow.cpp" line="612"/>
         <source>Remove Downloads</source>
         <translation>Retirer les téléchargements</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="576"/>
-        <location filename="../mainwindow.cpp" line="611"/>
+        <location filename="../mainwindow.cpp" line="578"/>
+        <location filename="../mainwindow.cpp" line="613"/>
         <source>Are you sure to remove %0 downloads?</source>
         <translation>Êtes-vous sûrs de retirer ces %0 téléchargements ?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="578"/>
+        <location filename="../mainwindow.cpp" line="580"/>
         <source>Delete</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="551"/>
+        <location filename="../mainwindow.cpp" line="553"/>
         <source>File not found</source>
         <translation>Fichier introuvable</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="598"/>
+        <location filename="../mainwindow.cpp" line="600"/>
         <source>Destination directory not found:</source>
         <translation>Dossier de destination non trouvé :</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="617"/>
+        <location filename="../mainwindow.cpp" line="619"/>
         <source>Don&apos;t ask again</source>
         <translation>Ne plus demander</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="633"/>
+        <location filename="../mainwindow.cpp" line="635"/>
         <source>ALL</source>
         <translation>tous</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="640"/>
+        <location filename="../mainwindow.cpp" line="642"/>
         <source>selected</source>
         <translation>sélectionné(s)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="652"/>
+        <location filename="../mainwindow.cpp" line="654"/>
         <source>completed</source>
         <translation>terminé(s)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="659"/>
+        <location filename="../mainwindow.cpp" line="661"/>
         <source>waiting</source>
         <translation>en attente</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="666"/>
+        <location filename="../mainwindow.cpp" line="668"/>
         <source>paused</source>
         <translation>en pause</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="673"/>
+        <location filename="../mainwindow.cpp" line="675"/>
         <source>failed</source>
         <translation>échoué(s)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="681"/>
+        <location filename="../mainwindow.cpp" line="683"/>
         <source>running</source>
         <translation>en cours</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="767"/>
+        <location filename="../mainwindow.cpp" line="771"/>
         <source>Website URL</source>
         <translation>URL du site</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="769"/>
+        <location filename="../mainwindow.cpp" line="773"/>
         <source>URL of the HTML page:</source>
         <translation>URL de la page HTML :</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="770"/>
+        <location filename="../mainwindow.cpp" line="774"/>
         <source>(ex: %0)</source>
         <translation>(ex: %0)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="981"/>
+        <location filename="../mainwindow.cpp" line="998"/>
         <source>The new name is already used or invalid.</source>
         <translation>Le nouveau nom est déjà utilisé ou invalide.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="984"/>
+        <location filename="../mainwindow.cpp" line="1001"/>
         <source>Can&apos;t rename &quot;%0&quot; as its initial name.</source>
         <translation>Impossible de renommer &quot;%0&quot; avec son nom initial.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="991"/>
+        <location filename="../mainwindow.cpp" line="1008"/>
         <source>Can&apos;t rename</source>
         <translation>Impossible de renommer</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="991"/>
+        <location filename="../mainwindow.cpp" line="1008"/>
         <source>as</source>
         <translation>par</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1298"/>
+        <location filename="../mainwindow.cpp" line="1320"/>
         <source>Can&apos;t save file.</source>
         <translation>Impossible d&apos;enregistrer le fichier.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1301"/>
+        <location filename="../mainwindow.cpp" line="1323"/>
         <source>Can&apos;t save file %0:</source>
         <translation>Impossible d&apos;enregistrer le fichier %0 :</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1317"/>
+        <location filename="../mainwindow.cpp" line="1339"/>
         <source>Can&apos;t load file.</source>
         <translation>Impossible de lire le fichier.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1320"/>
+        <location filename="../mainwindow.cpp" line="1342"/>
         <source>Can&apos;t load file %0:</source>
         <translation>Impossible de lire le fichier %0 :</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="773"/>
+        <location filename="../mainwindow.cpp" line="777"/>
         <source>Start!</source>
         <translation>Lancer !</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="992"/>
+        <location filename="../mainwindow.cpp" line="1009"/>
         <source>File Error</source>
         <translation>Erreur dans le fichier</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1025"/>
+        <location filename="../mainwindow.cpp" line="1042"/>
         <source>Done: %0 Running: %1 Total: %2</source>
         <translation>Terminé(s) : %0 En cours : %1 Total : %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1033"/>
+        <location filename="../mainwindow.cpp" line="1050"/>
         <source>%0 of %1 (%2), %3 running  %4 | Torrent: %5</source>
         <translation>%0 sur %1 (%2), %3 en cours %4 | Torrent : %5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1039"/>
+        <location filename="../mainwindow.cpp" line="1056"/>
         <source>active</source>
         <translation>activé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1039"/>
+        <location filename="../mainwindow.cpp" line="1056"/>
         <source>inactive</source>
         <translation>désactivé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1307"/>
+        <location filename="../mainwindow.cpp" line="1329"/>
         <source>File saved</source>
         <translation>Fichier enregistré</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1326"/>
+        <location filename="../mainwindow.cpp" line="1348"/>
         <source>File loaded</source>
         <translation>Fichier chargé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.h" line="174"/>
+        <location filename="../mainwindow.h" line="177"/>
         <source>Save As</source>
         <translation>Enregistrer sous</translation>
     </message>
     <message>
-        <location filename="../mainwindow.h" line="175"/>
+        <location filename="../mainwindow.h" line="178"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>

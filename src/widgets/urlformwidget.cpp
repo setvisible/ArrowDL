@@ -61,6 +61,15 @@ void UrlFormWidget::setExternalUrlLabelAndLineEdit(QLabel *urlLabel, QLineEdit *
     recalculateSize();
 }
 
+void UrlFormWidget::hideCustomFile()
+{
+    ui->customFileNameLabel->setVisible(false);
+    ui->customFileNameLineEdit->setVisible(false);
+
+    // Recalculate the size, when the widgets are hidden
+    recalculateSize();
+}
+
 /******************************************************************************
  ******************************************************************************/
 void UrlFormWidget::setReferringPage(const QString &referringPage)
