@@ -165,9 +165,10 @@ void AddContentDialog::start(bool started)
 
 /******************************************************************************
  ******************************************************************************/
-void AddContentDialog::loadResources(const QString &message)
+bool AddContentDialog::loadResources(const QString &message)
 {
     parseResources(message);
+    return m_bypass == None;
 }
 
 /******************************************************************************
