@@ -799,9 +799,26 @@ void MainWindow::addContent(const QUrl &url)
 
 void MainWindow::addContent(const QString &message)
 {
+    // Note: if the message asks for the dialog (i.e. not a silent download),
+    // we must show the mainwindow first, if it was minimized.
+    // In this case, once the dialog closed, we hide the mainwindow.
+    bool wasHidden = !this->isVisible();
+
+    /// \todo decouple the dialog and the dialog's model,
+    /// in order to not call "dialog.exec()" when it's a silent download
+
     AddContentDialog dialog(m_downloadManager, m_settings, this);
-    dialog.loadResources(message);
+    bool willShowDialog = dialog.loadResources(message);
+
+    if (willShowDialog && wasHidden) {
+        m_systemTray->showParentWidget();
+    }
+
     dialog.exec();
+
+    if (willShowDialog && wasHidden) {
+        m_systemTray->hideParentWidget();
+    }
 }
 
 /******************************************************************************
