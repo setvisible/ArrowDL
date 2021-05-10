@@ -3,6 +3,9 @@
 - 'default' theme:
     Default icons
 
+- 'flat' theme:
+    Icons from FontAwesome Free + custom icons
+
 
 # Name conventions
 
