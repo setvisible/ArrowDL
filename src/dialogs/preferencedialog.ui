@@ -304,6 +304,25 @@ QTabBar::tab:hover:!selected {
           </widget>
          </item>
          <item>
+          <widget class="QGroupBox" name="groupBox_15">
+           <property name="title">
+            <string>Style and Icons</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_23">
+            <item>
+             <widget class="ThemeWidget" name="themeWidget" native="true">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>20</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
           <spacer name="verticalSpacer_6">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -1395,6 +1414,12 @@ QTabBar::tab:hover:!selected {
    <class>AdvancedSettingsWidget</class>
    <extends>QWidget</extends>
    <header>Widgets/AdvancedSettingsWidget</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ThemeWidget</class>
+   <extends>QWidget</extends>
+   <header>Widgets/ThemeWidget</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

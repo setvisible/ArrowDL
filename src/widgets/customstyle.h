@@ -23,7 +23,8 @@
 class CustomStyle : public QProxyStyle
 {
 public:
-    CustomStyle();
+    CustomStyle(QStyle *style = Q_NULLPTR);
+    CustomStyle(const QString &key);
     ~CustomStyle() Q_DECL_OVERRIDE = default;
 
     void drawControl(ControlElement element, const QStyleOption *option,

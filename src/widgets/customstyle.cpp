@@ -23,6 +23,7 @@
 #include <QtCore/QtMath>
 #include <QtCore/QBitArray>
 #include <QtGui/QPainter>
+#include <QtWidgets/QStyleFactory>
 #include <QtWidgets/QStyleOption>
 
 constexpr int icon_size  = 16;
@@ -36,9 +37,14 @@ constexpr int icon_width = 19;
  *
  */
 
-CustomStyle::CustomStyle()
+CustomStyle::CustomStyle(QStyle *style) : QProxyStyle(style)
 {
     m_textureImage = QImage(s_xpm);
+}
+
+CustomStyle::CustomStyle(const QString &key)
+    : CustomStyle(QStyleFactory::create(key))
+{
 }
 
 void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
