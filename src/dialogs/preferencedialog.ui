@@ -169,7 +169,7 @@ QTabBar::tab:hover:!selected {
      <widget class="QWidget" name="gui">
       <attribute name="icon">
        <iconset resource="../resources.qrc">
-        <normaloff>:/icons/menu/preference_interface_32x32.png</normaloff>:/icons/menu/preference_interface_32x32.png</iconset>
+        <normaloff>:/resources/icons/default/32x32/actions/preference-interface.png</normaloff>:/resources/icons/default/32x32/actions/preference-interface.png</iconset>
       </attribute>
       <attribute name="title">
        <string>Interface</string>
@@ -353,7 +353,7 @@ QTabBar::tab:hover:!selected {
                <cursorShape>WhatsThisCursor</cursorShape>
               </property>
               <property name="styleSheet">
-               <string notr="true">image: url(:/icons/menu/button_help_16x16.png);</string>
+               <string notr="true">image: url(:/resources/icons/default/16x16/actions/help.png);</string>
               </property>
              </widget>
             </item>
