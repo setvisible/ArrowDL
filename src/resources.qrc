@@ -143,6 +143,70 @@
         <file>resources/icons/flat/scalable/actions/stream-audio.svg</file>
         <file>resources/icons/flat/scalable/actions/stream-video.svg</file>
         <file>resources/icons/flat-dark/index.theme</file>
+        <file>resources/icons/flat-dark/scalable/actions/about.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/browse.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/check-nok.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/check-ok.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/check-progress.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/add-batch.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/add-content.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/add-stream.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/add-torrent.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/add-urls.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/directory-open.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/edit-block-mode.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/edit-copy.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/edit-cut.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/edit-paste.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/edit-redo.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/edit-undo.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/file-export.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/file-delete.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/file-import.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/file-open.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/help.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/home.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/info.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/limit-domain.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/limit-speed.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/mask.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/mirror-server.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/move-down.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/move-bottom.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/move-top.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/move-up.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/play-idle.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/play-pause.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/play-resume.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/play-resume-force.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/play-stop.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/preference.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/preference-advanced.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/preference-filters.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/preference-general.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/preference-interface.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/preference-language.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/preference-network.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/preference-privacy.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/preference-schedule.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/preference-security.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/preference-torrent.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/remove-all.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/remove-completed.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/remove-downloaded.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/remove-duplicates.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/remove-paused.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/remove-resumed.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/remove-stopped.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/remove-waiting.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/rename.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/segment-add.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/segment-remove.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/select-all.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/select-completed.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/select-invert.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/select-none.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/stream-audio.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/stream-video.svg</file>
     </qresource>
 </RCC>

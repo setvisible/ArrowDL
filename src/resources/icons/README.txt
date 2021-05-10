@@ -6,6 +6,10 @@
 - 'flat' theme:
     Icons from FontAwesome Free + custom icons
 
+- 'flat-dark' theme:
+    It's the same as 'flat' theme but a lighter color:
+        <path fill="#e5e5e5" ...>
+
 
 # Name conventions
 
