@@ -32,8 +32,8 @@ constexpr int icon_width = 19;
 
 /*!
  * \class CustomStyle
- * \brief TheCustomStyle  wraps a QProxyStyle (the default system style) for the purpose
- * of dynamically overriding the application painting.
+ * \brief The CustomStyle class wraps a QProxyStyle (the default system style)
+ * for the purpose of dynamically overriding the application painting.
  *
  */
 

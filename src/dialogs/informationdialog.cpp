@@ -101,7 +101,7 @@ void InformationDialog::initialize(const QList<IDownloadItem *> &items)
         ui->sizeLineEdit->setText(text);
     }
 
-    const QPixmap pixmap = MimeDatabase::fileIcon(url, 256);
+    const QPixmap pixmap = MimeDatabase::fileIcon(localFileUrl.toLocalFile(), 48);
     ui->logo->setPixmap(pixmap);
 
     /* Form */
