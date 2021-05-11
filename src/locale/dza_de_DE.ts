@@ -82,25 +82,25 @@ You can also use batch descriptors to download multiple files at one time.</sour
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="87"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="170"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="172"/>
         <source>1 -&gt; 10</source>
         <translation>1 -&gt; 10</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="100"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="171"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="173"/>
         <source>1 -&gt; 100</source>
         <translation>1 -&gt; 100</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="113"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="172"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="174"/>
         <source>01 -&gt; 10</source>
         <translation>01 -&gt; 10</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="126"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="173"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="175"/>
         <source>001 -&gt; 100</source>
         <translation>001 -&gt; 100</translation>
     </message>
@@ -125,73 +125,73 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <translation>Beispiele:</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.ui" line="252"/>
+        <location filename="../dialogs/addbatchdialog.ui" line="267"/>
         <source>&amp;Start!</source>
         <translation>&amp;Starten!</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.ui" line="268"/>
+        <location filename="../dialogs/addbatchdialog.ui" line="283"/>
         <source>Add &amp;paused</source>
         <translation>&amp;Pausiert hinzufügen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.ui" line="281"/>
+        <location filename="../dialogs/addbatchdialog.ui" line="296"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="50"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="51"/>
         <source>Add Batch and Single File</source>
         <translation>Stapel und einzelne Datei hinzufügen </translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="75"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="77"/>
         <source>Batch descriptors:</source>
         <translation>Stapel Deskriptors:</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="76"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="78"/>
         <source>Must start with &apos;[&apos; or &apos;(&apos;</source>
         <translation>Muss mit &apos;[&apos; oder &apos;(&apos; beginnen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="77"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="79"/>
         <source>Must contain two numbers, separated by &apos;:&apos;, &apos;-&apos; or a space character</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="78"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="80"/>
         <source>Must end with &apos;]&apos; or &apos;)&apos;</source>
         <translation>Muss mit &apos;]&apos; oder &apos;)&apos; beenden</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="162"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="164"/>
         <source>Insert</source>
         <translation>Einfügen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="282"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="284"/>
         <source>Do you really want to start %0 downloads?</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="291"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="293"/>
         <source>Don&apos;t ask again, always download batch</source>
         <translation>Nicht mehr fragen, immer Stapel herunterladen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="275"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="286"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="277"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="288"/>
         <source>Download Batch</source>
         <translation>Stapel Herunterladen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="276"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="278"/>
         <source>It seems that you are using some batch descriptors.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="287"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="289"/>
         <source>Single Download</source>
         <translation>Einzel-Download</translation>
     </message>
@@ -235,55 +235,55 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="178"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="182"/>
         <source>Warning</source>
         <translation>Warnung</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="84"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="85"/>
         <source>Web Page Content</source>
         <translation>Webseiteninhalt</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="180"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="184"/>
         <source>Error: The url is not valid:</source>
         <translation>Fehler: Die URL ist ungültig:</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="215"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="219"/>
         <source>Connecting...</source>
         <translation>Verbinden...</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="226"/>
-        <location filename="../dialogs/addcontentdialog.cpp" line="261"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="230"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="265"/>
         <source>Downloading...</source>
         <translation>Herunterladend...</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="281"/>
-        <location filename="../dialogs/addcontentdialog.cpp" line="321"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="285"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="325"/>
         <source>Collecting links...</source>
         <translation>Sammeln von Web-Links...</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="289"/>
-        <location filename="../dialogs/addcontentdialog.cpp" line="333"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="293"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="337"/>
         <source>Finished</source>
         <translation>Beendet</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="353"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="357"/>
         <source>The wizard can&apos;t connect to URL:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="386"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="390"/>
         <source>After selecting links, click on Start!</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="389"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="393"/>
         <source>Selected links: %0 of %1</source>
         <translation>Ausgewählte Links: %0 von %1</translation>
     </message>
@@ -301,13 +301,13 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <translation>Herunterladen:</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.ui" line="93"/>
+        <location filename="../dialogs/addstreamdialog.ui" line="80"/>
         <source>Examples:</source>
         <translation>Beispiele:</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="57"/>
-        <location filename="../dialogs/addstreamdialog.cpp" line="195"/>
+        <location filename="../dialogs/addstreamdialog.cpp" line="197"/>
         <source>Continue</source>
         <translation>Fortsetzen</translation>
     </message>
@@ -317,27 +317,27 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <translation>Stream</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.ui" line="166"/>
+        <location filename="../dialogs/addstreamdialog.ui" line="181"/>
         <source>&amp;Start!</source>
         <translation>&amp;Starten!</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.ui" line="182"/>
+        <location filename="../dialogs/addstreamdialog.ui" line="197"/>
         <source>Add &amp;paused</source>
         <translation>&amp;Pausiert hinzufügen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.ui" line="195"/>
+        <location filename="../dialogs/addstreamdialog.ui" line="210"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.cpp" line="45"/>
+        <location filename="../dialogs/addstreamdialog.cpp" line="46"/>
         <source>Add Stream</source>
         <translation>Stream hinzufügen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.cpp" line="195"/>
+        <location filename="../dialogs/addstreamdialog.cpp" line="197"/>
         <source>Stop</source>
         <translation>Stoppen</translation>
     </message>
@@ -370,22 +370,22 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <translation>Magnet Link und Torrent</translation>
     </message>
     <message>
-        <location filename="../dialogs/addtorrentdialog.ui" line="172"/>
+        <location filename="../dialogs/addtorrentdialog.ui" line="187"/>
         <source>&amp;Start!</source>
         <translation>&amp;Starten!</translation>
     </message>
     <message>
-        <location filename="../dialogs/addtorrentdialog.ui" line="188"/>
+        <location filename="../dialogs/addtorrentdialog.ui" line="203"/>
         <source>Add &amp;paused</source>
         <translation>&amp;Pausiert hinzufügen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addtorrentdialog.ui" line="201"/>
+        <location filename="../dialogs/addtorrentdialog.ui" line="216"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addtorrentdialog.cpp" line="46"/>
+        <location filename="../dialogs/addtorrentdialog.cpp" line="47"/>
         <source>Add Magnet Links and Torrent</source>
         <translation>Magnet Link and Torrent hinzufügen</translation>
     </message>
@@ -393,37 +393,37 @@ You can also use batch descriptors to download multiple files at one time.</sour
 <context>
     <name>AddUrlsDialog</name>
     <message>
-        <location filename="../dialogs/addurlsdialog.ui" line="28"/>
+        <location filename="../dialogs/addurlsdialog.ui" line="50"/>
         <source>Copy-paste a list of Urls to download</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/addurlsdialog.ui" line="73"/>
+        <location filename="../dialogs/addurlsdialog.ui" line="27"/>
         <source>List of Urls</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/addurlsdialog.ui" line="86"/>
+        <location filename="../dialogs/addurlsdialog.ui" line="66"/>
         <source>Download:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/addurlsdialog.ui" line="132"/>
+        <location filename="../dialogs/addurlsdialog.ui" line="147"/>
         <source>&amp;Start!</source>
         <translation>&amp;Starten!</translation>
     </message>
     <message>
-        <location filename="../dialogs/addurlsdialog.ui" line="148"/>
+        <location filename="../dialogs/addurlsdialog.ui" line="163"/>
         <source>Add &amp;paused</source>
         <translation>&amp;Pausiert hinzufügen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addurlsdialog.ui" line="161"/>
+        <location filename="../dialogs/addurlsdialog.ui" line="176"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addurlsdialog.cpp" line="45"/>
+        <location filename="../dialogs/addurlsdialog.cpp" line="46"/>
         <source>Add Urls</source>
         <translation type="unfinished"/>
     </message>
@@ -442,69 +442,69 @@ You can also use batch descriptors to download multiple files at one time.</sour
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="30"/>
-        <location filename="../widgets/advancedsettingswidget.cpp" line="359"/>
+        <location filename="../widgets/advancedsettingswidget.cpp" line="362"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="37"/>
-        <location filename="../widgets/advancedsettingswidget.cpp" line="360"/>
+        <location filename="../widgets/advancedsettingswidget.cpp" line="363"/>
         <source>Minimize Memory Usage</source>
         <translation>Speichernutzung minimieren</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="44"/>
-        <location filename="../widgets/advancedsettingswidget.cpp" line="361"/>
+        <location filename="../widgets/advancedsettingswidget.cpp" line="364"/>
         <source>High Performance Seed</source>
         <translation>Seed Hochleistung</translation>
     </message>
     <message>
-        <location filename="../widgets/advancedsettingswidget.ui" line="88"/>
+        <location filename="../widgets/advancedsettingswidget.ui" line="100"/>
         <source>Search for setting</source>
         <translation>Einstellungen suchen</translation>
     </message>
     <message>
-        <location filename="../widgets/advancedsettingswidget.ui" line="95"/>
+        <location filename="../widgets/advancedsettingswidget.ui" line="107"/>
         <source>Clear</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="../widgets/advancedsettingswidget.ui" line="123"/>
+        <location filename="../widgets/advancedsettingswidget.ui" line="135"/>
         <source>Key</source>
         <translation>Schlüssel</translation>
     </message>
     <message>
-        <location filename="../widgets/advancedsettingswidget.ui" line="128"/>
+        <location filename="../widgets/advancedsettingswidget.ui" line="140"/>
         <source>Value</source>
         <translation>Wert</translation>
     </message>
     <message>
-        <location filename="../widgets/advancedsettingswidget.ui" line="170"/>
+        <location filename="../widgets/advancedsettingswidget.ui" line="182"/>
         <source>Show modified only</source>
         <translation>Nur geändert anzeigen</translation>
     </message>
     <message>
-        <location filename="../widgets/advancedsettingswidget.cpp" line="148"/>
+        <location filename="../widgets/advancedsettingswidget.cpp" line="151"/>
         <source>Edit</source>
         <translation>Bearbeiten</translation>
     </message>
     <message>
-        <location filename="../widgets/advancedsettingswidget.cpp" line="151"/>
+        <location filename="../widgets/advancedsettingswidget.cpp" line="154"/>
         <source>Reset to Default</source>
         <translation>Zurücksetzen</translation>
     </message>
     <message>
-        <location filename="../widgets/advancedsettingswidget.cpp" line="359"/>
+        <location filename="../widgets/advancedsettingswidget.cpp" line="362"/>
         <source>Settings optimized for a regular bittorrent client running on a desktop system.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/advancedsettingswidget.cpp" line="360"/>
+        <location filename="../widgets/advancedsettingswidget.cpp" line="363"/>
         <source>Settings intended for embedded devices. It will significantly reduce memory usage.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/advancedsettingswidget.cpp" line="361"/>
+        <location filename="../widgets/advancedsettingswidget.cpp" line="364"/>
         <source>Settings optimized for a seed box, serving many peers and that doesn&apos;t do any downloading.</source>
         <translation type="unfinished"/>
     </message>
@@ -512,82 +512,82 @@ You can also use batch descriptors to download multiple files at one time.</sour
 <context>
     <name>BatchRenameDialog</name>
     <message>
-        <location filename="../dialogs/batchrenamedialog.cpp" line="50"/>
+        <location filename="../dialogs/batchrenamedialog.cpp" line="51"/>
         <source>Tools</source>
         <translation>Werkzeuge</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="22"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="89"/>
         <source>Files to rename</source>
         <translation>Dateien umbenennen</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="39"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="32"/>
         <source>Rename Tool</source>
         <translation>Umbenennen Werkzeuge</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="99"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="102"/>
         <source>Batch Rename</source>
         <translation>Stapel umbenennen</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="106"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="109"/>
         <source>Default names</source>
         <translation>Standard Namen</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="111"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="114"/>
         <source>Enumerated names</source>
         <translation>Aufgezählte Namen</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="127"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="130"/>
         <source>Options</source>
         <translation>Optionen</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="135"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="138"/>
         <source>Start enumeration from:</source>
         <translation>Starten die Aufzählung von:</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="167"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="170"/>
         <source>Style:</source>
         <translation>Stil:</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="176"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="179"/>
         <source>1 ... 123456</source>
         <translation>1 ... 123456</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="186"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="189"/>
         <source>000001 ... 123456</source>
         <translation>000001 ... 123456</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="195"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="198"/>
         <source>Custom number of digits:</source>
         <translation>Benutzerdefinierte Anzahl von Ziffern:</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="229"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="232"/>
         <source>Increment by:</source>
         <translation>Inkrement durch:</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="285"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="288"/>
         <source>Safe Rename*</source>
         <translation>Sicheres Umbenennen*</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="295"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="298"/>
         <source>*Rename and pause. Otherwise, could also rename already downloaded files.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.cpp" line="54"/>
+        <location filename="../dialogs/batchrenamedialog.cpp" line="56"/>
         <source>%0 selected files to rename</source>
         <translation>%0 ausgewählte Dateien zum Umbenennen</translation>
     </message>
@@ -932,37 +932,37 @@ You can also use batch descriptors to download multiple files at one time.</sour
 <context>
     <name>DownloadQueueView</name>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="596"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="614"/>
         <source>Download/Name</source>
         <translation>Dateiname</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="597"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="615"/>
         <source>Domain</source>
         <translation>Domain-Name</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="598"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="616"/>
         <source>Progress</source>
         <translation>Fortschritt</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="599"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="617"/>
         <source>Percent</source>
         <translation>Prozent</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="600"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="618"/>
         <source>Size</source>
         <translation>Größe</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="601"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="619"/>
         <source>Est. time</source>
         <translation>Geschätzte Zeit</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="602"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="620"/>
         <source>Speed</source>
         <translation>Geschwindigkeit</translation>
     </message>
@@ -1018,28 +1018,28 @@ You can also use batch descriptors to download multiple files at one time.</sour
 <context>
     <name>EditionDialog</name>
     <message>
-        <location filename="../dialogs/editiondialog.ui" line="99"/>
-        <location filename="../dialogs/editiondialog.cpp" line="43"/>
+        <location filename="../dialogs/editiondialog.ui" line="102"/>
+        <location filename="../dialogs/editiondialog.cpp" line="44"/>
         <source>Smart Edit</source>
         <translation>Klug bearbeiten</translation>
     </message>
     <message>
-        <location filename="../dialogs/editiondialog.ui" line="39"/>
+        <location filename="../dialogs/editiondialog.ui" line="55"/>
         <source>Edit the Urls</source>
         <translation>Bearbeiten die URLs</translation>
     </message>
     <message>
-        <location filename="../dialogs/editiondialog.ui" line="105"/>
+        <location filename="../dialogs/editiondialog.ui" line="108"/>
         <source>Edit the Urls. Note that the number of lines should stay unchanged.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/editiondialog.cpp" line="47"/>
+        <location filename="../dialogs/editiondialog.cpp" line="50"/>
         <source>%0 selected files to edit</source>
         <translation>%0 ausgewählte Dateien bearbeiten</translation>
     </message>
     <message>
-        <location filename="../dialogs/editiondialog.cpp" line="99"/>
+        <location filename="../dialogs/editiondialog.cpp" line="102"/>
         <source>Warning: number of lines is &lt;%0&gt; but should be &lt;%1&gt;!</source>
         <translation type="unfinished"/>
     </message>
@@ -1262,7 +1262,7 @@ Some examples are given below.  Click to paste the example.</source>
     <name>HomeDialog</name>
     <message>
         <location filename="../dialogs/homedialog.ui" line="45"/>
-        <location filename="../dialogs/homedialog.cpp" line="31"/>
+        <location filename="../dialogs/homedialog.cpp" line="32"/>
         <source>Getting Started</source>
         <translation>Erste Schritte</translation>
     </message>
@@ -1330,32 +1330,32 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>InformationDialog</name>
     <message>
-        <location filename="../dialogs/informationdialog.cpp" line="37"/>
+        <location filename="../dialogs/informationdialog.cpp" line="38"/>
         <source>Properties</source>
         <translation>Eigenschaften</translation>
     </message>
     <message>
-        <location filename="../dialogs/informationdialog.ui" line="22"/>
+        <location filename="../dialogs/informationdialog.ui" line="65"/>
         <source>Size:</source>
         <translation>Größe:</translation>
     </message>
     <message>
-        <location filename="../dialogs/informationdialog.ui" line="68"/>
+        <location filename="../dialogs/informationdialog.ui" line="22"/>
         <source>From:</source>
         <translation>Von:</translation>
     </message>
     <message>
-        <location filename="../dialogs/informationdialog.ui" line="78"/>
+        <location filename="../dialogs/informationdialog.ui" line="55"/>
         <source>Unkown</source>
         <translation>Unbekannt</translation>
     </message>
     <message>
-        <location filename="../dialogs/informationdialog.ui" line="119"/>
+        <location filename="../dialogs/informationdialog.ui" line="138"/>
         <source>Download Information</source>
         <translation>Herunterladen Informationen</translation>
     </message>
     <message>
-        <location filename="../dialogs/informationdialog.ui" line="152"/>
+        <location filename="../dialogs/informationdialog.ui" line="171"/>
         <source>Options</source>
         <translation>Optionen</translation>
     </message>
@@ -1363,12 +1363,12 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>LinkWidget</name>
     <message>
-        <location filename="../widgets/linkwidget.ui" line="78"/>
+        <location filename="../widgets/linkwidget.ui" line="79"/>
         <source>Links</source>
         <translation>Links</translation>
     </message>
     <message>
-        <location filename="../widgets/linkwidget.ui" line="100"/>
+        <location filename="../widgets/linkwidget.ui" line="101"/>
         <source>Pictures and Media</source>
         <translation>Bilder und Medien</translation>
     </message>
@@ -1437,7 +1437,7 @@ Some examples are given below.  Click to paste the example.</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="106"/>
-        <location filename="../mainwindow.cpp" line="389"/>
+        <location filename="../mainwindow.cpp" line="392"/>
         <source>Other</source>
         <translation>Andere</translation>
     </message>
@@ -1553,7 +1553,7 @@ Some examples are given below.  Click to paste the example.</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="336"/>
-        <location filename="../mainwindow.cpp" line="778"/>
+        <location filename="../mainwindow.cpp" line="864"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -1824,198 +1824,198 @@ Some examples are given below.  Click to paste the example.</source>
         <translation>Über YoutubeDL...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="346"/>
-        <location filename="../mainwindow.cpp" line="951"/>
+        <location filename="../mainwindow.cpp" line="348"/>
+        <location filename="../mainwindow.cpp" line="1054"/>
         <source>About %0</source>
         <translation>Über %0</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="350"/>
+        <location filename="../mainwindow.cpp" line="352"/>
         <source>About Qt</source>
         <translation>Über Qt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="408"/>
+        <location filename="../mainwindow.cpp" line="411"/>
         <source>Advanced</source>
         <translation>Fortgeschritten</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="551"/>
-        <location filename="../mainwindow.cpp" line="598"/>
-        <location filename="../mainwindow.cpp" line="1321"/>
-        <location filename="../mainwindow.cpp" line="1340"/>
+        <location filename="../mainwindow.cpp" line="637"/>
+        <location filename="../mainwindow.cpp" line="684"/>
+        <location filename="../mainwindow.cpp" line="1424"/>
+        <location filename="../mainwindow.cpp" line="1443"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="577"/>
-        <location filename="../mainwindow.cpp" line="612"/>
+        <location filename="../mainwindow.cpp" line="663"/>
+        <location filename="../mainwindow.cpp" line="698"/>
         <source>Remove Downloads</source>
         <translation>Downloads entfernen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="578"/>
-        <location filename="../mainwindow.cpp" line="613"/>
+        <location filename="../mainwindow.cpp" line="664"/>
+        <location filename="../mainwindow.cpp" line="699"/>
         <source>Are you sure to remove %0 downloads?</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="580"/>
+        <location filename="../mainwindow.cpp" line="666"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="553"/>
+        <location filename="../mainwindow.cpp" line="639"/>
         <source>File not found</source>
         <translation>Datei nicht gefunden</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="600"/>
+        <location filename="../mainwindow.cpp" line="686"/>
         <source>Destination directory not found:</source>
         <translation>Zielverzeichnis nicht gefunden:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="619"/>
+        <location filename="../mainwindow.cpp" line="705"/>
         <source>Don&apos;t ask again</source>
         <translation>Nicht mehr fragen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="635"/>
+        <location filename="../mainwindow.cpp" line="721"/>
         <source>ALL</source>
         <translation>ALLES</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="642"/>
+        <location filename="../mainwindow.cpp" line="728"/>
         <source>selected</source>
         <translation>ausgewählte</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="654"/>
+        <location filename="../mainwindow.cpp" line="740"/>
         <source>completed</source>
         <translation>fertig</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="661"/>
+        <location filename="../mainwindow.cpp" line="747"/>
         <source>waiting</source>
         <translation>wartende</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="668"/>
+        <location filename="../mainwindow.cpp" line="754"/>
         <source>paused</source>
         <translation>pausierten</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="675"/>
+        <location filename="../mainwindow.cpp" line="761"/>
         <source>failed</source>
         <translation>gescheitert</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="683"/>
+        <location filename="../mainwindow.cpp" line="769"/>
         <source>running</source>
         <translation>auslaufen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="771"/>
+        <location filename="../mainwindow.cpp" line="857"/>
         <source>Website URL</source>
         <translation>Webseite URL</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="773"/>
+        <location filename="../mainwindow.cpp" line="859"/>
         <source>URL of the HTML page:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="774"/>
+        <location filename="../mainwindow.cpp" line="860"/>
         <source>(ex: %0)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="998"/>
+        <location filename="../mainwindow.cpp" line="1101"/>
         <source>The new name is already used or invalid.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1001"/>
+        <location filename="../mainwindow.cpp" line="1104"/>
         <source>Can&apos;t rename &quot;%0&quot; as its initial name.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1008"/>
+        <location filename="../mainwindow.cpp" line="1111"/>
         <source>Can&apos;t rename</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1008"/>
+        <location filename="../mainwindow.cpp" line="1111"/>
         <source>as</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1320"/>
+        <location filename="../mainwindow.cpp" line="1423"/>
         <source>Can&apos;t save file.</source>
         <translation>Kann keine Datei speichern.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1323"/>
+        <location filename="../mainwindow.cpp" line="1426"/>
         <source>Can&apos;t save file %0:</source>
         <translation>Kann keine Datei %0 speichern:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1339"/>
+        <location filename="../mainwindow.cpp" line="1442"/>
         <source>Can&apos;t load file.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1342"/>
+        <location filename="../mainwindow.cpp" line="1445"/>
         <source>Can&apos;t load file %0:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="777"/>
+        <location filename="../mainwindow.cpp" line="863"/>
         <source>Start!</source>
         <translation>Starten!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1009"/>
+        <location filename="../mainwindow.cpp" line="1112"/>
         <source>File Error</source>
         <translation>Dateifehler</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1042"/>
+        <location filename="../mainwindow.cpp" line="1145"/>
         <source>Done: %0 Running: %1 Total: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1050"/>
+        <location filename="../mainwindow.cpp" line="1153"/>
         <source>%0 of %1 (%2), %3 running  %4 | Torrent: %5</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1056"/>
+        <location filename="../mainwindow.cpp" line="1159"/>
         <source>active</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1056"/>
+        <location filename="../mainwindow.cpp" line="1159"/>
         <source>inactive</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1329"/>
+        <location filename="../mainwindow.cpp" line="1432"/>
         <source>File saved</source>
         <translation>Datei gespeichert</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1348"/>
+        <location filename="../mainwindow.cpp" line="1451"/>
         <source>File loaded</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.h" line="177"/>
+        <location filename="../mainwindow.h" line="178"/>
         <source>Save As</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.h" line="178"/>
+        <location filename="../mainwindow.h" line="179"/>
         <source>Open</source>
         <translation type="unfinished"/>
     </message>
@@ -2107,17 +2107,17 @@ Some examples are given below.  Click to paste the example.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/pathwidget.cpp" line="136"/>
+        <location filename="../widgets/pathwidget.cpp" line="140"/>
         <source>All Files (*);;%0 (*%1)</source>
         <translation>Alle Dateien (*);;%0 (*%1)</translation>
     </message>
     <message>
-        <location filename="../widgets/pathwidget.cpp" line="137"/>
+        <location filename="../widgets/pathwidget.cpp" line="141"/>
         <source>Please select a file</source>
         <translation>Bitte wählen Sie eine Datei aus</translation>
     </message>
     <message>
-        <location filename="../widgets/pathwidget.cpp" line="142"/>
+        <location filename="../widgets/pathwidget.cpp" line="146"/>
         <source>Please select a directory</source>
         <translation>Bitte wählen Sie ein Verzeichnis</translation>
     </message>
@@ -2125,490 +2125,495 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>PreferenceDialog</name>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="82"/>
-        <location filename="../dialogs/preferencedialog.ui" line="1076"/>
+        <location filename="../dialogs/preferencedialog.ui" line="80"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1120"/>
         <source>General</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="88"/>
+        <location filename="../dialogs/preferencedialog.ui" line="86"/>
         <source>Defaults</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="94"/>
+        <location filename="../dialogs/preferencedialog.ui" line="92"/>
         <source>The download directory, renaming mask and filters can be configured in the regular selection dialog.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="104"/>
+        <location filename="../dialogs/preferencedialog.ui" line="102"/>
         <source>When a file with the same name already exists:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="110"/>
+        <location filename="../dialogs/preferencedialog.ui" line="108"/>
         <source>Rename</source>
         <translation>Umbenennen</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="117"/>
+        <location filename="../dialogs/preferencedialog.ui" line="115"/>
         <source>Overwrite</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="124"/>
+        <location filename="../dialogs/preferencedialog.ui" line="122"/>
         <source>Skip</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="134"/>
+        <location filename="../dialogs/preferencedialog.ui" line="132"/>
         <source>Ask</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="175"/>
+        <location filename="../dialogs/preferencedialog.ui" line="173"/>
         <source>Interface</source>
         <translation>Benutzeroberfläche</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="183"/>
+        <location filename="../dialogs/preferencedialog.ui" line="181"/>
         <source>Localization</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="195"/>
+        <location filename="../dialogs/preferencedialog.ui" line="193"/>
         <source>Manager Window</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="201"/>
+        <location filename="../dialogs/preferencedialog.ui" line="199"/>
         <source>Don&apos;t show &quot;Get Started&quot; tutorial when start the application</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="210"/>
+        <location filename="../dialogs/preferencedialog.ui" line="208"/>
         <source>Show system tray icon (notification area)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="241"/>
+        <location filename="../dialogs/preferencedialog.ui" line="239"/>
         <source>Hide when minimized</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="250"/>
+        <location filename="../dialogs/preferencedialog.ui" line="248"/>
         <source>Show balloon messages</source>
         <translation>Toast-Nachrichten anzeigen</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="278"/>
+        <location filename="../dialogs/preferencedialog.ui" line="276"/>
         <source>Minimize when ESC key is pressed</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="288"/>
+        <location filename="../dialogs/preferencedialog.ui" line="286"/>
         <source>Confirmation</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="294"/>
+        <location filename="../dialogs/preferencedialog.ui" line="292"/>
         <source>Confirm removal of downloads</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="301"/>
+        <location filename="../dialogs/preferencedialog.ui" line="299"/>
         <source>Confirm download batch</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="326"/>
+        <location filename="../dialogs/preferencedialog.ui" line="309"/>
+        <source>Style and Icons</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="343"/>
         <source>Video/Audio Stream</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="334"/>
+        <location filename="../dialogs/preferencedialog.ui" line="351"/>
         <source>Use stream downloader if the URL host is:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="389"/>
+        <location filename="../dialogs/preferencedialog.ui" line="415"/>
         <source>Network</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="395"/>
+        <location filename="../dialogs/preferencedialog.ui" line="421"/>
         <source>Downloads</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="422"/>
+        <location filename="../dialogs/preferencedialog.ui" line="448"/>
         <source>Concurrent downloads:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="509"/>
+        <location filename="../dialogs/preferencedialog.ui" line="535"/>
         <source>Proxy</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="517"/>
+        <location filename="../dialogs/preferencedialog.ui" line="543"/>
         <source>Type:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="543"/>
+        <location filename="../dialogs/preferencedialog.ui" line="569"/>
         <source>Proxy:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="576"/>
+        <location filename="../dialogs/preferencedialog.ui" line="602"/>
         <source>Port:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="626"/>
+        <location filename="../dialogs/preferencedialog.ui" line="652"/>
         <source>Username:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="652"/>
+        <location filename="../dialogs/preferencedialog.ui" line="678"/>
         <source>Password:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="666"/>
+        <location filename="../dialogs/preferencedialog.ui" line="692"/>
         <source>Show</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="846"/>
+        <location filename="../dialogs/preferencedialog.ui" line="872"/>
         <source>Identification</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="642"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="658"/>
         <source>Servers might use HTTP identification contained in the HTTP request to log client attributes. Some server even don&apos;t respond to the client if the identification attribute is empty. The fields allow you to send fake information, to protect privacy.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="854"/>
+        <location filename="../dialogs/preferencedialog.ui" line="942"/>
         <source>HTTP User Agent:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="998"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1042"/>
         <source>Filter</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="454"/>
+        <location filename="../dialogs/preferencedialog.ui" line="480"/>
         <source>Enable Custom Batch Button in &quot;Add download&quot; Dialog</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="466"/>
+        <location filename="../dialogs/preferencedialog.ui" line="492"/>
         <source>Ex: &quot;1 -&gt; 50&quot;, &quot;001 -&gt; 200&quot;, ...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="473"/>
+        <location filename="../dialogs/preferencedialog.ui" line="499"/>
         <source>Custom button label:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="480"/>
+        <location filename="../dialogs/preferencedialog.ui" line="506"/>
         <source>Ex: &quot;[1:50]&quot;, &quot;[001:200]&quot;, ...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="487"/>
+        <location filename="../dialogs/preferencedialog.ui" line="513"/>
         <source>Range:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="499"/>
+        <location filename="../dialogs/preferencedialog.ui" line="525"/>
         <source>Rem: must describe a range of numbers &quot;[x:y]&quot; with x &lt; y</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="603"/>
+        <location filename="../dialogs/preferencedialog.ui" line="629"/>
         <source>Authentication</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="696"/>
+        <location filename="../dialogs/preferencedialog.ui" line="722"/>
         <source>Privacy</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="704"/>
+        <location filename="../dialogs/preferencedialog.ui" line="730"/>
         <source>When Manager window is closed</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="710"/>
+        <location filename="../dialogs/preferencedialog.ui" line="736"/>
         <source>Remove completed downloads</source>
         <translation>Fertig Downloads entfernen</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="717"/>
+        <location filename="../dialogs/preferencedialog.ui" line="743"/>
         <source>Remove canceled/failed downloads</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="724"/>
+        <location filename="../dialogs/preferencedialog.ui" line="750"/>
         <source>Remove unfinished (paused) downloads</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="792"/>
+        <location filename="../dialogs/preferencedialog.ui" line="818"/>
         <source>Database</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="798"/>
+        <location filename="../dialogs/preferencedialog.ui" line="824"/>
         <source>The current downloads queue is temporarly saved in:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="811"/>
+        <location filename="../dialogs/preferencedialog.ui" line="837"/>
         <source>Stream Cache</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="822"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="671"/>
+        <location filename="../dialogs/preferencedialog.ui" line="848"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="687"/>
         <source>Clean Cache</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="734"/>
+        <location filename="../dialogs/preferencedialog.ui" line="760"/>
         <source>Auto Update</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="740"/>
+        <location filename="../dialogs/preferencedialog.ui" line="766"/>
         <source>Check for updates automatically:</source>
         <translation>Automatisch nach Updates suchen:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="754"/>
+        <location filename="../dialogs/preferencedialog.ui" line="780"/>
         <source>Never</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="759"/>
+        <location filename="../dialogs/preferencedialog.ui" line="785"/>
         <source>Once a day</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="764"/>
+        <location filename="../dialogs/preferencedialog.ui" line="790"/>
         <source>Once a week</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="778"/>
+        <location filename="../dialogs/preferencedialog.ui" line="804"/>
         <source>Check updates now...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="890"/>
+        <location filename="../dialogs/preferencedialog.ui" line="956"/>
         <source>Enable Referrer:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="949"/>
+        <location filename="../dialogs/preferencedialog.ui" line="993"/>
         <source>Filters</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="231"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="216"/>
         <source>Caption</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="232"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="217"/>
         <source>Extensions</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1007"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1051"/>
         <source>Caption:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1014"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1058"/>
         <source>Filtered Extensions:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1026"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1070"/>
         <source>Add New Filter</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1033"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1077"/>
         <source>Update Filter</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1040"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1084"/>
         <source>Remove Filter</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1070"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1114"/>
         <source>Torrent</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1082"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1126"/>
         <source>Enable Torrent</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1089"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1133"/>
         <source>If enabled, this software becomes a torrent client. It shares DHT (distributed hash table) with peers, .torrents files you share (those in your torrent share folder actually) and .torrents files currently downloading in the download queue.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1102"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1146"/>
         <source>Directory</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1108"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1152"/>
         <source>Share folder:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1123"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1167"/>
         <source>Bandwidth</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1131"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1175"/>
         <source>Max Upload Rate* (kB/s):</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1148"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1192"/>
         <source>Max Download Rate* (kB/s):</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1165"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1209"/>
         <source>Max Number of Connections:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1182"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1226"/>
         <source>Max Number of Peers per Torrent:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1201"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1245"/>
         <source>* (0: unlimited)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1224"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1268"/>
         <source>Connection</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1230"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1274"/>
         <source>Peers:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1237"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1281"/>
         <source>Ex: 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1244"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1288"/>
         <source>Note:  If not empty, these peers will be added to all torrents (format is &lt;IP:port&gt;. Ex: &quot;123.45.6.78:56789, 127.0.0.65:7894...&quot;)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1264"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1308"/>
         <source>Advanced</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1312"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1356"/>
         <source>Restore default settings</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1338"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1382"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1354"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1398"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="210"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="195"/>
         <source>Queue Database</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="214"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="199"/>
         <source>Located in %0</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="220"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="205"/>
         <source>(none)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="252"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="237"/>
         <source>Warning: The system tray is not available.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="255"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="240"/>
         <source>Warning: The system tray doesn&apos;t support balloon messages.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="260"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="245"/>
         <source>Preferences</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="304"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="311"/>
         <source>Reset all filters</source>
         <translation>Alle Filter zurücksetzen</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="608"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="617"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="624"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="633"/>
         <source>The host may be %0, %1 or %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="613"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="629"/>
         <source>The host may be %0 but not %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="624"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="640"/>
         <source>Examples:</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="648"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="664"/>
         <source>Referring Page (or Referrer) is an HTTP option that communicates to the server the address of the previous web page from which the resource is requested. This typically allows the HTTP server to track a visitor&apos;s browsing, page after page. To protect privacy, enter an empty or fake Referrer address.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="660"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="676"/>
         <source>Cleaning...</source>
         <translation type="unfinished"/>
     </message>
@@ -2778,16 +2783,36 @@ Some examples are given below.  Click to paste the example.</source>
         <source>Torrent Files</source>
         <translation>Torrent-Dateien</translation>
     </message>
+    <message>
+        <location filename="../core/theme.cpp" line="107"/>
+        <source>Classic (default)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../core/theme.cpp" line="107"/>
+        <source>Flat Design</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../core/theme.cpp" line="134"/>
+        <source>Light</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../core/theme.cpp" line="134"/>
+        <source>Dark</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>QueueItem</name>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="379"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="395"/>
         <source>%0 of %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="383"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="399"/>
         <source>Unknown</source>
         <translation type="unfinished"/>
     </message>
@@ -2818,47 +2843,47 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../core/settings.cpp" line="555"/>
+        <location filename="../core/settings.cpp" line="573"/>
         <source>All Files</source>
         <translation>Alle Dateien</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="556"/>
+        <location filename="../core/settings.cpp" line="574"/>
         <source>Archives (zip, rar...)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="557"/>
+        <location filename="../core/settings.cpp" line="575"/>
         <source>Application (exe, xpi...)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="558"/>
+        <location filename="../core/settings.cpp" line="576"/>
         <source>Audio (mp3, wav...)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="559"/>
+        <location filename="../core/settings.cpp" line="577"/>
         <source>Documents (pdf, odf...)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="560"/>
+        <location filename="../core/settings.cpp" line="578"/>
         <source>Images (jpg, png...)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="561"/>
+        <location filename="../core/settings.cpp" line="579"/>
         <source>Images JPEG</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="562"/>
+        <location filename="../core/settings.cpp" line="580"/>
         <source>Images PNG</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="563"/>
+        <location filename="../core/settings.cpp" line="581"/>
         <source>Video (mpeg, avi...)</source>
         <translation type="unfinished"/>
     </message>
@@ -3896,12 +3921,12 @@ Ex:
 <context>
     <name>main</name>
     <message>
-        <location filename="../main.cpp" line="75"/>
+        <location filename="../main.cpp" line="72"/>
         <source>Another Download Manager</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../main.cpp" line="85"/>
+        <location filename="../main.cpp" line="82"/>
         <source>target URL to proceed</source>
         <translation type="unfinished"/>
     </message>
