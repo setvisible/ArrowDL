@@ -63,9 +63,9 @@
      <property name="title">
       <string>Other</string>
      </property>
-     <addaction name="actionRemoveAll1"/>
+     <addaction name="actionRemoveAll"/>
      <addaction name="separator"/>
-     <addaction name="actionCleanGoneFiles"/>
+     <addaction name="actionRemoveWaiting"/>
     </widget>
     <widget class="QMenu" name="menuOther2">
      <property name="title">
@@ -75,15 +75,13 @@
      <addaction name="separator"/>
      <addaction name="actionRemoveDuplicates"/>
      <addaction name="separator"/>
-     <addaction name="actionRemoveAll2"/>
      <addaction name="separator"/>
      <addaction name="actionRemoveFailed"/>
      <addaction name="actionRemovePaused"/>
     </widget>
-    <addaction name="actionRemoveCompletedDownloads"/>
+    <addaction name="actionRemoveCompleted"/>
     <addaction name="menuOther1"/>
     <addaction name="separator"/>
-    <addaction name="actionRemoveDownloads"/>
     <addaction name="menuOther2"/>
    </widget>
    <widget class="QMenu" name="menuDownload">
@@ -145,7 +143,7 @@
   <action name="actionAdd">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/tool_add_26x26.png</normaloff>:/icons/menu/tool_add_26x26.png</iconset>
+     <normaloff>:/resources/icons/default/48x48/actions/add-batch.png</normaloff>:/resources/icons/default/48x48/actions/add-batch.png</iconset>
    </property>
    <property name="text">
     <string>Add...</string>
@@ -157,7 +155,7 @@
   <action name="actionCancel">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_cancel_16x16.png</normaloff>:/icons/menu/icon_cancel_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/play-stop.png</normaloff>:/resources/icons/default/16x16/actions/play-stop.png</iconset>
    </property>
    <property name="text">
     <string>Cancel</string>
@@ -169,7 +167,7 @@
   <action name="actionPause">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_pause_16x16.png</normaloff>:/icons/menu/icon_pause_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/play-pause.png</normaloff>:/resources/icons/default/16x16/actions/play-pause.png</iconset>
    </property>
    <property name="text">
     <string>Pause</string>
@@ -181,7 +179,7 @@
   <action name="actionUp">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_up_16x16.png</normaloff>:/icons/menu/icon_up_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/move-up.png</normaloff>:/resources/icons/default/16x16/actions/move-up.png</iconset>
    </property>
    <property name="text">
     <string>Up</string>
@@ -193,7 +191,7 @@
   <action name="actionTop">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_top_16x16.png</normaloff>:/icons/menu/icon_top_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/move-top.png</normaloff>:/resources/icons/default/16x16/actions/move-top.png</iconset>
    </property>
    <property name="text">
     <string>Top</string>
@@ -205,7 +203,7 @@
   <action name="actionDown">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_down_16x16.png</normaloff>:/icons/menu/icon_down_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/move-down.png</normaloff>:/resources/icons/default/16x16/actions/move-down.png</iconset>
    </property>
    <property name="text">
     <string>Down</string>
@@ -217,7 +215,7 @@
   <action name="actionBottom">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_bottom_16x16.png</normaloff>:/icons/menu/icon_bottom_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/move-bottom.png</normaloff>:/resources/icons/default/16x16/actions/move-bottom.png</iconset>
    </property>
    <property name="text">
     <string>Bottom</string>
@@ -229,7 +227,7 @@
   <action name="actionResume">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_resume_16x16.png</normaloff>:/icons/menu/icon_resume_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/play-resume.png</normaloff>:/resources/icons/default/16x16/actions/play-resume.png</iconset>
    </property>
    <property name="text">
     <string>Resume</string>
@@ -241,7 +239,7 @@
   <action name="actionSelectAll">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/select_all_32x32.png</normaloff>:/icons/menu/select_all_32x32.png</iconset>
+     <normaloff>:/resources/icons/default/32x32/actions/select-all.png</normaloff>:/resources/icons/default/32x32/actions/select-all.png</iconset>
    </property>
    <property name="text">
     <string>Select All</string>
@@ -253,7 +251,7 @@
   <action name="actionInvertSelection">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/select_invert_32x32.png</normaloff>:/icons/menu/select_invert_32x32.png</iconset>
+     <normaloff>:/resources/icons/default/32x32/actions/select-invert.png</normaloff>:/resources/icons/default/32x32/actions/select-invert.png</iconset>
    </property>
    <property name="text">
     <string>Invert Selection</string>
@@ -265,7 +263,7 @@
   <action name="actionManageMirrors">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_manage_mirror_48x48.png</normaloff>:/icons/menu/icon_manage_mirror_48x48.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/mirror-server.png</normaloff>:/resources/icons/default/16x16/actions/mirror-server.png</iconset>
    </property>
    <property name="text">
     <string>Manage Download Mirror Locations...</string>
@@ -277,7 +275,7 @@
   <action name="actionOneMoreSegment">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_segment_add_16x16.png</normaloff>:/icons/menu/icon_segment_add_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/segment-add.png</normaloff>:/resources/icons/default/16x16/actions/segment-add.png</iconset>
    </property>
    <property name="text">
     <string>One More Segment</string>
@@ -286,7 +284,7 @@
   <action name="actionOneFewerSegment">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_segment_remove_16x16.png</normaloff>:/icons/menu/icon_segment_remove_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/segment-remove.png</normaloff>:/resources/icons/default/16x16/actions/segment-remove.png</iconset>
    </property>
    <property name="text">
     <string>One Fewer Segment</string>
@@ -295,7 +293,7 @@
   <action name="actionForceStart">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_force_start_16x16.png</normaloff>:/icons/menu/icon_force_start_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/play-resume-force.png</normaloff>:/resources/icons/default/16x16/actions/play-resume-force.png</iconset>
    </property>
    <property name="text">
     <string>Force Start</string>
@@ -304,34 +302,25 @@
     <string>Ctrl+Shift+R</string>
    </property>
   </action>
-  <action name="actionRemoveCompletedDownloads">
+  <action name="actionRemoveCompleted">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_remove_completed_16x16.png</normaloff>:/icons/menu/icon_remove_completed_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/remove-completed.png</normaloff>:/resources/icons/default/16x16/actions/remove-completed.png</iconset>
    </property>
    <property name="text">
-    <string>Remove Completed Downloads</string>
+    <string>Remove Completed</string>
    </property>
   </action>
-  <action name="actionRemoveDownloads">
+  <action name="actionRemoveWaiting">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_remove_downloaded_16x16.png</normaloff>:/icons/menu/icon_remove_downloaded_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/remove-waiting.png</normaloff>:/resources/icons/default/16x16/actions/remove-waiting.png</iconset>
    </property>
    <property name="text">
-    <string>Remove Downloads</string>
-   </property>
-  </action>
-  <action name="actionCleanGoneFiles">
-   <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_clean_gone_file_16x16.png</normaloff>:/icons/menu/icon_clean_gone_file_16x16.png</iconset>
-   </property>
-   <property name="text">
-    <string>Clean Gone Files</string>
+    <string>Remove Waiting</string>
    </property>
    <property name="toolTip">
-    <string>Clean Gone Files</string>
+    <string>Remove Waiting</string>
    </property>
    <property name="shortcut">
     <string>Alt+Del</string>
@@ -340,7 +329,7 @@
   <action name="actionRemoveDuplicates">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_remove_duplicates_16x16.png</normaloff>:/icons/menu/icon_remove_duplicates_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/remove-duplicates.png</normaloff>:/resources/icons/default/16x16/actions/remove-duplicates.png</iconset>
    </property>
    <property name="text">
     <string>Remove Duplicates</string>
@@ -349,7 +338,7 @@
   <action name="actionAddDomainSpecificLimit">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_add_domain_specific_limit_16x16.png</normaloff>:/icons/menu/icon_add_domain_specific_limit_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/limit-domain.png</normaloff>:/resources/icons/default/16x16/actions/limit-domain.png</iconset>
    </property>
    <property name="text">
     <string>Add Domain Specific Limit...</string>
@@ -358,7 +347,7 @@
   <action name="actionSpeedLimit">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_speed_limit_16x16.png</normaloff>:/icons/menu/icon_speed_limit_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/limit-speed.png</normaloff>:/resources/icons/default/16x16/actions/limit-speed.png</iconset>
    </property>
    <property name="text">
     <string>Speed Limit...</string>
@@ -370,7 +359,7 @@
   <action name="actionSelectNone">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/select_none_32x32.png</normaloff>:/icons/menu/select_none_32x32.png</iconset>
+     <normaloff>:/resources/icons/default/32x32/actions/select-none.png</normaloff>:/resources/icons/default/32x32/actions/select-none.png</iconset>
    </property>
    <property name="text">
     <string>Select None</string>
@@ -382,16 +371,16 @@
   <action name="actionSelectCompleted">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/select_completed_32x32.png</normaloff>:/icons/menu/select_completed_32x32.png</iconset>
+     <normaloff>:/resources/icons/default/32x32/actions/select-completed.png</normaloff>:/resources/icons/default/32x32/actions/select-completed.png</iconset>
    </property>
    <property name="text">
     <string>Select Completed</string>
    </property>
   </action>
-  <action name="actionRemoveAll1">
+  <action name="actionRemoveAll">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_remove_completed_16x16.png</normaloff>:/icons/menu/icon_remove_completed_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/remove-all.png</normaloff>:/resources/icons/default/16x16/actions/remove-all.png</iconset>
    </property>
    <property name="text">
     <string>Remove All</string>
@@ -403,7 +392,7 @@
   <action name="actionRemoveSelected">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_remove_downloaded_16x16.png</normaloff>:/icons/menu/icon_remove_downloaded_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/remove-downloaded.png</normaloff>:/resources/icons/default/16x16/actions/remove-downloaded.png</iconset>
    </property>
    <property name="text">
     <string>Remove Selected</string>
@@ -415,7 +404,7 @@
   <action name="actionRemoveFailed">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_cancel_16x16.png</normaloff>:/icons/menu/icon_cancel_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/remove-stopped.png</normaloff>:/resources/icons/default/16x16/actions/remove-stopped.png</iconset>
    </property>
    <property name="text">
     <string>Remove Failed</string>
@@ -424,19 +413,10 @@
   <action name="actionRemovePaused">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_pause_16x16.png</normaloff>:/icons/menu/icon_pause_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/play-pause.png</normaloff>:/resources/icons/default/16x16/actions/play-pause.png</iconset>
    </property>
    <property name="text">
     <string>Remove Paused</string>
-   </property>
-  </action>
-  <action name="actionRemoveAll2">
-   <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/icons/menu/icon_remove_downloaded_16x16.png</normaloff>:/icons/menu/icon_remove_downloaded_16x16.png</iconset>
-   </property>
-   <property name="text">
-    <string>Remove All</string>
    </property>
   </action>
  </widget>

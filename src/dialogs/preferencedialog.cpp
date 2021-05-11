@@ -632,18 +632,18 @@ void PreferenceDialog::setupStreamToolTip()
                 "</p>";
     }
     tooltip += "</body></html>";
-    ui->streamHelpWidget->setToolTip(tooltip);
+    ui->streamHelp->setToolTip(tooltip);
 }
 
 void PreferenceDialog::setupHttpToolTips()
 {
-    ui->httpUserAgentHelpWidget->setToolTip(
+    ui->httpUserAgentHelp->setToolTip(
                 QString("<html><head/><body><p>%0</p></body></html>").arg(
                     tr("Servers might use HTTP identification contained in the HTTP "
                        "request to log client attributes. Some server even don't "
                        "respond to the client if the identification attribute is empty. "
                        "The fields allow you to send fake information, to protect privacy.")));
-    ui->httpReferringPageHelpWidget->setToolTip(
+    ui->httpReferringPageHelp->setToolTip(
                 QString("<html><head/><body><p>%0</p></body></html>").arg(
                     tr("Referring Page (or Referrer) is an HTTP option that "
                        "communicates to the server the address of the previous "

@@ -102,7 +102,7 @@ void InformationDialog::initialize(const QList<IDownloadItem *> &items)
     }
 
     const QPixmap pixmap = MimeDatabase::fileIcon(url, 256);
-    ui->fileIcon->setPixmap(pixmap);
+    ui->logo->setPixmap(pixmap);
 
     /* Form */
     if (downloadItem) {

@@ -186,11 +186,11 @@ private:
 QueueViewItemDelegate::QueueViewItemDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-    m_idleIcon.addPixmap(QPixmap(":/icons/menu/icon_idle_16x16.png"), QIcon::Normal, QIcon::On);
-    m_resumeIcon.addPixmap(QPixmap(":/icons/menu/icon_resume_16x16.png"), QIcon::Normal, QIcon::On);
-    m_pauseIcon.addPixmap(QPixmap(":/icons/menu/icon_pause_16x16.png"), QIcon::Normal, QIcon::On);
-    m_stopIcon.addPixmap(QPixmap(":/icons/menu/icon_cancel_16x16.png"), QIcon::Normal, QIcon::On);
-    m_completedIcon.addPixmap(QPixmap(":/icons/menu/icon_remove_completed_16x16.png"), QIcon::Normal, QIcon::On);
+    m_idleIcon.addPixmap(QPixmap(":/resources/icons/default/16x16/actions/play-idle.png"), QIcon::Normal, QIcon::On);
+    m_resumeIcon.addPixmap(QPixmap(":/resources/icons/default/16x16/actions/play-resume.png"), QIcon::Normal, QIcon::On);
+    m_pauseIcon.addPixmap(QPixmap(":/resources/icons/default/16x16/actions/play-pause.png"), QIcon::Normal, QIcon::On);
+    m_stopIcon.addPixmap(QPixmap(":/resources/icons/default/16x16/actions/play-stop.png"), QIcon::Normal, QIcon::On);
+    m_completedIcon.addPixmap(QPixmap(":/resources/icons/default/16x16/actions/remove-completed.png"), QIcon::Normal, QIcon::On);
 
 }
 

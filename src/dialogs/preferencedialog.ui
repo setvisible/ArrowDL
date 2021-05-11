@@ -28,9 +28,6 @@
    </property>
    <item>
     <widget class="QTabWidget" name="tabWidget">
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
      <property name="styleSheet">
       <string notr="true">/* QGroupBox exposes the title as QString (even if internally its probably a QLabel) */
 QGroupBox {
@@ -38,11 +35,11 @@ QGroupBox {
 }
 
 QTabWidget {
-    background-color: #ffffff;
+    background-color: palette(base);
 }
 
 QTabWidget::pane { /* The tab widget frame */
-    border-top: 1px solid #848484;
+    border-top: 1px solid palette(mid);
 }
 
 QTabWidget::tab-bar {
@@ -51,18 +48,19 @@ QTabWidget::tab-bar {
 }
 
 QTabBar::tab {
-	color: #000000;
-    background-color: #ffffff;
+	color: palette(text);
+    background-color: palette(base);
     padding: 3px;
 }
 
 QTabBar::tab:selected {
-    background-color: #c1d2ee;
+    background-color: palette(alternate-base);
 }
 
 QTabBar::tab:hover:!selected {
-    background-color: #e0e8f6;
-}</string>
+    background-color: palette(alternate-base);
+}
+</string>
      </property>
      <property name="currentIndex">
       <number>0</number>
@@ -76,7 +74,7 @@ QTabBar::tab:hover:!selected {
      <widget class="QWidget" name="general">
       <attribute name="icon">
        <iconset resource="../resources.qrc">
-        <normaloff>:/icons/menu/preference_general_32x32.png</normaloff>:/icons/menu/preference_general_32x32.png</iconset>
+        <normaloff>:/resources/icons/default/32x32/actions/preference-general.png</normaloff>:/resources/icons/default/32x32/actions/preference-general.png</iconset>
       </attribute>
       <attribute name="title">
        <string>General</string>
@@ -221,7 +219,7 @@ QTabBar::tab:hover:!selected {
                  </font>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">color: rgb(170, 0, 0);</string>
+                 <string notr="true">color: palette(link);</string>
                 </property>
                 <property name="text">
                  <string notr="true">&lt;warning message&gt;</string>
@@ -261,7 +259,7 @@ QTabBar::tab:hover:!selected {
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">color: rgb(170, 0, 0);</string>
+                   <string notr="true">color: palette(link);</string>
                   </property>
                   <property name="text">
                    <string notr="true">&lt;warning message&gt;</string>
@@ -336,7 +334,7 @@ QTabBar::tab:hover:!selected {
              </widget>
             </item>
             <item>
-             <widget class="QWidget" name="streamHelpWidget" native="true">
+             <widget class="QLabel" name="streamHelp">
               <property name="minimumSize">
                <size>
                 <width>20</width>
@@ -352,8 +350,17 @@ QTabBar::tab:hover:!selected {
               <property name="cursor">
                <cursorShape>WhatsThisCursor</cursorShape>
               </property>
-              <property name="styleSheet">
-               <string notr="true">image: url(:/resources/icons/default/16x16/actions/help.png);</string>
+              <property name="text">
+               <string notr="true"/>
+              </property>
+              <property name="pixmap">
+               <pixmap resource="../resources.qrc">:/resources/icons/default/16x16/actions/help.png</pixmap>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
+              </property>
+              <property name="margin">
+               <number>2</number>
               </property>
              </widget>
             </item>
@@ -383,7 +390,7 @@ QTabBar::tab:hover:!selected {
      <widget class="QWidget" name="network">
       <attribute name="icon">
        <iconset resource="../resources.qrc">
-        <normaloff>:/icons/menu/preference_network_32x32.png</normaloff>:/icons/menu/preference_network_32x32.png</iconset>
+        <normaloff>:/resources/icons/default/32x32/actions/preference-network.png</normaloff>:/resources/icons/default/32x32/actions/preference-network.png</iconset>
       </attribute>
       <attribute name="title">
        <string>Network</string>
@@ -690,7 +697,7 @@ QTabBar::tab:hover:!selected {
      <widget class="QWidget" name="privacy">
       <attribute name="icon">
        <iconset resource="../resources.qrc">
-        <normaloff>:/icons/menu/preference_privacy_32x32.png</normaloff>:/icons/menu/preference_privacy_32x32.png</iconset>
+        <normaloff>:/resources/icons/default/32x32/actions/preference-privacy.png</normaloff>:/resources/icons/default/32x32/actions/preference-privacy.png</iconset>
       </attribute>
       <attribute name="title">
        <string>Privacy</string>
@@ -847,16 +854,9 @@ QTabBar::tab:hover:!selected {
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_22">
           <item>
-           <layout class="QGridLayout" name="gridLayout_4">
-            <item row="0" column="0">
-             <widget class="QLabel" name="httpUserAgentLabel">
-              <property name="text">
-               <string>HTTP User Agent:</string>
-              </property>
-             </widget>
-            </item>
+           <layout class="QGridLayout" name="gridLayout_4" columnstretch="0,0,1">
             <item row="0" column="1">
-             <widget class="QWidget" name="httpUserAgentHelpWidget" native="true">
+             <widget class="QLabel" name="httpUserAgentHelp">
               <property name="minimumSize">
                <size>
                 <width>20</width>
@@ -872,8 +872,55 @@ QTabBar::tab:hover:!selected {
               <property name="cursor">
                <cursorShape>WhatsThisCursor</cursorShape>
               </property>
-              <property name="styleSheet">
-               <string notr="true">image: url(:/icons/menu/button_help_16x16.png);</string>
+              <property name="text">
+               <string notr="true"/>
+              </property>
+              <property name="pixmap">
+               <pixmap resource="../resources.qrc">:/resources/icons/default/16x16/actions/help.png</pixmap>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
+              </property>
+              <property name="margin">
+               <number>2</number>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLabel" name="httpReferringPageHelp">
+              <property name="minimumSize">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="cursor">
+               <cursorShape>WhatsThisCursor</cursorShape>
+              </property>
+              <property name="text">
+               <string notr="true"/>
+              </property>
+              <property name="pixmap">
+               <pixmap resource="../resources.qrc">:/resources/icons/default/16x16/actions/help.png</pixmap>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
+              </property>
+              <property name="margin">
+               <number>2</number>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="httpUserAgentLabel">
+              <property name="text">
+               <string>HTTP User Agent:</string>
               </property>
              </widget>
             </item>
@@ -895,28 +942,6 @@ QTabBar::tab:hover:!selected {
              <widget class="QLineEdit" name="httpReferringPageLineEdit">
               <property name="placeholderText">
                <string notr="true">https://www.example.com/</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QWidget" name="httpReferringPageHelpWidget" native="true">
-              <property name="minimumSize">
-               <size>
-                <width>20</width>
-                <height>20</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>20</width>
-                <height>20</height>
-               </size>
-              </property>
-              <property name="cursor">
-               <cursorShape>WhatsThisCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">image: url(:/icons/menu/button_help_16x16.png);</string>
               </property>
              </widget>
             </item>
@@ -943,7 +968,7 @@ QTabBar::tab:hover:!selected {
      <widget class="QWidget" name="filters">
       <attribute name="icon">
        <iconset resource="../resources.qrc">
-        <normaloff>:/icons/menu/preference_filters_32x32.png</normaloff>:/icons/menu/preference_filters_32x32.png</iconset>
+        <normaloff>:/resources/icons/default/32x32/actions/preference-filters.png</normaloff>:/resources/icons/default/32x32/actions/preference-filters.png</iconset>
       </attribute>
       <attribute name="title">
        <string>Filters</string>
@@ -1064,7 +1089,7 @@ QTabBar::tab:hover:!selected {
      <widget class="QWidget" name="torrent">
       <attribute name="icon">
        <iconset resource="../resources.qrc">
-        <normaloff>:/icons/menu/preference_torrent_32x32.png</normaloff>:/icons/menu/preference_torrent_32x32.png</iconset>
+        <normaloff>:/resources/icons/default/32x32/actions/preference-torrent.png</normaloff>:/resources/icons/default/32x32/actions/preference-torrent.png</iconset>
       </attribute>
       <attribute name="title">
        <string>Torrent</string>
@@ -1258,7 +1283,7 @@ QTabBar::tab:hover:!selected {
      <widget class="QWidget" name="advanced">
       <attribute name="icon">
        <iconset resource="../resources.qrc">
-        <normaloff>:/icons/menu/preference_advanced_32x32.png</normaloff>:/icons/menu/preference_advanced_32x32.png</iconset>
+        <normaloff>:/resources/icons/default/32x32/actions/preference-advanced.png</normaloff>:/resources/icons/default/32x32/actions/preference-advanced.png</iconset>
       </attribute>
       <attribute name="title">
        <string>Advanced</string>

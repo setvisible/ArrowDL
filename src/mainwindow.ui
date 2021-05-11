@@ -234,7 +234,7 @@
   <action name="actionAbout">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/button_help_16x16.png</normaloff>:/icons/menu/button_help_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/about.png</normaloff>:/resources/icons/default/16x16/actions/about.png</iconset>
    </property>
    <property name="text">
     <string>About DownZemAll...</string>
@@ -243,7 +243,7 @@
   <action name="actionPreferences">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/button_preference_16x16.png</normaloff>:/icons/menu/button_preference_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/preference.png</normaloff>:/resources/icons/default/16x16/actions/preference.png</iconset>
    </property>
    <property name="text">
     <string>Preferences...</string>
@@ -255,7 +255,7 @@
   <action name="actionHome">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/tool_resume_26x26.png</normaloff>:/icons/menu/tool_resume_26x26.png</iconset>
+     <normaloff>:/resources/icons/default/26x26/actions/home.png</normaloff>:/resources/icons/default/26x26/actions/home.png</iconset>
    </property>
    <property name="text">
     <string>Getting Started...</string>
@@ -264,7 +264,7 @@
   <action name="actionAddContent">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/wizard_add_16x16.png</normaloff>:/icons/menu/wizard_add_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/48x48/actions/add-content.png</normaloff>:/resources/icons/default/48x48/actions/add-content.png</iconset>
    </property>
    <property name="text">
     <string>Download Content...</string>
@@ -279,7 +279,7 @@
   <action name="actionAddBatch">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/tool_add_26x26.png</normaloff>:/icons/menu/tool_add_26x26.png</iconset>
+     <normaloff>:/resources/icons/default/48x48/actions/add-batch.png</normaloff>:/resources/icons/default/48x48/actions/add-batch.png</iconset>
    </property>
    <property name="text">
     <string>Download Batch...</string>
@@ -294,7 +294,7 @@
   <action name="actionAddStream">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/youtube_48x48.png</normaloff>:/icons/menu/youtube_48x48.png</iconset>
+     <normaloff>:/resources/icons/default/48x48/actions/add-stream.png</normaloff>:/resources/icons/default/48x48/actions/add-stream.png</iconset>
    </property>
    <property name="text">
     <string>Download Stream...</string>
@@ -306,7 +306,7 @@
   <action name="actionAddTorrent">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/preference_torrent_32x32.png</normaloff>:/icons/menu/preference_torrent_32x32.png</iconset>
+     <normaloff>:/resources/icons/default/48x48/actions/add-torrent.png</normaloff>:/resources/icons/default/48x48/actions/add-torrent.png</iconset>
    </property>
    <property name="text">
     <string>Download Torrent...</string>
@@ -318,7 +318,7 @@
   <action name="actionAddUrls">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/paste_48x48.png</normaloff>:/icons/menu/paste_48x48.png</iconset>
+     <normaloff>:/resources/icons/default/48x48/actions/add-urls.png</normaloff>:/resources/icons/default/48x48/actions/add-urls.png</iconset>
    </property>
    <property name="text">
     <string>Download Urls...</string>
@@ -330,7 +330,7 @@
   <action name="actionCancel">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_cancel_16x16.png</normaloff>:/icons/menu/icon_cancel_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/play-stop.png</normaloff>:/resources/icons/default/16x16/actions/play-stop.png</iconset>
    </property>
    <property name="text">
     <string>Cancel</string>
@@ -339,7 +339,7 @@
   <action name="actionPause">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_pause_16x16.png</normaloff>:/icons/menu/icon_pause_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/play-pause.png</normaloff>:/resources/icons/default/16x16/actions/play-pause.png</iconset>
    </property>
    <property name="text">
     <string>Pause</string>
@@ -351,7 +351,7 @@
   <action name="actionUp">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_up_16x16.png</normaloff>:/icons/menu/icon_up_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/move-up.png</normaloff>:/resources/icons/default/16x16/actions/move-up.png</iconset>
    </property>
    <property name="text">
     <string>Up</string>
@@ -363,7 +363,7 @@
   <action name="actionTop">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_top_16x16.png</normaloff>:/icons/menu/icon_top_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/move-top.png</normaloff>:/resources/icons/default/16x16/actions/move-top.png</iconset>
    </property>
    <property name="text">
     <string>Top</string>
@@ -375,7 +375,7 @@
   <action name="actionDown">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_down_16x16.png</normaloff>:/icons/menu/icon_down_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/move-down.png</normaloff>:/resources/icons/default/16x16/actions/move-down.png</iconset>
    </property>
    <property name="text">
     <string>Down</string>
@@ -387,7 +387,7 @@
   <action name="actionBottom">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_bottom_16x16.png</normaloff>:/icons/menu/icon_bottom_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/move-bottom.png</normaloff>:/resources/icons/default/16x16/actions/move-bottom.png</iconset>
    </property>
    <property name="text">
     <string>Bottom</string>
@@ -399,7 +399,7 @@
   <action name="actionResume">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_resume_16x16.png</normaloff>:/icons/menu/icon_resume_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/play-resume.png</normaloff>:/resources/icons/default/16x16/actions/play-resume.png</iconset>
    </property>
    <property name="text">
     <string>Resume</string>
@@ -408,7 +408,7 @@
   <action name="actionInformation">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_info_16x16.png</normaloff>:/icons/menu/icon_info_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/info.png</normaloff>:/resources/icons/default/16x16/actions/info.png</iconset>
    </property>
    <property name="text">
     <string>Download Information</string>
@@ -420,7 +420,7 @@
   <action name="actionOpenFile">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_open_file_16x16.png</normaloff>:/icons/menu/icon_open_file_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/file-open.png</normaloff>:/resources/icons/default/16x16/actions/file-open.png</iconset>
    </property>
    <property name="text">
     <string>Open File</string>
@@ -429,7 +429,7 @@
   <action name="actionRenameFile">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_rename_file_16x16.png</normaloff>:/icons/menu/icon_rename_file_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/rename.png</normaloff>:/resources/icons/default/16x16/actions/rename.png</iconset>
    </property>
    <property name="text">
     <string>Rename File</string>
@@ -441,7 +441,7 @@
   <action name="actionDeleteFile">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_delete_file_16x16.png</normaloff>:/icons/menu/icon_delete_file_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/file-delete.png</normaloff>:/resources/icons/default/16x16/actions/file-delete.png</iconset>
    </property>
    <property name="text">
     <string>Delete File(s)</string>
@@ -453,7 +453,7 @@
   <action name="actionOpenDirectory">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_open_directory_16x16.png</normaloff>:/icons/menu/icon_open_directory_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/directory-open.png</normaloff>:/resources/icons/default/16x16/actions/directory-open.png</iconset>
    </property>
    <property name="text">
     <string>Open Directory</string>
@@ -462,7 +462,7 @@
   <action name="actionSelectAll">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/select_all_32x32.png</normaloff>:/icons/menu/select_all_32x32.png</iconset>
+     <normaloff>:/resources/icons/default/32x32/actions/select-all.png</normaloff>:/resources/icons/default/32x32/actions/select-all.png</iconset>
    </property>
    <property name="text">
     <string>Select All</string>
@@ -474,7 +474,7 @@
   <action name="actionInvertSelection">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/select_invert_32x32.png</normaloff>:/icons/menu/select_invert_32x32.png</iconset>
+     <normaloff>:/resources/icons/default/32x32/actions/select-invert.png</normaloff>:/resources/icons/default/32x32/actions/select-invert.png</iconset>
    </property>
    <property name="text">
     <string>Invert Selection</string>
@@ -486,7 +486,7 @@
   <action name="actionManageMirrors">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_manage_mirror_48x48.png</normaloff>:/icons/menu/icon_manage_mirror_48x48.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/mirror-server.png</normaloff>:/resources/icons/default/16x16/actions/mirror-server.png</iconset>
    </property>
    <property name="text">
     <string>Manage Download Mirror Locations...</string>
@@ -495,7 +495,7 @@
   <action name="actionOneMoreSegment">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_segment_add_16x16.png</normaloff>:/icons/menu/icon_segment_add_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/segment-add.png</normaloff>:/resources/icons/default/16x16/actions/segment-add.png</iconset>
    </property>
    <property name="text">
     <string>One More Segment</string>
@@ -504,7 +504,7 @@
   <action name="actionOneFewerSegment">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_segment_remove_16x16.png</normaloff>:/icons/menu/icon_segment_remove_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/segment-remove.png</normaloff>:/resources/icons/default/16x16/actions/segment-remove.png</iconset>
    </property>
    <property name="text">
     <string>One Fewer Segment</string>
@@ -513,7 +513,7 @@
   <action name="actionForceStart">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_force_start_16x16.png</normaloff>:/icons/menu/icon_force_start_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/play-resume-force.png</normaloff>:/resources/icons/default/16x16/actions/play-resume-force.png</iconset>
    </property>
    <property name="text">
     <string>Force Start</string>
@@ -525,7 +525,7 @@
   <action name="actionImportFromFile">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_import_from_file_16x16.png</normaloff>:/icons/menu/icon_import_from_file_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/file-import.png</normaloff>:/resources/icons/default/16x16/actions/file-import.png</iconset>
    </property>
    <property name="text">
     <string>Import From File...</string>
@@ -537,7 +537,7 @@
   <action name="actionExportSelectedToFile">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_export_selected_to_file_16x16.png</normaloff>:/icons/menu/icon_export_selected_to_file_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/file-export.png</normaloff>:/resources/icons/default/16x16/actions/file-export.png</iconset>
    </property>
    <property name="text">
     <string>Export &amp;Selected To File...</string>
@@ -549,7 +549,7 @@
   <action name="actionRemoveCompleted">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_remove_completed_16x16.png</normaloff>:/icons/menu/icon_remove_completed_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/remove-completed.png</normaloff>:/resources/icons/default/16x16/actions/remove-completed.png</iconset>
    </property>
    <property name="text">
     <string>Remove Completed</string>
@@ -561,7 +561,7 @@
   <action name="actionRemoveSelected">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_remove_downloaded_16x16.png</normaloff>:/icons/menu/icon_remove_downloaded_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/remove-downloaded.png</normaloff>:/resources/icons/default/16x16/actions/remove-downloaded.png</iconset>
    </property>
    <property name="text">
     <string>Remove Selected</string>
@@ -573,7 +573,7 @@
   <action name="actionRemoveAll">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_cancel_16x16.png</normaloff>:/icons/menu/icon_cancel_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/remove-all.png</normaloff>:/resources/icons/default/16x16/actions/remove-all.png</iconset>
    </property>
    <property name="text">
     <string>Remove All</string>
@@ -585,7 +585,7 @@
   <action name="actionRemoveWaiting">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_clean_gone_file_16x16.png</normaloff>:/icons/menu/icon_clean_gone_file_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/remove-waiting.png</normaloff>:/resources/icons/default/16x16/actions/remove-waiting.png</iconset>
    </property>
    <property name="text">
     <string>Remove Waiting</string>
@@ -594,7 +594,7 @@
   <action name="actionRemoveDuplicates">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_remove_duplicates_16x16.png</normaloff>:/icons/menu/icon_remove_duplicates_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/remove-duplicates.png</normaloff>:/resources/icons/default/16x16/actions/remove-duplicates.png</iconset>
    </property>
    <property name="text">
     <string>Remove Duplicates</string>
@@ -603,7 +603,7 @@
   <action name="actionRemoveRunning">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_resume_16x16.png</normaloff>:/icons/menu/icon_resume_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/play-resume.png</normaloff>:/resources/icons/default/16x16/actions/play-resume.png</iconset>
    </property>
    <property name="text">
     <string>Remove Running</string>
@@ -612,7 +612,7 @@
   <action name="actionRemovePaused">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_pause_16x16.png</normaloff>:/icons/menu/icon_pause_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/play-pause.png</normaloff>:/resources/icons/default/16x16/actions/play-pause.png</iconset>
    </property>
    <property name="text">
     <string>Remove Paused</string>
@@ -621,7 +621,7 @@
   <action name="actionRemoveFailed">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_cancel_16x16.png</normaloff>:/icons/menu/icon_cancel_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/remove-stopped.png</normaloff>:/resources/icons/default/16x16/actions/remove-stopped.png</iconset>
    </property>
    <property name="text">
     <string>Remove Failed</string>
@@ -630,7 +630,7 @@
   <action name="actionAddDomainSpecificLimit">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_add_domain_specific_limit_16x16.png</normaloff>:/icons/menu/icon_add_domain_specific_limit_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/limit-domain.png</normaloff>:/resources/icons/default/16x16/actions/limit-domain.png</iconset>
    </property>
    <property name="text">
     <string>Add Domain Specific Limit...</string>
@@ -639,7 +639,7 @@
   <action name="actionSpeedLimit">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/icon_speed_limit_16x16.png</normaloff>:/icons/menu/icon_speed_limit_16x16.png</iconset>
+     <normaloff>:/resources/icons/default/16x16/actions/limit-speed.png</normaloff>:/resources/icons/default/16x16/actions/limit-speed.png</iconset>
    </property>
    <property name="text">
     <string>Speed Limit...</string>
@@ -648,7 +648,7 @@
   <action name="actionSelectNone">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/select_none_32x32.png</normaloff>:/icons/menu/select_none_32x32.png</iconset>
+     <normaloff>:/resources/icons/default/32x32/actions/select-none.png</normaloff>:/resources/icons/default/32x32/actions/select-none.png</iconset>
    </property>
    <property name="text">
     <string>Select None</string>
@@ -657,7 +657,7 @@
   <action name="actionSelectCompleted">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/menu/select_completed_32x32.png</normaloff>:/icons/menu/select_completed_32x32.png</iconset>
+     <normaloff>:/resources/icons/default/32x32/actions/select-completed.png</normaloff>:/resources/icons/default/32x32/actions/select-completed.png</iconset>
    </property>
    <property name="text">
     <string>Select Completed</string>

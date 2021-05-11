@@ -372,5 +372,5 @@ void AdvancedSettingsWidget::setupPresetToolTip()
                 "</p>";
     }
     tooltip += "</body></html>";
-    ui->presetHelpWidget->setToolTip(tooltip);
+    ui->presetHelp->setToolTip(tooltip);
 }

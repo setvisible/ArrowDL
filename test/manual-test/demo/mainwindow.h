@@ -55,10 +55,9 @@ public slots:
 //    void renameFile();
 //    void deleteFile();
 //    void openDirectory();
-    void cleanGoneFiles();
+    void removeWaiting();
     void removeAll();
-    void removeCompletedDownloads();
-    void removeDownloads();
+    void removeCompleted();
     void removeSelected();
     void removeDuplicates();
     void removeFailed();
