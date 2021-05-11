@@ -311,6 +311,12 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
         DESTINATION ${CMAKE_INSTALL_PREFIX}/imageformats
         )
 
+    ## Qt Icon Engine Plugin
+    install(FILES
+        ${QT_DLL_DIR}/../plugins/iconengines/qsvgicon.dll
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/iconengines
+        )
+
     ## Qt Styles Plugin
     install(FILES
         ${QT_DLL_DIR}/../plugins/styles/qwindowsvistastyle.dll

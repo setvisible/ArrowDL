@@ -17,6 +17,7 @@
 #include "filterwidget.h"
 #include "ui_filterwidget.h"
 
+#include <Core/Theme>
 #include <Widgets/AutoCloseDialog>
 #include <Widgets/FilterTip>
 
@@ -50,6 +51,8 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::FilterWidget)
 {
     ui->setupUi(this);
+
+    Theme::setIcons(this, { {ui->fastFilteringTipToolButton, "help"} });
 
     auto inputValidityPtr = [](const QString &t) {
         QRegularExpression regex(t);

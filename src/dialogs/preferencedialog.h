@@ -79,6 +79,7 @@ private:
     void initializeUi();
     void initializeWarnings();
     void refreshTitle();
+    void restylizeUi();
 
     void read();
     void write();

@@ -93,6 +93,7 @@ private:
 
     void createActions();
     void createContextMenu();
+    void propagateIcons();
 
     void refreshTitleAndStatus();
     void refreshMenus();

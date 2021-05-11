@@ -75,6 +75,7 @@ private:
     QMenu *m_contextMenu;
 
     void retranslateUi();
+    void restylizeUi();
 
     QList<int> columnWidths() const;
     void setColumnWidths(const QList<int> &widths);

@@ -61,6 +61,7 @@ private:
     Ui::StreamFormatPicker *ui;
     QStandardItemModel *m_model;
 
+    void propagateIcons();
     void updateButtonBar();
 
     void populateSimple(const QList<StreamFormat> &formats);

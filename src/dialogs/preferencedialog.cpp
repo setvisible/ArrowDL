@@ -58,6 +58,7 @@ PreferenceDialog::PreferenceDialog(Settings *settings, QWidget *parent)
     connectUi();
     initializeUi();
     initializeWarnings();
+    restylizeUi();
     read();
     readSettings();
 }
@@ -97,6 +98,8 @@ void PreferenceDialog::changeEvent(QEvent *event)
         setupStreamToolTip();
         setupHttpToolTips();
         refreshTitle();
+    } else if (event->type() == QEvent::StyleChange) {
+        restylizeUi();
     }
     QDialog::changeEvent(event);
 }
@@ -240,6 +243,28 @@ void PreferenceDialog::initializeWarnings()
 void PreferenceDialog::refreshTitle()
 {
     setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Preferences")));
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void PreferenceDialog::restylizeUi()
+{
+    // Restylize tab icons
+    ui->tabWidget->setTabIcon(0, QIcon::fromTheme("preference-general"));
+    ui->tabWidget->setTabIcon(1, QIcon::fromTheme("preference-interface"));
+    ui->tabWidget->setTabIcon(2, QIcon::fromTheme("preference-network"));
+    ui->tabWidget->setTabIcon(3, QIcon::fromTheme("preference-privacy"));
+    ui->tabWidget->setTabIcon(4, QIcon::fromTheme("preference-filters"));
+    ui->tabWidget->setTabIcon(5, QIcon::fromTheme("preference-torrent"));
+    ui->tabWidget->setTabIcon(6, QIcon::fromTheme("preference-advanced"));
+
+    // Restylize icons
+    const QMap<QLabel*, QString> map = {
+        {ui->streamHelp, "help"},
+        {ui->httpUserAgentHelp, "help"},
+        {ui->httpReferringPageHelp, "help"}
+    };
+    Theme::setIcons(this, map);
 }
 
 /******************************************************************************

@@ -23,6 +23,7 @@
 #include <Core/DownloadTorrentItem>
 #include <Core/ResourceItem>
 #include <Core/Settings>
+#include <Core/Theme>
 #include <Widgets/UrlFormWidget>
 
 #include <QtCore/QDebug>
@@ -47,6 +48,7 @@ AddTorrentDialog::AddTorrentDialog(const QUrl &url, DownloadManager *downloadMan
 
     adjustSize();
     setFixedHeight(height());
+    Theme::setIcons(this, { {ui->logo, "add-torrent"} });
 
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
     if (m_settings->isHttpReferringPageEnabled()) {

@@ -30,6 +30,7 @@ HEADERS += \
     $$PWD/../../../src/core/format.h \
     $$PWD/../../../src/core/idownloaditem.h \
     $$PWD/../../../src/core/mimedatabase.h \
+    $$PWD/../../../src/core/theme.h \
     $$PWD/../../../src/widgets/customstyle.h \
     $$PWD/../../../src/widgets/customstyleoptionprogressbar.h \
     $$PWD/../../../src/widgets/downloadqueueview.h \
@@ -41,6 +42,7 @@ SOURCES += \
     $$PWD/../../../src/core/downloadengine.cpp \
     $$PWD/../../../src/core/format.cpp \
     $$PWD/../../../src/core/mimedatabase.cpp \
+    $$PWD/../../../src/core/theme.cpp \
     $$PWD/../../../src/widgets/customstyle.cpp \
     $$PWD/../../../src/widgets/customstyleoptionprogressbar.cpp \
     $$PWD/../../../src/widgets/downloadqueueview.cpp
@@ -139,6 +141,10 @@ win32{
         imageformats_plugin_to_copy.path = $${DESTDIR}/imageformats
         INSTALLS += imageformats_plugin_to_copy
 
+        icon_engine_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/iconengines/qsvgicond.dll
+        icon_engine_plugin_to_copy.path = $${DESTDIR}/iconengines
+        INSTALLS += icon_engine_plugin_to_copy
+
         style_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/styles/qwindowsvistastyled.dll
         style_plugin_to_copy.path = $${DESTDIR}/styles
         INSTALLS += style_plugin_to_copy
@@ -153,6 +159,10 @@ win32{
         imageformats_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/imageformats/qjpeg.dll
         imageformats_plugin_to_copy.path = $${DESTDIR}/imageformats
         INSTALLS += imageformats_plugin_to_copy
+
+        icon_engine_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/iconengines/qsvgicon.dll
+        icon_engine_plugin_to_copy.path = $${DESTDIR}/iconengines
+        INSTALLS += icon_engine_plugin_to_copy
 
         style_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/styles/qwindowsvistastyle.dll
         style_plugin_to_copy.path = $${DESTDIR}/styles

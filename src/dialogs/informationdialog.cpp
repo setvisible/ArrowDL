@@ -23,6 +23,7 @@
 #include <Core/IDownloadItem>
 #include <Core/MimeDatabase>
 #include <Core/ResourceItem>
+#include <Core/Theme>
 #include <Widgets/UrlFormWidget>
 
 #include <QtCore/QDir>
@@ -36,6 +37,7 @@ InformationDialog::InformationDialog(const QList<IDownloadItem*> &jobs, QWidget 
 
     setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Properties")));
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(nullptr, nullptr);
+    Theme::setIcons(this, { {ui->logo, "info"} });
 
     initialize(jobs);
 }

@@ -48,6 +48,7 @@ private slots:
 
 private:
     Ui::TextEditorWidget *ui;
+    void propagateIcons();
 };
 
 #endif // WIDGETS_TEXT_EDITOR_WIDGET_H
