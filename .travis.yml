@@ -82,7 +82,7 @@ install:
 #  - whereis boost # /usr/include/boost
 
   - echo "Downloading Boost..."
-  - curl --location --output ./3rd/boost/1.72.0/unix/boost_1_72_0.tar.bz2 https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.bz2 
+  - curl --location --output ./3rd/boost/1.72.0/unix/boost_1_72_0.tar.bz2 https://boostorg.jfrog.io/artifactory/main/release/1.72.0/source/boost_1_72_0.tar.bz2
     # curl -L, --location: in case there is a redirect found
 
   - echo "Installing Boost..."

@@ -161,6 +161,7 @@ private:
     void createStatusbar();
     void createSystemTray();
     void propagateToolTips();
+    void propagateIcons();
 
     void refreshTitleAndStatus();
     void refreshMenus();

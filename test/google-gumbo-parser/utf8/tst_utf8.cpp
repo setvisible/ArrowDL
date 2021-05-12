@@ -72,7 +72,7 @@ private:
     void advance(int num_chars);
     void resetText(const char* text);
     GumboError* getFirstError();
-    unsigned int getNumErrors();
+    int getNumErrors();
 };
 
 /******************************************************************************
@@ -95,9 +95,9 @@ GumboError* tst_Utf8::getFirstError()
     return static_cast<GumboError*>(parser_._output->errors.data[0]);
 }
 
-unsigned int tst_Utf8::getNumErrors()
+int tst_Utf8::getNumErrors()
 {
-    return parser_._output->errors.length;
+    return static_cast<int>(parser_._output->errors.length);
 }
 
 /******************************************************************************

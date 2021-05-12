@@ -1,0 +1,12 @@
+[Icon Theme]
+Name=flat-dark
+Comment=Icon theme with a flat look (dark mode)
+
+Directories=scalable/actions
+
+[scalable/actions]
+Size=48
+Context=Actions
+Type=Scalable
+MinSize=1
+MaxSize=256

@@ -28,6 +28,7 @@ HEADERS += \
     $$PWD/../../../src/core/checkabletablemodel.h \
     $$PWD/../../../src/core/format.h \
     $$PWD/../../../src/core/stream.h \
+    $$PWD/../../../src/core/theme.h \
     $$PWD/../../../src/widgets/checkableitemdelegate.h \
     $$PWD/../../../src/widgets/checkabletableview.h \
     $$PWD/../../../src/widgets/customstyle.h \
@@ -42,6 +43,7 @@ SOURCES += \
     $$PWD/../../../src/core/checkabletablemodel.cpp \
     $$PWD/../../../src/core/format.cpp \
     $$PWD/../../../src/core/stream.cpp \
+    $$PWD/../../../src/core/theme.cpp \
     $$PWD/../../../src/widgets/checkableitemdelegate.cpp \
     $$PWD/../../../src/widgets/checkabletableview.cpp \
     $$PWD/../../../src/widgets/customstyle.cpp \
@@ -146,6 +148,10 @@ win32{
         imageformats_plugin_to_copy.path = $${DESTDIR}/imageformats
         INSTALLS += imageformats_plugin_to_copy
 
+        icon_engine_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/iconengines/qsvgicond.dll
+        icon_engine_plugin_to_copy.path = $${DESTDIR}/iconengines
+        INSTALLS += icon_engine_plugin_to_copy
+
         style_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/styles/qwindowsvistastyled.dll
         style_plugin_to_copy.path = $${DESTDIR}/styles
         INSTALLS += style_plugin_to_copy
@@ -160,6 +166,10 @@ win32{
         imageformats_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/imageformats/qjpeg.dll
         imageformats_plugin_to_copy.path = $${DESTDIR}/imageformats
         INSTALLS += imageformats_plugin_to_copy
+
+        icon_engine_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/iconengines/qsvgicon.dll
+        icon_engine_plugin_to_copy.path = $${DESTDIR}/iconengines
+        INSTALLS += icon_engine_plugin_to_copy
 
         style_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/styles/qwindowsvistastyle.dll
         style_plugin_to_copy.path = $${DESTDIR}/styles

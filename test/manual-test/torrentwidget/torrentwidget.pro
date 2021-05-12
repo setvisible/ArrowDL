@@ -27,6 +27,7 @@ lessThan(QT_VERSION, 5.0) {
 #-------------------------------------------------
 HEADERS += \
     $$PWD/../../../src/core/format.h \
+    $$PWD/../../../src/core/theme.h \
     $$PWD/../../../src/core/torrent.h \
     $$PWD/../../../src/core/torrentbasecontext.h \
     $$PWD/../../../src/core/torrentmessage.h \
@@ -41,6 +42,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/../../../src/core/format.cpp \
+    $$PWD/../../../src/core/theme.cpp \
     $$PWD/../../../src/core/torrent.cpp \
     $$PWD/../../../src/core/torrentbasecontext.cpp \
     $$PWD/../../../src/core/torrentmessage.cpp \
@@ -146,6 +148,10 @@ win32{
         imageformats_plugin_to_copy.path = $${DESTDIR}/imageformats
         INSTALLS += imageformats_plugin_to_copy
 
+        icon_engine_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/iconengines/qsvgicond.dll
+        icon_engine_plugin_to_copy.path = $${DESTDIR}/iconengines
+        INSTALLS += icon_engine_plugin_to_copy
+
         style_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/styles/qwindowsvistastyled.dll
         style_plugin_to_copy.path = $${DESTDIR}/styles
         INSTALLS += style_plugin_to_copy
@@ -160,6 +166,10 @@ win32{
         imageformats_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/imageformats/qjpeg.dll
         imageformats_plugin_to_copy.path = $${DESTDIR}/imageformats
         INSTALLS += imageformats_plugin_to_copy
+
+        icon_engine_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/iconengines/qsvgicon.dll
+        icon_engine_plugin_to_copy.path = $${DESTDIR}/iconengines
+        INSTALLS += icon_engine_plugin_to_copy
 
         style_plugin_to_copy.files += $$[QT_INSTALL_PLUGINS]/styles/qwindowsvistastyle.dll
         style_plugin_to_copy.path = $${DESTDIR}/styles

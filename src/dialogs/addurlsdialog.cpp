@@ -22,6 +22,7 @@
 #include <Core/DownloadManager>
 #include <Core/ResourceItem>
 #include <Core/Settings>
+#include <Core/Theme>
 #include <Widgets/UrlFormWidget>
 #include <Widgets/TextEditorWidget>
 
@@ -45,6 +46,7 @@ AddUrlsDialog::AddUrlsDialog(const QString &text, DownloadManager *downloadManag
     setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Add Urls")));
 
     adjustSize();
+    Theme::setIcons(this, { {ui->logo, "add-urls"} });
 
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, m_fakeUrlLineEdit);
     if (m_settings->isHttpReferringPageEnabled()) {

@@ -1,0 +1,33 @@
+** Logo Design **
+
+Copyright (C) 2019-2021 Sébastien Vavassori. All rights reserved.
+
+The original logo design and artwork is licensed under:
+
+    Creative Commons Attribution-Share Alike 3.0 Unported
+    http://creativecommons.org/licenses/by-sa/3.0/
+
+
+In other words, you are free to:
+  - Share (copy and redistribute the material in any medium or format)
+  - Adapt (remix, transform, and build upon the material)
+
+  ...for any purpose, even commercially.
+
+
+More especially, the following terms apply:
+
+  - Attribution:
+    o You must give appropriate credit, provide a link to the license, 
+        and indicate if changes were made. 
+    o You may do so in any reasonable manner, but not in any way that 
+        suggests the licensor endorses you or your use.
+
+  - ShareAlike:
+    o If you remix, transform, or build upon the material, you must 
+        distribute your contributions under the same license as the original.
+
+  - No additional restrictions:
+    o You may not apply legal terms or technological measures that legally
+        restrict others from doing anything the license permits.
+

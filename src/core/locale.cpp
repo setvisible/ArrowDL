@@ -73,7 +73,7 @@ QString Locale::toLanguage(int index)
         const QLocale &locale = s_locales.at(index);
         return locale.name();
     }
-    return QString();
+    return QLatin1String(""); // Must be an empty string, not a null QString
 }
 
 int Locale::fromLanguage(QString language)

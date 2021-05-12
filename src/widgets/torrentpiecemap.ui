@@ -40,7 +40,7 @@
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 170, 0);</string>
+           <string notr="true">background-color: palette(link);</string>
           </property>
          </widget>
         </item>
@@ -60,7 +60,7 @@
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 170, 0);</string>
+           <string notr="true">background-color: palette(link);</string>
           </property>
          </widget>
         </item>
@@ -80,7 +80,7 @@
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 170, 0);</string>
+           <string notr="true">background-color: palette(link);</string>
           </property>
          </widget>
         </item>
@@ -100,7 +100,7 @@
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 170, 0);</string>
+           <string notr="true">background-color: palette(link);</string>
           </property>
          </widget>
         </item>

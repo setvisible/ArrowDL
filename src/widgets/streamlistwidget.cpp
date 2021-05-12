@@ -107,7 +107,7 @@ StreamListWidget::StreamListWidget(QWidget *parent) : QWidget(parent)
             SLOT(onTrackNumberChecked(int)));
 
     /* Fancy GIF animation */
-    QMovie *movie = new QMovie(":/icons/menu/stream_wait_16x16.gif");
+    QMovie *movie = new QMovie(":/resources/animations/spinner.gif");
     ui->waitingIconLabel->setMovie(movie);
     movie->start();
 

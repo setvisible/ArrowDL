@@ -18,6 +18,7 @@
 #include "ui_homedialog.h"
 
 #include <Globals>
+#include <Core/Theme>
 
 #include <QtWidgets/QCommandLinkButton>
 #include <QtWidgets/QPushButton>
@@ -39,6 +40,8 @@ HomeDialog::HomeDialog(QWidget *parent) : QDialog(parent)
     connect(ui->buttonTorrent, &QPushButton::clicked, this, &HomeDialog::acceptTorrent);
     connect(ui->buttonUrls, &QPushButton::clicked, this, &HomeDialog::acceptUrls);
     connect(ui->cancelButton, &QPushButton::released, this, &HomeDialog::reject);
+
+    propagateIcons();
 }
 
 HomeDialog::~HomeDialog()
@@ -69,4 +72,16 @@ void HomeDialog::acceptTorrent()
 void HomeDialog::acceptUrls()
 {
     done(static_cast<int>(HomeDialog::Urls));
+}
+
+void HomeDialog::propagateIcons()
+{
+    const QMap<QAbstractButton*, QString> map = {
+        {ui->buttonContent, "add-content"},
+        {ui->buttonBatch  , "add-batch"},
+        {ui->buttonStream , "add-stream"},
+        {ui->buttonTorrent, "add-torrent"},
+        {ui->buttonUrls   , "add-urls"}
+    };
+    Theme::setIcons(this, map);
 }

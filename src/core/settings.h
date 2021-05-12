@@ -71,6 +71,9 @@ public:
     QString language() const;
     void setLanguage(const QString &language);
 
+    QMap<QString, QVariant> theme() const;
+    void setTheme(const QMap<QString, QVariant> &map);
+
     bool isDontShowTutorialEnabled() const;
     void setDontShowTutorialEnabled(bool enabled);
 

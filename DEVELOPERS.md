@@ -1,4 +1,4 @@
-<img align="left" src="./src/icons/logo/icon64.png">
+<img align="left" src="./src/resources/logo/icon64.png">
 
 # Developers Corner
 

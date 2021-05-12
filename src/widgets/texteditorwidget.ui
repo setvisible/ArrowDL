@@ -32,7 +32,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/icons/menu-qt/editundo.png</normaloff>:/icons/menu-qt/editundo.png</iconset>
+         <normaloff>:/resources/icons/default/24x24/actions/edit-undo.png</normaloff>:/resources/icons/default/24x24/actions/edit-undo.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -61,7 +61,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/icons/menu-qt/editredo.png</normaloff>:/icons/menu-qt/editredo.png</iconset>
+         <normaloff>:/resources/icons/default/24x24/actions/edit-redo.png</normaloff>:/resources/icons/default/24x24/actions/edit-redo.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -97,7 +97,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/icons/menu-qt/editcut.png</normaloff>:/icons/menu-qt/editcut.png</iconset>
+         <normaloff>:/resources/icons/default/24x24/actions/edit-cut.png</normaloff>:/resources/icons/default/24x24/actions/edit-cut.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -126,7 +126,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/icons/menu-qt/editcopy.png</normaloff>:/icons/menu-qt/editcopy.png</iconset>
+         <normaloff>:/resources/icons/default/24x24/actions/edit-copy.png</normaloff>:/resources/icons/default/24x24/actions/edit-copy.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -155,7 +155,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/icons/menu-qt/editpaste.png</normaloff>:/icons/menu-qt/editpaste.png</iconset>
+         <normaloff>:/resources/icons/default/24x24/actions/edit-paste.png</normaloff>:/resources/icons/default/24x24/actions/edit-paste.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -191,7 +191,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/icons/menu-qt/textbold.png</normaloff>:/icons/menu-qt/textbold.png</iconset>
+         <normaloff>:/resources/icons/default/24x24/actions/edit-block-mode.png</normaloff>:/resources/icons/default/24x24/actions/edit-block-mode.png</iconset>
        </property>
        <property name="iconSize">
         <size>

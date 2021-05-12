@@ -17,6 +17,7 @@
 #include "maskwidget.h"
 #include "ui_maskwidget.h"
 
+#include <Core/Theme>
 #include <Widgets/AutoCloseDialog>
 #include <Widgets/MaskTip>
 
@@ -29,6 +30,8 @@ MaskWidget::MaskWidget(QWidget *parent) : QWidget(parent)
 
     connect(ui->comboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
     connect(ui->tipButton, SIGNAL(released()), this, SLOT(onTipButtonReleased()));
+
+    Theme::setIcons(this, { {ui->tipButton, "mask"} });
 }
 
 MaskWidget::~MaskWidget()

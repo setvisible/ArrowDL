@@ -70,7 +70,7 @@ QGroupBox {
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="../resources.qrc">:/icons/menu/stream_wait_16x16.gif</pixmap>
+            <pixmap resource="../resources.qrc">:/resources/animations/spinner.gif</pixmap>
            </property>
           </widget>
          </item>

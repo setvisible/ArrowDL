@@ -70,6 +70,8 @@ private slots:
 private:
     Ui::AdvancedSettingsWidget *ui;
 
+    void restylizeUi();
+
     inline void filter();
     inline bool isModified(const QTreeWidgetItem *item) const;
 

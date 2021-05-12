@@ -17,6 +17,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <Core/Theme>
 #include <Core/Torrent>
 #include <Core/TorrentBaseContext>
 #include <Widgets/TorrentWidget>
@@ -35,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , m_animator(new DummyTorrentAnimator(this))
 {
     ui->setupUi(this);
+
+    Theme::applyTheme({});
 
     m_torrent = DummyTorrentFactory::createDummyTorrent(this);
 

@@ -125,29 +125,29 @@ void CheckableTableView::showContextMenu(const QPoint &/*pos*/)
     auto contextMenu = new QMenu(this);
 
     QAction actionCheckSelected(tr("Check Selected Items"), contextMenu);
-    actionCheckSelected.setIcon(QIcon(":/icons/menu/check_ok_16x16.png"));
+    actionCheckSelected.setIcon(QIcon::fromTheme("check-ok"));
     connect(&actionCheckSelected, SIGNAL(triggered()), this, SLOT(checkSelected()));
 
     QAction actionUncheckSelected(tr("Uncheck Selected Items"), contextMenu);
-    actionUncheckSelected.setIcon(QIcon(":/icons/menu/check_nok_16x16.png"));
+    actionUncheckSelected.setIcon(QIcon::fromTheme("check-nok"));
     connect(&actionUncheckSelected, SIGNAL(triggered()), this, SLOT(uncheckSelected()));
 
     QAction actionToggleCheck(tr("Toggle Check for Selected Items"), contextMenu);
-    actionToggleCheck.setIcon(QIcon(":/icons/menu/check_progress_16x16.png"));
+    actionToggleCheck.setIcon(QIcon::fromTheme("check-progress"));
     connect(&actionToggleCheck, SIGNAL(triggered()), this, SLOT(toggleCheck()));
     // --
     QAction actionSelectAll(tr("Select All"), contextMenu);
-    actionSelectAll.setIcon(QIcon(":/icons/menu/select_all_32x32.png"));
+    actionSelectAll.setIcon(QIcon::fromTheme("select-all"));
     actionSelectAll.setShortcut(QKeySequence::SelectAll);
     connect(&actionSelectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
 
     QAction actionSelectFiltered(tr("Select Filtered"), contextMenu);
-    actionSelectFiltered.setIcon(QIcon(":/icons/menu/select_completed_32x32.png"));
+    actionSelectFiltered.setIcon(QIcon::fromTheme("select-completed"));
     actionSelectFiltered.setShortcut(QKeySequence(Qt::CTRL + Qt::Key_F));
     connect(&actionSelectFiltered, SIGNAL(triggered()), this, SLOT(selectFiltered()));
 
     QAction actionInvertSelection(tr("Invert Selection"), contextMenu);
-    actionInvertSelection.setIcon(QIcon(":/icons/menu/select_invert_32x32.png"));
+    actionInvertSelection.setIcon(QIcon::fromTheme("select-invert"));
     actionInvertSelection.setShortcut(QKeySequence(Qt::CTRL + Qt::Key_I));
     connect(&actionInvertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
 

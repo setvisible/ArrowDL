@@ -93,8 +93,8 @@ QPixmap MimeDatabaseSingleton::fileIcon(const QUrl &url, int extend)
 
     QFileInfo fileInfo(url.toString());
 
-    if (fileInfo.suffix().isEmpty() ||
-            (fileInfo.suffix() == "exe" && fileInfo.exists())) {
+    if ( fileInfo.suffix().isEmpty() ||
+         (fileInfo.suffix() == "exe" && fileInfo.exists())) {
         QIcon icon = m_fileIconProvider.icon(fileInfo);
         pixmap = icon.pixmap(extend);
         if (pixmap.isNull()) {
@@ -103,11 +103,13 @@ QPixmap MimeDatabaseSingleton::fileIcon(const QUrl &url, int extend)
         return pixmap;
     }
 
-    const QString key = QString("%0 %1").arg(fileInfo.suffix(), extend);
+    const QString key = QString("%0 %1").arg(fileInfo.suffix(), QString::number(extend));
 
     if (!QPixmapCache::find(key, &pixmap)) {
 
         const QString nativeName = url.fileName();
+        Q_ASSERT(!nativeName.contains('\\'));
+        Q_ASSERT(!nativeName.contains('/')); // otherwise the temporary file is not opened
 
         const QDir dir(QDir::tempPath());
         if (!dir.exists()) {

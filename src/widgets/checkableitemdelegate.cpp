@@ -44,8 +44,8 @@ static QModelIndex getSiblingAtColumn(const QModelIndex &index, int acolumn)
  */
 CheckableItemDelegate::CheckableItemDelegate(QObject *parent) : QStyledItemDelegate(parent)
 {
-    m_checkIcon.addPixmap(QPixmap(":/icons/menu/check_ok_16x16.png"), QIcon::Normal, QIcon::On);
-    m_checkIcon.addPixmap(QPixmap(":/icons/menu/check_progress_16x16.png"), QIcon::Disabled, QIcon::On);
+    m_checkIcon.addPixmap(QIcon::fromTheme("check-ok").pixmap(QSize(16, 16)), QIcon::Normal, QIcon::On);
+    m_checkIcon.addPixmap(QIcon::fromTheme("check-progress").pixmap(QSize(16, 16)), QIcon::Disabled, QIcon::On);
 }
 
 /******************************************************************************

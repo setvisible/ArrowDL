@@ -26,6 +26,7 @@
 #include <Core/ResourceItem>
 #include <Core/ResourceModel>
 #include <Core/Settings>
+#include <Core/Theme>
 #include <Ipc/InterProcessCommunication>
 
 #include <QtCore/QDebug>
@@ -82,6 +83,8 @@ AddContentDialog::AddContentDialog(DownloadManager *downloadManager,
     ui->setupUi(this);
 
     setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Web Page Content")));
+
+    Theme::setIcons(this, { {ui->preferenceButton, "preference"} });
 
     ui->pathWidget->setPathType(PathWidget::Directory);
     ui->linkWidget->setModel(m_model);

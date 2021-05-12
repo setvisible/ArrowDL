@@ -21,6 +21,7 @@
 #include <Core/DownloadItem>
 #include <Core/IDownloadItem>
 #include <Core/ResourceItem>
+#include <Core/Theme>
 #include <Widgets/TextEditorWidget>
 
 #include <QtCore/QDebug>
@@ -41,6 +42,8 @@ EditionDialog::EditionDialog(const QList<IDownloadItem*> &items, QWidget *parent
     ui->setupUi(this);
 
     setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Smart Edit")));
+
+    Theme::setIcons(this, { {ui->logo, "rename"} });
 
     connect(ui->editor, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
 
