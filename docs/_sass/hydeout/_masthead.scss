@@ -3,15 +3,15 @@
 // Super small header above the content for site name and short description.
 
 .masthead {
-  padding-top:    1rem;
-  padding-bottom: 1rem;
   margin-bottom: 3rem;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
 }
 
 .masthead-title {
-  margin-top: 0;
-  margin-bottom: 0;
   color: $gray-5;
+  margin-bottom: 0;
+  margin-top: 0;
 
   a {
     color: inherit;
@@ -20,6 +20,6 @@
   small {
     font-size: 75%;
     font-weight: 400;
-    opacity: .5;
+    opacity: 0.5;
   }
 }

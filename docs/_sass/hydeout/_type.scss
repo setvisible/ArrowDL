@@ -2,11 +2,17 @@
 //
 // Headings, body text, lists, and other misc typographic elements.
 
-h1, h2, h3, h4, h5, h6, .site-title {
-  margin-bottom: $heading-spacing;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.site-title {
+  color: $heading-color;
   font-weight: 600;
   line-height: 1.25;
-  color: $heading-color;
+  margin-bottom: $heading-spacing;
   text-rendering: optimizeLegibility;
 }
 
@@ -15,32 +21,36 @@ h1 {
 }
 
 h2 {
-  margin-top: 1rem;
   font-size: 1.5rem;
+  margin-top: 1rem;
 }
 
 h3 {
-  margin-top: 1.5rem;
   font-size: 1.25rem;
+  margin-top: 1.5rem;
 }
 
-h4, h5, h6 {
-  margin-top: 1rem;
+h4,
+h5,
+h6 {
   font-size: 1rem;
+  margin-top: 1rem;
 }
 
 p {
-  margin-top: 0;
   margin-bottom: 1rem;
+  margin-top: 0;
 }
 
 strong {
   color: #303030;
 }
 
-ul, ol, dl {
-  margin-top: 0;
+ul,
+ol,
+dl {
   margin-bottom: 1rem;
+  margin-top: 0;
 }
 
 dt {
@@ -48,63 +58,62 @@ dt {
 }
 
 dd {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 hr {
-  position: relative;
-  margin: 1.5rem 0;
   border: 0;
-  border-top: 1px solid #eee;
   border-bottom: 1px solid #fff;
+  border-top: 1px solid #eee;
+  margin: 1.5rem 0;
+  position: relative;
 }
 
 abbr {
+  color: #555;
   font-size: 85%;
   font-weight: bold;
-  color: #555;
   text-transform: uppercase;
 
   &[title] {
-    cursor: help;
     border-bottom: 1px dotted $border-color;
+    cursor: help;
   }
 }
 
 blockquote {
-  padding: .5rem 1rem;
-  margin: .8rem 0;
+  border-left: 0.25rem solid $border-color;
   color: #7a7a7a;
-  border-left: .25rem solid $border-color;
+  margin: 0.8rem 0;
+  padding: 0.5rem 1rem;
 
   p:last-child {
     margin-bottom: 0;
   }
 
   @media (min-width: 30em) {
-    padding-right: 5rem;
     padding-left: 1.25rem;
+    padding-right: 5rem;
   }
 }
-
 
 // Markdown footnotes
 //
 // See the example content post for an example.
 
 // Footnote number within body text
-a[href^="#fn:"],
+a[href^='#fn:'],
 // Back to footnote link
-a[href^="#fnref:"] {
+a[href^='#fnref:'] {
   display: inline-block;
-  margin-left: .1rem;
   font-weight: bold;
+  margin-left: 0.1rem;
 }
 
 // List of footnotes
 .footnotes {
-  margin-top: 2rem;
   font-size: 85%;
+  margin-top: 2rem;
 }
 
 // Custom type
@@ -117,8 +126,15 @@ a[href^="#fnref:"] {
 }
 
 // SVG Icons
-a svg, .icon svg {
+a svg {
+  fill: $link-color;
+}
+
+a svg,
+.icon svg {
   height: 1em;
 }
-a svg { fill: $link-color; }
-.icon { vertical-align: middle; }
+
+.icon {
+  vertical-align: middle;
+}

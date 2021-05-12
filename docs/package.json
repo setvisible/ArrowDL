@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "stylelint": "^13.0.0",
+    "stylelint-config-sass-guidelines": "^6.2.0",
+    "stylelint-config-standard-scss": "^1.1.0"
+  },
+  "scripts": {
+    "stylelint": "stylelint '_sass/**/*.scss'"
+  }
+}

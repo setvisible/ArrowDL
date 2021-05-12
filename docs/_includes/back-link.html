@@ -1,0 +1,6 @@
+{% assign back_page = site.pages | find: "name", page.back_page %}
+{% if back_page != null %}
+    <p class="back-link">
+    <a href="{{ back_page.url | relative_url }}"><span class="back-arrow icon">{% include svg/back-arrow.svg %}</span>{{ back_page.short_title | default: back_page.title }}</a>
+    </p>
+{% endif %}

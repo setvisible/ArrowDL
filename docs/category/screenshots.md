@@ -3,6 +3,40 @@ layout: category
 title: Screenshots
 ---
 
+## Version 2.4.0
+
+Iconsets:
+
+![Classic Icons](/DownZemAll/assets/images/2.4/icon_theme_classic.png)
+
+![Flat Design Icons, Light](/DownZemAll/assets/images/2.4/icon_theme_flat_design.png)
+
+![Flat Design Icons, Dark](/DownZemAll/assets/images/2.4/icon_theme_flat_design_dark.png)
+
+Styles:
+
+![Windows Vista](/DownZemAll/assets/images/2.4/platform_style_1.png)
+
+![Windows 98](/DownZemAll/assets/images/2.4/platform_style_2.png)
+
+![Fusion](/DownZemAll/assets/images/2.4/platform_style_3.png)
+
+Dark Mode:
+
+![Dark Mode](../assets/images/2.4/dark_mode.png)
+
+
+## Version 2.3.0
+
+Urls download tool:
+
+![Urls Download](../assets/images/2.3/urls_download_01.png)
+
+![Urls Download](../assets/images/2.3/urls_download_02.png)
+
+![Urls Download](../assets/images/2.3/urls_download_03.png)
+
+
 ## Version 2.1.0
 
 Torrent Improved:
