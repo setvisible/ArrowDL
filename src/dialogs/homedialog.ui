@@ -79,7 +79,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/icons/menu/wizard_add_32x32.png</normaloff>:/icons/menu/wizard_add_32x32.png</iconset>
+         <normaloff>:/resources/icons/default/48x48/actions/add-content.png</normaloff>:/resources/icons/default/48x48/actions/add-content.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -102,7 +102,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/icons/menu/tool_add_26x26.png</normaloff>:/icons/menu/tool_add_26x26.png</iconset>
+         <normaloff>:/resources/icons/default/48x48/actions/add-batch.png</normaloff>:/resources/icons/default/48x48/actions/add-batch.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -125,7 +125,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/icons/menu/youtube_48x48.png</normaloff>:/icons/menu/youtube_48x48.png</iconset>
+         <normaloff>:/resources/icons/default/48x48/actions/add-stream.png</normaloff>:/resources/icons/default/48x48/actions/add-stream.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -148,7 +148,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/icons/menu/preference_torrent_32x32.png</normaloff>:/icons/menu/preference_torrent_32x32.png</iconset>
+         <normaloff>:/resources/icons/default/48x48/actions/add-torrent.png</normaloff>:/resources/icons/default/48x48/actions/add-torrent.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -174,7 +174,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/icons/menu/paste_48x48.png</normaloff>:/icons/menu/paste_48x48.png</iconset>
+         <normaloff>:/resources/icons/default/48x48/actions/add-urls.png</normaloff>:/resources/icons/default/48x48/actions/add-urls.png</iconset>
        </property>
        <property name="iconSize">
         <size>

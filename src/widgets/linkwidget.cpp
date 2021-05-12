@@ -235,7 +235,7 @@ void LinkWidget::contextMenuCallback(QMenu *contextMenu)
         return;
     }
     QAction *actionMask = new QAction(tr("Mask..."), contextMenu);
-    actionMask->setIcon(QIcon(":/icons/menu/icon_mask_16x16.png"));
+    actionMask->setIcon(QIcon::fromTheme("mask"));
     connect(actionMask, SIGNAL(triggered()), this, SLOT(customizeMask()));
 
     QAction *actionCopyLinks = new QAction(tr("Copy Links"), contextMenu);
@@ -243,7 +243,7 @@ void LinkWidget::contextMenuCallback(QMenu *contextMenu)
     connect(actionCopyLinks, SIGNAL(triggered()), this, SLOT(copyLinks()));
 
     QAction *actionOpen = new QAction(textForOpenAction(), contextMenu);
-    actionOpen->setIcon(QIcon(":/icons/menu/icon_open_file_16x16.png"));
+    actionOpen->setIcon(QIcon::fromTheme("file-open"));
     actionOpen->setShortcut(QKeySequence::Open);
     connect(actionOpen, SIGNAL(triggered()), this, SLOT(open()));
 

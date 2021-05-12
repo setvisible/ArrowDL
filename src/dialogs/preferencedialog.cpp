@@ -22,8 +22,10 @@
 #include <Core/NetworkManager>
 #include <Core/Settings>
 #include <Core/Stream>
+#include <Core/Theme>
 #include <Widgets/AdvancedSettingsWidget>
 #include <Widgets/PathWidget>
+#include <Widgets/ThemeWidget>
 
 #include <QtCore/QDebug>
 #include <QtCore/QSettings>
@@ -56,6 +58,7 @@ PreferenceDialog::PreferenceDialog(Settings *settings, QWidget *parent)
     connectUi();
     initializeUi();
     initializeWarnings();
+    restylizeUi();
     read();
     readSettings();
 }
@@ -95,6 +98,8 @@ void PreferenceDialog::changeEvent(QEvent *event)
         setupStreamToolTip();
         setupHttpToolTips();
         refreshTitle();
+    } else if (event->type() == QEvent::StyleChange) {
+        restylizeUi();
     }
     QDialog::changeEvent(event);
 }
@@ -106,67 +111,47 @@ void PreferenceDialog::connectUi()
     // Tab General
 
     // Tab Interface
-    connect(ui->localeComboBox, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(languageChanged(int)));
+    connect(ui->localeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(languageChanged(int)));
+    connect(ui->themeWidget, &ThemeWidget::changed, this, &PreferenceDialog::themeChanged);
 
     // Tab Network
-    connect(ui->maxSimultaneousDownloadSlider, SIGNAL(valueChanged(int)),
-            this, SLOT(maxSimultaneousDownloadSlided(int)));
+    connect(ui->maxSimultaneousDownloadSlider, SIGNAL(valueChanged(int)), this, SLOT(maxSimultaneousDownloadSlided(int)));
 
-    connect(ui->proxyTypeComboBox, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(proxyTypeIndexChanged(int)));
-    connect(ui->proxyAuthCheckBox, SIGNAL(toggled(bool)),
-            this, SLOT(proxyAuthToggled(bool)));
-    connect(ui->proxyShowPwdCheckBox, SIGNAL(toggled(bool)),
-            this, SLOT(proxyShowPwdToggled(bool)));
+    connect(ui->proxyTypeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(proxyTypeChanged(int)));
+    connect(ui->proxyAuthCheckBox, SIGNAL(toggled(bool)), this, SLOT(proxyAuthToggled(bool)));
+    connect(ui->proxyShowPwdCheckBox, SIGNAL(toggled(bool)), this, SLOT(proxyShowPwdToggled(bool)));
 
     // Tab Privacy
-    connect(ui->browseDatabaseFile, SIGNAL(currentPathValidityChanged(bool)),
-            ui->okButton, SLOT(setEnabled(bool)));
+    connect(ui->browseDatabaseFile, SIGNAL(currentPathValidityChanged(bool)), ui->okButton, SLOT(setEnabled(bool)));
 
-    connect(ui->streamCleanCacheButton, SIGNAL(released()),
-            this, SLOT(onStreamCleanCacheButtonReleased()));
+    connect(ui->streamCleanCacheButton, SIGNAL(released()), this, SLOT(onStreamCleanCacheButtonReleased()));
 
-    connect(ui->checkUpdateNowPushButton, SIGNAL(released()),
-            this, SIGNAL(checkUpdate()), Qt::QueuedConnection);
+    connect(ui->checkUpdateNowPushButton, SIGNAL(released()), this, SIGNAL(checkUpdate()), Qt::QueuedConnection);
 
-    connect(ui->httpReferringPageCheckBox, SIGNAL(toggled(bool)),
-            ui->httpReferringPageLineEdit, SLOT(setEnabled(bool)));
+    connect(ui->httpReferringPageCheckBox, SIGNAL(toggled(bool)), ui->httpReferringPageLineEdit, SLOT(setEnabled(bool)));
 
     // Tab Filters
-    connect(ui->filterTableWidget, SIGNAL(customContextMenuRequested(const QPoint &)),
-            this, SLOT(filterContextMenu(const QPoint &)));
-    connect(ui->filterTableWidget, SIGNAL(itemSelectionChanged()),
-            this, SLOT(filterSelectionChanged()));
-    connect(ui->filterTableWidget, SIGNAL(itemChanged(QTableWidgetItem *)),
-            this, SLOT(filterChanged(QTableWidgetItem *)));
+    connect(ui->filterTableWidget, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(filterContextMenu(const QPoint &)));
+    connect(ui->filterTableWidget, SIGNAL(itemSelectionChanged()), this, SLOT(filterSelectionChanged()));
+    connect(ui->filterTableWidget, SIGNAL(itemChanged(QTableWidgetItem *)), this, SLOT(filterChanged(QTableWidgetItem *)));
 
     connect(ui->filterAddButton, SIGNAL(released()), this, SLOT(filterAdded()));
     connect(ui->filterUpdateButton, SIGNAL(released()), this, SLOT(filterUpdated()));
     connect(ui->filterRemoveButton, SIGNAL(released()), this, SLOT(filterRemoved()));
 
     // Tab Torrent
-    connect(ui->torrentCheckBox, &QCheckBox::toggled,
-            ui->torrentShareFolderGroupBox, &QGroupBox::setEnabled);
-    connect(ui->torrentCheckBox, &QCheckBox::toggled,
-            ui->torrentBandwidthGroupBox, &QGroupBox::setEnabled);
-    connect(ui->torrentCheckBox, &QCheckBox::toggled,
-            ui->torrentConnectionGroupBox, &QGroupBox::setEnabled);
-    connect(ui->torrentShareFolderCheckBox, &QCheckBox::toggled,
-            ui->torrentShareFolderPathWidget, &PathWidget::setEnabled);
+    connect(ui->torrentCheckBox, &QCheckBox::toggled, ui->torrentShareFolderGroupBox, &QGroupBox::setEnabled);
+    connect(ui->torrentCheckBox, &QCheckBox::toggled, ui->torrentBandwidthGroupBox, &QGroupBox::setEnabled);
+    connect(ui->torrentCheckBox, &QCheckBox::toggled, ui->torrentConnectionGroupBox, &QGroupBox::setEnabled);
+    connect(ui->torrentShareFolderCheckBox, &QCheckBox::toggled, ui->torrentShareFolderPathWidget, &PathWidget::setEnabled);
 
-    connect(ui->torrentUpRateSpinBox, SIGNAL(valueChanged(int)),
-            this, SLOT(bandwidthSettingsChanged(int)));
-    connect(ui->torrentDownRateSpinBox, SIGNAL(valueChanged(int)),
-            this, SLOT(bandwidthSettingsChanged(int)));
-    connect(ui->torrentConnectionMaxCountSpinBox, SIGNAL(valueChanged(int)),
-            this, SLOT(bandwidthSettingsChanged(int)));
-    connect(ui->torrentPeerMaxCountSpinBox, SIGNAL(valueChanged(int)),
-            this, SLOT(bandwidthSettingsChanged(int)));
+    connect(ui->torrentUpRateSpinBox, SIGNAL(valueChanged(int)), this, SLOT(bandwidthSettingsChanged(int)));
+    connect(ui->torrentDownRateSpinBox, SIGNAL(valueChanged(int)), this, SLOT(bandwidthSettingsChanged(int)));
+    connect(ui->torrentConnectionMaxCountSpinBox, SIGNAL(valueChanged(int)), this, SLOT(bandwidthSettingsChanged(int)));
+    connect(ui->torrentPeerMaxCountSpinBox, SIGNAL(valueChanged(int)), this, SLOT(bandwidthSettingsChanged(int)));
 
     // Tab Advanced
-    connect(ui->advancedSettingsWidget, &AdvancedSettingsWidget::changed,
-            this, &PreferenceDialog::setBandwidthSettings);
+    connect(ui->advancedSettingsWidget, &AdvancedSettingsWidget::changed, this, &PreferenceDialog::setBandwidthSettings);
 }
 
 /******************************************************************************
@@ -197,7 +182,7 @@ void PreferenceDialog::initializeUi()
     ui->proxyTypeComboBox->addItems(NetworkManager::proxyTypeNames());
     ui->proxyTypeComboBox->setCurrentIndex(0);
     ui->proxyAddressLineEdit->setEnabled(false);
-    proxyTypeIndexChanged(0);
+    proxyTypeChanged(0);
     proxyAuthToggled(false);
     proxyShowPwdToggled(false);
     ui->proxyPortLineEdit->setValidator(
@@ -258,6 +243,28 @@ void PreferenceDialog::initializeWarnings()
 void PreferenceDialog::refreshTitle()
 {
     setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Preferences")));
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void PreferenceDialog::restylizeUi()
+{
+    // Restylize tab icons
+    ui->tabWidget->setTabIcon(0, QIcon::fromTheme("preference-general"));
+    ui->tabWidget->setTabIcon(1, QIcon::fromTheme("preference-interface"));
+    ui->tabWidget->setTabIcon(2, QIcon::fromTheme("preference-network"));
+    ui->tabWidget->setTabIcon(3, QIcon::fromTheme("preference-privacy"));
+    ui->tabWidget->setTabIcon(4, QIcon::fromTheme("preference-filters"));
+    ui->tabWidget->setTabIcon(5, QIcon::fromTheme("preference-torrent"));
+    ui->tabWidget->setTabIcon(6, QIcon::fromTheme("preference-advanced"));
+
+    // Restylize icons
+    const QMap<QLabel*, QString> map = {
+        {ui->streamHelp, "help"},
+        {ui->httpUserAgentHelp, "help"},
+        {ui->httpReferringPageHelp, "help"}
+    };
+    Theme::setIcons(this, map);
 }
 
 /******************************************************************************
@@ -361,6 +368,11 @@ void PreferenceDialog::resetLanguage()
     Locale::applyLanguage(m_settings->language());
 }
 
+void PreferenceDialog::themeChanged()
+{
+    Theme::applyTheme(ui->themeWidget->theme());
+}
+
 /******************************************************************************
  ******************************************************************************/
 void PreferenceDialog::maxSimultaneousDownloadSlided(int value)
@@ -368,7 +380,7 @@ void PreferenceDialog::maxSimultaneousDownloadSlided(int value)
     ui->maxSimultaneousDownloadLabel->setText(QString::number(value));
 }
 
-void PreferenceDialog::proxyTypeIndexChanged(int index)
+void PreferenceDialog::proxyTypeChanged(int index)
 {
     auto enabled = index != 0;
     auto checked = ui->proxyAuthCheckBox->isChecked();
@@ -431,6 +443,8 @@ void PreferenceDialog::restoreDefaultSettings()
     m_settings->beginRestoreDefault();
     read();
     m_settings->endRestoreDefault();
+
+    resetLanguage();
 }
 
 void PreferenceDialog::read()
@@ -441,6 +455,7 @@ void PreferenceDialog::read()
     // Tab Interface
     const QSignalBlocker blocker(ui->localeComboBox);
     ui->localeComboBox->setCurrentIndex(Locale::fromLanguage(m_settings->language()));
+    ui->themeWidget->setTheme(m_settings->theme());
     ui->dontShowTutorialCheckBox->setChecked(m_settings->isDontShowTutorialEnabled());
     ui->showSystemTrayIconCheckBox->setChecked(m_settings->isSystemTrayIconEnabled());
     ui->hideWhenMinimizedCheckBox->setChecked(m_settings->isHideWhenMinimizedEnabled());
@@ -504,6 +519,7 @@ void PreferenceDialog::write()
 
     // Tab Interface
     m_settings->setLanguage(Locale::toLanguage(ui->localeComboBox->currentIndex()));
+    m_settings->setTheme(ui->themeWidget->theme());
     m_settings->setDontShowTutorialEnabled(ui->dontShowTutorialCheckBox->isChecked());
     m_settings->setSystemTrayIconEnabled(ui->showSystemTrayIconCheckBox->isChecked());
     m_settings->setHideWhenMinimizedEnabled(ui->hideWhenMinimizedCheckBox->isChecked());
@@ -632,18 +648,18 @@ void PreferenceDialog::setupStreamToolTip()
                 "</p>";
     }
     tooltip += "</body></html>";
-    ui->streamHelpWidget->setToolTip(tooltip);
+    ui->streamHelp->setToolTip(tooltip);
 }
 
 void PreferenceDialog::setupHttpToolTips()
 {
-    ui->httpUserAgentHelpWidget->setToolTip(
+    ui->httpUserAgentHelp->setToolTip(
                 QString("<html><head/><body><p>%0</p></body></html>").arg(
                     tr("Servers might use HTTP identification contained in the HTTP "
                        "request to log client attributes. Some server even don't "
                        "respond to the client if the identification attribute is empty. "
                        "The fields allow you to send fake information, to protect privacy.")));
-    ui->httpReferringPageHelpWidget->setToolTip(
+    ui->httpReferringPageHelp->setToolTip(
                 QString("<html><head/><body><p>%0</p></body></html>").arg(
                     tr("Referring Page (or Referrer) is an HTTP option that "
                        "communicates to the server the address of the previous "

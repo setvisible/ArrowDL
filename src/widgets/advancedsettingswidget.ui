@@ -46,7 +46,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="presetHelpWidget" native="true">
+       <widget class="QLabel" name="presetHelp">
         <property name="minimumSize">
          <size>
           <width>20</width>
@@ -59,8 +59,20 @@
           <height>20</height>
          </size>
         </property>
-        <property name="styleSheet">
-         <string notr="true">image: url(:/icons/menu/button_help_16x16.png);</string>
+        <property name="cursor">
+         <cursorShape>WhatsThisCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string notr="true"/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="../resources.qrc">:/resources/icons/default/16x16/actions/help.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+        <property name="margin">
+         <number>2</number>
         </property>
        </widget>
       </item>
@@ -188,6 +200,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

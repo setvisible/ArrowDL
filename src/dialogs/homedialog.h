@@ -46,6 +46,8 @@ private slots:
 
 private:
     Ui::HomeDialog *ui;
+
+    void propagateIcons();
 };
 
 #endif // DIALOGS_HOME_DIALOG_H

@@ -84,8 +84,8 @@ Unicode true
 ;--------------------------------
 ;Interface Settings
 
-    !define MUI_ICON "${PROJECT_PATH}\src\icons\logo\icon.ico"
-    !define MUI_UNICON "${PROJECT_PATH}\src\icons\logo\icon.ico"
+    !define MUI_ICON "${PROJECT_PATH}\src\resources\logo\icon.ico"
+    !define MUI_UNICON "${PROJECT_PATH}\src\resources\logo\icon.ico"
 
     ; Make installer pretty
     !define MUI_HEADERIMAGE

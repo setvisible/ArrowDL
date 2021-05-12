@@ -33,37 +33,38 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QTabWidget::pane { /* The tab widget frame */
-border-top: 2px solid #C2C7CB;
+	border-top: 2px solid palette(mid);
 }
 
 QTabWidget::tab-bar {
-left: 5px; /* move to the right by 5px */
+	left: 5px; /* move to the right by 5px */
 }
 
 /* Style the tab using the tab sub-control. Note that it reads QTabBar _not_ QTabWidget */
 QTabBar::tab {
-height: 20px;
-width: 200px;
-background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #E1E1E1, stop: 0.4 #DDDDDD, stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
-border: 1px solid #C4C4C3;
-border-bottom-color: #C2C7CB; /* same as the pane color */
-border-top-left-radius: 4px;
-border-top-right-radius: 4px;
-min-width: 8ex;
-padding: 2px;
-}
-QTabBar::tab:selected,
-QTabBar::tab:hover {
-background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffc90e, stop: 0.4 #ffcc0e, stop: 0.5 #ff9922, stop: 1.0 #ffc90e);
-/*background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #fafafa, stop: 0.4 #f4f4f4, stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);*/
+	height: 20px;
+	width: 200px;
+	color: palette(text);
+    background-color: palette(base);
+	border: 1px solid palette(text);
+	border-bottom-color: palette(mid); /* same as the pane color */
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	min-width: 8ex;
+	padding: 2px;
 }
 QTabBar::tab:selected {
-border-color: #9B9B9B;
-border-bottom-color: #C2C7CB; /* same as pane color */
+	background-color: palette(alternate-base);
+	border-color: palette(text);
+	border-bottom-color: palette(mid); /* same as pane color */
 }
+QTabBar::tab:hover:!selected {
+	background-color: palette(alternate-base);
+}
+
 QTabBar::tab:!selected {
-margin-top: 2px; /* make non-selected tabs look smaller */
-font: 8pt;
+	margin-top: 2px; /* make non-selected tabs look smaller */
+	font: 8pt;
 }
 </string>
      </property>

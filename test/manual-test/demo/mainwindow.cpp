@@ -21,6 +21,7 @@
 #include "../../utils/fakedownloadmanager.h"
 
 #include <Core/Format>
+#include <Core/Theme>
 #include <Widgets/DownloadQueueView>
 
 #include <QtCore/QDebug>
@@ -43,6 +44,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 {
     ui->setupUi(this);
 
+    Theme::applyTheme({ { Theme::IconTheme, "flat"} });
+
     /* Connect the GUI to the DownloadManager. */
     ui->downloadQueueView->setEngine(m_downloadManager);
 
@@ -61,11 +64,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     /* Connect the rest of the GUI widgets together (selection, focus, etc.) */
     createActions();
     createContextMenu();
+    propagateIcons();
 
     refreshTitleAndStatus();
     refreshMenus();
-
-
 
     m_downloadManager->createFakeJobs();
 }
@@ -94,14 +96,12 @@ void MainWindow::createActions()
     //! [1]
 
     //! [2] View
-    connect(ui->actionRemoveCompletedDownloads, SIGNAL(triggered()), this, SLOT(removeCompletedDownloads()));
-    connect(ui->actionRemoveAll1, SIGNAL(triggered()), this, SLOT(removeAll()));
-    connect(ui->actionCleanGoneFiles, SIGNAL(triggered()), this, SLOT(cleanGoneFiles()));
+    connect(ui->actionRemoveCompleted, SIGNAL(triggered()), this, SLOT(removeCompleted()));
+    connect(ui->actionRemoveAll, SIGNAL(triggered()), this, SLOT(removeAll()));
+    connect(ui->actionRemoveWaiting, SIGNAL(triggered()), this, SLOT(removeWaiting()));
     // --
-    connect(ui->actionRemoveDownloads, SIGNAL(triggered()), this, SLOT(removeDownloads()));
     connect(ui->actionRemoveSelected, SIGNAL(triggered()), this, SLOT(removeSelected()));
     connect(ui->actionRemoveDuplicates, SIGNAL(triggered()), this, SLOT(removeDuplicates()));
-    connect(ui->actionRemoveAll2, SIGNAL(triggered()), this, SLOT(removeAll()));
     connect(ui->actionRemoveFailed, SIGNAL(triggered()), this, SLOT(removeFailed()));
     connect(ui->actionRemovePaused, SIGNAL(triggered()), this, SLOT(removePaused()));
     //! [2]
@@ -135,20 +135,16 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionPause);
     contextMenu->addAction(ui->actionCancel);
     contextMenu->addSeparator();
-    contextMenu->addAction(ui->actionRemoveCompletedDownloads);
-    contextMenu->addAction(ui->actionRemoveDownloads);
+    contextMenu->addAction(ui->actionRemoveCompleted);
+    contextMenu->addAction(ui->actionRemoveSelected);
+    contextMenu->addAction(ui->actionRemoveAll);
 
     QMenu *remove = contextMenu->addMenu(tr("Other"));
-    remove->addAction(ui->actionRemoveAll1);
-    remove->addSeparator();
-    remove->addAction(ui->actionCleanGoneFiles);
-    remove->addSeparator();
-    remove->addAction(ui->actionRemoveSelected);
-    remove->addSeparator();
+    remove->addAction(ui->actionRemoveWaiting);
     remove->addAction(ui->actionRemoveDuplicates);
     remove->addSeparator();
-    remove->addAction(ui->actionRemoveFailed);
     remove->addAction(ui->actionRemovePaused);
+    remove->addAction(ui->actionRemoveFailed);
 
     contextMenu->addSeparator();
     contextMenu->addAction(ui->actionSelectAll);
@@ -172,6 +168,90 @@ void MainWindow::createContextMenu()
     advanced->addAction(ui->actionAddDomainSpecificLimit);
 
     ui->downloadQueueView->setContextMenu(contextMenu);
+}
+
+void MainWindow::propagateIcons()
+{
+    const QMap<QAction*, QString> map = {
+
+        //! [0] File
+        //        {ui->actionHome                   , "home"},
+        //        //--
+        {ui->actionAdd              , "add-batch"},
+        //        {ui->actionAddContent             , "add-content"},
+        //        {ui->actionAddBatch               , "add-batch"},
+        //        {ui->actionAddStream              , "add-stream"},
+        //        {ui->actionAddTorrent             , "add-torrent"},
+        //        {ui->actionAddUrls                , "add-urls"},
+        //        // --
+        //        {ui->actionImportFromFile         , "file-import"},
+        //        {ui->actionExportSelectedToFile   , "file-export"},
+        // --
+        // {ui->actionQuit   , ""},
+        //! [0]
+
+        //! [1] Edit
+        {ui->actionSelectAll              , "select-all"},
+        {ui->actionSelectNone             , "select-none"},
+        {ui->actionInvertSelection        , "select-invert"},
+        {ui->actionSelectCompleted        , "select-completed"},
+        // --
+        // {ui->actionCopy   , ""},
+        // --
+        {ui->actionManageMirrors          , "mirror-server"},
+        {ui->actionOneMoreSegment         , "segment-add"},
+        {ui->actionOneFewerSegment        , "segment-remove"},
+        //! [1]
+
+        //! [2] View
+        //        {ui->actionInformation            , "info"},
+        //        // --
+        //        {ui->actionOpenFile               , "file-open"},
+        //        {ui->actionRenameFile             , "rename"},
+        //        {ui->actionDeleteFile             , "file-delete"},
+        //        {ui->actionOpenDirectory          , "directory-open"},
+        //        // --
+        {ui->actionRemoveCompleted        , "remove-completed"},
+        {ui->actionRemoveSelected         , "remove-downloaded"},
+        {ui->actionRemoveAll              , "remove-all"},
+        // --
+        {ui->actionRemoveWaiting          , "remove-waiting"},
+        {ui->actionRemoveDuplicates       , "remove-duplicates"},
+        //        {ui->actionRemoveRunning          , "remove-resumed"},
+        {ui->actionRemovePaused           , "remove-paused"},
+        {ui->actionRemoveFailed           , "remove-stopped"},
+        //! [2]
+
+        //! [3] Download
+        {ui->actionResume                 , "play-resume"},
+        {ui->actionPause                  , "play-pause"},
+        {ui->actionCancel                 , "play-stop"},
+        //--
+        {ui->actionUp                     , "move-up"},
+        {ui->actionTop                    , "move-top"},
+        {ui->actionDown                   , "move-down"},
+        {ui->actionBottom                 , "move-bottom"},
+        //! [3]
+
+        //! [4]  Options
+        {ui->actionSpeedLimit             , "limit-speed"},
+        {ui->actionAddDomainSpecificLimit , "limit-domain"},
+        //--
+        {ui->actionForceStart             , "play-resume-force"},
+        //--
+        //        {ui->actionPreferences            , "preference"},
+        //! [4]
+
+        //! [5] Help
+        // {ui->actionCheckForUpdates        , ""},
+        // {ui->actionTutorial               , ""},
+        //        {ui->actionAbout                  , "about"}
+        // {ui->actionAboutQt                , ""},
+        // {ui->actionAboutCompiler          , ""},
+        // {ui->actionAboutYoutubeDL         , ""}
+        //! [5]
+    };
+    Theme::setIcons(this, map);
 }
 
 /******************************************************************************
@@ -217,7 +297,7 @@ void MainWindow::oneFewerSegment()
     m_downloadManager->oneFewerSegment();
 }
 
-void MainWindow::cleanGoneFiles()
+void MainWindow::removeWaiting()
 {
     m_downloadManager->remove(m_downloadManager->waitingJobs());
 }
@@ -227,14 +307,9 @@ void MainWindow::removeAll()
     m_downloadManager->remove(m_downloadManager->downloadItems());
 }
 
-void MainWindow::removeCompletedDownloads()
+void MainWindow::removeCompleted()
 {
     m_downloadManager->remove(m_downloadManager->completedJobs());
-}
-
-void MainWindow::removeDownloads()
-{
-    removeSelected();
 }
 
 void MainWindow::removeSelected()
@@ -285,22 +360,22 @@ void MainWindow::pause()
 
 void MainWindow::up()
 {
-    qDebug() << Q_FUNC_INFO << "TODO";
+    m_downloadManager->moveCurrentUp();
 }
 
 void MainWindow::top()
 {
-    qDebug() << Q_FUNC_INFO << "TODO";
+    m_downloadManager->moveCurrentTop();
 }
 
 void MainWindow::down()
 {
-    qDebug() << Q_FUNC_INFO << "TODO";
+    m_downloadManager->moveCurrentDown();
 }
 
 void MainWindow::bottom()
 {
-    qDebug() << Q_FUNC_INFO << "TODO";
+    m_downloadManager->moveCurrentBottom();
 }
 
 void MainWindow::speedLimit()
@@ -315,8 +390,6 @@ void MainWindow::addDomainSpecificLimit()
 
 void MainWindow::forceStart()
 {
-    qDebug() << Q_FUNC_INFO << "TODO";
-
     foreach (auto item, m_downloadManager->selection()) {
         /// todo Maybe run the item instantly (in a higher priority queue?)
         m_downloadManager->cancel(item);
@@ -424,14 +497,12 @@ void MainWindow::refreshMenus()
     //ui->actionDeleteFile->setEnabled(hasOnlyCompletedSelected);
     //ui->actionOpenDirectory->setEnabled(hasOnlyOneSelected);
     // --
-    ui->actionRemoveCompletedDownloads->setEnabled(hasJobs);
-    ui->actionRemoveAll1->setEnabled(hasJobs);
-    ui->actionCleanGoneFiles->setEnabled(hasJobs);
+    ui->actionRemoveCompleted->setEnabled(hasJobs);
+    ui->actionRemoveAll->setEnabled(hasJobs);
+    ui->actionRemoveWaiting->setEnabled(hasJobs);
     // --
-    ui->actionRemoveDownloads->setEnabled(hasJobs);
     ui->actionRemoveSelected->setEnabled(hasJobs);
     ui->actionRemoveDuplicates->setEnabled(hasJobs);
-    ui->actionRemoveAll2->setEnabled(hasJobs);
     ui->actionRemoveFailed->setEnabled(hasJobs);
     ui->actionRemovePaused->setEnabled(hasJobs);
     //! [2]

@@ -17,6 +17,7 @@
 #include "advancedsettingswidget.h"
 #include "ui_advancedsettingswidget.h"
 
+#include <Core/Theme>
 #include <Core/TorrentContext>
 
 #include <QtCore/QDebug>
@@ -81,6 +82,8 @@ void AdvancedSettingsWidget::changeEvent(QEvent *event)
     if (event->type() == QEvent::LanguageChange) {
         ui->retranslateUi(this);
         setupPresetToolTip();
+    } else if (event->type() == QEvent::StyleChange) {
+        restylizeUi();
     }
     QWidget::changeEvent(event);
 }
@@ -372,5 +375,12 @@ void AdvancedSettingsWidget::setupPresetToolTip()
                 "</p>";
     }
     tooltip += "</body></html>";
-    ui->presetHelpWidget->setToolTip(tooltip);
+    ui->presetHelp->setToolTip(tooltip);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void AdvancedSettingsWidget::restylizeUi()
+{
+    Theme::setIcons(this, { {ui->presetHelp, "help"} });
 }

@@ -17,6 +17,8 @@
 #include "pathwidget.h"
 #include "ui_pathwidget.h"
 
+#include <Core/Theme>
+
 #include <QtCore/QDir>
 #include <QtCore/QStandardPaths>
 #include <QtWidgets/QFileDialog>
@@ -33,6 +35,8 @@ PathWidget::PathWidget(QWidget *parent) : QWidget(parent)
     connect(ui->browseButton, SIGNAL(released()), this, SLOT(onBrowseButtonReleased()));
     connect(ui->comboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
     connect(ui->comboBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
+
+    Theme::setIcons(this, { {ui->browseButton, "browse"} });
 }
 
 PathWidget::~PathWidget()

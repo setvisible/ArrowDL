@@ -29,6 +29,7 @@
 #include <Core/Locale>
 #include <Core/Settings>
 #include <Core/StreamManager>
+#include <Core/Theme>
 #include <Core/Torrent>
 #include <Core/TorrentContext>
 #include <Core/TorrentMessage>
@@ -181,6 +182,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     refreshMenus();
 
     Locale::applyLanguage(m_settings->language());
+    Theme::applyTheme(m_settings->theme());
 
     ui->splitter->setStretchFactor(0, 1);
     ui->splitter->setStretchFactor(1, 0);
@@ -355,6 +357,7 @@ void MainWindow::createActions()
     //! [5]
 
     propagateToolTips();
+    propagateIcons();
 }
 
 void MainWindow::createContextMenu()
@@ -445,6 +448,89 @@ void MainWindow::propagateToolTips()
             action->setStatusTip(str);
         }
     }
+}
+
+void MainWindow::propagateIcons()
+{
+    const QMap<QAction*, QString> map = {
+
+        //! [0] File
+        {ui->actionHome                   , "home"},
+        //--
+        {ui->actionAddContent             , "add-content"},
+        {ui->actionAddBatch               , "add-batch"},
+        {ui->actionAddStream              , "add-stream"},
+        {ui->actionAddTorrent             , "add-torrent"},
+        {ui->actionAddUrls                , "add-urls"},
+        // --
+        {ui->actionImportFromFile         , "file-import"},
+        {ui->actionExportSelectedToFile   , "file-export"},
+        // --
+        // {ui->actionQuit   , ""},
+        //! [0]
+
+        //! [1] Edit
+        {ui->actionSelectAll              , "select-all"},
+        {ui->actionSelectNone             , "select-none"},
+        {ui->actionInvertSelection        , "select-invert"},
+        {ui->actionSelectCompleted        , "select-completed"},
+        // --
+        // {ui->actionCopy   , ""},
+        // --
+        {ui->actionManageMirrors          , "mirror-server"},
+        {ui->actionOneMoreSegment         , "segment-add"},
+        {ui->actionOneFewerSegment        , "segment-remove"},
+        //! [1]
+
+        //! [2] View
+        {ui->actionInformation            , "info"},
+        // --
+        {ui->actionOpenFile               , "file-open"},
+        {ui->actionRenameFile             , "rename"},
+        {ui->actionDeleteFile             , "file-delete"},
+        {ui->actionOpenDirectory          , "directory-open"},
+        // --
+        {ui->actionRemoveCompleted        , "remove-completed"},
+        {ui->actionRemoveSelected         , "remove-downloaded"},
+        {ui->actionRemoveAll              , "remove-all"},
+        // --
+        {ui->actionRemoveWaiting          , "remove-waiting"},
+        {ui->actionRemoveDuplicates       , "remove-duplicates"},
+        {ui->actionRemoveRunning          , "remove-resumed"},
+        {ui->actionRemovePaused           , "remove-paused"},
+        {ui->actionRemoveFailed           , "remove-stopped"},
+        //! [2]
+
+        //! [3] Download
+        {ui->actionResume                 , "play-resume"},
+        {ui->actionPause                  , "play-pause"},
+        {ui->actionCancel                 , "play-stop"},
+        //--
+        {ui->actionUp                     , "move-up"},
+        {ui->actionTop                    , "move-top"},
+        {ui->actionDown                   , "move-down"},
+        {ui->actionBottom                 , "move-bottom"},
+        //! [3]
+
+        //! [4]  Options
+        {ui->actionSpeedLimit             , "limit-speed"},
+        {ui->actionAddDomainSpecificLimit , "limit-domain"},
+        //--
+        {ui->actionForceStart             , "play-resume-force"},
+        //--
+        {ui->actionPreferences            , "preference"},
+        //! [4]
+
+        //! [5] Help
+        // {ui->actionCheckForUpdates        , ""},
+        // {ui->actionTutorial               , ""},
+        {ui->actionAbout                  , "about"}
+        // {ui->actionAboutQt                , ""},
+        // {ui->actionAboutCompiler          , ""},
+        // {ui->actionAboutYoutubeDL         , ""}
+        //! [5]
+    };
+    Theme::setIcons(this, map);
 }
 
 /******************************************************************************
@@ -799,9 +885,26 @@ void MainWindow::addContent(const QUrl &url)
 
 void MainWindow::addContent(const QString &message)
 {
+    // Note: if the message asks for the dialog (i.e. not a silent download),
+    // we must show the mainwindow first, if it was minimized.
+    // In this case, once the dialog closed, we hide the mainwindow.
+    bool wasHidden = !this->isVisible();
+
+    /// \todo decouple the dialog and the dialog's model,
+    /// in order to not call "dialog.exec()" when it's a silent download
+
     AddContentDialog dialog(m_downloadManager, m_settings, this);
-    dialog.loadResources(message);
+    bool willShowDialog = dialog.loadResources(message);
+
+    if (willShowDialog && wasHidden) {
+        m_systemTray->showParentWidget();
+    }
+
     dialog.exec();
+
+    if (willShowDialog && wasHidden) {
+        m_systemTray->hideParentWidget();
+    }
 }
 
 /******************************************************************************

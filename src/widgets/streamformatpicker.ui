@@ -71,7 +71,7 @@ QGroupBox {
           </property>
           <property name="icon">
            <iconset resource="../resources.qrc">
-            <normaloff>:/icons/menu/youtube_48x48.png</normaloff>:/icons/menu/youtube_48x48.png</iconset>
+            <normaloff>:/resources/icons/default/48x48/actions/add-stream.png</normaloff>:/resources/icons/default/48x48/actions/add-stream.png</iconset>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -123,7 +123,7 @@ QGroupBox {
           </property>
           <property name="icon">
            <iconset resource="../resources.qrc">
-            <normaloff>:/icons/menu/stream_audio_16x16.png</normaloff>:/icons/menu/stream_audio_16x16.png</iconset>
+            <normaloff>:/resources/icons/default/16x16/actions/stream-audio.png</normaloff>:/resources/icons/default/16x16/actions/stream-audio.png</iconset>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -152,7 +152,7 @@ QGroupBox {
           </property>
           <property name="icon">
            <iconset resource="../resources.qrc">
-            <normaloff>:/icons/menu/stream_video_16x16.png</normaloff>:/icons/menu/stream_video_16x16.png</iconset>
+            <normaloff>:/resources/icons/default/16x16/actions/stream-video.png</normaloff>:/resources/icons/default/16x16/actions/stream-video.png</iconset>
           </property>
           <property name="checkable">
            <bool>true</bool>

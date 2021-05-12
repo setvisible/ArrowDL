@@ -194,16 +194,31 @@ color: rgb(205, 230, 255);
        </property>
       </widget>
      </item>
-     <item row="0" column="0" rowspan="3">
-      <widget class="QWidget" name="logo" native="true">
+     <item row="0" column="0" rowspan="4" alignment="Qt::AlignHCenter|Qt::AlignTop">
+      <widget class="QLabel" name="logo">
        <property name="minimumSize">
         <size>
          <width>64</width>
          <height>64</height>
         </size>
        </property>
-       <property name="styleSheet">
-        <string notr="true">image: url(:/icons/menu/tool_add_26x26.png);</string>
+       <property name="maximumSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../resources.qrc">:/resources/icons/default/48x48/actions/add-batch.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
+       <property name="margin">
+        <number>8</number>
        </property>
       </widget>
      </item>
@@ -306,7 +321,9 @@ color: rgb(205, 230, 255);
   <tabstop>addPausedButton</tabstop>
   <tabstop>cancelButton</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>startButton</sender>

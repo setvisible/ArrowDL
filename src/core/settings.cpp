@@ -28,6 +28,7 @@ static const QString REGISTRY_EXISTING_FILE    = "ExistingFile";
 
 // Tab Interface
 static const QString REGISTRY_UI_LANGUAGE      = "Language";
+static const QString REGISTRY_UI_THEME         = "Theme";
 static const QString REGISTRY_DONT_SHOW_TUTO   = "DontShowTutorial";
 static const QString REGISTRY_SHOW_SYSTEM_TRAY = "SystemTrayIconEnabled";
 static const QString REGISTRY_HIDE_MINIMIZED   = "HideWhenMinimized";
@@ -97,6 +98,7 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
 
     // Tab Interface
     addDefaultSettingString(REGISTRY_UI_LANGUAGE, QLatin1String(""));
+    addDefaultSettingString(REGISTRY_UI_THEME, QLatin1String(""));
     addDefaultSettingBool(REGISTRY_DONT_SHOW_TUTO, false);
     addDefaultSettingBool(REGISTRY_SHOW_SYSTEM_TRAY, true);
     addDefaultSettingBool(REGISTRY_HIDE_MINIMIZED, false);
@@ -213,6 +215,22 @@ QString Settings::language() const
 void Settings::setLanguage(const QString &language)
 {
     setSettingString(REGISTRY_UI_LANGUAGE, language);
+}
+
+/*!
+ * \brief Defines the GUI's theme
+ * (platform style, icon set theme, light/dark color scheme...)
+ */
+QMap<QString, QVariant> Settings::theme() const
+{
+    const QString str = getSettingString(REGISTRY_UI_THEME);
+    return deserialize(str);
+}
+
+void Settings::setTheme(const QMap<QString, QVariant> &map)
+{
+    const QString value = serialize(map);
+    setSettingString(REGISTRY_UI_THEME, value);
 }
 
 bool Settings::isDontShowTutorialEnabled() const

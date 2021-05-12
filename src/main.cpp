@@ -19,7 +19,6 @@
 
 #include <QtSingleApplication>
 #include <Ipc/InterProcessCommunication>
-#include <Widgets/CustomStyle>
 
 #include <QtCore/QCommandLineParser>
 
@@ -61,8 +60,6 @@ int main(int argc, char *argv[])
     Q_INIT_RESOURCE(resources);
 
     QtSingleApplication application(argc, argv);
-
-    QApplication::setStyle(new CustomStyle);
 
     QCoreApplication::setApplicationName(STR_APPLICATION_NAME);
     QCoreApplication::setOrganizationName(STR_APPLICATION_ORGANIZATION);

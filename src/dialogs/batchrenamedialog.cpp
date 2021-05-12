@@ -21,6 +21,7 @@
 #include <Core/DownloadItem>
 #include <Core/IDownloadItem>
 #include <Core/ResourceItem>
+#include <Core/Theme>
 
 #include <QtCore/QDebug>
 #include <QtCore/QSettings>
@@ -50,6 +51,7 @@ BatchRenameDialog::BatchRenameDialog(const QList<IDownloadItem*> &items, QWidget
     setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Tools")));
 
     adjustSize();
+    Theme::setIcons(this, { {ui->logo, "rename"} });
 
     ui->subtitleLabel->setText(tr("%0 selected files to rename").arg(m_items.count()));
 

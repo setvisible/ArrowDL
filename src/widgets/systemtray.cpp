@@ -40,7 +40,7 @@ SystemTray::SystemTray(QWidget *parent) : QWidget(parent)
     connect(m_trayIcon, &QSystemTrayIcon::messageClicked,
             this, &SystemTray::onSystemTrayMessageClicked);
 
-    m_trayIcon->setIcon(QIcon(":/icons/logo/icon16.png"));
+    m_trayIcon->setIcon(QIcon(":/resources/logo/icon16.png"));
     m_trayIcon->hide();
 }
 
@@ -143,7 +143,7 @@ void SystemTray::showBalloon(const QString &title, const QString &message)
     if (m_settings->isSystemTrayBalloonEnabled()) {
         if (QSystemTrayIcon::supportsMessages()) {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
-            m_trayIcon->showMessage(title, message, QIcon(":/icons/logo/icon48.png"));
+            m_trayIcon->showMessage(title, message, QIcon(":/resources/logo/icon48.png"));
 #else
             m_trayIcon->showMessage(title, message);
 #endif

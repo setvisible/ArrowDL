@@ -19,6 +19,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/systemtray.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/textedit.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/texteditorwidget.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/themewidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/torrentpiecemap.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/torrentprogressbar.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/torrentwidget.cpp
@@ -46,6 +47,7 @@ set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/systemtray.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/textedit.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/texteditorwidget.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/themewidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/torrentpiecemap.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/torrentprogressbar.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/torrentwidget.h
@@ -65,6 +67,7 @@ set(MY_FORMS ${MY_FORMS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamlistwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/texteditorwidget.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/themewidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/torrentpiecemap.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/torrentwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/urlformwidget.ui

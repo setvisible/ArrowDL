@@ -17,11 +17,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <Core/Theme>
+
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    Theme::applyTheme({});
+
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
 }
 

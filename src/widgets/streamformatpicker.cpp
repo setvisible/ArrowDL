@@ -19,6 +19,7 @@
 
 #include <Core/Format>
 #include <Core/Stream>
+#include <Core/Theme>
 
 #include <QtCore/QDebug>
 #include <QtGui/QStandardItemModel>
@@ -100,6 +101,7 @@ StreamFormatPicker::StreamFormatPicker(QWidget *parent) : QWidget(parent)
             this, SLOT(onCurrentChanged(QModelIndex, QModelIndex)));
 
     updateButtonBar();
+    propagateIcons();
 }
 
 StreamFormatPicker::~StreamFormatPicker()
@@ -180,6 +182,18 @@ void StreamFormatPicker::onCategoryChanged()
     if (!formatId.isEmpty()) {
         emit selectionChanged(formatId);
     }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void StreamFormatPicker::propagateIcons()
+{
+    const QMap<QAbstractButton*, QString> map = {
+        {ui->categorySimpleButton, "add-stream"},
+        {ui->categoryAudioButton, "stream-audio"},
+        {ui->categoryVideoButton, "stream-video"}
+    };
+    Theme::setIcons(this, map);
 }
 
 /******************************************************************************

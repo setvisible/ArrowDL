@@ -139,7 +139,7 @@ QGroupBox {
         </property>
         <property name="icon">
          <iconset resource="../resources.qrc">
-          <normaloff>:/icons/menu/button_help_16x16.png</normaloff>:/icons/menu/button_help_16x16.png</iconset>
+          <normaloff>:/resources/icons/default/16x16/actions/help.png</normaloff>:/resources/icons/default/16x16/actions/help.png</iconset>
         </property>
         <property name="autoRaise">
          <bool>true</bool>

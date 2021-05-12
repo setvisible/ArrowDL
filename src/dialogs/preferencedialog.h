@@ -58,9 +58,10 @@ private slots:
 
     void languageChanged(int value);
     void resetLanguage();
+    void themeChanged();
 
     void maxSimultaneousDownloadSlided(int value);
-    void proxyTypeIndexChanged(int index);
+    void proxyTypeChanged(int index);
     void proxyAuthToggled(bool checked);
     void proxyShowPwdToggled(bool checked);
 
@@ -78,6 +79,7 @@ private:
     void initializeUi();
     void initializeWarnings();
     void refreshTitle();
+    void restylizeUi();
 
     void read();
     void write();

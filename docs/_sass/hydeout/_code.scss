@@ -9,33 +9,35 @@ pre {
 }
 
 code {
-  padding: .25em .5em;
-  font-size: 85%;
-  color: $code-color;
   background-color: #f9f9f9;
   border-radius: 3px;
+  color: $code-color;
+  font-size: 85%;
+  padding: 0.25em 0.5em;
 }
 
 pre {
-  margin-top: 0;
   margin-bottom: 1rem;
+  margin-top: 0;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 pre code {
-  padding: 0;
-  font-size: 100%;
-  color: inherit;
   background-color: transparent;
+  color: inherit;
+  font-size: 100%;
+  padding: 0;
 }
 
 // Pygments/Rouge via Jekyll
 .highlight {
-  padding: 1rem;
-  margin-bottom: 1rem;
-  font-size: .8rem;
-  line-height: 1.4;
   background-color: #f9f9f9;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  padding: 1rem;
 
   pre {
     margin-bottom: 0;
@@ -43,20 +45,12 @@ pre code {
   }
 
   .lineno {
-    display: inline-block; // Ensures the null space also isn't selectable
-    padding-right: .75rem;
-    padding-left: .25rem;
     color: #999;
-    // Make sure numbers aren't selectable
-    -webkit-user-select: none;
-       -moz-user-select: none;
-            user-select: none;
+    display: inline-block; // Ensures the null space also isn't selectable
+    padding-left: 0.25rem;
+    padding-right: 0.75rem;
+    user-select: none; // Make sure numbers aren't selectable
   }
-}
-
-pre {
-  max-width: 100%;
-  overflow-x: auto;
 }
 
 // Gist via GitHub Pages

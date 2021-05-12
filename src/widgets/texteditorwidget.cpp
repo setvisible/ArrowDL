@@ -17,6 +17,7 @@
 #include "texteditorwidget.h"
 #include "ui_texteditorwidget.h"
 
+#include <Core/Theme>
 #include <Widgets/TextEdit>
 
 #include <QtCore/QDebug>
@@ -50,6 +51,8 @@ TextEditorWidget::TextEditorWidget(QWidget *parent) : QWidget(parent)
     ui->editredo->setEnabled(false);
     ui->editcut->setEnabled(false);
     ui->editcopy->setEnabled(false);
+
+    propagateIcons();
 }
 
 TextEditorWidget::~TextEditorWidget()
@@ -101,4 +104,19 @@ void TextEditorWidget::setModified(bool modified)
 void TextEditorWidget::onBlockModeToggled(bool checked)
 {
     ui->textEdit->setBlockModeEnabled(checked);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void TextEditorWidget::propagateIcons()
+{
+    const QMap<QAbstractButton*, QString> map = {
+        {ui->editblockmode, "edit-block-mode"},
+        {ui->editcopy     , "edit-copy"},
+        {ui->editcut      , "edit-cut"},
+        {ui->editpaste    , "edit-paste"},
+        {ui->editredo     , "edit-redo"},
+        {ui->editundo     , "edit-undo"}
+    };
+    Theme::setIcons(this, map);
 }

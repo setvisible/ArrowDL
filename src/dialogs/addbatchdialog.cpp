@@ -24,6 +24,7 @@
 #include <Core/Regex>
 #include <Core/ResourceItem>
 #include <Core/Settings>
+#include <Core/Theme>
 #include <Widgets/UrlFormWidget>
 
 #include <QtCore/QDebug>
@@ -51,6 +52,7 @@ AddBatchDialog::AddBatchDialog(const QUrl &url, DownloadManager *downloadManager
 
     adjustSize();
     setFixedHeight(height());
+    Theme::setIcons(this, { {ui->logo, "add-batch"} });
 
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
     if (m_settings->isHttpReferringPageEnabled()) {

@@ -19,6 +19,7 @@
 
 #include "../../utils/dummystreamfactory.h"
 
+#include <Core/Theme>
 #include <Widgets/StreamListWidget>
 
 #include <QtCore/QDebug>
@@ -35,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , m_streamObjectDownloader(new StreamObjectDownloader(this))
 {
     ui->setupUi(this);
+
+    Theme::applyTheme({});
 
     ui->lineEdit->setText("https://www.youtube.com/watch?v=C0DPdy98e4c");
 

@@ -23,6 +23,7 @@
 #include <Core/DownloadStreamItem>
 #include <Core/ResourceItem>
 #include <Core/Settings>
+#include <Core/Theme>
 #include <Widgets/UrlFormWidget>
 
 #include <QtCore/QDebug>
@@ -45,6 +46,7 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
     setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Add Stream")));
 
     adjustSize();
+    Theme::setIcons(this, { {ui->logo, "add-stream"} });
 
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
     if (m_settings->isHttpReferringPageEnabled()) {

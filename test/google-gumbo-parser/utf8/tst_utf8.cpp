@@ -97,7 +97,7 @@ GumboError* tst_Utf8::getFirstError()
 
 int tst_Utf8::getNumErrors()
 {
-    return parser_._output->errors.length;
+    return static_cast<int>(parser_._output->errors.length);
 }
 
 /******************************************************************************
@@ -153,12 +153,12 @@ void tst_Utf8::OneByteChar()
 void tst_Utf8::ContinuationByte()
 {
     resetText("\x85");
+    errors_are_expected_ = true;
 
     /*EXPECT_EQ*/ QCOMPARE(1, getNumErrors());
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
     /*EXPECT_EQ*/ QCOMPARE('\x85', *utf8iterator_get_char_pointer(&input_));
 
-    errors_are_expected_ = true;
     GumboError* error = getFirstError();
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_ERR_UTF8_INVALID, error->type);
     /*EXPECT_EQ*/ QCOMPARE('\x85', *error->original_text);
@@ -171,27 +171,23 @@ void tst_Utf8::ContinuationByte()
 void tst_Utf8::MultipleContinuationBytes()
 {
     resetText("a\x85\xA0\xC2x\x9A");
+    errors_are_expected_ = true;
+
     /*EXPECT_EQ*/ QVERIFY('a' == utf8iterator_current(&input_));
-
     utf8iterator_next(&input_);
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
-
     utf8iterator_next(&input_);
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
-
     utf8iterator_next(&input_);
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
-
     utf8iterator_next(&input_);
     /*EXPECT_EQ*/ QVERIFY('x' == utf8iterator_current(&input_));
-
     utf8iterator_next(&input_);
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
-
     utf8iterator_next(&input_);
     /*EXPECT_EQ*/ QCOMPARE(-1, utf8iterator_current(&input_));
-
     utf8iterator_next(&input_);
+
     /*EXPECT_EQ*/ QCOMPARE(4, getNumErrors());
 }
 
@@ -199,12 +195,12 @@ void tst_Utf8::OverlongEncoding()
 {
     // \xC0\x75 = 11000000 01110101.
     resetText("\xC0\x75");
+    errors_are_expected_ = true;
 
     /*ASSERT_EQ*/ QCOMPARE(1, getNumErrors());
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
     /*EXPECT_EQ*/ QCOMPARE('\xC0', *utf8iterator_get_char_pointer(&input_));
 
-    errors_are_expected_ = true;
     GumboError* error = getFirstError();
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_ERR_UTF8_INVALID, error->type);
     /*EXPECT_EQ*/ QVERIFY(1 == error->position.line);
@@ -225,6 +221,7 @@ void tst_Utf8::OverlongEncodingWithContinuationByte()
 {
     // \xC0\x85 = 11000000 10000101.
     resetText("\xC0\x85");
+    errors_are_expected_ = true;
 
     /*ASSERT_EQ*/ QCOMPARE(1, getNumErrors());
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
@@ -233,7 +230,6 @@ void tst_Utf8::OverlongEncodingWithContinuationByte()
     utf8iterator_next(&input_);
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
 
-    errors_are_expected_ = true;
     GumboError* error = getFirstError();
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_ERR_UTF8_INVALID, error->type);
     /*EXPECT_EQ*/ QVERIFY(1 == error->position.line);
@@ -289,6 +285,7 @@ void tst_Utf8::ThreeByteChar()
 {
     // \xE3\xA7\xA7 = 11100011 10100111 10100111
     resetText("\xE3\xA7\xA7\xB0");
+    errors_are_expected_ = true;
 
     /*EXPECT_EQ*/ QCOMPARE(0, getNumErrors());
     // Codepoint = 00111001 11100111 = 0x39E7
@@ -333,6 +330,7 @@ void tst_Utf8::FourByteCharWithoutContinuationChars()
 {
     // \xF1\xA7\xA7\xA7 = 11110001 10100111 10100111 10100111
     resetText("\xF1\xA7\xA7-");
+    errors_are_expected_ = true;
 
     /*EXPECT_EQ*/ QCOMPARE(1, getNumErrors());
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
@@ -348,6 +346,7 @@ void tst_Utf8::FourByteCharWithoutContinuationChars()
 void tst_Utf8::FiveByteCharIsError()
 {
     resetText("\xF6\xA7\xA7\xA7\xA7x");
+    errors_are_expected_ = true;
 
     /*EXPECT_EQ*/ QCOMPARE(1, getNumErrors());
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
@@ -364,6 +363,7 @@ void tst_Utf8::FiveByteCharIsError()
 void tst_Utf8::SixByteCharIsError()
 {
     resetText("\xF8\xA7\xA7\xA7\xA7\xA7x");
+    errors_are_expected_ = true;
 
     /*EXPECT_EQ*/ QCOMPARE(1, getNumErrors());
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
@@ -381,6 +381,7 @@ void tst_Utf8::SixByteCharIsError()
 void tst_Utf8::SevenByteCharIsError()
 {
     resetText("\xFC\xA7\xA7\xA7\xA7\xA7\xA7x");
+    errors_are_expected_ = true;
 
     /*EXPECT_EQ*/ QCOMPARE(1, getNumErrors());
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
@@ -399,6 +400,7 @@ void tst_Utf8::SevenByteCharIsError()
 void tst_Utf8::Hex0xFFIsError()
 {
     resetText("\xFFx");
+    errors_are_expected_ = true;
 
     /*EXPECT_EQ*/ QCOMPARE(1, getNumErrors());
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
@@ -410,6 +412,7 @@ void tst_Utf8::Hex0xFFIsError()
 void tst_Utf8::InvalidControlCharIsError()
 {
     resetText("\x1Bx");
+    errors_are_expected_ = true;
 
     /*EXPECT_EQ*/ QCOMPARE(1, getNumErrors());
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
@@ -421,11 +424,11 @@ void tst_Utf8::InvalidControlCharIsError()
 void tst_Utf8::TruncatedInput()
 {
     resetText("\xF1\xA7");
+    errors_are_expected_ = true;
 
     /*EXPECT_EQ*/ QCOMPARE(1, getNumErrors());
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
 
-    errors_are_expected_ = true;
     GumboError* error = getFirstError();
     /*EXPECT_EQ*/ QCOMPARE(GUMBO_ERR_UTF8_TRUNCATED, error->type);
     /*EXPECT_EQ*/ QVERIFY(1 == error->position.line);
@@ -444,29 +447,24 @@ void tst_Utf8::Html5SpecExample()
     // changed to reference the Unicode Standard 6.2, 5.22 "Best practices for
     // U+FFFD substitution."
     resetText("\x41\x98\xBA\x42\xE2\x98\x43\xE2\x98\xBA\xE2\x98");
+    errors_are_expected_ = true;
 
     /*EXPECT_EQ*/ QVERIFY('A' == utf8iterator_current(&input_));
-
     utf8iterator_next(&input_);
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
-
     utf8iterator_next(&input_);
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
-
     utf8iterator_next(&input_);
     /*EXPECT_EQ*/ QVERIFY('B' == utf8iterator_current(&input_));
-
     utf8iterator_next(&input_);
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
-
     utf8iterator_next(&input_);
     /*EXPECT_EQ*/ QVERIFY('C' == utf8iterator_current(&input_));
-
     utf8iterator_next(&input_);
+
     // \xE2\x98\xBA = 11100010 10011000 10111010
     // Codepoint = 00100110 00111010 = 0x263A
     /*EXPECT_EQ*/ QCOMPARE(0x263A, utf8iterator_current(&input_));
-
     utf8iterator_next(&input_);
     /*EXPECT_EQ*/ QCOMPARE(0xFFFD, utf8iterator_current(&input_));
     utf8iterator_next(&input_);

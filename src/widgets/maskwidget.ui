@@ -72,7 +72,7 @@
      </property>
      <property name="icon">
       <iconset resource="../resources.qrc">
-       <normaloff>:/icons/menu/icon_mask_16x16.png</normaloff>:/icons/menu/icon_mask_16x16.png</iconset>
+       <normaloff>:/resources/icons/default/16x16/actions/mask.png</normaloff>:/resources/icons/default/16x16/actions/mask.png</iconset>
      </property>
      <property name="autoRaise">
       <bool>true</bool>

@@ -13,18 +13,11 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,10,0,0,0">
    <item>
-    <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,0">
-     <item row="1" column="2">
-      <widget class="QLabel" name="subtitleLabel">
-       <property name="text">
-        <string>Files to rename</string>
-       </property>
-      </widget>
-     </item>
+    <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,1">
      <item row="0" column="2" colspan="2">
-      <widget class="QLabel" name="filenameLabel">
+      <widget class="QLabel" name="label">
        <property name="font">
         <font>
          <pointsize>10</pointsize>
@@ -47,7 +40,7 @@
       </widget>
      </item>
      <item row="0" column="0" rowspan="2">
-      <widget class="QLabel" name="fileIcon">
+      <widget class="QLabel" name="logo">
        <property name="minimumSize">
         <size>
          <width>64</width>
@@ -61,17 +54,20 @@
         </size>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../resources.qrc">:/icons/logo/icon128.png</pixmap>
+        <pixmap resource="../resources.qrc">:/resources/icons/default/16x16/actions/rename.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
        </property>
+       <property name="margin">
+        <number>8</number>
+       </property>
       </widget>
      </item>
-     <item row="0" column="1">
+     <item row="0" column="1" rowspan="2">
       <spacer name="horizontalSpacer_3">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -86,6 +82,13 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item row="1" column="2" colspan="2">
+      <widget class="QLabel" name="subtitleLabel">
+       <property name="text">
+        <string>Files to rename</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -309,7 +312,7 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>filenameLabel</tabstop>
+  <tabstop>label</tabstop>
   <tabstop>tabWidget</tabstop>
  </tabstops>
  <resources>

@@ -180,7 +180,7 @@ void ComboBox::clearHistory()
 inline void ComboBox::colorize()
 {
     if (!isInputValid()) {
-        QComboBox::setStyleSheet(QLatin1String("QComboBox { background-color: rgb(255, 100, 100); }"));
+        QComboBox::setStyleSheet(QLatin1String("QComboBox { background-color: palette(link); }"));
     } else {
         QComboBox::setStyleSheet(QString());
     }
