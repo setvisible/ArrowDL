@@ -16,7 +16,7 @@ excerpt_separator:  <!--more-->
 
 *DownZemAll!* uses the library **youtube-dl**, a free and open-source command-line program to download and convert videos from YouTube.com and other video sites.
 
-[http://ytdl-org.github.io/youtube-dl](http://ytdl-org.github.io/youtube-dl/)
+[https://ytdl-org.github.io/youtube-dl](https://ytdl-org.github.io/youtube-dl/)
 
 [https://github.com/ytdl-org/youtube-dl](https://github.com/ytdl-org/youtube-dl)
 
