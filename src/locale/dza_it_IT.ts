@@ -397,17 +397,17 @@ Se viene fornito un collegamento magnet, l&apos;applicazione scarica il .torrent
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="50"/>
         <source>Copy-paste a list of Urls to download</source>
-        <translation type="unfinished"/>
+        <translation>Copia/incolla elenco URL da downloadare</translation>
     </message>
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="27"/>
         <source>List of Urls</source>
-        <translation type="unfinished"/>
+        <translation>Elenco URL</translation>
     </message>
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="66"/>
         <source>Download:</source>
-        <translation type="unfinished"/>
+        <translation>Download:</translation>
     </message>
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="147"/>
@@ -427,7 +427,7 @@ Se viene fornito un collegamento magnet, l&apos;applicazione scarica il .torrent
     <message>
         <location filename="../dialogs/addurlsdialog.cpp" line="46"/>
         <source>Add Urls</source>
-        <translation type="unfinished"/>
+        <translation>Aggiungi URL</translation>
     </message>
 </context>
 <context>
@@ -1320,12 +1320,12 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/homedialog.ui" line="173"/>
         <source>List of Urls</source>
-        <translation type="unfinished"/>
+        <translation>Elenco URL</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="189"/>
         <source>Paste a list of Urls</source>
-        <translation type="unfinished"/>
+        <translation>Incolla elenco URL</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="226"/>
@@ -1550,12 +1550,12 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="324"/>
         <source>Download Urls...</source>
-        <translation type="unfinished"/>
+        <translation>Download URL...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="327"/>
         <source>Download a copy-pasted list of Urls</source>
-        <translation type="unfinished"/>
+        <translation>Download un elenco URL da copia/incolla</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="336"/>
@@ -2229,7 +2229,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="309"/>
         <source>Style and Icons</source>
-        <translation type="unfinished"/>
+        <translation>Stile ed icone</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="343"/>
@@ -2797,22 +2797,22 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
     <message>
         <location filename="../core/theme.cpp" line="107"/>
         <source>Classic (default)</source>
-        <translation type="unfinished"/>
+        <translation>Classico (predefinito)</translation>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="107"/>
         <source>Flat Design</source>
-        <translation type="unfinished"/>
+        <translation>Disegno piatto</translation>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="134"/>
         <source>Light</source>
-        <translation type="unfinished"/>
+        <translation>Chiaro</translation>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="134"/>
         <source>Dark</source>
-        <translation type="unfinished"/>
+        <translation>Scuro</translation>
     </message>
 </context>
 <context>

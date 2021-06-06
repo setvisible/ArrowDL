@@ -5,7 +5,7 @@ highlighter:      rouge
 # Setup
 title:            DZA!
 tagline:          'DownZemAll!'
-description:      '<a href="http://setvisible.github.io/DownZemAll" target="_blank">DownZemAll!</a> is a download manager for Windows, Mac OS X and Linux.'
+description:      '<a href="https://setvisible.github.io/DownZemAll" target="_blank">DownZemAll!</a> is a download manager for Windows, Mac OS X and Linux.'
 url:              https://setvisible.github.io
 baseurl:          '/DownZemAll'
                   # the optional subpath of your site, e.g. "/blog"

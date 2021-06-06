@@ -38,7 +38,7 @@ Here's how to set up your DZA! to use a proxy server :
 | Type   | Description                   |
 |--------|-------------------------------|
 | None   | No proxying is used. |
-| SOCKS5 | based on [RFC 1928](http://www.rfc-editor.org/rfc/rfc1928.txt) and [RFC 1929](http://www.rfc-editor.org/rfc/rfc1929.txt). Generic proxy for any kind of connection. Supports TCP, UDP, binding to a port (incoming connections) and authentication. |
+| SOCKS5 | based on [RFC 1928](https://www.rfc-editor.org/rfc/rfc1928.txt) and [RFC 1929](https://www.rfc-editor.org/rfc/rfc1929.txt). Generic proxy for any kind of connection. Supports TCP, UDP, binding to a port (incoming connections) and authentication. |
 | HTTP   | A HTTP transparent proxying is used. Implemented using the "CONNECT" command, supports only outgoing TCP connections; supports authentication. |
 
 
