@@ -1,161 +1,161 @@
 {
   "extensionName": {
-    "message": "Down Right Now",
+    "message": "立即下载",
     "description": "Name of the extension."
   },
   "extensionDescription": {
-    "message": "The Right Download Manager for your browser",
+    "message": "适合您浏览器的下载管理器",
     "description": "Description of the extension."
   },
 
 
   "contextMenuSavePage": {
-    "message": "Save page",
+    "message": "保存页面",
     "description": "Title of the context menu for Save page"
   },
   "contextMenuSaveFrame": {
-    "message": "Save frame",
+    "message": "保存帧",
     "description": "Title of the context menu for Save frame"
   },
   "contextMenuSaveSelection": {
-    "message": "Save selection",
+    "message": "保存选择",
     "description": "Title of the context menu for Save selection"
   },
   "contextMenuSaveLink": {
-    "message": "Save link",
+    "message": "保存链接",
     "description": "Title of the context menu for Save link"
   },
   "contextMenuSaveEditable": {
-    "message": "Save editable",
+    "message": "保存可编辑",
     "description": "Title of the context menu for Save editable"
   },
   "contextMenuSaveImage": {
-    "message": "Save image",
+    "message": "保存图像",
     "description": "Title of the context menu for Save image"
   },
   "contextMenuSaveVideo": {
-    "message": "Save video",
+    "message": "保存视频",
     "description": "Title of the context menu for Save video"
   },
   "contextMenuSaveAudio": {
-    "message": "Save audio",
+    "message": "保存音频",
     "description": "Title of the context menu for Save audio"
   },
   "contextMenuSaveLauncher": {
-    "message": "Save launcher",
+    "message": "保存启动器",
     "description": "Title of the context menu for Save launcher"
   },
 
 
   "popupDownload": {
-    "message": "Download...",
+    "message": "下载...",
     "description": "Title of the context menu for Download..."
   },
   "popupDownloadLinks": {
-    "message": "Download links",
+    "message": "下载链接",
     "description": "Title of the context menu for Download links"
   },
   "popupDownloadLinksPaused": {
-    "message": "Download links (paused)",
+    "message": "下载链接（已暂停）",
     "description": "Title of the context menu for Download links (paused)"
   },
   "popupDownloadContent": {
-    "message": "Download content",
+    "message": "下载内容",
     "description": "Title of the context menu for Download content"
   },
   "popupDownloadContentPaused": {
-    "message": "Download content (paused)",
+    "message": "下载内容（已暂停）",
     "description": "Title of the context menu for Download content (paused)"
   },
   "popupOpen": {
-    "message": "Open DZA!",
+    "message": "打开 DZA!",
     "description": "Title of the context menu for Open DZA!"
   },
   "popupPreferences": {
-    "message": "Preferences...",
+    "message": "首选项...",
     "description": "Title of the context menu for Preferences..."
   },
   "popupOptions": {
-    "message": "Options...",
+    "message": "选项...",
     "description": "Title of the context menu for Options..."
   },
   "popupVisitWebsite": {
-    "message": "Visit DZA website",
+    "message": "访问 DZA 网站",
     "description": "Title of the context menu for Visit DZA website"
   },
 
   "popupError": {
-    "message": "Error",
+    "message": "错误",
     "description": "Title of Error"
   },
   "popupError1": {
-    "message": "Can't find the application",
+    "message": "找不到应用程序",
     "description": "Error message 1"
   },
   "popupError2": {
-    "message": "Open 'Options' to check",
+    "message": "打开“选项”进行检查",
     "description": "Error message 2"
   },
   "popupRemark": {
-    "message": "Remark",
+    "message": "注释",
     "description": "Title of Remark"
   },
   "popupRemark1": {
-    "message": "Incognito Mode disables<br />download features",
+    "message": "隐身模式禁用<br />下载功能",
     "description": "Remark message 1"
   },
 
 
   "optionsMainTitle": {
-    "message": "Options",
+    "message": "选项",
     "description": "Title of Options"
   },
   "optionsToolbarMenu": {
-    "message": "Toolbar Menu",
+    "message": "工具栏菜单",
     "description": "Title of Toolbar Menu"
   },
   "optionsShowSimpleMenu": {
-    "message": "Show simple menu (always ask what to do)",
+    "message": "显示简单的菜单（总是询问做什么）",
     "description": "Title of Show simple menu"
   },
   "optionsShowFullMenu": {
-    "message": "Show full menu",
+    "message": "显示完整菜单",
     "description": "Title of Show full menu"
   },
   "optionsShowFullMenuDescription": {
-    "message": "Simple download, and immediate download for:",
+    "message": "简单下载，并立即下载：",
     "description": "Description of Show full menu"
   },
   "optionsChoiceGetLinks": {
-    "message": "Links",
+    "message": "链接",
     "description": "Title of Links"
   },
   "optionsChoiceGetContent": {
-    "message": "Content",
+    "message": "内容",
     "description": "Title of Content"
   },
   "optionsChoiceStartPaused": {
-    "message": "Start paused",
+    "message": "开始已暂停",
     "description": "Title of Start paused"
   },
   "optionsAbout": {
-    "message": "About",
+    "message": "关于",
     "description": "Title of About"
   },
   "optionsInstall": {
-    "message": "Installation",
+    "message": "安装",
     "description": "Title of Installation"
   },
   "optionsInstallMessage": {
-    "message": "Go to link below to install the application for your operating system.",
+    "message": "转到下面的链接为您的操作系统安装应用程序。",
     "description": "Tells the user how to install the application."
   },
   "optionsInstallMessageLink": {
-    "message": "Visit DZA website",
+    "message": "访问 DZA 网站",
     "description": "Link to the application URL."
   },
   "optionsRefresh": {
-    "message": "Refresh information $SYMBOL$",
+    "message": "刷新信息 $SYMBOL$",
     "description": "Title of Refresh information",
     "placeholders": {
       "symbol" : {
@@ -165,23 +165,23 @@
   },
 
   "optionsStatus": {
-    "message": "Status:",
+    "message": "状态：",
     "description": "Title of Status"
   },
   "optionsOk": {
-    "message": "Ok",
+    "message": "确定",
     "description": "Title of Ok"
   },
   "optionsDetectedPath": {
-    "message": "Detected path:",
+    "message": "检测到的路径：",
     "description": "Title of Detected path"
   },
   "optionsError": {
-    "message": "Error: Can't find the launcher",
+    "message": "错误：找不到启动器",
     "description": "Title of Error"
   },
   "optionsInstructions": {
-    "message": "Follow the instructions below.",
+    "message": "请按照以下说明操作。",
     "description": "Title of Instructions"
   }
 }
