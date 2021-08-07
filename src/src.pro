@@ -139,6 +139,7 @@ TRANSLATIONS += \
     $$PWD/locale/dza_fr_FR.ts \ # French
     $$PWD/locale/dza_it_IT.ts \ # Italian
     $$PWD/locale/dza_ko_KR.ts \ # Korean
+    $$PWD/locale/dza_pl_PL.ts \ # Polish
     $$PWD/locale/dza_pt_BR.ts \ # Portuguese (Brazil)
     $$PWD/locale/dza_pt_PT.ts \ # Portuguese (Portugal)
     $$PWD/locale/dza_ru_RU.ts \ # Russian
