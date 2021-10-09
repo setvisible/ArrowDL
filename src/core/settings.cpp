@@ -42,6 +42,10 @@ static const QString REGISTRY_PROXY_PORT       = "ProxyPort";
 static const QString REGISTRY_PROXY_IS_AUTH    = "ProxyAuth";
 static const QString REGISTRY_PROXY_USERNAME   = "ProxyUser";
 static const QString REGISTRY_PROXY_PASSWORD   = "ProxyPwd";
+static const QString REGISTRY_REMOTE_CREATION  = "RemoteCreationTime";
+static const QString REGISTRY_REMOTE_LAST_MOD  = "RemoteLastModifiedTime";
+static const QString REGISTRY_REMOTE_ACCESS    = "RemoteAccessTime";
+static const QString REGISTRY_REMOTE_META_MOD  = "RemoteMetadataChangeTime";
 
 // Tab Network
 static const QString REGISTRY_MAX_SIMULTANEOUS = "MaxSimultaneous";
@@ -121,6 +125,11 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     addDefaultSettingBool(REGISTRY_PROXY_IS_AUTH, false);
     addDefaultSettingString(REGISTRY_PROXY_USERNAME, QLatin1String(""));
     addDefaultSettingString(REGISTRY_PROXY_PASSWORD, QLatin1String(""));
+
+    addDefaultSettingBool(REGISTRY_REMOTE_CREATION, true);
+    addDefaultSettingBool(REGISTRY_REMOTE_LAST_MOD, true);
+    addDefaultSettingBool(REGISTRY_REMOTE_ACCESS, false);
+    addDefaultSettingBool(REGISTRY_REMOTE_META_MOD, false);
 
     // Tab Privacy
     addDefaultSettingBool(REGISTRY_REMOVE_COMPLETED, false);
@@ -426,6 +435,46 @@ QString Settings::proxyPassword() const
 void Settings::setProxyPwd(const QString &text)
 {
     setSettingString(REGISTRY_PROXY_PASSWORD, text);
+}
+
+bool Settings::isRemoteCreationTimeEnabled() const
+{
+    return getSettingBool(REGISTRY_REMOTE_CREATION);
+}
+
+void Settings::setRemoteCreationTimeEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_REMOTE_CREATION, enabled);
+}
+
+bool Settings::isRemoteLastModifiedTimeEnabled() const
+{
+    return getSettingBool(REGISTRY_REMOTE_LAST_MOD);
+}
+
+void Settings::setRemoteLastModifiedTimeEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_REMOTE_LAST_MOD, enabled);
+}
+
+bool Settings::isRemoteAccessTimeEnabled() const
+{
+    return getSettingBool(REGISTRY_REMOTE_ACCESS);
+}
+
+void Settings::setRemoteAccessTimeEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_REMOTE_ACCESS, enabled);
+}
+
+bool Settings::isRemoteMetadataChangeTimeEnabled() const
+{
+    return getSettingBool(REGISTRY_REMOTE_META_MOD);
+}
+
+void Settings::setRemoteMetadataChangeTimeEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_REMOTE_META_MOD, enabled);
 }
 
 /******************************************************************************

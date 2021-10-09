@@ -188,6 +188,10 @@ void PreferenceDialog::initializeUi()
     ui->proxyPortLineEdit->setValidator(
                 new QIntValidator(std::numeric_limits<quint16>::min(),
                                   std::numeric_limits<quint16>::max(), this));
+    ui->useRemoteLastModifiedTimeCheckBox->setChecked(true);
+    ui->useRemoteCreationTimeCheckBox->setChecked(true);
+    ui->useRemoteAccessTimeCheckBox->setChecked(false);
+    ui->useRemoteMetadataChangeTimeCheckBox->setChecked(false);
 
 
     // Tab Privacy
@@ -481,6 +485,11 @@ void PreferenceDialog::read()
     ui->proxyUserLineEdit->setText(m_settings->proxyUser());
     ui->proxyPwdLineEdit->setText(m_settings->proxyPassword());
 
+    ui->useRemoteLastModifiedTimeCheckBox->setChecked(m_settings->isRemoteLastModifiedTimeEnabled());
+    ui->useRemoteCreationTimeCheckBox->setChecked(m_settings->isRemoteCreationTimeEnabled());
+    ui->useRemoteAccessTimeCheckBox->setChecked(m_settings->isRemoteAccessTimeEnabled());
+    ui->useRemoteMetadataChangeTimeCheckBox->setChecked(m_settings->isRemoteMetadataChangeTimeEnabled());
+
     // Tab Privacy
     ui->privacyRemoveCompletedCheckBox->setChecked(m_settings->isRemoveCompletedEnabled());
     ui->privacyRemoveCanceledCheckBox->setChecked(m_settings->isRemoveCanceledEnabled());
@@ -543,6 +552,11 @@ void PreferenceDialog::write()
     m_settings->setProxyAuthEnabled(ui->proxyAuthCheckBox->isChecked());
     m_settings->setProxyUser(ui->proxyUserLineEdit->text());
     m_settings->setProxyPwd(ui->proxyPwdLineEdit->text());
+
+    m_settings->setRemoteLastModifiedTimeEnabled(ui->useRemoteLastModifiedTimeCheckBox->isChecked());
+    m_settings->setRemoteCreationTimeEnabled(ui->useRemoteCreationTimeCheckBox->isChecked());
+    m_settings->setRemoteAccessTimeEnabled(ui->useRemoteAccessTimeCheckBox->isChecked());
+    m_settings->setRemoteMetadataChangeTimeEnabled(ui->useRemoteMetadataChangeTimeCheckBox->isChecked());
 
     // Tab Privacy
     m_settings->setRemoveCompletedEnabled(ui->privacyRemoveCompletedCheckBox->isChecked());

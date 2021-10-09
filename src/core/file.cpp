@@ -25,6 +25,8 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
 #include <QtCore/QSaveFile>
+#include <QtCore/QDate>
+#include <QtCore/QTime>
 
 static IFileAccessManager *s_fileAccessManager = Q_NULLPTR;
 
@@ -154,6 +156,51 @@ bool File::rename(ResourceItem *resource)
     return false;
 }
 
+/******************************************************************************
+ ******************************************************************************/
+void File::setCreationFileTime(const QDateTime &newDate)
+{
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+    if (m_file && m_file->isOpen()) {
+        m_file->setFileTime(newDate, QFileDevice::FileBirthTime);
+    }
+#else
+    Q_UNUSED(newDate)
+#endif
+}
+
+void File::setLastModifiedFileTime(const QDateTime &newDate)
+{
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+    if (m_file && m_file->isOpen()) {
+        m_file->setFileTime(newDate, QFileDevice::FileModificationTime);
+    }
+#else
+    Q_UNUSED(newDate)
+#endif
+}
+
+void File::setAccessFileTime(const QDateTime &newDate)
+{
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+    if (m_file && m_file->isOpen()) {
+        m_file->setFileTime(newDate, QFileDevice::FileAccessTime);
+    }
+#else
+    Q_UNUSED(newDate)
+#endif
+}
+
+void File::setMetadataChangeFileTime(const QDateTime &newDate)
+{
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+    if (m_file && m_file->isOpen()) {
+        m_file->setFileTime(newDate, QFileDevice::FileMetadataChangeTime);
+    }
+#else
+    Q_UNUSED(newDate)
+#endif
+}
 
 /******************************************************************************
  ******************************************************************************/
