@@ -113,7 +113,7 @@ The next table explains the differences between the packages.
 | Platform    | Status   |
 |-------------|----------|
 | Windows     | [![Build status](https://ci.appveyor.com/api/projects/status/github/setvisible/downzemall?branch=master&svg=true)](https://ci.appveyor.com/project/setvisible/downzemall)  |
-| Linux/MacOS | [![Build status](https://api.travis-ci.com/setvisible/downzemall.svg?branch=master)](https://travis-ci.com/setvisible/downzemall) |
+| Linux/MacOS | [![Build status](https://api.travis-ci.com/setvisible/downzemall.svg?branch=master)](https://app.travis-ci.com/github/setvisible/downzemall) |
 
 <br/>
 
