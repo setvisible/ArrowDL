@@ -50,6 +50,11 @@ public:
     bool rename(ResourceItem *resource);
     QString customFileName() const;
 
+    void setCreationFileTime(const QDateTime &newDate);
+    void setLastModifiedFileTime(const QDateTime &newDate);
+    void setAccessFileTime(const QDateTime &newDate);
+    void setMetadataChangeFileTime(const QDateTime &newDate);
+
 private:
     QSaveFile *m_file = Q_NULLPTR;
 

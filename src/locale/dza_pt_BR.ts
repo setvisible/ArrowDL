@@ -760,172 +760,172 @@ Você também pode usar indicadores de lote para baixar vários arquivos de uma 
 <context>
     <name>DownloadItem</name>
     <message>
-        <location filename="../core/downloaditem.cpp" line="247"/>
+        <location filename="../core/downloaditem.cpp" line="262"/>
         <source>No Error</source>
         <translation>Sem erro</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="250"/>
+        <location filename="../core/downloaditem.cpp" line="265"/>
         <source>3xx Redirect connection refused</source>
         <translation>3xx Conexão de redirecionamento recusada</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="251"/>
+        <location filename="../core/downloaditem.cpp" line="266"/>
         <source>3xx Redirect remote host closed</source>
         <translation>3xx Conexão ao servidor de redireciomanento fechada</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="252"/>
+        <location filename="../core/downloaditem.cpp" line="267"/>
         <source>3xx Redirect host not found</source>
         <translation>3xx Servidor de redirecionamento não encontrado</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="253"/>
+        <location filename="../core/downloaditem.cpp" line="268"/>
         <source>3xx Redirect timeout</source>
         <translation>3xx Tempo de redirecionamento expirado</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="254"/>
+        <location filename="../core/downloaditem.cpp" line="269"/>
         <source>3xx Redirect operation canceled</source>
         <translation>3xx Operação de redirecionamento cancelada</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="255"/>
+        <location filename="../core/downloaditem.cpp" line="270"/>
         <source>3xx Redirect SSL handshake failed</source>
         <translation>3xx Falha de comunicação handshake SSL com o servidor de redirecionamento</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="256"/>
+        <location filename="../core/downloaditem.cpp" line="271"/>
         <source>3xx Redirect temporary network failure</source>
         <translation>3xx Servidor de redirecionamento temporariamente indisponível</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="257"/>
+        <location filename="../core/downloaditem.cpp" line="272"/>
         <source>3xx Redirect network session failed</source>
         <translation>3xx Falha ao redirecionar sessão de rede</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="258"/>
+        <location filename="../core/downloaditem.cpp" line="273"/>
         <source>3xx Redirect background request not allowed</source>
         <translation>3xx Solicitação de redirecionamento em segundo plano não permitida</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="260"/>
+        <location filename="../core/downloaditem.cpp" line="275"/>
         <source>3xx Too many redirects</source>
         <translation>3xx Muitos redirecionamentos</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="261"/>
+        <location filename="../core/downloaditem.cpp" line="276"/>
         <source>3xx Insecure redirect</source>
         <translation>3xx Redirecionamento inseguro</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="263"/>
+        <location filename="../core/downloaditem.cpp" line="278"/>
         <source>3xx Unknown redirect error</source>
         <translation>3xx Erro de redirecionamento desconhecido</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="266"/>
+        <location filename="../core/downloaditem.cpp" line="281"/>
         <source>5xx Proxy connection refused</source>
         <translation>5xx Conexão proxy recusada</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="267"/>
+        <location filename="../core/downloaditem.cpp" line="282"/>
         <source>5xx Proxy connection closed</source>
         <translation>5xx Conexão proxy fechada</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="268"/>
+        <location filename="../core/downloaditem.cpp" line="283"/>
         <source>5xx Proxy not found</source>
         <translation>5xx Proxy não encontrado</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="269"/>
+        <location filename="../core/downloaditem.cpp" line="284"/>
         <source>504 Proxy timeout error</source>
         <translation>504 O tempo de conexão do proxy expirou</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="270"/>
+        <location filename="../core/downloaditem.cpp" line="285"/>
         <source>407 Proxy authentication required</source>
         <translation>407 Proxy requer autenticação</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="271"/>
+        <location filename="../core/downloaditem.cpp" line="286"/>
         <source>5xx Unknown proxy error</source>
         <translation>5xx Erro de proxy desconhecido</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="274"/>
+        <location filename="../core/downloaditem.cpp" line="289"/>
         <source>403 Access denied</source>
         <translation>403 Acesso ao servidor negado</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="275"/>
+        <location filename="../core/downloaditem.cpp" line="290"/>
         <source>405 Method not allowed</source>
         <translation>405 Método de solicitação não permitida</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="276"/>
+        <location filename="../core/downloaditem.cpp" line="291"/>
         <source>404 Not found</source>
         <translation>404 Conteúdo não encontrado</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="277"/>
+        <location filename="../core/downloaditem.cpp" line="292"/>
         <source>401 Authorization required</source>
         <translation>401 Autenticação necessária</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="278"/>
+        <location filename="../core/downloaditem.cpp" line="293"/>
         <source>4xx Resend error</source>
         <translation>4xx Erro ao retornar solicitação</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="279"/>
+        <location filename="../core/downloaditem.cpp" line="294"/>
         <source>409 Conflict</source>
         <translation>409 Conflito</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="280"/>
+        <location filename="../core/downloaditem.cpp" line="295"/>
         <source>410 Content no longer available</source>
         <translation>410 O conteúdo não está mais disponível</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="281"/>
+        <location filename="../core/downloaditem.cpp" line="296"/>
         <source>4xx Unknown content error</source>
         <translation>4xx Erro de recurso desconhecido</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="284"/>
+        <location filename="../core/downloaditem.cpp" line="299"/>
         <source>4xx Unknown protocol error</source>
         <translation>4xx Erro de protocolo desconhecido</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="285"/>
+        <location filename="../core/downloaditem.cpp" line="300"/>
         <source>400 Bad request</source>
         <translation>400x Sintaxe de requisição incorreta</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="286"/>
+        <location filename="../core/downloaditem.cpp" line="301"/>
         <source>4xx Protocol failure</source>
         <translation>4xx Falha de protocolo</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="289"/>
+        <location filename="../core/downloaditem.cpp" line="304"/>
         <source>500 Internal server error</source>
         <translation>500 Erro interno do servidor</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="290"/>
+        <location filename="../core/downloaditem.cpp" line="305"/>
         <source>501 Server does not support this functionality</source>
         <translation>501 Recurso solicitado não suportado pelo servidor</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="291"/>
+        <location filename="../core/downloaditem.cpp" line="306"/>
         <source>503 Service unavailable</source>
         <translation>503 Serviço indisponível</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="292"/>
+        <location filename="../core/downloaditem.cpp" line="307"/>
         <source>5xx Unknown serveur error</source>
         <translation>5xx Erro de servidor desconhecido</translation>
     </message>
@@ -2128,7 +2128,7 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     <name>PreferenceDialog</name>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="80"/>
-        <location filename="../dialogs/preferencedialog.ui" line="1120"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1164"/>
         <source>General</source>
         <translation>Geral</translation>
     </message>
@@ -2288,22 +2288,52 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
         <translation>Mostrar</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="872"/>
+        <location filename="../dialogs/preferencedialog.ui" line="704"/>
+        <source>Downloaded Files</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="710"/>
+        <source>Get time from server for the file&apos;s...:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="717"/>
+        <source>Last modified time</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="724"/>
+        <source>Creation time (may not be not supported on UNIX)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="731"/>
+        <source>Most recent access (e.g. read or written to)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="738"/>
+        <source>Metadata change time</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="916"/>
         <source>Identification</source>
         <translation>Identificação</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="658"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="672"/>
         <source>Servers might use HTTP identification contained in the HTTP request to log client attributes. Some server even don&apos;t respond to the client if the identification attribute is empty. The fields allow you to send fake information, to protect privacy.</source>
         <translation>Os servidores podem usar a identificação HTTP contida na solicitação HTTP para registrar a identidade do cliente. Alguns servidores bloqueiam a conexão se esta informação não for enviada. Os campos abaixo permitem que você envie informações falsas e ofusque as verdadeiras, afim de proteger o seu direito à privacidade.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="942"/>
+        <location filename="../dialogs/preferencedialog.ui" line="986"/>
         <source>HTTP User Agent:</source>
         <translation>Agent de usuário HTTP:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1042"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1086"/>
         <source>Filter</source>
         <translation>Filtro</translation>
     </message>
@@ -2343,279 +2373,279 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
         <translation>Autenticação</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="722"/>
+        <location filename="../dialogs/preferencedialog.ui" line="766"/>
         <source>Privacy</source>
         <translation>Privacidade</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="730"/>
+        <location filename="../dialogs/preferencedialog.ui" line="774"/>
         <source>When Manager window is closed</source>
         <translation>Quando o gerenciador for fechado</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="736"/>
+        <location filename="../dialogs/preferencedialog.ui" line="780"/>
         <source>Remove completed downloads</source>
         <translation>Remover downloads concluídos</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="743"/>
+        <location filename="../dialogs/preferencedialog.ui" line="787"/>
         <source>Remove canceled/failed downloads</source>
         <translation>Remover downloads cancelados ou com falha</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="750"/>
+        <location filename="../dialogs/preferencedialog.ui" line="794"/>
         <source>Remove unfinished (paused) downloads</source>
         <translation>Remover downloads inacabados (pausados)</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="818"/>
+        <location filename="../dialogs/preferencedialog.ui" line="862"/>
         <source>Database</source>
         <translation>Armazenamento de dados</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="824"/>
+        <location filename="../dialogs/preferencedialog.ui" line="868"/>
         <source>The current downloads queue is temporarly saved in:</source>
         <translation>A fila de downloads atual é temporariamente salva em:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="837"/>
+        <location filename="../dialogs/preferencedialog.ui" line="881"/>
         <source>Stream Cache</source>
         <translation>Cache de fluxo</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="848"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="687"/>
+        <location filename="../dialogs/preferencedialog.ui" line="892"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="701"/>
         <source>Clean Cache</source>
         <translation>Limpar o cache</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="760"/>
+        <location filename="../dialogs/preferencedialog.ui" line="804"/>
         <source>Auto Update</source>
         <translation>Atualização automática</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="766"/>
+        <location filename="../dialogs/preferencedialog.ui" line="810"/>
         <source>Check for updates automatically:</source>
         <translation>Verificar automaticamente se uma nova atualização está disponível:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="780"/>
+        <location filename="../dialogs/preferencedialog.ui" line="824"/>
         <source>Never</source>
         <translation>Nunca</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="785"/>
+        <location filename="../dialogs/preferencedialog.ui" line="829"/>
         <source>Once a day</source>
         <translation>Uma vez por dia</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="790"/>
+        <location filename="../dialogs/preferencedialog.ui" line="834"/>
         <source>Once a week</source>
         <translation>Uma vez por semana</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="804"/>
+        <location filename="../dialogs/preferencedialog.ui" line="848"/>
         <source>Check updates now...</source>
         <translation>Verificar se há atualizações agora...</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="956"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1000"/>
         <source>Enable Referrer:</source>
         <translation>Habilitar página de referência (referrer):</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="993"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1037"/>
         <source>Filters</source>
         <translation>Filtros</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="216"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="220"/>
         <source>Caption</source>
         <translation>Subtítulo</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="217"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="221"/>
         <source>Extensions</source>
         <translation>Extensões</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1051"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1095"/>
         <source>Caption:</source>
         <translation>Subtítulo:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1058"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1102"/>
         <source>Filtered Extensions:</source>
         <translation>Extensões filtradas:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1070"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1114"/>
         <source>Add New Filter</source>
         <translation>Adicionar novo filtro</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1077"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1121"/>
         <source>Update Filter</source>
         <translation>Atualizar filtro</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1084"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1128"/>
         <source>Remove Filter</source>
         <translation>Remover filtro</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1114"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1158"/>
         <source>Torrent</source>
         <translation>Torrents</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1126"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1170"/>
         <source>Enable Torrent</source>
         <translation>Habilitar Torrent</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1133"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1177"/>
         <source>If enabled, this software becomes a torrent client. It shares DHT (distributed hash table) with peers, .torrents files you share (those in your torrent share folder actually) and .torrents files currently downloading in the download queue.</source>
         <translation>Se habilitado, este programa se torna um cliente de torrent. Neste caso, ele compartilha o DHT (distributed hash table) com os pares, distribui os arquivos .torrents que você estiver semeando (aqueles localizados na pasta de compartilhamento) e envia/recebe arquivos .torrent  que estiverem atualmente na fila de download.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1146"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1190"/>
         <source>Directory</source>
         <translation>Diretório</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1152"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1196"/>
         <source>Share folder:</source>
         <translation>Compartilhar pasta:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1167"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1211"/>
         <source>Bandwidth</source>
         <translation>Largura de banda</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1175"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1219"/>
         <source>Max Upload Rate* (kB/s):</source>
         <translation>Taxa máxima de upload* (kB/s):</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1192"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1236"/>
         <source>Max Download Rate* (kB/s):</source>
         <translation>Taxa máximo de download* (kB/s):</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1209"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1253"/>
         <source>Max Number of Connections:</source>
         <translation>Número máximo de conexões:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1226"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1270"/>
         <source>Max Number of Peers per Torrent:</source>
         <translation>Número máximo de pares por torrent:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1245"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1289"/>
         <source>* (0: unlimited)</source>
         <translation>* (0: ilimitado)</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1268"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1312"/>
         <source>Connection</source>
         <translation>Conexão</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1274"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1318"/>
         <source>Peers:</source>
         <translation>Pares:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1281"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1325"/>
         <source>Ex: 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894</source>
         <translation>Exemplo: 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1288"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1332"/>
         <source>Note:  If not empty, these peers will be added to all torrents (format is &lt;IP:port&gt;. Ex: &quot;123.45.6.78:56789, 127.0.0.65:7894...&quot;)</source>
         <translation>Observação: se este campo não estiver vazio, esses pares serão adicionados a todos os torrents (o formato é &lt;IP: porta&gt;. Exemplo: &quot;123.45.6.78:56789, 127.0.0.65:7894 ...&quot;)</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1308"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1352"/>
         <source>Advanced</source>
         <translation>Avançado</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1356"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1400"/>
         <source>Restore default settings</source>
         <translation>Restaurar configurações padrão</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1382"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1426"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1398"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1442"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="195"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="199"/>
         <source>Queue Database</source>
         <translation>Lista de banco de dados</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="199"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="203"/>
         <source>Located in %0</source>
         <translation>Localizado em %0</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="205"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="209"/>
         <source>(none)</source>
         <translation>(nenhum)</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="237"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="241"/>
         <source>Warning: The system tray is not available.</source>
         <translation>Aviso: A bandeja do sistema não está disponível.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="240"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="244"/>
         <source>Warning: The system tray doesn&apos;t support balloon messages.</source>
         <translation>Aviso: A bandeja do sistema não suporta mensagens em balão.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="245"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="249"/>
         <source>Preferences</source>
         <translation>Preferências</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="311"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="315"/>
         <source>Reset all filters</source>
         <translation>Redefinir todos os filtros</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="624"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="633"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="638"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="647"/>
         <source>The host may be %0, %1 or %2</source>
         <translation>O host pode ser %0, %1 ou %2</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="629"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="643"/>
         <source>The host may be %0 but not %1</source>
         <translation>O host pode ser %0 mas não %1</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="640"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="654"/>
         <source>Examples:</source>
         <translation>Exemplos:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="664"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="678"/>
         <source>Referring Page (or Referrer) is an HTTP option that communicates to the server the address of the previous web page from which the resource is requested. This typically allows the HTTP server to track a visitor&apos;s browsing, page after page. To protect privacy, enter an empty or fake Referrer address.</source>
         <translation>Página de referência (ou Referrer) é uma opção HTTP que comunica ao servidor o endereço da página da web anterior da qual o recurso é solicitado. Isso normalmente permite que o servidor HTTP rastreie a navegação de um visitante, página após página. Para proteger o seu direito à privacidade, digite um endereço de referência vazio ou falso.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="676"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="690"/>
         <source>Cleaning...</source>
         <translation>Limpando...</translation>
     </message>
@@ -2845,47 +2875,47 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../core/settings.cpp" line="573"/>
+        <location filename="../core/settings.cpp" line="622"/>
         <source>All Files</source>
         <translation>Todos os arquivos</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="574"/>
+        <location filename="../core/settings.cpp" line="623"/>
         <source>Archives (zip, rar...)</source>
         <translation>Arquivos (zip, rar...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="575"/>
+        <location filename="../core/settings.cpp" line="624"/>
         <source>Application (exe, xpi...)</source>
         <translation>Aplicativos (exe, xpi...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="576"/>
+        <location filename="../core/settings.cpp" line="625"/>
         <source>Audio (mp3, wav...)</source>
         <translation>Áudio (mp3, wav..)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="577"/>
+        <location filename="../core/settings.cpp" line="626"/>
         <source>Documents (pdf, odf...)</source>
         <translation>Documentos (pdf, odf...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="578"/>
+        <location filename="../core/settings.cpp" line="627"/>
         <source>Images (jpg, png...)</source>
         <translation>Imagens (jpg, png...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="579"/>
+        <location filename="../core/settings.cpp" line="628"/>
         <source>Images JPEG</source>
         <translation>Imagens JPEG</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="580"/>
+        <location filename="../core/settings.cpp" line="629"/>
         <source>Images PNG</source>
         <translation>Imagens PNG</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="581"/>
+        <location filename="../core/settings.cpp" line="630"/>
         <source>Video (mpeg, avi...)</source>
         <translation>Vídeo (mpeg, avi...)</translation>
     </message>
