@@ -20,6 +20,7 @@
 #include <Core/File>
 #include <Core/NetworkManager>
 #include <Core/ResourceItem>
+#include <Core/Settings>
 
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
@@ -153,13 +154,33 @@ void DownloadItem::rename(const QString &newName)
 void DownloadItem::onMetaDataChanged()
 {
     if (d->reply) {
-        const QUrl oldUrl = d->resource->url();
-        const QUrl newUrl = d->reply->header(QNetworkRequest::LocationHeader).toUrl();
-        /* Check if the metadata change is a redirection */
-        if (newUrl.isValid() && oldUrl.isValid() && oldUrl != newUrl) {
-            qInfo("HTTP redirect: '%s' to '%s'.",
-                  oldUrl.toString().toLatin1().data(),
-                  newUrl.toString().toLatin1().data());
+        auto rawNewUrl = d->reply->header(QNetworkRequest::LocationHeader);
+        if (rawNewUrl.isValid()) {
+            const QUrl oldUrl = d->resource->url();
+            const QUrl newUrl = rawNewUrl.toUrl();
+            /* Check if the metadata change is a redirection */
+            if (newUrl.isValid() && oldUrl.isValid() && oldUrl != newUrl) {
+                qInfo("HTTP redirect: '%s' to '%s'.",
+                      oldUrl.toString().toLatin1().data(),
+                      newUrl.toString().toLatin1().data());
+            }
+        }
+        auto settings = d->downloadManager->settings();
+        auto rawTime = d->reply->header(QNetworkRequest::LastModifiedHeader);
+        if (settings && rawTime.isValid()) {
+            auto time = rawTime.toDateTime();
+            if (settings->isRemoteCreationTimeEnabled()) {
+                d->file->setCreationFileTime(time);
+            }
+            if (settings->isRemoteLastModifiedTimeEnabled()) {
+                d->file->setLastModifiedFileTime(time);
+            }
+            if (settings->isRemoteAccessTimeEnabled()) {
+                d->file->setAccessFileTime(time);
+            }
+            if (settings->isRemoteMetadataChangeTimeEnabled()) {
+                d->file->setMetadataChangeFileTime(time);
+            }
         }
     }
 }

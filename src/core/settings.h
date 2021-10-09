@@ -132,6 +132,18 @@ public:
     QString proxyPassword() const;
     void setProxyPwd(const QString &text);
 
+    bool isRemoteCreationTimeEnabled() const;
+    void setRemoteCreationTimeEnabled(bool enabled);
+
+    bool isRemoteLastModifiedTimeEnabled() const;
+    void setRemoteLastModifiedTimeEnabled(bool enabled);
+
+    bool isRemoteAccessTimeEnabled() const;
+    void setRemoteAccessTimeEnabled(bool enabled);
+
+    bool isRemoteMetadataChangeTimeEnabled() const;
+    void setRemoteMetadataChangeTimeEnabled(bool enabled);
+
     // Tab Privacy
     bool isRemoveCompletedEnabled() const;
     void setRemoveCompletedEnabled(bool enabled);

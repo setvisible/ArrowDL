@@ -416,7 +416,7 @@ QTabBar::tab:hover:!selected {
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_12">
        <item>
-        <widget class="QGroupBox" name="groupBox_8">
+        <widget class="QGroupBox" name="downloadLimitGroupBox">
          <property name="title">
           <string>Downloads</string>
          </property>
@@ -694,6 +694,50 @@ QTabBar::tab:hover:!selected {
              </widget>
             </item>
            </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="networkMetadataGroupBox">
+         <property name="title">
+          <string>Downloaded Files</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_24">
+          <item>
+           <widget class="QLabel" name="useRemoteLabel">
+            <property name="text">
+             <string>Get time from server for the file's...:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="useRemoteLastModifiedTimeCheckBox">
+            <property name="text">
+             <string>Last modified time</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="useRemoteCreationTimeCheckBox">
+            <property name="text">
+             <string>Creation time (may not be not supported on UNIX)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="useRemoteAccessTimeCheckBox">
+            <property name="text">
+             <string>Most recent access (e.g. read or written to)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="useRemoteMetadataChangeTimeCheckBox">
+            <property name="text">
+             <string>Metadata change time</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
