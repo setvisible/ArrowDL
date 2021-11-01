@@ -342,16 +342,16 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
 endif(MSVC OR MSYS OR MINGW)
 
 
-## youtube-dl
+## yt-dlp
 if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     install(FILES
-        ./3rd/youtube-dl/bin/youtube-dl.exe
+        ./3rd/yt-dlp/bin/yt-dlp.exe
         DESTINATION ${CMAKE_INSTALL_PREFIX}
         )
 
 else() # MacOS or Unix Compilers
     install(FILES
-        ./3rd/youtube-dl/bin/youtube-dl
+        ./3rd/yt-dlp/bin/yt-dlp
         PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
         DESTINATION ${CMAKE_INSTALL_PREFIX}
         )

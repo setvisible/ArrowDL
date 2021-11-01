@@ -36,12 +36,12 @@
 #include <algorithm> /* std::sort */
 
 #if defined Q_OS_WIN
-static const QString C_PROGRAM_NAME  = QLatin1String("youtube-dl.exe");
+static const QString C_PROGRAM_NAME  = QLatin1String("yt-dlp.exe");
 #else
-static const QString C_PROGRAM_NAME  = QLatin1String("youtube-dl");
+static const QString C_PROGRAM_NAME  = QLatin1String("yt-dlp");
 #endif
 
-static const QString C_WEBSITE_URL   = QLatin1String("http://ytdl-org.github.io/youtube-dl/");
+static const QString C_WEBSITE_URL   = QLatin1String("https://github.com/yt-dlp/yt-dlp");
 static const int     C_EXIT_SUCCESS  = 0;
 
 /*
@@ -301,7 +301,7 @@ QString Stream::fileName() const
 void Stream::start()
 {
     if (!isEmpty() && m_process->state() == QProcess::NotRunning) {
-        // Usage: youtube-dl.exe [OPTIONS] URL [URL...]
+        // Usage: yt-dlp.exe [OPTIONS] URL [URL...]
         QStringList arguments;
         arguments << QLatin1String("--output") << m_outputPath
                   << QLatin1String("--no-playlist")
@@ -346,7 +346,7 @@ void Stream::onStarted()
 void Stream::onError(QProcess::ProcessError error)
 {
     // Issue with the process configuration, or argument,
-    // or invalid path to "youtube-dl" program,
+    // or invalid path to "yt-dlp" program,
     // but not due to an invalid user input like invalid URL.
     debug(sender(), error);
 }
@@ -523,7 +523,7 @@ void StreamCleanCache::onFinished(int exitCode, QProcess::ExitStatus exitStatus)
             qWarning("Can't clean the cache.");
         }
     } else {
-        qWarning("The process (Youtube-DL) has crashed.");
+        qWarning("The process (YT-DLP) has crashed.");
     }
     // Even if crashed or not cleaned,
     // the process is set to done, to avoid being redone.
@@ -947,12 +947,12 @@ void StreamUpgrader::onFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
     if (exitStatus == QProcess::NormalExit) {
         if (exitCode == C_EXIT_SUCCESS) {
-            qInfo("Upgraded Youtube-DL.");
+            qInfo("Upgraded YT-DLP.");
         } else {
-            qWarning("Can't upgrade Youtube-DL.");
+            qWarning("Can't upgrade YT-DLP.");
         }
     } else {
-        qWarning("The process (Youtube-DL) has crashed.");
+        qWarning("The process (YT-DLP) has crashed.");
     }
     emit done();
 }

@@ -353,7 +353,7 @@ void MainWindow::createActions()
     connect(ui->actionAboutQt, SIGNAL(triggered()), QApplication::instance(), SLOT(aboutQt()));
 
     connect(ui->actionAboutCompiler, SIGNAL(triggered()), this, SLOT(aboutCompiler()));
-    connect(ui->actionAboutYoutubeDL, SIGNAL(triggered()), this, SLOT(aboutStream()));
+    connect(ui->actionAboutYTDLP, SIGNAL(triggered()), this, SLOT(aboutStream()));
     //! [5]
 
     propagateToolTips();
@@ -527,7 +527,7 @@ void MainWindow::propagateIcons()
         {ui->actionAbout                  , "about"}
         // {ui->actionAboutQt                , ""},
         // {ui->actionAboutCompiler          , ""},
-        // {ui->actionAboutYoutubeDL         , ""}
+        // {ui->actionAboutYTDLP             , ""}
         //! [5]
     };
     Theme::setIcons(this, map);
