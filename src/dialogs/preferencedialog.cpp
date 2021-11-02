@@ -28,6 +28,7 @@
 #include <Widgets/ThemeWidget>
 
 #include <QtCore/QDebug>
+#include <QtCore/QDir>
 #include <QtCore/QSettings>
 #include <QtCore/QSignalBlocker>
 #include <QtGui/QCloseEvent>
@@ -199,10 +200,13 @@ void PreferenceDialog::initializeUi()
     ui->browseDatabaseFile->setSuffixName(tr("Queue Database"));
     ui->browseDatabaseFile->setSuffix(".json");
 
+    ui->streamCleanCacheLabel->setOpenExternalLinks(true);
+    auto localFile = StreamCleanCache::cacheDir().toLocalFile();
     ui->streamCleanCacheLabel->setText(
                 tr("Located in %0").arg(
-                    QString("<a href=\"%0\">%0</a>").arg(
-                        StreamCleanCache::cacheDir())));
+                    QString("<a href=\"%0\">%1</a>").arg(
+                        localFile,
+                        QDir::toNativeSeparators(localFile))));
 
     ui->httpUserAgentComboBox->clear();
     ui->httpUserAgentComboBox->setEditable(true);

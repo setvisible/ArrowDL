@@ -898,9 +898,6 @@ QTabBar::tab:hover:!selected {
                 <property name="text">
                  <string notr="true">Located in &lt;a href=&quot;https://www.example.org/tutorial.html&quot;&gt;path/to/cache/dir/&lt;/a&gt;</string>
                 </property>
-                <property name="openExternalLinks">
-                 <bool>true</bool>
-                </property>
                </widget>
               </item>
              </layout>

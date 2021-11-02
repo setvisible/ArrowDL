@@ -29,6 +29,7 @@
 #include <QtCore/QMap>
 #include <QtCore/QtMath>
 #include <QtCore/QRegularExpression>
+#include <QtCore/QUrl>
 #ifdef QT_TESTLIB_LIB
 #  include <QtTest/QTest>
 #endif
@@ -489,7 +490,7 @@ void StreamCleanCache::runAsync()
     }
 }
 
-QString StreamCleanCache::cacheDir()
+QUrl StreamCleanCache::cacheDir()
 {
     // Try to get the .cache from $XDG_CACHE_HOME, if it's not set,
     // it has to be in ~/.cache as per XDG standard
@@ -497,7 +498,7 @@ QString StreamCleanCache::cacheDir()
     if (dir.isEmpty()) {
         dir = QDir::cleanPath(QDir::homePath() + QLatin1String("/.cache"));
     }
-    return QDir::toNativeSeparators(dir);
+    return QUrl::fromLocalFile(dir);
 }
 
 bool StreamCleanCache::isCleaned() const

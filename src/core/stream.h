@@ -26,6 +26,7 @@
 
 QT_BEGIN_NAMESPACE
 class QDebug;
+class QUrl;
 QT_END_NAMESPACE
 
 /*!
@@ -317,7 +318,7 @@ public:
     explicit StreamCleanCache(QObject *parent);
     ~StreamCleanCache() Q_DECL_OVERRIDE;
 
-    static QString cacheDir();
+    static QUrl cacheDir();
 
     void runAsync();
     bool isCleaned() const;
