@@ -6,11 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>240</width>
-    <height>178</height>
+    <width>273</width>
+    <height>180</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout_2">
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -24,178 +24,215 @@
     <number>0</number>
    </property>
    <item>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="2" column="0">
-      <widget class="QLabel" name="referringPageLabel">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>9</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Referring page:</string>
-       </property>
-      </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
+     <item>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="5" column="0">
+        <widget class="QLabel" name="maskLabel">
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>9</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Mask:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="customFileNameLineEdit">
+         <property name="placeholderText">
+          <string>Enter new file name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="urlLabel">
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>9</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Download:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="referringPageLineEdit">
+         <property name="placeholderText">
+          <string>Enter referrer URI</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="descriptionLineEdit"/>
+       </item>
+       <item row="4" column="1">
+        <widget class="PathWidget" name="pathWidget" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="hashLabel">
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>9</pointsize>
+           <weight>50</weight>
+           <italic>true</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Checksum (Hash):</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="referringPageLabel">
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>9</pointsize>
+           <weight>50</weight>
+           <italic>true</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Referring page:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="UrlLineEdit" name="urlLineEdit"/>
+       </item>
+       <item row="5" column="1">
+        <widget class="MaskWidget" name="maskWidget" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="descriptionLabel">
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>9</pointsize>
+           <weight>50</weight>
+           <italic>true</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Description:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLineEdit" name="hashLineEdit"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="customFileNameLabel">
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>9</pointsize>
+           <weight>75</weight>
+           <italic>true</italic>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Custom filename:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="pathLabel">
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>9</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Save files in:</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="descriptionLabel">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>9</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Description:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="referringPageLineEdit">
-       <property name="placeholderText">
-        <string>Enter referrer URI</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="maskLabel">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>9</pointsize>
-         <weight>50</weight>
-         <italic>false</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Mask:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="UrlLineEdit" name="urlLineEdit"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="customFileNameLabel">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>9</pointsize>
-         <weight>75</weight>
-         <italic>true</italic>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Custom filename:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="hashLabel">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>9</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Checksum (Hash):</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="QLineEdit" name="hashLineEdit"/>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="customFileNameLineEdit">
-       <property name="placeholderText">
-        <string>Enter new file name</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="PathWidget" name="pathWidget" native="true">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>20</height>
-        </size>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::StrongFocus</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="pathLabel">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>9</pointsize>
-         <weight>50</weight>
-         <italic>false</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Save files in:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="urlLabel">
-       <property name="font">
-        <font>
-         <family>Segoe UI</family>
-         <pointsize>9</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Download:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="descriptionLineEdit"/>
-     </item>
-     <item row="5" column="1">
-      <widget class="MaskWidget" name="maskWidget" native="true">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>20</height>
-        </size>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::StrongFocus</enum>
-       </property>
-      </widget>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QToolButton" name="collapseButton">
+         <property name="text">
+          <string notr="true"/>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::DownArrow</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
