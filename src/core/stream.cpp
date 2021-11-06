@@ -106,7 +106,7 @@ QString Stream::version()
 {
     if (s_youtubedl_version.isEmpty()) {
         auto arguments = QStringList()
-                << QLatin1String("--no-color")
+                << QLatin1String("--no-colors")
                 << QLatin1String("--version");
         QProcess process;
         process.setWorkingDirectory(qApp->applicationDirPath());
@@ -306,7 +306,7 @@ QStringList Stream::arguments() const
     QStringList arguments;
     arguments << QLatin1String("--output") << m_outputPath
               << QLatin1String("--no-playlist")
-              << QLatin1String("--no-color")
+              << QLatin1String("--no-colors") // BUGFIX '--no-color' for youtube-dl
               << QLatin1String("--no-check-certificate")
               << QLatin1String("--no-overwrites")  /// \todo only if "overwrite" user-setting is unset
               << QLatin1String("--no-continue")
@@ -493,7 +493,7 @@ void StreamCleanCache::runAsync()
 {
     if (m_process->state() == QProcess::NotRunning) {
         auto arguments = QStringList()
-                << QLatin1String("--no-color")
+                << QLatin1String("--no-colors")
                 << QLatin1String("--rm-cache-dir");
         m_process->setWorkingDirectory(qApp->applicationDirPath());
         m_process->start(C_PROGRAM_NAME, arguments);
@@ -597,7 +597,7 @@ void StreamObjectDownloader::runAsyncDumpJson()
         auto arguments = QStringList()
                 << QLatin1String("--dump-json")
                 << QLatin1String("--yes-playlist")
-                << QLatin1String("--no-color")
+                << QLatin1String("--no-colors")
                 << QLatin1String("--no-check-certificate")
                 << QLatin1String("--ignore-config")
                 << QLatin1String("--ignore-errors") // skip errors, like unavailable videos in a playlist
@@ -619,7 +619,7 @@ void StreamObjectDownloader::runAsyncFlatList()
                 << QLatin1String("--dump-json")
                 << QLatin1String("--flat-playlist")
                 << QLatin1String("--yes-playlist")
-                << QLatin1String("--no-color")
+                << QLatin1String("--no-colors")
                 << QLatin1String("--no-check-certificate")
                 << QLatin1String("--ignore-config")
                 << QLatin1String("--ignore-errors")
@@ -931,7 +931,7 @@ void StreamUpgrader::runAsync()
 {
     if (m_process->state() == QProcess::NotRunning) {
         auto arguments = QStringList()
-                << QLatin1String("--no-color")
+                << QLatin1String("--no-colors")
                 << QLatin1String("--update");
         m_process->setWorkingDirectory(qApp->applicationDirPath());
         m_process->start(C_PROGRAM_NAME, arguments);
@@ -1000,7 +1000,7 @@ void StreamExtractorListCollector::runAsync()
 {
     if (m_processExtractors->state() == QProcess::NotRunning) {
         auto arguments = QStringList()
-                << QLatin1String("--no-color")
+                << QLatin1String("--no-colors")
                 << QLatin1String("--list-extractors");
         m_processExtractors->setWorkingDirectory(qApp->applicationDirPath());
         m_processExtractors->start(C_PROGRAM_NAME,arguments);
@@ -1008,7 +1008,7 @@ void StreamExtractorListCollector::runAsync()
     }
     if (m_processDescriptions->state() == QProcess::NotRunning) {
         auto arguments = QStringList()
-                << QLatin1String("--no-color")
+                << QLatin1String("--no-colors")
                 << QLatin1String("--extractor-descriptions");
         m_processDescriptions->setWorkingDirectory(qApp->applicationDirPath());
         m_processDescriptions->start(C_PROGRAM_NAME,arguments);
