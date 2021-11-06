@@ -67,6 +67,8 @@ static const QString C_DOWNLOAD_next_section = QLatin1String("Destination:");
 
 static QString s_youtubedl_version = QString();
 static QString s_youtubedl_user_agent = QString();
+static int s_youtubedl_socket_type = 0;
+static int s_youtubedl_socket_timeout = 0;
 
 static void debug(QObject *sender, QProcess::ProcessError error);
 static QString generateErrorMessage(QProcess::ProcessError error);
@@ -131,6 +133,16 @@ QString Stream::website()
 void Stream::setUserAgent(const QString &userAgent)
 {
     s_youtubedl_user_agent = userAgent;
+}
+
+void Stream::setConnectionProtocol(int index)
+{
+    s_youtubedl_socket_type = index;
+}
+
+void Stream::setConnectionTimeout(int secs)
+{
+    s_youtubedl_socket_timeout = secs ? secs > 0 : 0;
 }
 
 /******************************************************************************
@@ -319,6 +331,15 @@ QStringList Stream::arguments() const
     if (!s_youtubedl_user_agent.isEmpty()) {
         // --user-agent option requires non-empty argument
         arguments << QLatin1String("--user-agent") << s_youtubedl_user_agent;
+    }
+    if (s_youtubedl_socket_timeout > 0) {
+        arguments << QLatin1String("--socket-timeout") << QString::number(s_youtubedl_socket_timeout);
+    }
+    switch (s_youtubedl_socket_type) {
+    case 1: arguments << QLatin1String("--force-ipv4"); break;
+    case 2: arguments << QLatin1String("--force-ipv6"); break;
+    default:
+        break;
     }
     if (!m_referringPage.isEmpty()) {
         arguments << QLatin1String("--referer") << m_referringPage;

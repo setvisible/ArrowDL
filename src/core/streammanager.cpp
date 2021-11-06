@@ -47,6 +47,8 @@ void StreamManager::onSettingsChanged()
 {
     if (m_settings) {
         Stream::setUserAgent(m_settings->httpUserAgent());
+        Stream::setConnectionProtocol(m_settings->connectionProtocol());
+        Stream::setConnectionTimeout(m_settings->connectionTimeout());
     }
 }
 

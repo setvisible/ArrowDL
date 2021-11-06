@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>750</width>
-    <height>530</height>
+    <height>600</height>
    </rect>
   </property>
   <property name="modal">
@@ -692,6 +692,81 @@ QTabBar::tab:hover:!selected {
                <string>Show</string>
               </property>
              </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="socketGroupBox">
+         <property name="title">
+          <string>Socket</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_26">
+          <item>
+           <layout class="QGridLayout" name="gridLayout_5">
+            <item row="0" column="1">
+             <widget class="QComboBox" name="connectionProtocolComboBox">
+              <item>
+               <property name="text">
+                <string>Tolerant (IPv4 or IPv6)</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Use IPv4 only</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Use IPv6 only</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QSpinBox" name="connectionTimeoutSpinBox">
+              <property name="suffix">
+               <string> seconds</string>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>3600</number>
+              </property>
+              <property name="value">
+               <number>30</number>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="connectionProtocolLabel">
+              <property name="text">
+               <string>Connection Protocol:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="connectionTimeoutLabel">
+              <property name="text">
+               <string>Timeout to establish a connection:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <spacer name="horizontalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </item>

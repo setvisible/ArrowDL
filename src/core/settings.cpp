@@ -16,6 +16,8 @@
 
 #include "settings.h"
 
+#include <Globals>
+
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <QtCore/QStandardPaths>
@@ -42,6 +44,8 @@ static const QString REGISTRY_PROXY_PORT       = "ProxyPort";
 static const QString REGISTRY_PROXY_IS_AUTH    = "ProxyAuth";
 static const QString REGISTRY_PROXY_USERNAME   = "ProxyUser";
 static const QString REGISTRY_PROXY_PASSWORD   = "ProxyPwd";
+static const QString REGISTRY_SOCKET_TYPE      = "SocketType";
+static const QString REGISTRY_SOCKET_TIMEOUT   = "SocketTimeout";
 static const QString REGISTRY_REMOTE_CREATION  = "RemoteCreationTime";
 static const QString REGISTRY_REMOTE_LAST_MOD  = "RemoteLastModifiedTime";
 static const QString REGISTRY_REMOTE_ACCESS    = "RemoteAccessTime";
@@ -125,6 +129,9 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     addDefaultSettingBool(REGISTRY_PROXY_IS_AUTH, false);
     addDefaultSettingString(REGISTRY_PROXY_USERNAME, QLatin1String(""));
     addDefaultSettingString(REGISTRY_PROXY_PASSWORD, QLatin1String(""));
+
+    addDefaultSettingInt(REGISTRY_SOCKET_TYPE, 0);
+    addDefaultSettingInt(REGISTRY_SOCKET_TIMEOUT, DEFAULT_TIMEOUT_SECS);
 
     addDefaultSettingBool(REGISTRY_REMOTE_CREATION, true);
     addDefaultSettingBool(REGISTRY_REMOTE_LAST_MOD, true);
@@ -435,6 +442,26 @@ QString Settings::proxyPassword() const
 void Settings::setProxyPwd(const QString &text)
 {
     setSettingString(REGISTRY_PROXY_PASSWORD, text);
+}
+
+int Settings::connectionProtocol() const
+{
+    return getSettingInt(REGISTRY_SOCKET_TYPE);
+}
+
+void Settings::setConnectionProtocol(int number)
+{
+    setSettingInt(REGISTRY_SOCKET_TYPE, number);
+}
+
+int Settings::connectionTimeout() const
+{
+    return getSettingInt(REGISTRY_SOCKET_TIMEOUT);
+}
+
+void Settings::setConnectionTimeout(int number)
+{
+    setSettingInt(REGISTRY_SOCKET_TIMEOUT, number);
 }
 
 bool Settings::isRemoteCreationTimeEnabled() const

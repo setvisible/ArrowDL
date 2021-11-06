@@ -189,6 +189,10 @@ void PreferenceDialog::initializeUi()
     ui->proxyPortLineEdit->setValidator(
                 new QIntValidator(std::numeric_limits<quint16>::min(),
                                   std::numeric_limits<quint16>::max(), this));
+
+    ui->connectionProtocolComboBox->setCurrentIndex(0);
+    ui->connectionTimeoutSpinBox->setValue(DEFAULT_TIMEOUT_SECS);
+
     ui->useRemoteLastModifiedTimeCheckBox->setChecked(true);
     ui->useRemoteCreationTimeCheckBox->setChecked(true);
     ui->useRemoteAccessTimeCheckBox->setChecked(false);
@@ -481,6 +485,9 @@ void PreferenceDialog::read()
     ui->customBatchButtonLabelLineEdit->setText(m_settings->customBatchButtonLabel());
     ui->customBatchRangeLineEdit->setText(m_settings->customBatchRange());
 
+    ui->connectionProtocolComboBox->setCurrentIndex(m_settings->connectionProtocol());
+    ui->connectionTimeoutSpinBox->setValue(m_settings->connectionTimeout());
+
     int proxyIndex = qBound(0, m_settings->proxyType(), ui->proxyTypeComboBox->count() - 1);
     ui->proxyTypeComboBox->setCurrentIndex(proxyIndex);
     ui->proxyAddressLineEdit->setText(m_settings->proxyHostName());
@@ -556,6 +563,9 @@ void PreferenceDialog::write()
     m_settings->setProxyAuthEnabled(ui->proxyAuthCheckBox->isChecked());
     m_settings->setProxyUser(ui->proxyUserLineEdit->text());
     m_settings->setProxyPwd(ui->proxyPwdLineEdit->text());
+
+    m_settings->setConnectionProtocol(ui->connectionProtocolComboBox->currentIndex());
+    m_settings->setConnectionTimeout(ui->connectionTimeoutSpinBox->value());
 
     m_settings->setRemoteLastModifiedTimeEnabled(ui->useRemoteLastModifiedTimeCheckBox->isChecked());
     m_settings->setRemoteCreationTimeEnabled(ui->useRemoteCreationTimeCheckBox->isChecked());

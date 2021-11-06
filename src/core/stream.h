@@ -240,6 +240,8 @@ public:
     static QString version();
     static QString website();
     static void setUserAgent(const QString &userAgent);
+    static void setConnectionProtocol(int index);
+    static void setConnectionTimeout(int secs);
 
     static bool matchesHost(const QString &host, const QStringList &regexHosts);
 

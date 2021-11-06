@@ -132,6 +132,12 @@ public:
     QString proxyPassword() const;
     void setProxyPwd(const QString &text);
 
+    int connectionProtocol() const;
+    void setConnectionProtocol(int number);
+
+    int connectionTimeout() const;
+    void setConnectionTimeout(int number);
+
     bool isRemoteCreationTimeEnabled() const;
     void setRemoteCreationTimeEnabled(bool enabled);
 
