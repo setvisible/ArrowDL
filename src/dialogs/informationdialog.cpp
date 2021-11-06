@@ -41,6 +41,11 @@ InformationDialog::InformationDialog(const QList<IDownloadItem *> &jobs, QWidget
     ui->urlFormWidget->setCollapsible(false);
     Theme::setIcons(this, { {ui->logo, "info"} });
 
+    ui->wrapCheckBox->setChecked(false);
+    ui->logTextEdit->setLineWrapMode(QPlainTextEdit::NoWrap);
+
+    connect(ui->wrapCheckBox, SIGNAL(toggled(bool)), this, SLOT(wrapLog(bool)));
+
     initialize(jobs);
     readUiSettings();
 }
@@ -132,4 +137,20 @@ void InformationDialog::initialize(const QList<IDownloadItem *> &items)
     if (downloadItem) {
         ui->urlFormWidget->setResource(downloadItem->resource());
     }
+
+    /* Log */
+    if (downloadItem) {
+        ui->logTextEdit->setPlainText(downloadItem->log());
+
+        // Scroll to last line
+        QTextCursor cursor = ui->logTextEdit->textCursor();
+        cursor.movePosition(QTextCursor::End);
+        ui->logTextEdit->setTextCursor(cursor);
+        ui->logTextEdit->ensureCursorVisible();
+    }
+}
+
+void InformationDialog::wrapLog(bool enabled)
+{
+    ui->logTextEdit->setLineWrapMode(enabled ? QPlainTextEdit::WidgetWidth : QPlainTextEdit::NoWrap);
 }

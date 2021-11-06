@@ -52,6 +52,7 @@ public:
 
     virtual int maxConnectionSegments() const = 0;
     virtual int maxConnections() const = 0;
+    virtual QString log() const = 0;
 
     virtual QUrl sourceUrl() const = 0;
     virtual QString localFullFileName() const = 0;

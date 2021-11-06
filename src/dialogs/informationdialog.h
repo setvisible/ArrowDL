@@ -36,6 +36,9 @@ public:
 public slots:
     void accept() Q_DECL_OVERRIDE;
 
+private slots:
+    void wrapLog(bool enabled);
+
 private:
     Ui::InformationDialog *ui;
     QList<IDownloadItem *> m_items;

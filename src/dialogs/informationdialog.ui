@@ -165,6 +165,33 @@
        <string>Options</string>
       </attribute>
      </widget>
+     <widget class="QWidget" name="log">
+      <attribute name="title">
+       <string>Messages</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QCheckBox" name="wrapCheckBox">
+         <property name="text">
+          <string>Wrap line</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPlainTextEdit" name="logTextEdit">
+         <property name="font">
+          <font>
+           <family>Courier</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="plainText">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
    <item>
