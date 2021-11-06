@@ -30,7 +30,7 @@ class InformationDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit InformationDialog(const QList<IDownloadItem*> &jobs, QWidget *parent);
+    explicit InformationDialog(const QList<IDownloadItem *> &jobs, QWidget *parent);
     ~InformationDialog() Q_DECL_OVERRIDE;
 
 public slots:
@@ -41,6 +41,9 @@ private:
     QList<IDownloadItem *> m_items;
 
     void initialize(const QList<IDownloadItem*> &items);
+
+    void readUiSettings();
+    void writeUiSettings();
 };
 
 #endif // DIALOGS_INFORMATION_DIALOG_H

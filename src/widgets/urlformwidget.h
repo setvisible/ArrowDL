@@ -58,6 +58,9 @@ public:
     QString currentMask() const;
     void setCurrentMask(const QString &text);
 
+    bool isCollapsible() const;
+    void setCollapsible(bool enabled);
+
 signals:
     void changed(QString);
 

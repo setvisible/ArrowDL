@@ -195,6 +195,22 @@ void UrlFormWidget::setCurrentMask(const QString &text)
 
 /******************************************************************************
  ******************************************************************************/
+bool UrlFormWidget::isCollapsible() const
+{
+    return ui->collapseButton->isVisible();
+}
+
+void UrlFormWidget::setCollapsible(bool enabled)
+{
+    ui->collapseButton->setVisible(enabled);
+    if (!enabled) {
+        setCollapsed(false);
+    }
+    updateGeometry();
+}
+
+/******************************************************************************
+ ******************************************************************************/
 bool UrlFormWidget::isCollapsed() const
 {
     return m_isCollapsed;
@@ -223,7 +239,9 @@ void UrlFormWidget::readSettings()
 {
     QSettings settings;
     settings.beginGroup("Wizard");
-    setCollapsed(settings.value("Collapsed", false).toBool());
+    if (isCollapsible()) {
+        setCollapsed(settings.value("Collapsed", false).toBool());
+    }
     setCurrentPath(settings.value("Path", QString()).toString());
     setPathHistory(settings.value("PathHistory").toStringList());
     setCurrentMask(settings.value("Mask", QString()).toString());
@@ -234,7 +252,9 @@ void UrlFormWidget::writeSettings()
 {
     QSettings settings;
     settings.beginGroup("Wizard");
-    settings.setValue("Collapsed", isCollapsed());
+    if (isCollapsible()) {
+        settings.setValue("Collapsed", isCollapsed());
+    }
     settings.setValue("Path", currentPath());
     settings.setValue("PathHistory", pathHistory());
     settings.setValue("Mask", currentMask());
