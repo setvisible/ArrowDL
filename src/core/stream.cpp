@@ -304,19 +304,18 @@ QString Stream::fileName() const
 QStringList Stream::arguments() const
 {
     QStringList arguments;
-    arguments << QLatin1String("--output") << m_outputPath
-              << QLatin1String("--no-playlist")
-              << QLatin1String("--no-colors") // BUGFIX '--no-color' for youtube-dl
-              << QLatin1String("--no-check-certificate")
-              << QLatin1String("--no-overwrites")  /// \todo only if "overwrite" user-setting is unset
-              << QLatin1String("--no-continue")
-              << QLatin1String("--no-part") // No .part file: write directly into output file
-              << QLatin1String("--no-mtime") // don't change file modification time
-              << QLatin1String("--no-cache-dir")
-              << QLatin1String("--restrict-filenames") // ASCII filename only
-              << QLatin1String("--ignore-config")
-              << QLatin1String("--format") << m_selectedFormatId.toString()
-              << m_url;
+    arguments << m_url;
+    arguments << QLatin1String("--no-playlist");
+    arguments << QLatin1String("--no-colors"); // BUGFIX '--no-color' for youtube-dl
+    arguments << QLatin1String("--no-check-certificate");
+    arguments << QLatin1String("--no-overwrites");  /// \todo only if "overwrite" user-setting is unset
+    arguments << QLatin1String("--no-continue");
+    arguments << QLatin1String("--no-part"); // No .part file: write directly into output file
+    arguments << QLatin1String("--no-mtime"); // don't change file modification time
+    arguments << QLatin1String("--no-cache-dir");
+    arguments << QLatin1String("--restrict-filenames"); // ASCII filename only
+    arguments << QLatin1String("--ignore-config");
+    arguments << QLatin1String("--format") << m_selectedFormatId.toString();
     if (!s_youtubedl_user_agent.isEmpty()) {
         // --user-agent option requires non-empty argument
         arguments << QLatin1String("--user-agent") << s_youtubedl_user_agent;
@@ -327,6 +326,8 @@ QStringList Stream::arguments() const
     if (isMergeFormat(m_fileExtension)) {
         arguments << QLatin1String("--merge-output-format") << m_fileExtension;
     }
+
+    arguments << QLatin1String("--output") << m_outputPath;
     return arguments;
 }
 
