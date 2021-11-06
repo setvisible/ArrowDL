@@ -393,6 +393,7 @@ public:
 
     static QString version();
     static QString website();
+    static void setLastModifiedTimeEnabled(bool enabled);
     static void setUserAgent(const QString &userAgent);
     static void setConnectionProtocol(int index);
     static void setConnectionTimeout(int secs);

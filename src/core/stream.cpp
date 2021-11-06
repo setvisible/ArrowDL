@@ -66,6 +66,7 @@ static const QString C_DOWNLOAD_next_section = QLatin1String("Destination:");
 
 
 static QString s_youtubedl_version = QString();
+static bool s_youtubedl_last_modified_time_enabled = true;
 static QString s_youtubedl_user_agent = QString();
 static int s_youtubedl_socket_type = 0;
 static int s_youtubedl_socket_timeout = 0;
@@ -128,6 +129,11 @@ QString Stream::version()
 QString Stream::website()
 {
     return C_WEBSITE_URL;
+}
+
+void Stream::setLastModifiedTimeEnabled(bool enabled)
+{
+    s_youtubedl_last_modified_time_enabled = enabled;
 }
 
 void Stream::setUserAgent(const QString &userAgent)
@@ -339,7 +345,6 @@ QStringList Stream::arguments() const
     arguments << QLatin1String("--no-overwrites");  /// \todo only if "overwrite" user-setting is unset
     arguments << QLatin1String("--no-continue");
     arguments << QLatin1String("--no-part"); // No .part file: write directly into output file
-    arguments << QLatin1String("--no-mtime"); // don't change file modification time
     arguments << QLatin1String("--no-playlist"); // No need to download playlist
     // arguments << QLatin1String("--prefer-insecure");
     arguments << QLatin1String("--restrict-filenames"); // ASCII filename only
@@ -370,6 +375,11 @@ QStringList Stream::arguments() const
     }
 
     arguments << QLatin1String("--format") << m_selectedFormatId.toString();
+
+    /* Global settings */
+    if (!s_youtubedl_last_modified_time_enabled) {
+        arguments << QLatin1String("--no-mtime");
+    }
     if (!s_youtubedl_user_agent.isEmpty()) {
         // --user-agent option requires non-empty argument
         arguments << QLatin1String("--user-agent") << s_youtubedl_user_agent;
