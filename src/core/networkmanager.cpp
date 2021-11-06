@@ -53,7 +53,7 @@ void NetworkManager::setSettings(Settings *settings)
 
 void NetworkManager::onSettingsChanged()
 {
-    setProxySettings(m_settings);
+    setNetworkSettings(m_settings);
 }
 
 /******************************************************************************
@@ -78,12 +78,13 @@ static QNetworkProxy::ProxyType toProxyType(int index)
     return QNetworkProxy::NoProxy;
 }
 
-void NetworkManager::setProxySettings(Settings *settings)
+void NetworkManager::setNetworkSettings(Settings *settings)
 {
     Q_ASSERT(m_networkAccessManager);
     if (!settings) {
         return;
     }
+    // Proxy options
     QNetworkProxy::ProxyType type = toProxyType(settings->proxyType());
     if (type == QNetworkProxy::NoProxy) {
         QNetworkProxy::setApplicationProxy(type);

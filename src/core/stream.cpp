@@ -72,6 +72,8 @@ static void debug(QObject *sender, QProcess::ProcessError error);
 static QString generateErrorMessage(QProcess::ProcessError error);
 static QString toString(QProcess *process);
 
+static void debugPrintProcessCommand(QProcess *process);
+
 static QString standardToString(const QByteArray &ba)
 {
     return QString::fromLatin1(ba).simplified();
@@ -103,12 +105,12 @@ Stream::~Stream()
 QString Stream::version()
 {
     if (s_youtubedl_version.isEmpty()) {
+        auto arguments = QStringList()
+                << QLatin1String("--no-color")
+                << QLatin1String("--version");
         QProcess process;
         process.setWorkingDirectory(qApp->applicationDirPath());
-        process.start(
-                    C_PROGRAM_NAME, QStringList()
-                    << QLatin1String("--no-color")
-                    << QLatin1String("--version"));
+        process.start(C_PROGRAM_NAME, arguments);
         if (!process.waitForStarted()) {
             return QLatin1String("unknown");
         }
@@ -299,36 +301,44 @@ QString Stream::fileName() const
 
 /******************************************************************************
  ******************************************************************************/
+QStringList Stream::arguments() const
+{
+    QStringList arguments;
+    arguments << QLatin1String("--output") << m_outputPath
+              << QLatin1String("--no-playlist")
+              << QLatin1String("--no-color")
+              << QLatin1String("--no-check-certificate")
+              << QLatin1String("--no-overwrites")  /// \todo only if "overwrite" user-setting is unset
+              << QLatin1String("--no-continue")
+              << QLatin1String("--no-part") // No .part file: write directly into output file
+              << QLatin1String("--no-mtime") // don't change file modification time
+              << QLatin1String("--no-cache-dir")
+              << QLatin1String("--restrict-filenames") // ASCII filename only
+              << QLatin1String("--ignore-config")
+              << QLatin1String("--format") << m_selectedFormatId.toString()
+              << m_url;
+    if (!s_youtubedl_user_agent.isEmpty()) {
+        // --user-agent option requires non-empty argument
+        arguments << QLatin1String("--user-agent") << s_youtubedl_user_agent;
+    }
+    if (!m_referringPage.isEmpty()) {
+        arguments << QLatin1String("--referer") << m_referringPage;
+    }
+    if (isMergeFormat(m_fileExtension)) {
+        arguments << QLatin1String("--merge-output-format") << m_fileExtension;
+    }
+    return arguments;
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void Stream::start()
 {
     if (!isEmpty() && m_process->state() == QProcess::NotRunning) {
         // Usage: yt-dlp.exe [OPTIONS] URL [URL...]
-        QStringList arguments;
-        arguments << QLatin1String("--output") << m_outputPath
-                  << QLatin1String("--no-playlist")
-                  << QLatin1String("--no-color")
-                  << QLatin1String("--no-check-certificate")
-                  << QLatin1String("--no-overwrites")  /// \todo only if "overwrite" user-setting is unset
-                  << QLatin1String("--no-continue")
-                  << QLatin1String("--no-part") // No .part file: write directly into output file
-                  << QLatin1String("--no-mtime") // don't change file modification time
-                  << QLatin1String("--no-cache-dir")
-                  << QLatin1String("--restrict-filenames") // ASCII filename only
-                  << QLatin1String("--ignore-config")
-                  << QLatin1String("--format") << m_selectedFormatId.toString()
-                  << m_url;
-        if (!s_youtubedl_user_agent.isEmpty()) {
-            // --user-agent option requires non-empty argument
-            arguments << QLatin1String("--user-agent") << s_youtubedl_user_agent;
-        }
-        if (!m_referringPage.isEmpty()) {
-            arguments << QLatin1String("--referer") << m_referringPage;
-        }
-        if (isMergeFormat(m_fileExtension)) {
-            arguments << QLatin1String("--merge-output-format") << m_fileExtension;
-        }
         m_process->setWorkingDirectory(qApp->applicationDirPath());
-        m_process->start(C_PROGRAM_NAME, arguments);
+        m_process->start(C_PROGRAM_NAME, arguments());
+        debugPrintProcessCommand(m_process);
     }
 }
 
@@ -482,11 +492,12 @@ StreamCleanCache::~StreamCleanCache()
 void StreamCleanCache::runAsync()
 {
     if (m_process->state() == QProcess::NotRunning) {
+        auto arguments = QStringList()
+                << QLatin1String("--no-color")
+                << QLatin1String("--rm-cache-dir");
         m_process->setWorkingDirectory(qApp->applicationDirPath());
-        m_process->start(
-                    C_PROGRAM_NAME, QStringList()
-                    << QLatin1String("--no-color")
-                    << QLatin1String("--rm-cache-dir"));
+        m_process->start(C_PROGRAM_NAME, arguments);
+        debugPrintProcessCommand(m_process);
     }
 }
 
@@ -583,41 +594,43 @@ void StreamObjectDownloader::runAsync(const QString &url)
 void StreamObjectDownloader::runAsyncDumpJson()
 {
     if (m_processDumpJson->state() == QProcess::NotRunning) {
-        QStringList arguments;
-        arguments << QLatin1String("--dump-json")
-                  << QLatin1String("--yes-playlist")
-                  << QLatin1String("--no-color")
-                  << QLatin1String("--no-check-certificate")
-                  << QLatin1String("--ignore-config")
-                  << QLatin1String("--ignore-errors") // skip errors, like unavailable videos in a playlist
-                  << m_url;
+        auto arguments = QStringList()
+                << QLatin1String("--dump-json")
+                << QLatin1String("--yes-playlist")
+                << QLatin1String("--no-color")
+                << QLatin1String("--no-check-certificate")
+                << QLatin1String("--ignore-config")
+                << QLatin1String("--ignore-errors") // skip errors, like unavailable videos in a playlist
+                << m_url;
         if (!s_youtubedl_user_agent.isEmpty()) {
             // --user-agent option requires non-empty argument
             arguments << QLatin1String("--user-agent") << s_youtubedl_user_agent;
         }
         m_processDumpJson->setWorkingDirectory(qApp->applicationDirPath());
         m_processDumpJson->start(C_PROGRAM_NAME, arguments);
+        debugPrintProcessCommand(m_processDumpJson);
     }
 }
 
 void StreamObjectDownloader::runAsyncFlatList()
 {
     if (m_processFlatList->state() == QProcess::NotRunning) {
-        QStringList arguments;
-        arguments << QLatin1String("--dump-json")
-                  << QLatin1String("--flat-playlist")
-                  << QLatin1String("--yes-playlist")
-                  << QLatin1String("--no-color")
-                  << QLatin1String("--no-check-certificate")
-                  << QLatin1String("--ignore-config")
-                  << QLatin1String("--ignore-errors")
-                  << m_url;
+        auto arguments = QStringList()
+                << QLatin1String("--dump-json")
+                << QLatin1String("--flat-playlist")
+                << QLatin1String("--yes-playlist")
+                << QLatin1String("--no-color")
+                << QLatin1String("--no-check-certificate")
+                << QLatin1String("--ignore-config")
+                << QLatin1String("--ignore-errors")
+                << m_url;
         if (!s_youtubedl_user_agent.isEmpty()) {
             // --user-agent option requires non-empty argument
             arguments << QLatin1String("--user-agent") << s_youtubedl_user_agent;
         }
         m_processFlatList->setWorkingDirectory(qApp->applicationDirPath());
         m_processFlatList->start(C_PROGRAM_NAME, arguments);
+        debugPrintProcessCommand(m_processFlatList);
     }
 }
 
@@ -917,11 +930,12 @@ StreamUpgrader::~StreamUpgrader()
 void StreamUpgrader::runAsync()
 {
     if (m_process->state() == QProcess::NotRunning) {
+        auto arguments = QStringList()
+                << QLatin1String("--no-color")
+                << QLatin1String("--update");
         m_process->setWorkingDirectory(qApp->applicationDirPath());
-        m_process->start(
-                    C_PROGRAM_NAME, QStringList()
-                    << QLatin1String("--no-color")
-                    << QLatin1String("--update"));
+        m_process->start(C_PROGRAM_NAME, arguments);
+        debugPrintProcessCommand(m_process);
     }
 }
 
@@ -985,18 +999,20 @@ StreamExtractorListCollector::~StreamExtractorListCollector()
 void StreamExtractorListCollector::runAsync()
 {
     if (m_processExtractors->state() == QProcess::NotRunning) {
+        auto arguments = QStringList()
+                << QLatin1String("--no-color")
+                << QLatin1String("--list-extractors");
         m_processExtractors->setWorkingDirectory(qApp->applicationDirPath());
-        m_processExtractors->start(
-                    C_PROGRAM_NAME, QStringList()
-                    << QLatin1String("--no-color")
-                    << QLatin1String("--list-extractors"));
+        m_processExtractors->start(C_PROGRAM_NAME,arguments);
+        debugPrintProcessCommand(m_processExtractors);
     }
     if (m_processDescriptions->state() == QProcess::NotRunning) {
+        auto arguments = QStringList()
+                << QLatin1String("--no-color")
+                << QLatin1String("--extractor-descriptions");
         m_processDescriptions->setWorkingDirectory(qApp->applicationDirPath());
-        m_processDescriptions->start(
-                    C_PROGRAM_NAME, QStringList()
-                    << QLatin1String("--no-color")
-                    << QLatin1String("--extractor-descriptions"));
+        m_processDescriptions->start(C_PROGRAM_NAME,arguments);
+        debugPrintProcessCommand(m_processDescriptions);
     }
 }
 
@@ -1540,3 +1556,15 @@ QDebug operator<<(QDebug dbg, const StreamObject *streamObject)
     return dbg.space();
 }
 #endif
+
+void debugPrintProcessCommand(QProcess *process)
+{
+    QString text = "";
+    text +=  process->program();
+    text +=  " ";
+    foreach (auto arg, process->arguments()) {
+        text +=  arg;
+        text +=  " ";
+    }
+    qDebug() << text;
+}

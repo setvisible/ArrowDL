@@ -305,6 +305,7 @@ private:
 
     qint64 _q_bytesTotal() const;
     bool isMergeFormat(const QString &suffix) const;
+    QStringList arguments() const;
 };
 
 /******************************************************************************
