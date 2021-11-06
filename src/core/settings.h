@@ -150,6 +150,27 @@ public:
     bool isRemoteMetadataChangeTimeEnabled() const;
     void setRemoteMetadataChangeTimeEnabled(bool enabled);
 
+    bool isStreamMarkWatchedEnabled() const;
+    void setStreamMarkWatchedEnabled(bool enabled);
+
+    bool isStreamSubtitleEnabled() const;
+    void setStreamSubtitleEnabled(bool enabled);
+
+    bool isStreamThumbnailEnabled() const;
+    void setStreamThumbnailEnabled(bool enabled);
+
+    bool isStreamDescriptionEnabled() const;
+    void setStreamDescriptionEnabled(bool enabled);
+
+    bool isStreamMetadataEnabled() const;
+    void setStreamMetadataEnabled(bool enabled);
+
+    bool isStreamCommentEnabled() const;
+    void setStreamCommentEnabled(bool enabled);
+
+    bool isStreamShortcutEnabled() const;
+    void setStreamShortcutEnabled(bool enabled);
+
     // Tab Privacy
     bool isRemoveCompletedEnabled() const;
     void setRemoveCompletedEnabled(bool enabled);

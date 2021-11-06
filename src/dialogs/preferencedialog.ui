@@ -774,48 +774,130 @@ QTabBar::tab:hover:!selected {
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="networkMetadataGroupBox">
-         <property name="title">
-          <string>Downloaded Files</string>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <property name="topMargin">
+          <number>10</number>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_24">
-          <item>
-           <widget class="QLabel" name="useRemoteLabel">
-            <property name="text">
-             <string>Get time from server for the file's...:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="useRemoteLastModifiedTimeCheckBox">
-            <property name="text">
-             <string>Last modified time</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="useRemoteCreationTimeCheckBox">
-            <property name="text">
-             <string>Creation time (may not be not supported on UNIX)</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="useRemoteAccessTimeCheckBox">
-            <property name="text">
-             <string>Most recent access (e.g. read or written to)</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="useRemoteMetadataChangeTimeCheckBox">
-            <property name="text">
-             <string>Metadata change time</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
+         <item>
+          <widget class="QGroupBox" name="networkMetadataGroupBox">
+           <property name="title">
+            <string>Downloaded Files</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_24">
+            <item>
+             <widget class="QLabel" name="useRemoteLabel">
+              <property name="text">
+               <string>Get time from server for the file's...:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="useRemoteLastModifiedTimeCheckBox">
+              <property name="text">
+               <string>Last modified time</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="useRemoteCreationTimeCheckBox">
+              <property name="text">
+               <string>Creation time (may not be not supported on UNIX)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="useRemoteAccessTimeCheckBox">
+              <property name="text">
+               <string>Most recent access (e.g. read or written to)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="useRemoteMetadataChangeTimeCheckBox">
+              <property name="text">
+               <string>Metadata change time</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="streamExtraDataGroupBox">
+           <property name="title">
+            <string>Downloaded Audio/Video</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_25">
+            <item>
+             <layout class="QGridLayout" name="gridLayout_6">
+              <item row="1" column="0">
+               <widget class="QCheckBox" name="streamSubtitleCheckBox">
+                <property name="text">
+                 <string>Download subtitle</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QCheckBox" name="streamDescriptionCheckBox">
+                <property name="text">
+                 <string>Download description</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QCheckBox" name="streamMarkWatchedCheckBox">
+                <property name="text">
+                 <string>Mark watched (only for Youtube)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QCheckBox" name="streamThumbnailCheckBox">
+                <property name="text">
+                 <string>Download thumbnail</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QCheckBox" name="streamMetadataCheckBox">
+                <property name="text">
+                 <string>Download metadata</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QCheckBox" name="streamCommentCheckBox">
+                <property name="text">
+                 <string>Download comments </string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QCheckBox" name="streamShortcutCheckBox">
+                <property name="text">
+                 <string>Create internet shortcut</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>8</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <spacer name="verticalSpacer_4">

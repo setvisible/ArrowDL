@@ -151,7 +151,20 @@ void AddStreamDialog::onError(const QString &errorMessage)
 void AddStreamDialog::onCollected(const QList<StreamObject> &streamObjects)
 {
     setGuiEnabled(true);
-    ui->streamListWidget->setStreamObjects(streamObjects);
+    QList<StreamObject> copy;
+    foreach (auto streamObject, streamObjects) {
+        auto config = streamObject.config();
+        config.overview.markWatched = m_settings->isStreamMarkWatchedEnabled();
+        config.subtitle.writeDefaultSubtitle = m_settings->isStreamSubtitleEnabled();
+        config.thumbnail.writeDefaultThumbnail = m_settings->isStreamThumbnailEnabled();
+        config.metadata.writeDescription = m_settings->isStreamDescriptionEnabled();
+        config.metadata.writeMetadata = m_settings->isStreamMetadataEnabled();
+        config.metadata.writeInternetShortcut = m_settings->isStreamCommentEnabled();
+        config.comment.writeComment = m_settings->isStreamCommentEnabled();
+        streamObject.setConfig(config);
+        copy.append(streamObject);
+    }
+    ui->streamListWidget->setStreamObjects(copy);
     onChanged(QString());
 }
 

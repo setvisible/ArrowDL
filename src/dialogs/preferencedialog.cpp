@@ -198,6 +198,13 @@ void PreferenceDialog::initializeUi()
     ui->useRemoteAccessTimeCheckBox->setChecked(false);
     ui->useRemoteMetadataChangeTimeCheckBox->setChecked(false);
 
+    ui->streamMarkWatchedCheckBox->setChecked(false);
+    ui->streamSubtitleCheckBox->setChecked(false);
+    ui->streamThumbnailCheckBox->setChecked(false);
+    ui->streamDescriptionCheckBox->setChecked(false);
+    ui->streamMetadataCheckBox->setChecked(false);
+    ui->streamCommentCheckBox->setChecked(false);
+    ui->streamShortcutCheckBox->setChecked(false);
 
     // Tab Privacy
     ui->browseDatabaseFile->setPathType(PathWidget::File);
@@ -501,6 +508,14 @@ void PreferenceDialog::read()
     ui->useRemoteAccessTimeCheckBox->setChecked(m_settings->isRemoteAccessTimeEnabled());
     ui->useRemoteMetadataChangeTimeCheckBox->setChecked(m_settings->isRemoteMetadataChangeTimeEnabled());
 
+    ui->streamMarkWatchedCheckBox->setChecked(m_settings->isStreamMarkWatchedEnabled());
+    ui->streamSubtitleCheckBox->setChecked(m_settings->isStreamSubtitleEnabled());
+    ui->streamThumbnailCheckBox->setChecked(m_settings->isStreamThumbnailEnabled());
+    ui->streamDescriptionCheckBox->setChecked(m_settings->isStreamDescriptionEnabled());
+    ui->streamMetadataCheckBox->setChecked(m_settings->isStreamMetadataEnabled());
+    ui->streamCommentCheckBox->setChecked(m_settings->isStreamCommentEnabled());
+    ui->streamShortcutCheckBox->setChecked(m_settings->isStreamShortcutEnabled());
+
     // Tab Privacy
     ui->privacyRemoveCompletedCheckBox->setChecked(m_settings->isRemoveCompletedEnabled());
     ui->privacyRemoveCanceledCheckBox->setChecked(m_settings->isRemoveCanceledEnabled());
@@ -571,6 +586,14 @@ void PreferenceDialog::write()
     m_settings->setRemoteCreationTimeEnabled(ui->useRemoteCreationTimeCheckBox->isChecked());
     m_settings->setRemoteAccessTimeEnabled(ui->useRemoteAccessTimeCheckBox->isChecked());
     m_settings->setRemoteMetadataChangeTimeEnabled(ui->useRemoteMetadataChangeTimeCheckBox->isChecked());
+
+    m_settings->setStreamMarkWatchedEnabled(ui->streamMarkWatchedCheckBox->isChecked());
+    m_settings->setStreamSubtitleEnabled(ui->streamSubtitleCheckBox->isChecked());
+    m_settings->setStreamThumbnailEnabled(ui->streamThumbnailCheckBox->isChecked());
+    m_settings->setStreamDescriptionEnabled(ui->streamDescriptionCheckBox->isChecked());
+    m_settings->setStreamMetadataEnabled(ui->streamMetadataCheckBox->isChecked());
+    m_settings->setStreamCommentEnabled(ui->streamCommentCheckBox->isChecked());
+    m_settings->setStreamShortcutEnabled(ui->streamShortcutCheckBox->isChecked());
 
     // Tab Privacy
     m_settings->setRemoveCompletedEnabled(ui->privacyRemoveCompletedCheckBox->isChecked());
