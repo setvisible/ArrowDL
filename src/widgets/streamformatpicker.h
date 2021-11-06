@@ -51,6 +51,7 @@ public:
 
 signals:
     void selectionChanged(StreamFormatId formatId);
+    void configChanged(StreamObjectConfig config);
 
 private slots:
     void onCurrentChanged(const QModelIndex &current, const QModelIndex &previous);

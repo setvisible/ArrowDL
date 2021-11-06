@@ -17,6 +17,8 @@
 #ifndef CORE_RESOURCE_ITEM_H
 #define CORE_RESOURCE_ITEM_H
 
+#include <Core/Stream>
+
 #include <QtCore/QString>
 #include <QtCore/QUrl>
 #include <QtCore/QVariant>
@@ -78,6 +80,9 @@ public:
     qint64 streamFileSize() const;
     void setStreamFileSize(qint64 streamFileSize);
 
+    StreamObjectConfig streamConfig() const;
+    void setStreamConfig(const StreamObjectConfig &config);
+
     QString torrentPreferredFilePriorities() const;
     void setTorrentPreferredFilePriorities(const QString &priorities);
 
@@ -98,6 +103,8 @@ private:
     QString m_streamFileName;
     QString m_streamFormatId;
     qint64 m_streamFileSize{0};
+
+    StreamObjectConfig m_streamConfig;
 
     /* Torrent-specific properties */
     QString m_torrentPreferredFilePriorities;

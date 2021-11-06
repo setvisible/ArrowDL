@@ -39,9 +39,10 @@ signals:
     void streamObjectChanged(StreamObject);
 
 private slots:
-    void onFormatSelected(const StreamFormatId &formatId);
-    void onTitleChanged(const QString &);
-    void onSuffixChanged(const QString &);
+    void onFormatSelected(StreamFormatId formatId);
+    void onConfigChanged(StreamObjectConfig config);
+    void onTitleChanged(QString title);
+    void onSuffixChanged(QString suffix);
 
 private:
     Ui::StreamWidget *ui;

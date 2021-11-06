@@ -147,6 +147,157 @@ struct StreamFlatListItem
 };
 using StreamFlatList = QList<StreamFlatListItem>;
 
+struct StreamObjectOverview
+{
+    bool operator==(const StreamObjectOverview &other) const
+    {
+        return skipVideo == other.skipVideo
+                && markWatched == other.markWatched;
+    }
+
+    bool operator!=(const StreamObjectOverview &other) const
+    {
+        return !(*this == other);
+    }
+
+    bool skipVideo{false};
+    bool markWatched{false};
+};
+
+struct StreamObjectSubtitle
+{
+    bool operator==(const StreamObjectSubtitle &other) const
+    {
+        return writeDefaultSubtitle == other.writeDefaultSubtitle;
+    }
+
+    bool operator!=(const StreamObjectSubtitle &other) const
+    {
+        return !(*this == other);
+    }
+
+    bool writeDefaultSubtitle{false};
+
+};
+
+struct StreamObjectChapter
+{
+    bool operator==(const StreamObjectChapter &other) const
+    {
+        return writeChapters == other.writeChapters;
+    }
+
+    bool operator!=(const StreamObjectChapter &other) const
+    {
+        return !(*this == other);
+    }
+
+    bool writeChapters{false};
+};
+
+struct StreamObjectThumbnail
+{
+    bool operator==(const StreamObjectThumbnail &other) const
+    {
+        return writeDefaultThumbnail == other.writeDefaultThumbnail;
+    }
+
+    bool operator!=(const StreamObjectThumbnail &other) const
+    {
+        return !(*this == other);
+    }
+
+    bool writeDefaultThumbnail{false};
+};
+
+struct StreamObjectComment
+{
+    bool operator==(const StreamObjectComment &other) const
+    {
+        return writeComment == other.writeComment;
+    }
+
+    bool operator!=(const StreamObjectComment &other) const
+    {
+        return !(*this == other);
+    }
+
+    bool writeComment{false};
+};
+
+struct StreamObjectMetadata
+{
+    bool operator==(const StreamObjectMetadata &other) const
+    {
+        return writeDescription == other.writeDescription
+                && writeMetadata == other.writeMetadata
+                && writeInternetShortcut == other.writeInternetShortcut;
+    }
+
+    bool operator!=(const StreamObjectMetadata &other) const
+    {
+        return !(*this == other);
+    }
+
+    bool writeDescription{false};
+    bool writeMetadata{false};
+    bool writeInternetShortcut{false};
+};
+
+struct StreamObjectProcessing
+{
+    bool operator==(const StreamObjectProcessing &/*other*/) const
+    {
+        return true;
+    }
+
+    bool operator!=(const StreamObjectProcessing &other) const
+    {
+        return !(*this == other);
+    }
+};
+
+struct StreamObjectSponsor
+{
+    bool operator==(const StreamObjectSponsor &/*other*/) const
+    {
+        return true;
+    }
+
+    bool operator!=(const StreamObjectSponsor &other) const
+    {
+        return !(*this == other);
+    }
+};
+
+struct StreamObjectConfig
+{
+    bool operator==(const StreamObjectConfig &other) const
+    {
+        return overview == other.overview
+                && subtitle == other.subtitle
+                && chapter == other.chapter
+                && thumbnail == other.thumbnail
+                && comment == other.comment
+                && metadata == other.metadata
+                && processing == other.processing
+                && sponsor == other.sponsor;
+    }
+
+    bool operator!=(const StreamObjectConfig &other) const
+    {
+        return !(*this == other);
+    }
+
+    StreamObjectOverview overview;
+    StreamObjectSubtitle subtitle;
+    StreamObjectChapter chapter;
+    StreamObjectThumbnail thumbnail;
+    StreamObjectComment comment;
+    StreamObjectMetadata metadata;
+    StreamObjectProcessing processing;
+    StreamObjectSponsor sponsor;
+};
 
 /*!
  * \class StreamObject
@@ -177,6 +328,9 @@ public:
 
     QString title() const;
     void setTitle(const QString &title);
+
+    StreamObjectConfig config() const;
+    void setConfig(const StreamObjectConfig &config);
 
     QString fullFileName() const;
     QString fileBaseName() const;
@@ -213,15 +367,15 @@ public:
     QString playlist;               // (string): Name or id of the playlist that contains the video
     QString playlist_index;         // (numeric): Index of the video in the playlist padded with leading zeros according to the total length of the playlist
 
-
 private:
     /* Error */
     Error m_error{NoError};
 
-    /* User data, modifiable */
+    /* Mutable data, modifiable by the user */
     QString m_userTitle;
     QString m_userSuffix;
     StreamFormatId m_userFormatId;
+    StreamObjectConfig m_userConfig;
 };
 
 using StreamDumpMap = QMap<StreamObjectId, StreamObject>;
@@ -265,6 +419,9 @@ public:
     qint64 fileSizeInBytes() const;
     void setFileSizeInBytes(qint64 fileSizeInBytes);
 
+    StreamObjectConfig config() const;
+    void setConfig(const StreamObjectConfig &config);
+
     void initialize(const StreamObject &streamObject);
 
     QString command(int indent = 4) const;
@@ -306,6 +463,8 @@ private:
 
     QString m_fileBaseName;
     QString m_fileExtension;
+
+    StreamObjectConfig m_config;
 
     qint64 _q_bytesTotal() const;
     bool isMergeFormat(const QString &suffix) const;

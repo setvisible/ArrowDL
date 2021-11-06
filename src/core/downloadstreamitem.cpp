@@ -64,6 +64,8 @@ void DownloadStreamItem::resume()
         m_stream->setSelectedFormatId(StreamFormatId(resource()->streamFormatId()));
         m_stream->setFileSizeInBytes(resource()->streamFileSize());
 
+        m_stream->setConfig(resource()->streamConfig());
+
         connect(m_stream, SIGNAL(downloadMetadataChanged()), this, SLOT(onMetaDataChanged()));
         connect(m_stream, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
         connect(m_stream, SIGNAL(downloadError(QString)), this, SLOT(onError(QString)));

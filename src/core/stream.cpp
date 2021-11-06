@@ -303,6 +303,18 @@ void Stream::setFileSizeInBytes(qint64 fileSizeInBytes)
 
 /******************************************************************************
  ******************************************************************************/
+StreamObjectConfig Stream::config() const
+{
+    return m_config;
+}
+
+void Stream::setConfig(const StreamObjectConfig &config)
+{
+    m_config = config;
+}
+
+/******************************************************************************
+ ******************************************************************************/
 QString Stream::fileName() const
 {
     if (m_fileExtension.isEmpty()) {
@@ -317,16 +329,46 @@ QStringList Stream::arguments() const
 {
     QStringList arguments;
     arguments << m_url;
-    arguments << QLatin1String("--no-playlist");
+
+    // Alphabetic order
+    arguments << QLatin1String("--ignore-config");
+    arguments << QLatin1String("--ignore-errors");
+    arguments << QLatin1String("--no-cache-dir");
     arguments << QLatin1String("--no-colors"); // BUGFIX '--no-color' for youtube-dl
     arguments << QLatin1String("--no-check-certificate");
     arguments << QLatin1String("--no-overwrites");  /// \todo only if "overwrite" user-setting is unset
     arguments << QLatin1String("--no-continue");
     arguments << QLatin1String("--no-part"); // No .part file: write directly into output file
     arguments << QLatin1String("--no-mtime"); // don't change file modification time
-    arguments << QLatin1String("--no-cache-dir");
+    arguments << QLatin1String("--no-playlist"); // No need to download playlist
+    // arguments << QLatin1String("--prefer-insecure");
     arguments << QLatin1String("--restrict-filenames"); // ASCII filename only
-    arguments << QLatin1String("--ignore-config");
+
+    if (m_config.overview.skipVideo) {
+        arguments << QLatin1String("--skip-download");
+    }
+    if (m_config.overview.markWatched) {
+        arguments << QLatin1String("--mark-watched");
+    }
+    if (m_config.subtitle.writeDefaultSubtitle) {
+        arguments << QLatin1String("--write-subs");
+    }
+    if (m_config.thumbnail.writeDefaultThumbnail) {
+        arguments << QLatin1String("--write-thumbnail");
+    }
+    if (m_config.comment.writeComment) {
+        arguments << QLatin1String("--write-comments");
+    }
+    if (m_config.metadata.writeDescription) {
+        arguments << QLatin1String("--write-description");
+    }
+    if (m_config.metadata.writeMetadata) {
+        arguments << QLatin1String("--write-info-json");
+    }
+    if (m_config.metadata.writeInternetShortcut) {
+        arguments << QLatin1String("--write-link");
+    }
+
     arguments << QLatin1String("--format") << m_selectedFormatId.toString();
     if (!s_youtubedl_user_agent.isEmpty()) {
         // --user-agent option requires non-empty argument
@@ -1295,7 +1337,8 @@ bool StreamObject::operator==(const StreamObject &other) const
             && m_error          == other.m_error
             && m_userTitle      == other.m_userTitle
             && m_userSuffix     == other.m_userSuffix
-            && m_userFormatId   == other.m_userFormatId;
+            && m_userFormatId   == other.m_userFormatId
+            && m_userConfig     == other.m_userConfig;
 }
 
 bool StreamObject::operator!=(const StreamObject &other) const
@@ -1332,6 +1375,16 @@ QString StreamObject::title() const
 void StreamObject::setTitle(const QString &title)
 {
     m_userTitle = (title == defaultTitle) ? QString() : title;
+}
+
+StreamObjectConfig StreamObject::config() const
+{
+    return m_userConfig;
+}
+
+void StreamObject::setConfig(const StreamObjectConfig &config)
+{
+    m_userConfig = config;
 }
 
 static QString cleanFileName(const QString &fileName)

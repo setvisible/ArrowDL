@@ -20,6 +20,7 @@
 #include <Core/Format>
 #include <Core/Stream>
 #include <Core/Theme>
+#include <Widgets/StreamConfigWidget>
 
 #include <QtCore/QDebug>
 #include <QtGui/QStandardItemModel>
@@ -89,16 +90,20 @@ StreamFormatPicker::StreamFormatPicker(QWidget *parent) : QWidget(parent)
     ui->listView->setUniformItemSizes(true);
     ui->listView->setSizeAdjustPolicy(QAbstractItemView::AdjustToContents);
 
-    adjustSize();
+    updateGeometry();
 
     connect(ui->categorySimpleButton, SIGNAL(released()), this, SLOT(onCategoryChanged()));
     connect(ui->categoryAudioButton, SIGNAL(released()), this, SLOT(onCategoryChanged()));
     connect(ui->categoryVideoButton, SIGNAL(released()), this, SLOT(onCategoryChanged()));
+    connect(ui->categoryOtherButton, SIGNAL(released()), this, SLOT(onCategoryChanged()));
 
     connect(ui->audioComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
     connect(ui->videoComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
     connect(ui->listView->selectionModel(), SIGNAL(currentChanged(QModelIndex, QModelIndex)),
             this, SLOT(onCurrentChanged(QModelIndex, QModelIndex)));
+
+    connect(ui->streamConfigWidget, SIGNAL(configChanged(StreamObjectConfig)),
+            this,  SIGNAL(configChanged(StreamObjectConfig)));
 
     updateButtonBar();
     propagateIcons();
@@ -125,6 +130,7 @@ void StreamFormatPicker::setData(const StreamObject &streamObject)
     populateSimple(streamObject.defaultFormats());
     populateComboBox(streamObject.audioFormats(), ui->audioComboBox);
     populateComboBox(streamObject.videoFormats(), ui->videoComboBox);
+    ui->streamConfigWidget->setConfig(streamObject.config());
 
     select(streamObject.formatId());
 }
@@ -191,7 +197,8 @@ void StreamFormatPicker::propagateIcons()
     const QMap<QAbstractButton*, QString> map = {
         {ui->categorySimpleButton, "add-stream"},
         {ui->categoryAudioButton, "stream-audio"},
-        {ui->categoryVideoButton, "stream-video"}
+        {ui->categoryVideoButton, "stream-video"},
+        {ui->categoryOtherButton, "stream-subtitle"}
     };
     Theme::setIcons(this, map);
 }
@@ -215,6 +222,8 @@ void StreamFormatPicker::updateButtonBar()
         ui->audioGroup->setVisible(true);
         ui->videoGroup->setVisible(!ui->categoryAudioButton->isChecked());
     }
+
+    ui->streamConfigWidget->setVisible(ui->categoryOtherButton->isChecked());
 }
 
 /******************************************************************************

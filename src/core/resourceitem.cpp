@@ -16,8 +16,9 @@
 
 #include "resourceitem.h"
 
-#include <Core/Mask>
 #include <Core/FileUtils>
+#include <Core/Mask>
+#include <Core/Stream>
 
 #include <QtCore/QDir>
 #include <QtCore/QFile>
@@ -238,6 +239,18 @@ qint64 ResourceItem::streamFileSize() const
 void ResourceItem::setStreamFileSize(qint64 streamFileSize)
 {
     m_streamFileSize = streamFileSize;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+StreamObjectConfig ResourceItem::streamConfig() const
+{
+    return m_streamConfig;
+}
+
+void ResourceItem::setStreamConfig(const StreamObjectConfig &config)
+{
+    m_streamConfig = config;
 }
 
 /******************************************************************************

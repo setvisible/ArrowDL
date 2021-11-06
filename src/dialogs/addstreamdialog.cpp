@@ -202,6 +202,8 @@ IDownloadItem* AddStreamDialog::createItem(const StreamObject &streamObject) con
     resource->setStreamFileSize(streamObject.guestimateFullSize());
     resource->setStreamFormatId(streamObject.formatId().toString());
 
+    resource->setStreamConfig(streamObject.config());
+
     auto item = new DownloadStreamItem(m_downloadManager);
     item->setResource(resource);
     return item;
