@@ -25,7 +25,6 @@
 
 UrlFormWidget::UrlFormWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::UrlFormWidget)
-  , m_isCollapsed(false)
 {
     ui->setupUi(this);
 
@@ -197,11 +196,12 @@ void UrlFormWidget::setCurrentMask(const QString &text)
  ******************************************************************************/
 bool UrlFormWidget::isCollapsible() const
 {
-    return ui->collapseButton->isVisible();
+    return m_isCollapsible;
 }
 
 void UrlFormWidget::setCollapsible(bool enabled)
 {
+    m_isCollapsible = enabled;
     ui->collapseButton->setVisible(enabled);
     if (!enabled) {
         setCollapsed(false);

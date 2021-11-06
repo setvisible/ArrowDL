@@ -69,7 +69,8 @@ private slots:
 
 private:
     Ui::UrlFormWidget *ui;
-    bool m_isCollapsed;
+    bool m_isCollapsible{true};
+    bool m_isCollapsed{false};
 
     bool isCollapsed() const;
     void setCollapsed(bool collapsed);
