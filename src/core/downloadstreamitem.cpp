@@ -69,6 +69,8 @@ void DownloadStreamItem::resume()
         connect(m_stream, SIGNAL(downloadError(QString)), this, SLOT(onError(QString)));
         connect(m_stream, SIGNAL(downloadFinished()), this, SLOT(onFinished()));
 
+        logInfo(m_stream->command());
+
         m_stream->start();
 
         this->tearDownResume();

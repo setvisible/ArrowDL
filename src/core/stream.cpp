@@ -352,6 +352,33 @@ QStringList Stream::arguments() const
     return arguments;
 }
 
+QString Stream::command(int indent) const
+{
+    auto args = arguments();
+
+    // Inline command
+    QString cmd = C_PROGRAM_NAME + " ";
+    foreach (auto argument, args) {
+        auto quote = argument.contains(' ') ? QString('\"') : QString();
+        cmd += quote + argument + quote + " ";
+    }
+    cmd = cmd.trimmed();
+    cmd += "\n\n";
+
+    // Smartly wrapped arguments
+    cmd += C_PROGRAM_NAME + " ";
+    foreach (auto argument, args) {
+        if (argument.startsWith("--")) {
+            cmd += "\\\n" + QString().fill(' ', indent);
+        }
+        auto quote = argument.contains(' ') ? QString('\"') : QString();
+        cmd += quote + argument + quote + " ";
+    }
+    cmd = cmd.trimmed();
+    cmd += "\n";
+    return cmd;
+}
+
 /******************************************************************************
  ******************************************************************************/
 void Stream::start()

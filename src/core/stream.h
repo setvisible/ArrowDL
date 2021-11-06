@@ -267,6 +267,8 @@ public:
 
     void initialize(const StreamObject &streamObject);
 
+    QString command(int indent = 4) const;
+
 public slots:
     void start();
     void abort();
