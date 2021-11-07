@@ -47,6 +47,8 @@ private slots:
 private:
     Ui::StreamWidget *ui;
     StreamObject m_streamObject;
+
+    void updateEstimatedSize();
 };
 
 #endif // WIDGETS_STREAM_WIDGET_H

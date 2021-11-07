@@ -15,7 +15,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/pathwidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamformatpicker.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamlistwidget.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamconfigwidget.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamtoolbox.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamwidget.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/systemtray.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/textedit.cpp
@@ -44,7 +44,7 @@ set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/pathwidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamformatpicker.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamlistwidget.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamconfigwidget.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamtoolbox.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamwidget.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/systemtray.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/textedit.h
@@ -67,7 +67,7 @@ set(MY_FORMS ${MY_FORMS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/pathwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamformatpicker.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamlistwidget.ui
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamconfigwidget.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamtoolbox.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/streamwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/texteditorwidget.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/src/widgets/themewidget.ui
