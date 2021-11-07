@@ -27,7 +27,11 @@ const QLatin1String STR_APPLICATION_DATE("2020");
 const QString STR_APPLICATION_AUTHOR("Sébastien Vavassori");
 const QString STR_APPLICATION_WEBSITE("https://github.com/setvisible/DownZemAll");
 const QString STR_TUTORIAL_WEBSITE("https://setvisible.github.io/DownZemAll/category/tutorial.html");
-const QString STR_GITHUB_REPO_ADDRESS = "https://github.com/setvisible/DownZemAll";
+
+const QString STR_GITHUB_OWNER("setvisible");
+const QString STR_GITHUB_REPO("DownZemAll");
+const QString STR_GITHUB_REPO_ADDRESS = QString("https://github.com/%0/%1").arg(STR_GITHUB_OWNER, STR_GITHUB_REPO);
+const QString STR_GITHUB_RELEASES_API = QString("https://api.github.com/repos/%0/%1/releases").arg(STR_GITHUB_OWNER, STR_GITHUB_REPO);
 
 /*
  * Remark: the "Application Organization Name"

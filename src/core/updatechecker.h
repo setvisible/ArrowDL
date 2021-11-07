@@ -17,60 +17,71 @@
 #ifndef CORE_UPDATE_CHECKER_H
 #define CORE_UPDATE_CHECKER_H
 
-#include <functional> /* std::function */
-
-#include <Core/Settings>
-#include <CAutoUpdaterGithub>
-
+#include <QtCore/QFile>
 #include <QtCore/QObject>
 
 class QNetworkReply;
 
 class NetworkManager;
 class StreamUpgrader;
+class Settings;
 
-class UpdateChecker : public QObject, private CAutoUpdaterGithub::UpdateStatusListener
+class UpdateChecker : public QObject
 {
     Q_OBJECT
-
 public:
-    explicit UpdateChecker(QObject *parent);
-    ~UpdateChecker() Q_DECL_OVERRIDE = default;
+    struct ReleaseInfo {
+        QString tagName;
+        QString title;
+        bool draft{false};
+        bool prerelease{false};
+        QString createdAt;
+        QString publishedAt;
+        QString body;
+        QString assetName;
+        QString assetUrl;
+        QString assetCreatedAt;
+        int assetSize{0};
+    };
+    using ChangeLog = QVector<ReleaseInfo>;
 
-    QString currentVersion() const;
+    explicit UpdateChecker(QObject *parent);
+    virtual ~UpdateChecker() = default;
+
 
     void setNetworkManager(NetworkManager *networkManager);
 
     void checkForUpdates(const Settings *settings);
     void checkForUpdates();
 
-    QString installTempDir() const;
     void downloadAndInstallUpdate();
 
-    QString latestUpdateUrl() const;
+    QString currentVersion() const;
+    QString tempPath() const;
+
+    QString latestUpdateUrl() const; // For Linux
 
 signals:
-    void updateAvailable();
-    void updateAvailable(CAutoUpdaterGithub::ChangeLog changelog);
-    void updateDownloadProgress(float percentageDownloaded);
+    void updateAvailable(); // for non-GUI
+    void updateAvailable(UpdateChecker::ChangeLog changelog);
+    void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void updateDownloadFinished();
     void updateError(QString errorMessage);
 
+private slots:
+    void onMetadataFinished();
+    void onBinaryProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void onBinaryFinished();
+
 private:
-    QString m_latestUpdateUrl;
-    CAutoUpdaterGithub m_updater;
     StreamUpgrader *m_streamUpgrader;
+    QString m_latestUpdateUrl;
+    QFile m_temporaryBinaryFile;
 
-    void onUpdateAvailable(CAutoUpdaterGithub::ChangeLog changelog) Q_DECL_OVERRIDE;
-    void onUpdateDownloadProgress(float percentageDownloaded) Q_DECL_OVERRIDE;
-    void onUpdateDownloadFinished() Q_DECL_OVERRIDE;
-    void onUpdateError(QString errorMessage) Q_DECL_OVERRIDE;
-
-    static std::function<QNetworkReply* (const QUrl&)> createNetworkGetCallback();
-    static std::function<bool (const QString &)> createAddressMatcherCallback(bool isHost64Bit);
+    void downloadMetadata();
 
     inline qint64 daysSinceLastCheck();
-    inline void storeDate();
+    inline void storeDateTime();
 };
 
 #endif // CORE_UPDATE_CHECKER_H

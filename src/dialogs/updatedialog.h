@@ -4,7 +4,7 @@
 #ifndef DIALOGS_UPDATE_DIALOG_H
 #define DIALOGS_UPDATE_DIALOG_H
 
-#include <CAutoUpdaterGithub>
+#include <Core/UpdateChecker>
 
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QMessageBox>
@@ -27,8 +27,8 @@ private slots:
     void check();
     void install();
 
-    void onUpdateAvailable(const CAutoUpdaterGithub::ChangeLog &changelog);
-    void onUpdateDownloadProgress(float percentageDownloaded);
+    void onUpdateAvailable(const UpdateChecker::ChangeLog &changelog);
+    void onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void onUpdateDownloadFinished();
     void onUpdateError(const QString &errorMessage);
 
