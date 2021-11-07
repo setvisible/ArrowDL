@@ -17,34 +17,33 @@
 #ifndef CORE_UPDATE_CHECKER_PRIVATE_H
 #define CORE_UPDATE_CHECKER_PRIVATE_H
 
-#include <functional> /* std::function */
-
+#include <QtCore/QCollator>
 #include <QtCore/QString>
 
 namespace UpdateCheckerNS
 {
-inline std::function<bool (const QString &)> addressMatcher(bool isHost64Bit)
+
+QString cleanTag(const QString &tag)
 {
-#if defined _WIN32
-    if (isHost64Bit) {
-        const auto addressMatcher64 = [](const QString& address) {
-            return address.contains("DownZemAll_x64_Setup.exe");
-        };
-        return addressMatcher64;
-    } else {
-        const auto addressMatcher32 = [](const QString& address) {
-            return address.contains("DownZemAll_x86_Setup.exe");
-        };
-        return addressMatcher32;
-    }
-#elif defined __APPLE__
-    const auto noMatch = [](const QString& /*address*/) { return false; };
-    return noMatch;
-#else
-    const auto noMatch = [](const QString& /*address*/) { return false; };
-    return noMatch;
-#endif
+    auto cleaned = tag;
+    cleaned.remove(QRegExp("[^\\.\\d\\s]"));
+    cleaned = cleaned.replace('.', ' ');
+    cleaned = cleaned.replace(QRegExp("\\s+"), " ");
+    cleaned = cleaned.trimmed();
+    cleaned = cleaned.replace(' ', '.');
+    return cleaned;
 }
+
+bool isVersionGreaterThan(const QString &s1, const QString &s2)
+{
+    auto v1 = UpdateCheckerNS::cleanTag(s1);
+    auto v2 = UpdateCheckerNS::cleanTag(s2);
+    QCollator collator;
+    collator.setNumericMode(true); // 10 sorts after 9
+    collator.setCaseSensitivity(Qt::CaseInsensitive);
+    return collator.compare(v1, v2) > 0; // v1 > v2
+}
+
 } // end namespace
 
 #endif // CORE_UPDATE_CHECKER_PRIVATE_H

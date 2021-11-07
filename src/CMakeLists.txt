@@ -47,7 +47,6 @@ add_executable(${DownZemAll_NAME}
     WIN32           # build a Win32 application, not a console application
     ${MY_FORMS}
     ${MY_SOURCES}
-    ${AUTOUPDATER_SOURCES}
     ${QTSINGLEAPPLICATION_SOURCES}
     ${MY_RESOURCES}
     )

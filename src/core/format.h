@@ -21,6 +21,9 @@
 #include <QtCore/QString>
 #include <QtCore/QTime>
 
+/*
+ * Do not use namespace here, to enable tr("...") perimeter.
+ */
 class Format : public QObject
 {
     Q_OBJECT
@@ -41,6 +44,11 @@ public:
 
     static QString toHtmlMark(const QUrl &url, bool wrap = false);
     static QString wrapText(const QString &text, int blockLength = 50);
+
+    static QString boolToHtml(bool value);
+    static QString sizeToHtml(int size);
+    static QString markDownToHtml(const QString &markdown);
+
 };
 
 #endif // CORE_FORMAT_H

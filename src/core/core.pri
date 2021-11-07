@@ -34,7 +34,8 @@ HEADERS += \
     $$PWD/torrentcontext_p.h \
     $$PWD/torrentmessage.h \
     $$PWD/updatechecker.h \
-    $$PWD/updatechecker_p.h
+    $$PWD/updatechecker_p.h \
+    $$PWD/updateinstaller.h
 
 SOURCES += \
     $$PWD/abstractdownloaditem.cpp \
@@ -68,4 +69,5 @@ SOURCES += \
     $$PWD/torrentcontext.cpp \
     $$PWD/torrentcontext_p.cpp \
     $$PWD/torrentmessage.cpp \
-    $$PWD/updatechecker.cpp
+    $$PWD/updatechecker.cpp \
+    $$PWD/updateinstaller.cpp
