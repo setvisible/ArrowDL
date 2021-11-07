@@ -118,22 +118,22 @@ QGroupBox {
          <widget class="QComboBox" name="comboBox_2">
           <item>
            <property name="text">
-            <string>srt</string>
+            <string notr="true">srt</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>vtt</string>
+            <string notr="true">vtt</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>ass</string>
+            <string notr="true">ass</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>lrc</string>
+            <string notr="true">lrc</string>
            </property>
           </item>
          </widget>
@@ -244,12 +244,12 @@ QGroupBox {
           </property>
           <item>
            <property name="text">
-            <string>jpg</string>
+            <string notr="true">jpg</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>png</string>
+            <string notr="true">png</string>
            </property>
           </item>
          </widget>
@@ -506,49 +506,49 @@ QGroupBox {
         <item row="3" column="1">
          <widget class="QCheckBox" name="checkBox_21">
           <property name="text">
-           <string>Unpaid/Self Promotion</string>
+           <string notr="true">Unpaid/Self Promotion</string>
           </property>
          </widget>
         </item>
         <item row="4" column="1">
          <widget class="QCheckBox" name="checkBox_22">
           <property name="text">
-           <string>Interaction Reminder</string>
+           <string notr="true">Interaction Reminder</string>
           </property>
          </widget>
         </item>
         <item row="0" column="1">
          <widget class="QCheckBox" name="checkBox_16">
           <property name="text">
-           <string>Sponsor</string>
+           <string notr="true">Sponsor</string>
           </property>
          </widget>
         </item>
         <item row="5" column="1">
          <widget class="QCheckBox" name="checkBox_18">
           <property name="text">
-           <string>Preview/Recap</string>
+           <string notr="true">Preview/Recap</string>
           </property>
          </widget>
         </item>
         <item row="6" column="1">
          <widget class="QCheckBox" name="checkBox_19">
           <property name="text">
-           <string>Non-Music Section</string>
+           <string notr="true">Non-Music Section</string>
           </property>
          </widget>
         </item>
         <item row="2" column="1">
          <widget class="QCheckBox" name="checkBox_20">
           <property name="text">
-           <string>Endcards/Credits</string>
+           <string notr="true">Endcards/Credits</string>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
          <widget class="QCheckBox" name="checkBox_17">
           <property name="text">
-           <string>Intermission/Intro Animation</string>
+           <string notr="true">Intermission/Intro Animation</string>
           </property>
          </widget>
         </item>
