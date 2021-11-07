@@ -4,8 +4,8 @@
     "DESC_SectionStartMenuShortcut": "Crea gruppo programmi nel menu Start.",
     "DESC_SectionDesktopShortcut": "Crea collegamento programma sul desktop.",
     "DESC_UninstallIconDescription": "Disinstalla DownZemAll",
-    "DESC_ApplicationSession": "Applicazione",
-    "DESC_LauncherSession": "Launcher",
+    "DESC_ApplicationSession": "Applicazione (richiesta)",
+    "DESC_LauncherSession": "Launcher (richiesto)",
     "DESC_StartMenuGroupSession": "Gruppo menu Start",
     "DESC_DesktopShortcutSession": "Collegamento desktop",
     "DESC_VisitWebSite": "Visita il nostro sito web:"

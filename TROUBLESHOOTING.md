@@ -121,27 +121,27 @@ __Solution 2__
 Build with the same Qt version as installed.
 
 source:
-[Understanding Dynamic Loading](https://amir.rachum.com/blog/2016/09/17/shared-libraries/ "https://amir.rachum.com/blog/2016/09/17/shared-libraries/")
+[Understanding Dynamic Loading](https://amir.rachum.com/blog/2016/09/17/shared-libraries/)
 
 
 ## Can't download streams (Linux only)
 
 __Issue__
 
-When clicking "Help" > "About Youtube-Dl...", the box shows:
+When clicking "Help" > "About YT-DLP...", the box shows:
 
     Error:
     The process has encountered an unknown error.
 
 Open a terminal, go to the application directory and run:
 
-    ./youtube-dl --version
+    ./yt-dlp --version
     $ /usr/bin/env: 'python': No such file or directory
 
 
 __Explanation__
 
-On Linux, `youtube-dl` requires the Python libraries to run.
+On Linux, `yt-dlp` requires the Python libraries to run.
 
 Check that:
 
@@ -164,16 +164,16 @@ If you want to use Python 3 instead of Python 2, and have Python3 installed:
     which python3
     $ /usr/bin/python3
 
-Open `youtube-dl` with a text editor and replace the first line
+Open `yt-dlp` with a text editor and replace the first line
 `#!/usr/bin/env python` by `#!/usr/bin/env python3` (note the '3'):
 
-    head -n 1 ./youtube-dl
+    head -n 1 ./yt-dlp
     $ #!/usr/bin/env python
                      ^^^^^^
     
-    cp ./youtube-dl ./youtube-dl-OLD
-    sed -i 's/python/python3/' ./youtube-dl
+    cp ./yt-dlp ./yt-dlp-OLD
+    sed -i 's/python/python3/' ./yt-dlp
     
-    head -n 1 ./youtube-dl
+    head -n 1 ./yt-dlp
     $ #!/usr/bin/env python3
                      ^^^^^^^

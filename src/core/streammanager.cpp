@@ -40,13 +40,17 @@ void StreamManager::setSettings(Settings *settings)
     m_settings = settings;
     if (m_settings) {
         connect(m_settings, SIGNAL(changed()), this, SLOT(onSettingsChanged()));
+        onSettingsChanged();
     }
 }
 
 void StreamManager::onSettingsChanged()
 {
     if (m_settings) {
+        Stream::setLastModifiedTimeEnabled(m_settings->isRemoteLastModifiedTimeEnabled());
         Stream::setUserAgent(m_settings->httpUserAgent());
+        Stream::setConnectionProtocol(m_settings->connectionProtocol());
+        Stream::setConnectionTimeout(m_settings->connectionTimeout());
     }
 }
 

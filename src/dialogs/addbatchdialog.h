@@ -67,8 +67,8 @@ private:
 
     inline QString insertName(const QString &name) const;
 
-    void readSettings();
-    void writeSettings();
+    void readUiSettings();
+    void writeUiSettings();
 };
 
 #endif // DIALOGS_ADD_BATCH_DIALOG_H

@@ -29,6 +29,7 @@
 #include <QtCore/QMap>
 #include <QtCore/QtMath>
 #include <QtCore/QRegularExpression>
+#include <QtCore/QUrl>
 #ifdef QT_TESTLIB_LIB
 #  include <QtTest/QTest>
 #endif
@@ -36,12 +37,12 @@
 #include <algorithm> /* std::sort */
 
 #if defined Q_OS_WIN
-static const QString C_PROGRAM_NAME  = QLatin1String("youtube-dl.exe");
+static const QString C_PROGRAM_NAME  = QLatin1String("yt-dlp.exe");
 #else
-static const QString C_PROGRAM_NAME  = QLatin1String("youtube-dl");
+static const QString C_PROGRAM_NAME  = QLatin1String("yt-dlp");
 #endif
 
-static const QString C_WEBSITE_URL   = QLatin1String("http://ytdl-org.github.io/youtube-dl/");
+static const QString C_WEBSITE_URL   = QLatin1String("https://github.com/yt-dlp/yt-dlp");
 static const int     C_EXIT_SUCCESS  = 0;
 
 /*
@@ -65,11 +66,16 @@ static const QString C_DOWNLOAD_next_section = QLatin1String("Destination:");
 
 
 static QString s_youtubedl_version = QString();
+static bool s_youtubedl_last_modified_time_enabled = true;
 static QString s_youtubedl_user_agent = QString();
+static int s_youtubedl_socket_type = 0;
+static int s_youtubedl_socket_timeout = 0;
 
 static void debug(QObject *sender, QProcess::ProcessError error);
 static QString generateErrorMessage(QProcess::ProcessError error);
 static QString toString(QProcess *process);
+
+static void debugPrintProcessCommand(QProcess *process);
 
 static QString standardToString(const QByteArray &ba)
 {
@@ -102,12 +108,12 @@ Stream::~Stream()
 QString Stream::version()
 {
     if (s_youtubedl_version.isEmpty()) {
+        auto arguments = QStringList()
+                << QLatin1String("--no-colors")
+                << QLatin1String("--version");
         QProcess process;
         process.setWorkingDirectory(qApp->applicationDirPath());
-        process.start(
-                    C_PROGRAM_NAME, QStringList()
-                    << QLatin1String("--no-color")
-                    << QLatin1String("--version"));
+        process.start(C_PROGRAM_NAME, arguments);
         if (!process.waitForStarted()) {
             return QLatin1String("unknown");
         }
@@ -125,9 +131,24 @@ QString Stream::website()
     return C_WEBSITE_URL;
 }
 
+void Stream::setLastModifiedTimeEnabled(bool enabled)
+{
+    s_youtubedl_last_modified_time_enabled = enabled;
+}
+
 void Stream::setUserAgent(const QString &userAgent)
 {
     s_youtubedl_user_agent = userAgent;
+}
+
+void Stream::setConnectionProtocol(int index)
+{
+    s_youtubedl_socket_type = index;
+}
+
+void Stream::setConnectionTimeout(int secs)
+{
+    s_youtubedl_socket_timeout = secs ? secs > 0 : 0;
 }
 
 /******************************************************************************
@@ -288,6 +309,18 @@ void Stream::setFileSizeInBytes(qint64 fileSizeInBytes)
 
 /******************************************************************************
  ******************************************************************************/
+StreamObjectConfig Stream::config() const
+{
+    return m_config;
+}
+
+void Stream::setConfig(const StreamObjectConfig &config)
+{
+    m_config = config;
+}
+
+/******************************************************************************
+ ******************************************************************************/
 QString Stream::fileName() const
 {
     if (m_fileExtension.isEmpty()) {
@@ -298,36 +331,115 @@ QString Stream::fileName() const
 
 /******************************************************************************
  ******************************************************************************/
+QStringList Stream::arguments() const
+{
+    QStringList arguments;
+    arguments << m_url;
+
+    // Alphabetic order
+    arguments << QLatin1String("--ignore-config");
+    arguments << QLatin1String("--ignore-errors");
+    arguments << QLatin1String("--no-cache-dir");
+    arguments << QLatin1String("--no-colors"); // BUGFIX '--no-color' for youtube-dl
+    arguments << QLatin1String("--no-check-certificate");
+    arguments << QLatin1String("--no-overwrites");  /// \todo only if "overwrite" user-setting is unset
+    arguments << QLatin1String("--no-continue");
+    arguments << QLatin1String("--no-part"); // No .part file: write directly into output file
+    arguments << QLatin1String("--no-playlist"); // No need to download playlist
+    // arguments << QLatin1String("--prefer-insecure");
+    arguments << QLatin1String("--restrict-filenames"); // ASCII filename only
+
+    if (m_config.overview.skipVideo) {
+        arguments << QLatin1String("--skip-download");
+    }
+    if (m_config.overview.markWatched) {
+        arguments << QLatin1String("--mark-watched");
+    }
+    if (m_config.subtitle.writeDefaultSubtitle) {
+        arguments << QLatin1String("--write-subs");
+    }
+    if (m_config.thumbnail.writeDefaultThumbnail) {
+        arguments << QLatin1String("--write-thumbnail");
+    }
+    if (m_config.comment.writeComment) {
+        arguments << QLatin1String("--write-comments");
+    }
+    if (m_config.metadata.writeDescription) {
+        arguments << QLatin1String("--write-description");
+    }
+    if (m_config.metadata.writeMetadata) {
+        arguments << QLatin1String("--write-info-json");
+    }
+    if (m_config.metadata.writeInternetShortcut) {
+        arguments << QLatin1String("--write-link");
+    }
+
+    arguments << QLatin1String("--format") << m_selectedFormatId.toString();
+
+    /* Global settings */
+    if (!s_youtubedl_last_modified_time_enabled) {
+        arguments << QLatin1String("--no-mtime");
+    }
+    if (!s_youtubedl_user_agent.isEmpty()) {
+        // --user-agent option requires non-empty argument
+        arguments << QLatin1String("--user-agent") << s_youtubedl_user_agent;
+    }
+    if (s_youtubedl_socket_timeout > 0) {
+        arguments << QLatin1String("--socket-timeout") << QString::number(s_youtubedl_socket_timeout);
+    }
+    switch (s_youtubedl_socket_type) {
+    case 1: arguments << QLatin1String("--force-ipv4"); break;
+    case 2: arguments << QLatin1String("--force-ipv6"); break;
+    default:
+        break;
+    }
+    if (!m_referringPage.isEmpty()) {
+        arguments << QLatin1String("--referer") << m_referringPage;
+    }
+    if (isMergeFormat(m_fileExtension)) {
+        arguments << QLatin1String("--merge-output-format") << m_fileExtension;
+    }
+
+    arguments << QLatin1String("--output") << m_outputPath;
+    return arguments;
+}
+
+QString Stream::command(int indent) const
+{
+    auto args = arguments();
+
+    // Inline command
+    QString cmd = C_PROGRAM_NAME + " ";
+    foreach (auto argument, args) {
+        auto quote = argument.contains(' ') ? QString('\"') : QString();
+        cmd += quote + argument + quote + " ";
+    }
+    cmd = cmd.trimmed();
+    cmd += "\n\n";
+
+    // Smartly wrapped arguments
+    cmd += C_PROGRAM_NAME + " ";
+    foreach (auto argument, args) {
+        if (argument.startsWith("--")) {
+            cmd += "\\\n" + QString().fill(' ', indent);
+        }
+        auto quote = argument.contains(' ') ? QString('\"') : QString();
+        cmd += quote + argument + quote + " ";
+    }
+    cmd = cmd.trimmed();
+    cmd += "\n";
+    return cmd;
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void Stream::start()
 {
     if (!isEmpty() && m_process->state() == QProcess::NotRunning) {
-        // Usage: youtube-dl.exe [OPTIONS] URL [URL...]
-        QStringList arguments;
-        arguments << QLatin1String("--output") << m_outputPath
-                  << QLatin1String("--no-playlist")
-                  << QLatin1String("--no-color")
-                  << QLatin1String("--no-check-certificate")
-                  << QLatin1String("--no-overwrites")  /// \todo only if "overwrite" user-setting is unset
-                  << QLatin1String("--no-continue")
-                  << QLatin1String("--no-part") // No .part file: write directly into output file
-                  << QLatin1String("--no-mtime") // don't change file modification time
-                  << QLatin1String("--no-cache-dir")
-                  << QLatin1String("--restrict-filenames") // ASCII filename only
-                  << QLatin1String("--ignore-config")
-                  << QLatin1String("--format") << m_selectedFormatId.toString()
-                  << m_url;
-        if (!s_youtubedl_user_agent.isEmpty()) {
-            // --user-agent option requires non-empty argument
-            arguments << QLatin1String("--user-agent") << s_youtubedl_user_agent;
-        }
-        if (!m_referringPage.isEmpty()) {
-            arguments << QLatin1String("--referer") << m_referringPage;
-        }
-        if (isMergeFormat(m_fileExtension)) {
-            arguments << QLatin1String("--merge-output-format") << m_fileExtension;
-        }
+        // Usage: yt-dlp.exe [OPTIONS] URL [URL...]
         m_process->setWorkingDirectory(qApp->applicationDirPath());
-        m_process->start(C_PROGRAM_NAME, arguments);
+        m_process->start(C_PROGRAM_NAME, arguments());
+        debugPrintProcessCommand(m_process);
     }
 }
 
@@ -346,7 +458,7 @@ void Stream::onStarted()
 void Stream::onError(QProcess::ProcessError error)
 {
     // Issue with the process configuration, or argument,
-    // or invalid path to "youtube-dl" program,
+    // or invalid path to "yt-dlp" program,
     // but not due to an invalid user input like invalid URL.
     debug(sender(), error);
 }
@@ -481,15 +593,16 @@ StreamCleanCache::~StreamCleanCache()
 void StreamCleanCache::runAsync()
 {
     if (m_process->state() == QProcess::NotRunning) {
+        auto arguments = QStringList()
+                << QLatin1String("--no-colors")
+                << QLatin1String("--rm-cache-dir");
         m_process->setWorkingDirectory(qApp->applicationDirPath());
-        m_process->start(
-                    C_PROGRAM_NAME, QStringList()
-                    << QLatin1String("--no-color")
-                    << QLatin1String("--rm-cache-dir"));
+        m_process->start(C_PROGRAM_NAME, arguments);
+        debugPrintProcessCommand(m_process);
     }
 }
 
-QString StreamCleanCache::cacheDir()
+QUrl StreamCleanCache::cacheDir()
 {
     // Try to get the .cache from $XDG_CACHE_HOME, if it's not set,
     // it has to be in ~/.cache as per XDG standard
@@ -497,7 +610,7 @@ QString StreamCleanCache::cacheDir()
     if (dir.isEmpty()) {
         dir = QDir::cleanPath(QDir::homePath() + QLatin1String("/.cache"));
     }
-    return QDir::toNativeSeparators(dir);
+    return QUrl::fromLocalFile(dir);
 }
 
 bool StreamCleanCache::isCleaned() const
@@ -523,7 +636,7 @@ void StreamCleanCache::onFinished(int exitCode, QProcess::ExitStatus exitStatus)
             qWarning("Can't clean the cache.");
         }
     } else {
-        qWarning("The process (Youtube-DL) has crashed.");
+        qWarning("The process (YT-DLP) has crashed.");
     }
     // Even if crashed or not cleaned,
     // the process is set to done, to avoid being redone.
@@ -582,41 +695,43 @@ void StreamObjectDownloader::runAsync(const QString &url)
 void StreamObjectDownloader::runAsyncDumpJson()
 {
     if (m_processDumpJson->state() == QProcess::NotRunning) {
-        QStringList arguments;
-        arguments << QLatin1String("--dump-json")
-                  << QLatin1String("--yes-playlist")
-                  << QLatin1String("--no-color")
-                  << QLatin1String("--no-check-certificate")
-                  << QLatin1String("--ignore-config")
-                  << QLatin1String("--ignore-errors") // skip errors, like unavailable videos in a playlist
-                  << m_url;
+        auto arguments = QStringList()
+                << QLatin1String("--dump-json")
+                << QLatin1String("--yes-playlist")
+                << QLatin1String("--no-colors")
+                << QLatin1String("--no-check-certificate")
+                << QLatin1String("--ignore-config")
+                << QLatin1String("--ignore-errors") // skip errors, like unavailable videos in a playlist
+                << m_url;
         if (!s_youtubedl_user_agent.isEmpty()) {
             // --user-agent option requires non-empty argument
             arguments << QLatin1String("--user-agent") << s_youtubedl_user_agent;
         }
         m_processDumpJson->setWorkingDirectory(qApp->applicationDirPath());
         m_processDumpJson->start(C_PROGRAM_NAME, arguments);
+        debugPrintProcessCommand(m_processDumpJson);
     }
 }
 
 void StreamObjectDownloader::runAsyncFlatList()
 {
     if (m_processFlatList->state() == QProcess::NotRunning) {
-        QStringList arguments;
-        arguments << QLatin1String("--dump-json")
-                  << QLatin1String("--flat-playlist")
-                  << QLatin1String("--yes-playlist")
-                  << QLatin1String("--no-color")
-                  << QLatin1String("--no-check-certificate")
-                  << QLatin1String("--ignore-config")
-                  << QLatin1String("--ignore-errors")
-                  << m_url;
+        auto arguments = QStringList()
+                << QLatin1String("--dump-json")
+                << QLatin1String("--flat-playlist")
+                << QLatin1String("--yes-playlist")
+                << QLatin1String("--no-colors")
+                << QLatin1String("--no-check-certificate")
+                << QLatin1String("--ignore-config")
+                << QLatin1String("--ignore-errors")
+                << m_url;
         if (!s_youtubedl_user_agent.isEmpty()) {
             // --user-agent option requires non-empty argument
             arguments << QLatin1String("--user-agent") << s_youtubedl_user_agent;
         }
         m_processFlatList->setWorkingDirectory(qApp->applicationDirPath());
         m_processFlatList->start(C_PROGRAM_NAME, arguments);
+        debugPrintProcessCommand(m_processFlatList);
     }
 }
 
@@ -916,11 +1031,12 @@ StreamUpgrader::~StreamUpgrader()
 void StreamUpgrader::runAsync()
 {
     if (m_process->state() == QProcess::NotRunning) {
+        auto arguments = QStringList()
+                << QLatin1String("--no-colors")
+                << QLatin1String("--update");
         m_process->setWorkingDirectory(qApp->applicationDirPath());
-        m_process->start(
-                    C_PROGRAM_NAME, QStringList()
-                    << QLatin1String("--no-color")
-                    << QLatin1String("--update"));
+        m_process->start(C_PROGRAM_NAME, arguments);
+        debugPrintProcessCommand(m_process);
     }
 }
 
@@ -947,12 +1063,12 @@ void StreamUpgrader::onFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
     if (exitStatus == QProcess::NormalExit) {
         if (exitCode == C_EXIT_SUCCESS) {
-            qInfo("Upgraded Youtube-DL.");
+            qInfo("Upgraded YT-DLP.");
         } else {
-            qWarning("Can't upgrade Youtube-DL.");
+            qWarning("Can't upgrade YT-DLP.");
         }
     } else {
-        qWarning("The process (Youtube-DL) has crashed.");
+        qWarning("The process (YT-DLP) has crashed.");
     }
     emit done();
 }
@@ -984,18 +1100,20 @@ StreamExtractorListCollector::~StreamExtractorListCollector()
 void StreamExtractorListCollector::runAsync()
 {
     if (m_processExtractors->state() == QProcess::NotRunning) {
+        auto arguments = QStringList()
+                << QLatin1String("--no-colors")
+                << QLatin1String("--list-extractors");
         m_processExtractors->setWorkingDirectory(qApp->applicationDirPath());
-        m_processExtractors->start(
-                    C_PROGRAM_NAME, QStringList()
-                    << QLatin1String("--no-color")
-                    << QLatin1String("--list-extractors"));
+        m_processExtractors->start(C_PROGRAM_NAME,arguments);
+        debugPrintProcessCommand(m_processExtractors);
     }
     if (m_processDescriptions->state() == QProcess::NotRunning) {
+        auto arguments = QStringList()
+                << QLatin1String("--no-colors")
+                << QLatin1String("--extractor-descriptions");
         m_processDescriptions->setWorkingDirectory(qApp->applicationDirPath());
-        m_processDescriptions->start(
-                    C_PROGRAM_NAME, QStringList()
-                    << QLatin1String("--no-color")
-                    << QLatin1String("--extractor-descriptions"));
+        m_processDescriptions->start(C_PROGRAM_NAME,arguments);
+        debugPrintProcessCommand(m_processDescriptions);
     }
 }
 
@@ -1229,7 +1347,8 @@ bool StreamObject::operator==(const StreamObject &other) const
             && m_error          == other.m_error
             && m_userTitle      == other.m_userTitle
             && m_userSuffix     == other.m_userSuffix
-            && m_userFormatId   == other.m_userFormatId;
+            && m_userFormatId   == other.m_userFormatId
+            && m_userConfig     == other.m_userConfig;
 }
 
 bool StreamObject::operator!=(const StreamObject &other) const
@@ -1266,6 +1385,16 @@ QString StreamObject::title() const
 void StreamObject::setTitle(const QString &title)
 {
     m_userTitle = (title == defaultTitle) ? QString() : title;
+}
+
+StreamObjectConfig StreamObject::config() const
+{
+    return m_userConfig;
+}
+
+void StreamObject::setConfig(const StreamObjectConfig &config)
+{
+    m_userConfig = config;
 }
 
 static QString cleanFileName(const QString &fileName)
@@ -1539,3 +1668,15 @@ QDebug operator<<(QDebug dbg, const StreamObject *streamObject)
     return dbg.space();
 }
 #endif
+
+void debugPrintProcessCommand(QProcess *process)
+{
+    QString text = "";
+    text +=  process->program();
+    text +=  " ";
+    foreach (auto arg, process->arguments()) {
+        text +=  arg;
+        text +=  " ";
+    }
+    qDebug() << text;
+}

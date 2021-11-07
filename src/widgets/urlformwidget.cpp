@@ -19,13 +19,20 @@
 
 #include <Core/ResourceItem>
 
+#include <QtCore/QDebug>
+#include <QtCore/QSettings>
+
+
 UrlFormWidget::UrlFormWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::UrlFormWidget)
 {
     ui->setupUi(this);
 
-    adjustSize();
-    setFixedHeight(height());
+    setSizePolicy(QSizePolicy::Expanding, // The widget should get as much horizontal space as possible
+                  QSizePolicy::Maximum);  // The widget cannot be higher than the size provided by sizeHint()
+
+    connect(ui->collapseButton, SIGNAL(released()),
+            this, SLOT(onCollapseButtonReleased()));
 
     ui->pathWidget->setPathType(PathWidget::Directory);
 
@@ -33,11 +40,21 @@ UrlFormWidget::UrlFormWidget(QWidget *parent) : QWidget(parent)
             this, SIGNAL(changed(QString)), Qt::QueuedConnection);
     connect(ui->maskWidget, SIGNAL(currentMaskChanged(QString)),
             this, SIGNAL(changed(QString)), Qt::QueuedConnection);
+
+    readSettings();
 }
 
 UrlFormWidget::~UrlFormWidget()
 {
+    writeSettings();
     delete ui;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void UrlFormWidget::onCollapseButtonReleased()
+{
+    setCollapsed(!isCollapsed());
 }
 
 /******************************************************************************
@@ -56,18 +73,14 @@ void UrlFormWidget::setExternalUrlLabelAndLineEdit(QLabel *urlLabel, QLineEdit *
 
         urlLabel->setMinimumWidth(ui->urlLabel->width());
     }
-
-    // Recalculate the size, when the widgets are hidden
-    recalculateSize();
+    updateGeometry();
 }
 
 void UrlFormWidget::hideCustomFile()
 {
     ui->customFileNameLabel->setVisible(false);
     ui->customFileNameLineEdit->setVisible(false);
-
-    // Recalculate the size, when the widgets are hidden
-    recalculateSize();
+    updateGeometry();
 }
 
 /******************************************************************************
@@ -181,10 +194,69 @@ void UrlFormWidget::setCurrentMask(const QString &text)
 
 /******************************************************************************
  ******************************************************************************/
-void UrlFormWidget::recalculateSize()
+bool UrlFormWidget::isCollapsible() const
 {
-    auto height = sizeHint().height();
-    setMinimumHeight(height);
-    setMaximumHeight(height);
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    return m_isCollapsible;
+}
+
+void UrlFormWidget::setCollapsible(bool enabled)
+{
+    m_isCollapsible = enabled;
+    ui->collapseButton->setVisible(enabled);
+    if (!enabled) {
+        setCollapsed(false);
+    }
+    updateGeometry();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+bool UrlFormWidget::isCollapsed() const
+{
+    return m_isCollapsed;
+}
+
+void UrlFormWidget::setCollapsed(bool collapsed)
+{
+    m_isCollapsed = collapsed;
+    ui->collapseButton->setArrowType(m_isCollapsed ? Qt::UpArrow : Qt::DownArrow);
+    ui->customFileNameLabel->setVisible(!m_isCollapsed);
+    ui->customFileNameLineEdit->setVisible(!m_isCollapsed);
+    ui->descriptionLabel->setVisible(!m_isCollapsed);
+    ui->descriptionLineEdit->setVisible(!m_isCollapsed);
+    ui->referringPageLabel->setVisible(!m_isCollapsed);
+    ui->referringPageLineEdit->setVisible(!m_isCollapsed);
+    ui->maskLabel->setVisible(!m_isCollapsed);
+    ui->maskWidget->setVisible(!m_isCollapsed);
+    ui->hashLabel->setVisible(!m_isCollapsed);
+    ui->hashLineEdit->setVisible(!m_isCollapsed);
+    updateGeometry();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void UrlFormWidget::readSettings()
+{
+    QSettings settings;
+    settings.beginGroup("Wizard");
+    if (isCollapsible()) {
+        setCollapsed(settings.value("Collapsed", false).toBool());
+    }
+    setCurrentPath(settings.value("Path", QString()).toString());
+    setPathHistory(settings.value("PathHistory").toStringList());
+    setCurrentMask(settings.value("Mask", QString()).toString());
+    settings.endGroup();
+}
+
+void UrlFormWidget::writeSettings()
+{
+    QSettings settings;
+    settings.beginGroup("Wizard");
+    if (isCollapsible()) {
+        settings.setValue("Collapsed", isCollapsed());
+    }
+    settings.setValue("Path", currentPath());
+    settings.setValue("PathHistory", pathHistory());
+    settings.setValue("Mask", currentMask());
+    settings.endGroup();
 }

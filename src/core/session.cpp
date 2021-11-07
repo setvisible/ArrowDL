@@ -50,6 +50,74 @@ static inline int stateToInt(IDownloadItem::State state)
     }
 }
 
+static inline StreamObjectConfig readStreamConfig(const QJsonObject &json)
+{
+    StreamObjectConfig config;
+    {
+        auto j = json["overview"].toObject();
+        config.overview.skipVideo = j["skipVideo"].isBool();
+        config.overview.markWatched = j["markWatched"].toBool();
+    }
+    {
+        auto j = json["chapter"].toObject();
+        config.chapter.writeChapters = j["writeChapters"].isBool();
+    }
+    {
+        auto j = json["thumbnail"].toObject();
+        config.thumbnail.writeDefaultThumbnail = j["writeDefaultThumbnail"].isBool();
+    }
+    {
+        auto j = json["comment"].toObject();
+        config.comment.writeComment = j["writeComment"].isBool();
+    }
+    {
+        auto j = json["metadata"].toObject();
+        config.metadata.writeDescription = j["writeDescription"].isBool();
+        config.metadata.writeMetadata = j["writeMetadata"].isBool();
+        config.metadata.writeInternetShortcut = j["writeInternetShortcut"].isBool();
+    }
+    {
+        auto j = json["processing"].toObject();
+    }
+    {
+        auto j = json["sponsor"].toObject();
+    }
+    return config;
+}
+
+static inline QJsonObject writeStreamConfig(const StreamObjectConfig &config)
+{
+    QJsonObject json;
+    {
+        QJsonObject j;
+        j["skipVideo"] = config.overview.skipVideo;
+        j["markWatched"] = config.overview.markWatched;
+        json["overview"] = j;
+    }
+    {
+        QJsonObject j;
+        j["writeChapters"] = config.chapter.writeChapters;
+        json["chapter"] = j;
+    }
+    {
+        QJsonObject j;
+        j["writeDefaultThumbnail"] = config.thumbnail.writeDefaultThumbnail;
+        json["thumbnail"] = j;
+    }
+    {
+        QJsonObject j;
+        j["writeComment"] = config.comment.writeComment;
+        json["comment"] = j;
+    }
+    {
+        QJsonObject j;
+        j["writeDescription"] = config.metadata.writeDescription;
+        j["writeMetadata"] = config.metadata.writeMetadata;
+        j["writeInternetShortcut"] = config.metadata.writeInternetShortcut;
+        json["metadata"] = j;
+    }
+    return json;
+}
 
 static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *downloadManager)
 {
@@ -84,6 +152,9 @@ static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *do
     resourceItem->setStreamFormatId(json["streamFormatId"].toString());
     resourceItem->setStreamFileSize(json["streamFileSize"].toInt());
 
+    auto config = readStreamConfig(json["streamConfig"].toObject());
+    resourceItem->setStreamConfig(config);
+
     resourceItem->setTorrentPreferredFilePriorities(json["torrentPreferredFilePriorities"].toString());
 
     DownloadItem *item;
@@ -105,6 +176,7 @@ static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *do
     item->setBytesTotal(json["bytesTotal"].toInt());
     item->setMaxConnectionSegments(json["maxConnectionSegments"].toInt());
     item->setMaxConnections(json["maxConnections"].toInt());
+    item->setLog(json["log"].toString());
 
     return item;
 }
@@ -124,6 +196,9 @@ static inline void writeJob(const DownloadItem *item, QJsonObject &json)
     json["streamFormatId"] = item->resource()->streamFormatId();
     json["streamFileSize"] = item->resource()->streamFileSize();
 
+    auto config = item->resource()->streamConfig();
+    json["streamConfig"] = writeStreamConfig(config);
+
     json["torrentPreferredFilePriorities"] = item->resource()->torrentPreferredFilePriorities();
 
     json["state"] = stateToInt(item->state());
@@ -131,6 +206,7 @@ static inline void writeJob(const DownloadItem *item, QJsonObject &json)
     json["bytesTotal"] = item->bytesTotal();
     json["maxConnectionSegments"] = item->maxConnectionSegments();
     json["maxConnections"] = item->maxConnections();
+    json["log"] = item->log();
 }
 
 /******************************************************************************

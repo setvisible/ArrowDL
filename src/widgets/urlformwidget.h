@@ -58,12 +58,25 @@ public:
     QString currentMask() const;
     void setCurrentMask(const QString &text);
 
+    bool isCollapsible() const;
+    void setCollapsible(bool enabled);
+
 signals:
     void changed(QString);
 
+private slots:
+    void onCollapseButtonReleased();
+
 private:
     Ui::UrlFormWidget *ui;
-    void recalculateSize();
+    bool m_isCollapsible{true};
+    bool m_isCollapsed{false};
+
+    bool isCollapsed() const;
+    void setCollapsed(bool collapsed);
+
+    void readSettings();
+    void writeSettings();
 };
 
 #endif // DIALOGS_URL_FORM_WIDGET_H

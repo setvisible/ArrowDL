@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>538</width>
-    <height>411</height>
+    <width>476</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0,0">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,1" columnstretch="0,1">
      <item row="1" column="1">
@@ -97,12 +97,6 @@
      </item>
      <item row="6" column="0" colspan="2">
       <widget class="StreamListWidget" name="streamListWidget" native="true">
-       <property name="minimumSize">
-        <size>
-         <width>40</width>
-         <height>100</height>
-        </size>
-       </property>
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
@@ -140,12 +134,6 @@
    </item>
    <item>
     <widget class="UrlFormWidget" name="urlFormWidget" native="true">
-     <property name="minimumSize">
-      <size>
-       <width>40</width>
-       <height>100</height>
-      </size>
-     </property>
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
      </property>

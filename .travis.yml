@@ -184,7 +184,7 @@ script:
 #   Other files must be added manually :(
   - cp ./../install-DownZemAll-cmake/LICENSE ./AppDir/usr/bin/
   - cp ./../install-DownZemAll-cmake/TROUBLESHOOTING.md ./AppDir/usr/bin/
-  - cp ./../install-DownZemAll-cmake/youtube-dl ./AppDir/usr/bin/
+  - cp ./../install-DownZemAll-cmake/yt-dlp ./AppDir/usr/bin/
   - mkdir -p ./AppDir/usr/bin/locale
   - cp ./../install-DownZemAll-cmake/locale/* ./AppDir/usr/bin/locale/
 

@@ -65,8 +65,8 @@ private:
 
     void setGuiEnabled(bool enabled);
 
-    void readSettings();
-    void writeSettings();
+    void readUiSettings();
+    void writeUiSettings();
 };
 
 #endif // DIALOGS_ADD_STREAM_DIALOG_H

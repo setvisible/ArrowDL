@@ -33,9 +33,7 @@ DownloadStreamItem::DownloadStreamItem(DownloadManager *downloadManager)
  ******************************************************************************/
 void DownloadStreamItem::resume()
 {
-    qInfo("Resume '%s' (destination: '%s').",
-          resource()->url().toLatin1().data(),
-          localFullFileName().toLatin1().data());
+    logInfo(QString("Resume '%0' (destination: '%1').").arg(resource()->url(), localFullFileName()));
 
     this->beginResume();
 
@@ -66,10 +64,14 @@ void DownloadStreamItem::resume()
         m_stream->setSelectedFormatId(StreamFormatId(resource()->streamFormatId()));
         m_stream->setFileSizeInBytes(resource()->streamFileSize());
 
+        m_stream->setConfig(resource()->streamConfig());
+
         connect(m_stream, SIGNAL(downloadMetadataChanged()), this, SLOT(onMetaDataChanged()));
         connect(m_stream, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
         connect(m_stream, SIGNAL(downloadError(QString)), this, SLOT(onError(QString)));
         connect(m_stream, SIGNAL(downloadFinished()), this, SLOT(onFinished()));
+
+        logInfo(m_stream->command());
 
         m_stream->start();
 
@@ -80,13 +82,13 @@ void DownloadStreamItem::resume()
 void DownloadStreamItem::pause()
 {
     /// \todo implement?
-    qInfo("Pause '%s'.", resource()->url().toLatin1().data());
+    logInfo(QString("Pause '%0'.").arg(resource()->url()));
     AbstractDownloadItem::pause();
 }
 
 void DownloadStreamItem::stop()
 {
-    qInfo("Stop '%s'.", resource()->url().toLatin1().data());
+    logInfo(QString("Stop '%0'.").arg(resource()->url()));
     file()->cancel();
     if (m_stream) {
         m_stream->abort();
@@ -103,9 +105,7 @@ void DownloadStreamItem::onMetaDataChanged()
     auto oldFileName = resource()->streamFileName();
     auto newFileName = m_stream->fileName();
     if (oldFileName != newFileName) {
-        qInfo("HTTP redirect: '%s' to '%s'.",
-              oldFileName.toLatin1().data(),
-              newFileName.toLatin1().data());
+        logInfo(QString("HTTP redirect: '%0' to '%1'.").arg(oldFileName, newFileName));
         resource()->setStreamFileName(newFileName);
     }
 }
@@ -113,15 +113,17 @@ void DownloadStreamItem::onMetaDataChanged()
 void DownloadStreamItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     if (bytesReceived > 0 && bytesTotal > 0) {
-        qInfo("Downloaded '%s' (%lli of %lli bytes).",
-              resource()->url().toLatin1().data(), bytesReceived, bytesTotal);
+        logInfo(QString("Downloaded '%0' (%1 of %2 bytes).")
+                .arg(resource()->url(),
+                     QString::number(bytesReceived),
+                     QString::number(bytesTotal)));
     }
     updateInfo(bytesReceived, bytesTotal);
 }
 
 void DownloadStreamItem::onFinished()
 {
-    qInfo("Finished (%s) '%s'.", state_c_str(), localFullFileName().toLatin1().data());
+    logInfo(QString("Finished (%0) '%1'.").arg(state_c_str(), localFullFileName()));
     switch (state()) {
     case Idle:
     case Preparing:
@@ -171,9 +173,7 @@ void DownloadStreamItem::onFinished()
 
 void DownloadStreamItem::onError(const QString &errorMessage)
 {
-    qInfo("Error '%s': '%s'.",
-          resource()->url().toLatin1().data(),
-          errorMessage.toLatin1().data());
+    logInfo(QString("Error '%0': '%1'.").arg(resource()->url(), errorMessage));
     file()->cancel();
     setErrorMessage(errorMessage);
     setState(NetworkError);

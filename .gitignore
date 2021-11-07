@@ -19,7 +19,8 @@
 !/.appveyor.yml
 !/.travis.yml
 !/CMakeLists.txt
-!/DEVELOPERS.md
+!/CODE_OF_CONDUCT.md
+!/CONTRIBUTING.md
 !/DownZemAll.pro
 !/doxyfile
 !/doxygenMain.cpp

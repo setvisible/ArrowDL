@@ -2,67 +2,67 @@
 <context>
     <name>AbstractDownloadItem</name>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="68"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="70"/>
         <source>Idle</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="69"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="71"/>
         <source>Paused</source>
         <translation>已暂停</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="70"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="72"/>
         <source>Canceled</source>
         <translation>已取消</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="71"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="73"/>
         <source>Preparing</source>
         <translation>准备中</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="72"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="74"/>
         <source>Connecting</source>
         <translation>正在连接中</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="73"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="75"/>
         <source>Downloading Metadata</source>
         <translation>正在下载元数据</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="74"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="76"/>
         <source>Downloading</source>
         <translation>正在下载中</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="75"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="77"/>
         <source>Finishing</source>
         <translation>正在完成</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="76"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="78"/>
         <source>Complete</source>
         <translation>完成</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="77"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="79"/>
         <source>Seeding</source>
         <translation>正在播种</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="78"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="80"/>
         <source>Skipped</source>
         <translation>已跳过</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="79"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="81"/>
         <source>Server error</source>
         <translation>服务器错误</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="80"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="82"/>
         <source>File error</source>
         <translation>文件错误</translation>
     </message>
@@ -83,25 +83,25 @@ You can also use batch descriptors to download multiple files at one time.</sour
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="87"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="172"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="187"/>
         <source>1 -&gt; 10</source>
         <translation>1 -&gt; 10</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="100"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="173"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="188"/>
         <source>1 -&gt; 100</source>
         <translation>1 -&gt; 100</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="113"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="174"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="189"/>
         <source>01 -&gt; 10</source>
         <translation>01 -&gt; 10</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="126"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="175"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="190"/>
         <source>001 -&gt; 100</source>
         <translation>001 -&gt; 100</translation>
     </message>
@@ -126,17 +126,17 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <translation>示例：</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.ui" line="267"/>
+        <location filename="../dialogs/addbatchdialog.ui" line="274"/>
         <source>&amp;Start!</source>
         <translation>开始</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.ui" line="283"/>
+        <location filename="../dialogs/addbatchdialog.ui" line="290"/>
         <source>Add &amp;paused</source>
         <translation>添加已暂停</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.ui" line="296"/>
+        <location filename="../dialogs/addbatchdialog.ui" line="303"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -146,53 +146,53 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <translation>添加批量和单个文件</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="77"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="75"/>
         <source>Batch descriptors:</source>
         <translation>批量描述：</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="78"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="76"/>
         <source>Must start with &apos;[&apos; or &apos;(&apos;</source>
         <translation>必须以 &apos;[&apos; 或 &apos;(&apos; 开头</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="79"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="77"/>
         <source>Must contain two numbers, separated by &apos;:&apos;, &apos;-&apos; or a space character</source>
         <translation>必须包含两个数字，以 &apos;:&apos;, &apos;-&apos; 或空格字符分隔</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="80"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="78"/>
         <source>Must end with &apos;]&apos; or &apos;)&apos;</source>
         <translation>必须以 &apos;]&apos; 或 &apos;)&apos; 结束</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="164"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="179"/>
         <source>Insert</source>
         <translation>插入</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="284"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="298"/>
         <source>Do you really want to start %0 downloads?</source>
         <translation>您确定要开始 %0 次下载吗?</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="293"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="307"/>
         <source>Don&apos;t ask again, always download batch</source>
         <translation>不再询问，始终批量下载</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="277"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="288"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="291"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="302"/>
         <source>Download Batch</source>
         <translation>批量下载</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="278"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="292"/>
         <source>It seems that you are using some batch descriptors.</source>
         <translation>您似乎正在使用一些批量描述符。</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="289"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="303"/>
         <source>Single Download</source>
         <translation>单个下载</translation>
     </message>
@@ -308,7 +308,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="57"/>
-        <location filename="../dialogs/addstreamdialog.cpp" line="197"/>
+        <location filename="../dialogs/addstreamdialog.cpp" line="229"/>
         <source>Continue</source>
         <translation>继续</translation>
     </message>
@@ -318,27 +318,27 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <translation>流</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.ui" line="181"/>
+        <location filename="../dialogs/addstreamdialog.ui" line="169"/>
         <source>&amp;Start!</source>
         <translation>开始</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.ui" line="197"/>
+        <location filename="../dialogs/addstreamdialog.ui" line="185"/>
         <source>Add &amp;paused</source>
         <translation>添加已暂停</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.ui" line="210"/>
+        <location filename="../dialogs/addstreamdialog.ui" line="198"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.cpp" line="46"/>
+        <location filename="../dialogs/addstreamdialog.cpp" line="43"/>
         <source>Add Stream</source>
         <translation>添加流</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.cpp" line="197"/>
+        <location filename="../dialogs/addstreamdialog.cpp" line="229"/>
         <source>Stop</source>
         <translation>停止</translation>
     </message>
@@ -371,17 +371,17 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <translation>磁力链接和种子</translation>
     </message>
     <message>
-        <location filename="../dialogs/addtorrentdialog.ui" line="187"/>
+        <location filename="../dialogs/addtorrentdialog.ui" line="181"/>
         <source>&amp;Start!</source>
         <translation>开始</translation>
     </message>
     <message>
-        <location filename="../dialogs/addtorrentdialog.ui" line="203"/>
+        <location filename="../dialogs/addtorrentdialog.ui" line="197"/>
         <source>Add &amp;paused</source>
         <translation>添加已暂停</translation>
     </message>
     <message>
-        <location filename="../dialogs/addtorrentdialog.ui" line="216"/>
+        <location filename="../dialogs/addtorrentdialog.ui" line="210"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -394,7 +394,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
 <context>
     <name>AddUrlsDialog</name>
     <message>
-        <location filename="../dialogs/addurlsdialog.ui" line="50"/>
+        <location filename="../dialogs/addurlsdialog.ui" line="43"/>
         <source>Copy-paste a list of Urls to download</source>
         <translation>复制粘贴要下载的 URL 列表</translation>
     </message>
@@ -404,22 +404,22 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <translation>网址列表</translation>
     </message>
     <message>
-        <location filename="../dialogs/addurlsdialog.ui" line="66"/>
+        <location filename="../dialogs/addurlsdialog.ui" line="59"/>
         <source>Download:</source>
         <translation>下载：</translation>
     </message>
     <message>
-        <location filename="../dialogs/addurlsdialog.ui" line="147"/>
+        <location filename="../dialogs/addurlsdialog.ui" line="134"/>
         <source>&amp;Start!</source>
         <translation>开始</translation>
     </message>
     <message>
-        <location filename="../dialogs/addurlsdialog.ui" line="163"/>
+        <location filename="../dialogs/addurlsdialog.ui" line="150"/>
         <source>Add &amp;paused</source>
         <translation>添加已暂停</translation>
     </message>
     <message>
-        <location filename="../dialogs/addurlsdialog.ui" line="176"/>
+        <location filename="../dialogs/addurlsdialog.ui" line="163"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -760,172 +760,172 @@ You can also use batch descriptors to download multiple files at one time.</sour
 <context>
     <name>DownloadItem</name>
     <message>
-        <location filename="../core/downloaditem.cpp" line="262"/>
+        <location filename="../core/downloaditem.cpp" line="265"/>
         <source>No Error</source>
         <translation>没有错误</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="265"/>
+        <location filename="../core/downloaditem.cpp" line="268"/>
         <source>3xx Redirect connection refused</source>
         <translation>3xx 重定向连接被拒绝</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="266"/>
+        <location filename="../core/downloaditem.cpp" line="269"/>
         <source>3xx Redirect remote host closed</source>
         <translation>3xx 重定向远程主机关闭</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="267"/>
+        <location filename="../core/downloaditem.cpp" line="270"/>
         <source>3xx Redirect host not found</source>
         <translation>3xx 重定向主机未找到</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="268"/>
+        <location filename="../core/downloaditem.cpp" line="271"/>
         <source>3xx Redirect timeout</source>
         <translation>3xx 重定向超时</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="269"/>
+        <location filename="../core/downloaditem.cpp" line="272"/>
         <source>3xx Redirect operation canceled</source>
         <translation>3xx 重定向操作已取消</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="270"/>
+        <location filename="../core/downloaditem.cpp" line="273"/>
         <source>3xx Redirect SSL handshake failed</source>
         <translation>3xx 重定向 SSL 握手失败</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="271"/>
+        <location filename="../core/downloaditem.cpp" line="274"/>
         <source>3xx Redirect temporary network failure</source>
         <translation>3xx 重定向临时网络故障</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="272"/>
+        <location filename="../core/downloaditem.cpp" line="275"/>
         <source>3xx Redirect network session failed</source>
         <translation>3xx 重定向网络会话失败</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="273"/>
+        <location filename="../core/downloaditem.cpp" line="276"/>
         <source>3xx Redirect background request not allowed</source>
         <translation>3xx 不允许重定向后台请求</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="275"/>
+        <location filename="../core/downloaditem.cpp" line="278"/>
         <source>3xx Too many redirects</source>
         <translation>3xx 重定向过多</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="276"/>
+        <location filename="../core/downloaditem.cpp" line="279"/>
         <source>3xx Insecure redirect</source>
         <translation>3xx 不安全重定向</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="278"/>
+        <location filename="../core/downloaditem.cpp" line="281"/>
         <source>3xx Unknown redirect error</source>
         <translation>3xx 未知重定向错误</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="281"/>
+        <location filename="../core/downloaditem.cpp" line="284"/>
         <source>5xx Proxy connection refused</source>
         <translation>5xx 代理连接被拒绝</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="282"/>
+        <location filename="../core/downloaditem.cpp" line="285"/>
         <source>5xx Proxy connection closed</source>
         <translation>5xx 代理连接已关闭</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="283"/>
+        <location filename="../core/downloaditem.cpp" line="286"/>
         <source>5xx Proxy not found</source>
         <translation>5xx 代理未找到</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="284"/>
+        <location filename="../core/downloaditem.cpp" line="287"/>
         <source>504 Proxy timeout error</source>
         <translation>504 代理超时错误</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="285"/>
+        <location filename="../core/downloaditem.cpp" line="288"/>
         <source>407 Proxy authentication required</source>
         <translation>407 需要代理身份验证</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="286"/>
+        <location filename="../core/downloaditem.cpp" line="289"/>
         <source>5xx Unknown proxy error</source>
         <translation>5xx 未知代理错误</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="289"/>
+        <location filename="../core/downloaditem.cpp" line="292"/>
         <source>403 Access denied</source>
         <translation>403 拒绝访问</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="290"/>
+        <location filename="../core/downloaditem.cpp" line="293"/>
         <source>405 Method not allowed</source>
         <translation>405 方法不允许</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="291"/>
+        <location filename="../core/downloaditem.cpp" line="294"/>
         <source>404 Not found</source>
         <translation>404 未找到</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="292"/>
+        <location filename="../core/downloaditem.cpp" line="295"/>
         <source>401 Authorization required</source>
         <translation>401 需要授权</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="293"/>
+        <location filename="../core/downloaditem.cpp" line="296"/>
         <source>4xx Resend error</source>
         <translation>4xx 重发错误</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="294"/>
+        <location filename="../core/downloaditem.cpp" line="297"/>
         <source>409 Conflict</source>
         <translation>409 冲突</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="295"/>
+        <location filename="../core/downloaditem.cpp" line="298"/>
         <source>410 Content no longer available</source>
         <translation>410 内容不再可用</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="296"/>
+        <location filename="../core/downloaditem.cpp" line="299"/>
         <source>4xx Unknown content error</source>
         <translation>4xx 未知内容错误</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="299"/>
+        <location filename="../core/downloaditem.cpp" line="302"/>
         <source>4xx Unknown protocol error</source>
         <translation>4xx 未知协议错误</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="300"/>
+        <location filename="../core/downloaditem.cpp" line="303"/>
         <source>400 Bad request</source>
         <translation>400 错误请求</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="301"/>
+        <location filename="../core/downloaditem.cpp" line="304"/>
         <source>4xx Protocol failure</source>
         <translation>4xx 协议失败</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="304"/>
+        <location filename="../core/downloaditem.cpp" line="307"/>
         <source>500 Internal server error</source>
         <translation>500 内部服务器错误</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="305"/>
+        <location filename="../core/downloaditem.cpp" line="308"/>
         <source>501 Server does not support this functionality</source>
         <translation>501 服务器不支持此功能</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="306"/>
+        <location filename="../core/downloaditem.cpp" line="309"/>
         <source>503 Service unavailable</source>
         <translation>503 服务不可用</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="307"/>
+        <location filename="../core/downloaditem.cpp" line="310"/>
         <source>5xx Unknown serveur error</source>
         <translation>5xx 未知服务器错误</translation>
     </message>
@@ -1332,7 +1332,7 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>InformationDialog</name>
     <message>
-        <location filename="../dialogs/informationdialog.cpp" line="38"/>
+        <location filename="../dialogs/informationdialog.cpp" line="39"/>
         <source>Properties</source>
         <translation>属性</translation>
     </message>
@@ -1357,9 +1357,19 @@ Some examples are given below.  Click to paste the example.</source>
         <translation>下载信息</translation>
     </message>
     <message>
-        <location filename="../dialogs/informationdialog.ui" line="171"/>
+        <location filename="../dialogs/informationdialog.ui" line="165"/>
         <source>Options</source>
         <translation>选项</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/informationdialog.ui" line="170"/>
+        <source>Messages</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/informationdialog.ui" line="176"/>
+        <source>Wrap line</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1822,8 +1832,8 @@ Some examples are given below.  Click to paste the example.</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="694"/>
-        <source>About YoutubeDL...</source>
-        <translation>关于 YoutubeDL...</translation>
+        <source>About YT-DLP...</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="348"/>
@@ -2085,17 +2095,17 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>NetworkManager</name>
     <message>
-        <location filename="../core/networkmanager.cpp" line="64"/>
+        <location filename="../core/networkmanager.cpp" line="65"/>
         <source>(none)</source>
         <translation>（无）</translation>
     </message>
     <message>
-        <location filename="../core/networkmanager.cpp" line="65"/>
+        <location filename="../core/networkmanager.cpp" line="66"/>
         <source>SOCKS5</source>
         <translation>SOCKS5</translation>
     </message>
     <message>
-        <location filename="../core/networkmanager.cpp" line="66"/>
+        <location filename="../core/networkmanager.cpp" line="67"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
@@ -2128,7 +2138,7 @@ Some examples are given below.  Click to paste the example.</source>
     <name>PreferenceDialog</name>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="80"/>
-        <location filename="../dialogs/preferencedialog.ui" line="1164"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1318"/>
         <source>General</source>
         <translation>常规</translation>
     </message>
@@ -2289,51 +2299,126 @@ Some examples are given below.  Click to paste the example.</source>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="704"/>
-        <source>Downloaded Files</source>
+        <source>Socket</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="710"/>
-        <source>Get time from server for the file&apos;s...:</source>
+        <location filename="../dialogs/preferencedialog.ui" line="713"/>
+        <source>Tolerant (IPv4 or IPv6)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="717"/>
-        <source>Last modified time</source>
+        <location filename="../dialogs/preferencedialog.ui" line="718"/>
+        <source>Use IPv4 only</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="724"/>
-        <source>Creation time (may not be not supported on UNIX)</source>
+        <location filename="../dialogs/preferencedialog.ui" line="723"/>
+        <source>Use IPv6 only</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="731"/>
+        <source> seconds</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="747"/>
+        <source>Connection Protocol:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="754"/>
+        <source>Timeout to establish a connection:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="784"/>
+        <source>Downloaded Files</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="790"/>
+        <source>Get time from server for the file&apos;s...:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="797"/>
+        <source>Last modified time</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="804"/>
+        <source>Creation time (may not be not supported on UNIX)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="811"/>
         <source>Most recent access (e.g. read or written to)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="738"/>
+        <location filename="../dialogs/preferencedialog.ui" line="818"/>
         <source>Metadata change time</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="916"/>
+        <location filename="../dialogs/preferencedialog.ui" line="828"/>
+        <source>Downloaded Audio/Video</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="836"/>
+        <source>Download subtitle</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="843"/>
+        <source>Download description</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="850"/>
+        <source>Mark watched (only for Youtube)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="857"/>
+        <source>Download thumbnail</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="864"/>
+        <source>Download metadata</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="871"/>
+        <source>Download comments </source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="878"/>
+        <source>Create internet shortcut</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="1070"/>
         <source>Identification</source>
         <translation>鉴别</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="672"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="709"/>
         <source>Servers might use HTTP identification contained in the HTTP request to log client attributes. Some server even don&apos;t respond to the client if the identification attribute is empty. The fields allow you to send fake information, to protect privacy.</source>
         <translation>服务器可能会使用 HTTP 请求中包含的 HTTP 标识来记录客户端属性。 如果标识属性为空，某些服务器甚至不响应客户端。 这些字段允许您发送虚假信息，以保护隐私。</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="986"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1140"/>
         <source>HTTP User Agent:</source>
         <translation>HTTP 用户代理：</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1086"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1240"/>
         <source>Filter</source>
         <translation>过滤</translation>
     </message>
@@ -2373,279 +2458,279 @@ Some examples are given below.  Click to paste the example.</source>
         <translation>验证</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="766"/>
+        <location filename="../dialogs/preferencedialog.ui" line="923"/>
         <source>Privacy</source>
         <translation>隐私</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="774"/>
+        <location filename="../dialogs/preferencedialog.ui" line="931"/>
         <source>When Manager window is closed</source>
         <translation>当管理器窗口关闭时</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="780"/>
+        <location filename="../dialogs/preferencedialog.ui" line="937"/>
         <source>Remove completed downloads</source>
         <translation>移除已完成的下载</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="787"/>
+        <location filename="../dialogs/preferencedialog.ui" line="944"/>
         <source>Remove canceled/failed downloads</source>
         <translation>移除已取消/失败的下载</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="794"/>
+        <location filename="../dialogs/preferencedialog.ui" line="951"/>
         <source>Remove unfinished (paused) downloads</source>
         <translation>移除未完成（已暂停）的下载</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="862"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1019"/>
         <source>Database</source>
         <translation>数据库</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="868"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1025"/>
         <source>The current downloads queue is temporarly saved in:</source>
         <translation>当前下载队列暂时保存在：</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="881"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1038"/>
         <source>Stream Cache</source>
         <translation>流缓存</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="892"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="701"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1049"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="738"/>
         <source>Clean Cache</source>
         <translation>清除缓存</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="804"/>
+        <location filename="../dialogs/preferencedialog.ui" line="961"/>
         <source>Auto Update</source>
         <translation>自动更新</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="810"/>
+        <location filename="../dialogs/preferencedialog.ui" line="967"/>
         <source>Check for updates automatically:</source>
         <translation>自动检查更新：</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="824"/>
+        <location filename="../dialogs/preferencedialog.ui" line="981"/>
         <source>Never</source>
         <translation>从不</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="829"/>
+        <location filename="../dialogs/preferencedialog.ui" line="986"/>
         <source>Once a day</source>
         <translation>一天一次</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="834"/>
+        <location filename="../dialogs/preferencedialog.ui" line="991"/>
         <source>Once a week</source>
         <translation>一周一次</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="848"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1005"/>
         <source>Check updates now...</source>
         <translation>立即检查更新...</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1000"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1154"/>
         <source>Enable Referrer:</source>
         <translation>启用推荐：</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1037"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1191"/>
         <source>Filters</source>
         <translation>过滤器</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="220"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="235"/>
         <source>Caption</source>
         <translation>标题</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="221"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="236"/>
         <source>Extensions</source>
         <translation>扩展</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1095"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1249"/>
         <source>Caption:</source>
         <translation>标题：</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1102"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1256"/>
         <source>Filtered Extensions:</source>
         <translation>过滤扩展：</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1114"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1268"/>
         <source>Add New Filter</source>
         <translation>添加新的过滤器</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1121"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1275"/>
         <source>Update Filter</source>
         <translation>更新过滤器</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1128"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1282"/>
         <source>Remove Filter</source>
         <translation>移除过滤器</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1158"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1312"/>
         <source>Torrent</source>
         <translation>种子</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1170"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1324"/>
         <source>Enable Torrent</source>
         <translation>启用种子</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1177"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1331"/>
         <source>If enabled, this software becomes a torrent client. It shares DHT (distributed hash table) with peers, .torrents files you share (those in your torrent share folder actually) and .torrents files currently downloading in the download queue.</source>
         <translation>如果启用，此软件将成为 Torrent 客户端。 它与同级共享 DHT（分布式哈希表）、您共享的 .torrents 文件（实际上是在您的 torrent 共享文件夹中的那些文件）以及当前在下载队列中下载的 .torrents 文件。</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1190"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1344"/>
         <source>Directory</source>
         <translation>目录</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1196"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1350"/>
         <source>Share folder:</source>
         <translation>共享文件夹：</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1211"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1365"/>
         <source>Bandwidth</source>
         <translation>带宽</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1219"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1373"/>
         <source>Max Upload Rate* (kB/s):</source>
         <translation>最大上传速率* (kB/s)：</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1236"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1390"/>
         <source>Max Download Rate* (kB/s):</source>
         <translation>最大下载速率* (kB/s)：</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1253"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1407"/>
         <source>Max Number of Connections:</source>
         <translation>最大连接数：</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1270"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1424"/>
         <source>Max Number of Peers per Torrent:</source>
         <translation>每个 Torrent 的最大对等点数：</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1289"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1443"/>
         <source>* (0: unlimited)</source>
         <translation>* (0: 无限制)</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1312"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1466"/>
         <source>Connection</source>
         <translation>连接</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1318"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1472"/>
         <source>Peers:</source>
         <translation>同行：</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1325"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1479"/>
         <source>Ex: 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894</source>
         <translation>例如：123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1332"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1486"/>
         <source>Note:  If not empty, these peers will be added to all torrents (format is &lt;IP:port&gt;. Ex: &quot;123.45.6.78:56789, 127.0.0.65:7894...&quot;)</source>
         <translation>注意：如果不为空，这些对等点将被添加到所有种子中（格式为 1。例如：“123.45.6.78:56789, 127.0.0.65:7894...”）</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1352"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1506"/>
         <source>Advanced</source>
         <translation>高级</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1400"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1554"/>
         <source>Restore default settings</source>
         <translation>恢复默认设置</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1426"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1580"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1442"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1596"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="199"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="211"/>
         <source>Queue Database</source>
         <translation>队列数据库</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="203"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="217"/>
         <source>Located in %0</source>
         <translation>位于 %0</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="209"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="224"/>
         <source>(none)</source>
         <translation>（无）</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="241"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="256"/>
         <source>Warning: The system tray is not available.</source>
         <translation>警告：系统托盘不可用。</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="244"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="259"/>
         <source>Warning: The system tray doesn&apos;t support balloon messages.</source>
         <translation>警告：系统托盘不支持气球信息。</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="249"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="264"/>
         <source>Preferences</source>
         <translation>首选项</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="315"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="330"/>
         <source>Reset all filters</source>
         <translation>重置所有过滤器</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="638"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="647"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="675"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="684"/>
         <source>The host may be %0, %1 or %2</source>
         <translation>主机可能是 %0，%1 或 %2</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="643"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="680"/>
         <source>The host may be %0 but not %1</source>
         <translation>主机可能是 %0 但不是 %1</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="654"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="691"/>
         <source>Examples:</source>
         <translation>示例：</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="678"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="715"/>
         <source>Referring Page (or Referrer) is an HTTP option that communicates to the server the address of the previous web page from which the resource is requested. This typically allows the HTTP server to track a visitor&apos;s browsing, page after page. To protect privacy, enter an empty or fake Referrer address.</source>
         <translation>引用页面（或引用页面）是一个 HTTP 选项，用于将请求资源的前一个网页的地址传递给服务器。 这通常允许 HTTP 服务器逐页跟踪访问者的浏览情况。 为保护隐私，请输入空的或虚假的推荐人地址。</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="690"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="727"/>
         <source>Cleaning...</source>
         <translation>清除中...</translation>
     </message>
@@ -2701,17 +2786,17 @@ Some examples are given below.  Click to paste the example.</source>
         <translation>无法加载 %0</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1166"/>
+        <location filename="../core/stream.cpp" line="1284"/>
         <source>Video %0 x %1%2%3</source>
         <translation>视频 %0 x %1%2%3</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1173"/>
+        <location filename="../core/stream.cpp" line="1291"/>
         <source>[%0] %1 x %2 (%3 fps) @ %4 KBit/s, codec: %5</source>
         <translation>[%0] %1 x %2 (%3 fps) @ %4 KBit/s，编解码器：%5</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1182"/>
+        <location filename="../core/stream.cpp" line="1300"/>
         <source>[%0] %1 Hz @ %2 KBit/s, codec: %3</source>
         <translation>[%0] %1 Hz @ %2 KBit/，编解码器：%3</translation>
     </message>
@@ -2875,47 +2960,47 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../core/settings.cpp" line="622"/>
+        <location filename="../core/settings.cpp" line="734"/>
         <source>All Files</source>
         <translation>所有文件</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="623"/>
+        <location filename="../core/settings.cpp" line="735"/>
         <source>Archives (zip, rar...)</source>
         <translation>存档（zip, rar...）</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="624"/>
+        <location filename="../core/settings.cpp" line="736"/>
         <source>Application (exe, xpi...)</source>
         <translation>应用程序（exe, xpi...）</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="625"/>
+        <location filename="../core/settings.cpp" line="737"/>
         <source>Audio (mp3, wav...)</source>
         <translation>音频（mp3, wav...）</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="626"/>
+        <location filename="../core/settings.cpp" line="738"/>
         <source>Documents (pdf, odf...)</source>
         <translation>文档（pdf, odf...）</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="627"/>
+        <location filename="../core/settings.cpp" line="739"/>
         <source>Images (jpg, png...)</source>
         <translation>图像（jpg, png...）</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="628"/>
+        <location filename="../core/settings.cpp" line="740"/>
         <source>Images JPEG</source>
         <translation>JPEG 图像</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="629"/>
+        <location filename="../core/settings.cpp" line="741"/>
         <source>Images PNG</source>
         <translation>PNG 图像</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="630"/>
+        <location filename="../core/settings.cpp" line="742"/>
         <source>Video (mpeg, avi...)</source>
         <translation>视频（mpeg, avi...）</translation>
     </message>
@@ -2923,9 +3008,288 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>Stream</name>
     <message>
-        <location filename="../core/stream.cpp" line="366"/>
+        <location filename="../core/stream.cpp" line="478"/>
         <source>The process crashed.</source>
         <translation>进程崩溃了。</translation>
+    </message>
+</context>
+<context>
+    <name>StreamConfigWidget</name>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="32"/>
+        <source>Do not download the video but write all related files</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="39"/>
+        <source>Mark watched (only for Youtube)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="46"/>
+        <source>Subtitle</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="52"/>
+        <source>Download subtitle (if present)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="62"/>
+        <source>Download automatic captions </source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="71"/>
+        <source>Language:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="85"/>
+        <source>Format:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="113"/>
+        <source>Convert the subtitles to format:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="121"/>
+        <source>srt</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="126"/>
+        <source>vtt</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="131"/>
+        <source>ass</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="136"/>
+        <source>lrc</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="162"/>
+        <source>Chapters</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="171"/>
+        <source>Split video into multiple files based on internal chapters</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="181"/>
+        <source>Remove chapters whose title matches the given regular expression:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="191"/>
+        <source>Ex: &quot;*10:15-15:00&quot;, or &quot;intro&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="201"/>
+        <source>Thumbnail</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="207"/>
+        <source>Download thumbnail (default image)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="217"/>
+        <source>Download all formats of the thumbnail image</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="236"/>
+        <source>Convert the thumbnails to format:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="247"/>
+        <source>jpg</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="252"/>
+        <source>png</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="278"/>
+        <source>Comments</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="284"/>
+        <source>Download comments (in the .info.json)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="293"/>
+        <source>Sort by:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="304"/>
+        <source>Newest first</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="309"/>
+        <source>Top comments</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="320"/>
+        <source>Limit number of comments:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="339"/>
+        <source>Other Media</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="345"/>
+        <source>Download description as a .description file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="352"/>
+        <source>Download metadata as a .info.json file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="359"/>
+        <source>Create internet shortcut</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="372"/>
+        <source>Post-Processing</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="378"/>
+        <source>Remux the video into another container if necessary :</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="385"/>
+        <location filename="../widgets/streamconfigwidget.ui" line="409"/>
+        <source>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="392"/>
+        <source>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot; will remux aac to m4a, mov to mp4 and anything else to mkv.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="402"/>
+        <source>Re-encode the video into another format if re-encoding is necessary:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="416"/>
+        <source>Rem: The syntax and supported formats are the same as &quot;Remux&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="426"/>
+        <source>Keep the intermediate video file on disk after post-processing</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="433"/>
+        <source>Embed subtitles in the video (only for mp4, webm and mkv videos)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="440"/>
+        <source>Embed thumbnail in the video as cover art</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="447"/>
+        <source>Embed metadata in the video file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="454"/>
+        <source>Embed chapter markers in the video file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="461"/>
+        <source>Write metadata to the video file&apos;s xattrs (using dublin core and xdg standards)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="468"/>
+        <source>Execute the command before the actual download:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="478"/>
+        <source>Execute the command on the file after downloading and post-processing:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="494"/>
+        <source>SponsorBlock</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="500"/>
+        <source>Remove segments in SponsorBlock categories from the video file:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="509"/>
+        <source>Unpaid/Self Promotion</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="516"/>
+        <source>Interaction Reminder</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="523"/>
+        <source>Sponsor</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="530"/>
+        <source>Preview/Recap</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="537"/>
+        <source>Non-Music Section</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="544"/>
+        <source>Endcards/Credits</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamconfigwidget.ui" line="551"/>
+        <source>Intermission/Intro Animation</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2962,8 +3326,8 @@ Some examples are given below.  Click to paste the example.</source>
     </message>
     <message>
         <location filename="../dialogs/streamdialog.cpp" line="99"/>
-        <source>Youtube-DL supports %0 sites:</source>
-        <translation>Youtube-DL 支持 %0 个站点：</translation>
+        <source>YT-DLP supports %0 sites:</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../dialogs/streamdialog.cpp" line="102"/>
@@ -2979,8 +3343,8 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>StreamExtractorListCollector</name>
     <message>
-        <location filename="../core/stream.cpp" line="1027"/>
-        <location filename="../core/stream.cpp" line="1045"/>
+        <location filename="../core/stream.cpp" line="1145"/>
+        <location filename="../core/stream.cpp" line="1163"/>
         <source>The process crashed.</source>
         <translation>进程崩溃了。</translation>
     </message>
@@ -2993,37 +3357,37 @@ Some examples are given below.  Click to paste the example.</source>
         <translation>简易</translation>
     </message>
     <message>
-        <location filename="../widgets/streamformatpicker.ui" line="103"/>
-        <source>Advanced:</source>
-        <translation>高级：</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamformatpicker.ui" line="122"/>
+        <location filename="../widgets/streamformatpicker.ui" line="115"/>
         <source>Audio</source>
         <translation>音频</translation>
     </message>
     <message>
-        <location filename="../widgets/streamformatpicker.ui" line="151"/>
+        <location filename="../widgets/streamformatpicker.ui" line="144"/>
         <source>Video</source>
         <translation>视频</translation>
     </message>
     <message>
-        <location filename="../widgets/streamformatpicker.ui" line="196"/>
+        <location filename="../widgets/streamformatpicker.ui" line="170"/>
+        <source>Other</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../widgets/streamformatpicker.ui" line="218"/>
         <source>Detected media:</source>
         <translation>检测到的媒体：</translation>
     </message>
     <message>
-        <location filename="../widgets/streamformatpicker.ui" line="235"/>
+        <location filename="../widgets/streamformatpicker.ui" line="257"/>
         <source>Audio:</source>
         <translation>音频：</translation>
     </message>
     <message>
-        <location filename="../widgets/streamformatpicker.ui" line="251"/>
+        <location filename="../widgets/streamformatpicker.ui" line="273"/>
         <source>Video:</source>
         <translation>视频：</translation>
     </message>
     <message>
-        <location filename="../widgets/streamformatpicker.ui" line="267"/>
+        <location filename="../widgets/streamformatpicker.ui" line="289"/>
         <source>audio/video information is not available</source>
         <translation>音频/视频信息不可用</translation>
     </message>
@@ -3096,28 +3460,28 @@ Help: if you get an error, follow these instructions:
 <context>
     <name>StreamObjectDownloader</name>
     <message>
-        <location filename="../core/stream.cpp" line="699"/>
+        <location filename="../core/stream.cpp" line="814"/>
         <source>Couldn&apos;t parse JSON file.</source>
         <translation>无法解析 JSON 文件。</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="702"/>
-        <location filename="../core/stream.cpp" line="725"/>
+        <location filename="../core/stream.cpp" line="817"/>
+        <location filename="../core/stream.cpp" line="840"/>
         <source>The process crashed.</source>
         <translation>进程崩溃了。</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="719"/>
+        <location filename="../core/stream.cpp" line="834"/>
         <source>Couldn&apos;t parse playlist (no data received).</source>
         <translation>无法解析播放列表（未收到数据）。</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="722"/>
+        <location filename="../core/stream.cpp" line="837"/>
         <source>Couldn&apos;t parse playlist (ill-formed JSON file).</source>
         <translation>无法解析播放列表（错误的 JSON 文件格式）。</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="856"/>
+        <location filename="../core/stream.cpp" line="971"/>
         <source>Cancelled.</source>
         <translation>已取消。</translation>
     </message>
@@ -3914,47 +4278,47 @@ Ex:
 <context>
     <name>UrlFormWidget</name>
     <message>
-        <location filename="../widgets/urlformwidget.ui" line="40"/>
+        <location filename="../widgets/urlformwidget.ui" line="125"/>
         <source>Referring page:</source>
         <translation>参考页面：</translation>
     </message>
     <message>
-        <location filename="../widgets/urlformwidget.ui" line="56"/>
+        <location filename="../widgets/urlformwidget.ui" line="163"/>
         <source>Description:</source>
         <translation>描述：</translation>
     </message>
     <message>
-        <location filename="../widgets/urlformwidget.ui" line="63"/>
+        <location filename="../widgets/urlformwidget.ui" line="71"/>
         <source>Enter referrer URI</source>
         <translation>输入参考 URL</translation>
     </message>
     <message>
-        <location filename="../widgets/urlformwidget.ui" line="79"/>
+        <location filename="../widgets/urlformwidget.ui" line="42"/>
         <source>Mask:</source>
         <translation>掩码：</translation>
     </message>
     <message>
-        <location filename="../widgets/urlformwidget.ui" line="98"/>
+        <location filename="../widgets/urlformwidget.ui" line="182"/>
         <source>Custom filename:</source>
         <translation>自定义文件名：</translation>
     </message>
     <message>
-        <location filename="../widgets/urlformwidget.ui" line="114"/>
+        <location filename="../widgets/urlformwidget.ui" line="109"/>
         <source>Checksum (Hash):</source>
         <translation>校验和（哈希）：</translation>
     </message>
     <message>
-        <location filename="../widgets/urlformwidget.ui" line="124"/>
+        <location filename="../widgets/urlformwidget.ui" line="49"/>
         <source>Enter new file name</source>
         <translation>输入新的文件名</translation>
     </message>
     <message>
-        <location filename="../widgets/urlformwidget.ui" line="159"/>
+        <location filename="../widgets/urlformwidget.ui" line="198"/>
         <source>Save files in:</source>
         <translation>保存文件在：</translation>
     </message>
     <message>
-        <location filename="../widgets/urlformwidget.ui" line="174"/>
+        <location filename="../widgets/urlformwidget.ui" line="64"/>
         <source>Download:</source>
         <translation>下载：</translation>
     </message>

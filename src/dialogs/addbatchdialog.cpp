@@ -50,8 +50,6 @@ AddBatchDialog::AddBatchDialog(const QUrl &url, DownloadManager *downloadManager
 
     setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Add Batch and Single File")));
 
-    adjustSize();
-    setFixedHeight(height());
     Theme::setIcons(this, { {ui->logo, "add-batch"} });
 
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
@@ -98,12 +96,29 @@ AddBatchDialog::AddBatchDialog(const QUrl &url, DownloadManager *downloadManager
     connect(ui->urlLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onChanged(QString)));
     connect(ui->urlFormWidget, SIGNAL(changed(QString)), this, SLOT(onChanged(QString)));
 
-    readSettings();
+    readUiSettings();
 }
 
 AddBatchDialog::~AddBatchDialog()
 {
+    writeUiSettings();
     delete ui;
+}
+
+void AddBatchDialog::readUiSettings()
+{
+    QSettings settings;
+    settings.beginGroup("BatchDialog");
+    resize(settings.value("DialogSize", size()).toSize());
+    settings.endGroup();
+}
+
+void AddBatchDialog::writeUiSettings()
+{
+    QSettings settings;
+    settings.beginGroup("BatchDialog");
+    settings.setValue("DialogSize", size());
+    settings.endGroup();
 }
 
 /******************************************************************************
@@ -259,7 +274,6 @@ void AddBatchDialog::doAccept(bool started)
         m_downloadManager->append(toList(createItem(adjusted)), started);
         QDialog::accept();
     }
-    writeSettings();
 }
 
 /******************************************************************************
@@ -340,25 +354,3 @@ inline QList<IDownloadItem*> AddBatchDialog::toList(IDownloadItem *item)
     return QList<IDownloadItem*>() << item;
 }
 
-/******************************************************************************
- ******************************************************************************/
-void AddBatchDialog::readSettings()
-{
-    // TODO move to urlFormWidget ?
-    QSettings settings;
-    settings.beginGroup("Wizard");
-    ui->urlFormWidget->setCurrentPath(settings.value("Path", QString()).toString());
-    ui->urlFormWidget->setPathHistory(settings.value("PathHistory").toStringList());
-    ui->urlFormWidget->setCurrentMask(settings.value("Mask", QString()).toString());
-    settings.endGroup();
-}
-
-void AddBatchDialog::writeSettings()
-{
-    QSettings settings;
-    settings.beginGroup("Wizard");
-    settings.setValue("Path", ui->urlFormWidget->currentPath());
-    settings.setValue("PathHistory", ui->urlFormWidget->pathHistory());
-    settings.setValue("Mask", ui->urlFormWidget->currentMask());
-    settings.endGroup();
-}

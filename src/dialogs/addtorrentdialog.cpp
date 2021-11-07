@@ -46,8 +46,11 @@ AddTorrentDialog::AddTorrentDialog(const QUrl &url, DownloadManager *downloadMan
 
     setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Add Magnet Links and Torrent")));
 
-    adjustSize();
-    setFixedHeight(height());
+    // QLayout::SetFixedSize
+    //   Although the name doesn't sound like it will work,
+    //   it ensures that your layout will *only* use the space it needs.
+    // layout()->setSizeConstraint(QLayout::SetFixedSize);
+
     Theme::setIcons(this, { {ui->logo, "add-torrent"} });
 
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
@@ -67,12 +70,29 @@ AddTorrentDialog::AddTorrentDialog(const QUrl &url, DownloadManager *downloadMan
     connect(ui->urlLineEdit, SIGNAL(textChanged(QString)), this, SLOT(onChanged(QString)));
     connect(ui->urlFormWidget, SIGNAL(changed(QString)), this, SLOT(onChanged(QString)));
 
-    readSettings();
+    readUiSettings();
 }
 
 AddTorrentDialog::~AddTorrentDialog()
 {
+    writeUiSettings();
     delete ui;
+}
+
+void AddTorrentDialog::readUiSettings()
+{
+    QSettings settings;
+    settings.beginGroup("TorrentDialog");
+    resize(settings.value("DialogSize", size()).toSize());
+    settings.endGroup();
+}
+
+void AddTorrentDialog::writeUiSettings()
+{
+    QSettings settings;
+    settings.beginGroup("TorrentDialog");
+    settings.setValue("DialogSize", size());
+    settings.endGroup();
 }
 
 /******************************************************************************
@@ -122,7 +142,6 @@ void AddTorrentDialog::doAccept(bool started)
     const QString url = ui->urlFormWidget->url();
     m_downloadManager->append(toList(createItem(url)), started);
     QDialog::accept();
-    writeSettings();
 }
 
 /******************************************************************************
@@ -140,26 +159,4 @@ IDownloadItem* AddTorrentDialog::createItem(const QString &url) const
 inline QList<IDownloadItem*> AddTorrentDialog::toList(IDownloadItem *item)
 {
     return QList<IDownloadItem*>() << item;
-}
-
-/******************************************************************************
- ******************************************************************************/
-void AddTorrentDialog::readSettings()
-{
-    QSettings settings;
-    settings.beginGroup("Wizard");
-    ui->urlFormWidget->setCurrentPath(settings.value("Path", QString()).toString());
-    ui->urlFormWidget->setPathHistory(settings.value("PathHistory").toStringList());
-    ui->urlFormWidget->setCurrentMask(settings.value("Mask", QString()).toString());
-    settings.endGroup();
-}
-
-void AddTorrentDialog::writeSettings()
-{
-    QSettings settings;
-    settings.beginGroup("Wizard");
-    settings.setValue("Path", ui->urlFormWidget->currentPath());
-    settings.setValue("PathHistory", ui->urlFormWidget->pathHistory());
-    settings.setValue("Mask", ui->urlFormWidget->currentMask());
-    settings.endGroup();
 }

@@ -16,6 +16,7 @@
 
 #include "abstractdownloaditem.h"
 
+#include <QtCore/QDateTime>
 #include <QtCore/QDebug>
 #include <QtCore/QtMath>
 
@@ -33,6 +34,7 @@ constexpr int timeout_update_msec = 150; // in milliseconds
  * \brief Constructor
  */
 AbstractDownloadItem::AbstractDownloadItem(QObject *parent) : QObject(parent)
+  , m_log(QString())
 {
     connect(&m_updateInfoTimer, SIGNAL(timeout()), this, SLOT(updateInfo()));
     connect(&m_updateCountDownTimer, SIGNAL(timeout()), this, SLOT(updateInfo()));
@@ -187,6 +189,29 @@ int AbstractDownloadItem::maxConnections() const
 void AbstractDownloadItem::setMaxConnections(int connections)
 {
     m_maxConnections = connections;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QString AbstractDownloadItem::log() const
+{
+    return m_log;
+}
+
+void AbstractDownloadItem::setLog(const QString &log)
+{
+    m_log = log;
+}
+
+/*!
+ * Apped the given message to the log.
+ */
+void AbstractDownloadItem::logInfo(const QString &message)
+{
+    QDateTime local(QDateTime::currentDateTime());
+    auto timestamp = local.toString(QLatin1String("yyyy-MM-dd HH:mm:ss.zzz"));
+    m_log.append("[" + timestamp + "] " + message + "\n");
+    qInfo() << message;
 }
 
 /******************************************************************************

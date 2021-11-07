@@ -17,6 +17,7 @@ HEADERS += \
     $$PWD/pathwidget.h \
     $$PWD/streamformatpicker.h \
     $$PWD/streamlistwidget.h \
+    $$PWD/streamconfigwidget.h \
     $$PWD/streamwidget.h \
     $$PWD/systemtray.h \
     $$PWD/textedit.h \
@@ -45,6 +46,7 @@ SOURCES += \
     $$PWD/pathwidget.cpp \
     $$PWD/streamformatpicker.cpp \
     $$PWD/streamlistwidget.cpp \
+    $$PWD/streamconfigwidget.cpp \
     $$PWD/streamwidget.cpp \
     $$PWD/systemtray.cpp \
     $$PWD/textedit.cpp \
@@ -66,6 +68,7 @@ FORMS += \
     $$PWD/pathwidget.ui \
     $$PWD/streamformatpicker.ui \
     $$PWD/streamlistwidget.ui \
+    $$PWD/streamconfigwidget.ui \
     $$PWD/streamwidget.ui \
     $$PWD/texteditorwidget.ui \
     $$PWD/themewidget.ui \
