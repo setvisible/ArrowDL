@@ -29,9 +29,6 @@
 #include <QtCore/QDebug>
 #include <QtCore/QSettings>
 
-constexpr int default_width = 800;
-constexpr int default_height = 600;
-
 
 AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManager,
                                  Settings *settings, QWidget *parent)
@@ -45,7 +42,6 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
 
     setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Add Stream")));
 
-    adjustSize();
     Theme::setIcons(this, { {ui->logo, "add-stream"} });
 
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, ui->urlLineEdit);
@@ -60,8 +56,6 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
     connect(m_streamObjectDownloader, SIGNAL(error(QString)), this, SLOT(onError(QString)));
     connect(m_streamObjectDownloader, SIGNAL(collected(QList<StreamObject>)), this, SLOT(onCollected(QList<StreamObject>)));
 
-    readSettings();
-
     ui->urlLineEdit->setText(url.toString());
     ui->urlLineEdit->setFocus();
     ui->urlLineEdit->setClearButtonEnabled(true);
@@ -69,11 +63,35 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
     if (!url.isEmpty()) {
         onContinueClicked();
     }
+
+    readUiSettings();
 }
 
 AddStreamDialog::~AddStreamDialog()
 {
+    writeUiSettings();
     delete ui;
+}
+
+void AddStreamDialog::readUiSettings()
+{
+    QSettings settings;
+    settings.beginGroup("StreamDialog");
+    resize(settings.value("DialogSize", size()).toSize());
+
+    QList<int> defaultWidths = {};
+    QVariant variant = QVariant::fromValue(defaultWidths);
+    ui->streamListWidget->setColumnWidths(settings.value("ColumnWidths", variant).value<QList<int> >());
+    settings.endGroup();
+}
+
+void AddStreamDialog::writeUiSettings()
+{
+    QSettings settings;
+    settings.beginGroup("StreamDialog");
+    settings.setValue("DialogSize", size());
+    settings.setValue("ColumnWidths", QVariant::fromValue(ui->streamListWidget->columnWidths()));
+    settings.endGroup();
 }
 
 /******************************************************************************
@@ -133,7 +151,20 @@ void AddStreamDialog::onError(const QString &errorMessage)
 void AddStreamDialog::onCollected(const QList<StreamObject> &streamObjects)
 {
     setGuiEnabled(true);
-    ui->streamListWidget->setStreamObjects(streamObjects);
+    QList<StreamObject> copy;
+    foreach (auto streamObject, streamObjects) {
+        auto config = streamObject.config();
+        config.overview.markWatched = m_settings->isStreamMarkWatchedEnabled();
+        config.subtitle.writeDefaultSubtitle = m_settings->isStreamSubtitleEnabled();
+        config.thumbnail.writeDefaultThumbnail = m_settings->isStreamThumbnailEnabled();
+        config.metadata.writeDescription = m_settings->isStreamDescriptionEnabled();
+        config.metadata.writeMetadata = m_settings->isStreamMetadataEnabled();
+        config.metadata.writeInternetShortcut = m_settings->isStreamCommentEnabled();
+        config.comment.writeComment = m_settings->isStreamCommentEnabled();
+        streamObject.setConfig(config);
+        copy.append(streamObject);
+    }
+    ui->streamListWidget->setStreamObjects(copy);
     onChanged(QString());
 }
 
@@ -157,7 +188,6 @@ void AddStreamDialog::doAccept(bool started)
 {
     m_downloadManager->append(createItems(), started);
     QDialog::accept();
-    writeSettings();
 }
 
 /******************************************************************************
@@ -185,6 +215,8 @@ IDownloadItem* AddStreamDialog::createItem(const StreamObject &streamObject) con
     resource->setStreamFileSize(streamObject.guestimateFullSize());
     resource->setStreamFormatId(streamObject.formatId().toString());
 
+    resource->setStreamConfig(streamObject.config());
+
     auto item = new DownloadStreamItem(m_downloadManager);
     item->setResource(resource);
     return item;
@@ -200,39 +232,4 @@ void AddStreamDialog::setGuiEnabled(bool enabled)
     ui->urlFormWidget->setChildrenEnabled(enabled);
     ui->startButton->setEnabled(enabled);
     ui->addPausedButton->setEnabled(enabled);
-}
-
-/******************************************************************************
- ******************************************************************************/
-void AddStreamDialog::readSettings()
-{
-    QSettings settings;
-    settings.beginGroup("StreamDialog");
-    resize(settings.value("DialogSize", QSize(default_width, default_height)).toSize());
-
-    QList<int> defaultWidths = {};
-    QVariant variant = QVariant::fromValue(defaultWidths);
-    ui->streamListWidget->setColumnWidths(settings.value("ColumnWidths", variant).value<QList<int> >());
-    settings.endGroup();
-
-    settings.beginGroup("Wizard");
-    ui->urlFormWidget->setCurrentPath(settings.value("Path", QString()).toString());
-    ui->urlFormWidget->setPathHistory(settings.value("PathHistory").toStringList());
-    ui->urlFormWidget->setCurrentMask(settings.value("Mask", QString()).toString());
-    settings.endGroup();
-}
-
-void AddStreamDialog::writeSettings()
-{
-    QSettings settings;
-    settings.beginGroup("StreamDialog");
-    settings.setValue("DialogSize", size());
-    settings.setValue("ColumnWidths", QVariant::fromValue(ui->streamListWidget->columnWidths()));
-    settings.endGroup();
-
-    settings.beginGroup("Wizard");
-    settings.setValue("Path", ui->urlFormWidget->currentPath());
-    settings.setValue("PathHistory", ui->urlFormWidget->pathHistory());
-    settings.setValue("Mask", ui->urlFormWidget->currentMask());
-    settings.endGroup();
 }

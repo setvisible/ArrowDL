@@ -16,6 +16,8 @@
 
 #include "settings.h"
 
+#include <Globals>
+
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <QtCore/QStandardPaths>
@@ -42,10 +44,19 @@ static const QString REGISTRY_PROXY_PORT       = "ProxyPort";
 static const QString REGISTRY_PROXY_IS_AUTH    = "ProxyAuth";
 static const QString REGISTRY_PROXY_USERNAME   = "ProxyUser";
 static const QString REGISTRY_PROXY_PASSWORD   = "ProxyPwd";
+static const QString REGISTRY_SOCKET_TYPE      = "SocketType";
+static const QString REGISTRY_SOCKET_TIMEOUT   = "SocketTimeout";
 static const QString REGISTRY_REMOTE_CREATION  = "RemoteCreationTime";
 static const QString REGISTRY_REMOTE_LAST_MOD  = "RemoteLastModifiedTime";
 static const QString REGISTRY_REMOTE_ACCESS    = "RemoteAccessTime";
 static const QString REGISTRY_REMOTE_META_MOD  = "RemoteMetadataChangeTime";
+static const QString REGISTRY_STREAM_WATCHED   = "StreamMarkWatchedEnabled";
+static const QString REGISTRY_STREAM_SUBTITLE  = "StreamSubtitleEnabled";
+static const QString REGISTRY_STREAM_THUMBNAIL = "StreamThumbnailEnabled";
+static const QString REGISTRY_STREAM_DESCR     = "StreamDescriptionEnabled";
+static const QString REGISTRY_STREAM_METADATA  = "StreamMetaDataEnabled";
+static const QString REGISTRY_STREAM_COMMENT   = "StreamCommentEnabled";
+static const QString REGISTRY_STREAM_SHORTCUT  = "StreamShortcutEnabled";
 
 // Tab Network
 static const QString REGISTRY_MAX_SIMULTANEOUS = "MaxSimultaneous";
@@ -126,10 +137,21 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     addDefaultSettingString(REGISTRY_PROXY_USERNAME, QLatin1String(""));
     addDefaultSettingString(REGISTRY_PROXY_PASSWORD, QLatin1String(""));
 
+    addDefaultSettingInt(REGISTRY_SOCKET_TYPE, 0);
+    addDefaultSettingInt(REGISTRY_SOCKET_TIMEOUT, DEFAULT_TIMEOUT_SECS);
+
     addDefaultSettingBool(REGISTRY_REMOTE_CREATION, true);
     addDefaultSettingBool(REGISTRY_REMOTE_LAST_MOD, true);
     addDefaultSettingBool(REGISTRY_REMOTE_ACCESS, false);
     addDefaultSettingBool(REGISTRY_REMOTE_META_MOD, false);
+
+    addDefaultSettingBool(REGISTRY_STREAM_WATCHED, false);
+    addDefaultSettingBool(REGISTRY_STREAM_SUBTITLE, false);
+    addDefaultSettingBool(REGISTRY_STREAM_THUMBNAIL, false);
+    addDefaultSettingBool(REGISTRY_STREAM_DESCR, false);
+    addDefaultSettingBool(REGISTRY_STREAM_METADATA, false);
+    addDefaultSettingBool(REGISTRY_STREAM_COMMENT, false);
+    addDefaultSettingBool(REGISTRY_STREAM_SHORTCUT, false);
 
     // Tab Privacy
     addDefaultSettingBool(REGISTRY_REMOVE_COMPLETED, false);
@@ -437,6 +459,26 @@ void Settings::setProxyPwd(const QString &text)
     setSettingString(REGISTRY_PROXY_PASSWORD, text);
 }
 
+int Settings::connectionProtocol() const
+{
+    return getSettingInt(REGISTRY_SOCKET_TYPE);
+}
+
+void Settings::setConnectionProtocol(int number)
+{
+    setSettingInt(REGISTRY_SOCKET_TYPE, number);
+}
+
+int Settings::connectionTimeout() const
+{
+    return getSettingInt(REGISTRY_SOCKET_TIMEOUT);
+}
+
+void Settings::setConnectionTimeout(int number)
+{
+    setSettingInt(REGISTRY_SOCKET_TIMEOUT, number);
+}
+
 bool Settings::isRemoteCreationTimeEnabled() const
 {
     return getSettingBool(REGISTRY_REMOTE_CREATION);
@@ -475,6 +517,76 @@ bool Settings::isRemoteMetadataChangeTimeEnabled() const
 void Settings::setRemoteMetadataChangeTimeEnabled(bool enabled)
 {
     setSettingBool(REGISTRY_REMOTE_META_MOD, enabled);
+}
+
+bool Settings::isStreamMarkWatchedEnabled() const
+{
+    return getSettingBool(REGISTRY_STREAM_WATCHED);
+}
+
+void Settings::setStreamMarkWatchedEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_STREAM_WATCHED, enabled);
+}
+
+bool Settings::isStreamSubtitleEnabled() const
+{
+    return getSettingBool(REGISTRY_STREAM_SUBTITLE);
+}
+
+void Settings::setStreamSubtitleEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_STREAM_SUBTITLE, enabled);
+}
+
+bool Settings::isStreamThumbnailEnabled() const
+{
+    return getSettingBool(REGISTRY_STREAM_THUMBNAIL);
+}
+
+void Settings::setStreamThumbnailEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_STREAM_THUMBNAIL, enabled);
+}
+
+bool Settings::isStreamDescriptionEnabled() const
+{
+    return getSettingBool(REGISTRY_STREAM_DESCR);
+}
+
+void Settings::setStreamDescriptionEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_STREAM_DESCR, enabled);
+}
+
+bool Settings::isStreamMetadataEnabled() const
+{
+    return getSettingBool(REGISTRY_STREAM_METADATA);
+}
+
+void Settings::setStreamMetadataEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_STREAM_METADATA, enabled);
+}
+
+bool Settings::isStreamCommentEnabled() const
+{
+    return getSettingBool(REGISTRY_STREAM_COMMENT);
+}
+
+void Settings::setStreamCommentEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_STREAM_COMMENT, enabled);
+}
+
+bool Settings::isStreamShortcutEnabled() const
+{
+    return getSettingBool(REGISTRY_STREAM_SHORTCUT);
+}
+
+void Settings::setStreamShortcutEnabled(bool enabled)
+{
+    setSettingBool(REGISTRY_STREAM_SHORTCUT, enabled);
 }
 
 /******************************************************************************

@@ -67,7 +67,7 @@
     <addaction name="actionAboutCompiler"/>
     <addaction name="separator"/>
     <addaction name="actionAboutQt"/>
-    <addaction name="actionAboutYoutubeDL"/>
+    <addaction name="actionAboutYTDLP"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -689,9 +689,9 @@
     <string>Tutorial</string>
    </property>
   </action>
-  <action name="actionAboutYoutubeDL">
+  <action name="actionAboutYTDLP">
    <property name="text">
-    <string>About YoutubeDL...</string>
+    <string>About YT-DLP...</string>
    </property>
   </action>
  </widget>

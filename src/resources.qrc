@@ -70,6 +70,7 @@
         <file>resources/icons/default/32x32/actions/select-invert.png</file>
         <file>resources/icons/default/32x32/actions/select-none.png</file>
         <file>resources/icons/default/16x16/actions/stream-audio.png</file>
+        <file>resources/icons/default/16x16/actions/stream-subtitle.png</file>
         <file>resources/icons/default/16x16/actions/stream-video.png</file>
         <file>resources/icons/default/48x48/actions/add-batch.png</file>
         <file>resources/icons/default/48x48/actions/add-content.png</file>
@@ -141,6 +142,7 @@
         <file>resources/icons/flat/scalable/actions/select-invert.svg</file>
         <file>resources/icons/flat/scalable/actions/select-none.svg</file>
         <file>resources/icons/flat/scalable/actions/stream-audio.svg</file>
+        <file>resources/icons/flat/scalable/actions/stream-subtitle.svg</file>
         <file>resources/icons/flat/scalable/actions/stream-video.svg</file>
         <file>resources/icons/flat-dark/index.theme</file>
         <file>resources/icons/flat-dark/scalable/actions/about.svg</file>
@@ -207,6 +209,7 @@
         <file>resources/icons/flat-dark/scalable/actions/select-invert.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/select-none.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/stream-audio.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/stream-subtitle.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/stream-video.svg</file>
     </qresource>
 </RCC>

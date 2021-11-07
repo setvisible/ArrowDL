@@ -90,7 +90,7 @@ void tst_Stream::readStandardOutput()
     QSignalSpy spyProgress(target.data(), SIGNAL(downloadProgress(qint64, qint64)));
 
     // When
-    target->parseStandardOutput(" .\\youtube-dl.exe https://www.youtube.com/watch?v=jDQv2jTNL04");
+    target->parseStandardOutput(" .\\yt-dlp.exe https://www.youtube.com/watch?v=jDQv2jTNL04");
     target->parseStandardOutput("[youtube] jDQv2jTNL04: Downloading webpage");
     target->parseStandardOutput("[youtube] jDQv2jTNL04: Downloading video info webpage");
     target->parseStandardOutput("WARNING: Requested formats are incompatible for merge and will be merged into mkv.");
@@ -195,7 +195,7 @@ void tst_Stream::readStandardOutputWithTwoStreams()
     target->setFileSizeInBytes(185178582); // Size is assumed known before download
 
     // When
-    target->parseStandardOutput(" .\\youtube-dl.exe https://www.youtube.com/watch?v=jDQv2jTNL04");
+    target->parseStandardOutput(" .\\yt-dlp.exe https://www.youtube.com/watch?v=jDQv2jTNL04");
     target->parseStandardOutput("[youtube] jDQv2jTNL04: Downloading webpage");
     target->parseStandardOutput("[youtube] jDQv2jTNL04: Downloading video info webpage");
     target->parseStandardOutput("WARNING: Requested formats are incompatible for merge and will be merged into mkv.");
@@ -241,7 +241,7 @@ void tst_Stream::readStandardOutputHTTPError()
     QSignalSpy spyProgress(target.data(), SIGNAL(downloadProgress(qint64, qint64)));
 
     // When
-    target->parseStandardOutput(" .\\youtube-dl.exe https://www.youtube.com/watch?v=8_X5Iq9niDE");
+    target->parseStandardOutput(" .\\yt-dlp.exe https://www.youtube.com/watch?v=8_X5Iq9niDE");
     target->parseStandardOutput("[youtube] 8_X5Iq9niDE: Downloading webpage");
     target->parseStandardOutput("[youtube] 8_X5Iq9niDE: Downloading MPD manifest");
     target->parseStandardOutput("WARNING: Requested formats are incompatible for merge and will be merged into mkv.");
@@ -477,7 +477,7 @@ void tst_Stream::guestimateFullSize_data()
 
     /*
      * Invalid formats
-     * In Youtube-DL, video ID must be the first ID.
+     * In yt-dlp, video ID must be the first ID.
      * But we accept them as valid here.
      */
     QTest::newRow("audio+video") << "140+160" << BigInteger(280597 + 63901);
@@ -515,7 +515,7 @@ void tst_Stream::fileExtension_data()
 
     /*
      * Invalid formats
-     * In Youtube-DL, video ID must be the first ID.
+     * In yt-dlp, video ID must be the first ID.
      * But we accept them as valid here.
      */
     QTest::newRow("audio+video") << "140+160" << "mp4";

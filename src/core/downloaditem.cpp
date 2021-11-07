@@ -59,9 +59,7 @@ DownloadItem::~DownloadItem()
  ******************************************************************************/
 void DownloadItem::resume()
 {
-    qInfo("Resume '%s' (destination: '%s').",
-          d->resource->url().toLatin1().data(),
-          localFullFileName().toLatin1().data());
+    logInfo(QString("Resume '%0' (destination: '%1').").arg(d->resource->url(), localFullFileName()));
 
     this->beginResume();
 
@@ -103,13 +101,13 @@ void DownloadItem::resume()
 void DownloadItem::pause()
 {
     /// \todo implement?
-    qInfo("Pause '%s'.", d->resource->url().toLatin1().data());
+    logInfo(QString("Pause '%0'.").arg(d->resource->url()));
     AbstractDownloadItem::pause();
 }
 
 void DownloadItem::stop()
 {
-    qInfo("Stop '%s'.", d->resource->url().toLatin1().data());
+    logInfo(QString("Stop '%0'.").arg(d->resource->url()));
     d->file->cancel();
     if (d->reply) {
         d->reply->abort();
@@ -160,9 +158,7 @@ void DownloadItem::onMetaDataChanged()
             const QUrl newUrl = rawNewUrl.toUrl();
             /* Check if the metadata change is a redirection */
             if (newUrl.isValid() && oldUrl.isValid() && oldUrl != newUrl) {
-                qInfo("HTTP redirect: '%s' to '%s'.",
-                      oldUrl.toString().toLatin1().data(),
-                      newUrl.toString().toLatin1().data());
+                logInfo(QString("HTTP redirect: '%0' to '%1'.").arg(oldUrl.toString(), newUrl.toString()));
             }
         }
         auto settings = d->downloadManager->settings();
@@ -188,8 +184,10 @@ void DownloadItem::onMetaDataChanged()
 void DownloadItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     if (d->reply && bytesReceived > 0 && bytesTotal > 0) {
-        qInfo("Downloaded '%s' (%lli of %lli bytes).",
-              d->reply->url().toString().toLatin1().data(), bytesReceived, bytesTotal);
+        logInfo(QString("Downloaded '%0' (%1 of %2 bytes).")
+                .arg(d->reply->url().toString(),
+                     QString::number(bytesReceived),
+                     QString::number(bytesTotal)));
     }
     updateInfo(bytesReceived, bytesTotal);
 }
@@ -197,15 +195,14 @@ void DownloadItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 void DownloadItem::onRedirected(const QUrl &url)
 {
     if (d->reply) {
-        qInfo("HTTP redirect: redirected '%s' to '%s'.",
-              d->reply->url().toString().toLatin1().data(),
-              url.toString().toLatin1().data());
+        logInfo(QString("HTTP redirect: redirected '%0' to '%1'.")
+                .arg(d->reply->url().toString(), url.toString()));
     }
 }
 
 void DownloadItem::onFinished()
 {
-    qInfo("Finished (%s) '%s'.", state_c_str(), localFullFileName().toLatin1().data());
+    logInfo(QString("Finished (%0) '%1'.").arg(state_c_str(), localFullFileName()));
     switch (state()) {
     case Idle:
     case Preparing:
@@ -319,9 +316,7 @@ void DownloadItem::onError(QNetworkReply::NetworkError error)
 {
     /// \todo Use instead: auto reply = qobject_cast<QNetworkReply*>(sender());
     if (d->reply) {
-        qInfo("Error '%s': '%s'.",
-              d->reply->url().toString().toLatin1().data(),
-              d->reply->errorString().toLatin1().data());
+        logInfo(QString("Error '%0': '%1'.").arg(d->reply->url().toString(),d->reply->errorString()));
     }
     d->file->cancel();
     auto httpError = statusToHttp(error);
@@ -340,7 +335,7 @@ void DownloadItem::onReadyRead()
 
 void DownloadItem::onAboutToClose()
 {
-    qInfo("Finished (%s) '%s'.", state_c_str(), localFullFileName().toLatin1().data());
+    logInfo(QString("Finished (%0) '%1'.").arg(state_c_str(), localFullFileName()));
 }
 
 /******************************************************************************

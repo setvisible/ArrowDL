@@ -50,7 +50,7 @@ private:
     QNetworkAccessManager *m_networkAccessManager;
     Settings *m_settings;
 
-    void setProxySettings(Settings *settings);
+    void setNetworkSettings(Settings *settings);
 };
 
 #endif // CORE_NETWORK_MANAGER_H

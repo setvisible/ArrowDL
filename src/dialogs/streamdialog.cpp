@@ -35,7 +35,7 @@ StreamDialog::StreamDialog(QWidget *parent)
 
     connect(ui->okButton, &QPushButton::released, this, &StreamDialog::onOkButtonReleased);
 
-    ui->title->setText(QLatin1String("Youtube-DL"));
+    ui->title->setText(QLatin1String("YT-DLP"));
     ui->version->setText(tr("Reading..."));
     askStreamVersionAsync();
 
@@ -96,7 +96,7 @@ void StreamDialog::onCollected(const QStringList &extractors, const QStringList 
 {
     auto count = qMin(extractors.count(), descriptions.count());
     ui->plainTextEdit->clear();
-    ui->plainTextEdit->appendPlainText(tr("Youtube-DL supports %0 sites:").arg(extractors.count()));
+    ui->plainTextEdit->appendPlainText(tr("YT-DLP supports %0 sites:").arg(extractors.count()));
     ui->plainTextEdit->appendPlainText(QLatin1String("===================="));
     ui->plainTextEdit->appendPlainText(QString());
     ui->plainTextEdit->appendPlainText(QString("%0\t%1").arg(tr("Site"), tr("Description")));

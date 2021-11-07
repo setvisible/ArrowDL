@@ -18,6 +18,7 @@
 #include "ui_streamwidget.h"
 
 #include <Core/Format>
+#include <Widgets/StreamConfigWidget>
 
 #include <QtCore/QDebug>
 
@@ -31,6 +32,8 @@ StreamWidget::StreamWidget(QWidget *parent) : QWidget(parent)
 
     connect(ui->streamFormatPicker, SIGNAL(selectionChanged(StreamFormatId)),
             this, SLOT(onFormatSelected(StreamFormatId)));
+    connect(ui->streamFormatPicker, SIGNAL(configChanged(StreamObjectConfig)),
+            this, SLOT(onConfigChanged(StreamObjectConfig)));
     connect(ui->fileNameEdit, SIGNAL(textChanged(QString)),
             this, SLOT(onTitleChanged(QString)));
     connect(ui->fileExtensionEdit, SIGNAL(textChanged(QString)),
@@ -73,7 +76,7 @@ void StreamWidget::setStreamObject(const StreamObject &streamObject)
 
 /******************************************************************************
  ******************************************************************************/
-void StreamWidget::onFormatSelected(const StreamFormatId &formatId)
+void StreamWidget::onFormatSelected(StreamFormatId formatId)
 {
     m_streamObject.setFormatId(formatId);
     ui->fileExtensionEdit->setText(m_streamObject.suffix());
@@ -81,14 +84,22 @@ void StreamWidget::onFormatSelected(const StreamFormatId &formatId)
     emit streamObjectChanged(m_streamObject);
 }
 
-void StreamWidget::onTitleChanged(const QString &)
+void StreamWidget::onConfigChanged(StreamObjectConfig config)
 {
+    m_streamObject.setConfig(config);
+    emit streamObjectChanged(m_streamObject);
+}
+
+void StreamWidget::onTitleChanged(QString title)
+{
+    Q_UNUSED(title)
     m_streamObject.setTitle(ui->fileNameEdit->text());
     emit streamObjectChanged(m_streamObject);
 }
 
-void StreamWidget::onSuffixChanged(const QString &)
+void StreamWidget::onSuffixChanged(QString suffix)
 {
+    Q_UNUSED(suffix)
     m_streamObject.setSuffix(ui->fileExtensionEdit->text());
     emit streamObjectChanged(m_streamObject);
 }

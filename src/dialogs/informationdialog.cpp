@@ -28,8 +28,9 @@
 
 #include <QtCore/QDir>
 #include <QtCore/QScopedPointer>
+#include <QtCore/QSettings>
 
-InformationDialog::InformationDialog(const QList<IDownloadItem*> &jobs, QWidget *parent)
+InformationDialog::InformationDialog(const QList<IDownloadItem *> &jobs, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InformationDialog)
 {
@@ -37,14 +38,40 @@ InformationDialog::InformationDialog(const QList<IDownloadItem*> &jobs, QWidget 
 
     setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Properties")));
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(nullptr, nullptr);
+    ui->urlFormWidget->setCollapsible(false);
     Theme::setIcons(this, { {ui->logo, "info"} });
 
+    ui->wrapCheckBox->setChecked(false);
+    ui->logTextEdit->setLineWrapMode(QPlainTextEdit::NoWrap);
+
+    connect(ui->wrapCheckBox, SIGNAL(toggled(bool)), this, SLOT(wrapLog(bool)));
+
     initialize(jobs);
+    readUiSettings();
 }
 
 InformationDialog::~InformationDialog()
 {
+    writeUiSettings();
     delete ui;
+}
+
+void InformationDialog::readUiSettings()
+{
+    QSettings settings;
+    settings.beginGroup("InfoDialog");
+    resize(settings.value("DialogSize", size()).toSize());
+    ui->tabWidget->setCurrentIndex(settings.value("TabIndex", 0).toInt());
+    settings.endGroup();
+}
+
+void InformationDialog::writeUiSettings()
+{
+    QSettings settings;
+    settings.beginGroup("InfoDialog");
+    settings.setValue("DialogSize", size());
+    settings.setValue("TabIndex", ui->tabWidget->currentIndex());
+    settings.endGroup();
 }
 
 void InformationDialog::accept()
@@ -110,4 +137,20 @@ void InformationDialog::initialize(const QList<IDownloadItem *> &items)
     if (downloadItem) {
         ui->urlFormWidget->setResource(downloadItem->resource());
     }
+
+    /* Log */
+    if (downloadItem) {
+        ui->logTextEdit->setPlainText(downloadItem->log());
+
+        // Scroll to last line
+        QTextCursor cursor = ui->logTextEdit->textCursor();
+        cursor.movePosition(QTextCursor::End);
+        ui->logTextEdit->setTextCursor(cursor);
+        ui->logTextEdit->ensureCursorVisible();
+    }
+}
+
+void InformationDialog::wrapLog(bool enabled)
+{
+    ui->logTextEdit->setLineWrapMode(enabled ? QPlainTextEdit::WidgetWidth : QPlainTextEdit::NoWrap);
 }

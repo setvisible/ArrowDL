@@ -80,9 +80,14 @@ When we give an URL address to *DownZemAll!*, *DownZemAll!* downloads the page, 
 Due to rapid evolution of web technology, *DownZemAll!* is designed to implement new parsers or add existing ones if required.
 
 
+## Code of Conduct
+
+Click [here](CODE_OF_CONDUCT.md "CODE_OF_CONDUCT.md") for Code of Conduct.
+
+
 ## Coding
 
-Click [here](DEVELOPERS.md "DEVELOPERS.md") for build instructions.
+Click [here](CONTRIBUTING.md "CONTRIBUTING.md") for build instructions.
 
 
 ## Translations

@@ -177,9 +177,9 @@ win32{
     }
 }
 
-# install youtube-dl (for Windows only)
+# install yt-dlp (for Windows only)
 win32{
-    youtube_dl_executable_to_copy.files += $$PWD/../../../3rd/youtube-dl/v2020.01.01/youtube-dl.exe
+    youtube_dl_executable_to_copy.files += $$PWD/../../../3rd/yt-dlp/bin/yt-dlp.exe
     youtube_dl_executable_to_copy.path = $${DESTDIR}
     INSTALLS += youtube_dl_executable_to_copy
 }

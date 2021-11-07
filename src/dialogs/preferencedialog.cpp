@@ -28,6 +28,7 @@
 #include <Widgets/ThemeWidget>
 
 #include <QtCore/QDebug>
+#include <QtCore/QDir>
 #include <QtCore/QSettings>
 #include <QtCore/QSignalBlocker>
 #include <QtGui/QCloseEvent>
@@ -188,21 +189,35 @@ void PreferenceDialog::initializeUi()
     ui->proxyPortLineEdit->setValidator(
                 new QIntValidator(std::numeric_limits<quint16>::min(),
                                   std::numeric_limits<quint16>::max(), this));
+
+    ui->connectionProtocolComboBox->setCurrentIndex(0);
+    ui->connectionTimeoutSpinBox->setValue(DEFAULT_TIMEOUT_SECS);
+
     ui->useRemoteLastModifiedTimeCheckBox->setChecked(true);
     ui->useRemoteCreationTimeCheckBox->setChecked(true);
     ui->useRemoteAccessTimeCheckBox->setChecked(false);
     ui->useRemoteMetadataChangeTimeCheckBox->setChecked(false);
 
+    ui->streamMarkWatchedCheckBox->setChecked(false);
+    ui->streamSubtitleCheckBox->setChecked(false);
+    ui->streamThumbnailCheckBox->setChecked(false);
+    ui->streamDescriptionCheckBox->setChecked(false);
+    ui->streamMetadataCheckBox->setChecked(false);
+    ui->streamCommentCheckBox->setChecked(false);
+    ui->streamShortcutCheckBox->setChecked(false);
 
     // Tab Privacy
     ui->browseDatabaseFile->setPathType(PathWidget::File);
     ui->browseDatabaseFile->setSuffixName(tr("Queue Database"));
     ui->browseDatabaseFile->setSuffix(".json");
 
+    ui->streamCleanCacheLabel->setOpenExternalLinks(true);
+    auto localFile = StreamCleanCache::cacheDir().toLocalFile();
     ui->streamCleanCacheLabel->setText(
                 tr("Located in %0").arg(
-                    QString("<a href=\"%0\">%0</a>").arg(
-                        StreamCleanCache::cacheDir())));
+                    QString("<a href=\"%0\">%1</a>").arg(
+                        localFile,
+                        QDir::toNativeSeparators(localFile))));
 
     ui->httpUserAgentComboBox->clear();
     ui->httpUserAgentComboBox->setEditable(true);
@@ -477,6 +492,9 @@ void PreferenceDialog::read()
     ui->customBatchButtonLabelLineEdit->setText(m_settings->customBatchButtonLabel());
     ui->customBatchRangeLineEdit->setText(m_settings->customBatchRange());
 
+    ui->connectionProtocolComboBox->setCurrentIndex(m_settings->connectionProtocol());
+    ui->connectionTimeoutSpinBox->setValue(m_settings->connectionTimeout());
+
     int proxyIndex = qBound(0, m_settings->proxyType(), ui->proxyTypeComboBox->count() - 1);
     ui->proxyTypeComboBox->setCurrentIndex(proxyIndex);
     ui->proxyAddressLineEdit->setText(m_settings->proxyHostName());
@@ -489,6 +507,14 @@ void PreferenceDialog::read()
     ui->useRemoteCreationTimeCheckBox->setChecked(m_settings->isRemoteCreationTimeEnabled());
     ui->useRemoteAccessTimeCheckBox->setChecked(m_settings->isRemoteAccessTimeEnabled());
     ui->useRemoteMetadataChangeTimeCheckBox->setChecked(m_settings->isRemoteMetadataChangeTimeEnabled());
+
+    ui->streamMarkWatchedCheckBox->setChecked(m_settings->isStreamMarkWatchedEnabled());
+    ui->streamSubtitleCheckBox->setChecked(m_settings->isStreamSubtitleEnabled());
+    ui->streamThumbnailCheckBox->setChecked(m_settings->isStreamThumbnailEnabled());
+    ui->streamDescriptionCheckBox->setChecked(m_settings->isStreamDescriptionEnabled());
+    ui->streamMetadataCheckBox->setChecked(m_settings->isStreamMetadataEnabled());
+    ui->streamCommentCheckBox->setChecked(m_settings->isStreamCommentEnabled());
+    ui->streamShortcutCheckBox->setChecked(m_settings->isStreamShortcutEnabled());
 
     // Tab Privacy
     ui->privacyRemoveCompletedCheckBox->setChecked(m_settings->isRemoveCompletedEnabled());
@@ -553,10 +579,21 @@ void PreferenceDialog::write()
     m_settings->setProxyUser(ui->proxyUserLineEdit->text());
     m_settings->setProxyPwd(ui->proxyPwdLineEdit->text());
 
+    m_settings->setConnectionProtocol(ui->connectionProtocolComboBox->currentIndex());
+    m_settings->setConnectionTimeout(ui->connectionTimeoutSpinBox->value());
+
     m_settings->setRemoteLastModifiedTimeEnabled(ui->useRemoteLastModifiedTimeCheckBox->isChecked());
     m_settings->setRemoteCreationTimeEnabled(ui->useRemoteCreationTimeCheckBox->isChecked());
     m_settings->setRemoteAccessTimeEnabled(ui->useRemoteAccessTimeCheckBox->isChecked());
     m_settings->setRemoteMetadataChangeTimeEnabled(ui->useRemoteMetadataChangeTimeCheckBox->isChecked());
+
+    m_settings->setStreamMarkWatchedEnabled(ui->streamMarkWatchedCheckBox->isChecked());
+    m_settings->setStreamSubtitleEnabled(ui->streamSubtitleCheckBox->isChecked());
+    m_settings->setStreamThumbnailEnabled(ui->streamThumbnailCheckBox->isChecked());
+    m_settings->setStreamDescriptionEnabled(ui->streamDescriptionCheckBox->isChecked());
+    m_settings->setStreamMetadataEnabled(ui->streamMetadataCheckBox->isChecked());
+    m_settings->setStreamCommentEnabled(ui->streamCommentCheckBox->isChecked());
+    m_settings->setStreamShortcutEnabled(ui->streamShortcutCheckBox->isChecked());
 
     // Tab Privacy
     m_settings->setRemoveCompletedEnabled(ui->privacyRemoveCompletedCheckBox->isChecked());

@@ -56,8 +56,8 @@ private:
     IDownloadItem* createItem(const QString &url) const;
     static inline QList<IDownloadItem*> toList(IDownloadItem *item);
 
-    void readSettings();
-    void writeSettings();
+    void readUiSettings();
+    void writeUiSettings();
 };
 
 #endif // DIALOGS_ADD_TORRENT_DIALOG_H

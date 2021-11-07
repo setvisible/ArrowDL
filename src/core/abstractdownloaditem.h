@@ -56,6 +56,10 @@ public:
     int maxConnections() const Q_DECL_OVERRIDE;
     void setMaxConnections(int connections);
 
+    QString log() const Q_DECL_OVERRIDE;
+    void setLog(const QString &log);
+    void logInfo(const QString &message);
+
     bool isResumable() const Q_DECL_OVERRIDE;
     bool isPausable() const Q_DECL_OVERRIDE;
     bool isCancelable() const Q_DECL_OVERRIDE;
@@ -99,6 +103,8 @@ private:
 
     int m_maxConnectionSegments;
     int m_maxConnections;
+
+    QString m_log;
 
     QTime m_downloadTime;
     QTime m_remainingTime;

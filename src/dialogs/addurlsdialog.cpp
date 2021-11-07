@@ -45,7 +45,6 @@ AddUrlsDialog::AddUrlsDialog(const QString &text, DownloadManager *downloadManag
 
     setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Add Urls")));
 
-    adjustSize();
     Theme::setIcons(this, { {ui->logo, "add-urls"} });
 
     ui->urlFormWidget->setExternalUrlLabelAndLineEdit(ui->urlLabel, m_fakeUrlLineEdit);
@@ -65,12 +64,29 @@ AddUrlsDialog::AddUrlsDialog(const QString &text, DownloadManager *downloadManag
     ui->editor->setModified(false);
     ui->editor->setFocus();
 
-    readSettings();
+    readUiSettings();
 }
 
 AddUrlsDialog::~AddUrlsDialog()
 {
+    writeUiSettings();
     delete ui;
+}
+
+void AddUrlsDialog::readUiSettings()
+{
+    QSettings settings;
+    settings.beginGroup("UrlsDialog");
+    resize(settings.value("DialogSize", size()).toSize());
+    settings.endGroup();
+}
+
+void AddUrlsDialog::writeUiSettings()
+{
+    QSettings settings;
+    settings.beginGroup("UrlsDialog");
+    settings.setValue("DialogSize", size());
+    settings.endGroup();
 }
 
 /******************************************************************************
@@ -128,7 +144,6 @@ void AddUrlsDialog::doAccept(bool started)
         }
     }
     QDialog::accept();
-    writeSettings();
 }
 
 /******************************************************************************
@@ -145,26 +160,4 @@ IDownloadItem* AddUrlsDialog::createItem(const QString &url) const
 inline QList<IDownloadItem*> AddUrlsDialog::toList(IDownloadItem *item)
 {
     return QList<IDownloadItem*>() << item;
-}
-
-/******************************************************************************
- ******************************************************************************/
-void AddUrlsDialog::readSettings()
-{
-    QSettings settings;
-    settings.beginGroup("Wizard");
-    ui->urlFormWidget->setCurrentPath(settings.value("Path", QString()).toString());
-    ui->urlFormWidget->setPathHistory(settings.value("PathHistory").toStringList());
-    ui->urlFormWidget->setCurrentMask(settings.value("Mask", QString()).toString());
-    settings.endGroup();
-}
-
-void AddUrlsDialog::writeSettings()
-{
-    QSettings settings;
-    settings.beginGroup("Wizard");
-    settings.setValue("Path", ui->urlFormWidget->currentPath());
-    settings.setValue("PathHistory", ui->urlFormWidget->pathHistory());
-    settings.setValue("Mask", ui->urlFormWidget->currentMask());
-    settings.endGroup();
 }

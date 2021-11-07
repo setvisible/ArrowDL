@@ -89,10 +89,10 @@ void DownloadTorrentItem::onTorrentChanged()
 
     if (m_torrent->info().error.type != TorrentError::NoError) {
 
-        qInfo("Error ('%i'), file %i: '%s'.",
-              m_torrent->info().error.type,
-              m_torrent->info().error.fileIndex,
-              m_torrent->info().error.message.toLatin1().data());
+        logInfo(QString("Error ('%0'), file %1: '%2'.").arg(
+              QString::number(m_torrent->info().error.type),
+              QString::number(m_torrent->info().error.fileIndex),
+              m_torrent->info().error.message));
 
         QString message;
 
@@ -212,9 +212,9 @@ void DownloadTorrentItem::resume()
     if (isPreparing()) {
         return;
     }
-    qInfo("Resume '%s' (destination: '%s').",
-          resource()->url().toLatin1().data(), // remote/origine/t.torrent
-          localFullFileName().toLatin1().data()); // localdrive/destination/t.torrent
+    logInfo(QString("Resume '%0' (destination: '%1').")
+            .arg(resource()->url(), // remote/origine/t.torrent
+                 localFullFileName())); // localdrive/destination/t.torrent
 
     this->beginResume();
 
@@ -242,7 +242,7 @@ void DownloadTorrentItem::resume()
 
 void DownloadTorrentItem::pause()
 {
-    qInfo("Pause '%s'.", resource()->url().toLatin1().data());
+    logInfo(QString("Pause '%0'.").arg(resource()->url()));
     if (isSeeding()) {
         if (TorrentContext::getInstance().hasTorrent(m_torrent)) {
             TorrentContext::getInstance().removeTorrent(m_torrent);
@@ -265,7 +265,7 @@ void DownloadTorrentItem::pause()
 
 void DownloadTorrentItem::stop()
 {
-    qInfo("Stop '%s'.", resource()->url().toLatin1().data());
+    logInfo(QString("Stop '%0'.").arg(resource()->url()));
     file()->cancel();
 
     if (isPreparing()) {
