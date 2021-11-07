@@ -1368,12 +1368,12 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="170"/>
         <source>Messages</source>
-        <translation type="unfinished"/>
+        <translation>Messaggi</translation>
     </message>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="176"/>
         <source>Wrap line</source>
-        <translation type="unfinished"/>
+        <translation>Linea a capo</translation>
     </message>
 </context>
 <context>
@@ -1837,7 +1837,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="694"/>
         <source>About YT-DLP...</source>
-        <translation type="unfinished"/>
+        <translation>Info su YT-DLP...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="348"/>
@@ -2304,37 +2304,37 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="704"/>
         <source>Socket</source>
-        <translation type="unfinished"/>
+        <translation>Socket</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="713"/>
         <source>Tolerant (IPv4 or IPv6)</source>
-        <translation type="unfinished"/>
+        <translation>Tollerante (IPv4 o IPv6)</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="718"/>
         <source>Use IPv4 only</source>
-        <translation type="unfinished"/>
+        <translation>Usa solo IPv4</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="723"/>
         <source>Use IPv6 only</source>
-        <translation type="unfinished"/>
+        <translation>Usa solo IPv6</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="731"/>
         <source> seconds</source>
-        <translation type="unfinished"/>
+        <translation>secondi</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="747"/>
         <source>Connection Protocol:</source>
-        <translation type="unfinished"/>
+        <translation>Protocollo connessione:</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="754"/>
         <source>Timeout to establish a connection:</source>
-        <translation type="unfinished"/>
+        <translation>Timeout per stabilire una connessione:</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="784"/>
@@ -2369,42 +2369,42 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="828"/>
         <source>Downloaded Audio/Video</source>
-        <translation type="unfinished"/>
+        <translation>Audio/video scaricati</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="836"/>
         <source>Download subtitle</source>
-        <translation type="unfinished"/>
+        <translation>Scarica sottotitoli</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="843"/>
         <source>Download description</source>
-        <translation type="unfinished"/>
+        <translation>Scarica descrizione</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="850"/>
         <source>Mark watched (only for Youtube)</source>
-        <translation type="unfinished"/>
+        <translation>Segna già visto (solo per Youtube)</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="857"/>
         <source>Download thumbnail</source>
-        <translation type="unfinished"/>
+        <translation>Scarica miniatura</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="864"/>
         <source>Download metadata</source>
-        <translation type="unfinished"/>
+        <translation>Scarica metadati</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="871"/>
         <source>Download comments </source>
-        <translation type="unfinished"/>
+        <translation>Scarica commenti</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="878"/>
         <source>Create internet shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Crea collegamento a Internet</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1070"/>
@@ -3027,278 +3027,213 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="32"/>
         <source>Do not download the video but write all related files</source>
-        <translation type="unfinished"/>
+        <translation>Non scaricare il video ma salva tutti i file correlati</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="39"/>
         <source>Mark watched (only for Youtube)</source>
-        <translation type="unfinished"/>
+        <translation>Segna già visto (solo per Youtube)</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="46"/>
         <source>Subtitle</source>
-        <translation type="unfinished"/>
+        <translation>Sottotitoli</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="52"/>
         <source>Download subtitle (if present)</source>
-        <translation type="unfinished"/>
+        <translation>Scarica sottotitoli (se presenti)</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="62"/>
         <source>Download automatic captions </source>
-        <translation type="unfinished"/>
+        <translation>Scarica didascalie automatiche</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="71"/>
         <source>Language:</source>
-        <translation type="unfinished"/>
+        <translation>Lingua:</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="85"/>
         <source>Format:</source>
-        <translation type="unfinished"/>
+        <translation>Formato:</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="113"/>
         <source>Convert the subtitles to format:</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="121"/>
-        <source>srt</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="126"/>
-        <source>vtt</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="131"/>
-        <source>ass</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="136"/>
-        <source>lrc</source>
-        <translation type="unfinished"/>
+        <translation>Converti i sottotitoli nel formato:</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="162"/>
         <source>Chapters</source>
-        <translation type="unfinished"/>
+        <translation>Capitoli</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="171"/>
         <source>Split video into multiple files based on internal chapters</source>
-        <translation type="unfinished"/>
+        <translation>Dividi video in più file in base a capitoli interni</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="181"/>
         <source>Remove chapters whose title matches the given regular expression:</source>
-        <translation type="unfinished"/>
+        <translation>Rimuovi i capitoli il cui titolo corrisponde all&apos;espressione regolare data:</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="191"/>
         <source>Ex: &quot;*10:15-15:00&quot;, or &quot;intro&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Es: &quot;*10:15-15:00&quot;, o &quot;intro&quot;</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="201"/>
         <source>Thumbnail</source>
-        <translation type="unfinished"/>
+        <translation>Miniatura</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="207"/>
         <source>Download thumbnail (default image)</source>
-        <translation type="unfinished"/>
+        <translation>Scarica miniatura (immagine predefinita)</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="217"/>
         <source>Download all formats of the thumbnail image</source>
-        <translation type="unfinished"/>
+        <translation>Scarica tutti i formati dell&apos;immagine miniatura</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="236"/>
         <source>Convert the thumbnails to format:</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="247"/>
-        <source>jpg</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="252"/>
-        <source>png</source>
-        <translation type="unfinished"/>
+        <translation>Converti le miniature nel formato:</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="278"/>
         <source>Comments</source>
-        <translation type="unfinished"/>
+        <translation>Commenti</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="284"/>
         <source>Download comments (in the .info.json)</source>
-        <translation type="unfinished"/>
+        <translation>Scarica commenti (in .info.json)</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="293"/>
         <source>Sort by:</source>
-        <translation type="unfinished"/>
+        <translation>Ordina per:</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="304"/>
         <source>Newest first</source>
-        <translation type="unfinished"/>
+        <translation>Prima i più recenti</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="309"/>
         <source>Top comments</source>
-        <translation type="unfinished"/>
+        <translation>Commenti più frequenti</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="320"/>
         <source>Limit number of comments:</source>
-        <translation type="unfinished"/>
+        <translation>Limita numero dei commenti:</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="339"/>
         <source>Other Media</source>
-        <translation type="unfinished"/>
+        <translation>Altri media</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="345"/>
         <source>Download description as a .description file</source>
-        <translation type="unfinished"/>
+        <translation>Scarica descrizione come file .description</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="352"/>
         <source>Download metadata as a .info.json file</source>
-        <translation type="unfinished"/>
+        <translation>Scarica metadati come file .info.json</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="359"/>
         <source>Create internet shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Crea collegamento a Internet</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="372"/>
         <source>Post-Processing</source>
-        <translation type="unfinished"/>
+        <translation>Post elaborazione</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="378"/>
         <source>Remux the video into another container if necessary :</source>
-        <translation type="unfinished"/>
+        <translation>Se necessario, rimuxa il video in un altro contenitore:</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="385"/>
         <location filename="../widgets/streamconfigwidget.ui" line="409"/>
         <source>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Es: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot;</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="392"/>
         <source>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot; will remux aac to m4a, mov to mp4 and anything else to mkv.</source>
-        <translation type="unfinished"/>
+        <translation>Es: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot; rimpiazzerà aac in m4a, mov in mp4 e qualsiasi altra cosa in mkv.</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="402"/>
         <source>Re-encode the video into another format if re-encoding is necessary:</source>
-        <translation type="unfinished"/>
+        <translation>Se è necessaria la ricodifica ricodifica il video in un altro formato :</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="416"/>
         <source>Rem: The syntax and supported formats are the same as &quot;Remux&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Nota: la sintassi e i formati supportati sono gli stessi di &quot;Remux&quot;</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="426"/>
         <source>Keep the intermediate video file on disk after post-processing</source>
-        <translation type="unfinished"/>
+        <translation>Dopo la post-elaborazione conserva su disco il file video intermedio</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="433"/>
         <source>Embed subtitles in the video (only for mp4, webm and mkv videos)</source>
-        <translation type="unfinished"/>
+        <translation>Incorpora sottotitoli nel video (solo per video mp4, webm e mkv)</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="440"/>
         <source>Embed thumbnail in the video as cover art</source>
-        <translation type="unfinished"/>
+        <translation>Incorpora la miniatura nel video come copertina</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="447"/>
         <source>Embed metadata in the video file</source>
-        <translation type="unfinished"/>
+        <translation>Incorpora metadati nel file video</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="454"/>
         <source>Embed chapter markers in the video file</source>
-        <translation type="unfinished"/>
+        <translation>Incorpora marcatori capitolo nel file video</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="461"/>
         <source>Write metadata to the video file&apos;s xattrs (using dublin core and xdg standards)</source>
-        <translation type="unfinished"/>
+        <translation>Scrivi metadati negli xattr del file video (usando gli standard dublin core e xdg)</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="468"/>
         <source>Execute the command before the actual download:</source>
-        <translation type="unfinished"/>
+        <translation>Esegui il comando prima del download vero e proprio:</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="478"/>
         <source>Execute the command on the file after downloading and post-processing:</source>
-        <translation type="unfinished"/>
+        <translation>Esegui il comando sul file dopo il download e la post-elaborazione:</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="494"/>
         <source>SponsorBlock</source>
-        <translation type="unfinished"/>
+        <translation>Blocco sponsor</translation>
     </message>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="500"/>
         <source>Remove segments in SponsorBlock categories from the video file:</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="509"/>
-        <source>Unpaid/Self Promotion</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="516"/>
-        <source>Interaction Reminder</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="523"/>
-        <source>Sponsor</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="530"/>
-        <source>Preview/Recap</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="537"/>
-        <source>Non-Music Section</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="544"/>
-        <source>Endcards/Credits</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="551"/>
-        <source>Intermission/Intro Animation</source>
-        <translation type="unfinished"/>
+        <translation>Rimuovi dal file video segmenti nelle categorie blocco sponsor:</translation>
     </message>
 </context>
 <context>
@@ -3336,7 +3271,7 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
     <message>
         <location filename="../dialogs/streamdialog.cpp" line="99"/>
         <source>YT-DLP supports %0 sites:</source>
-        <translation type="unfinished"/>
+        <translation>YT-DLP supporta %0 siti:</translation>
     </message>
     <message>
         <location filename="../dialogs/streamdialog.cpp" line="102"/>
@@ -3378,7 +3313,7 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
     <message>
         <location filename="../widgets/streamformatpicker.ui" line="170"/>
         <source>Other</source>
-        <translation type="unfinished"/>
+        <translation>Altro</translation>
     </message>
     <message>
         <location filename="../widgets/streamformatpicker.ui" line="218"/>
@@ -4192,9 +4127,30 @@ Es.:
     </message>
 </context>
 <context>
+    <name>UpdateChecker</name>
+    <message>
+        <location filename="../core/updatechecker.cpp" line="92"/>
+        <location filename="../core/updatechecker.cpp" line="104"/>
+        <location filename="../core/updatechecker.cpp" line="197"/>
+        <location filename="../core/updatechecker.cpp" line="216"/>
+        <source>Network request rejected.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../core/updatechecker.cpp" line="181"/>
+        <source>File &apos;%0&apos; currently opened. Close the file and retry.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../core/updatechecker.cpp" line="189"/>
+        <source>Failed to open temporary file &apos;%0&apos;.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>UpdateDialog</name>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="39"/>
+        <location filename="../dialogs/updatedialog.cpp" line="40"/>
         <source>Check for Updates</source>
         <translation>Controlla aggiornamenti</translation>
     </message>
@@ -4237,54 +4193,54 @@ Il software non invia dati personali, inclusa la versione del software, il siste
         <translation>&amp;Chiudi</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="42"/>
+        <location filename="../dialogs/updatedialog.cpp" line="43"/>
         <source>Downloaded to</source>
         <translation>Download in</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="44"/>
+        <location filename="../dialogs/updatedialog.cpp" line="45"/>
         <source>Install new version</source>
         <translation>Installa nuova versione</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="87"/>
+        <location filename="../dialogs/updatedialog.cpp" line="88"/>
         <source>Checking the updates...</source>
         <translation>Controllo aggiornamenti...</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="101"/>
+        <location filename="../dialogs/updatedialog.cpp" line="102"/>
         <source>Downloading the update...</source>
         <translation>Download aggiornamento...</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="109"/>
-        <location filename="../dialogs/updatedialog.cpp" line="112"/>
+        <location filename="../dialogs/updatedialog.cpp" line="110"/>
+        <location filename="../dialogs/updatedialog.cpp" line="113"/>
         <source>Manual update required</source>
         <translation>È richiesto l&apos;aggiornamento manuale</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="113"/>
+        <location filename="../dialogs/updatedialog.cpp" line="114"/>
         <source>Automatic update is not supported on this operating system. Do you want to download and install the update manually?</source>
         <translation>L&apos;aggiornamento automatico non è supportato in questo sistema operativo. 
 Vuoi scaricare e installare l&apos;aggiornamento manualmente?</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="132"/>
+        <location filename="../dialogs/updatedialog.cpp" line="133"/>
         <source>Current version:</source>
         <translation>Versione installata:</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="163"/>
+        <location filename="../dialogs/updatedialog.cpp" line="188"/>
         <source>Close the application</source>
         <translation>Chiudi questa applicazione</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="165"/>
+        <location filename="../dialogs/updatedialog.cpp" line="190"/>
         <source>The application needs to close to continue the update.</source>
         <translation>L&apos;applicazione deve essere chiusa per continuare l&apos;aggiornamento.</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="166"/>
+        <location filename="../dialogs/updatedialog.cpp" line="191"/>
         <source>Do you want to close now?</source>
         <translation>Vuoi chiudere ora l&apos;applicazione?</translation>
     </message>
