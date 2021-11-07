@@ -102,7 +102,7 @@ QString Format::fileSizeToString(qint64 size)
  ******************************************************************************/
 /*!
  * \code
- * thisMethod(123456789); // returns "123,456,789"
+ * fileSizeThousandSeparator(123456789); // returns "123,456,789"
  * \endcode
  */
 QString Format::fileSizeThousandSeparator(qint64 size)
@@ -279,3 +279,24 @@ QString Format::wrapText(const QString &text, int blockLength)
     }
     return out.trimmed();
 }
+
+/******************************************************************************
+ ******************************************************************************/
+QString Format::boolToHtml(bool value)
+{
+    return value ? "True" : "False";
+}
+
+QString Format::sizeToHtml(int size)
+{
+    return Format::fileSizeToString(size);
+}
+
+QString Format::markDownToHtml(const QString &markdown)
+{
+    /// \todo Replace this with QTextDocument::setMarkDown() introduced in Qt 5.14.
+    QString html = markdown;
+    html = html.replace('\n', "<br>\n");
+    return html;
+}
+

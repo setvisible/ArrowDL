@@ -19,24 +19,26 @@
 
 #include <Globals>
 #include <Core/NetworkManager>
+#include <Core/Settings>
 #include <Core/Stream>
+#include <Core/UpdateInstaller>
 
 #include <QtCore/QDebug>
 #include <QtCore/QDate>
+#include <QtCore/QDir>
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonObject>
+#include <QtCore/QJsonArray>
 #include <QtCore/QSettings>
-
+#include <QtCore/QUrl>
+#include <QtNetwork/QNetworkReply>
 
 static NetworkManager *s_networkManager;
 
 
 UpdateChecker::UpdateChecker(QObject *parent) : QObject(parent)
-  , m_updater(STR_GITHUB_REPO_ADDRESS,
-              currentVersion(),
-              createNetworkGetCallback(),
-              createAddressMatcherCallback(IS_HOST_64BIT))
   , m_streamUpgrader(new StreamUpgrader(this))
 {
-    m_updater.setUpdateStatusListener(this);
 }
 
 /******************************************************************************
@@ -69,29 +71,175 @@ void UpdateChecker::checkForUpdates(const Settings *settings)
 
 void UpdateChecker::checkForUpdates()
 {
-    m_updater.checkForUpdates();
+    downloadMetadata();
 
-    // In parallel, update 3rd-party software
+    /* In parallel, also update 3rd-party software */
     m_streamUpgrader->runAsync();
 }
 
 /******************************************************************************
  ******************************************************************************/
-QString UpdateChecker::installTempDir() const
+/*!
+ * Get the metadata from the Github server.
+ */
+void UpdateChecker::downloadMetadata()
 {
-    return m_updater.installTempDir();
+    QUrl url(STR_GITHUB_RELEASES_API);
+
+    NetworkManager *networkManager = s_networkManager;
+    QNetworkReply *reply = networkManager->get(url);
+    if (!reply) {
+        emit updateError(tr("Network request rejected."));
+        return;
+    }
+
+    connect(reply, SIGNAL(finished()),
+            this, SLOT(onMetadataFinished()));
 }
 
+void UpdateChecker::onMetadataFinished()
+{
+    auto reply = qobject_cast<QNetworkReply *>(sender());
+    if (!reply) {
+        emit updateError(tr("Network request rejected."));
+        return;
+    }
+    reply->deleteLater();
+
+    ChangeLog changelog;
+
+    QByteArray result = reply->readAll();
+    QJsonDocument jsonResponse = QJsonDocument::fromJson(result);
+    QJsonArray releases = jsonResponse.array();
+    foreach (auto release, releases) {
+
+        QJsonObject jsonRelease = release.toObject();
+
+        auto tagName = jsonRelease["tag_name"].toString();
+
+        if (!UpdateCheckerNS::isVersionGreaterThan(tagName, currentVersion())) {
+            continue;
+        }
+
+        ReleaseInfo version;
+        version.tagName = tagName;
+        version.title = jsonRelease["name"].toString();
+        version.draft = jsonRelease["draft"].toBool();
+        version.prerelease = jsonRelease["prerelease"].toBool();
+        version.createdAt = jsonRelease["created_at"].toString();
+        version.publishedAt = jsonRelease["published_at"].toString();
+        version.body = jsonRelease["body"].toString();
+
+        auto assets = jsonRelease["assets"].toArray();
+        foreach (auto asset, assets) {
+            QJsonObject jsonAsset = asset.toObject();
+            auto assetName = jsonAsset["name"].toString();
+
+            QString targetAssetName;
+#if defined _WIN32
+            if (IS_HOST_64BIT) {
+                targetAssetName = QLatin1String("DownZemAll_x64_Setup.exe");
+            } else {
+                targetAssetName = QLatin1String("DownZemAll_x86_Setup.exe");
+            }
+#elif defined __APPLE__
+            targetAssetName = QLatin1String("<UNDEFINED>");
+#else
+            targetAssetName = QLatin1String("<UNDEFINED>");
+#endif
+            Q_ASSERT(!targetAssetName.isEmpty());
+
+            if (assetName.contains(targetAssetName, Qt::CaseInsensitive)) {
+                version.assetName = assetName;
+                version.assetUrl = jsonAsset["browser_download_url"].toString();
+                version.assetCreatedAt = jsonAsset["created_at"].toString();
+                version.assetSize = jsonAsset["size"].toInt();
+                break;
+            }
+        }
+        changelog.push_back(version);
+    }
+
+    if (!changelog.empty()) {
+        // for no-gui check
+        m_latestUpdateUrl = changelog.front().assetUrl;
+        emit updateAvailable();
+    }
+
+    storeDateTime();
+    emit updateAvailable(changelog);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * Get the binary from the Github server.
+ */
 void UpdateChecker::downloadAndInstallUpdate()
 {
-    m_updater.downloadAndInstallUpdate(m_latestUpdateUrl);
+    if (m_temporaryBinaryFile.isOpen()) {
+        emit updateError(tr("File '%0' currently opened. Close the file and retry.")
+                         .arg(m_temporaryBinaryFile.fileName()));
+        return;
+    }
+
+    QUrl url(m_latestUpdateUrl);
+    m_temporaryBinaryFile.setFileName(tempPath() + '/' + url.fileName());
+    if (!m_temporaryBinaryFile.open(QFile::WriteOnly)) {
+        emit updateError(tr("Failed to open temporary file '%0'.")
+                         .arg(m_temporaryBinaryFile.fileName()));
+        return;
+    }
+
+    NetworkManager *networkManager = s_networkManager;
+    QNetworkReply *reply = networkManager->get(url);
+    if (!reply) {
+        emit updateError(tr("Network request rejected."));
+        return;
+    }
+
+    connect(reply, SIGNAL(downloadProgress(qint64,qint64)),
+            this, SLOT(onBinaryProgress(qint64,qint64)));
+    connect(reply, SIGNAL(finished()),
+            this, SLOT(onBinaryFinished()));
+}
+
+void UpdateChecker::onBinaryProgress(qint64 bytesReceived, qint64 bytesTotal)
+{
+    emit downloadProgress(bytesReceived, bytesTotal);
+}
+
+void UpdateChecker::onBinaryFinished()
+{
+    auto reply = qobject_cast<QNetworkReply*>(sender());
+    if (!reply) {
+        emit updateError(tr("Network request rejected."));
+        return;
+    }
+    reply->deleteLater();
+
+    m_temporaryBinaryFile.write(reply->readAll());
+    m_temporaryBinaryFile.close();
+
+    emit updateDownloadFinished();
+
+    if (!UpdateInstaller::install(m_temporaryBinaryFile.fileName())) {
+        emit updateError("Failed to launch the downloaded update.");
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QString UpdateChecker::tempPath() const
+{
+    return QDir::tempPath();
 }
 
 /******************************************************************************
  ******************************************************************************/
 QString UpdateChecker::latestUpdateUrl() const
 {
-    return m_latestUpdateUrl;
+    return m_latestUpdateUrl; // For Linux
 }
 
 /******************************************************************************
@@ -103,56 +251,8 @@ qint64 UpdateChecker::daysSinceLastCheck()
     return lastCheckDate.daysTo(QDate::currentDate());
 }
 
-void UpdateChecker::storeDate()
+void UpdateChecker::storeDateTime()
 {
     QSettings settings;
     settings.setValue("LastUpdateCheckDate", QDate::currentDate());
-}
-
-/******************************************************************************
- ******************************************************************************/
-void UpdateChecker::onUpdateAvailable(CAutoUpdaterGithub::ChangeLog changelog)
-{
-    if (!changelog.empty()) {
-        m_latestUpdateUrl = changelog.front().versionUpdateUrl;
-        emit updateAvailable();
-    }
-    storeDate();
-    emit updateAvailable(changelog);
-}
-
-void UpdateChecker::onUpdateDownloadProgress(float percentageDownloaded)
-{
-    emit updateDownloadProgress(percentageDownloaded);
-}
-
-void UpdateChecker::onUpdateDownloadFinished()
-{
-    emit updateDownloadFinished();
-}
-
-void UpdateChecker::onUpdateError(QString errorMessage)
-{
-    emit updateError(errorMessage);
-}
-
-/******************************************************************************
- ******************************************************************************/
-std::function<QNetworkReply* (const QUrl &)> UpdateChecker::createNetworkGetCallback()
-{
-    const auto networkGetCallback = [](const QUrl &url)
-    {
-        if (s_networkManager) {
-            return s_networkManager->get(url);
-        }
-        return static_cast<QNetworkReply*>(Q_NULLPTR);
-    };
-    return networkGetCallback;
-}
-
-/******************************************************************************
- ******************************************************************************/
-std::function<bool (const QString &)> UpdateChecker::createAddressMatcherCallback(bool isHost64Bit)
-{
-    return UpdateCheckerNS::addressMatcher(isHost64Bit);
 }

@@ -18,6 +18,7 @@
 #include "ui_updatedialog.h"
 
 #include <Globals>
+#include <Core/Format>
 #include <Core/UpdateChecker>
 
 #include <QtCore/QDebug>
@@ -46,10 +47,10 @@ UpdateDialog::UpdateDialog(UpdateChecker *updateChecker, QWidget *parent)
     connect(ui->checkButton, SIGNAL(released()), this, SLOT(check()));
     connect(ui->installButton, SIGNAL(released()), this, SLOT(install()));
 
-    connect(m_updateChecker, SIGNAL(updateAvailable(CAutoUpdaterGithub::ChangeLog)),
-            this, SLOT(onUpdateAvailable(CAutoUpdaterGithub::ChangeLog)));
-    connect(m_updateChecker, SIGNAL(updateDownloadProgress(float)),
-            this, SLOT(onUpdateDownloadProgress(float)));
+    connect(m_updateChecker, SIGNAL(updateAvailable(UpdateChecker::ChangeLog)),
+            this, SLOT(onUpdateAvailable(UpdateChecker::ChangeLog)));
+    connect(m_updateChecker, SIGNAL(downloadProgress(qint64, qint64)),
+            this, SLOT(onDownloadProgress(qint64, qint64)));
     connect(m_updateChecker, SIGNAL(updateDownloadFinished()),
             this, SLOT(onUpdateDownloadFinished()));
     connect(m_updateChecker, SIGNAL(updateError(QString)),
@@ -64,7 +65,7 @@ UpdateDialog::UpdateDialog(UpdateChecker *updateChecker, QWidget *parent)
     ui->installButton->setEnabled(false);
 
     ui->downloadedToLabel->setText(QString("Downloaded to <a href=\"%0\">%0</a>")
-                                   .arg(m_updateChecker->installTempDir()));
+                                   .arg(m_updateChecker->tempPath()));
     ui->downloadedToLabel->setVisible(false);
 
     check();
@@ -123,18 +124,37 @@ void UpdateDialog::install()
 
 /******************************************************************************
  ******************************************************************************/
-void UpdateDialog::onUpdateAvailable(const CAutoUpdaterGithub::ChangeLog &changelog)
+void UpdateDialog::onUpdateAvailable(const UpdateChecker::ChangeLog &changelog)
 {
     if (!changelog.empty()) {
         ui->stackedWidget->setCurrentWidget(ui->pageNewVersionAvailable);
-        ui->changeLogViewer->clear();
-        ui->changeLogViewer->append(QString("%0 %1\n\n").arg(
-                                        tr("Current version:"),
-                                        m_updateChecker->currentVersion()));
+
+        QString text;
+        text += QString("%0 %1\n\n").arg(tr("Current version:"), m_updateChecker->currentVersion());
+
         for (const auto& changelogItem: changelog) {
-            QString text = "<b>" % changelogItem.versionString % "</b>" % '\n' % changelogItem.versionChanges % "<p></p>";
-            ui->changeLogViewer->append(text);
+            text += ("<p>\n");
+            text += ("<h1>" % changelogItem.tagName % "</h1>\n");
+            text += ("</p>\n");
+            text += ("<ul>\n");
+            text += ("<li>Title: <b>" % changelogItem.title % "</b></li>\n");
+            text += ("<li>Draft: <b>" % Format::boolToHtml(changelogItem.draft) % "</b></li>\n");
+            text += ("<li>Prerelease: <b>" % Format::boolToHtml(changelogItem.prerelease) % "</b></li>\n");
+            text += ("<li>Created At: <b>" % changelogItem.createdAt % "</b></li>\n");
+            text += ("<li>Published At: <b>" % changelogItem.publishedAt % "</b></li>\n");
+            text += ("<li>Asset Name: <b>" % changelogItem.assetName % "</b></li>\n");
+            text += ("<li>Asset URL: <b>" % changelogItem.assetUrl % "</b></li>\n");
+            text += ("<li>Asset Created At: <b>" % changelogItem.assetCreatedAt % "</b></li>\n");
+            text += ("<li>Asset Size: <b>" % Format::sizeToHtml(changelogItem.assetSize) % "</b></li>\n");
+            text += ("</ul>\n");
+            text += ("<p>\n");
+            text += Format::markDownToHtml(changelogItem.body);
+            text += ("</p>\n");
+            text += ("<p></p>\n");
         }
+
+        ui->changeLogViewer->clear();
+        ui->changeLogViewer->setHtml(text);
         ui->changeLogViewer->moveCursor(QTextCursor::Start);
         ui->changeLogViewer->ensureCursorVisible();
         ui->checkButton->setEnabled(true);
@@ -147,12 +167,17 @@ void UpdateDialog::onUpdateAvailable(const CAutoUpdaterGithub::ChangeLog &change
     }
 }
 
-void UpdateDialog::onUpdateDownloadProgress(float percentageDownloaded)
+void UpdateDialog::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
-    /// \todo BUGFIX Qt: QProgressBar update in QThread quitting crashes
-    // ui->progressBar->setValue(static_cast<int>(percentageDownloaded));
-    auto percent = static_cast<int>(percentageDownloaded);
-    const QString text = QString("%0 %").arg(QString::number(percent));
+    int percent = 0;
+    if (bytesTotal != 0) {
+        if (bytesReceived < bytesTotal) {
+             percent = qIntCast(100 * float(bytesReceived) / float(bytesTotal));
+        } else {
+            percent = 100;
+        }
+    }
+    auto text = QString("%0 %").arg(QString::number(percent));
     ui->progressBarValue->setText(text);
 }
 

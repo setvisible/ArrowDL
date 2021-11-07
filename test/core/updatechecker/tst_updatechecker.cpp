@@ -24,97 +24,90 @@ class tst_UpdateChecker : public QObject
     Q_OBJECT
 
 private slots:
-    void addressMatcher_data();
-    void addressMatcher();
+    void cleanTag_data();
+    void cleanTag();
+
+    void isVersionGreaterThan_data();
+    void isVersionGreaterThan();
 };
 
 /******************************************************************************
-******************************************************************************/
-void tst_UpdateChecker::addressMatcher_data()
+ ******************************************************************************/
+void tst_UpdateChecker::cleanTag_data()
 {
-    QTest::addColumn<bool>("isHost64bit");
-    QTest::addColumn<bool>("expected");
-    QTest::addColumn<QString>("url");
+        QTest::addColumn<QString>("expected");
+        QTest::addColumn<QString>("input");
 
-    QTest::newRow("null") << false << false << QString();
-    QTest::newRow("null") << true << false << QString();
-    QTest::newRow("empty") << false << false << "";
-    QTest::newRow("empty") << true << false << "";
+        QTest::newRow("null") << QString() << QString();
+        QTest::newRow("null") << "" << QString();
+        QTest::newRow("null") << "" << "";
 
-#if defined _WIN32
-    /* 32-bit */
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/myimage.png";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/1ds3tr1f2dfg";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/download/v1.6.1/DownRightNow_chromium_v1.6.1.zip";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/download/v1.6.1/DownRightNow_firefox_v1.6.1.xpi";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/download/v1.6.1/DownZemAll_v1.6.1_windows-mingw-x64.zip";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/download/v1.6.1/DownZemAll_v1.6.1_windows-mingw-x86.zip";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/download/v1.6.1/DownZemAll_v1.6.1_windows-msvc-x64.zip";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/download/v1.6.1/DownZemAll_v1.6.1_windows-msvc-x86.zip";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/download/v1.6.1/DownZemAll_v1.6.1_x86_64-linux-gnu.tar.gz";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/download/v1.6.1/DownZemAll_x64_Setup.exe";
-    QTest::newRow("") << false << true  << "/setvisible/DownZemAll/releases/download/v1.6.1/DownZemAll_x86_Setup.exe";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/archive/v1.6.1.zip";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/archive/v1.6.1.tar.gz";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/DownRightNow_chromium_v1.6.1.zip";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/DownRightNow_firefox_v1.6.1.xpi";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/DownZemAll_v1.6.1_windows-mingw-x64.zip";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/DownZemAll_v1.6.1_windows-mingw-x86.zip";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/DownZemAll_v1.6.1_windows-msvc-x64.zip";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/DownZemAll_v1.6.1_windows-msvc-x86.zip";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/DownZemAll_v1.6.1_x86_64-linux-gnu.tar.gz";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/DownZemAll_x64_Setup.exe";
-    QTest::newRow("") << false << true  << "/setvisible/DownZemAll/releases/DownZemAll_x86_Setup.exe";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/v1.6.1.zip";
-    QTest::newRow("") << false << false << "/setvisible/DownZemAll/releases/v1.6.1.tar.gz";
+        QTest::newRow("equal") << "2.5.0" << "2.5.0";
+        QTest::newRow("equal") << "2.5.0" << "  2.5.0  ";
 
-    /* 64-bit */
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/myimage.png";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/1ds3tr1f2dfg";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/download/v1.6.1/DownRightNow_chromium_v1.6.1.zip";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/download/v1.6.1/DownRightNow_firefox_v1.6.1.xpi";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/download/v1.6.1/DownZemAll_v1.6.1_windows-mingw-x64.zip";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/download/v1.6.1/DownZemAll_v1.6.1_windows-mingw-x86.zip";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/download/v1.6.1/DownZemAll_v1.6.1_windows-msvc-x64.zip";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/download/v1.6.1/DownZemAll_v1.6.1_windows-msvc-x86.zip";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/download/v1.6.1/DownZemAll_v1.6.1_x86_64-linux-gnu.tar.gz";
-    QTest::newRow("") << true << true  << "/setvisible/DownZemAll/releases/download/v1.6.1/DownZemAll_x64_Setup.exe";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/download/v1.6.1/DownZemAll_x86_Setup.exe";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/archive/v1.6.1.zip";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/archive/v1.6.1.tar.gz";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/DownRightNow_chromium_v1.6.1.zip";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/DownRightNow_firefox_v1.6.1.xpi";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/DownZemAll_v1.6.1_windows-mingw-x64.zip";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/DownZemAll_v1.6.1_windows-mingw-x86.zip";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/DownZemAll_v1.6.1_windows-msvc-x64.zip";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/DownZemAll_v1.6.1_windows-msvc-x86.zip";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/DownZemAll_v1.6.1_x86_64-linux-gnu.tar.gz";
-    QTest::newRow("") << true << true  << "/setvisible/DownZemAll/releases/DownZemAll_x64_Setup.exe";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/DownZemAll_x86_Setup.exe";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/v1.6.1.zip";
-    QTest::newRow("") << true << false << "/setvisible/DownZemAll/releases/v1.6.1.tar.gz";
+        QTest::newRow("dot") << "2.5.0" << "...2.5.0...";
+        QTest::newRow("dot") << "2.5.0" << "...2.,  ,5..Aaa..0";
+        QTest::newRow("dot") << "2.5.0.1254" << "version 2.5.0 build 1254";
 
-#elif defined __APPLE__
-    /// \todo
-#else
-    /// \todo
-#endif
+        QTest::newRow("prefix") << "2.5.0" << "v2.5.0";
+        QTest::newRow("prefix") << "2.5.0" << "v_2.5.0";
+        QTest::newRow("prefix") << "2.5.0" << "v.2.5.0";
+        QTest::newRow("prefix") << "2.5.0" << "v 2.5.0";
+        QTest::newRow("prefix") << "2.5.0" << "version 2.5.0";
+        QTest::newRow("prefix") << "2.5.0" << "  version 2.5.0 bis ";
 }
 
-void tst_UpdateChecker::addressMatcher()
+void tst_UpdateChecker::cleanTag()
 {
-    QFETCH(bool, isHost64bit);
-    QFETCH(bool, expected);
-    QFETCH(QString, url);
-
-    auto addressMatcher = UpdateCheckerNS::addressMatcher(isHost64bit);
-    auto actual = addressMatcher(url);
-
+    QFETCH(QString, expected);
+    QFETCH(QString, input);
+    auto actual = UpdateCheckerNS::cleanTag(input);
     QCOMPARE(actual, expected);
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
+void tst_UpdateChecker::isVersionGreaterThan_data()
+{
+        QTest::addColumn<bool>("expected");
+        QTest::addColumn<QString>("s1");
+        QTest::addColumn<QString>("s2");
+
+        QTest::newRow("null") << false << QString() << QString();
+        QTest::newRow("null") << false << "" << QString();
+        QTest::newRow("null") << false << "" << "";
+
+        QTest::newRow("equal") << false << "2.5.0" << "2.5.0";
+        QTest::newRow("number") << false << "2.5.0" << "2.5.1";
+        QTest::newRow("number") << true << "2.5.1" << "2.5.0";
+
+        QTest::newRow("QCollator 100 > 99") << true << "2.5.100" << "2.5.99";
+        QTest::newRow("QCollator 10 < 99") << true << "2.5.99" << "2.5.10";
+
+        QTest::newRow("prefix") << true << "2.5.1" << "v2.5.0";
+        QTest::newRow("prefix") << true << "2.5.1" << "v_2.5.0";
+        QTest::newRow("prefix") << true << "2.5.1" << "v.2.5.0";
+        QTest::newRow("prefix") << true << "2.5.1" << "v 2.5.0";
+        QTest::newRow("prefix") << true << "2.5.1" << "version 2.5.0";
+
+        QTest::newRow("prefix") << true << "v2.5.1" << "2.5.0";
+        QTest::newRow("prefix") << true << "v_2.5.1" << "2.5.0";
+        QTest::newRow("prefix") << true << "v.2.5.1" << "2.5.0";
+        QTest::newRow("prefix") << true << "v 2.5.1" << "2.5.0";
+        QTest::newRow("prefix") << true << "version 2.5.1" << "2.5.0";
+}
+
+void tst_UpdateChecker::isVersionGreaterThan()
+{
+    QFETCH(bool, expected);
+    QFETCH(QString, s1);
+    QFETCH(QString, s2);
+    auto actual = UpdateCheckerNS::isVersionGreaterThan(s1, s2);
+    QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 QTEST_APPLESS_MAIN(tst_UpdateChecker)
 
 #include "tst_updatechecker.moc"
