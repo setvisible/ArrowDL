@@ -3056,26 +3056,6 @@ Some examples are given below.  Click to paste the example.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="121"/>
-        <source>srt</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="126"/>
-        <source>vtt</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="131"/>
-        <source>ass</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="136"/>
-        <source>lrc</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../widgets/streamconfigwidget.ui" line="162"/>
         <source>Chapters</source>
         <translation type="unfinished"/>
@@ -3113,16 +3093,6 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="236"/>
         <source>Convert the thumbnails to format:</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="247"/>
-        <source>jpg</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="252"/>
-        <source>png</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3254,41 +3224,6 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../widgets/streamconfigwidget.ui" line="500"/>
         <source>Remove segments in SponsorBlock categories from the video file:</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="509"/>
-        <source>Unpaid/Self Promotion</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="516"/>
-        <source>Interaction Reminder</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="523"/>
-        <source>Sponsor</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="530"/>
-        <source>Preview/Recap</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="537"/>
-        <source>Non-Music Section</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="544"/>
-        <source>Endcards/Credits</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="551"/>
-        <source>Intermission/Intro Animation</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -4182,9 +4117,30 @@ Ex:
     </message>
 </context>
 <context>
+    <name>UpdateChecker</name>
+    <message>
+        <location filename="../core/updatechecker.cpp" line="92"/>
+        <location filename="../core/updatechecker.cpp" line="104"/>
+        <location filename="../core/updatechecker.cpp" line="197"/>
+        <location filename="../core/updatechecker.cpp" line="216"/>
+        <source>Network request rejected.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../core/updatechecker.cpp" line="181"/>
+        <source>File &apos;%0&apos; currently opened. Close the file and retry.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../core/updatechecker.cpp" line="189"/>
+        <source>Failed to open temporary file &apos;%0&apos;.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>UpdateDialog</name>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="39"/>
+        <location filename="../dialogs/updatedialog.cpp" line="40"/>
         <source>Check for Updates</source>
         <translation>检查更新</translation>
     </message>
@@ -4224,53 +4180,53 @@ Ex:
         <translation>关闭(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="42"/>
+        <location filename="../dialogs/updatedialog.cpp" line="43"/>
         <source>Downloaded to</source>
         <translation>已下载到</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="44"/>
+        <location filename="../dialogs/updatedialog.cpp" line="45"/>
         <source>Install new version</source>
         <translation>安装新版本</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="87"/>
+        <location filename="../dialogs/updatedialog.cpp" line="88"/>
         <source>Checking the updates...</source>
         <translation>检查更新...</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="101"/>
+        <location filename="../dialogs/updatedialog.cpp" line="102"/>
         <source>Downloading the update...</source>
         <translation>正在下载更新...</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="109"/>
-        <location filename="../dialogs/updatedialog.cpp" line="112"/>
+        <location filename="../dialogs/updatedialog.cpp" line="110"/>
+        <location filename="../dialogs/updatedialog.cpp" line="113"/>
         <source>Manual update required</source>
         <translation>需要手动更新</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="113"/>
+        <location filename="../dialogs/updatedialog.cpp" line="114"/>
         <source>Automatic update is not supported on this operating system. Do you want to download and install the update manually?</source>
         <translation>此操作系统不支持自动更新。 您要手动下载并安装更新吗?</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="132"/>
+        <location filename="../dialogs/updatedialog.cpp" line="133"/>
         <source>Current version:</source>
         <translation>当前版本：</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="163"/>
+        <location filename="../dialogs/updatedialog.cpp" line="188"/>
         <source>Close the application</source>
         <translation>关闭应用程序</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="165"/>
+        <location filename="../dialogs/updatedialog.cpp" line="190"/>
         <source>The application needs to close to continue the update.</source>
         <translation>应用程序需要关闭才能继续更新。</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="166"/>
+        <location filename="../dialogs/updatedialog.cpp" line="191"/>
         <source>Do you want to close now?</source>
         <translation>是否要立即关闭?</translation>
     </message>
