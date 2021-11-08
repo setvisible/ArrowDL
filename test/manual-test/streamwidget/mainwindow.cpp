@@ -134,8 +134,8 @@ void MainWindow::onPlaylistButtonClicked()
     list << DummyStreamFactory::createDummyStreamObject_Other();
     for (int i = 0; i < list.count(); ++i) {
         auto item = list.at(i);
-        item.playlist = QLatin1String("Playlist of favorite streams");
-        item.playlist_index = QString::number(i + 1);
+        item.data().playlist = QLatin1String("Playlist of favorite streams");
+        item.data().playlist_index = QString::number(i + 1);
         list.replace(i, item);
     }
     ui->streamListWidget->setStreamObjects(list);

@@ -102,8 +102,8 @@ StreamFormatPicker::StreamFormatPicker(QWidget *parent) : QWidget(parent)
     connect(ui->listView->selectionModel(), SIGNAL(currentChanged(QModelIndex, QModelIndex)),
             this, SLOT(onCurrentChanged(QModelIndex, QModelIndex)));
 
-    connect(ui->streamConfigWidget, SIGNAL(configChanged(StreamObjectConfig)),
-            this,  SIGNAL(configChanged(StreamObjectConfig)));
+    connect(ui->streamConfigWidget, SIGNAL(configChanged(StreamObject::Config)),
+            this,  SIGNAL(configChanged(StreamObject::Config)));
 
     updateButtonBar();
     propagateIcons();
@@ -127,9 +127,9 @@ void StreamFormatPicker::setData(const StreamObject &streamObject)
     QSignalBlocker blocker(this);
     clear();
 
-    populateSimple(streamObject.defaultFormats());
-    populateComboBox(streamObject.audioFormats(), ui->audioComboBox);
-    populateComboBox(streamObject.videoFormats(), ui->videoComboBox);
+    populateSimple(streamObject.data().defaultFormats());
+    populateComboBox(streamObject.data().audioFormats(), ui->audioComboBox);
+    populateComboBox(streamObject.data().videoFormats(), ui->videoComboBox);
     ui->streamConfigWidget->setConfig(streamObject.config());
 
     select(streamObject.formatId());

@@ -33,10 +33,10 @@ public:
     ~StreamConfigWidget() Q_DECL_OVERRIDE;
 
     void clear();
-    void setConfig(const StreamObjectConfig &config);
+    void setConfig(const StreamObject::Config &config);
 
 signals:
-    void configChanged(StreamObjectConfig config);
+    void configChanged(StreamObject::Config config);
 
 private slots:
     void onCheckBoxToggled(bool checked);

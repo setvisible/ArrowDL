@@ -243,12 +243,12 @@ void ResourceItem::setStreamFileSize(qint64 streamFileSize)
 
 /******************************************************************************
  ******************************************************************************/
-StreamObjectConfig ResourceItem::streamConfig() const
+StreamObject::Config ResourceItem::streamConfig() const
 {
     return m_streamConfig;
 }
 
-void ResourceItem::setStreamConfig(const StreamObjectConfig &config)
+void ResourceItem::setStreamConfig(const StreamObject::Config &config)
 {
     m_streamConfig = config;
 }

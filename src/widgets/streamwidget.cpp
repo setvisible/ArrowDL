@@ -32,8 +32,8 @@ StreamWidget::StreamWidget(QWidget *parent) : QWidget(parent)
 
     connect(ui->streamFormatPicker, SIGNAL(selectionChanged(StreamFormatId)),
             this, SLOT(onFormatSelected(StreamFormatId)));
-    connect(ui->streamFormatPicker, SIGNAL(configChanged(StreamObjectConfig)),
-            this, SLOT(onConfigChanged(StreamObjectConfig)));
+    connect(ui->streamFormatPicker, SIGNAL(configChanged(StreamObject::Config)),
+            this, SLOT(onConfigChanged(StreamObject::Config)));
     connect(ui->fileNameEdit, SIGNAL(textChanged(QString)),
             this, SLOT(onTitleChanged(QString)));
     connect(ui->fileExtensionEdit, SIGNAL(textChanged(QString)),
@@ -84,7 +84,7 @@ void StreamWidget::onFormatSelected(StreamFormatId formatId)
     emit streamObjectChanged(m_streamObject);
 }
 
-void StreamWidget::onConfigChanged(StreamObjectConfig config)
+void StreamWidget::onConfigChanged(StreamObject::Config config)
 {
     m_streamObject.setConfig(config);
     emit streamObjectChanged(m_streamObject);

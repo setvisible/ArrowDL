@@ -204,7 +204,7 @@ void StreamListWidget::setStreamObjects(const QList<StreamObject> &streamObjects
     m_playlistModel->setStreamObjects(streamObjects);
     if (!streamObjects.isEmpty()) {
         auto first = streamObjects.first();
-        ui->playlistTitleLabel->setText(first.playlist);
+        ui->playlistTitleLabel->setText(first.data().playlist);
 
         // Check all available videos in the playlist
         for (int i = 0; i < streamObjects.count(); ++i) {
@@ -355,7 +355,7 @@ void StreamTableModel::enableTrackNumberPrefix(bool enable)
     for (int row = 0; row < m_items.count(); ++row) {
         auto item = m_items.at(row); // copy!
         auto title = item.title();
-        auto prefix = QString("%0 ").arg(item.playlist_index);
+        auto prefix = QString("%0 ").arg(item.data().playlist_index);
 
         // remove previous track number
         if (title.startsWith(prefix)) {
@@ -446,9 +446,9 @@ QVariant StreamTableModel::data(const QModelIndex &index, int role) const
         auto streamObject = m_items.at(index.row());
         switch (index.column()) {
         case  0: return QVariant();
-        case  1: return streamObject.playlist_index;
+        case  1: return streamObject.data().playlist_index;
         case  2: return filenameOrErrorMessage(streamObject);
-        case  3: return streamObject.defaultTitle;
+        case  3: return streamObject.data().defaultTitle;
         case  4: return Format::fileSizeToString(streamObject.guestimateFullSize());
         case  5: return streamObject.formatToString();
         default:

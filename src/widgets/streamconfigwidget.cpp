@@ -82,7 +82,7 @@ void StreamConfigWidget::clear()
 
 /******************************************************************************
  ******************************************************************************/
-void StreamConfigWidget::setConfig(const StreamObjectConfig &config)
+void StreamConfigWidget::setConfig(const StreamObject::Config &config)
 {
     QSignalBlocker blocker(this);
     clear();
@@ -122,7 +122,7 @@ void StreamConfigWidget::onCheckBoxToggled(bool checked)
  ******************************************************************************/
 void StreamConfigWidget::onChanged()
 {
-    StreamObjectConfig config;
+    StreamObject::Config config;
 
     // Overview
     config.overview.skipVideo = ui->skipDownloadCheckBox->isChecked();

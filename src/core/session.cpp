@@ -50,9 +50,9 @@ static inline int stateToInt(IDownloadItem::State state)
     }
 }
 
-static inline StreamObjectConfig readStreamConfig(const QJsonObject &json)
+static inline StreamObject::Config readStreamConfig(const QJsonObject &json)
 {
-    StreamObjectConfig config;
+    StreamObject::Config config;
     {
         auto j = json["overview"].toObject();
         config.overview.skipVideo = j["skipVideo"].isBool();
@@ -85,7 +85,7 @@ static inline StreamObjectConfig readStreamConfig(const QJsonObject &json)
     return config;
 }
 
-static inline QJsonObject writeStreamConfig(const StreamObjectConfig &config)
+static inline QJsonObject writeStreamConfig(const StreamObject::Config &config)
 {
     QJsonObject json;
     {
