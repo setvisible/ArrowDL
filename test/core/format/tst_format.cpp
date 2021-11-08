@@ -50,6 +50,12 @@ private slots:
 
     void wrapText_data();
     void wrapText();
+
+    void boolToHtml_data();
+    void boolToHtml();
+
+    void markDownToHtml_data();
+    void markDownToHtml();
 };
 
 
@@ -341,7 +347,47 @@ void tst_Format::wrapText()
 
 /******************************************************************************
  ******************************************************************************/
+void tst_Format::boolToHtml_data()
+{
+    QTest::addColumn<bool>("input");
+    QTest::addColumn<QString>("expected");
 
+    QTest::newRow("") << false << "False";
+    QTest::newRow("") << true << "True";
+}
+
+/*!
+ * \brief Verify that the returned text is not translated
+ */
+void tst_Format::boolToHtml()
+{
+    QFETCH(bool, input);
+    QFETCH(QString, expected);
+    QString actual = Format::boolToHtml(input);
+    QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void tst_Format::markDownToHtml_data()
+{
+    QTest::addColumn<QString>("input");
+    QTest::addColumn<QString>("expected");
+
+    QTest::newRow("") << QString() << QString();
+    QTest::newRow("") << "\n" << "<br>\n";
+}
+
+void tst_Format::markDownToHtml()
+{
+    QFETCH(QString, input);
+    QFETCH(QString, expected);
+    QString actual = Format::markDownToHtml(input);
+    QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 QTEST_APPLESS_MAIN(tst_Format)
 
 #include "tst_format.moc"

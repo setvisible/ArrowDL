@@ -39,6 +39,8 @@ class tst_Stream : public QObject
     }
 
 private slots:
+    void relationalOperators();
+
     void readStandardOutput();
     void readStandardOutputWithEstimedSize();
     void readStandardOutputWithTwoStreams();
@@ -80,6 +82,26 @@ class FriendlyStream : public Stream
 public:
     explicit FriendlyStream(QObject *parent) : Stream(parent) {}
 };
+
+/******************************************************************************
+ ******************************************************************************/
+void tst_Stream::relationalOperators()
+{
+    StreamObject::Config::Overview ov_1;
+    ov_1.skipVideo = false;
+    ov_1.markWatched = true;
+
+    StreamObject::Config::Overview ov_2;
+    ov_2.skipVideo = false;
+    ov_2.markWatched = true;
+
+    StreamObject::Config::Overview ov_3;
+    ov_3.skipVideo = true;
+    ov_3.markWatched = true;
+
+    QVERIFY(ov_1 == ov_2); // Verify operator==()
+    QVERIFY(ov_2 != ov_3); // Verify operator!=()
+}
 
 /******************************************************************************
  ******************************************************************************/
