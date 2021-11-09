@@ -33,7 +33,7 @@ static const QString s_urlMp4Link = "http://camendesign.com/code/video_for_every
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
-  , m_streamObjectDownloader(new StreamObjectDownloader(this))
+  , m_streamAssetDownloader(new StreamAssetDownloader(this))
 {
     ui->setupUi(this);
 
@@ -54,8 +54,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     ui->urlMp4Button->setToolTip(s_urlMp4Link);
 
-    connect(m_streamObjectDownloader, SIGNAL(error(QString)), this, SLOT(onError(QString)));
-    connect(m_streamObjectDownloader, SIGNAL(collected(QList<StreamObject>)), this, SLOT(onCollected(QList<StreamObject>)));
+    connect(m_streamAssetDownloader, SIGNAL(error(QString)), this, SLOT(onError(QString)));
+    connect(m_streamAssetDownloader, SIGNAL(collected(QList<StreamObject>)), this, SLOT(onCollected(QList<StreamObject>)));
 
     onResetClicked();
 }
@@ -82,7 +82,7 @@ void MainWindow::start(const QString &url)
     qDebug() << Q_FUNC_INFO << url;
     if (!url.isEmpty()) {
         ui->streamListWidget->setMessageWait();
-        m_streamObjectDownloader->runAsync(url);
+        m_streamAssetDownloader->runAsync(url);
     } else {
         ui->streamListWidget->setMessageEmpty();
     }

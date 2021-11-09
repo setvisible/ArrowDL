@@ -35,7 +35,7 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
     : QDialog(parent)
     , ui(new Ui::AddStreamDialog)
     , m_downloadManager(downloadManager)
-    , m_streamObjectDownloader(new StreamObjectDownloader(this))
+    , m_streamObjectDownloader(new StreamAssetDownloader(this))
     , m_settings(settings)
 {
     ui->setupUi(this);

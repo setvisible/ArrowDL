@@ -153,18 +153,21 @@ void Stream::setConnectionTimeout(int secs)
 
 /******************************************************************************
  ******************************************************************************/
-void AskStreamVersionThread::stop()
-{
-    stopped = true;
-}
-
-void AskStreamVersionThread::run()
+/*!
+ * Get the version of the downloader asynchronously.
+ */
+void StreamVersion::run()
 {
     // Stream::version() is blocking and time expensive
     QString result = Stream::version();
     if (!stopped) {
         emit resultReady(result);
     }
+}
+
+void StreamVersion::stop()
+{
+    stopped = true;
 }
 
 /******************************************************************************
@@ -646,7 +649,7 @@ void StreamCleanCache::onFinished(int exitCode, QProcess::ExitStatus exitStatus)
 
 /******************************************************************************
  ******************************************************************************/
-StreamObjectDownloader::StreamObjectDownloader(QObject *parent) : QObject(parent)
+StreamAssetDownloader::StreamAssetDownloader(QObject *parent) : QObject(parent)
   , m_processDumpJson(new QProcess(this))
   , m_processFlatList(new QProcess(this))
   , m_streamCleanCache(new StreamCleanCache(this))
@@ -667,7 +670,7 @@ StreamObjectDownloader::StreamObjectDownloader(QObject *parent) : QObject(parent
 }
 
 
-StreamObjectDownloader::~StreamObjectDownloader()
+StreamAssetDownloader::~StreamAssetDownloader()
 {
     m_processDumpJson->kill();
     m_processDumpJson->deleteLater();
@@ -675,7 +678,7 @@ StreamObjectDownloader::~StreamObjectDownloader()
     m_processFlatList->deleteLater();
 }
 
-void StreamObjectDownloader::runAsync(const QString &url)
+void StreamAssetDownloader::runAsync(const QString &url)
 {
     /*
      * We run 2 processes (--dump-json and --flat-playlist) in parallel
@@ -692,7 +695,7 @@ void StreamObjectDownloader::runAsync(const QString &url)
     runAsyncFlatList();
 }
 
-void StreamObjectDownloader::runAsyncDumpJson()
+void StreamAssetDownloader::runAsyncDumpJson()
 {
     if (m_processDumpJson->state() == QProcess::NotRunning) {
         auto arguments = QStringList()
@@ -713,7 +716,7 @@ void StreamObjectDownloader::runAsyncDumpJson()
     }
 }
 
-void StreamObjectDownloader::runAsyncFlatList()
+void StreamAssetDownloader::runAsyncFlatList()
 {
     if (m_processFlatList->state() == QProcess::NotRunning) {
         auto arguments = QStringList()
@@ -735,7 +738,7 @@ void StreamObjectDownloader::runAsyncFlatList()
     }
 }
 
-void StreamObjectDownloader::stop()
+void StreamAssetDownloader::stop()
 {
     if (m_processDumpJson->state() != QProcess::NotRunning) {
         m_processDumpJson->kill();
@@ -748,17 +751,17 @@ void StreamObjectDownloader::stop()
     m_cancelled = true;
 }
 
-bool StreamObjectDownloader::isRunning() const
+bool StreamAssetDownloader::isRunning() const
 {
     return !( m_processDumpJson->state() == QProcess::NotRunning &&
               m_processFlatList->state() == QProcess::NotRunning);
 }
 
-void StreamObjectDownloader::onStarted()
+void StreamAssetDownloader::onStarted()
 {
 }
 
-void StreamObjectDownloader::onError(QProcess::ProcessError error)
+void StreamAssetDownloader::onError(QProcess::ProcessError error)
 {
     debug(sender(), error);
     m_dumpMap.clear();
@@ -766,7 +769,7 @@ void StreamObjectDownloader::onError(QProcess::ProcessError error)
     /// \todo verify race condition
 }
 
-void StreamObjectDownloader::onFinishedDumpJson(int exitCode, QProcess::ExitStatus exitStatus)
+void StreamAssetDownloader::onFinishedDumpJson(int exitCode, QProcess::ExitStatus exitStatus)
 {
     if (exitStatus == QProcess::NormalExit) {
 
@@ -818,7 +821,7 @@ void StreamObjectDownloader::onFinishedDumpJson(int exitCode, QProcess::ExitStat
     }
 }
 
-void StreamObjectDownloader::onFinishedFlatList(int exitCode, QProcess::ExitStatus exitStatus)
+void StreamAssetDownloader::onFinishedFlatList(int exitCode, QProcess::ExitStatus exitStatus)
 {
     if (exitStatus == QProcess::NormalExit) {
         if (exitCode == C_EXIT_SUCCESS) {
@@ -841,8 +844,9 @@ void StreamObjectDownloader::onFinishedFlatList(int exitCode, QProcess::ExitStat
     }
 }
 
-StreamDumpMap StreamObjectDownloader::parseDumpMap(const QByteArray &stdoutBytes,
-                                                   const QByteArray &stderrBytes)
+StreamAssetDownloader::StreamDumpMap StreamAssetDownloader::parseDumpMap(
+        const QByteArray &stdoutBytes,
+        const QByteArray &stderrBytes)
 {
     StreamDumpMap map;
     QList<QByteArray> stdoutLines = stdoutBytes.split(QChar('\n').toLatin1());
@@ -863,7 +867,7 @@ StreamDumpMap StreamObjectDownloader::parseDumpMap(const QByteArray &stdoutBytes
     return map;
 }
 
-StreamObject StreamObjectDownloader::parseDumpItemStdOut(const QByteArray &bytes)
+StreamObject StreamAssetDownloader::parseDumpItemStdOut(const QByteArray &bytes)
 {
     StreamObject obj;
     auto data = obj.data();
@@ -922,7 +926,7 @@ static StreamObjectId findId(const QByteArray &bytes)
     return values.count() > 1 ? values.at(1).trimmed() : StreamObjectId();
 }
 
-StreamObject StreamObjectDownloader::parseDumpItemStdErr(const QByteArray &bytes)
+StreamObject StreamAssetDownloader::parseDumpItemStdErr(const QByteArray &bytes)
 {
     StreamObject ret;
     auto data = ret.data();
@@ -932,8 +936,9 @@ StreamObject StreamObjectDownloader::parseDumpItemStdErr(const QByteArray &bytes
     return ret;
 }
 
-StreamFlatList StreamObjectDownloader::parseFlatList(const QByteArray &stdoutBytes,
-                                                     const QByteArray &stderrBytes)
+StreamAssetDownloader::StreamFlatList StreamAssetDownloader::parseFlatList(
+        const QByteArray &stdoutBytes,
+        const QByteArray &stderrBytes)
 {
     QList<StreamFlatListItem> list;
     QList<QByteArray> stdoutLines = stdoutBytes.split(QChar('\n').toLatin1());
@@ -954,7 +959,8 @@ StreamFlatList StreamObjectDownloader::parseFlatList(const QByteArray &stdoutByt
     return list;
 }
 
-StreamFlatListItem StreamObjectDownloader::parseFlatItem(const QByteArray &bytes)
+StreamAssetDownloader::StreamFlatListItem StreamAssetDownloader::parseFlatItem(
+        const QByteArray &bytes)
 {
     StreamFlatListItem item;
     QJsonParseError ok{};
@@ -970,7 +976,7 @@ StreamFlatListItem StreamObjectDownloader::parseFlatItem(const QByteArray &bytes
     return item;
 }
 
-void StreamObjectDownloader::onFinished()
+void StreamAssetDownloader::onFinished()
 {
     if (m_cancelled) {
         emit error(tr("Cancelled."));
@@ -990,7 +996,7 @@ void StreamObjectDownloader::onFinished()
     }
 }
 
-StreamObject StreamObjectDownloader::createStreamObject(const StreamFlatListItem &flatItem) const
+StreamObject StreamAssetDownloader::createStreamObject(const StreamFlatListItem &flatItem) const
 {
     StreamObject si;
     if (!flatItem.id.isEmpty() && m_dumpMap.contains(flatItem.id)) {
@@ -1008,7 +1014,7 @@ StreamObject StreamObjectDownloader::createStreamObject(const StreamFlatListItem
     return si;
 }
 
-void StreamObjectDownloader::onCacheCleaned()
+void StreamAssetDownloader::onCacheCleaned()
 {
     runAsync(m_url); // retry
 }
@@ -1230,18 +1236,19 @@ bool StreamFormatId::operator<(const StreamFormatId &other) const
 
 /******************************************************************************
  ******************************************************************************/
-StreamFormat::StreamFormat(const QString &format_id,
-                           const QString &ext,
-                           const QString &format_note,
-                           int filesize,
-                           const QString &acodec,
-                           int abr,
-                           int asr,
-                           const QString &vcodec,
-                           int width,
-                           int height,
-                           int fps,
-                           int tbr)
+StreamObject::Data::Format::Format(
+        const QString &format_id,
+        const QString &ext,
+        const QString &format_note,
+        int filesize,
+        const QString &acodec,
+        int abr,
+        int asr,
+        const QString &vcodec,
+        int width,
+        int height,
+        int fps,
+        int tbr)
 {
     this->formatId     = StreamFormatId(format_id);
     this->ext          = ext;
@@ -1257,7 +1264,7 @@ StreamFormat::StreamFormat(const QString &format_id,
     this->tbr          = tbr;
 }
 
-bool StreamFormat::operator==(const StreamFormat &other) const
+bool StreamObject::Data::Format::operator==(const StreamFormat &other) const
 {
     return formatId         == other.formatId
             && ext          == other.ext
@@ -1273,26 +1280,27 @@ bool StreamFormat::operator==(const StreamFormat &other) const
             && tbr          == other.tbr;
 }
 
-bool StreamFormat::operator!=(const StreamFormat &other) const
+bool StreamObject::Data::Format::operator!=(const StreamFormat &other) const
 {
     return !(*this == other);
 }
 
-bool StreamFormat::hasVideo() const {
+bool StreamObject::Data::Format::hasVideo() const {
     return vcodec != C_NONE;
 }
-bool StreamFormat::hasMusic() const {
+
+bool StreamObject::Data::Format::hasMusic() const {
     return acodec != C_NONE;
 }
 
-QString StreamFormat::toString() const
+QString StreamObject::Data::Format::toString() const
 {
     if (hasVideo() && hasMusic()) {
         return QObject::tr("Video %0 x %1%2%3").arg(
                     width <= 0 ? QLatin1String("?") : QString::number(width),
                     height <= 0 ? QLatin1String("?") : QString::number(height),
                     format_note.isEmpty() ? QString() : QString(" (%0)").arg(format_note),
-                    filesize <= 0 ? QString() : QString(", size: %0").arg(Format::fileSizeToString(filesize)));
+                    filesize <= 0 ? QString() : QString(", size: %0").arg(::Format::fileSizeToString(filesize)));
     }
     if (hasVideo()) {
         return QObject::tr("[%0] %1 x %2 (%3 fps) @ %4 KBit/s, codec: %5")
@@ -1313,9 +1321,9 @@ QString StreamFormat::toString() const
     return QString();
 }
 
-QString StreamFormat::debug_description() const
+QString StreamObject::Data::Format::debug_description() const
 {
-    return QString("StreamFormat '%0' (%1, %2, %3)").arg(
+    return QString("StreamObject::Data::Format '%0' (%1, %2, %3)").arg(
                 formatId.toString(),
                 QString("%0, %1, %2").arg(
                     ext,
@@ -1335,10 +1343,7 @@ QString StreamFormat::debug_description() const
 
 /******************************************************************************
  ******************************************************************************/
-/** \todo C++11 relational operations must be explicit.
- * Since C++14 they can be defaulted
- */
-
+/// \todo C++11 relational operations must be explicit. Since C++14 they can be defaulted
 bool StreamObject::Data::operator!=(const Data &other) const
 {
     return !(*this == other);
@@ -1542,7 +1547,7 @@ QString StreamObject::formatToString() const
     return ret;
 }
 
-QList<StreamFormat> StreamObject::Data::defaultFormats() const
+QList<StreamObject::Data::Format> StreamObject::Data::defaultFormats() const
 {
     // Map avoids duplicate entries
     QMap<QString, StreamFormat> map;
@@ -1562,7 +1567,7 @@ QList<StreamFormat> StreamObject::Data::defaultFormats() const
     return map.values();
 }
 
-QList<StreamFormat> StreamObject::Data::audioFormats() const
+QList<StreamObject::Data::Format> StreamObject::Data::audioFormats() const
 {
     QList<StreamFormat> list;
     foreach (auto format, formats) {
@@ -1573,7 +1578,7 @@ QList<StreamFormat> StreamObject::Data::audioFormats() const
     return list;
 }
 
-QList<StreamFormat> StreamObject::Data::videoFormats() const
+QList<StreamObject::Data::Format> StreamObject::Data::videoFormats() const
 {
     QList<StreamFormat> list;
     foreach (auto format, formats) {
