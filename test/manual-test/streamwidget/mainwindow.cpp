@@ -33,7 +33,7 @@ static const QString s_urlMp4Link = "http://camendesign.com/code/video_for_every
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
-  , m_streamObjectDownloader(new StreamObjectDownloader(this))
+  , m_streamAssetDownloader(new StreamAssetDownloader(this))
 {
     ui->setupUi(this);
 
@@ -54,8 +54,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     ui->urlMp4Button->setToolTip(s_urlMp4Link);
 
-    connect(m_streamObjectDownloader, SIGNAL(error(QString)), this, SLOT(onError(QString)));
-    connect(m_streamObjectDownloader, SIGNAL(collected(QList<StreamObject>)), this, SLOT(onCollected(QList<StreamObject>)));
+    connect(m_streamAssetDownloader, SIGNAL(error(QString)), this, SLOT(onError(QString)));
+    connect(m_streamAssetDownloader, SIGNAL(collected(QList<StreamObject>)), this, SLOT(onCollected(QList<StreamObject>)));
 
     onResetClicked();
 }
@@ -82,7 +82,7 @@ void MainWindow::start(const QString &url)
     qDebug() << Q_FUNC_INFO << url;
     if (!url.isEmpty()) {
         ui->streamListWidget->setMessageWait();
-        m_streamObjectDownloader->runAsync(url);
+        m_streamAssetDownloader->runAsync(url);
     } else {
         ui->streamListWidget->setMessageEmpty();
     }
@@ -134,8 +134,8 @@ void MainWindow::onPlaylistButtonClicked()
     list << DummyStreamFactory::createDummyStreamObject_Other();
     for (int i = 0; i < list.count(); ++i) {
         auto item = list.at(i);
-        item.playlist = QLatin1String("Playlist of favorite streams");
-        item.playlist_index = QString::number(i + 1);
+        item.data().playlist = QLatin1String("Playlist of favorite streams");
+        item.data().playlist_index = QString::number(i + 1);
         list.replace(i, item);
     }
     ui->streamListWidget->setStreamObjects(list);

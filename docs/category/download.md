@@ -39,7 +39,7 @@ title: Download
             </a>
         </div>
         <div class="general-instruction" style="display: none;">
-            <table>
+            <table style="table-layout:fixed;">
                 <tbody>
                     <tr>
                         <td align="center">
@@ -51,6 +51,9 @@ title: Download
                             <a href="https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio">
                                 <img src="/DownZemAll/assets/images/chrome.png" alt="chrome logo">
                             </a>
+                        </td>
+                        <td align="center">
+                            <img src="/DownZemAll/assets/images/iexplorer.png" alt="internet explorer logo">
                         </td>
                     </tr>
                     <tr>
@@ -65,6 +68,9 @@ title: Download
                             <a href="https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio">
                                 <b>DownRightNow for Google Chrome</b>
                             </a>
+                        </td>
+                        <td>
+                            Click here to intall... Just kidding
                         </td>
                     </tr>
                 </tbody>

@@ -40,13 +40,15 @@ signals:
 
 private slots:
     void onFormatSelected(StreamFormatId formatId);
-    void onConfigChanged(StreamObjectConfig config);
+    void onConfigChanged(StreamObject::Config config);
     void onTitleChanged(QString title);
     void onSuffixChanged(QString suffix);
 
 private:
     Ui::StreamWidget *ui;
     StreamObject m_streamObject;
+
+    void updateEstimatedSize();
 };
 
 #endif // WIDGETS_STREAM_WIDGET_H

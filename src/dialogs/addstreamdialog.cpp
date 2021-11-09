@@ -35,7 +35,7 @@ AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManag
     : QDialog(parent)
     , ui(new Ui::AddStreamDialog)
     , m_downloadManager(downloadManager)
-    , m_streamObjectDownloader(new StreamObjectDownloader(this))
+    , m_streamObjectDownloader(new StreamAssetDownloader(this))
     , m_settings(settings)
 {
     ui->setupUi(this);
@@ -205,9 +205,9 @@ IDownloadItem* AddStreamDialog::createItem(const StreamObject &streamObject) con
 {
     auto resource = ui->urlFormWidget->createResourceItem();
 
-    if (!streamObject.webpage_url.isEmpty()) {
+    if (!streamObject.data().webpage_url.isEmpty()) {
         // Replace playlist URL with the video url
-        resource->setUrl(streamObject.webpage_url);
+        resource->setUrl(streamObject.data().webpage_url);
     }
 
     resource->setType(ResourceItem::Type::Stream);

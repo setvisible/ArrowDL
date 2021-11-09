@@ -20,11 +20,12 @@
 #include <Core/Format>
 #include <Core/Stream>
 #include <Core/Theme>
-#include <Widgets/StreamConfigWidget>
+#include <Widgets/StreamToolBox>
 
 #include <QtCore/QDebug>
 #include <QtGui/QStandardItemModel>
 #include <QtWidgets/QComboBox>
+#include <QtWidgets/QSpacerItem>
 
 
 /******************************************************************************
@@ -92,18 +93,18 @@ StreamFormatPicker::StreamFormatPicker(QWidget *parent) : QWidget(parent)
 
     updateGeometry();
 
-    connect(ui->categorySimpleButton, SIGNAL(released()), this, SLOT(onCategoryChanged()));
-    connect(ui->categoryAudioButton, SIGNAL(released()), this, SLOT(onCategoryChanged()));
-    connect(ui->categoryVideoButton, SIGNAL(released()), this, SLOT(onCategoryChanged()));
-    connect(ui->categoryOtherButton, SIGNAL(released()), this, SLOT(onCategoryChanged()));
+    connect(ui->buttonSimple, SIGNAL(released()), this, SLOT(onButtonBarClicked()));
+    connect(ui->buttonAudio, SIGNAL(released()), this, SLOT(onButtonBarClicked()));
+    connect(ui->buttonVideo, SIGNAL(released()), this, SLOT(onButtonBarClicked()));
+    connect(ui->buttonOther, SIGNAL(released()), this, SLOT(onButtonBarClicked()));
 
-    connect(ui->audioComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
-    connect(ui->videoComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
     connect(ui->listView->selectionModel(), SIGNAL(currentChanged(QModelIndex, QModelIndex)),
             this, SLOT(onCurrentChanged(QModelIndex, QModelIndex)));
+    connect(ui->audioComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
+    connect(ui->videoComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
 
-    connect(ui->streamConfigWidget, SIGNAL(configChanged(StreamObjectConfig)),
-            this,  SIGNAL(configChanged(StreamObjectConfig)));
+    connect(ui->streamToolBox, SIGNAL(configChanged(StreamObject::Config)),
+            this,  SIGNAL(configChanged(StreamObject::Config)));
 
     updateButtonBar();
     propagateIcons();
@@ -127,10 +128,10 @@ void StreamFormatPicker::setData(const StreamObject &streamObject)
     QSignalBlocker blocker(this);
     clear();
 
-    populateSimple(streamObject.defaultFormats());
-    populateComboBox(streamObject.audioFormats(), ui->audioComboBox);
-    populateComboBox(streamObject.videoFormats(), ui->videoComboBox);
-    ui->streamConfigWidget->setConfig(streamObject.config());
+    populateSimple(streamObject.data().defaultFormats());
+    populateComboBox(streamObject.data().audioFormats(), ui->audioComboBox);
+    populateComboBox(streamObject.data().videoFormats(), ui->videoComboBox);
+    ui->streamToolBox->setConfig(streamObject.config());
 
     select(streamObject.formatId());
 }
@@ -147,19 +148,24 @@ void StreamFormatPicker::select(const StreamFormatId &formatId)
             setCurrentVideo(compoundId);
         }
     }
-    onCategoryChanged();
+    onButtonBarClicked();
 }
 
 StreamFormatId StreamFormatPicker::selection() const
 {
-    if (ui->categorySimpleButton->isChecked()) {
+    if (ui->buttonSimple->isChecked()) {
         return currentSimple();
-    }
-    if (ui->videoGroup->isVisible()) {
+
+    } else if (ui->buttonAudio->isChecked()) {
+        return currentAudio();
+
+    } else if (ui->buttonVideo->isChecked()) {
         /* The first format must be the video. */
         return currentVideo() + currentAudio();
+
+    } else {
+        Q_UNREACHABLE();
     }
-    return currentAudio();
 }
 
 /******************************************************************************
@@ -181,7 +187,7 @@ void StreamFormatPicker::onCurrentIndexChanged(int /*index*/)
     }
 }
 
-void StreamFormatPicker::onCategoryChanged()
+void StreamFormatPicker::onButtonBarClicked()
 {
     updateButtonBar();
     auto formatId = selection();
@@ -195,10 +201,10 @@ void StreamFormatPicker::onCategoryChanged()
 void StreamFormatPicker::propagateIcons()
 {
     const QMap<QAbstractButton*, QString> map = {
-        {ui->categorySimpleButton, "add-stream"},
-        {ui->categoryAudioButton, "stream-audio"},
-        {ui->categoryVideoButton, "stream-video"},
-        {ui->categoryOtherButton, "stream-subtitle"}
+        {ui->buttonSimple, "add-stream"},
+        {ui->buttonAudio, "stream-audio"},
+        {ui->buttonVideo, "stream-video"},
+        {ui->buttonOther, "stream-subtitle"}
     };
     Theme::setIcons(this, map);
 }
@@ -207,23 +213,65 @@ void StreamFormatPicker::propagateIcons()
  ******************************************************************************/
 void StreamFormatPicker::updateButtonBar()
 {
-    if (ui->categorySimpleButton->isChecked()) {
-        ui->choiceStackedWidget->setCurrentWidget(ui->pageDefault);
-    } else {
-        ui->choiceStackedWidget->setCurrentWidget(ui->pageCustom);
-    }
+    ui->otherScrollArea->setVisible(ui->buttonOther->isChecked());
 
-    bool empty = (ui->audioComboBox->count() + ui->videoComboBox->count()) == 0;
-    ui->warningGroup->setVisible(empty);
-    if (empty) {
-        ui->audioGroup->setVisible(false);
-        ui->videoGroup->setVisible(false);
+    bool isValid = (ui->audioComboBox->count() + ui->videoComboBox->count()) > 0;
+
+    if (ui->buttonSimple->isChecked()) {
+        ui->simpleWidget->setVisible(true);
+
+        ui->audioWidget->setVisible(false);
+        ui->videoWidget->setVisible(false);
+        ui->warningWidget->setVisible(false);
+
+    } else if (ui->buttonAudio->isChecked()) {
+        ui->simpleWidget->setVisible(false);
+
+        if (isValid) {
+            ui->audioWidget->setVisible(true);
+            ui->videoWidget->setVisible(false);
+            ui->warningWidget->setVisible(false);
+        } else {
+            ui->audioWidget->setVisible(false);
+            ui->videoWidget->setVisible(false);
+            ui->warningWidget->setVisible(true);
+        }
+
+    } else if (ui->buttonVideo->isChecked()) {
+        ui->simpleWidget->setVisible(false);
+
+        if (isValid) {
+            ui->audioWidget->setVisible(true);
+            ui->videoWidget->setVisible(true);
+            ui->warningWidget->setVisible(false);
+        } else {
+            ui->audioWidget->setVisible(false);
+            ui->videoWidget->setVisible(false);
+            ui->warningWidget->setVisible(true);
+        }
+
     } else{
-        ui->audioGroup->setVisible(true);
-        ui->videoGroup->setVisible(!ui->categoryAudioButton->isChecked());
+        Q_UNREACHABLE();
     }
 
-    ui->streamConfigWidget->setVisible(ui->categoryOtherButton->isChecked());
+    auto top = ui->simpleWidget;
+    auto bottom = ui->otherScrollArea;
+    if (top->isVisible()) {
+        if (bottom->isVisible()) {
+            top->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+        } else {
+            top->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        }
+        ui->verticalSpacer->changeSize(0, 0, QSizePolicy::Expanding, QSizePolicy::Preferred);
+    } else {
+        ui->verticalSpacer->changeSize(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    }
+
+    // BUGFIX: otherwise, vertical spacer doesn't work.
+    ui->audioWidget->updateGeometry();
+    ui->videoWidget->updateGeometry();
+    ui->warningWidget->updateGeometry();
+    updateGeometry();
 }
 
 /******************************************************************************
@@ -284,7 +332,7 @@ void StreamFormatPicker::setCurrentSimple(const StreamFormatId &id)
     QModelIndex indexToSelect = find(id);
     if (indexToSelect.isValid()) {
         m_model->setData(indexToSelect, true, StreamFormatPicker::CheckStateRole);
-        ui->categorySimpleButton->setChecked(true);
+        ui->buttonSimple->setChecked(true);
     } else {
         if (m_model->rowCount() > 0) {
             m_model->setData(m_model->index(0, 0), true, StreamFormatPicker::CheckStateRole);
@@ -297,8 +345,8 @@ void StreamFormatPicker::setCurrentAudio(const StreamFormatId &id)
     for (int i = 0; i < ui->audioComboBox->count(); ++i) {
         if (ui->audioComboBox->itemData(i, Qt::UserRole).value<StreamFormatId>() == id) {
             ui->audioComboBox->setCurrentIndex(i);
-            if (!ui->categoryVideoButton->isChecked()) {
-                ui->categoryAudioButton->setChecked(true);
+            if (!ui->buttonVideo->isChecked()) {
+                ui->buttonAudio->setChecked(true);
             }
             return;
         }
@@ -310,7 +358,7 @@ void StreamFormatPicker::setCurrentVideo(const StreamFormatId &id)
     for (int i = 0; i < ui->videoComboBox->count(); ++i) {
         if (ui->videoComboBox->itemData(i, Qt::UserRole).value<StreamFormatId>() == id) {
             ui->videoComboBox->setCurrentIndex(i);
-            ui->categoryVideoButton->setChecked(true);
+            ui->buttonVideo->setChecked(true);
             return;
         }
     }

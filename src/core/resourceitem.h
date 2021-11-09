@@ -80,8 +80,8 @@ public:
     qint64 streamFileSize() const;
     void setStreamFileSize(qint64 streamFileSize);
 
-    StreamObjectConfig streamConfig() const;
-    void setStreamConfig(const StreamObjectConfig &config);
+    StreamObject::Config streamConfig() const;
+    void setStreamConfig(const StreamObject::Config &config);
 
     QString torrentPreferredFilePriorities() const;
     void setTorrentPreferredFilePriorities(const QString &priorities);
@@ -104,7 +104,7 @@ private:
     QString m_streamFormatId;
     qint64 m_streamFileSize{0};
 
-    StreamObjectConfig m_streamConfig;
+    StreamObject::Config m_streamConfig;
 
     /* Torrent-specific properties */
     QString m_torrentPreferredFilePriorities;

@@ -26,10 +26,9 @@ namespace UpdateCheckerNS
 QString cleanTag(const QString &tag)
 {
     auto cleaned = tag;
-    cleaned.remove(QRegExp("[^\\.\\d\\s]"));
     cleaned = cleaned.replace('.', ' ');
-    cleaned = cleaned.replace(QRegExp("\\s+"), " ");
-    cleaned = cleaned.trimmed();
+    cleaned.remove(QRegExp("[^\\d\\s]"));
+    cleaned = cleaned.simplified();
     cleaned = cleaned.replace(' ', '.');
     return cleaned;
 }

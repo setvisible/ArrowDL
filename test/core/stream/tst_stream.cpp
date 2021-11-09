@@ -39,6 +39,8 @@ class tst_Stream : public QObject
     }
 
 private slots:
+    void relationalOperators();
+
     void readStandardOutput();
     void readStandardOutputWithEstimedSize();
     void readStandardOutputWithTwoStreams();
@@ -80,6 +82,26 @@ class FriendlyStream : public Stream
 public:
     explicit FriendlyStream(QObject *parent) : Stream(parent) {}
 };
+
+/******************************************************************************
+ ******************************************************************************/
+void tst_Stream::relationalOperators()
+{
+    StreamObject::Config::Overview ov_1;
+    ov_1.skipVideo = false;
+    ov_1.markWatched = true;
+
+    StreamObject::Config::Overview ov_2;
+    ov_2.skipVideo = false;
+    ov_2.markWatched = true;
+
+    StreamObject::Config::Overview ov_3;
+    ov_3.skipVideo = true;
+    ov_3.markWatched = true;
+
+    QVERIFY(ov_1 == ov_2); // Verify operator==()
+    QVERIFY(ov_2 != ov_3); // Verify operator!=()
+}
 
 /******************************************************************************
  ******************************************************************************/
@@ -305,7 +327,7 @@ void tst_Stream::parseDumpMap_null()
 {
     QByteArray stdoutBytes;
     QByteArray stderrBytes;
-    StreamDumpMap actualMap = StreamObjectDownloader::parseDumpMap(stdoutBytes, stderrBytes);
+    auto actualMap = StreamAssetDownloader::parseDumpMap(stdoutBytes, stderrBytes);
     QVERIFY(actualMap.isEmpty());
 }
 
@@ -313,7 +335,7 @@ void tst_Stream::parseDumpMap_empty()
 {
     QByteArray stdoutBytes("\n\n");
     QByteArray stderrBytes;
-    StreamDumpMap actualMap = StreamObjectDownloader::parseDumpMap(stdoutBytes, stderrBytes);
+    auto actualMap = StreamAssetDownloader::parseDumpMap(stdoutBytes, stderrBytes);
     QVERIFY(actualMap.isEmpty());
 }
 
@@ -321,9 +343,9 @@ void tst_Stream::parseDumpMap_singleVideo()
 {
     QByteArray stdoutBytes = DummyStreamFactory::dumpSingleVideo();
     QByteArray stderrBytes;
-    StreamDumpMap actualMap = StreamObjectDownloader::parseDumpMap(stdoutBytes, stderrBytes);
-    StreamObject actual = actualMap.value("YsYYO_fKxE0");
-    QCOMPARE(actual.fulltitle, QLatin1String("Fun Test: Which is real?"));
+    auto actualMap = StreamAssetDownloader::parseDumpMap(stdoutBytes, stderrBytes);
+    auto actual = actualMap.value("YsYYO_fKxE0");
+    QCOMPARE(actual.data().fulltitle, QLatin1String("Fun Test: Which is real?"));
     QCOMPARE(actual.error(), StreamObject::NoError);
 }
 
@@ -332,8 +354,8 @@ void tst_Stream::parseDumpMap_misformedJson()
     QByteArray stdoutBytes("{ name:'hello', data:[ type:'mp3'  }\n");
     //                                      unclosed list [] ^
     QByteArray stderrBytes;
-    StreamDumpMap actualMap = StreamObjectDownloader::parseDumpMap(stdoutBytes, stderrBytes);
-    StreamObject actual = actualMap.first();
+    auto actualMap = StreamAssetDownloader::parseDumpMap(stdoutBytes, stderrBytes);
+    auto actual = actualMap.first();
     QCOMPARE(actual.error(), StreamObject::ErrorJsonFormat);
 }
 
@@ -341,13 +363,13 @@ void tst_Stream::parseDumpMap_playlist()
 {
     QByteArray stdoutBytes = DummyStreamFactory::dumpPlaylist();
     QByteArray stderrBytes;
-    StreamDumpMap actualMap = StreamObjectDownloader::parseDumpMap(stdoutBytes, stderrBytes);
-    StreamObject actual_0 = actualMap.value("YsYYO_fKxE0");
-    StreamObject actual_1 = actualMap.value("lD_qyjcMEEJ");
-    StreamObject actual_2 = actualMap.value("sfePkSig_DD");
-    QCOMPARE(actual_0.fulltitle, QLatin1String("Fun Test: Which is real?"));
-    QCOMPARE(actual_1.fulltitle, QLatin1String("Fun Test: Which is real?"));
-    QCOMPARE(actual_2.fulltitle, QLatin1String("Fun Test: Which is real?"));
+    auto actualMap = StreamAssetDownloader::parseDumpMap(stdoutBytes, stderrBytes);
+    auto actual_0 = actualMap.value("YsYYO_fKxE0");
+    auto actual_1 = actualMap.value("lD_qyjcMEEJ");
+    auto actual_2 = actualMap.value("sfePkSig_DD");
+    QCOMPARE(actual_0.data().fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actual_1.data().fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actual_2.data().fulltitle, QLatin1String("Fun Test: Which is real?"));
     QCOMPARE(actual_0.error(), StreamObject::NoError);
     QCOMPARE(actual_1.error(), StreamObject::NoError);
     QCOMPARE(actual_2.error(), StreamObject::NoError);
@@ -357,17 +379,17 @@ void tst_Stream::parseDumpMap_playlistWithErrors()
 {
     QByteArray stdoutBytes = DummyStreamFactory::dumpPlaylist();
     QByteArray stderrBytes = DummyStreamFactory::dumpPlaylistStandardError();
-    StreamDumpMap actualMap = StreamObjectDownloader::parseDumpMap(stdoutBytes, stderrBytes);
-    StreamObject actual_0 = actualMap.value("YsYYO_fKxE0");
-    StreamObject actual_1 = actualMap.value("lD_qyjcMEEJ");
-    StreamObject actual_2 = actualMap.value("sfePkSig_DD");
-    StreamObject actual_3 = actualMap.value("LdRxXID_b28");
-    StreamObject actual_4 = actualMap.value("TB_QmSWVY7o");
-    QCOMPARE(actual_0.fulltitle, QLatin1String("Fun Test: Which is real?"));
-    QCOMPARE(actual_1.fulltitle, QLatin1String("Fun Test: Which is real?"));
-    QCOMPARE(actual_2.fulltitle, QLatin1String("Fun Test: Which is real?"));
-    QCOMPARE(actual_3.fulltitle, QLatin1String(""));
-    QCOMPARE(actual_4.fulltitle, QLatin1String(""));
+    auto actualMap = StreamAssetDownloader::parseDumpMap(stdoutBytes, stderrBytes);
+    auto actual_0 = actualMap.value("YsYYO_fKxE0");
+    auto actual_1 = actualMap.value("lD_qyjcMEEJ");
+    auto actual_2 = actualMap.value("sfePkSig_DD");
+    auto actual_3 = actualMap.value("LdRxXID_b28");
+    auto actual_4 = actualMap.value("TB_QmSWVY7o");
+    QCOMPARE(actual_0.data().fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actual_1.data().fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actual_2.data().fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actual_3.data().fulltitle, QLatin1String(""));
+    QCOMPARE(actual_4.data().fulltitle, QLatin1String(""));
     QCOMPARE(actual_0.error(), StreamObject::NoError);
     QCOMPARE(actual_1.error(), StreamObject::NoError);
     QCOMPARE(actual_2.error(), StreamObject::NoError);
@@ -381,7 +403,7 @@ void tst_Stream::parseFlatList_null()
 {
     QByteArray stdoutBytes;
     QByteArray stderrBytes;
-    StreamFlatList actualList = StreamObjectDownloader::parseFlatList(stdoutBytes, stderrBytes);
+    auto actualList = StreamAssetDownloader::parseFlatList(stdoutBytes, stderrBytes);
     QVERIFY(actualList.isEmpty());
 }
 
@@ -389,7 +411,7 @@ void tst_Stream::parseFlatList_empty()
 {
     QByteArray stdoutBytes("\n\n");
     QByteArray stderrBytes;
-    StreamFlatList actualList = StreamObjectDownloader::parseFlatList(stdoutBytes, stderrBytes);
+    auto actualList = StreamAssetDownloader::parseFlatList(stdoutBytes, stderrBytes);
     QVERIFY(actualList.isEmpty());
 }
 
@@ -397,7 +419,7 @@ void tst_Stream::parseFlatList_singleVideo()
 {
     QByteArray stdoutBytes = DummyStreamFactory::flatSingleVideo();
     QByteArray stderrBytes;
-    StreamFlatList actualList = StreamObjectDownloader::parseFlatList(stdoutBytes, stderrBytes);
+    auto actualList = StreamAssetDownloader::parseFlatList(stdoutBytes, stderrBytes);
     QCOMPARE(actualList.count(), 1);
     QCOMPARE(actualList.at(0).id, QLatin1String("etAIpkdhU9Q"));
 }
@@ -406,7 +428,7 @@ void tst_Stream::parseFlatList_playlist()
 {
     QByteArray stdoutBytes = DummyStreamFactory::flatPlaylist();
     QByteArray stderrBytes;
-    StreamFlatList actualList = StreamObjectDownloader::parseFlatList(stdoutBytes, stderrBytes);
+    auto actualList = StreamAssetDownloader::parseFlatList(stdoutBytes, stderrBytes);
     QCOMPARE(actualList.count(), 3);
     QCOMPARE(actualList.at(0).id, QLatin1String("etAIpkdhU9Q"));
     QCOMPARE(actualList.at(1).id, QLatin1String("v2AC41dglnM"));
@@ -449,8 +471,8 @@ void tst_Stream::fileBaseName()
     QFETCH(QString, expected);
 
     StreamObject target;
-    target.defaultTitle = input;
-    target.fulltitle = input;
+    target.data().defaultTitle = input;
+    target.data().fulltitle = input;
 
     auto actual = target.fileBaseName();
 
@@ -538,7 +560,7 @@ void tst_Stream::fileExtension()
 void tst_Stream::defaultFormats()
 {
     auto target = DummyStreamFactory::createDummyStreamObject_Dailymotion();
-    auto actual = target.defaultFormats();
+    auto actual = target.data().defaultFormats();
 
     QList<StreamFormat> expected;
     expected << StreamFormat("http-144-1" , "mp4", "", 0, "mp4a.40.5", 0, 0, "avc1.42000b",  192,  112, 0, 0);
@@ -557,7 +579,7 @@ void tst_Stream::defaultFormats()
 void tst_Stream::defaultFormats_2()
 {
     auto target = DummyStreamFactory::createDummyStreamObject_Other();
-    auto actual = target.defaultFormats();
+    auto actual = target.data().defaultFormats();
 
     QList<StreamFormat> expected;
     expected << StreamFormat("240p"     , "mp4", "", 0, ""         , 0, 0, ""           ,   0, 240,  0, 400);

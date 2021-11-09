@@ -51,12 +51,12 @@ public:
 
 signals:
     void selectionChanged(StreamFormatId formatId);
-    void configChanged(StreamObjectConfig config);
+    void configChanged(StreamObject::Config config);
 
 private slots:
     void onCurrentChanged(const QModelIndex &current, const QModelIndex &previous);
     void onCurrentIndexChanged(int index);
-    void onCategoryChanged();
+    void onButtonBarClicked();
 
 private:
     Ui::StreamFormatPicker *ui;
