@@ -31,8 +31,8 @@ StreamWidget::StreamWidget(QWidget *parent) : QWidget(parent)
 
     connect(ui->streamFormatPicker, SIGNAL(selectionChanged(StreamFormatId)),
             this, SLOT(onFormatSelected(StreamFormatId)));
-    connect(ui->streamFormatPicker, SIGNAL(configChanged(StreamObject::Config)),
-            this, SLOT(onConfigChanged(StreamObject::Config)));
+    connect(ui->streamFormatPicker, SIGNAL(configChanged()),
+            this, SLOT(onConfigChanged()));
     connect(ui->fileNameEdit, SIGNAL(textChanged(QString)),
             this, SLOT(onTitleChanged(QString)));
     connect(ui->fileExtensionEdit, SIGNAL(textChanged(QString)),
@@ -82,8 +82,9 @@ void StreamWidget::onFormatSelected(StreamFormatId formatId)
     updateEstimatedSize();
 }
 
-void StreamWidget::onConfigChanged(StreamObject::Config config)
+void StreamWidget::onConfigChanged()
 {
+    auto config = ui->streamFormatPicker->config();
     m_streamObject.setConfig(config);
     emit streamObjectChanged(m_streamObject);
     updateEstimatedSize();
@@ -116,7 +117,7 @@ void StreamWidget::updateEstimatedSize()
     } else {
         text = Format::fileSizeToString(m_streamObject.guestimateFullSize());
     }
-    if (config.subtitle.writeDefaultSubtitle) {
+    if (config.subtitle.writeSubtitle) {
         text += tr(" + subtitles");
     }
     if (config.chapter.writeChapters) {

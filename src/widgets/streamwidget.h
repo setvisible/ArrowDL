@@ -40,7 +40,7 @@ signals:
 
 private slots:
     void onFormatSelected(StreamFormatId formatId);
-    void onConfigChanged(StreamObject::Config config);
+    void onConfigChanged();
     void onTitleChanged(QString title);
     void onSuffixChanged(QString suffix);
 

@@ -48,10 +48,11 @@ public:
     void select(const StreamFormatId &formatId);
 
     StreamFormatId selection() const;
+    StreamObject::Config config() const;
 
 signals:
     void selectionChanged(StreamFormatId formatId);
-    void configChanged(StreamObject::Config config);
+    void configChanged();
 
 private slots:
     void onCurrentChanged(const QModelIndex &current, const QModelIndex &previous);

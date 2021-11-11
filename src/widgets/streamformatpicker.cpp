@@ -103,8 +103,7 @@ StreamFormatPicker::StreamFormatPicker(QWidget *parent) : QWidget(parent)
     connect(ui->audioComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
     connect(ui->videoComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
 
-    connect(ui->streamToolBox, SIGNAL(configChanged(StreamObject::Config)),
-            this,  SIGNAL(configChanged(StreamObject::Config)));
+    connect(ui->streamToolBox, SIGNAL(configChanged()), this,  SIGNAL(configChanged()));
 
     updateButtonBar();
     propagateIcons();
@@ -131,6 +130,7 @@ void StreamFormatPicker::setData(const StreamObject &streamObject)
     populateSimple(streamObject.data().defaultFormats());
     populateComboBox(streamObject.data().audioFormats(), ui->audioComboBox);
     populateComboBox(streamObject.data().videoFormats(), ui->videoComboBox);
+    ui->streamToolBox->setData(streamObject.data());
     ui->streamToolBox->setConfig(streamObject.config());
 
     select(streamObject.formatId());
@@ -166,6 +166,13 @@ StreamFormatId StreamFormatPicker::selection() const
     } else {
         Q_UNREACHABLE();
     }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+StreamObject::Config StreamFormatPicker::config() const
+{
+    return ui->streamToolBox->config();
 }
 
 /******************************************************************************
