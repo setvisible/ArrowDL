@@ -121,7 +121,7 @@ public:
             Format(
                     const QString &format_id,
                     const QString &ext,
-                    const QString &format_note,
+                    const QString &formatNote,
                     int filesize,
                     const QString &acodec,
                     int abr,
@@ -132,8 +132,27 @@ public:
                     int fps,
                     int tbr);
 
-            bool operator==(const Format &other) const;
             bool operator!=(const Format &other) const;
+            bool operator==(const Format &other) const
+            {
+                return format   == other.format
+                        && formatId     == other.formatId
+                        && url          == other.url
+                        && ext          == other.ext
+                        && formatNote   == other.formatNote
+                        && filesize     == other.filesize
+                        && acodec       == other.acodec
+                        && abr          == other.abr
+                        && asr          == other.asr
+                        && vbr          == other.vbr
+                        && vcodec       == other.vcodec
+                        && width        == other.width
+                        && height       == other.height
+                        && resolution   == other.resolution
+                        && dynamicRange == other.dynamicRange
+                        && fps          == other.fps
+                        && tbr          == other.tbr;
+            }
 
             bool hasVideo() const;
             bool hasMusic() const;
@@ -142,17 +161,44 @@ public:
             QString debug_description() const;
 
             StreamFormatId formatId;    // (string): Format code specified by --format
+            QString url;
             QString ext;                // (string): Video filename extension
-            QString format_note;        // (string): Additional info about the format
+            QString format;
+            QString formatNote;         // (string): Additional info about the format
             int filesize{};             // (numeric): The number of bytes, if known in advance
             QString acodec;             // (string): Name of the audio codec in use
-            int abr{};                  // (numeric): Average audio bitrate in KBit/s
+            qreal abr;                  // (numeric): Average audio bitrate in KBit/s
             int asr{};                  // (numeric): Audio sampling rate in Hertz
+            int vbr{};
             QString vcodec;             // (string): Name of the video codec in use
             int width{};                // (numeric): Width of the video
             int height{};               // (numeric): Height of the video
+            QString resolution;
+            QString dynamicRange;
             int fps{};                  // (numeric): Frame rate
-            int tbr{};                  // (numeric): Average bitrate of audio and video in KBit/s
+            qreal tbr;                  // (numeric): Average bitrate of audio and video in KBit/s
+        };
+
+        class Subtitle
+        {
+        public:
+            bool operator!=(const Subtitle &other) const;
+            bool operator==(const Subtitle &other) const
+            {
+                return languageCode == other.languageCode
+                        && ext == other.ext
+                        && url == other.url
+                        && data == other.data
+                        && languageName == other.languageName
+                        && isAutomatic == other.isAutomatic;
+            }
+
+            QString languageCode;
+            QString ext;
+            QString url;
+            QString data;
+            QString languageName;
+            bool isAutomatic{false};
         };
 
         bool operator!=(const Data &other) const;
@@ -160,6 +206,7 @@ public:
         {
             return id                   == other.id
                     && originalFilename == other.originalFilename
+                    && subtitles        == other.subtitles
                     && webpage_url      == other.webpage_url
                     && fulltitle        == other.fulltitle
                     && defaultTitle     == other.defaultTitle
@@ -179,10 +226,16 @@ public:
         QList<Format> audioFormats() const;
         QList<Format> videoFormats() const;
 
+        QList<Subtitle> subtitleLanguages() const;
+        QList<QString> subtitleExtensions() const;
+
         QString debug_description() const;
 
         StreamObjectId id;              // (string): Video identifier
         QString originalFilename;
+
+        QList<Subtitle> subtitles;
+
         QString webpage_url;            // (string): URL to the video webpage
         QString fulltitle;              // (string): Video title
         QString defaultTitle;           // (string): Video title
@@ -192,7 +245,7 @@ public:
         QString extractor;              // (string): Name of the extractor
         QString extractor_key;          // (string): Key name of the extractor
         StreamFormatId defaultFormatId; // (string): Format code specified by --format
-        QList<Format> formats;
+        QList<Format> formats;      // List of available formats, ordered from worst to best quality
         QString playlist;               // (string): Name or id of the playlist that contains the video
         QString playlist_index;         // (numeric): Index of the video in the playlist padded with leading zeros according to the total length of the playlist
     };
@@ -220,9 +273,17 @@ public:
             bool operator!=(const Subtitle &other) const;
             bool operator==(const Subtitle &other) const
             {
-                return writeDefaultSubtitle == other.writeDefaultSubtitle;
+                return writeSubtitle == other.writeSubtitle
+                        && isAutoGenerated == other.isAutoGenerated
+                        && extensions == other.extensions
+                        && languages == other.languages
+                        && convert == other.convert;
             }
-            bool writeDefaultSubtitle{false};
+            QString extensions;
+            QString languages;
+            QString convert;
+            bool writeSubtitle{false};
+            bool isAutoGenerated{false};
         };
         struct Chapter
         {
@@ -371,6 +432,8 @@ private:
 };
 
 using StreamFormat = StreamObject::Data::Format;
+using StreamSubtitle = StreamObject::Data::Subtitle;
+
 
 /*!
  * \brief The Stream class is the main class to download a stream.

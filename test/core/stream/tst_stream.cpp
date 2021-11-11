@@ -55,6 +55,10 @@ private slots:
     void parseDumpMap_playlist();
     void parseDumpMap_playlistWithErrors();
 
+    void parseDumpMap_overview();
+    void parseDumpMap_formats();
+    void parseDumpMap_subtitles();
+
     void parseFlatList_null();
     void parseFlatList_empty();
     void parseFlatList_singleVideo();
@@ -397,6 +401,282 @@ void tst_Stream::parseDumpMap_playlistWithErrors()
     QCOMPARE(actual_4.error(), StreamObject::ErrorUnavailable);
 }
 
+void tst_Stream::parseDumpMap_overview()
+{
+    QByteArray stdoutBytes = QString(
+    "{"
+    " 'id': '0123ABcD-98',                                                   "
+    " 'title': 'Test title - test',                                          "
+    " 'formats': [],                                                         "
+    " 'thumbnails': [],                                                      "
+    " 'thumbnail': 'https://test.test.com/maxresdefault.webp',               "
+    " 'description': 'test descripted in 2006',                              "
+    " 'upload_date': '20121106',                                             "
+    " 'uploader': 'an_user',                                                 "
+    " 'uploader_id': 'AnUser',                                               "
+    " 'uploader_url': 'http://www.test.com/user/Test',                       "
+    " 'channel_id': 'ABCDEFG_123456789abcdEFG',                              "
+    " 'channel_url': 'https://www.test.com/channel/ABCDEFG_123456789abcdEFG',"
+    " 'duration': 116,                                                       "
+    " 'view_count': 821519,                                                  "
+    " 'average_rating': 4.9429417,                                           "
+    " 'age_limit': 0,                                                        "
+    " 'webpage_url': 'https://www.test.com/watch?v=0123ABcD-98',             "
+    " 'categories': ['Comedy'],                                              "
+    " 'tags': ['test', 'and', 'other', 'tests'],                             "
+    " 'playable_in_embed': true,                                             "
+    " 'is_live': false,                                                      "
+    " 'was_live': false,                                                     "
+    " 'live_status': 'not_live',                                             "
+    " 'release_timestamp': null,                                             "
+    " 'automatic_captions': {},                                              "
+    " 'subtitles': {},                                                       "
+    " 'chapters': null,                                                      "
+    " 'like_count': 13337,                                                   "
+    " 'dislike_count': 193,                                                  "
+    " 'channel': 'mozinor',                                                  "
+    " 'availability': 'public',                                              "
+    " 'original_url': 'https://www.test.com/watch?v=0123ABcD-98',            "
+    " 'webpage_url_basename': 'watch',                                       "
+    " 'extractor': 'Test',                                                   "
+    " 'extractor_key': 'test',                                               "
+    " 'playlist': null,                                                      "
+    " 'playlist_index': null,                                                "
+    " 'display_id': '0123ABcD-98',                                           "
+    " 'duration_string': '1:56',                                             "
+    " 'requested_subtitles': null,                                           "
+    " '__has_drm': false,                                                    "
+    " 'requested_formats': [],                                               "
+    " 'format': '244 - 636x480 (480p)+251 - audio only (medium)',            "
+    " 'format_id': '244+251',                                                "
+    " 'ext': 'webm',                                                         "
+    " 'protocol': 'https+https',                                             "
+    " 'language': '',                                                        "
+    " 'format_note': '480p+medium',                                          "
+    " 'filesize_approx': 6480861,                                            "
+    " 'tbr': 446.31600000000003,                                             "
+    " 'width': 636,                                                          "
+    " 'height': 480,                                                         "
+    " 'resolution': '636x480',                                               "
+    " 'fps': 25,                                                             "
+    " 'dynamic_range': 'SDR',                                                "
+    " 'vcodec': 'vp9',                                                       "
+    " 'vbr': 315.547,                                                        "
+    " 'stretched_ratio': null,                                               "
+    " 'acodec': 'opus',                                                      "
+    " 'abr': 130.769,                                                        "
+    " 'asr': 48000,                                                          "
+    " 'fulltitle': 'Test title - test',                                      "
+    " 'epoch': 1636542358,                                                   "
+    " '_filename': 'Test title - test [0123ABcD-98].webm',                   "
+    " 'filename': 'Test title - test [0123ABcD-98].webm',                    "
+    " 'urls': 'https://test.test.com/videoplayback?v=I075mA2ntw%3D%3D'       "
+    "}"
+    ).replace('\'', '"').simplified().toLatin1();
+    QByteArray stderrBytes;
+    auto actualMap = StreamAssetDownloader::parseDumpMap(stdoutBytes, stderrBytes);
+    auto actual = actualMap.value("0123ABcD-98");
+    QCOMPARE(actual.data().id, QLatin1String("0123ABcD-98"));
+    QCOMPARE(actual.data().defaultTitle, QLatin1String("Test title - test"));
+    QCOMPARE(actual.data().thumbnail, QLatin1String("https://test.test.com/maxresdefault.webp"));
+    QCOMPARE(actual.data().description, QLatin1String("test descripted in 2006"));
+    QCOMPARE(actual.data().webpage_url, QLatin1String("https://www.test.com/watch?v=0123ABcD-98"));
+    QCOMPARE(actual.data().extractor, QLatin1String("Test"));
+    QCOMPARE(actual.data().extractor_key, QLatin1String("test"));
+    QCOMPARE(actual.data().playlist, QLatin1String(""));
+    QCOMPARE(actual.data().playlist_index, QLatin1String(""));
+    QCOMPARE(actual.data().fulltitle, QLatin1String("Test title - test"));
+    QCOMPARE(actual.data().originalFilename, QLatin1String("Test title - test [0123ABcD-98].webm"));
+
+    QCOMPARE(actual.error(), StreamObject::NoError);
+}
+
+void tst_Stream::parseDumpMap_formats()
+{
+    QByteArray stdoutBytes = QString(
+    "{"
+    " 'id': '0123ABcD-98',                                                   "
+    " 'formats': [{                                                          "
+    "  'asr': 22050,                                                         "
+    "  'filesize': 692219,                                                   "
+    "  'format_id': '139',                                                   "
+    "  'format_note': 'low',                                                 "
+    "  'source_preference': -1,                                              "
+    "  'fps': null,                                                          "
+    "  'height': null,                                                       "
+    "  'quality': 2,                                                         "
+    "  'tbr': 47.622,                                                        "
+    "  'url': 'https://test.test.com/videoplayback?v=ntw%3D%3D',             "
+    "  'width': null,                                                        "
+    "  'language': '',                                                       "
+    "  'language_preference': -1,                                            "
+    "  'ext': 'm4a',                                                         "
+    "  'vcodec': 'none',                                                     "
+    "  'acodec': 'mp4a.40.5',                                                "
+    "  'dynamic_range': null,                                                "
+    "  'abr': 47.622,                                                        "
+    "  'downloader_options': {                                               "
+    "   'http_chunk_size': 10485760                                          "
+    "  },                                                                    "
+    "  'container': 'm4a_dash',                                              "
+    "  'protocol': 'https',                                                  "
+    "  'audio_ext': 'm4a',                                                   "
+    "  'video_ext': 'none',                                                  "
+    "  'format': '139 - audio only (low)',                                   "
+    "  'resolution': 'audio only',                                           "
+    "  'http_headers': {                                                     "
+    "   'User-Agent': 'Mozilla/5.0 AppleWebKit/537.36 Chrome/70.0.3538.44 Safari/537.36',"
+    "   'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.7',                  "
+    "   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',"
+    "   'Accept-Encoding': 'gzip, deflate',                                  "
+    "   'Accept-Language': 'en-us,en;q=0.5'                                  "
+    "  }                                                                     "
+    " }]                                                                     "
+    "}"
+    ).replace('\'', '"').simplified().toLatin1();
+    QByteArray stderrBytes;
+    auto actualMap = StreamAssetDownloader::parseDumpMap(stdoutBytes, stderrBytes);
+    auto actual = actualMap.value("0123ABcD-98");
+    QCOMPARE(actual.data().id, QLatin1String("0123ABcD-98"));
+    auto formats = actual.data().formats;
+    auto format = formats.first();
+
+    QCOMPARE(format.asr, 22050);
+    QCOMPARE(format.filesize, 692219);
+    QCOMPARE(format.formatId, StreamFormatId("139"));
+    QCOMPARE(format.formatNote, QLatin1String("low"));
+    QCOMPARE(format.fps, 0);
+    QCOMPARE(format.height, 0);
+    QCOMPARE(format.tbr, 47.622);
+    QCOMPARE(format.url, QLatin1String("https://test.test.com/videoplayback?v=ntw%3D%3D"));
+    QCOMPARE(format.width, 0);
+    QCOMPARE(format.ext, QLatin1String("m4a"));
+    QCOMPARE(format.vcodec, QLatin1String("none"));
+    QCOMPARE(format.acodec, QLatin1String("mp4a.40.5"));
+    QCOMPARE(format.dynamicRange, QLatin1String(""));
+    QCOMPARE(format.abr, 47.622);
+    QCOMPARE(format.format, QLatin1String("139 - audio only (low)"));
+    QCOMPARE(format.resolution, QLatin1String("audio only"));
+
+    QCOMPARE(actual.error(), StreamObject::NoError);
+}
+
+void tst_Stream::parseDumpMap_subtitles()
+{
+    QByteArray stdoutBytes = QString(
+    "{"
+    " 'id': '0123ABcD-98',                                              "
+    " 'subtitles': {                                                    "
+    "  'af': [                                                          "
+    "    {                                                              "
+    "     'ext': 'json3',                                               "
+    "     'name': 'Afrikaans',                                          "
+    "     'url': 'https://www.test.com/api/AS5-54XmiWS',                "
+    "     'data': null                                                  "
+    "    },{                                                            "
+    "     'ext': 'vtt',                                                 "
+    "     'name': 'Afrikaans',                                          "
+    "     'url': 'https://www.test.com/api/AS5-54X1298',                "
+    "     'data': null                                                  "
+    "    }                                                              "
+    "   ],                                                              "
+    "  'lv': [                                                          "
+    "    {                                                              "
+    "     'ext': 'json3',                                               "
+    "     'name': 'Latvian',                                            "
+    "     'url': 'https://www.test.com/api/4561254miWS',                "
+    "     'data': null                                                  "
+    "    },{                                                            "
+    "     'ext': 'vtt',                                                 "
+    "     'name': 'Latvian',                                            "
+    "     'url': 'https://www.test.com/api/Ad5f4re1298',                "
+    "     'data': null                                                  "
+    "    }                                                              "
+    "   ]                                                               "
+    "  },                                                               "
+    " 'automatic_captions': {                                           "
+    "  'fr-FR': [                                                       "
+    "    {                                                              "
+    "     'ext': 'srt',                                                 "
+    "     'name': 'French (France)',                                    "
+    "     'url': 'https://www.test.com/api/DEddsdfDE',                  "
+    "     'data': null                                                  "
+    "    }                                                              "
+    "   ]                                                               "
+    "  }                                                                "
+    "}"
+    ).replace('\'', '"').simplified().toLatin1();
+    QByteArray stderrBytes;
+    auto actualMap = StreamAssetDownloader::parseDumpMap(stdoutBytes, stderrBytes);
+    auto actual = actualMap.value("0123ABcD-98");
+    QCOMPARE(actual.data().id, QLatin1String("0123ABcD-98"));
+
+    // Direct Getters
+    auto subtitles = actual.data().subtitles;
+
+    QCOMPARE(subtitles.count(), 5);
+
+    QCOMPARE(subtitles.at(0).languageCode, QLatin1String("af"));
+    QCOMPARE(subtitles.at(0).ext, QLatin1String("json3"));
+    QCOMPARE(subtitles.at(0).languageName, QLatin1String("Afrikaans"));
+    QCOMPARE(subtitles.at(0).url, QLatin1String("https://www.test.com/api/AS5-54XmiWS"));
+    QCOMPARE(subtitles.at(0).data, QLatin1String(""));
+    QVERIFY(subtitles.at(0).isAutomatic == false);
+
+    QCOMPARE(subtitles.at(1).languageCode, QLatin1String("af"));
+    QCOMPARE(subtitles.at(1).ext, QLatin1String("vtt"));
+    QCOMPARE(subtitles.at(1).languageName, QLatin1String("Afrikaans"));
+    QCOMPARE(subtitles.at(1).url, QLatin1String("https://www.test.com/api/AS5-54X1298"));
+    QCOMPARE(subtitles.at(1).data, QLatin1String(""));
+    QVERIFY(subtitles.at(1).isAutomatic == false);
+
+    QCOMPARE(subtitles.at(2).languageCode, QLatin1String("lv"));
+    QCOMPARE(subtitles.at(2).ext, QLatin1String("json3"));
+    QCOMPARE(subtitles.at(2).languageName, QLatin1String("Latvian"));
+    QCOMPARE(subtitles.at(2).url, QLatin1String("https://www.test.com/api/4561254miWS"));
+    QCOMPARE(subtitles.at(2).data, QLatin1String(""));
+    QVERIFY(subtitles.at(2).isAutomatic == false);
+
+    QCOMPARE(subtitles.at(3).languageCode, QLatin1String("lv"));
+    QCOMPARE(subtitles.at(3).ext, QLatin1String("vtt"));
+    QCOMPARE(subtitles.at(3).languageName, QLatin1String("Latvian"));
+    QCOMPARE(subtitles.at(3).url, QLatin1String("https://www.test.com/api/Ad5f4re1298"));
+    QCOMPARE(subtitles.at(3).data, QLatin1String(""));
+    QVERIFY(subtitles.at(3).isAutomatic == false);
+
+    QCOMPARE(subtitles.at(4).languageCode, QLatin1String("fr-FR"));
+    QCOMPARE(subtitles.at(4).ext, QLatin1String("srt"));
+    QCOMPARE(subtitles.at(4).languageName, QLatin1String("French (France)"));
+    QCOMPARE(subtitles.at(4).url, QLatin1String("https://www.test.com/api/DEddsdfDE"));
+    QCOMPARE(subtitles.at(4).data, QLatin1String(""));
+    QVERIFY(subtitles.at(4).isAutomatic == true);
+
+    // Indirect Getters
+    auto languages = actual.data().subtitleLanguages();
+    auto extensions = actual.data().subtitleExtensions();
+
+    QCOMPARE(languages.count(), 3);
+    QCOMPARE(languages.at(0).languageCode, QLatin1String("af"));
+    QCOMPARE(languages.at(0).languageName, QLatin1String("Afrikaans"));
+    QVERIFY(languages.at(0).isAutomatic == false);
+
+    QCOMPARE(languages.at(1).languageCode, QLatin1String("fr-FR"));
+    QCOMPARE(languages.at(1).languageName, QLatin1String("French (France)"));
+    QVERIFY(languages.at(1).isAutomatic == true);
+
+    QCOMPARE(languages.at(2).languageCode, QLatin1String("lv"));
+    QCOMPARE(languages.at(2).languageName, QLatin1String("Latvian"));
+    QVERIFY(languages.at(2).isAutomatic == false);
+
+    QCOMPARE(extensions.count(), 3);
+    extensions.sort();
+    QCOMPARE(extensions.at(0), QLatin1String("json3"));
+    QCOMPARE(extensions.at(1), QLatin1String("srt"));
+    QCOMPARE(extensions.at(2), QLatin1String("vtt"));
+
+    QCOMPARE(actual.error(), StreamObject::NoError);
+}
+
 /******************************************************************************
  ******************************************************************************/
 void tst_Stream::parseFlatList_null()
@@ -471,9 +751,10 @@ void tst_Stream::fileBaseName()
     QFETCH(QString, expected);
 
     StreamObject target;
-    target.data().defaultTitle = input;
-    target.data().fulltitle = input;
-
+    auto data = target.data();
+    data.defaultTitle = input;
+    data.fulltitle = input;
+    target.setData(data);
     auto actual = target.fileBaseName();
 
     QCOMPARE(actual, expected);

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>361</width>
-    <height>400</height>
+    <width>405</width>
+    <height>476</height>
    </rect>
   </property>
   <property name="currentIndex">
@@ -18,7 +18,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>361</width>
+     <width>388</width>
      <height>58</height>
     </rect>
    </property>
@@ -53,12 +53,12 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>361</width>
-     <height>157</height>
+     <width>405</width>
+     <height>115</height>
     </rect>
    </property>
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+    <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
@@ -68,59 +68,35 @@
    </attribute>
    <layout class="QVBoxLayout" name="verticalLayout_9">
     <item>
-     <widget class="QCheckBox" name="subtitleCheckBox">
-      <property name="text">
-       <string>Download subtitle (if present)</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QCheckBox" name="autoSubtitleCheckBox">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>Download automatic captions </string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QCheckBox" name="checkBox_5">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="4" column="0">
+       <widget class="QCheckBox" name="subtitleConvCheckBox">
         <property name="text">
-         <string>Convert the subtitles to format:</string>
+         <string>Convert to format:</string>
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QComboBox" name="comboBox_2">
-        <item>
-         <property name="text">
-          <string>srt</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>vtt</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>ass</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>lrc</string>
-         </property>
-        </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="subtitleExtLabel">
+        <property name="text">
+         <string>Preferred format:</string>
+        </property>
        </widget>
       </item>
-      <item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="subtitleExtComboBox"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="subtitleCheckBox">
+        <property name="text">
+         <string>Download subtitles:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QComboBox" name="subtitleConvComboBox"/>
+      </item>
+      <item row="2" column="2">
        <spacer name="horizontalSpacer_2">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -133,49 +109,17 @@
         </property>
        </spacer>
       </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1,0,0">
-      <item>
-       <widget class="QLabel" name="label_4">
+      <item row="0" column="1" colspan="2">
+       <widget class="QComboBox" name="subtitleLangComboBox"/>
+      </item>
+      <item row="1" column="1" colspan="2">
+       <widget class="QCheckBox" name="subtitleHideAutoCheckBox">
         <property name="text">
-         <string>Language:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="subtitleComboBox">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="subtitleFormatLabel">
-        <property name="text">
-         <string>Format:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="subtitleFormatComboBox">
-        <property name="enabled">
-         <bool>false</bool>
+         <string>Hide auto-generated subtitles</string>
         </property>
        </widget>
       </item>
      </layout>
-    </item>
-    <item>
-     <widget class="QTableView" name="subtitleTableView">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::AdjustIgnored</enum>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>
@@ -184,8 +128,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>361</width>
-     <height>84</height>
+     <width>405</width>
+     <height>103</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -198,6 +142,16 @@
     <string>Chapters</string>
    </attribute>
    <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <widget class="QLabel" name="label_3">
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 85, 0);</string>
+      </property>
+      <property name="text">
+       <string notr="true">(Work in progress :)</string>
+      </property>
+     </widget>
+    </item>
     <item>
      <widget class="QCheckBox" name="chapterSplitCheckBox">
       <property name="enabled">
@@ -235,12 +189,12 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>361</width>
-     <height>157</height>
+     <width>405</width>
+     <height>105</height>
     </rect>
    </property>
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+    <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
@@ -249,6 +203,16 @@
     <string>Thumbnails</string>
    </attribute>
    <layout class="QVBoxLayout" name="verticalLayout_7">
+    <item>
+     <widget class="QLabel" name="label_4">
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 85, 0);</string>
+      </property>
+      <property name="text">
+       <string notr="true">(Work in progress :)</string>
+      </property>
+     </widget>
+    </item>
     <item>
      <widget class="QCheckBox" name="thumbnailCheckBox">
       <property name="text">
@@ -285,12 +249,12 @@
         </property>
         <item>
          <property name="text">
-          <string>jpg</string>
+          <string notr="true">jpg</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>png</string>
+          <string notr="true">png</string>
          </property>
         </item>
        </widget>
@@ -310,13 +274,6 @@
       </item>
      </layout>
     </item>
-    <item>
-     <widget class="QTableView" name="thumbnailTableView">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QWidget" name="pageComments">
@@ -324,8 +281,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>361</width>
-     <height>63</height>
+     <width>405</width>
+     <height>82</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -338,6 +295,16 @@
     <string>Comments</string>
    </attribute>
    <layout class="QVBoxLayout" name="verticalLayout_6">
+    <item>
+     <widget class="QLabel" name="label_5">
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 85, 0);</string>
+      </property>
+      <property name="text">
+       <string notr="true">(Work in progress :)</string>
+      </property>
+     </widget>
+    </item>
     <item>
      <widget class="QCheckBox" name="commentCheckBox">
       <property name="text">
@@ -397,7 +364,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>361</width>
+     <width>388</width>
      <height>81</height>
     </rect>
    </property>
@@ -438,9 +405,9 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>-160</y>
-     <width>344</width>
-     <height>476</height>
+     <y>0</y>
+     <width>388</width>
+     <height>482</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -453,6 +420,16 @@
     <string>Pre/Post-Processing</string>
    </attribute>
    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QLabel" name="label_6">
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 85, 0);</string>
+      </property>
+      <property name="text">
+       <string notr="true">(Work in progress :)</string>
+      </property>
+     </widget>
+    </item>
     <item>
      <widget class="QGroupBox" name="commandCroupBox">
       <property name="title">
@@ -591,8 +568,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>344</width>
-     <height>201</height>
+     <width>405</width>
+     <height>220</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -605,6 +582,16 @@
     <string>SponsorBlock</string>
    </attribute>
    <layout class="QVBoxLayout" name="verticalLayout_5">
+    <item>
+     <widget class="QLabel" name="label_7">
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 85, 0);</string>
+      </property>
+      <property name="text">
+       <string notr="true">(Work in progress :)</string>
+      </property>
+     </widget>
+    </item>
     <item>
      <widget class="QCheckBox" name="checkBox_15">
       <property name="enabled">
@@ -715,8 +702,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>361</width>
-     <height>157</height>
+     <width>405</width>
+     <height>233</height>
     </rect>
    </property>
    <attribute name="label">

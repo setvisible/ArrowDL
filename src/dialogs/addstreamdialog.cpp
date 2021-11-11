@@ -154,8 +154,8 @@ void AddStreamDialog::onCollected(const QList<StreamObject> &streamObjects)
     QList<StreamObject> copy;
     foreach (auto streamObject, streamObjects) {
         auto config = streamObject.config();
-        config.overview.markWatched = m_settings->isStreamMarkWatchedEnabled();
-        config.subtitle.writeDefaultSubtitle = m_settings->isStreamSubtitleEnabled();
+        config.overview.markWatched = m_settings->isStreamMarkWatchedEnabled();      
+        config.subtitle.writeSubtitle = m_settings->isStreamSubtitleEnabled();
         config.thumbnail.writeDefaultThumbnail = m_settings->isStreamThumbnailEnabled();
         config.metadata.writeDescription = m_settings->isStreamDescriptionEnabled();
         config.metadata.writeMetadata = m_settings->isStreamMetadataEnabled();
