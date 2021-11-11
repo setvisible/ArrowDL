@@ -2787,17 +2787,17 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
         <translation>Impossible de charger %0</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1284"/>
+        <location filename="../core/stream.cpp" line="1364"/>
         <source>Video %0 x %1%2%3</source>
         <translation>Vidéo %0 x %1%2%3</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1291"/>
+        <location filename="../core/stream.cpp" line="1371"/>
         <source>[%0] %1 x %2 (%3 fps) @ %4 KBit/s, codec: %5</source>
         <translation>[%0] %1 x %2 (%3 fps) @ %4 kBit/s, codec: %5</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1300"/>
+        <location filename="../core/stream.cpp" line="1380"/>
         <source>[%0] %1 Hz @ %2 KBit/s, codec: %3</source>
         <translation>[%0] %1 Hz @ %2 kBit/s, codec: %3</translation>
     </message>
@@ -3009,223 +3009,38 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
 <context>
     <name>Stream</name>
     <message>
-        <location filename="../core/stream.cpp" line="478"/>
+        <location filename="../core/stream.cpp" line="496"/>
         <source>The process crashed.</source>
         <translation>Le processus a planté.</translation>
     </message>
 </context>
 <context>
-    <name>StreamConfigWidget</name>
+    <name>StreamAssetDownloader</name>
     <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="32"/>
-        <source>Do not download the video but write all related files</source>
-        <translation>Ne pas télécharger la vidéo mais les fichiers associés</translation>
+        <location filename="../core/stream.cpp" line="832"/>
+        <source>Couldn&apos;t parse JSON file.</source>
+        <translation>Impossible de scanner le fichier JSON.</translation>
     </message>
     <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="39"/>
-        <source>Mark watched (only for Youtube)</source>
-        <translation>Marquer comme vu (seulement Youtube)</translation>
+        <location filename="../core/stream.cpp" line="835"/>
+        <location filename="../core/stream.cpp" line="858"/>
+        <source>The process crashed.</source>
+        <translation>Le processus a planté.</translation>
     </message>
     <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="46"/>
-        <source>Subtitle</source>
-        <translation>Sous-titre</translation>
+        <location filename="../core/stream.cpp" line="852"/>
+        <source>Couldn&apos;t parse playlist (no data received).</source>
+        <translation>Impossible de lire la playlist (données non reçues).</translation>
     </message>
     <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="52"/>
-        <source>Download subtitle (if present)</source>
-        <translation>Télécharger le sous-titre (si disponible)</translation>
+        <location filename="../core/stream.cpp" line="855"/>
+        <source>Couldn&apos;t parse playlist (ill-formed JSON file).</source>
+        <translation>Impossible de lire la playlist (fichier JSON non conforme).</translation>
     </message>
     <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="62"/>
-        <source>Download automatic captions </source>
-        <translation>Télécharger les sous-titres auto-générés</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="71"/>
-        <source>Language:</source>
-        <translation>Langue :</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="85"/>
-        <source>Format:</source>
-        <translation>Format :</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="113"/>
-        <source>Convert the subtitles to format:</source>
-        <translation>Convertir les sous-titres au format :</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="162"/>
-        <source>Chapters</source>
-        <translation>Chapitres</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="171"/>
-        <source>Split video into multiple files based on internal chapters</source>
-        <translation>Couper la vidéo en plusieurs fichiers par chapitre</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="181"/>
-        <source>Remove chapters whose title matches the given regular expression:</source>
-        <translation>Supprimez les chapitres dont le titre correspond à l&apos;expression régulière :</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="191"/>
-        <source>Ex: &quot;*10:15-15:00&quot;, or &quot;intro&quot;</source>
-        <translation>Ex: &quot;*10:15-15:00&quot;, ou &quot;intro&quot;</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="201"/>
-        <source>Thumbnail</source>
-        <translation>Aperçu</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="207"/>
-        <source>Download thumbnail (default image)</source>
-        <translation>Télécharger l&apos;aperçu (image par défaut)</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="217"/>
-        <source>Download all formats of the thumbnail image</source>
-        <translation>Télécharger tous les formats des aperçus</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="236"/>
-        <source>Convert the thumbnails to format:</source>
-        <translation>Convertir les aperçus au format :</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="278"/>
-        <source>Comments</source>
-        <translation>Commentaires</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="284"/>
-        <source>Download comments (in the .info.json)</source>
-        <translation>Télécharger les commentaires (dans le .info.json)</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="293"/>
-        <source>Sort by:</source>
-        <translation>Trier par :</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="304"/>
-        <source>Newest first</source>
-        <translation>Les plus récents d&apos;abord</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="309"/>
-        <source>Top comments</source>
-        <translation>Top des commentaires</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="320"/>
-        <source>Limit number of comments:</source>
-        <translation>Limite du nombre de commentaires :</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="339"/>
-        <source>Other Media</source>
-        <translation>Autres Média</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="345"/>
-        <source>Download description as a .description file</source>
-        <translation>Télécharger le description dans un fichier .description</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="352"/>
-        <source>Download metadata as a .info.json file</source>
-        <translation>Télécharger les métadonnées dans un fichier .info.json</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="359"/>
-        <source>Create internet shortcut</source>
-        <translation>Créer le raccourci Internet</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="372"/>
-        <source>Post-Processing</source>
-        <translation>Post-Processing</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="378"/>
-        <source>Remux the video into another container if necessary :</source>
-        <translation>Rémuxer la vidéo dans un autre container si nécessaire :</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="385"/>
-        <location filename="../widgets/streamconfigwidget.ui" line="409"/>
-        <source>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot;</source>
-        <translation>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot;</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="392"/>
-        <source>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot; will remux aac to m4a, mov to mp4 and anything else to mkv.</source>
-        <translation>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot; va rémuxer aac en m4a, mov en mp4 et le reste en mkv.</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="402"/>
-        <source>Re-encode the video into another format if re-encoding is necessary:</source>
-        <translation>Réencoder la vidéo dans un autre format si nécessaire :</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="416"/>
-        <source>Rem: The syntax and supported formats are the same as &quot;Remux&quot;</source>
-        <translation>Rem: La syntaxe et les formats disponibles sont les mêmes que pour &quot;Remux&quot;</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="426"/>
-        <source>Keep the intermediate video file on disk after post-processing</source>
-        <translation>Conserver le fichier vidéo intermédiaire sur le disque après post-processing</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="433"/>
-        <source>Embed subtitles in the video (only for mp4, webm and mkv videos)</source>
-        <translation>Sauvegarder les sous-titres dans le fichier vidéo (mp4, webm et mkv seulement)</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="440"/>
-        <source>Embed thumbnail in the video as cover art</source>
-        <translation>Sauvegarder l&apos;aperçu en couverture dans le fichier vidéo</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="447"/>
-        <source>Embed metadata in the video file</source>
-        <translation>Sauvegarder les métadonnées dans le fichier vidéo</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="454"/>
-        <source>Embed chapter markers in the video file</source>
-        <translation>Sauvegarder les chapitres dans le fichier vidéo</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="461"/>
-        <source>Write metadata to the video file&apos;s xattrs (using dublin core and xdg standards)</source>
-        <translation>Sauvegarder les métadonnées dans le xattrs du fichier vidéo (utilisant les stadards dublin core et xdg)</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="468"/>
-        <source>Execute the command before the actual download:</source>
-        <translation>Lancer la commande suivante avant téléchargement :</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="478"/>
-        <source>Execute the command on the file after downloading and post-processing:</source>
-        <translation>Lancer la commande suivante sur le fichier, après téléchargement et post-processing :</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="494"/>
-        <source>SponsorBlock</source>
-        <translation>SponsorBlock</translation>
-    </message>
-    <message>
-        <location filename="../widgets/streamconfigwidget.ui" line="500"/>
-        <source>Remove segments in SponsorBlock categories from the video file:</source>
-        <translation>Enlever les segments SponsorBlock suivants du fichier vidéo :</translation>
+        <location filename="../core/stream.cpp" line="1058"/>
+        <source>Cancelled.</source>
+        <translation>Annulé.</translation>
     </message>
 </context>
 <context>
@@ -3279,8 +3094,8 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
 <context>
     <name>StreamExtractorListCollector</name>
     <message>
-        <location filename="../core/stream.cpp" line="1145"/>
-        <location filename="../core/stream.cpp" line="1163"/>
+        <location filename="../core/stream.cpp" line="1233"/>
+        <location filename="../core/stream.cpp" line="1252"/>
         <source>The process crashed.</source>
         <translation>Le processus a planté.</translation>
     </message>
@@ -3293,37 +3108,42 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
         <translation>Simple</translation>
     </message>
     <message>
-        <location filename="../widgets/streamformatpicker.ui" line="115"/>
+        <location filename="../widgets/streamformatpicker.ui" line="103"/>
+        <source>Advanced:</source>
+        <translation>Avancé :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamformatpicker.ui" line="122"/>
         <source>Audio</source>
         <translation>Audio</translation>
     </message>
     <message>
-        <location filename="../widgets/streamformatpicker.ui" line="144"/>
+        <location filename="../widgets/streamformatpicker.ui" line="151"/>
         <source>Video</source>
         <translation>Vidéo</translation>
     </message>
     <message>
-        <location filename="../widgets/streamformatpicker.ui" line="170"/>
+        <location filename="../widgets/streamformatpicker.ui" line="177"/>
         <source>Other</source>
         <translation>Autre</translation>
     </message>
     <message>
-        <location filename="../widgets/streamformatpicker.ui" line="218"/>
+        <location filename="../widgets/streamformatpicker.ui" line="197"/>
         <source>Detected media:</source>
         <translation>Média détecté :</translation>
     </message>
     <message>
-        <location filename="../widgets/streamformatpicker.ui" line="257"/>
+        <location filename="../widgets/streamformatpicker.ui" line="220"/>
         <source>Audio:</source>
         <translation>Audio :</translation>
     </message>
     <message>
-        <location filename="../widgets/streamformatpicker.ui" line="273"/>
+        <location filename="../widgets/streamformatpicker.ui" line="239"/>
         <source>Video:</source>
         <translation>Vidéo :</translation>
     </message>
     <message>
-        <location filename="../widgets/streamformatpicker.ui" line="289"/>
+        <location filename="../widgets/streamformatpicker.ui" line="255"/>
         <source>audio/video information is not available</source>
         <translation>Information sur les flux audio/vidéo non disponible</translation>
     </message>
@@ -3395,35 +3215,6 @@ Astuce: si vous rencontrez une erreur :
     </message>
 </context>
 <context>
-    <name>StreamObjectDownloader</name>
-    <message>
-        <location filename="../core/stream.cpp" line="814"/>
-        <source>Couldn&apos;t parse JSON file.</source>
-        <translation>Impossible de scanner le fichier JSON.</translation>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="817"/>
-        <location filename="../core/stream.cpp" line="840"/>
-        <source>The process crashed.</source>
-        <translation>Le processus a planté.</translation>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="834"/>
-        <source>Couldn&apos;t parse playlist (no data received).</source>
-        <translation>Impossible de lire la playlist (données non reçues).</translation>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="837"/>
-        <source>Couldn&apos;t parse playlist (ill-formed JSON file).</source>
-        <translation>Impossible de lire la playlist (fichier JSON non conforme).</translation>
-    </message>
-    <message>
-        <location filename="../core/stream.cpp" line="971"/>
-        <source>Cancelled.</source>
-        <translation>Annulé.</translation>
-    </message>
-</context>
-<context>
     <name>StreamTableModel</name>
     <message>
         <location filename="../widgets/streamlistwidget.cpp" line="333"/>
@@ -3457,6 +3248,280 @@ Astuce: si vous rencontrez une erreur :
     </message>
 </context>
 <context>
+    <name>StreamToolBox</name>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="32"/>
+        <source>Overview</source>
+        <translation>Général</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="38"/>
+        <source>Do not download the video, but write all other related files</source>
+        <translation>Ne pas télécharger la vidéo mais les fichiers associés</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="45"/>
+        <source>Mark watched (only for Youtube)</source>
+        <translation>Marquer comme vu (seulement Youtube)</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="67"/>
+        <source>Subtitles</source>
+        <translation>Sous-titres</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="75"/>
+        <source>Convert to format:</source>
+        <translation>Convertir au format :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="82"/>
+        <source>Preferred format:</source>
+        <translation>Format préféré :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="92"/>
+        <source>Download subtitles:</source>
+        <translation>Télécharger les sous-titres :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="118"/>
+        <source>Hide auto-generated subtitles</source>
+        <translation>Cacher les sous-titres auto-générés</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="142"/>
+        <source>Chapters</source>
+        <translation>Chapitres</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="161"/>
+        <source>Split video into multiple files based on internal chapters</source>
+        <translation>Couper la vidéo en plusieurs fichiers par chapitre</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="171"/>
+        <source>Remove chapters whose title matches the given regular expression:</source>
+        <translation>Supprimez les chapitres dont le titre correspond à l&apos;expression régulière :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="181"/>
+        <source>Ex: &quot;*10:15-15:00&quot;, or &quot;intro&quot;</source>
+        <translation>Ex: &quot;*10:15-15:00&quot;, ou &quot;intro&quot;</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="203"/>
+        <source>Thumbnails</source>
+        <translation>Aperçus</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="219"/>
+        <source>Download thumbnail (default image)</source>
+        <translation>Télécharger l&apos;aperçu (image par défaut)</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="229"/>
+        <source>Download all formats of the thumbnail image</source>
+        <translation>Télécharger tous les formats des aperçus</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="241"/>
+        <source>Convert the thumbnails to format:</source>
+        <translation>Convertir les aperçus au format :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="295"/>
+        <source>Comments</source>
+        <translation>Commentaires</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="311"/>
+        <source>Download comments (in the .info.json)</source>
+        <translation>Télécharger les commentaires (dans le .info.json)</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="320"/>
+        <source>Sort by:</source>
+        <translation>Trier par :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="331"/>
+        <source>Newest first</source>
+        <translation>Les plus récents d&apos;abord</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="336"/>
+        <source>Top comments</source>
+        <translation>Top des commentaires</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="347"/>
+        <source>Limit number of comments:</source>
+        <translation>Limite du nombre de commentaires :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="378"/>
+        <source>Other Media</source>
+        <translation>Autres Média</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="384"/>
+        <source>Download description as a .description file</source>
+        <translation>Télécharger le description dans un fichier .description</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="391"/>
+        <source>Download metadata as a .info.json file</source>
+        <translation>Télécharger les métadonnées dans un fichier .info.json</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="398"/>
+        <source>Create internet shortcut</source>
+        <translation>Créer un raccourci Internet</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="420"/>
+        <source>Pre/Post-Processing</source>
+        <translation>Pré/Post-Processing</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="436"/>
+        <source>Command</source>
+        <translation>Commande</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="442"/>
+        <source>Execute the command before the actual download:</source>
+        <translation>Lancer la commande suivante avant téléchargement :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="452"/>
+        <source>Execute the command on the file after downloading and post-processing:</source>
+        <translation>Lancer la commande suivante sur le fichier, après téléchargement et post-processing :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="468"/>
+        <source>Post-Processing</source>
+        <translation>Post-Processing</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="474"/>
+        <source>Remux the video into another container if necessary :</source>
+        <translation>Rémuxer la vidéo dans un autre container si nécessaire :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="481"/>
+        <location filename="../widgets/streamtoolbox.ui" line="505"/>
+        <source>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot;</source>
+        <translation>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot;</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="488"/>
+        <source>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot; will remux aac to m4a, mov to mp4 and anything else to mkv.</source>
+        <translation>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot; va rémuxer aac en m4a, mov en mp4 et le reste en mkv.</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="498"/>
+        <source>Re-encode the video into another format if re-encoding is necessary:</source>
+        <translation>Réencoder la vidéo dans un autre format si nécessaire :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="512"/>
+        <source>Rem: The syntax and supported formats are the same as &quot;Remux&quot;</source>
+        <translation>Rem: La syntaxe et les formats disponibles sont les mêmes que pour &quot;Remux&quot;</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="522"/>
+        <source>Keep the intermediate video file on disk after post-processing</source>
+        <translation>Conserver le fichier vidéo intermédiaire sur le disque après post-processing</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="529"/>
+        <source>Embed subtitles in the video (only for mp4, webm and mkv videos)</source>
+        <translation>Sauvegarder les sous-titres dans le fichier vidéo (mp4, webm et mkv seulement)</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="536"/>
+        <source>Embed thumbnail in the video as cover art</source>
+        <translation>Sauvegarder l&apos;aperçu en couverture dans le fichier vidéo</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="543"/>
+        <source>Embed metadata in the video file</source>
+        <translation>Sauvegarder les métadonnées dans le fichier vidéo</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="550"/>
+        <source>Embed chapter markers in the video file</source>
+        <translation>Sauvegarder les chapitres dans le fichier vidéo</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="557"/>
+        <source>Write metadata to the video file&apos;s xattrs (using dublin core and xdg standards)</source>
+        <translation>Sauvegarder les métadonnées dans le xattrs du fichier vidéo (utilisant les stadards dublin core et xdg)</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="582"/>
+        <source>SponsorBlock</source>
+        <translation>SponsorBlock</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="601"/>
+        <source>Remove segments in SponsorBlock categories from the video file:</source>
+        <translation>Enlever les segments SponsorBlock suivants du fichier vidéo :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="616"/>
+        <source>Unpaid/Self Promotion</source>
+        <translation>Non rémunéré/Auto-promotion</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="626"/>
+        <source>Interaction Reminder</source>
+        <translation>Rappel d&apos;interaction</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="636"/>
+        <source>Sponsor</source>
+        <translation>Message commercial</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="646"/>
+        <source>Preview/Recap</source>
+        <translation>Aperçu/Récapitulatif</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="656"/>
+        <source>Non-Music Section</source>
+        <translation>Section sans musique</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="666"/>
+        <source>Endcards/Credits</source>
+        <translation>Générique de fin/Crédits</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.ui" line="676"/>
+        <source>Intermission/Intro Animation</source>
+        <translation>Entracte/Animation d&apos;introduction </translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.cpp" line="174"/>
+        <source>(default language)</source>
+        <translation>(langue par défaut)</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.cpp" line="176"/>
+        <source>All languages</source>
+        <translation>Toutes les langues</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamtoolbox.cpp" line="196"/>
+        <source>(default)</source>
+        <translation>(par défaut)</translation>
+    </message>
+</context>
+<context>
     <name>StreamWidget</name>
     <message>
         <location filename="../widgets/streamwidget.ui" line="82"/>
@@ -3477,6 +3542,41 @@ Astuce: si vous rencontrez une erreur :
         <location filename="../widgets/streamwidget.ui" line="171"/>
         <source>Estimated size:</source>
         <translation>Taille estimée :</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamwidget.cpp" line="116"/>
+        <source> (no video)</source>
+        <translation> (pas de vidéo)</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamwidget.cpp" line="121"/>
+        <source> + subtitles</source>
+        <translation> + sous-titres</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamwidget.cpp" line="124"/>
+        <source> + chapters</source>
+        <translation> + chapitres</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamwidget.cpp" line="127"/>
+        <source> + thumbnails</source>
+        <translation> + aperçus d&apos;image</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamwidget.cpp" line="130"/>
+        <source> + .description</source>
+        <translation> + .description</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamwidget.cpp" line="133"/>
+        <source> + .info.json</source>
+        <translation> + .info.json</translation>
+    </message>
+    <message>
+        <location filename="../widgets/streamwidget.cpp" line="136"/>
+        <source> + shortcut</source>
+        <translation> + raccourçi</translation>
     </message>
 </context>
 <context>

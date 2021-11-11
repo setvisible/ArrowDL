@@ -85,235 +85,303 @@ inline uint qHash(const StreamFormatId &key, uint seed) {
 }
 
 /*!
- * \brief The StreamFormat class stores the properties of an encoded stream.
- */
-class StreamFormat
-{
-public:
-    StreamFormat() = default;
-    ~StreamFormat() = default;
-    StreamFormat(const StreamFormat &) = default;
-    StreamFormat &operator=(const StreamFormat &) = default;
-
-    StreamFormat(const QString &format_id,
-                 const QString &ext,
-                 const QString &format_note,
-                 int filesize,
-                 const QString &acodec,
-                 int abr,
-                 int asr,
-                 const QString &vcodec,
-                 int width,
-                 int height,
-                 int fps,
-                 int tbr);
-
-    bool operator==(const StreamFormat &other) const;
-    bool operator!=(const StreamFormat &other) const;
-
-    bool hasVideo() const;
-    bool hasMusic() const;
-    QString toString() const;
-
-    QString debug_description() const;
-
-    StreamFormatId formatId;    // (string): Format code specified by --format
-    QString ext;                // (string): Video filename extension
-    QString format_note;        // (string): Additional info about the format
-    int filesize{};             // (numeric): The number of bytes, if known in advance
-    QString acodec;             // (string): Name of the audio codec in use
-    int abr{};                  // (numeric): Average audio bitrate in KBit/s
-    int asr{};                  // (numeric): Audio sampling rate in Hertz
-    QString vcodec;             // (string): Name of the video codec in use
-    int width{};                // (numeric): Width of the video
-    int height{};               // (numeric): Height of the video
-    int fps{};                  // (numeric): Frame rate
-    int tbr{};                  // (numeric): Average bitrate of audio and video in KBit/s
-};
-
-/*!
  * \typedef StreamObjectId
  * \brief Represents a 11-alphanumeric characters Unique Id (ex: "aBcDEfg1234")
  */
 using StreamObjectId = QString;
 
-struct StreamFlatListItem
-{
-    QString _type;
-    StreamObjectId id;
-    QString ie_key;
-    QString title;
-    QString url;
-};
-using StreamFlatList = QList<StreamFlatListItem>;
-
-struct StreamObjectOverview
-{
-    bool operator==(const StreamObjectOverview &other) const
-    {
-        return skipVideo == other.skipVideo
-                && markWatched == other.markWatched;
-    }
-
-    bool operator!=(const StreamObjectOverview &other) const
-    {
-        return !(*this == other);
-    }
-
-    bool skipVideo{false};
-    bool markWatched{false};
-};
-
-struct StreamObjectSubtitle
-{
-    bool operator==(const StreamObjectSubtitle &other) const
-    {
-        return writeDefaultSubtitle == other.writeDefaultSubtitle;
-    }
-
-    bool operator!=(const StreamObjectSubtitle &other) const
-    {
-        return !(*this == other);
-    }
-
-    bool writeDefaultSubtitle{false};
-
-};
-
-struct StreamObjectChapter
-{
-    bool operator==(const StreamObjectChapter &other) const
-    {
-        return writeChapters == other.writeChapters;
-    }
-
-    bool operator!=(const StreamObjectChapter &other) const
-    {
-        return !(*this == other);
-    }
-
-    bool writeChapters{false};
-};
-
-struct StreamObjectThumbnail
-{
-    bool operator==(const StreamObjectThumbnail &other) const
-    {
-        return writeDefaultThumbnail == other.writeDefaultThumbnail;
-    }
-
-    bool operator!=(const StreamObjectThumbnail &other) const
-    {
-        return !(*this == other);
-    }
-
-    bool writeDefaultThumbnail{false};
-};
-
-struct StreamObjectComment
-{
-    bool operator==(const StreamObjectComment &other) const
-    {
-        return writeComment == other.writeComment;
-    }
-
-    bool operator!=(const StreamObjectComment &other) const
-    {
-        return !(*this == other);
-    }
-
-    bool writeComment{false};
-};
-
-struct StreamObjectMetadata
-{
-    bool operator==(const StreamObjectMetadata &other) const
-    {
-        return writeDescription == other.writeDescription
-                && writeMetadata == other.writeMetadata
-                && writeInternetShortcut == other.writeInternetShortcut;
-    }
-
-    bool operator!=(const StreamObjectMetadata &other) const
-    {
-        return !(*this == other);
-    }
-
-    bool writeDescription{false};
-    bool writeMetadata{false};
-    bool writeInternetShortcut{false};
-};
-
-struct StreamObjectProcessing
-{
-    bool operator==(const StreamObjectProcessing &/*other*/) const
-    {
-        return true;
-    }
-
-    bool operator!=(const StreamObjectProcessing &other) const
-    {
-        return !(*this == other);
-    }
-};
-
-struct StreamObjectSponsor
-{
-    bool operator==(const StreamObjectSponsor &/*other*/) const
-    {
-        return true;
-    }
-
-    bool operator!=(const StreamObjectSponsor &other) const
-    {
-        return !(*this == other);
-    }
-};
-
-struct StreamObjectConfig
-{
-    bool operator==(const StreamObjectConfig &other) const
-    {
-        return overview == other.overview
-                && subtitle == other.subtitle
-                && chapter == other.chapter
-                && thumbnail == other.thumbnail
-                && comment == other.comment
-                && metadata == other.metadata
-                && processing == other.processing
-                && sponsor == other.sponsor;
-    }
-
-    bool operator!=(const StreamObjectConfig &other) const
-    {
-        return !(*this == other);
-    }
-
-    StreamObjectOverview overview;
-    StreamObjectSubtitle subtitle;
-    StreamObjectChapter chapter;
-    StreamObjectThumbnail thumbnail;
-    StreamObjectComment comment;
-    StreamObjectMetadata metadata;
-    StreamObjectProcessing processing;
-    StreamObjectSponsor sponsor;
-};
 
 /*!
  * \class StreamObject
- * \brief The StreamObject class represents the stream properties and options
- * provided by the stream server.
+ * \brief The StreamObject class stores
+ * the stream attributes provided by the stream server,
+ * and the options (selected by the user) for downloading the asset(s)
+ * (audio, video, thumbnail, subtitle, etc.).
  */
 class StreamObject
 {
 public:
+    /*!
+     * \brief The Data class stores the metadata provided by the server.
+     */
+    class Data
+    {
+    public:
+        /*!
+         * \brief The Format class stores the properties of an encoded stream.
+         */
+        class Format
+        {
+        public:
+            Format() = default;
+            ~Format() = default;
+            Format(const Format &) = default;
+            Format &operator=(const Format &) = default;
+
+            Format(
+                    const QString &format_id,
+                    const QString &ext,
+                    const QString &formatNote,
+                    int filesize,
+                    const QString &acodec,
+                    int abr,
+                    int asr,
+                    const QString &vcodec,
+                    int width,
+                    int height,
+                    int fps,
+                    int tbr);
+
+            bool operator!=(const Format &other) const;
+            bool operator==(const Format &other) const
+            {
+                return format   == other.format
+                        && formatId     == other.formatId
+                        && url          == other.url
+                        && ext          == other.ext
+                        && formatNote   == other.formatNote
+                        && filesize     == other.filesize
+                        && acodec       == other.acodec
+                        && abr          == other.abr
+                        && asr          == other.asr
+                        && vbr          == other.vbr
+                        && vcodec       == other.vcodec
+                        && width        == other.width
+                        && height       == other.height
+                        && resolution   == other.resolution
+                        && dynamicRange == other.dynamicRange
+                        && fps          == other.fps
+                        && tbr          == other.tbr;
+            }
+
+            bool hasVideo() const;
+            bool hasMusic() const;
+            QString toString() const;
+
+            QString debug_description() const;
+
+            StreamFormatId formatId;    // (string): Format code specified by --format
+            QString url;
+            QString ext;                // (string): Video filename extension
+            QString format;
+            QString formatNote;         // (string): Additional info about the format
+            int filesize{};             // (numeric): The number of bytes, if known in advance
+            QString acodec;             // (string): Name of the audio codec in use
+            qreal abr;                  // (numeric): Average audio bitrate in KBit/s
+            int asr{};                  // (numeric): Audio sampling rate in Hertz
+            int vbr{};
+            QString vcodec;             // (string): Name of the video codec in use
+            int width{};                // (numeric): Width of the video
+            int height{};               // (numeric): Height of the video
+            QString resolution;
+            QString dynamicRange;
+            int fps{};                  // (numeric): Frame rate
+            qreal tbr;                  // (numeric): Average bitrate of audio and video in KBit/s
+        };
+
+        class Subtitle
+        {
+        public:
+            bool operator!=(const Subtitle &other) const;
+            bool operator==(const Subtitle &other) const
+            {
+                return languageCode == other.languageCode
+                        && ext == other.ext
+                        && url == other.url
+                        && data == other.data
+                        && languageName == other.languageName
+                        && isAutomatic == other.isAutomatic;
+            }
+
+            QString languageCode;
+            QString ext;
+            QString url;
+            QString data;
+            QString languageName;
+            bool isAutomatic{false};
+        };
+
+        bool operator!=(const Data &other) const;
+        bool operator==(const Data &other) const
+        {
+            return id                   == other.id
+                    && originalFilename == other.originalFilename
+                    && subtitles        == other.subtitles
+                    && webpage_url      == other.webpage_url
+                    && fulltitle        == other.fulltitle
+                    && defaultTitle     == other.defaultTitle
+                    && defaultSuffix    == other.defaultSuffix
+                    && description      == other.description
+                    && thumbnail        == other.thumbnail
+                    && extractor        == other.extractor
+                    && extractor_key    == other.extractor_key
+                    && defaultFormatId  == other.defaultFormatId
+                    && formats          == other.formats
+                    && playlist         == other.playlist
+                    && playlist_index   == other.playlist_index
+                    ;
+        }
+
+        QList<Format> defaultFormats() const;
+        QList<Format> audioFormats() const;
+        QList<Format> videoFormats() const;
+
+        QList<Subtitle> subtitleLanguages() const;
+        QList<QString> subtitleExtensions() const;
+
+        QString debug_description() const;
+
+        StreamObjectId id;              // (string): Video identifier
+        QString originalFilename;
+
+        QList<Subtitle> subtitles;
+
+        QString webpage_url;            // (string): URL to the video webpage
+        QString fulltitle;              // (string): Video title
+        QString defaultTitle;           // (string): Video title
+        QString defaultSuffix;          // (string): Video filename suffix (complete extension)
+        QString description;            // (string): Video description
+        QString thumbnail;              // (string): thumbnail URL
+        QString extractor;              // (string): Name of the extractor
+        QString extractor_key;          // (string): Key name of the extractor
+        StreamFormatId defaultFormatId; // (string): Format code specified by --format
+        QList<Format> formats;      // List of available formats, ordered from worst to best quality
+        QString playlist;               // (string): Name or id of the playlist that contains the video
+        QString playlist_index;         // (numeric): Index of the video in the playlist padded with leading zeros according to the total length of the playlist
+    };
+
+    /*!
+     * \brief The Config class stores the options of downloaded asset(s)
+     */
+    class Config
+    {
+    public:
+        struct Overview
+        {
+            /// \todo since C++20: auto operator<=>(const Overview&) const = default;
+            bool operator!=(const Overview &other) const;
+            bool operator==(const Overview &other) const
+            {
+                return skipVideo == other.skipVideo
+                        && markWatched == other.markWatched;
+            }
+            bool skipVideo{false};
+            bool markWatched{false};
+        };
+        struct Subtitle
+        {
+            bool operator!=(const Subtitle &other) const;
+            bool operator==(const Subtitle &other) const
+            {
+                return writeSubtitle == other.writeSubtitle
+                        && isAutoGenerated == other.isAutoGenerated
+                        && extensions == other.extensions
+                        && languages == other.languages
+                        && convert == other.convert;
+            }
+            QString extensions;
+            QString languages;
+            QString convert;
+            bool writeSubtitle{false};
+            bool isAutoGenerated{false};
+        };
+        struct Chapter
+        {
+            bool operator!=(const Chapter &other) const;
+            bool operator==(const Chapter &other) const
+            {
+                return writeChapters == other.writeChapters;
+            }
+            bool writeChapters{false};
+        };
+        struct Thumbnail
+        {
+            bool operator!=(const Thumbnail &other) const;
+            bool operator==(const Thumbnail &other) const
+            {
+                return writeDefaultThumbnail == other.writeDefaultThumbnail;
+            }
+            bool writeDefaultThumbnail{false};
+        };
+        struct Comment
+        {
+            bool operator!=(const Comment &other) const;
+            bool operator==(const Comment &other) const
+            {
+                return writeComment == other.writeComment;
+            }
+            bool writeComment{false};
+        };
+        struct Metadata
+        {
+            bool operator!=(const Metadata &other) const;
+            bool operator==(const Metadata &other) const
+            {
+                return writeDescription == other.writeDescription
+                        && writeMetadata == other.writeMetadata
+                        && writeInternetShortcut == other.writeInternetShortcut;
+            }
+            bool writeDescription{false};
+            bool writeMetadata{false};
+            bool writeInternetShortcut{false};
+        };
+        struct Processing
+        {
+            bool operator!=(const Processing &other) const;
+            bool operator==(const Processing &other) const
+            {
+                Q_UNUSED(other)
+                return true;
+            }
+        };
+        struct SponsorBlock
+        {
+            bool operator!=(const SponsorBlock &other) const;
+            bool operator==(const SponsorBlock &other) const
+            {
+                Q_UNUSED(other)
+                return true;
+            }
+        };
+
+        bool operator!=(const Config &other) const;
+        bool operator==(const Config &other) const
+        {
+            return overview == other.overview
+                    && subtitle == other.subtitle
+                    && chapter == other.chapter
+                    && thumbnail == other.thumbnail
+                    && comment == other.comment
+                    && metadata == other.metadata
+                    && processing == other.processing
+                    && sponsorBlock == other.sponsorBlock;
+        }
+
+        Overview overview;
+        Subtitle subtitle;
+        Chapter chapter;
+        Thumbnail thumbnail;
+        Comment comment;
+        Metadata metadata;
+        Processing processing;
+        SponsorBlock sponsorBlock;
+    };
+
     StreamObject() = default;
     ~StreamObject() = default;
     StreamObject(const StreamObject &) = default;
     StreamObject &operator=(const StreamObject &) = default;
 
-    bool operator==(const StreamObject &other) const;
     bool operator!=(const StreamObject &other) const;
+    bool operator==(const StreamObject &other) const
+    {
+        return m_data == other.m_data
+                && m_config == other.m_config
+                && m_error          == other.m_error
+                && m_userTitle      == other.m_userTitle
+                && m_userSuffix     == other.m_userSuffix
+                && m_userFormatId   == other.m_userFormatId;
+    }
 
     enum Error{
         NoError = 0,
@@ -323,14 +391,19 @@ public:
     Error error() const;
     void setError(Error error);
 
+    Data data() const;
+    void setData(const Data &data);
+
+    Config config() const;
+    void setConfig(const Config &config);
+
+    StreamObjectId id() const { return m_data.id; }
+
     qint64 guestimateFullSize() const;
     qint64 guestimateFullSize(const StreamFormatId &formatId) const;
 
     QString title() const;
     void setTitle(const QString &title);
-
-    StreamObjectConfig config() const;
-    void setConfig(const StreamObjectConfig &config);
 
     QString fullFileName() const;
     QString fileBaseName() const;
@@ -343,31 +416,12 @@ public:
     void setFormatId(const StreamFormatId &formatId);
     QString formatToString() const;
 
-    QList<StreamFormat> defaultFormats() const;
-    QList<StreamFormat> audioFormats() const;
-    QList<StreamFormat> videoFormats() const;
-
     bool isAvailable() const;
 
-    QString debug_description() const;
-
-    /* Immutable data, not modifiable by the user */
-    StreamObjectId id;              // (string): Video identifier
-    QString _filename;
-    QString webpage_url;            // (string): URL to the video webpage
-    QString fulltitle;              // (string): Video title
-    QString defaultTitle;           // (string): Video title
-    QString defaultSuffix;          // (string): Video filename suffix (complete extension)
-    QString description;            // (string): Video description
-    QString thumbnail;              // (string): thumbnail URL
-    QString extractor;              // (string): Name of the extractor
-    QString extractor_key;          // (string): Key name of the extractor
-    StreamFormatId defaultFormatId; // (string): Format code specified by --format
-    QList<StreamFormat> formats;
-    QString playlist;               // (string): Name or id of the playlist that contains the video
-    QString playlist_index;         // (numeric): Index of the video in the playlist padded with leading zeros according to the total length of the playlist
-
 private:
+    Data m_data;
+    Config m_config;
+
     /* Error */
     Error m_error{NoError};
 
@@ -375,10 +429,11 @@ private:
     QString m_userTitle;
     QString m_userSuffix;
     StreamFormatId m_userFormatId;
-    StreamObjectConfig m_userConfig;
 };
 
-using StreamDumpMap = QMap<StreamObjectId, StreamObject>;
+using StreamFormat = StreamObject::Data::Format;
+using StreamSubtitle = StreamObject::Data::Subtitle;
+
 
 /*!
  * \brief The Stream class is the main class to download a stream.
@@ -420,8 +475,8 @@ public:
     qint64 fileSizeInBytes() const;
     void setFileSizeInBytes(qint64 fileSizeInBytes);
 
-    StreamObjectConfig config() const;
-    void setConfig(const StreamObjectConfig &config);
+    StreamObject::Config config() const;
+    void setConfig(const StreamObject::Config &config);
 
     void initialize(const StreamObject &streamObject);
 
@@ -439,8 +494,8 @@ signals:
 
 protected:
     /* For test purpose */
-    void parseStandardError(const QString &data);
-    void parseStandardOutput(const QString &data);
+    void parseStandardError(const QString &msg);
+    void parseStandardOutput(const QString &msg);
 
 private slots:
     void onStarted();
@@ -465,7 +520,7 @@ private:
     QString m_fileBaseName;
     QString m_fileExtension;
 
-    StreamObjectConfig m_config;
+    StreamObject::Config m_config;
 
     qint64 _q_bytesTotal() const;
     bool isMergeFormat(const QString &suffix) const;
@@ -501,12 +556,23 @@ private:
     bool m_isCleaned;
 };
 
-class StreamObjectDownloader : public QObject
+class StreamAssetDownloader : public QObject
 {
     Q_OBJECT
 public:
-    explicit StreamObjectDownloader(QObject *parent);
-    ~StreamObjectDownloader() Q_DECL_OVERRIDE;
+    struct StreamFlatListItem
+    {
+        QString _type;
+        StreamObjectId id;
+        QString ie_key;
+        QString title;
+        QString url;
+    };
+    using StreamFlatList = QList<StreamFlatListItem>;
+    using StreamDumpMap = QMap<StreamObjectId, StreamObject>;
+
+    explicit StreamAssetDownloader(QObject *parent);
+    ~StreamAssetDownloader() Q_DECL_OVERRIDE;
 
     void runAsync(const QString &url);
     void stop();
@@ -542,18 +608,18 @@ private:
     void runAsyncFlatList();
     void onFinished();
 
-    static StreamObject parseDumpItemStdOut(const QByteArray &data);
-    static StreamObject parseDumpItemStdErr(const QByteArray &data);
+    static StreamObject parseDumpItemStdOut(const QByteArray &bytes);
+    static StreamObject parseDumpItemStdErr(const QByteArray &bytes);
 
-    static StreamFlatListItem parseFlatItem(const QByteArray &data);
+    static StreamFlatListItem parseFlatItem(const QByteArray &bytes);
     StreamObject createStreamObject(const StreamFlatListItem &flatItem) const;
 };
 
-class AskStreamVersionThread : public QThread
+class StreamVersion : public QThread
 {
     Q_OBJECT
 public:
-    AskStreamVersionThread(QObject *parent = nullptr): QThread(parent) {}
+    StreamVersion(QObject *parent = nullptr): QThread(parent) {}
 
     void run() Q_DECL_OVERRIDE;
     void stop();

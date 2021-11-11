@@ -18,7 +18,6 @@
 #include "ui_streamwidget.h"
 
 #include <Core/Format>
-#include <Widgets/StreamConfigWidget>
 
 #include <QtCore/QDebug>
 
@@ -32,8 +31,8 @@ StreamWidget::StreamWidget(QWidget *parent) : QWidget(parent)
 
     connect(ui->streamFormatPicker, SIGNAL(selectionChanged(StreamFormatId)),
             this, SLOT(onFormatSelected(StreamFormatId)));
-    connect(ui->streamFormatPicker, SIGNAL(configChanged(StreamObjectConfig)),
-            this, SLOT(onConfigChanged(StreamObjectConfig)));
+    connect(ui->streamFormatPicker, SIGNAL(configChanged()),
+            this, SLOT(onConfigChanged()));
     connect(ui->fileNameEdit, SIGNAL(textChanged(QString)),
             this, SLOT(onTitleChanged(QString)));
     connect(ui->fileExtensionEdit, SIGNAL(textChanged(QString)),
@@ -79,15 +78,16 @@ void StreamWidget::setStreamObject(const StreamObject &streamObject)
 void StreamWidget::onFormatSelected(StreamFormatId formatId)
 {
     m_streamObject.setFormatId(formatId);
-    ui->fileExtensionEdit->setText(m_streamObject.suffix());
-    ui->estimatedSizeEdit->setText(Format::fileSizeToString(m_streamObject.guestimateFullSize()));
     emit streamObjectChanged(m_streamObject);
+    updateEstimatedSize();
 }
 
-void StreamWidget::onConfigChanged(StreamObjectConfig config)
+void StreamWidget::onConfigChanged()
 {
+    auto config = ui->streamFormatPicker->config();
     m_streamObject.setConfig(config);
     emit streamObjectChanged(m_streamObject);
+    updateEstimatedSize();
 }
 
 void StreamWidget::onTitleChanged(QString title)
@@ -102,4 +102,38 @@ void StreamWidget::onSuffixChanged(QString suffix)
     Q_UNUSED(suffix)
     m_streamObject.setSuffix(ui->fileExtensionEdit->text());
     emit streamObjectChanged(m_streamObject);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void StreamWidget::updateEstimatedSize()
+{
+    ui->fileExtensionEdit->setText(m_streamObject.suffix());
+    QString text;
+    auto config = m_streamObject.config();
+    if (config.overview.skipVideo) {
+        text = Format::fileSizeToString(0);
+        text += tr(" (no video)");
+    } else {
+        text = Format::fileSizeToString(m_streamObject.guestimateFullSize());
+    }
+    if (config.subtitle.writeSubtitle) {
+        text += tr(" + subtitles");
+    }
+    if (config.chapter.writeChapters) {
+        text += tr(" + chapters");
+    }
+    if (config.thumbnail.writeDefaultThumbnail) {
+        text += tr(" + thumbnails");
+    }
+    if (config.metadata.writeDescription) {
+        text += tr(" + .description");
+    }
+    if (config.metadata.writeMetadata) {
+        text += tr(" + .info.json");
+    }
+    if (config.metadata.writeInternetShortcut) {
+        text += tr(" + shortcut");
+    }
+    ui->estimatedSizeEdit->setText(text);
 }

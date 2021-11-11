@@ -48,7 +48,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    StreamObjectDownloader *m_streamObjectDownloader;
+    StreamAssetDownloader *m_streamAssetDownloader;
 
     void start(const QString &url = QString());
 };

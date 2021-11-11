@@ -66,10 +66,10 @@ void StreamDialog::onOkButtonReleased()
  ******************************************************************************/
 void StreamDialog::askStreamVersionAsync()
 {
-    auto w = new AskStreamVersionThread();
-    connect(this, &QObject::destroyed, w, &AskStreamVersionThread::stop);
-    connect(w, &AskStreamVersionThread::resultReady, ui->version, &QLabel::setText);
-    connect(w, &AskStreamVersionThread::finished, w, &QObject::deleteLater);
+    auto w = new StreamVersion();
+    connect(this, &QObject::destroyed, w, &StreamVersion::stop);
+    connect(w, &StreamVersion::resultReady, ui->version, &QLabel::setText);
+    connect(w, &StreamVersion::finished, w, &QObject::deleteLater);
     w->start();
 }
 

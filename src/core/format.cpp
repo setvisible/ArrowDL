@@ -289,6 +289,7 @@ QString Format::boolToHtml(bool value)
 
 QString Format::sizeToHtml(int size)
 {
+    /// \todo Add non breaking space?
     return Format::fileSizeToString(size);
 }
 

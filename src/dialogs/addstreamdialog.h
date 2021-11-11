@@ -55,7 +55,7 @@ private slots:
 private:
     Ui::AddStreamDialog *ui;
     DownloadManager *m_downloadManager;
-    StreamObjectDownloader *m_streamObjectDownloader;
+    StreamAssetDownloader *m_streamObjectDownloader;
     Settings *m_settings;
 
     void doAccept(bool started);
