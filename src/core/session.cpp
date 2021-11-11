@@ -55,26 +55,26 @@ static inline StreamObject::Config readStreamConfig(const QJsonObject &json)
     StreamObject::Config config;
     {
         auto j = json["overview"].toObject();
-        config.overview.skipVideo = j["skipVideo"].isBool();
+        config.overview.skipVideo = j["skipVideo"].toBool();
         config.overview.markWatched = j["markWatched"].toBool();
     }
     {
         auto j = json["chapter"].toObject();
-        config.chapter.writeChapters = j["writeChapters"].isBool();
+        config.chapter.writeChapters = j["writeChapters"].toBool();
     }
     {
         auto j = json["thumbnail"].toObject();
-        config.thumbnail.writeDefaultThumbnail = j["writeDefaultThumbnail"].isBool();
+        config.thumbnail.writeDefaultThumbnail = j["writeDefaultThumbnail"].toBool();
     }
     {
         auto j = json["comment"].toObject();
-        config.comment.writeComment = j["writeComment"].isBool();
+        config.comment.writeComment = j["writeComment"].toBool();
     }
     {
         auto j = json["metadata"].toObject();
-        config.metadata.writeDescription = j["writeDescription"].isBool();
-        config.metadata.writeMetadata = j["writeMetadata"].isBool();
-        config.metadata.writeInternetShortcut = j["writeInternetShortcut"].isBool();
+        config.metadata.writeDescription = j["writeDescription"].toBool();
+        config.metadata.writeMetadata = j["writeMetadata"].toBool();
+        config.metadata.writeInternetShortcut = j["writeInternetShortcut"].toBool();
     }
     {
         auto j = json["processing"].toObject();

@@ -471,9 +471,10 @@ void tst_Stream::fileBaseName()
     QFETCH(QString, expected);
 
     StreamObject target;
-    target.data().defaultTitle = input;
-    target.data().fulltitle = input;
-
+    auto data = target.data();
+    data.defaultTitle = input;
+    data.fulltitle = input;
+    target.setData(data);
     auto actual = target.fileBaseName();
 
     QCOMPARE(actual, expected);

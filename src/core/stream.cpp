@@ -148,7 +148,7 @@ void Stream::setConnectionProtocol(int index)
 
 void Stream::setConnectionTimeout(int secs)
 {
-    s_youtubedl_socket_timeout = secs ? secs > 0 : 0;
+    s_youtubedl_socket_timeout = secs > 0 ? secs : 0;
 }
 
 /******************************************************************************
