@@ -47,6 +47,12 @@ static const int s_forbidden_sub_strings_count = sizeof(s_forbidden_sub_strings)
 static const QString s_substitute_char('_');
 static const QString s_substitute_file_name("file");
 
+/*
+ * This list of legal characters for filenames is limited to avoid injections
+ * of special or invisible characters that could be not supported by the OS.
+ */
+static const QString C_LEGAL_CHARS = QLatin1String("-+' @()[]{}°#,.&");
+
 
 /******************************************************************************
  ******************************************************************************/
@@ -131,4 +137,25 @@ QString FileUtils::validateFileName(const QString &name, bool allowSubDir)
     }
 
     return fixedName;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QString FileUtils::cleanFileName(const QString &fileName)
+{
+    QString ret = fileName.simplified();
+    QString::iterator it;
+    for (it = ret.begin(); it != ret.end(); ++it){
+        const QChar c = (*it).unicode();
+        if (c.isLetterOrNumber() || C_LEGAL_CHARS.contains(c)) {
+            continue;
+        }
+        if (c == QChar('"')) {
+            *it = QChar('\'');
+        } else {
+            *it = QChar('_');
+        }
+    }
+    ret = ret.replace(QRegularExpression("_+"), QLatin1String("_"));
+    return ret.simplified();
 }

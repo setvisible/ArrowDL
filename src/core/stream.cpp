@@ -16,6 +16,7 @@
 
 #include "stream.h"
 
+#include <Core/FileUtils>
 #include <Core/Format>
 
 #include <QtCore/QCoreApplication>
@@ -44,12 +45,6 @@ static const QString C_PROGRAM_NAME  = QLatin1String("yt-dlp");
 
 static const QString C_WEBSITE_URL   = QLatin1String("https://github.com/yt-dlp/yt-dlp");
 static const int     C_EXIT_SUCCESS  = 0;
-
-/*
- * This list of legal characters for filenames is limited to avoid injections
- * of special or invisible characters that could be not supported by the OS.
- */
-static const QString C_LEGAL_CHARS   = QLatin1String("-+' @()[]{}°#,.&");
 
 static const QString C_NONE          = QLatin1String("none");
 
@@ -1521,26 +1516,6 @@ void StreamObject::setTitle(const QString &title)
     m_userTitle = (title == m_data.defaultTitle) ? QString() : title;
 }
 
-static QString cleanFileName(const QString &fileName)
-{
-    QString ret = fileName.simplified();
-    QString::iterator it;
-    for (it = ret.begin(); it != ret.end(); ++it){
-        const QChar c = (*it).unicode();
-        if (c.isLetterOrNumber() || C_LEGAL_CHARS.contains(c)) {
-            continue;
-        }
-        if (c == QChar('"')) {
-            *it = QChar('\'');
-        } else {
-            *it = QChar('_');
-        }
-    }
-    ret = ret.replace(QRegularExpression("_+"), QLatin1String("_"));
-    return ret.simplified();
-}
-
-
 QString StreamObject::fullFileName() const
 {
     return suffix().isEmpty()
@@ -1550,7 +1525,7 @@ QString StreamObject::fullFileName() const
 
 QString StreamObject::fileBaseName() const
 {
-    return cleanFileName(title());
+    return FileUtils::cleanFileName(title());
 }
 
 QString StreamObject::suffix() const

@@ -26,6 +26,9 @@ class tst_FileUtils : public QObject
 private slots:
     void validateFileName_data();
     void validateFileName();
+
+    void cleanFileName_data();
+    void cleanFileName();
 };
 
 /******************************************************************************
@@ -164,6 +167,26 @@ void tst_FileUtils::validateFileName()
     QFETCH(QString, input);
     QFETCH(QString, expected);
     auto actual = FileUtils::validateFileName(input, is_subdirectory_allowed);
+    QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+******************************************************************************/
+void tst_FileUtils::cleanFileName_data()
+{
+    QTest::addColumn<QString>("input");
+    QTest::addColumn<QString>("expected");
+
+    // Unicode UTF chars
+    QTest::newRow("utf") << "لة الش" << "لة الش";
+    QTest::newRow("utf") << "番剧" << "番剧";
+}
+
+void tst_FileUtils::cleanFileName()
+{
+    QFETCH(QString, input);
+    QFETCH(QString, expected);
+    auto actual = FileUtils::cleanFileName(input);
     QCOMPARE(actual, expected);
 }
 
