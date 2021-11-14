@@ -2,6 +2,7 @@
 set(MY_TEST_TARGET tst_stream)
 
 set(MY_TEST_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/fileutils.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/format.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/stream.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test/utils/dummystreamfactory.cpp

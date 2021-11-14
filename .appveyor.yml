@@ -493,7 +493,7 @@ deploy:
     # mandatory description (use '' if any) otherwise GitHub  "422: Unprocessable entity" error
     description: 'Draft release of DownZemAll version %AppVersion% (build $(appveyor_build_version))' 
     auth_token:
-      secure: 8tIRAglcbx9Yw8zLDDQnrdk/Fk/az61lSIykfvzqPApy6LFxjTHoUJW8gYDGKgsq
+      secure: J6XN9EP9btStQKZRRhB69DkQQHQ32ioCje4YV9jfK1Xvm/1w2r6lppsT2hBHvowk
     artifact: myartifacts
     draft: true
     prerelease: false

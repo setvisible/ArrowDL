@@ -725,24 +725,28 @@ void tst_Stream::fileBaseName_data()
     QTest::newRow("null") << QString() << QString();
     QTest::newRow("empty") << "" << QString();
 
-    QTest::newRow("separator") << "Live 10/02/2018" << "Live 10_02_2018";
-    QTest::newRow("separator") << "here\\we\\come" << "here_we_come";
+    QTest::newRow("separator") << "Live 10/02/2018" << "Live 10-02-2018";
+    QTest::newRow("separator") << "here\\we\\come" << "here-we-come";
 
     QTest::newRow("tab") << "\t here\twe\tcome \t" << "here we come";
 
-    QTest::newRow("minus") << "- \x2D — \u2212 \u2014" << "- - _ _ _";
+    QTest::newRow("minus") << "- \x2D — \u2212 \u2014" << "- - - - -";
 
     QTest::newRow("brackets") << "Windsor ['98]" << "Windsor ['98]";
     QTest::newRow("brackets") << "Windsor ('98)" << "Windsor ('98)";
     QTest::newRow("@")        << "Live @ Windsor" << "Live @ Windsor";
-    QTest::newRow("extra _") << "_*_Cambridge_*_" << "_Cambridge_";
+    QTest::newRow("extra _") << "_*_Cambridge_*_" << "-Cambridge-";
 
     QTest::newRow("double quote") << "\"Hello\" by Adele" << "'Hello' by Adele";
     QTest::newRow("simple quote") << "Live in Paris '79" << "Live in Paris '79";
 
     QTest::newRow("")
             << "\"Bohemian Rhapsody\" Steve Vai & Malmsteen & Zakk Wylde & Nuno@Atlantic City (11/30/18)"
-            << "'Bohemian Rhapsody' Steve Vai & Malmsteen & Zakk Wylde & Nuno@Atlantic City (11_30_18)" ;
+            << "'Bohemian Rhapsody' Steve Vai & Malmsteen & Zakk Wylde & Nuno@Atlantic City (11-30-18)" ;
+
+    QTest::newRow("stupid text") << "Live '01 (Official Video)" << "Live '01";
+    QTest::newRow("stupid text") << "(Official Video) Live '01" << "Live '01";
+    QTest::newRow("stupid text") << "Live (Official Video) '01" << "Live '01";
 }
 
 void tst_Stream::fileBaseName()

@@ -22,6 +22,7 @@
 class FileUtils
 {
 public:
+    static QString cleanFileName(const QString &fileName);
     static QString validateFileName(const QString &input, bool allowSubDir);
 };
 
