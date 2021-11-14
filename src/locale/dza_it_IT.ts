@@ -2745,44 +2745,6 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
     </message>
 </context>
 <context>
-    <name>QCoreApplication</name>
-    <message>
-        <location filename="../about.h" line="27"/>
-        <source>%0 - %1 - version %2 - build %3</source>
-        <translation>%0 - %1 - versione %2 - build %3</translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="31"/>
-        <source>Copyright (C) %0 %1. All rights reserved.</source>
-        <translation>Copyright (C) %0 %1. Tutti i diritti riservati.</translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="35"/>
-        <source>GNU LGPL License</source>
-        <translation>GNU LGPL License</translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="37"/>
-        <source>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </source>
-        <translation>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="45"/>
-        <source>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </source>
-        <translation>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="49"/>
-        <source>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </source>
-        <translation>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="74"/>
-        <source>About %0</source>
-        <translation>Info su %0</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <location filename="../core/locale.cpp" line="106"/>
@@ -2928,6 +2890,41 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
         <location filename="../core/theme.cpp" line="134"/>
         <source>Dark</source>
         <translation>Scuro</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="29"/>
+        <source>%0 - %1 - version %2 - build %3</source>
+        <translation>%0 - %1 - versione %2 - build %3</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="33"/>
+        <source>Copyright (C) %0 %1. All rights reserved.</source>
+        <translation>Copyright (C) %0 %1. Tutti i diritti riservati.</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="37"/>
+        <source>GNU LGPL License</source>
+        <translation>GNU LGPL License</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="39"/>
+        <source>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </source>
+        <translation>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="47"/>
+        <source>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </source>
+        <translation>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="51"/>
+        <source>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </source>
+        <translation>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="76"/>
+        <source>About %0</source>
+        <translation>Info su %0</translation>
     </message>
 </context>
 <context>
