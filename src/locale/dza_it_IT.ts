@@ -2745,44 +2745,6 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
     </message>
 </context>
 <context>
-    <name>QCoreApplication</name>
-    <message>
-        <location filename="../about.h" line="27"/>
-        <source>%0 - %1 - version %2 - build %3</source>
-        <translation>%0 - %1 - versione %2 - build %3</translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="31"/>
-        <source>Copyright (C) %0 %1. All rights reserved.</source>
-        <translation>Copyright (C) %0 %1. Tutti i diritti riservati.</translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="35"/>
-        <source>GNU LGPL License</source>
-        <translation>GNU LGPL License</translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="37"/>
-        <source>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </source>
-        <translation>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="45"/>
-        <source>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </source>
-        <translation>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="49"/>
-        <source>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </source>
-        <translation>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="74"/>
-        <source>About %0</source>
-        <translation>Info su %0</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <location filename="../core/locale.cpp" line="106"/>
@@ -2795,17 +2757,17 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
         <translation>Impossibile caricare %0</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1364"/>
+        <location filename="../core/stream.cpp" line="1482"/>
         <source>Video %0 x %1%2%3</source>
         <translation>Video %0 x %1%2%3</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1371"/>
+        <location filename="../core/stream.cpp" line="1489"/>
         <source>[%0] %1 x %2 (%3 fps) @ %4 KBit/s, codec: %5</source>
         <translation>[%0] %1 x %2 (%3 fps) @ %4 KBit/s, codec: %5</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1380"/>
+        <location filename="../core/stream.cpp" line="1498"/>
         <source>[%0] %1 Hz @ %2 KBit/s, codec: %3</source>
         <translation>[%0] %1 Hz @ %2 KBit/s, codec: %3</translation>
     </message>
@@ -2929,6 +2891,41 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
         <source>Dark</source>
         <translation>Scuro</translation>
     </message>
+    <message>
+        <location filename="../about.h" line="29"/>
+        <source>%0 - %1 - version %2 - build %3</source>
+        <translation>%0 - %1 - versione %2 - build %3</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="33"/>
+        <source>Copyright (C) %0 %1. All rights reserved.</source>
+        <translation>Copyright (C) %0 %1. Tutti i diritti riservati.</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="37"/>
+        <source>GNU LGPL License</source>
+        <translation>GNU LGPL License</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="39"/>
+        <source>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </source>
+        <translation>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="47"/>
+        <source>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </source>
+        <translation>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="51"/>
+        <source>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </source>
+        <translation>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="76"/>
+        <source>About %0</source>
+        <translation>Info su %0</translation>
+    </message>
 </context>
 <context>
     <name>QueueItem</name>
@@ -3017,7 +3014,7 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
 <context>
     <name>Stream</name>
     <message>
-        <location filename="../core/stream.cpp" line="496"/>
+        <location filename="../core/stream.cpp" line="492"/>
         <source>The process crashed.</source>
         <translation>Il processo è crashato.</translation>
     </message>
@@ -3025,30 +3022,30 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
 <context>
     <name>StreamAssetDownloader</name>
     <message>
-        <location filename="../core/stream.cpp" line="832"/>
+        <location filename="../core/stream.cpp" line="828"/>
         <source>Couldn&apos;t parse JSON file.</source>
-        <translation type="unfinished"/>
+        <translation>Impossibile analizzare il file JSON.</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="835"/>
-        <location filename="../core/stream.cpp" line="858"/>
+        <location filename="../core/stream.cpp" line="831"/>
+        <location filename="../core/stream.cpp" line="854"/>
         <source>The process crashed.</source>
-        <translation type="unfinished"/>
+        <translation>Il processo è andato in crash.</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="852"/>
+        <location filename="../core/stream.cpp" line="848"/>
         <source>Couldn&apos;t parse playlist (no data received).</source>
-        <translation type="unfinished"/>
+        <translation>Impossibile analizzare la playlist (nessun dato ricevuto).</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="855"/>
+        <location filename="../core/stream.cpp" line="851"/>
         <source>Couldn&apos;t parse playlist (ill-formed JSON file).</source>
-        <translation type="unfinished"/>
+        <translation>Impossibile analizzare la playlist (file JSON non formato).</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1058"/>
+        <location filename="../core/stream.cpp" line="1176"/>
         <source>Cancelled.</source>
-        <translation type="unfinished"/>
+        <translation>Annullato.</translation>
     </message>
 </context>
 <context>
@@ -3102,8 +3099,8 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
 <context>
     <name>StreamExtractorListCollector</name>
     <message>
-        <location filename="../core/stream.cpp" line="1233"/>
-        <location filename="../core/stream.cpp" line="1252"/>
+        <location filename="../core/stream.cpp" line="1351"/>
+        <location filename="../core/stream.cpp" line="1370"/>
         <source>The process crashed.</source>
         <translation>Il processo è crashato.</translation>
     </message>
@@ -3118,7 +3115,7 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
     <message>
         <location filename="../widgets/streamformatpicker.ui" line="103"/>
         <source>Advanced:</source>
-        <translation type="unfinished"/>
+        <translation>Avanzate:</translation>
     </message>
     <message>
         <location filename="../widgets/streamformatpicker.ui" line="122"/>
@@ -3260,273 +3257,273 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="32"/>
         <source>Overview</source>
-        <translation type="unfinished"/>
+        <translation>Panoramica</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="38"/>
         <source>Do not download the video, but write all other related files</source>
-        <translation type="unfinished"/>
+        <translation>Non scaricare il video, ma scrivi tutti gli altri file correlati</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="45"/>
         <source>Mark watched (only for Youtube)</source>
-        <translation type="unfinished"/>
+        <translation>Segna conme visto (solo per Youtube)</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="67"/>
         <source>Subtitles</source>
-        <translation type="unfinished"/>
+        <translation>Sottotitoli</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="75"/>
         <source>Convert to format:</source>
-        <translation type="unfinished"/>
+        <translation>Converti nel formato:</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="82"/>
         <source>Preferred format:</source>
-        <translation type="unfinished"/>
+        <translation>Formato preferito:</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="92"/>
         <source>Download subtitles:</source>
-        <translation type="unfinished"/>
+        <translation>Scarica sottotitoli:</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="118"/>
         <source>Hide auto-generated subtitles</source>
-        <translation type="unfinished"/>
+        <translation>Nascondi i sottotitoli generati automaticamente</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="142"/>
         <source>Chapters</source>
-        <translation type="unfinished"/>
+        <translation>Capitoli</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="161"/>
         <source>Split video into multiple files based on internal chapters</source>
-        <translation type="unfinished"/>
+        <translation>Dividi video in più file in base a capitoli interni</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="171"/>
         <source>Remove chapters whose title matches the given regular expression:</source>
-        <translation type="unfinished"/>
+        <translation>Rimuovi capitoli il cui titolo corrisponde all&apos;espressione regolare data:</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="181"/>
         <source>Ex: &quot;*10:15-15:00&quot;, or &quot;intro&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Es.: &quot;*10:15-15:00&quot;, o &quot;intro&quot;</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="203"/>
         <source>Thumbnails</source>
-        <translation type="unfinished"/>
+        <translation>Miniature</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="219"/>
         <source>Download thumbnail (default image)</source>
-        <translation type="unfinished"/>
+        <translation>Scarica miniatura (immagine predefinita)</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="229"/>
         <source>Download all formats of the thumbnail image</source>
-        <translation type="unfinished"/>
+        <translation>Scarica tutti i formati dell&apos;immagine miniatura</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="241"/>
         <source>Convert the thumbnails to format:</source>
-        <translation type="unfinished"/>
+        <translation>Converti le miniature nel formato:</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="295"/>
         <source>Comments</source>
-        <translation type="unfinished"/>
+        <translation>Commenti</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="311"/>
         <source>Download comments (in the .info.json)</source>
-        <translation type="unfinished"/>
+        <translation>Scarica commenti (nel .info.json)</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="320"/>
         <source>Sort by:</source>
-        <translation type="unfinished"/>
+        <translation>Ordina per:</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="331"/>
         <source>Newest first</source>
-        <translation type="unfinished"/>
+        <translation>Prima i più nuovi</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="336"/>
         <source>Top comments</source>
-        <translation type="unfinished"/>
+        <translation>Migliori commenti</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="347"/>
         <source>Limit number of comments:</source>
-        <translation type="unfinished"/>
+        <translation>Limita numero di commenti:</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="378"/>
         <source>Other Media</source>
-        <translation type="unfinished"/>
+        <translation>Altri media</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="384"/>
         <source>Download description as a .description file</source>
-        <translation type="unfinished"/>
+        <translation>Scarica descrizione come file .description</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="391"/>
         <source>Download metadata as a .info.json file</source>
-        <translation type="unfinished"/>
+        <translation>Scarica metadati come file .info.json</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="398"/>
         <source>Create internet shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Crea collegamento internet</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="420"/>
         <source>Pre/Post-Processing</source>
-        <translation type="unfinished"/>
+        <translation>Pre/post elaborazione</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="436"/>
         <source>Command</source>
-        <translation type="unfinished"/>
+        <translation>Comando</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="442"/>
         <source>Execute the command before the actual download:</source>
-        <translation type="unfinished"/>
+        <translation>Esegui il comando prima del download vero e proprio:</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="452"/>
         <source>Execute the command on the file after downloading and post-processing:</source>
-        <translation type="unfinished"/>
+        <translation>Esegui il comando sul file dopo download e post-elaborazione:</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="468"/>
         <source>Post-Processing</source>
-        <translation type="unfinished"/>
+        <translation>Post elaborazione</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="474"/>
         <source>Remux the video into another container if necessary :</source>
-        <translation type="unfinished"/>
+        <translation>Se necessario rimuxa il video in un altro contenitore:</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="481"/>
         <location filename="../widgets/streamtoolbox.ui" line="505"/>
         <source>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Es: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot;</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="488"/>
         <source>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot; will remux aac to m4a, mov to mp4 and anything else to mkv.</source>
-        <translation type="unfinished"/>
+        <translation>Es: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot; rimuxerà aac in m4a, mov in mp4 e qualsiasi altra cosa in mkv.</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="498"/>
         <source>Re-encode the video into another format if re-encoding is necessary:</source>
-        <translation type="unfinished"/>
+        <translation>Se è necessaria la ricodifica ricodificherà il video in un altro formato:</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="512"/>
         <source>Rem: The syntax and supported formats are the same as &quot;Remux&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Nota: la sintassi e i formati supportati sono gli stessi di &quot;Remux&quot;</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="522"/>
         <source>Keep the intermediate video file on disk after post-processing</source>
-        <translation type="unfinished"/>
+        <translation>Dopo la post-elaborazione conserva il file video intermedio su disco</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="529"/>
         <source>Embed subtitles in the video (only for mp4, webm and mkv videos)</source>
-        <translation type="unfinished"/>
+        <translation>Incorpora sottotitoli nel video (solo per video mp4, webm e mkv)</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="536"/>
         <source>Embed thumbnail in the video as cover art</source>
-        <translation type="unfinished"/>
+        <translation>Incorpora la miniatura nel video come copertina</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="543"/>
         <source>Embed metadata in the video file</source>
-        <translation type="unfinished"/>
+        <translation>Incorpora i metadati nel file video</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="550"/>
         <source>Embed chapter markers in the video file</source>
-        <translation type="unfinished"/>
+        <translation>Incorpora marcatori di capitolo nel file video</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="557"/>
         <source>Write metadata to the video file&apos;s xattrs (using dublin core and xdg standards)</source>
-        <translation type="unfinished"/>
+        <translation>Registra i metadati negli xattr del file video (usando gli standard Dublin Core e xdg)</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="582"/>
         <source>SponsorBlock</source>
-        <translation type="unfinished"/>
+        <translation>SponsorBlock</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="601"/>
         <source>Remove segments in SponsorBlock categories from the video file:</source>
-        <translation type="unfinished"/>
+        <translation>Rimuovi dal file video i segmenti nelle categorie SponsorBlock:</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="616"/>
         <source>Unpaid/Self Promotion</source>
-        <translation type="unfinished"/>
+        <translation>Non pagato/autopromozione</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="626"/>
         <source>Interaction Reminder</source>
-        <translation type="unfinished"/>
+        <translation>Promemoria interazione</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="636"/>
         <source>Sponsor</source>
-        <translation type="unfinished"/>
+        <translation>Sponsor</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="646"/>
         <source>Preview/Recap</source>
-        <translation type="unfinished"/>
+        <translation>Anteprima/riepilogo</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="656"/>
         <source>Non-Music Section</source>
-        <translation type="unfinished"/>
+        <translation>Sezione non musica</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="666"/>
         <source>Endcards/Credits</source>
-        <translation type="unfinished"/>
+        <translation>Titoli finali/ringraziamenti</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="676"/>
         <source>Intermission/Intro Animation</source>
-        <translation type="unfinished"/>
+        <translation>Intermezzo/animazione introduttiva</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.cpp" line="174"/>
         <source>(default language)</source>
-        <translation type="unfinished"/>
+        <translation>(lingua predefinita)</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.cpp" line="176"/>
         <source>All languages</source>
-        <translation type="unfinished"/>
+        <translation>Tutte le lingue</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.cpp" line="196"/>
         <source>(default)</source>
-        <translation type="unfinished"/>
+        <translation>(predefinito)</translation>
     </message>
 </context>
 <context>
@@ -3554,37 +3551,37 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../widgets/streamwidget.cpp" line="116"/>
         <source> (no video)</source>
-        <translation type="unfinished"/>
+        <translation>(no video)</translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="121"/>
         <source> + subtitles</source>
-        <translation type="unfinished"/>
+        <translation> + sottotitoli</translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="124"/>
         <source> + chapters</source>
-        <translation type="unfinished"/>
+        <translation> + capitoli</translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="127"/>
         <source> + thumbnails</source>
-        <translation type="unfinished"/>
+        <translation> + anteprime</translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="130"/>
         <source> + .description</source>
-        <translation type="unfinished"/>
+        <translation> + .descrizione</translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="133"/>
         <source> + .info.json</source>
-        <translation type="unfinished"/>
+        <translation> + .info.json</translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="136"/>
         <source> + shortcut</source>
-        <translation type="unfinished"/>
+        <translation> + scorciatoia</translation>
     </message>
 </context>
 <context>

@@ -2736,44 +2736,6 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     </message>
 </context>
 <context>
-    <name>QCoreApplication</name>
-    <message>
-        <location filename="../about.h" line="27"/>
-        <source>%0 - %1 - version %2 - build %3</source>
-        <translation>%0 - %1 - versão %2 - compilação %3</translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="31"/>
-        <source>Copyright (C) %0 %1. All rights reserved.</source>
-        <translation>Copyright (C) %0 %1. Todos os direitos reservados.</translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="35"/>
-        <source>GNU LGPL License</source>
-        <translation>GNU LGPL License</translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="37"/>
-        <source>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </source>
-        <translation>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="45"/>
-        <source>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </source>
-        <translation>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="49"/>
-        <source>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </source>
-        <translation>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="74"/>
-        <source>About %0</source>
-        <translation>Sobre %0</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <location filename="../core/locale.cpp" line="106"/>
@@ -2786,17 +2748,17 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
         <translation>Falha ao carregar %0</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1364"/>
+        <location filename="../core/stream.cpp" line="1482"/>
         <source>Video %0 x %1%2%3</source>
         <translation>Vídeo %0 x %1%2%3</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1371"/>
+        <location filename="../core/stream.cpp" line="1489"/>
         <source>[%0] %1 x %2 (%3 fps) @ %4 KBit/s, codec: %5</source>
         <translation>[%0] %1 x %2 (%3 fps) @ %4 KBit/s, codec: %5</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1380"/>
+        <location filename="../core/stream.cpp" line="1498"/>
         <source>[%0] %1 Hz @ %2 KBit/s, codec: %3</source>
         <translation>[%0] %1 Hz @ %2 KBit/s, codec: %3</translation>
     </message>
@@ -2920,6 +2882,41 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
         <source>Dark</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <location filename="../about.h" line="29"/>
+        <source>%0 - %1 - version %2 - build %3</source>
+        <translation>%0 - %1 - versão %2 - compilação %3</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="33"/>
+        <source>Copyright (C) %0 %1. All rights reserved.</source>
+        <translation>Copyright (C) %0 %1. Todos os direitos reservados.</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="37"/>
+        <source>GNU LGPL License</source>
+        <translation>GNU LGPL License</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="39"/>
+        <source>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </source>
+        <translation>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="47"/>
+        <source>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </source>
+        <translation>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="51"/>
+        <source>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </source>
+        <translation>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="76"/>
+        <source>About %0</source>
+        <translation>Sobre %0</translation>
+    </message>
 </context>
 <context>
     <name>QueueItem</name>
@@ -3008,7 +3005,7 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
 <context>
     <name>Stream</name>
     <message>
-        <location filename="../core/stream.cpp" line="496"/>
+        <location filename="../core/stream.cpp" line="492"/>
         <source>The process crashed.</source>
         <translation>O processo travou.</translation>
     </message>
@@ -3016,30 +3013,30 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
 <context>
     <name>StreamAssetDownloader</name>
     <message>
-        <location filename="../core/stream.cpp" line="832"/>
+        <location filename="../core/stream.cpp" line="828"/>
         <source>Couldn&apos;t parse JSON file.</source>
-        <translation type="unfinished"/>
+        <translation>Não foi possível analisar o arquivo JSON.</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="835"/>
-        <location filename="../core/stream.cpp" line="858"/>
+        <location filename="../core/stream.cpp" line="831"/>
+        <location filename="../core/stream.cpp" line="854"/>
         <source>The process crashed.</source>
-        <translation type="unfinished"/>
+        <translation>O processo travou.</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="852"/>
+        <location filename="../core/stream.cpp" line="848"/>
         <source>Couldn&apos;t parse playlist (no data received).</source>
-        <translation type="unfinished"/>
+        <translation>Não foi possível analisar a lista de reprodução (nenhum dado recebido).</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="855"/>
+        <location filename="../core/stream.cpp" line="851"/>
         <source>Couldn&apos;t parse playlist (ill-formed JSON file).</source>
-        <translation type="unfinished"/>
+        <translation>Não foi possível analisar a lista de reprodução (arquivo JSON mal formulado).</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1058"/>
+        <location filename="../core/stream.cpp" line="1176"/>
         <source>Cancelled.</source>
-        <translation type="unfinished"/>
+        <translation>Cancelado.</translation>
     </message>
 </context>
 <context>
@@ -3077,7 +3074,7 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     <message>
         <location filename="../dialogs/streamdialog.cpp" line="99"/>
         <source>YT-DLP supports %0 sites:</source>
-        <translation type="unfinished"/>
+        <translation>YT-DLP suporta %0 sites:</translation>
     </message>
     <message>
         <location filename="../dialogs/streamdialog.cpp" line="102"/>
@@ -3093,8 +3090,8 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
 <context>
     <name>StreamExtractorListCollector</name>
     <message>
-        <location filename="../core/stream.cpp" line="1233"/>
-        <location filename="../core/stream.cpp" line="1252"/>
+        <location filename="../core/stream.cpp" line="1351"/>
+        <location filename="../core/stream.cpp" line="1370"/>
         <source>The process crashed.</source>
         <translation>O processo travou.</translation>
     </message>
@@ -3109,7 +3106,7 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     <message>
         <location filename="../widgets/streamformatpicker.ui" line="103"/>
         <source>Advanced:</source>
-        <translation type="unfinished"/>
+        <translation>Avançado:</translation>
     </message>
     <message>
         <location filename="../widgets/streamformatpicker.ui" line="122"/>
@@ -3124,7 +3121,7 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     <message>
         <location filename="../widgets/streamformatpicker.ui" line="177"/>
         <source>Other</source>
-        <translation type="unfinished"/>
+        <translation>Outros</translation>
     </message>
     <message>
         <location filename="../widgets/streamformatpicker.ui" line="197"/>
@@ -4225,7 +4222,7 @@ Exemplo:
         <location filename="../core/updatechecker.cpp" line="197"/>
         <location filename="../core/updatechecker.cpp" line="216"/>
         <source>Network request rejected.</source>
-        <translation type="unfinished"/>
+        <translation>Solicitação de rede rejeitada.</translation>
     </message>
     <message>
         <location filename="../core/updatechecker.cpp" line="181"/>

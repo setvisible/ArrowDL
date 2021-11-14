@@ -26,6 +26,7 @@ lessThan(QT_VERSION, 5.0) {
 #-------------------------------------------------
 HEADERS += \
     $$PWD/../../../src/core/checkabletablemodel.h \
+    $$PWD/../../../src/core/fileutils.h \
     $$PWD/../../../src/core/format.h \
     $$PWD/../../../src/core/stream.h \
     $$PWD/../../../src/core/theme.h \
@@ -42,6 +43,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/../../../src/core/checkabletablemodel.cpp \
+    $$PWD/../../../src/core/fileutils.cpp \
     $$PWD/../../../src/core/format.cpp \
     $$PWD/../../../src/core/stream.cpp \
     $$PWD/../../../src/core/theme.cpp \

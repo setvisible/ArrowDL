@@ -1833,7 +1833,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="694"/>
         <source>About YT-DLP...</source>
-        <translation type="unfinished"/>
+        <translation>关于 YT-DLP...</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="348"/>
@@ -2736,44 +2736,6 @@ Some examples are given below.  Click to paste the example.</source>
     </message>
 </context>
 <context>
-    <name>QCoreApplication</name>
-    <message>
-        <location filename="../about.h" line="27"/>
-        <source>%0 - %1 - version %2 - build %3</source>
-        <translation>%0 - %1 - 版本 %2 - 构建 %3</translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="31"/>
-        <source>Copyright (C) %0 %1. All rights reserved.</source>
-        <translation>版权所有 (C) %0 %1。保留所有权利。</translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="35"/>
-        <source>GNU LGPL License</source>
-        <translation>GNU LGPL 许可证</translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="37"/>
-        <source>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </source>
-        <translation>特此授予任何人免费获得本软件副本和相关文档文件（“软件”）的许可，不受限制地处理本软件，包括但不限于使用、复制、修改、合并的权利 、发布、分发、再许可和/或出售软件的副本，并允许向其提供软件的人员这样做，但须符合以下条件：</translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="45"/>
-        <source>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </source>
-        <translation>上述版权声明和本许可声明应包含在软件的所有副本或重要部分中。</translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="49"/>
-        <source>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </source>
-        <translation>本软件按“原样”提供，不提供任何形式的明示或暗示的保证，包括但不限于适销性、特定用途的适用性和不侵权的保证。 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任承担责任，无论是在合同诉讼、侵权行为或其他方面，由软件或软件的使用或使用或其他原因引起的或与之相关的 软件。</translation>
-    </message>
-    <message>
-        <location filename="../about.h" line="74"/>
-        <source>About %0</source>
-        <translation>关于 %0</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <location filename="../core/locale.cpp" line="106"/>
@@ -2786,17 +2748,17 @@ Some examples are given below.  Click to paste the example.</source>
         <translation>无法加载 %0</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1364"/>
+        <location filename="../core/stream.cpp" line="1482"/>
         <source>Video %0 x %1%2%3</source>
         <translation>视频 %0 x %1%2%3</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1371"/>
+        <location filename="../core/stream.cpp" line="1489"/>
         <source>[%0] %1 x %2 (%3 fps) @ %4 KBit/s, codec: %5</source>
         <translation>[%0] %1 x %2 (%3 fps) @ %4 KBit/s，编解码器：%5</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1380"/>
+        <location filename="../core/stream.cpp" line="1498"/>
         <source>[%0] %1 Hz @ %2 KBit/s, codec: %3</source>
         <translation>[%0] %1 Hz @ %2 KBit/，编解码器：%3</translation>
     </message>
@@ -2920,6 +2882,41 @@ Some examples are given below.  Click to paste the example.</source>
         <source>Dark</source>
         <translation>暗黑</translation>
     </message>
+    <message>
+        <location filename="../about.h" line="29"/>
+        <source>%0 - %1 - version %2 - build %3</source>
+        <translation>%0 - %1 - 版本 %2 - 构建 %3</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="33"/>
+        <source>Copyright (C) %0 %1. All rights reserved.</source>
+        <translation>版权所有 (C) %0 %1。保留所有权利。</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="37"/>
+        <source>GNU LGPL License</source>
+        <translation>GNU LGPL 许可证</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="39"/>
+        <source>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </source>
+        <translation>特此授予任何人免费获得本软件副本和相关文档文件（“软件”）的许可，不受限制地处理本软件，包括但不限于使用、复制、修改、合并的权利 、发布、分发、再许可和/或出售软件的副本，并允许向其提供软件的人员这样做，但须符合以下条件：</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="47"/>
+        <source>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </source>
+        <translation>上述版权声明和本许可声明应包含在软件的所有副本或重要部分中。</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="51"/>
+        <source>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </source>
+        <translation>本软件按“原样”提供，不提供任何形式的明示或暗示的保证，包括但不限于适销性、特定用途的适用性和不侵权的保证。 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任承担责任，无论是在合同诉讼、侵权行为或其他方面，由软件或软件的使用或使用或其他原因引起的或与之相关的 软件。</translation>
+    </message>
+    <message>
+        <location filename="../about.h" line="76"/>
+        <source>About %0</source>
+        <translation>关于 %0</translation>
+    </message>
 </context>
 <context>
     <name>QueueItem</name>
@@ -3008,7 +3005,7 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>Stream</name>
     <message>
-        <location filename="../core/stream.cpp" line="496"/>
+        <location filename="../core/stream.cpp" line="492"/>
         <source>The process crashed.</source>
         <translation>进程崩溃了。</translation>
     </message>
@@ -3016,30 +3013,30 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>StreamAssetDownloader</name>
     <message>
-        <location filename="../core/stream.cpp" line="832"/>
+        <location filename="../core/stream.cpp" line="828"/>
         <source>Couldn&apos;t parse JSON file.</source>
-        <translation type="unfinished"/>
+        <translation>无法解析 JSON 文件。</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="835"/>
-        <location filename="../core/stream.cpp" line="858"/>
+        <location filename="../core/stream.cpp" line="831"/>
+        <location filename="../core/stream.cpp" line="854"/>
         <source>The process crashed.</source>
-        <translation type="unfinished"/>
+        <translation>进程崩溃了。</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="852"/>
+        <location filename="../core/stream.cpp" line="848"/>
         <source>Couldn&apos;t parse playlist (no data received).</source>
-        <translation type="unfinished"/>
+        <translation>无法解析播放列表（未收到数据）。</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="855"/>
+        <location filename="../core/stream.cpp" line="851"/>
         <source>Couldn&apos;t parse playlist (ill-formed JSON file).</source>
-        <translation type="unfinished"/>
+        <translation>无法解析播放列表（错误的 JSON 文件格式）。</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1058"/>
+        <location filename="../core/stream.cpp" line="1176"/>
         <source>Cancelled.</source>
-        <translation type="unfinished"/>
+        <translation>已取消。</translation>
     </message>
 </context>
 <context>
@@ -3077,7 +3074,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/streamdialog.cpp" line="99"/>
         <source>YT-DLP supports %0 sites:</source>
-        <translation type="unfinished"/>
+        <translation>YT-DLP 支持 %0 个站点：</translation>
     </message>
     <message>
         <location filename="../dialogs/streamdialog.cpp" line="102"/>
@@ -3093,8 +3090,8 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>StreamExtractorListCollector</name>
     <message>
-        <location filename="../core/stream.cpp" line="1233"/>
-        <location filename="../core/stream.cpp" line="1252"/>
+        <location filename="../core/stream.cpp" line="1351"/>
+        <location filename="../core/stream.cpp" line="1370"/>
         <source>The process crashed.</source>
         <translation>进程崩溃了。</translation>
     </message>
@@ -3109,7 +3106,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../widgets/streamformatpicker.ui" line="103"/>
         <source>Advanced:</source>
-        <translation type="unfinished"/>
+        <translation>高级：</translation>
     </message>
     <message>
         <location filename="../widgets/streamformatpicker.ui" line="122"/>
@@ -3124,7 +3121,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../widgets/streamformatpicker.ui" line="177"/>
         <source>Other</source>
-        <translation type="unfinished"/>
+        <translation>其它</translation>
     </message>
     <message>
         <location filename="../widgets/streamformatpicker.ui" line="197"/>
@@ -4224,7 +4221,7 @@ Ex:
         <location filename="../core/updatechecker.cpp" line="197"/>
         <location filename="../core/updatechecker.cpp" line="216"/>
         <source>Network request rejected.</source>
-        <translation type="unfinished"/>
+        <translation>网络请求被拒绝。</translation>
     </message>
     <message>
         <location filename="../core/updatechecker.cpp" line="181"/>
