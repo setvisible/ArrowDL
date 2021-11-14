@@ -144,6 +144,9 @@ QString FileUtils::validateFileName(const QString &name, bool allowSubDir)
 QString FileUtils::cleanFileName(const QString &fileName)
 {
     QString ret = fileName.simplified();
+    ret = ret.remove(QRegularExpression("\\(official video\\)", QRegularExpression::CaseInsensitiveOption));
+    ret = ret.simplified();
+
     QString::iterator it;
     for (it = ret.begin(); it != ret.end(); ++it){
         const QChar c = (*it).unicode();
@@ -153,9 +156,9 @@ QString FileUtils::cleanFileName(const QString &fileName)
         if (c == QChar('"')) {
             *it = QChar('\'');
         } else {
-            *it = QChar('_');
+            *it = QChar('-');
         }
     }
-    ret = ret.replace(QRegularExpression("_+"), QLatin1String("_"));
+    ret = ret.replace(QRegularExpression("-+"), QLatin1String("-"));
     return ret.simplified();
 }

@@ -177,6 +177,16 @@ void tst_FileUtils::cleanFileName_data()
     QTest::addColumn<QString>("input");
     QTest::addColumn<QString>("expected");
 
+    QTest::newRow("") << "a - b" << "a - b";
+    QTest::newRow("dot") << "a • b" << "a - b";
+    QTest::newRow("") << "Rénet Schlüß" << "Rénet Schlüß";
+
+    QTest::newRow("dash") << "Quikelol #lol" << "Quikelol #lol";
+
+    QTest::newRow("stupid text") << "Live '01 (Official Video)" << "Live '01";
+    QTest::newRow("stupid text") << "(Official Video) Live '01" << "Live '01";
+    QTest::newRow("stupid text") << "Live (Official Video) '01" << "Live '01";
+
     // Unicode UTF chars
     QTest::newRow("utf") << "لة الش" << "لة الش";
     QTest::newRow("utf") << "番剧" << "番剧";
