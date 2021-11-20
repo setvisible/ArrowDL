@@ -9,7 +9,7 @@ minimum_perc = 0
 source_file = src/locale/dza_en_US.ts
 source_lang = en
 type = QT
-lang_map = ar_EG: ar_EG, de_DE: de_DE, en_US: en_US, es_ES: es_ES, fr_FR: fr_FR, it_IT: it_IT, ko_KR: ko_KR, pl_PL: pl_PL, pt_BR: pt_BR, pt_PT: pt_PT, ru_RU: ru_RU, zh_CN: zh_CN
+lang_map = ar_EG: ar_EG, de_DE: de_DE, en_US: en_US, es_ES: es_ES, fr_FR: fr_FR, it_IT: it_IT, ko_KR: ko_KR, nl_NL: nl_NL, pl_PL: pl_PL, pt_BR: pt_BR, pt_PT: pt_PT, ru_RU: ru_RU, zh_CN: zh_CN
 
 [downzemall.web-extension]
 file_filter = web-extension/extension/src/base/_locales/<lang>/messages.json
@@ -17,11 +17,11 @@ minimum_perc = 0
 source_file = web-extension/extension/src/base/_locales/en/messages.json
 source_lang = en
 type = CHROME
-lang_map = ar_EG: ar, de_DE: de, en_US: en, es_ES: es, fr_FR: fr, it_IT: it, ko_KR: ko, pl_PL: pl_PL, pt_BR: pt_BR, pt_PT: pt_PT, ru_RU: ru, zh_CN: zh_CN
+lang_map = ar_EG: ar, de_DE: de, en_US: en, es_ES: es, fr_FR: fr, it_IT: it, ko_KR: ko, nl_NL: nl, pl_PL: pl_PL, pt_BR: pt_BR, pt_PT: pt_PT, ru_RU: ru, zh_CN: zh_CN
 
 [downzemall.windows-installer]
 file_filter = installer/windows/NSIS/i18n/sources/<lang>.json
 source_file = installer/windows/NSIS/i18n/sources/en.json
 source_lang = en
 type = KEYVALUEJSON
-lang_map = ar_EG: ar, de_DE: de, en_US: en, es_ES: es, fr_FR: fr, it_IT: it, ko_KR: ko, pl_PL: pl_PL, pt_BR: pt_BR, pt_PT: pt, ru_RU: ru, zh_CN: zh_CN
+lang_map = ar_EG: ar, de_DE: de, en_US: en, es_ES: es, fr_FR: fr, it_IT: it, ko_KR: ko, nl_NL: nl, pl_PL: pl_PL, pt_BR: pt_BR, pt_PT: pt, ru_RU: ru, zh_CN: zh_CN

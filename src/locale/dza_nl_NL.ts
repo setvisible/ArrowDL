@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="nl_NL">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl_NL" version="2.1">
 <context>
     <name>AbstractDownloadItem</name>
     <message>
@@ -173,6 +171,16 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
         <translation>Invoegen</translation>
     </message>
     <message>
+        <location filename="../dialogs/addbatchdialog.cpp" line="298"/>
+        <source>Do you really want to start %0 downloads?</source>
+        <translation>Weet je zeker dat je %0 downloads wilt starten?</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/addbatchdialog.cpp" line="307"/>
+        <source>Don&apos;t ask again, always download batch</source>
+        <translation>Niet meer vragen - altijd reeks downloaden</translation>
+    </message>
+    <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="291"/>
         <location filename="../dialogs/addbatchdialog.cpp" line="302"/>
         <source>Download Batch</source>
@@ -184,19 +192,9 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
         <translation>Het lijkt er op dat je reeksomschrijvingen gebruikt.</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="298"/>
-        <source>Do you really want to start %0 downloads?</source>
-        <translation>Weet je zeker dat je %0 downloads wilt starten?</translation>
-    </message>
-    <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="303"/>
         <source>Single Download</source>
         <translation>Losse download</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="307"/>
-        <source>Don&apos;t ask again, always download batch</source>
-        <translation>Niet meer vragen - altijd reeks downloaden</translation>
     </message>
 </context>
 <context>
@@ -238,14 +236,14 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
         <translation>Instellingen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="85"/>
-        <source>Web Page Content</source>
-        <translation>Website-inhoud</translation>
-    </message>
-    <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="182"/>
         <source>Warning</source>
         <translation>Waarschuwing</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/addcontentdialog.cpp" line="85"/>
+        <source>Web Page Content</source>
+        <translation>Website-inhoud</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="184"/>
@@ -304,6 +302,11 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
         <translation>Downloaden:</translation>
     </message>
     <message>
+        <location filename="../dialogs/addstreamdialog.ui" line="80"/>
+        <source>Examples:</source>
+        <translation>Voorbeeld:</translation>
+    </message>
+    <message>
         <location filename="../dialogs/addstreamdialog.ui" line="57"/>
         <location filename="../dialogs/addstreamdialog.cpp" line="229"/>
         <source>Continue</source>
@@ -313,11 +316,6 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
         <location filename="../dialogs/addstreamdialog.ui" line="71"/>
         <source>Stream</source>
         <translation>Streams</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/addstreamdialog.ui" line="80"/>
-        <source>Examples:</source>
-        <translation>Voorbeeld:</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="169"/>
@@ -396,14 +394,14 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
 <context>
     <name>AddUrlsDialog</name>
     <message>
-        <location filename="../dialogs/addurlsdialog.ui" line="27"/>
-        <source>List of Urls</source>
-        <translation>URL-lijst</translation>
-    </message>
-    <message>
         <location filename="../dialogs/addurlsdialog.ui" line="43"/>
         <source>Copy-paste a list of Urls to download</source>
         <translation>Plak hier een lijst met te downloaden url&apos;s</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/addurlsdialog.ui" line="27"/>
+        <source>List of Urls</source>
+        <translation>URL-lijst</translation>
     </message>
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="59"/>
@@ -515,14 +513,19 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
 <context>
     <name>BatchRenameDialog</name>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="32"/>
-        <source>Rename Tool</source>
-        <translation>Namen wijzigen</translation>
+        <location filename="../dialogs/batchrenamedialog.cpp" line="51"/>
+        <source>Tools</source>
+        <translation>Hulpmiddelen</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="89"/>
         <source>Files to rename</source>
         <translation>De te wijzigen bestandsnamen</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/batchrenamedialog.ui" line="32"/>
+        <source>Rename Tool</source>
+        <translation>Namen wijzigen</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="102"/>
@@ -583,11 +586,6 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
         <location filename="../dialogs/batchrenamedialog.ui" line="298"/>
         <source>*Rename and pause. Otherwise, could also rename already downloaded files.</source>
         <translation>*Namen wijzigen en onderbreken. Kruis af om ook reeds gedownloade bestanden van naam te wijzigen.</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/batchrenamedialog.cpp" line="51"/>
-        <source>Tools</source>
-        <translation>Hulpmiddelen</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.cpp" line="56"/>
@@ -995,7 +993,7 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
     <message>
         <location filename="../core/downloadtorrentitem.cpp" line="142"/>
         <source>Bad SSL context</source>
-        <translation></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../core/downloadtorrentitem.cpp" line="143"/>
@@ -1021,15 +1019,15 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
 <context>
     <name>EditionDialog</name>
     <message>
-        <location filename="../dialogs/editiondialog.ui" line="55"/>
-        <source>Edit the Urls</source>
-        <translation>URL&apos;s bewerken</translation>
-    </message>
-    <message>
         <location filename="../dialogs/editiondialog.ui" line="102"/>
         <location filename="../dialogs/editiondialog.cpp" line="44"/>
         <source>Smart Edit</source>
         <translation>Slim bewerken</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/editiondialog.ui" line="55"/>
+        <source>Edit the Urls</source>
+        <translation>URL&apos;s bewerken</translation>
     </message>
     <message>
         <location filename="../dialogs/editiondialog.ui" line="108"/>
@@ -1334,6 +1332,16 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
 <context>
     <name>InformationDialog</name>
     <message>
+        <location filename="../dialogs/informationdialog.cpp" line="39"/>
+        <source>Properties</source>
+        <translation>Eigenschappen</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/informationdialog.ui" line="65"/>
+        <source>Size:</source>
+        <translation>Grootte:</translation>
+    </message>
+    <message>
         <location filename="../dialogs/informationdialog.ui" line="22"/>
         <source>From:</source>
         <translation>Van:</translation>
@@ -1342,11 +1350,6 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <location filename="../dialogs/informationdialog.ui" line="55"/>
         <source>Unkown</source>
         <translation>Onbekend</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/informationdialog.ui" line="65"/>
-        <source>Size:</source>
-        <translation>Grootte:</translation>
     </message>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="138"/>
@@ -1367,11 +1370,6 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <location filename="../dialogs/informationdialog.ui" line="176"/>
         <source>Wrap line</source>
         <translation>Regels afbreken</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/informationdialog.cpp" line="39"/>
-        <source>Properties</source>
-        <translation>Eigenschappen</translation>
     </message>
 </context>
 <context>
@@ -1862,11 +1860,6 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <translation>Foutmelding</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="639"/>
-        <source>File not found</source>
-        <translation>Het bestand is niet aangetroffen</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="663"/>
         <location filename="../mainwindow.cpp" line="698"/>
         <source>Remove Downloads</source>
@@ -1882,6 +1875,11 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <location filename="../mainwindow.cpp" line="666"/>
         <source>Delete</source>
         <translation>Wissen</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="639"/>
+        <source>File not found</source>
+        <translation>Het bestand is niet aangetroffen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="686"/>
@@ -1944,11 +1942,6 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <translation>(bijv.: %0)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="863"/>
-        <source>Start!</source>
-        <translation>Starten!</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1101"/>
         <source>The new name is already used or invalid.</source>
         <translation>De nieuwe naam is al in gebruik of bevat ongeldige tekens.</translation>
@@ -1967,6 +1960,31 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <location filename="../mainwindow.cpp" line="1111"/>
         <source>as</source>
         <translation>-</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1423"/>
+        <source>Can&apos;t save file.</source>
+        <translation>Het bestand kan niet worden opgeslagen.</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1426"/>
+        <source>Can&apos;t save file %0:</source>
+        <translation>%0 kan niet worden opgeslagen:</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1442"/>
+        <source>Can&apos;t load file.</source>
+        <translation>Het bestand kan niet worden geladen.</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1445"/>
+        <source>Can&apos;t load file %0:</source>
+        <translation>%0 kan niet worden geladen:</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="863"/>
+        <source>Start!</source>
+        <translation>Starten!</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1112"/>
@@ -1994,29 +2012,9 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <translation>inactief</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1423"/>
-        <source>Can&apos;t save file.</source>
-        <translation>Het bestand kan niet worden opgeslagen.</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1426"/>
-        <source>Can&apos;t save file %0:</source>
-        <translation>%0 kan niet worden opgeslagen:</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="1432"/>
         <source>File saved</source>
         <translation>Het bestand is opgeslagen</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1442"/>
-        <source>Can&apos;t load file.</source>
-        <translation>Het bestand kan niet worden geladen.</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1445"/>
-        <source>Can&apos;t load file %0:</source>
-        <translation>%0 kan niet worden geladen:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1451"/>
@@ -2265,36 +2263,6 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <translation>Aantal gelijktijdige downloads:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="480"/>
-        <source>Enable Custom Batch Button in &quot;Add download&quot; Dialog</source>
-        <translation>Aangepaste reeksknop tonen op venster ‘Download toevoegen’</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/preferencedialog.ui" line="492"/>
-        <source>Ex: &quot;1 -&gt; 50&quot;, &quot;001 -&gt; 200&quot;, ...</source>
-        <translation>Bijv. ‘1 -&gt; 50’, ‘001 -&gt; 200’, …</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/preferencedialog.ui" line="499"/>
-        <source>Custom button label:</source>
-        <translation>Aangepast knoplabel:</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/preferencedialog.ui" line="506"/>
-        <source>Ex: &quot;[1:50]&quot;, &quot;[001:200]&quot;, ...</source>
-        <translation>Bijv. ‘[1:50]’, ‘[001:200]’, …</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/preferencedialog.ui" line="513"/>
-        <source>Range:</source>
-        <translation>Aantal:</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/preferencedialog.ui" line="525"/>
-        <source>Rem: must describe a range of numbers &quot;[x:y]&quot; with x &lt; y</source>
-        <translation>Let op: dit dient een reeks te zijn ‘[x:y]’ en x &lt; y</translation>
-    </message>
-    <message>
         <location filename="../dialogs/preferencedialog.ui" line="535"/>
         <source>Proxy</source>
         <translation>Proxy</translation>
@@ -2313,11 +2281,6 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <location filename="../dialogs/preferencedialog.ui" line="602"/>
         <source>Port:</source>
         <translation>Poort:</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/preferencedialog.ui" line="629"/>
-        <source>Authentication</source>
-        <translation>Authenticeren</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="652"/>
@@ -2440,6 +2403,61 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <translation>Internetsnelkoppeling aanmaken</translation>
     </message>
     <message>
+        <location filename="../dialogs/preferencedialog.ui" line="1070"/>
+        <source>Identification</source>
+        <translation>Identificatie</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.cpp" line="709"/>
+        <source>Servers might use HTTP identification contained in the HTTP request to log client attributes. Some server even don&apos;t respond to the client if the identification attribute is empty. The fields allow you to send fake information, to protect privacy.</source>
+        <translation>Servers kunnen http-identificatie gebruiken uit http-verzoeken om bepaalde attributen te loggen. Sommige servers geven geen terugkoppeling als het identificatie-attribuut blanco is. Met dit veld kun je nepinformatie versturen om je privacy te waarborgen.</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="1140"/>
+        <source>HTTP User Agent:</source>
+        <translation>HTTP-gebruikersagent:</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="1240"/>
+        <source>Filter</source>
+        <translation>Filteren</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="480"/>
+        <source>Enable Custom Batch Button in &quot;Add download&quot; Dialog</source>
+        <translation>Aangepaste reeksknop tonen op venster ‘Download toevoegen’</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="492"/>
+        <source>Ex: &quot;1 -&gt; 50&quot;, &quot;001 -&gt; 200&quot;, ...</source>
+        <translation>Bijv. ‘1 -&gt; 50’, ‘001 -&gt; 200’, …</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="499"/>
+        <source>Custom button label:</source>
+        <translation>Aangepast knoplabel:</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="506"/>
+        <source>Ex: &quot;[1:50]&quot;, &quot;[001:200]&quot;, ...</source>
+        <translation>Bijv. ‘[1:50]’, ‘[001:200]’, …</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="513"/>
+        <source>Range:</source>
+        <translation>Aantal:</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="525"/>
+        <source>Rem: must describe a range of numbers &quot;[x:y]&quot; with x &lt; y</source>
+        <translation>Let op: dit dient een reeks te zijn ‘[x:y]’ en x &lt; y</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="629"/>
+        <source>Authentication</source>
+        <translation>Authenticeren</translation>
+    </message>
+    <message>
         <location filename="../dialogs/preferencedialog.ui" line="923"/>
         <source>Privacy</source>
         <translation>Privacy</translation>
@@ -2463,6 +2481,27 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <location filename="../dialogs/preferencedialog.ui" line="951"/>
         <source>Remove unfinished (paused) downloads</source>
         <translation>Onafgeronde (onderbroken) downloads wissen</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="1019"/>
+        <source>Database</source>
+        <translation>Databank</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="1025"/>
+        <source>The current downloads queue is temporarly saved in:</source>
+        <translation>De huidige downloadwachtrij wordt tijdelijk opgeslagen in:</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="1038"/>
+        <source>Stream Cache</source>
+        <translation>Streamingcache</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="1049"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="738"/>
+        <source>Clean Cache</source>
+        <translation>Cache wissen</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="961"/>
@@ -2495,37 +2534,6 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <translation>Nu controleren…</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1019"/>
-        <source>Database</source>
-        <translation>Databank</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1025"/>
-        <source>The current downloads queue is temporarly saved in:</source>
-        <translation>De huidige downloadwachtrij wordt tijdelijk opgeslagen in:</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1038"/>
-        <source>Stream Cache</source>
-        <translation>Streamingcache</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1049"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="738"/>
-        <source>Clean Cache</source>
-        <translation>Cache wissen</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1070"/>
-        <source>Identification</source>
-        <translation>Identificatie</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1140"/>
-        <source>HTTP User Agent:</source>
-        <translation>HTTP-gebruikersagent:</translation>
-    </message>
-    <message>
         <location filename="../dialogs/preferencedialog.ui" line="1154"/>
         <source>Enable Referrer:</source>
         <translation>Verwijskop gebruiken:</translation>
@@ -2536,9 +2544,14 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <translation>Filters</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1240"/>
-        <source>Filter</source>
-        <translation>Filteren</translation>
+        <location filename="../dialogs/preferencedialog.cpp" line="235"/>
+        <source>Caption</source>
+        <translation>Bijschrift</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.cpp" line="236"/>
+        <source>Extensions</source>
+        <translation>Extensies</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1249"/>
@@ -2676,16 +2689,6 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <translation>(geen)</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="235"/>
-        <source>Caption</source>
-        <translation>Bijschrift</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="236"/>
-        <source>Extensions</source>
-        <translation>Extensies</translation>
-    </message>
-    <message>
         <location filename="../dialogs/preferencedialog.cpp" line="256"/>
         <source>Warning: The system tray is not available.</source>
         <translation>Waarschuwing: het systeemvak is niet beschikbaar.</translation>
@@ -2722,11 +2725,6 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <translation>Voorbeelden:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="709"/>
-        <source>Servers might use HTTP identification contained in the HTTP request to log client attributes. Some server even don&apos;t respond to the client if the identification attribute is empty. The fields allow you to send fake information, to protect privacy.</source>
-        <translation>Servers kunnen http-identificatie gebruiken uit http-verzoeken om bepaalde attributen te loggen. Sommige servers geven geen terugkoppeling als het identificatie-attribuut blanco is. Met dit veld kun je nepinformatie versturen om je privacy te waarborgen.</translation>
-    </message>
-    <message>
         <location filename="../dialogs/preferencedialog.cpp" line="715"/>
         <source>Referring Page (or Referrer) is an HTTP option that communicates to the server the address of the previous web page from which the resource is requested. This typically allows the HTTP server to track a visitor&apos;s browsing, page after page. To protect privacy, enter an empty or fake Referrer address.</source>
         <translation>De doorverwijspagina is een http-optie waarmee het serveradres van de vorige webpagina wordt doorgestuurd en de bron wordt opgevraagd. Hierdoor kan een server mogelijk de surfgeschiedenis inzien. Voer een blanco of nepadres in om je privacy te waarborgen.</translation>
@@ -2750,39 +2748,19 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <translation>%0 kan niet worden geladen</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1359"/>
+        <location filename="../core/stream.cpp" line="1482"/>
         <source>Video %0 x %1%2%3</source>
         <translation>Video %0 x %1%2%3</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1366"/>
+        <location filename="../core/stream.cpp" line="1489"/>
         <source>[%0] %1 x %2 (%3 fps) @ %4 KBit/s, codec: %5</source>
         <translation>[%0] %1 x %2 (%3 fps) @ %4 KBit/s - codec: %5</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1375"/>
+        <location filename="../core/stream.cpp" line="1498"/>
         <source>[%0] %1 Hz @ %2 KBit/s, codec: %3</source>
         <translation>[%0] %1 Hz @ %2 KBit/s - codec: %3</translation>
-    </message>
-    <message>
-        <location filename="../core/theme.cpp" line="107"/>
-        <source>Classic (default)</source>
-        <translation>Klassiek (standaard)</translation>
-    </message>
-    <message>
-        <location filename="../core/theme.cpp" line="107"/>
-        <source>Flat Design</source>
-        <translation>Plat ontwerp</translation>
-    </message>
-    <message>
-        <location filename="../core/theme.cpp" line="134"/>
-        <source>Light</source>
-        <translation>Licht</translation>
-    </message>
-    <message>
-        <location filename="../core/theme.cpp" line="134"/>
-        <source>Dark</source>
-        <translation>Donker</translation>
     </message>
     <message>
         <location filename="../core/torrentmessage.h" line="231"/>
@@ -2883,6 +2861,26 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <location filename="../io/format.h" line="39"/>
         <source>Torrent Files</source>
         <translation>Torrentbestanden</translation>
+    </message>
+    <message>
+        <location filename="../core/theme.cpp" line="107"/>
+        <source>Classic (default)</source>
+        <translation>Klassiek (standaard)</translation>
+    </message>
+    <message>
+        <location filename="../core/theme.cpp" line="107"/>
+        <source>Flat Design</source>
+        <translation>Plat ontwerp</translation>
+    </message>
+    <message>
+        <location filename="../core/theme.cpp" line="134"/>
+        <source>Light</source>
+        <translation>Licht</translation>
+    </message>
+    <message>
+        <location filename="../core/theme.cpp" line="134"/>
+        <source>Dark</source>
+        <translation>Donker</translation>
     </message>
     <message>
         <location filename="../about.h" line="29"/>
@@ -3007,7 +3005,7 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
 <context>
     <name>Stream</name>
     <message>
-        <location filename="../core/stream.cpp" line="491"/>
+        <location filename="../core/stream.cpp" line="492"/>
         <source>The process crashed.</source>
         <translation>Het proces is gecrasht.</translation>
     </message>
@@ -3015,28 +3013,28 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
 <context>
     <name>StreamAssetDownloader</name>
     <message>
-        <location filename="../core/stream.cpp" line="827"/>
+        <location filename="../core/stream.cpp" line="828"/>
         <source>Couldn&apos;t parse JSON file.</source>
         <translation>Het json-bestand kan niet worden verwerkt.</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="830"/>
-        <location filename="../core/stream.cpp" line="853"/>
+        <location filename="../core/stream.cpp" line="831"/>
+        <location filename="../core/stream.cpp" line="854"/>
         <source>The process crashed.</source>
         <translation>Het proces is gecrasht.</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="847"/>
+        <location filename="../core/stream.cpp" line="848"/>
         <source>Couldn&apos;t parse playlist (no data received).</source>
         <translation>De afspeellijst kan niet worden verwerkt (geen gegevens ontvangen).</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="850"/>
+        <location filename="../core/stream.cpp" line="851"/>
         <source>Couldn&apos;t parse playlist (ill-formed JSON file).</source>
         <translation>De afspeellijst kan niet worden verwerkt (beschadigd json-bestand).</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1053"/>
+        <location filename="../core/stream.cpp" line="1176"/>
         <source>Cancelled.</source>
         <translation>Afgebroken.</translation>
     </message>
@@ -3092,8 +3090,8 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
 <context>
     <name>StreamExtractorListCollector</name>
     <message>
-        <location filename="../core/stream.cpp" line="1228"/>
-        <location filename="../core/stream.cpp" line="1247"/>
+        <location filename="../core/stream.cpp" line="1351"/>
+        <location filename="../core/stream.cpp" line="1370"/>
         <source>The process crashed.</source>
         <translation>Het proces is gecrasht.</translation>
     </message>
@@ -3184,15 +3182,15 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
 Help: if you get an error, follow these instructions:
 
 1. Verify the URL
-   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after &apos;?&apos; in the URL:
-   Ex: &apos;https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278&apos;
+   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after '?' in the URL:
+   Ex: 'https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278'
          becomes 
-         &apos;https://www.abc.com/watch?video=some_video&apos;
+         'https://www.abc.com/watch?video=some_video'
 
 2. Open the URL in a Web browser, and Play it
     (Rem: the Web browser can force the server to play the video)
 
-3. Click &apos;Continue&apos; button again
+3. Click 'Continue' button again
 
 4. Retry later</source>
         <translation>---
@@ -4106,8 +4104,8 @@ Hulp: als je een foutmelding krijgt, volg dan deze instructies:
         <location filename="../widgets/torrentwidget.cpp" line="669"/>
         <source>Enter the IP address and port number of the peer to add.
 Ex:
- - for IPv4, type &apos;x.x.x.x:p&apos;
- - for IPv6, type &apos;[x:x:x:x:x:x:x:x]:p&apos;
+ - for IPv4, type 'x.x.x.x:p'
+ - for IPv6, type '[x:x:x:x:x:x:x:x]:p'
 </source>
         <translation>Voer het ip-adres en poortnummer in van de toe te voegen peer.
 Voorbeelden:
@@ -4240,6 +4238,11 @@ Voorbeelden:
 <context>
     <name>UpdateDialog</name>
     <message>
+        <location filename="../dialogs/updatedialog.cpp" line="40"/>
+        <source>Check for Updates</source>
+        <translation>Controleren op updates</translation>
+    </message>
+    <message>
         <location filename="../dialogs/updatedialog.ui" line="27"/>
         <source>This version is up-to-date.</source>
         <translation>Je beschikt voor de nieuwste versie.</translation>
@@ -4273,11 +4276,6 @@ Voorbeelden:
         <location filename="../dialogs/updatedialog.ui" line="294"/>
         <source>&amp;Close</source>
         <translation>&amp;Sluiten</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/updatedialog.cpp" line="40"/>
-        <source>Check for Updates</source>
-        <translation>Controleren op updates</translation>
     </message>
     <message>
         <location filename="../dialogs/updatedialog.cpp" line="43"/>
@@ -4334,31 +4332,6 @@ Voorbeelden:
 <context>
     <name>UrlFormWidget</name>
     <message>
-        <location filename="../widgets/urlformwidget.ui" line="42"/>
-        <source>Mask:</source>
-        <translation>Masker:</translation>
-    </message>
-    <message>
-        <location filename="../widgets/urlformwidget.ui" line="49"/>
-        <source>Enter new file name</source>
-        <translation>Voer de nieuwe bestandsnaam in</translation>
-    </message>
-    <message>
-        <location filename="../widgets/urlformwidget.ui" line="64"/>
-        <source>Download:</source>
-        <translation>Downloaden:</translation>
-    </message>
-    <message>
-        <location filename="../widgets/urlformwidget.ui" line="71"/>
-        <source>Enter referrer URI</source>
-        <translation>Voer de doorverwijs-uri in</translation>
-    </message>
-    <message>
-        <location filename="../widgets/urlformwidget.ui" line="109"/>
-        <source>Checksum (Hash):</source>
-        <translation>Controlesom (hash):</translation>
-    </message>
-    <message>
         <location filename="../widgets/urlformwidget.ui" line="125"/>
         <source>Referring page:</source>
         <translation>Doorverwijspagina:</translation>
@@ -4369,14 +4342,39 @@ Voorbeelden:
         <translation>Omschrijving:</translation>
     </message>
     <message>
+        <location filename="../widgets/urlformwidget.ui" line="71"/>
+        <source>Enter referrer URI</source>
+        <translation>Voer de doorverwijs-uri in</translation>
+    </message>
+    <message>
+        <location filename="../widgets/urlformwidget.ui" line="42"/>
+        <source>Mask:</source>
+        <translation>Masker:</translation>
+    </message>
+    <message>
         <location filename="../widgets/urlformwidget.ui" line="182"/>
         <source>Custom filename:</source>
         <translation>Eigen bestandsnaam:</translation>
     </message>
     <message>
+        <location filename="../widgets/urlformwidget.ui" line="109"/>
+        <source>Checksum (Hash):</source>
+        <translation>Controlesom (hash):</translation>
+    </message>
+    <message>
+        <location filename="../widgets/urlformwidget.ui" line="49"/>
+        <source>Enter new file name</source>
+        <translation>Voer de nieuwe bestandsnaam in</translation>
+    </message>
+    <message>
         <location filename="../widgets/urlformwidget.ui" line="198"/>
         <source>Save files in:</source>
         <translation>Bestanden opslaan in:</translation>
+    </message>
+    <message>
+        <location filename="../widgets/urlformwidget.ui" line="64"/>
+        <source>Download:</source>
+        <translation>Downloaden:</translation>
     </message>
 </context>
 <context>
