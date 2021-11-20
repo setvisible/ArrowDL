@@ -2746,17 +2746,17 @@ Some examples are given below.  Click to paste the example.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1482"/>
+        <location filename="../core/stream.cpp" line="1359"/>
         <source>Video %0 x %1%2%3</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1489"/>
+        <location filename="../core/stream.cpp" line="1366"/>
         <source>[%0] %1 x %2 (%3 fps) @ %4 KBit/s, codec: %5</source>
         <translation>[%0] %1 x %2 (%3 fps) @ %4 KBit/s, codec: %5</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1498"/>
+        <location filename="../core/stream.cpp" line="1375"/>
         <source>[%0] %1 Hz @ %2 KBit/s, codec: %3</source>
         <translation>[%0] %1 Hz @ %2 KBit/s, codec: %3</translation>
     </message>
@@ -3003,7 +3003,7 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>Stream</name>
     <message>
-        <location filename="../core/stream.cpp" line="492"/>
+        <location filename="../core/stream.cpp" line="491"/>
         <source>The process crashed.</source>
         <translation type="unfinished"/>
     </message>
@@ -3011,28 +3011,28 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>StreamAssetDownloader</name>
     <message>
-        <location filename="../core/stream.cpp" line="828"/>
+        <location filename="../core/stream.cpp" line="827"/>
         <source>Couldn&apos;t parse JSON file.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="831"/>
-        <location filename="../core/stream.cpp" line="854"/>
+        <location filename="../core/stream.cpp" line="830"/>
+        <location filename="../core/stream.cpp" line="853"/>
         <source>The process crashed.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="848"/>
+        <location filename="../core/stream.cpp" line="847"/>
         <source>Couldn&apos;t parse playlist (no data received).</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="851"/>
+        <location filename="../core/stream.cpp" line="850"/>
         <source>Couldn&apos;t parse playlist (ill-formed JSON file).</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1176"/>
+        <location filename="../core/stream.cpp" line="1053"/>
         <source>Cancelled.</source>
         <translation type="unfinished"/>
     </message>
@@ -3088,8 +3088,8 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>StreamExtractorListCollector</name>
     <message>
-        <location filename="../core/stream.cpp" line="1351"/>
-        <location filename="../core/stream.cpp" line="1370"/>
+        <location filename="../core/stream.cpp" line="1228"/>
+        <location filename="../core/stream.cpp" line="1247"/>
         <source>The process crashed.</source>
         <translation type="unfinished"/>
     </message>
