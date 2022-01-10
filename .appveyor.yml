@@ -218,16 +218,19 @@ install:
   - echo "Using pre-installed Boost"
   - set FINAL_BOOST_DIR="C:\Libraries\boost_1_69_0"
 
-#   - echo "Installing Boost..."
-#   # Rem: do not use default Boost in PATH that is in 1.69.0 version
-#   # Current Directory = C:\projects\DownZemAll
-#   - set MY_BOOST_DIR="C:\projects\boost_1_72_0"
-#   - echo "Extracting Boost archive to %MY_BOOST_DIR% ..."
-#   - mkdir %MY_BOOST_DIR% -f
-#   - 7z x .\3rd\boost\1.72.0\windows\boost_1_72_0.7z -o%MY_BOOST_DIR%
-# #  - echo "Add Boost to environment PATH..."
-# #  - set PATH=%PATH%;%MY_BOOST_DIR%\boost_1_72_0
-#   - set FINAL_BOOST_DIR="%MY_BOOST_DIR%\boost_1_72_0"
+# todo   - echo "Installing Boost..."
+# todo   # Rem: do not use default Boost in PATH that contains the pre-installed Boost version
+# todo   # Current Directory = C:\projects\DownZemAll
+# todo   - set MY_BOOST_DOWNLOAD_DIR=".\3rd\boost\1.79.0\windows"
+# todo   - mkdir %MY_BOOST_DOWNLOAD_DIR% -f
+# todo   - TODO download boost_1_79_0.7z to MY_BOOST_DOWNLOAD_DIR
+# todo   - set MY_BOOST_DIR="C:\projects\boost_1_79_0"
+# todo   - echo "Extracting Boost archive to %MY_BOOST_DIR% ..."
+# todo   - mkdir %MY_BOOST_DIR% -f
+# todo   - 7z x .\3rd\boost\1.79.0\windows\boost_1_79_0.7z -o%MY_BOOST_DIR%
+# todo #  - echo "Add Boost to environment PATH..."
+# todo #  - set PATH=%PATH%;%MY_BOOST_DIR%\boost_1_79_0
+# todo   - set FINAL_BOOST_DIR="%MY_BOOST_DIR%\boost_1_79_0"
   - echo Boost Root Dir = %FINAL_BOOST_DIR%
 
 
