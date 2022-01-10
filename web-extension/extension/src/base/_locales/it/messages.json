@@ -1,11 +1,11 @@
 {
   "extensionName": {
     "message": "Scarica ora",
-    "description": "Name of the extension."
+    "description": "Name of the extension, displayed in the web store. Should not exceed 45 characters."
   },
   "extensionDescription": {
     "message": "Il perfetto gestore download per il tuo browser",
-    "description": "Description of the extension."
+    "description": "Description of the extension, displayed in the web store. Should not exceed 132 characters."
   },
 
 
