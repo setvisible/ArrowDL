@@ -1,11 +1,11 @@
 {
   "extensionName": {
     "message": "立即下载",
-    "description": "Name of the extension."
+    "description": "Name of the extension, displayed in the web store. Should not exceed 45 characters."
   },
   "extensionDescription": {
     "message": "适合您浏览器的下载管理器",
-    "description": "Description of the extension."
+    "description": "Description of the extension, displayed in the web store. Should not exceed 132 characters."
   },
 
 

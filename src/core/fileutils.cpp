@@ -144,7 +144,13 @@ QString FileUtils::validateFileName(const QString &name, bool allowSubDir)
 QString FileUtils::cleanFileName(const QString &fileName)
 {
     QString ret = fileName.simplified();
-    ret = ret.remove(QRegularExpression("\\(official video\\)", QRegularExpression::CaseInsensitiveOption));
+    ret = ret.remove(QRegularExpression("official music video", QRegularExpression::CaseInsensitiveOption));
+    ret = ret.remove(QRegularExpression("official video", QRegularExpression::CaseInsensitiveOption));
+    ret = ret.remove(QRegularExpression("official audio", QRegularExpression::CaseInsensitiveOption));
+    ret = ret.remove(QRegularExpression("video", QRegularExpression::CaseInsensitiveOption));
+    ret = ret.remove(QRegularExpression("audio", QRegularExpression::CaseInsensitiveOption));
+    ret = ret.remove(QRegularExpression("\\(\\)", QRegularExpression::CaseInsensitiveOption));
+    ret = ret.remove(QRegularExpression("\\[\\]", QRegularExpression::CaseInsensitiveOption));
     ret = ret.simplified();
 
     QString::iterator it;
