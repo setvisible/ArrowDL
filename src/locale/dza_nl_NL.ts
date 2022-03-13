@@ -993,7 +993,7 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
     <message>
         <location filename="../core/downloadtorrentitem.cpp" line="142"/>
         <source>Bad SSL context</source>
-        <translation type="unfinished"/>
+        <translation>Onjuiste ssl-context</translation>
     </message>
     <message>
         <location filename="../core/downloadtorrentitem.cpp" line="143"/>

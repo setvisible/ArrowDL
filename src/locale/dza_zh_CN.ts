@@ -1364,12 +1364,12 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="170"/>
         <source>Messages</source>
-        <translation type="unfinished"/>
+        <translation>信息</translation>
     </message>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="176"/>
         <source>Wrap line</source>
-        <translation type="unfinished"/>
+        <translation>换行</translation>
     </message>
 </context>
 <context>
@@ -2300,107 +2300,107 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="704"/>
         <source>Socket</source>
-        <translation type="unfinished"/>
+        <translation>套接字</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="713"/>
         <source>Tolerant (IPv4 or IPv6)</source>
-        <translation type="unfinished"/>
+        <translation>宽容（IPv4 或 IPv6）</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="718"/>
         <source>Use IPv4 only</source>
-        <translation type="unfinished"/>
+        <translation>仅使用 IPv4</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="723"/>
         <source>Use IPv6 only</source>
-        <translation type="unfinished"/>
+        <translation>仅使用 IPv6</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="731"/>
         <source> seconds</source>
-        <translation type="unfinished"/>
+        <translation>秒</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="747"/>
         <source>Connection Protocol:</source>
-        <translation type="unfinished"/>
+        <translation>连接协议：</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="754"/>
         <source>Timeout to establish a connection:</source>
-        <translation type="unfinished"/>
+        <translation>建立连接超时：</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="784"/>
         <source>Downloaded Files</source>
-        <translation type="unfinished"/>
+        <translation>已下载文件</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="790"/>
         <source>Get time from server for the file&apos;s...:</source>
-        <translation type="unfinished"/>
+        <translation>从服务器获取文件的时间...：</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="797"/>
         <source>Last modified time</source>
-        <translation type="unfinished"/>
+        <translation>最后修改时间</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="804"/>
         <source>Creation time (may not be not supported on UNIX)</source>
-        <translation type="unfinished"/>
+        <translation>创建时间（在 UNIX 上可能不支持）</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="811"/>
         <source>Most recent access (e.g. read or written to)</source>
-        <translation type="unfinished"/>
+        <translation>最近访问（例如读取或写入）</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="818"/>
         <source>Metadata change time</source>
-        <translation type="unfinished"/>
+        <translation>元数据更改时间</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="828"/>
         <source>Downloaded Audio/Video</source>
-        <translation type="unfinished"/>
+        <translation>已下载音频/视频</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="836"/>
         <source>Download subtitle</source>
-        <translation type="unfinished"/>
+        <translation>下载字幕</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="843"/>
         <source>Download description</source>
-        <translation type="unfinished"/>
+        <translation>下载描述</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="850"/>
         <source>Mark watched (only for Youtube)</source>
-        <translation type="unfinished"/>
+        <translation>标记已观看（仅适用于 Youtube）</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="857"/>
         <source>Download thumbnail</source>
-        <translation type="unfinished"/>
+        <translation>下载缩略图</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="864"/>
         <source>Download metadata</source>
-        <translation type="unfinished"/>
+        <translation>下载元数据</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="871"/>
         <source>Download comments </source>
-        <translation type="unfinished"/>
+        <translation>下载评论</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="878"/>
         <source>Create internet shortcut</source>
-        <translation type="unfinished"/>
+        <translation>创建 Internet 快捷方式</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1070"/>
@@ -3247,273 +3247,273 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="32"/>
         <source>Overview</source>
-        <translation type="unfinished"/>
+        <translation>概览</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="38"/>
         <source>Do not download the video, but write all other related files</source>
-        <translation type="unfinished"/>
+        <translation>不要下载视频，而是写入所有其他相关文件</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="45"/>
         <source>Mark watched (only for Youtube)</source>
-        <translation type="unfinished"/>
+        <translation>标记已观看（仅适用于 Youtube）</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="67"/>
         <source>Subtitles</source>
-        <translation type="unfinished"/>
+        <translation>字幕</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="75"/>
         <source>Convert to format:</source>
-        <translation type="unfinished"/>
+        <translation>转换格式：</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="82"/>
         <source>Preferred format:</source>
-        <translation type="unfinished"/>
+        <translation>首选格式：</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="92"/>
         <source>Download subtitles:</source>
-        <translation type="unfinished"/>
+        <translation>下载字幕：</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="118"/>
         <source>Hide auto-generated subtitles</source>
-        <translation type="unfinished"/>
+        <translation>隐藏自动生成的字幕</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="142"/>
         <source>Chapters</source>
-        <translation type="unfinished"/>
+        <translation>章节</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="161"/>
         <source>Split video into multiple files based on internal chapters</source>
-        <translation type="unfinished"/>
+        <translation>根据内部章节将视频拆分为多个文件</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="171"/>
         <source>Remove chapters whose title matches the given regular expression:</source>
-        <translation type="unfinished"/>
+        <translation>删除标题与给定正则表达式匹配的章节：</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="181"/>
         <source>Ex: &quot;*10:15-15:00&quot;, or &quot;intro&quot;</source>
-        <translation type="unfinished"/>
+        <translation>例如：“*10:15-15:00”或“简介”</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="203"/>
         <source>Thumbnails</source>
-        <translation type="unfinished"/>
+        <translation>缩略图</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="219"/>
         <source>Download thumbnail (default image)</source>
-        <translation type="unfinished"/>
+        <translation>下载缩略图（默认图像）</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="229"/>
         <source>Download all formats of the thumbnail image</source>
-        <translation type="unfinished"/>
+        <translation>下载所有格式的缩略图</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="241"/>
         <source>Convert the thumbnails to format:</source>
-        <translation type="unfinished"/>
+        <translation>转换缩略图格式：</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="295"/>
         <source>Comments</source>
-        <translation type="unfinished"/>
+        <translation>评论</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="311"/>
         <source>Download comments (in the .info.json)</source>
-        <translation type="unfinished"/>
+        <translation>下载评论（在 .info.json 中）</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="320"/>
         <source>Sort by:</source>
-        <translation type="unfinished"/>
+        <translation>排序方式：</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="331"/>
         <source>Newest first</source>
-        <translation type="unfinished"/>
+        <translation>最新第一</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="336"/>
         <source>Top comments</source>
-        <translation type="unfinished"/>
+        <translation>热门评论</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="347"/>
         <source>Limit number of comments:</source>
-        <translation type="unfinished"/>
+        <translation>评论数量限制：</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="378"/>
         <source>Other Media</source>
-        <translation type="unfinished"/>
+        <translation>其他媒体</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="384"/>
         <source>Download description as a .description file</source>
-        <translation type="unfinished"/>
+        <translation>将描述下载为 .description 文件</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="391"/>
         <source>Download metadata as a .info.json file</source>
-        <translation type="unfinished"/>
+        <translation>将元数据下载为 .info.json 文件</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="398"/>
         <source>Create internet shortcut</source>
-        <translation type="unfinished"/>
+        <translation>创建 Internet 快捷方式</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="420"/>
         <source>Pre/Post-Processing</source>
-        <translation type="unfinished"/>
+        <translation>预处理/后处理</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="436"/>
         <source>Command</source>
-        <translation type="unfinished"/>
+        <translation>命令</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="442"/>
         <source>Execute the command before the actual download:</source>
-        <translation type="unfinished"/>
+        <translation>在实际下载之前执行命令：</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="452"/>
         <source>Execute the command on the file after downloading and post-processing:</source>
-        <translation type="unfinished"/>
+        <translation>下载后处理后对文件执行命令：</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="468"/>
         <source>Post-Processing</source>
-        <translation type="unfinished"/>
+        <translation>后期处理</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="474"/>
         <source>Remux the video into another container if necessary :</source>
-        <translation type="unfinished"/>
+        <translation>如有必要，将视频重新混合到另一个容器中：</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="481"/>
         <location filename="../widgets/streamtoolbox.ui" line="505"/>
         <source>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot;</source>
-        <translation type="unfinished"/>
+        <translation>例如：“aac&gt;m4a/mov&gt;mp4/mkv”</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="488"/>
         <source>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot; will remux aac to m4a, mov to mp4 and anything else to mkv.</source>
-        <translation type="unfinished"/>
+        <translation>例如：“aac&gt;m4a/mov&gt;mp4/mkv”会将 aac 重新混合到 m4a，将 mov 重新混合到 mp4，将其他任何东西重新混合到 mkv。</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="498"/>
         <source>Re-encode the video into another format if re-encoding is necessary:</source>
-        <translation type="unfinished"/>
+        <translation>如果需要重新编码，请将视频重新编码为另一种格式：</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="512"/>
         <source>Rem: The syntax and supported formats are the same as &quot;Remux&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Rem：语法和支持的格式与“Remux”相同</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="522"/>
         <source>Keep the intermediate video file on disk after post-processing</source>
-        <translation type="unfinished"/>
+        <translation>后期处理后将中间视频文件保留在磁盘上</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="529"/>
         <source>Embed subtitles in the video (only for mp4, webm and mkv videos)</source>
-        <translation type="unfinished"/>
+        <translation>在视频中嵌入字幕（仅适用于 mp4、webm 和 mkv 视频）</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="536"/>
         <source>Embed thumbnail in the video as cover art</source>
-        <translation type="unfinished"/>
+        <translation>在视频中嵌入缩略图作为封面</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="543"/>
         <source>Embed metadata in the video file</source>
-        <translation type="unfinished"/>
+        <translation>在视频文件中嵌入元数据</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="550"/>
         <source>Embed chapter markers in the video file</source>
-        <translation type="unfinished"/>
+        <translation>在视频文件中嵌入章节标记</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="557"/>
         <source>Write metadata to the video file&apos;s xattrs (using dublin core and xdg standards)</source>
-        <translation type="unfinished"/>
+        <translation>将元数据写入视频文件的 xattrs（使用 dublin core 和 xdg 标准）</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="582"/>
         <source>SponsorBlock</source>
-        <translation type="unfinished"/>
+        <translation>赞助商阻止</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="601"/>
         <source>Remove segments in SponsorBlock categories from the video file:</source>
-        <translation type="unfinished"/>
+        <translation>从视频文件中删除赞助商类别中的片段：</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="616"/>
         <source>Unpaid/Self Promotion</source>
-        <translation type="unfinished"/>
+        <translation>无偿/自我推销</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="626"/>
         <source>Interaction Reminder</source>
-        <translation type="unfinished"/>
+        <translation>互动提醒</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="636"/>
         <source>Sponsor</source>
-        <translation type="unfinished"/>
+        <translation>赞助商</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="646"/>
         <source>Preview/Recap</source>
-        <translation type="unfinished"/>
+        <translation>预览/回顾</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="656"/>
         <source>Non-Music Section</source>
-        <translation type="unfinished"/>
+        <translation>非音乐部分</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="666"/>
         <source>Endcards/Credits</source>
-        <translation type="unfinished"/>
+        <translation>结束卡片/致谢</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="676"/>
         <source>Intermission/Intro Animation</source>
-        <translation type="unfinished"/>
+        <translation>中场休息/介绍动画</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.cpp" line="174"/>
         <source>(default language)</source>
-        <translation type="unfinished"/>
+        <translation>（默认语言）</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.cpp" line="176"/>
         <source>All languages</source>
-        <translation type="unfinished"/>
+        <translation>所有语言</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.cpp" line="196"/>
         <source>(default)</source>
-        <translation type="unfinished"/>
+        <translation>（默认）</translation>
     </message>
 </context>
 <context>
@@ -3541,37 +3541,37 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/streamwidget.cpp" line="116"/>
         <source> (no video)</source>
-        <translation type="unfinished"/>
+        <translation>（无视频）</translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="121"/>
         <source> + subtitles</source>
-        <translation type="unfinished"/>
+        <translation>+ 字幕</translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="124"/>
         <source> + chapters</source>
-        <translation type="unfinished"/>
+        <translation>+ 章节</translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="127"/>
         <source> + thumbnails</source>
-        <translation type="unfinished"/>
+        <translation>+ 缩略图</translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="130"/>
         <source> + .description</source>
-        <translation type="unfinished"/>
+        <translation> + .description</translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="133"/>
         <source> + .info.json</source>
-        <translation type="unfinished"/>
+        <translation> + .info.json</translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="136"/>
         <source> + shortcut</source>
-        <translation type="unfinished"/>
+        <translation> + 快捷方式</translation>
     </message>
 </context>
 <context>
@@ -4226,12 +4226,12 @@ Ex:
     <message>
         <location filename="../core/updatechecker.cpp" line="181"/>
         <source>File &apos;%0&apos; currently opened. Close the file and retry.</source>
-        <translation type="unfinished"/>
+        <translation>当前打开的文件“%0”。 关闭文件并重试。</translation>
     </message>
     <message>
         <location filename="../core/updatechecker.cpp" line="189"/>
         <source>Failed to open temporary file &apos;%0&apos;.</source>
-        <translation type="unfinished"/>
+        <translation>无法打开临时文件 &apos;%0&apos;。</translation>
     </message>
 </context>
 <context>
