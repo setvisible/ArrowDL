@@ -137,6 +137,7 @@ TRANSLATIONS += \
     $$PWD/locale/dza_en_US.ts \ # English (default)
     $$PWD/locale/dza_es_ES.ts \ # Spanish
     $$PWD/locale/dza_fr_FR.ts \ # French
+    $$PWD/locale/dza_hu_HU.ts \ # Hungarian
     $$PWD/locale/dza_it_IT.ts \ # Italian
     $$PWD/locale/dza_ko_KR.ts \ # Korean
     $$PWD/locale/dza_nl_NL.ts \ # Dutch
