@@ -11,23 +11,58 @@
 
 To add the language 'xx' in country 'XX':
 
-1. Go to Transifex > Language > Add the language
+1. Sign in Transifex
 
-2. Add following line to `./src/src.pro`:
+2. Go to Transifex > Language > Add the language > Add xx_XX
+
+3. Add following line to `./src/src.pro`:
         
         TRANSLATIONS += $$PWD/locale/dza_xx_XX.ts
         
-3. Run `lupdate ./src/src.pro -noobsolete`. It creates the *.ts.
+4. Add following line to `lang_map` in the Transifex config file `./.tx/config`:
 
-4. Copy file `messages.json` from **en** (or **en_US**) to:
+        [downzemall.main-application]
+        ...
+        lang_map = ... xx_XX: xx_XX
+        ...
 
-        ./web-extension/extension/src/base/_locales/xx_XX/messages.json
+        [downzemall.web-extension]
+        ...
+        lang_map = ... xx_XX: xx         < Note 'xx', not 'xx_XX'
+        ...
 
-5. Add following line to `lang_map` in the Transifex config file `./.tx/config`:
+        [downzemall.windows-installer]
+        ...
+        lang_map = ... xx_XX: xx
+        ...
 
-        lang_map = [...], xx_XX: xx_XX
+5. 'Pull' with TX.exe (transifex client)
 
-6. That's it. Follow instructions in next sections to update, build and release it.
+        tx pull --all
+    Or
+        .\tx.exe pull -a
+
+    The first time, there should be warnings like:
+
+        tx INFO: Pulling new translations for resource downzemall.main-application
+        tx WARNING:  -> <xx_XX>: src\locale\dza_<xx_XX>.ts
+        tx INFO: New translations found for the following languages:<xx_XX>
+
+6. Translate (eventually)
+
+7. Run `lupdate ./src/src.pro -noobsolete`. It recreates the *.ts.
+
+8. Run `lrelease ./src/src.pro`. It generates the *.qm.
+
+9. 'Push' the source file and translation files to the server with TX.exe (transifex client)
+
+        tx push --source --translations --skip
+    Or
+        .\tx.exe push -st --skip
+
+    Rem: '--skip' is useful when the file has not been translated yet. indeed, empty .ts returns a server error.
+
+10. That's it. Follow instructions in next sections to update, build and release it.
 
 
 ## Translators Corner
