@@ -4,67 +4,67 @@
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="70"/>
         <source>Idle</source>
-        <translation type="unfinished"/>
+        <translation>Készenlét</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="71"/>
         <source>Paused</source>
-        <translation type="unfinished"/>
+        <translation>Szüneteltetve</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="72"/>
         <source>Canceled</source>
-        <translation type="unfinished"/>
+        <translation>Törölve</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="73"/>
         <source>Preparing</source>
-        <translation type="unfinished"/>
+        <translation>Előkészülés</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="74"/>
         <source>Connecting</source>
-        <translation type="unfinished"/>
+        <translation>Csatlakozás</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="75"/>
         <source>Downloading Metadata</source>
-        <translation type="unfinished"/>
+        <translation>Metaadatok letöltése</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="76"/>
         <source>Downloading</source>
-        <translation type="unfinished"/>
+        <translation>Letöltés</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="77"/>
         <source>Finishing</source>
-        <translation type="unfinished"/>
+        <translation>Befejezés</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="78"/>
         <source>Complete</source>
-        <translation type="unfinished"/>
+        <translation>Elkészült</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="79"/>
         <source>Seeding</source>
-        <translation type="unfinished"/>
+        <translation>Seedelés</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="80"/>
         <source>Skipped</source>
-        <translation type="unfinished"/>
+        <translation>Kihagyva</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="81"/>
         <source>Server error</source>
-        <translation type="unfinished"/>
+        <translation>Szerver hiba</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="82"/>
         <source>File error</source>
-        <translation type="unfinished"/>
+        <translation>Fájl hiba</translation>
     </message>
 </context>
 <context>
@@ -73,12 +73,13 @@
         <location filename="../dialogs/addbatchdialog.ui" line="22"/>
         <source>Enter the download URL and (optionally) the referring page.
 You can also use batch descriptors to download multiple files at one time.</source>
-        <translation type="unfinished"/>
+        <translation>Add meg a letöltési URL-t és (opcionálisan) a hivatkozó oldalt.
+A kötegleírók használatával több fájlt is letölthetsz egyszerre.</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="74"/>
         <source>Insert batch range:</source>
-        <translation type="unfinished"/>
+        <translation>Tételtartomány beszúrása:</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="87"/>
@@ -107,93 +108,93 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="139"/>
         <source>Custom</source>
-        <translation type="unfinished"/>
+        <translation>Egyedi</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="167"/>
         <source>Batch and Single File</source>
-        <translation type="unfinished"/>
+        <translation>Köteg- és egyedi fájl</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="186"/>
         <source>Download:</source>
-        <translation type="unfinished"/>
+        <translation>Letöltés:</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="193"/>
         <source>Examples:</source>
-        <translation type="unfinished"/>
+        <translation>Példák:</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="274"/>
         <source>&amp;Start!</source>
-        <translation type="unfinished"/>
+        <translation>Start!</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="290"/>
         <source>Add &amp;paused</source>
-        <translation type="unfinished"/>
+        <translation>Szüneteltetettek hozzáadása</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="303"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Mégse</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="51"/>
         <source>Add Batch and Single File</source>
-        <translation type="unfinished"/>
+        <translation>Köteg- és egyedi fájl hozzáadása</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="75"/>
         <source>Batch descriptors:</source>
-        <translation type="unfinished"/>
+        <translation>Kötegleírók:</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="76"/>
         <source>Must start with &apos;[&apos; or &apos;(&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Nyitó zárójellel, azaz &apos;[&apos; vagy &apos;(&apos; kell kezdődnie</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="77"/>
         <source>Must contain two numbers, separated by &apos;:&apos;, &apos;-&apos; or a space character</source>
-        <translation type="unfinished"/>
+        <translation>Két számot kell tartalmaznia, elválasztva &apos;:&apos;, &apos;-&apos; jelekkel, vagy szóközzel</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="78"/>
         <source>Must end with &apos;]&apos; or &apos;)&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Záró zárójellel, azaz &apos;]&apos; vagy &apos;)&apos; kell végződnie</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="179"/>
         <source>Insert</source>
-        <translation type="unfinished"/>
+        <translation>Beszúrás</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="298"/>
         <source>Do you really want to start %0 downloads?</source>
-        <translation type="unfinished"/>
+        <translation>Biztos elindítod a %0 letöltést?</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="307"/>
         <source>Don&apos;t ask again, always download batch</source>
-        <translation type="unfinished"/>
+        <translation>Ne kérdezze újra, mindig kötegelt letöltés</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="291"/>
         <location filename="../dialogs/addbatchdialog.cpp" line="302"/>
         <source>Download Batch</source>
-        <translation type="unfinished"/>
+        <translation>Kötegelt letöltés</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="292"/>
         <source>It seems that you are using some batch descriptors.</source>
-        <translation type="unfinished"/>
+        <translation>Úgy tűnik, hogy néhány kötegleírót használsz.</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="303"/>
         <source>Single Download</source>
-        <translation type="unfinished"/>
+        <translation>Egyedi letöltés</translation>
     </message>
 </context>
 <context>
@@ -201,91 +202,91 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addcontentdialog.ui" line="143"/>
         <source>Collecting...</source>
-        <translation type="unfinished"/>
+        <translation>Összegyűjtés...</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.ui" line="159"/>
         <source>Save files in:</source>
-        <translation type="unfinished"/>
+        <translation>Fájl mentés:</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.ui" line="178"/>
         <source>Default Mask:</source>
-        <translation type="unfinished"/>
+        <translation>Alapértelmezett maszk:</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.ui" line="236"/>
         <source>&amp;Start!</source>
-        <translation type="unfinished"/>
+        <translation>Start!</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.ui" line="252"/>
         <source>Add &amp;paused</source>
-        <translation type="unfinished"/>
+        <translation>Szüneteltetettek hozzáadása</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.ui" line="265"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Mégse</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.ui" line="311"/>
         <location filename="../dialogs/addcontentdialog.ui" line="314"/>
         <source>Preferences</source>
-        <translation type="unfinished"/>
+        <translation>Beállítások</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="182"/>
         <source>Warning</source>
-        <translation type="unfinished"/>
+        <translation>Figyelmeztetés</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="85"/>
         <source>Web Page Content</source>
-        <translation type="unfinished"/>
+        <translation>Weboldal tartalom</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="184"/>
         <source>Error: The url is not valid:</source>
-        <translation type="unfinished"/>
+        <translation>Hiba: érvénytelen url.</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="219"/>
         <source>Connecting...</source>
-        <translation type="unfinished"/>
+        <translation>Csatlakozás...</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="230"/>
         <location filename="../dialogs/addcontentdialog.cpp" line="265"/>
         <source>Downloading...</source>
-        <translation type="unfinished"/>
+        <translation>Letöltés...</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="285"/>
         <location filename="../dialogs/addcontentdialog.cpp" line="325"/>
         <source>Collecting links...</source>
-        <translation type="unfinished"/>
+        <translation>Hivatkozások összegyűjtése...</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="293"/>
         <location filename="../dialogs/addcontentdialog.cpp" line="337"/>
         <source>Finished</source>
-        <translation type="unfinished"/>
+        <translation>Befejezve</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="357"/>
         <source>The wizard can&apos;t connect to URL:</source>
-        <translation type="unfinished"/>
+        <translation>A varázsló nem tud kapcsolódni az alábbi oldalhoz:</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="390"/>
         <source>After selecting links, click on Start!</source>
-        <translation type="unfinished"/>
+        <translation>A hivatkozások kijelölése után, kattints a Start-ra!</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="393"/>
         <source>Selected links: %0 of %1</source>
-        <translation type="unfinished"/>
+        <translation>Kijelölt linkek: %0 of %1</translation>
     </message>
 </context>
 <context>
@@ -293,53 +294,53 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="22"/>
         <source>Enter the address of the stream, or a list of streams, to download.</source>
-        <translation type="unfinished"/>
+        <translation>Add meg a letöltendő adatfolyam címét, vagy a streamek listáját.</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="38"/>
         <source>Download:</source>
-        <translation type="unfinished"/>
+        <translation>Letöltés:</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="80"/>
         <source>Examples:</source>
-        <translation type="unfinished"/>
+        <translation>Példák:</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="57"/>
         <location filename="../dialogs/addstreamdialog.cpp" line="229"/>
         <source>Continue</source>
-        <translation type="unfinished"/>
+        <translation>Folytatás</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="71"/>
         <source>Stream</source>
-        <translation type="unfinished"/>
+        <translation>Adatfolyam</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="169"/>
         <source>&amp;Start!</source>
-        <translation type="unfinished"/>
+        <translation>Start!</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="185"/>
         <source>Add &amp;paused</source>
-        <translation type="unfinished"/>
+        <translation>Szüneteltetettek hozzáadása</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="198"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Mégse</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.cpp" line="43"/>
         <source>Add Stream</source>
-        <translation type="unfinished"/>
+        <translation>Adatfolyam hozzáadása</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.cpp" line="229"/>
         <source>Stop</source>
-        <translation type="unfinished"/>
+        <translation>Stop</translation>
     </message>
 </context>
 <context>
@@ -347,47 +348,47 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="22"/>
         <source>Examples:</source>
-        <translation type="unfinished"/>
+        <translation>Példák:</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="48"/>
         <source>Download:</source>
-        <translation type="unfinished"/>
+        <translation>Letöltés:</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="55"/>
         <source>Note: a magnet link contains info-hash metadata to download the .torrent file. If a magnet link is given, the application downloads the .torrent to your system&apos;s temporary directory, and thus adds it to the queue (started or paused).</source>
-        <translation type="unfinished"/>
+        <translation>Megjegyzés: a magnet link info-hash metaadatokat tartalmaz a .torrent fájl letöltéséhez. Magnet link megadása esetén az alkalmazás letölti a .torrent fájlt a rendszer ideiglenes könyvtárába, és így hozzáadja a sorhoz (indított vagy szüneteltetett).</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="71"/>
         <source>Enter the .torrent file (or magnet link) to download</source>
-        <translation type="unfinished"/>
+        <translation>Add meg a .torrent fájlt (vagy magnet linket) a letöltéshez</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="100"/>
         <source>Magnet Link and Torrent</source>
-        <translation type="unfinished"/>
+        <translation>Magnet Link és Torrent</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="181"/>
         <source>&amp;Start!</source>
-        <translation type="unfinished"/>
+        <translation>Start!</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="197"/>
         <source>Add &amp;paused</source>
-        <translation type="unfinished"/>
+        <translation>Szüneteltetettek hozzáadása</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="210"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Mégse</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.cpp" line="47"/>
         <source>Add Magnet Links and Torrent</source>
-        <translation type="unfinished"/>
+        <translation>Magnet linkek és Torrent hozzáadása</translation>
     </message>
 </context>
 <context>
@@ -395,37 +396,37 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="43"/>
         <source>Copy-paste a list of Urls to download</source>
-        <translation type="unfinished"/>
+        <translation>Másold be a letöltendő URL-ek listáját</translation>
     </message>
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="27"/>
         <source>List of Urls</source>
-        <translation type="unfinished"/>
+        <translation>URL-ek listája</translation>
     </message>
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="59"/>
         <source>Download:</source>
-        <translation type="unfinished"/>
+        <translation>Letöltés:</translation>
     </message>
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="134"/>
         <source>&amp;Start!</source>
-        <translation type="unfinished"/>
+        <translation>Start!</translation>
     </message>
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="150"/>
         <source>Add &amp;paused</source>
-        <translation type="unfinished"/>
+        <translation>Szüneteltetettek hozzáadása</translation>
     </message>
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="163"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Mégse</translation>
     </message>
     <message>
         <location filename="../dialogs/addurlsdialog.cpp" line="46"/>
         <source>Add Urls</source>
-        <translation type="unfinished"/>
+        <translation>URL-ek hozzáadása</translation>
     </message>
 </context>
 <context>
@@ -433,80 +434,80 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="17"/>
         <source>Select a preset, or configure manually.</source>
-        <translation type="unfinished"/>
+        <translation>Válassz egy előre beállított értéket, vagy konfiguráld manuálisan.</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="24"/>
         <source>Presets</source>
-        <translation type="unfinished"/>
+        <translation>Előre beállított</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="30"/>
         <location filename="../widgets/advancedsettingswidget.cpp" line="362"/>
         <source>Default</source>
-        <translation type="unfinished"/>
+        <translation>Alapértelmezett</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="37"/>
         <location filename="../widgets/advancedsettingswidget.cpp" line="363"/>
         <source>Minimize Memory Usage</source>
-        <translation type="unfinished"/>
+        <translation>Memóriahasználat minimalizálása</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="44"/>
         <location filename="../widgets/advancedsettingswidget.cpp" line="364"/>
         <source>High Performance Seed</source>
-        <translation type="unfinished"/>
+        <translation>Nagy teljesítményű seed</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="100"/>
         <source>Search for setting</source>
-        <translation type="unfinished"/>
+        <translation>Beállítás keresése</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="107"/>
         <source>Clear</source>
-        <translation type="unfinished"/>
+        <translation>Törlés</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="135"/>
         <source>Key</source>
-        <translation type="unfinished"/>
+        <translation>Kulcs</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="140"/>
         <source>Value</source>
-        <translation type="unfinished"/>
+        <translation>Érték</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="182"/>
         <source>Show modified only</source>
-        <translation type="unfinished"/>
+        <translation>Csak a módosítottak mutatása</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.cpp" line="151"/>
         <source>Edit</source>
-        <translation type="unfinished"/>
+        <translation>Szerkesztés</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.cpp" line="154"/>
         <source>Reset to Default</source>
-        <translation type="unfinished"/>
+        <translation>Alapértelmezések visszaállítása</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.cpp" line="362"/>
         <source>Settings optimized for a regular bittorrent client running on a desktop system.</source>
-        <translation type="unfinished"/>
+        <translation>Asztali rendszeren futó hagyományos bittorrent kliensre optimalizált beállítások.</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.cpp" line="363"/>
         <source>Settings intended for embedded devices. It will significantly reduce memory usage.</source>
-        <translation type="unfinished"/>
+        <translation>Beágyazott eszközökhöz készült beállítások. Jelentősen csökkenti a memóriahasználatot.</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.cpp" line="364"/>
         <source>Settings optimized for a seed box, serving many peers and that doesn&apos;t do any downloading.</source>
-        <translation type="unfinished"/>
+        <translation>A seed dobozra optimalizált beállítások, sok társkiszolgálót szolgálnak ki, és ez nem végez letöltést.</translation>
     </message>
 </context>
 <context>
@@ -514,82 +515,82 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/batchrenamedialog.cpp" line="51"/>
         <source>Tools</source>
-        <translation type="unfinished"/>
+        <translation>Eszközök</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="89"/>
         <source>Files to rename</source>
-        <translation type="unfinished"/>
+        <translation>Átnevezendő fájlok</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="32"/>
         <source>Rename Tool</source>
-        <translation type="unfinished"/>
+        <translation>Átnevezési eszközök</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="102"/>
         <source>Batch Rename</source>
-        <translation type="unfinished"/>
+        <translation>Kötegelt átnevezés</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="109"/>
         <source>Default names</source>
-        <translation type="unfinished"/>
+        <translation>Alapértelmezett nevek</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="114"/>
         <source>Enumerated names</source>
-        <translation type="unfinished"/>
+        <translation>Felsorolt nevek</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="130"/>
         <source>Options</source>
-        <translation type="unfinished"/>
+        <translation>Opciók</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="138"/>
         <source>Start enumeration from:</source>
-        <translation type="unfinished"/>
+        <translation>Felsorolás kezdete innen:</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="170"/>
         <source>Style:</source>
-        <translation type="unfinished"/>
+        <translation>Stílus:</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="179"/>
         <source>1 ... 123456</source>
-        <translation type="unfinished"/>
+        <translation>1 ... 123456 </translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="189"/>
         <source>000001 ... 123456</source>
-        <translation type="unfinished"/>
+        <translation>000001 ... 123456</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="198"/>
         <source>Custom number of digits:</source>
-        <translation type="unfinished"/>
+        <translation>Egyedi számjegyek száma:</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="232"/>
         <source>Increment by:</source>
-        <translation type="unfinished"/>
+        <translation>Növekedés:</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="288"/>
         <source>Safe Rename*</source>
-        <translation type="unfinished"/>
+        <translation>Biztonságos átnevezés*</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="298"/>
         <source>*Rename and pause. Otherwise, could also rename already downloaded files.</source>
-        <translation type="unfinished"/>
+        <translation>*Átnevezés és szünet. Ellenkező esetben a már letöltött fájlokat is átnevezheti.</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.cpp" line="56"/>
         <source>%0 selected files to rename</source>
-        <translation type="unfinished"/>
+        <translation>%0 kiválasztott fájl átnevezése</translation>
     </message>
 </context>
 <context>
@@ -597,32 +598,32 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../widgets/checkabletableview.cpp" line="127"/>
         <source>Check Selected Items</source>
-        <translation type="unfinished"/>
+        <translation>Kiválasztott elemek kijelölése</translation>
     </message>
     <message>
         <location filename="../widgets/checkabletableview.cpp" line="131"/>
         <source>Uncheck Selected Items</source>
-        <translation type="unfinished"/>
+        <translation>Kiválasztott elemek kijelölésének megszüntetése</translation>
     </message>
     <message>
         <location filename="../widgets/checkabletableview.cpp" line="135"/>
         <source>Toggle Check for Selected Items</source>
-        <translation type="unfinished"/>
+        <translation>Kijelölt elemek ellenőrzésének bekapcsolása</translation>
     </message>
     <message>
         <location filename="../widgets/checkabletableview.cpp" line="139"/>
         <source>Select All</source>
-        <translation type="unfinished"/>
+        <translation>Összes kijelölése</translation>
     </message>
     <message>
         <location filename="../widgets/checkabletableview.cpp" line="144"/>
         <source>Select Filtered</source>
-        <translation type="unfinished"/>
+        <translation>Szűrtek kijelölése</translation>
     </message>
     <message>
         <location filename="../widgets/checkabletableview.cpp" line="149"/>
         <source>Invert Selection</source>
-        <translation type="unfinished"/>
+        <translation>Fordított kijelölés</translation>
     </message>
 </context>
 <context>
@@ -630,7 +631,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../widgets/combobox.cpp" line="164"/>
         <source>Clear History</source>
-        <translation type="unfinished"/>
+        <translation>Előzmények törlése</translation>
     </message>
 </context>
 <context>
@@ -638,94 +639,94 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="35"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="64"/>
         <source>Compiler</source>
-        <translation type="unfinished"/>
+        <translation>Fordító</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="70"/>
         <source>Name:</source>
-        <translation type="unfinished"/>
+        <translation>Név:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="84"/>
         <location filename="../dialogs/compilerdialog.ui" line="254"/>
         <source>Version:</source>
-        <translation type="unfinished"/>
+        <translation>Verzió:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="98"/>
         <location filename="../dialogs/compilerdialog.ui" line="268"/>
         <source>CPU Architecture:</source>
-        <translation type="unfinished"/>
+        <translation>CPU architektúra:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="112"/>
         <source>Build date:</source>
-        <translation type="unfinished"/>
+        <translation>Build dátum:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="129"/>
         <source>Plugins</source>
-        <translation type="unfinished"/>
+        <translation>Pluginok</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="225"/>
         <source>System</source>
-        <translation type="unfinished"/>
+        <translation>Rendszer</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="240"/>
         <source>OS:</source>
-        <translation type="unfinished"/>
+        <translation>OS:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="291"/>
         <source>SSL Library Version:</source>
-        <translation type="unfinished"/>
+        <translation>SSL könyvtár verzió.</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="318"/>
         <source>SSL Library Build Version:</source>
-        <translation type="unfinished"/>
+        <translation>SSL könyvtár build verzió.</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="344"/>
         <source>Found in application path:</source>
-        <translation type="unfinished"/>
+        <translation>Alkalmazás elérési útvonala:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="356"/>
         <source>* OpenSSL SSL library:</source>
-        <translation type="unfinished"/>
+        <translation>* OpenSSL SSL könyvtár:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="370"/>
         <source>* OpenSSL Crypto library:</source>
-        <translation type="unfinished"/>
+        <translation>* OpenSSL SSL Crypto könyvtár:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="416"/>
         <source>Libraries and Build Version</source>
-        <translation type="unfinished"/>
+        <translation>Könyvtár és build verzió:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="42"/>
         <source>Info</source>
-        <translation type="unfinished"/>
+        <translation>Infó</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="49"/>
         <source>%0 %1 version %2</source>
-        <translation type="unfinished"/>
+        <translation>%0 %1 verzió %2</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="69"/>
         <source>%0 with Qt WebEngine based on Chromium %1</source>
-        <translation type="unfinished"/>
+        <translation>%0 Chromium alapú Qt WebEngine-nel %1</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="78"/>
@@ -735,17 +736,17 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="84"/>
         <source>This application can&apos;t find SSL or a compatible version (SSL %0), the application will fail to download with secure sockets (HTTPS, FTPS).</source>
-        <translation type="unfinished"/>
+        <translation>Ez az alkalmazás nem találja az SSL-t vagy a kompatibilis verziót (SSL %0), az alkalmazás nem tud letölteni biztonságos socketekkel (HTTPS, FTPS).</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="89"/>
         <source>not found</source>
-        <translation type="unfinished"/>
+        <translation>nincs találat</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="99"/>
         <source>This application supports SSL.</source>
-        <translation type="unfinished"/>
+        <translation>Az alkalmazás támogatja az SSL-t.</translation>
     </message>
 </context>
 <context>
@@ -753,7 +754,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../core/downloadengine.cpp" line="344"/>
         <source>... (%0 others)</source>
-        <translation type="unfinished"/>
+        <translation>... (%0 egyebek)</translation>
     </message>
 </context>
 <context>
@@ -761,172 +762,172 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../core/downloaditem.cpp" line="265"/>
         <source>No Error</source>
-        <translation type="unfinished"/>
+        <translation>Nincs hiba</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="268"/>
         <source>3xx Redirect connection refused</source>
-        <translation type="unfinished"/>
+        <translation>3xx A kapcsolat átirányítása elutasítva</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="269"/>
         <source>3xx Redirect remote host closed</source>
-        <translation type="unfinished"/>
+        <translation>3xx A távoli gazdagép átirányítása lezárva</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="270"/>
         <source>3xx Redirect host not found</source>
-        <translation type="unfinished"/>
+        <translation>3xx Az átirányító gazdagép nem található</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="271"/>
         <source>3xx Redirect timeout</source>
-        <translation type="unfinished"/>
+        <translation>3xx Átirányítási időtúllépés</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="272"/>
         <source>3xx Redirect operation canceled</source>
-        <translation type="unfinished"/>
+        <translation>3xx Átirányítási művelet törölve</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="273"/>
         <source>3xx Redirect SSL handshake failed</source>
-        <translation type="unfinished"/>
+        <translation>3xx Az SSL átirányítási handshake sikertelen</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="274"/>
         <source>3xx Redirect temporary network failure</source>
-        <translation type="unfinished"/>
+        <translation>3xx Ideiglenes hálózati hiba átirányításkor</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="275"/>
         <source>3xx Redirect network session failed</source>
-        <translation type="unfinished"/>
+        <translation>3xx A hálózati munkamenet átirányítása meghiúsult</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="276"/>
         <source>3xx Redirect background request not allowed</source>
-        <translation type="unfinished"/>
+        <translation>3xx Átirányítási háttérkérelem nem engedélyezett</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="278"/>
         <source>3xx Too many redirects</source>
-        <translation type="unfinished"/>
+        <translation>3xx Túl sok átirányítás</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="279"/>
         <source>3xx Insecure redirect</source>
-        <translation type="unfinished"/>
+        <translation>3xx Nem biztonságos átirányítás</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="281"/>
         <source>3xx Unknown redirect error</source>
-        <translation type="unfinished"/>
+        <translation>3xx Ismeretlen átirányítási hiba</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="284"/>
         <source>5xx Proxy connection refused</source>
-        <translation type="unfinished"/>
+        <translation>5xx Proxy csatlakozás elutasítva</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="285"/>
         <source>5xx Proxy connection closed</source>
-        <translation type="unfinished"/>
+        <translation>5xx Proxy csatlakozás lezárva</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="286"/>
         <source>5xx Proxy not found</source>
-        <translation type="unfinished"/>
+        <translation>5xx Proxy nem található</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="287"/>
         <source>504 Proxy timeout error</source>
-        <translation type="unfinished"/>
+        <translation>504 Proxy időtúllépési hiba</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="288"/>
         <source>407 Proxy authentication required</source>
-        <translation type="unfinished"/>
+        <translation>407 Proxy hitelesítés szükséges</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="289"/>
         <source>5xx Unknown proxy error</source>
-        <translation type="unfinished"/>
+        <translation>5xx Ismeretlen proxy hiba</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="292"/>
         <source>403 Access denied</source>
-        <translation type="unfinished"/>
+        <translation>403 Hozzáférés megtagadva</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="293"/>
         <source>405 Method not allowed</source>
-        <translation type="unfinished"/>
+        <translation>405 Metódus nem támogatott</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="294"/>
         <source>404 Not found</source>
-        <translation type="unfinished"/>
+        <translation>404 Nem található</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="295"/>
         <source>401 Authorization required</source>
-        <translation type="unfinished"/>
+        <translation>401 Engedély szükséges</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="296"/>
         <source>4xx Resend error</source>
-        <translation type="unfinished"/>
+        <translation>4xx Újraküldési hiba</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="297"/>
         <source>409 Conflict</source>
-        <translation type="unfinished"/>
+        <translation>409 Ellentmondás</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="298"/>
         <source>410 Content no longer available</source>
-        <translation type="unfinished"/>
+        <translation>410 A tartalom már nem elérhető</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="299"/>
         <source>4xx Unknown content error</source>
-        <translation type="unfinished"/>
+        <translation>4xx Ismeretlen tartalom hiba</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="302"/>
         <source>4xx Unknown protocol error</source>
-        <translation type="unfinished"/>
+        <translation>4xx Ismeretlen protokoll hiba</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="303"/>
         <source>400 Bad request</source>
-        <translation type="unfinished"/>
+        <translation>400 Rossz kérés</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="304"/>
         <source>4xx Protocol failure</source>
-        <translation type="unfinished"/>
+        <translation>4xx Protokoll hiba</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="307"/>
         <source>500 Internal server error</source>
-        <translation type="unfinished"/>
+        <translation>500 Belső szerverhiba</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="308"/>
         <source>501 Server does not support this functionality</source>
-        <translation type="unfinished"/>
+        <translation>501 A szerver nem támogatja ezt a funkciót</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="309"/>
         <source>503 Service unavailable</source>
-        <translation type="unfinished"/>
+        <translation>503 A szolgáltatás nem elérhető</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="310"/>
         <source>5xx Unknown serveur error</source>
-        <translation type="unfinished"/>
+        <translation>5xx Ismeretlen szerverhiba</translation>
     </message>
 </context>
 <context>
@@ -934,37 +935,37 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="614"/>
         <source>Download/Name</source>
-        <translation type="unfinished"/>
+        <translation>Letöltés/Név</translation>
     </message>
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="615"/>
         <source>Domain</source>
-        <translation type="unfinished"/>
+        <translation>Domain</translation>
     </message>
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="616"/>
         <source>Progress</source>
-        <translation type="unfinished"/>
+        <translation>Folyamat</translation>
     </message>
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="617"/>
         <source>Percent</source>
-        <translation type="unfinished"/>
+        <translation>százalék</translation>
     </message>
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="618"/>
         <source>Size</source>
-        <translation type="unfinished"/>
+        <translation>Méret</translation>
     </message>
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="619"/>
         <source>Est. time</source>
-        <translation type="unfinished"/>
+        <translation>Becs.idő</translation>
     </message>
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="620"/>
         <source>Speed</source>
-        <translation type="unfinished"/>
+        <translation>Sebesség</translation>
     </message>
 </context>
 <context>
@@ -972,47 +973,47 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../core/downloadtorrentitem.cpp" line="136"/>
         <source>Couldn&apos;t download metadata</source>
-        <translation type="unfinished"/>
+        <translation>Nem sikerült letölteni a metaadatokat</translation>
     </message>
     <message>
         <location filename="../core/downloadtorrentitem.cpp" line="137"/>
         <source>Couldn&apos;t download, bad .torrent format</source>
-        <translation type="unfinished"/>
+        <translation>Nem sikerült letölteni, rossz .torrent formátum</translation>
     </message>
     <message>
         <location filename="../core/downloadtorrentitem.cpp" line="138"/>
         <source>Couldn&apos;t resolve metadata</source>
-        <translation type="unfinished"/>
+        <translation>Nem sikerült feloldani a metaadatokat</translation>
     </message>
     <message>
         <location filename="../core/downloadtorrentitem.cpp" line="141"/>
         <source>Error in file &apos;%0&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Hiba a &apos;%0&apos; fájlban</translation>
     </message>
     <message>
         <location filename="../core/downloadtorrentitem.cpp" line="142"/>
         <source>Bad SSL context</source>
-        <translation type="unfinished"/>
+        <translation>Rossz SSL kontextus</translation>
     </message>
     <message>
         <location filename="../core/downloadtorrentitem.cpp" line="143"/>
         <source>Bad .torrent metadata</source>
-        <translation type="unfinished"/>
+        <translation>Rossz .torrent metaadat</translation>
     </message>
     <message>
         <location filename="../core/downloadtorrentitem.cpp" line="144"/>
         <source>Bad .torrent access permission</source>
-        <translation type="unfinished"/>
+        <translation>Rossz .torrent hozzáférési engedély</translation>
     </message>
     <message>
         <location filename="../core/downloadtorrentitem.cpp" line="145"/>
         <source>Bad part-file</source>
-        <translation type="unfinished"/>
+        <translation>Rossz fájl rész</translation>
     </message>
     <message>
         <location filename="../core/downloadtorrentitem.cpp" line="148"/>
         <source>Unknown error</source>
-        <translation type="unfinished"/>
+        <translation>Ismeretlen hiba</translation>
     </message>
 </context>
 <context>
@@ -1021,27 +1022,27 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <location filename="../dialogs/editiondialog.ui" line="102"/>
         <location filename="../dialogs/editiondialog.cpp" line="44"/>
         <source>Smart Edit</source>
-        <translation type="unfinished"/>
+        <translation>Okos szerkesztő</translation>
     </message>
     <message>
         <location filename="../dialogs/editiondialog.ui" line="55"/>
         <source>Edit the Urls</source>
-        <translation type="unfinished"/>
+        <translation>Szerkeszd az URL-eket</translation>
     </message>
     <message>
         <location filename="../dialogs/editiondialog.ui" line="108"/>
         <source>Edit the Urls. Note that the number of lines should stay unchanged.</source>
-        <translation type="unfinished"/>
+        <translation>Szerkeszd az URL-eket. Vedd figyelembe, hogy a sorok számának változatlannak kell maradnia.</translation>
     </message>
     <message>
         <location filename="../dialogs/editiondialog.cpp" line="50"/>
         <source>%0 selected files to edit</source>
-        <translation type="unfinished"/>
+        <translation>%0 fájl kijelölve szerkesztésre</translation>
     </message>
     <message>
         <location filename="../dialogs/editiondialog.cpp" line="102"/>
         <source>Warning: number of lines is &lt;%0&gt; but should be &lt;%1&gt;!</source>
-        <translation type="unfinished"/>
+        <translation>Figyelmeztetés: a sorok száma &lt;%0&gt;, de ennek &lt;%1&gt;-nek kell lennie!</translation>
     </message>
 </context>
 <context>
@@ -1049,32 +1050,32 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="45"/>
         <source>Existing File</source>
-        <translation type="unfinished"/>
+        <translation>Létező fájl</translation>
     </message>
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="47"/>
         <source>The file already exists:</source>
-        <translation type="unfinished"/>
+        <translation>A fájl már létezik</translation>
     </message>
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="49"/>
         <source>Do you want to Rename, Overwrite or Skip this file?</source>
-        <translation type="unfinished"/>
+        <translation>Átnevezed, felülírod vagy kihagyod ezt a fájlt?</translation>
     </message>
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="52"/>
         <source>Rename</source>
-        <translation type="unfinished"/>
+        <translation>Átnevezés</translation>
     </message>
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="53"/>
         <source>Overwrite</source>
-        <translation type="unfinished"/>
+        <translation>Felülírás</translation>
     </message>
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="54"/>
         <source>Skip</source>
-        <translation type="unfinished"/>
+        <translation>Kihagyás</translation>
     </message>
 </context>
 <context>
@@ -1082,37 +1083,37 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../io/filereader.cpp" line="49"/>
         <source>Invalid device</source>
-        <translation type="unfinished"/>
+        <translation>Érvénytelen eszköz</translation>
     </message>
     <message>
         <location filename="../io/filereader.cpp" line="64"/>
         <source>File not found</source>
-        <translation type="unfinished"/>
+        <translation>Nem található fájl</translation>
     </message>
     <message>
         <location filename="../io/filereader.cpp" line="71"/>
         <source>Unsupported format</source>
-        <translation type="unfinished"/>
+        <translation>Nem támogatott formátum</translation>
     </message>
     <message>
         <location filename="../io/filereader.cpp" line="92"/>
         <source>Unable to read data</source>
-        <translation type="unfinished"/>
+        <translation>Nem lehet az adatot olvasni</translation>
     </message>
     <message>
         <location filename="../io/filereader.cpp" line="111"/>
         <source>Unknown error</source>
-        <translation type="unfinished"/>
+        <translation>Ismeretlen hiba</translation>
     </message>
     <message>
         <location filename="../io/filereader.cpp" line="160"/>
         <source>Any file (all types) (%0)</source>
-        <translation type="unfinished"/>
+        <translation>Bármilyen fájl (minden típus) (%0)</translation>
     </message>
     <message>
         <location filename="../io/filereader.cpp" line="174"/>
         <source>All files (%0)</source>
-        <translation type="unfinished"/>
+        <translation>Minden fájl (%0)</translation>
     </message>
 </context>
 <context>
@@ -1120,37 +1121,37 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../io/filewriter.cpp" line="49"/>
         <source>Device is not set</source>
-        <translation type="unfinished"/>
+        <translation>Az eszköz nincs beállítva</translation>
     </message>
     <message>
         <location filename="../io/filewriter.cpp" line="55"/>
         <source>Cannot open device for writing: %1</source>
-        <translation type="unfinished"/>
+        <translation>Az eszköz nem nyitható meg írásra: %1</translation>
     </message>
     <message>
         <location filename="../io/filewriter.cpp" line="62"/>
         <source>Device not writable</source>
-        <translation type="unfinished"/>
+        <translation>Az eszköz nem írható</translation>
     </message>
     <message>
         <location filename="../io/filewriter.cpp" line="67"/>
         <source>Unsupported format</source>
-        <translation type="unfinished"/>
+        <translation>Nem támogatott formátum</translation>
     </message>
     <message>
         <location filename="../io/filewriter.cpp" line="98"/>
         <source>File is empty</source>
-        <translation type="unfinished"/>
+        <translation>Üres fájl</translation>
     </message>
     <message>
         <location filename="../io/filewriter.cpp" line="169"/>
         <source>All files (%0)</source>
-        <translation type="unfinished"/>
+        <translation>Minden fájl (%0)</translation>
     </message>
     <message>
         <location filename="../io/filewriter.h" line="62"/>
         <source>Unknown error</source>
-        <translation type="unfinished"/>
+        <translation>Ismeretlen hiba</translation>
     </message>
 </context>
 <context>
@@ -1159,12 +1160,13 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <location filename="../widgets/filtertip.ui" line="34"/>
         <source>Fast Filtering follows the Regular Expressions conventions.
 Some examples are given below.  Click to paste the example.</source>
-        <translation type="unfinished"/>
+        <translation>A gyorsszűrés a reguláris kifejezések szabályait követi.
+Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.</translation>
     </message>
     <message>
         <location filename="../widgets/filtertip.cpp" line="28"/>
         <source>Fast Filtering</source>
-        <translation type="unfinished"/>
+        <translation>Gyorsszűrés</translation>
     </message>
 </context>
 <context>
@@ -1172,22 +1174,22 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../widgets/filterwidget.ui" line="35"/>
         <source>Filters</source>
-        <translation type="unfinished"/>
+        <translation>Szűrők</translation>
     </message>
     <message>
         <location filename="../widgets/filterwidget.ui" line="107"/>
         <source>Fast Filtering</source>
-        <translation type="unfinished"/>
+        <translation>Gyorsszűrés</translation>
     </message>
     <message>
         <location filename="../widgets/filterwidget.ui" line="138"/>
         <source>Fast Filtering Tips...</source>
-        <translation type="unfinished"/>
+        <translation>Gyorsszűrés tippek...</translation>
     </message>
     <message>
         <location filename="../widgets/filterwidget.ui" line="152"/>
         <source>Disable other filters</source>
-        <translation type="unfinished"/>
+        <translation>Egyéb szűrők kikapcsolása</translation>
     </message>
 </context>
 <context>
@@ -1195,67 +1197,67 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../core/format.cpp" line="74"/>
         <source>Unknown</source>
-        <translation type="unfinished"/>
+        <translation>Ismeretlen</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="77"/>
         <source>0 byte</source>
-        <translation type="unfinished"/>
+        <translation>0 byte</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="80"/>
         <source>1 byte</source>
-        <translation type="unfinished"/>
+        <translation>1 byte</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="83"/>
         <source>%0 bytes</source>
-        <translation type="unfinished"/>
+        <translation>%0 byte</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="87"/>
         <source>%0 KB</source>
-        <translation type="unfinished"/>
+        <translation>%0 KB</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="91"/>
         <source>%0 MB</source>
-        <translation type="unfinished"/>
+        <translation>%0 MB</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="95"/>
         <source>%0 GB</source>
-        <translation type="unfinished"/>
+        <translation>%0 GB</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="98"/>
         <source>%0 TB</source>
-        <translation type="unfinished"/>
+        <translation>%0 TB</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="124"/>
         <source>Yes</source>
-        <translation type="unfinished"/>
+        <translation>Igen</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="124"/>
         <source>No</source>
-        <translation type="unfinished"/>
+        <translation>Nem</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="139"/>
         <source>%0 KB/s</source>
-        <translation type="unfinished"/>
+        <translation>%0 KB/s</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="143"/>
         <source>%0 MB/s</source>
-        <translation type="unfinished"/>
+        <translation>%0 MB/s</translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="146"/>
         <source>%0 GB/s</source>
-        <translation type="unfinished"/>
+        <translation>%0 GB/s</translation>
     </message>
 </context>
 <context>
@@ -1264,67 +1266,67 @@ Some examples are given below.  Click to paste the example.</source>
         <location filename="../dialogs/homedialog.ui" line="45"/>
         <location filename="../dialogs/homedialog.cpp" line="32"/>
         <source>Getting Started</source>
-        <translation type="unfinished"/>
+        <translation>Első lépések</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="55"/>
         <source>Choose which category of document to download.</source>
-        <translation type="unfinished"/>
+        <translation>Válaszd ki a letölteni kívánt dokumentum kategóriáját.</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="78"/>
         <source>Web Page Content</source>
-        <translation type="unfinished"/>
+        <translation>Weboldal tartalma</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="91"/>
         <source>Links and media in a HTML page</source>
-        <translation type="unfinished"/>
+        <translation>Hivatkozások és média a HTML oldalon</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="101"/>
         <source>Batch of Files (with regular expression)</source>
-        <translation type="unfinished"/>
+        <translation>Fájlköteg (reguláris kifejezéssel)</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="114"/>
         <source>Single file, batch of files, regular expression link</source>
-        <translation type="unfinished"/>
+        <translation>Egyetlen fájl, köteg fájl, reguláris kifejezés link</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="124"/>
         <source>Video/Audio Stream</source>
-        <translation type="unfinished"/>
+        <translation>Videó/Audio adatfolyam</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="137"/>
         <source>Stream from Youtube and other video stream sites</source>
-        <translation type="unfinished"/>
+        <translation>Streamelj a Youtube-ról és más videostreaming oldalakról</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="147"/>
         <source>Magnet Link, Torrent</source>
-        <translation type="unfinished"/>
+        <translation>Magnet Link, Torrent</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="163"/>
         <source>Use bittorrent protocol to download a .torrent file</source>
-        <translation type="unfinished"/>
+        <translation>Használd a bittorrent protokollt a .torrent fájl letöltéséhez</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="173"/>
         <source>List of Urls</source>
-        <translation type="unfinished"/>
+        <translation>URL-ek listája</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="189"/>
         <source>Paste a list of Urls</source>
-        <translation type="unfinished"/>
+        <translation>URL listák beillesztése</translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="226"/>
         <source>Close</source>
-        <translation type="unfinished"/>
+        <translation>Bezár</translation>
     </message>
 </context>
 <context>
@@ -1332,42 +1334,42 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/informationdialog.cpp" line="39"/>
         <source>Properties</source>
-        <translation type="unfinished"/>
+        <translation>Beállítások</translation>
     </message>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="65"/>
         <source>Size:</source>
-        <translation type="unfinished"/>
+        <translation>Méret:</translation>
     </message>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="22"/>
         <source>From:</source>
-        <translation type="unfinished"/>
+        <translation>Innen:</translation>
     </message>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="55"/>
         <source>Unkown</source>
-        <translation type="unfinished"/>
+        <translation>Ismeretlen</translation>
     </message>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="138"/>
         <source>Download Information</source>
-        <translation type="unfinished"/>
+        <translation>Letöltési infók</translation>
     </message>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="165"/>
         <source>Options</source>
-        <translation type="unfinished"/>
+        <translation>Opciók</translation>
     </message>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="170"/>
         <source>Messages</source>
-        <translation type="unfinished"/>
+        <translation>Üzenetek</translation>
     </message>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="176"/>
         <source>Wrap line</source>
-        <translation type="unfinished"/>
+        <translation>Sortörés</translation>
     </message>
 </context>
 <context>
@@ -1375,27 +1377,27 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../widgets/linkwidget.ui" line="79"/>
         <source>Links</source>
-        <translation type="unfinished"/>
+        <translation>Hivatkozások</translation>
     </message>
     <message>
         <location filename="../widgets/linkwidget.ui" line="101"/>
         <source>Pictures and Media</source>
-        <translation type="unfinished"/>
+        <translation>Képek és Média</translation>
     </message>
     <message>
         <location filename="../widgets/linkwidget.cpp" line="226"/>
         <source>Links (%0)</source>
-        <translation type="unfinished"/>
+        <translation>Hivatkozások (%0)</translation>
     </message>
     <message>
         <location filename="../widgets/linkwidget.cpp" line="227"/>
         <source>Pictures and Media (%0)</source>
-        <translation type="unfinished"/>
+        <translation>Képek és Média (%0)</translation>
     </message>
     <message>
         <location filename="../widgets/linkwidget.cpp" line="237"/>
         <source>Mask...</source>
-        <translation type="unfinished"/>
+        <translation>Maszk....</translation>
     </message>
     <message>
         <location filename="../widgets/linkwidget.cpp" line="241"/>
