@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<p><a class="reference external" href="reference.html">home</a></p>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#ed25519-create-seed" id="toc-entry-1">ed25519_create_seed()</a></li>
+<li><a class="reference internal" href="#ed25519-create-keypair" id="toc-entry-2">ed25519_create_keypair()</a></li>
+<li><a class="reference internal" href="#ed25519-sign" id="toc-entry-3">ed25519_sign()</a></li>
+<li><a class="reference internal" href="#ed25519-verify" id="toc-entry-4">ed25519_verify()</a></li>
+<li><a class="reference internal" href="#ed25519-add-scalar" id="toc-entry-5">ed25519_add_scalar()</a></li>
+<li><a class="reference internal" href="#ed25519-key-exchange" id="toc-entry-6">ed25519_key_exchange()</a></li>
+</ul>
+</div>
+<a name="ed25519_create_seed()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:ed25519_create_seed%28%29&labels=documentation&body=Documentation+under+heading+%22ed25519_create_seed%28%29%22+could+be+improved">report issue</a>]</span><div class="section" id="ed25519-create-seed">
+<h1>ed25519_create_seed()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/kademlia/ed25519.hpp">libtorrent/kademlia/ed25519.hpp</a>&quot;</p>
+<pre class="literal-block">
+std::array&lt;char, 32&gt; <strong>ed25519_create_seed</strong> ();
+</pre>
+<p>See documentation of internal random_bytes</p>
+<a name="ed25519_create_keypair()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:ed25519_create_keypair%28%29&labels=documentation&body=Documentation+under+heading+%22ed25519_create_keypair%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="ed25519-create-keypair">
+<h1>ed25519_create_keypair()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/kademlia/ed25519.hpp">libtorrent/kademlia/ed25519.hpp</a>&quot;</p>
+<pre class="literal-block">
+std::tuple&lt;public_key, secret_key&gt; <strong>ed25519_create_keypair</strong> (
+   std::array&lt;char, 32&gt; const&amp; seed);
+</pre>
+<p>Creates a new key pair from the given seed.</p>
+<p>It's important to clarify that the seed completely determines
+the key pair. Then it's enough to save the seed and the
+public key as the key-pair in a buffer of 64 bytes. The standard
+is (32 bytes seed, 32 bytes public key).</p>
+<p>This function does work with a given seed, giving you a pair of
+(64 bytes private key, 32 bytes public key). It's a trade-off between
+space and CPU, saving in one format or another.</p>
+<p>The smaller format is not weaker by any means, in fact, it is only
+the seed (32 bytes) that determines the point in the curve.</p>
+<a name="ed25519_sign()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:ed25519_sign%28%29&labels=documentation&body=Documentation+under+heading+%22ed25519_sign%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="ed25519-sign">
+<h1>ed25519_sign()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/kademlia/ed25519.hpp">libtorrent/kademlia/ed25519.hpp</a>&quot;</p>
+<pre class="literal-block">
+signature <strong>ed25519_sign</strong> (span&lt;char const&gt; msg
+   , public_key const&amp; pk, secret_key const&amp; sk);
+</pre>
+<p>Creates a signature of the given message with the given key pair.</p>
+<a name="ed25519_verify()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:ed25519_verify%28%29&labels=documentation&body=Documentation+under+heading+%22ed25519_verify%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="ed25519-verify">
+<h1>ed25519_verify()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/kademlia/ed25519.hpp">libtorrent/kademlia/ed25519.hpp</a>&quot;</p>
+<pre class="literal-block">
+bool <strong>ed25519_verify</strong> (signature const&amp; sig
+   , span&lt;char const&gt; msg, public_key const&amp; pk);
+</pre>
+<p>Verifies the signature on the given message using <tt class="docutils literal">pk</tt></p>
+<a name="ed25519_add_scalar()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:ed25519_add_scalar%28%29&labels=documentation&body=Documentation+under+heading+%22ed25519_add_scalar%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="ed25519-add-scalar">
+<h1>ed25519_add_scalar()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/kademlia/ed25519.hpp">libtorrent/kademlia/ed25519.hpp</a>&quot;</p>
+<pre class="literal-block">
+public_key <strong>ed25519_add_scalar</strong> (public_key const&amp; pk
+   , std::array&lt;char, 32&gt; const&amp; scalar);
+secret_key <strong>ed25519_add_scalar</strong> (secret_key const&amp; sk
+   , std::array&lt;char, 32&gt; const&amp; scalar);
+</pre>
+<p>Adds a scalar to the given key pair where scalar is a 32 byte buffer
+(possibly generated with <cite>ed25519_create_seed</cite>), generating a new key pair.</p>
+<p>You can calculate the public key sum without knowing the private key and
+vice versa by passing in null for the key you don't know. This is useful
+when a third party (an authoritative server for example) needs to enforce
+randomness on a key pair while only knowing the public key of the other
+side.</p>
+<p>Warning: the last bit of the scalar is ignored - if comparing scalars make
+sure to clear it with <cite>scalar[31] &amp;= 127</cite>.</p>
+<p>see <a class="reference external" href="http://crypto.stackexchange.com/a/6215/4697">http://crypto.stackexchange.com/a/6215/4697</a>
+see test_ed25519 for a practical example</p>
+<a name="ed25519_key_exchange()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:ed25519_key_exchange%28%29&labels=documentation&body=Documentation+under+heading+%22ed25519_key_exchange%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="ed25519-key-exchange">
+<h1>ed25519_key_exchange()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/kademlia/ed25519.hpp">libtorrent/kademlia/ed25519.hpp</a>&quot;</p>
+<pre class="literal-block">
+std::array&lt;char, 32&gt; <strong>ed25519_key_exchange</strong> (
+   public_key const&amp; pk, secret_key const&amp; sk);
+</pre>
+<p>Performs a key exchange on the given public key and private key, producing a
+shared secret. It is recommended to hash the shared secret before using it.</p>
+<p>This is useful when two parties want to share a secret but both only knows
+their respective public keys.
+see test_ed25519 for a practical example</p>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

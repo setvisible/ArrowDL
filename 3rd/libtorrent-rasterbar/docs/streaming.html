@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="streaming-implementation">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+<h1 class="title">Streaming implementation</h1>
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<p>This documents describes the algorithm libtorrent uses to satisfy time critical
+piece requests, i.e. streaming.</p>
+<div class="section" id="streaming-vs-sequential-download">
+<h1>streaming vs sequential_download</h1>
+<p>Libtorrent's <tt class="docutils literal">sequential_download</tt> mode and the time-critical logic can be
+understood as two different ways of managing <em>peer request queues</em>.</p>
+<p><tt class="docutils literal">sequential_download</tt> will simply wait until a queue slot opens up, and
+request the next piece in the sequence. This mechanism is even simpler than the
+classic &quot;rarest-first&quot; algorithm; it does a good job of keeping request queues
+full, thus saturating available download bandwidth; and pieces do arrive
+<em>roughly</em> in-order. However, it's sub-optimal for streaming: piece 0 may be
+requested from a slow peer, and fast peers will get requests for later-index
+pieces instead of retrying more-critical ones.</p>
+<p>The time-critical logic does more <em>active management</em> of peer request queues,
+such that the most time-critical pieces occupy the &quot;best&quot; queue slots, across
+all peers. It can be considered an advanced version of <tt class="docutils literal">sequential_download</tt>.
+The main trade-off is that it is more complex to implement and utilize.</p>
+</div>
+<div class="section" id="piece-picking">
+<h1>piece picking</h1>
+<p>The standard bittorrent piece picker is peer-centric. A peer unchokes us or we
+complete a block from a peer and we want to make another request to that peer.
+The piece picker answers the question: which block should we request from this
+peer.</p>
+<p>When streaming, we have a number of <em>time critical</em> pieces, the ones the video
+or audio player will need next to keep up with the stream. To keep the deadlines
+of these pieces, we need a mechanism to answer the question: I want to request
+blocks from this piece, which peer is the most likely to be able to deliver it
+to me the soonest.</p>
+<p>This question is answered by <tt class="docutils literal"><span class="pre">torrent::request_time_critical_pieces()</span></tt> in
+libtorrent.</p>
+<p>At a high level, this algorithm keeps a list of peers, sorted by the estimated
+download queue time. That is, the estimated time for a new request to this
+peer to be received. The bottom 10th percentile of the peers (the 10% slowest
+peers) are ignored and not included in the peer list. Peers that have choked
+us, are not interesting, is on parole, disconnecting, have too many outstanding
+block requests or is snubbed are also excluded from the peer list.</p>
+<p>The time critical pieces are also kept sorted by their deadline. Pieces with
+an earlier deadline first. This list of pieces is iterated, starting at the
+top, and blocks are requested from a piece until we cannot make any more
+requests from it. We then move on to the next piece and request blocks from it
+until we cannot make any more. The peer each request is sent to is the one
+with the lowest <a class="reference internal" href="#download-queue-time">download queue time</a>. Each time a request is made, this
+estimate is updated and the peer is resorted in this list.</p>
+<p>Any peer that doesn't have the piece is ignored until we move on to the next
+piece.</p>
+<p>If the top peer's download queue time is more than 2 seconds, the loop is
+terminated. This is to not over-request. <tt class="docutils literal">request_time_critical_pieces()</tt>
+is called once per second, so this will keep the queue full with margin.</p>
+</div>
+<div class="section" id="download-queue-time">
+<h1>download queue time</h1>
+<p>Each peer maintains the number of bytes that have been requested from it but
+not yet been received. This is referred to as <tt class="docutils literal">outstanding_bytes</tt>. This number
+is incremented by the size of each outgoing request and decremented for each
+<em>payload</em> byte received.</p>
+<p>This counter is divided by an estimated download rate from the peer to form
+the estimated <em>download queue time</em>. That is, the estimated time it will take
+any new request to this peer to begin being received.</p>
+<p>The estimated download rate of a peer is not trivial. There may not be any
+outstanding requests to the peer, in which case the payload download rate
+will be zero. That would not be a reasonable estimate of the rate we would see
+once we make a request.</p>
+<p>If we have not received any payload from a peer in the last 30 seconds, we
+must use an alternative estimate of the download rate. If we have received
+payload from this peer previously, we can use the peak download rate.</p>
+<p>If we have received less than 2 blocks (32 kiB) and we have been unchoked for
+less than 5 seconds ago, use the average download rate of all peers (that have
+outstanding requests).</p>
+</div>
+<div class="section" id="timeouts">
+<h1>timeouts</h1>
+<p>An observation that is useful to keep in mind when streaming is that your
+download capacity is likely to be saturated by your peers. In this case, if the
+swarm is well seeded, most peers will send data to you at close to the same
+rate. This makes it important to support streaming from many slow peers. For
+instance, this means you can't make assumptions about the download time of a
+block being less than some absolute time. You may be downloading at well above
+the bit rate of the video, but each individual peer only transfers at 5 kiB/s.</p>
+<p>In this state, your download rate is a zero-sum-game. Any block you request
+that is not urgent, will take away from the bandwidth you get for peers that
+are urgent. Make sure to limit requests to useful blocks only.</p>
+<p>Some requests will stall. It appears to be very hard to have enough accuracy in
+the prediction of download queue time such that all requests come back within a
+reasonable amount of time.</p>
+<p>To support adaptive timeouts, each torrent maintains a running average of how
+long it takes to complete a piece. There is also a running average of the
+deviation from the mean download time.</p>
+<p>This download time is used as the benchmark to determine when blocks have
+timed out, and should be re-requested from another peer.</p>
+<p>If any time-critical piece has taken more than the average piece download
+time + a half average deviation form that, the piece is considered to have
+timed out. This means we are allowed to double-request blocks. Subsequent
+passes over this piece will make sure that any blocks we don't already have
+are requested one more time.</p>
+<p>In fact, this scales to multiple time-outs. The time since a download was
+started is divided by average download time + average deviation time / 2.
+The resulting integer is the number if <em>times</em> the piece has timed out.</p>
+<p>Each time a piece times out, another <em>busy request</em> is allowed to try to make
+it complete sooner. A busy request is where a block is requested from a peer
+even though it has already been requested from another peer.</p>
+<p>This has the effect of getting more and more aggressive in requesting blocks
+the longer it takes to complete the piece. If this mechanism is too aggressive,
+a significant amount of bandwidth may be lost in redundant download (keep in
+mind the zero-sum game).</p>
+<p>It never makes sense to request a block twice from the same peer. There is logic
+in place to prevent this.</p>
+</div>
+<div class="section" id="optimizations">
+<h1>optimizations</h1>
+<p>One optimization is to buffer all piece requests while looping over the time-
+critical pieces and not send them until one round is complete. This increases
+the chances that the request messages are coalesced into the same packet.
+This in turn lowers the number of system calls and network overhead.</p>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

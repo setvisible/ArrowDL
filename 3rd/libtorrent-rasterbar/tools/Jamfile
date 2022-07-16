@@ -1,0 +1,47 @@
+import modules ;
+
+BOOST_ROOT = [ modules.peek : BOOST_ROOT ] ;
+
+use-project /torrent : .. ;
+
+if $(BOOST_ROOT)
+{
+	use-project /boost : $(BOOST_ROOT) ;
+}
+
+rule link_libtorrent ( properties * )
+{
+	local result ;
+	if <link>shared in $(properties)
+	{
+		result +=
+			<library>/torrent//torrent/<link>shared/<boost-link>shared ;
+	}
+	else
+	{
+		result +=
+			<library>/torrent//torrent/<link>static/<boost-link>static ;
+	}
+	return $(result) ;
+}
+
+project tools
+   : requirements
+	<threading>multi
+# disable warning C4275: non DLL-interface classkey 'identifier' used as base for DLL-interface classkey 'identifier'
+	<toolset>msvc:<cxxflags>/wd4275
+	# C4268: 'identifier' : 'const' static/global data initialized
+	#        with compiler generated default constructor fills the object with zeros
+	<toolset>msvc:<cxxflags>/wd4268
+	<conditional>@link_libtorrent
+	: default-build
+	<link>static
+	<cxxstd>14
+	<address-model>64
+   ;  
+
+exe dht : dht_put.cpp : <include>../ed25519/src ;
+exe dht-sample : dht_sample.cpp : <include>../ed25519/src ;
+exe session_log_alerts : session_log_alerts.cpp ;
+exe disk_io_stress_test : disk_io_stress_test.cpp ;
+

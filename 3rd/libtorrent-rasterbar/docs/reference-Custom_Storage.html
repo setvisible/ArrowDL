@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<p><a class="reference external" href="reference.html">home</a></p>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#settings-interface" id="toc-entry-1">settings_interface</a></li>
+<li><a class="reference internal" href="#disk-observer" id="toc-entry-2">disk_observer</a><ul>
+<li><a class="reference internal" href="#on-disk" id="toc-entry-3">on_disk()</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#open-file-state" id="toc-entry-4">open_file_state</a></li>
+<li><a class="reference internal" href="#disk-interface" id="toc-entry-5">disk_interface</a><ul>
+<li><a class="reference internal" href="#new-torrent" id="toc-entry-6">new_torrent()</a></li>
+<li><a class="reference internal" href="#remove-torrent" id="toc-entry-7">remove_torrent()</a></li>
+<li><a class="reference internal" href="#async-write-async-read" id="toc-entry-8">async_write() async_read()</a></li>
+<li><a class="reference internal" href="#async-hash" id="toc-entry-9">async_hash()</a></li>
+<li><a class="reference internal" href="#async-hash2" id="toc-entry-10">async_hash2()</a></li>
+<li><a class="reference internal" href="#async-move-storage" id="toc-entry-11">async_move_storage()</a></li>
+<li><a class="reference internal" href="#async-release-files" id="toc-entry-12">async_release_files()</a></li>
+<li><a class="reference internal" href="#async-check-files" id="toc-entry-13">async_check_files()</a></li>
+<li><a class="reference internal" href="#async-stop-torrent" id="toc-entry-14">async_stop_torrent()</a></li>
+<li><a class="reference internal" href="#async-rename-file" id="toc-entry-15">async_rename_file()</a></li>
+<li><a class="reference internal" href="#async-delete-files" id="toc-entry-16">async_delete_files()</a></li>
+<li><a class="reference internal" href="#async-set-file-priority" id="toc-entry-17">async_set_file_priority()</a></li>
+<li><a class="reference internal" href="#async-clear-piece" id="toc-entry-18">async_clear_piece()</a></li>
+<li><a class="reference internal" href="#update-stats-counters" id="toc-entry-19">update_stats_counters()</a></li>
+<li><a class="reference internal" href="#get-status" id="toc-entry-20">get_status()</a></li>
+<li><a class="reference internal" href="#abort" id="toc-entry-21">abort()</a></li>
+<li><a class="reference internal" href="#submit-jobs" id="toc-entry-22">submit_jobs()</a></li>
+<li><a class="reference internal" href="#settings-updated" id="toc-entry-23">settings_updated()</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#storage-holder" id="toc-entry-24">storage_holder</a></li>
+<li><a class="reference internal" href="#buffer-allocator-interface" id="toc-entry-25">buffer_allocator_interface</a></li>
+<li><a class="reference internal" href="#disk-buffer-holder" id="toc-entry-26">disk_buffer_holder</a><ul>
+<li><a class="reference internal" href="#disk-buffer-holder-1" id="toc-entry-27">disk_buffer_holder()</a></li>
+<li><a class="reference internal" href="#disk-buffer-holder-2" id="toc-entry-28">disk_buffer_holder()</a></li>
+<li><a class="reference internal" href="#disk-buffer-holder-3" id="toc-entry-29">~disk_buffer_holder()</a></li>
+<li><a class="reference internal" href="#data" id="toc-entry-30">data()</a></li>
+<li><a class="reference internal" href="#reset" id="toc-entry-31">reset()</a></li>
+<li><a class="reference internal" href="#swap" id="toc-entry-32">swap()</a></li>
+<li><a class="reference internal" href="#is-mutable" id="toc-entry-33">is_mutable()</a></li>
+<li><a class="reference internal" href="#bool" id="toc-entry-34">bool()</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#file-open-mode-t" id="toc-entry-35">file_open_mode_t</a></li>
+</ul>
+</div>
+<p>The disk I/O can be customized in libtorrent. In previous versions, the
+customization was at the level of each torrent. Now, the customization point
+is at the <a class="reference external" href="reference-Session.html#session">session</a> level. All torrents added to a <a class="reference external" href="reference-Session.html#session">session</a> will use the same
+disk I/O subsystem, as determined by the disk_io_constructor (in
+<a class="reference external" href="reference-Session.html#session_params">session_params</a>).</p>
+<p>This allows the disk subsystem to also customize threading and disk job
+management.</p>
+<p>To customize the disk subsystem, implement <a class="reference external" href="reference-Custom_Storage.html#disk_interface">disk_interface</a> and provide a
+factory function to the <a class="reference external" href="reference-Session.html#session">session</a> constructor (via <a class="reference external" href="reference-Session.html#session_params">session_params</a>).</p>
+<p>Example use:</p>
+<pre class="code c++ literal-block">
+<span class="keyword">struct</span> <span class="name class">temp_storage</span>
+<span class="punctuation">{</span>
+  <span class="keyword">explicit</span> <span class="name function">temp_storage</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">file_storage</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name">fs</span><span class="punctuation">)</span> <span class="operator">:</span> <span class="name">m_files</span><span class="punctuation">(</span><span class="name">fs</span><span class="punctuation">)</span> <span class="punctuation">{}</span>
+
+  <span class="name">lt</span><span class="operator">::</span><span class="name">span</span><span class="operator">&lt;</span><span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">&gt;</span> <span class="name">readv</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">peer_request</span> <span class="keyword">const</span> <span class="name">r</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span><span class="operator">&amp;</span> <span class="name">ec</span><span class="punctuation">)</span> <span class="keyword">const</span>
+  <span class="punctuation">{</span>
+    <span class="keyword">auto</span> <span class="keyword">const</span> <span class="name">i</span> <span class="operator">=</span> <span class="name">m_file_data</span><span class="punctuation">.</span><span class="name">find</span><span class="punctuation">(</span><span class="name">r</span><span class="punctuation">.</span><span class="name">piece</span><span class="punctuation">);</span>
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">i</span> <span class="operator">==</span> <span class="name">m_file_data</span><span class="punctuation">.</span><span class="name">end</span><span class="punctuation">())</span>
+    <span class="punctuation">{</span>
+      <span class="name">ec</span><span class="punctuation">.</span><span class="name">operation</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">operation_t</span><span class="operator">::</span><span class="name">file_read</span><span class="punctuation">;</span>
+      <span class="name">ec</span><span class="punctuation">.</span><span class="name">ec</span> <span class="operator">=</span> <span class="name">boost</span><span class="operator">::</span><span class="name">asio</span><span class="operator">::</span><span class="name">error</span><span class="operator">::</span><span class="name">eof</span><span class="punctuation">;</span>
+      <span class="keyword">return</span> <span class="punctuation">{};</span>
+    <span class="punctuation">}</span>
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="keyword type">int</span><span class="punctuation">(</span><span class="name">i</span><span class="operator">-&gt;</span><span class="name">second</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">())</span> <span class="operator">&lt;=</span> <span class="name">r</span><span class="punctuation">.</span><span class="name">start</span><span class="punctuation">)</span>
+    <span class="punctuation">{</span>
+      <span class="name">ec</span><span class="punctuation">.</span><span class="name">operation</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">operation_t</span><span class="operator">::</span><span class="name">file_read</span><span class="punctuation">;</span>
+      <span class="name">ec</span><span class="punctuation">.</span><span class="name">ec</span> <span class="operator">=</span> <span class="name">boost</span><span class="operator">::</span><span class="name">asio</span><span class="operator">::</span><span class="name">error</span><span class="operator">::</span><span class="name">eof</span><span class="punctuation">;</span>
+      <span class="keyword">return</span> <span class="punctuation">{};</span>
+    <span class="punctuation">}</span>
+    <span class="keyword">return</span> <span class="punctuation">{</span> <span class="name">i</span><span class="operator">-&gt;</span><span class="name">second</span><span class="punctuation">.</span><span class="name">data</span><span class="punctuation">()</span> <span class="operator">+</span> <span class="name">r</span><span class="punctuation">.</span><span class="name">start</span><span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">min</span><span class="punctuation">(</span><span class="name">r</span><span class="punctuation">.</span><span class="name">length</span><span class="punctuation">,</span> <span class="keyword type">int</span><span class="punctuation">(</span><span class="name">i</span><span class="operator">-&gt;</span><span class="name">second</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">())</span> <span class="operator">-</span> <span class="name">r</span><span class="punctuation">.</span><span class="name">start</span><span class="punctuation">)</span> <span class="punctuation">};</span>
+  <span class="punctuation">}</span>
+  <span class="keyword type">void</span> <span class="name">writev</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">span</span><span class="operator">&lt;</span><span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">&gt;</span> <span class="keyword">const</span> <span class="name">b</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">piece_index_t</span> <span class="keyword">const</span> <span class="name">piece</span><span class="punctuation">,</span> <span class="keyword type">int</span> <span class="keyword">const</span> <span class="name">offset</span><span class="punctuation">)</span>
+  <span class="punctuation">{</span>
+    <span class="keyword">auto</span><span class="operator">&amp;</span> <span class="name">data</span> <span class="operator">=</span> <span class="name">m_file_data</span><span class="punctuation">[</span><span class="name">piece</span><span class="punctuation">];</span>
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">data</span><span class="punctuation">.</span><span class="name">empty</span><span class="punctuation">())</span>
+    <span class="punctuation">{</span>
+      <span class="comment single">// allocate the whole piece, otherwise we'll invalidate the pointers
+</span>      <span class="comment single">// we have returned back to libtorrent
+</span>      <span class="keyword type">int</span> <span class="keyword">const</span> <span class="name">size</span> <span class="operator">=</span> <span class="name">piece_size</span><span class="punctuation">(</span><span class="name">piece</span><span class="punctuation">);</span>
+      <span class="name">data</span><span class="punctuation">.</span><span class="name">resize</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="keyword type">size_t</span><span class="punctuation">(</span><span class="name">size</span><span class="punctuation">));</span>
+    <span class="punctuation">}</span>
+    <span class="name">TORRENT_ASSERT</span><span class="punctuation">(</span><span class="name">offset</span> <span class="operator">+</span> <span class="name">b</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">()</span> <span class="operator">&lt;=</span> <span class="keyword type">int</span><span class="punctuation">(</span><span class="name">data</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">()));</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">memcpy</span><span class="punctuation">(</span><span class="name">data</span><span class="punctuation">.</span><span class="name">data</span><span class="punctuation">()</span> <span class="operator">+</span> <span class="name">offset</span><span class="punctuation">,</span> <span class="name">b</span><span class="punctuation">.</span><span class="name">data</span><span class="punctuation">(),</span> <span class="name">std</span><span class="operator">::</span><span class="keyword type">size_t</span><span class="punctuation">(</span><span class="name">b</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">()));</span>
+  <span class="punctuation">}</span>
+  <span class="name">lt</span><span class="operator">::</span><span class="name">sha1_hash</span> <span class="name">hash</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">piece_index_t</span> <span class="keyword">const</span> <span class="name">piece</span>
+    <span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">span</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">sha256_hash</span><span class="operator">&gt;</span> <span class="keyword">const</span> <span class="name">block_hashes</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span><span class="operator">&amp;</span> <span class="name">ec</span><span class="punctuation">)</span> <span class="keyword">const</span>
+  <span class="punctuation">{</span>
+    <span class="keyword">auto</span> <span class="keyword">const</span> <span class="name">i</span> <span class="operator">=</span> <span class="name">m_file_data</span><span class="punctuation">.</span><span class="name">find</span><span class="punctuation">(</span><span class="name">piece</span><span class="punctuation">);</span>
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">i</span> <span class="operator">==</span> <span class="name">m_file_data</span><span class="punctuation">.</span><span class="name">end</span><span class="punctuation">())</span>
+    <span class="punctuation">{</span>
+      <span class="name">ec</span><span class="punctuation">.</span><span class="name">operation</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">operation_t</span><span class="operator">::</span><span class="name">file_read</span><span class="punctuation">;</span>
+      <span class="name">ec</span><span class="punctuation">.</span><span class="name">ec</span> <span class="operator">=</span> <span class="name">boost</span><span class="operator">::</span><span class="name">asio</span><span class="operator">::</span><span class="name">error</span><span class="operator">::</span><span class="name">eof</span><span class="punctuation">;</span>
+      <span class="keyword">return</span> <span class="punctuation">{};</span>
+    <span class="punctuation">}</span>
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="operator">!</span><span class="name">block_hashes</span><span class="punctuation">.</span><span class="name">empty</span><span class="punctuation">())</span>
+    <span class="punctuation">{</span>
+      <span class="keyword type">int</span> <span class="keyword">const</span> <span class="name">piece_size2</span> <span class="operator">=</span> <span class="name">m_files</span><span class="punctuation">.</span><span class="name">piece_size2</span><span class="punctuation">(</span><span class="name">piece</span><span class="punctuation">);</span>
+      <span class="keyword type">int</span> <span class="keyword">const</span> <span class="name">blocks_in_piece2</span> <span class="operator">=</span> <span class="name">m_files</span><span class="punctuation">.</span><span class="name">blocks_in_piece2</span><span class="punctuation">(</span><span class="name">piece</span><span class="punctuation">);</span>
+      <span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name">buf</span> <span class="operator">=</span> <span class="name">i</span><span class="operator">-&gt;</span><span class="name">second</span><span class="punctuation">.</span><span class="name">data</span><span class="punctuation">();</span>
+      <span class="name">std</span><span class="operator">::</span><span class="keyword type">int64_t</span> <span class="name">offset</span> <span class="operator">=</span> <span class="literal number integer">0</span><span class="punctuation">;</span>
+      <span class="keyword">for</span> <span class="punctuation">(</span><span class="keyword type">int</span> <span class="name">k</span> <span class="operator">=</span> <span class="literal number integer">0</span><span class="punctuation">;</span> <span class="name">k</span> <span class="operator">&lt;</span> <span class="name">blocks_in_piece2</span><span class="punctuation">;</span> <span class="operator">++</span><span class="name">k</span><span class="punctuation">)</span>
+      <span class="punctuation">{</span>
+        <span class="name">lt</span><span class="operator">::</span><span class="name">hasher256</span> <span class="name">h2</span><span class="punctuation">;</span>
+        <span class="name">std</span><span class="operator">::</span><span class="keyword type">ptrdiff_t</span> <span class="keyword">const</span> <span class="name">len2</span> <span class="operator">=</span> <span class="name">std</span><span class="operator">::</span><span class="name">min</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">default_block_size</span><span class="punctuation">,</span> <span class="keyword type">int</span><span class="punctuation">(</span><span class="name">piece_size2</span> <span class="operator">-</span> <span class="name">offset</span><span class="punctuation">));</span>
+        <span class="name">h2</span><span class="punctuation">.</span><span class="name">update</span><span class="punctuation">({</span> <span class="name">buf</span><span class="punctuation">,</span> <span class="name">len2</span> <span class="punctuation">});</span>
+        <span class="name">buf</span> <span class="operator">+=</span> <span class="name">len2</span><span class="punctuation">;</span>
+        <span class="name">offset</span> <span class="operator">+=</span> <span class="name">len2</span><span class="punctuation">;</span>
+        <span class="name">block_hashes</span><span class="punctuation">[</span><span class="name">k</span><span class="punctuation">]</span> <span class="operator">=</span> <span class="name">h2</span><span class="punctuation">.</span><span class="keyword">final</span><span class="punctuation">();</span>
+      <span class="punctuation">}</span>
+    <span class="punctuation">}</span>
+    <span class="keyword">return</span> <span class="name">lt</span><span class="operator">::</span><span class="name">hasher</span><span class="punctuation">(</span><span class="name">i</span><span class="operator">-&gt;</span><span class="name">second</span><span class="punctuation">).</span><span class="keyword">final</span><span class="punctuation">();</span>
+  <span class="punctuation">}</span>
+  <span class="name">lt</span><span class="operator">::</span><span class="name">sha256_hash</span> <span class="name">hash2</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">piece_index_t</span> <span class="keyword">const</span> <span class="name">piece</span><span class="punctuation">,</span> <span class="keyword type">int</span> <span class="keyword">const</span> <span class="name">offset</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span><span class="operator">&amp;</span> <span class="name">ec</span><span class="punctuation">)</span>
+  <span class="punctuation">{</span>
+    <span class="keyword">auto</span> <span class="keyword">const</span> <span class="name">i</span> <span class="operator">=</span> <span class="name">m_file_data</span><span class="punctuation">.</span><span class="name">find</span><span class="punctuation">(</span><span class="name">piece</span><span class="punctuation">);</span>
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">i</span> <span class="operator">==</span> <span class="name">m_file_data</span><span class="punctuation">.</span><span class="name">end</span><span class="punctuation">())</span>
+    <span class="punctuation">{</span>
+      <span class="name">ec</span><span class="punctuation">.</span><span class="name">operation</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">operation_t</span><span class="operator">::</span><span class="name">file_read</span><span class="punctuation">;</span>
+      <span class="name">ec</span><span class="punctuation">.</span><span class="name">ec</span> <span class="operator">=</span> <span class="name">boost</span><span class="operator">::</span><span class="name">asio</span><span class="operator">::</span><span class="name">error</span><span class="operator">::</span><span class="name">eof</span><span class="punctuation">;</span>
+      <span class="keyword">return</span> <span class="punctuation">{};</span>
+    <span class="punctuation">}</span>
+
+    <span class="keyword type">int</span> <span class="keyword">const</span> <span class="name">piece_size</span> <span class="operator">=</span> <span class="name">m_files</span><span class="punctuation">.</span><span class="name">piece_size2</span><span class="punctuation">(</span><span class="name">piece</span><span class="punctuation">);</span>
+
+    <span class="name">std</span><span class="operator">::</span><span class="keyword type">ptrdiff_t</span> <span class="keyword">const</span> <span class="name">len</span> <span class="operator">=</span> <span class="name">std</span><span class="operator">::</span><span class="name">min</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">default_block_size</span><span class="punctuation">,</span> <span class="name">piece_size</span> <span class="operator">-</span> <span class="name">offset</span><span class="punctuation">);</span>
+
+    <span class="name">lt</span><span class="operator">::</span><span class="name">span</span><span class="operator">&lt;</span><span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">&gt;</span> <span class="name">b</span> <span class="operator">=</span> <span class="punctuation">{</span><span class="name">i</span><span class="operator">-&gt;</span><span class="name">second</span><span class="punctuation">.</span><span class="name">data</span><span class="punctuation">()</span> <span class="operator">+</span> <span class="name">offset</span><span class="punctuation">,</span> <span class="name">len</span><span class="punctuation">};</span>
+    <span class="keyword">return</span> <span class="name">lt</span><span class="operator">::</span><span class="name">hasher256</span><span class="punctuation">(</span><span class="name">b</span><span class="punctuation">).</span><span class="keyword">final</span><span class="punctuation">();</span>
+  <span class="punctuation">}</span>
+
+<span class="keyword">private</span><span class="operator">:</span>
+  <span class="keyword type">int</span> <span class="name">piece_size</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">piece_index_t</span> <span class="name">piece</span><span class="punctuation">)</span> <span class="keyword">const</span>
+  <span class="punctuation">{</span>
+    <span class="keyword type">int</span> <span class="keyword">const</span> <span class="name">num_pieces</span> <span class="operator">=</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="keyword type">int</span><span class="operator">&gt;</span><span class="punctuation">((</span><span class="name">m_files</span><span class="punctuation">.</span><span class="name">total_size</span><span class="punctuation">()</span> <span class="operator">+</span> <span class="name">m_files</span><span class="punctuation">.</span><span class="name">piece_length</span><span class="punctuation">()</span> <span class="operator">-</span> <span class="literal number integer">1</span><span class="punctuation">)</span> <span class="operator">/</span> <span class="name">m_files</span><span class="punctuation">.</span><span class="name">piece_length</span><span class="punctuation">());</span>
+    <span class="keyword">return</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="keyword type">int</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">piece</span><span class="punctuation">)</span> <span class="operator">&lt;</span> <span class="name">num_pieces</span> <span class="operator">-</span> <span class="literal number integer">1</span>
+      <span class="operator">?</span> <span class="name">m_files</span><span class="punctuation">.</span><span class="name">piece_length</span><span class="punctuation">()</span> <span class="operator">:</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="keyword type">int</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">m_files</span><span class="punctuation">.</span><span class="name">total_size</span><span class="punctuation">()</span> <span class="operator">-</span> <span class="name">std</span><span class="operator">::</span><span class="keyword type">int64_t</span><span class="punctuation">(</span><span class="name">num_pieces</span> <span class="operator">-</span> <span class="literal number integer">1</span><span class="punctuation">)</span> <span class="operator">*</span> <span class="name">m_files</span><span class="punctuation">.</span><span class="name">piece_length</span><span class="punctuation">());</span>
+  <span class="punctuation">}</span>
+
+  <span class="name">lt</span><span class="operator">::</span><span class="name">file_storage</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name">m_files</span><span class="punctuation">;</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">map</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">piece_index_t</span><span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="keyword type">char</span><span class="operator">&gt;&gt;</span> <span class="name">m_file_data</span><span class="punctuation">;</span>
+<span class="punctuation">};</span>
+
+<span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span> <span class="name">pop</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span><span class="operator">&gt;&amp;</span> <span class="name">q</span><span class="punctuation">)</span>
+<span class="punctuation">{</span>
+  <span class="name">TORRENT_ASSERT</span><span class="punctuation">(</span><span class="operator">!</span><span class="name">q</span><span class="punctuation">.</span><span class="name">empty</span><span class="punctuation">());</span>
+  <span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span> <span class="keyword">const</span> <span class="name">ret</span> <span class="operator">=</span> <span class="name">q</span><span class="punctuation">.</span><span class="name">back</span><span class="punctuation">();</span>
+  <span class="name">q</span><span class="punctuation">.</span><span class="name">pop_back</span><span class="punctuation">();</span>
+  <span class="keyword">return</span> <span class="name">ret</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+
+<span class="keyword">struct</span> <span class="name class">temp_disk_io</span> <span class="keyword">final</span> <span class="operator">:</span> <span class="name">lt</span><span class="operator">::</span><span class="name">disk_interface</span>
+  <span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">buffer_allocator_interface</span>
+<span class="punctuation">{</span>
+  <span class="keyword">explicit</span> <span class="name function">temp_disk_io</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">io_context</span><span class="operator">&amp;</span> <span class="name">ioc</span><span class="punctuation">)</span><span class="operator">:</span> <span class="name">m_ioc</span><span class="punctuation">(</span><span class="name">ioc</span><span class="punctuation">)</span> <span class="punctuation">{}</span>
+
+  <span class="keyword type">void</span> <span class="name function">settings_updated</span><span class="punctuation">()</span> <span class="keyword">override</span> <span class="punctuation">{}</span>
+
+  <span class="name">lt</span><span class="operator">::</span><span class="name">storage_holder</span> <span class="name">new_torrent</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_params</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name">params</span>
+    <span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">shared_ptr</span><span class="operator">&lt;</span><span class="keyword type">void</span><span class="operator">&gt;</span> <span class="keyword">const</span><span class="operator">&amp;</span><span class="punctuation">)</span> <span class="keyword">override</span>
+  <span class="punctuation">{</span>
+    <span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span> <span class="keyword">const</span> <span class="name">idx</span> <span class="operator">=</span> <span class="name">m_free_slots</span><span class="punctuation">.</span><span class="name">empty</span><span class="punctuation">()</span>
+      <span class="operator">?</span> <span class="name">m_torrents</span><span class="punctuation">.</span><span class="name">end_index</span><span class="punctuation">()</span>
+      <span class="operator">:</span> <span class="name">pop</span><span class="punctuation">(</span><span class="name">m_free_slots</span><span class="punctuation">);</span>
+    <span class="keyword">auto</span> <span class="name">storage</span> <span class="operator">=</span> <span class="name">std</span><span class="operator">::</span><span class="name">make_unique</span><span class="operator">&lt;</span><span class="name">temp_storage</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">params</span><span class="punctuation">.</span><span class="name">files</span><span class="punctuation">);</span>
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">idx</span> <span class="operator">==</span> <span class="name">m_torrents</span><span class="punctuation">.</span><span class="name">end_index</span><span class="punctuation">())</span> <span class="name">m_torrents</span><span class="punctuation">.</span><span class="name">emplace_back</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">move</span><span class="punctuation">(</span><span class="name">storage</span><span class="punctuation">));</span>
+    <span class="keyword">else</span> <span class="name">m_torrents</span><span class="punctuation">[</span><span class="name">idx</span><span class="punctuation">]</span> <span class="operator">=</span> <span class="name">std</span><span class="operator">::</span><span class="name">move</span><span class="punctuation">(</span><span class="name">storage</span><span class="punctuation">);</span>
+    <span class="keyword">return</span> <span class="name">lt</span><span class="operator">::</span><span class="name">storage_holder</span><span class="punctuation">(</span><span class="name">idx</span><span class="punctuation">,</span> <span class="operator">*</span><span class="keyword">this</span><span class="punctuation">);</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword type">void</span> <span class="name">remove_torrent</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span> <span class="keyword">const</span> <span class="name">idx</span><span class="punctuation">)</span> <span class="keyword">override</span>
+  <span class="punctuation">{</span>
+    <span class="name">m_torrents</span><span class="punctuation">[</span><span class="name">idx</span><span class="punctuation">].</span><span class="name">reset</span><span class="punctuation">();</span>
+    <span class="name">m_free_slots</span><span class="punctuation">.</span><span class="name">push_back</span><span class="punctuation">(</span><span class="name">idx</span><span class="punctuation">);</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword type">void</span> <span class="name">abort</span><span class="punctuation">(</span><span class="keyword type">bool</span><span class="punctuation">)</span> <span class="keyword">override</span> <span class="punctuation">{}</span>
+
+  <span class="keyword type">void</span> <span class="name">async_read</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span> <span class="name">storage</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">peer_request</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name">r</span>
+    <span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">function</span><span class="operator">&lt;</span><span class="keyword type">void</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">disk_buffer_holder</span> <span class="name">block</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name">se</span><span class="punctuation">)</span><span class="operator">&gt;</span> <span class="name">handler</span>
+    <span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">disk_job_flags_t</span><span class="punctuation">)</span> <span class="keyword">override</span>
+  <span class="punctuation">{</span>
+    <span class="comment single">// this buffer is owned by the storage. It will remain valid for as
+</span>    <span class="comment single">// long as the torrent remains in the session. We don't need any lifetime
+</span>    <span class="comment single">// management of it.
+</span>    <span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span> <span class="name">error</span><span class="punctuation">;</span>
+    <span class="name">lt</span><span class="operator">::</span><span class="name">span</span><span class="operator">&lt;</span><span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">&gt;</span> <span class="name">b</span> <span class="operator">=</span> <span class="name">m_torrents</span><span class="punctuation">[</span><span class="name">storage</span><span class="punctuation">]</span><span class="operator">-&gt;</span><span class="name">readv</span><span class="punctuation">(</span><span class="name">r</span><span class="punctuation">,</span> <span class="name">error</span><span class="punctuation">);</span>
+
+    <span class="name">post</span><span class="punctuation">(</span><span class="name">m_ioc</span><span class="punctuation">,</span> <span class="punctuation">[</span><span class="name">handler</span><span class="punctuation">,</span> <span class="name">error</span><span class="punctuation">,</span> <span class="name">b</span><span class="punctuation">,</span> <span class="keyword">this</span><span class="punctuation">]</span>
+      <span class="punctuation">{</span> <span class="name">handler</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">disk_buffer_holder</span><span class="punctuation">(</span><span class="operator">*</span><span class="keyword">this</span><span class="punctuation">,</span> <span class="keyword">const_cast</span><span class="operator">&lt;</span><span class="keyword type">char</span><span class="operator">*&gt;</span><span class="punctuation">(</span><span class="name">b</span><span class="punctuation">.</span><span class="name">data</span><span class="punctuation">()),</span> <span class="keyword type">int</span><span class="punctuation">(</span><span class="name">b</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">())),</span> <span class="name">error</span><span class="punctuation">);</span> <span class="punctuation">});</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword type">bool</span> <span class="name">async_write</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span> <span class="name">storage</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">peer_request</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name">r</span>
+    <span class="punctuation">,</span> <span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name">buf</span><span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">shared_ptr</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">disk_observer</span><span class="operator">&gt;</span>
+    <span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">function</span><span class="operator">&lt;</span><span class="keyword type">void</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span> <span class="keyword">const</span><span class="operator">&amp;</span><span class="punctuation">)</span><span class="operator">&gt;</span> <span class="name">handler</span>
+    <span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">disk_job_flags_t</span><span class="punctuation">)</span> <span class="keyword">override</span>
+  <span class="punctuation">{</span>
+    <span class="name">lt</span><span class="operator">::</span><span class="name">span</span><span class="operator">&lt;</span><span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">&gt;</span> <span class="keyword">const</span> <span class="name">b</span> <span class="operator">=</span> <span class="punctuation">{</span> <span class="name">buf</span><span class="punctuation">,</span> <span class="name">r</span><span class="punctuation">.</span><span class="name">length</span> <span class="punctuation">};</span>
+
+    <span class="name">m_torrents</span><span class="punctuation">[</span><span class="name">storage</span><span class="punctuation">]</span><span class="operator">-&gt;</span><span class="name">writev</span><span class="punctuation">(</span><span class="name">b</span><span class="punctuation">,</span> <span class="name">r</span><span class="punctuation">.</span><span class="name">piece</span><span class="punctuation">,</span> <span class="name">r</span><span class="punctuation">.</span><span class="name">start</span><span class="punctuation">);</span>
+
+    <span class="name">post</span><span class="punctuation">(</span><span class="name">m_ioc</span><span class="punctuation">,</span> <span class="punctuation">[</span><span class="operator">=</span><span class="punctuation">]{</span> <span class="name">handler</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span><span class="punctuation">());</span> <span class="punctuation">});</span>
+    <span class="keyword">return</span> <span class="name builtin">false</span><span class="punctuation">;</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword type">void</span> <span class="name">async_hash</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span> <span class="name">storage</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">piece_index_t</span> <span class="keyword">const</span> <span class="name">piece</span>
+    <span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">span</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">sha256_hash</span><span class="operator">&gt;</span> <span class="name">block_hashes</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">disk_job_flags_t</span>
+    <span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">function</span><span class="operator">&lt;</span><span class="keyword type">void</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">piece_index_t</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">sha1_hash</span> <span class="keyword">const</span><span class="operator">&amp;</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span> <span class="keyword">const</span><span class="operator">&amp;</span><span class="punctuation">)</span><span class="operator">&gt;</span> <span class="name">handler</span><span class="punctuation">)</span> <span class="keyword">override</span>
+  <span class="punctuation">{</span>
+    <span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span> <span class="name">error</span><span class="punctuation">;</span>
+    <span class="name">lt</span><span class="operator">::</span><span class="name">sha1_hash</span> <span class="keyword">const</span> <span class="name">hash</span> <span class="operator">=</span> <span class="name">m_torrents</span><span class="punctuation">[</span><span class="name">storage</span><span class="punctuation">]</span><span class="operator">-&gt;</span><span class="name">hash</span><span class="punctuation">(</span><span class="name">piece</span><span class="punctuation">,</span> <span class="name">block_hashes</span><span class="punctuation">,</span> <span class="name">error</span><span class="punctuation">);</span>
+    <span class="name">post</span><span class="punctuation">(</span><span class="name">m_ioc</span><span class="punctuation">,</span> <span class="punctuation">[</span><span class="operator">=</span><span class="punctuation">]{</span> <span class="name">handler</span><span class="punctuation">(</span><span class="name">piece</span><span class="punctuation">,</span> <span class="name">hash</span><span class="punctuation">,</span> <span class="name">error</span><span class="punctuation">);</span> <span class="punctuation">});</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword type">void</span> <span class="name">async_hash2</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span> <span class="name">storage</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">piece_index_t</span> <span class="keyword">const</span> <span class="name">piece</span>
+    <span class="punctuation">,</span> <span class="keyword type">int</span> <span class="keyword">const</span> <span class="name">offset</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">disk_job_flags_t</span>
+    <span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">function</span><span class="operator">&lt;</span><span class="keyword type">void</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">piece_index_t</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">sha256_hash</span> <span class="keyword">const</span><span class="operator">&amp;</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span> <span class="keyword">const</span><span class="operator">&amp;</span><span class="punctuation">)</span><span class="operator">&gt;</span> <span class="name">handler</span><span class="punctuation">)</span> <span class="keyword">override</span>
+  <span class="punctuation">{</span>
+    <span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span> <span class="name">error</span><span class="punctuation">;</span>
+    <span class="name">lt</span><span class="operator">::</span><span class="name">sha256_hash</span> <span class="keyword">const</span> <span class="name">hash</span> <span class="operator">=</span> <span class="name">m_torrents</span><span class="punctuation">[</span><span class="name">storage</span><span class="punctuation">]</span><span class="operator">-&gt;</span><span class="name">hash2</span><span class="punctuation">(</span><span class="name">piece</span><span class="punctuation">,</span> <span class="name">offset</span><span class="punctuation">,</span> <span class="name">error</span><span class="punctuation">);</span>
+    <span class="name">post</span><span class="punctuation">(</span><span class="name">m_ioc</span><span class="punctuation">,</span> <span class="punctuation">[</span><span class="operator">=</span><span class="punctuation">]{</span> <span class="name">handler</span><span class="punctuation">(</span><span class="name">piece</span><span class="punctuation">,</span> <span class="name">hash</span><span class="punctuation">,</span> <span class="name">error</span><span class="punctuation">);</span> <span class="punctuation">});</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword type">void</span> <span class="name">async_move_storage</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span><span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="name">p</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">move_flags_t</span>
+    <span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">function</span><span class="operator">&lt;</span><span class="keyword type">void</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">status_t</span><span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="keyword">const</span><span class="operator">&amp;</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span> <span class="keyword">const</span><span class="operator">&amp;</span><span class="punctuation">)</span><span class="operator">&gt;</span> <span class="name">handler</span><span class="punctuation">)</span> <span class="keyword">override</span>
+  <span class="punctuation">{</span>
+    <span class="name">post</span><span class="punctuation">(</span><span class="name">m_ioc</span><span class="punctuation">,</span> <span class="punctuation">[</span><span class="operator">=</span><span class="punctuation">]{</span>
+      <span class="name">handler</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">status_t</span><span class="operator">::</span><span class="name">fatal_disk_error</span><span class="punctuation">,</span> <span class="name">p</span>
+        <span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">error_code</span><span class="punctuation">(</span><span class="name">boost</span><span class="operator">::</span><span class="name">system</span><span class="operator">::</span><span class="name">errc</span><span class="operator">::</span><span class="name">operation_not_supported</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">system_category</span><span class="punctuation">())));</span>
+    <span class="punctuation">});</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword type">void</span> <span class="name">async_release_files</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span><span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">function</span><span class="operator">&lt;</span><span class="keyword type">void</span><span class="punctuation">()</span><span class="operator">&gt;</span><span class="punctuation">)</span> <span class="keyword">override</span> <span class="punctuation">{}</span>
+
+  <span class="keyword type">void</span> <span class="name">async_delete_files</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">remove_flags_t</span>
+    <span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">function</span><span class="operator">&lt;</span><span class="keyword type">void</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span> <span class="keyword">const</span><span class="operator">&amp;</span><span class="punctuation">)</span><span class="operator">&gt;</span> <span class="name">handler</span><span class="punctuation">)</span> <span class="keyword">override</span>
+  <span class="punctuation">{</span>
+    <span class="name">post</span><span class="punctuation">(</span><span class="name">m_ioc</span><span class="punctuation">,</span> <span class="punctuation">[</span><span class="operator">=</span><span class="punctuation">]{</span> <span class="name">handler</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span><span class="punctuation">());</span> <span class="punctuation">});</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword type">void</span> <span class="name">async_check_files</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span>
+    <span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">add_torrent_params</span> <span class="keyword">const</span><span class="operator">*</span>
+    <span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">aux</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">std</span><span class="operator">::</span><span class="name">string</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">file_index_t</span><span class="operator">&gt;</span>
+    <span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">function</span><span class="operator">&lt;</span><span class="keyword type">void</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">status_t</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span> <span class="keyword">const</span><span class="operator">&amp;</span><span class="punctuation">)</span><span class="operator">&gt;</span> <span class="name">handler</span><span class="punctuation">)</span> <span class="keyword">override</span>
+  <span class="punctuation">{</span>
+    <span class="name">post</span><span class="punctuation">(</span><span class="name">m_ioc</span><span class="punctuation">,</span> <span class="punctuation">[</span><span class="operator">=</span><span class="punctuation">]{</span> <span class="name">handler</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">status_t</span><span class="operator">::</span><span class="name">no_error</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span><span class="punctuation">());</span> <span class="punctuation">});</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword type">void</span> <span class="name">async_rename_file</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span>
+    <span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">file_index_t</span> <span class="keyword">const</span> <span class="name">idx</span>
+    <span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="keyword">const</span> <span class="name">name</span>
+    <span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">function</span><span class="operator">&lt;</span><span class="keyword type">void</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="keyword">const</span><span class="operator">&amp;</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">file_index_t</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span> <span class="keyword">const</span><span class="operator">&amp;</span><span class="punctuation">)</span><span class="operator">&gt;</span> <span class="name">handler</span><span class="punctuation">)</span> <span class="keyword">override</span>
+  <span class="punctuation">{</span>
+    <span class="name">post</span><span class="punctuation">(</span><span class="name">m_ioc</span><span class="punctuation">,</span> <span class="punctuation">[</span><span class="operator">=</span><span class="punctuation">]{</span> <span class="name">handler</span><span class="punctuation">(</span><span class="name">name</span><span class="punctuation">,</span> <span class="name">idx</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span><span class="punctuation">());</span> <span class="punctuation">});</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword type">void</span> <span class="name">async_stop_torrent</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span><span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">function</span><span class="operator">&lt;</span><span class="keyword type">void</span><span class="punctuation">()</span><span class="operator">&gt;</span> <span class="name">handler</span><span class="punctuation">)</span> <span class="keyword">override</span>
+  <span class="punctuation">{</span>
+    <span class="name">post</span><span class="punctuation">(</span><span class="name">m_ioc</span><span class="punctuation">,</span> <span class="name">handler</span><span class="punctuation">);</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword type">void</span> <span class="name">async_set_file_priority</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span>
+    <span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">aux</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">download_priority_t</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">file_index_t</span><span class="operator">&gt;</span> <span class="name">prio</span>
+    <span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">function</span><span class="operator">&lt;</span><span class="keyword type">void</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span> <span class="keyword">const</span><span class="operator">&amp;</span>
+      <span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">aux</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">download_priority_t</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">file_index_t</span><span class="operator">&gt;</span><span class="punctuation">)</span><span class="operator">&gt;</span> <span class="name">handler</span><span class="punctuation">)</span> <span class="keyword">override</span>
+  <span class="punctuation">{</span>
+    <span class="name">post</span><span class="punctuation">(</span><span class="name">m_ioc</span><span class="punctuation">,</span> <span class="punctuation">[</span><span class="operator">=</span><span class="punctuation">]{</span>
+      <span class="name">handler</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_error</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">error_code</span><span class="punctuation">(</span>
+        <span class="name">boost</span><span class="operator">::</span><span class="name">system</span><span class="operator">::</span><span class="name">errc</span><span class="operator">::</span><span class="name">operation_not_supported</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">system_category</span><span class="punctuation">())),</span> <span class="name">std</span><span class="operator">::</span><span class="name">move</span><span class="punctuation">(</span><span class="name">prio</span><span class="punctuation">));</span>
+    <span class="punctuation">});</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword type">void</span> <span class="name">async_clear_piece</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">piece_index_t</span> <span class="name">index</span>
+    <span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">function</span><span class="operator">&lt;</span><span class="keyword type">void</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">piece_index_t</span><span class="punctuation">)</span><span class="operator">&gt;</span> <span class="name">handler</span><span class="punctuation">)</span> <span class="keyword">override</span>
+  <span class="punctuation">{</span>
+    <span class="name">post</span><span class="punctuation">(</span><span class="name">m_ioc</span><span class="punctuation">,</span> <span class="punctuation">[</span><span class="operator">=</span><span class="punctuation">]{</span> <span class="name">handler</span><span class="punctuation">(</span><span class="name">index</span><span class="punctuation">);</span> <span class="punctuation">});</span>
+  <span class="punctuation">}</span>
+
+  <span class="comment single">// implements buffer_allocator_interface
+</span>  <span class="keyword type">void</span> <span class="name">free_disk_buffer</span><span class="punctuation">(</span><span class="keyword type">char</span><span class="operator">*</span><span class="punctuation">)</span> <span class="keyword">override</span>
+  <span class="punctuation">{</span>
+    <span class="comment single">// never free any buffer. We only return buffers owned by the storage
+</span>    <span class="comment single">// object
+</span>  <span class="punctuation">}</span>
+
+  <span class="keyword type">void</span> <span class="name">update_stats_counters</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">counters</span><span class="operator">&amp;</span><span class="punctuation">)</span> <span class="keyword">const</span> <span class="keyword">override</span> <span class="punctuation">{}</span>
+
+  <span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">open_file_state</span><span class="operator">&gt;</span> <span class="name">get_status</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span><span class="punctuation">)</span> <span class="keyword">const</span> <span class="keyword">override</span>
+  <span class="punctuation">{</span> <span class="keyword">return</span> <span class="punctuation">{};</span> <span class="punctuation">}</span>
+
+  <span class="keyword type">void</span> <span class="name">submit_jobs</span><span class="punctuation">()</span> <span class="keyword">override</span> <span class="punctuation">{}</span>
+
+<span class="keyword">private</span><span class="operator">:</span>
+
+  <span class="name">lt</span><span class="operator">::</span><span class="name">aux</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">std</span><span class="operator">::</span><span class="name">shared_ptr</span><span class="operator">&lt;</span><span class="name">temp_storage</span><span class="operator">&gt;</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span><span class="operator">&gt;</span> <span class="name">m_torrents</span><span class="punctuation">;</span>
+
+  <span class="comment single">// slots that are unused in the m_torrents vector
+</span>  <span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">storage_index_t</span><span class="operator">&gt;</span> <span class="name">m_free_slots</span><span class="punctuation">;</span>
+
+  <span class="comment single">// callbacks are posted on this
+</span>  <span class="name">lt</span><span class="operator">::</span><span class="name">io_context</span><span class="operator">&amp;</span> <span class="name">m_ioc</span><span class="punctuation">;</span>
+<span class="punctuation">};</span>
+
+<span class="name">std</span><span class="operator">::</span><span class="name">unique_ptr</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">disk_interface</span><span class="operator">&gt;</span> <span class="name">temp_disk_constructor</span><span class="punctuation">(</span>
+  <span class="name">lt</span><span class="operator">::</span><span class="name">io_context</span><span class="operator">&amp;</span> <span class="name">ioc</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">settings_interface</span> <span class="keyword">const</span><span class="operator">&amp;</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">counters</span><span class="operator">&amp;</span><span class="punctuation">)</span>
+<span class="punctuation">{</span>
+  <span class="keyword">return</span> <span class="name">std</span><span class="operator">::</span><span class="name">make_unique</span><span class="operator">&lt;</span><span class="name">temp_disk_io</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">ioc</span><span class="punctuation">);</span>
+<span class="punctuation">}</span>
+</pre>
+<a name="settings_interface"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+settings_interface&labels=documentation&body=Documentation+under+heading+%22class+settings_interface%22+could+be+improved">report issue</a>]</span><div class="section" id="settings-interface">
+<h1>settings_interface</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/settings_pack.hpp">libtorrent/settings_pack.hpp</a>&quot;</p>
+<p>the common interface to <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a> and the internal representation of
+settings.</p>
+<pre class="literal-block">
+struct settings_interface
+{
+   virtual void <strong>set_int</strong> (int name, int val) = 0;
+   virtual void <strong>set_bool</strong> (int name, bool val) = 0;
+   virtual void <strong>set_str</strong> (int name, std::string val) = 0;
+   virtual bool <strong>has_val</strong> (int name) const = 0;
+   virtual bool <strong>get_bool</strong> (int name) const = 0;
+   virtual std::string const&amp; <strong>get_str</strong> (int name) const = 0;
+   virtual int <strong>get_int</strong> (int name) const = 0;
+};
+</pre>
+<a name="disk_observer"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+disk_observer&labels=documentation&body=Documentation+under+heading+%22class+disk_observer%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="disk-observer">
+<h1>disk_observer</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/disk_observer.hpp">libtorrent/disk_observer.hpp</a>&quot;</p>
+<pre class="literal-block">
+struct disk_observer
+{
+   virtual void <strong>on_disk</strong> () = 0;
+};
+</pre>
+<a name="on_disk()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_observer%3A%3A%5Bon_disk%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_observer%3A%3A%5Bon_disk%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="on-disk">
+<h2>on_disk()</h2>
+<pre class="literal-block">
+virtual void <strong>on_disk</strong> () = 0;
+</pre>
+<p>called when the disk cache size has dropped
+below the low watermark again and we can
+resume downloading from peers</p>
+<a name="open_file_state"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+open_file_state&labels=documentation&body=Documentation+under+heading+%22class+open_file_state%22+could+be+improved">report issue</a>]</span></div>
+</div>
+<div class="section" id="open-file-state">
+<h1>open_file_state</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/disk_interface.hpp">libtorrent/disk_interface.hpp</a>&quot;</p>
+<p>this contains information about a file that's currently open by the
+libtorrent disk I/O subsystem. It's associated with a single torrent.</p>
+<pre class="literal-block">
+struct open_file_state
+{
+   file_index_t file_index;
+   file_open_mode_t open_mode;
+   time_point last_use;
+};
+</pre>
+<a name="file_index"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:open_file_state%3A%3A%5Bfile_index%5D&labels=documentation&body=Documentation+under+heading+%22open_file_state%3A%3A%5Bfile_index%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>file_index</dt>
+<dd>the index of the file this <a class="reference external" href="reference-Bencoding.html#entry">entry</a> refers to into the <tt class="docutils literal">file_storage</tt>
+file list of this torrent. This starts indexing at 0.</dd>
+</dl>
+<a name="open_mode"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:open_file_state%3A%3A%5Bopen_mode%5D&labels=documentation&body=Documentation+under+heading+%22open_file_state%3A%3A%5Bopen_mode%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>open_mode</dt>
+<dd><p class="first"><tt class="docutils literal">open_mode</tt> is a bitmask of the file flags this file is currently
+opened with. For possible flags, see <a class="reference external" href="reference-Custom_Storage.html#file_open_mode_t">file_open_mode_t</a>.</p>
+<p class="last">Note that the read/write mode is not a bitmask. The two least significant bits are used
+to represent the read/write mode. Those bits can be masked out using the <tt class="docutils literal">rw_mask</tt> constant.</p>
+</dd>
+</dl>
+<a name="last_use"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:open_file_state%3A%3A%5Blast_use%5D&labels=documentation&body=Documentation+under+heading+%22open_file_state%3A%3A%5Blast_use%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>last_use</dt>
+<dd>a (high precision) timestamp of when the file was last used.</dd>
+</dl>
+<a name="disk_interface"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+disk_interface&labels=documentation&body=Documentation+under+heading+%22class+disk_interface%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="disk-interface">
+<h1>disk_interface</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/disk_interface.hpp">libtorrent/disk_interface.hpp</a>&quot;</p>
+<p>The <a class="reference external" href="reference-Custom_Storage.html#disk_interface">disk_interface</a> is the customization point for disk I/O in libtorrent.
+implement this interface and provide a factory function to the <a class="reference external" href="reference-Session.html#session">session</a> constructor
+use custom disk I/O. All functions on the disk subsystem (implementing
+<a class="reference external" href="reference-Custom_Storage.html#disk_interface">disk_interface</a>) are called from within libtorrent's network thread. For
+disk I/O to be performed in a separate thread, the disk subsystem has to
+manage that itself.</p>
+<p>Although the functions are called <tt class="docutils literal">async_*</tt>, they do not technically
+<em>have</em> to be asynchronous, but they support being asynchronous, by
+expecting the result passed back into a callback. The callbacks must be
+posted back onto the network thread via the io_context object passed into
+the constructor. The callbacks will be run in the network thread.</p>
+<pre class="literal-block">
+struct disk_interface
+{
+   virtual storage_holder <strong>new_torrent</strong> (storage_params const&amp; p
+      , std::shared_ptr&lt;void&gt; const&amp; torrent) = 0;
+   virtual void <strong>remove_torrent</strong> (storage_index_t) = 0;
+   virtual bool <strong>async_write</strong> (storage_index_t storage, peer_request const&amp; r
+      , char const* buf, std::shared_ptr&lt;disk_observer&gt; o
+      , std::function&lt;void(storage_error const&amp;)&gt; handler
+      , disk_job_flags_t flags = {}) = 0;
+   virtual void <strong>async_read</strong> (storage_index_t storage, peer_request const&amp; r
+      , std::function&lt;void(disk_buffer_holder, storage_error const&amp;)&gt; handler
+      , disk_job_flags_t flags = {}) = 0;
+   virtual void <strong>async_hash</strong> (storage_index_t storage, piece_index_t piece, span&lt;sha256_hash&gt; v2
+      , disk_job_flags_t flags
+      , std::function&lt;void(piece_index_t, sha1_hash const&amp;, storage_error const&amp;)&gt; handler) = 0;
+   virtual void <strong>async_hash2</strong> (storage_index_t storage, piece_index_t piece, int offset, disk_job_flags_t flags
+      , std::function&lt;void(piece_index_t, sha256_hash const&amp;, storage_error const&amp;)&gt; handler) = 0;
+   virtual void <strong>async_move_storage</strong> (storage_index_t storage, std::string p, move_flags_t flags
+      , std::function&lt;void(status_t, std::string const&amp;, storage_error const&amp;)&gt; handler) = 0;
+   virtual void <strong>async_release_files</strong> (storage_index_t storage
+      , std::function&lt;void()&gt; handler = std::function&lt;void()&gt;()) = 0;
+   virtual void <strong>async_check_files</strong> (storage_index_t storage
+      , add_torrent_params const* resume_data
+      , aux::vector&lt;std::string, file_index_t&gt; links
+      , std::function&lt;void(status_t, storage_error const&amp;)&gt; handler) = 0;
+   virtual void <strong>async_stop_torrent</strong> (storage_index_t storage
+      , std::function&lt;void()&gt; handler = std::function&lt;void()&gt;()) = 0;
+   virtual void <strong>async_rename_file</strong> (storage_index_t storage
+      , file_index_t index, std::string name
+      , std::function&lt;void(std::string const&amp;, file_index_t, storage_error const&amp;)&gt; handler) = 0;
+   virtual void <strong>async_delete_files</strong> (storage_index_t storage, remove_flags_t options
+      , std::function&lt;void(storage_error const&amp;)&gt; handler) = 0;
+   virtual void <strong>async_set_file_priority</strong> (storage_index_t storage
+      , aux::vector&lt;download_priority_t, file_index_t&gt; prio
+      , std::function&lt;void(storage_error const&amp;
+      , aux::vector&lt;download_priority_t, file_index_t&gt;)&gt; handler) = 0;
+   virtual void <strong>async_clear_piece</strong> (storage_index_t storage, piece_index_t index
+      , std::function&lt;void(piece_index_t)&gt; handler) = 0;
+   virtual void <strong>update_stats_counters</strong> (counters&amp; c) const = 0;
+   virtual std::vector&lt;open_file_state&gt; <strong>get_status</strong> (storage_index_t) const = 0;
+   virtual void <strong>abort</strong> (bool wait) = 0;
+   virtual void <strong>submit_jobs</strong> () = 0;
+   virtual void <strong>settings_updated</strong> () = 0;
+
+   static constexpr disk_job_flags_t <strong>force_copy</strong>  = 0_bit;
+   static constexpr disk_job_flags_t <strong>sequential_access</strong>  = 3_bit;
+   static constexpr disk_job_flags_t <strong>volatile_read</strong>  = 4_bit;
+   static constexpr disk_job_flags_t <strong>v1_hash</strong>  = 5_bit;
+   static constexpr disk_job_flags_t <strong>flush_piece</strong>  = 7_bit;
+};
+</pre>
+<a name="new_torrent()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Bnew_torrent%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Bnew_torrent%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="new-torrent">
+<h2>new_torrent()</h2>
+<pre class="literal-block">
+virtual storage_holder <strong>new_torrent</strong> (storage_params const&amp; p
+      , std::shared_ptr&lt;void&gt; const&amp; torrent) = 0;
+</pre>
+<p>this is called when a new torrent is added. The shared_ptr can be
+used to hold the internal torrent object alive as long as there are
+outstanding disk operations on the storage.
+The returned <a class="reference external" href="reference-Custom_Storage.html#storage_holder">storage_holder</a> is an owning reference to the underlying
+storage that was just created. It is fundamentally a storage_index_t</p>
+<a name="remove_torrent()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Bremove_torrent%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Bremove_torrent%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="remove-torrent">
+<h2>remove_torrent()</h2>
+<pre class="literal-block">
+virtual void <strong>remove_torrent</strong> (storage_index_t) = 0;
+</pre>
+<p>remove the storage with the specified index. This is not expected to
+delete any files from disk, just to clean up any resources associated
+with the specified storage.</p>
+<a name="async_write()"></a>
+<a name="async_read()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Basync_write%28%29+async_read%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Basync_write%28%29+async_read%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="async-write-async-read">
+<h2>async_write() async_read()</h2>
+<pre class="literal-block">
+virtual bool <strong>async_write</strong> (storage_index_t storage, peer_request const&amp; r
+      , char const* buf, std::shared_ptr&lt;disk_observer&gt; o
+      , std::function&lt;void(storage_error const&amp;)&gt; handler
+      , disk_job_flags_t flags = {}) = 0;
+virtual void <strong>async_read</strong> (storage_index_t storage, peer_request const&amp; r
+      , std::function&lt;void(disk_buffer_holder, storage_error const&amp;)&gt; handler
+      , disk_job_flags_t flags = {}) = 0;
+</pre>
+<p>perform a read or write operation from/to the specified storage
+index and the specified request. When the operation completes, call
+handler possibly with a <a class="reference external" href="reference-Custom_Storage.html#disk_buffer_holder">disk_buffer_holder</a>, holding the buffer with
+the result. Flags may be set to affect the read operation. See
+disk_job_flags_t.</p>
+<p>The <a class="reference external" href="reference-Custom_Storage.html#disk_observer">disk_observer</a> is a callback to indicate that
+the store buffer/disk write queue is below the watermark to let peers
+start writing buffers to disk again. When <tt class="docutils literal">async_write()</tt> returns
+<tt class="docutils literal">true</tt>, indicating the write queue is full, the peer will stop
+further writes and wait for the passed-in <tt class="docutils literal">disk_observer</tt> to be
+notified before resuming.</p>
+<p>Note that for <tt class="docutils literal">async_read</tt>, the <a class="reference external" href="reference-Core.html#peer_request">peer_request</a> (<tt class="docutils literal">r</tt>) is not
+necessarily aligned to blocks (but it is most of the time). However,
+all writes (passed to <tt class="docutils literal">async_write</tt>) are guaranteed to be block
+aligned.</p>
+<a name="async_hash()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Basync_hash%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Basync_hash%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="async-hash">
+<h2>async_hash()</h2>
+<pre class="literal-block">
+virtual void <strong>async_hash</strong> (storage_index_t storage, piece_index_t piece, span&lt;sha256_hash&gt; v2
+      , disk_job_flags_t flags
+      , std::function&lt;void(piece_index_t, sha1_hash const&amp;, storage_error const&amp;)&gt; handler) = 0;
+</pre>
+<p>Compute hash(es) for the specified piece. Unless the v1_hash flag is
+set (in <tt class="docutils literal">flags</tt>), the SHA-1 hash of the whole piece does not need
+to be computed.</p>
+<p>The <cite>v2</cite> span is optional and can be empty, which means v2 hashes
+should not be computed. If v2 is non-empty it must be at least large
+enough to hold all v2 blocks in the piece, and this function will
+fill in the span with the SHA-256 block hashes of the piece.</p>
+<a name="async_hash2()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Basync_hash2%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Basync_hash2%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="async-hash2">
+<h2>async_hash2()</h2>
+<pre class="literal-block">
+virtual void <strong>async_hash2</strong> (storage_index_t storage, piece_index_t piece, int offset, disk_job_flags_t flags
+      , std::function&lt;void(piece_index_t, sha256_hash const&amp;, storage_error const&amp;)&gt; handler) = 0;
+</pre>
+<p>computes the v2 hash (SHA-256) of a single block. The block at
+<tt class="docutils literal">offset</tt> in piece <tt class="docutils literal">piece</tt>.</p>
+<a name="async_move_storage()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Basync_move_storage%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Basync_move_storage%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="async-move-storage">
+<h2>async_move_storage()</h2>
+<pre class="literal-block">
+virtual void <strong>async_move_storage</strong> (storage_index_t storage, std::string p, move_flags_t flags
+      , std::function&lt;void(status_t, std::string const&amp;, storage_error const&amp;)&gt; handler) = 0;
+</pre>
+<p>called to request the files for the specified storage/torrent be
+moved to a new location. It is the disk I/O object's responsibility
+to synchronize this with any currently outstanding disk operations to
+the storage. Whether files are replaced at the destination path or
+not is controlled by <tt class="docutils literal">flags</tt> (see <a class="reference external" href="reference-Storage.html#move_flags_t">move_flags_t</a>).</p>
+<a name="async_release_files()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Basync_release_files%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Basync_release_files%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="async-release-files">
+<h2>async_release_files()</h2>
+<pre class="literal-block">
+virtual void <strong>async_release_files</strong> (storage_index_t storage
+      , std::function&lt;void()&gt; handler = std::function&lt;void()&gt;()) = 0;
+</pre>
+<p>This is called on disk I/O objects to request they close all open
+files for the specified storage/torrent. If file handles are not
+pooled/cached, it can be a no-op. For truly asynchronous disk I/O,
+this should provide at least one point in time when all files are
+closed. It is possible that later asynchronous operations will
+re-open some of the files, by the time this completion handler is
+called, that's fine.</p>
+<a name="async_check_files()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Basync_check_files%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Basync_check_files%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="async-check-files">
+<h2>async_check_files()</h2>
+<pre class="literal-block">
+virtual void <strong>async_check_files</strong> (storage_index_t storage
+      , add_torrent_params const* resume_data
+      , aux::vector&lt;std::string, file_index_t&gt; links
+      , std::function&lt;void(status_t, storage_error const&amp;)&gt; handler) = 0;
+</pre>
+<p>this is called when torrents are added to validate their resume data
+against the files on disk. This function is expected to do a few things:</p>
+<p>if <tt class="docutils literal">links</tt> is non-empty, it contains a string for each file in the
+torrent. The string being a path to an existing identical file. The
+default behavior is to create hard links of those files into the
+storage of the new torrent (specified by <tt class="docutils literal">storage</tt>). An empty
+string indicates that there is no known identical file. This is part
+of the &quot;mutable torrent&quot; feature, where files can be reused from
+other torrents.</p>
+<p>The <tt class="docutils literal">resume_data</tt> points the resume data passed in by the client.</p>
+<p>If the <tt class="docutils literal"><span class="pre">resume_data-&gt;flags</span></tt> field has the seed_mode flag set, all
+files/pieces are expected to be on disk already. This should be
+verified. Not just the existence of the file, but also that it has
+the correct size.</p>
+<p>Any file with a piece set in the <tt class="docutils literal"><span class="pre">resume_data-&gt;have_pieces</span></tt> bitmask
+should exist on disk, this should be verified. Pad files and files
+with zero priority may be skipped.</p>
+<a name="async_stop_torrent()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Basync_stop_torrent%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Basync_stop_torrent%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="async-stop-torrent">
+<h2>async_stop_torrent()</h2>
+<pre class="literal-block">
+virtual void <strong>async_stop_torrent</strong> (storage_index_t storage
+      , std::function&lt;void()&gt; handler = std::function&lt;void()&gt;()) = 0;
+</pre>
+<p>This is called when a torrent is stopped. It gives the disk I/O
+object an opportunity to flush any data to disk that's currently kept
+cached. This function should at least do the same thing as
+<a class="reference external" href="reference-Custom_Storage.html#async_release_files()">async_release_files()</a>.</p>
+<a name="async_rename_file()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Basync_rename_file%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Basync_rename_file%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="async-rename-file">
+<h2>async_rename_file()</h2>
+<pre class="literal-block">
+virtual void <strong>async_rename_file</strong> (storage_index_t storage
+      , file_index_t index, std::string name
+      , std::function&lt;void(std::string const&amp;, file_index_t, storage_error const&amp;)&gt; handler) = 0;
+</pre>
+<p>This function is called when the name of a file in the specified
+storage has been requested to be renamed. The disk I/O object is
+responsible for renaming the file without racing with other
+potentially outstanding operations against the file (such as read,
+write, move, etc.).</p>
+<a name="async_delete_files()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Basync_delete_files%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Basync_delete_files%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="async-delete-files">
+<h2>async_delete_files()</h2>
+<pre class="literal-block">
+virtual void <strong>async_delete_files</strong> (storage_index_t storage, remove_flags_t options
+      , std::function&lt;void(storage_error const&amp;)&gt; handler) = 0;
+</pre>
+<p>This function is called when some file(s) on disk have been requested
+to be removed by the client. <tt class="docutils literal">storage</tt> indicates which torrent is
+referred to. See <a class="reference external" href="reference-Session.html#session_handle">session_handle</a> for <tt class="docutils literal">remove_flags_t</tt> flags
+indicating which files are to be removed.
+e.g. <a class="reference external" href="reference-Session.html#delete_files">session_handle::delete_files</a> - delete all files
+<a class="reference external" href="reference-Session.html#delete_partfile">session_handle::delete_partfile</a> - only delete part file.</p>
+<a name="async_set_file_priority()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Basync_set_file_priority%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Basync_set_file_priority%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="async-set-file-priority">
+<h2>async_set_file_priority()</h2>
+<pre class="literal-block">
+virtual void <strong>async_set_file_priority</strong> (storage_index_t storage
+      , aux::vector&lt;download_priority_t, file_index_t&gt; prio
+      , std::function&lt;void(storage_error const&amp;
+      , aux::vector&lt;download_priority_t, file_index_t&gt;)&gt; handler) = 0;
+</pre>
+<p>This is called to set the priority of some or all files. Changing the
+priority from or to 0 may involve moving data to and from the
+partfile. The disk I/O object is responsible for correctly
+synchronizing this work to not race with any potentially outstanding
+asynchronous operations affecting these files.</p>
+<p><tt class="docutils literal">prio</tt> is a vector of the file priority for all files. If it's
+shorter than the total number of files in the torrent, they are
+assumed to be set to the default priority.</p>
+<a name="async_clear_piece()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Basync_clear_piece%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Basync_clear_piece%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="async-clear-piece">
+<h2>async_clear_piece()</h2>
+<pre class="literal-block">
+virtual void <strong>async_clear_piece</strong> (storage_index_t storage, piece_index_t index
+      , std::function&lt;void(piece_index_t)&gt; handler) = 0;
+</pre>
+<p>This is called when a piece fails the hash check, to ensure there are
+no outstanding disk operations to the piece before blocks are
+re-requested from peers to overwrite the existing blocks. The disk I/O
+object does not need to perform any action other than synchronize
+with all outstanding disk operations to the specified piece before
+posting the result back.</p>
+<a name="update_stats_counters()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Bupdate_stats_counters%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Bupdate_stats_counters%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="update-stats-counters">
+<h2>update_stats_counters()</h2>
+<pre class="literal-block">
+virtual void <strong>update_stats_counters</strong> (counters&amp; c) const = 0;
+</pre>
+<p><a class="reference external" href="reference-Custom_Storage.html#update_stats_counters()">update_stats_counters()</a> is called to give the disk storage an
+opportunity to update gauges in the <tt class="docutils literal">c</tt> stats <a class="reference external" href="reference-Stats.html#counters">counters</a>, that aren't
+updated continuously as operations are performed. This is called
+before a snapshot of the <a class="reference external" href="reference-Stats.html#counters">counters</a> are passed to the client.</p>
+<a name="get_status()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Bget_status%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Bget_status%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="get-status">
+<h2>get_status()</h2>
+<pre class="literal-block">
+virtual std::vector&lt;open_file_state&gt; <strong>get_status</strong> (storage_index_t) const = 0;
+</pre>
+<p>Return a list of all the files that are currently open for the
+specified storage/torrent. This is is just used for the client to
+query the currently open files, and which modes those files are open
+in.</p>
+<a name="abort()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Babort%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Babort%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="abort">
+<h2>abort()</h2>
+<pre class="literal-block">
+virtual void <strong>abort</strong> (bool wait) = 0;
+</pre>
+<p>this is called when the <a class="reference external" href="reference-Session.html#session">session</a> is starting to shut down. The disk
+I/O object is expected to flush any outstanding write jobs, cancel
+hash jobs and initiate tearing down of any internal threads. If
+<tt class="docutils literal">wait</tt> is true, this should be asynchronous. i.e. this call should
+not return until all threads have stopped and all jobs have either
+been aborted or completed and the disk I/O object is ready to be
+destructed.</p>
+<a name="submit_jobs()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Bsubmit_jobs%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Bsubmit_jobs%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="submit-jobs">
+<h2>submit_jobs()</h2>
+<pre class="literal-block">
+virtual void <strong>submit_jobs</strong> () = 0;
+</pre>
+<p>This will be called after a batch of disk jobs has been issues (via
+the <tt class="docutils literal">async_*</tt> ). It gives the disk I/O object an opportunity to
+notify any potential condition variables to wake up the disk
+thread(s). The <tt class="docutils literal">async_*</tt> calls can of course also notify condition
+variables, but doing it in this call allows for batching jobs, by
+issuing the notification once for a collection of jobs.</p>
+<a name="settings_updated()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Bsettings_updated%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Bsettings_updated%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="settings-updated">
+<h2>settings_updated()</h2>
+<pre class="literal-block">
+virtual void <strong>settings_updated</strong> () = 0;
+</pre>
+<p>This is called to notify the disk I/O object that the settings have
+been updated. In the disk io constructor, a <a class="reference external" href="reference-Custom_Storage.html#settings_interface">settings_interface</a>
+reference is passed in. Whenever these settings are updated, this
+function is called to allow the disk I/O object to react to any
+changed settings relevant to its operations.</p>
+<a name="force_copy"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Bforce_copy%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Bforce_copy%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>force_copy</dt>
+<dd>force making a copy of the cached block, rather than getting a
+reference to a block already in the cache. This is used the block is
+expected to be overwritten very soon, by async_write()`, and we need
+access to the previous content.</dd>
+</dl>
+<a name="sequential_access"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Bsequential_access%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Bsequential_access%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>sequential_access</dt>
+<dd>hint that there may be more disk operations with sequential access to
+the file</dd>
+</dl>
+<a name="volatile_read"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Bvolatile_read%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Bvolatile_read%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>volatile_read</dt>
+<dd>don't keep the read block in cache. This is a hint that this block is
+unlikely to be read again anytime soon, and caching it would be
+wasteful.</dd>
+</dl>
+<a name="v1_hash"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Bv1_hash%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Bv1_hash%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>v1_hash</dt>
+<dd>compute a v1 piece hash. This is only used by the <a class="reference external" href="reference-Custom_Storage.html#async_hash()">async_hash()</a> call.
+If this flag is not set in the <a class="reference external" href="reference-Custom_Storage.html#async_hash()">async_hash()</a> call, the SHA-1 piece
+hash does not need to be computed.</dd>
+</dl>
+<a name="flush_piece"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Bflush_piece%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Bflush_piece%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>flush_piece</dt>
+<dd>this flag instructs a hash job that we just completed this piece, and
+it should be flushed to disk</dd>
+</dl>
+<a name="storage_holder"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+storage_holder&labels=documentation&body=Documentation+under+heading+%22class+storage_holder%22+could+be+improved">report issue</a>]</span></div>
+</div>
+<div class="section" id="storage-holder">
+<h1>storage_holder</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/disk_interface.hpp">libtorrent/disk_interface.hpp</a>&quot;</p>
+<p>a unique, owning, reference to the storage of a torrent in a disk io
+subsystem (class that implements <a class="reference external" href="reference-Custom_Storage.html#disk_interface">disk_interface</a>). This is held by the
+internal libtorrent torrent object to tie the storage object allocated
+for a torrent to the lifetime of the internal torrent object. When a
+torrent is removed from the <a class="reference external" href="reference-Session.html#session">session</a>, this holder is destructed and will
+inform the disk object.</p>
+<pre class="literal-block">
+struct storage_holder
+{
+   <strong>storage_holder</strong> (storage_index_t idx, disk_interface&amp; disk_io);
+   <strong>storage_holder</strong> () = default;
+   <strong>~storage_holder</strong> ();
+   explicit operator <strong>bool</strong> () const;
+   operator <strong>storage_index_t</strong> () const;
+   void <strong>reset</strong> ();
+   storage_holder&amp; <strong>operator=</strong> (storage_holder const&amp;) = delete;
+   <strong>storage_holder</strong> (storage_holder const&amp;) = delete;
+   <strong>storage_holder</strong> (storage_holder&amp;&amp; rhs) noexcept;
+   storage_holder&amp; <strong>operator=</strong> (storage_holder&amp;&amp; rhs) noexcept;
+};
+</pre>
+<a name="buffer_allocator_interface"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+buffer_allocator_interface&labels=documentation&body=Documentation+under+heading+%22class+buffer_allocator_interface%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="buffer-allocator-interface">
+<h1>buffer_allocator_interface</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/disk_buffer_holder.hpp">libtorrent/disk_buffer_holder.hpp</a>&quot;</p>
+<p>the interface for freeing disk buffers, used by the <a class="reference external" href="reference-Custom_Storage.html#disk_buffer_holder">disk_buffer_holder</a>.
+when implementing <a class="reference external" href="reference-Custom_Storage.html#disk_interface">disk_interface</a>, this must also be implemented in order
+to return disk buffers back to libtorrent</p>
+<pre class="literal-block">
+struct buffer_allocator_interface
+{
+   virtual void <strong>free_disk_buffer</strong> (char* b) = 0;
+};
+</pre>
+<a name="disk_buffer_holder"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+disk_buffer_holder&labels=documentation&body=Documentation+under+heading+%22class+disk_buffer_holder%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="disk-buffer-holder">
+<h1>disk_buffer_holder</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/disk_buffer_holder.hpp">libtorrent/disk_buffer_holder.hpp</a>&quot;</p>
+<p>The disk buffer holder acts like a <tt class="docutils literal">unique_ptr</tt> that frees a disk buffer
+when it's destructed</p>
+<p>If this buffer holder is moved-from, default constructed or reset,
+<tt class="docutils literal">data()</tt> will return nullptr.</p>
+<pre class="literal-block">
+struct disk_buffer_holder
+{
+   disk_buffer_holder&amp; <strong>operator=</strong> (disk_buffer_holder&amp;&amp;) &amp; noexcept;
+   <strong>disk_buffer_holder</strong> (disk_buffer_holder&amp;&amp;) noexcept;
+   <strong>disk_buffer_holder</strong> (disk_buffer_holder const&amp;) = delete;
+   disk_buffer_holder&amp; <strong>operator=</strong> (disk_buffer_holder const&amp;) = delete;
+   <strong>disk_buffer_holder</strong> (buffer_allocator_interface&amp; alloc
+      , char* buf, int sz) noexcept;
+   <strong>disk_buffer_holder</strong> () noexcept = default;
+   <strong>~disk_buffer_holder</strong> ();
+   char* <strong>data</strong> () const noexcept;
+   void <strong>reset</strong> ();
+   void <strong>swap</strong> (disk_buffer_holder&amp; h) noexcept;
+   bool <strong>is_mutable</strong> () const noexcept;
+   explicit operator <strong>bool</strong> () const noexcept;
+   std::ptrdiff_t <strong>size</strong> () const;
+};
+</pre>
+<a name="disk_buffer_holder()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bdisk_buffer_holder%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bdisk_buffer_holder%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="disk-buffer-holder-1">
+<h2>disk_buffer_holder()</h2>
+<pre class="literal-block">
+<strong>disk_buffer_holder</strong> (buffer_allocator_interface&amp; alloc
+      , char* buf, int sz) noexcept;
+</pre>
+<p>construct a buffer holder that will free the held buffer
+using a disk buffer pool directly (there's only one
+disk_buffer_pool per <a class="reference external" href="reference-Session.html#session">session</a>)</p>
+<a name="disk_buffer_holder()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bdisk_buffer_holder%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bdisk_buffer_holder%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="disk-buffer-holder-2">
+<h2>disk_buffer_holder()</h2>
+<pre class="literal-block">
+<strong>disk_buffer_holder</strong> () noexcept = default;
+</pre>
+<p>default construct a holder that does not own any buffer</p>
+<a name="~disk_buffer_holder()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5B~disk_buffer_holder%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5B~disk_buffer_holder%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="disk-buffer-holder-3">
+<h2>~disk_buffer_holder()</h2>
+<pre class="literal-block">
+<strong>~disk_buffer_holder</strong> ();
+</pre>
+<p>frees disk buffer held by this object</p>
+<a name="data()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bdata%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bdata%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="data">
+<h2>data()</h2>
+<pre class="literal-block">
+char* <strong>data</strong> () const noexcept;
+</pre>
+<p>return a pointer to the held buffer, if any. Otherwise returns nullptr.</p>
+<a name="reset()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Breset%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Breset%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="reset">
+<h2>reset()</h2>
+<pre class="literal-block">
+void <strong>reset</strong> ();
+</pre>
+<p>free the held disk buffer, if any, and clear the holder. This sets the
+holder object to a default-constructed state</p>
+<a name="swap()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bswap%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bswap%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="swap">
+<h2>swap()</h2>
+<pre class="literal-block">
+void <strong>swap</strong> (disk_buffer_holder&amp; h) noexcept;
+</pre>
+<p>swap pointers of two disk buffer holders.</p>
+<a name="is_mutable()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bis_mutable%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bis_mutable%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="is-mutable">
+<h2>is_mutable()</h2>
+<pre class="literal-block">
+bool <strong>is_mutable</strong> () const noexcept;
+</pre>
+<p>if this returns true, the buffer may not be modified in place</p>
+<a name="bool()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bbool%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bbool%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="bool">
+<h2>bool()</h2>
+<pre class="literal-block">
+explicit operator <strong>bool</strong> () const noexcept;
+</pre>
+<p>implicitly convertible to true if the object is currently holding a
+buffer</p>
+<a name="file_open_mode_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_open_mode_t&labels=documentation&body=Documentation+under+heading+%22file_open_mode_t%22+could+be+improved">report issue</a>]</span></div>
+</div>
+<div class="section" id="file-open-mode-t">
+<h1>file_open_mode_t</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/disk_interface.hpp">libtorrent/disk_interface.hpp</a>&quot;</p>
+<a name="file_open_mode_t::read_only"></a><dl class="docutils">
+<dt>read_only</dt>
+<dd>open the file for reading only</dd>
+</dl>
+<a name="file_open_mode_t::write_only"></a><dl class="docutils">
+<dt>write_only</dt>
+<dd>open the file for writing only</dd>
+</dl>
+<a name="file_open_mode_t::read_write"></a><dl class="docutils">
+<dt>read_write</dt>
+<dd>open the file for reading and writing</dd>
+</dl>
+<a name="file_open_mode_t::rw_mask"></a><dl class="docutils">
+<dt>rw_mask</dt>
+<dd>the mask for the bits determining read or write mode</dd>
+</dl>
+<a name="file_open_mode_t::sparse"></a><dl class="docutils">
+<dt>sparse</dt>
+<dd>open the file in sparse mode (if supported by the
+filesystem).</dd>
+</dl>
+<a name="file_open_mode_t::no_atime"></a><dl class="docutils">
+<dt>no_atime</dt>
+<dd>don't update the access timestamps on the file (if
+supported by the operating system and filesystem).
+this generally improves disk performance.</dd>
+</dl>
+<a name="file_open_mode_t::random_access"></a><dl class="docutils">
+<dt>random_access</dt>
+<dd>open the file for random access. This disables read-ahead
+logic</dd>
+</dl>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>
