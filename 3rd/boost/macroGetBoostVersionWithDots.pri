@@ -1,5 +1,5 @@
 #
-# Return version value of Boost (ex: "1.72.0" for version 107200), or 0 if error
+# Return version value of Boost (ex: "1.79.0" for version 107900), or 0 if error
 #
 # USAGE:
 #   BOOST_VERSION_WITH_DOTS = $$getBoostVersionWithDots($$BOOST_VERSION)

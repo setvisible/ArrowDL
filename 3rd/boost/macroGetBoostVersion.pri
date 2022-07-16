@@ -1,5 +1,5 @@
 #
-# Return version value of Boost (ex: "107200" for version 1.72.0), or 0 if error
+# Return version value of Boost (ex: "107900" for version 1.79.0), or 0 if error
 #
 # USAGE:
 #   MY_VARIABLE = $$getBoostVersion($$PATH)
