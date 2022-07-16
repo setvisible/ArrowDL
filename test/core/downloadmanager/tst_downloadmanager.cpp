@@ -89,7 +89,7 @@ void tst_DownloadManager::appendJobPaused()
     /// \todo fix IDownloadItem::NetworkError with "3xx Unknown redirect error" with SSL url
 
     /* Non SSL url */
-    QString address = "http://preparer-assr.education-securite-routiere.fr/images/logo-securite-routiere.png";
+    QString address = "http://www.example.com/index.html"; // 'http' instead of 'https'
 
     QList<IDownloadItem*> items;
     DownloadItem *item = createDummyJob(target, address, "*name*.png");
@@ -107,12 +107,12 @@ void tst_DownloadManager::appendJobPaused()
     QCOMPARE(spyJobFinished.count(), 1);
 
     QCOMPARE(item->state(), DownloadItem::Completed);
-    QCOMPARE(item->bytesReceived(), 12423);
-    QCOMPARE(item->bytesTotal(), 12423);
+    QCOMPARE(item->bytesReceived(), 1256);
+    QCOMPARE(item->bytesTotal(), 1256);
 
     QFile localFile(item->localFullFileName());
     QVERIFY(localFile.exists());
-    QCOMPARE(localFile.size(), 12423);
+    QCOMPARE(localFile.size(), 1256);
 }
 
 /******************************************************************************
