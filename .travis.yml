@@ -82,17 +82,19 @@ install:
 #  - whereis boost # /usr/include/boost
 
   - echo "Downloading Boost..."
-  - curl --location --output ./3rd/boost/1.72.0/unix/boost_1_72_0.tar.bz2 https://boostorg.jfrog.io/artifactory/main/release/1.72.0/source/boost_1_72_0.tar.bz2
+  - MY_BOOST_DOWNLOAD_DIR="./3rd/boost/1.79.0/unix"
+  - mkdir ${MY_BOOST_DOWNLOAD_DIR}
+  - curl --location --output ${MY_BOOST_DOWNLOAD_DIR}/boost_1_79_0.tar.bz2 https://boostorg.jfrog.io/artifactory/main/release/1.79.0/source/boost_1_79_0.tar.bz2
     # curl -L, --location: in case there is a redirect found
 
   - echo "Installing Boost..."
 # Current Directory = /home/travis/build/setvisible/DownZemAll
-  - MY_BOOST_DIR="$HOME/boost_1_72_0"
+  - MY_BOOST_DIR="$HOME/boost_1_79_0"
   - echo "Extracting Boost archive to ${MY_BOOST_DIR}..."
   - mkdir ${MY_BOOST_DIR}
-  - tar --bzip2 -x -f ./3rd/boost/1.72.0/unix/boost_1_72_0.tar.bz2 -C ${MY_BOOST_DIR}
+  - tar --bzip2 -x -f ${MY_BOOST_DOWNLOAD_DIR}/boost_1_79_0.tar.bz2 -C ${MY_BOOST_DIR}
 #  - echo "Add Boost to environment PATH..."
-#  - export PATH="$PATH:${MY_BOOST_DIR}/boost_1_72_0"
+#  - export PATH="$PATH:${MY_BOOST_DIR}/boost_1_79_0"
 
 
 # split all with ':' in PATH and echo each line so that it's easier to read
@@ -119,7 +121,7 @@ script:
       -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
       -DCMAKE_INSTALL_PREFIX="./../install-DownZemAll-cmake"
       -DENABLE_TESTS=ON
-      -DBOOST_ROOT:PATH=${MY_BOOST_DIR}/boost_1_72_0
+      -DBOOST_ROOT:PATH=${MY_BOOST_DIR}/boost_1_79_0
   - cmake --build .
 
 #---------------------------------#
