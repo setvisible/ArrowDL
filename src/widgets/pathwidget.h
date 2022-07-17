@@ -55,6 +55,7 @@ signals:
 private slots:
     void onBrowseButtonReleased();
     void onCurrentTextChanged(const QString &text);
+    void onCurrentIndexChanged(int index);
 
 private:
     Ui::PathWidget *ui;

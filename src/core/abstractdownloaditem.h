@@ -19,6 +19,7 @@
 
 #include <Core/IDownloadItem>
 
+#include <QtCore/QElapsedTimer>
 #include <QtCore/QObject>
 #include <QtCore/QString>
 #include <QtCore/QUrl>
@@ -106,7 +107,7 @@ private:
 
     QString m_log;
 
-    QTime m_downloadTime;
+    QElapsedTimer m_downloadElapsedTimer;
     QTime m_remainingTime;
     QTimer m_updateInfoTimer;
     QTimer m_updateCountDownTimer;

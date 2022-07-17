@@ -19,6 +19,7 @@
 #include <Core/IDownloadItem>
 
 #include <QtCore/QDebug>
+#include <QtCore/QIODevice>
 #include <QtCore/QJsonArray>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>

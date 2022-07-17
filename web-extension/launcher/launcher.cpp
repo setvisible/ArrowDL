@@ -30,7 +30,7 @@
 #include <math.h>       /* pow */
 
 /* Qt */
-#include <QtCore/QtGlobal>
+#include <QtGlobal>
 #include <QtCore/QProcess>
 #include <QtCore/QSharedMemory>
 

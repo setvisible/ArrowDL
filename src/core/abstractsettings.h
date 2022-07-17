@@ -42,16 +42,16 @@ public:
     void readSettings();
     void writeSettings();
 
-signals:
-    void changed();
-
-protected:
     /* Exceptions */
     class IllegalKeyException : public std::exception {};
     class IllegalValueException : public std::exception {};
     class MissingKeyException : public std::exception {};
     class WrongTypeException : public std::exception {};
 
+signals:
+    void changed();
+
+protected:
     void addDefaultSettingBool(const QString &key, bool defaultValue);
     void setSettingBool(const QString &key, bool value);
     bool getSettingBool(const QString &key) const;

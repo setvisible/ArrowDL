@@ -2117,7 +2117,7 @@ inline TorrentHandleInfo WorkerThread::toTorrentHandleInfo(const lt::torrent_han
     {
         std::vector<int> avail;
         handle.piece_availability(avail);
-        t.pieceAvailability = QVector<int>::fromStdVector(avail);
+        t.pieceAvailability = QVector<int>(avail.begin(), avail.end());
     }
 
     {

@@ -35,7 +35,6 @@ AutoCloseDialog::AutoCloseDialog(QFrame *content, QWidget *parent) : QDialog(par
     content->setFrameShadow(QFrame::Raised);
 
     auto layout = new QVBoxLayout;
-    layout->setMargin(0);
     layout->addWidget(content);
     setLayout(layout);
 

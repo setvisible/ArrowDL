@@ -473,7 +473,7 @@ QSize DownloadQueueView::sizeHint() const
     for (int i = 0; i < header->count() - 1; ++i)
         width += header->sectionSize(i);
 
-    return QSize(width, QWidget::sizeHint().height()).expandedTo(QApplication::globalStrut());
+    return QSize(width, QWidget::sizeHint().height());
 }
 
 /******************************************************************************

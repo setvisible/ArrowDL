@@ -31,10 +31,10 @@
 #include <QtCore/QDir>
 #include <QtCore/QSettings>
 #include <QtCore/QSignalBlocker>
+#include <QtGui/QAction>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QTextBlock>
 #include <QtGui/QTextDocument>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QSpinBox>

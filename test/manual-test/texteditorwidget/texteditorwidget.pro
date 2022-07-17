@@ -26,11 +26,13 @@ lessThan(QT_VERSION, 5.0) {
 #-------------------------------------------------
 HEADERS += \
     $$PWD/../../../src/core/theme.h \
+    $$PWD/../../../src/widgets/customstyle.h \
     $$PWD/../../../src/widgets/textedit.h \
     $$PWD/../../../src/widgets/texteditorwidget.h
 
 SOURCES += \
     $$PWD/../../../src/core/theme.cpp \
+    $$PWD/../../../src/widgets/customstyle.cpp \
     $$PWD/../../../src/widgets/textedit.cpp \
     $$PWD/../../../src/widgets/texteditorwidget.cpp
 

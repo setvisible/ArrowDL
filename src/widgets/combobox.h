@@ -47,6 +47,7 @@ public slots:
 
 private slots:
     void onCurrentTextChanged(const QString &text);
+    void onCurrentIndexChanged(int index);
     void showContextMenu(const QPoint &pos);
 
 private:

@@ -17,9 +17,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <Core/IDownloadItem>
+
 #include <QtWidgets/QMainWindow>
 
-class IDownloadItem;
 class DownloadManager;
 class StreamManager;
 class FileAccessManager;

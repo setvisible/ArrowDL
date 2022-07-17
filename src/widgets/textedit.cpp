@@ -481,7 +481,7 @@ void TextEdit::mousePressEvent(QMouseEvent *e)
             // Mouse Left + Alt without Shift = block start selection
 
             const int line = cursorUnderMouse.blockNumber();
-            const int column = qCeil(qreal(e->pos().x()) / QFontMetricsF(font()).width(QLatin1Char(' ')));
+            const int column = qCeil(qreal(e->pos().x()) / QFontMetricsF(font()).horizontalAdvance(QLatin1Char(' ')));
             m_blockSelector.setPosition(line, column);
             e->accept();
             return;
@@ -499,7 +499,7 @@ void TextEdit::mousePressEvent(QMouseEvent *e)
             }
             selection.setPosition( cursorUnderMouse.position(), QTextCursor::KeepAnchor );
             const int line = cursorUnderMouse.blockNumber();
-            const int column = qCeil(qreal(e->pos().x()) / QFontMetricsF(font()).width(QLatin1Char(' ')));
+            const int column = qCeil(qreal(e->pos().x()) / QFontMetricsF(font()).horizontalAdvance(QLatin1Char(' ')));
             m_blockSelector.setPosition(line, column, BlockSelector::KeepAnchor);
             return;
 
@@ -545,7 +545,7 @@ void TextEdit::mouseMoveEvent(QMouseEvent *e)
 
             const QTextCursor cursorUnderMouse = cursorForPosition(e->pos());
             const int line = cursorUnderMouse.blockNumber();
-            const int column = qCeil(qreal(e->pos().x()) / QFontMetricsF(font()).width(QLatin1Char(' ')));
+            const int column = qCeil(qreal(e->pos().x()) / QFontMetricsF(font()).horizontalAdvance(QLatin1Char(' ')));
             m_blockSelector.setPosition(line, column, BlockSelector::KeepAnchor);
 
         } else {
@@ -606,7 +606,7 @@ void TextEdit::pasteBlockSelection()
 
 QString TextEdit::fragmentToPaste(const QString &input)
 {
-    QStringList list = input.split(QRegularExpression("[\\r\\n]"), QString::KeepEmptyParts);
+    QStringList list = input.split(QRegularExpression("[\\r\\n]"), Qt::KeepEmptyParts);
     if (!list.isEmpty()) {
         return list.first();
     }

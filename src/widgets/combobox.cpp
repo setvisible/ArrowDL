@@ -16,7 +16,7 @@
 
 #include "combobox.h"
 
-#include <QtWidgets/QAction>
+#include <QtGui/QAction>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMenu>
@@ -39,11 +39,11 @@ ComboBox::ComboBox(QWidget *parent) : QComboBox(parent)
     setMaxCount(max_history_count);
 
     connect(this, SIGNAL(currentTextChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
-    connect(this, SIGNAL(currentIndexChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
+    connect(this, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
 
     setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
-            this, SLOT(showContextMenu(const QPoint &)));
+    connect(this, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(showContextMenu(QPoint)));
 
     colorize();
 }
@@ -150,6 +150,11 @@ void ComboBox::setStyleSheet(const QString& /*styleSheet*/)
 /******************************************************************************
  ******************************************************************************/
 void ComboBox::onCurrentTextChanged(const QString &/*text*/)
+{
+    colorize();
+}
+
+void ComboBox::onCurrentIndexChanged(int /*index*/)
 {
     colorize();
 }

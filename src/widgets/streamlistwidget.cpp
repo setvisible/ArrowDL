@@ -305,7 +305,7 @@ QList<int> StreamListWidget::selectedRows() const
     foreach (auto index, indexes) {
         rows.insert(index.row());
     }
-    auto list = rows.toList();
+    auto list = rows.values();
     std::sort(list.begin(), list.end());
     return list;
 

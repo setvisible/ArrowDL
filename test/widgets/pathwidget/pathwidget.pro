@@ -12,11 +12,15 @@ INCLUDEPATH += ../../../include/
 
 # Resources:
 HEADERS += \
+    $$PWD/../../../src/core/theme.h \
     $$PWD/../../../src/widgets/combobox.h \
+    $$PWD/../../../src/widgets/customstyle.h \
     $$PWD/../../../src/widgets/pathwidget.h
 
 SOURCES += \
+    $$PWD/../../../src/core/theme.cpp \
     $$PWD/../../../src/widgets/combobox.cpp \
+    $$PWD/../../../src/widgets/customstyle.cpp \
     $$PWD/../../../src/widgets/pathwidget.cpp
 
 FORMS   += \

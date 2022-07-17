@@ -113,7 +113,7 @@ bool InterProcessCommunication::isCommandOpenUrl(const QString &message)
 
 QString InterProcessCommunication::getCurrentUrl(const QString &message)
 {
-    const QStringList resources = message.split(QChar::Space, QString::SkipEmptyParts);
+    const QStringList resources = message.split(QChar::Space, Qt::SkipEmptyParts);
     for (int i = 0; i < resources.count() - 1; ++i) {
         if (resources.at(i).trimmed() == C_KEYWORD_OPEN_URL) {
             return resources.at(i+1).trimmed();
@@ -129,7 +129,7 @@ bool InterProcessCommunication::isCommandDownloadLink(const QString &message)
 
 QString InterProcessCommunication::getDownloadLink(const QString &message)
 {
-    const QStringList resources = message.split(QChar::Space, QString::SkipEmptyParts);
+    const QStringList resources = message.split(QChar::Space, Qt::SkipEmptyParts);
     for (int i = 0; i < resources.count() - 1; ++i) {
         if (resources.at(i).trimmed() == C_KEYWORD_DOWNLOAD_LINK) {
             return resources.at(i+1).trimmed();
@@ -151,7 +151,7 @@ void InterProcessCommunication::parseMessage(const QString &message, Model *mode
 
     Mode mode = None;
 
-    const QStringList resources = message.split(QChar::Space, QString::SkipEmptyParts);
+    const QStringList resources = message.split(QChar::Space, Qt::SkipEmptyParts);
 
     foreach (auto resource, resources) {
         auto trimmed = resource.trimmed();

@@ -155,18 +155,22 @@ public:
         return ret;
     }
 
-    bool operator==(const EndPoint &other) const { return (m_ip == other.m_ip && m_port == other.m_port); }
-    bool operator!=(const EndPoint &other) const { return !(*this == other); }
 
 private:
     QHostAddress m_ip;
     int m_port{0};
 };
 
-/* Note: qHash() must be declared inside the object's namespace */
-inline uint qHash(const EndPoint &key, uint seed) {
-    return qHash(key.toString(), seed);
+inline bool operator==(const EndPoint &e1, const EndPoint &e2)
+{
+    return e1.ip() == e2.ip() && e1.port() == e2.port();
 }
+
+inline size_t qHash(const EndPoint &key, size_t seed)
+{
+    return qHashMulti(seed, key.ip(), key.port());
+}
+
 
 /******************************************************************************
  ******************************************************************************/

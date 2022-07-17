@@ -37,11 +37,11 @@ QSet<QModelIndex> CheckableTableModel::checkedIndexes() const
 QList<int> CheckableTableModel::checkedRows() const
 {
     QSet<int> rows;
-    auto indexes = m_checkedIndexes.toList();
+    auto indexes = m_checkedIndexes.values();
     foreach (auto index, indexes) {
         rows.insert(index.row());
     }
-    auto list = rows.toList();
+    auto list = rows.values();
     std::sort(list.begin(), list.end());
     return list;
 }

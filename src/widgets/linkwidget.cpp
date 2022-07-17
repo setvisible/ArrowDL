@@ -27,12 +27,12 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QModelIndex>
+#include <QtGui/QAction>
 #include <QtGui/QClipboard>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QKeyEvent>
 #include <QtGui/QPainter>
 #include <QtGui/QPixmap>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QMenu>
 
 constexpr int elide_char_count = 30;

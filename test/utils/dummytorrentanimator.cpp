@@ -21,40 +21,36 @@
 #include <Core/Torrent>
 
 #include <QtCore/QDebug>
+#include <QtCore/QRandomGenerator>
 #include <QtCore/QtMath>
 #include <QtCore/QTimer>
-
-#include <math.h> /* log */
 
 constexpr int msec_file_refresh = 10;
 constexpr int msec_peer_refresh = 500;
 constexpr qint64 piece_size = 32*1024*8;
 constexpr qint64 max_torrent_size = 1024*1024;
 
+namespace Utils {
 /*!
  * Return a random number between \a a and \a b, including these numbers.
  */
-namespace Utils {
 int randomBetween(int a, int b)
 {
-    auto rand = qrand(); // Beween 0 and RAND_MAX
-    auto offset = qMin(a, b);
-    auto range = qMax(a, b) - offset;
-    return qCeil((range * rand) / RAND_MAX) + offset;
+    Q_ASSERT(a < b + 1);
+    return QRandomGenerator::system()->bounded(a, b + 1);
 }
 
 /*!
  * Return a random number between \a a and \a b,
- * Logarithm scale, left-screwed, means that there
- *  is a higher probability to be closer to a than to b.
+ * Natural logarithm scale, left-skewed, means that there
+ * is a higher probability to be closer to a than to b.
  */
 int randomBetweenLog(int a, int b)
 {
-    auto rand = qrand(); // Beween 0 and RAND_MAX
     auto offset = qMin(a, b);
     auto range = qMax(a, b) - offset;
-    auto normal_rand = qCeil((range * rand) / RAND_MAX) + offset;
-    return qCeil(range * (1.0 - log(1 + normal_rand - offset) / log(range))) + offset;
+    auto normal_rand = Utils::randomBetween(a, b);
+    return qCeil(range * (1.0 - qLn(1 + normal_rand - offset) / qLn(range))) + offset;
 }
 }
 
@@ -62,11 +58,8 @@ int randomBetweenLog(int a, int b)
 DummyTorrentAnimator::DummyTorrentAnimator(QObject *parent)
     : QObject(parent)
 {
-    qsrand(QDateTime::currentDateTimeUtc().toTime_t());
-
     connect(&m_fileTimer, &QTimer::timeout, this, QOverload<>::of(&DummyTorrentAnimator::animate));
     connect(&m_peerTimer, &QTimer::timeout, this, QOverload<>::of(&DummyTorrentAnimator::animatePeers));
-
 }
 
 /******************************************************************************
@@ -166,7 +159,6 @@ QBitArray DummyTorrentAnimator::createRandomBitArray(int size, int percent)
             ba.setBit(i);
         }
     } else {
-        qsrand(QDateTime::currentDateTime().toTime_t());
         for (int i = 0; i < size; ++i) {
             const int v = Utils::randomBetween(0, 100);
             if (v <= percent) {

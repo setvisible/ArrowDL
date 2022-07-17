@@ -20,8 +20,8 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QEvent>
+#include <QtGui/QAction>
 #include <QtGui/QCloseEvent>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QMenu>
 
 
