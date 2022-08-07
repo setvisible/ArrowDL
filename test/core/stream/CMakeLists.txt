@@ -1,19 +1,33 @@
-
 set(MY_TEST_TARGET tst_stream)
 
+find_package(Qt6 REQUIRED COMPONENTS
+    Core
+    Test
+)
+
+qt_standard_project_setup()
+
 set(MY_TEST_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/fileutils.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/format.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/stream.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/test/utils/dummystreamfactory.cpp
-    )
+    ${CMAKE_SOURCE_DIR}/src/core/fileutils.cpp
+    ${CMAKE_SOURCE_DIR}/src/core/format.cpp
+    ${CMAKE_SOURCE_DIR}/src/core/stream.cpp
+    ${CMAKE_SOURCE_DIR}/test/utils/dummystreamfactory.cpp
+)
 
 add_executable(${MY_TEST_TARGET} WIN32
-    ${CMAKE_CURRENT_SOURCE_DIR}/test/core/stream/tst_stream.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/tst_stream.cpp
     ${MY_TEST_SOURCES}
+)
+
+target_include_directories(${MY_TEST_TARGET}
+    PRIVATE
+        ${Project_INCLUDE_DIRS}
+)
+
+target_link_libraries(${MY_TEST_TARGET}
+    PRIVATE
+        Qt::Core
+        Qt::Test
     )
 
 add_test(NAME ${MY_TEST_TARGET} COMMAND ${MY_TEST_TARGET})
-
-# Qt
-qt5_use_modules(${MY_TEST_TARGET} Core Test )

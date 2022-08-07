@@ -1,0 +1,8 @@
+add_subdirectory(attribute)
+add_subdirectory(charref)
+add_subdirectory(parser)
+add_subdirectory(stringbuffer)
+add_subdirectory(stringpiece)
+add_subdirectory(tokenizer)
+add_subdirectory(utf8)
+add_subdirectory(vector)
