@@ -2,37 +2,6 @@
 # Below we forbid everything and only allow what we know, that's much easier
 # than blocking about 500 different test files and bug report outputs.
 # ==============================================================================
-/.*
-/*
-!/.tx
-!/3rd
-!/data
-!/docs
-!/include
-!/installer
-!/screenshots
-!/src
-!/test
-!/web-extension
-!/.gitattributes
-!/.gitignore
-!/.appveyor.yml
-!/.travis.yml
-!/CMakeLists.txt
-!/CODE_OF_CONDUCT.md
-!/CONTRIBUTING.md
-!/DownZemAll.pro
-!/doxyfile
-!/doxygenMain.cpp
-!/LICENSE
-!/NativeClient.md
-!/README.md
-!/TRANSLATORS.md
-!/TROUBLESHOOTING.md
-!/version
-!/WEBSITE.md
-
-
 # =======================================
 # Reject some generic files
 # =======================================

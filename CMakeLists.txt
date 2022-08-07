@@ -188,7 +188,7 @@ endif(ENABLE_TESTS)
 ## Deploying documentation and files
 ##############################################################################
 set(MY_RELEASE_DOCS
-    ./LICENSE
+    ./LICENSE.md
     ./TROUBLESHOOTING.md
     )
 install (
