@@ -19,11 +19,11 @@
 
 /* Cmake */
 #ifndef APP_VERSION
-#  include "src/config.h"
+#  include "config.h"
 #endif
 
 #ifndef BOOST_VERSION_STR
-#  include "src/config_3rd.h"
+#  include "config_3rd.h"
 #endif
 
 #define GOOGLE_GUMBO_VERSION_STR      "0.10.1"

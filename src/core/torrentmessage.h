@@ -504,7 +504,6 @@ public:
         downloading            ,
         finished               ,
         seeding                ,
-        allocating             ,
         checking_resume_data
     };
     QString torrentStateString() const
@@ -516,7 +515,6 @@ public:
         case TorrentInfo::downloading            : return QObject::tr("Downloading...");
         case TorrentInfo::finished               : return QObject::tr("Finished");
         case TorrentInfo::seeding                : return QObject::tr("Seeding...");
-        case TorrentInfo::allocating             : return QObject::tr("Allocating...");
         case TorrentInfo::checking_resume_data   : return QObject::tr("Checking Resume Data...");
         }
         Q_UNREACHABLE();
@@ -532,7 +530,6 @@ public:
         case TorrentInfo::downloading            : return QLatin1String("Downloaded").data();
         case TorrentInfo::finished               : return QLatin1String("Finished").data();
         case TorrentInfo::seeding                : return QLatin1String("Seeding").data();
-        case TorrentInfo::allocating             : return QLatin1String("Allocating").data();
         case TorrentInfo::checking_resume_data   : return QLatin1String("Checking resume data").data();
         }
         Q_UNREACHABLE();
