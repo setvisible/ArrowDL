@@ -7,6 +7,7 @@
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/users/modofbhnhlagjmejdbalnijgncppjeio?label=users&logo=google)](https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio "Google Chrome Add-on")
 [![Mozilla Add-on](https://img.shields.io/amo/users/down-right-now?label=users&logo=mozilla)](https://addons.mozilla.org/firefox/addon/down-right-now/ "Mozilla Firefox Add-on")
 ![GitHub All Releases](https://img.shields.io/github/downloads/setvisible/DownZemAll/total)
+[![Chocolatey package](https://img.shields.io/chocolatey/dt/downzemall?color=blue&label=chocolatey%20package)](https://community.chocolatey.org/packages/downzemall)
 [![Twitter Follow](https://img.shields.io/twitter/follow/downzemall?label=Follow)](https://twitter.com/downzemall)
 
 
@@ -56,6 +57,10 @@ Go to [Download](https://setvisible.github.io/DownZemAll/category/download.html)
 
 Rem: *Native-Client* is an alternative to *DownRightNow*. Click [here](NativeClient.md "NativeClient.md") for more information.
 
+On Windows, you can also use the [Chocolatey package](https://community.chocolatey.org/packages/downzemall) to handle the installation/updates:
+```powershell
+choco install downzemall
+```
 
 ## Usage
 
