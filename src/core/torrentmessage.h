@@ -155,18 +155,22 @@ public:
         return ret;
     }
 
-    bool operator==(const EndPoint &other) const { return (m_ip == other.m_ip && m_port == other.m_port); }
-    bool operator!=(const EndPoint &other) const { return !(*this == other); }
 
 private:
     QHostAddress m_ip;
     int m_port{0};
 };
 
-/* Note: qHash() must be declared inside the object's namespace */
-inline uint qHash(const EndPoint &key, uint seed) {
-    return qHash(key.toString(), seed);
+inline bool operator==(const EndPoint &e1, const EndPoint &e2)
+{
+    return e1.ip() == e2.ip() && e1.port() == e2.port();
 }
+
+inline size_t qHash(const EndPoint &key, size_t seed)
+{
+    return qHashMulti(seed, key.ip(), key.port());
+}
+
 
 /******************************************************************************
  ******************************************************************************/
@@ -500,7 +504,6 @@ public:
         downloading            ,
         finished               ,
         seeding                ,
-        allocating             ,
         checking_resume_data
     };
     QString torrentStateString() const
@@ -512,7 +515,6 @@ public:
         case TorrentInfo::downloading            : return QObject::tr("Downloading...");
         case TorrentInfo::finished               : return QObject::tr("Finished");
         case TorrentInfo::seeding                : return QObject::tr("Seeding...");
-        case TorrentInfo::allocating             : return QObject::tr("Allocating...");
         case TorrentInfo::checking_resume_data   : return QObject::tr("Checking Resume Data...");
         }
         Q_UNREACHABLE();
@@ -528,7 +530,6 @@ public:
         case TorrentInfo::downloading            : return QLatin1String("Downloaded").data();
         case TorrentInfo::finished               : return QLatin1String("Finished").data();
         case TorrentInfo::seeding                : return QLatin1String("Seeding").data();
-        case TorrentInfo::allocating             : return QLatin1String("Allocating").data();
         case TorrentInfo::checking_resume_data   : return QLatin1String("Checking resume data").data();
         }
         Q_UNREACHABLE();

@@ -64,9 +64,6 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName(STR_APPLICATION_NAME);
     QCoreApplication::setOrganizationName(STR_APPLICATION_ORGANIZATION);
     QCoreApplication::setApplicationVersion(STR_APPLICATION_VERSION);
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-
-    qRegisterMetaTypeStreamOperators<QList<int> >("QList<int>");
 
     QCommandLineParser parser;
     parser.setApplicationDescription(QString("\n%0").arg(QT_TRANSLATE_NOOP("main", "Another Download Manager")));

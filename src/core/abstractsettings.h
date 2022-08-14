@@ -17,7 +17,7 @@
 #ifndef CORE_ABSTRACT_SETTINGS_H
 #define CORE_ABSTRACT_SETTINGS_H
 
-#include <exception>        /* std::exception */
+#include <QtCore/QException>
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
@@ -42,16 +42,34 @@ public:
     void readSettings();
     void writeSettings();
 
+    class IllegalKeyException : public QException {
+    public:
+        void raise() const override { throw *this; }
+        IllegalKeyException *clone() const override { return new IllegalKeyException(*this); }
+    };
+
+    class IllegalValueException : public QException {
+    public:
+        void raise() const override { throw *this; }
+        IllegalValueException *clone() const override { return new IllegalValueException(*this); }
+    };
+
+    class MissingKeyException : public QException {
+    public:
+        void raise() const override { throw *this; }
+        MissingKeyException *clone() const override { return new MissingKeyException(*this); }
+    };
+
+    class WrongTypeException : public QException {
+    public:
+        void raise() const override { throw *this; }
+        WrongTypeException *clone() const override { return new WrongTypeException(*this); }
+    };
+
 signals:
     void changed();
 
 protected:
-    /* Exceptions */
-    class IllegalKeyException : public std::exception {};
-    class IllegalValueException : public std::exception {};
-    class MissingKeyException : public std::exception {};
-    class WrongTypeException : public std::exception {};
-
     void addDefaultSettingBool(const QString &key, bool defaultValue);
     void setSettingBool(const QString &key, bool value);
     bool getSettingBool(const QString &key) const;

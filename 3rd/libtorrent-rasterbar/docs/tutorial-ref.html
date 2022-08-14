@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#tutorial" id="toc-entry-1">tutorial</a><ul>
+<li><a class="reference internal" href="#alert-masks" id="toc-entry-2">alert masks</a></li>
+<li><a class="reference internal" href="#session-destruction" id="toc-entry-3">session destruction</a></li>
+<li><a class="reference internal" href="#asynchronous-operations" id="toc-entry-4">asynchronous operations</a></li>
+<li><a class="reference internal" href="#torrent-status-updates" id="toc-entry-5">torrent_status_updates</a></li>
+<li><a class="reference internal" href="#resuming-torrents" id="toc-entry-6">resuming torrents</a></li>
+<li><a class="reference internal" href="#example" id="toc-entry-7">example</a></li>
+<li><a class="reference internal" href="#session-state" id="toc-entry-8">session state</a></li>
+<li><a class="reference internal" href="#example-1" id="toc-entry-9">example</a></li>
+<li><a class="reference internal" href="#torrent-files" id="toc-entry-10">torrent files</a></li>
+<li><a class="reference internal" href="#bencoding" id="toc-entry-11">bencoding</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="tutorial">
+<h1>tutorial</h1>
+<p>The fundamental feature of starting and downloading torrents in libtorrent is
+achieved by creating a <em>session</em>, which provides the context and a container for
+torrents. This is done with via the <a class="reference external" href="reference-Session.html#session">session</a> class, most of its interface is
+documented under <a class="reference external" href="reference-Session.html#session_handle">session_handle</a> though.</p>
+<p>To add a torrent to the <a class="reference external" href="reference-Session.html#session">session</a>, you fill in an <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object and
+pass it either to <a class="reference external" href="reference-Session.html#add_torrent()">add_torrent()</a> or <a class="reference external" href="reference-Session.html#async_add_torrent()">async_add_torrent()</a>.</p>
+<p><tt class="docutils literal">add_torrent()</tt> is a blocking call which returns a <a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a>.</p>
+<p>For example:</p>
+<pre class="code c++ literal-block">
+<span class="comment preproc">#include</span> <span class="comment preprocfile">&lt;libtorrent/session.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/add_torrent_params.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/torrent_handle.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/magnet_uri.hpp&gt;</span><span class="comment preproc">
+</span>
+<span class="keyword type">int</span> <span class="name function">main</span><span class="punctuation">(</span><span class="keyword type">int</span> <span class="name">argc</span><span class="punctuation">,</span> <span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name">argv</span><span class="punctuation">[])</span>
+<span class="punctuation">{</span>
+        <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">argc</span> <span class="operator">!=</span> <span class="literal number integer">2</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+                <span class="name">fprintf</span><span class="punctuation">(</span><span class="name">stderr</span><span class="punctuation">,</span> <span class="literal string">&quot;usage: %s &lt;magnet-url&gt;</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">);</span>
+                <span class="keyword">return</span> <span class="literal number integer">1</span><span class="punctuation">;</span>
+        <span class="punctuation">}</span>
+        <span class="name">lt</span><span class="operator">::</span><span class="name">session</span> <span class="name">ses</span><span class="punctuation">;</span>
+
+        <span class="name">lt</span><span class="operator">::</span><span class="name">add_torrent_params</span> <span class="name">atp</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">parse_magnet_uri</span><span class="punctuation">(</span><span class="name">argv</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]);</span>
+        <span class="name">atp</span><span class="punctuation">.</span><span class="name">save_path</span> <span class="operator">=</span> <span class="literal string">&quot;.&quot;</span><span class="punctuation">;</span> <span class="comment single">// save in current dir
+</span>        <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_handle</span> <span class="name">h</span> <span class="operator">=</span> <span class="name">ses</span><span class="punctuation">.</span><span class="name">add_torrent</span><span class="punctuation">(</span><span class="name">atp</span><span class="punctuation">);</span>
+
+        <span class="comment single">// ...
+</span><span class="punctuation">}</span>
+</pre>
+<p>Once you have a <a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a>, you can affect it as well as querying status.
+First, let's extend the example to print out messages from the bittorrent engine
+about progress and events happening under the hood. libtorrent has a mechanism
+referred to as <em>alerts</em> to communicate back information to the client application.</p>
+<p>Clients can poll a <a class="reference external" href="reference-Session.html#session">session</a> for new alerts via the <a class="reference external" href="reference-Session.html#pop_alerts()">pop_alerts()</a> call. This
+function fills in a vector of <a class="reference external" href="reference-Alerts.html#alert">alert</a> pointers with all new alerts since the last
+call to this function. The pointers are owned by the <a class="reference external" href="reference-Session.html#session">session</a> object at will
+become invalidated by the next call to <a class="reference external" href="reference-Session.html#pop_alerts()">pop_alerts()</a>.</p>
+<p>The alerts form a class hierarchy with <a class="reference external" href="reference-Alerts.html#alert">alert</a> as the root class. Each specific
+kind of <a class="reference external" href="reference-Alerts.html#alert">alert</a> may include additional state, specific to the kind of message. All
+alerts implement a <a class="reference external" href="reference-Alerts.html#message()">message()</a> function that prints out pertinent information
+of the <a class="reference external" href="reference-Alerts.html#alert">alert</a> message. This can be convenient for simply logging events.</p>
+<p>For programmatically react to certain events, use alert_cast to attempt
+a down cast of an <a class="reference external" href="reference-Alerts.html#alert">alert</a> object to a more specific type.</p>
+<p>In order to print out events from libtorrent as well as exiting when the torrent
+completes downloading, we can poll the <a class="reference external" href="reference-Session.html#session">session</a> for alerts periodically and print
+them out, as well as listening for the <a class="reference external" href="reference-Alerts.html#torrent_finished_alert">torrent_finished_alert</a>, which is posted
+when a torrent completes.</p>
+<pre class="code c++ literal-block">
+<span class="comment preproc">#include</span> <span class="comment preprocfile">&lt;iostream&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;thread&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;chrono&gt;</span><span class="comment preproc">
+</span>
+<span class="comment preproc">#include</span> <span class="comment preprocfile">&lt;libtorrent/session.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/session_params.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/add_torrent_params.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/torrent_handle.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/alert_types.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/magnet_uri.hpp&gt;</span><span class="comment preproc">
+</span>
+<span class="keyword type">int</span> <span class="name function">main</span><span class="punctuation">(</span><span class="keyword type">int</span> <span class="name">argc</span><span class="punctuation">,</span> <span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name">argv</span><span class="punctuation">[])</span> <span class="keyword">try</span>
+<span class="punctuation">{</span>
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">argc</span> <span class="operator">!=</span> <span class="literal number integer">2</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;usage: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">argv</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot; &lt;magnet-url&gt;&quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">std</span><span class="operator">::</span><span class="name">endl</span><span class="punctuation">;</span>
+    <span class="keyword">return</span> <span class="literal number integer">1</span><span class="punctuation">;</span>
+  <span class="punctuation">}</span>
+  <span class="name">lt</span><span class="operator">::</span><span class="name">settings_pack</span> <span class="name">p</span><span class="punctuation">;</span>
+  <span class="name">p</span><span class="punctuation">.</span><span class="name">set_int</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">settings_pack</span><span class="operator">::</span><span class="name">alert_mask</span><span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">alert_category</span><span class="operator">::</span><span class="name">status</span>
+    <span class="operator">|</span> <span class="name">lt</span><span class="operator">::</span><span class="name">alert_category</span><span class="operator">::</span><span class="name">error</span><span class="punctuation">);</span>
+  <span class="name">lt</span><span class="operator">::</span><span class="name">session</span> <span class="name">ses</span><span class="punctuation">(</span><span class="name">p</span><span class="punctuation">);</span>
+
+  <span class="name">lt</span><span class="operator">::</span><span class="name">add_torrent_params</span> <span class="name">atp</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">parse_magnet_uri</span><span class="punctuation">(</span><span class="name">argv</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]);</span>
+  <span class="name">atp</span><span class="punctuation">.</span><span class="name">save_path</span> <span class="operator">=</span> <span class="literal string">&quot;.&quot;</span><span class="punctuation">;</span> <span class="comment single">// save in current dir
+</span>  <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_handle</span> <span class="name">h</span> <span class="operator">=</span> <span class="name">ses</span><span class="punctuation">.</span><span class="name">add_torrent</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">move</span><span class="punctuation">(</span><span class="name">atp</span><span class="punctuation">));</span>
+
+  <span class="keyword">for</span> <span class="punctuation">(;;)</span> <span class="punctuation">{</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">alert</span><span class="operator">*&gt;</span> <span class="name">alerts</span><span class="punctuation">;</span>
+    <span class="name">ses</span><span class="punctuation">.</span><span class="name">pop_alerts</span><span class="punctuation">(</span><span class="operator">&amp;</span><span class="name">alerts</span><span class="punctuation">);</span>
+
+    <span class="keyword">for</span> <span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">alert</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name label">a</span> <span class="punctuation">:</span> <span class="name">alerts</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+      <span class="name">std</span><span class="operator">::</span><span class="name">cout</span> <span class="operator">&lt;&lt;</span> <span class="name">a</span><span class="operator">-&gt;</span><span class="name">message</span><span class="punctuation">()</span> <span class="operator">&lt;&lt;</span> <span class="name">std</span><span class="operator">::</span><span class="name">endl</span><span class="punctuation">;</span>
+      <span class="comment single">// if we receive the finished alert or an error, we're done
+</span>      <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">alert_cast</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">torrent_finished_alert</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">))</span> <span class="punctuation">{</span>
+        <span class="keyword">goto</span> <span class="name">done</span><span class="punctuation">;</span>
+      <span class="punctuation">}</span>
+      <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">alert_cast</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">torrent_error_alert</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">))</span> <span class="punctuation">{</span>
+        <span class="keyword">goto</span> <span class="name">done</span><span class="punctuation">;</span>
+      <span class="punctuation">}</span>
+    <span class="punctuation">}</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">this_thread</span><span class="operator">::</span><span class="name">sleep_for</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">chrono</span><span class="operator">::</span><span class="name">milliseconds</span><span class="punctuation">(</span><span class="literal number integer">200</span><span class="punctuation">));</span>
+  <span class="punctuation">}</span>
+  <span class="name label">done</span><span class="punctuation">:</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">cout</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;done, shutting down&quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">std</span><span class="operator">::</span><span class="name">endl</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+<span class="keyword">catch</span> <span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">exception</span><span class="operator">&amp;</span> <span class="name">e</span><span class="punctuation">)</span>
+<span class="punctuation">{</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;Error: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">e</span><span class="punctuation">.</span><span class="name">what</span><span class="punctuation">()</span> <span class="operator">&lt;&lt;</span> <span class="name">std</span><span class="operator">::</span><span class="name">endl</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+</pre>
+<div class="section" id="alert-masks">
+<h2>alert masks</h2>
+<p>The output from this program will be quite verbose, which is probably a good
+starting point to get some understanding of what's going on. Alerts are
+categorized into <a class="reference external" href="reference-Alerts.html#alert">alert</a> categories. Each category can be enabled and disabled
+independently via the <em>alert mask</em>.</p>
+<p>The <a class="reference external" href="reference-Alerts.html#alert">alert</a> mask is a configuration option offered by libtorrent. There are many
+configuration options, see <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a>. The alert_mask setting is an integer
+of the category flags ORed together.</p>
+<p>For instance, to only see the most pertinent alerts, the <a class="reference external" href="reference-Session.html#session">session</a> can be
+constructed like this:</p>
+<pre class="code c++ literal-block">
+<span class="name">lt</span><span class="operator">::</span><span class="name">settings_pack</span> <span class="name">pack</span><span class="punctuation">;</span>
+<span class="name">pack</span><span class="punctuation">.</span><span class="name">set_int</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">settings_pack</span><span class="operator">::</span><span class="name">alert_mask</span>
+        <span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">alert_category</span><span class="operator">::</span><span class="name">error</span>
+        <span class="operator">|</span> <span class="name">lt</span><span class="operator">::</span><span class="name">alert_category</span><span class="operator">::</span><span class="name">storage</span>
+        <span class="operator">|</span> <span class="name">lt</span><span class="operator">::</span><span class="name">alert_category</span><span class="operator">::</span><span class="name">status</span><span class="punctuation">);</span>
+
+<span class="name">lt</span><span class="operator">::</span><span class="name">session</span> <span class="name">ses</span><span class="punctuation">(</span><span class="name">pack</span><span class="punctuation">);</span>
+</pre>
+<p>Configuration options can be updated after the <a class="reference external" href="reference-Session.html#session">session</a> is started by calling
+<a class="reference external" href="reference-Session.html#apply_settings()">apply_settings()</a>. Some settings are best set before starting the <a class="reference external" href="reference-Session.html#session">session</a>
+though, like listen_interfaces, to avoid race conditions. If you start the
+<a class="reference external" href="reference-Session.html#session">session</a> with the default settings and then immediately change them, there will
+still be a window where the default settings apply.</p>
+<p>Changing the settings may trigger listen sockets to close and re-open and
+NAT-PMP, UPnP updates to be sent. For this reason, it's typically a good idea
+to batch settings updates into a single call.</p>
+</div>
+<div class="section" id="session-destruction">
+<h2>session destruction</h2>
+<p>The <a class="reference external" href="reference-Session.html#session">session</a> destructor is blocking by default. When shutting down, trackers
+will need to be contacted to stop torrents and other outstanding operations
+need to be cancelled. Shutting down can sometimes take several seconds,
+primarily because of trackers that are unresponsive (and time out) and also
+DNS servers that are unresponsive. DNS lookups are especially difficult to
+abort when stalled.</p>
+<p>In order to be able to start destruction asynchronously, one can call
+<a class="reference external" href="reference-Session.html#abort()">session::abort()</a>.</p>
+<p>This call returns a <a class="reference external" href="reference-Session.html#session_proxy">session_proxy</a> object, which is a handle keeping the <a class="reference external" href="reference-Session.html#session">session</a>
+state alive while shutting it down. It deliberately does not provide any of the
+<a class="reference external" href="reference-Session.html#session">session</a> operations, since it's shutting down.</p>
+<p>After having a <a class="reference external" href="reference-Session.html#session_proxy">session_proxy</a> object, the <a class="reference external" href="reference-Session.html#session">session</a> destructor does not block.
+However, the <a class="reference external" href="reference-Session.html#session_proxy">session_proxy</a> destructor <em>will</em>.</p>
+<p>This can be used to shut down multiple sessions or other parts of the
+application in parallel.</p>
+</div>
+<div class="section" id="asynchronous-operations">
+<h2>asynchronous operations</h2>
+<p>Essentially any call to a member function of <a class="reference external" href="reference-Session.html#session">session</a> or <a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a> that
+returns a value is a blocking synchronous call. Meaning it will post a message
+to the main libtorrent thread and wait for a response. Such calls may be
+expensive, and in applications where stalls should be avoided (such as user
+interface threads), blocking calls should be avoided.</p>
+<p>In the example above, session::add_torrent() returns a <a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a> and is
+thus blocking. For higher efficiency, <a class="reference external" href="reference-Session.html#async_add_torrent()">async_add_torrent()</a> will post a message
+to the main thread to add a torrent, and post the resulting <a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a> back
+in an <a class="reference external" href="reference-Alerts.html#alert">alert</a> (<a class="reference external" href="reference-Alerts.html#add_torrent_alert">add_torrent_alert</a>). This is especially useful when adding a lot
+of torrents in quick succession, as there's no stall in between calls.</p>
+<p>In the example above, we don't actually use the <a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a> for anything, so
+converting it to use <a class="reference external" href="reference-Session.html#async_add_torrent()">async_add_torrent()</a> is just a matter of replacing the
+<a class="reference external" href="reference-Session.html#add_torrent()">add_torrent()</a> call with <a class="reference external" href="reference-Session.html#async_add_torrent()">async_add_torrent()</a>.</p>
+</div>
+<div class="section" id="torrent-status-updates">
+<h2>torrent_status_updates</h2>
+<p>To get updates to the status of torrents, call <a class="reference external" href="reference-Session.html#post_torrent_updates()">post_torrent_updates()</a> on the
+<a class="reference external" href="reference-Session.html#session">session</a> object. This will cause libtorrent to post a <a class="reference external" href="reference-Alerts.html#state_update_alert">state_update_alert</a>
+containing <a class="reference external" href="reference-Torrent_Status.html#torrent_status">torrent_status</a> objects for all torrents whose status has <em>changed</em>
+since the last call to <a class="reference external" href="reference-Session.html#post_torrent_updates()">post_torrent_updates()</a>.</p>
+<p>The <a class="reference external" href="reference-Alerts.html#state_update_alert">state_update_alert</a> looks something like this:</p>
+<pre class="code c++ literal-block">
+<span class="keyword">struct</span> <span class="name class">state_update_alert</span> <span class="operator">:</span> <span class="name">alert</span>
+<span class="punctuation">{</span>
+        <span class="keyword">virtual</span> <span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="name">message</span><span class="punctuation">()</span> <span class="keyword">const</span><span class="punctuation">;</span>
+        <span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">torrent_status</span><span class="operator">&gt;</span> <span class="name">status</span><span class="punctuation">;</span>
+<span class="punctuation">};</span>
+</pre>
+<p>The <tt class="docutils literal">status</tt> field only contains the <a class="reference external" href="reference-Torrent_Status.html#torrent_status">torrent_status</a> for torrents with
+updates since the last call. It may be empty if no torrent has updated its
+state. This feature is critical for scalability.</p>
+<p>See the <a class="reference external" href="reference-Torrent_Status.html#torrent_status">torrent_status</a> object for more information on what is in there.
+Perhaps the most interesting fields are <tt class="docutils literal">total_payload_download</tt>,
+<tt class="docutils literal">total_payload_upload</tt>, <tt class="docutils literal">num_peers</tt> and <tt class="docutils literal">state</tt>.</p>
+</div>
+<div class="section" id="resuming-torrents">
+<h2>resuming torrents</h2>
+<p>Since bittorrent downloads pieces of files in random order, it's not trivial to
+resume a partial download. When resuming a download, the bittorrent engine must
+restore the state of the downloading torrent, specifically which parts of the
+file(s) are downloaded. There are two approaches to doing this:</p>
+<ol class="arabic simple">
+<li>read every piece of the downloaded files from disk and compare it against its
+expected hash.</li>
+<li>save, to disk, the state of which pieces (and partial pieces) are downloaded,
+and load it back in again when resuming.</li>
+</ol>
+<p>If no resume data is provided with a torrent that's added, libtorrent will
+employ (1) by default.</p>
+<p>To save resume data, call <a class="reference external" href="reference-Torrent_Handle.html#save_resume_data()">save_resume_data()</a> on the <a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a> object.
+This will ask libtorrent to generate the resume data and post it back in
+a <a class="reference external" href="reference-Alerts.html#save_resume_data_alert">save_resume_data_alert</a>. If generating the resume data fails for any reason,
+a <a class="reference external" href="reference-Alerts.html#save_resume_data_failed_alert">save_resume_data_failed_alert</a> is posted instead.</p>
+<p>Exactly one of those alerts will be posted for every call to
+<a class="reference external" href="reference-Torrent_Handle.html#save_resume_data()">save_resume_data()</a>. This is an important property when shutting down a
+<a class="reference external" href="reference-Session.html#session">session</a> with multiple torrents, every resume <a class="reference external" href="reference-Alerts.html#alert">alert</a> must be handled before
+resuming with shut down. Any torrent may fail to save resume data, so the client
+would need to keep a count of the outstanding resume files, decremented on
+either <a class="reference external" href="reference-Alerts.html#save_resume_data_alert">save_resume_data_alert</a> or <a class="reference external" href="reference-Alerts.html#save_resume_data_failed_alert">save_resume_data_failed_alert</a>.</p>
+<p>The <a class="reference external" href="reference-Alerts.html#save_resume_data_alert">save_resume_data_alert</a> looks something like this:</p>
+<pre class="code c++ literal-block">
+<span class="keyword">struct</span> <span class="name class">save_resume_data_alert</span> <span class="operator">:</span> <span class="name">torrent_alert</span>
+<span class="punctuation">{</span>
+        <span class="keyword">virtual</span> <span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="name">message</span><span class="punctuation">()</span> <span class="keyword">const</span><span class="punctuation">;</span>
+
+        <span class="comment single">// the resume data
+</span>        <span class="name">add_torrent_params</span> <span class="name">params</span><span class="punctuation">;</span>
+<span class="punctuation">};</span>
+</pre>
+<p>The <tt class="docutils literal">params</tt> field is an <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object containing all the state
+to add the torrent back to the <a class="reference external" href="reference-Session.html#session">session</a> again. This object can be serialized
+using <a class="reference external" href="reference-Resume_Data.html#write_resume_data()">write_resume_data()</a> or <a class="reference external" href="reference-Resume_Data.html#write_resume_data_buf()">write_resume_data_buf()</a>, and de-serialized
+with <a class="reference external" href="reference-Resume_Data.html#read_resume_data()">read_resume_data()</a>.</p>
+</div>
+<div class="section" id="example">
+<h2>example</h2>
+<p>Here's an updated version of the above example with the following updates:</p>
+<ol class="arabic simple">
+<li>not using blocking calls</li>
+<li>printing torrent status updates rather than the raw log</li>
+<li>saving and loading resume files</li>
+</ol>
+<pre class="code c++ literal-block">
+<span class="comment preproc">#include</span> <span class="comment preprocfile">&lt;iostream&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;thread&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;chrono&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;fstream&gt;</span><span class="comment preproc">
+</span>
+<span class="comment preproc">#include</span> <span class="comment preprocfile">&lt;libtorrent/session.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/session_params.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/add_torrent_params.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/torrent_handle.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/alert_types.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/bencode.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/torrent_status.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/read_resume_data.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/write_resume_data.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/error_code.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/magnet_uri.hpp&gt;</span><span class="comment preproc">
+</span>
+<span class="keyword">namespace</span> <span class="punctuation">{</span>
+
+<span class="keyword">using</span> <span class="name">clk</span> <span class="operator">=</span> <span class="name">std</span><span class="operator">::</span><span class="name">chrono</span><span class="operator">::</span><span class="name">steady_clock</span><span class="punctuation">;</span>
+
+<span class="comment single">// return the name of a torrent status enum
+</span><span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name">state</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">torrent_status</span><span class="operator">::</span><span class="name">state_t</span> <span class="name">s</span><span class="punctuation">)</span>
+<span class="punctuation">{</span>
+<span class="comment preproc">#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored &quot;-Wcovered-switch-default&quot;
+#endif
+</span>  <span class="keyword">switch</span><span class="punctuation">(</span><span class="name">s</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+    <span class="keyword">case</span> <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_status</span><span class="operator">::</span><span class="name label">checking_files</span><span class="punctuation">:</span> <span class="keyword">return</span> <span class="literal string">&quot;checking&quot;</span><span class="punctuation">;</span>
+    <span class="keyword">case</span> <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_status</span><span class="operator">::</span><span class="name label">downloading_metadata</span><span class="punctuation">:</span> <span class="keyword">return</span> <span class="literal string">&quot;dl metadata&quot;</span><span class="punctuation">;</span>
+    <span class="keyword">case</span> <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_status</span><span class="operator">::</span><span class="name label">downloading</span><span class="punctuation">:</span> <span class="keyword">return</span> <span class="literal string">&quot;downloading&quot;</span><span class="punctuation">;</span>
+    <span class="keyword">case</span> <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_status</span><span class="operator">::</span><span class="name label">finished</span><span class="punctuation">:</span> <span class="keyword">return</span> <span class="literal string">&quot;finished&quot;</span><span class="punctuation">;</span>
+    <span class="keyword">case</span> <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_status</span><span class="operator">::</span><span class="name label">seeding</span><span class="punctuation">:</span> <span class="keyword">return</span> <span class="literal string">&quot;seeding&quot;</span><span class="punctuation">;</span>
+    <span class="keyword">case</span> <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_status</span><span class="operator">::</span><span class="name label">checking_resume_data</span><span class="punctuation">:</span> <span class="keyword">return</span> <span class="literal string">&quot;checking resume&quot;</span><span class="punctuation">;</span>
+    <span class="keyword">default</span><span class="operator">:</span> <span class="keyword">return</span> <span class="literal string">&quot;&lt;&gt;&quot;</span><span class="punctuation">;</span>
+  <span class="punctuation">}</span>
+<span class="comment preproc">#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+</span><span class="punctuation">}</span>
+
+<span class="punctuation">}</span> <span class="comment single">// anonymous namespace
+</span>
+<span class="keyword type">int</span> <span class="name">main</span><span class="punctuation">(</span><span class="keyword type">int</span> <span class="name">argc</span><span class="punctuation">,</span> <span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name">argv</span><span class="punctuation">[])</span> <span class="keyword">try</span>
+<span class="punctuation">{</span>
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">argc</span> <span class="operator">!=</span> <span class="literal number integer">2</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;usage: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">argv</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot; &lt;magnet-url&gt;&quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">std</span><span class="operator">::</span><span class="name">endl</span><span class="punctuation">;</span>
+    <span class="keyword">return</span> <span class="literal number integer">1</span><span class="punctuation">;</span>
+  <span class="punctuation">}</span>
+
+  <span class="name">lt</span><span class="operator">::</span><span class="name">settings_pack</span> <span class="name">pack</span><span class="punctuation">;</span>
+  <span class="name">pack</span><span class="punctuation">.</span><span class="name">set_int</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">settings_pack</span><span class="operator">::</span><span class="name">alert_mask</span>
+    <span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">alert_category</span><span class="operator">::</span><span class="name">error</span>
+    <span class="operator">|</span> <span class="name">lt</span><span class="operator">::</span><span class="name">alert_category</span><span class="operator">::</span><span class="name">storage</span>
+    <span class="operator">|</span> <span class="name">lt</span><span class="operator">::</span><span class="name">alert_category</span><span class="operator">::</span><span class="name">status</span><span class="punctuation">);</span>
+
+  <span class="name">lt</span><span class="operator">::</span><span class="name">session</span> <span class="name">ses</span><span class="punctuation">(</span><span class="name">pack</span><span class="punctuation">);</span>
+  <span class="name">clk</span><span class="operator">::</span><span class="name">time_point</span> <span class="name">last_save_resume</span> <span class="operator">=</span> <span class="name">clk</span><span class="operator">::</span><span class="name">now</span><span class="punctuation">();</span>
+
+  <span class="comment single">// load resume data from disk and pass it in as we add the magnet link
+</span>  <span class="name">std</span><span class="operator">::</span><span class="name">ifstream</span> <span class="name">ifs</span><span class="punctuation">(</span><span class="literal string">&quot;.resume_file&quot;</span><span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">binary</span><span class="punctuation">);</span>
+  <span class="name">ifs</span><span class="punctuation">.</span><span class="name">unsetf</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">skipws</span><span class="punctuation">);</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="keyword type">char</span><span class="operator">&gt;</span> <span class="name">buf</span><span class="punctuation">{</span><span class="name">std</span><span class="operator">::</span><span class="name">istream_iterator</span><span class="operator">&lt;</span><span class="keyword type">char</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">ifs</span><span class="punctuation">)</span>
+    <span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">istream_iterator</span><span class="operator">&lt;</span><span class="keyword type">char</span><span class="operator">&gt;</span><span class="punctuation">()};</span>
+
+  <span class="name">lt</span><span class="operator">::</span><span class="name">add_torrent_params</span> <span class="name">magnet</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">parse_magnet_uri</span><span class="punctuation">(</span><span class="name">argv</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]);</span>
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">buf</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">())</span> <span class="punctuation">{</span>
+    <span class="name">lt</span><span class="operator">::</span><span class="name">add_torrent_params</span> <span class="name">atp</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">read_resume_data</span><span class="punctuation">(</span><span class="name">buf</span><span class="punctuation">);</span>
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">atp</span><span class="punctuation">.</span><span class="name">info_hashes</span> <span class="operator">==</span> <span class="name">magnet</span><span class="punctuation">.</span><span class="name">info_hashes</span><span class="punctuation">)</span> <span class="name">magnet</span> <span class="operator">=</span> <span class="name">std</span><span class="operator">::</span><span class="name">move</span><span class="punctuation">(</span><span class="name">atp</span><span class="punctuation">);</span>
+  <span class="punctuation">}</span>
+  <span class="name">magnet</span><span class="punctuation">.</span><span class="name">save_path</span> <span class="operator">=</span> <span class="literal string">&quot;.&quot;</span><span class="punctuation">;</span> <span class="comment single">// save in current dir
+</span>  <span class="name">ses</span><span class="punctuation">.</span><span class="name">async_add_torrent</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">move</span><span class="punctuation">(</span><span class="name">magnet</span><span class="punctuation">));</span>
+
+  <span class="comment single">// this is the handle we'll set once we get the notification of it being
+</span>  <span class="comment single">// added
+</span>  <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_handle</span> <span class="name">h</span><span class="punctuation">;</span>
+
+  <span class="comment single">// set when we're exiting
+</span>  <span class="keyword type">bool</span> <span class="name">done</span> <span class="operator">=</span> <span class="name builtin">false</span><span class="punctuation">;</span>
+  <span class="keyword">for</span> <span class="punctuation">(;;)</span> <span class="punctuation">{</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">alert</span><span class="operator">*&gt;</span> <span class="name">alerts</span><span class="punctuation">;</span>
+    <span class="name">ses</span><span class="punctuation">.</span><span class="name">pop_alerts</span><span class="punctuation">(</span><span class="operator">&amp;</span><span class="name">alerts</span><span class="punctuation">);</span>
+
+    <span class="keyword">for</span> <span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">alert</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name label">a</span> <span class="punctuation">:</span> <span class="name">alerts</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+      <span class="keyword">if</span> <span class="punctuation">(</span><span class="keyword">auto</span> <span class="name">at</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">alert_cast</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">add_torrent_alert</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">))</span> <span class="punctuation">{</span>
+        <span class="name">h</span> <span class="operator">=</span> <span class="name">at</span><span class="operator">-&gt;</span><span class="name">handle</span><span class="punctuation">;</span>
+      <span class="punctuation">}</span>
+      <span class="comment single">// if we receive the finished alert or an error, we're done
+</span>      <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">alert_cast</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">torrent_finished_alert</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">))</span> <span class="punctuation">{</span>
+        <span class="name">h</span><span class="punctuation">.</span><span class="name">save_resume_data</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">torrent_handle</span><span class="operator">::</span><span class="name">save_info_dict</span><span class="punctuation">);</span>
+        <span class="name">done</span> <span class="operator">=</span> <span class="name builtin">true</span><span class="punctuation">;</span>
+      <span class="punctuation">}</span>
+      <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">alert_cast</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">torrent_error_alert</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">))</span> <span class="punctuation">{</span>
+        <span class="name">std</span><span class="operator">::</span><span class="name">cout</span> <span class="operator">&lt;&lt;</span> <span class="name">a</span><span class="operator">-&gt;</span><span class="name">message</span><span class="punctuation">()</span> <span class="operator">&lt;&lt;</span> <span class="name">std</span><span class="operator">::</span><span class="name">endl</span><span class="punctuation">;</span>
+        <span class="name">done</span> <span class="operator">=</span> <span class="name builtin">true</span><span class="punctuation">;</span>
+        <span class="name">h</span><span class="punctuation">.</span><span class="name">save_resume_data</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">torrent_handle</span><span class="operator">::</span><span class="name">save_info_dict</span><span class="punctuation">);</span>
+      <span class="punctuation">}</span>
+
+      <span class="comment single">// when resume data is ready, save it
+</span>      <span class="keyword">if</span> <span class="punctuation">(</span><span class="keyword">auto</span> <span class="name">rd</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">alert_cast</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">save_resume_data_alert</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">))</span> <span class="punctuation">{</span>
+        <span class="name">std</span><span class="operator">::</span><span class="name">ofstream</span> <span class="name">of</span><span class="punctuation">(</span><span class="literal string">&quot;.resume_file&quot;</span><span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">binary</span><span class="punctuation">);</span>
+        <span class="name">of</span><span class="punctuation">.</span><span class="name">unsetf</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">skipws</span><span class="punctuation">);</span>
+        <span class="keyword">auto</span> <span class="keyword">const</span> <span class="name">b</span> <span class="operator">=</span> <span class="name">write_resume_data_buf</span><span class="punctuation">(</span><span class="name">rd</span><span class="operator">-&gt;</span><span class="name">params</span><span class="punctuation">);</span>
+        <span class="name">of</span><span class="punctuation">.</span><span class="name">write</span><span class="punctuation">(</span><span class="name">b</span><span class="punctuation">.</span><span class="name">data</span><span class="punctuation">(),</span> <span class="keyword type">int</span><span class="punctuation">(</span><span class="name">b</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">()));</span>
+        <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">done</span><span class="punctuation">)</span> <span class="keyword">goto</span> <span class="name">done</span><span class="punctuation">;</span>
+      <span class="punctuation">}</span>
+
+      <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">alert_cast</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">save_resume_data_failed_alert</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">))</span> <span class="punctuation">{</span>
+        <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">done</span><span class="punctuation">)</span> <span class="keyword">goto</span> <span class="name">done</span><span class="punctuation">;</span>
+      <span class="punctuation">}</span>
+
+      <span class="keyword">if</span> <span class="punctuation">(</span><span class="keyword">auto</span> <span class="name">st</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">alert_cast</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">state_update_alert</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">))</span> <span class="punctuation">{</span>
+        <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">st</span><span class="operator">-&gt;</span><span class="name">status</span><span class="punctuation">.</span><span class="name">empty</span><span class="punctuation">())</span> <span class="keyword">continue</span><span class="punctuation">;</span>
+
+        <span class="comment single">// we only have a single torrent, so we know which one
+</span>        <span class="comment single">// the status is for
+</span>        <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_status</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name">s</span> <span class="operator">=</span> <span class="name">st</span><span class="operator">-&gt;</span><span class="name">status</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">];</span>
+        <span class="name">std</span><span class="operator">::</span><span class="name">cout</span> <span class="operator">&lt;&lt;</span> <span class="literal string char">'\r'</span> <span class="operator">&lt;&lt;</span> <span class="name">state</span><span class="punctuation">(</span><span class="name">s</span><span class="punctuation">.</span><span class="name">state</span><span class="punctuation">)</span> <span class="operator">&lt;&lt;</span> <span class="literal string char">' '</span>
+          <span class="operator">&lt;&lt;</span> <span class="punctuation">(</span><span class="name">s</span><span class="punctuation">.</span><span class="name">download_payload_rate</span> <span class="operator">/</span> <span class="literal number integer">1000</span><span class="punctuation">)</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot; kB/s &quot;</span>
+          <span class="operator">&lt;&lt;</span> <span class="punctuation">(</span><span class="name">s</span><span class="punctuation">.</span><span class="name">total_done</span> <span class="operator">/</span> <span class="literal number integer">1000</span><span class="punctuation">)</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot; kB (&quot;</span>
+          <span class="operator">&lt;&lt;</span> <span class="punctuation">(</span><span class="name">s</span><span class="punctuation">.</span><span class="name">progress_ppm</span> <span class="operator">/</span> <span class="literal number integer">10000</span><span class="punctuation">)</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;%) downloaded (&quot;</span>
+          <span class="operator">&lt;&lt;</span> <span class="name">s</span><span class="punctuation">.</span><span class="name">num_peers</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot; peers)</span><span class="literal string escape">\x1b</span><span class="literal string">[K&quot;</span><span class="punctuation">;</span>
+        <span class="name">std</span><span class="operator">::</span><span class="name">cout</span><span class="punctuation">.</span><span class="name">flush</span><span class="punctuation">();</span>
+      <span class="punctuation">}</span>
+    <span class="punctuation">}</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">this_thread</span><span class="operator">::</span><span class="name">sleep_for</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">chrono</span><span class="operator">::</span><span class="name">milliseconds</span><span class="punctuation">(</span><span class="literal number integer">200</span><span class="punctuation">));</span>
+
+    <span class="comment single">// ask the session to post a state_update_alert, to update our
+</span>    <span class="comment single">// state output for the torrent
+</span>    <span class="name">ses</span><span class="punctuation">.</span><span class="name">post_torrent_updates</span><span class="punctuation">();</span>
+
+    <span class="comment single">// save resume data once every 30 seconds
+</span>    <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">clk</span><span class="operator">::</span><span class="name">now</span><span class="punctuation">()</span> <span class="operator">-</span> <span class="name">last_save_resume</span> <span class="operator">&gt;</span> <span class="name">std</span><span class="operator">::</span><span class="name">chrono</span><span class="operator">::</span><span class="name">seconds</span><span class="punctuation">(</span><span class="literal number integer">30</span><span class="punctuation">))</span> <span class="punctuation">{</span>
+      <span class="name">h</span><span class="punctuation">.</span><span class="name">save_resume_data</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">torrent_handle</span><span class="operator">::</span><span class="name">save_info_dict</span><span class="punctuation">);</span>
+      <span class="name">last_save_resume</span> <span class="operator">=</span> <span class="name">clk</span><span class="operator">::</span><span class="name">now</span><span class="punctuation">();</span>
+    <span class="punctuation">}</span>
+  <span class="punctuation">}</span>
+
+<span class="name label">done</span><span class="punctuation">:</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">cout</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;</span><span class="literal string escape">\n</span><span class="literal string">done, shutting down&quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">std</span><span class="operator">::</span><span class="name">endl</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+<span class="keyword">catch</span> <span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">exception</span><span class="operator">&amp;</span> <span class="name">e</span><span class="punctuation">)</span>
+<span class="punctuation">{</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;Error: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">e</span><span class="punctuation">.</span><span class="name">what</span><span class="punctuation">()</span> <span class="operator">&lt;&lt;</span> <span class="name">std</span><span class="operator">::</span><span class="name">endl</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+</pre>
+</div>
+<div class="section" id="session-state">
+<h2>session state</h2>
+<p>On construction, a <a class="reference external" href="reference-Session.html#session">session</a> object is configured by a <a class="reference external" href="reference-Session.html#session_params">session_params</a> object. The
+<a class="reference external" href="reference-Session.html#session_params">session_params</a> object notably contain session_settings, the state of the DHT
+node (e.g. routing table), the session's IP filter as well as the disk I/O
+back-end and dht storage to use.</p>
+<p>There are functions to serialize and de-serialize the <a class="reference external" href="reference-Session.html#session_params">session_params</a> object to
+help in  restoring <a class="reference external" href="reference-Session.html#session">session</a> state from last run. Doing so is especially helpful
+for bootstrapping the DHT, using nodes from last run.</p>
+<p>Before destructing the <a class="reference external" href="reference-Session.html#session">session</a> object, call <tt class="docutils literal"><span class="pre">session::session_state()</span></tt> to get
+the current state as a <a class="reference external" href="reference-Session.html#session_params">session_params</a> object.</p>
+<p>Call <a class="reference external" href="reference-Session.html#write_session_params()">write_session_params()</a> or <a class="reference external" href="reference-Session.html#write_session_params_buf()">write_session_params_buf()</a> to serialize the state
+into a bencoded <a class="reference external" href="reference-Bencoding.html#entry">entry</a> or to a flat buffer (<tt class="docutils literal"><span class="pre">std::vector&lt;char&gt;</span></tt>) respectively.</p>
+<p>On startup, before constructing the <a class="reference external" href="reference-Session.html#session">session</a> object, load the buffer back from
+disk and call <a class="reference external" href="reference-Session.html#read_session_params()">read_session_params()</a> to de-serialize it back into a <a class="reference external" href="reference-Session.html#session_params">session_params</a>
+object. Before passing it into the <a class="reference external" href="reference-Session.html#session">session</a> constructor is your chance to set
+update the <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a> (<tt class="docutils literal">params</tt>) member of settings_params, or configuring
+the disk_io_constructor.</p>
+</div>
+<div class="section" id="example-1">
+<h2>example</h2>
+<p>Another updated version of the above example with the following updates:</p>
+<ol class="arabic simple">
+<li>load and save <a class="reference external" href="reference-Session.html#session_params">session_params</a> to file &quot;.session&quot;</li>
+<li>allow shutting down on <tt class="docutils literal">SIGINT</tt></li>
+</ol>
+<pre class="code c++ literal-block">
+<span class="comment preproc">#include</span> <span class="comment preprocfile">&lt;iostream&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;thread&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;chrono&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;fstream&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;csignal&gt;</span><span class="comment preproc">
+</span>
+<span class="comment preproc">#include</span> <span class="comment preprocfile">&lt;libtorrent/session.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/session_params.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/add_torrent_params.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/torrent_handle.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/alert_types.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/bencode.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/torrent_status.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/read_resume_data.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/write_resume_data.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/error_code.hpp&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;libtorrent/magnet_uri.hpp&gt;</span><span class="comment preproc">
+</span>
+<span class="keyword">namespace</span> <span class="punctuation">{</span>
+
+<span class="keyword">using</span> <span class="name">clk</span> <span class="operator">=</span> <span class="name">std</span><span class="operator">::</span><span class="name">chrono</span><span class="operator">::</span><span class="name">steady_clock</span><span class="punctuation">;</span>
+
+<span class="comment single">// return the name of a torrent status enum
+</span><span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name">state</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">torrent_status</span><span class="operator">::</span><span class="name">state_t</span> <span class="name">s</span><span class="punctuation">)</span>
+<span class="punctuation">{</span>
+<span class="comment preproc">#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored &quot;-Wcovered-switch-default&quot;
+#endif
+</span>  <span class="keyword">switch</span><span class="punctuation">(</span><span class="name">s</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+    <span class="keyword">case</span> <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_status</span><span class="operator">::</span><span class="name label">checking_files</span><span class="punctuation">:</span> <span class="keyword">return</span> <span class="literal string">&quot;checking&quot;</span><span class="punctuation">;</span>
+    <span class="keyword">case</span> <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_status</span><span class="operator">::</span><span class="name label">downloading_metadata</span><span class="punctuation">:</span> <span class="keyword">return</span> <span class="literal string">&quot;dl metadata&quot;</span><span class="punctuation">;</span>
+    <span class="keyword">case</span> <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_status</span><span class="operator">::</span><span class="name label">downloading</span><span class="punctuation">:</span> <span class="keyword">return</span> <span class="literal string">&quot;downloading&quot;</span><span class="punctuation">;</span>
+    <span class="keyword">case</span> <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_status</span><span class="operator">::</span><span class="name label">finished</span><span class="punctuation">:</span> <span class="keyword">return</span> <span class="literal string">&quot;finished&quot;</span><span class="punctuation">;</span>
+    <span class="keyword">case</span> <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_status</span><span class="operator">::</span><span class="name label">seeding</span><span class="punctuation">:</span> <span class="keyword">return</span> <span class="literal string">&quot;seeding&quot;</span><span class="punctuation">;</span>
+    <span class="keyword">case</span> <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_status</span><span class="operator">::</span><span class="name label">checking_resume_data</span><span class="punctuation">:</span> <span class="keyword">return</span> <span class="literal string">&quot;checking resume&quot;</span><span class="punctuation">;</span>
+    <span class="keyword">default</span><span class="operator">:</span> <span class="keyword">return</span> <span class="literal string">&quot;&lt;&gt;&quot;</span><span class="punctuation">;</span>
+  <span class="punctuation">}</span>
+<span class="comment preproc">#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+</span><span class="punctuation">}</span>
+
+<span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="keyword type">char</span><span class="operator">&gt;</span> <span class="name">load_file</span><span class="punctuation">(</span><span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name">filename</span><span class="punctuation">)</span>
+<span class="punctuation">{</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">ifstream</span> <span class="name">ifs</span><span class="punctuation">(</span><span class="name">filename</span><span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">binary</span><span class="punctuation">);</span>
+  <span class="name">ifs</span><span class="punctuation">.</span><span class="name">unsetf</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">skipws</span><span class="punctuation">);</span>
+  <span class="keyword">return</span> <span class="punctuation">{</span><span class="name">std</span><span class="operator">::</span><span class="name">istream_iterator</span><span class="operator">&lt;</span><span class="keyword type">char</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">ifs</span><span class="punctuation">),</span> <span class="name">std</span><span class="operator">::</span><span class="name">istream_iterator</span><span class="operator">&lt;</span><span class="keyword type">char</span><span class="operator">&gt;</span><span class="punctuation">()};</span>
+<span class="punctuation">}</span>
+
+<span class="comment single">// set when we're exiting
+</span><span class="name">std</span><span class="operator">::</span><span class="name">atomic</span><span class="operator">&lt;</span><span class="keyword type">bool</span><span class="operator">&gt;</span> <span class="name">shut_down</span><span class="punctuation">{</span><span class="name builtin">false</span><span class="punctuation">};</span>
+
+<span class="keyword type">void</span> <span class="name function">sighandler</span><span class="punctuation">(</span><span class="keyword type">int</span><span class="punctuation">)</span> <span class="punctuation">{</span> <span class="name">shut_down</span> <span class="operator">=</span> <span class="name builtin">true</span><span class="punctuation">;</span> <span class="punctuation">}</span>
+
+<span class="punctuation">}</span> <span class="comment single">// anonymous namespace
+</span>
+<span class="keyword type">int</span> <span class="name">main</span><span class="punctuation">(</span><span class="keyword type">int</span> <span class="name">argc</span><span class="punctuation">,</span> <span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name">argv</span><span class="punctuation">[])</span> <span class="keyword">try</span>
+<span class="punctuation">{</span>
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">argc</span> <span class="operator">!=</span> <span class="literal number integer">2</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;usage: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">argv</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot; &lt;magnet-url&gt;&quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">std</span><span class="operator">::</span><span class="name">endl</span><span class="punctuation">;</span>
+    <span class="keyword">return</span> <span class="literal number integer">1</span><span class="punctuation">;</span>
+  <span class="punctuation">}</span>
+
+  <span class="comment single">// load session parameters
+</span>  <span class="keyword">auto</span> <span class="name">session_params</span> <span class="operator">=</span> <span class="name">load_file</span><span class="punctuation">(</span><span class="literal string">&quot;.session&quot;</span><span class="punctuation">);</span>
+  <span class="name">lt</span><span class="operator">::</span><span class="name">session_params</span> <span class="name">params</span> <span class="operator">=</span> <span class="name">session_params</span><span class="punctuation">.</span><span class="name">empty</span><span class="punctuation">()</span>
+    <span class="operator">?</span> <span class="name">lt</span><span class="operator">::</span><span class="name">session_params</span><span class="punctuation">()</span> <span class="operator">:</span> <span class="name">lt</span><span class="operator">::</span><span class="name">read_session_params</span><span class="punctuation">(</span><span class="name">session_params</span><span class="punctuation">);</span>
+  <span class="name">params</span><span class="punctuation">.</span><span class="name">settings</span><span class="punctuation">.</span><span class="name">set_int</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">settings_pack</span><span class="operator">::</span><span class="name">alert_mask</span>
+    <span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">alert_category</span><span class="operator">::</span><span class="name">error</span>
+    <span class="operator">|</span> <span class="name">lt</span><span class="operator">::</span><span class="name">alert_category</span><span class="operator">::</span><span class="name">storage</span>
+    <span class="operator">|</span> <span class="name">lt</span><span class="operator">::</span><span class="name">alert_category</span><span class="operator">::</span><span class="name">status</span><span class="punctuation">);</span>
+
+  <span class="name">lt</span><span class="operator">::</span><span class="name">session</span> <span class="name">ses</span><span class="punctuation">(</span><span class="name">params</span><span class="punctuation">);</span>
+  <span class="name">clk</span><span class="operator">::</span><span class="name">time_point</span> <span class="name">last_save_resume</span> <span class="operator">=</span> <span class="name">clk</span><span class="operator">::</span><span class="name">now</span><span class="punctuation">();</span>
+
+  <span class="comment single">// load resume data from disk and pass it in as we add the magnet link
+</span>  <span class="keyword">auto</span> <span class="name">buf</span> <span class="operator">=</span> <span class="name">load_file</span><span class="punctuation">(</span><span class="literal string">&quot;.resume_file&quot;</span><span class="punctuation">);</span>
+
+  <span class="name">lt</span><span class="operator">::</span><span class="name">add_torrent_params</span> <span class="name">magnet</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">parse_magnet_uri</span><span class="punctuation">(</span><span class="name">argv</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]);</span>
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">buf</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">())</span> <span class="punctuation">{</span>
+    <span class="name">lt</span><span class="operator">::</span><span class="name">add_torrent_params</span> <span class="name">atp</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">read_resume_data</span><span class="punctuation">(</span><span class="name">buf</span><span class="punctuation">);</span>
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">atp</span><span class="punctuation">.</span><span class="name">info_hashes</span> <span class="operator">==</span> <span class="name">magnet</span><span class="punctuation">.</span><span class="name">info_hashes</span><span class="punctuation">)</span> <span class="name">magnet</span> <span class="operator">=</span> <span class="name">std</span><span class="operator">::</span><span class="name">move</span><span class="punctuation">(</span><span class="name">atp</span><span class="punctuation">);</span>
+  <span class="punctuation">}</span>
+  <span class="name">magnet</span><span class="punctuation">.</span><span class="name">save_path</span> <span class="operator">=</span> <span class="literal string">&quot;.&quot;</span><span class="punctuation">;</span> <span class="comment single">// save in current dir
+</span>  <span class="name">ses</span><span class="punctuation">.</span><span class="name">async_add_torrent</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">move</span><span class="punctuation">(</span><span class="name">magnet</span><span class="punctuation">));</span>
+
+  <span class="comment single">// this is the handle we'll set once we get the notification of it being
+</span>  <span class="comment single">// added
+</span>  <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_handle</span> <span class="name">h</span><span class="punctuation">;</span>
+
+  <span class="name">std</span><span class="operator">::</span><span class="name">signal</span><span class="punctuation">(</span><span class="name">SIGINT</span><span class="punctuation">,</span> <span class="operator">&amp;</span><span class="name">sighandler</span><span class="punctuation">);</span>
+
+  <span class="comment single">// set when we're exiting
+</span>  <span class="keyword type">bool</span> <span class="name">done</span> <span class="operator">=</span> <span class="name builtin">false</span><span class="punctuation">;</span>
+  <span class="keyword">for</span> <span class="punctuation">(;;)</span> <span class="punctuation">{</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">alert</span><span class="operator">*&gt;</span> <span class="name">alerts</span><span class="punctuation">;</span>
+    <span class="name">ses</span><span class="punctuation">.</span><span class="name">pop_alerts</span><span class="punctuation">(</span><span class="operator">&amp;</span><span class="name">alerts</span><span class="punctuation">);</span>
+
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">shut_down</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+      <span class="name">shut_down</span> <span class="operator">=</span> <span class="name builtin">false</span><span class="punctuation">;</span>
+      <span class="keyword">auto</span> <span class="keyword">const</span> <span class="name">handles</span> <span class="operator">=</span> <span class="name">ses</span><span class="punctuation">.</span><span class="name">get_torrents</span><span class="punctuation">();</span>
+      <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">handles</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">()</span> <span class="operator">==</span> <span class="literal number integer">1</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+        <span class="name">handles</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">].</span><span class="name">save_resume_data</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">torrent_handle</span><span class="operator">::</span><span class="name">save_info_dict</span><span class="punctuation">);</span>
+        <span class="name">done</span> <span class="operator">=</span> <span class="name builtin">true</span><span class="punctuation">;</span>
+      <span class="punctuation">}</span>
+    <span class="punctuation">}</span>
+
+    <span class="keyword">for</span> <span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">alert</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name label">a</span> <span class="punctuation">:</span> <span class="name">alerts</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+      <span class="keyword">if</span> <span class="punctuation">(</span><span class="keyword">auto</span> <span class="name">at</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">alert_cast</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">add_torrent_alert</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">))</span> <span class="punctuation">{</span>
+        <span class="name">h</span> <span class="operator">=</span> <span class="name">at</span><span class="operator">-&gt;</span><span class="name">handle</span><span class="punctuation">;</span>
+      <span class="punctuation">}</span>
+      <span class="comment single">// if we receive the finished alert or an error, we're done
+</span>      <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">alert_cast</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">torrent_finished_alert</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">))</span> <span class="punctuation">{</span>
+        <span class="name">h</span><span class="punctuation">.</span><span class="name">save_resume_data</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">torrent_handle</span><span class="operator">::</span><span class="name">save_info_dict</span><span class="punctuation">);</span>
+        <span class="name">done</span> <span class="operator">=</span> <span class="name builtin">true</span><span class="punctuation">;</span>
+      <span class="punctuation">}</span>
+      <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">alert_cast</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">torrent_error_alert</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">))</span> <span class="punctuation">{</span>
+        <span class="name">std</span><span class="operator">::</span><span class="name">cout</span> <span class="operator">&lt;&lt;</span> <span class="name">a</span><span class="operator">-&gt;</span><span class="name">message</span><span class="punctuation">()</span> <span class="operator">&lt;&lt;</span> <span class="name">std</span><span class="operator">::</span><span class="name">endl</span><span class="punctuation">;</span>
+        <span class="name">done</span> <span class="operator">=</span> <span class="name builtin">true</span><span class="punctuation">;</span>
+        <span class="name">h</span><span class="punctuation">.</span><span class="name">save_resume_data</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">torrent_handle</span><span class="operator">::</span><span class="name">save_info_dict</span><span class="punctuation">);</span>
+      <span class="punctuation">}</span>
+
+      <span class="comment single">// when resume data is ready, save it
+</span>      <span class="keyword">if</span> <span class="punctuation">(</span><span class="keyword">auto</span> <span class="name">rd</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">alert_cast</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">save_resume_data_alert</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">))</span> <span class="punctuation">{</span>
+        <span class="name">std</span><span class="operator">::</span><span class="name">ofstream</span> <span class="name">of</span><span class="punctuation">(</span><span class="literal string">&quot;.resume_file&quot;</span><span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">binary</span><span class="punctuation">);</span>
+        <span class="name">of</span><span class="punctuation">.</span><span class="name">unsetf</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">skipws</span><span class="punctuation">);</span>
+        <span class="keyword">auto</span> <span class="keyword">const</span> <span class="name">b</span> <span class="operator">=</span> <span class="name">write_resume_data_buf</span><span class="punctuation">(</span><span class="name">rd</span><span class="operator">-&gt;</span><span class="name">params</span><span class="punctuation">);</span>
+        <span class="name">of</span><span class="punctuation">.</span><span class="name">write</span><span class="punctuation">(</span><span class="name">b</span><span class="punctuation">.</span><span class="name">data</span><span class="punctuation">(),</span> <span class="keyword type">int</span><span class="punctuation">(</span><span class="name">b</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">()));</span>
+        <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">done</span><span class="punctuation">)</span> <span class="keyword">goto</span> <span class="name">done</span><span class="punctuation">;</span>
+      <span class="punctuation">}</span>
+
+      <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">alert_cast</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">save_resume_data_failed_alert</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">))</span> <span class="punctuation">{</span>
+        <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">done</span><span class="punctuation">)</span> <span class="keyword">goto</span> <span class="name">done</span><span class="punctuation">;</span>
+      <span class="punctuation">}</span>
+
+      <span class="keyword">if</span> <span class="punctuation">(</span><span class="keyword">auto</span> <span class="name">st</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">alert_cast</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">state_update_alert</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">))</span> <span class="punctuation">{</span>
+        <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">st</span><span class="operator">-&gt;</span><span class="name">status</span><span class="punctuation">.</span><span class="name">empty</span><span class="punctuation">())</span> <span class="keyword">continue</span><span class="punctuation">;</span>
+
+        <span class="comment single">// we only have a single torrent, so we know which one
+</span>        <span class="comment single">// the status is for
+</span>        <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_status</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name">s</span> <span class="operator">=</span> <span class="name">st</span><span class="operator">-&gt;</span><span class="name">status</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">];</span>
+        <span class="name">std</span><span class="operator">::</span><span class="name">cout</span> <span class="operator">&lt;&lt;</span> <span class="literal string char">'\r'</span> <span class="operator">&lt;&lt;</span> <span class="name">state</span><span class="punctuation">(</span><span class="name">s</span><span class="punctuation">.</span><span class="name">state</span><span class="punctuation">)</span> <span class="operator">&lt;&lt;</span> <span class="literal string char">' '</span>
+          <span class="operator">&lt;&lt;</span> <span class="punctuation">(</span><span class="name">s</span><span class="punctuation">.</span><span class="name">download_payload_rate</span> <span class="operator">/</span> <span class="literal number integer">1000</span><span class="punctuation">)</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot; kB/s &quot;</span>
+          <span class="operator">&lt;&lt;</span> <span class="punctuation">(</span><span class="name">s</span><span class="punctuation">.</span><span class="name">total_done</span> <span class="operator">/</span> <span class="literal number integer">1000</span><span class="punctuation">)</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot; kB (&quot;</span>
+          <span class="operator">&lt;&lt;</span> <span class="punctuation">(</span><span class="name">s</span><span class="punctuation">.</span><span class="name">progress_ppm</span> <span class="operator">/</span> <span class="literal number integer">10000</span><span class="punctuation">)</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;%) downloaded (&quot;</span>
+          <span class="operator">&lt;&lt;</span> <span class="name">s</span><span class="punctuation">.</span><span class="name">num_peers</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot; peers)</span><span class="literal string escape">\x1b</span><span class="literal string">[K&quot;</span><span class="punctuation">;</span>
+        <span class="name">std</span><span class="operator">::</span><span class="name">cout</span><span class="punctuation">.</span><span class="name">flush</span><span class="punctuation">();</span>
+      <span class="punctuation">}</span>
+    <span class="punctuation">}</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">this_thread</span><span class="operator">::</span><span class="name">sleep_for</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">chrono</span><span class="operator">::</span><span class="name">milliseconds</span><span class="punctuation">(</span><span class="literal number integer">200</span><span class="punctuation">));</span>
+
+    <span class="comment single">// ask the session to post a state_update_alert, to update our
+</span>    <span class="comment single">// state output for the torrent
+</span>    <span class="name">ses</span><span class="punctuation">.</span><span class="name">post_torrent_updates</span><span class="punctuation">();</span>
+
+    <span class="comment single">// save resume data once every 30 seconds
+</span>    <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">clk</span><span class="operator">::</span><span class="name">now</span><span class="punctuation">()</span> <span class="operator">-</span> <span class="name">last_save_resume</span> <span class="operator">&gt;</span> <span class="name">std</span><span class="operator">::</span><span class="name">chrono</span><span class="operator">::</span><span class="name">seconds</span><span class="punctuation">(</span><span class="literal number integer">30</span><span class="punctuation">))</span> <span class="punctuation">{</span>
+      <span class="name">h</span><span class="punctuation">.</span><span class="name">save_resume_data</span><span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">torrent_handle</span><span class="operator">::</span><span class="name">save_info_dict</span><span class="punctuation">);</span>
+      <span class="name">last_save_resume</span> <span class="operator">=</span> <span class="name">clk</span><span class="operator">::</span><span class="name">now</span><span class="punctuation">();</span>
+    <span class="punctuation">}</span>
+  <span class="punctuation">}</span>
+
+<span class="name label">done</span><span class="punctuation">:</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">cout</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;</span><span class="literal string escape">\n</span><span class="literal string">saving session state&quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">std</span><span class="operator">::</span><span class="name">endl</span><span class="punctuation">;</span>
+  <span class="punctuation">{</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">ofstream</span> <span class="name">of</span><span class="punctuation">(</span><span class="literal string">&quot;.session&quot;</span><span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">binary</span><span class="punctuation">);</span>
+    <span class="name">of</span><span class="punctuation">.</span><span class="name">unsetf</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">skipws</span><span class="punctuation">);</span>
+    <span class="keyword">auto</span> <span class="keyword">const</span> <span class="name">b</span> <span class="operator">=</span> <span class="name">write_session_params_buf</span><span class="punctuation">(</span><span class="name">ses</span><span class="punctuation">.</span><span class="name">session_state</span><span class="punctuation">()</span>
+      <span class="punctuation">,</span> <span class="name">lt</span><span class="operator">::</span><span class="name">save_state_flags_t</span><span class="operator">::</span><span class="name">all</span><span class="punctuation">());</span>
+    <span class="name">of</span><span class="punctuation">.</span><span class="name">write</span><span class="punctuation">(</span><span class="name">b</span><span class="punctuation">.</span><span class="name">data</span><span class="punctuation">(),</span> <span class="keyword type">int</span><span class="punctuation">(</span><span class="name">b</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">()));</span>
+  <span class="punctuation">}</span>
+
+  <span class="name">std</span><span class="operator">::</span><span class="name">cout</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;</span><span class="literal string escape">\n</span><span class="literal string">done, shutting down&quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">std</span><span class="operator">::</span><span class="name">endl</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+<span class="keyword">catch</span> <span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">exception</span><span class="operator">&amp;</span> <span class="name">e</span><span class="punctuation">)</span>
+<span class="punctuation">{</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;Error: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">e</span><span class="punctuation">.</span><span class="name">what</span><span class="punctuation">()</span> <span class="operator">&lt;&lt;</span> <span class="name">std</span><span class="operator">::</span><span class="name">endl</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+</pre>
+</div>
+<div class="section" id="torrent-files">
+<h2>torrent files</h2>
+<p>To add torrent files to a <a class="reference external" href="reference-Session.html#session">session</a> (as opposed to a magnet link), it must first
+be loaded into a <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> object.</p>
+<p>The <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> object can be created either by filename a buffer or a
+bencoded structure. When adding by filename, there's a sanity check limit on the
+size of the file, for adding arbitrarily large torrents, load the file outside
+of the constructor.</p>
+<p>The <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> object provides an opportunity to query information about the
+.torrent file as well as mutating it before adding it to the <a class="reference external" href="reference-Session.html#session">session</a>.</p>
+</div>
+<div class="section" id="bencoding">
+<h2>bencoding</h2>
+<p>bencoded structures is the default data storage format used by bittorrent, such
+as .torrent files, tracker announce and scrape responses and some wire protocol
+extensions. libtorrent provides an efficient framework for decoding bencoded
+data through <a class="reference external" href="reference-Bdecoding.html#bdecode()">bdecode()</a> function.</p>
+<p>There are two separate mechanisms for <em>encoding</em> and <em>decoding</em>. When decoding,
+use the <a class="reference external" href="reference-Bdecoding.html#bdecode()">bdecode()</a> function that returns a <a class="reference external" href="reference-Bdecoding.html#bdecode_node">bdecode_node</a>. When encoding, use
+<a class="reference external" href="reference-Bencoding.html#bencode()">bencode()</a> taking an <a class="reference external" href="reference-Bencoding.html#entry">entry</a> object.</p>
+<p>The key property of <a class="reference external" href="reference-Bdecoding.html#bdecode()">bdecode()</a> is that it does not copy any data out of the
+buffer that was parsed. It builds the tree structures of references pointing
+into the buffer. The buffer must stay alive and valid for as long as the
+<a class="reference external" href="reference-Bdecoding.html#bdecode_node">bdecode_node</a> is in use.</p>
+<p>For performance details on <a class="reference external" href="reference-Bdecoding.html#bdecode()">bdecode()</a>, see the <a class="reference external" href="https://blog.libtorrent.org/2015/03/bdecode-parsers/">blog post</a> about it.</p>
+</div>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

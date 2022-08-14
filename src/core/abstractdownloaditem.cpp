@@ -296,7 +296,7 @@ void AbstractDownloadItem::beginResume()
     m_state = Idle;
     emit changed();
 
-    m_downloadTime.start();
+    m_downloadElapsedTimer.start();
 
     /* Ensure the destination directory exists */
     m_state = Preparing;
@@ -369,9 +369,9 @@ void AbstractDownloadItem::updateInfo(qint64 bytesReceived, qint64 bytesTotal)
 {
     m_bytesReceived = bytesReceived;
     m_bytesTotal = bytesTotal;
-    const int elapsed = m_downloadTime.elapsed();
+    const int elapsed = m_downloadElapsedTimer.elapsed();
     if (elapsed > 0) {
-        m_speed = qreal(1000 * bytesReceived) / m_downloadTime.elapsed();
+        m_speed = qreal(1000 * bytesReceived) / m_downloadElapsedTimer.elapsed();
     } else {
         m_speed = qreal(-1);
     }

@@ -1,0 +1,2 @@
+add_subdirectory(jsonhandler)
+add_subdirectory(texthandler)

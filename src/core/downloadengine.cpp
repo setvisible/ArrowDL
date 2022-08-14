@@ -141,7 +141,7 @@ void DownloadEngine::remove(const QList<IDownloadItem*> &items)
         cancel(item); // stop the reply first
         m_items.removeAll(item);
         auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
-        if (!downloadItem) {
+        if (downloadItem) {
             downloadItem->deleteLater();
         }
     }

@@ -296,7 +296,6 @@ int Torrent::progress() const
         bytesTotal = m_metaInfo.initialMetaInfo.bytesTotal;
         break;
     case TorrentInfo::seeding:
-    case TorrentInfo::allocating:
     case TorrentInfo::checking_resume_data:
         return 100;
     default:

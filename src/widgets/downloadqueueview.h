@@ -17,10 +17,11 @@
 #ifndef WIDGETS_DOWNLOAD_QUEUE_VIEW_H
 #define WIDGETS_DOWNLOAD_QUEUE_VIEW_H
 
+#include <Core/IDownloadItem>
+
 #include <QtWidgets/QWidget>
 #include <QtCore/QModelIndex>
 
-class IDownloadItem;
 using DownloadRange = QList<IDownloadItem *>;
 class DownloadEngine;
 class QueueItem;

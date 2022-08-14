@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<p><a class="reference external" href="reference.html">home</a></p>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#announce-infohash" id="toc-entry-1">announce_infohash</a></li>
+<li><a class="reference internal" href="#announce-endpoint" id="toc-entry-2">announce_endpoint</a></li>
+<li><a class="reference internal" href="#announce-entry" id="toc-entry-3">announce_entry</a><ul>
+<li><a class="reference internal" href="#operator-announce-entry-announce-entry" id="toc-entry-4">operator=() announce_entry() ~announce_entry()</a></li>
+<li><a class="reference internal" href="#enum-tracker-source" id="toc-entry-5">enum tracker_source</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<a name="announce_infohash"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+announce_infohash&labels=documentation&body=Documentation+under+heading+%22class+announce_infohash%22+could+be+improved">report issue</a>]</span><div class="section" id="announce-infohash">
+<h1>announce_infohash</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/announce_entry.hpp">libtorrent/announce_entry.hpp</a>&quot;</p>
+<pre class="literal-block">
+struct announce_infohash
+{
+   std::string message;
+   error_code last_error;
+   int <strong>scrape_incomplete</strong>  = -1;
+   int <strong>scrape_complete</strong>  = -1;
+   int <strong>scrape_downloaded</strong>  = -1;
+   std::uint8_t fails : 7;
+   bool updating : 1;
+   bool start_sent : 1;
+   bool complete_sent : 1;
+};
+</pre>
+<a name="message"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_infohash%3A%3A%5Bmessage%5D&labels=documentation&body=Documentation+under+heading+%22announce_infohash%3A%3A%5Bmessage%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>message</dt>
+<dd>if this tracker has returned an error or warning message
+that message is stored here</dd>
+</dl>
+<a name="last_error"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_infohash%3A%3A%5Blast_error%5D&labels=documentation&body=Documentation+under+heading+%22announce_infohash%3A%3A%5Blast_error%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>last_error</dt>
+<dd>if this tracker failed the last time it was contacted
+this error code specifies what error occurred</dd>
+</dl>
+<a name="scrape_incomplete"></a>
+<a name="scrape_complete"></a>
+<a name="scrape_downloaded"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_infohash%3A%3A%5Bscrape_incomplete+scrape_complete+scrape_downloaded%5D&labels=documentation&body=Documentation+under+heading+%22announce_infohash%3A%3A%5Bscrape_incomplete+scrape_complete+scrape_downloaded%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>scrape_incomplete scrape_complete scrape_downloaded</dt>
+<dd>if this tracker has returned scrape data, these fields are filled in
+with valid numbers. Otherwise they are set to -1. <tt class="docutils literal">incomplete</tt> counts
+the number of current downloaders. <tt class="docutils literal">complete</tt> counts the number of
+current peers completed the download, or &quot;seeds&quot;. <tt class="docutils literal">downloaded</tt> is the
+cumulative number of completed downloads.</dd>
+</dl>
+<a name="fails"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_infohash%3A%3A%5Bfails%5D&labels=documentation&body=Documentation+under+heading+%22announce_infohash%3A%3A%5Bfails%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>fails</dt>
+<dd>the number of times in a row we have failed to announce to this
+tracker.</dd>
+</dl>
+<a name="updating"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_infohash%3A%3A%5Bupdating%5D&labels=documentation&body=Documentation+under+heading+%22announce_infohash%3A%3A%5Bupdating%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>updating</dt>
+<dd>true while we're waiting for a response from the tracker.</dd>
+</dl>
+<a name="start_sent"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_infohash%3A%3A%5Bstart_sent%5D&labels=documentation&body=Documentation+under+heading+%22announce_infohash%3A%3A%5Bstart_sent%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>start_sent</dt>
+<dd>set to true when we get a valid response from an announce
+with event=started. If it is set, we won't send start in the subsequent
+announces.</dd>
+</dl>
+<a name="complete_sent"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_infohash%3A%3A%5Bcomplete_sent%5D&labels=documentation&body=Documentation+under+heading+%22announce_infohash%3A%3A%5Bcomplete_sent%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>complete_sent</dt>
+<dd>set to true when we send a event=completed.</dd>
+</dl>
+<a name="announce_endpoint"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+announce_endpoint&labels=documentation&body=Documentation+under+heading+%22class+announce_endpoint%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="announce-endpoint">
+<h1>announce_endpoint</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/announce_entry.hpp">libtorrent/announce_entry.hpp</a>&quot;</p>
+<p>announces are sent to each tracker using every listen socket
+this class holds information about one listen socket for one tracker</p>
+<pre class="literal-block">
+struct announce_endpoint
+{
+   <strong>announce_endpoint</strong> ();
+
+   <a class="reference external" href="tcp::endpoint">tcp::endpoint</a> local_endpoint;
+   aux::array&lt;announce_infohash, num_protocols, protocol_version&gt; info_hashes;
+   bool <strong>enabled</strong>  = true;
+};
+</pre>
+<a name="local_endpoint"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_endpoint%3A%3A%5Blocal_endpoint%5D&labels=documentation&body=Documentation+under+heading+%22announce_endpoint%3A%3A%5Blocal_endpoint%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>local_endpoint</dt>
+<dd>the local endpoint of the listen interface associated with this endpoint</dd>
+</dl>
+<a name="info_hashes"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_endpoint%3A%3A%5Binfo_hashes%5D&labels=documentation&body=Documentation+under+heading+%22announce_endpoint%3A%3A%5Binfo_hashes%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>info_hashes</dt>
+<dd>info_hashes[0] is the v1 info hash (SHA1)
+info_hashes[1] is the v2 info hash (truncated SHA-256)</dd>
+</dl>
+<a name="enabled"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_endpoint%3A%3A%5Benabled%5D&labels=documentation&body=Documentation+under+heading+%22announce_endpoint%3A%3A%5Benabled%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>enabled</dt>
+<dd>set to false to not announce from this endpoint</dd>
+</dl>
+<a name="announce_entry"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+announce_entry&labels=documentation&body=Documentation+under+heading+%22class+announce_entry%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="announce-entry">
+<h1>announce_entry</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/announce_entry.hpp">libtorrent/announce_entry.hpp</a>&quot;</p>
+<p>this class holds information about one bittorrent tracker, as it
+relates to a specific torrent.</p>
+<pre class="literal-block">
+struct announce_entry
+{
+   announce_entry&amp; <strong>operator=</strong> (announce_entry const&amp;) &amp;;
+   <strong>announce_entry</strong> (announce_entry const&amp;);
+   <strong>~announce_entry</strong> ();
+   <strong>announce_entry</strong> ();
+   explicit <strong>announce_entry</strong> (string_view u);
+
+   enum tracker_source
+   {
+      source_torrent,
+      source_client,
+      source_magnet_link,
+      source_tex,
+   };
+
+   std::string url;
+   std::string trackerid;
+   std::vector&lt;announce_endpoint&gt; endpoints;
+   std::uint8_t <strong>tier</strong>  = 0;
+   std::uint8_t <strong>fail_limit</strong>  = 0;
+   std::uint8_t source:4;
+   bool verified:1;
+};
+</pre>
+<a name="operator=()"></a>
+<a name="announce_entry()"></a>
+<a name="~announce_entry()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_entry%3A%3A%5Boperator%3D%28%29+announce_entry%28%29+~announce_entry%28%29%5D&labels=documentation&body=Documentation+under+heading+%22announce_entry%3A%3A%5Boperator%3D%28%29+announce_entry%28%29+~announce_entry%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="operator-announce-entry-announce-entry">
+<h2>operator=() announce_entry() ~announce_entry()</h2>
+<pre class="literal-block">
+announce_entry&amp; <strong>operator=</strong> (announce_entry const&amp;) &amp;;
+<strong>announce_entry</strong> (announce_entry const&amp;);
+<strong>~announce_entry</strong> ();
+<strong>announce_entry</strong> ();
+explicit <strong>announce_entry</strong> (string_view u);
+</pre>
+<p>constructs a tracker announce <a class="reference external" href="reference-Bencoding.html#entry">entry</a> with <tt class="docutils literal">u</tt> as the URL.</p>
+<a name="tracker_source"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+tracker_source&labels=documentation&body=Documentation+under+heading+%22enum+tracker_source%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="enum-tracker-source">
+<h2>enum tracker_source</h2>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/announce_entry.hpp">libtorrent/announce_entry.hpp</a>&quot;</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="7%" />
+<col width="74%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">value</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>source_torrent</td>
+<td>1</td>
+<td>the tracker was part of the .torrent file</td>
+</tr>
+<tr><td>source_client</td>
+<td>2</td>
+<td>the tracker was added programmatically via the <a class="reference external" href="reference-Torrent_Info.html#add_tracker()">add_tracker()</a> function</td>
+</tr>
+<tr><td>source_magnet_link</td>
+<td>4</td>
+<td>the tracker was part of a magnet link</td>
+</tr>
+<tr><td>source_tex</td>
+<td>8</td>
+<td>the tracker was received from the swarm via tracker exchange</td>
+</tr>
+</tbody>
+</table>
+<a name="url"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_entry%3A%3A%5Burl%5D&labels=documentation&body=Documentation+under+heading+%22announce_entry%3A%3A%5Burl%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>url</dt>
+<dd>tracker URL as it appeared in the torrent file</dd>
+</dl>
+<a name="trackerid"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_entry%3A%3A%5Btrackerid%5D&labels=documentation&body=Documentation+under+heading+%22announce_entry%3A%3A%5Btrackerid%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>trackerid</dt>
+<dd>the current <tt class="docutils literal">&amp;trackerid=</tt> argument passed to the tracker.
+this is optional and is normally empty (in which case no
+trackerid is sent).</dd>
+</dl>
+<a name="endpoints"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_entry%3A%3A%5Bendpoints%5D&labels=documentation&body=Documentation+under+heading+%22announce_entry%3A%3A%5Bendpoints%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>endpoints</dt>
+<dd>each local listen socket (endpoint) will announce to the tracker. This
+list contains state per endpoint.</dd>
+</dl>
+<a name="tier"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_entry%3A%3A%5Btier%5D&labels=documentation&body=Documentation+under+heading+%22announce_entry%3A%3A%5Btier%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>tier</dt>
+<dd>the tier this tracker belongs to</dd>
+</dl>
+<a name="fail_limit"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_entry%3A%3A%5Bfail_limit%5D&labels=documentation&body=Documentation+under+heading+%22announce_entry%3A%3A%5Bfail_limit%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>fail_limit</dt>
+<dd>the max number of failures to announce to this tracker in
+a row, before this tracker is not used anymore. 0 means unlimited</dd>
+</dl>
+<a name="source"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_entry%3A%3A%5Bsource%5D&labels=documentation&body=Documentation+under+heading+%22announce_entry%3A%3A%5Bsource%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>source</dt>
+<dd>a bitmask specifying which sources we got this tracker from.</dd>
+</dl>
+<a name="verified"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_entry%3A%3A%5Bverified%5D&labels=documentation&body=Documentation+under+heading+%22announce_entry%3A%3A%5Bverified%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>verified</dt>
+<dd>set to true the first time we receive a valid response
+from this tracker.</dd>
+</dl>
+</div>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

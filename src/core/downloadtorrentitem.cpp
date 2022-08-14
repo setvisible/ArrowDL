@@ -191,7 +191,6 @@ void DownloadTorrentItem::onTorrentChanged()
                        m_torrent->metaInfo().initialMetaInfo.bytesTotal);
 
             break;
-        case TorrentInfo::allocating:
         case TorrentInfo::checking_resume_data:
             downloadItemState = IDownloadItem::Endgame;
 

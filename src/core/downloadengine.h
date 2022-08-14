@@ -17,12 +17,12 @@
 #ifndef CORE_DOWNLOAD_ENGINE_H
 #define CORE_DOWNLOAD_ENGINE_H
 
+#include <Core/IDownloadItem>
+
 #include <QtCore/QObject>
 #include <QtCore/QList>
 #include <QtCore/QString>
 #include <QtCore/QTimer>
-
-class IDownloadItem;
 
 using DownloadRange = QList<IDownloadItem *>;
 
@@ -31,7 +31,7 @@ class DownloadEngine : public QObject
     Q_OBJECT
 
 public:
-    explicit DownloadEngine(QObject *parent);
+    explicit DownloadEngine(QObject *parent = nullptr);
     ~DownloadEngine() Q_DECL_OVERRIDE;
 
     /* Queue Management */

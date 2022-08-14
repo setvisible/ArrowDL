@@ -79,9 +79,9 @@ private:
 /* Enable the type to be used with QVariant. */
 Q_DECLARE_METATYPE(StreamFormatId);
 
-/* Note: qHash() must be declared inside the object's namespace */
-inline uint qHash(const StreamFormatId &key, uint seed) {
-    return qHash(key.toString(), seed);
+inline size_t qHash(const StreamFormatId &key, size_t seed)
+{
+    return qHashMulti(seed, key.toString());
 }
 
 /*!
@@ -198,7 +198,7 @@ public:
             QString url;
             QString data;
             QString languageName;
-            bool isAutomatic{false};
+            bool isAutomatic{false};  // auto-generated (automatic caption)
         };
 
         bool operator!=(const Data &other) const;

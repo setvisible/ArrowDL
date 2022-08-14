@@ -69,12 +69,12 @@ QString FileUtils::validateFileName(const QString &name, bool allowSubDir)
 
     // Characters
     for (auto ch : name) {
-        if (ch < 32) {
+        if (ch < QLatin1Char(32)) {
             // Non-printable characters
             // ASCII control characters not allowed on Windows
             fixedName += s_substitute_char;
 
-        } else if (ch < 127) {
+        } else if (ch < QLatin1Char(127)) {
             // Printable ASCII characters
             bool passed = true;
             for (const char *c = forbiddenChars; *c; ++c) {
@@ -88,7 +88,7 @@ QString FileUtils::validateFileName(const QString &name, bool allowSubDir)
                 fixedName += ch;
             }
 
-        } else if (ch == 127) {
+        } else if (ch == QLatin1Char(127)) {
             // DEL char
             fixedName += s_substitute_char;
         } else {

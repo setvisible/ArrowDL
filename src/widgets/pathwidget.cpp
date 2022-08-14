@@ -21,6 +21,7 @@
 
 #include <QtCore/QDir>
 #include <QtCore/QStandardPaths>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QFileDialog>
 
 PathWidget::PathWidget(QWidget *parent) : QWidget(parent)
@@ -34,7 +35,7 @@ PathWidget::PathWidget(QWidget *parent) : QWidget(parent)
 
     connect(ui->browseButton, SIGNAL(released()), this, SLOT(onBrowseButtonReleased()));
     connect(ui->comboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
-    connect(ui->comboBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
+    connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
 
     Theme::setIcons(this, { {ui->browseButton, "browse"} });
 }
@@ -156,4 +157,10 @@ void PathWidget::onCurrentTextChanged(const QString &text)
 {
     emit currentPathChanged(text);
     emit currentPathValidityChanged(ui->comboBox->isInputValid());
+}
+
+void PathWidget::onCurrentIndexChanged(int index)
+{
+    auto text = ui->comboBox->itemText(index);
+    onCurrentTextChanged(text);
 }

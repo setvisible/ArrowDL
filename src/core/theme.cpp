@@ -21,11 +21,11 @@
 #include <QtCore/QDebug>
 #include <QtCore/QString>
 #include <QtCore/QObject>
+#include <QtGui/QAction>
 #include <QtGui/QColor>
 #include <QtGui/QPalette>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QAbstractButton>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QStyle>
 #include <QtWidgets/QStyleFactory>

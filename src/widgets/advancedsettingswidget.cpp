@@ -22,9 +22,9 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QSignalBlocker>
+#include <QtGui/QAction>
 #include <QtGui/QBrush>
 #include <QtGui/QFont>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMenu>

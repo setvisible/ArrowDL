@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#downloading-and-building" id="toc-entry-1">downloading and building</a></li>
+<li><a class="reference internal" href="#building-from-git" id="toc-entry-2">building from git</a></li>
+<li><a class="reference internal" href="#building-with-boost-build" id="toc-entry-3">building with boost build</a><ul>
+<li><a class="reference internal" href="#build-commands" id="toc-entry-4">build commands</a></li>
+<li><a class="reference internal" href="#docker-file" id="toc-entry-5">docker file</a></li>
+<li><a class="reference internal" href="#step-1-download-boost" id="toc-entry-6">Step 1: Download boost</a></li>
+<li><a class="reference internal" href="#step-2-setup-bbv2" id="toc-entry-7">Step 2: Setup BBv2</a></li>
+<li><a class="reference internal" href="#step-3-building-libtorrent" id="toc-entry-8">Step 3: Building libtorrent</a></li>
+<li><a class="reference internal" href="#build-features" id="toc-entry-9">Build features</a></li>
+<li><a class="reference internal" href="#step-4-installing-libtorrent" id="toc-entry-10">Step 4: Installing libtorrent</a></li>
+<li><a class="reference internal" href="#custom-build-flags" id="toc-entry-11">Custom build flags</a></li>
+<li><a class="reference internal" href="#cross-compiling" id="toc-entry-12">Cross compiling</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-with-cmake" id="toc-entry-13">building with cmake</a><ul>
+<li><a class="reference internal" href="#step-1-generating-the-build-system" id="toc-entry-14">Step 1: Generating the build system</a></li>
+<li><a class="reference internal" href="#step-2-building-libtorrent" id="toc-entry-15">Step 2: Building libtorrent</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-with-vcpkg" id="toc-entry-16">building with VCPKG</a></li>
+<li><a class="reference internal" href="#build-configurations" id="toc-entry-17">build configurations</a></li>
+<li><a class="reference internal" href="#building-openssl-for-windows" id="toc-entry-18">building openssl for windows</a></li>
+<li><a class="reference internal" href="#list-of-macros" id="toc-entry-19">list of macros</a></li>
+</ul>
+</div>
+<div class="section" id="downloading-and-building">
+<h1>downloading and building</h1>
+<p>To download the latest version of libtorrent, clone the <a class="reference external" href="https://github.com/arvidn/libtorrent">github repository</a>.</p>
+<p>The build systems supported &quot;out of the box&quot; in libtorrent are boost-build
+cmake. If you still can't build after following these instructions, you can
+usually get help in the <tt class="docutils literal">#libtorrent</tt> IRC channel on <tt class="docutils literal">irc.freenode.net</tt>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>A common mistake when building and linking against libtorrent is
+to build with one set of configuration options (#defines) and
+link against it using a different set of configuration options. Since
+libtorrent has some code in header files, that code will not be
+compatible with the built library if they see different configurations.</p>
+<p>Always make sure that the same TORRENT_* and BOOST_* macros are defined
+when you link against libtorrent as when you build it. The simplest way
+to see the full list of macros defined is to build libtorrent with
+<tt class="docutils literal"><span class="pre">-n</span> <span class="pre">-a</span></tt> switches added to <tt class="docutils literal">b2</tt> command line, which output all compiler
+switches.</p>
+<p class="last">Boost-build supports propagating configuration options to dependencies.</p>
+</div>
+</div>
+<div class="section" id="building-from-git">
+<h1>building from git</h1>
+<p>To build libtorrent from git you need to clone the libtorrent repository from
+github. Note that the git repository depends on other git repositories via
+submodules, which also need to be initialized and updated. If you downloaded a
+release <a class="reference external" href="https://github.com/arvidn/libtorrent/releases/latest">tarball</a>, you can skip this section.</p>
+<pre class="literal-block">
+git clone --recurse-submodules https://github.com/arvidn/libtorrent.git
+</pre>
+</div>
+<div class="section" id="building-with-boost-build">
+<h1>building with boost build</h1>
+<p>The primary reason to use boost-build is that it will automatically build the
+dependent boost libraries with the correct compiler settings, in order to
+ensure that the build targets are link compatible (see <a class="reference external" href="https://boost.org/more/separate_compilation.html">boost guidelines</a>
+for some details on this issue).</p>
+<p>Since BBv2 will build the boost libraries for you, you need the full boost
+source package. Having boost installed via some package system is usually not
+enough (and even if it is enough, the necessary environment variables are
+usually not set by the package installer).</p>
+<p>If you want to build against an installed copy of boost, you can skip directly
+to step 3 (assuming you also have boost build installed).</p>
+<div class="section" id="build-commands">
+<h2>build commands</h2>
+<p>Linux:</p>
+<pre class="literal-block">
+sudo apt install libboost-tools-dev libboost-dev libboost-system-dev
+echo &quot;using gcc ;&quot; &gt;&gt;~/user-config.jam
+b2 crypto=openssl cxxstd=14 release
+</pre>
+<p>Mac OS:</p>
+<pre class="literal-block">
+brew install boost-build boost openssl&#64;1.1
+echo &quot;using darwin ;&quot; &gt;&gt;~/user-config.jam
+b2 crypto=openssl cxxstd=14 release
+</pre>
+<p>Windows (assuming the boost package is saved to <tt class="docutils literal"><span class="pre">C:\boost_1_69_0</span></tt>):</p>
+<pre class="literal-block">
+set BOOST_ROOT=c:\boost_1_69_0
+set BOOST_BUILD_PATH=%BOOST_ROOT%\tools\build
+(cd %BOOST_ROOT% &amp;&amp; .\bootstrap.bat)
+echo using msvc ; &gt;&gt;%HOMEDRIVE%%HOMEPATH%\user-config.jam
+%BOOST_ROOT%\b2.exe --hash cxxstd=14 release
+</pre>
+</div>
+<div class="section" id="docker-file">
+<h2>docker file</h2>
+<p>A Docker file is available that's used to build and run the fuzzers, at
+<a class="reference external" href="https://github.com/google/oss-fuzz/tree/master/projects/libtorrent">OSS-Fuzz</a>.</p>
+</div>
+<div class="section" id="step-1-download-boost">
+<h2>Step 1: Download boost</h2>
+<p>If you want to build against boost installed on your system, you can skip this
+strep. Just make sure to have <cite>BOOST_ROOT</cite> unset for the <cite>b2</cite> invocation.</p>
+<p>You'll find boost <a class="reference external" href="https://www.boost.org/users/download/#live">here</a>.</p>
+<p>Extract the archive to some directory where you want it. For the sake of this
+guide, let's assume you extract the package to <tt class="docutils literal"><span class="pre">c:\boost_1_69_0</span></tt>. You'll
+need at least version 1.67 of the boost library in order to build libtorrent.</p>
+</div>
+<div class="section" id="step-2-setup-bbv2">
+<h2>Step 2: Setup BBv2</h2>
+<p>If you have installed <tt class="docutils literal"><span class="pre">boost-build</span></tt> via a package manager, you can skip this
+step. If not, you need to build boost build from the boost source package.</p>
+<p>First you need to build <tt class="docutils literal">b2</tt>. You do this by opening a terminal (In windows,
+run <tt class="docutils literal">cmd</tt>). Change directory to <tt class="docutils literal"><span class="pre">c:\boost_1_69_0\tools\build</span></tt>. Then run the
+script called <tt class="docutils literal">bootstrap.bat</tt> or <tt class="docutils literal">bootstrap.sh</tt> on a Unix system. This will
+build <tt class="docutils literal">b2</tt> and place it in a directory <tt class="docutils literal"><span class="pre">src/engine/bin.&lt;architecture&gt;</span></tt>.
+Copy the <tt class="docutils literal">b2.exe</tt> (or <tt class="docutils literal">b2</tt> on a Unix system) to a place that's in you
+shell's <tt class="docutils literal">PATH</tt>. On Linux systems a place commonly used may be
+<tt class="docutils literal">/usr/local/bin</tt> or on Windows <tt class="docutils literal"><span class="pre">c:\windows</span></tt> (you can also add directories
+to the search paths by modifying the environment variable called <tt class="docutils literal">PATH</tt>).</p>
+<p>Now you have <tt class="docutils literal">b2</tt> installed. <tt class="docutils literal">b2</tt> can be considered an interpreter
+that the boost-build system is implemented on. So boost-build uses <tt class="docutils literal">b2</tt>.
+So, to complete the installation you need to make two more things. You need to
+set the environment variable <tt class="docutils literal">BOOST_BUILD_PATH</tt>. This is the path that tells
+<tt class="docutils literal">b2</tt> where it can find boost-build, your configuration file and all the
+toolsets (descriptions used by boost-build to know how to use different
+compilers on different platforms). Assuming the boost install path above, set
+it to <tt class="docutils literal"><span class="pre">c:\boost_1_69_0\tools\build</span></tt>.</p>
+<p>To set an environment variable in windows, type for example:</p>
+<pre class="literal-block">
+set BOOST_BUILD_PATH=c:\boost_1_69_0\tools\build\v2
+</pre>
+<p>In a terminal window.</p>
+<p>The last thing to do is to configure which compiler(s) to use. Create a file
+<tt class="docutils literal"><span class="pre">user-config.jam</span></tt> in your home directory. Depending on your platform and which
+compiler you're using, you should add a line for each compiler and compiler
+version you have installed on your system that you want to be able to use with
+BBv2. For example, if you're using Microsoft Visual Studio 14.2 (2019), just
+add a line:</p>
+<pre class="literal-block">
+using msvc : 14.2 ;
+</pre>
+<p>If you use GCC, add the line:</p>
+<pre class="literal-block">
+using gcc ;
+</pre>
+<p>If you have more than one version of GCC installed, you can add the
+command line used to invoke g++ after the version number, like this:</p>
+<pre class="literal-block">
+using gcc : 6.0 : g++-6 ;
+using gcc : 7.0 : g++-7 ;
+</pre>
+<p>Another toolset worth mentioning is the <tt class="docutils literal">darwin</tt> toolset (for macOS).
+From Tiger (10.4) macOS comes with both GCC 3.3 and GCC 4.0. Then you can
+use the following toolsets:</p>
+<pre class="literal-block">
+using darwin : 3.3 : g++-3.3 ;
+using darwin : 4.0 : g++-4.0 ;
+</pre>
+<p>Note that the spaces around the semi-colons and colons are important!</p>
+<p>Also see the <a class="reference external" href="https://boostorg.github.io/build/">boost-build documentation</a>.</p>
+</div>
+<div class="section" id="step-3-building-libtorrent">
+<h2>Step 3: Building libtorrent</h2>
+<p>When building libtorrent, boost is either picked up from system installed
+locations or from a boost source package, if the <tt class="docutils literal">BOOST_ROOT</tt> environment
+variable is set pointing to one. If you're building boost from source, set
+<tt class="docutils literal">BOOST_ROOT</tt> to your boost directory, e.g. <tt class="docutils literal"><span class="pre">c:\boost_1_69_0</span></tt>.</p>
+<p>Then the only thing left is simply to invoke <tt class="docutils literal">b2</tt>. If you want to specify
+a specific toolset to use (compiler) you can just add that to the command line.
+For example:</p>
+<pre class="literal-block">
+b2 msvc-14.2
+b2 gcc-7.0
+b2 darwin-4.0
+</pre>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the environment variable <tt class="docutils literal">BOOST_ROOT</tt> is not set, the Jamfile will
+attempt to link against &quot;installed&quot; boost libraries. i.e. assume the
+headers and libraries are available in default search paths.
+In this case it's critical that you build your project with the same version
+of C++ and the same build flags as the system libraries were built with.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Also see the <a class="reference external" href="https://en.wikipedia.org/wiki/Microsoft_Visual_C%2B%2B#Internal_version_numbering">Visual Studio versions</a>.</p>
+</div>
+<p>To build different versions you can also just add the name of the build
+variant. Some default build variants in BBv2 are <tt class="docutils literal">release</tt>, <tt class="docutils literal">debug</tt>,
+<tt class="docutils literal">profile</tt>.</p>
+<p>You can build libtorrent as a DLL too, by typing <tt class="docutils literal">link=shared</tt>, or
+<tt class="docutils literal">link=static</tt> to build a static library.</p>
+<p>If you want to explicitly say how to link against the runtime library, you
+can set the <tt class="docutils literal"><span class="pre">runtime-link</span></tt> feature on the command line, either to <tt class="docutils literal">shared</tt>
+or <tt class="docutils literal">static</tt>. Most operating systems will only allow linking shared against
+the runtime, but on windows you can do both. Example:</p>
+<pre class="literal-block">
+b2 msvc-14.2 variant=release link=static runtime-link=static debug-symbols=on
+</pre>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When building on windows, the path boost-build puts targets in may be too
+long. If you get an error message like: &quot;The input line is long&quot;, try to
+pass --hash on the <tt class="docutils literal">b2</tt> command line.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If you link statically to the runtime library, you cannot build libtorrent
+as a shared library (DLL), since you will get separate heaps in the library
+and in the client application. It will result in crashes and possibly link
+errors.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When building on Solaris, you may have to specify <tt class="docutils literal"><span class="pre">stdlib=sun-stlport</span></tt>
+on the b2 command line.</p>
+</div>
+<p>The build targets are put in a directory called bin, and under it they are
+sorted in directories depending on the toolset and build variant used.</p>
+<p>To build the examples, just change directory to the examples directory and
+invoke <tt class="docutils literal">b2</tt> from there. To build and run the tests, go to the test
+directory and run <tt class="docutils literal">b2</tt>.</p>
+<p>Note that if you're building on windows using the <tt class="docutils literal">msvc</tt> toolset, you cannot run it
+from a cygwin terminal, you'll have to run it from a <tt class="docutils literal">cmd</tt> terminal. The same goes for
+cygwin, if you're building with gcc in cygwin you'll have to run it from a cygwin terminal.
+Also, make sure the paths are correct in the different environments. In cygwin, the paths
+(<tt class="docutils literal">BOOST_BUILD_PATH</tt> and <tt class="docutils literal">BOOST_ROOT</tt>) should be in the typical Unix-format (e.g.
+<tt class="docutils literal">/cygdrive/c/boost_1_69_0</tt>). In the windows environment, they should have the typical
+windows format (<tt class="docutils literal"><span class="pre">c:/boost_1_69_0</span></tt>).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In Jamfiles, spaces are separators. It's typically easiest to avoid spaces
+in path names. If you want spaces in your paths, make sure to quote them
+with double quotes (&quot;).</p>
+</div>
+<p>The <tt class="docutils literal">Jamfile</tt> will define <tt class="docutils literal">NDEBUG</tt> when it's building a release build.
+For more build configuration flags see <a class="reference internal" href="#build-configurations">Build configurations</a>.</p>
+<p>Jamfile will look in some default directory for the openssl
+headers and libraries. On macOS, it will look for the homebrew openssl package.
+On Windows, it will look in <tt class="docutils literal"><span class="pre">C:\OpenSSL-Win32</span></tt>, or <tt class="docutils literal"><span class="pre">C:\OpenSSL-Win64</span></tt> if
+compiling in 64-bit.</p>
+<p>To customize the library path and include path for openssl, set the features
+<tt class="docutils literal"><span class="pre">openssl-lib</span></tt> and <tt class="docutils literal"><span class="pre">openssl-include</span></tt> respectively.</p>
+<p>The option to link with wolfSSL (by setting the <tt class="docutils literal">crypto</tt> feature to
+<tt class="docutils literal">wolfssl</tt>), requires a custom build of wolfSSL using the following
+options: <tt class="docutils literal"><span class="pre">--enable-asio</span> <span class="pre">--enable-sni</span> <span class="pre">--enable-nginx</span></tt>.</p>
+<p>To customize the library path and include path for wolfSSL, set the features
+<tt class="docutils literal"><span class="pre">wolfssl-lib</span></tt> and <tt class="docutils literal"><span class="pre">wolfssl-include</span></tt> respectively.</p>
+<p>To disable linking against any SSL library, set the <tt class="docutils literal">crypto</tt> build feature to
+<tt class="docutils literal"><span class="pre">built-in</span></tt>. This will use an embedded version if SHA-1.</p>
+</div>
+<div class="section" id="build-features">
+<h2>Build features</h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">boost build feature</th>
+<th class="head">values</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">cxxstd</tt></td>
+<td>The version of C++ to use, e.g. <tt class="docutils literal">11</tt>, <tt class="docutils literal">14</tt>,
+<tt class="docutils literal">17</tt>, <tt class="docutils literal">20</tt>. The C++ version <em>may</em> affect the
+libtorrent ABI (the ambition is to avoid that).</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">boost-link</span></tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">static</tt> - links statically against the boost
+libraries.</li>
+<li><tt class="docutils literal">shared</tt> - links dynamically against the boost
+libraries.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">openssl-lib</span></tt></td>
+<td>can be used to specify the directory where libssl
+and libcrypto are installed (or the windows
+counterparts).</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">openssl-include</span></tt></td>
+<td>can be used to specify the include directory where
+the openssl headers are installed.</td>
+</tr>
+<tr><td><tt class="docutils literal">logging</tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">off</tt> - logging alerts disabled. The
+reason to disable logging is to keep the binary
+size low where that matters.</li>
+<li><tt class="docutils literal">on</tt> - default. logging alerts available,
+still need to be enabled by the alert mask.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal">lto</tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">on</tt> - enables link time optimization, also
+known as whole program optimization.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">alert-msg</span></tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">on</tt> - (default) return human readable
+messages from the <tt class="docutils literal"><span class="pre">alert::message()</span></tt> call.</li>
+<li><tt class="docutils literal">off</tt> - Always return empty strings from
+<tt class="docutils literal"><span class="pre">alert::message()</span></tt>, and save binary size.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal">dht</tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">on</tt> - build with DHT support</li>
+<li><tt class="docutils literal">off</tt> - build without DHT support.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal">asserts</tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">auto</tt> - asserts are on if in debug mode</li>
+<li><tt class="docutils literal">on</tt> - asserts are on, even in release mode</li>
+<li><tt class="docutils literal">off</tt> - asserts are disabled</li>
+<li><tt class="docutils literal">production</tt> - assertion failures are logged
+to <tt class="docutils literal">asserts.log</tt> in the current working
+directory, but won't abort the process.
+The file they are logged to can be customized
+by setting the global pointer <tt class="docutils literal">extern char
+const* libtorrent_assert_log</tt> to a different
+filename.</li>
+<li><tt class="docutils literal">system</tt> use the libc assert macro</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal">encryption</tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">on</tt> - encrypted bittorrent connections
+enabled. (Message Stream encryption).(default)</li>
+<li><tt class="docutils literal">off</tt> - turns off support for encrypted
+connections. The shipped public domain SHA-1
+implementation is used.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">mutable-torrents</span></tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">on</tt> - mutable torrents are supported
+(<a class="reference external" href="https://www.bittorrent.org/beps/bep_0038.html">BEP 38</a>) (default).</li>
+<li><tt class="docutils literal">off</tt> - mutable torrents are not supported.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal">crypto</tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">openssl</tt> - (default) links against openssl
+and libcrypto to use for SHA-1 hashing.
+This also enables HTTPS-tracker support and
+support for bittorrent over SSL.</li>
+<li><tt class="docutils literal"><span class="pre">built-in</span></tt> - (default) uses built-in SHA-1
+implementation. In macOS/iOS it uses
+CommonCrypto SHA-1 implementation.</li>
+<li><tt class="docutils literal">wolfssl</tt> - links against wolfssl to use it
+for SHA-1 hashing and HTTPS tracker support.</li>
+<li><tt class="docutils literal">libcrypto</tt> - links against libcrypto
+to use the SHA-1 implementation. (no SSL support)</li>
+<li><tt class="docutils literal">gcrypt</tt> - links against libgcrypt
+to use the SHA-1 implementation. (no SSL support)</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">openssl-version</span></tt></td>
+<td><p class="first">This can be used on windows to link against the
+special OpenSSL library names used on windows
+prior to OpenSSL 1.1.</p>
+<ul class="last simple">
+<li><tt class="docutils literal">1.1</tt> - link against the normal openssl
+library name. (default)</li>
+<li><tt class="docutils literal">pre1.1</tt> - link against the old windows names
+(i.e. <tt class="docutils literal">ssleay32</tt> and <tt class="docutils literal">libeay32</tt>.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal">link</tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">static</tt> - builds libtorrent as a static
+library (.a / .lib)</li>
+<li><tt class="docutils literal">shared</tt> - builds libtorrent as a shared
+library (.so / .dll).</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">runtime-link</span></tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">static</tt> - links statically against the
+run-time library (if available on your
+platform).</li>
+<li><tt class="docutils literal">shared</tt> - link dynamically against the
+run-time library (default).</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal">variant</tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">debug</tt> - builds libtorrent with debug
+information and invariant checks.</li>
+<li><tt class="docutils literal">release</tt> - builds libtorrent in release mode
+without invariant checks and with optimization.</li>
+<li><tt class="docutils literal">profile</tt> - builds libtorrent with profile
+information.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">invariant-checks</span></tt></td>
+<td><p class="first">This setting only affects debug builds (where
+<tt class="docutils literal">NDEBUG</tt> is not defined). It defaults to <tt class="docutils literal">on</tt>.</p>
+<ul class="last simple">
+<li><tt class="docutils literal">on</tt> - internal invariant checks are enabled.</li>
+<li><tt class="docutils literal">off</tt> - internal invariant checks are
+disabled. The resulting executable will run
+faster than a regular debug build.</li>
+<li><tt class="docutils literal">full</tt> - turns on extra expensive invariant
+checks.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">debug-symbols</span></tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">on</tt> - default for debug builds. This setting
+is useful for building release builds with
+symbols.</li>
+<li><tt class="docutils literal">off</tt> - default for release builds.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">deprecated-functions</span></tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">on</tt> - default. Includes deprecated functions
+of the API (might produce warnings during build
+when deprecated functions are used).</li>
+<li><tt class="docutils literal">off</tt> - excludes deprecated functions from the
+API. Generates build errors when deprecated
+functions are used.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal">i2p</tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">on</tt> - default. build with I2P support</li>
+<li><tt class="docutils literal">off</tt> - build without I2P support</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">profile-calls</span></tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">off</tt> - default. No additional call profiling.</li>
+<li><tt class="docutils literal">on</tt> - Enable logging of stack traces of
+calls into libtorrent that are blocking. On
+session shutdown, a file <tt class="docutils literal">blocking_calls.txt</tt>
+is written with stack traces of blocking calls
+ordered by the number of them.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">utp-log</span></tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">off</tt> - default. Do not print verbose uTP
+log.</li>
+<li><tt class="docutils literal">on</tt> - Print verbose uTP log, used to debug
+the uTP implementation.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">picker-debugging</span></tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">off</tt> - default. no extra invariant checks in
+piece picker.</li>
+<li><tt class="docutils literal">on</tt> - include additional invariant checks in
+piece picker. Used for testing the piece picker.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal">extensions</tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">on</tt> - enable extensions to the bittorrent
+protocol.(default)</li>
+<li><tt class="docutils literal">off</tt> - disable bittorrent extensions.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal">streaming</tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">on</tt> - enable streaming functionality. i.e.
+<tt class="docutils literal">set_piece_deadline()</tt>. (default)</li>
+<li><tt class="docutils literal">off</tt> - disable streaming functionality.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">super-seeding</span></tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">on</tt> - enable super seeding feature. (default)</li>
+<li><tt class="docutils literal">off</tt> - disable super seeding feature</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">share-mode</span></tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">on</tt> - enable share-mode feature. (default)</li>
+<li><tt class="docutils literal">off</tt> - disable share-mode feature</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">predictive-pieces</span></tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">on</tt> - enable predictive piece announce
+feature. i.e.
+settings_pack::predictive_piece_announce
+(default)</li>
+<li><tt class="docutils literal">off</tt> - disable feature.</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal">fpic</tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">off</tt> - default. Build without specifying
+<tt class="docutils literal"><span class="pre">-fPIC</span></tt>.</li>
+<li><tt class="docutils literal">on</tt> - Force build with <tt class="docutils literal"><span class="pre">-fPIC</span></tt> (useful for
+building a static library to be linked into a
+shared library).</li>
+</ul>
+</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">mmap-disk-io</span></tt></td>
+<td><ul class="first last simple">
+<li><tt class="docutils literal">on</tt> - default. Enable mmap disk storage (if
+available.</li>
+<li><tt class="docutils literal">off</tt> - disable mmap storage, and fall back to
+single-threaded, portable file operations.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The <tt class="docutils literal">variant</tt> feature is <em>implicit</em>, which means you don't need to specify
+the name of the feature, just the value.</p>
+<p>When building the example client on windows, you need to build with
+<tt class="docutils literal">link=static</tt> otherwise you may get unresolved external symbols for some
+boost.program-options symbols.</p>
+<p>For more information, see the <a class="reference external" href="https://boostorg.github.io/build/manual/develop/index.html">Boost build v2 documentation</a>, or more
+specifically <a class="reference external" href="https://boostorg.github.io/build/manual/develop/index.html#bbv2.overview.builtins.features">the section on built-in features</a>.</p>
+</div>
+<div class="section" id="step-4-installing-libtorrent">
+<h2>Step 4: Installing libtorrent</h2>
+<p>To install libtorrent run <tt class="docutils literal">b2</tt> with the <tt class="docutils literal">install</tt> target:</p>
+<pre class="literal-block">
+b2 install --prefix=/usr/local
+</pre>
+<p>Change the value of the <tt class="docutils literal"><span class="pre">--prefix</span></tt> argument to install it in a different location.</p>
+</div>
+<div class="section" id="custom-build-flags">
+<h2>Custom build flags</h2>
+<p>Custom build flags can be passed to the command line via the <tt class="docutils literal">cflags</tt>,
+<tt class="docutils literal">cxxflags</tt> and <tt class="docutils literal">linkflags</tt> features. When specifying custom flags, make sure
+to build everything from scratch, to not accidentally mix incompatible flags.
+Example:</p>
+<pre class="literal-block">
+b2 cxxflags=-msse4.1
+</pre>
+<p>Custom flags can also be configured in the toolset, in <tt class="docutils literal"><span class="pre">~/user-config.jam</span></tt>,
+<tt class="docutils literal">Jamroot.jam</tt> or <tt class="docutils literal"><span class="pre">project-config.jam</span></tt>. Example:</p>
+<pre class="literal-block">
+using gcc : sse41 : g++ : &lt;cxxflags&gt;-msse4.1 ;
+</pre>
+</div>
+<div class="section" id="cross-compiling">
+<h2>Cross compiling</h2>
+<p>To cross compile libtorrent, configure a new toolset for <tt class="docutils literal">b2</tt> to use. Toolsets
+can be configured in <tt class="docutils literal"><span class="pre">~/user-config.jam</span></tt>, <tt class="docutils literal">Jamroot.jam</tt> or
+<tt class="docutils literal"><span class="pre">project-config.jam</span></tt>. The last two live in the libtorrent root directory.</p>
+<p>A toolset configuration is in this form:</p>
+<pre class="literal-block">
+using <em>toolset</em> : <em>version</em> : <em>command-line</em> : <em>features</em> ;
+</pre>
+<p>Toolset is essentially the family of compiler you're setting up, choose from <a class="reference external" href="https://boostorg.github.io/build/manual/master/index.html#bbv2.reference.tools.compilers">this list</a>.</p>
+<p>Perhaps the most common ones would be <tt class="docutils literal">gcc</tt>, <tt class="docutils literal">clang</tt>, <tt class="docutils literal">msvc</tt> and
+<tt class="docutils literal">darwin</tt> (Apple's version of clang).</p>
+<p>The version can be left empty to be auto configured, or a custom name can be
+used to identify this toolset.</p>
+<p>The <em>command-line</em> is what to execute to run the compiler. This is also an
+opportunity to insert a call to <tt class="docutils literal">ccache</tt> for example.</p>
+<p><em>features</em> are boost-build features. Typical features to set here are
+<tt class="docutils literal">&lt;compileflags&gt;</tt>, <tt class="docutils literal">&lt;cflags&gt;</tt> and <tt class="docutils literal">&lt;cxxflags&gt;</tt>. For the <tt class="docutils literal">gcc</tt> toolset,
+the <tt class="docutils literal">&lt;archiver&gt;</tt> can be set to specify which tool to use to create a static
+library/archive. This is especially handy when cross compiling.</p>
+<p>Here's an example toolset for cross compiling for ARM Linux:</p>
+<pre class="literal-block">
+using gcc : arm : arm-linux-gnueabihf-g++ : &lt;archiver&gt;arm-linux-gnueabihf-ar ;
+</pre>
+<p>To build using this toolset, specify <tt class="docutils literal"><span class="pre">gcc-arm</span></tt> as the toolset on the <tt class="docutils literal">b2</tt> command line. For example:</p>
+<pre class="literal-block">
+b2 toolset=gcc-arm
+</pre>
+</div>
+</div>
+<div class="section" id="building-with-cmake">
+<h1>building with cmake</h1>
+<p>First of all, you need to install <tt class="docutils literal">cmake</tt>. Additionally you need a build
+system to actually schedule builds, for example <tt class="docutils literal">ninja</tt>.</p>
+<div class="section" id="step-1-generating-the-build-system">
+<h2>Step 1: Generating the build system</h2>
+<p>Create a build directory for out-of-source build inside the libtorrent root directory:</p>
+<pre class="literal-block">
+mkdir build
+</pre>
+<p>and <tt class="docutils literal">cd</tt> there:</p>
+<pre class="literal-block">
+cd build
+</pre>
+<p>Run <tt class="docutils literal">cmake</tt> in the build directory, like this:</p>
+<pre class="literal-block">
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=14 -G Ninja ..
+</pre>
+<p>The <tt class="docutils literal">CMAKE_CXX_STANDARD</tt> has to be at least 14, but you may want to raise it
+to <tt class="docutils literal">17</tt> if your project use a newer version of the C++ standard.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The detection of boost sometimes fail in subtle ways. If you have the
+<tt class="docutils literal">BOOST_ROOT</tt> environment variable set, it may find the pre-built system
+libraries, but use the header files from your source package. To avoid this,
+invoke <tt class="docutils literal">cmake</tt> with <tt class="docutils literal">BOOST_ROOT</tt> set to an empty string:
+<tt class="docutils literal"><span class="pre">BOOST_ROOT=&quot;&quot;</span> cmake ...</tt>.</p>
+</div>
+<p>Other build options are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">BUILD_SHARED_LIBS</tt></td>
+<td>Defaults <tt class="docutils literal">ON</tt>. Builds libtorrent as a shared
+library.</td>
+</tr>
+<tr><td><tt class="docutils literal">static_runtime</tt></td>
+<td>Defaults <tt class="docutils literal">OFF</tt>. Link libtorrent statically
+against the runtime libraries.</td>
+</tr>
+<tr><td><tt class="docutils literal">build_tests</tt></td>
+<td>Defaults <tt class="docutils literal">OFF</tt>. Also build the libtorrent
+tests.</td>
+</tr>
+<tr><td><tt class="docutils literal">build_examples</tt></td>
+<td>Defaults <tt class="docutils literal">OFF</tt>. Also build the examples in the
+examples directory.</td>
+</tr>
+<tr><td><tt class="docutils literal">build_tools</tt></td>
+<td>Defaults <tt class="docutils literal">OFF</tt>. Also build the tools in the
+tools directory.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">python-bindings</span></tt></td>
+<td>Defaults <tt class="docutils literal">OFF</tt>. Also build the python bindings
+in bindings/python directory.</td>
+</tr>
+<tr><td><tt class="docutils literal">encryption</tt></td>
+<td>Defaults <tt class="docutils literal">ON</tt>. Support trackers and bittorrent
+over TLS, and obfuscated bittorrent connections.</td>
+</tr>
+</tbody>
+</table>
+<p>Options are set on the <tt class="docutils literal">cmake</tt> command line with the <tt class="docutils literal"><span class="pre">-D</span></tt> option or later on using <tt class="docutils literal">ccmake</tt> or <tt class="docutils literal"><span class="pre">cmake-gui</span></tt> applications. <tt class="docutils literal">cmake</tt> run outputs a summary of all available options and their current values.</p>
+</div>
+<div class="section" id="step-2-building-libtorrent">
+<h2>Step 2: Building libtorrent</h2>
+<p>In the terminal, run:</p>
+<pre class="literal-block">
+ninja
+</pre>
+<p>If you enabled test in the configuration step, to run them, run:</p>
+<pre class="literal-block">
+ctest
+</pre>
+</div>
+</div>
+<div class="section" id="building-with-vcpkg">
+<h1>building with VCPKG</h1>
+<p>You can download and install libtorrent using the <a class="reference external" href="https://github.com/Microsoft/vcpkg/">vcpkg</a> dependency manager:</p>
+<pre class="literal-block">
+git clone https://github.com/Microsoft/vcpkg.git
+cd vcpkg
+./bootstrap-vcpkg.sh
+./vcpkg integrate install
+./vcpkg install libtorrent
+</pre>
+<p>The libtorrent port in vcpkg is kept up to date by Microsoft team members and community contributors.
+If the version is out of date, please <a class="reference external" href="https://github.com/Microsoft/vcpkg">create an issue or pull request</a> on the vcpkg repository.</p>
+</div>
+<div class="section" id="build-configurations">
+<h1>build configurations</h1>
+<p>By default libtorrent is built In debug mode, and will have pretty expensive
+invariant checks and asserts built into it. If you want to disable such checks
+(you want to do that in a release build) you can see the table below for which
+defines you can use to control the build. Make sure to define the same macros in your
+own code that compiles and links with libtorrent.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="45%" />
+<col width="55%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">macro</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">NDEBUG</tt></td>
+<td>If you define this macro, all asserts,
+invariant checks and general debug code will be
+removed. Since there is quite a lot of code in
+in header files in libtorrent, it may be
+important to define the symbol consistently
+across compilation units, including the clients
+files. Potential problems is different
+compilation units having different views of
+structs and class layouts and sizes.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_DISABLE_LOGGING</tt></td>
+<td>This macro will disable support for logging
+alerts, like log_alert, torrent_log_alert and
+peer_log_alert. With this build flag, you
+cannot enable those alerts.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_DISABLE_ALERT_MSG</tt></td>
+<td>Human readable messages returned from the alert
+<tt class="docutils literal">message()</tt> member functions will return
+empty strings.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_DISABLE_SUPERSEEDING</tt></td>
+<td>This macro will disable support for super
+seeding. The settings will exist, but will not
+have an effect, when this macro is defined.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_DISABLE_SHARE_MODE</tt></td>
+<td>This macro will disable support for share-mode.
+i.e. the mode to maximize upload/download
+ratio for a torrent.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_DISABLE_MUTABLE_TORRENTS</tt></td>
+<td>Disables mutable torrent support (<a class="reference external" href="https://www.bittorrent.org/beps/bep_0038.html">BEP 38</a>)</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_DISABLE_STREAMING</tt></td>
+<td>Disables set_piece_deadline() and associated
+functionality.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_DISABLE_PREDICTIVE_PIECES</tt></td>
+<td>Disables
+settings_pack::predictive_piece_announce
+feature.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_LINKING_SHARED</tt></td>
+<td>If this is defined when including the
+libtorrent headers, the classes and functions
+will be tagged with <tt class="docutils literal">__declspec(dllimport)</tt>
+on msvc and default visibility on GCC 4 and
+later. Set this in your project if you're
+linking against libtorrent as a shared library.
+(This is set by the Jamfile when
+<tt class="docutils literal">link=shared</tt> is set).</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_BUILDING_SHARED</tt></td>
+<td>If this is defined, the functions and classes
+in libtorrent are marked with
+<tt class="docutils literal">__declspec(dllexport)</tt> on msvc, or with
+default visibility on GCC 4 and later. This
+should be defined when building libtorrent as
+a shared library. (This is set by the Jamfile
+when <tt class="docutils literal">link=shared</tt> is set).</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_DISABLE_DHT</tt></td>
+<td>If this is defined, the support for trackerless
+torrents will be disabled.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_DISABLE_ENCRYPTION</tt></td>
+<td>This will disable any encryption support and
+the dependencies of a crypto library.
+Encryption support is the peer connection
+encrypted supported by clients such as
+uTorrent, Azureus and KTorrent.
+If this is not defined, either
+<tt class="docutils literal">TORRENT_USE_LIBCRYPTO</tt> or
+<tt class="docutils literal">TORRENT_USE_LIBGCRYPT</tt> must be defined.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_DISABLE_EXTENSIONS</tt></td>
+<td>When defined, libtorrent plugin support is
+disabled along with support for the extension
+handshake (BEP 10).</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_USE_INVARIANT_CHECKS</tt></td>
+<td>If defined to non-zero, this will enable
+internal invariant checks in libtorrent.
+The invariant checks can sometimes
+be quite expensive, they typically don't scale
+very well.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_EXPENSIVE_INVARIANT_CHECKS</tt></td>
+<td>This will enable extra expensive invariant
+checks. Useful for finding particular bugs
+or for running before releases.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_NO_DEPRECATE</tt></td>
+<td>This will exclude all deprecated functions from
+the header files and source files.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_PRODUCTION_ASSERTS</tt></td>
+<td>Define to either 0 or 1. Enables assert logging
+in release builds.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_USE_ASSERTS</tt></td>
+<td>Define as 0 to disable asserts unconditionally.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_USE_SYSTEM_ASSERTS</tt></td>
+<td>Uses the libc assert macro rather then the
+custom one.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_HAVE_MMAP</tt></td>
+<td>Define as 0 to disable mmap support.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_USE_OPENSSL</tt></td>
+<td>Link against <tt class="docutils literal">libssl</tt> for SSL support. Must
+be combined with <tt class="docutils literal">TORRENT_USE_LIBCRYPTO</tt></td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_USE_GNUTLS</tt></td>
+<td>Link against <tt class="docutils literal">libgnutls</tt> for SSL support.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_USE_LIBCRYPTO</tt></td>
+<td>Link against <tt class="docutils literal">libcrypto</tt> for SHA-1 support
+and other hashing algorithms.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_USE_LIBGCRYPT</tt></td>
+<td>Link against <tt class="docutils literal">libgcrypt</tt> for SHA-1 support
+and other hashing algorithms.</td>
+</tr>
+<tr><td><tt class="docutils literal">TORRENT_SSL_PEERS</tt></td>
+<td>Define to enable support for SSL torrents,
+peers are connected over authenticated SSL
+streams.</td>
+</tr>
+</tbody>
+</table>
+<p>If you experience that libtorrent uses unreasonable amounts of CPU, it will
+definitely help to define <tt class="docutils literal">NDEBUG</tt>, since it will remove the invariant checks
+within the library.</p>
+</div>
+<div class="section" id="building-openssl-for-windows">
+<h1>building openssl for windows</h1>
+<p>To build openssl for windows with Visual Studio 7.1 (2003) execute the following commands
+in a command shell:</p>
+<pre class="literal-block">
+perl Configure VC-WIN32 --prefix=&quot;c:/openssl
+call ms\do_nasm
+call &quot;C:\Program Files\Microsoft Visual Studio .NET 2003\vc7\bin\vcvars32.bat&quot;
+nmake -f ms\nt.mak
+copy inc32\openssl &quot;C:\Program Files\Microsoft Visual Studio .NET 2003\vc7\include\&quot;
+copy out32\libeay32.lib &quot;C:\Program Files\Microsoft Visual Studio .NET 2003\vc7\lib&quot;
+copy out32\ssleay32.lib &quot;C:\Program Files\Microsoft Visual Studio .NET 2003\vc7\lib&quot;
+</pre>
+<p>This will also install the headers and library files in the visual studio directories to
+be picked up by libtorrent.</p>
+</div>
+<div class="section" id="list-of-macros">
+<h1>list of macros</h1>
+<p>The following is a list of defines that libtorrent is built with: <tt class="docutils literal">BOOST_ALL_NO_LIB</tt>,
+<tt class="docutils literal">BOOST_ASIO_ENABLE_CANCELIO</tt>, <tt class="docutils literal">BOOST_ASIO_HAS_STD_CHRONO</tt>,
+<tt class="docutils literal">BOOST_MULTI_INDEX_DISABLE_SERIALIZATION</tt>, <tt class="docutils literal">BOOST_NO_DEPRECATED</tt>,
+<tt class="docutils literal">BOOST_SYSTEM_NO_DEPRECATED</tt></p>
+<p>Make sure you define the same at compile time for your code to avoid any runtime errors
+and other issues.</p>
+<p>These might change in the future, so it's always best to verify these every time you
+upgrade to a new version of libtorrent. The simplest way to see the full list of macros
+defined is to build libtorrent with <tt class="docutils literal"><span class="pre">-n</span> <span class="pre">-a</span></tt> switches added to <tt class="docutils literal">b2</tt> command line:</p>
+<pre class="literal-block">
+b2 -n -a toolset=msvc-14.2 link=static runtime-link=static boost-link=static variant=release
+</pre>
+<p>This will output all compiler switches, including defines (such as <tt class="docutils literal"><span class="pre">-DBOOST_ASIO_ENABLE_CANCELIO</span></tt>).</p>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

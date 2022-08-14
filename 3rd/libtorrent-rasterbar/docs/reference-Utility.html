@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<p><a class="reference external" href="reference.html">home</a></p>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#hasher" id="toc-entry-1">hasher</a><ul>
+<li><a class="reference internal" href="#hasher-operator" id="toc-entry-2">hasher() operator=()</a></li>
+<li><a class="reference internal" href="#update" id="toc-entry-3">update()</a></li>
+<li><a class="reference internal" href="#final" id="toc-entry-4">final()</a></li>
+<li><a class="reference internal" href="#reset" id="toc-entry-5">reset()</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hasher256" id="toc-entry-6">hasher256</a><ul>
+<li><a class="reference internal" href="#hasher256-operator" id="toc-entry-7">hasher256() operator=()</a></li>
+<li><a class="reference internal" href="#update-1" id="toc-entry-8">update()</a></li>
+<li><a class="reference internal" href="#final-1" id="toc-entry-9">final()</a></li>
+<li><a class="reference internal" href="#reset-1" id="toc-entry-10">reset()</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bitfield" id="toc-entry-11">bitfield</a><ul>
+<li><a class="reference internal" href="#bitfield-1" id="toc-entry-12">bitfield()</a></li>
+<li><a class="reference internal" href="#assign" id="toc-entry-13">assign()</a></li>
+<li><a class="reference internal" href="#operator-get-bit" id="toc-entry-14">operator[]() get_bit()</a></li>
+<li><a class="reference internal" href="#set-bit-clear-bit" id="toc-entry-15">set_bit() clear_bit()</a></li>
+<li><a class="reference internal" href="#all-set" id="toc-entry-16">all_set()</a></li>
+<li><a class="reference internal" href="#none-set" id="toc-entry-17">none_set()</a></li>
+<li><a class="reference internal" href="#size" id="toc-entry-18">size()</a></li>
+<li><a class="reference internal" href="#num-words" id="toc-entry-19">num_words()</a></li>
+<li><a class="reference internal" href="#empty" id="toc-entry-20">empty()</a></li>
+<li><a class="reference internal" href="#data" id="toc-entry-21">data()</a></li>
+<li><a class="reference internal" href="#swap" id="toc-entry-22">swap()</a></li>
+<li><a class="reference internal" href="#count" id="toc-entry-23">count()</a></li>
+<li><a class="reference internal" href="#find-first-set" id="toc-entry-24">find_first_set()</a></li>
+<li><a class="reference internal" href="#find-last-clear" id="toc-entry-25">find_last_clear()</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<a name="hasher"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+hasher&labels=documentation&body=Documentation+under+heading+%22class+hasher%22+could+be+improved">report issue</a>]</span><div class="section" id="hasher">
+<h1>hasher</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/hasher.hpp">libtorrent/hasher.hpp</a>&quot;</p>
+<p>this is a SHA-1 hash class.</p>
+<p>You use it by first instantiating it, then call <tt class="docutils literal">update()</tt> to feed it
+with data. i.e. you don't have to keep the entire buffer of which you want to
+create the hash in memory. You can feed the <a class="reference external" href="reference-Utility.html#hasher">hasher</a> parts of it at a time. When
+You have fed the <a class="reference external" href="reference-Utility.html#hasher">hasher</a> with all the data, you call <tt class="docutils literal">final()</tt> and it
+will return the sha1-hash of the data.</p>
+<p>The constructor that takes a <tt class="docutils literal">char const*</tt> and an integer will construct the
+sha1 context and feed it the data passed in.</p>
+<p>If you want to reuse the <a class="reference external" href="reference-Utility.html#hasher">hasher</a> object once you have created a hash, you have to
+call <tt class="docutils literal">reset()</tt> to reinitialize it.</p>
+<p>The built-in software version of sha1-algorithm was implemented
+by Steve Reid and released as public domain.
+For more info, see <tt class="docutils literal">src/sha1.cpp</tt>.</p>
+<pre class="literal-block">
+class hasher
+{
+   <strong>hasher</strong> ();
+   <strong>hasher</strong> (char const* data, int len);
+   <strong>hasher</strong> (hasher const&amp;);
+   hasher&amp; <strong>operator=</strong> (hasher const&amp;) &amp;;
+   explicit <strong>hasher</strong> (span&lt;char const&gt; data);
+   hasher&amp; <strong>update</strong> (span&lt;char const&gt; data);
+   hasher&amp; <strong>update</strong> (char const* data, int len);
+   sha1_hash <strong>final</strong> ();
+   void <strong>reset</strong> ();
+};
+</pre>
+<a name="hasher()"></a>
+<a name="operator=()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:hasher%3A%3A%5Bhasher%28%29+operator%3D%28%29%5D&labels=documentation&body=Documentation+under+heading+%22hasher%3A%3A%5Bhasher%28%29+operator%3D%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="hasher-operator">
+<h2>hasher() operator=()</h2>
+<pre class="literal-block">
+<strong>hasher</strong> (char const* data, int len);
+<strong>hasher</strong> (hasher const&amp;);
+hasher&amp; <strong>operator=</strong> (hasher const&amp;) &amp;;
+explicit <strong>hasher</strong> (span&lt;char const&gt; data);
+</pre>
+<p>this is the same as default constructing followed by a call to
+<tt class="docutils literal">update(data, len)</tt>.</p>
+<a name="update()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:hasher%3A%3A%5Bupdate%28%29%5D&labels=documentation&body=Documentation+under+heading+%22hasher%3A%3A%5Bupdate%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="update">
+<h2>update()</h2>
+<pre class="literal-block">
+hasher&amp; <strong>update</strong> (span&lt;char const&gt; data);
+hasher&amp; <strong>update</strong> (char const* data, int len);
+</pre>
+<p>append the following bytes to what is being hashed</p>
+<a name="final()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:hasher%3A%3A%5Bfinal%28%29%5D&labels=documentation&body=Documentation+under+heading+%22hasher%3A%3A%5Bfinal%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="final">
+<h2>final()</h2>
+<pre class="literal-block">
+sha1_hash <strong>final</strong> ();
+</pre>
+<p>returns the SHA-1 digest of the buffers previously passed to
+<a class="reference external" href="reference-Utility.html#update()">update()</a> and the <a class="reference external" href="reference-Utility.html#hasher">hasher</a> constructor.</p>
+<a name="reset()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:hasher%3A%3A%5Breset%28%29%5D&labels=documentation&body=Documentation+under+heading+%22hasher%3A%3A%5Breset%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="reset">
+<h2>reset()</h2>
+<pre class="literal-block">
+void <strong>reset</strong> ();
+</pre>
+<p>restore the <a class="reference external" href="reference-Utility.html#hasher">hasher</a> state to be as if the <a class="reference external" href="reference-Utility.html#hasher">hasher</a> has just been
+default constructed.</p>
+<a name="hasher256"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+hasher256&labels=documentation&body=Documentation+under+heading+%22class+hasher256%22+could+be+improved">report issue</a>]</span></div>
+</div>
+<div class="section" id="hasher256">
+<h1>hasher256</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/hasher.hpp">libtorrent/hasher.hpp</a>&quot;</p>
+<pre class="literal-block">
+class hasher256
+{
+   <strong>hasher256</strong> ();
+   explicit <strong>hasher256</strong> (span&lt;char const&gt; data);
+   <strong>hasher256</strong> (char const* data, int len);
+   <strong>hasher256</strong> (hasher256 const&amp;);
+   hasher256&amp; <strong>operator=</strong> (hasher256 const&amp;) &amp;;
+   hasher256&amp; <strong>update</strong> (char const* data, int len);
+   hasher256&amp; <strong>update</strong> (span&lt;char const&gt; data);
+   sha256_hash <strong>final</strong> ();
+   void <strong>reset</strong> ();
+   <strong>~hasher256</strong> ();
+};
+</pre>
+<a name="hasher256()"></a>
+<a name="operator=()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:hasher256%3A%3A%5Bhasher256%28%29+operator%3D%28%29%5D&labels=documentation&body=Documentation+under+heading+%22hasher256%3A%3A%5Bhasher256%28%29+operator%3D%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="hasher256-operator">
+<h2>hasher256() operator=()</h2>
+<pre class="literal-block">
+explicit <strong>hasher256</strong> (span&lt;char const&gt; data);
+<strong>hasher256</strong> (char const* data, int len);
+<strong>hasher256</strong> (hasher256 const&amp;);
+hasher256&amp; <strong>operator=</strong> (hasher256 const&amp;) &amp;;
+</pre>
+<p>this is the same as default constructing followed by a call to
+<tt class="docutils literal">update(data, len)</tt>.</p>
+<a name="update()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:hasher256%3A%3A%5Bupdate%28%29%5D&labels=documentation&body=Documentation+under+heading+%22hasher256%3A%3A%5Bupdate%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="update-1">
+<h2>update()</h2>
+<pre class="literal-block">
+hasher256&amp; <strong>update</strong> (char const* data, int len);
+hasher256&amp; <strong>update</strong> (span&lt;char const&gt; data);
+</pre>
+<p>append the following bytes to what is being hashed</p>
+<a name="final()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:hasher256%3A%3A%5Bfinal%28%29%5D&labels=documentation&body=Documentation+under+heading+%22hasher256%3A%3A%5Bfinal%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="final-1">
+<h2>final()</h2>
+<pre class="literal-block">
+sha256_hash <strong>final</strong> ();
+</pre>
+<p>returns the SHA-1 digest of the buffers previously passed to
+<a class="reference external" href="reference-Utility.html#update()">update()</a> and the <a class="reference external" href="reference-Utility.html#hasher">hasher</a> constructor.</p>
+<a name="reset()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:hasher256%3A%3A%5Breset%28%29%5D&labels=documentation&body=Documentation+under+heading+%22hasher256%3A%3A%5Breset%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="reset-1">
+<h2>reset()</h2>
+<pre class="literal-block">
+void <strong>reset</strong> ();
+</pre>
+<p>restore the <a class="reference external" href="reference-Utility.html#hasher">hasher</a> state to be as if the <a class="reference external" href="reference-Utility.html#hasher">hasher</a> has just been
+default constructed.</p>
+<a name="bitfield"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+bitfield&labels=documentation&body=Documentation+under+heading+%22class+bitfield%22+could+be+improved">report issue</a>]</span></div>
+</div>
+<div class="section" id="bitfield">
+<h1>bitfield</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/bitfield.hpp">libtorrent/bitfield.hpp</a>&quot;</p>
+<p>The <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a> type stores any number of bits as a <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a>
+in a heap allocated array.</p>
+<pre class="literal-block">
+struct bitfield
+{
+   explicit <strong>bitfield</strong> (int bits);
+   <strong>bitfield</strong> (char const* b, int bits);
+   <strong>bitfield</strong> () noexcept = default;
+   <strong>bitfield</strong> (bitfield&amp;&amp; rhs) noexcept = default;
+   <strong>bitfield</strong> (bitfield const&amp; rhs);
+   <strong>bitfield</strong> (int bits, bool val);
+   void <strong>assign</strong> (char const* b, int const bits);
+   bool <strong>operator[]</strong> (int index) const noexcept;
+   bool <strong>get_bit</strong> (int index) const noexcept;
+   void <strong>clear_bit</strong> (int index) noexcept;
+   void <strong>set_bit</strong> (int index) noexcept;
+   bool <strong>all_set</strong> () const noexcept;
+   bool <strong>none_set</strong> () const noexcept;
+   int <strong>size</strong> () const noexcept;
+   int <strong>num_words</strong> () const noexcept;
+   bool <strong>empty</strong> () const noexcept;
+   char* <strong>data</strong> () noexcept;
+   char const* <strong>data</strong> () const noexcept;
+   void <strong>swap</strong> (bitfield&amp; rhs) noexcept;
+   int <strong>count</strong> () const noexcept;
+   int <strong>find_first_set</strong> () const noexcept;
+   int <strong>find_last_clear</strong> () const noexcept;
+};
+</pre>
+<a name="bitfield()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Bbitfield%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Bbitfield%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="bitfield-1">
+<h2>bitfield()</h2>
+<pre class="literal-block">
+explicit <strong>bitfield</strong> (int bits);
+<strong>bitfield</strong> (char const* b, int bits);
+<strong>bitfield</strong> () noexcept = default;
+<strong>bitfield</strong> (bitfield&amp;&amp; rhs) noexcept = default;
+<strong>bitfield</strong> (bitfield const&amp; rhs);
+<strong>bitfield</strong> (int bits, bool val);
+</pre>
+<p>constructs a new <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a>. The default constructor creates an empty
+<a class="reference external" href="reference-Utility.html#bitfield">bitfield</a>. <tt class="docutils literal">bits</tt> is the size of the <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a> (specified in bits).
+<tt class="docutils literal">val</tt> is the value to initialize the bits to. If not specified
+all bits are initialized to 0.</p>
+<p>The constructor taking a pointer <tt class="docutils literal">b</tt> and <tt class="docutils literal">bits</tt> copies a <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a>
+from the specified buffer, and <tt class="docutils literal">bits</tt> number of bits (rounded up to
+the nearest byte boundary).</p>
+<a name="assign()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Bassign%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Bassign%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="assign">
+<h2>assign()</h2>
+<pre class="literal-block">
+void <strong>assign</strong> (char const* b, int const bits);
+</pre>
+<p>copy <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a> from buffer <tt class="docutils literal">b</tt> of <tt class="docutils literal">bits</tt> number of bits, rounded up to
+the nearest byte boundary.</p>
+<a name="operator[]()"></a>
+<a name="get_bit()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Boperator%5B%5D%28%29+get_bit%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Boperator%5B%5D%28%29+get_bit%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="operator-get-bit">
+<h2>operator[]() get_bit()</h2>
+<pre class="literal-block">
+bool <strong>operator[]</strong> (int index) const noexcept;
+bool <strong>get_bit</strong> (int index) const noexcept;
+</pre>
+<p>query bit at <tt class="docutils literal">index</tt>. Returns true if bit is 1, otherwise false.</p>
+<a name="set_bit()"></a>
+<a name="clear_bit()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Bset_bit%28%29+clear_bit%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Bset_bit%28%29+clear_bit%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="set-bit-clear-bit">
+<h2>set_bit() clear_bit()</h2>
+<pre class="literal-block">
+void <strong>clear_bit</strong> (int index) noexcept;
+void <strong>set_bit</strong> (int index) noexcept;
+</pre>
+<p>set bit at <tt class="docutils literal">index</tt> to 0 (clear_bit) or 1 (set_bit).</p>
+<a name="all_set()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Ball_set%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Ball_set%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="all-set">
+<h2>all_set()</h2>
+<pre class="literal-block">
+bool <strong>all_set</strong> () const noexcept;
+</pre>
+<p>returns true if all bits in the <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a> are set</p>
+<a name="none_set()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Bnone_set%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Bnone_set%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="none-set">
+<h2>none_set()</h2>
+<pre class="literal-block">
+bool <strong>none_set</strong> () const noexcept;
+</pre>
+<p>returns true if no bit in the <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a> is set</p>
+<a name="size()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Bsize%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Bsize%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="size">
+<h2>size()</h2>
+<pre class="literal-block">
+int <strong>size</strong> () const noexcept;
+</pre>
+<p>returns the size of the <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a> in bits.</p>
+<a name="num_words()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Bnum_words%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Bnum_words%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="num-words">
+<h2>num_words()</h2>
+<pre class="literal-block">
+int <strong>num_words</strong> () const noexcept;
+</pre>
+<p>returns the number of 32 bit words are needed to represent all bits in
+this <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a>.</p>
+<a name="empty()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Bempty%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Bempty%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="empty">
+<h2>empty()</h2>
+<pre class="literal-block">
+bool <strong>empty</strong> () const noexcept;
+</pre>
+<p>returns true if the <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a> has zero size.</p>
+<a name="data()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Bdata%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Bdata%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="data">
+<h2>data()</h2>
+<pre class="literal-block">
+char* <strong>data</strong> () noexcept;
+char const* <strong>data</strong> () const noexcept;
+</pre>
+<p>returns a pointer to the internal buffer of the <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a>, or
+<tt class="docutils literal">nullptr</tt> if it's empty.</p>
+<a name="swap()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Bswap%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Bswap%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="swap">
+<h2>swap()</h2>
+<pre class="literal-block">
+void <strong>swap</strong> (bitfield&amp; rhs) noexcept;
+</pre>
+<p>swaps the bit-fields two variables refer to</p>
+<a name="count()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Bcount%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Bcount%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="count">
+<h2>count()</h2>
+<pre class="literal-block">
+int <strong>count</strong> () const noexcept;
+</pre>
+<p>count the number of bits in the <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a> that are set to 1.</p>
+<a name="find_first_set()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Bfind_first_set%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Bfind_first_set%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="find-first-set">
+<h2>find_first_set()</h2>
+<pre class="literal-block">
+int <strong>find_first_set</strong> () const noexcept;
+</pre>
+<p>returns the index of the first set bit in the <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a>, i.e. 1 bit.</p>
+<a name="find_last_clear()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Bfind_last_clear%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Bfind_last_clear%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="find-last-clear">
+<h2>find_last_clear()</h2>
+<pre class="literal-block">
+int <strong>find_last_clear</strong> () const noexcept;
+</pre>
+<p>returns the index to the last cleared bit in the <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a>, i.e. 0 bit.</p>
+</div>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

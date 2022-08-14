@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<p><a class="reference external" href="reference.html">home</a></p>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#client-data-t" id="toc-entry-1">client_data_t</a><ul>
+<li><a class="reference internal" href="#client-data-t-1" id="toc-entry-2">client_data_t()</a></li>
+<li><a class="reference internal" href="#void-operator-const" id="toc-entry-3">void*() operator=() const*()</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#add-torrent-params" id="toc-entry-4">add_torrent_params</a></li>
+</ul>
+</div>
+<a name="client_data_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+client_data_t&labels=documentation&body=Documentation+under+heading+%22class+client_data_t%22+could+be+improved">report issue</a>]</span><div class="section" id="client-data-t">
+<h1>client_data_t</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/client_data.hpp">libtorrent/client_data.hpp</a>&quot;</p>
+<p>A thin wrapper around a void pointer used as &quot;user data&quot;. i.e. an opaque
+cookie passed in to libtorrent and returned on demand. It adds type-safety by
+requiring the same type be requested out of it as was assigned to it.</p>
+<pre class="literal-block">
+struct client_data_t
+{
+   <strong>client_data_t</strong> () = default;
+   explicit <strong>client_data_t</strong> (T* v);
+   client_data_t&amp; <strong>operator=</strong> (T* v);
+   explicit operator <strong>T</strong> () const;
+   T* <strong>get</strong> () const;
+   operator <strong>void*</strong> () const = delete;
+   operator void <strong>const*</strong> () const = delete;
+   client_data_t&amp; <strong>operator=</strong> (void const*) = delete;
+   client_data_t&amp; <strong>operator=</strong> (void*) = delete;
+
+   template &lt;typename T, typename <strong>U</strong>  = typename std::enable_if&lt;std::is_pointer&lt;T&gt;::value&gt;::type&gt;
+};
+</pre>
+<a name="client_data_t()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:client_data_t%3A%3A%5Bclient_data_t%28%29%5D&labels=documentation&body=Documentation+under+heading+%22client_data_t%3A%3A%5Bclient_data_t%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="client-data-t-1">
+<h2>client_data_t()</h2>
+<pre class="literal-block">
+<strong>client_data_t</strong> () = default;
+</pre>
+<p>construct a nullptr client data</p>
+<a name="void*()"></a>
+<a name="operator=()"></a>
+<a name="const*()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:client_data_t%3A%3A%5Bvoid%2A%28%29+operator%3D%28%29+const%2A%28%29%5D&labels=documentation&body=Documentation+under+heading+%22client_data_t%3A%3A%5Bvoid%2A%28%29+operator%3D%28%29+const%2A%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="void-operator-const">
+<h2>void*() operator=() const*()</h2>
+<pre class="literal-block">
+operator <strong>void*</strong> () const = delete;
+operator void <strong>const*</strong> () const = delete;
+client_data_t&amp; <strong>operator=</strong> (void const*) = delete;
+client_data_t&amp; <strong>operator=</strong> (void*) = delete;
+</pre>
+<p>we don't allow type-unsafe operations</p>
+<a name="add_torrent_params"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+add_torrent_params&labels=documentation&body=Documentation+under+heading+%22class+add_torrent_params%22+could+be+improved">report issue</a>]</span></div>
+</div>
+<div class="section" id="add-torrent-params">
+<h1>add_torrent_params</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/add_torrent_params.hpp">libtorrent/add_torrent_params.hpp</a>&quot;</p>
+<p>The <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> is a parameter pack for adding torrents to a
+<a class="reference external" href="reference-Session.html#session">session</a>. The key fields when adding a torrent are:</p>
+<ul class="simple">
+<li>ti - when you have loaded a .torrent file into a <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> object</li>
+<li>info_hash - when you don't have the metadata (.torrent file) but. This
+is set when adding a magnet link.</li>
+</ul>
+<p>one of those fields must be set. Another mandatory field is
+<tt class="docutils literal">save_path</tt>. The <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object is passed into one of the
+<tt class="docutils literal"><span class="pre">session::add_torrent()</span></tt> overloads or <tt class="docutils literal"><span class="pre">session::async_add_torrent()</span></tt>.</p>
+<p>If you only specify the info-hash, the torrent file will be downloaded
+from peers, which requires them to support the metadata extension. For
+the metadata extension to work, libtorrent must be built with extensions
+enabled (<tt class="docutils literal">TORRENT_DISABLE_EXTENSIONS</tt> must not be defined). It also
+takes an optional <tt class="docutils literal">name</tt> argument. This may be left empty in case no
+name should be assigned to the torrent. In case it's not, the name is
+used for the torrent as long as it doesn't have metadata. See
+<tt class="docutils literal"><span class="pre">torrent_handle::name</span></tt>.</p>
+<p>The <tt class="docutils literal">add_torrent_params</tt> is also used when requesting resume data for a
+torrent. It can be saved to and restored from a file and added back to a
+new <a class="reference external" href="reference-Session.html#session">session</a>. For serialization and de-serialization of
+<tt class="docutils literal">add_torrent_params</tt> objects, see <a class="reference external" href="reference-Resume_Data.html#read_resume_data()">read_resume_data()</a> and
+<a class="reference external" href="reference-Resume_Data.html#write_resume_data()">write_resume_data()</a>.</p>
+<pre class="literal-block">
+struct add_torrent_params
+{
+   int <strong>version</strong>  = LIBTORRENT_VERSION_NUM;
+   std::shared_ptr&lt;torrent_info&gt; ti;
+   aux::noexcept_movable&lt;std::vector&lt;std::string&gt;&gt; trackers;
+   aux::noexcept_movable&lt;std::vector&lt;int&gt;&gt; tracker_tiers;
+   aux::noexcept_movable&lt;std::vector&lt;std::pair&lt;std::string, int&gt;&gt;&gt; dht_nodes;
+   std::string name;
+   std::string save_path;
+   storage_mode_t <strong>storage_mode</strong>  = storage_mode_sparse;
+   client_data_t userdata;
+   aux::noexcept_movable&lt;std::vector&lt;download_priority_t&gt;&gt; file_priorities;
+   std::string trackerid;
+   torrent_flags_t <strong>flags</strong>  = torrent_flags::default_flags;
+   info_hash_t info_hashes;
+   int <strong>max_uploads</strong>  = -1;
+   int <strong>max_connections</strong>  = -1;
+   int <strong>upload_limit</strong>  = -1;
+   int <strong>download_limit</strong>  = -1;
+   std::int64_t <strong>total_uploaded</strong>  = 0;
+   std::int64_t <strong>total_downloaded</strong>  = 0;
+   int <strong>active_time</strong>  = 0;
+   int <strong>finished_time</strong>  = 0;
+   int <strong>seeding_time</strong>  = 0;
+   std::time_t <strong>added_time</strong>  = 0;
+   std::time_t <strong>completed_time</strong>  = 0;
+   std::time_t <strong>last_seen_complete</strong>  = 0;
+   int <strong>num_complete</strong>  = -1;
+   int <strong>num_incomplete</strong>  = -1;
+   int <strong>num_downloaded</strong>  = -1;
+   aux::noexcept_movable&lt;std::vector&lt;std::string&gt;&gt; http_seeds;
+   aux::noexcept_movable&lt;std::vector&lt;std::string&gt;&gt; url_seeds;
+   aux::noexcept_movable&lt;std::vector&lt;tcp::endpoint&gt;&gt; peers;
+   aux::noexcept_movable&lt;std::vector&lt;tcp::endpoint&gt;&gt; banned_peers;
+   aux::noexcept_movable&lt;std::map&lt;piece_index_t, bitfield&gt;&gt; unfinished_pieces;
+   typed_bitfield&lt;piece_index_t&gt; have_pieces;
+   typed_bitfield&lt;piece_index_t&gt; verified_pieces;
+   aux::noexcept_movable&lt;std::vector&lt;download_priority_t&gt;&gt; piece_priorities;
+   aux::vector&lt;std::vector&lt;sha256_hash&gt;, file_index_t&gt; merkle_trees;
+   aux::vector&lt;std::vector&lt;bool&gt;, file_index_t&gt; merkle_tree_mask;
+   aux::vector&lt;std::vector&lt;bool&gt;, file_index_t&gt; verified_leaf_hashes;
+   aux::noexcept_movable&lt;std::map&lt;file_index_t, std::string&gt;&gt; renamed_files;
+   std::time_t <strong>last_download</strong>  = 0;
+   std::time_t <strong>last_upload</strong>  = 0;
+};
+</pre>
+<a name="version"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bversion%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bversion%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>version</dt>
+<dd>filled in by the constructor and should be left untouched. It is used
+for forward binary compatibility.</dd>
+</dl>
+<a name="ti"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bti%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bti%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>ti</dt>
+<dd><a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> object with the torrent to add. Unless the
+info_hash is set, this is required to be initialized.</dd>
+</dl>
+<a name="trackers"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Btrackers%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Btrackers%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>trackers</dt>
+<dd>If the torrent doesn't have a tracker, but relies on the DHT to find
+peers, the <tt class="docutils literal">trackers</tt> can specify tracker URLs for the torrent.</dd>
+</dl>
+<a name="tracker_tiers"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Btracker_tiers%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Btracker_tiers%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>tracker_tiers</dt>
+<dd>the tiers the URLs in <tt class="docutils literal">trackers</tt> belong to. Trackers belonging to
+different tiers may be treated differently, as defined by the multi
+tracker extension. This is optional, if not specified trackers are
+assumed to be part of tier 0, or whichever the last tier was as
+iterating over the trackers.</dd>
+</dl>
+<a name="dht_nodes"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bdht_nodes%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bdht_nodes%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>dht_nodes</dt>
+<dd>a list of hostname and port pairs, representing DHT nodes to be added
+to the <a class="reference external" href="reference-Session.html#session">session</a> (if DHT is enabled). The hostname may be an IP address.</dd>
+</dl>
+<a name="name"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bname%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bname%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>name</dt>
+<dd>in case there's no other name in this torrent, this name will be used.
+The name out of the <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> object takes precedence if available.</dd>
+</dl>
+<a name="save_path"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bsave_path%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bsave_path%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>save_path</dt>
+<dd><p class="first">the path where the torrent is or will be stored.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">On windows this path (and other paths) are interpreted as UNC
+paths. This means they must use backslashes as directory separators
+and may not contain the special directories &quot;.&quot; or &quot;..&quot;.</p>
+</div>
+<p class="last">Setting this to an absolute path performs slightly better than a
+relative path.</p>
+</dd>
+</dl>
+<a name="storage_mode"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bstorage_mode%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bstorage_mode%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>storage_mode</dt>
+<dd>One of the values from <a class="reference external" href="reference-Storage.html#storage_mode_t">storage_mode_t</a>. For more information, see
+<a class="reference external" href="manual-ref.html#storage-allocation">storage allocation</a>.</dd>
+</dl>
+<a name="userdata"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Buserdata%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Buserdata%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>userdata</dt>
+<dd>The <tt class="docutils literal">userdata</tt> parameter is optional and will be passed on to the
+extension constructor functions, if any
+(see <a class="reference external" href="reference-Torrent_Handle.html#add_extension()">torrent_handle::add_extension()</a>). It will also be stored in the
+torrent object and can be retrieved by calling <a class="reference external" href="reference-Torrent_Handle.html#userdata()">userdata()</a>.</dd>
+</dl>
+<a name="file_priorities"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bfile_priorities%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bfile_priorities%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>file_priorities</dt>
+<dd>can be set to control the initial file priorities when adding a
+torrent. The semantics are the same as for
+<tt class="docutils literal"><span class="pre">torrent_handle::prioritize_files()</span></tt>. The file priorities specified
+in here take precedence over those specified in the resume data, if
+any.</dd>
+</dl>
+<a name="trackerid"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Btrackerid%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Btrackerid%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>trackerid</dt>
+<dd>the default tracker id to be used when announcing to trackers. By
+default this is empty, and no tracker ID is used, since this is an
+optional argument. If a tracker returns a tracker ID, that ID is used
+instead of this.</dd>
+</dl>
+<a name="flags"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bflags%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bflags%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>flags</dt>
+<dd><p class="first">flags controlling aspects of this torrent and how it's added. See
+<a class="reference external" href="reference-Core.html#torrent_flags_t">torrent_flags_t</a> for details.</p>
+<div class="admonition note last">
+<p class="first admonition-title">Note</p>
+<p class="last">The <tt class="docutils literal">flags</tt> field is initialized with default flags by the
+constructor. In order to preserve default behavior when clearing or
+setting other flags, make sure to bitwise OR or in a flag or bitwise
+AND the inverse of a flag to clear it.</p>
+</div>
+</dd>
+</dl>
+<a name="info_hashes"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Binfo_hashes%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Binfo_hashes%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>info_hashes</dt>
+<dd>set this to the info hash of the torrent to add in case the info-hash
+is the only known property of the torrent. i.e. you don't have a
+.torrent file nor a magnet link.
+To add a magnet link, use <a class="reference external" href="reference-Core.html#parse_magnet_uri()">parse_magnet_uri()</a> to populate fields in the
+<a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object.</dd>
+</dl>
+<a name="max_uploads"></a>
+<a name="max_connections"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bmax_uploads+max_connections%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bmax_uploads+max_connections%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>max_uploads max_connections</dt>
+<dd><p class="first"><tt class="docutils literal">max_uploads</tt>, <tt class="docutils literal">max_connections</tt>, <tt class="docutils literal">upload_limit</tt>,
+<tt class="docutils literal">download_limit</tt> correspond to the <tt class="docutils literal">set_max_uploads()</tt>,
+<tt class="docutils literal">set_max_connections()</tt>, <tt class="docutils literal">set_upload_limit()</tt> and
+<tt class="docutils literal">set_download_limit()</tt> functions on <a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a>. These values let
+you initialize these settings when the torrent is added, instead of
+calling these functions immediately following adding it.</p>
+<p>-1 means unlimited on these settings just like their counterpart
+functions on <a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a></p>
+<p class="last">For fine grained control over rate limits, including making them apply
+to local peers, see <a class="reference external" href="manual-ref.html#peer-classes">peer classes</a>.</p>
+</dd>
+</dl>
+<a name="upload_limit"></a>
+<a name="download_limit"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bupload_limit+download_limit%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bupload_limit+download_limit%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>upload_limit download_limit</dt>
+<dd>the upload and download rate limits for this torrent, specified in
+bytes per second. -1 means unlimited.</dd>
+</dl>
+<a name="total_uploaded"></a>
+<a name="total_downloaded"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Btotal_uploaded+total_downloaded%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Btotal_uploaded+total_downloaded%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>total_uploaded total_downloaded</dt>
+<dd>the total number of bytes uploaded and downloaded by this torrent so
+far.</dd>
+</dl>
+<a name="active_time"></a>
+<a name="finished_time"></a>
+<a name="seeding_time"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bactive_time+finished_time+seeding_time%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bactive_time+finished_time+seeding_time%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>active_time finished_time seeding_time</dt>
+<dd>the number of seconds this torrent has spent in started, finished and
+seeding state so far, respectively.</dd>
+</dl>
+<a name="added_time"></a>
+<a name="completed_time"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Badded_time+completed_time%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Badded_time+completed_time%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>added_time completed_time</dt>
+<dd>if set to a non-zero value, this is the posix time of when this torrent
+was first added, including previous runs/sessions. If set to zero, the
+internal added_time will be set to the time of when <a class="reference external" href="reference-Session.html#add_torrent()">add_torrent()</a> is
+called.</dd>
+</dl>
+<a name="last_seen_complete"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Blast_seen_complete%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Blast_seen_complete%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>last_seen_complete</dt>
+<dd>if set to non-zero, initializes the time (expressed in posix time) when
+we last saw a seed or peers that together formed a complete copy of the
+torrent. If left set to zero, the internal counterpart to this field
+will be updated when we see a seed or a distributed copies &gt;= 1.0.</dd>
+</dl>
+<a name="num_complete"></a>
+<a name="num_incomplete"></a>
+<a name="num_downloaded"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bnum_complete+num_incomplete+num_downloaded%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bnum_complete+num_incomplete+num_downloaded%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>num_complete num_incomplete num_downloaded</dt>
+<dd><p class="first">these field can be used to initialize the torrent's cached scrape data.
+The scrape data is high level metadata about the current state of the
+swarm, as returned by the tracker (either when announcing to it or by
+sending a specific scrape request). <tt class="docutils literal">num_complete</tt> is the number of
+peers in the swarm that are seeds, or have every piece in the torrent.
+<tt class="docutils literal">num_incomplete</tt> is the number of peers in the swarm that do not have
+every piece. <tt class="docutils literal">num_downloaded</tt> is the number of times the torrent has
+been downloaded (not initiated, but the number of times a download has
+completed).</p>
+<p class="last">Leaving any of these values set to -1 indicates we don't know, or we
+have not received any scrape data.</p>
+</dd>
+</dl>
+<a name="http_seeds"></a>
+<a name="url_seeds"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bhttp_seeds+url_seeds%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bhttp_seeds+url_seeds%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>http_seeds url_seeds</dt>
+<dd><p class="first">URLs can be added to these two lists to specify additional web
+seeds to be used by the torrent. If the <tt class="docutils literal">flag_override_web_seeds</tt>
+is set, these will be the _only_ ones to be used. i.e. any web seeds
+found in the .torrent file will be overridden.</p>
+<p>http_seeds expects URLs to web servers implementing the original HTTP
+seed specification <a class="reference external" href="https://www.bittorrent.org/beps/bep_0017.html">BEP 17</a>.</p>
+<p class="last">url_seeds expects URLs to regular web servers, aka &quot;get right&quot; style,
+specified in <a class="reference external" href="https://www.bittorrent.org/beps/bep_0019.html">BEP 19</a>.</p>
+</dd>
+</dl>
+<a name="peers"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bpeers%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bpeers%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>peers</dt>
+<dd>peers to add to the torrent, to be tried to be connected to as
+bittorrent peers.</dd>
+</dl>
+<a name="banned_peers"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bbanned_peers%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bbanned_peers%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>banned_peers</dt>
+<dd>peers banned from this torrent. The will not be connected to</dd>
+</dl>
+<a name="unfinished_pieces"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bunfinished_pieces%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bunfinished_pieces%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>unfinished_pieces</dt>
+<dd>this is a map of partially downloaded piece. The key is the piece index
+and the value is a <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a> where each bit represents a 16 kiB block.
+A set bit means we have that block.</dd>
+</dl>
+<a name="have_pieces"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bhave_pieces%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bhave_pieces%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>have_pieces</dt>
+<dd>this is a <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a> indicating which pieces we already have of this
+torrent.</dd>
+</dl>
+<a name="verified_pieces"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bverified_pieces%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bverified_pieces%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>verified_pieces</dt>
+<dd>when in seed_mode, pieces with a set bit in this <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a> have been
+verified to be valid. Other pieces will be verified the first time a
+peer requests it.</dd>
+</dl>
+<a name="piece_priorities"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bpiece_priorities%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bpiece_priorities%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>piece_priorities</dt>
+<dd>this sets the priorities for each individual piece in the torrent. Each
+element in the vector represent the piece with the same index. If you
+set both file- and piece priorities, file priorities will take
+precedence.</dd>
+</dl>
+<a name="merkle_trees"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bmerkle_trees%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bmerkle_trees%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>merkle_trees</dt>
+<dd>v2 hashes, if known</dd>
+</dl>
+<a name="merkle_tree_mask"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bmerkle_tree_mask%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bmerkle_tree_mask%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>merkle_tree_mask</dt>
+<dd>if set, indicates which hashes are included in the corresponding
+vector of <tt class="docutils literal">merkle_trees</tt>. These bitmasks always cover the full
+tree, a cleared bit means the hash is all zeros (i.e. not set) and
+set bit means the next hash in the corresponding vector in
+<tt class="docutils literal">merkle_trees</tt> is the hash for that node. This is an optimization
+to avoid storing a lot of zeros.</dd>
+</dl>
+<a name="verified_leaf_hashes"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Bverified_leaf_hashes%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Bverified_leaf_hashes%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>verified_leaf_hashes</dt>
+<dd>bit-fields indicating which v2 leaf hashes have been verified
+against the root hash. If this vector is empty and merkle_trees is
+non-empty it implies that all hashes in merkle_trees are verified.</dd>
+</dl>
+<a name="renamed_files"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Brenamed_files%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Brenamed_files%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>renamed_files</dt>
+<dd>this is a map of file indices in the torrent and new filenames to be
+applied before the torrent is added.</dd>
+</dl>
+<a name="last_download"></a>
+<a name="last_upload"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Blast_download+last_upload%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Blast_download+last_upload%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>last_download last_upload</dt>
+<dd>the posix time of the last time payload was received or sent for this
+torrent, respectively.</dd>
+</dl>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

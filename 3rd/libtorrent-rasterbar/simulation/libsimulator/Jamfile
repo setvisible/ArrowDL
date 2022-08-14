@@ -1,0 +1,134 @@
+# This Jamfile requires boost-build v2 to build.
+
+import path ;
+import modules ;
+import os ;
+import testing ;
+
+BOOST_ROOT = [ modules.peek : BOOST_ROOT ] ;
+
+ECHO "BOOST_ROOT =" $(BOOST_ROOT) ;
+ECHO "OS =" [ os.name ] ;
+
+lib wsock32 : : <name>wsock32 <link>shared ;
+lib ws2_32 : : <name>ws2_32 <link>shared ;
+
+if $(BOOST_ROOT)
+{
+	use-project /boost : $(BOOST_ROOT) ;
+	alias boost_system : /boost/system//boost_system ;
+}
+else
+{
+
+	local boost-lib-search-path =
+		<search>/opt/local/lib
+		<search>/usr/lib
+		<search>/usr/local/lib
+		<search>/sw/lib
+		<search>/usr/g++/lib
+		;
+
+	local boost-include-path =
+		<include>/opt/local/include
+		<include>/usr/local/include
+		<include>/usr/sfw/include
+	;
+
+	lib boost_system : : <name>boost_system $(boost-lib-search-path)
+		: : $(boost-include-path) ;
+}
+
+SOURCES =
+	simulator
+	simulation
+	io_service
+	high_resolution_timer
+	high_resolution_clock
+	tcp_socket
+	udp_socket
+	queue
+	acceptor
+	default_config
+	http_server
+	socks_server
+	resolver
+	http_proxy
+	sink_forwarder
+	pcap
+	nat
+	;
+
+lib simulator
+	: # sources
+	src/$(SOURCES).cpp
+
+	: # requirements
+	<include>include
+	<library>boost_system
+	<target-os>windows:<library>ws2_32
+	<target-os>windows:<library>wsock32
+	<threading>multi
+
+	<link>shared:<define>SIMULATOR_BUILDING_SHARED
+	<define>_CRT_SECURE_NO_WARNINGS
+
+	# https://github.com/chriskohlhoff/asio/issues/290#issuecomment-377727614
+	<define>_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
+
+	<define>BOOST_ASIO_DISABLE_BOOST_DATE_TIME
+	<define>BOOST_ASIO_HAS_MOVE
+	<define>BOOST_ASIO_ENABLE_CANCELIO
+
+	# make sure asio uses std::chrono
+	<define>BOOST_ASIO_HAS_STD_CHRONO
+
+	# disable auto-link
+	<define>BOOST_ALL_NO_LIB
+
+	: # default build
+	<warnings>all
+	<warnings-as-errors>on
+	# boost.asio has a global tss_ptr which is the head of a
+	# linked list of all invocations of run on that thread. This
+	# determines whether dispatch() will run the handler immediately
+	# not. The simulator relies on this. On windows each DLL will have
+	# its own copy of this variable, effectively causing a deadlock
+	# in the simulator. So, default to static linking
+	<link>static
+
+	: # usage requirements
+	<define>BOOST_ASIO_DISABLE_BOOST_DATE_TIME
+	<define>BOOST_ASIO_HAS_MOVE
+	<define>BOOST_ASIO_ENABLE_CANCELIO
+	<threading>multi
+	<include>include
+	<link>shared:<define>SIMULATOR_LINKING_SHARED
+
+	# https://github.com/chriskohlhoff/asio/issues/290#issuecomment-377727614
+	<define>_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
+	;
+
+project
+	: requirements
+	<library>simulator
+	# disable auto-link
+	<define>BOOST_ALL_NO_LIB
+	: default-build
+	<link>static
+	<threading>multi
+	<cxxstd>14
+	;
+
+test-suite simulator-tests : [ run
+	test/main.cpp
+	test/resolver.cpp
+	test/multi_homed.cpp
+	test/timer.cpp
+	test/acceptor.cpp
+	test/multi_accept.cpp
+	test/null_buffers.cpp
+	test/udp_socket.cpp
+	test/parse_request.cpp
+	] ;
+
