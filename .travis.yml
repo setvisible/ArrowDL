@@ -1,74 +1,53 @@
 # https://docs.travis-ci.com/
 
-#---------------------------------#
-#      general configuration      #
-#---------------------------------#
-# language: generic # VM have more languages and services available
-# language: minimal # VM optimized be faster and use less disk space, 
 language: cpp
 sudo: true
 
-# branches to build
 branches:
-  # whitelist
-  only:
+  only: # whitelist
     - master
     - develop
     - production
     - /^v\d*\.\d*\.\d*$/
     - /^travis.*$/
-
-  # blacklist
-  except:
+  except: # blacklist
     - /^appveyor.*$/
-
-
-#---------------------------------#
-#               jobs              #
-#---------------------------------#
-# build and tests OK with Qt version 5.7.1
-# build and tests OK with GNU C++ Compiler version 5.3.0
-# build and tests OK with CMake version 3.11.1
-
-# Travis-CI:
-#  - GNU C++ Compiler version 5 works on Precise and Trusty
-#  - Precise ships with CMake 2.8.7
-#  - Trusty ships with CMake 3.9.2
-#  - Xenial ships with CMake 3.12.4    => Use Xenial
 
 matrix:
   include:
-    - os: linux
-      dist: xenial
-      env: QT_BASE=56 CXX_COMPILER=g++-5 C_COMPILER=gcc-5 BUILD_TYPE=Release
-      addons:
-        apt:
-          sources:
-          - ubuntu-toolchain-r-test
-          packages:
-          - gcc-5
-          - g++-5
+    - name: My Ubuntu Build
+      os: linux
+      dist: jammy # Ubuntu 22.04 (Jammy Jellyfish) Build Environment
+      compiler: gcc
+      env:
+        - C_COMPILER=gcc-11
+        - CXX_COMPILER=g++-11
+        - CXX_FLAGS="-Wall -Wextra -Wpedantic -Wvla -Wno-noexcept-type -Wno-format-zero-length -ftemplate-depth=512"
+        - BUILD_TYPE="Release"
 
-#---------------------------------#
-#    environment configuration    #
-#---------------------------------#
 
-before_install:
-  - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
-  - if [ "$QT_BASE" = "56"  ]; then sudo add-apt-repository ppa:beineri/opt-qt562-xenial -y; fi
+before_install:  
   - sudo apt-get update -qq
+  - sudo apt-get install -qq qt6-base-dev qt6-multimedia-dev qt6-translations-l10n qt6-tools-dev
+  - dir "/usr/lib/qt6/"
+  - whereis qt6-base-dev
+  - Qt6_Dir="/usr/lib/qt6/"
 
+  - openssl version  # OpenSSL 3.0.2
+  - whereis openssl
+  - OPENSSL="/usr/lib/ssl/"
 
 install:
-  - sudo apt-get install -qq mesa-common-dev libglu1-mesa-dev
-  - if [ "$QT_BASE" = "56"  ]; then sudo apt-get install -qq qt56base qt56multimedia qt56translations qt56tools ; source /opt/qt56/bin/qt56-env.sh ; export QTHOME=/opt/qt56 ; fi
-
   # read the content of the file ./version
   - AppVersion=`cat version`
   - echo "Application Version = ${AppVersion}"
 
   - echo "TRAVIS_TAG = '${TRAVIS_TAG}'"
   - echo "TRAVIS_BRANCH = '${TRAVIS_BRANCH}'"
+
+  - PROJECT_GIT_DIR="$PWD"
+  - echo "PROJECT_GIT_DIR = '${PROJECT_GIT_DIR}'"
+  - dir "${PROJECT_GIT_DIR}" 
 
   - GCCDumpMachine=`gcc -dumpmachine`
   - GPPDumpMachine=`g++ -dumpmachine`
@@ -78,28 +57,31 @@ install:
   - echo "CpuArchitecture = '${CpuArchitecture}'"  # x86_64
 
   - echo "Boost"
-#  - sudo apt-get install libboost-all-dev # Not good : may install wrong version libboost-all-1.54.0
-#  - whereis boost # /usr/include/boost
+  - MY_BOOST_DIR="${TRAVIS_BUILD_DIR}/boost"
+  - Boost_ROOT="${MY_BOOST_DIR}/boost_1_77_0"
+  - export Boost_ROOT="${Boost_ROOT}"
+  - >
+    if [ -d "${Boost_ROOT}" ]; then
+      echo "Boost is already cached, in '${Boost_ROOT}'"
+    else
+      # Take action if the directory doesn't exist
+      MY_BOOST_URL="https://boostorg.jfrog.io/artifactory/main/release/1.77.0/source/boost_1_77_0.tar.bz2"
+      MY_BOOST_DOWNLOAD_DIR="$HOME/downloads/boost"
+      echo "Downloading Boost..."
+      mkdir -p ${MY_BOOST_DOWNLOAD_DIR}
+      curl --location --output ${MY_BOOST_DOWNLOAD_DIR}/boost_1_77_0.tar.bz2 ${MY_BOOST_URL}
+      # curl -L, --location: in case there is a redirect found
+      echo "Installing Boost..."
+      # Current Directory = /home/travis/build/setvisible/DownZemAll
+      echo "Extracting Boost archive to ${MY_BOOST_DIR}..."
+      mkdir -p ${MY_BOOST_DIR}
+      tar --bzip2 -x -f ${MY_BOOST_DOWNLOAD_DIR}/boost_1_77_0.tar.bz2 -C ${MY_BOOST_DIR}
+    fi
 
-  - echo "Downloading Boost..."
-  - MY_BOOST_DOWNLOAD_DIR="./3rd/boost/1.79.0/unix"
-  - mkdir ${MY_BOOST_DOWNLOAD_DIR}
-  - curl --location --output ${MY_BOOST_DOWNLOAD_DIR}/boost_1_79_0.tar.bz2 https://boostorg.jfrog.io/artifactory/main/release/1.79.0/source/boost_1_79_0.tar.bz2
-    # curl -L, --location: in case there is a redirect found
-
-  - echo "Installing Boost..."
-# Current Directory = /home/travis/build/setvisible/DownZemAll
-  - MY_BOOST_DIR="$HOME/boost_1_79_0"
-  - echo "Extracting Boost archive to ${MY_BOOST_DIR}..."
-  - mkdir ${MY_BOOST_DIR}
-  - tar --bzip2 -x -f ${MY_BOOST_DOWNLOAD_DIR}/boost_1_79_0.tar.bz2 -C ${MY_BOOST_DIR}
-#  - echo "Add Boost to environment PATH..."
-#  - export PATH="$PATH:${MY_BOOST_DIR}/boost_1_79_0"
-
-
-# split all with ':' in PATH and echo each line so that it's easier to read
-  - echo PATH =
-  - for i in `sed 's/:/\n/g' <<< "$PATH"`; do echo $i; done
+  # split all with ':' in PATH and echo each line so that it's easier to read
+  - >
+    echo "PATH = ";
+    for i in `sed 's/:/\n/g' <<< "$PATH"`; do echo $i; done
 
 
 #---------------------------------#
@@ -107,32 +89,61 @@ install:
 #---------------------------------#
 
 before_script:
+  - cmake --version             # cmake version 3.16.8
+  - ctest --version             # ctest version 3.16.8
+  - ${CXX_COMPILER} --version   # g++-11 (Ubuntu 11.2.0-19ubuntu1) 11.2.0
+  - ${C_COMPILER} --version     # gcc-11 (Ubuntu 11.2.0-19ubuntu1) 11.2.0
+
 # Current Directory = /home/travis/build/setvisible/DownZemAll
-  - mkdir ./../build-cmake
-  - cd ./../build-cmake
+  - LibtorrentRasterbar_ROOT="${TRAVIS_BUILD_DIR}/install-libtorrent"
+
+  - >
+    if [ -d "${LibtorrentRasterbar_ROOT}" ]; then
+      echo "LibtorrentRasterbar is already cached, in '${LibtorrentRasterbar_ROOT}'"
+    else
+      # Take action if the directory doesn't exist
+      MY_LIBTORRENT_SOURCE_DIR="${PROJECT_GIT_DIR}/3rd/libtorrent-rasterbar"
+      MY_LIBTORRENT_BUILD_DIR="$HOME/build-libtorrent"
+      echo "Building LibTorrent in '${MY_LIBTORRENT_BUILD_DIR}'"
+      echo "installing LibTorrent in '${LibtorrentRasterbar_ROOT}'"
+      mkdir -p "${MY_LIBTORRENT_BUILD_DIR}"
+      mkdir -p "${LibtorrentRasterbar_ROOT}"
+      cd "${MY_LIBTORRENT_BUILD_DIR}"
+      dir
+      dir ${MY_LIBTORRENT_SOURCE_DIR}
+      cmake "${MY_LIBTORRENT_SOURCE_DIR}" -DCMAKE_C_COMPILER="${C_COMPILER}" -DCMAKE_CXX_COMPILER="${CXX_COMPILER}" -DCMAKE_CXX_FLAGS="${CXX_FLAGS}" -DCMAKE_INSTALL_PREFIX="${LibtorrentRasterbar_ROOT}" -DBOOST_ROOT:PATH="${Boost_ROOT}" -DBUILD_SHARED_LIBS=OFF -Dstatic_runtime=ON -DENABLE_TESTS=ON -Ddeprecated-functions=ON -DCMAKE_BUILD_TYPE="${BUILD_TYPE}"
+      cmake --build .
+      ctest -N                # -N gets the list of all the tests in CTest
+      ctest . --verbose 
+      cmake --build . --target install     
+    fi
+
+  - dir ${LibtorrentRasterbar_ROOT}
 
 
 script:
-  - cmake --version             # cmake version 3.9.2
-  - ${CXX_COMPILER} --version   # g++-5 (Ubuntu 5.5.0-12ubuntu1~14.04) 5.5.0 20171010
-  - ${C_COMPILER} --version     # gcc-5 (Ubuntu 5.5.0-12ubuntu1~14.04) 5.5.0 20171010
-  - cmake ./../DownZemAll -DCMAKE_CXX_COMPILER=${CXX_COMPILER}
-      -DCMAKE_C_COMPILER=${C_COMPILER}
-      -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
-      -DCMAKE_INSTALL_PREFIX="./../install-DownZemAll-cmake"
-      -DENABLE_TESTS=ON
-      -DBOOST_ROOT:PATH=${MY_BOOST_DIR}/boost_1_79_0
-  - cmake --build .
+  - MY_PROJECT_SOURCE_DIR="${PROJECT_GIT_DIR}"
+  - MY_PROJECT_BUILD_DIR="$HOME/build-project"
+  - MY_PROJECT_INSTALL_DIR="$HOME/install-project"
 
-#---------------------------------#
-#            tests                #
-#---------------------------------#
+  - mkdir ./../build-cmake
+  - cd ./../build-cmake
 
-# to run your custom scripts instead of automatic tests
-#test_script:
-  - ctest --version
-  - ctest -N                # -N gets the list of all the tests in CTest
-  - ctest . --verbose       # <verbose> shows all the test methods
+  - echo "Building Project in '${MY_PROJECT_BUILD_DIR}'"
+  - echo "installing Project in '${MY_PROJECT_INSTALL_DIR}'"
+  - mkdir -p "${MY_PROJECT_BUILD_DIR}"
+  - mkdir -p "${MY_PROJECT_INSTALL_DIR}"
+  - cd "${MY_PROJECT_BUILD_DIR}"
+  - dir
+  - dir ${MY_PROJECT_SOURCE_DIR}
+
+      # -G "${CMAKE_GENERATOR}"
+
+# Travis CI uploads the cache after the script phase of the build, but before either after_success or after_failure 
+cache:
+  directories:
+    - ${Boost_ROOT}
+    - ${LibtorrentRasterbar_ROOT}
 
 
 #---------------------------------#
@@ -140,62 +151,12 @@ script:
 #---------------------------------#
 
 # scripts to run after tests
-#after_test:
+after_test:
   - cmake --build . --target install
+  - strip "./../install-DownZemAll-cmake/DownZemAll"  # removes debug information from executable binary
 
-  - strip "./../install-DownZemAll-cmake/DownZemAll"
-
-#---------------------------------#
-#      artifacts configuration    #
-#---------------------------------#
-# archiving
-  - mkdir -p ./../Distrib
-  - cd ./../Distrib
-
-  - FILE_NAME="DownZemAll_v${AppVersion}_${CpuArchitecture}"   # ex: DownZemAll_v1.2.0_x86_64
-
-# creating tarball
-# ================
-  - TARBALL_NAME="${FILE_NAME}.tar.gz"
-  - tar -zcvf ${TARBALL_NAME} -C ./../install-DownZemAll-cmake .
-
-
-# creating AppImage
-# =================
-# *** Note that AppImage can only run DownZemAll.
-# *** In other words the launcher cannot be used here.
-# *** So the filename is suffixed with mention '_no_launcher'
-  - APPIMAGE_NAME="${FILE_NAME}_no_launcher.AppImage"
-
-#   Setup
-  - mkdir -p ./../appimage-build
-  - cd ./../appimage-build
-  - cp ./../DownZemAll/installer/unix/appimage/tools/linuxdeploy-x86_64.AppImage .
-  - cp ./../DownZemAll/installer/unix/appimage/tools/appimagetool-x86_64.AppImage .
-  - chmod +x *.AppImage
-  - mkdir -p AppDir
-  - test -d AppDir || echo "ERROR - could not create AppImage archive."
-
-#   Deploy
-  - ./linuxdeploy-x86_64.AppImage
-      --appdir AppDir
-      -e ./../install-DownZemAll-cmake/DownZemAll
-      -d ./../DownZemAll/installer/unix/appimage/DownZemAll.desktop
-      -i ./../DownZemAll/installer/unix/appimage/DownZemAll.svg
-
-#   Other files must be added manually :(
-  - cp ./../install-DownZemAll-cmake/LICENSE ./AppDir/usr/bin/
-  - cp ./../install-DownZemAll-cmake/TROUBLESHOOTING.md ./AppDir/usr/bin/
-  - cp ./../install-DownZemAll-cmake/yt-dlp ./AppDir/usr/bin/
-  - mkdir -p ./AppDir/usr/bin/locale
-  - cp ./../install-DownZemAll-cmake/locale/* ./AppDir/usr/bin/locale/
-
-#   Build
-  - ./appimagetool-x86_64.AppImage AppDir
-  - mv ./DownZemAll-x86_64.AppImage "./../Distrib/${APPIMAGE_NAME}"
-
-
-  - cd ./../Distrib
+  - dir ${MY_PROJECT_INSTALL_DIR}
+  - ls -al ${MY_PROJECT_INSTALL_DIR}
 
 
 #---------------------------------#
@@ -204,26 +165,12 @@ script:
 
 #before_deploy:
 
-deploy:
-  provider: releases
-  api_key: $TOKEN       # Set in the settings page of your repository, as a secure variable
-  file_glob: true       # Enable wildcard pattern
-  file:
-    - "*.tar.gz"
-    - "*.AppImage"
-  skip_cleanup: true
-  draft: true           # Draft Release 
-  prerelease: false
-  on:
-    branch: master      # release from master branch only
-    tags: true          # deploy on tag push only
-
 #after_deploy:
-
 
 after_success:
   - echo "success"
  
 after_failure:
   - echo "failure"
-
+  - cat "${MY_LIBTORRENT_BUILD_DIR}/CMakeFiles/CMakeOutput.log"
+  - cat "${MY_PROJECT_BUILD_DIR}/CMakeFiles/CMakeOutput.log"
