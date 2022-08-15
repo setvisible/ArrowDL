@@ -1,0 +1,525 @@
+name: Deployment
+
+concurrency: production
+
+on:
+  push:
+    branches:
+      - "master"
+      - "develop"
+      - "github-actions"
+      - "gha-*"
+
+env:
+  CXX_FLAGS: "-Wall -Wextra -Wpedantic -Wvla -Wno-noexcept-type -Wno-format-zero-length -ftemplate-depth=512 -Wno-attributes -Wno-narrowing -Wno-overflow -Wno-redundant-move -Wno-maybe-uninitialized" # -Wa,-mbig-obj"
+  BUILD_TYPE: "Release" # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BOOST_VERSION: 1.77.0
+  BOOST_PATH: ${{github.workspace}}/../install/boost/
+  #rem qt_standard_project_setup()  was introduced in Qt 6.3.
+  Qt6_VERSION: 6.3.1
+  LibtorrentRasterbar_SOURCE_DIR: ${{github.workspace}}/3rd/libtorrent-rasterbar
+  LibtorrentRasterbar_BUILD_DIR: ${{github.workspace}}/00/build/libtorrent-rasterbar
+  LibtorrentRasterbar_INSTALL_DIR: ${{github.workspace}}/00/install/libtorrent-rasterbar
+  #                                                      ^^
+  # HACK cache@v3: using '/00/' instead of '/../': Relative pathing '.' and '..' is not allowed.
+  LibtorrentRasterbar_VERSION_FILE: ${{github.workspace}}/3rd/libtorrent-rasterbar/include/libtorrent/version.hpp
+  Application_VERSION_FILE: ${{github.workspace}}/version
+  Changelog_FILE_NAME: ${{github.workspace}}/00/GIT-CHANGELOG.txt
+  Project_SOURCE_DIR: ${{github.workspace}}
+  Project_BUILD_DIR: ${{github.workspace}}/00/build/project
+  Project_INSTALL_DIR: ${{github.workspace}}/00/install/project
+  Project_RELEASE_DIR: ${{github.workspace}}/00/release
+
+jobs:
+  job-web-addons:
+    name: "Build WebBrowser Addons"
+    runs-on: ubuntu-latest  # Ubuntu seems faster than Windows
+    environment: production
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v3
+
+    - name: Create WebBrowser Addons
+      id: webaddons
+      shell: python
+      working-directory: "${{env.Project_SOURCE_DIR}}/web-extension/extension"
+      run: |
+           import sys
+           sys.path.append(".")
+           
+           import os
+           import shutil
+           from make import make_addons
+           
+           current_path = r"${{env.Project_SOURCE_DIR}}/web-extension/extension"
+           output_path = "${{env.Project_SOURCE_DIR}}/web-extension/extension"
+           result = make_addons(current_path=current_path, output_path=output_path)
+           
+           artifact_chromium = result['chromium']
+           artifact_firefox = result['firefox']
+           
+           if "GITHUB_OUTPUT" in os.environ:
+               with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                   print(f"Addon_Web_Extension_Chromium={ artifact_chromium }", file=f)
+                   print(f"Addon_Web_Extension_Firefox={ artifact_firefox }", file=f)
+
+    - name: Upload Chromium Addon
+      uses: actions/upload-artifact@v3
+      with:
+        name: artifact_chromium
+        path: ${{ steps.webaddons.outputs.Addon_Web_Extension_Chromium }}
+
+    - name: Upload Firefox Addon
+      uses: actions/upload-artifact@v3
+      with:
+        name: artifact_firefox
+        path: ${{ steps.webaddons.outputs.Addon_Web_Extension_Firefox }}
+
+  job-build-project:
+    name: "Build Project on ${{matrix.os}}"
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest # == ubuntu-20.04: for Linux builds, Qt6 requires Ubuntu 20.04 or later.
+            qt_host: 'linux'
+            qt_target: 'desktop'
+            qt_arch: 'gcc_64'
+            qt_tools: 'tools_openssl_x64'
+            Qt6_CUSTOM_INSTALL_PATH: "/home/runner/work/DownZemAll/qt/"
+            DIRECTIVE_CMAKE_GENERATOR: ''
+            INSTALL_BOOST_PLATFORM_VERSION: '18.04'  # 18.04, 20.04 Rem: Ubuntu 20.04 doesn't have Boost 1.77.0
+            INSTALL_BOOST_TOOLSET: '' # gcc Rem: Setting the toolset with boost version < 1.78.0 may cause issues
+            INSTALL_BOOST_ARCH: '' # x86
+          - os: windows-latest
+            qt_host: 'windows'
+            qt_target: 'desktop'
+            qt_arch: 'win64_mingw'
+            qt_tools: 'tools_openssl_x64'
+            Qt6_CUSTOM_INSTALL_PATH: "D:\\a\\DownZemAll\\qt\\"
+            DIRECTIVE_CMAKE_GENERATOR: '-G "MinGW Makefiles"'
+            INSTALL_BOOST_PLATFORM_VERSION: '2019' # 2019, 2022
+            INSTALL_BOOST_TOOLSET: '' # mingw, msvc Rem: Setting the toolset with boost version < 1.78.0 may cause issues
+            INSTALL_BOOST_ARCH: '' # x86
+
+    runs-on: ${{matrix.os}}
+
+    environment: production
+
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v3
+
+#    - name: Clean Environment 
+#      shell: python # otherwise Windows uses Powershell, Linux uses bash
+#      run: |
+#           import os
+#           
+#           print("Clean Relative pathing in ENV,")
+#           print("to avoir error of 'Invalid pattern 'a/../././b'.")
+#           print("Relative pathing '.' and '..' is not allowed.")
+#           
+#           output_pairs = {
+#               'LibtorrentRasterbar_SOURCE_DIR': "${{env.LibtorrentRasterbar_SOURCE_DIR}}",
+#               'LibtorrentRasterbar_BUILD_DIR': "${{env.LibtorrentRasterbar_BUILD_DIR}}",
+#               'LibtorrentRasterbar_INSTALL_DIR': "${{env.LibtorrentRasterbar_INSTALL_DIR}}",
+#               'LibtorrentRasterbar_VERSION_FILE': "${{env.LibtorrentRasterbar_VERSION_FILE}}",
+#               'Application_VERSION_FILE': "${{env.Application_VERSION_FILE}}",
+#               'Changelog_FILE_NAME': "${{env.Changelog_FILE_NAME}}",
+#               'Project_SOURCE_DIR': "${{env.Project_SOURCE_DIR}}",
+#               'Project_BUILD_DIR': "${{env.Project_BUILD_DIR}}",
+#               'Project_INSTALL_DIR': "${{env.Project_INSTALL_DIR}}",
+#               'Project_RELEASE_DIR': "${{env.Project_RELEASE_DIR}}",
+#           }
+#           
+#           if "GITHUB_OUTPUT" in os.environ:
+#               with open(os.environ["GITHUB_OUTPUT"], "a") as my_file:
+#                   for key, value in output_pairs.items():
+#                       new_value = os.path.normpath(value)
+#                       print(f"Modify {key}")
+#                       print(f" from: {value}")
+#                       print(f" to  : {new_value}")
+#                       print(f"{key}={new_value}", file=my_file)
+#
+    - name: Prepare Directories
+      shell: python # otherwise Windows uses Powershell, Linux uses bash
+      run: |
+           import os
+           
+           directories = [
+               r"${{env.LibtorrentRasterbar_BUILD_DIR}}",
+               r"${{env.LibtorrentRasterbar_INSTALL_DIR}}",
+               r"${{env.Project_BUILD_DIR}}",
+               r"${{env.Project_INSTALL_DIR}}",
+               r"${{env.Project_RELEASE_DIR}}",
+           ]
+           
+           for directory in directories:
+               if not os.path.isdir(directory):
+                   os.makedirs(directory)
+                   print(f"Created: {directory}")
+
+    - name: Read VERSION files
+      id: getversion
+      working-directory: "${{env.Project_SOURCE_DIR}}"
+      shell: python
+      run: |
+           import os
+           import re
+           
+           regex_major = re.compile(r"#define LIBTORRENT_VERSION_MAJOR (?P<value>\d+)")
+           regex_minor = re.compile(r"#define LIBTORRENT_VERSION_MINOR (?P<value>\d+)")
+           regex_tiny = re.compile(r"#define LIBTORRENT_VERSION_TINY (?P<value>\d+)")
+           
+           with open(r"${{env.Application_VERSION_FILE}}", "rt") as my_file:
+               application_version = my_file.readline()
+               application_version = ''.join(application_version.split())
+           
+           with open(r"${{env.LibtorrentRasterbar_VERSION_FILE}}", "rt") as my_file:
+               for line in my_file:
+                   x = regex_major.search(line)
+                   if x is not None:
+                       version_major = x.group('value')
+                   x = regex_minor.search(line)
+                   if x is not None:
+                       version_minor = x.group('value')
+                   x = regex_tiny.search(line)
+                   if x is not None:
+                       version_tiny = x.group('value')
+           
+           if version_major is not None and len(str(version_major)) > 0:
+               libtorrent_version = f"{version_major}.{version_minor}.{version_tiny}"
+           else:
+               libtorrent_version = ""
+           
+           cpu_arch = "x86_64"
+           
+           output_pairs = {
+               'Application_VERSION': application_version,
+               'LibtorrentRasterbar_VERSION': libtorrent_version,
+               'Application_NAME': f"DownZemAll_v{application_version}_{cpu_arch}",  # ex: DownZemAll_v1.2.0_x86_64
+           }
+           
+           if "GITHUB_OUTPUT" in os.environ:
+               with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                   for key, value in output_pairs.items():
+                       if value is None or str(value) == "":
+                           print(f"Error: Empty value for '{key}' in {output_pairs}.")
+                           exit(1)
+                       print(f"{key}={value}", file=f)
+
+    - name: Echo Versions
+      env:
+        Application_VERSION: ${{ steps.getversion.outputs.Application_VERSION }}
+        LibtorrentRasterbar_VERSION: ${{ steps.getversion.outputs.LibtorrentRasterbar_VERSION }}
+      shell: bash # otherwise Windows uses Powershell
+      run: |
+           echo "Application_VERSION: '${{env.Application_VERSION}}'"
+           echo "LibtorrentRasterbar_VERSION: '${{env.LibtorrentRasterbar_VERSION}}'"
+
+    - name: Cache Libtorrent Static Libraries
+      uses: actions/cache@v3
+      id: cache-libtorrent
+      env:
+        LibtorrentRasterbar_VERSION: ${{ steps.getversion.outputs.LibtorrentRasterbar_VERSION }}
+      with:
+        key: libtorrent-rasterbar-${{ matrix.os }}-v${{env.LibtorrentRasterbar_VERSION}}
+        restore-keys: |
+          libtorrent-rasterbar-${{ matrix.os }}
+        path: |
+          ${{env.LibtorrentRasterbar_INSTALL_DIR}}
+
+    - name: Install Boost
+      uses: MarkusJx/install-boost@v2.4.3
+      id: install-boost
+      with:
+        boost_version: ${{env.BOOST_VERSION}}
+        boost_install_dir: ${{env.BOOST_PATH}}
+        platform_version: ${{matrix.INSTALL_BOOST_PLATFORM_VERSION}}
+        toolset: ${{matrix.INSTALL_BOOST_TOOLSET}}
+        arch: ${{matrix.INSTALL_BOOST_ARCH}}
+        cache: true
+
+    - name: List files in Boost
+      shell: bash
+      env:
+        Installed_Boost_VER: ${{ steps.install-boost.outputs.Boost_VER }}
+        Installed_Boost_ROOT: ${{ steps.install-boost.outputs.Boost_ROOT }}
+      run: |
+           echo "Installed version: ${{env.Installed_Boost_VER}}"
+           echo "Installation Dir: ${{env.Installed_Boost_ROOT}}"
+           echo ""
+           cd "${{env.Installed_Boost_ROOT}}"
+           ls -al
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      # Rem: Once installed, ${{env.Qt6_DIR}} is set.
+      with:
+        aqtversion: '==2.1.*'
+        version: ${{env.Qt6_VERSION}}
+        dir: ${{matrix.Qt6_CUSTOM_INSTALL_PATH}}
+        host: ${{matrix.qt_host}}
+        target: ${{matrix.qt_target}}
+        arch: ${{matrix.qt_arch}}
+        tools: ${{matrix.qt_tools}}
+        cache: true
+
+    - name: List files in Qt
+      shell: bash
+      run: cd "${{env.Qt6_DIR}}" && ls -al
+
+    - name: Find OpenSSL in Qt6
+      # The thing is that "env.Qt6_DIR" is defined only at runtime, *after* install-qt-action has run.
+      id: qt6openssl
+      shell: python
+      run: |
+           import os
+           
+           if "${{ matrix.os }}" == "windows-latest":
+               openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSL", "Win_x64"))
+           
+           if "${{ matrix.os }}" == "ubuntu-latest":
+               openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSL", "binary"))
+           
+           if "GITHUB_OUTPUT" in os.environ:
+               with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                   print(f"OpenSSL_ROOT_DIR={ openssl_dir }", file=f)
+
+    - name: List files in OpenSSL
+      shell: bash
+      env:
+        OpenSSL_ROOT_DIR: ${{ steps.qt6openssl.outputs.OpenSSL_ROOT_DIR }}
+      run: |
+           cd "${{env.OpenSSL_ROOT_DIR}}"
+           ls -al
+           cd "${{env.OpenSSL_ROOT_DIR}}/lib/"
+           ls -al
+           cd "${{env.OpenSSL_ROOT_DIR}}/include/"
+           ls -al
+           cd "${{env.OpenSSL_ROOT_DIR}}/bin/"
+           ls -al
+
+    - name: Configure Libtorrent
+      if: ${{ steps.cache-libtorrent.outputs.cache-hit != 'true' }}
+      env:
+        Boost_ROOT: ${{ steps.install-boost.outputs.Boost_ROOT }}
+        Qt6_Dir2: ${{env.Qt6_DIR}}
+        DIRECTIVE_CMAKE_GENERATOR: ${{matrix.DIRECTIVE_CMAKE_GENERATOR}}
+        BUILD_TESTS: "OFF" # OFF because they take 10+ minutes to build and 776.74 sec to run tests on Ubuntu
+        DEPRECATED_FUNCTIONS: "ON" # OFF disables deprecated functions
+      working-directory: "${{env.LibtorrentRasterbar_BUILD_DIR}}"
+      run:
+        cmake "${{env.LibtorrentRasterbar_SOURCE_DIR}}"
+          ${{env.DIRECTIVE_CMAKE_GENERATOR}}
+          -DCMAKE_PREFIX_PATH="${{env.Qt6_Dir2}}"
+          -DCMAKE_CXX_FLAGS="${{env.CXX_FLAGS}}"
+          -DCMAKE_INSTALL_PREFIX="${{env.LibtorrentRasterbar_INSTALL_DIR}}"
+          -DBoost_ROOT:PATH="${{env.Boost_ROOT}}"
+          -DBUILD_SHARED_LIBS=OFF
+          -Dstatic_runtime=ON
+          -Dbuild_tests=${{env.BUILD_TESTS}}
+          -Ddeprecated-functions=${{env.DEPRECATED_FUNCTIONS}}  
+          -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}"
+
+    - name: Build Libtorrent
+      if: ${{ steps.cache-libtorrent.outputs.cache-hit != 'true' }}
+      working-directory: "${{env.LibtorrentRasterbar_BUILD_DIR}}"
+      run: cmake --build . --config "${{env.BUILD_TYPE}}"
+
+    - name: Test Libtorrent
+      if: ${{ steps.cache-libtorrent.outputs.cache-hit != 'true' }}
+      working-directory: "${{env.LibtorrentRasterbar_BUILD_DIR}}"
+      run: |
+           ctest -N  # -N gets the list of all the tests in CTest
+           ctest . --verbose
+
+    - name: Install Libtorrent
+      if: ${{ steps.cache-libtorrent.outputs.cache-hit != 'true' }}
+      working-directory: "${{env.LibtorrentRasterbar_BUILD_DIR}}"
+      run: cmake --build . --target install
+
+    - name: List files in Libtorrent
+      shell: bash
+      run: cd "${{env.LibtorrentRasterbar_INSTALL_DIR}}" && ls -al
+
+    - name: Configure Project
+      env:
+        Boost_ROOT: ${{ steps.install-boost.outputs.Boost_ROOT }}
+        Qt6_Dir2: ${{env.Qt6_DIR}}
+        OpenSSL_ROOT_DIR: ${{ steps.qt6openssl.outputs.OpenSSL_ROOT_DIR }}
+        DIRECTIVE_CMAKE_GENERATOR: ${{matrix.DIRECTIVE_CMAKE_GENERATOR}}
+      working-directory: "${{env.Project_BUILD_DIR}}"
+      run:
+        cmake "${{env.Project_SOURCE_DIR}}"
+          ${{env.DIRECTIVE_CMAKE_GENERATOR}}
+          -DCMAKE_PREFIX_PATH="${{env.Qt6_Dir2}}"
+          -DCMAKE_CXX_FLAGS="${{env.CXX_FLAGS}}"
+          -DCMAKE_INSTALL_PREFIX="${{env.Project_INSTALL_DIR}}"
+          -DOpenSSL_ROOT_DIR="${{env.OpenSSL_ROOT_DIR}}"
+          -DBoost_ROOT:PATH="${{env.Boost_ROOT}}"
+          -DLibtorrentRasterbar_ROOT:PATH="${{env.LibtorrentRasterbar_INSTALL_DIR}}"
+          -DBUILD_LAUNCHER=ON
+          -DBUILD_MAIN_APPLICATION=ON
+          -DBUILD_TESTS=ON
+          -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}"
+
+    - name: Build Project
+      working-directory: "${{env.Project_BUILD_DIR}}"
+      run: cmake --build . --config "${{env.BUILD_TYPE}}"
+
+    - name: Test Project
+      continue-on-error: true
+      working-directory: "${{env.Project_BUILD_DIR}}"
+      run: |
+           ctest -N  # -N gets the list of all the tests in CTest
+           ctest . --verbose
+
+    - name: Install Project
+      working-directory: "${{env.Project_BUILD_DIR}}"
+      run: cmake --build . --target install
+
+    - name: Strip
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      continue-on-error: true
+      working-directory: "${{env.Project_INSTALL_DIR}}"
+      shell: bash
+      run: |
+           echo "Before:"
+           ls -al
+           strip "launcher"
+           strip "DownZemAll"
+           echo ""
+           echo "After:"
+           ls -al
+
+    - name: Zip
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      working-directory: "${{env.Project_RELEASE_DIR}}"
+      shell: bash
+      env:
+        TARBALL_NAME: "${{ steps.getversion.outputs.Application_NAME }}.tar.gz"
+      run: |
+           tar -zcvf ${{env.TARBALL_NAME}} -C "${{env.Project_INSTALL_DIR}}" .
+           cd "${{env.Project_INSTALL_DIR}}"
+           ls -al
+
+    - name: Upload Linux Portable
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      uses: actions/upload-artifact@v3
+      env:
+        TARBALL_NAME: "${{ steps.getversion.outputs.Application_NAME }}.tar.gz"
+      with:
+        name: artifact_linux_portable
+        path: "${{env.Project_RELEASE_DIR}}/${{env.TARBALL_NAME}}"
+
+    - name: Create NSIS installer
+      if: ${{ matrix.os == 'windows-latest' }}
+      uses: joncloud/makensis-action@v3.7
+      env:
+        Application_VERSION: ${{ steps.getversion.outputs.Application_VERSION }}
+      with:
+        script-file: "${{env.Project_SOURCE_DIR}}/installer/windows/NSIS/setup.nsi"
+        arguments: '/DPATH_OUT="${{env.Project_RELEASE_DIR}}" /DVERSION="${{env.Application_VERSION}}" /DPLATFORM="x64" /DBIN_PATH="${{env.Project_INSTALL_DIR}}"'
+
+    - name: List files in Project
+      if: ${{ matrix.os == 'windows-latest' }}
+      shell: bash
+      run: cd "${{env.Project_INSTALL_DIR}}" && ls -al
+
+    - name: Rename NSIS installer
+      if: ${{ matrix.os == 'windows-latest' }}
+      shell: python
+      run: |
+           import os
+           os.rename(
+               r"${{env.Project_RELEASE_DIR}}/DownZemAllSetup.exe",
+               r"${{env.Project_RELEASE_DIR}}/DownZemAll_x64_Setup.exe"
+           )
+
+    - name: Upload Windows 64 Installer
+      if: ${{ matrix.os == 'windows-latest' }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: artifact_windows_64_installer
+        path: "${{env.Project_RELEASE_DIR}}/DownZemAll_x64_Setup.exe"
+
+  job-deploy:
+    needs: [job-web-addons, job-build-project]
+    name: "Deploy"
+    runs-on: ubuntu-latest  # Ubuntu seems faster than Windows
+    environment: production
+    steps:
+    - name: Prepare Directories
+      shell: python
+      run: |
+           import os
+           directory = r"${{env.Project_RELEASE_DIR}}"
+           if not os.path.isdir(directory):
+               os.makedirs(directory)
+
+    - name: Download Chromium Addon
+      uses: actions/download-artifact@v3
+      with:
+        name: artifact_chromium
+        path: "${{env.Project_RELEASE_DIR}}"
+
+    - name: Download Firefox Addon
+      uses: actions/download-artifact@v3
+      with:
+        name: artifact_firefox
+        path: "${{env.Project_RELEASE_DIR}}"
+
+    - name: Download Linux Portable
+      uses: actions/download-artifact@v3
+      with:
+        name: artifact_linux_portable
+        path: "${{env.Project_RELEASE_DIR}}"
+
+    - name: Download Windows 64 Installer
+      uses: actions/download-artifact@v3
+      with:
+        name: artifact_windows_64_installer
+        path: "${{env.Project_RELEASE_DIR}}"
+ 
+    - name: List files in Release
+      shell: bash
+      working-directory: "${{env.Project_RELEASE_DIR}}"
+      run: ls -al
+
+    - name: Generate Release Note
+      shell: python
+      run: |
+           #git log refs/heads/develop..${{ github.ref }} --oneline
+           lines = [
+               "## New:",
+               "",
+               "## Fixed:",
+               "",
+               "- [Category] First Change",
+               "- [Category] Second Change",
+               "",
+               "## Updated:",
+               "",
+           ]
+           with open(r"${{env.Changelog_FILE_NAME}}", 'wt') as my_file:
+               for line in lines:
+                   my_file.write(line)
+                   my_file.write("\r\n")
+
+    - name: Publish
+      uses: softprops/action-gh-release@v0.1.15
+      #if: startsWith(github.ref, 'refs/tags/') # Limit releases to pushes to tags
+      env:
+        BRANCH_OR_TAG_NAME: ${{ github.head_ref || github.ref_name }}
+      with:
+        tag_name: ${{env.BRANCH_OR_TAG_NAME}}
+        name: DownZemAll ${{env.BRANCH_OR_TAG_NAME}}
+        body_path: ${{env.Changelog_FILE_NAME}}
+        append_body: true
+        generate_release_notes: true
+        draft: true
+        prerelease: false
+        token: ${{ secrets.GITHUB_TOKEN }}
+        files: ${{env.Project_RELEASE_DIR}}/*

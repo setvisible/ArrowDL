@@ -10,16 +10,9 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/downzemall?label=Follow)](https://twitter.com/downzemall)
 
 
-| Windows | Linux/MacOS |
-|---------|-----------|
-| [![Build status](https://ci.appveyor.com/api/projects/status/github/setvisible/downzemall?branch=master&svg=true)](https://ci.appveyor.com/project/setvisible/downzemall) | [![Build status](https://api.travis-ci.com/setvisible/downzemall.svg?branch=master)](https://app.travis-ci.com/github/setvisible/downzemall) |
-
-
-Actions
-
 | master | develop |
 |---------|-----------|
-| [![Built with GitHub Actions](https://github.com/setvisible/downzemall/actions/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/setvisible/DownZemAll/actions "Go to GitHub Actions") | [![Built with GitHub Actions](https://github.com/setvisible/downzemall/actions/workflows/deploy.yml/badge.svg?branch=develop)](https://github.com/setvisible/DownZemAll/actions "Go to GitHub Actions") |
+| [![Built with GitHub Actions](https://github.com/setvisible/downzemall/actions/workflows/deployment.yml/badge.svg?branch=master)](https://github.com/setvisible/DownZemAll/actions "Go to GitHub Actions") | [![Built with GitHub Actions](https://github.com/setvisible/downzemall/actions/workflows/deployment.yml/badge.svg?branch=develop)](https://github.com/setvisible/DownZemAll/actions "Go to GitHub Actions") |
 
 
 *DownZemAll!* is a rewrite of the legacy software [DownThemAll!](https://en.wikipedia.org/wiki/DownThemAll! "https://en.wikipedia.org/wiki/DownThemAll!") which was an extension for Mozilla Firefox, but whose development stopped around 2016, when Mozilla Firefox migrated to WebExtensions.
@@ -28,7 +21,7 @@ Actions
 
 It aims to work with latest versions of Mozilla Firefox (powered by *WebExtensions*), and other web browsers (Chrome, Edge, Safari...). 
 
-*DownZemAll!* is written in C++ and based on the [Qt5](https://www.qt.io/ "https://www.qt.io/") framework.
+*DownZemAll!* is written in C++ and based on the [Qt](https://www.qt.io/ "https://www.qt.io/") framework.
 
 [![Built with Qt](./screenshots/built_with_qt.png)](https://www.qt.io/ "Go to Qt official site - www.qt.io")
 

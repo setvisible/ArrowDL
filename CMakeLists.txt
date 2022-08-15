@@ -46,13 +46,24 @@ function(parse_version filename)
     set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS version)
 
     # split version string into components, note CMAKE_MATCH_0 is the entire regexp match
-    string(REGEX MATCH "([0-9]+)\\.([0-9]+)\\.([0-9]+)" APP_VERSION ${DOWNZEMALL_VERSION} )
+    string(REGEX MATCH "([0-9]+)\\.([0-9]+)\\.([0-9]+)" output_variable ${DOWNZEMALL_VERSION} )
+
+    set(APP_VERSION ${output_variable} PARENT_SCOPE)
     set(APP_VERSION_MAJOR ${CMAKE_MATCH_1} PARENT_SCOPE)
     set(APP_VERSION_MINOR ${CMAKE_MATCH_2} PARENT_SCOPE)
     set(APP_VERSION_PATCH ${CMAKE_MATCH_3} PARENT_SCOPE)
 endfunction()
 
 parse_version("${CMAKE_SOURCE_DIR}/version")
+
+message("------------------------------------------------------------------------")
+message("FYI, current version file:")
+message(" - APP_VERSION = ${APP_VERSION}")
+message(" - APP_VERSION_MAJOR = ${APP_VERSION_MAJOR}")
+message(" - APP_VERSION_MINOR = ${APP_VERSION_MINOR}")
+message(" - APP_VERSION_PATCH = ${APP_VERSION_PATCH}")
+message("------------------------------------------------------------------------")
+message("")
 
 project("DownZemAll"
     DESCRIPTION
@@ -62,9 +73,9 @@ project("DownZemAll"
         ${APP_VERSION_MAJOR}.${APP_VERSION_MINOR}.${APP_VERSION_PATCH}
 )
 
-# find_package(BoostForLibtorrent)
+find_package(BoostForLibtorrent)
 find_package(OpenSSLPreferablyFromQt6)
-# find_package(LibtorrentRasterbar)
+find_package(LibtorrentRasterbar)
 
 if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
 
@@ -94,6 +105,7 @@ message(" - OPENSSL_INCLUDE_DIRS = ${OPENSSL_INCLUDE_DIRS}")
 message(" - OPENSSL_CRYPTO_LIBRARY = ${OPENSSL_CRYPTO_LIBRARY}")
 message(" - OPENSSL_SSL_LIBRARY = ${OPENSSL_SSL_LIBRARY}")
 message("------------------------------------------------------------------------")
+message("")
 
 set(CMAKE_CXX_STANDARD 20)  # Qt6 requires a compiler supporting C++ version 17 or newer.
 set(CMAKE_CXX_STANDARD_REQUIRED ON)  # print an error if the compiler is too old.
