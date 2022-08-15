@@ -15,6 +15,13 @@
 | [![Build status](https://ci.appveyor.com/api/projects/status/github/setvisible/downzemall?branch=master&svg=true)](https://ci.appveyor.com/project/setvisible/downzemall) | [![Build status](https://api.travis-ci.com/setvisible/downzemall.svg?branch=master)](https://app.travis-ci.com/github/setvisible/downzemall) |
 
 
+Actions
+
+| master | develop |
+|---------|-----------|
+| [![Built with GitHub Actions](https://github.com/setvisible/downzemall/actions/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/setvisible/DownZemAll/actions "Go to GitHub Actions") | [![Built with GitHub Actions](https://github.com/setvisible/downzemall/actions/workflows/deploy.yml/badge.svg?branch=develop)](https://github.com/setvisible/DownZemAll/actions "Go to GitHub Actions") |
+
+
 *DownZemAll!* is a rewrite of the legacy software [DownThemAll!](https://en.wikipedia.org/wiki/DownThemAll! "https://en.wikipedia.org/wiki/DownThemAll!") which was an extension for Mozilla Firefox, but whose development stopped around 2016, when Mozilla Firefox migrated to WebExtensions.
 
 *DownZemAll!* is a standalone download manager for Windows, MacOS and Linux. 
