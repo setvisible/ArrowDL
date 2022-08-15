@@ -1,0 +1,172 @@
+name: Deployment
+
+on:
+  push:
+    branches: 
+      - "master"
+      - "develop"
+      - "github-actions"
+
+
+env:
+  # C_COMPILER: gcc-11
+  # CXX_COMPILER: g++-11
+  CXX_FLAGS: "-Wall -Wextra -Wpedantic -Wvla -Wno-noexcept-type -Wno-format-zero-length -ftemplate-depth=512 -Wno-attributes -Wno-narrowing -Wno-overflow -Wno-redundant-move -Wno-maybe-uninitialized" # -Wa,-mbig-obj"
+  BUILD_TYPE: "Release" # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  # Qt6_INSTALL_DIR: "${$RUNNER_WORKSPACE}/qt/" # '${{ github.workspace }}/qt/'
+  # Boost_ROOT: "${$RUNNER_WORKSPACE}/boost/"
+  BOOST_VERSION: 1.77.0
+  BOOST_PATH: ${{github.workspace}}/../install/boost/
+  #rem qt_standard_project_setup()  was introduced in Qt 6.3.
+  Qt6_VERSION: 6.3.1
+  # see https://aqtinstall.readthedocs.io/en/latest/getting_started.html#installing-qt
+  LibtorrentRasterbar_SOURCE_DIR: ${{github.workspace}}/3rd/libtorrent-rasterbar/
+  LibtorrentRasterbar_BUILD_DIR: ${{github.workspace}}/../build/libtorrent-rasterbar/
+  LibtorrentRasterbar_INSTALL_DIR: ${{github.workspace}}/../install/libtorrent-rasterbar/
+  Project_SOURCE_DIR: ${{github.workspace}}/
+  Project_BUILD_DIR: ${{github.workspace}}/../build/project/
+  Project_INSTALL_DIR: ${{github.workspace}}/../install/project/
+
+
+jobs:
+  build-my-project:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest # == ubuntu-20.04: for Linux builds, Qt6 requires Ubuntu 20.04 or later.
+            qt_host: 'linux'
+            qt_arch: ''
+            Qt6_PATH: "/home/runner/work/DownZemAll/qt/"
+            Qt6_ROOT: "" # no need to define "/home/runner/work/DownZemAll/qt/Qt/6.2.4/gcc_64/bin/"
+            DIRECTIVE_CMAKE_GENERATOR: ''
+          - os: windows-latest
+            qt_host: 'windows'
+            qt_arch: 'win64_mingw'
+            Qt6_PATH: "D:\\a\\DownZemAll\\qt\\"
+            Qt6_ROOT: "D:\\a\\DownZemAll\\qt\\Qt\\6.2.4\\mingw_64\\bin\\" # need to define, otherwise it uses msvc compiler
+            DIRECTIVE_CMAKE_GENERATOR: '-G "MinGW Makefiles"'
+          
+    runs-on: ${{matrix.os}}
+
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v3
+
+    - name: Prepare Directories
+      run: |
+           mkdir -p "${{env.LibtorrentRasterbar_BUILD_DIR}}"
+           mkdir -p "${{env.LibtorrentRasterbar_INSTALL_DIR}}"
+           mkdir -p "${{env.Project_BUILD_DIR}}"
+           mkdir -p "${{env.Project_INSTALL_DIR}}"
+
+#    - name: Install Boost
+#      uses: MarkusJx/install-boost@v2.3.1
+#      id: install-boost
+#      with:
+#        boost_version: ${{env.BOOST_VERSION}}
+#        # platform_version: 18.04  # rem1: random, if unset. Rem2: Ubuntu 20.04 doesn't have Boost 1.77.0...
+#        boost_install_dir: ${{env.BOOST_PATH}}
+#        # toolset: gcc
+#        # arch: x86
+#
+#    - name: List files in Boost
+#      env:
+#        BOOST_ROOT: ${{ steps.install-boost.outputs.BOOST_ROOT }}
+#      run: dir ${{env.BOOST_ROOT}}
+#
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        aqtversion: '==2.1.*'
+        version: ${{env.Qt6_VERSION}}
+        dir: ${{matrix.Qt6_PATH}}
+        host: ${{matrix.qt_host}}
+        target: 'desktop'
+        arch: ${{matrix.qt_arch}}
+        # modules: ""
+        # install-deps: 'true'
+
+    - name: List files in Qt
+      run: dir ${{env.Qt6_DIR}}  
+
+#    - name: Configure Libtorrent
+#      env:
+#        Boost_ROOT: ${{ steps.install-boost.outputs.BOOST_ROOT }}
+#        # Qt6_Dir: ${{ steps.install-qt.outputs.Qt6_Dir }}
+#        # Qt6_Dir: ${{env.Qt6_PATH}}${{matrix.Qt6_PATH_SUFFIX}}
+#        Qt6_Dir2: ${{env.Qt6_DIR}}
+#        DIRECTIVE_CMAKE_GENERATOR: ${{matrix.DIRECTIVE_CMAKE_GENERATOR}}
+#      working-directory: "${{env.LibtorrentRasterbar_BUILD_DIR}}"
+#      run:
+#        cmake "${{env.LibtorrentRasterbar_SOURCE_DIR}}"
+#          ${{env.DIRECTIVE_CMAKE_GENERATOR}}
+#          -DCMAKE_PREFIX_PATH="${{env.Qt6_Dir2}}"
+#          -DCMAKE_CXX_FLAGS="${{env.CXX_FLAGS}}"
+#          -DCMAKE_INSTALL_PREFIX="${{env.LibtorrentRasterbar_INSTALL_DIR}}"
+#          -DBOOST_ROOT:PATH="${{env.Boost_ROOT}}"
+#          -DBUILD_SHARED_LIBS=OFF
+#          -Dstatic_runtime=ON
+#          -Dbuild_tests=OFF
+#          -Ddeprecated-functions=ON
+#          -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}"
+#          # 'build_tests' is OFF because they take 10+ minutes to build and 776.74 sec to run on Ubuntu
+#          # -DCMAKE_C_COMPILER="${{env.C_COMPILER}}"
+#          # -DCMAKE_CXX_COMPILER="${{env.CXX_COMPILER}}"
+#
+#    - name: Build Libtorrent
+#      working-directory: "${{env.LibtorrentRasterbar_BUILD_DIR}}"
+#      run: cmake --build . --config "${{env.BUILD_TYPE}}"
+#      
+#    - name: Test Libtorrent
+#      working-directory: "${{env.LibtorrentRasterbar_BUILD_DIR}}"
+#      run: |
+#           ctest -N                # -N gets the list of all the tests in CTest
+#           ctest . --verbose 
+#
+#    - name: Install Libtorrent
+#      working-directory: "${{env.LibtorrentRasterbar_BUILD_DIR}}"
+#      run: cmake --build . --target install
+#
+#    - name: List files in Libtorrent
+#      run: dir ${{env.LibtorrentRasterbar_INSTALL_DIR}}
+
+    - name: Configure Project
+      env:
+        # Boost_ROOT: ${{ steps.install-boost.outputs.BOOST_ROOT }}
+        Boost_ROOT: ""
+        DIRECTIVE_CMAKE_GENERATOR: ${{matrix.DIRECTIVE_CMAKE_GENERATOR}}
+        # OpenSSL ? Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.a (found version "1.1.1f")  
+      working-directory: "${{env.Project_BUILD_DIR}}"
+      run:
+        cmake "${{env.Project_SOURCE_DIR}}"
+          ${{env.DIRECTIVE_CMAKE_GENERATOR}}
+          -DCMAKE_PREFIX_PATH="${{env.Qt6_Dir2}}"
+          -DCMAKE_CXX_FLAGS="${{env.CXX_FLAGS}}"
+          -DCMAKE_INSTALL_PREFIX="${{env.Project_INSTALL_DIR}}"
+          -DBOOST_ROOT:PATH="${{env.Boost_ROOT}}"
+          -DLibtorrentRasterbar_ROOT:PATH="${{env.LibtorrentRasterbar_INSTALL_DIR}}"
+          -DBUILD_LAUNCHER=ON
+          -DBUILD_MAIN_APPLICATION=OFF
+          -DBUILD_TESTS=OFF
+          -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}"
+          # -DCMAKE_C_COMPILER="${{env.C_COMPILER}}"
+          # -DCMAKE_CXX_COMPILER="${{env.CXX_COMPILER}}"
+
+    - name: Build Project
+      working-directory: "${{env.Project_BUILD_DIR}}"
+      run: cmake --build . --config "${{env.BUILD_TYPE}}"
+      
+    - name: Test Project
+      working-directory: "${{env.Project_BUILD_DIR}}"
+      run: |
+           ctest -N                # -N gets the list of all the tests in CTest
+           ctest . --verbose 
+    
+    - name: Install Project
+      working-directory: "${{env.Project_BUILD_DIR}}"
+      run: cmake --build . --target install
+    
+    - name: List files in Project
+      run: dir ${{env.Project_INSTALL_DIR}}
+

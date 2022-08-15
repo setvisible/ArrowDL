@@ -61,9 +61,9 @@ project("DownZemAll"
         ${APP_VERSION_MAJOR}.${APP_VERSION_MINOR}.${APP_VERSION_PATCH}
 )
 
-find_package(BoostForLibtorrent)
+# find_package(BoostForLibtorrent)
 find_package(OpenSSLPreferablyFromQt6)
-find_package(LibtorrentRasterbar)
+# find_package(LibtorrentRasterbar)
 
 if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
 
