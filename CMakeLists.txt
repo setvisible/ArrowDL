@@ -65,6 +65,14 @@ find_package(BoostForLibtorrent)
 find_package(OpenSSLPreferablyFromQt6)
 find_package(LibtorrentRasterbar)
 
+if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
+
+else() # MacOS or Unix Compilers
+
+    find_package(Threads REQUIRED)
+
+endif()
+
 message("------------------------------------------------------------------------")
 message("FYI, the project dependencies are found:")
 message(" - LibtorrentRasterbar_FOUND = ${LibtorrentRasterbar_FOUND}")
