@@ -102,6 +102,10 @@ else() # MacOS or Unix Compilers
         PRIVATE
             ${LibtorrentRasterbar_LIBRARIES}
             Threads::Threads
+
+            ${OPENSSL_CRYPTO_LIBRARY}
+            ${OPENSSL_SSL_LIBRARY}
+
             Qt::Core
             Qt::Test
             Qt::Network

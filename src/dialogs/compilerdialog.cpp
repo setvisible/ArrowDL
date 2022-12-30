@@ -42,7 +42,7 @@ CompilerDialog::CompilerDialog(QWidget *parent)
     setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Info")));
 
     adjustSize();
-    setFixedSize(size());
+    //setFixedSize(size());
 
     connect(ui->okButton, &QPushButton::released, this, &CompilerDialog::onOkButtonReleased);
 
