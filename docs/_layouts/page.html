@@ -2,10 +2,14 @@
 layout: default
 ---
 <header>
+{% comment %}
   {% include back-link.html %}
+{% endcomment %}
   <h1 class="page-title">{{ page.title }}</h1>
 </header>
 <div class="content">
   {{ content }}
 </div>
+{% comment %}
 {% include back-link.html %}
+{% endcomment %}
