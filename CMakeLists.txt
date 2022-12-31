@@ -8,8 +8,9 @@ option(BUILD_LAUNCHER "Set to ON to build the Launcher (default)" ON)
 option(BUILD_MAIN_APPLICATION "Set to ON to build the Application (default)" ON)
 option(BUILD_TESTS "Set to ON to build test applications (default)" ON)
 
-option(Boost_ROOT "Where to find Boost root (i.e. directory where the 'INSTALL' file is)")
-option(LibtorrentRasterbar_ROOT "Where to find LibtorrentRasterbar root")
+set(Boost_ROOT "" CACHE PATH "Where to find Boost root (i.e. directory where the 'INSTALL' file is)")
+set(LibtorrentRasterbar_ROOT "" CACHE PATH "Where to find LibtorrentRasterbar root")
+set(OpenSSL_ROOT_DIR "" CACHE PATH "Where to find OpenSSL root")
 
 
 function(verify_install_dir)
@@ -45,13 +46,24 @@ function(parse_version filename)
     set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS version)
 
     # split version string into components, note CMAKE_MATCH_0 is the entire regexp match
-    string(REGEX MATCH "([0-9]+)\\.([0-9]+)\\.([0-9]+)" APP_VERSION ${DOWNZEMALL_VERSION} )
+    string(REGEX MATCH "([0-9]+)\\.([0-9]+)\\.([0-9]+)" output_variable ${DOWNZEMALL_VERSION} )
+
+    set(APP_VERSION ${output_variable} PARENT_SCOPE)
     set(APP_VERSION_MAJOR ${CMAKE_MATCH_1} PARENT_SCOPE)
     set(APP_VERSION_MINOR ${CMAKE_MATCH_2} PARENT_SCOPE)
     set(APP_VERSION_PATCH ${CMAKE_MATCH_3} PARENT_SCOPE)
 endfunction()
 
 parse_version("${CMAKE_SOURCE_DIR}/version")
+
+message("------------------------------------------------------------------------")
+message("FYI, current version file:")
+message(" - APP_VERSION = ${APP_VERSION}")
+message(" - APP_VERSION_MAJOR = ${APP_VERSION_MAJOR}")
+message(" - APP_VERSION_MINOR = ${APP_VERSION_MINOR}")
+message(" - APP_VERSION_PATCH = ${APP_VERSION_PATCH}")
+message("------------------------------------------------------------------------")
+message("")
 
 project("DownZemAll"
     DESCRIPTION
@@ -64,6 +76,14 @@ project("DownZemAll"
 find_package(BoostForLibtorrent)
 find_package(OpenSSLPreferablyFromQt6)
 find_package(LibtorrentRasterbar)
+
+if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
+
+else() # MacOS or Unix Compilers
+
+    find_package(Threads REQUIRED)
+
+endif()
 
 message("------------------------------------------------------------------------")
 message("FYI, the project dependencies are found:")
@@ -79,10 +99,13 @@ message(" - Boost_ROOT = ${Boost_ROOT}")
 message(" - Boost_INCLUDE_DIR = ${Boost_INCLUDE_DIR}")
 message(" - BOOST_VERSION_STR = ${BOOST_VERSION_STR}")
 message("")
+message(" - OpenSSL_ROOT_DIR = ${OpenSSL_ROOT_DIR}")
+message(" - OPENSSL_FOUND = ${OPENSSL_FOUND}")
 message(" - OPENSSL_INCLUDE_DIRS = ${OPENSSL_INCLUDE_DIRS}")
 message(" - OPENSSL_CRYPTO_LIBRARY = ${OPENSSL_CRYPTO_LIBRARY}")
 message(" - OPENSSL_SSL_LIBRARY = ${OPENSSL_SSL_LIBRARY}")
 message("------------------------------------------------------------------------")
+message("")
 
 set(CMAKE_CXX_STANDARD 20)  # Qt6 requires a compiler supporting C++ version 17 or newer.
 set(CMAKE_CXX_STANDARD_REQUIRED ON)  # print an error if the compiler is too old.

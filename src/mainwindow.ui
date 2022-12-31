@@ -61,13 +61,13 @@
     </property>
     <addaction name="actionAbout"/>
     <addaction name="separator"/>
-    <addaction name="actionCheckForUpdates"/>
-    <addaction name="separator"/>
     <addaction name="actionTutorial"/>
-    <addaction name="actionAboutCompiler"/>
+    <addaction name="actionCheckForUpdates"/>
     <addaction name="separator"/>
     <addaction name="actionAboutQt"/>
     <addaction name="actionAboutYTDLP"/>
+    <addaction name="separator"/>
+    <addaction name="actionAboutCompiler"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">

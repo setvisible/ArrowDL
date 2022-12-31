@@ -10,9 +10,9 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/downzemall?label=Follow)](https://twitter.com/downzemall)
 
 
-| Windows | Linux/MacOS |
+| master | develop |
 |---------|-----------|
-| [![Build status](https://ci.appveyor.com/api/projects/status/github/setvisible/downzemall?branch=master&svg=true)](https://ci.appveyor.com/project/setvisible/downzemall) | [![Build status](https://api.travis-ci.com/setvisible/downzemall.svg?branch=master)](https://app.travis-ci.com/github/setvisible/downzemall) |
+| [![Built with GitHub Actions](https://github.com/setvisible/downzemall/actions/workflows/deployment.yml/badge.svg?branch=master)](https://github.com/setvisible/DownZemAll/actions "Go to GitHub Actions") | [![Built with GitHub Actions](https://github.com/setvisible/downzemall/actions/workflows/deployment.yml/badge.svg?branch=develop)](https://github.com/setvisible/DownZemAll/actions "Go to GitHub Actions") |
 
 
 *DownZemAll!* is a rewrite of the legacy software [DownThemAll!](https://en.wikipedia.org/wiki/DownThemAll! "https://en.wikipedia.org/wiki/DownThemAll!") which was an extension for Mozilla Firefox, but whose development stopped around 2016, when Mozilla Firefox migrated to WebExtensions.
@@ -21,7 +21,7 @@
 
 It aims to work with latest versions of Mozilla Firefox (powered by *WebExtensions*), and other web browsers (Chrome, Edge, Safari...). 
 
-*DownZemAll!* is written in C++ and based on the [Qt5](https://www.qt.io/ "https://www.qt.io/") framework.
+*DownZemAll!* is written in C++ and based on the [Qt](https://www.qt.io/ "https://www.qt.io/") framework.
 
 [![Built with Qt](./screenshots/built_with_qt.png)](https://www.qt.io/ "Go to Qt official site - www.qt.io")
 
@@ -85,14 +85,46 @@ Due to rapid evolution of web technology, *DownZemAll!* is designed to implement
 Click [here](CODE_OF_CONDUCT.md "CODE_OF_CONDUCT.md") for Code of Conduct.
 
 
-## Coding
-
-Click [here](CONTRIBUTING.md "CONTRIBUTING.md") for build instructions.
-
-
 ## Translations
 
 Click [here](TRANSLATORS.md "TRANSLATORS.md") for translator guide.
+
+
+## Build with QtCreator on Windows
+
+Assuming that the configured Kit in QtCreator is the auto-detected *Desktop Qt 6.3.1 MinGW 64-bit (by default)*. (see **Tools** > **Options** > **Kits**)
+
+Assuming that libtorrent is already compiled.
+
+1. **File** > **Open File or Project...**. 
+   Select `./CMakeLists.txt`
+
+1. Go to page **Debug**. Click **Configure**
+
+1. Go to page **Projects**.
+   Select **Build** > **Parameters**    
+   Set the values:
+    - *Boost_ROOT*: "path/to/Boost"
+    - *LibtorrentRasterbar_ROOT*: "path/to/libtorrent"
+
+    Eventually, if OpenSSL path is not recognized, set explicitly:
+    - *OpenSSL_ROOT_DIR*: "(path/to/Qt6)/Tools/OpenSSL/Win_x64"
+
+    Moreover,
+    - *CMAKE_INSTALL_PREFIX*: Chose another install path.
+
+1. Click **Run CMake**.
+
+1. Go to page **Editor**. Build. Run.
+
+1. To install: go to page **Projects**.
+    Select **Build** > **Parameters**.
+    In Step *Build*, check *install* amongst the targets, thus CMake will build and install.
+
+
+## Other builds
+
+Click [here](CONTRIBUTING.md "CONTRIBUTING.md") for build instructions and tips.
 
 
 ## License and Disclaimer

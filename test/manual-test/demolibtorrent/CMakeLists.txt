@@ -37,10 +37,9 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     target_link_libraries(${MY_TEST_TARGET}
         PRIVATE
             ${LibtorrentRasterbar_LIBRARIES}
-            bcrypt
-            mswsock
+            wsock32
             ws2_32
-            iphlpapi
+            Iphlpapi
             #debug
             #dbghelp
 
@@ -53,7 +52,12 @@ else() # MacOS or Unix Compilers
 
     target_link_libraries(${MY_TEST_TARGET}
         PRIVATE
+            ${LibtorrentRasterbar_LIBRARIES}
+
             Threads::Threads
+
+            ${OPENSSL_CRYPTO_LIBRARY}
+            ${OPENSSL_SSL_LIBRARY}
     )
 
 endif()

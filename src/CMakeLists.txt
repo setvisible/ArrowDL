@@ -124,6 +124,9 @@ else() # MacOS or Unix Compilers
 
             Threads::Threads
 
+            ${OPENSSL_CRYPTO_LIBRARY}
+            ${OPENSSL_SSL_LIBRARY}
+
             Qt::Core
             Qt::Gui
             Qt::Network
@@ -250,6 +253,12 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
             ${OPENSSL_SSL_BIN}
         DESTINATION
             ${CMAKE_INSTALL_PREFIX}
+    )
+    install(
+        FILES
+            ${QT_DLL_DIR}/../plugins/tls/qopensslbackend.dll
+        DESTINATION
+            ${CMAKE_INSTALL_PREFIX}/tls
     )
 
 endif(MSVC OR MSYS OR MINGW)

@@ -7,6 +7,5 @@
 !/src
 !/.gitignore
 !/make.bat
+!/make.py
 !/README.md
-!/substitute.py
-!/synchronize_versions.bat

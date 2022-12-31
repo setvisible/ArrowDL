@@ -29,7 +29,7 @@ if(EXISTS ${LibtorrentRasterbar_ROOT})
     set(LibtorrentRasterbar_INCLUDE_DIRS "${LibtorrentRasterbar_ROOT}/include/")
     set(LibtorrentRasterbar_LIBRARIES "${LibtorrentRasterbar_ROOT}/lib/libtorrent-rasterbar.a")
     set(LibtorrentRasterbar_OPENSSL_ENABLED True)
-    set(LibtorrentRasterbar_VERSION "2.0.6")
+    set(LibtorrentRasterbar_VERSION "2.0.7")
 endif()
 
 #message("</FindLibtorrentRasterbar.cmake>")

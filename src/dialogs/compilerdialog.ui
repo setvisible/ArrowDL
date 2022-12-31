@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>517</width>
-    <height>424</height>
+    <width>565</width>
+    <height>447</height>
    </rect>
   </property>
   <property name="modal">
@@ -289,6 +289,9 @@
            <widget class="QLabel" name="sslLibraryVersionLabel">
             <property name="text">
              <string>SSL Library Version:</string>
+            </property>
+            <property name="indent">
+             <number>10</number>
             </property>
            </widget>
           </item>
