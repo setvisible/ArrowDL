@@ -4,6 +4,8 @@ concurrency: production
 
 on:
   push:
+    tags:
+      - "v*"
     branches:
       - "master"
       - "develop"
