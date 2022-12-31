@@ -31,8 +31,8 @@
 #include <QtCore/QList>
 #include <QtCore/QSettings>
 #include <QtCore/QUrl>
+#include <QtGui/QAction>
 #include <QtGui/QCloseEvent>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QMenu>

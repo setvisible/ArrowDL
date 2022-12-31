@@ -20,7 +20,6 @@
 
 #include <QtCore/QDebug>
 #include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkConfiguration>
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkProxy>
@@ -101,14 +100,8 @@ void NetworkManager::setNetworkSettings(Settings *settings)
         m_networkAccessManager->setProxy(proxy);
     }
     // Socket options
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
     auto timeout_msec = settings->connectionTimeout() * 1000;
-    auto configuration = m_networkAccessManager->configuration();
-    if (configuration.connectTimeout() != timeout_msec) {
-        configuration.setConnectTimeout(timeout_msec);
-        m_networkAccessManager->setConfiguration(configuration);
-    }
-#endif
+    m_networkAccessManager->setTransferTimeout(timeout_msec);
 }
 
 /******************************************************************************

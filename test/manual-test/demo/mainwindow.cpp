@@ -29,9 +29,9 @@
 #include <QtCore/QFile>
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
+#include <QtGui/QAction>
 #include <QtWidgets/QAbstractButton>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMenu>

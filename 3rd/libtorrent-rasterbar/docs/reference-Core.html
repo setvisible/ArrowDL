@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<p><a class="reference external" href="reference.html">home</a></p>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#peer-request" id="toc-entry-1">peer_request</a><ul>
+<li><a class="reference internal" href="#operator" id="toc-entry-2">operator==()</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#info-hash-t" id="toc-entry-3">info_hash_t</a><ul>
+<li><a class="reference internal" href="#info-hash-t-1" id="toc-entry-4">info_hash_t()</a></li>
+<li><a class="reference internal" href="#has-has-v1-has-v2" id="toc-entry-5">has() has_v1() has_v2()</a></li>
+<li><a class="reference internal" href="#get" id="toc-entry-6">get()</a></li>
+<li><a class="reference internal" href="#get-best" id="toc-entry-7">get_best()</a></li>
+<li><a class="reference internal" href="#for-each" id="toc-entry-8">for_each()</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#peer-info" id="toc-entry-9">peer_info</a></li>
+<li><a class="reference internal" href="#piece-block" id="toc-entry-10">piece_block</a></li>
+<li><a class="reference internal" href="#version" id="toc-entry-11">version()</a></li>
+<li><a class="reference internal" href="#load-torrent-parsed-load-torrent-file-load-torrent-buffer" id="toc-entry-12">load_torrent_parsed() load_torrent_file() load_torrent_buffer()</a></li>
+<li><a class="reference internal" href="#truncate-files" id="toc-entry-13">truncate_files()</a></li>
+<li><a class="reference internal" href="#make-magnet-uri" id="toc-entry-14">make_magnet_uri()</a></li>
+<li><a class="reference internal" href="#parse-magnet-uri" id="toc-entry-15">parse_magnet_uri()</a></li>
+<li><a class="reference internal" href="#enum-protocol-version" id="toc-entry-16">enum protocol_version</a></li>
+<li><a class="reference internal" href="#enum-event-t" id="toc-entry-17">enum event_t</a></li>
+<li><a class="reference internal" href="#enum-socket-type-t" id="toc-entry-18">enum socket_type_t</a></li>
+<li><a class="reference internal" href="#enum-portmap-transport" id="toc-entry-19">enum portmap_transport</a></li>
+<li><a class="reference internal" href="#enum-portmap-protocol" id="toc-entry-20">enum portmap_protocol</a></li>
+<li><a class="reference internal" href="#enum-connection-type" id="toc-entry-21">enum connection_type</a></li>
+<li><a class="reference internal" href="#download-priority-t" id="toc-entry-22">download_priority_t</a></li>
+<li><a class="reference internal" href="#int" id="toc-entry-23">int</a></li>
+<li><a class="reference internal" href="#char-const" id="toc-entry-24">char const*</a></li>
+<li><a class="reference internal" href="#std-uint64-t" id="toc-entry-25">std::uint64_t</a></li>
+<li><a class="reference internal" href="#pex-flags-t" id="toc-entry-26">pex_flags_t</a></li>
+<li><a class="reference internal" href="#torrent-flags-t" id="toc-entry-27">torrent_flags_t</a></li>
+</ul>
+</div>
+<a name="peer_request"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+peer_request&labels=documentation&body=Documentation+under+heading+%22class+peer_request%22+could+be+improved">report issue</a>]</span><div class="section" id="peer-request">
+<h1>peer_request</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/peer_request.hpp">libtorrent/peer_request.hpp</a>&quot;</p>
+<p>represents a byte range within a piece. Internally this is is used for
+incoming piece requests.</p>
+<pre class="literal-block">
+struct peer_request
+{
+   bool <strong>operator==</strong> (peer_request const&amp; r) const;
+
+   piece_index_t piece;
+   int start;
+   int length;
+};
+</pre>
+<a name="operator==()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_request%3A%3A%5Boperator%3D%3D%28%29%5D&labels=documentation&body=Documentation+under+heading+%22peer_request%3A%3A%5Boperator%3D%3D%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="operator">
+<h2>operator==()</h2>
+<pre class="literal-block">
+bool <strong>operator==</strong> (peer_request const&amp; r) const;
+</pre>
+<p>returns true if the right hand side <a class="reference external" href="reference-Core.html#peer_request">peer_request</a> refers to the same
+range as this does.</p>
+<a name="piece"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_request%3A%3A%5Bpiece%5D&labels=documentation&body=Documentation+under+heading+%22peer_request%3A%3A%5Bpiece%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>piece</dt>
+<dd>The index of the piece in which the range starts.</dd>
+</dl>
+<a name="start"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_request%3A%3A%5Bstart%5D&labels=documentation&body=Documentation+under+heading+%22peer_request%3A%3A%5Bstart%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>start</dt>
+<dd>The byte offset within that piece where the range starts.</dd>
+</dl>
+<a name="length"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_request%3A%3A%5Blength%5D&labels=documentation&body=Documentation+under+heading+%22peer_request%3A%3A%5Blength%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>length</dt>
+<dd>The size of the range, in bytes.</dd>
+</dl>
+<a name="info_hash_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+info_hash_t&labels=documentation&body=Documentation+under+heading+%22class+info_hash_t%22+could+be+improved">report issue</a>]</span></div>
+</div>
+<div class="section" id="info-hash-t">
+<h1>info_hash_t</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/info_hash.hpp">libtorrent/info_hash.hpp</a>&quot;</p>
+<p>class holding the info-hash of a torrent. It can hold a v1 info-hash
+(SHA-1) or a v2 info-hash (SHA-256) or both.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If <tt class="docutils literal">has_v2()</tt> is false then the v1 hash might actually be a truncated
+v2 hash</p>
+</div>
+<pre class="literal-block">
+struct info_hash_t
+{
+   explicit <strong>info_hash_t</strong> (sha1_hash h1) noexcept;
+   explicit <strong>info_hash_t</strong> (sha256_hash h2) noexcept;
+   <strong>info_hash_t</strong> () noexcept = default;
+   <strong>info_hash_t</strong> (sha1_hash h1, sha256_hash h2) noexcept;
+   bool <strong>has_v1</strong> () const;
+   bool <strong>has</strong> (protocol_version v) const;
+   bool <strong>has_v2</strong> () const;
+   sha1_hash <strong>get</strong> (protocol_version v) const;
+   sha1_hash <strong>get_best</strong> () const;
+   friend bool <strong>operator!=</strong> (info_hash_t const&amp; lhs, info_hash_t const&amp; rhs);
+   friend bool <strong>operator==</strong> (info_hash_t const&amp; lhs, info_hash_t const&amp; rhs) noexcept;
+   template &lt;typename F&gt; void <strong>for_each</strong> (F f) const;
+   bool <strong>operator&lt;</strong> (info_hash_t const&amp; o) const;
+   friend std::ostream&amp; <strong>operator&lt;&lt;</strong> (std::ostream&amp; os, info_hash_t const&amp; ih);
+
+   sha1_hash v1;
+   sha256_hash v2;
+};
+</pre>
+<a name="info_hash_t()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Binfo_hash_t%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Binfo_hash_t%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="info-hash-t-1">
+<h2>info_hash_t()</h2>
+<pre class="literal-block">
+explicit <strong>info_hash_t</strong> (sha1_hash h1) noexcept;
+explicit <strong>info_hash_t</strong> (sha256_hash h2) noexcept;
+<strong>info_hash_t</strong> () noexcept = default;
+<strong>info_hash_t</strong> (sha1_hash h1, sha256_hash h2) noexcept;
+</pre>
+<p>The default constructor creates an object that has neither a v1 or v2
+hash.</p>
+<p>For backwards compatibility, make it possible to construct directly
+from a v1 hash. This constructor allows <em>implicit</em> conversion from a
+v1 hash, but the implicitness is deprecated.</p>
+<a name="has()"></a>
+<a name="has_v1()"></a>
+<a name="has_v2()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Bhas%28%29+has_v1%28%29+has_v2%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Bhas%28%29+has_v1%28%29+has_v2%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="has-has-v1-has-v2">
+<h2>has() has_v1() has_v2()</h2>
+<pre class="literal-block">
+bool <strong>has_v1</strong> () const;
+bool <strong>has</strong> (protocol_version v) const;
+bool <strong>has_v2</strong> () const;
+</pre>
+<p>returns true if the corresponding info hash is present in this
+object.</p>
+<a name="get()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Bget%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Bget%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="get">
+<h2>get()</h2>
+<pre class="literal-block">
+sha1_hash <strong>get</strong> (protocol_version v) const;
+</pre>
+<p>returns the has for the specified protocol version</p>
+<a name="get_best()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Bget_best%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Bget_best%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="get-best">
+<h2>get_best()</h2>
+<pre class="literal-block">
+sha1_hash <strong>get_best</strong> () const;
+</pre>
+<p>returns the v2 (truncated) info-hash, if there is one, otherwise
+returns the v1 info-hash</p>
+<a name="for_each()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Bfor_each%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Bfor_each%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="for-each">
+<h2>for_each()</h2>
+<pre class="literal-block">
+template &lt;typename F&gt; void <strong>for_each</strong> (F f) const;
+</pre>
+<p>calls the function object <tt class="docutils literal">f</tt> for each hash that is available.
+starting with v1. The signature of <tt class="docutils literal">F</tt> is:</p>
+<pre class="literal-block">
+void(sha1_hash const&amp;, protocol_version);
+</pre>
+<a name="peer_info"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+peer_info&labels=documentation&body=Documentation+under+heading+%22class+peer_info%22+could+be+improved">report issue</a>]</span></div>
+</div>
+<div class="section" id="peer-info">
+<h1>peer_info</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/peer_info.hpp">libtorrent/peer_info.hpp</a>&quot;</p>
+<p>holds information and statistics about one peer
+that libtorrent is connected to</p>
+<pre class="literal-block">
+struct peer_info
+{
+   std::string client;
+   typed_bitfield&lt;piece_index_t&gt; pieces;
+   std::int64_t total_download;
+   std::int64_t total_upload;
+   time_duration last_request;
+   time_duration last_active;
+   time_duration download_queue_time;
+   static constexpr peer_flags_t <strong>interesting</strong>  = 0_bit;
+   static constexpr peer_flags_t <strong>choked</strong>  = 1_bit;
+   static constexpr peer_flags_t <strong>remote_interested</strong>  = 2_bit;
+   static constexpr peer_flags_t <strong>remote_choked</strong>  = 3_bit;
+   static constexpr peer_flags_t <strong>supports_extensions</strong>  = 4_bit;
+   static constexpr peer_flags_t <strong>outgoing_connection</strong>  = 5_bit;
+   static constexpr peer_flags_t <strong>local_connection</strong>  = 5_bit;
+   static constexpr peer_flags_t <strong>handshake</strong>  = 6_bit;
+   static constexpr peer_flags_t <strong>connecting</strong>  = 7_bit;
+   static constexpr peer_flags_t <strong>on_parole</strong>  = 9_bit;
+   static constexpr peer_flags_t <strong>seed</strong>  = 10_bit;
+   static constexpr peer_flags_t <strong>optimistic_unchoke</strong>  = 11_bit;
+   static constexpr peer_flags_t <strong>snubbed</strong>  = 12_bit;
+   static constexpr peer_flags_t <strong>upload_only</strong>  = 13_bit;
+   static constexpr peer_flags_t <strong>endgame_mode</strong>  = 14_bit;
+   static constexpr peer_flags_t <strong>holepunched</strong>  = 15_bit;
+   static constexpr peer_flags_t <strong>i2p_socket</strong>  = 16_bit;
+   static constexpr peer_flags_t <strong>utp_socket</strong>  = 17_bit;
+   static constexpr peer_flags_t <strong>ssl_socket</strong>  = 18_bit;
+   static constexpr peer_flags_t <strong>rc4_encrypted</strong>  = 19_bit;
+   static constexpr peer_flags_t <strong>plaintext_encrypted</strong>  = 20_bit;
+   peer_flags_t flags;
+   static constexpr peer_source_flags_t <strong>tracker</strong>  = 0_bit;
+   static constexpr peer_source_flags_t <strong>dht</strong>  = 1_bit;
+   static constexpr peer_source_flags_t <strong>pex</strong>  = 2_bit;
+   static constexpr peer_source_flags_t <strong>lsd</strong>  = 3_bit;
+   static constexpr peer_source_flags_t <strong>resume_data</strong>  = 4_bit;
+   static constexpr peer_source_flags_t <strong>incoming</strong>  = 5_bit;
+   peer_source_flags_t source;
+   int up_speed;
+   int down_speed;
+   int payload_up_speed;
+   int payload_down_speed;
+   peer_id pid;
+   int queue_bytes;
+   int request_timeout;
+   int send_buffer_size;
+   int used_send_buffer;
+   int receive_buffer_size;
+   int used_receive_buffer;
+   int receive_buffer_watermark;
+   int num_hashfails;
+   int download_queue_length;
+   int timed_out_requests;
+   int busy_requests;
+   int requests_in_buffer;
+   int target_dl_queue_length;
+   int upload_queue_length;
+   int failcount;
+   piece_index_t downloading_piece_index;
+   int downloading_block_index;
+   int downloading_progress;
+   int downloading_total;
+   static constexpr connection_type_t <strong>standard_bittorrent</strong>  = 0_bit;
+   static constexpr connection_type_t <strong>web_seed</strong>  = 1_bit;
+   static constexpr connection_type_t <strong>http_seed</strong>  = 2_bit;
+   connection_type_t connection_type;
+   int pending_disk_bytes;
+   int pending_disk_read_bytes;
+   int send_quota;
+   int receive_quota;
+   int rtt;
+   int num_pieces;
+   int download_rate_peak;
+   int upload_rate_peak;
+   float progress;
+   int progress_ppm;
+   <a class="reference external" href="tcp::endpoint">tcp::endpoint</a> ip;
+   <a class="reference external" href="tcp::endpoint">tcp::endpoint</a> local_endpoint;
+   static constexpr bandwidth_state_flags_t <strong>bw_idle</strong>  = 0_bit;
+   static constexpr bandwidth_state_flags_t <strong>bw_limit</strong>  = 1_bit;
+   static constexpr bandwidth_state_flags_t <strong>bw_network</strong>  = 2_bit;
+   static constexpr bandwidth_state_flags_t <strong>bw_disk</strong>  = 4_bit;
+   bandwidth_state_flags_t read_state;
+   bandwidth_state_flags_t write_state;
+};
+</pre>
+<a name="client"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bclient%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bclient%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>client</dt>
+<dd>A human readable string describing the software at the other end of
+the connection. In some cases this information is not available, then
+it will contain a string that may give away something about which
+software is running in the other end. In the case of a web seed, the
+server type and version will be a part of this string. This is UTF-8
+encoded.</dd>
+</dl>
+<a name="pieces"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bpieces%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bpieces%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>pieces</dt>
+<dd>a <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a>, with one bit per piece in the torrent. Each bit tells you
+if the peer has that piece (if it's set to 1) or if the peer miss that
+piece (set to 0).</dd>
+</dl>
+<a name="total_download"></a>
+<a name="total_upload"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Btotal_download+total_upload%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Btotal_download+total_upload%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>total_download total_upload</dt>
+<dd>the total number of bytes downloaded from and uploaded to this peer.
+These numbers do not include the protocol chatter, but only the
+payload data.</dd>
+</dl>
+<a name="last_request"></a>
+<a name="last_active"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Blast_request+last_active%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Blast_request+last_active%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>last_request last_active</dt>
+<dd>the time since we last sent a request to this peer and since any
+transfer occurred with this peer</dd>
+</dl>
+<a name="download_queue_time"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bdownload_queue_time%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bdownload_queue_time%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>download_queue_time</dt>
+<dd>the time until all blocks in the request queue will be downloaded</dd>
+</dl>
+<a name="interesting"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Binteresting%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Binteresting%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>interesting</dt>
+<dd><strong>we</strong> are interested in pieces from this peer.</dd>
+</dl>
+<a name="choked"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bchoked%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bchoked%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>choked</dt>
+<dd><strong>we</strong> have choked this peer.</dd>
+</dl>
+<a name="remote_interested"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bremote_interested%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bremote_interested%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>remote_interested</dt>
+<dd>the peer is interested in <strong>us</strong></dd>
+</dl>
+<a name="remote_choked"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bremote_choked%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bremote_choked%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>remote_choked</dt>
+<dd>the peer has choked <strong>us</strong>.</dd>
+</dl>
+<a name="supports_extensions"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bsupports_extensions%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bsupports_extensions%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>supports_extensions</dt>
+<dd>means that this peer supports the
+<a class="reference external" href="extension_protocol.html">extension protocol</a>.</dd>
+</dl>
+<a name="outgoing_connection"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Boutgoing_connection%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Boutgoing_connection%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>outgoing_connection</dt>
+<dd>The connection was initiated by us, the peer has a
+listen port open, and that port is the same as in the
+address of this peer. If this flag is not set, this
+peer connection was opened by this peer connecting to
+us.</dd>
+</dl>
+<a name="local_connection"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Blocal_connection%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Blocal_connection%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>local_connection</dt>
+<dd>deprecated synonym for outgoing_connection</dd>
+</dl>
+<a name="handshake"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bhandshake%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bhandshake%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>handshake</dt>
+<dd>The connection is opened, and waiting for the
+handshake. Until the handshake is done, the peer
+cannot be identified.</dd>
+</dl>
+<a name="connecting"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bconnecting%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bconnecting%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>connecting</dt>
+<dd>The connection is in a half-open state (i.e. it is
+being connected).</dd>
+</dl>
+<a name="on_parole"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bon_parole%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bon_parole%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>on_parole</dt>
+<dd>The peer has participated in a piece that failed the
+hash check, and is now &quot;on parole&quot;, which means we're
+only requesting whole pieces from this peer until
+it either fails that piece or proves that it doesn't
+send bad data.</dd>
+</dl>
+<a name="seed"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bseed%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bseed%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>seed</dt>
+<dd>This peer is a seed (it has all the pieces).</dd>
+</dl>
+<a name="optimistic_unchoke"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Boptimistic_unchoke%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Boptimistic_unchoke%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>optimistic_unchoke</dt>
+<dd>This peer is subject to an optimistic unchoke. It has
+been unchoked for a while to see if it might unchoke
+us in return an earn an upload/unchoke slot. If it
+doesn't within some period of time, it will be choked
+and another peer will be optimistically unchoked.</dd>
+</dl>
+<a name="snubbed"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bsnubbed%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bsnubbed%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>snubbed</dt>
+<dd>This peer has recently failed to send a block within
+the request timeout from when the request was sent.
+We're currently picking one block at a time from this
+peer.</dd>
+</dl>
+<a name="upload_only"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bupload_only%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bupload_only%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>upload_only</dt>
+<dd>This peer has either explicitly (with an extension)
+or implicitly (by becoming a seed) told us that it
+will not downloading anything more, regardless of
+which pieces we have.</dd>
+</dl>
+<a name="endgame_mode"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bendgame_mode%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bendgame_mode%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>endgame_mode</dt>
+<dd>This means the last time this peer picket a piece,
+it could not pick as many as it wanted because there
+were not enough free ones. i.e. all pieces this peer
+has were already requested from other peers.</dd>
+</dl>
+<a name="holepunched"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bholepunched%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bholepunched%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>holepunched</dt>
+<dd>This flag is set if the peer was in holepunch mode
+when the connection succeeded. This typically only
+happens if both peers are behind a NAT and the peers
+connect via the NAT holepunch mechanism.</dd>
+</dl>
+<a name="i2p_socket"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bi2p_socket%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bi2p_socket%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>i2p_socket</dt>
+<dd>indicates that this socket is running on top of the
+I2P transport.</dd>
+</dl>
+<a name="utp_socket"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Butp_socket%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Butp_socket%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>utp_socket</dt>
+<dd>indicates that this socket is a uTP socket</dd>
+</dl>
+<a name="ssl_socket"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bssl_socket%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bssl_socket%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>ssl_socket</dt>
+<dd>indicates that this socket is running on top of an SSL
+(TLS) channel</dd>
+</dl>
+<a name="rc4_encrypted"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Brc4_encrypted%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Brc4_encrypted%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>rc4_encrypted</dt>
+<dd>this connection is obfuscated with RC4</dd>
+</dl>
+<a name="plaintext_encrypted"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bplaintext_encrypted%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bplaintext_encrypted%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>plaintext_encrypted</dt>
+<dd>the handshake of this connection was obfuscated
+with a Diffie-Hellman exchange</dd>
+</dl>
+<a name="flags"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bflags%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bflags%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>flags</dt>
+<dd>tells you in which state the peer is in. It is set to
+any combination of the peer_flags_t flags above.</dd>
+</dl>
+<a name="tracker"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Btracker%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Btracker%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>tracker</dt>
+<dd>The peer was received from the tracker.</dd>
+</dl>
+<a name="dht"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bdht%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bdht%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>dht</dt>
+<dd>The peer was received from the kademlia DHT.</dd>
+</dl>
+<a name="pex"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bpex%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bpex%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>pex</dt>
+<dd>The peer was received from the peer exchange
+extension.</dd>
+</dl>
+<a name="lsd"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Blsd%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Blsd%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>lsd</dt>
+<dd>The peer was received from the local service
+discovery (The peer is on the local network).</dd>
+</dl>
+<a name="resume_data"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bresume_data%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bresume_data%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>resume_data</dt>
+<dd>The peer was added from the fast resume data.</dd>
+</dl>
+<a name="incoming"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bincoming%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bincoming%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>incoming</dt>
+<dd>we received an incoming connection from this peer</dd>
+</dl>
+<a name="source"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bsource%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bsource%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>source</dt>
+<dd>a combination of flags describing from which sources this peer
+was received. A combination of the peer_source_flags_t above.</dd>
+</dl>
+<a name="up_speed"></a>
+<a name="down_speed"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bup_speed+down_speed%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bup_speed+down_speed%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>up_speed down_speed</dt>
+<dd>the current upload and download speed we have to and from this peer
+(including any protocol messages). updated about once per second</dd>
+</dl>
+<a name="payload_up_speed"></a>
+<a name="payload_down_speed"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bpayload_up_speed+payload_down_speed%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bpayload_up_speed+payload_down_speed%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>payload_up_speed payload_down_speed</dt>
+<dd>The transfer rates of payload data only updated about once per second</dd>
+</dl>
+<a name="pid"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bpid%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bpid%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>pid</dt>
+<dd>the peer's id as used in the bit torrent protocol. This id can be used
+to extract 'fingerprints' from the peer. Sometimes it can tell you
+which client the peer is using. See identify_client()_</dd>
+</dl>
+<a name="queue_bytes"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bqueue_bytes%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bqueue_bytes%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>queue_bytes</dt>
+<dd>the number of bytes we have requested from this peer, but not yet
+received.</dd>
+</dl>
+<a name="request_timeout"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Brequest_timeout%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Brequest_timeout%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>request_timeout</dt>
+<dd>the number of seconds until the current front piece request will time
+out. This timeout can be adjusted through
+<tt class="docutils literal"><span class="pre">settings_pack::request_timeout</span></tt>.
+-1 means that there is not outstanding request.</dd>
+</dl>
+<a name="send_buffer_size"></a>
+<a name="used_send_buffer"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bsend_buffer_size+used_send_buffer%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bsend_buffer_size+used_send_buffer%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>send_buffer_size used_send_buffer</dt>
+<dd>the number of bytes allocated
+and used for the peer's send buffer, respectively.</dd>
+</dl>
+<a name="receive_buffer_size"></a>
+<a name="used_receive_buffer"></a>
+<a name="receive_buffer_watermark"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Breceive_buffer_size+used_receive_buffer+receive_buffer_watermark%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Breceive_buffer_size+used_receive_buffer+receive_buffer_watermark%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>receive_buffer_size used_receive_buffer receive_buffer_watermark</dt>
+<dd>the number of bytes
+allocated and used as receive buffer, respectively.</dd>
+</dl>
+<a name="num_hashfails"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bnum_hashfails%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bnum_hashfails%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>num_hashfails</dt>
+<dd>the number of pieces this peer has participated in sending us that
+turned out to fail the hash check.</dd>
+</dl>
+<a name="download_queue_length"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bdownload_queue_length%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bdownload_queue_length%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>download_queue_length</dt>
+<dd>this is the number of requests we have sent to this peer that we
+haven't got a response for yet</dd>
+</dl>
+<a name="timed_out_requests"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Btimed_out_requests%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Btimed_out_requests%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>timed_out_requests</dt>
+<dd>the number of block requests that have timed out, and are still in the
+download queue</dd>
+</dl>
+<a name="busy_requests"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bbusy_requests%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bbusy_requests%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>busy_requests</dt>
+<dd>the number of busy requests in the download queue. A busy request is a
+request for a block we've also requested from a different peer</dd>
+</dl>
+<a name="requests_in_buffer"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Brequests_in_buffer%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Brequests_in_buffer%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>requests_in_buffer</dt>
+<dd>the number of requests messages that are currently in the send buffer
+waiting to be sent.</dd>
+</dl>
+<a name="target_dl_queue_length"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Btarget_dl_queue_length%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Btarget_dl_queue_length%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>target_dl_queue_length</dt>
+<dd>the number of requests that is tried to be maintained (this is
+typically a function of download speed)</dd>
+</dl>
+<a name="upload_queue_length"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bupload_queue_length%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bupload_queue_length%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>upload_queue_length</dt>
+<dd>the number of piece-requests we have received from this peer
+that we haven't answered with a piece yet.</dd>
+</dl>
+<a name="failcount"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bfailcount%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bfailcount%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>failcount</dt>
+<dd>the number of times this peer has &quot;failed&quot;. i.e. failed to connect or
+disconnected us. The failcount is decremented when we see this peer in
+a tracker response or peer exchange message.</dd>
+</dl>
+<a name="downloading_piece_index"></a>
+<a name="downloading_block_index"></a>
+<a name="downloading_progress"></a>
+<a name="downloading_total"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bdownloading_piece_index+downloading_block_index+downloading_progress+downloading_total%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bdownloading_piece_index+downloading_block_index+downloading_progress+downloading_total%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>downloading_piece_index downloading_block_index downloading_progress downloading_total</dt>
+<dd>You can know which piece, and which part of that piece, that is
+currently being downloaded from a specific peer by looking at these
+four members. <tt class="docutils literal">downloading_piece_index</tt> is the index of the piece
+that is currently being downloaded. This may be set to -1 if there's
+currently no piece downloading from this peer. If it is &gt;= 0, the
+other three members are valid. <tt class="docutils literal">downloading_block_index</tt> is the
+index of the block (or sub-piece) that is being downloaded.
+<tt class="docutils literal">downloading_progress</tt> is the number of bytes of this block we have
+received from the peer, and <tt class="docutils literal">downloading_total</tt> is the total number
+of bytes in this block.</dd>
+</dl>
+<a name="standard_bittorrent"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bstandard_bittorrent%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bstandard_bittorrent%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>standard_bittorrent</dt>
+<dd>Regular bittorrent connection</dd>
+</dl>
+<a name="web_seed"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bweb_seed%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bweb_seed%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>web_seed</dt>
+<dd>HTTP connection using the <a class="reference external" href="https://www.bittorrent.org/beps/bep_0019.html">BEP 19</a> protocol</dd>
+</dl>
+<a name="http_seed"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bhttp_seed%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bhttp_seed%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>http_seed</dt>
+<dd>HTTP connection using the <a class="reference external" href="https://www.bittorrent.org/beps/bep_0017.html">BEP 17</a> protocol</dd>
+</dl>
+<a name="connection_type"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bconnection_type%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bconnection_type%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>connection_type</dt>
+<dd>the kind of connection this peer uses. See connection_type_t.</dd>
+</dl>
+<a name="pending_disk_bytes"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bpending_disk_bytes%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bpending_disk_bytes%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>pending_disk_bytes</dt>
+<dd>the number of bytes this peer has pending in the disk-io thread.
+Downloaded and waiting to be written to disk. This is what is capped
+by <tt class="docutils literal"><span class="pre">settings_pack::max_queued_disk_bytes</span></tt>.</dd>
+</dl>
+<a name="pending_disk_read_bytes"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bpending_disk_read_bytes%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bpending_disk_read_bytes%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>pending_disk_read_bytes</dt>
+<dd>number of outstanding bytes to read
+from disk</dd>
+</dl>
+<a name="send_quota"></a>
+<a name="receive_quota"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bsend_quota+receive_quota%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bsend_quota+receive_quota%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>send_quota receive_quota</dt>
+<dd>the number of bytes this peer has been assigned to be allowed to send
+and receive until it has to request more quota from the bandwidth
+manager.</dd>
+</dl>
+<a name="rtt"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Brtt%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Brtt%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>rtt</dt>
+<dd>an estimated round trip time to this peer, in milliseconds. It is
+estimated by timing the TCP <tt class="docutils literal">connect()</tt>. It may be 0 for
+incoming connections.</dd>
+</dl>
+<a name="num_pieces"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bnum_pieces%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bnum_pieces%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>num_pieces</dt>
+<dd>the number of pieces this peer has.</dd>
+</dl>
+<a name="download_rate_peak"></a>
+<a name="upload_rate_peak"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bdownload_rate_peak+upload_rate_peak%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bdownload_rate_peak+upload_rate_peak%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>download_rate_peak upload_rate_peak</dt>
+<dd>the highest download and upload rates seen on this connection. They
+are given in bytes per second. This number is reset to 0 on reconnect.</dd>
+</dl>
+<a name="progress"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bprogress%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bprogress%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>progress</dt>
+<dd>the progress of the peer in the range [0, 1]. This is always 0 when
+floating point operations are disabled, instead use <tt class="docutils literal">progress_ppm</tt>.</dd>
+</dl>
+<a name="progress_ppm"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bprogress_ppm%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bprogress_ppm%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>progress_ppm</dt>
+<dd>indicates the download progress of the peer in the range [0, 1000000]
+(parts per million).</dd>
+</dl>
+<a name="ip"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bip%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bip%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>ip</dt>
+<dd>the IP-address to this peer. The type is an asio endpoint. For
+more info, see the <a class="reference external" href="http://asio.sourceforge.net/asio-0.3.8/doc/asio/reference.html">asio</a> documentation.</dd>
+</dl>
+<a name="local_endpoint"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Blocal_endpoint%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Blocal_endpoint%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>local_endpoint</dt>
+<dd>the IP and port pair the socket is bound to locally. i.e. the IP
+address of the interface it's going out over. This may be useful for
+multi-homed clients with multiple interfaces to the internet.</dd>
+</dl>
+<a name="bw_idle"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bbw_idle%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bbw_idle%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>bw_idle</dt>
+<dd>The peer is not waiting for any external events to
+send or receive data.</dd>
+</dl>
+<a name="bw_limit"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bbw_limit%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bbw_limit%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>bw_limit</dt>
+<dd>The peer is waiting for the rate limiter.</dd>
+</dl>
+<a name="bw_network"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bbw_network%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bbw_network%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>bw_network</dt>
+<dd>The peer has quota and is currently waiting for a
+network read or write operation to complete. This is
+the state all peers are in if there are no bandwidth
+limits.</dd>
+</dl>
+<a name="bw_disk"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bbw_disk%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bbw_disk%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>bw_disk</dt>
+<dd>The peer is waiting for the disk I/O thread to catch
+up writing buffers to disk before downloading more.</dd>
+</dl>
+<a name="read_state"></a>
+<a name="write_state"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bread_state+write_state%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bread_state+write_state%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>read_state write_state</dt>
+<dd>bitmasks indicating what state this peer
+is in with regards to sending and receiving data. The states are
+defined as independent flags of type bandwidth_state_flags_t, in this
+class.</dd>
+</dl>
+<a name="piece_block"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+piece_block&labels=documentation&body=Documentation+under+heading+%22class+piece_block%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="piece-block">
+<h1>piece_block</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/piece_block.hpp">libtorrent/piece_block.hpp</a>&quot;</p>
+<pre class="literal-block">
+struct piece_block
+{
+   <strong>piece_block</strong> () = default;
+   <strong>piece_block</strong> (piece_index_t p_index, int b_index);
+   bool <strong>operator&lt;</strong> (piece_block const&amp; b) const;
+   bool <strong>operator==</strong> (piece_block const&amp; b) const;
+   bool <strong>operator!=</strong> (piece_block const&amp; b) const;
+
+   static const piece_block invalid;
+   piece_index_t piece_index {0};
+   int <strong>block_index</strong>  = 0;
+};
+</pre>
+<a name="version()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:version%28%29&labels=documentation&body=Documentation+under+heading+%22version%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="version">
+<h1>version()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/version.hpp">libtorrent/version.hpp</a>&quot;</p>
+<pre class="literal-block">
+char const* <strong>version</strong> ();
+</pre>
+<p>returns the libtorrent version as string form in this format:
+&quot;&lt;major&gt;.&lt;minor&gt;.&lt;tiny&gt;.&lt;tag&gt;&quot;</p>
+<a name="load_torrent_parsed()"></a>
+<a name="load_torrent_file()"></a>
+<a name="load_torrent_buffer()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:load_torrent_parsed%28%29+load_torrent_file%28%29+load_torrent_buffer%28%29&labels=documentation&body=Documentation+under+heading+%22load_torrent_parsed%28%29+load_torrent_file%28%29+load_torrent_buffer%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="load-torrent-parsed-load-torrent-file-load-torrent-buffer">
+<h1>load_torrent_parsed() load_torrent_file() load_torrent_buffer()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/load_torrent.hpp">libtorrent/load_torrent.hpp</a>&quot;</p>
+<pre class="literal-block">
+add_torrent_params <strong>load_torrent_file</strong> (
+   std::string const&amp; filename);
+add_torrent_params <strong>load_torrent_parsed</strong> (
+   bdecode_node const&amp; torrent_file, load_torrent_limits const&amp; cfg);
+add_torrent_params <strong>load_torrent_buffer</strong> (
+   span&lt;char const&gt; buffer);
+add_torrent_params <strong>load_torrent_buffer</strong> (
+   span&lt;char const&gt; buffer, load_torrent_limits const&amp; cfg);
+add_torrent_params <strong>load_torrent_parsed</strong> (
+   bdecode_node const&amp; torrent_file);
+add_torrent_params <strong>load_torrent_file</strong> (
+   std::string const&amp; filename, load_torrent_limits const&amp; cfg);
+</pre>
+<p>These functions load the content of a .torrent file into an
+<a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object.
+The immutable part of a torrent file (the info-dictionary) is stored in
+the <tt class="docutils literal">ti</tt> field in the <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object (as a <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a>
+object).
+The returned object is suitable to be:</p>
+<blockquote>
+<ul class="simple">
+<li>added to a <a class="reference external" href="reference-Session.html#session">session</a> via <a class="reference external" href="reference-Session.html#add_torrent()">add_torrent()</a> or <a class="reference external" href="reference-Session.html#async_add_torrent()">async_add_torrent()</a></li>
+<li>saved as a .torrent_file via <a class="reference external" href="reference-Resume_Data.html#write_torrent_file()">write_torrent_file()</a></li>
+<li>turned into a magnet link via <a class="reference external" href="reference-Core.html#make_magnet_uri()">make_magnet_uri()</a></li>
+</ul>
+</blockquote>
+<a name="truncate_files()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:truncate_files%28%29&labels=documentation&body=Documentation+under+heading+%22truncate_files%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="truncate-files">
+<h1>truncate_files()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/truncate.hpp">libtorrent/truncate.hpp</a>&quot;</p>
+<pre class="literal-block">
+void <strong>truncate_files</strong> (file_storage const&amp; fs, std::string const&amp; save_path, storage_error&amp; ec);
+</pre>
+<p>Truncates files larger than specified in the <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a>, saved under
+the specified save_path.</p>
+<a name="make_magnet_uri()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:make_magnet_uri%28%29&labels=documentation&body=Documentation+under+heading+%22make_magnet_uri%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="make-magnet-uri">
+<h1>make_magnet_uri()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/magnet_uri.hpp">libtorrent/magnet_uri.hpp</a>&quot;</p>
+<pre class="literal-block">
+std::string <strong>make_magnet_uri</strong> (add_torrent_params const&amp; atp);
+std::string <strong>make_magnet_uri</strong> (torrent_info const&amp; info);
+std::string <strong>make_magnet_uri</strong> (torrent_handle const&amp; handle);
+</pre>
+<p>Generates a magnet URI from the specified torrent.</p>
+<p>Several fields from the <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> objects are recorded in the
+magnet link. In order to not include them, they have to be cleared before
+calling <a class="reference external" href="reference-Core.html#make_magnet_uri()">make_magnet_uri()</a>. These fields are used:</p>
+<blockquote>
+<tt class="docutils literal">ti</tt>, <tt class="docutils literal">info_hashes</tt>, <tt class="docutils literal">url_seeds</tt>, <tt class="docutils literal">dht_nodes</tt>,
+<tt class="docutils literal">file_priorities</tt>, <tt class="docutils literal">trackers</tt>, <tt class="docutils literal">name</tt>, <tt class="docutils literal">peers</tt>.</blockquote>
+<p>Depending on what the use case for the resulting magnet link is, clearing
+<tt class="docutils literal">peers</tt> and <tt class="docutils literal">dht_nodes</tt> is probably a good idea if the <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a>
+came from a running torrent. Those lists may be long and be ephemeral.</p>
+<p>If none of the <tt class="docutils literal">info_hashes</tt> or <tt class="docutils literal">ti</tt> fields are set, there is not
+info-hash available, and a magnet link cannot be created. In this case
+<a class="reference external" href="reference-Core.html#make_magnet_uri()">make_magnet_uri()</a> returns an empty string.</p>
+<p>The recommended way to generate a magnet link from a <a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a> is to
+call <a class="reference external" href="reference-Torrent_Handle.html#save_resume_data()">save_resume_data()</a>, which will post a <a class="reference external" href="reference-Alerts.html#save_resume_data_alert">save_resume_data_alert</a>
+containing an <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object. This can then be passed to
+<a class="reference external" href="reference-Core.html#make_magnet_uri()">make_magnet_uri()</a>.</p>
+<p>The overload that takes a <a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a> will make blocking calls to
+query information about the torrent. If the torrent handle is invalid,
+an empty string is returned.</p>
+<p>For more information about magnet links, see <a class="reference external" href="manual-ref.html#magnet-links">magnet links</a>.</p>
+<a name="parse_magnet_uri()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:parse_magnet_uri%28%29&labels=documentation&body=Documentation+under+heading+%22parse_magnet_uri%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="parse-magnet-uri">
+<h1>parse_magnet_uri()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/magnet_uri.hpp">libtorrent/magnet_uri.hpp</a>&quot;</p>
+<pre class="literal-block">
+void <strong>parse_magnet_uri</strong> (string_view uri, add_torrent_params&amp; p, error_code&amp; ec);
+add_torrent_params <strong>parse_magnet_uri</strong> (string_view uri, error_code&amp; ec);
+add_torrent_params <strong>parse_magnet_uri</strong> (string_view uri);
+</pre>
+<p>This function parses out information from the magnet link and populates the
+<a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object. The overload that does not take an
+<tt class="docutils literal">error_code</tt> reference will throw a system_error on error
+The overload taking an <tt class="docutils literal">add_torrent_params</tt> reference will fill in the
+fields specified in the magnet URI.</p>
+<a name="protocol_version"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+protocol_version&labels=documentation&body=Documentation+under+heading+%22enum+protocol_version%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="enum-protocol-version">
+<h1>enum protocol_version</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/info_hash.hpp">libtorrent/info_hash.hpp</a>&quot;</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="10%" />
+<col width="82%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">value</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>V1</td>
+<td>0</td>
+<td>The original BitTorrent version, using SHA-1 hashes</td>
+</tr>
+<tr><td>V2</td>
+<td>1</td>
+<td>Version 2 of the BitTorrent protocol, using SHA-256 hashes</td>
+</tr>
+<tr><td>NUM</td>
+<td>2</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<a name="event_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+event_t&labels=documentation&body=Documentation+under+heading+%22enum+event_t%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="enum-event-t">
+<h1>enum event_t</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/tracker_manager.hpp">libtorrent/tracker_manager.hpp</a>&quot;</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="23%" />
+<col width="42%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">value</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>none</td>
+<td>0</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>completed</td>
+<td>1</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>started</td>
+<td>2</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>stopped</td>
+<td>3</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>paused</td>
+<td>4</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<a name="socket_type_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+socket_type_t&labels=documentation&body=Documentation+under+heading+%22enum+socket_type_t%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="enum-socket-type-t">
+<h1>enum socket_type_t</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/socket_type.hpp">libtorrent/socket_type.hpp</a>&quot;</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="22%" />
+<col width="41%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">value</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>tcp</td>
+<td>0</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>socks5</td>
+<td>1</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>http</td>
+<td>2</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>utp</td>
+<td>3</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>i2p</td>
+<td>4</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>tcp_ssl</td>
+<td>5</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>socks5_ssl</td>
+<td>6</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>http_ssl</td>
+<td>7</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>utp_ssl</td>
+<td>8</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<a name="portmap_transport"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+portmap_transport&labels=documentation&body=Documentation+under+heading+%22enum+portmap_transport%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="enum-portmap-transport">
+<h1>enum portmap_transport</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/portmap.hpp">libtorrent/portmap.hpp</a>&quot;</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="16%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">value</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>natpmp</td>
+<td>0</td>
+<td>natpmp can be NAT-PMP or PCP</td>
+</tr>
+<tr><td>upnp</td>
+<td>1</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<a name="portmap_protocol"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+portmap_protocol&labels=documentation&body=Documentation+under+heading+%22enum+portmap_protocol%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="enum-portmap-protocol">
+<h1>enum portmap_protocol</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/portmap.hpp">libtorrent/portmap.hpp</a>&quot;</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="27%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">value</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>none</td>
+<td>0</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>tcp</td>
+<td>1</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>udp</td>
+<td>2</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<a name="connection_type"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+connection_type&labels=documentation&body=Documentation+under+heading+%22enum+connection_type%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="enum-connection-type">
+<h1>enum connection_type</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/peer_connection.hpp">libtorrent/peer_connection.hpp</a>&quot;</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="22%" />
+<col width="41%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">value</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>bittorrent</td>
+<td>0</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>url_seed</td>
+<td>1</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>http_seed</td>
+<td>2</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<a name="download_priority_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:download_priority_t&labels=documentation&body=Documentation+under+heading+%22download_priority_t%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="download-priority-t">
+<h1>download_priority_t</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/download_priority.hpp">libtorrent/download_priority.hpp</a>&quot;</p>
+<a name="download_priority_t::dont_download"></a><dl class="docutils">
+<dt>dont_download</dt>
+<dd>Don't download the file or piece. Partial pieces may still be downloaded when
+setting file priorities.</dd>
+</dl>
+<a name="download_priority_t::default_priority"></a><dl class="docutils">
+<dt>default_priority</dt>
+<dd>The default priority for files and pieces.</dd>
+</dl>
+<a name="download_priority_t::low_priority"></a><dl class="docutils">
+<dt>low_priority</dt>
+<dd>The lowest priority for files and pieces.</dd>
+</dl>
+<a name="download_priority_t::top_priority"></a><dl class="docutils">
+<dt>top_priority</dt>
+<dd>The highest priority for files and pieces.</dd>
+</dl>
+<a name="int"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:int&labels=documentation&body=Documentation+under+heading+%22int%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="int">
+<h1>int</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/version.hpp">libtorrent/version.hpp</a>&quot;</p>
+<a name="int::version_major"></a><dl class="docutils">
+<dt>version_major</dt>
+<dd>the major, minor and tiny versions of libtorrent</dd>
+</dl>
+<a name="int::version_minor"></a><dl class="docutils">
+<dt>version_minor</dt>
+<dd>the major, minor and tiny versions of libtorrent</dd>
+</dl>
+<a name="int::version_tiny"></a><dl class="docutils">
+<dt>version_tiny</dt>
+<dd>the major, minor and tiny versions of libtorrent</dd>
+</dl>
+<a name="char const*"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:char+const%2A&labels=documentation&body=Documentation+under+heading+%22char+const%2A%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="char-const">
+<h1>char const*</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/version.hpp">libtorrent/version.hpp</a>&quot;</p>
+<a name="char const*::version_str"></a><dl class="docutils">
+<dt>version_str</dt>
+<dd>the libtorrent version in string form</dd>
+</dl>
+<a name="std::uint64_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:std%3A%3Auint64_t&labels=documentation&body=Documentation+under+heading+%22std%3A%3Auint64_t%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="std-uint64-t">
+<h1>std::uint64_t</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/version.hpp">libtorrent/version.hpp</a>&quot;</p>
+<a name="std::uint64_t::version_revision"></a><dl class="docutils">
+<dt>version_revision</dt>
+<dd>the git commit of this libtorrent version</dd>
+</dl>
+<a name="pex_flags_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:pex_flags_t&labels=documentation&body=Documentation+under+heading+%22pex_flags_t%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="pex-flags-t">
+<h1>pex_flags_t</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/pex_flags.hpp">libtorrent/pex_flags.hpp</a>&quot;</p>
+<a name="pex_flags_t::pex_encryption"></a><dl class="docutils">
+<dt>pex_encryption</dt>
+<dd>the peer supports protocol encryption</dd>
+</dl>
+<a name="pex_flags_t::pex_seed"></a><dl class="docutils">
+<dt>pex_seed</dt>
+<dd>the peer is a seed</dd>
+</dl>
+<a name="pex_flags_t::pex_utp"></a><dl class="docutils">
+<dt>pex_utp</dt>
+<dd>the peer supports the uTP, transport protocol over UDP.</dd>
+</dl>
+<a name="pex_flags_t::pex_holepunch"></a><dl class="docutils">
+<dt>pex_holepunch</dt>
+<dd>the peer supports the holepunch extension If this flag is received from a
+peer, it can be used as a rendezvous point in case direct connections to
+the peer fail</dd>
+</dl>
+<a name="pex_flags_t::pex_lt_v2"></a><dl class="docutils">
+<dt>pex_lt_v2</dt>
+<dd>protocol v2
+this is not a standard flag, it is only used internally</dd>
+</dl>
+<a name="torrent_flags_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_flags_t&labels=documentation&body=Documentation+under+heading+%22torrent_flags_t%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="torrent-flags-t">
+<h1>torrent_flags_t</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/torrent_flags.hpp">libtorrent/torrent_flags.hpp</a>&quot;</p>
+<a name="torrent_flags_t::seed_mode"></a><dl class="docutils">
+<dt>seed_mode</dt>
+<dd><p class="first">If <tt class="docutils literal">seed_mode</tt> is set, libtorrent will assume that all files
+are present for this torrent and that they all match the hashes in
+the torrent file. Each time a peer requests to download a block,
+the piece is verified against the hash, unless it has been verified
+already. If a hash fails, the torrent will automatically leave the
+seed mode and recheck all the files. The use case for this mode is
+if a torrent is created and seeded, or if the user already know
+that the files are complete, this is a way to avoid the initial
+file checks, and significantly reduce the startup time.</p>
+<p>Setting <tt class="docutils literal">seed_mode</tt> on a torrent without metadata (a
+.torrent file) is a no-op and will be ignored.</p>
+<p class="last">It is not possible to <em>set</em> the <tt class="docutils literal">seed_mode</tt> flag on a torrent after it has
+been added to a <a class="reference external" href="reference-Session.html#session">session</a>. It is possible to <em>clear</em> it though.</p>
+</dd>
+</dl>
+<a name="torrent_flags_t::upload_mode"></a><dl class="docutils">
+<dt>upload_mode</dt>
+<dd><p class="first">If <tt class="docutils literal">upload_mode</tt> is set, the torrent will be initialized in
+upload-mode, which means it will not make any piece requests. This
+state is typically entered on disk I/O errors, and if the torrent
+is also auto managed, it will be taken out of this state
+periodically (see <tt class="docutils literal"><span class="pre">settings_pack::optimistic_disk_retry</span></tt>).</p>
+<p>This mode can be used to avoid race conditions when
+adjusting priorities of pieces before allowing the torrent to start
+downloading.</p>
+<p class="last">If the torrent is auto-managed (<tt class="docutils literal">auto_managed</tt>), the torrent
+will eventually be taken out of upload-mode, regardless of how it
+got there. If it's important to manually control when the torrent
+leaves upload mode, don't make it auto managed.</p>
+</dd>
+</dl>
+<a name="torrent_flags_t::share_mode"></a><dl class="docutils">
+<dt>share_mode</dt>
+<dd><p class="first">determines if the torrent should be added in <em>share mode</em> or not.
+Share mode indicates that we are not interested in downloading the
+torrent, but merely want to improve our share ratio (i.e. increase
+it). A torrent started in share mode will do its best to never
+download more than it uploads to the swarm. If the swarm does not
+have enough demand for upload capacity, the torrent will not
+download anything. This mode is intended to be safe to add any
+number of torrents to, without manual screening, without the risk
+of downloading more than is uploaded.</p>
+<p>A torrent in share mode sets the priority to all pieces to 0,
+except for the pieces that are downloaded, when pieces are decided
+to be downloaded. This affects the progress bar, which might be set
+to &quot;100% finished&quot; most of the time. Do not change file or piece
+priorities for torrents in share mode, it will make it not work.</p>
+<p class="last">The share mode has one setting, the share ratio target, see
+<tt class="docutils literal"><span class="pre">settings_pack::share_mode_target</span></tt> for more info.</p>
+</dd>
+</dl>
+<a name="torrent_flags_t::apply_ip_filter"></a><dl class="docutils">
+<dt>apply_ip_filter</dt>
+<dd>determines if the IP filter should apply to this torrent or not. By
+default all torrents are subject to filtering by the IP filter
+(i.e. this flag is set by default). This is useful if certain
+torrents needs to be exempt for some reason, being an auto-update
+torrent for instance.</dd>
+</dl>
+<a name="torrent_flags_t::paused"></a><dl class="docutils">
+<dt>paused</dt>
+<dd>specifies whether or not the torrent is paused. i.e. it won't connect to the tracker or any of the peers
+until it's resumed. Note that a paused torrent that also has the
+auto_managed flag set can be started at any time by libtorrent's queuing
+logic. See <a class="reference external" href="manual-ref.html#queuing">queuing</a>.</dd>
+</dl>
+<a name="torrent_flags_t::auto_managed"></a><dl class="docutils">
+<dt>auto_managed</dt>
+<dd><p class="first">If the torrent is auto-managed (<tt class="docutils literal">auto_managed</tt>), the torrent
+may be resumed at any point, regardless of how it paused. If it's
+important to manually control when the torrent is paused and
+resumed, don't make it auto managed.</p>
+<p class="last">If <tt class="docutils literal">auto_managed</tt> is set, the torrent will be queued,
+started and seeded automatically by libtorrent. When this is set,
+the torrent should also be started as paused. The default queue
+order is the order the torrents were added. They are all downloaded
+in that order. For more details, see <a class="reference external" href="manual-ref.html#queuing">queuing</a>.</p>
+</dd>
+</dl>
+<a name="torrent_flags_t::duplicate_is_error"></a><dl class="docutils">
+<dt>duplicate_is_error</dt>
+<dd>used in <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> to indicate that it's an error to attempt
+to add a torrent that's already in the <a class="reference external" href="reference-Session.html#session">session</a>. If it's not considered an
+error, a handle to the existing torrent is returned.
+This flag is not saved by <a class="reference external" href="reference-Resume_Data.html#write_resume_data()">write_resume_data()</a>, since it is only meant for
+adding torrents.</dd>
+</dl>
+<a name="torrent_flags_t::update_subscribe"></a><dl class="docutils">
+<dt>update_subscribe</dt>
+<dd>on by default and means that this torrent will be part of state
+updates when calling <a class="reference external" href="reference-Session.html#post_torrent_updates()">post_torrent_updates()</a>.
+This flag is not saved by <a class="reference external" href="reference-Resume_Data.html#write_resume_data()">write_resume_data()</a>.</dd>
+</dl>
+<a name="torrent_flags_t::super_seeding"></a><dl class="docutils">
+<dt>super_seeding</dt>
+<dd>sets the torrent into super seeding/initial seeding mode. If the torrent
+is not a seed, this flag has no effect.</dd>
+</dl>
+<a name="torrent_flags_t::sequential_download"></a><dl class="docutils">
+<dt>sequential_download</dt>
+<dd>sets the sequential download state for the torrent. In this mode the
+piece picker will pick pieces with low index numbers before pieces with
+high indices. The actual pieces that are picked depend on other factors
+still, such as which pieces a peer has and whether it is in parole mode
+or &quot;prefer whole pieces&quot;-mode. Sequential mode is not ideal for streaming
+media. For that, see <a class="reference external" href="reference-Torrent_Handle.html#set_piece_deadline()">set_piece_deadline()</a> instead.</dd>
+</dl>
+<a name="torrent_flags_t::stop_when_ready"></a><dl class="docutils">
+<dt>stop_when_ready</dt>
+<dd><p class="first">When this flag is set, the torrent will <em>force stop</em> whenever it
+transitions from a non-data-transferring state into a data-transferring
+state (referred to as being ready to download or seed). This is useful
+for torrents that should not start downloading or seeding yet, but want
+to be made ready to do so. A torrent may need to have its files checked
+for instance, so it needs to be started and possibly queued for checking
+(auto-managed and started) but as soon as it's done, it should be
+stopped.</p>
+<p><em>Force stopped</em> means auto-managed is set to false and it's paused. As
+if the auto_manages flag is cleared and the paused flag is set on the torrent.</p>
+<p>Note that the torrent may transition into a downloading state while
+setting this flag, and since the logic is edge triggered you may
+miss the edge. To avoid this race, if the torrent already is in a
+downloading state when this call is made, it will trigger the
+stop-when-ready immediately.</p>
+<p>When the stop-when-ready logic fires, the flag is cleared. Any
+subsequent transitions between downloading and non-downloading states
+will not be affected, until this flag is set again.</p>
+<p>The behavior is more robust when setting this flag as part of adding
+the torrent. See <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a>.</p>
+<p>The stop-when-ready flag fixes the inherent race condition of waiting
+for the <a class="reference external" href="reference-Alerts.html#state_changed_alert">state_changed_alert</a> and then call <a class="reference external" href="reference-Torrent_Handle.html#pause()">pause()</a>. The download/seeding
+will most likely start in between posting the <a class="reference external" href="reference-Alerts.html#alert">alert</a> and receiving the
+call to pause.</p>
+<p class="last">A downloading state is one where peers are being connected. Which means
+just downloading the metadata via the <tt class="docutils literal">ut_metadata</tt> extension counts
+as a downloading state. In order to stop a torrent once the metadata
+has been downloaded, instead set all file priorities to dont_download</p>
+</dd>
+</dl>
+<a name="torrent_flags_t::override_trackers"></a><dl class="docutils">
+<dt>override_trackers</dt>
+<dd>when this flag is set, the tracker list in the <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a>
+object override any trackers from the torrent file. If the flag is
+not set, the trackers from the <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object will be
+added to the list of trackers used by the torrent.
+This flag is set by <a class="reference external" href="reference-Resume_Data.html#read_resume_data()">read_resume_data()</a> if there are trackers present in
+the resume data file. This effectively makes the trackers saved in the
+resume data take precedence over the original trackers. This includes if
+there's an empty list of trackers, to support the case where they were
+explicitly removed in the previous <a class="reference external" href="reference-Session.html#session">session</a>.
+This flag is not saved by <a class="reference external" href="reference-Resume_Data.html#write_resume_data()">write_resume_data()</a></dd>
+</dl>
+<a name="torrent_flags_t::override_web_seeds"></a><dl class="docutils">
+<dt>override_web_seeds</dt>
+<dd>If this flag is set, the web seeds from the <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a>
+object will override any web seeds in the torrent file. If it's not
+set, web seeds in the <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object will be added to the
+list of web seeds used by the torrent.
+This flag is set by <a class="reference external" href="reference-Resume_Data.html#read_resume_data()">read_resume_data()</a> if there are web seeds present in
+the resume data file. This effectively makes the web seeds saved in the
+resume data take precedence over the original ones. This includes if
+there's an empty list of web seeds, to support the case where they were
+explicitly removed in the previous <a class="reference external" href="reference-Session.html#session">session</a>.
+This flag is not saved by <a class="reference external" href="reference-Resume_Data.html#write_resume_data()">write_resume_data()</a></dd>
+</dl>
+<a name="torrent_flags_t::need_save_resume"></a><dl class="docutils">
+<dt>need_save_resume</dt>
+<dd>if this flag is set (which it is by default) the torrent will be
+considered needing to save its resume data immediately as it's
+added. New torrents that don't have any resume data should do that.
+This flag is cleared by a successful call to <a class="reference external" href="reference-Torrent_Handle.html#save_resume_data()">save_resume_data()</a>
+This flag is not saved by <a class="reference external" href="reference-Resume_Data.html#write_resume_data()">write_resume_data()</a>, since it represents an
+ephemeral state of a running torrent.</dd>
+</dl>
+<a name="torrent_flags_t::disable_dht"></a><dl class="docutils">
+<dt>disable_dht</dt>
+<dd>set this flag to disable DHT for this torrent. This lets you have the DHT
+enabled for the whole client, and still have specific torrents not
+participating in it. i.e. not announcing to the DHT nor picking up peers
+from it.</dd>
+</dl>
+<a name="torrent_flags_t::disable_lsd"></a><dl class="docutils">
+<dt>disable_lsd</dt>
+<dd>set this flag to disable local service discovery for this torrent.</dd>
+</dl>
+<a name="torrent_flags_t::disable_pex"></a><dl class="docutils">
+<dt>disable_pex</dt>
+<dd>set this flag to disable peer exchange for this torrent.</dd>
+</dl>
+<a name="torrent_flags_t::no_verify_files"></a><dl class="docutils">
+<dt>no_verify_files</dt>
+<dd>if this flag is set, the resume data will be assumed to be correct
+without validating it against any files on disk. This may be used when
+restoring a <a class="reference external" href="reference-Session.html#session">session</a> by loading resume data from disk. It will save time
+and also delay any hard disk errors until files are actually needed. If
+the resume data cannot be trusted, or if a torrent is added for the first
+time to some save path that may already have some of the files, this flag
+should not be set.</dd>
+</dl>
+<a name="torrent_flags_t::all"></a><dl class="docutils">
+<dt>all</dt>
+<dd>all torrent flags combined. Can conveniently be used when creating masks
+for flags</dd>
+</dl>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

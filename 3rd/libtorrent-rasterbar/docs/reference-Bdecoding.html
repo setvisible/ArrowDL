@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<p><a class="reference external" href="reference.html">home</a></p>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#bdecode-node" id="toc-entry-1">bdecode_node</a><ul>
+<li><a class="reference internal" href="#bdecode-node-1" id="toc-entry-2">bdecode_node()</a></li>
+<li><a class="reference internal" href="#bdecode-node-operator" id="toc-entry-3">bdecode_node() operator=()</a></li>
+<li><a class="reference internal" href="#type" id="toc-entry-4">type()</a></li>
+<li><a class="reference internal" href="#bool" id="toc-entry-5">bool()</a></li>
+<li><a class="reference internal" href="#non-owning" id="toc-entry-6">non_owning()</a></li>
+<li><a class="reference internal" href="#data-section-data-offset" id="toc-entry-7">data_section() data_offset()</a></li>
+<li><a class="reference internal" href="#list-at-list-size-list-int-value-at-list-string-value-at" id="toc-entry-8">list_at() list_size() list_int_value_at() list_string_value_at()</a></li>
+<li><a class="reference internal" href="#dict-find-string-dict-find-int-dict-find-dict-at-dict-find-string-value-dict-find-list-dict-find-int-value-dict-at-node-dict-find-dict-dict-size" id="toc-entry-9">dict_find_string() dict_find_int() dict_find() dict_at() dict_find_string_value() dict_find_list() dict_find_int_value() dict_at_node() dict_find_dict() dict_size()</a></li>
+<li><a class="reference internal" href="#int-value" id="toc-entry-10">int_value()</a></li>
+<li><a class="reference internal" href="#string-ptr-string-offset-string-value-string-length" id="toc-entry-11">string_ptr() string_offset() string_value() string_length()</a></li>
+<li><a class="reference internal" href="#clear" id="toc-entry-12">clear()</a></li>
+<li><a class="reference internal" href="#swap" id="toc-entry-13">swap()</a></li>
+<li><a class="reference internal" href="#reserve" id="toc-entry-14">reserve()</a></li>
+<li><a class="reference internal" href="#switch-underlying-buffer" id="toc-entry-15">switch_underlying_buffer()</a></li>
+<li><a class="reference internal" href="#has-soft-error" id="toc-entry-16">has_soft_error()</a></li>
+<li><a class="reference internal" href="#enum-type-t" id="toc-entry-17">enum type_t</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#print-entry" id="toc-entry-18">print_entry()</a></li>
+<li><a class="reference internal" href="#bdecode" id="toc-entry-19">bdecode()</a></li>
+</ul>
+</div>
+<a name="bdecode_node"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+bdecode_node&labels=documentation&body=Documentation+under+heading+%22class+bdecode_node%22+could+be+improved">report issue</a>]</span><div class="section" id="bdecode-node">
+<h1>bdecode_node</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/bdecode.hpp">libtorrent/bdecode.hpp</a>&quot;</p>
+<p>Sometimes it's important to get a non-owning reference to the root node (
+to be able to copy it as a reference for instance). For that, use the
+<a class="reference external" href="reference-Bdecoding.html#non_owning()">non_owning()</a> member function.</p>
+<p>There are 5 different types of nodes, see <a class="reference external" href="reference-Torrent_Info.html#type_t">type_t</a>.</p>
+<pre class="literal-block">
+struct bdecode_node
+{
+   <strong>bdecode_node</strong> () = default;
+   bdecode_node&amp; <strong>operator=</strong> (bdecode_node const&amp;) &amp;;
+   <strong>bdecode_node</strong> (bdecode_node const&amp;);
+   bdecode_node&amp; <strong>operator=</strong> (bdecode_node&amp;&amp;) &amp; = default;
+   <strong>bdecode_node</strong> (bdecode_node&amp;&amp;) noexcept;
+   type_t <strong>type</strong> () const noexcept;
+   explicit operator <strong>bool</strong> () const noexcept;
+   bdecode_node <strong>non_owning</strong> () const;
+   span&lt;char const&gt; <strong>data_section</strong> () const noexcept;
+   std::ptrdiff_t <strong>data_offset</strong> () const noexcept;
+   int <strong>list_size</strong> () const;
+   bdecode_node <strong>list_at</strong> (int i) const;
+   std::int64_t <strong>list_int_value_at</strong> (int i
+      , std::int64_t default_val = 0) const;
+   string_view <strong>list_string_value_at</strong> (int i
+      , string_view default_val = string_view()) const;
+   int <strong>dict_size</strong> () const;
+   std::pair&lt;bdecode_node, bdecode_node&gt; <strong>dict_at_node</strong> (int i) const;
+   bdecode_node <strong>dict_find</strong> (string_view key) const;
+   bdecode_node <strong>dict_find_string</strong> (string_view key) const;
+   std::pair&lt;string_view, bdecode_node&gt; <strong>dict_at</strong> (int i) const;
+   bdecode_node <strong>dict_find_list</strong> (string_view key) const;
+   bdecode_node <strong>dict_find_int</strong> (string_view key) const;
+   std::int64_t <strong>dict_find_int_value</strong> (string_view key
+      , std::int64_t default_val = 0) const;
+   bdecode_node <strong>dict_find_dict</strong> (string_view key) const;
+   string_view <strong>dict_find_string_value</strong> (string_view key
+      , string_view default_value = string_view()) const;
+   std::int64_t <strong>int_value</strong> () const;
+   string_view <strong>string_value</strong> () const;
+   char const* <strong>string_ptr</strong> () const;
+   std::ptrdiff_t <strong>string_offset</strong> () const;
+   int <strong>string_length</strong> () const;
+   void <strong>clear</strong> ();
+   void <strong>swap</strong> (bdecode_node&amp; n);
+   void <strong>reserve</strong> (int tokens);
+   void <strong>switch_underlying_buffer</strong> (char const* buf) noexcept;
+   bool <strong>has_soft_error</strong> (span&lt;char&gt; error) const;
+
+   enum type_t
+   {
+      none_t,
+      dict_t,
+      list_t,
+      string_t,
+      int_t,
+   };
+};
+</pre>
+<a name="bdecode_node()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Bbdecode_node%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Bbdecode_node%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="bdecode-node-1">
+<h2>bdecode_node()</h2>
+<pre class="literal-block">
+<strong>bdecode_node</strong> () = default;
+</pre>
+<p>creates a default constructed node, it will have the type <tt class="docutils literal">none_t</tt>.</p>
+<a name="bdecode_node()"></a>
+<a name="operator=()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Bbdecode_node%28%29+operator%3D%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Bbdecode_node%28%29+operator%3D%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="bdecode-node-operator">
+<h2>bdecode_node() operator=()</h2>
+<pre class="literal-block">
+bdecode_node&amp; <strong>operator=</strong> (bdecode_node const&amp;) &amp;;
+<strong>bdecode_node</strong> (bdecode_node const&amp;);
+bdecode_node&amp; <strong>operator=</strong> (bdecode_node&amp;&amp;) &amp; = default;
+<strong>bdecode_node</strong> (bdecode_node&amp;&amp;) noexcept;
+</pre>
+<p>For owning nodes, the copy will create a copy of the tree, but the
+underlying buffer remains the same.</p>
+<a name="type()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Btype%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Btype%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="type">
+<h2>type()</h2>
+<pre class="literal-block">
+type_t <strong>type</strong> () const noexcept;
+</pre>
+<p>the type of this node. See <a class="reference external" href="reference-Torrent_Info.html#type_t">type_t</a>.</p>
+<a name="bool()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Bbool%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Bbool%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="bool">
+<h2>bool()</h2>
+<pre class="literal-block">
+explicit operator <strong>bool</strong> () const noexcept;
+</pre>
+<p>returns true if <a class="reference external" href="reference-Bencoding.html#type()">type()</a> != none_t.</p>
+<a name="non_owning()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Bnon_owning%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Bnon_owning%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="non-owning">
+<h2>non_owning()</h2>
+<pre class="literal-block">
+bdecode_node <strong>non_owning</strong> () const;
+</pre>
+<p>return a non-owning reference to this node. This is useful to refer to
+the root node without copying it in assignments.</p>
+<a name="data_section()"></a>
+<a name="data_offset()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Bdata_section%28%29+data_offset%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Bdata_section%28%29+data_offset%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="data-section-data-offset">
+<h2>data_section() data_offset()</h2>
+<pre class="literal-block">
+span&lt;char const&gt; <strong>data_section</strong> () const noexcept;
+std::ptrdiff_t <strong>data_offset</strong> () const noexcept;
+</pre>
+<p>returns the buffer and length of the section in the original bencoded
+buffer where this node is defined. For a dictionary for instance, this
+starts with <tt class="docutils literal">d</tt> and ends with <tt class="docutils literal">e</tt>, and has all the content of the
+dictionary in between.
+the <tt class="docutils literal">data_offset()</tt> function returns the byte-offset to this node in,
+starting from the beginning of the buffer that was parsed.</p>
+<a name="list_at()"></a>
+<a name="list_size()"></a>
+<a name="list_int_value_at()"></a>
+<a name="list_string_value_at()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Blist_at%28%29+list_size%28%29+list_int_value_at%28%29+list_string_value_at%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Blist_at%28%29+list_size%28%29+list_int_value_at%28%29+list_string_value_at%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="list-at-list-size-list-int-value-at-list-string-value-at">
+<h2>list_at() list_size() list_int_value_at() list_string_value_at()</h2>
+<pre class="literal-block">
+int <strong>list_size</strong> () const;
+bdecode_node <strong>list_at</strong> (int i) const;
+std::int64_t <strong>list_int_value_at</strong> (int i
+      , std::int64_t default_val = 0) const;
+string_view <strong>list_string_value_at</strong> (int i
+      , string_view default_val = string_view()) const;
+</pre>
+<p>functions with the <tt class="docutils literal">list_</tt> prefix operate on lists. These functions are
+only valid if <tt class="docutils literal">type()</tt> == <tt class="docutils literal">list_t</tt>. <tt class="docutils literal">list_at()</tt> returns the item
+in the list at index <tt class="docutils literal">i</tt>. <tt class="docutils literal">i</tt> may not be greater than or equal to the
+size of the list. <tt class="docutils literal">size()</tt> returns the size of the list.</p>
+<a name="dict_find_string()"></a>
+<a name="dict_find_int()"></a>
+<a name="dict_find()"></a>
+<a name="dict_at()"></a>
+<a name="dict_find_string_value()"></a>
+<a name="dict_find_list()"></a>
+<a name="dict_find_int_value()"></a>
+<a name="dict_at_node()"></a>
+<a name="dict_find_dict()"></a>
+<a name="dict_size()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Bdict_find_string%28%29+dict_find_int%28%29+dict_find%28%29+dict_at%28%29+dict_find_string_value%28%29+dict_find_list%28%29+dict_find_int_value%28%29+dict_at_node%28%29+dict_find_dict%28%29+dict_size%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Bdict_find_string%28%29+dict_find_int%28%29+dict_find%28%29+dict_at%28%29+dict_find_string_value%28%29+dict_find_list%28%29+dict_find_int_value%28%29+dict_at_node%28%29+dict_find_dict%28%29+dict_size%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="dict-find-string-dict-find-int-dict-find-dict-at-dict-find-string-value-dict-find-list-dict-find-int-value-dict-at-node-dict-find-dict-dict-size">
+<h2>dict_find_string() dict_find_int() dict_find() dict_at() dict_find_string_value() dict_find_list() dict_find_int_value() dict_at_node() dict_find_dict() dict_size()</h2>
+<pre class="literal-block">
+int <strong>dict_size</strong> () const;
+std::pair&lt;bdecode_node, bdecode_node&gt; <strong>dict_at_node</strong> (int i) const;
+bdecode_node <strong>dict_find</strong> (string_view key) const;
+bdecode_node <strong>dict_find_string</strong> (string_view key) const;
+std::pair&lt;string_view, bdecode_node&gt; <strong>dict_at</strong> (int i) const;
+bdecode_node <strong>dict_find_list</strong> (string_view key) const;
+bdecode_node <strong>dict_find_int</strong> (string_view key) const;
+std::int64_t <strong>dict_find_int_value</strong> (string_view key
+      , std::int64_t default_val = 0) const;
+bdecode_node <strong>dict_find_dict</strong> (string_view key) const;
+string_view <strong>dict_find_string_value</strong> (string_view key
+      , string_view default_value = string_view()) const;
+</pre>
+<p>Functions with the <tt class="docutils literal">dict_</tt> prefix operates on dictionaries. They are
+only valid if <tt class="docutils literal">type()</tt> == <tt class="docutils literal">dict_t</tt>. In case a key you're looking up
+contains a 0 byte, you cannot use the 0-terminated string overloads,
+but have to use <tt class="docutils literal">string_view</tt> instead. <tt class="docutils literal">dict_find_list</tt> will return a
+valid <tt class="docutils literal">bdecode_node</tt> if the key is found _and_ it is a list. Otherwise
+it will return a default-constructed <a class="reference external" href="reference-Bdecoding.html#bdecode_node">bdecode_node</a>.</p>
+<p>Functions with the <tt class="docutils literal">_value</tt> suffix return the value of the node
+directly, rather than the nodes. In case the node is not found, or it has
+a different type, a default value is returned (which can be specified).</p>
+<p><tt class="docutils literal">dict_at()</tt> returns the (key, value)-pair at the specified index in a
+dictionary. Keys are only allowed to be strings. <tt class="docutils literal">dict_at_node()</tt> also
+returns the (key, value)-pair, but the key is returned as a
+<tt class="docutils literal">bdecode_node</tt> (and it will always be a string).</p>
+<a name="int_value()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Bint_value%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Bint_value%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="int-value">
+<h2>int_value()</h2>
+<pre class="literal-block">
+std::int64_t <strong>int_value</strong> () const;
+</pre>
+<p>this function is only valid if <tt class="docutils literal">type()</tt> == <tt class="docutils literal">int_t</tt>. It returns the
+value of the integer.</p>
+<a name="string_ptr()"></a>
+<a name="string_offset()"></a>
+<a name="string_value()"></a>
+<a name="string_length()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Bstring_ptr%28%29+string_offset%28%29+string_value%28%29+string_length%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Bstring_ptr%28%29+string_offset%28%29+string_value%28%29+string_length%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="string-ptr-string-offset-string-value-string-length">
+<h2>string_ptr() string_offset() string_value() string_length()</h2>
+<pre class="literal-block">
+string_view <strong>string_value</strong> () const;
+char const* <strong>string_ptr</strong> () const;
+std::ptrdiff_t <strong>string_offset</strong> () const;
+int <strong>string_length</strong> () const;
+</pre>
+<p>these functions are only valid if <tt class="docutils literal">type()</tt> == <tt class="docutils literal">string_t</tt>. They return
+the string values. Note that <tt class="docutils literal">string_ptr()</tt> is <em>not</em> 0-terminated.
+<tt class="docutils literal">string_length()</tt> returns the number of bytes in the string.
+<tt class="docutils literal">string_offset()</tt> returns the byte offset from the start of the parsed
+bencoded buffer this string can be found.</p>
+<a name="clear()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Bclear%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Bclear%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="clear">
+<h2>clear()</h2>
+<pre class="literal-block">
+void <strong>clear</strong> ();
+</pre>
+<p>resets the <tt class="docutils literal">bdecoded_node</tt> to a default constructed state. If this is
+an owning node, the tree is freed and all child nodes are invalidated.</p>
+<a name="swap()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Bswap%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Bswap%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="swap">
+<h2>swap()</h2>
+<pre class="literal-block">
+void <strong>swap</strong> (bdecode_node&amp; n);
+</pre>
+<p>Swap contents.</p>
+<a name="reserve()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Breserve%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Breserve%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="reserve">
+<h2>reserve()</h2>
+<pre class="literal-block">
+void <strong>reserve</strong> (int tokens);
+</pre>
+<p>preallocate memory for the specified numbers of tokens. This is
+useful if you know approximately how many tokens are in the file
+you are about to parse. Doing so will save realloc operations
+while parsing. You should only call this on the root node, before
+passing it in to <a class="reference external" href="reference-Bdecoding.html#bdecode()">bdecode()</a>.</p>
+<a name="switch_underlying_buffer()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Bswitch_underlying_buffer%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Bswitch_underlying_buffer%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="switch-underlying-buffer">
+<h2>switch_underlying_buffer()</h2>
+<pre class="literal-block">
+void <strong>switch_underlying_buffer</strong> (char const* buf) noexcept;
+</pre>
+<p>this buffer <em>MUST</em> be identical to the one originally parsed. This
+operation is only defined on owning root nodes, i.e. the one passed in to
+decode().</p>
+<a name="has_soft_error()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Bhas_soft_error%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Bhas_soft_error%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="has-soft-error">
+<h2>has_soft_error()</h2>
+<pre class="literal-block">
+bool <strong>has_soft_error</strong> (span&lt;char&gt; error) const;
+</pre>
+<p>returns true if there is a non-fatal error in the bencoding of this node
+or its children</p>
+<a name="type_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+type_t&labels=documentation&body=Documentation+under+heading+%22enum+type_t%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="enum-type-t">
+<h2>enum type_t</h2>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/bdecode.hpp">libtorrent/bdecode.hpp</a>&quot;</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="9%" />
+<col width="78%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">value</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>none_t</td>
+<td>0</td>
+<td>uninitialized or default constructed. This is also used
+to indicate that a node was not found in some cases.</td>
+</tr>
+<tr><td>dict_t</td>
+<td>1</td>
+<td>a dictionary node. The <tt class="docutils literal">dict_find_</tt> functions are valid.</td>
+</tr>
+<tr><td>list_t</td>
+<td>2</td>
+<td>a list node. The <tt class="docutils literal">list_</tt> functions are valid.</td>
+</tr>
+<tr><td>string_t</td>
+<td>3</td>
+<td>a string node, the <tt class="docutils literal">string_</tt> functions are valid.</td>
+</tr>
+<tr><td>int_t</td>
+<td>4</td>
+<td>an integer node. The <tt class="docutils literal">int_</tt> functions are valid.</td>
+</tr>
+</tbody>
+</table>
+<a name="print_entry()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:print_entry%28%29&labels=documentation&body=Documentation+under+heading+%22print_entry%28%29%22+could+be+improved">report issue</a>]</span></div>
+</div>
+<div class="section" id="print-entry">
+<h1>print_entry()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/bdecode.hpp">libtorrent/bdecode.hpp</a>&quot;</p>
+<pre class="literal-block">
+std::string <strong>print_entry</strong> (bdecode_node const&amp; e
+   , bool single_line = false, int indent = 0);
+</pre>
+<p>print the bencoded structure in a human-readable format to a string
+that's returned.</p>
+<a name="bdecode()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode%28%29&labels=documentation&body=Documentation+under+heading+%22bdecode%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="bdecode">
+<h1>bdecode()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/bdecode.hpp">libtorrent/bdecode.hpp</a>&quot;</p>
+<pre class="literal-block">
+bdecode_node <strong>bdecode</strong> (span&lt;char const&gt; buffer
+   , error_code&amp; ec, int* error_pos = nullptr, int depth_limit = 100
+   , int token_limit = 2000000);
+int <strong>bdecode</strong> (char const* start, char const* end, bdecode_node&amp; ret
+   , error_code&amp; ec, int* error_pos = nullptr, int depth_limit = 100
+   , int token_limit = 2000000);
+bdecode_node <strong>bdecode</strong> (span&lt;char const&gt; buffer
+   , int depth_limit = 100, int token_limit = 2000000);
+</pre>
+<p>This function decodes/parses bdecoded data (for example a .torrent file).
+The data structure is returned in the <tt class="docutils literal">ret</tt> argument. the buffer to parse
+is specified by the <tt class="docutils literal">start</tt> of the buffer as well as the <tt class="docutils literal">end</tt>, i.e. one
+byte past the end. If the buffer fails to parse, the function returns a
+non-zero value and fills in <tt class="docutils literal">ec</tt> with the error code. The optional
+argument <tt class="docutils literal">error_pos</tt>, if set to non-nullptr, will be set to the byte offset
+into the buffer where the parse failure occurred.</p>
+<p><tt class="docutils literal">depth_limit</tt> specifies the max number of nested lists or dictionaries are
+allowed in the data structure. (This affects the stack usage of the
+function, be careful not to set it too high).</p>
+<p><tt class="docutils literal">token_limit</tt> is the max number of tokens allowed to be parsed from the
+buffer. This is simply a sanity check to not have unbounded memory usage.</p>
+<p>The resulting <tt class="docutils literal">bdecode_node</tt> is an <em>owning</em> node. That means it will
+be holding the whole parsed tree. When iterating lists and dictionaries,
+those <tt class="docutils literal">bdecode_node</tt> objects will simply have references to the root or
+owning <tt class="docutils literal">bdecode_node</tt>. If the root node is destructed, all other nodes
+that refer to anything in that tree become invalid.</p>
+<p>However, the underlying buffer passed in to this function (<tt class="docutils literal">start</tt>, <tt class="docutils literal">end</tt>)
+must also remain valid while the bdecoded tree is used. The parsed tree
+produced by this function does not copy any data out of the buffer, but
+simply produces references back into it.</p>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

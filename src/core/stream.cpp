@@ -177,8 +177,8 @@ static inline bool matches(const QString &host, const QString &regexHost)
      */
     static QRegularExpression delimiters("[.|:]");
 
-    auto domains = host.split('.', QString::SkipEmptyParts);
-    auto mandatoryDomains = regexHost.split(delimiters, QString::SkipEmptyParts);
+    auto domains = host.split('.', Qt::SkipEmptyParts);
+    auto mandatoryDomains = regexHost.split(delimiters, Qt::SkipEmptyParts);
 
     foreach (auto mandatory, mandatoryDomains) {
         bool found = false;
@@ -506,7 +506,7 @@ void Stream::onStandardErrorReady()
  ******************************************************************************/
 void Stream::parseStandardOutput(const QString &msg)
 {
-    auto tokens = msg.split(QChar::Space, QString::SkipEmptyParts);
+    auto tokens = msg.split(QChar::Space, Qt::SkipEmptyParts);
     if (tokens.isEmpty()) {
         return;
     }
@@ -993,7 +993,7 @@ static StreamObjectId findId(const QByteArray &bytes)
      * should return "0123456789a"
      */
     QString str(bytes);
-    QStringList values = str.split(QLatin1String(":"), QString::SkipEmptyParts);
+    QStringList values = str.split(QLatin1String(":"), Qt::SkipEmptyParts);
     return values.count() > 1 ? values.at(1).trimmed() : StreamObjectId();
 }
 
@@ -1217,7 +1217,7 @@ void StreamExtractorListCollector::onFinishedExtractors(int exitCode, QProcess::
         if (exitCode == C_EXIT_SUCCESS) {
             auto bytes = m_processExtractors->readAllStandardOutput();
             QString str(bytes);
-            m_extractors = str.split(QChar('\n'), QString::KeepEmptyParts);
+            m_extractors = str.split(QChar('\n'), Qt::KeepEmptyParts);
             onFinished();
         } else {
             auto errorMessage = standardToString(m_processExtractors->readAllStandardError());
@@ -1236,7 +1236,7 @@ void StreamExtractorListCollector::onFinishedDescriptions(int exitCode, QProcess
         if (exitCode == C_EXIT_SUCCESS) {
             auto bytes = m_processDescriptions->readAllStandardOutput();
             QString str(bytes);
-            m_descriptions = str.split("\n", QString::KeepEmptyParts);
+            m_descriptions = str.split("\n", Qt::KeepEmptyParts);
             onFinished();
         } else {
             auto errorMessage = standardToString(m_processDescriptions->readAllStandardError());
@@ -1271,7 +1271,7 @@ QString StreamFormatId::toString() const
 
 void StreamFormatId::fromString(const QString &format_id)
 {
-    auto split = format_id.split(QChar('+'), QString::SkipEmptyParts);
+    auto split = format_id.split(QChar('+'), Qt::SkipEmptyParts);
     /// \todo std::sort(split.begin(), split.end()); ?
     m_identifiers = split;
 }
@@ -1641,7 +1641,8 @@ QList<StreamObject::Data::Subtitle> StreamObject::Data::subtitleLanguages() cons
         QString key =
                 subtitle.languageCode + " " +
                 subtitle.languageName + " " +
-                subtitle.isAutomatic;
+                (subtitle.isAutomatic == true ? QLatin1String("auto-generated")
+                                              : QLatin1String("normal"));
         map.insert(key, subtitle);
     }
     return map.values();

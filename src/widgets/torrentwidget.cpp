@@ -31,9 +31,9 @@
 #include <QtCore/QBitArray>
 #include <QtCore/QPair>
 #include <QtCore/QVector>
+#include <QtGui/QAction>
 #include <QtGui/QClipboard>
 #include <QtGui/QPainter>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMenu>
@@ -617,7 +617,7 @@ void TorrentWidget::setPriorityByFileOrder()
         rows.insert(index.row());
     }
     if (m_torrentContext) {
-        m_torrentContext->setPriorityByFileOrder(m_torrent, rows.toList());
+        m_torrentContext->setPriorityByFileOrder(m_torrent, rows.values());
     }
 }
 

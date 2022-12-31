@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#contributing-to-libtorrent" id="toc-entry-1">contributing to libtorrent</a></li>
+</ul>
+</div>
+<div class="section" id="contributing-to-libtorrent">
+<h1>contributing to libtorrent</h1>
+<p>There are several ways to contribute to libtorrent at various levels. Any help is
+much appreciated. If you're interested in something libtorrent related that's not
+enumerated on this page, please contact <a class="reference external" href="mailto:arvid&#64;libtorrent.org">arvid&#64;libtorrent.org</a> or the <a class="reference external" href="https://lists.sourceforge.net/lists/listinfo/libtorrent-discuss">mailing list</a>.</p>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>Testing</dt>
+<dd><p class="first">This is not just limited to finding bugs and ways to reproduce crashes, but also
+sub-optimal behavior is certain scenarios and finding ways to reproduce those. Please
+report any issue to the bug tracker at <a class="reference external" href="https://github.com/arvidn/libtorrent/issues">github</a>.</p>
+<p>New features that need testing are streaming (<tt class="docutils literal">set_piece_deadline()</tt>), the different
+choking algorithms (like the rate-based choker).</p>
+<p class="last">Additional fuzzers are also always welcome. Find a libtorrent interface
+that's not already covered by a fuzzer (see the <tt class="docutils literal">fuzzers</tt> directory in the
+root) and add a new fuzzer to it. Alternatively, improve an existing fuzzer by
+producing inputs that gets coverage deeper in to libtorrent.</p>
+</dd>
+</dl>
+</li>
+</ol>
+<ol class="arabic" start="2">
+<li><dl class="first docutils">
+<dt>Documentation</dt>
+<dd><p class="first">Finding typos or outdated sections in the documentation. Contributing documentation
+based on your own experience and experimentation with the library or with BitTorrent
+in general. Non-reference documentation is very much welcome as well, higher level
+descriptions on how to configure libtorrent for various situations for instance.
+The reference documentation for libtorrent is generated from the header files.</p>
+<p>Each heading in the online documentation has a short-cut link to file a new issue
+against the documentation.</p>
+<p class="last">For updates, please submit a <a class="reference external" href="https://github.com/arvidn/libtorrent">pull request</a>. All documentation is in
+restructured text (<a class="reference external" href="https://docutils.sourceforge.io/rst.html">rst</a>). All documentation is spell checked with hunspell
+which can be invoked via <tt class="docutils literal">make <span class="pre">spell-check</span></tt> in the docs directory. If
+words are missing, please add them to <tt class="docutils literal">docs/hunspell/libtorrent.dic</tt></p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Code</dt>
+<dd><p class="first">Contributing code for new features or bug-fixes is highly welcome. If you're interested
+in adding a feature but not sure where to start, please contact the <a class="reference external" href="https://lists.sourceforge.net/lists/listinfo/libtorrent-discuss">mailing list</a> or
+<tt class="docutils literal">#libtorrent</tt> &#64; <tt class="docutils literal">irc.freenode.net</tt>. For proposed fixes or updates, please
+submit a <a class="reference external" href="https://github.com/arvidn/libtorrent">pull request</a>.</p>
+<p class="last">New features might be better support for integrating with other services, new choking
+algorithms, seeding policies, ports to new platforms etc.</p>
+</dd>
+</dl>
+</li>
+</ol>
+<p>For an overview of the internals of libtorrent, see the <a class="reference external" href="hacking.html">hacking</a> page.</p>
+<p>For outstanding things to do, see the <a class="reference external" href="todo.html">todo list</a>.</p>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

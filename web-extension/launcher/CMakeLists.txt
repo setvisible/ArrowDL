@@ -1,79 +1,88 @@
-##############################################################################
-# Launcher
-##############################################################################
+string( TOUPPER "${CMAKE_BUILD_TYPE}" BuildTypeUpperCase )
+if(BuildTypeUpperCase STREQUAL "DEBUG")
+    set(TARGET_NAME "launcherd")
+else()
+    set(TARGET_NAME "launcher")
+endif()
 
+find_package(Qt6 REQUIRED COMPONENTS
+    Core
+)
 
-# Rename application
-if(RELEASE_MODE)
-    set(Launcher_NAME "launcher")
-else(RELEASE_MODE)
-    set(Launcher_NAME "launcherd")
-endif(RELEASE_MODE)
+qt_standard_project_setup()
 
+set(MY_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/launcher.cpp
+)
 
-##############################################################################
-### Sources
-##############################################################################
-set(Launcher_SOURCES ${Launcher_SOURCES}
-    ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/launcher/launcher.cpp
-    )
+set(MY_RC_FILE
+    ${CMAKE_SOURCE_DIR}/src/resources_win.rc
+)
 
-SET(Launcher_RESOURCES ${Launcher_RESOURCES}
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/resources_win.rc
-    )
+add_executable(${TARGET_NAME} WIN32 # build a Win32 application, not a console application
+    ${MY_SOURCES}
+    ${MY_RC_FILE}
+)
 
+target_compile_definitions(${TARGET_NAME}
+    PUBLIC
+        $<$<CONFIG:Debug>:QT_DEBUG>
+        $<$<CONFIG:Release>:QT_NO_DEBUG_OUTPUT>
+        $<$<CONFIG:Release>:QT_NO_DEBUG>
+        $<$<CONFIG:Debug>:QT_DEPRECATED_WARNINGS>
+        UNICODE
+)
 
-##############################################################################
-# Linking the executable
-##############################################################################
-add_executable(${Launcher_NAME}
-    WIN32           # build a Win32 application, not a console application
-    ${Launcher_SOURCES}
-    ${Launcher_RESOURCES}
-    )
+target_link_libraries(${TARGET_NAME}
+    PRIVATE
+        Qt::Core
+)
 
-# Qt5
-target_link_libraries(${Launcher_NAME} Qt5::Core)
-
-
-##############################################################################
-# Deploying
-##############################################################################
-install(TARGETS ${Launcher_NAME}
+install(
+    TARGETS
+        ${TARGET_NAME}
     RUNTIME
-    DESTINATION ${CMAKE_INSTALL_PREFIX}
-    )
+    DESTINATION
+        ${CMAKE_INSTALL_PREFIX}
+)
 
 if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
-    set(Launcher_DOCS
-        ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/launcher/windows/launcher-manifest-chrome.json
-        ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/launcher/windows/launcher-manifest-firefox.json
-        ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/setup/windows/ReadMe.txt
-        ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/setup/windows/install.bat
-        ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/setup/windows/uninstall.bat
-        )
+
+    install(
+        FILES
+            ${CMAKE_SOURCE_DIR}/web-extension/launcher/windows/launcher-manifest-chrome.json
+            ${CMAKE_SOURCE_DIR}/web-extension/launcher/windows/launcher-manifest-firefox.json
+            ${CMAKE_SOURCE_DIR}/web-extension/setup/windows/ReadMe.txt
+            ${CMAKE_SOURCE_DIR}/web-extension/setup/windows/install.bat
+            ${CMAKE_SOURCE_DIR}/web-extension/setup/windows/uninstall.bat
+        DESTINATION
+            ${CMAKE_INSTALL_PREFIX}
+    )
 
 else() # MacOS or Unix Compilers
     if(UNIX AND NOT APPLE) # Linux or FreeBSD
-        set(Launcher_DOCS
-            ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/launcher/unix/launcher-manifest-chrome.json
-            ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/launcher/unix/launcher-manifest-firefox.json
-            ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/setup/unix/README
-            ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/setup/unix/install.sh
-            ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/setup/unix/uninstall.sh
-            )
+
+        install(
+            FILES
+                ${CMAKE_SOURCE_DIR}/web-extension/launcher/unix/launcher-manifest-chrome.json
+                ${CMAKE_SOURCE_DIR}/web-extension/launcher/unix/launcher-manifest-firefox.json
+                ${CMAKE_SOURCE_DIR}/web-extension/setup/unix/README
+                ${CMAKE_SOURCE_DIR}/web-extension/setup/unix/install.sh
+                ${CMAKE_SOURCE_DIR}/web-extension/setup/unix/uninstall.sh
+            DESTINATION
+                ${CMAKE_INSTALL_PREFIX}
+        )
 
     else() # MacOS
-        set(Launcher_DOCS
-            ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/launcher/macx/launcher-manifest-chrome.json
-            ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/launcher/macx/launcher-manifest-firefox.json
-            ${CMAKE_CURRENT_SOURCE_DIR}/web-extension/setup/macx/TODO
-            )
+
+        install(
+            FILES
+                ${CMAKE_SOURCE_DIR}/web-extension/launcher/macx/launcher-manifest-chrome.json
+                ${CMAKE_SOURCE_DIR}/web-extension/launcher/macx/launcher-manifest-firefox.json
+                ${CMAKE_SOURCE_DIR}/web-extension/setup/macx/TODO
+            DESTINATION
+                ${CMAKE_INSTALL_PREFIX}
+        )
+
     endif()
 endif()
-
-install (
-    FILES ${Launcher_DOCS}
-    DESTINATION ${CMAKE_INSTALL_PREFIX}
-    COMPONENT release_docs
-    )

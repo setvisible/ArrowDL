@@ -21,6 +21,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <QtCore/QStandardPaths>
+#include <QtCore/QVariant>
 
 /*!
  * Registry Keys. They must be unique
@@ -347,7 +348,7 @@ void Settings::setStreamHostEnabled(bool enabled)
 QStringList Settings::streamHosts() const
 {
     return getSettingString(REGISTRY_STREAM_HOST_LIST)
-            .split(STREAM_HOST_SEPARATOR, QString::SkipEmptyParts);
+            .split(STREAM_HOST_SEPARATOR, Qt::SkipEmptyParts);
 }
 
 void Settings::setStreamHosts(const QStringList &hosts)

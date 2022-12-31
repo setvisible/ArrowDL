@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<p><a class="reference external" href="reference.html">home</a></p>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#storage-params" id="toc-entry-1">storage_params</a></li>
+<li><a class="reference internal" href="#file-slice" id="toc-entry-2">file_slice</a></li>
+<li><a class="reference internal" href="#file-storage" id="toc-entry-3">file_storage</a><ul>
+<li><a class="reference internal" href="#is-valid" id="toc-entry-4">is_valid()</a></li>
+<li><a class="reference internal" href="#reserve" id="toc-entry-5">reserve()</a></li>
+<li><a class="reference internal" href="#add-file-borrow-add-file" id="toc-entry-6">add_file_borrow() add_file()</a></li>
+<li><a class="reference internal" href="#rename-file" id="toc-entry-7">rename_file()</a></li>
+<li><a class="reference internal" href="#map-block" id="toc-entry-8">map_block()</a></li>
+<li><a class="reference internal" href="#map-file" id="toc-entry-9">map_file()</a></li>
+<li><a class="reference internal" href="#num-files" id="toc-entry-10">num_files()</a></li>
+<li><a class="reference internal" href="#end-file" id="toc-entry-11">end_file()</a></li>
+<li><a class="reference internal" href="#file-range" id="toc-entry-12">file_range()</a></li>
+<li><a class="reference internal" href="#total-size" id="toc-entry-13">total_size()</a></li>
+<li><a class="reference internal" href="#set-num-pieces-num-pieces" id="toc-entry-14">set_num_pieces() num_pieces()</a></li>
+<li><a class="reference internal" href="#end-piece" id="toc-entry-15">end_piece()</a></li>
+<li><a class="reference internal" href="#last-piece" id="toc-entry-16">last_piece()</a></li>
+<li><a class="reference internal" href="#piece-range" id="toc-entry-17">piece_range()</a></li>
+<li><a class="reference internal" href="#set-piece-length-piece-length" id="toc-entry-18">set_piece_length() piece_length()</a></li>
+<li><a class="reference internal" href="#piece-size" id="toc-entry-19">piece_size()</a></li>
+<li><a class="reference internal" href="#piece-size2" id="toc-entry-20">piece_size2()</a></li>
+<li><a class="reference internal" href="#blocks-in-piece2" id="toc-entry-21">blocks_in_piece2()</a></li>
+<li><a class="reference internal" href="#set-name-name" id="toc-entry-22">set_name() name()</a></li>
+<li><a class="reference internal" href="#swap" id="toc-entry-23">swap()</a></li>
+<li><a class="reference internal" href="#canonicalize" id="toc-entry-24">canonicalize()</a></li>
+<li><a class="reference internal" href="#root-ptr-file-path-pad-file-at-root-hash-symlink-file-offset-file-size-mtime-file-name" id="toc-entry-25">root_ptr() file_path() pad_file_at() root() hash() symlink() file_offset() file_size() mtime() file_name()</a></li>
+<li><a class="reference internal" href="#file-num-pieces-file-num-blocks-file-piece-range" id="toc-entry-26">file_num_pieces() file_num_blocks() file_piece_range()</a></li>
+<li><a class="reference internal" href="#file-first-piece-node-file-first-block-node" id="toc-entry-27">file_first_piece_node() file_first_block_node()</a></li>
+<li><a class="reference internal" href="#file-path-hash" id="toc-entry-28">file_path_hash()</a></li>
+<li><a class="reference internal" href="#all-path-hashes" id="toc-entry-29">all_path_hashes()</a></li>
+<li><a class="reference internal" href="#file-flags" id="toc-entry-30">file_flags()</a></li>
+<li><a class="reference internal" href="#file-absolute-path" id="toc-entry-31">file_absolute_path()</a></li>
+<li><a class="reference internal" href="#file-index-at-offset-file-index-at-piece" id="toc-entry-32">file_index_at_offset() file_index_at_piece()</a></li>
+<li><a class="reference internal" href="#file-index-for-root" id="toc-entry-33">file_index_for_root()</a></li>
+<li><a class="reference internal" href="#piece-index-at-file" id="toc-entry-34">piece_index_at_file()</a></li>
+<li><a class="reference internal" href="#sanitize-symlinks" id="toc-entry-35">sanitize_symlinks()</a></li>
+<li><a class="reference internal" href="#v2" id="toc-entry-36">v2()</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#default-disk-io-constructor" id="toc-entry-37">default_disk_io_constructor()</a></li>
+<li><a class="reference internal" href="#mmap-disk-io-constructor" id="toc-entry-38">mmap_disk_io_constructor()</a></li>
+<li><a class="reference internal" href="#posix-disk-io-constructor" id="toc-entry-39">posix_disk_io_constructor()</a></li>
+<li><a class="reference internal" href="#disabled-disk-io-constructor" id="toc-entry-40">disabled_disk_io_constructor()</a></li>
+<li><a class="reference internal" href="#enum-storage-mode-t" id="toc-entry-41">enum storage_mode_t</a></li>
+<li><a class="reference internal" href="#enum-status-t" id="toc-entry-42">enum status_t</a></li>
+<li><a class="reference internal" href="#enum-move-flags-t" id="toc-entry-43">enum move_flags_t</a></li>
+</ul>
+</div>
+<a name="storage_params"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+storage_params&labels=documentation&body=Documentation+under+heading+%22class+storage_params%22+could+be+improved">report issue</a>]</span><div class="section" id="storage-params">
+<h1>storage_params</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/storage_defs.hpp">libtorrent/storage_defs.hpp</a>&quot;</p>
+<p>a parameter pack used to construct the storage for a torrent, used in
+<a class="reference external" href="reference-Custom_Storage.html#disk_interface">disk_interface</a></p>
+<pre class="literal-block">
+struct storage_params
+{
+   <strong>storage_params</strong> (file_storage const&amp; f, file_storage const* mf
+      , std::string const&amp; sp, storage_mode_t const sm
+      , aux::vector&lt;download_priority_t, file_index_t&gt; const&amp; prio
+      , sha1_hash const&amp; ih);
+
+   file_storage const&amp; files;
+   file_storage const* <strong>mapped_files</strong>  = nullptr;
+   std::string const&amp; path;
+   storage_mode_t <strong>mode</strong> {storage_mode_sparse};
+   aux::vector&lt;download_priority_t, file_index_t&gt; const&amp; priorities;
+   sha1_hash info_hash;
+};
+</pre>
+<a name="file_slice"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+file_slice&labels=documentation&body=Documentation+under+heading+%22class+file_slice%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="file-slice">
+<h1>file_slice</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/file_storage.hpp">libtorrent/file_storage.hpp</a>&quot;</p>
+<p>represents a window of a file in a torrent.</p>
+<p>The <tt class="docutils literal">file_index</tt> refers to the index of the file (in the <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a>).
+To get the path and filename, use <tt class="docutils literal">file_path()</tt> and give the <tt class="docutils literal">file_index</tt>
+as argument. The <tt class="docutils literal">offset</tt> is the byte offset in the file where the range
+starts, and <tt class="docutils literal">size</tt> is the number of bytes this range is. The size + offset
+will never be greater than the file size.</p>
+<pre class="literal-block">
+struct file_slice
+{
+   file_index_t file_index;
+   std::int64_t offset;
+   std::int64_t size;
+};
+</pre>
+<a name="file_index"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_slice%3A%3A%5Bfile_index%5D&labels=documentation&body=Documentation+under+heading+%22file_slice%3A%3A%5Bfile_index%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>file_index</dt>
+<dd>the index of the file</dd>
+</dl>
+<a name="offset"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_slice%3A%3A%5Boffset%5D&labels=documentation&body=Documentation+under+heading+%22file_slice%3A%3A%5Boffset%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>offset</dt>
+<dd>the offset from the start of the file, in bytes</dd>
+</dl>
+<a name="size"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_slice%3A%3A%5Bsize%5D&labels=documentation&body=Documentation+under+heading+%22file_slice%3A%3A%5Bsize%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>size</dt>
+<dd>the size of the window, in bytes</dd>
+</dl>
+<a name="file_storage"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+file_storage&labels=documentation&body=Documentation+under+heading+%22class+file_storage%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="file-storage">
+<h1>file_storage</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/file_storage.hpp">libtorrent/file_storage.hpp</a>&quot;</p>
+<p>The <tt class="docutils literal">file_storage</tt> class represents a file list and the piece
+size. Everything necessary to interpret a regular bittorrent storage
+file structure.</p>
+<pre class="literal-block">
+class file_storage
+{
+   bool <strong>is_valid</strong> () const;
+   void <strong>reserve</strong> (int num_files);
+   void <strong>add_file</strong> (std::string const&amp; path, std::int64_t file_size
+      , file_flags_t file_flags = {}
+      , std::time_t mtime = 0, string_view symlink_path = string_view()
+      , char const* root_hash = nullptr);
+   void <strong>add_file_borrow</strong> (error_code&amp; ec, string_view filename
+      , std::string const&amp; path, std::int64_t file_size
+      , file_flags_t file_flags = {}, char const* filehash = nullptr
+      , std::int64_t mtime = 0, string_view symlink_path = string_view()
+      , char const* root_hash = nullptr);
+   void <strong>add_file</strong> (error_code&amp; ec, std::string const&amp; path, std::int64_t file_size
+      , file_flags_t file_flags = {}
+      , std::time_t mtime = 0, string_view symlink_path = string_view()
+      , char const* root_hash = nullptr);
+   void <strong>add_file_borrow</strong> (string_view filename
+      , std::string const&amp; path, std::int64_t file_size
+      , file_flags_t file_flags = {}, char const* filehash = nullptr
+      , std::int64_t mtime = 0, string_view symlink_path = string_view()
+      , char const* root_hash = nullptr);
+   void <strong>rename_file</strong> (file_index_t index, std::string const&amp; new_filename);
+   std::vector&lt;file_slice&gt; <strong>map_block</strong> (piece_index_t piece, std::int64_t offset
+      , std::int64_t size) const;
+   peer_request <strong>map_file</strong> (file_index_t file, std::int64_t offset, int size) const;
+   int <strong>num_files</strong> () const noexcept;
+   file_index_t <strong>end_file</strong> () const noexcept;
+   index_range&lt;file_index_t&gt; <strong>file_range</strong> () const noexcept;
+   std::int64_t <strong>total_size</strong> () const;
+   void <strong>set_num_pieces</strong> (int n);
+   int <strong>num_pieces</strong> () const;
+   piece_index_t <strong>end_piece</strong> () const;
+   piece_index_t <strong>last_piece</strong> () const;
+   index_range&lt;piece_index_t&gt; <strong>piece_range</strong> () const noexcept;
+   void <strong>set_piece_length</strong> (int l);
+   int <strong>piece_length</strong> () const;
+   int <strong>piece_size</strong> (piece_index_t index) const;
+   int <strong>piece_size2</strong> (piece_index_t index) const;
+   int <strong>blocks_in_piece2</strong> (piece_index_t index) const;
+   std::string const&amp; <strong>name</strong> () const;
+   void <strong>set_name</strong> (std::string const&amp; n);
+   void <strong>swap</strong> (file_storage&amp; ti) noexcept;
+   void <strong>canonicalize</strong> ();
+   std::int64_t <strong>file_offset</strong> (file_index_t index) const;
+   sha1_hash <strong>hash</strong> (file_index_t index) const;
+   string_view <strong>file_name</strong> (file_index_t index) const;
+   std::int64_t <strong>file_size</strong> (file_index_t index) const;
+   char const* <strong>root_ptr</strong> (file_index_t const index) const;
+   std::time_t <strong>mtime</strong> (file_index_t index) const;
+   bool <strong>pad_file_at</strong> (file_index_t index) const;
+   std::string <strong>symlink</strong> (file_index_t index) const;
+   sha256_hash <strong>root</strong> (file_index_t index) const;
+   std::string <strong>file_path</strong> (file_index_t index, std::string const&amp; save_path = &quot;&quot;) const;
+   index_range&lt;piece_index_t::diff_type&gt; <strong>file_piece_range</strong> (file_index_t) const;
+   int <strong>file_num_blocks</strong> (file_index_t index) const;
+   int <strong>file_num_pieces</strong> (file_index_t index) const;
+   int <strong>file_first_piece_node</strong> (file_index_t index) const;
+   int <strong>file_first_block_node</strong> (file_index_t index) const;
+   std::uint32_t <strong>file_path_hash</strong> (file_index_t index, std::string const&amp; save_path) const;
+   void <strong>all_path_hashes</strong> (std::unordered_set&lt;std::uint32_t&gt;&amp; table) const;
+   file_flags_t <strong>file_flags</strong> (file_index_t index) const;
+   bool <strong>file_absolute_path</strong> (file_index_t index) const;
+   file_index_t <strong>file_index_at_offset</strong> (std::int64_t offset) const;
+   file_index_t <strong>file_index_at_piece</strong> (piece_index_t piece) const;
+   file_index_t <strong>file_index_for_root</strong> (sha256_hash const&amp; root_hash) const;
+   piece_index_t <strong>piece_index_at_file</strong> (file_index_t f) const;
+   void <strong>sanitize_symlinks</strong> ();
+   bool <strong>v2</strong> () const;
+
+   static constexpr file_flags_t <strong>flag_pad_file</strong>  = 0_bit;
+   static constexpr file_flags_t <strong>flag_hidden</strong>  = 1_bit;
+   static constexpr file_flags_t <strong>flag_executable</strong>  = 2_bit;
+   static constexpr file_flags_t <strong>flag_symlink</strong>  = 3_bit;
+};
+</pre>
+<a name="is_valid()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bis_valid%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bis_valid%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="is-valid">
+<h2>is_valid()</h2>
+<pre class="literal-block">
+bool <strong>is_valid</strong> () const;
+</pre>
+<p>returns true if the piece length has been initialized
+on the <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a>. This is typically taken as a proxy
+of whether the <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a> as a whole is initialized or
+not.</p>
+<a name="reserve()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Breserve%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Breserve%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="reserve">
+<h2>reserve()</h2>
+<pre class="literal-block">
+void <strong>reserve</strong> (int num_files);
+</pre>
+<p>allocates space for <tt class="docutils literal">num_files</tt> in the internal file list. This can
+be used to avoid reallocating the internal file list when the number
+of files to be added is known up-front.</p>
+<a name="add_file_borrow()"></a>
+<a name="add_file()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Badd_file_borrow%28%29+add_file%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Badd_file_borrow%28%29+add_file%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="add-file-borrow-add-file">
+<h2>add_file_borrow() add_file()</h2>
+<pre class="literal-block">
+void <strong>add_file</strong> (std::string const&amp; path, std::int64_t file_size
+      , file_flags_t file_flags = {}
+      , std::time_t mtime = 0, string_view symlink_path = string_view()
+      , char const* root_hash = nullptr);
+void <strong>add_file_borrow</strong> (error_code&amp; ec, string_view filename
+      , std::string const&amp; path, std::int64_t file_size
+      , file_flags_t file_flags = {}, char const* filehash = nullptr
+      , std::int64_t mtime = 0, string_view symlink_path = string_view()
+      , char const* root_hash = nullptr);
+void <strong>add_file</strong> (error_code&amp; ec, std::string const&amp; path, std::int64_t file_size
+      , file_flags_t file_flags = {}
+      , std::time_t mtime = 0, string_view symlink_path = string_view()
+      , char const* root_hash = nullptr);
+void <strong>add_file_borrow</strong> (string_view filename
+      , std::string const&amp; path, std::int64_t file_size
+      , file_flags_t file_flags = {}, char const* filehash = nullptr
+      , std::int64_t mtime = 0, string_view symlink_path = string_view()
+      , char const* root_hash = nullptr);
+</pre>
+<p>Adds a file to the file storage. The <tt class="docutils literal">add_file_borrow</tt> version
+expects that <tt class="docutils literal">filename</tt> is the file name (without a path) of
+the file that's being added.
+This memory is <em>borrowed</em>, i.e. it is the caller's
+responsibility to make sure it stays valid throughout the lifetime
+of this <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a> object or any copy of it. The same thing applies
+to <tt class="docutils literal">filehash</tt>, which is an optional pointer to a 20 byte binary
+SHA-1 hash of the file.</p>
+<p>if <tt class="docutils literal">filename</tt> is empty, the filename from <tt class="docutils literal">path</tt> is used and not
+borrowed.</p>
+<p>The <tt class="docutils literal">path</tt> argument is the full path (in the torrent file) to
+the file to add. Note that this is not supposed to be an absolute
+path, but it is expected to include the name of the torrent as the
+first path element.</p>
+<p><tt class="docutils literal">file_size</tt> is the size of the file in bytes.</p>
+<p>The <tt class="docutils literal">file_flags</tt> argument sets attributes on the file. The file
+attributes is an extension and may not work in all bittorrent clients.</p>
+<p>For possible file attributes, see file_storage::flags_t.</p>
+<p>The <tt class="docutils literal">mtime</tt> argument is optional and can be set to 0. If non-zero,
+it is the posix time of the last modification time of this file.</p>
+<p><tt class="docutils literal">symlink_path</tt> is the path the file is a symlink to. To make this a
+symlink you also need to set the <a class="reference external" href="reference-Storage.html#flag_symlink">file_storage::flag_symlink</a> file flag.</p>
+<p><tt class="docutils literal">root_hash</tt> is an optional pointer to a 32 byte SHA-256 hash, being
+the merkle tree root hash for this file. This is only used for v2
+torrents. If the <tt class="docutils literal">root hash</tt> is specified for one file, it has to
+be specified for all, otherwise this function will fail.
+Note that the buffer <tt class="docutils literal">root_hash</tt> points to must out-live the
+<a class="reference external" href="reference-Storage.html#file_storage">file_storage</a> object, it will not be copied. This parameter is only
+used when <em>loading</em> torrents, that already have their file hashes
+computed. When creating torrents, the file hashes will be computed by
+the piece hashes.</p>
+<p>If more files than one are added, certain restrictions to their paths
+apply. In a multi-file file storage (torrent), all files must share
+the same root directory.</p>
+<p>That is, the first path element of all files must be the same.
+This shared path element is also set to the name of the torrent. It
+can be changed by calling <tt class="docutils literal">set_name</tt>.</p>
+<p>The overloads that take an <cite>error_code</cite> reference will report failures
+via that variable, otherwise <cite>system_error</cite> is thrown.</p>
+<a name="rename_file()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Brename_file%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Brename_file%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="rename-file">
+<h2>rename_file()</h2>
+<pre class="literal-block">
+void <strong>rename_file</strong> (file_index_t index, std::string const&amp; new_filename);
+</pre>
+<p>renames the file at <tt class="docutils literal">index</tt> to <tt class="docutils literal">new_filename</tt>. Keep in mind
+that filenames are expected to be UTF-8 encoded.</p>
+<a name="map_block()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bmap_block%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bmap_block%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="map-block">
+<h2>map_block()</h2>
+<pre class="literal-block">
+std::vector&lt;file_slice&gt; <strong>map_block</strong> (piece_index_t piece, std::int64_t offset
+      , std::int64_t size) const;
+</pre>
+<p>returns a list of <a class="reference external" href="reference-Storage.html#file_slice">file_slice</a> objects representing the portions of
+files the specified piece index, byte offset and size range overlaps.
+this is the inverse mapping of <a class="reference external" href="reference-Torrent_Info.html#map_file()">map_file()</a>.</p>
+<p>Preconditions of this function is that the input range is within the
+torrents address space. <tt class="docutils literal">piece</tt> may not be negative and</p>
+<blockquote>
+<tt class="docutils literal">piece</tt> * piece_size + <tt class="docutils literal">offset</tt> + <tt class="docutils literal">size</tt></blockquote>
+<p>may not exceed the total size of the torrent.</p>
+<a name="map_file()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bmap_file%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bmap_file%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="map-file">
+<h2>map_file()</h2>
+<pre class="literal-block">
+peer_request <strong>map_file</strong> (file_index_t file, std::int64_t offset, int size) const;
+</pre>
+<p>returns a <a class="reference external" href="reference-Core.html#peer_request">peer_request</a> representing the piece index, byte offset
+and size the specified file range overlaps. This is the inverse
+mapping over <a class="reference external" href="reference-Torrent_Info.html#map_block()">map_block()</a>. Note that the <tt class="docutils literal">peer_request</tt> return type
+is meant to hold bittorrent block requests, which may not be larger
+than 16 kiB. Mapping a range larger than that may return an overflown
+integer.</p>
+<a name="num_files()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bnum_files%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bnum_files%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="num-files">
+<h2>num_files()</h2>
+<pre class="literal-block">
+int <strong>num_files</strong> () const noexcept;
+</pre>
+<p>returns the number of files in the <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a></p>
+<a name="end_file()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bend_file%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bend_file%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="end-file">
+<h2>end_file()</h2>
+<pre class="literal-block">
+file_index_t <strong>end_file</strong> () const noexcept;
+</pre>
+<p>returns the index of the one-past-end file in the file storage</p>
+<a name="file_range()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bfile_range%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bfile_range%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="file-range">
+<h2>file_range()</h2>
+<pre class="literal-block">
+index_range&lt;file_index_t&gt; <strong>file_range</strong> () const noexcept;
+</pre>
+<p>returns an implementation-defined type that can be used as the
+container in a range-for loop. Where the values are the indices of all
+files in the <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a>.</p>
+<a name="total_size()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Btotal_size%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Btotal_size%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="total-size">
+<h2>total_size()</h2>
+<pre class="literal-block">
+std::int64_t <strong>total_size</strong> () const;
+</pre>
+<p>returns the total number of bytes all the files in this torrent spans</p>
+<a name="set_num_pieces()"></a>
+<a name="num_pieces()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bset_num_pieces%28%29+num_pieces%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bset_num_pieces%28%29+num_pieces%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="set-num-pieces-num-pieces">
+<h2>set_num_pieces() num_pieces()</h2>
+<pre class="literal-block">
+void <strong>set_num_pieces</strong> (int n);
+int <strong>num_pieces</strong> () const;
+</pre>
+<p>set and get the number of pieces in the torrent</p>
+<a name="end_piece()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bend_piece%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bend_piece%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="end-piece">
+<h2>end_piece()</h2>
+<pre class="literal-block">
+piece_index_t <strong>end_piece</strong> () const;
+</pre>
+<p>returns the index of the one-past-end piece in the file storage</p>
+<a name="last_piece()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Blast_piece%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Blast_piece%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="last-piece">
+<h2>last_piece()</h2>
+<pre class="literal-block">
+piece_index_t <strong>last_piece</strong> () const;
+</pre>
+<p>returns the index of the last piece in the torrent. The last piece is
+special in that it may be smaller than the other pieces (and the other
+pieces are all the same size).</p>
+<a name="piece_range()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bpiece_range%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bpiece_range%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="piece-range">
+<h2>piece_range()</h2>
+<pre class="literal-block">
+index_range&lt;piece_index_t&gt; <strong>piece_range</strong> () const noexcept;
+</pre>
+<p>returns an implementation-defined type that can be used as the
+container in a range-for loop. Where the values are the indices of all
+pieces in the <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a>.</p>
+<a name="set_piece_length()"></a>
+<a name="piece_length()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bset_piece_length%28%29+piece_length%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bset_piece_length%28%29+piece_length%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="set-piece-length-piece-length">
+<h2>set_piece_length() piece_length()</h2>
+<pre class="literal-block">
+void <strong>set_piece_length</strong> (int l);
+int <strong>piece_length</strong> () const;
+</pre>
+<p>set and get the size of each piece in this torrent. It must be a power of two
+and at least 16 kiB.</p>
+<a name="piece_size()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bpiece_size%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bpiece_size%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="piece-size">
+<h2>piece_size()</h2>
+<pre class="literal-block">
+int <strong>piece_size</strong> (piece_index_t index) const;
+</pre>
+<p>returns the piece size of <tt class="docutils literal">index</tt>. This will be the same as <a class="reference external" href="reference-Torrent_Info.html#piece_length()">piece_length()</a>, except
+for the last piece, which may be shorter.</p>
+<a name="piece_size2()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bpiece_size2%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bpiece_size2%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="piece-size2">
+<h2>piece_size2()</h2>
+<pre class="literal-block">
+int <strong>piece_size2</strong> (piece_index_t index) const;
+</pre>
+<p>Returns the size of the given piece. If the piece spans multiple files,
+only the first file is considered part of the piece. This is used for
+v2 torrents, where all files are piece aligned and padded. i.e. The pad
+files are not considered part of the piece for this purpose.</p>
+<a name="blocks_in_piece2()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bblocks_in_piece2%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bblocks_in_piece2%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="blocks-in-piece2">
+<h2>blocks_in_piece2()</h2>
+<pre class="literal-block">
+int <strong>blocks_in_piece2</strong> (piece_index_t index) const;
+</pre>
+<p>returns the number of blocks in the specified piece, for v2 torrents.</p>
+<a name="set_name()"></a>
+<a name="name()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bset_name%28%29+name%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bset_name%28%29+name%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="set-name-name">
+<h2>set_name() name()</h2>
+<pre class="literal-block">
+std::string const&amp; <strong>name</strong> () const;
+void <strong>set_name</strong> (std::string const&amp; n);
+</pre>
+<p>set and get the name of this torrent. For multi-file torrents, this is also
+the name of the root directory all the files are stored in.</p>
+<a name="swap()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bswap%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bswap%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="swap">
+<h2>swap()</h2>
+<pre class="literal-block">
+void <strong>swap</strong> (file_storage&amp; ti) noexcept;
+</pre>
+<p>swap all content of <em>this</em> with <em>ti</em>.</p>
+<a name="canonicalize()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bcanonicalize%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bcanonicalize%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="canonicalize">
+<h2>canonicalize()</h2>
+<pre class="literal-block">
+void <strong>canonicalize</strong> ();
+</pre>
+<p>arrange files and padding to match the canonical form required
+by BEP 52</p>
+<a name="root_ptr()"></a>
+<a name="file_path()"></a>
+<a name="pad_file_at()"></a>
+<a name="root()"></a>
+<a name="hash()"></a>
+<a name="symlink()"></a>
+<a name="file_offset()"></a>
+<a name="file_size()"></a>
+<a name="mtime()"></a>
+<a name="file_name()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Broot_ptr%28%29+file_path%28%29+pad_file_at%28%29+root%28%29+hash%28%29+symlink%28%29+file_offset%28%29+file_size%28%29+mtime%28%29+file_name%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Broot_ptr%28%29+file_path%28%29+pad_file_at%28%29+root%28%29+hash%28%29+symlink%28%29+file_offset%28%29+file_size%28%29+mtime%28%29+file_name%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="root-ptr-file-path-pad-file-at-root-hash-symlink-file-offset-file-size-mtime-file-name">
+<h2>root_ptr() file_path() pad_file_at() root() hash() symlink() file_offset() file_size() mtime() file_name()</h2>
+<pre class="literal-block">
+std::int64_t <strong>file_offset</strong> (file_index_t index) const;
+sha1_hash <strong>hash</strong> (file_index_t index) const;
+string_view <strong>file_name</strong> (file_index_t index) const;
+std::int64_t <strong>file_size</strong> (file_index_t index) const;
+char const* <strong>root_ptr</strong> (file_index_t const index) const;
+std::time_t <strong>mtime</strong> (file_index_t index) const;
+bool <strong>pad_file_at</strong> (file_index_t index) const;
+std::string <strong>symlink</strong> (file_index_t index) const;
+sha256_hash <strong>root</strong> (file_index_t index) const;
+std::string <strong>file_path</strong> (file_index_t index, std::string const&amp; save_path = &quot;&quot;) const;
+</pre>
+<p>These functions are used to query attributes of files at
+a given index.</p>
+<p>The <tt class="docutils literal">hash()</tt> is a SHA-1 hash of the file, or 0 if none was
+provided in the torrent file. This can potentially be used to
+join a bittorrent network with other file sharing networks.</p>
+<p><tt class="docutils literal">root()</tt> returns the SHA-256 merkle tree root of the specified file,
+in case this is a v2 torrent. Otherwise returns zeros.
+<tt class="docutils literal">root_ptr()</tt> returns a pointer to the SHA-256 merkle tree root hash
+for the specified file. The pointer points into storage referred to
+when the file was added, it is not owned by this object. Torrents
+that are not v2 torrents return nullptr.</p>
+<p>The <tt class="docutils literal">mtime()</tt> is the modification time is the posix
+time when a file was last modified when the torrent
+was created, or 0 if it was not included in the torrent file.</p>
+<p><tt class="docutils literal">file_path()</tt> returns the full path to a file.</p>
+<p><tt class="docutils literal">file_size()</tt> returns the size of a file.</p>
+<p><tt class="docutils literal">pad_file_at()</tt> returns true if the file at the given
+index is a pad-file.</p>
+<p><tt class="docutils literal">file_name()</tt> returns <em>just</em> the name of the file, whereas
+<tt class="docutils literal">file_path()</tt> returns the path (inside the torrent file) with
+the filename appended.</p>
+<p><tt class="docutils literal">file_offset()</tt> returns the byte offset within the torrent file
+where this file starts. It can be used to map the file to a piece
+index (given the piece size).</p>
+<a name="file_num_pieces()"></a>
+<a name="file_num_blocks()"></a>
+<a name="file_piece_range()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bfile_num_pieces%28%29+file_num_blocks%28%29+file_piece_range%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bfile_num_pieces%28%29+file_num_blocks%28%29+file_piece_range%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="file-num-pieces-file-num-blocks-file-piece-range">
+<h2>file_num_pieces() file_num_blocks() file_piece_range()</h2>
+<pre class="literal-block">
+index_range&lt;piece_index_t::diff_type&gt; <strong>file_piece_range</strong> (file_index_t) const;
+int <strong>file_num_blocks</strong> (file_index_t index) const;
+int <strong>file_num_pieces</strong> (file_index_t index) const;
+</pre>
+<p>Returns the number of pieces or blocks the file at <cite>index</cite> spans,
+under the assumption that the file is aligned to the start of a piece.
+This is only meaningful for v2 torrents, where files are guaranteed
+such alignment.
+These numbers are used to size and navigate the merkle hash tree for
+each file.</p>
+<a name="file_first_piece_node()"></a>
+<a name="file_first_block_node()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bfile_first_piece_node%28%29+file_first_block_node%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bfile_first_piece_node%28%29+file_first_block_node%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="file-first-piece-node-file-first-block-node">
+<h2>file_first_piece_node() file_first_block_node()</h2>
+<pre class="literal-block">
+int <strong>file_first_piece_node</strong> (file_index_t index) const;
+int <strong>file_first_block_node</strong> (file_index_t index) const;
+</pre>
+<p>index of first piece node in the merkle tree</p>
+<a name="file_path_hash()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bfile_path_hash%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bfile_path_hash%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="file-path-hash">
+<h2>file_path_hash()</h2>
+<pre class="literal-block">
+std::uint32_t <strong>file_path_hash</strong> (file_index_t index, std::string const&amp; save_path) const;
+</pre>
+<p>returns the crc32 hash of file_path(index)</p>
+<a name="all_path_hashes()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Ball_path_hashes%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Ball_path_hashes%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="all-path-hashes">
+<h2>all_path_hashes()</h2>
+<pre class="literal-block">
+void <strong>all_path_hashes</strong> (std::unordered_set&lt;std::uint32_t&gt;&amp; table) const;
+</pre>
+<p>this will add the CRC32 hash of all directory entries to the table. No
+filename will be included, just directories. Every depth of directories
+are added separately to allow test for collisions with files at all
+levels. i.e. if one path in the torrent is <tt class="docutils literal">foo/bar/baz</tt>, the CRC32
+hashes for <tt class="docutils literal">foo</tt>, <tt class="docutils literal">foo/bar</tt> and <tt class="docutils literal">foo/bar/baz</tt> will be added to
+the set.</p>
+<a name="file_flags()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bfile_flags%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bfile_flags%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="file-flags">
+<h2>file_flags()</h2>
+<pre class="literal-block">
+file_flags_t <strong>file_flags</strong> (file_index_t index) const;
+</pre>
+<p>returns a bitmask of flags from file_flags_t that apply
+to file at <tt class="docutils literal">index</tt>.</p>
+<a name="file_absolute_path()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bfile_absolute_path%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bfile_absolute_path%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="file-absolute-path">
+<h2>file_absolute_path()</h2>
+<pre class="literal-block">
+bool <strong>file_absolute_path</strong> (file_index_t index) const;
+</pre>
+<p>returns true if the file at the specified index has been renamed to
+have an absolute path, i.e. is not anchored in the save path of the
+torrent.</p>
+<a name="file_index_at_offset()"></a>
+<a name="file_index_at_piece()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bfile_index_at_offset%28%29+file_index_at_piece%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bfile_index_at_offset%28%29+file_index_at_piece%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="file-index-at-offset-file-index-at-piece">
+<h2>file_index_at_offset() file_index_at_piece()</h2>
+<pre class="literal-block">
+file_index_t <strong>file_index_at_offset</strong> (std::int64_t offset) const;
+file_index_t <strong>file_index_at_piece</strong> (piece_index_t piece) const;
+</pre>
+<p>returns the index of the file at the given offset in the torrent</p>
+<a name="file_index_for_root()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bfile_index_for_root%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bfile_index_for_root%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="file-index-for-root">
+<h2>file_index_for_root()</h2>
+<pre class="literal-block">
+file_index_t <strong>file_index_for_root</strong> (sha256_hash const&amp; root_hash) const;
+</pre>
+<p>finds the file with the given root hash and returns its index
+if there is no file with the root hash, file_index_t{-1} is returned</p>
+<a name="piece_index_at_file()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bpiece_index_at_file%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bpiece_index_at_file%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="piece-index-at-file">
+<h2>piece_index_at_file()</h2>
+<pre class="literal-block">
+piece_index_t <strong>piece_index_at_file</strong> (file_index_t f) const;
+</pre>
+<p>returns the piece index the given file starts at</p>
+<a name="sanitize_symlinks()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bsanitize_symlinks%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bsanitize_symlinks%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="sanitize-symlinks">
+<h2>sanitize_symlinks()</h2>
+<pre class="literal-block">
+void <strong>sanitize_symlinks</strong> ();
+</pre>
+<p>validate any symlinks, to ensure they all point to
+other files or directories inside this storage. Any invalid symlinks
+are updated to point to themselves.</p>
+<a name="v2()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bv2%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bv2%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="v2">
+<h2>v2()</h2>
+<pre class="literal-block">
+bool <strong>v2</strong> () const;
+</pre>
+<p>returns true if this torrent contains v2 metadata.</p>
+<a name="flag_pad_file"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bflag_pad_file%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bflag_pad_file%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>flag_pad_file</dt>
+<dd>the file is a pad file. It's required to contain zeros
+at it will not be saved to disk. Its purpose is to make
+the following file start on a piece boundary.</dd>
+</dl>
+<a name="flag_hidden"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bflag_hidden%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bflag_hidden%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>flag_hidden</dt>
+<dd>this file has the hidden attribute set. This is primarily
+a windows attribute</dd>
+</dl>
+<a name="flag_executable"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bflag_executable%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bflag_executable%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>flag_executable</dt>
+<dd>this file has the executable attribute set.</dd>
+</dl>
+<a name="flag_symlink"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bflag_symlink%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bflag_symlink%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>flag_symlink</dt>
+<dd>this file is a symbolic link. It should have a link
+target string associated with it.</dd>
+</dl>
+<a name="default_disk_io_constructor()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:default_disk_io_constructor%28%29&labels=documentation&body=Documentation+under+heading+%22default_disk_io_constructor%28%29%22+could+be+improved">report issue</a>]</span></div>
+</div>
+<div class="section" id="default-disk-io-constructor">
+<h1>default_disk_io_constructor()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/session.hpp">libtorrent/session.hpp</a>&quot;</p>
+<pre class="literal-block">
+std::unique_ptr&lt;disk_interface&gt; <strong>default_disk_io_constructor</strong> (
+   io_context&amp; ios, settings_interface const&amp;, counters&amp; cnt);
+</pre>
+<p>the constructor function for the default storage. On systems that support
+memory mapped files (and a 64 bit address space) the memory mapped storage
+will be constructed, otherwise the portable posix storage.</p>
+<a name="mmap_disk_io_constructor()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:mmap_disk_io_constructor%28%29&labels=documentation&body=Documentation+under+heading+%22mmap_disk_io_constructor%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="mmap-disk-io-constructor">
+<h1>mmap_disk_io_constructor()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/mmap_disk_io.hpp">libtorrent/mmap_disk_io.hpp</a>&quot;</p>
+<pre class="literal-block">
+std::unique_ptr&lt;disk_interface&gt; <strong>mmap_disk_io_constructor</strong> (
+   io_context&amp; ios, settings_interface const&amp;, counters&amp; cnt);
+</pre>
+<p>constructs a memory mapped file disk I/O object.</p>
+<a name="posix_disk_io_constructor()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:posix_disk_io_constructor%28%29&labels=documentation&body=Documentation+under+heading+%22posix_disk_io_constructor%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="posix-disk-io-constructor">
+<h1>posix_disk_io_constructor()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/posix_disk_io.hpp">libtorrent/posix_disk_io.hpp</a>&quot;</p>
+<pre class="literal-block">
+std::unique_ptr&lt;disk_interface&gt; <strong>posix_disk_io_constructor</strong> (
+   io_context&amp; ios, settings_interface const&amp;, counters&amp; cnt);
+</pre>
+<p>this is a simple posix disk I/O back-end, used for systems that don't
+have a 64 bit virtual address space or don't support memory mapped files.
+It's implemented using portable C file functions and is single-threaded.</p>
+<a name="disabled_disk_io_constructor()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disabled_disk_io_constructor%28%29&labels=documentation&body=Documentation+under+heading+%22disabled_disk_io_constructor%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="disabled-disk-io-constructor">
+<h1>disabled_disk_io_constructor()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/disabled_disk_io.hpp">libtorrent/disabled_disk_io.hpp</a>&quot;</p>
+<pre class="literal-block">
+std::unique_ptr&lt;disk_interface&gt; <strong>disabled_disk_io_constructor</strong> (
+   io_context&amp; ios, settings_interface const&amp;, counters&amp; cnt);
+</pre>
+<p>creates a disk io object that discards all data written to it, and only
+returns zero-buffers when read from. May be useful for testing and
+benchmarking.</p>
+<a name="storage_mode_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+storage_mode_t&labels=documentation&body=Documentation+under+heading+%22enum+storage_mode_t%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="enum-storage-mode-t">
+<h1>enum storage_mode_t</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/storage_defs.hpp">libtorrent/storage_defs.hpp</a>&quot;</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="7%" />
+<col width="72%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">value</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>storage_mode_allocate</td>
+<td>0</td>
+<td>All pieces will be written to their final position, all files will be
+allocated in full when the torrent is first started. This mode minimizes
+fragmentation but could be a costly operation.</td>
+</tr>
+<tr><td>storage_mode_sparse</td>
+<td>1</td>
+<td>All pieces will be written to the place where they belong and sparse files
+will be used. This is the recommended, and default mode.</td>
+</tr>
+</tbody>
+</table>
+<a name="status_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+status_t&labels=documentation&body=Documentation+under+heading+%22enum+status_t%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="enum-status-t">
+<h1>enum status_t</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/storage_defs.hpp">libtorrent/storage_defs.hpp</a>&quot;</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="7%" />
+<col width="74%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">value</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>no_error</td>
+<td>0</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>fatal_disk_error</td>
+<td>1</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>need_full_check</td>
+<td>2</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>file_exist</td>
+<td>3</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>oversized_file</td>
+<td>16</td>
+<td>this is not an enum value, but a flag that can be set in the return
+from async_check_files, in case an existing file was found larger than
+specified in the torrent. i.e. it has garbage at the end
+the <a class="reference external" href="reference-Storage.html#status_t">status_t</a> field is used for this to preserve ABI.</td>
+</tr>
+</tbody>
+</table>
+<a name="move_flags_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+move_flags_t&labels=documentation&body=Documentation+under+heading+%22enum+move_flags_t%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="enum-move-flags-t">
+<h1>enum move_flags_t</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/storage_defs.hpp">libtorrent/storage_defs.hpp</a>&quot;</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="8%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">value</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>always_replace_files</td>
+<td>0</td>
+<td>replace any files in the destination when copying
+or moving the storage</td>
+</tr>
+<tr><td>fail_if_exist</td>
+<td>1</td>
+<td>if any files that we want to copy exist in the destination
+exist, fail the whole operation and don't perform
+any copy or move. There is an inherent race condition
+in this mode. The files are checked for existence before
+the operation starts. In between the check and performing
+the copy, the destination files may be created, in which
+case they are replaced.</td>
+</tr>
+<tr><td>dont_replace</td>
+<td>2</td>
+<td>if any file exist in the target, take those files instead
+of the ones we may have in the source.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<p><a class="reference external" href="reference.html">home</a></p>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#web-seed-entry" id="toc-entry-1">web_seed_entry</a><ul>
+<li><a class="reference internal" href="#operator" id="toc-entry-2">operator==()</a></li>
+<li><a class="reference internal" href="#operator-1" id="toc-entry-3">operator&lt;()</a></li>
+<li><a class="reference internal" href="#enum-type-t" id="toc-entry-4">enum type_t</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#load-torrent-limits" id="toc-entry-5">load_torrent_limits</a></li>
+<li><a class="reference internal" href="#torrent-info" id="toc-entry-6">torrent_info</a><ul>
+<li><a class="reference internal" href="#torrent-info-1" id="toc-entry-7">torrent_info()</a></li>
+<li><a class="reference internal" href="#torrent-info-2" id="toc-entry-8">~torrent_info()</a></li>
+<li><a class="reference internal" href="#files-orig-files" id="toc-entry-9">files() orig_files()</a></li>
+<li><a class="reference internal" href="#rename-file" id="toc-entry-10">rename_file()</a></li>
+<li><a class="reference internal" href="#remap-files" id="toc-entry-11">remap_files()</a></li>
+<li><a class="reference internal" href="#clear-trackers-trackers-add-tracker" id="toc-entry-12">clear_trackers() trackers() add_tracker()</a></li>
+<li><a class="reference internal" href="#collections-similar-torrents" id="toc-entry-13">collections() similar_torrents()</a></li>
+<li><a class="reference internal" href="#add-http-seed-set-web-seeds-web-seeds-add-url-seed" id="toc-entry-14">add_http_seed() set_web_seeds() web_seeds() add_url_seed()</a></li>
+<li><a class="reference internal" href="#total-size" id="toc-entry-15">total_size()</a></li>
+<li><a class="reference internal" href="#num-pieces-piece-length" id="toc-entry-16">num_pieces() piece_length()</a></li>
+<li><a class="reference internal" href="#end-piece-last-piece-piece-range" id="toc-entry-17">end_piece() last_piece() piece_range()</a></li>
+<li><a class="reference internal" href="#info-hash-info-hashes" id="toc-entry-18">info_hash() info_hashes()</a></li>
+<li><a class="reference internal" href="#v1-v2" id="toc-entry-19">v1() v2()</a></li>
+<li><a class="reference internal" href="#num-files" id="toc-entry-20">num_files()</a></li>
+<li><a class="reference internal" href="#map-block" id="toc-entry-21">map_block()</a></li>
+<li><a class="reference internal" href="#map-file" id="toc-entry-22">map_file()</a></li>
+<li><a class="reference internal" href="#ssl-cert" id="toc-entry-23">ssl_cert()</a></li>
+<li><a class="reference internal" href="#is-valid" id="toc-entry-24">is_valid()</a></li>
+<li><a class="reference internal" href="#priv" id="toc-entry-25">priv()</a></li>
+<li><a class="reference internal" href="#is-i2p" id="toc-entry-26">is_i2p()</a></li>
+<li><a class="reference internal" href="#piece-size" id="toc-entry-27">piece_size()</a></li>
+<li><a class="reference internal" href="#hash-for-piece-ptr-hash-for-piece" id="toc-entry-28">hash_for_piece_ptr() hash_for_piece()</a></li>
+<li><a class="reference internal" href="#name" id="toc-entry-29">name()</a></li>
+<li><a class="reference internal" href="#creation-date" id="toc-entry-30">creation_date()</a></li>
+<li><a class="reference internal" href="#creator" id="toc-entry-31">creator()</a></li>
+<li><a class="reference internal" href="#comment" id="toc-entry-32">comment()</a></li>
+<li><a class="reference internal" href="#nodes" id="toc-entry-33">nodes()</a></li>
+<li><a class="reference internal" href="#add-node" id="toc-entry-34">add_node()</a></li>
+<li><a class="reference internal" href="#parse-info-section" id="toc-entry-35">parse_info_section()</a></li>
+<li><a class="reference internal" href="#info" id="toc-entry-36">info()</a></li>
+<li><a class="reference internal" href="#info-section" id="toc-entry-37">info_section()</a></li>
+<li><a class="reference internal" href="#piece-layer" id="toc-entry-38">piece_layer()</a></li>
+<li><a class="reference internal" href="#free-piece-layers" id="toc-entry-39">free_piece_layers()</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<a name="web_seed_entry"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+web_seed_entry&labels=documentation&body=Documentation+under+heading+%22class+web_seed_entry%22+could+be+improved">report issue</a>]</span><div class="section" id="web-seed-entry">
+<h1>web_seed_entry</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/torrent_info.hpp">libtorrent/torrent_info.hpp</a>&quot;</p>
+<p>the <a class="reference external" href="reference-Torrent_Info.html#web_seed_entry">web_seed_entry</a> holds information about a web seed (also known
+as URL seed or HTTP seed). It is essentially a URL with some state
+associated with it. For more information, see <a class="reference external" href="https://www.bittorrent.org/beps/bep_0017.html">BEP 17</a> and <a class="reference external" href="https://www.bittorrent.org/beps/bep_0019.html">BEP 19</a>.</p>
+<pre class="literal-block">
+struct web_seed_entry
+{
+   bool <strong>operator==</strong> (web_seed_entry const&amp; e) const;
+   bool <strong>operator&lt;</strong> (web_seed_entry const&amp; e) const;
+
+   enum type_t
+   {
+      url_seed,
+      http_seed,
+   };
+
+   std::string url;
+   std::string auth;
+   headers_t extra_headers;
+   std::uint8_t type;
+};
+</pre>
+<a name="operator==()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:web_seed_entry%3A%3A%5Boperator%3D%3D%28%29%5D&labels=documentation&body=Documentation+under+heading+%22web_seed_entry%3A%3A%5Boperator%3D%3D%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="operator">
+<h2>operator==()</h2>
+<pre class="literal-block">
+bool <strong>operator==</strong> (web_seed_entry const&amp; e) const;
+</pre>
+<p>URL and type comparison</p>
+<a name="operator<()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:web_seed_entry%3A%3A%5Boperator%3C%28%29%5D&labels=documentation&body=Documentation+under+heading+%22web_seed_entry%3A%3A%5Boperator%3C%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="operator-1">
+<h2>operator&lt;()</h2>
+<pre class="literal-block">
+bool <strong>operator&lt;</strong> (web_seed_entry const&amp; e) const;
+</pre>
+<p>URL and type less-than comparison</p>
+<a name="type_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+type_t&labels=documentation&body=Documentation+under+heading+%22enum+type_t%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="enum-type-t">
+<h2>enum type_t</h2>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/torrent_info.hpp">libtorrent/torrent_info.hpp</a>&quot;</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="23%" />
+<col width="42%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">value</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>url_seed</td>
+<td>0</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>http_seed</td>
+<td>1</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<a name="url"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:web_seed_entry%3A%3A%5Burl%5D&labels=documentation&body=Documentation+under+heading+%22web_seed_entry%3A%3A%5Burl%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>url</dt>
+<dd>The URL of the web seed</dd>
+</dl>
+<a name="auth"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:web_seed_entry%3A%3A%5Bauth%5D&labels=documentation&body=Documentation+under+heading+%22web_seed_entry%3A%3A%5Bauth%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>auth</dt>
+<dd>Optional authentication. If this is set, it's passed
+in as HTTP basic auth to the web seed. The format is:
+username:password.</dd>
+</dl>
+<a name="extra_headers"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:web_seed_entry%3A%3A%5Bextra_headers%5D&labels=documentation&body=Documentation+under+heading+%22web_seed_entry%3A%3A%5Bextra_headers%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>extra_headers</dt>
+<dd>Any extra HTTP headers that need to be passed to the web seed</dd>
+</dl>
+<a name="type"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:web_seed_entry%3A%3A%5Btype%5D&labels=documentation&body=Documentation+under+heading+%22web_seed_entry%3A%3A%5Btype%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>type</dt>
+<dd>The type of web seed (see <a class="reference external" href="reference-Torrent_Info.html#type_t">type_t</a>)</dd>
+</dl>
+<a name="load_torrent_limits"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+load_torrent_limits&labels=documentation&body=Documentation+under+heading+%22class+load_torrent_limits%22+could+be+improved">report issue</a>]</span></div>
+</div>
+<div class="section" id="load-torrent-limits">
+<h1>load_torrent_limits</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/torrent_info.hpp">libtorrent/torrent_info.hpp</a>&quot;</p>
+<p>this object holds configuration options for limits to use when loading
+torrents. They are meant to prevent loading potentially malicious torrents
+that cause excessive memory allocations.</p>
+<pre class="literal-block">
+struct load_torrent_limits
+{
+   int <strong>max_buffer_size</strong>  = 10000000;
+   int <strong>max_pieces</strong>  = 0x200000;
+   int <strong>max_decode_depth</strong>  = 100;
+   int <strong>max_decode_tokens</strong>  = 3000000;
+};
+</pre>
+<a name="max_buffer_size"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:load_torrent_limits%3A%3A%5Bmax_buffer_size%5D&labels=documentation&body=Documentation+under+heading+%22load_torrent_limits%3A%3A%5Bmax_buffer_size%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>max_buffer_size</dt>
+<dd>the max size of a .torrent file to load into RAM</dd>
+</dl>
+<a name="max_pieces"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:load_torrent_limits%3A%3A%5Bmax_pieces%5D&labels=documentation&body=Documentation+under+heading+%22load_torrent_limits%3A%3A%5Bmax_pieces%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>max_pieces</dt>
+<dd>the max number of pieces allowed in the torrent</dd>
+</dl>
+<a name="max_decode_depth"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:load_torrent_limits%3A%3A%5Bmax_decode_depth%5D&labels=documentation&body=Documentation+under+heading+%22load_torrent_limits%3A%3A%5Bmax_decode_depth%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>max_decode_depth</dt>
+<dd>the max recursion depth in the bdecoded structure</dd>
+</dl>
+<a name="max_decode_tokens"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:load_torrent_limits%3A%3A%5Bmax_decode_tokens%5D&labels=documentation&body=Documentation+under+heading+%22load_torrent_limits%3A%3A%5Bmax_decode_tokens%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>max_decode_tokens</dt>
+<dd>the max number of bdecode tokens</dd>
+</dl>
+<a name="torrent_info"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+torrent_info&labels=documentation&body=Documentation+under+heading+%22class+torrent_info%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="torrent-info">
+<h1>torrent_info</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/torrent_info.hpp">libtorrent/torrent_info.hpp</a>&quot;</p>
+<p>the <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> class holds the information found in a .torrent file.</p>
+<pre class="literal-block">
+class torrent_info
+{
+   explicit <strong>torrent_info</strong> (bdecode_node const&amp; torrent_file);
+   explicit <strong>torrent_info</strong> (info_hash_t const&amp; info_hash);
+   <strong>torrent_info</strong> (torrent_info const&amp; t);
+   explicit <strong>torrent_info</strong> (std::string const&amp; filename);
+   <strong>torrent_info</strong> (std::string const&amp; filename, error_code&amp; ec);
+   <strong>torrent_info</strong> (char const* buffer, int size);
+   <strong>torrent_info</strong> (bdecode_node const&amp; torrent_file, load_torrent_limits const&amp; cfg);
+   <strong>torrent_info</strong> (span&lt;char const&gt; buffer, error_code&amp; ec, from_span_t);
+   <strong>torrent_info</strong> (char const* buffer, int size, error_code&amp; ec);
+   <strong>torrent_info</strong> (span&lt;char const&gt; buffer, load_torrent_limits const&amp; cfg, from_span_t);
+   explicit <strong>torrent_info</strong> (span&lt;char const&gt; buffer, from_span_t);
+   <strong>torrent_info</strong> (std::string const&amp; filename, load_torrent_limits const&amp; cfg);
+   <strong>torrent_info</strong> (bdecode_node const&amp; torrent_file, error_code&amp; ec);
+   <strong>~torrent_info</strong> ();
+   file_storage const&amp; <strong>files</strong> () const;
+   file_storage const&amp; <strong>orig_files</strong> () const;
+   void <strong>rename_file</strong> (file_index_t index, std::string const&amp; new_filename);
+   void <strong>remap_files</strong> (file_storage const&amp; f);
+   std::vector&lt;announce_entry&gt; const&amp; <strong>trackers</strong> () const;
+   void <strong>add_tracker</strong> (std::string const&amp; url, int tier
+      , announce_entry::tracker_source source);
+   void <strong>clear_trackers</strong> ();
+   void <strong>add_tracker</strong> (std::string const&amp; url, int tier = 0);
+   std::vector&lt;std::string&gt; <strong>collections</strong> () const;
+   std::vector&lt;sha1_hash&gt; <strong>similar_torrents</strong> () const;
+   void <strong>set_web_seeds</strong> (std::vector&lt;web_seed_entry&gt; seeds);
+   void <strong>add_url_seed</strong> (std::string const&amp; url
+      , std::string const&amp; ext_auth = std::string()
+      , web_seed_entry::headers_t const&amp; ext_headers = web_seed_entry::headers_t());
+   void <strong>add_http_seed</strong> (std::string const&amp; url
+      , std::string const&amp; extern_auth = std::string()
+      , web_seed_entry::headers_t const&amp; extra_headers = web_seed_entry::headers_t());
+   std::vector&lt;web_seed_entry&gt; const&amp; <strong>web_seeds</strong> () const;
+   std::int64_t <strong>total_size</strong> () const;
+   int <strong>piece_length</strong> () const;
+   int <strong>num_pieces</strong> () const;
+   piece_index_t <strong>last_piece</strong> () const;
+   piece_index_t <strong>end_piece</strong> () const;
+   index_range&lt;piece_index_t&gt; <strong>piece_range</strong> () const;
+   sha1_hash <strong>info_hash</strong> () const noexcept;
+   info_hash_t const&amp; <strong>info_hashes</strong> () const;
+   bool <strong>v1</strong> () const;
+   bool <strong>v2</strong> () const;
+   int <strong>num_files</strong> () const;
+   std::vector&lt;file_slice&gt; <strong>map_block</strong> (piece_index_t const piece
+      , std::int64_t offset, int size) const;
+   peer_request <strong>map_file</strong> (file_index_t const file, std::int64_t offset, int size) const;
+   string_view <strong>ssl_cert</strong> () const;
+   bool <strong>is_valid</strong> () const;
+   bool <strong>priv</strong> () const;
+   bool <strong>is_i2p</strong> () const;
+   int <strong>piece_size</strong> (piece_index_t index) const;
+   sha1_hash <strong>hash_for_piece</strong> (piece_index_t index) const;
+   char const* <strong>hash_for_piece_ptr</strong> (piece_index_t const index) const;
+   bool <strong>is_loaded</strong> () const;
+   const std::string&amp; <strong>name</strong> () const;
+   std::time_t <strong>creation_date</strong> () const;
+   const std::string&amp; <strong>creator</strong> () const;
+   const std::string&amp; <strong>comment</strong> () const;
+   std::vector&lt;std::pair&lt;std::string, int&gt;&gt; const&amp; <strong>nodes</strong> () const;
+   void <strong>add_node</strong> (std::pair&lt;std::string, int&gt; const&amp; node);
+   bool <strong>parse_info_section</strong> (bdecode_node const&amp; info, error_code&amp; ec, int max_pieces);
+   bdecode_node <strong>info</strong> (char const* key) const;
+   span&lt;char const&gt; <strong>info_section</strong> () const;
+   span&lt;char const&gt; <strong>piece_layer</strong> (file_index_t) const;
+   void <strong>free_piece_layers</strong> ();
+};
+</pre>
+<a name="torrent_info()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Btorrent_info%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Btorrent_info%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="torrent-info-1">
+<h2>torrent_info()</h2>
+<pre class="literal-block">
+explicit <strong>torrent_info</strong> (bdecode_node const&amp; torrent_file);
+explicit <strong>torrent_info</strong> (info_hash_t const&amp; info_hash);
+<strong>torrent_info</strong> (torrent_info const&amp; t);
+explicit <strong>torrent_info</strong> (std::string const&amp; filename);
+<strong>torrent_info</strong> (std::string const&amp; filename, error_code&amp; ec);
+<strong>torrent_info</strong> (char const* buffer, int size);
+<strong>torrent_info</strong> (bdecode_node const&amp; torrent_file, load_torrent_limits const&amp; cfg);
+<strong>torrent_info</strong> (span&lt;char const&gt; buffer, error_code&amp; ec, from_span_t);
+<strong>torrent_info</strong> (char const* buffer, int size, error_code&amp; ec);
+<strong>torrent_info</strong> (span&lt;char const&gt; buffer, load_torrent_limits const&amp; cfg, from_span_t);
+explicit <strong>torrent_info</strong> (span&lt;char const&gt; buffer, from_span_t);
+<strong>torrent_info</strong> (std::string const&amp; filename, load_torrent_limits const&amp; cfg);
+<strong>torrent_info</strong> (bdecode_node const&amp; torrent_file, error_code&amp; ec);
+</pre>
+<p>The constructor that takes an info-hash will initialize the info-hash
+to the given value, but leave all other fields empty. This is used
+internally when downloading torrents without the metadata. The
+metadata will be created by libtorrent as soon as it has been
+downloaded from the swarm.</p>
+<p>The constructor that takes a <a class="reference external" href="reference-Bdecoding.html#bdecode_node">bdecode_node</a> will create a <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a>
+object from the information found in the given torrent_file. The
+<a class="reference external" href="reference-Bdecoding.html#bdecode_node">bdecode_node</a> represents a tree node in an bencoded file. To load an
+ordinary .torrent file into a <a class="reference external" href="reference-Bdecoding.html#bdecode_node">bdecode_node</a>, use <a class="reference external" href="reference-Bdecoding.html#bdecode()">bdecode()</a>.</p>
+<p>The version that takes a buffer pointer and a size will decode it as a
+.torrent file and initialize the <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> object for you.</p>
+<p>The version that takes a filename will simply load the torrent file
+and decode it inside the constructor, for convenience. This might not
+be the most suitable for applications that want to be able to report
+detailed errors on what might go wrong.</p>
+<p>There is an upper limit on the size of the torrent file that will be
+loaded by the overload taking a filename. If it's important that even
+very large torrent files are loaded, use one of the other overloads.</p>
+<p>The overloads that takes an <tt class="docutils literal">error_code const&amp;</tt> never throws if an
+error occur, they will simply set the error code to describe what went
+wrong and not fully initialize the <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> object. The overloads
+that do not take the extra error_code parameter will always throw if
+an error occurs. These overloads are not available when building
+without exception support.</p>
+<p>The overload that takes a <tt class="docutils literal">span</tt> also needs an extra parameter of
+type <tt class="docutils literal">from_span_t</tt> to disambiguate the <tt class="docutils literal"><span class="pre">std::string</span></tt> overload for
+string literals. There is an object in the libtorrent namespace of this
+type called <tt class="docutils literal">from_span</tt>.</p>
+<a name="~torrent_info()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5B~torrent_info%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5B~torrent_info%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="torrent-info-2">
+<h2>~torrent_info()</h2>
+<pre class="literal-block">
+<strong>~torrent_info</strong> ();
+</pre>
+<p>frees all storage associated with this <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> object</p>
+<a name="files()"></a>
+<a name="orig_files()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bfiles%28%29+orig_files%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bfiles%28%29+orig_files%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="files-orig-files">
+<h2>files() orig_files()</h2>
+<pre class="literal-block">
+file_storage const&amp; <strong>files</strong> () const;
+file_storage const&amp; <strong>orig_files</strong> () const;
+</pre>
+<p>The <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a> object contains the information on how to map the
+pieces to files. It is separated from the <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> object because
+when creating torrents a storage object needs to be created without
+having a torrent file. When renaming files in a storage, the storage
+needs to make its own copy of the <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a> in order to make its
+mapping differ from the one in the torrent file.</p>
+<p><tt class="docutils literal">orig_files()</tt> returns the original (unmodified) file storage for
+this torrent. This is used by the web server connection, which needs
+to request files with the original names. Filename may be changed using
+<tt class="docutils literal"><span class="pre">torrent_info::rename_file()</span></tt>.</p>
+<p>For more information on the <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a> object, see the separate
+document on how to create torrents.</p>
+<a name="rename_file()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Brename_file%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Brename_file%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="rename-file">
+<h2>rename_file()</h2>
+<pre class="literal-block">
+void <strong>rename_file</strong> (file_index_t index, std::string const&amp; new_filename);
+</pre>
+<p>Renames the file with the specified index to the new name. The new
+filename is reflected by the <tt class="docutils literal">file_storage</tt> returned by <tt class="docutils literal">files()</tt>
+but not by the one returned by <tt class="docutils literal">orig_files()</tt>.</p>
+<p>If you want to rename the base name of the torrent (for a multi file
+torrent), you can copy the <tt class="docutils literal">file_storage</tt> (see <a class="reference external" href="reference-Torrent_Info.html#files()">files()</a> and
+<a class="reference external" href="reference-Torrent_Info.html#orig_files()">orig_files()</a> ), change the name, and then use <a class="reference internal" href="#remap-files">remap_files()</a>.</p>
+<p>The <tt class="docutils literal">new_filename</tt> can both be a relative path, in which case the
+file name is relative to the <tt class="docutils literal">save_path</tt> of the torrent. If the
+<tt class="docutils literal">new_filename</tt> is an absolute path (i.e. <tt class="docutils literal">is_complete(new_filename)
+== true</tt>), then the file is detached from the <tt class="docutils literal">save_path</tt> of the
+torrent. In this case the file is not moved when <a class="reference external" href="reference-Torrent_Handle.html#move_storage()">move_storage()</a> is
+invoked.</p>
+<a name="remap_files()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bremap_files%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bremap_files%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="remap-files">
+<h2>remap_files()</h2>
+<pre class="literal-block">
+void <strong>remap_files</strong> (file_storage const&amp; f);
+</pre>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Using <cite>remap_files()</cite> is discouraged as it's incompatible with v2
+torrents. This is because the piece boundaries and piece hashes in
+v2 torrents are intimately tied to the file boundaries. Instead,
+just rename individual files, or implement a custom <a class="reference external" href="reference-Custom_Storage.html#disk_interface">disk_interface</a>
+to customize how to store files.</p>
+</div>
+<p>Remaps the file storage to a new file layout. This can be used to, for
+instance, download all data in a torrent to a single file, or to a
+number of fixed size sector aligned files, regardless of the number
+and sizes of the files in the torrent.</p>
+<p>The new specified <tt class="docutils literal">file_storage</tt> must have the exact same size as
+the current one.</p>
+<a name="clear_trackers()"></a>
+<a name="trackers()"></a>
+<a name="add_tracker()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bclear_trackers%28%29+trackers%28%29+add_tracker%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bclear_trackers%28%29+trackers%28%29+add_tracker%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="clear-trackers-trackers-add-tracker">
+<h2>clear_trackers() trackers() add_tracker()</h2>
+<pre class="literal-block">
+std::vector&lt;announce_entry&gt; const&amp; <strong>trackers</strong> () const;
+void <strong>add_tracker</strong> (std::string const&amp; url, int tier
+      , announce_entry::tracker_source source);
+void <strong>clear_trackers</strong> ();
+void <strong>add_tracker</strong> (std::string const&amp; url, int tier = 0);
+</pre>
+<p><tt class="docutils literal">add_tracker()</tt> adds a tracker to the announce-list. The <tt class="docutils literal">tier</tt>
+determines the order in which the trackers are to be tried.
+The <tt class="docutils literal">trackers()</tt> function will return a sorted vector of
+<a class="reference external" href="reference-Trackers.html#announce_entry">announce_entry</a>. Each announce <a class="reference external" href="reference-Bencoding.html#entry">entry</a> contains a string, which is
+the tracker url, and a tier index. The tier index is the high-level
+priority. No matter which trackers that works or not, the ones with
+lower tier will always be tried before the one with higher tier
+number. For more information, see <a class="reference external" href="reference-Trackers.html#announce_entry">announce_entry</a>.</p>
+<p><tt class="docutils literal">trackers()</tt> returns all entries from announce-list.</p>
+<p><tt class="docutils literal">clear_trackers()</tt> removes all trackers from announce-list.</p>
+<a name="collections()"></a>
+<a name="similar_torrents()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bcollections%28%29+similar_torrents%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bcollections%28%29+similar_torrents%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="collections-similar-torrents">
+<h2>collections() similar_torrents()</h2>
+<pre class="literal-block">
+std::vector&lt;std::string&gt; <strong>collections</strong> () const;
+std::vector&lt;sha1_hash&gt; <strong>similar_torrents</strong> () const;
+</pre>
+<p>These two functions are related to <a class="reference external" href="https://www.bittorrent.org/beps/bep_0038.html">BEP 38</a> (mutable torrents). The
+vectors returned from these correspond to the &quot;similar&quot; and
+&quot;collections&quot; keys in the .torrent file. Both info-hashes and
+collections from within the info-dict and from outside of it are
+included.</p>
+<a name="add_http_seed()"></a>
+<a name="set_web_seeds()"></a>
+<a name="web_seeds()"></a>
+<a name="add_url_seed()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Badd_http_seed%28%29+set_web_seeds%28%29+web_seeds%28%29+add_url_seed%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Badd_http_seed%28%29+set_web_seeds%28%29+web_seeds%28%29+add_url_seed%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="add-http-seed-set-web-seeds-web-seeds-add-url-seed">
+<h2>add_http_seed() set_web_seeds() web_seeds() add_url_seed()</h2>
+<pre class="literal-block">
+void <strong>set_web_seeds</strong> (std::vector&lt;web_seed_entry&gt; seeds);
+void <strong>add_url_seed</strong> (std::string const&amp; url
+      , std::string const&amp; ext_auth = std::string()
+      , web_seed_entry::headers_t const&amp; ext_headers = web_seed_entry::headers_t());
+void <strong>add_http_seed</strong> (std::string const&amp; url
+      , std::string const&amp; extern_auth = std::string()
+      , web_seed_entry::headers_t const&amp; extra_headers = web_seed_entry::headers_t());
+std::vector&lt;web_seed_entry&gt; const&amp; <strong>web_seeds</strong> () const;
+</pre>
+<p><tt class="docutils literal">web_seeds()</tt> returns all url seeds and http seeds in the torrent.
+Each <a class="reference external" href="reference-Bencoding.html#entry">entry</a> is a <tt class="docutils literal">web_seed_entry</tt> and may refer to either a url seed
+or http seed.</p>
+<p><tt class="docutils literal">add_url_seed()</tt> and <tt class="docutils literal">add_http_seed()</tt> adds one url to the list of
+url/http seeds.</p>
+<p><tt class="docutils literal">set_web_seeds()</tt> replaces all web seeds with the ones specified in
+the <tt class="docutils literal">seeds</tt> vector.</p>
+<p>The <tt class="docutils literal">extern_auth</tt> argument can be used for other authorization
+schemes than basic HTTP authorization. If set, it will override any
+username and password found in the URL itself. The string will be sent
+as the HTTP authorization header's value (without specifying &quot;Basic&quot;).</p>
+<p>The <tt class="docutils literal">extra_headers</tt> argument defaults to an empty list, but can be
+used to insert custom HTTP headers in the requests to a specific web
+seed.</p>
+<p>See <a class="reference external" href="manual-ref.html#http-seeding">http seeding</a> for more information.</p>
+<a name="total_size()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Btotal_size%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Btotal_size%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="total-size">
+<h2>total_size()</h2>
+<pre class="literal-block">
+std::int64_t <strong>total_size</strong> () const;
+</pre>
+<p><tt class="docutils literal">total_size()</tt> returns the total number of bytes the torrent-file
+represents. Note that this is the number of pieces times the piece
+size (modulo the last piece possibly being smaller). With pad files,
+the total size will be larger than the sum of all (regular) file
+sizes.</p>
+<a name="num_pieces()"></a>
+<a name="piece_length()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bnum_pieces%28%29+piece_length%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bnum_pieces%28%29+piece_length%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="num-pieces-piece-length">
+<h2>num_pieces() piece_length()</h2>
+<pre class="literal-block">
+int <strong>piece_length</strong> () const;
+int <strong>num_pieces</strong> () const;
+</pre>
+<p><tt class="docutils literal">piece_length()</tt> and <tt class="docutils literal">num_pieces()</tt> returns the number of byte
+for each piece and the total number of pieces, respectively. The
+difference between <tt class="docutils literal">piece_size()</tt> and <tt class="docutils literal">piece_length()</tt> is that
+<tt class="docutils literal">piece_size()</tt> takes the piece index as argument and gives you the
+exact size of that piece. It will always be the same as
+<tt class="docutils literal">piece_length()</tt> except in the case of the last piece, which may be
+smaller.</p>
+<a name="end_piece()"></a>
+<a name="last_piece()"></a>
+<a name="piece_range()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bend_piece%28%29+last_piece%28%29+piece_range%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bend_piece%28%29+last_piece%28%29+piece_range%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="end-piece-last-piece-piece-range">
+<h2>end_piece() last_piece() piece_range()</h2>
+<pre class="literal-block">
+piece_index_t <strong>last_piece</strong> () const;
+piece_index_t <strong>end_piece</strong> () const;
+index_range&lt;piece_index_t&gt; <strong>piece_range</strong> () const;
+</pre>
+<p><tt class="docutils literal">last_piece()</tt> returns the index to the last piece in the torrent and
+<tt class="docutils literal">end_piece()</tt> returns the index to the one-past-end piece in the
+torrent
+<tt class="docutils literal">piece_range()</tt> returns an implementation-defined type that can be
+used as the container in a range-for loop. Where the values are the
+indices of all pieces in the <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a>.</p>
+<a name="info_hash()"></a>
+<a name="info_hashes()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Binfo_hash%28%29+info_hashes%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Binfo_hash%28%29+info_hashes%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="info-hash-info-hashes">
+<h2>info_hash() info_hashes()</h2>
+<pre class="literal-block">
+sha1_hash <strong>info_hash</strong> () const noexcept;
+info_hash_t const&amp; <strong>info_hashes</strong> () const;
+</pre>
+<p>returns the info-hash of the torrent. For BitTorrent v2 support, use
+<tt class="docutils literal">info_hashes()</tt> to get an object that may hold both a v1 and v2
+info-hash</p>
+<a name="v1()"></a>
+<a name="v2()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bv1%28%29+v2%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bv1%28%29+v2%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="v1-v2">
+<h2>v1() v2()</h2>
+<pre class="literal-block">
+bool <strong>v1</strong> () const;
+bool <strong>v2</strong> () const;
+</pre>
+<p>returns whether this torrent has v1 and/or v2 metadata, respectively.
+Hybrid torrents have both. These are shortcuts for
+info_hashes().has_v1() and info_hashes().has_v2() calls.</p>
+<a name="num_files()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bnum_files%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bnum_files%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="num-files">
+<h2>num_files()</h2>
+<pre class="literal-block">
+int <strong>num_files</strong> () const;
+</pre>
+<p>If you need index-access to files you can use the <tt class="docutils literal">num_files()</tt> along
+with the <tt class="docutils literal">file_path()</tt>, <tt class="docutils literal">file_size()</tt>-family of functions to access
+files using indices.</p>
+<a name="map_block()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bmap_block%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bmap_block%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="map-block">
+<h2>map_block()</h2>
+<pre class="literal-block">
+std::vector&lt;file_slice&gt; <strong>map_block</strong> (piece_index_t const piece
+      , std::int64_t offset, int size) const;
+</pre>
+<p>This function will map a piece index, a byte offset within that piece
+and a size (in bytes) into the corresponding files with offsets where
+that data for that piece is supposed to be stored. See <a class="reference external" href="reference-Storage.html#file_slice">file_slice</a>.</p>
+<a name="map_file()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bmap_file%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bmap_file%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="map-file">
+<h2>map_file()</h2>
+<pre class="literal-block">
+peer_request <strong>map_file</strong> (file_index_t const file, std::int64_t offset, int size) const;
+</pre>
+<p>This function will map a range in a specific file into a range in the
+torrent. The <tt class="docutils literal">file_offset</tt> parameter is the offset in the file,
+given in bytes, where 0 is the start of the file. See <a class="reference external" href="reference-Core.html#peer_request">peer_request</a>.</p>
+<p>The input range is assumed to be valid within the torrent.
+<tt class="docutils literal">file_offset</tt> + <tt class="docutils literal">size</tt> is not allowed to be greater than the file
+size. <tt class="docutils literal">file_index</tt> must refer to a valid file, i.e. it cannot be &gt;=
+<tt class="docutils literal">num_files()</tt>.</p>
+<a name="ssl_cert()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bssl_cert%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bssl_cert%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="ssl-cert">
+<h2>ssl_cert()</h2>
+<pre class="literal-block">
+string_view <strong>ssl_cert</strong> () const;
+</pre>
+<p>Returns the SSL root certificate for the torrent, if it is an SSL
+torrent. Otherwise returns an empty string. The certificate is
+the public certificate in x509 format.</p>
+<a name="is_valid()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bis_valid%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bis_valid%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="is-valid">
+<h2>is_valid()</h2>
+<pre class="literal-block">
+bool <strong>is_valid</strong> () const;
+</pre>
+<p>returns true if this <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> object has a torrent loaded.
+This is primarily used to determine if a magnet link has had its
+metadata resolved yet or not.</p>
+<a name="priv()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bpriv%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bpriv%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="priv">
+<h2>priv()</h2>
+<pre class="literal-block">
+bool <strong>priv</strong> () const;
+</pre>
+<p>returns true if this torrent is private. i.e., the client should not
+advertise itself on the trackerless network (the Kademlia DHT) for this torrent.</p>
+<a name="is_i2p()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bis_i2p%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bis_i2p%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="is-i2p">
+<h2>is_i2p()</h2>
+<pre class="literal-block">
+bool <strong>is_i2p</strong> () const;
+</pre>
+<p>returns true if this is an i2p torrent. This is determined by whether
+or not it has a tracker whose URL domain name ends with &quot;.i2p&quot;. i2p
+torrents disable the DHT and local peer discovery as well as talking
+to peers over anything other than the i2p network.</p>
+<a name="piece_size()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bpiece_size%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bpiece_size%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="piece-size">
+<h2>piece_size()</h2>
+<pre class="literal-block">
+int <strong>piece_size</strong> (piece_index_t index) const;
+</pre>
+<p>returns the piece size of file with <tt class="docutils literal">index</tt>. This will be the same as <a class="reference external" href="reference-Torrent_Info.html#piece_length()">piece_length()</a>,
+except for the last piece, which may be shorter.</p>
+<a name="hash_for_piece_ptr()"></a>
+<a name="hash_for_piece()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bhash_for_piece_ptr%28%29+hash_for_piece%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bhash_for_piece_ptr%28%29+hash_for_piece%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="hash-for-piece-ptr-hash-for-piece">
+<h2>hash_for_piece_ptr() hash_for_piece()</h2>
+<pre class="literal-block">
+sha1_hash <strong>hash_for_piece</strong> (piece_index_t index) const;
+char const* <strong>hash_for_piece_ptr</strong> (piece_index_t const index) const;
+</pre>
+<p><tt class="docutils literal">hash_for_piece()</tt> takes a piece-index and returns the 20-bytes
+sha1-hash for that piece and <tt class="docutils literal">info_hash()</tt> returns the 20-bytes
+sha1-hash for the info-section of the torrent file.
+<tt class="docutils literal">hash_for_piece_ptr()</tt> returns a pointer to the 20 byte sha1 digest
+for the piece. Note that the string is not 0-terminated.</p>
+<a name="name()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bname%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bname%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="name">
+<h2>name()</h2>
+<pre class="literal-block">
+const std::string&amp; <strong>name</strong> () const;
+</pre>
+<p><tt class="docutils literal">name()</tt> returns the name of the torrent.
+name contains UTF-8 encoded string.</p>
+<a name="creation_date()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bcreation_date%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bcreation_date%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="creation-date">
+<h2>creation_date()</h2>
+<pre class="literal-block">
+std::time_t <strong>creation_date</strong> () const;
+</pre>
+<p><tt class="docutils literal">creation_date()</tt> returns the creation date of the torrent as time_t
+(<a class="reference internal" href="#posix-time">posix time</a>). If there's no time stamp in the torrent file, 0 is
+returned.
+.. <span class="target" id="posix-time">posix time</span>: <a class="reference external" href="http://www.opengroup.org/onlinepubs/009695399/functions/time.html">http://www.opengroup.org/onlinepubs/009695399/functions/time.html</a></p>
+<a name="creator()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bcreator%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bcreator%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="creator">
+<h2>creator()</h2>
+<pre class="literal-block">
+const std::string&amp; <strong>creator</strong> () const;
+</pre>
+<p><tt class="docutils literal">creator()</tt> returns the creator string in the torrent. If there is
+no creator string it will return an empty string.</p>
+<a name="comment()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bcomment%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bcomment%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="comment">
+<h2>comment()</h2>
+<pre class="literal-block">
+const std::string&amp; <strong>comment</strong> () const;
+</pre>
+<p><tt class="docutils literal">comment()</tt> returns the comment associated with the torrent. If
+there's no comment, it will return an empty string.
+comment contains UTF-8 encoded string.</p>
+<a name="nodes()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bnodes%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bnodes%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="nodes">
+<h2>nodes()</h2>
+<pre class="literal-block">
+std::vector&lt;std::pair&lt;std::string, int&gt;&gt; const&amp; <strong>nodes</strong> () const;
+</pre>
+<p>If this torrent contains any DHT nodes, they are put in this vector in
+their original form (host name and port number).</p>
+<a name="add_node()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Badd_node%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Badd_node%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="add-node">
+<h2>add_node()</h2>
+<pre class="literal-block">
+void <strong>add_node</strong> (std::pair&lt;std::string, int&gt; const&amp; node);
+</pre>
+<p>This is used when creating torrent. Use this to add a known DHT node.
+It may be used, by the client, to bootstrap into the DHT network.</p>
+<a name="parse_info_section()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bparse_info_section%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bparse_info_section%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="parse-info-section">
+<h2>parse_info_section()</h2>
+<pre class="literal-block">
+bool <strong>parse_info_section</strong> (bdecode_node const&amp; info, error_code&amp; ec, int max_pieces);
+</pre>
+<p>populates the <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> by providing just the info-dict buffer.
+This is used when loading a torrent from a magnet link for instance,
+where we only have the info-dict. The <a class="reference external" href="reference-Bdecoding.html#bdecode_node">bdecode_node</a> <tt class="docutils literal">e</tt> points to a
+parsed info-dictionary. <tt class="docutils literal">ec</tt> returns an error code if something
+fails (typically if the info dictionary is malformed).
+The <cite>max_pieces</cite> parameter allows limiting the amount of memory
+dedicated to loading the torrent, and fails for torrents that exceed
+the limit. To load large torrents, this limit may also need to be
+raised in <a class="reference external" href="reference-Settings.html#max_piece_count">settings_pack::max_piece_count</a> and in calls to
+<a class="reference external" href="reference-Resume_Data.html#read_resume_data()">read_resume_data()</a>.</p>
+<a name="info()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Binfo%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Binfo%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="info">
+<h2>info()</h2>
+<pre class="literal-block">
+bdecode_node <strong>info</strong> (char const* key) const;
+</pre>
+<p>This function looks up keys from the info-dictionary of the loaded
+torrent file. It can be used to access extension values put in the
+.torrent file. If the specified key cannot be found, it returns nullptr.</p>
+<a name="info_section()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Binfo_section%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Binfo_section%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="info-section">
+<h2>info_section()</h2>
+<pre class="literal-block">
+span&lt;char const&gt; <strong>info_section</strong> () const;
+</pre>
+<p>returns a the raw info section of the torrent file.
+The underlying buffer is still owned by the <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> object</p>
+<a name="piece_layer()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bpiece_layer%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bpiece_layer%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="piece-layer">
+<h2>piece_layer()</h2>
+<pre class="literal-block">
+span&lt;char const&gt; <strong>piece_layer</strong> (file_index_t) const;
+</pre>
+<p>return the bytes of the piece layer hashes for the specified file. If
+the file doesn't have a piece layer, an empty span is returned.
+The span size is divisible by 32, the size of a SHA-256 hash.
+If the size of the file is smaller than or equal to the piece size,
+the files &quot;root hash&quot; is the hash of the file and is not saved
+separately in the &quot;piece layers&quot; field, but this function still
+returns the root hash of the file in that case.</p>
+<a name="free_piece_layers()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bfree_piece_layers%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bfree_piece_layers%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="free-piece-layers">
+<h2>free_piece_layers()</h2>
+<pre class="literal-block">
+void <strong>free_piece_layers</strong> ();
+</pre>
+<p>clears the piece layers from the <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a>. This is done by the
+<a class="reference external" href="reference-Session.html#session">session</a> when a torrent is added, to avoid storing it twice. The piece
+layer (or other hashes part of the merkle tree) are stored in the
+internal torrent object.</p>
+</div>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

@@ -63,6 +63,7 @@
 #include <QtCore/QSettings>
 #include <QtCore/QStandardPaths>
 #include <QtCore/QUrl>
+#include <QtGui/QAction>
 #include <QtGui/QClipboard>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QDesktopServices>
@@ -72,7 +73,6 @@
 #include <QtGui/QScreen>
 #include <QtWidgets/QAbstractButton>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QInputDialog>
@@ -1353,7 +1353,7 @@ void MainWindow::readSettings()
 void MainWindow::writeSettings()
 {
     QSettings settings;
-    if( !(isMaximized() | isFullScreen()) ) {
+    if( !(isMaximized() || isFullScreen()) ) {
         settings.setValue("Position", this->pos());
         settings.setValue("Size", this->size());
     }

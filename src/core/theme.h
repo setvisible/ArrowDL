@@ -52,7 +52,7 @@ public:
     /* Utils */
     static void setIcons(const QWidget *widget, const QMap<QAbstractButton*, QString> &map);
     static void setIcons(const QWidget *widget, const QMap<QAction*, QString> &map);
-    static void setIcons(const QWidget *widget, const QMap<QLabel *, QString> &map, int extent = 48);
+    static void setIcons(const QWidget *widget, const QMap<QLabel*, QString> &map, int extent = 48);
 };
 
 #endif // WIDGETS_THEME_H

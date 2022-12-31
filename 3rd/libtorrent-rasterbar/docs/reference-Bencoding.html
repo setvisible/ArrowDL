@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<p><a class="reference external" href="reference.html">home</a></p>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#entry" id="toc-entry-1">entry</a><ul>
+<li><a class="reference internal" href="#type" id="toc-entry-2">type()</a></li>
+<li><a class="reference internal" href="#entry-1" id="toc-entry-3">entry()</a></li>
+<li><a class="reference internal" href="#entry-2" id="toc-entry-4">entry()</a></li>
+<li><a class="reference internal" href="#entry-3" id="toc-entry-5">entry()</a></li>
+<li><a class="reference internal" href="#operator" id="toc-entry-6">operator=()</a></li>
+<li><a class="reference internal" href="#list-dict-preformatted-integer-string" id="toc-entry-7">list() dict() preformatted() integer() string()</a></li>
+<li><a class="reference internal" href="#swap" id="toc-entry-8">swap()</a></li>
+<li><a class="reference internal" href="#operator-1" id="toc-entry-9">operator[]()</a></li>
+<li><a class="reference internal" href="#find-key" id="toc-entry-10">find_key()</a></li>
+<li><a class="reference internal" href="#to-string" id="toc-entry-11">to_string()</a></li>
+<li><a class="reference internal" href="#enum-data-type" id="toc-entry-12">enum data_type</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#operator-2" id="toc-entry-13">operator&lt;&lt;()</a></li>
+<li><a class="reference internal" href="#bencode" id="toc-entry-14">bencode()</a></li>
+</ul>
+</div>
+<p>Bencoding is a common representation in bittorrent used for dictionary,
+list, <a class="reference external" href="reference-Alerts.html#int">int</a> and string hierarchies. It's used to encode .torrent files and
+some messages in the network protocol. libtorrent also uses it to store
+settings, resume data and other <a class="reference external" href="reference-Session.html#session">session</a> state.</p>
+<p>Strings in bencoded structures do not necessarily represent text.
+Strings are raw byte buffers of a certain length. If a string is meant to be
+interpreted as text, it is required to be UTF-8 encoded. See <a class="reference external" href="https://www.bittorrent.org/beps/bep_0003.html">BEP 3</a>.</p>
+<p>The function for decoding bencoded data <a class="reference external" href="reference-Bdecoding.html#bdecode()">bdecode()</a>, returning a <a class="reference external" href="reference-Bdecoding.html#bdecode_node">bdecode_node</a>.
+This function builds a tree that points back into the original buffer. The
+returned <a class="reference external" href="reference-Bdecoding.html#bdecode_node">bdecode_node</a> will not be valid once the buffer it was parsed out of
+is discarded.</p>
+<p>It's possible to construct an <a class="reference external" href="reference-Bencoding.html#entry">entry</a> from a <a class="reference external" href="reference-Bdecoding.html#bdecode_node">bdecode_node</a>, if a structure needs
+to be altered and re-encoded.</p>
+<a name="entry"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+entry&labels=documentation&body=Documentation+under+heading+%22class+entry%22+could+be+improved">report issue</a>]</span><div class="section" id="entry">
+<h1>entry</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/entry.hpp">libtorrent/entry.hpp</a>&quot;</p>
+<p>The <tt class="docutils literal">entry</tt> class represents one node in a bencoded hierarchy. It works as a
+variant type, it can be either a list, a dictionary (<tt class="docutils literal"><span class="pre">std::map</span></tt>), an integer
+or a string.</p>
+<pre class="literal-block">
+class entry
+{
+   data_type <strong>type</strong> () const;
+   <strong>entry</strong> (integer_type);
+   <strong>entry</strong> (dictionary_type);
+   <strong>entry</strong> (span&lt;char const&gt;);
+   <strong>entry</strong> (list_type);
+   <strong>entry</strong> (preformatted_type);
+   <strong>entry</strong> (U v);
+   <strong>entry</strong> (data_type t);
+   <strong>entry</strong> (bdecode_node const&amp; n);
+   entry&amp; <strong>operator=</strong> (span&lt;char const&gt;) &amp;;
+   entry&amp; <strong>operator=</strong> (entry const&amp;) &amp;;
+   entry&amp; <strong>operator=</strong> (preformatted_type) &amp;;
+   entry&amp; <strong>operator=</strong> (bdecode_node const&amp;) &amp;;
+   entry&amp; <strong>operator=</strong> (integer_type) &amp;;
+   entry&amp; <strong>operator=</strong> (dictionary_type) &amp;;
+   entry&amp; <strong>operator=</strong> (list_type) &amp;;
+   entry&amp; <strong>operator=</strong> (entry&amp;&amp;) &amp; noexcept;
+   entry&amp; <strong>operator=</strong> (U v) &amp;;
+   list_type const&amp; <strong>list</strong> () const;
+   dictionary_type&amp; <strong>dict</strong> ();
+   integer_type const&amp; <strong>integer</strong> () const;
+   string_type&amp; <strong>string</strong> ();
+   string_type const&amp; <strong>string</strong> () const;
+   integer_type&amp; <strong>integer</strong> ();
+   preformatted_type const&amp; <strong>preformatted</strong> () const;
+   preformatted_type&amp; <strong>preformatted</strong> ();
+   dictionary_type const&amp; <strong>dict</strong> () const;
+   list_type&amp; <strong>list</strong> ();
+   void <strong>swap</strong> (entry&amp; e);
+   entry&amp; <strong>operator[]</strong> (string_view key);
+   entry const&amp; <strong>operator[]</strong> (string_view key) const;
+   entry const* <strong>find_key</strong> (string_view key) const;
+   entry* <strong>find_key</strong> (string_view key);
+   std::string <strong>to_string</strong> (bool single_line = false) const;
+
+   enum data_type
+   {
+      int_t,
+      string_t,
+      list_t,
+      dictionary_t,
+      undefined_t,
+      preformatted_t,
+   };
+};
+</pre>
+<a name="type()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Btype%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Btype%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="type">
+<h2>type()</h2>
+<pre class="literal-block">
+data_type <strong>type</strong> () const;
+</pre>
+<p>returns the concrete type of the <a class="reference external" href="reference-Bencoding.html#entry">entry</a></p>
+<a name="entry()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Bentry%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Bentry%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="entry-1">
+<h2>entry()</h2>
+<pre class="literal-block">
+<strong>entry</strong> (integer_type);
+<strong>entry</strong> (dictionary_type);
+<strong>entry</strong> (span&lt;char const&gt;);
+<strong>entry</strong> (list_type);
+<strong>entry</strong> (preformatted_type);
+</pre>
+<p>constructors directly from a specific type.
+The content of the argument is copied into the
+newly constructed <a class="reference external" href="reference-Bencoding.html#entry">entry</a></p>
+<a name="entry()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Bentry%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Bentry%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="entry-2">
+<h2>entry()</h2>
+<pre class="literal-block">
+<strong>entry</strong> (data_type t);
+</pre>
+<p>construct an empty <a class="reference external" href="reference-Bencoding.html#entry">entry</a> of the specified type.
+see <a class="reference external" href="reference-Bencoding.html#data_type">data_type</a> enum.</p>
+<a name="entry()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Bentry%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Bentry%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="entry-3">
+<h2>entry()</h2>
+<pre class="literal-block">
+<strong>entry</strong> (bdecode_node const&amp; n);
+</pre>
+<p>construct from <a class="reference external" href="reference-Bdecoding.html#bdecode_node">bdecode_node</a> parsed form (see <a class="reference external" href="reference-Bdecoding.html#bdecode()">bdecode()</a>)</p>
+<a name="operator=()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Boperator%3D%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Boperator%3D%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="operator">
+<h2>operator=()</h2>
+<pre class="literal-block">
+entry&amp; <strong>operator=</strong> (span&lt;char const&gt;) &amp;;
+entry&amp; <strong>operator=</strong> (entry const&amp;) &amp;;
+entry&amp; <strong>operator=</strong> (preformatted_type) &amp;;
+entry&amp; <strong>operator=</strong> (bdecode_node const&amp;) &amp;;
+entry&amp; <strong>operator=</strong> (integer_type) &amp;;
+entry&amp; <strong>operator=</strong> (dictionary_type) &amp;;
+entry&amp; <strong>operator=</strong> (list_type) &amp;;
+entry&amp; <strong>operator=</strong> (entry&amp;&amp;) &amp; noexcept;
+</pre>
+<p>copies the structure of the right hand side into this
+<a class="reference external" href="reference-Bencoding.html#entry">entry</a>.</p>
+<a name="list()"></a>
+<a name="dict()"></a>
+<a name="preformatted()"></a>
+<a name="integer()"></a>
+<a name="string()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Blist%28%29+dict%28%29+preformatted%28%29+integer%28%29+string%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Blist%28%29+dict%28%29+preformatted%28%29+integer%28%29+string%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="list-dict-preformatted-integer-string">
+<h2>list() dict() preformatted() integer() string()</h2>
+<pre class="literal-block">
+list_type const&amp; <strong>list</strong> () const;
+dictionary_type&amp; <strong>dict</strong> ();
+integer_type const&amp; <strong>integer</strong> () const;
+string_type&amp; <strong>string</strong> ();
+string_type const&amp; <strong>string</strong> () const;
+integer_type&amp; <strong>integer</strong> ();
+preformatted_type const&amp; <strong>preformatted</strong> () const;
+preformatted_type&amp; <strong>preformatted</strong> ();
+dictionary_type const&amp; <strong>dict</strong> () const;
+list_type&amp; <strong>list</strong> ();
+</pre>
+<p>The <tt class="docutils literal">integer()</tt>, <tt class="docutils literal">string()</tt>, <tt class="docutils literal">list()</tt> and <tt class="docutils literal">dict()</tt> functions
+are accessors that return the respective type. If the <tt class="docutils literal">entry</tt> object
+isn't of the type you request, the accessor will throw
+system_error. You can ask an <tt class="docutils literal">entry</tt> for its type through the
+<tt class="docutils literal">type()</tt> function.</p>
+<p>If you want to create an <tt class="docutils literal">entry</tt> you give it the type you want it to
+have in its constructor, and then use one of the non-const accessors
+to get a reference which you then can assign the value you want it to
+have.</p>
+<p>The typical code to get info from a torrent file will then look like
+this:</p>
+<pre class="code c++ literal-block">
+<span class="name">entry</span> <span class="name">torrent_file</span><span class="punctuation">;</span>
+<span class="comment single">// ...
+</span>
+<span class="comment single">// throws if this is not a dictionary
+</span><span class="name">entry</span><span class="operator">::</span><span class="name">dictionary_type</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name">dict</span> <span class="operator">=</span> <span class="name">torrent_file</span><span class="punctuation">.</span><span class="name">dict</span><span class="punctuation">();</span>
+<span class="name">entry</span><span class="operator">::</span><span class="name">dictionary_type</span><span class="operator">::</span><span class="name">const_iterator</span> <span class="name">i</span><span class="punctuation">;</span>
+<span class="name">i</span> <span class="operator">=</span> <span class="name">dict</span><span class="punctuation">.</span><span class="name">find</span><span class="punctuation">(</span><span class="literal string">&quot;announce&quot;</span><span class="punctuation">);</span>
+<span class="keyword">if</span> <span class="punctuation">(</span><span class="name">i</span> <span class="operator">!=</span> <span class="name">dict</span><span class="punctuation">.</span><span class="name">end</span><span class="punctuation">())</span>
+<span class="punctuation">{</span>
+        <span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="name">tracker_url</span> <span class="operator">=</span> <span class="name">i</span><span class="operator">-&gt;</span><span class="name">second</span><span class="punctuation">.</span><span class="name">string</span><span class="punctuation">();</span>
+        <span class="name">std</span><span class="operator">::</span><span class="name">cout</span> <span class="operator">&lt;&lt;</span> <span class="name">tracker_url</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+</pre>
+<p>The following code is equivalent, but a little bit shorter:</p>
+<pre class="code c++ literal-block">
+<span class="name">entry</span> <span class="name">torrent_file</span><span class="punctuation">;</span>
+<span class="comment single">// ...
+</span>
+<span class="comment single">// throws if this is not a dictionary
+</span><span class="keyword">if</span> <span class="punctuation">(</span><span class="name">entry</span><span class="operator">*</span> <span class="name">i</span> <span class="operator">=</span> <span class="name">torrent_file</span><span class="punctuation">.</span><span class="name">find_key</span><span class="punctuation">(</span><span class="literal string">&quot;announce&quot;</span><span class="punctuation">))</span>
+<span class="punctuation">{</span>
+        <span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="name">tracker_url</span> <span class="operator">=</span> <span class="name">i</span><span class="operator">-&gt;</span><span class="name">string</span><span class="punctuation">();</span>
+        <span class="name">std</span><span class="operator">::</span><span class="name">cout</span> <span class="operator">&lt;&lt;</span> <span class="name">tracker_url</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+</pre>
+<p>To make it easier to extract information from a torrent file, the
+class <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> exists.</p>
+<a name="swap()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Bswap%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Bswap%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="swap">
+<h2>swap()</h2>
+<pre class="literal-block">
+void <strong>swap</strong> (entry&amp; e);
+</pre>
+<p>swaps the content of <em>this</em> with <tt class="docutils literal">e</tt>.</p>
+<a name="operator[]()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Boperator%5B%5D%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Boperator%5B%5D%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="operator-1">
+<h2>operator[]()</h2>
+<pre class="literal-block">
+entry&amp; <strong>operator[]</strong> (string_view key);
+entry const&amp; <strong>operator[]</strong> (string_view key) const;
+</pre>
+<p>All of these functions requires the <a class="reference external" href="reference-Bencoding.html#entry">entry</a> to be a dictionary, if it
+isn't they will throw <tt class="docutils literal">system_error</tt>.</p>
+<p>The non-const versions of the <tt class="docutils literal">operator[]</tt> will return a reference
+to either the existing element at the given key or, if there is no
+element with the given key, a reference to a newly inserted element at
+that key.</p>
+<p>The const version of <tt class="docutils literal">operator[]</tt> will only return a reference to an
+existing element at the given key. If the key is not found, it will
+throw <tt class="docutils literal">system_error</tt>.</p>
+<a name="find_key()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Bfind_key%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Bfind_key%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="find-key">
+<h2>find_key()</h2>
+<pre class="literal-block">
+entry const* <strong>find_key</strong> (string_view key) const;
+entry* <strong>find_key</strong> (string_view key);
+</pre>
+<p>These functions requires the <a class="reference external" href="reference-Bencoding.html#entry">entry</a> to be a dictionary, if it isn't
+they will throw <tt class="docutils literal">system_error</tt>.</p>
+<p>They will look for an element at the given key in the dictionary, if
+the element cannot be found, they will return nullptr. If an element
+with the given key is found, the return a pointer to it.</p>
+<a name="to_string()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Bto_string%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Bto_string%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="to-string">
+<h2>to_string()</h2>
+<pre class="literal-block">
+std::string <strong>to_string</strong> (bool single_line = false) const;
+</pre>
+<p>returns a pretty-printed string representation
+of the bencoded structure, with JSON-style syntax</p>
+<a name="data_type"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+data_type&labels=documentation&body=Documentation+under+heading+%22enum+data_type%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="enum-data-type">
+<h2>enum data_type</h2>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/entry.hpp">libtorrent/entry.hpp</a>&quot;</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="19%" />
+<col width="36%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">value</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>int_t</td>
+<td>0</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>string_t</td>
+<td>1</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>list_t</td>
+<td>2</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>dictionary_t</td>
+<td>3</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>undefined_t</td>
+<td>4</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>preformatted_t</td>
+<td>5</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<a name="operator<<()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:operator%3C%3C%28%29&labels=documentation&body=Documentation+under+heading+%22operator%3C%3C%28%29%22+could+be+improved">report issue</a>]</span></div>
+</div>
+<div class="section" id="operator-2">
+<h1>operator&lt;&lt;()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/entry.hpp">libtorrent/entry.hpp</a>&quot;</p>
+<pre class="literal-block">
+inline std::ostream&amp; <strong>operator&lt;&lt;</strong> (std::ostream&amp; os, const entry&amp; e);
+</pre>
+<p>prints the bencoded structure to the ostream as a JSON-style structure.</p>
+<a name="bencode()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bencode%28%29&labels=documentation&body=Documentation+under+heading+%22bencode%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="bencode">
+<h1>bencode()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/bencode.hpp">libtorrent/bencode.hpp</a>&quot;</p>
+<pre class="literal-block">
+template&lt;class OutIt&gt; int <strong>bencode</strong> (OutIt out, const entry&amp; e);
+</pre>
+<p>This function will encode data to bencoded form.</p>
+<p>The <a class="reference internal" href="#entry">entry</a> class is the internal representation of the bencoded data
+and it can be used to retrieve information, an <a class="reference internal" href="#entry">entry</a> can also be build by
+the program and given to <tt class="docutils literal">bencode()</tt> to encode it into the <tt class="docutils literal">OutIt</tt>
+iterator.</p>
+<p><tt class="docutils literal">OutIt</tt> is an <a class="reference external" href="https://en.cppreference.com/w/cpp/named_req/OutputIterator">OutputIterator</a>. It's a template and usually
+instantiated as <a class="reference external" href="https://en.cppreference.com/w/cpp/iterator/ostream_iterator">ostream_iterator</a> or <a class="reference external" href="https://en.cppreference.com/w/cpp/iterator/back_insert_iterator">back_insert_iterator</a>. This
+function assumes the value_type of the iterator is a <tt class="docutils literal">char</tt>.
+In order to encode <a class="reference external" href="reference-Bencoding.html#entry">entry</a> <tt class="docutils literal">e</tt> into a buffer, do:</p>
+<pre class="literal-block">
+std::vector&lt;char&gt; buffer;
+bencode(std::back_inserter(buf), e);
+</pre>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

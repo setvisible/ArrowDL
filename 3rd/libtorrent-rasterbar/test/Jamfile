@@ -1,0 +1,320 @@
+import testing ;
+import feature : feature ;
+
+use-project /torrent : .. ;
+
+lib libtorrent_test
+	: # sources
+	main.cpp
+	test.cpp
+	broadcast_socket.cpp
+	setup_transfer.cpp
+	dht_server.cpp
+	udp_tracker.cpp
+	peer_server.cpp
+	bittorrent_peer.cpp
+	print_alerts.cpp
+	web_seed_suite.cpp
+	swarm_suite.cpp
+	test_utils.cpp
+	settings.cpp
+	make_torrent.cpp
+
+	: # requirements
+	# this is used to determine whether
+	# symbols are exported or imported
+	<link>shared:<define>TORRENT_BUILDING_TEST_SHARED
+	<link>shared:<define>ED25519_BUILD_DLL
+	<include>../ed25519/src
+	<target-os>windows:<library>advapi32
+	<library>/torrent//torrent
+	<export-extra>on
+	<toolset>clang:<cflags>-Wno-implicit-int-float-conversion
+	<conditional>@warnings
+
+	: # default build
+	<link>shared
+	<cxxstd>14
+
+	: # user-requirements
+	<link>shared:<define>TORRENT_LINK_TEST_SHARED
+	<include>.
+;
+
+explicit libtorrent_test ;
+
+lib advapi32 : : <name>Advapi32 ;
+
+variant debug-mode : debug : <asserts>on <debug-iterators>on <invariant-checks>full ;
+
+local default-build =
+	<threading>multi
+	<link>shared
+	<picker-debugging>on
+	<logging>on
+	<cxxstd>14
+	<variant>debug-mode
+# default to 64 bit address model as it's required by mmap-disk-io.
+	<address-model>64
+	;
+
+project
+	: requirements
+	<export-extra>on
+	<library>libtorrent_test
+	<library>/torrent//torrent
+	# C4127: conditional expression is constant
+	<toolset>msvc:<cxxflags>/wd4127
+	# C4309: 'conversion' : truncation of constant value
+	<toolset>msvc:<cxxflags>/wd4309
+	# C4310: cast truncates constant value
+	<toolset>msvc:<cxxflags>/wd4310
+	# C4268: 'identifier' : 'const' static/global data initialized
+	#        with compiler generated default constructor fills the object with zeros
+	<toolset>msvc:<cxxflags>/wd4268
+	<toolset>clang:<cflags>-Wno-implicit-int-float-conversion
+	<conditional>@warnings
+	<export-extra>on
+	: default-build
+	$(default-build)
+	;
+
+feature launcher : none valgrind : composite ;
+feature.compose <launcher>valgrind : <testing.launcher>"valgrind --tool=memcheck -v --num-callers=20 --read-var-info=yes --track-origins=yes --error-exitcode=222 --suppressions=valgrind_suppressions.txt" <use-valgrind>on ;
+
+exe test_natpmp : test_natpmp.cpp
+	: # requirements
+	<library>/torrent//torrent
+	<export-extra>on
+	<conditional>@warnings
+	: # default-build
+	$(default-build)
+	;
+
+exe enum_if : enum_if.cpp
+	: # requirements
+	<library>/torrent//torrent
+	<export-extra>on
+	<conditional>@warnings
+	: # default-build
+	$(default-build)
+	;
+
+install stage_enum_if : enum_if : <location>. ;
+
+install stage_dependencies
+	: /torrent//torrent
+	  libtorrent_test
+	: <location>dependencies
+	<install-dependencies>on
+	<install-type>SHARED_LIB
+	: $(default-build)
+	;
+
+explicit test_natpmp ;
+explicit enum_if ;
+explicit stage_enum_if ;
+explicit stage_dependencies ;
+
+run test_listen_socket.cpp
+	: : : <crypto>openssl:<library>/torrent//ssl
+	<crypto>openssl:<library>/torrent//crypto ;
+
+run test_dht.cpp
+	test_dht_storage.cpp
+	test_direct_dht.cpp
+	: : : <crypto>openssl:<library>/torrent//ssl
+	<crypto>openssl:<library>/torrent//crypto ;
+
+run test_add_torrent.cpp ;
+run test_info_hash.cpp ;
+run test_primitives.cpp ;
+run test_io.cpp ;
+run test_create_torrent.cpp ;
+run test_packet_buffer.cpp ;
+run test_timestamp_history.cpp ;
+run test_bloom_filter.cpp ;
+run test_identify_client.cpp ;
+run test_merkle.cpp ;
+run test_merkle_tree.cpp ;
+run test_resolve_links.cpp ;
+run test_heterogeneous_queue.cpp ;
+run test_ip_voter.cpp ;
+run test_sliding_average.cpp ;
+run test_socket_io.cpp ;
+run test_part_file.cpp ;
+run test_peer_list.cpp ;
+run test_torrent_info.cpp ;
+run test_time.cpp ;
+run test_file_storage.cpp ;
+run test_peer_priority.cpp ;
+run test_threads.cpp ;
+run test_tailqueue.cpp ;
+run test_bandwidth_limiter.cpp ;
+run test_buffer.cpp ;
+run test_bencoding.cpp ;
+run test_bdecode.cpp ;
+run test_http_parser.cpp ;
+run test_xml.cpp ;
+run test_ip_filter.cpp ;
+run test_peer_classes.cpp ;
+run test_settings_pack.cpp ;
+run test_fence.cpp ;
+run test_dos_blocker.cpp ;
+run test_stat_cache.cpp ;
+run test_enum_net.cpp ;
+run test_stack_allocator.cpp ;
+run test_file_progress.cpp ;
+run test_generate_peer_id.cpp ;
+run test_piece_picker.cpp ;
+run test_alloca.cpp ;
+run test_string.cpp ;
+run test_utf8.cpp ;
+run test_sha1_hash.cpp ;
+run test_span.cpp ;
+run test_bitfield.cpp ;
+run test_crc32.cpp ;
+run test_ffs.cpp ;
+run test_ed25519.cpp ;
+run test_gzip.cpp ;
+run test_receive_buffer.cpp ;
+run test_alert_manager.cpp ;
+run test_apply_pad.cpp ;
+run test_alert_types.cpp ;
+run test_magnet.cpp ;
+run test_storage.cpp ;
+run test_store_buffer.cpp ;
+run test_mmap.cpp ;
+run test_session.cpp ;
+run test_session_params.cpp ;
+run test_read_piece.cpp ;
+run test_remove_torrent.cpp ;
+run test_flags.cpp ;
+run test_torrent_list.cpp ;
+run test_file.cpp ;
+run test_fast_extension.cpp ;
+run test_privacy.cpp ;
+run test_recheck.cpp ;
+run test_read_resume.cpp ;
+run test_hash_picker.cpp ;
+run test_torrent.cpp ;
+run test_remap_files.cpp ;
+run test_similar_torrent.cpp ;
+run test_truncate.cpp ;
+run test_copy_file.cpp ;
+
+# turn these tests into simulations
+run test_resume.cpp ;
+run test_ssl.cpp : :
+	: <crypto>openssl:<library>/torrent//ssl
+	<crypto>openssl:<library>/torrent//crypto ;
+run test_tracker.cpp ;
+run test_checking.cpp ;
+run test_url_seed.cpp ;
+run test_web_seed.cpp ;
+run test_web_seed_redirect.cpp ;
+run test_web_seed_socks4.cpp ;
+run test_web_seed_socks5.cpp ;
+run test_web_seed_socks5_no_peers.cpp ;
+run test_web_seed_socks5_pw.cpp ;
+run test_web_seed_http.cpp ;
+run test_web_seed_http_pw.cpp ;
+run test_web_seed_chunked.cpp ;
+run test_web_seed_ban.cpp ;
+run test_pe_crypto.cpp ;
+run test_utp.cpp ;
+run test_auto_unchoke.cpp ;
+run test_http_connection.cpp : :
+		: <crypto>openssl:<library>/torrent//ssl
+		<crypto>openssl:<library>/torrent//crypto
+	;
+run test_transfer.cpp ;
+run test_time_critical.cpp ;
+run test_priority.cpp ;
+
+run test_upnp.cpp ;
+run test_lsd.cpp ;
+explicit test_lsd ;
+run test_hasher.cpp ;
+explicit test_hasher ;
+run test_hasher512.cpp ;
+explicit test_hasher512 ;
+
+# unfortunately, some tests spin up full libtorrent sessions, with threads and
+# real sockets and sometimes fail for timing issues. This is a list of all the
+# deterministic tests
+alias deterministic-tests :
+	test_alert_manager
+	test_apply_pad
+	test_alert_types
+	test_alloca
+	test_bandwidth_limiter
+	test_bdecode
+	test_bencoding
+	test_bitfield
+	test_bloom_filter
+	test_buffer
+	test_crc32
+	test_create_torrent
+	test_dht
+	test_dos_blocker
+	test_ed25519
+	test_enum_net
+	test_fence
+	test_ffs
+	test_file
+	test_file_progress
+	test_file_storage
+	test_generate_peer_id
+	test_gzip
+	test_hash_picker
+	test_heterogeneous_queue
+	test_http_parser
+	test_identify_client
+	test_info_hash
+	test_io
+	test_ip_filter
+	test_ip_voter
+	test_listen_socket
+	test_magnet
+	test_merkle
+	test_merkle_tree
+	test_mmap
+	test_packet_buffer
+	test_part_file
+	test_pe_crypto
+	test_peer_classes
+	test_peer_list
+	test_peer_priority
+	test_piece_picker
+	test_primitives
+	test_read_resume
+	test_receive_buffer
+	test_recheck
+	test_remap_files
+	test_resolve_links
+	test_resume
+	test_session
+	test_session_params
+	test_settings_pack
+	test_sha1_hash
+	test_sliding_average
+	test_socket_io
+	test_span
+	test_stack_allocator
+	test_stat_cache
+	test_storage
+	test_string
+	test_tailqueue
+	test_threads
+	test_time
+	test_timestamp_history
+	test_torrent
+	test_torrent_info
+	test_torrent_list
+	test_utf8
+	test_xml
+	test_store_buffer
+	test_similar_torrent
+	test_truncate
+	;

@@ -18,6 +18,7 @@
 #define CORE_UPDATE_CHECKER_PRIVATE_H
 
 #include <QtCore/QCollator>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QString>
 
 namespace UpdateCheckerNS
@@ -27,7 +28,7 @@ QString cleanTag(const QString &tag)
 {
     auto cleaned = tag;
     cleaned = cleaned.replace('.', ' ');
-    cleaned.remove(QRegExp("[^\\d\\s]"));
+    cleaned.remove(QRegularExpression("[^\\d\\s]"));
     cleaned = cleaned.simplified();
     cleaned = cleaned.replace(' ', '.');
     return cleaned;

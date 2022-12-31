@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<p><a class="reference external" href="reference.html">home</a></p>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#read-resume-data" id="toc-entry-1">read_resume_data()</a></li>
+<li><a class="reference internal" href="#write-resume-data-write-resume-data-buf" id="toc-entry-2">write_resume_data() write_resume_data_buf()</a></li>
+<li><a class="reference internal" href="#write-torrent-file" id="toc-entry-3">write_torrent_file()</a></li>
+<li><a class="reference internal" href="#write-torrent-flags-t" id="toc-entry-4">write_torrent_flags_t</a></li>
+</ul>
+</div>
+<a name="read_resume_data()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:read_resume_data%28%29&labels=documentation&body=Documentation+under+heading+%22read_resume_data%28%29%22+could+be+improved">report issue</a>]</span><div class="section" id="read-resume-data">
+<h1>read_resume_data()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/read_resume_data.hpp">libtorrent/read_resume_data.hpp</a>&quot;</p>
+<pre class="literal-block">
+add_torrent_params <strong>read_resume_data</strong> (bdecode_node const&amp; rd
+   , error_code&amp; ec, int piece_limit = 0x200000);
+add_torrent_params <strong>read_resume_data</strong> (span&lt;char const&gt; buffer
+   , error_code&amp; ec, load_torrent_limits const&amp; cfg = {});
+add_torrent_params <strong>read_resume_data</strong> (bdecode_node const&amp; rd
+   , int piece_limit = 0x200000);
+add_torrent_params <strong>read_resume_data</strong> (span&lt;char const&gt; buffer
+   , load_torrent_limits const&amp; cfg = {});
+</pre>
+<p>these functions are used to parse resume data and populate the appropriate
+fields in an <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object. This object can then be used to add
+the actual <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> object to and pass to session::add_torrent() or
+session::async_add_torrent().</p>
+<p>If the client wants to override any field that was loaded from the resume
+data, e.g. save_path, those fields must be changed after loading resume
+data but before adding the torrent.</p>
+<p>The <tt class="docutils literal">piece_limit</tt> parameter determines the largest number of pieces
+allowed in the torrent that may be loaded as part of the resume data, if
+it contains an <tt class="docutils literal">info</tt> field. The overloads that take a flat buffer are
+instead configured with limits on torrent sizes via load_torrent limits.</p>
+<p>In order to support large torrents, it may also be necessary to raise the
+<a class="reference external" href="reference-Settings.html#max_piece_count">settings_pack::max_piece_count</a> setting and pass a higher limit to calls
+to <a class="reference external" href="reference-Torrent_Info.html#parse_info_section()">torrent_info::parse_info_section()</a>.</p>
+<a name="write_resume_data()"></a>
+<a name="write_resume_data_buf()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:write_resume_data%28%29+write_resume_data_buf%28%29&labels=documentation&body=Documentation+under+heading+%22write_resume_data%28%29+write_resume_data_buf%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="write-resume-data-write-resume-data-buf">
+<h1>write_resume_data() write_resume_data_buf()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/write_resume_data.hpp">libtorrent/write_resume_data.hpp</a>&quot;</p>
+<pre class="literal-block">
+entry <strong>write_resume_data</strong> (add_torrent_params const&amp; atp);
+std::vector&lt;char&gt; <strong>write_resume_data_buf</strong> (add_torrent_params const&amp; atp);
+</pre>
+<p>this function turns the resume data in an <tt class="docutils literal">add_torrent_params</tt> object
+into a bencoded structure</p>
+<a name="write_torrent_file()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:write_torrent_file%28%29&labels=documentation&body=Documentation+under+heading+%22write_torrent_file%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="write-torrent-file">
+<h1>write_torrent_file()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/write_resume_data.hpp">libtorrent/write_resume_data.hpp</a>&quot;</p>
+<pre class="literal-block">
+entry <strong>write_torrent_file</strong> (add_torrent_params const&amp; atp);
+entry <strong>write_torrent_file</strong> (add_torrent_params const&amp; atp, write_torrent_flags_t flags);
+</pre>
+<p>writes only the fields to create a .torrent file. This function may fail
+with a <tt class="docutils literal"><span class="pre">std::system_error</span></tt> exception if:</p>
+<ul class="simple">
+<li>The <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object passed to this function does not contain the
+info dictionary (the <tt class="docutils literal">ti</tt> field)</li>
+<li>The piece layers are not complete for all files that need them</li>
+</ul>
+<a name="write_torrent_flags_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:write_torrent_flags_t&labels=documentation&body=Documentation+under+heading+%22write_torrent_flags_t%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="write-torrent-flags-t">
+<h1>write_torrent_flags_t</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/write_resume_data.hpp">libtorrent/write_resume_data.hpp</a>&quot;</p>
+<a name="write_torrent_flags_t::allow_missing_piece_layer"></a><dl class="docutils">
+<dt>allow_missing_piece_layer</dt>
+<dd>this makes <a class="reference external" href="reference-Resume_Data.html#write_torrent_file()">write_torrent_file()</a> not fail when attempting to write a
+v2 torrent file that does not have all the piece layers</dd>
+</dl>
+<a name="write_torrent_flags_t::no_http_seeds"></a><dl class="docutils">
+<dt>no_http_seeds</dt>
+<dd>don't include http seeds in the torrent file, even if some are
+present in the <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object</dd>
+</dl>
+<a name="write_torrent_flags_t::include_dht_nodes"></a><dl class="docutils">
+<dt>include_dht_nodes</dt>
+<dd>When set, DHT nodes from the <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> objects are included
+in the resulting .torrent file</dd>
+</dl>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

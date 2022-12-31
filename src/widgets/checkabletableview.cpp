@@ -20,7 +20,7 @@
 #include <Widgets/CheckableItemDelegate>
 
 #include <QtCore/QDebug>
-#include <QtWidgets/QAction>
+#include <QtGui/QAction>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMenu>
 

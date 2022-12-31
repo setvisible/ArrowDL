@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<p><a class="reference external" href="reference.html">home</a></p>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#stats-metric" id="toc-entry-1">stats_metric</a></li>
+<li><a class="reference internal" href="#counters" id="toc-entry-2">counters</a><ul>
+<li><a class="reference internal" href="#operator-inc-stats-counter" id="toc-entry-3">operator[]() inc_stats_counter()</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#session-stats-metrics" id="toc-entry-4">session_stats_metrics()</a></li>
+<li><a class="reference internal" href="#find-metric-idx" id="toc-entry-5">find_metric_idx()</a></li>
+<li><a class="reference internal" href="#enum-metric-type-t" id="toc-entry-6">enum metric_type_t</a></li>
+</ul>
+</div>
+<a name="stats_metric"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+stats_metric&labels=documentation&body=Documentation+under+heading+%22class+stats_metric%22+could+be+improved">report issue</a>]</span><div class="section" id="stats-metric">
+<h1>stats_metric</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/session_stats.hpp">libtorrent/session_stats.hpp</a>&quot;</p>
+<p>describes one statistics metric from the <a class="reference external" href="reference-Session.html#session">session</a>. For more information,
+see the <a class="reference external" href="manual-ref.html#session-statistics">session statistics</a> section.</p>
+<pre class="literal-block">
+struct stats_metric
+{
+   char const* name;
+   int value_index;
+   metric_type_t type;
+};
+</pre>
+<a name="name"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:stats_metric%3A%3A%5Bname%5D&labels=documentation&body=Documentation+under+heading+%22stats_metric%3A%3A%5Bname%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>name</dt>
+<dd>the name of the counter or gauge</dd>
+</dl>
+<a name="value_index"></a>
+<a name="type"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:stats_metric%3A%3A%5Bvalue_index+type%5D&labels=documentation&body=Documentation+under+heading+%22stats_metric%3A%3A%5Bvalue_index+type%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>value_index type</dt>
+<dd>the index into the <a class="reference external" href="reference-Session.html#session">session</a> stats array, where the underlying value of
+this counter or gauge is found. The <a class="reference external" href="reference-Session.html#session">session</a> stats array is part of the
+<a class="reference external" href="reference-Alerts.html#session_stats_alert">session_stats_alert</a> object.</dd>
+</dl>
+<a name="counters"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+counters&labels=documentation&body=Documentation+under+heading+%22class+counters%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="counters">
+<h1>counters</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/performance_counters.hpp">libtorrent/performance_counters.hpp</a>&quot;</p>
+<pre class="literal-block">
+struct counters
+{
+   <strong>counters</strong> () ;
+   <strong>counters</strong> (counters const&amp;) ;
+   counters&amp; <strong>operator=</strong> (counters const&amp;) &amp; ;
+   std::int64_t <strong>inc_stats_counter</strong> (int c, std::int64_t value = 1) ;
+   std::int64_t <strong>operator[]</strong> (int i) const ;
+   void <strong>blend_stats_counter</strong> (int c, std::int64_t value, int ratio) ;
+   void <strong>set_value</strong> (int c, std::int64_t value) ;
+};
+</pre>
+<a name="operator[]()"></a>
+<a name="inc_stats_counter()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:counters%3A%3A%5Boperator%5B%5D%28%29+inc_stats_counter%28%29%5D&labels=documentation&body=Documentation+under+heading+%22counters%3A%3A%5Boperator%5B%5D%28%29+inc_stats_counter%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="operator-inc-stats-counter">
+<h2>operator[]() inc_stats_counter()</h2>
+<pre class="literal-block">
+std::int64_t <strong>inc_stats_counter</strong> (int c, std::int64_t value = 1) ;
+std::int64_t <strong>operator[]</strong> (int i) const ;
+</pre>
+<p>returns the new value</p>
+<a name="session_stats_metrics()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_stats_metrics%28%29&labels=documentation&body=Documentation+under+heading+%22session_stats_metrics%28%29%22+could+be+improved">report issue</a>]</span></div>
+</div>
+<div class="section" id="session-stats-metrics">
+<h1>session_stats_metrics()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/session_stats.hpp">libtorrent/session_stats.hpp</a>&quot;</p>
+<pre class="literal-block">
+std::vector&lt;stats_metric&gt; <strong>session_stats_metrics</strong> ();
+</pre>
+<p>This free function returns the list of available metrics exposed by
+libtorrent's statistics API. Each metric has a name and a <em>value index</em>.
+The value index is the index into the array in <a class="reference external" href="reference-Alerts.html#session_stats_alert">session_stats_alert</a> where
+this metric's value can be found when the <a class="reference external" href="reference-Session.html#session">session</a> stats is sampled (by
+calling <a class="reference external" href="reference-Session.html#post_session_stats()">post_session_stats()</a>).</p>
+<a name="find_metric_idx()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:find_metric_idx%28%29&labels=documentation&body=Documentation+under+heading+%22find_metric_idx%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="find-metric-idx">
+<h1>find_metric_idx()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/session_stats.hpp">libtorrent/session_stats.hpp</a>&quot;</p>
+<pre class="literal-block">
+int <strong>find_metric_idx</strong> (string_view name);
+</pre>
+<p>given a name of a metric, this function returns the counter index of it,
+or -1 if it could not be found. The counter index is the index into the
+values array returned by <a class="reference external" href="reference-Alerts.html#session_stats_alert">session_stats_alert</a>.</p>
+<a name="metric_type_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+metric_type_t&labels=documentation&body=Documentation+under+heading+%22enum+metric_type_t%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="enum-metric-type-t">
+<h1>enum metric_type_t</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/session_stats.hpp">libtorrent/session_stats.hpp</a>&quot;</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="24%" />
+<col width="45%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">value</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>counter</td>
+<td>0</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>gauge</td>
+<td>1</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

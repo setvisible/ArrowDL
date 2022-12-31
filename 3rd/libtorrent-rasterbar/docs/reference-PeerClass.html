@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<p><a class="reference external" href="reference.html">home</a></p>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#peer-class-info" id="toc-entry-1">peer_class_info</a></li>
+<li><a class="reference internal" href="#peer-class-type-filter" id="toc-entry-2">peer_class_type_filter</a><ul>
+<li><a class="reference internal" href="#add-remove" id="toc-entry-3">add() remove()</a></li>
+<li><a class="reference internal" href="#allow-disallow" id="toc-entry-4">allow() disallow()</a></li>
+<li><a class="reference internal" href="#apply" id="toc-entry-5">apply()</a></li>
+<li><a class="reference internal" href="#enum-socket-type-t" id="toc-entry-6">enum socket_type_t</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<a name="peer_class_info"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+peer_class_info&labels=documentation&body=Documentation+under+heading+%22class+peer_class_info%22+could+be+improved">report issue</a>]</span><div class="section" id="peer-class-info">
+<h1>peer_class_info</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/peer_class.hpp">libtorrent/peer_class.hpp</a>&quot;</p>
+<p>holds settings for a peer class. Used in <a class="reference external" href="reference-Session.html#set_peer_class()">set_peer_class()</a> and
+<a class="reference external" href="reference-Session.html#get_peer_class()">get_peer_class()</a> calls.</p>
+<pre class="literal-block">
+struct peer_class_info
+{
+   bool ignore_unchoke_slots;
+   int connection_limit_factor;
+   std::string label;
+   int upload_limit;
+   int download_limit;
+   int upload_priority;
+   int download_priority;
+};
+</pre>
+<a name="ignore_unchoke_slots"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_class_info%3A%3A%5Bignore_unchoke_slots%5D&labels=documentation&body=Documentation+under+heading+%22peer_class_info%3A%3A%5Bignore_unchoke_slots%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>ignore_unchoke_slots</dt>
+<dd><tt class="docutils literal">ignore_unchoke_slots</tt> determines whether peers should always
+unchoke a peer, regardless of the choking algorithm, or if it should
+honor the unchoke slot limits. It's used for local peers by default.
+If <em>any</em> of the peer classes a peer belongs to has this set to true,
+that peer will be unchoked at all times.</dd>
+</dl>
+<a name="connection_limit_factor"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_class_info%3A%3A%5Bconnection_limit_factor%5D&labels=documentation&body=Documentation+under+heading+%22peer_class_info%3A%3A%5Bconnection_limit_factor%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>connection_limit_factor</dt>
+<dd>adjusts the connection limit (global and per torrent) that applies to
+this peer class. By default, local peers are allowed to exceed the
+normal connection limit for instance. This is specified as a percent
+factor. 100 makes the peer class apply normally to the limit. 200
+means as long as there are fewer connections than twice the limit, we
+accept this peer. This factor applies both to the global connection
+limit and the per-torrent limit. Note that if not used carefully one
+peer class can potentially completely starve out all other over time.</dd>
+</dl>
+<a name="label"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_class_info%3A%3A%5Blabel%5D&labels=documentation&body=Documentation+under+heading+%22peer_class_info%3A%3A%5Blabel%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>label</dt>
+<dd>not used by libtorrent. It's intended as a potentially user-facing
+identifier of this peer class.</dd>
+</dl>
+<a name="upload_limit"></a>
+<a name="download_limit"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_class_info%3A%3A%5Bupload_limit+download_limit%5D&labels=documentation&body=Documentation+under+heading+%22peer_class_info%3A%3A%5Bupload_limit+download_limit%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>upload_limit download_limit</dt>
+<dd>transfer rates limits for the whole peer class. They are specified in
+bytes per second and apply to the sum of all peers that are members of
+this class.</dd>
+</dl>
+<a name="upload_priority"></a>
+<a name="download_priority"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_class_info%3A%3A%5Bupload_priority+download_priority%5D&labels=documentation&body=Documentation+under+heading+%22peer_class_info%3A%3A%5Bupload_priority+download_priority%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
+<dt>upload_priority download_priority</dt>
+<dd>relative priorities used by the bandwidth allocator in the rate
+limiter. If no rate limits are in use, the priority is not used
+either. Priorities start at 1 (0 is not a valid priority) and may not
+exceed 255.</dd>
+</dl>
+<a name="peer_class_type_filter"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+peer_class_type_filter&labels=documentation&body=Documentation+under+heading+%22class+peer_class_type_filter%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="peer-class-type-filter">
+<h1>peer_class_type_filter</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/peer_class_type_filter.hpp">libtorrent/peer_class_type_filter.hpp</a>&quot;</p>
+<p><tt class="docutils literal">peer_class_type_filter</tt> is a simple container for rules for adding and subtracting
+peer-classes from peers. It is applied <em>after</em> the peer class filter is applied (which
+is based on the peer's IP address).</p>
+<pre class="literal-block">
+struct peer_class_type_filter
+{
+   void <strong>add</strong> (socket_type_t const st, peer_class_t const peer_class);
+   void <strong>remove</strong> (socket_type_t const st, peer_class_t const peer_class);
+   void <strong>allow</strong> (socket_type_t const st, peer_class_t const peer_class);
+   void <strong>disallow</strong> (socket_type_t const st, peer_class_t const peer_class);
+   std::uint32_t <strong>apply</strong> (socket_type_t const st, std::uint32_t peer_class_mask);
+   friend bool <strong>operator==</strong> (peer_class_type_filter const&amp; lhs
+      , peer_class_type_filter const&amp; rhs);
+
+   enum socket_type_t
+   {
+      tcp_socket,
+      utp_socket,
+      ssl_tcp_socket,
+      ssl_utp_socket,
+      i2p_socket,
+      num_socket_types,
+   };
+};
+</pre>
+<a name="add()"></a>
+<a name="remove()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_class_type_filter%3A%3A%5Badd%28%29+remove%28%29%5D&labels=documentation&body=Documentation+under+heading+%22peer_class_type_filter%3A%3A%5Badd%28%29+remove%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="add-remove">
+<h2>add() remove()</h2>
+<pre class="literal-block">
+void <strong>add</strong> (socket_type_t const st, peer_class_t const peer_class);
+void <strong>remove</strong> (socket_type_t const st, peer_class_t const peer_class);
+</pre>
+<p><tt class="docutils literal">add()</tt> and <tt class="docutils literal">remove()</tt> adds and removes a peer class to be added
+to new peers based on socket type.</p>
+<a name="allow()"></a>
+<a name="disallow()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_class_type_filter%3A%3A%5Ballow%28%29+disallow%28%29%5D&labels=documentation&body=Documentation+under+heading+%22peer_class_type_filter%3A%3A%5Ballow%28%29+disallow%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="allow-disallow">
+<h2>allow() disallow()</h2>
+<pre class="literal-block">
+void <strong>allow</strong> (socket_type_t const st, peer_class_t const peer_class);
+void <strong>disallow</strong> (socket_type_t const st, peer_class_t const peer_class);
+</pre>
+<p><tt class="docutils literal">disallow()</tt> and <tt class="docutils literal">allow()</tt> adds and removes a peer class to be
+removed from new peers based on socket type.</p>
+<p>The <tt class="docutils literal">peer_class</tt> argument cannot be greater than 31. The bitmasks representing
+peer classes in the <tt class="docutils literal">peer_class_type_filter</tt> are 32 bits.</p>
+<a name="apply()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_class_type_filter%3A%3A%5Bapply%28%29%5D&labels=documentation&body=Documentation+under+heading+%22peer_class_type_filter%3A%3A%5Bapply%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="apply">
+<h2>apply()</h2>
+<pre class="literal-block">
+std::uint32_t <strong>apply</strong> (socket_type_t const st, std::uint32_t peer_class_mask);
+</pre>
+<p>takes a bitmask of peer classes and returns a new bitmask of
+peer classes after the rules have been applied, based on the socket type argument
+(<tt class="docutils literal">st</tt>).</p>
+<a name="socket_type_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+socket_type_t&labels=documentation&body=Documentation+under+heading+%22enum+socket_type_t%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="enum-socket-type-t">
+<h2>enum socket_type_t</h2>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/peer_class_type_filter.hpp">libtorrent/peer_class_type_filter.hpp</a>&quot;</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="9%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">value</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>tcp_socket</td>
+<td>0</td>
+<td>these match the socket types from socket_type.hpp
+shifted one down</td>
+</tr>
+<tr><td>utp_socket</td>
+<td>1</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>ssl_tcp_socket</td>
+<td>2</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>ssl_utp_socket</td>
+<td>3</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>i2p_socket</td>
+<td>4</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>num_socket_types</td>
+<td>5</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

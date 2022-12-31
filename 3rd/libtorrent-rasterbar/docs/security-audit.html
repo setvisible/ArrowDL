@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="security-audit-of-libtorrent">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+<h1 class="title">Security audit of libtorrent</h1>
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Author:</th>
+<td>Arvid Norberg, <a class="last reference external" href="mailto:arvid&#64;libtorrent.org">arvid&#64;libtorrent.org</a></td></tr>
+</tbody>
+</table>
+<p>In the 4th quarter of 2020 <a class="reference external" href="https://www.mozilla.org/en-US/moss/">Mozilla Open Source Support Awards</a> commissioned a
+security audit of libtorrent, to be performed by <a class="reference external" href="https://includesecurity.com/">include security</a>.</p>
+<p>The full report from the audit can be found <a class="reference external" href="2020 Q4 Mozilla Libtorrent Report Public Report.pdf">here</a>.</p>
+<p>This document discusses the issues raised by the report as well as describes the
+changes made to libtorrent in response to it. These changes were included in
+libtorrent version 1.2.12 and version 2.0.2.</p>
+<p>Comments on this document are welcome through any of these means:</p>
+<ul class="simple">
+<li>email them to <tt class="docutils literal">arvid&#64;libtorrent.org</tt></li>
+<li>email to libtorrent <a class="reference external" href="https://sourceforge.net/projects/libtorrent/lists/libtorrent-discuss">mailing list</a></li>
+<li>an issue on <a class="reference external" href="https://github.com/arvidn/libtorrent/issues">github</a>.</li>
+</ul>
+<div class="contents topic" id="issues-brought-up-in-the-report">
+<p class="topic-title">issues brought up in the report</p>
+<ul class="simple">
+<li><a class="reference internal" href="#f1-server-side-request-forgery-ssrf" id="toc-entry-1">F1: Server-Side Request Forgery (SSRF)</a><ul>
+<li><a class="reference internal" href="#tracker-and-web-seed-protocols" id="toc-entry-2">tracker and web seed protocols</a></li>
+<li><a class="reference internal" href="#cloud-server-meta-data" id="toc-entry-3">Cloud server meta-data</a></li>
+<li><a class="reference internal" href="#database-http-interfaces" id="toc-entry-4">Database HTTP interfaces</a></li>
+<li><a class="reference internal" href="#internal-rest-interfaces" id="toc-entry-5">Internal REST interfaces</a></li>
+<li><a class="reference internal" href="#files" id="toc-entry-6">Files</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#f2-compile-options-can-remove-assert-security-validation" id="toc-entry-7">F2: Compile Options Can Remove Assert Security Validation</a></li>
+<li><a class="reference internal" href="#f3-confidential-and-security-relevant-information-stored-in-logs" id="toc-entry-8">F3: Confidential and Security Relevant Information Stored in Logs</a></li>
+<li><a class="reference internal" href="#f4-pseudo-random-number-generator-is-vulnerable-to-prediction-attack" id="toc-entry-9">F4: Pseudo Random Number Generator Is Vulnerable to Prediction Attack</a></li>
+<li><a class="reference internal" href="#f5-potential-null-pointer-dereference-issues" id="toc-entry-10">F5: Potential Null Pointer Dereference Issues</a></li>
+<li><a class="reference internal" href="#f6-integer-overflow" id="toc-entry-11">F6: Integer Overflow</a></li>
+<li><a class="reference internal" href="#f7-magnet-uris-allow-idna-domain-names" id="toc-entry-12">F7: Magnet URIs Allow IDNA Domain Names</a></li>
+<li><a class="reference internal" href="#i1-additional-documentation-and-automation" id="toc-entry-13">I1: Additional Documentation and Automation</a></li>
+<li><a class="reference internal" href="#i2-automated-fuzzer-generation" id="toc-entry-14">I2: Automated Fuzzer Generation</a></li>
+<li><a class="reference internal" href="#i3-type-confusion-and-integer-overflow-improvements" id="toc-entry-15">I3: Type Confusion and Integer Overflow Improvements</a></li>
+</ul>
+</div>
+<div class="section" id="f1-server-side-request-forgery-ssrf">
+<h1>F1: Server-Side Request Forgery (SSRF)</h1>
+<p>For background, see <a class="reference external" href="https://owasp.org/www-community/attacks/Server_Side_Request_Forgery">OWASP definition of SSRF</a>.</p>
+<p>Running a tracker on the local network is an established use case for
+BitTorrent (<a class="reference external" href="https://github.com/AVBIT/retracker_local">here</a>). Filtering all tracker requests to the local network is not feasible.
+Running a tracker on the loopback device would seem to only make sense for
+testing.</p>
+<p>The SSRF issue is not limited to tracker URLs, but also applies to web seeds. A
+web seed can be embedded in a .torrent file as well as included in a magnet
+link.</p>
+<p>The report says:</p>
+<blockquote>
+If user-controllable URLs must be requested then sanitizing them in a manner
+similar to the SafeCurl library is recommended (see the link in the reference
+section).</blockquote>
+<p>The <a class="reference external" href="https://github.com/wkcaj/safecurl/blob/master/src/fin1te/SafeCurl/Url.php">SafeCurl library</a>, as I understand is, sanitizes URLs based on include-
+and exclude lists of host names, IP addresses, ports, schemes.</p>
+<div class="section" id="tracker-and-web-seed-protocols">
+<h2>tracker and web seed protocols</h2>
+<p>Tracker URLs can be arbitrary URLs that libtorrent appends certain query string
+parameters to (like <tt class="docutils literal">&amp;info_hash=</tt> etc.). The path component of a tracker URL
+is typically not relevant, and most trackers follow the convention of using
+<tt class="docutils literal">/announce</tt>.</p>
+<p>A web seed for a multi-file torrent cannot include any query string arguments
+and libtorrent will append the path to the file that's being requested. However,
+the response from the web seed can <em>redirect</em> to any arbitrary URL, including on
+the local network. A web seed for a single-file torrent can be any arbitrary URL.</p>
+<p>Web seed HTTP requests will almost always be a range request (unless the file is
+so small to fit in one or a few pieces).</p>
+<p>What heuristics and restrictions could libtorrent implement to mitigate attacks?</p>
+<p>Both trackers and web seeds only use HTTP <tt class="docutils literal">GET</tt> request, i.e. no <tt class="docutils literal">POST</tt> for
+example. This ought to protect certain APIs that mutate state.</p>
+<p>The examples in the OWASP article are:</p>
+</div>
+<div class="section" id="cloud-server-meta-data">
+<h2>Cloud server meta-data</h2>
+<blockquote>
+Cloud services such as AWS provide a REST interface on
+<tt class="docutils literal"><span class="pre">http://169.254.169.254/</span></tt> where important configuration and sometimes even
+authentication keys can be extracted</blockquote>
+<p>The response from a REST API would have to be compatible with the
+BitTorrent tracker protocol, which is a bencoded structure with specific keys
+being mandatory (the protocol is defined <a class="reference external" href="https://www.bittorrent.org/beps/bep_0003.html#trackers">here</a>, with amendments <a class="reference external" href="https://www.bittorrent.org/beps/bep_0023.html">here</a>,
+<a class="reference external" href="https://www.bittorrent.org/beps/bep_0007.html">here</a> and <a class="reference external" href="https://www.bittorrent.org/beps/bep_0048.html">here</a>).</p>
+<p>A tracker response that doesn't match this protocol will be ignored by libtorrent.
+The response will not be published and made available anywhere, including the logs.
+Therefore it's not likely there would be a way to <em>extract</em> data from a REST API
+via a tracker request.</p>
+</div>
+<div class="section" id="database-http-interfaces">
+<h2>Database HTTP interfaces</h2>
+<blockquote>
+NoSQL database such as MongoDB provide REST interfaces on HTTP ports. If the
+database is expected to only be available to internally, authentication may
+be disabled and the attacker can extract data</blockquote>
+<p>Since libtorrent doesn't make the response from a tracker request available to
+anybody, especially not if it's not a valid BitTorrent tracker response, it's
+not likely data can be extracted via such tracker URL. See previous section for
+details.</p>
+</div>
+<div class="section" id="internal-rest-interfaces">
+<h2>Internal REST interfaces</h2>
+<p>libtorrent can definitely hit a REST interface and may affect configuration
+changes in other software that's installed on the local machine. This is
+assuming that the software does not use any authentication other than checking
+the source IP being the localhost.</p>
+<p>As mentioned earlier, extracting data from a REST API via a tracker URL is not
+likely to be possible.</p>
+<p>It is established practice to include arbitrary URL query parameters in tracker
+URLs, and clients amend them with the query parameters required by the tracker
+protocol. This makes it difficult to sanitize the query string.</p>
+<p>One way to mitigate hitting REST APIs on local host is to require that tracker
+URLs, for local host specifically, use the request path <tt class="docutils literal">/announce</tt>. This is
+the convention for bittorrent trackers.</p>
+<p>Web seeds that resolve to a local network address are not allowed to have query
+string parameters.</p>
+<p>This SSRF mitigation was implemented for trackers in <a class="reference external" href="https://github.com/arvidn/libtorrent/pull/5303">#5303</a> and for web seeds in <a class="reference external" href="https://github.com/arvidn/libtorrent/pull/5319">#5319</a>.</p>
+<p>Web Seeds that resolve to a <em>global</em> address (i.e. not loopback, local network
+or multicast address) are not allowed to redirect to a non-global IP. This
+mitigation was implemented in <a class="reference external" href="https://github.com/arvidn/libtorrent/pull/5846">#5846</a>, for libtorrent-2.0.3.</p>
+</div>
+<div class="section" id="files">
+<h2>Files</h2>
+<blockquote>
+The attacker may be able to read files using <tt class="docutils literal"><span class="pre">&lt;file://&gt;</span></tt> URIs</blockquote>
+<p>libtorrent only supports <tt class="docutils literal">http</tt>, <tt class="docutils literal">https</tt> and <tt class="docutils literal">udp</tt> protocol schemes, and
+will reject any other tracker URL. Specifically, libtorrent does not support
+the <tt class="docutils literal"><span class="pre">file://</span></tt> URL scheme.</p>
+<p>Additionally, <a class="reference external" href="https://github.com/arvidn/libtorrent/pull/5346">#5346</a> implements checks for tracker URLs that include query
+string arguments that are supposed to be added by clients.</p>
+</div>
+</div>
+<div class="section" id="f2-compile-options-can-remove-assert-security-validation">
+<h1>F2: Compile Options Can Remove Assert Security Validation</h1>
+<p>The comments have been addressed in <a class="reference external" href="https://github.com/arvidn/libtorrent/pull/5308">#5308</a>. The changes include:</p>
+<ul class="simple">
+<li>use <tt class="docutils literal">span&lt;char&gt;</tt> to simplify updates of pointer + length</li>
+<li>use <tt class="docutils literal">span&lt;char const&gt;</tt> for (immutable) write buffers, to improve const
+correctness and avoid a <tt class="docutils literal">const_cast</tt></li>
+<li>introduce additional sanity checks that no buffer lengths are &lt; 0</li>
+<li>introduce additional check to ensure buffer lengths fit in unsigned 16 bit
+field (in the case where it's stored in one)</li>
+<li>generally reduce signed &lt;-&gt; unsigned casts</li>
+</ul>
+</div>
+<div class="section" id="f3-confidential-and-security-relevant-information-stored-in-logs">
+<h1>F3: Confidential and Security Relevant Information Stored in Logs</h1>
+<p>The secret keys for protocol encryption are not particularly sensitive, since
+it's primarily an obfuscation feature. However, I have never had to use these
+keys for debugging, so they don't have much value in the log anyway.</p>
+<p>Addressed in <a class="reference external" href="https://github.com/arvidn/libtorrent/pull/5299">#5299</a>.</p>
+</div>
+<div class="section" id="f4-pseudo-random-number-generator-is-vulnerable-to-prediction-attack">
+<h1>F4: Pseudo Random Number Generator Is Vulnerable to Prediction Attack</h1>
+<p>These are the places <tt class="docutils literal">random_bytes()</tt>, <tt class="docutils literal">random()</tt> and <tt class="docutils literal">random_shuffle()</tt>
+are used in libtorrent. The &quot;crypto&quot; column indicates whether the random number
+is sensitive and must be hard to predict, i.e. have high entropy.</p>
+<table border="1" class="docutils">
+<thead valign="bottom">
+<tr><th class="head">crypto</th>
+<th class="head">Use</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><strong>Yes</strong></td>
+<td>PCP nonce</td>
+<td><p class="first">generating a nonce for PCP (Port Control Protocol). The <a class="reference external" href="https://tools.ietf.org/html/rfc6887#section-11.2">PCP RFC section 11.2</a>
+references <a class="reference external" href="https://tools.ietf.org/html/rfc4086">RFC 4086 Randomness Requirements for Security</a> for
+the nonce generation.</p>
+<p class="last">This was fixed.</p>
+</td>
+</tr>
+<tr><td><strong>Yes</strong></td>
+<td>DHT ed25519 keys</td>
+<td><p class="first">used for kademlia mutable put feature. These keys are sensitive an
+should use an appropriate entropy source. This is not done as part of
+normal libtorrent operations, it's a utility function a client using the mutable
+PUT-feature can call. This functionality is exposed in the
+<tt class="docutils literal">ed25519_create_seed()</tt> function.</p>
+<p class="last">This was fixed.</p>
+</td>
+</tr>
+<tr><td><strong>Maybe</strong></td>
+<td>DHT write-token</td>
+<td><p class="first">The DHT maintains a secret 32 bit number which is updated every 5
+minutes to a new random number. The secret from the last 5 minute period
+is also remembered. In responses to <tt class="docutils literal">get</tt> and <tt class="docutils literal">get_peers</tt> messages a
+<em>write token</em> is generated and included. The write token is the first 32
+bits of a SHA-1 of the source IP address, the current secret and the
+info_hash. <tt class="docutils literal">put</tt> and <tt class="docutils literal">announce_peer</tt> requests are ignored if the
+write token is invalid given the current or the last secret. This is
+like a SYN-cookie.</p>
+<p class="last">This was changed to use cryptographic random numbers.</p>
+</td>
+</tr>
+<tr><td><strong>Maybe</strong></td>
+<td>DHT transaction ID</td>
+<td><p class="first">Each DHT request that is sent to a node includes a 16 bit transaction ID
+that must be returned in the response. This is used to map responses to
+the correct request (required when making multiple requests to the same
+IP), but also to make it harder for a 3rd party to spoof the source IP
+and fake a response. Presumably the fact that there are only 65536
+different transaction IDs would be a problem before someone guesses the
+random number. Additionally, a request is only valid for a few tens of
+seconds, which further mitigates spoofed responses.</p>
+<p class="last">This has been left using pseudo random numbers.</p>
+</td>
+</tr>
+<tr><td><strong>Maybe</strong></td>
+<td>uTP sequence numbers</td>
+<td><p class="first">When connecting a uTP socket, the initial sequence number is chosen at
+random.</p>
+<p class="last">This has been left using pseudo random numbers.</p>
+</td>
+</tr>
+<tr><td>No</td>
+<td>protocol encryption (obfuscation)</td>
+<td>both key generation for DH handshake as well as random
+padding ahead of handshake. The protocol encryption feature
+is not intended to provide any authentication or confidentiality.</td>
+</tr>
+<tr><td>No</td>
+<td>i2p session-id</td>
+<td>generation of the session ID, not key generation. All crypto,
+including key generation is done by the i2p daemon implementing
+the SAM bridge.</td>
+</tr>
+<tr><td>No</td>
+<td>DHT node-id</td>
+<td>The node ID does not need to be hard to guess, just uniformly
+distributed.</td>
+</tr>
+<tr><td>No</td>
+<td>DHT node-id fingerprint</td>
+<td>Used to identify announces to fake info-hashes. More info <a class="reference external" href="https://blog.libtorrent.org/2014/11/dht-routing-table-maintenance/">here</a>.</td>
+</tr>
+<tr><td>No</td>
+<td>DHT peer storage</td>
+<td>When returning peers from peer storage, in response to a DHT
+<tt class="docutils literal">get_peers</tt> request, we pick <em>n</em> of <em>m</em> random peers.</td>
+</tr>
+<tr><td>No</td>
+<td>peer-id</td>
+<td>In bittorrent, each peer generates a random peer-id used in interactions
+with other peers as well as HTTP(S) trackers. The peer-id is not secret
+and does not need to be hard to guess. In fact, for each peer libtorrent
+connects to, it generates a different peer-id. Additionally, each torrent
+has a unique peer-id that's advertised to trackers. Trackers need a
+consistent peer-id for its book keeping.</td>
+</tr>
+<tr><td>No</td>
+<td>ip_voter</td>
+<td><p class="first">The ip_voter maintains a list of possible external IP addresses, based
+on how many peer interactions we've seen telling us that's our external
+IP as observed by them. Knowing our external IP is not critical, it's
+primarily used to generate our DHT node ID according to <a class="reference external" href="http://libtorrent.org/dht_sec.html">this</a>.</p>
+<p class="last">The ip_voter uses <tt class="docutils literal">random()</tt> to probabilistically drop a record of a
+possible external IP, if there are too many.</p>
+</td>
+</tr>
+<tr><td>No</td>
+<td>local service discovery</td>
+<td>In order to ignore our own service discovery messages sent on a
+multi-cast group, we include a &quot;cookie&quot;. If we see our own cookie, we
+ignore the message. The cookie is generated by <tt class="docutils literal">random()</tt>.</td>
+</tr>
+<tr><td>No</td>
+<td>piece picker</td>
+<td>The order pieces are picked in is rarest first. Pieces of the same
+rarity are picked in random order, using <tt class="docutils literal">random()</tt>.</td>
+</tr>
+<tr><td>No</td>
+<td>smart-ban</td>
+<td><p class="first">If a piece fails the hash check, we may not know which peer sent the
+corrupt data. The smart ban function will record the hashes of all blocks
+of the failed piece. Once the piece passes, it can compare the passing
+blocks against the failing one, identifying exactly which peer sent corrupt
+data. This is a property of how bittorrent <em>checks</em> data at the piece
+level, but downloads smaller parts (called &quot;blocks&quot;) from potentially
+different peers.</p>
+<p>In earlier version of libtorrent, the block hash would use CRC32, and a
+secret salt to prevent trivial exploiting by malicious peers. This is no
+longer the case, smart-ban uses SHA-1 now, so there is no need for the salt.</p>
+<p class="last">It was removed in <a class="reference external" href="https://github.com/arvidn/libtorrent/pull/5295">#5295</a>.</p>
+</td>
+</tr>
+<tr><td>No</td>
+<td>peer-list pruning</td>
+<td>When the peer list has too many peers in it, random low quality peers
+are pruned.</td>
+</tr>
+<tr><td>No</td>
+<td>peer-list duplicate peer</td>
+<td>When receiving a connection from an IP we're already connected to, the
+connection to keep and which one to disconnect is based on the local and
+remote port numbers. If the ports are the same, one of the two connections
+are closed randomly.</td>
+</tr>
+<tr><td>No</td>
+<td>UPnP external port</td>
+<td>When the external port of a mapping conflicts with an existing map, the
+port mapping is re-attempted with a random external port.</td>
+</tr>
+<tr><td>No</td>
+<td>ut_metadata re-request timeout</td>
+<td>When a peer responds to a metadata request with &quot;don't have&quot;, we delay
+randomly between 20 - 70 seconds before re-requesting.</td>
+</tr>
+<tr><td>No</td>
+<td>web seeds</td>
+<td>Web seeds are shuffled, to attempt connecting to them in random order</td>
+</tr>
+<tr><td>No</td>
+<td>trackers</td>
+<td>Trackers within the same tier are shuffled, to try them in random order
+(for load balancing)</td>
+</tr>
+<tr><td>No</td>
+<td>resume data peers</td>
+<td>When saving resume data and we have more than 100 peers, once &quot;high
+quality peers&quot; have been saved, pick low quality peers at random to save.</td>
+</tr>
+<tr><td>No</td>
+<td>share mode seeds</td>
+<td>In share mode, where libtorrent attempts to maximize its upload to
+download ratio, if we're connected to too many seeds, some random seeds
+are disconnected.</td>
+</tr>
+<tr><td>No</td>
+<td>share mode pick</td>
+<td>In share mode, when more than one piece has the lowest availability, one
+of them is picked at random</td>
+</tr>
+<tr><td>No</td>
+<td>http_connection endpoints</td>
+<td>After a successful hostname lookup, the endpoints are randomized to try
+them in an arbitrary order, for load balancing.</td>
+</tr>
+<tr><td>No</td>
+<td>super seeding piece picking</td>
+<td>In Super seeding mode, the rarest piece is selected for upload. If
+there's a tie, a piece is chosen at random.</td>
+</tr>
+<tr><td>No</td>
+<td>UDP listen socket</td>
+<td>When using a proxy, but not connecting peer via the proxy, the local UDP
+socket, used for uTP and DHT traffic will bind to the listen socket of
+the first configured listen interface. If there is no listen interface
+configured, a random port is chosen.</td>
+</tr>
+<tr><td>No</td>
+<td>bind outgoing uTP socket</td>
+<td>When bind-outgoing-sockets is enabled, uTP sockets are bound to the
+listen interface matching the target IP. If there is no match, an
+interface is picked at random to bind the outgoing socket to.</td>
+</tr>
+<tr><td>No</td>
+<td>uTP send ID</td>
+<td>uTP connections are assigned send ID, to allow multiple connections to
+the same IP. Similar to port number, but all uTP connections run over a
+single UDP socket.</td>
+</tr>
+</tbody>
+</table>
+<p>The following issues were addressed:</p>
+<ul class="simple">
+<li>the existing <tt class="docutils literal">random_bytes()</tt> function was made to unconditionally produce
+pseudo random bytes.</li>
+<li>increase amount of entropy to seed the pseudo random number generator.</li>
+<li>a new function <tt class="docutils literal">crypto_random_bytes()</tt> was added which unconditionally
+use a strong entropy source.</li>
+<li>If no specialized API is available for high-entropy random numbers is
+available (like <tt class="docutils literal">libcrypto</tt> or CryptoAPI on windows) random numbers are
+pulled from <tt class="docutils literal">/dev/urandom</tt>.</li>
+<li>The PCP nonce was changed to use <tt class="docutils literal">crypto_random_bytes()</tt></li>
+<li>The ed25519 key seed function was changed to use <tt class="docutils literal">crypto_random_bytes()</tt></li>
+</ul>
+<p>Addressed in <a class="reference external" href="https://github.com/arvidn/libtorrent/pull/5298">#5298</a>.</p>
+</div>
+<div class="section" id="f5-potential-null-pointer-dereference-issues">
+<h1>F5: Potential Null Pointer Dereference Issues</h1>
+<p>This was fundamentally caused by the boost.pool default allocator using <tt class="docutils literal">new
+<span class="pre">(std::nothrow)</span></tt>, rather than plain (throwing) <tt class="docutils literal">new</tt>. The code using the pool
+added to the confusion by checking for a <tt class="docutils literal">nullptr</tt> return value, but further
+up the call chain that check was not made. The fix was to remove the check for
+<tt class="docutils literal">nullptr</tt> and replace the boost.pool allocator to throw <tt class="docutils literal"><span class="pre">std::bad_alloc</span></tt> on
+memory exhaustion.</p>
+<p>Addressed in <a class="reference external" href="https://github.com/arvidn/libtorrent/pull/5293">#5293</a>.</p>
+</div>
+<div class="section" id="f6-integer-overflow">
+<h1>F6: Integer Overflow</h1>
+<p>This was a bug in the fuzzer itself, not in the production code (as far as I
+could find). The parse_int fuzzer used an uninitialized variable.</p>
+<p>Addressed in <a class="reference external" href="https://github.com/arvidn/libtorrent/pull/5292">#5292</a>.</p>
+</div>
+<div class="section" id="f7-magnet-uris-allow-idna-domain-names">
+<h1>F7: Magnet URIs Allow IDNA Domain Names</h1>
+<p>My understanding of this attack is that a tracker hostname could be crafted to
+look like a well known host, but in fact be a different host, by using
+look-alike unicode characters in the hostname.</p>
+<p>For example, the well-known tracker <tt class="docutils literal"><span class="pre">http://bt1.archive.org:6969/announce</span></tt>
+could be spoofed by using <tt class="docutils literal">bt1.archivｅ.org</tt> (the <tt class="docutils literal">e</tt> at the end is really
+<a class="reference external" href="https://unicode-table.com/en/FF45/">U+ff45</a>).</p>
+<p>The issue of trusting trackers goes beyond tracker host names in magnet links.
+Normal .torrent files also contain tracker URLs, and they could also use
+misleading tracker host names. However, this highlights a more fundamental issue
+that libtorrent does not provide an API for clients to vet trackers before
+announcing to them. libtorrent provides an IP filter that will block announcing
+to trackers, but not the URLs or host names directly.</p>
+<p>Having an ability to vet trackers before using them would also mitigate the
+<a class="reference internal" href="#f1-server-side-request-forgery-ssrf">F1: Server-Side Request Forgery (SSRF)</a>.</p>
+<p>This issue also goes beyond trackers. Web seeds are also URLs embedded in
+.torrent files or magnet links which libtorrent will make requests to.</p>
+<p>These are the changes I'm making to mitigate this issue:</p>
+<ul class="simple">
+<li>enable <tt class="docutils literal">validate_https_trackers</tt> by default. <a class="reference external" href="https://github.com/arvidn/libtorrent/pull/5314">#5314</a>. The name of this
+setting is misleading. It does not only affect trackers, but also web seeds.</li>
+<li>Support loading the system certificate store on windows, to authenticate
+trackers with, <a class="reference external" href="https://github.com/arvidn/libtorrent/pull/5313">#5313</a>.</li>
+<li>add an option to allow IDNA domain names, and disable it by default. This
+applies to both trackers and web seeds. <a class="reference external" href="https://github.com/arvidn/libtorrent/pull/5316">#5316</a>.</li>
+</ul>
+</div>
+<div class="section" id="i1-additional-documentation-and-automation">
+<h1>I1: Additional Documentation and Automation</h1>
+<p>Addressed in:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/arvidn/libtorrent/pull/5337">#5337</a>.</li>
+</ul>
+</div>
+<div class="section" id="i2-automated-fuzzer-generation">
+<h1>I2: Automated Fuzzer Generation</h1>
+<p>No effort has been put into generating fuzzers with <a class="reference external" href="https://github.com/HexHive/FuzzGen">FuzzGen</a>, but it's an
+intriguing project I hope to have time to put some effort towards in the future.</p>
+</div>
+<div class="section" id="i3-type-confusion-and-integer-overflow-improvements">
+<h1>I3: Type Confusion and Integer Overflow Improvements</h1>
+<p>Addressed in:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/arvidn/libtorrent/pull/5308">#5308</a>.</li>
+</ul>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

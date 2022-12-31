@@ -742,9 +742,11 @@ bool TorrentContextPrivate::addTorrent(Torrent *torrent) // resumeTorrent
             // is the only known property of the torrent. i.e. you don't have a
             // .torrent file nor a magnet link.
 
-            lt::sha1_hash infohash(source.toStdString());
+            char const* s = source.toLocal8Bit().data();
+            lt::sha1_hash h1(s);
+            lt::info_hash_t infohashes(h1);
             lt::add_torrent_params p;
-            p.info_hash = infohash;
+            p.info_hashes = infohashes;
         }
 
         p.file_priorities.clear();
@@ -1311,7 +1313,7 @@ void WorkerThread::signalizeAlert(lt::alert* a)
 {
     /* status_notification */
     if (lt::torrent_removed_alert* s = lt::alert_cast<lt::torrent_removed_alert>(a)) {
-        //QString hash = toString(s->info_hash);
+        //QString hash = toString(s->info_hashes.get_best());
         //  emit torrentRemoved(hash);
         log(s);
     }
@@ -1665,8 +1667,7 @@ void WorkerThread::signalizeAlert(lt::alert* a)
 
     else {
         // if we didn't handle the alert, print it to the log
-        QString message = QString::fromStdString(s->message());
-        qDebug_2 << Q_FUNC_INFO << "didn't handle the alert: " << message;
+        qDebug_2 << Q_FUNC_INFO << "didn't handle the alert (unkown/uncatched alert).";
     }
 }
 
@@ -1872,7 +1873,7 @@ inline void WorkerThread::signalizeStatusUpdated(const lt::torrent_status &statu
     t.isAnnouncingToLSD         = status.announcing_to_lsd;
     t.isAnnouncingToDHT         = status.announcing_to_dht;
 
-    t.infohash = toString(status.info_hash);
+    t.infohash = toString(status.info_hashes.get_best());
 
     // t.lastTimeUpload            = toDateTime2(status.last_upload);
     // t.lastTimeDownload          = toDateTime2(status.last_download);
@@ -1920,7 +1921,7 @@ inline TorrentInitialMetaInfo WorkerThread::toTorrentInitialMetaInfo(std::shared
         m.nodes.append( TorrentNodeInfo(toString(node.first), node.second) );
     }
 
-    m.bytesMetaData = ti->metadata_size();
+    //m.bytesMetaData = ti->metadata_size();
 
     const lt::file_storage files = ti->files();
     for (const lt::file_index_t index : files.file_range()) {
@@ -2117,7 +2118,7 @@ inline TorrentHandleInfo WorkerThread::toTorrentHandleInfo(const lt::torrent_han
     {
         std::vector<int> avail;
         handle.piece_availability(avail);
-        t.pieceAvailability = QVector<int>::fromStdVector(avail);
+        t.pieceAvailability = QVector<int>(avail.begin(), avail.end());
     }
 
     {
@@ -2164,7 +2165,7 @@ inline TorrentMetaInfo WorkerThread::toTorrentMetaInfo(const lt::add_torrent_par
     //  m.flags         = toString(params.flags); // TODO
 
     if (m.initialMetaInfo.infohash.isEmpty()) {
-        m.initialMetaInfo.infohash = toString(params.info_hash);
+        m.initialMetaInfo.infohash = toString(params.info_hashes.get_best());
     }
 
     m.maxUploads     = params.max_uploads;
@@ -2412,7 +2413,6 @@ static inline TorrentInfo::TorrentState toState(const lt::torrent_status::state_
     else if (s == lt::torrent_status::downloading           ) return TorrentInfo::downloading           ;
     else if (s == lt::torrent_status::finished              ) return TorrentInfo::finished              ;
     else if (s == lt::torrent_status::seeding               ) return TorrentInfo::seeding               ;
-    else if (s == lt::torrent_status::allocating            ) return TorrentInfo::allocating            ;
     else /* s == lt::torrent_status:: */ return TorrentInfo::stopped;
     Q_UNREACHABLE();
 }
@@ -2426,7 +2426,6 @@ static inline lt::torrent_status::state_t fromState(const TorrentInfo::TorrentSt
     case TorrentInfo::downloading           : return lt::torrent_status::downloading;
     case TorrentInfo::finished              : return lt::torrent_status::finished;
     case TorrentInfo::seeding               : return lt::torrent_status::seeding;
-    case TorrentInfo::allocating            : return lt::torrent_status::allocating;
     case TorrentInfo::checking_resume_data  : return lt::torrent_status::checking_resume_data;
     }
     Q_UNREACHABLE();

@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Version:</th>
+<td>2.0.7</td></tr>
+</tbody>
+</table>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#examples" id="toc-entry-1">examples</a><ul>
+<li><a class="reference internal" href="#simple-client" id="toc-entry-2">simple client</a></li>
+<li><a class="reference internal" href="#make-torrent" id="toc-entry-3">make_torrent</a></li>
+<li><a class="reference internal" href="#dump-torrent" id="toc-entry-4">dump_torrent</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="examples">
+<h1>examples</h1>
+<p>Except for the example programs in this manual, there's also a bigger example
+of a (little bit) more complete client, <tt class="docutils literal">client_test</tt>. There are separate
+instructions for how to use it <a class="reference external" href="client_test.html">here</a> if you'd like to try it.</p>
+<div class="section" id="simple-client">
+<h2>simple client</h2>
+<p>This is a simple client. It doesn't have much output to keep it simple:</p>
+<pre class="code c++ literal-block">
+<span class="comment preproc">#include</span> <span class="comment preprocfile">&lt;cstdlib&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&quot;libtorrent/entry.hpp&quot;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&quot;libtorrent/bencode.hpp&quot;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&quot;libtorrent/session.hpp&quot;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&quot;libtorrent/torrent_info.hpp&quot;</span><span class="comment preproc">
+</span>
+<span class="comment preproc">#include</span> <span class="comment preprocfile">&lt;iostream&gt;</span><span class="comment preproc">
+</span>
+<span class="keyword type">int</span> <span class="name function">main</span><span class="punctuation">(</span><span class="keyword type">int</span> <span class="name">argc</span><span class="punctuation">,</span> <span class="keyword type">char</span><span class="operator">*</span> <span class="name">argv</span><span class="punctuation">[])</span> <span class="keyword">try</span>
+<span class="punctuation">{</span>
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">argc</span> <span class="operator">!=</span> <span class="literal number integer">2</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;usage: ./simple_client torrent-file</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span>
+      <span class="literal string">&quot;to stop the client, press return.</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
+    <span class="keyword">return</span> <span class="literal number integer">1</span><span class="punctuation">;</span>
+  <span class="punctuation">}</span>
+
+  <span class="name">lt</span><span class="operator">::</span><span class="name">session</span> <span class="name">s</span><span class="punctuation">;</span>
+  <span class="name">lt</span><span class="operator">::</span><span class="name">add_torrent_params</span> <span class="name">p</span><span class="punctuation">;</span>
+  <span class="name">p</span><span class="punctuation">.</span><span class="name">save_path</span> <span class="operator">=</span> <span class="literal string">&quot;.&quot;</span><span class="punctuation">;</span>
+  <span class="name">p</span><span class="punctuation">.</span><span class="name">ti</span> <span class="operator">=</span> <span class="name">std</span><span class="operator">::</span><span class="name">make_shared</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">torrent_info</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">argv</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]);</span>
+  <span class="name">s</span><span class="punctuation">.</span><span class="name">add_torrent</span><span class="punctuation">(</span><span class="name">p</span><span class="punctuation">);</span>
+
+  <span class="comment single">// wait for the user to end
+</span>  <span class="keyword type">char</span> <span class="name">a</span><span class="punctuation">;</span>
+  <span class="keyword type">int</span> <span class="name">ret</span> <span class="operator">=</span> <span class="name">std</span><span class="operator">::</span><span class="name">scanf</span><span class="punctuation">(</span><span class="literal string">&quot;%c</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">,</span> <span class="operator">&amp;</span><span class="name">a</span><span class="punctuation">);</span>
+  <span class="punctuation">(</span><span class="keyword type">void</span><span class="punctuation">)</span><span class="name">ret</span><span class="punctuation">;</span> <span class="comment single">// ignore
+</span>  <span class="keyword">return</span> <span class="literal number integer">0</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+<span class="keyword">catch</span> <span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">exception</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name">e</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;ERROR: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">e</span><span class="punctuation">.</span><span class="name">what</span><span class="punctuation">()</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+</pre>
+</div>
+<div class="section" id="make-torrent">
+<h2>make_torrent</h2>
+<p>Shows how to create a torrent from a directory tree:</p>
+<pre class="code c++ literal-block">
+<span class="comment preproc">#include</span> <span class="comment preprocfile">&quot;libtorrent/entry.hpp&quot;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&quot;libtorrent/bencode.hpp&quot;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&quot;libtorrent/torrent_info.hpp&quot;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&quot;libtorrent/create_torrent.hpp&quot;</span><span class="comment preproc">
+</span>
+<span class="comment preproc">#include</span> <span class="comment preprocfile">&lt;functional&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;cstdio&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;sstream&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;fstream&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;iostream&gt;</span><span class="comment preproc">
+</span>
+<span class="comment preproc">#ifdef TORRENT_WINDOWS
+#include</span> <span class="comment preprocfile">&lt;direct.h&gt;</span><span class="comment single"> // for _getcwd</span><span class="comment preproc">
+#endif
+</span>
+<span class="keyword">namespace</span> <span class="punctuation">{</span>
+
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="name">std</span><span class="operator">::</span><span class="name">placeholders</span><span class="punctuation">;</span>
+
+<span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="keyword type">char</span><span class="operator">&gt;</span> <span class="name">load_file</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name">filename</span><span class="punctuation">)</span>
+<span class="punctuation">{</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">fstream</span> <span class="name">in</span><span class="punctuation">;</span>
+  <span class="name">in</span><span class="punctuation">.</span><span class="name">exceptions</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">ifstream</span><span class="operator">::</span><span class="name">failbit</span><span class="punctuation">);</span>
+  <span class="name">in</span><span class="punctuation">.</span><span class="name">open</span><span class="punctuation">(</span><span class="name">filename</span><span class="punctuation">.</span><span class="name">c_str</span><span class="punctuation">(),</span> <span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">in</span> <span class="operator">|</span> <span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">binary</span><span class="punctuation">);</span>
+  <span class="name">in</span><span class="punctuation">.</span><span class="name">seekg</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">end</span><span class="punctuation">);</span>
+  <span class="keyword type">size_t</span> <span class="keyword">const</span> <span class="name">size</span> <span class="operator">=</span> <span class="keyword type">size_t</span><span class="punctuation">(</span><span class="name">in</span><span class="punctuation">.</span><span class="name">tellg</span><span class="punctuation">());</span>
+  <span class="name">in</span><span class="punctuation">.</span><span class="name">seekg</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">beg</span><span class="punctuation">);</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="keyword type">char</span><span class="operator">&gt;</span> <span class="name">ret</span><span class="punctuation">(</span><span class="name">size</span><span class="punctuation">);</span>
+  <span class="name">in</span><span class="punctuation">.</span><span class="name">read</span><span class="punctuation">(</span><span class="name">ret</span><span class="punctuation">.</span><span class="name">data</span><span class="punctuation">(),</span> <span class="keyword type">int</span><span class="punctuation">(</span><span class="name">ret</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">()));</span>
+  <span class="keyword">return</span> <span class="name">ret</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+
+<span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="name">branch_path</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name">f</span><span class="punctuation">)</span>
+<span class="punctuation">{</span>
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">f</span><span class="punctuation">.</span><span class="name">empty</span><span class="punctuation">())</span> <span class="keyword">return</span> <span class="name">f</span><span class="punctuation">;</span>
+
+<span class="comment preproc">#ifdef TORRENT_WINDOWS
+</span>  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">f</span> <span class="operator">==</span> <span class="literal string">&quot;</span><span class="literal string escape">\\\\</span><span class="literal string">&quot;</span><span class="punctuation">)</span> <span class="keyword">return</span> <span class="literal string">&quot;&quot;</span><span class="punctuation">;</span>
+<span class="comment preproc">#endif
+</span>  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">f</span> <span class="operator">==</span> <span class="literal string">&quot;/&quot;</span><span class="punctuation">)</span> <span class="keyword">return</span> <span class="literal string">&quot;&quot;</span><span class="punctuation">;</span>
+
+  <span class="keyword">auto</span> <span class="name">len</span> <span class="operator">=</span> <span class="name">f</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">();</span>
+  <span class="comment single">// if the last character is / or \ ignore it
+</span>  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">f</span><span class="punctuation">[</span><span class="name">len</span><span class="literal number integer">-1</span><span class="punctuation">]</span> <span class="operator">==</span> <span class="literal string char">'/'</span> <span class="operator">||</span> <span class="name">f</span><span class="punctuation">[</span><span class="name">len</span><span class="literal number integer">-1</span><span class="punctuation">]</span> <span class="operator">==</span> <span class="literal string char">'\\'</span><span class="punctuation">)</span> <span class="operator">--</span><span class="name">len</span><span class="punctuation">;</span>
+  <span class="keyword">while</span> <span class="punctuation">(</span><span class="name">len</span> <span class="operator">&gt;</span> <span class="literal number integer">0</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+    <span class="operator">--</span><span class="name">len</span><span class="punctuation">;</span>
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">f</span><span class="punctuation">[</span><span class="name">len</span><span class="punctuation">]</span> <span class="operator">==</span> <span class="literal string char">'/'</span> <span class="operator">||</span> <span class="name">f</span><span class="punctuation">[</span><span class="name">len</span><span class="punctuation">]</span> <span class="operator">==</span> <span class="literal string char">'\\'</span><span class="punctuation">)</span>
+      <span class="keyword">break</span><span class="punctuation">;</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">f</span><span class="punctuation">[</span><span class="name">len</span><span class="punctuation">]</span> <span class="operator">==</span> <span class="literal string char">'/'</span> <span class="operator">||</span> <span class="name">f</span><span class="punctuation">[</span><span class="name">len</span><span class="punctuation">]</span> <span class="operator">==</span> <span class="literal string char">'\\'</span><span class="punctuation">)</span> <span class="operator">++</span><span class="name">len</span><span class="punctuation">;</span>
+  <span class="keyword">return</span> <span class="name">std</span><span class="operator">::</span><span class="name">string</span><span class="punctuation">(</span><span class="name">f</span><span class="punctuation">.</span><span class="name">c_str</span><span class="punctuation">(),</span> <span class="name">len</span><span class="punctuation">);</span>
+<span class="punctuation">}</span>
+
+<span class="comment single">// do not include files and folders whose
+// name starts with a .
+</span><span class="keyword type">bool</span> <span class="name">file_filter</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name">f</span><span class="punctuation">)</span>
+<span class="punctuation">{</span>
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">f</span><span class="punctuation">.</span><span class="name">empty</span><span class="punctuation">())</span> <span class="keyword">return</span> <span class="name builtin">false</span><span class="punctuation">;</span>
+
+  <span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name">first</span> <span class="operator">=</span> <span class="name">f</span><span class="punctuation">.</span><span class="name">c_str</span><span class="punctuation">();</span>
+  <span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name">sep</span> <span class="operator">=</span> <span class="name">strrchr</span><span class="punctuation">(</span><span class="name">first</span><span class="punctuation">,</span> <span class="literal string char">'/'</span><span class="punctuation">);</span>
+<span class="comment preproc">#if defined(TORRENT_WINDOWS) || defined(TORRENT_OS2)
+</span>  <span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name">altsep</span> <span class="operator">=</span> <span class="name">strrchr</span><span class="punctuation">(</span><span class="name">first</span><span class="punctuation">,</span> <span class="literal string char">'\\'</span><span class="punctuation">);</span>
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">sep</span> <span class="operator">==</span> <span class="keyword">nullptr</span> <span class="operator">||</span> <span class="name">altsep</span> <span class="operator">&gt;</span> <span class="name">sep</span><span class="punctuation">)</span> <span class="name">sep</span> <span class="operator">=</span> <span class="name">altsep</span><span class="punctuation">;</span>
+<span class="comment preproc">#endif
+</span>  <span class="comment single">// if there is no parent path, just set 'sep'
+</span>  <span class="comment single">// to point to the filename.
+</span>  <span class="comment single">// if there is a parent path, skip the '/' character
+</span>  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">sep</span> <span class="operator">==</span> <span class="keyword">nullptr</span><span class="punctuation">)</span> <span class="name">sep</span> <span class="operator">=</span> <span class="name">first</span><span class="punctuation">;</span>
+  <span class="keyword">else</span> <span class="operator">++</span><span class="name">sep</span><span class="punctuation">;</span>
+
+  <span class="comment single">// return false if the first character of the filename is a .
+</span>  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">sep</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span> <span class="operator">==</span> <span class="literal string char">'.'</span><span class="punctuation">)</span> <span class="keyword">return</span> <span class="name builtin">false</span><span class="punctuation">;</span>
+
+  <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="name">f</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
+  <span class="keyword">return</span> <span class="name builtin">true</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+
+<span class="punctuation">[[</span><span class="name">noreturn</span><span class="punctuation">]]</span> <span class="keyword type">void</span> <span class="name">print_usage</span><span class="punctuation">()</span>
+<span class="punctuation">{</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string affix">R</span><span class="literal string">&quot;</span><span class="literal string delimiter">(</span><span class="literal string">usage: make_torrent FILE [OPTIONS]
+
+Generates a torrent file from the specified file
+or directory and writes it to standard out
+
+
+OPTIONS:
+-w url        adds a web seed to the torrent with
+              the specified url
+-t url        adds the specified tracker to the
+              torrent. For multiple trackers, specify more
+              -t options. Specify a dash character &quot;-&quot; as a tracker to indicate
+              the following trackers should be in a higher tier.
+-c comment    sets the comment to the specified string
+-C creator    sets the created-by field to the specified string
+-s bytes      specifies a piece size for the torrent
+              This has to be a power of 2, minimum 16kiB
+-l            Don't follow symlinks, instead encode them as
+              links in the torrent file
+-o file       specifies the output filename of the torrent file
+              If this is not specified, the torrent file is
+              printed to the standard out, except on windows
+              where the filename defaults to a.torrent
+-r file       add root certificate to the torrent, to verify
+              the HTTPS tracker
+-S info-hash  add a similar torrent by info-hash. The similar
+              torrent is expected to share some files with this one
+-L collection add a collection name to this torrent. Other torrents
+              in the same collection is expected to share files
+              with this one.
+-2            Only generate V2 metadata
+-T            Include file timestamps in the .torrent file.
+</span><span class="literal string delimiter">)</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">exit</span><span class="punctuation">(</span><span class="literal number integer">1</span><span class="punctuation">);</span>
+<span class="punctuation">}</span>
+
+<span class="punctuation">}</span> <span class="comment single">// anonymous namespace
+</span>
+<span class="keyword type">int</span> <span class="name">main</span><span class="punctuation">(</span><span class="keyword type">int</span> <span class="name">argc_</span><span class="punctuation">,</span> <span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name">argv_</span><span class="punctuation">[])</span> <span class="keyword">try</span>
+<span class="punctuation">{</span>
+  <span class="name">lt</span><span class="operator">::</span><span class="name">span</span><span class="operator">&lt;</span><span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*&gt;</span> <span class="name">args</span><span class="punctuation">(</span><span class="name">argv_</span><span class="punctuation">,</span> <span class="name">argc_</span><span class="punctuation">);</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="name">creator_str</span> <span class="operator">=</span> <span class="literal string">&quot;libtorrent&quot;</span><span class="punctuation">;</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="name">comment_str</span><span class="punctuation">;</span>
+
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">args</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">()</span> <span class="operator">&lt;</span> <span class="literal number integer">2</span><span class="punctuation">)</span> <span class="name">print_usage</span><span class="punctuation">();</span>
+
+  <span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">std</span><span class="operator">::</span><span class="name">string</span><span class="operator">&gt;</span> <span class="name">web_seeds</span><span class="punctuation">;</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">std</span><span class="operator">::</span><span class="name">string</span><span class="operator">&gt;</span> <span class="name">trackers</span><span class="punctuation">;</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">std</span><span class="operator">::</span><span class="name">string</span><span class="operator">&gt;</span> <span class="name">collections</span><span class="punctuation">;</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">sha1_hash</span><span class="operator">&gt;</span> <span class="name">similar</span><span class="punctuation">;</span>
+  <span class="keyword type">int</span> <span class="name">piece_size</span> <span class="operator">=</span> <span class="literal number integer">0</span><span class="punctuation">;</span>
+  <span class="name">lt</span><span class="operator">::</span><span class="name">create_flags_t</span> <span class="name">flags</span> <span class="operator">=</span> <span class="punctuation">{};</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="name">root_cert</span><span class="punctuation">;</span>
+
+  <span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="name">outfile</span><span class="punctuation">;</span>
+<span class="comment preproc">#ifdef TORRENT_WINDOWS
+</span>  <span class="comment single">// don't ever write binary data to the console on windows
+</span>  <span class="comment single">// it will just be interpreted as text and corrupted
+</span>  <span class="name">outfile</span> <span class="operator">=</span> <span class="literal string">&quot;a.torrent&quot;</span><span class="punctuation">;</span>
+<span class="comment preproc">#endif
+</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="name">full_path</span> <span class="operator">=</span> <span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">];</span>
+  <span class="name">args</span> <span class="operator">=</span> <span class="name">args</span><span class="punctuation">.</span><span class="name">subspan</span><span class="punctuation">(</span><span class="literal number integer">2</span><span class="punctuation">);</span>
+
+  <span class="keyword">for</span> <span class="punctuation">(;</span> <span class="operator">!</span><span class="name">args</span><span class="punctuation">.</span><span class="name">empty</span><span class="punctuation">();</span> <span class="name">args</span> <span class="operator">=</span> <span class="name">args</span><span class="punctuation">.</span><span class="name">subspan</span><span class="punctuation">(</span><span class="literal number integer">1</span><span class="punctuation">))</span> <span class="punctuation">{</span>
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">][</span><span class="literal number integer">0</span><span class="punctuation">]</span> <span class="operator">!=</span> <span class="literal string char">'-'</span><span class="punctuation">)</span> <span class="name">print_usage</span><span class="punctuation">();</span>
+
+    <span class="keyword type">char</span> <span class="keyword">const</span> <span class="name">flag</span> <span class="operator">=</span> <span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">][</span><span class="literal number integer">1</span><span class="punctuation">];</span>
+
+    <span class="keyword">switch</span> <span class="punctuation">(</span><span class="name">flag</span><span class="punctuation">)</span>
+    <span class="punctuation">{</span>
+      <span class="keyword">case</span> <span class="literal string char">'l'</span><span class="operator">:</span>
+        <span class="name">flags</span> <span class="operator">|=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">create_torrent</span><span class="operator">::</span><span class="name">symlinks</span><span class="punctuation">;</span>
+        <span class="keyword">continue</span><span class="punctuation">;</span>
+      <span class="keyword">case</span> <span class="literal string char">'2'</span><span class="operator">:</span>
+        <span class="name">flags</span> <span class="operator">|=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">create_torrent</span><span class="operator">::</span><span class="name">v2_only</span><span class="punctuation">;</span>
+        <span class="keyword">continue</span><span class="punctuation">;</span>
+      <span class="keyword">case</span> <span class="literal string char">'T'</span><span class="operator">:</span>
+        <span class="name">flags</span> <span class="operator">|=</span> <span class="name">lt</span><span class="operator">::</span><span class="name">create_torrent</span><span class="operator">::</span><span class="name">modification_time</span><span class="punctuation">;</span>
+        <span class="keyword">continue</span><span class="punctuation">;</span>
+    <span class="punctuation">}</span>
+
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">args</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">()</span> <span class="operator">&lt;</span> <span class="literal number integer">2</span><span class="punctuation">)</span> <span class="name">print_usage</span><span class="punctuation">();</span>
+
+    <span class="keyword">switch</span> <span class="punctuation">(</span><span class="name">flag</span><span class="punctuation">)</span>
+    <span class="punctuation">{</span>
+      <span class="keyword">case</span> <span class="literal string char">'w'</span><span class="operator">:</span> <span class="name">web_seeds</span><span class="punctuation">.</span><span class="name">push_back</span><span class="punctuation">(</span><span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]);</span> <span class="keyword">break</span><span class="punctuation">;</span>
+      <span class="keyword">case</span> <span class="literal string char">'t'</span><span class="operator">:</span> <span class="name">trackers</span><span class="punctuation">.</span><span class="name">push_back</span><span class="punctuation">(</span><span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]);</span> <span class="keyword">break</span><span class="punctuation">;</span>
+      <span class="keyword">case</span> <span class="literal string char">'s'</span><span class="operator">:</span> <span class="name">piece_size</span> <span class="operator">=</span> <span class="name">atoi</span><span class="punctuation">(</span><span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]);</span> <span class="keyword">break</span><span class="punctuation">;</span>
+      <span class="keyword">case</span> <span class="literal string char">'o'</span><span class="operator">:</span> <span class="name">outfile</span> <span class="operator">=</span> <span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">];</span> <span class="keyword">break</span><span class="punctuation">;</span>
+      <span class="keyword">case</span> <span class="literal string char">'C'</span><span class="operator">:</span> <span class="name">creator_str</span> <span class="operator">=</span> <span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">];</span> <span class="keyword">break</span><span class="punctuation">;</span>
+      <span class="keyword">case</span> <span class="literal string char">'c'</span><span class="operator">:</span> <span class="name">comment_str</span> <span class="operator">=</span> <span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">];</span> <span class="keyword">break</span><span class="punctuation">;</span>
+      <span class="keyword">case</span> <span class="literal string char">'r'</span><span class="operator">:</span> <span class="name">root_cert</span> <span class="operator">=</span> <span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">];</span> <span class="keyword">break</span><span class="punctuation">;</span>
+      <span class="keyword">case</span> <span class="literal string char">'L'</span><span class="operator">:</span> <span class="name">collections</span><span class="punctuation">.</span><span class="name">push_back</span><span class="punctuation">(</span><span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]);</span> <span class="keyword">break</span><span class="punctuation">;</span>
+      <span class="keyword">case</span> <span class="literal string char">'S'</span><span class="operator">:</span> <span class="punctuation">{</span>
+        <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">strlen</span><span class="punctuation">(</span><span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">])</span> <span class="operator">!=</span> <span class="literal number integer">40</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+          <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;invalid info-hash for -S. &quot;</span>
+            <span class="literal string">&quot;Expected 40 hex characters</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
+          <span class="name">print_usage</span><span class="punctuation">();</span>
+        <span class="punctuation">}</span>
+        <span class="name">std</span><span class="operator">::</span><span class="name">stringstream</span> <span class="name">hash</span><span class="punctuation">(</span><span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]);</span>
+        <span class="name">lt</span><span class="operator">::</span><span class="name">sha1_hash</span> <span class="name">ih</span><span class="punctuation">;</span>
+        <span class="name">hash</span> <span class="operator">&gt;&gt;</span> <span class="name">ih</span><span class="punctuation">;</span>
+        <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">hash</span><span class="punctuation">.</span><span class="name">fail</span><span class="punctuation">())</span> <span class="punctuation">{</span>
+          <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;invalid info-hash for -S</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
+          <span class="name">print_usage</span><span class="punctuation">();</span>
+        <span class="punctuation">}</span>
+        <span class="name">similar</span><span class="punctuation">.</span><span class="name">push_back</span><span class="punctuation">(</span><span class="name">ih</span><span class="punctuation">);</span>
+        <span class="keyword">break</span><span class="punctuation">;</span>
+      <span class="punctuation">}</span>
+      <span class="keyword">default</span><span class="operator">:</span>
+        <span class="name">print_usage</span><span class="punctuation">();</span>
+    <span class="punctuation">}</span>
+    <span class="name">args</span> <span class="operator">=</span> <span class="name">args</span><span class="punctuation">.</span><span class="name">subspan</span><span class="punctuation">(</span><span class="literal number integer">1</span><span class="punctuation">);</span>
+  <span class="punctuation">}</span>
+
+  <span class="name">lt</span><span class="operator">::</span><span class="name">file_storage</span> <span class="name">fs</span><span class="punctuation">;</span>
+<span class="comment preproc">#ifdef TORRENT_WINDOWS
+</span>  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">full_path</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]</span> <span class="operator">!=</span> <span class="literal string char">':'</span><span class="punctuation">)</span>
+<span class="comment preproc">#else
+</span>  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">full_path</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span> <span class="operator">!=</span> <span class="literal string char">'/'</span><span class="punctuation">)</span>
+<span class="comment preproc">#endif
+</span>  <span class="punctuation">{</span>
+    <span class="keyword type">char</span> <span class="name">cwd</span><span class="punctuation">[</span><span class="literal number integer">2048</span><span class="punctuation">];</span>
+<span class="comment preproc">#ifdef TORRENT_WINDOWS
+#define getcwd_ _getcwd
+#else
+#define getcwd_ getcwd
+#endif
+</span>
+    <span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name">ret</span> <span class="operator">=</span> <span class="name">getcwd_</span><span class="punctuation">(</span><span class="name">cwd</span><span class="punctuation">,</span> <span class="keyword">sizeof</span><span class="punctuation">(</span><span class="name">cwd</span><span class="punctuation">));</span>
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">ret</span> <span class="operator">==</span> <span class="keyword">nullptr</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+      <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;failed to get current working directory: &quot;</span>
+        <span class="operator">&lt;&lt;</span> <span class="name">strerror</span><span class="punctuation">(</span><span class="name">errno</span><span class="punctuation">)</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
+      <span class="keyword">return</span> <span class="literal number integer">1</span><span class="punctuation">;</span>
+    <span class="punctuation">}</span>
+
+<span class="comment preproc">#undef getcwd_
+#ifdef TORRENT_WINDOWS
+</span>    <span class="name">full_path</span> <span class="operator">=</span> <span class="name">cwd</span> <span class="operator">+</span> <span class="punctuation">(</span><span class="literal string">&quot;</span><span class="literal string escape">\\</span><span class="literal string">&quot;</span> <span class="operator">+</span> <span class="name">full_path</span><span class="punctuation">);</span>
+<span class="comment preproc">#else
+</span>    <span class="name">full_path</span> <span class="operator">=</span> <span class="name">cwd</span> <span class="operator">+</span> <span class="punctuation">(</span><span class="literal string">&quot;/&quot;</span> <span class="operator">+</span> <span class="name">full_path</span><span class="punctuation">);</span>
+<span class="comment preproc">#endif
+</span>  <span class="punctuation">}</span>
+
+  <span class="name">lt</span><span class="operator">::</span><span class="name">add_files</span><span class="punctuation">(</span><span class="name">fs</span><span class="punctuation">,</span> <span class="name">full_path</span><span class="punctuation">,</span> <span class="name">file_filter</span><span class="punctuation">,</span> <span class="name">flags</span><span class="punctuation">);</span>
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">fs</span><span class="punctuation">.</span><span class="name">num_files</span><span class="punctuation">()</span> <span class="operator">==</span> <span class="literal number integer">0</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;no files specified.</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
+    <span class="keyword">return</span> <span class="literal number integer">1</span><span class="punctuation">;</span>
+  <span class="punctuation">}</span>
+
+  <span class="name">lt</span><span class="operator">::</span><span class="name">create_torrent</span> <span class="name">t</span><span class="punctuation">(</span><span class="name">fs</span><span class="punctuation">,</span> <span class="name">piece_size</span><span class="punctuation">,</span> <span class="name">flags</span><span class="punctuation">);</span>
+  <span class="keyword type">int</span> <span class="name">tier</span> <span class="operator">=</span> <span class="literal number integer">0</span><span class="punctuation">;</span>
+  <span class="keyword">for</span> <span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name label">tr</span> <span class="punctuation">:</span> <span class="name">trackers</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">tr</span> <span class="operator">==</span> <span class="literal string">&quot;-&quot;</span><span class="punctuation">)</span> <span class="operator">++</span><span class="name">tier</span><span class="punctuation">;</span>
+    <span class="keyword">else</span> <span class="name">t</span><span class="punctuation">.</span><span class="name">add_tracker</span><span class="punctuation">(</span><span class="name">tr</span><span class="punctuation">,</span> <span class="name">tier</span><span class="punctuation">);</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword">for</span> <span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name label">ws</span> <span class="punctuation">:</span> <span class="name">web_seeds</span><span class="punctuation">)</span>
+    <span class="name">t</span><span class="punctuation">.</span><span class="name">add_url_seed</span><span class="punctuation">(</span><span class="name">ws</span><span class="punctuation">);</span>
+
+  <span class="keyword">for</span> <span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name label">c</span> <span class="punctuation">:</span> <span class="name">collections</span><span class="punctuation">)</span>
+    <span class="name">t</span><span class="punctuation">.</span><span class="name">add_collection</span><span class="punctuation">(</span><span class="name">c</span><span class="punctuation">);</span>
+
+  <span class="keyword">for</span> <span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">sha1_hash</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name label">s</span> <span class="punctuation">:</span> <span class="name">similar</span><span class="punctuation">)</span>
+    <span class="name">t</span><span class="punctuation">.</span><span class="name">add_similar_torrent</span><span class="punctuation">(</span><span class="name">s</span><span class="punctuation">);</span>
+
+  <span class="keyword">auto</span> <span class="keyword">const</span> <span class="name">num</span> <span class="operator">=</span> <span class="name">t</span><span class="punctuation">.</span><span class="name">num_pieces</span><span class="punctuation">();</span>
+  <span class="name">lt</span><span class="operator">::</span><span class="name">set_piece_hashes</span><span class="punctuation">(</span><span class="name">t</span><span class="punctuation">,</span> <span class="name">branch_path</span><span class="punctuation">(</span><span class="name">full_path</span><span class="punctuation">)</span>
+    <span class="punctuation">,</span> <span class="punctuation">[</span><span class="name">num</span><span class="punctuation">]</span> <span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">piece_index_t</span> <span class="keyword">const</span> <span class="name">p</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+      <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;</span><span class="literal string escape">\r</span><span class="literal string">&quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">p</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;/&quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">num</span><span class="punctuation">;</span>
+    <span class="punctuation">});</span>
+
+  <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
+  <span class="name">t</span><span class="punctuation">.</span><span class="name">set_creator</span><span class="punctuation">(</span><span class="name">creator_str</span><span class="punctuation">.</span><span class="name">c_str</span><span class="punctuation">());</span>
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="operator">!</span><span class="name">comment_str</span><span class="punctuation">.</span><span class="name">empty</span><span class="punctuation">())</span> <span class="punctuation">{</span>
+    <span class="name">t</span><span class="punctuation">.</span><span class="name">set_comment</span><span class="punctuation">(</span><span class="name">comment_str</span><span class="punctuation">.</span><span class="name">c_str</span><span class="punctuation">());</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="operator">!</span><span class="name">root_cert</span><span class="punctuation">.</span><span class="name">empty</span><span class="punctuation">())</span> <span class="punctuation">{</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="keyword type">char</span><span class="operator">&gt;</span> <span class="keyword">const</span> <span class="name">pem</span> <span class="operator">=</span> <span class="name">load_file</span><span class="punctuation">(</span><span class="name">root_cert</span><span class="punctuation">);</span>
+    <span class="name">t</span><span class="punctuation">.</span><span class="name">set_root_cert</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">string</span><span class="punctuation">(</span><span class="operator">&amp;</span><span class="name">pem</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">],</span> <span class="name">pem</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">()));</span>
+  <span class="punctuation">}</span>
+
+  <span class="comment single">// create the torrent and print it to stdout
+</span>  <span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="keyword type">char</span><span class="operator">&gt;</span> <span class="name">torrent</span><span class="punctuation">;</span>
+  <span class="name">lt</span><span class="operator">::</span><span class="name">bencode</span><span class="punctuation">(</span><span class="name">back_inserter</span><span class="punctuation">(</span><span class="name">torrent</span><span class="punctuation">),</span> <span class="name">t</span><span class="punctuation">.</span><span class="name">generate</span><span class="punctuation">());</span>
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="operator">!</span><span class="name">outfile</span><span class="punctuation">.</span><span class="name">empty</span><span class="punctuation">())</span> <span class="punctuation">{</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">fstream</span> <span class="name">out</span><span class="punctuation">;</span>
+    <span class="name">out</span><span class="punctuation">.</span><span class="name">exceptions</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">ifstream</span><span class="operator">::</span><span class="name">failbit</span><span class="punctuation">);</span>
+    <span class="name">out</span><span class="punctuation">.</span><span class="name">open</span><span class="punctuation">(</span><span class="name">outfile</span><span class="punctuation">.</span><span class="name">c_str</span><span class="punctuation">(),</span> <span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">out</span> <span class="operator">|</span> <span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">binary</span><span class="punctuation">);</span>
+    <span class="name">out</span><span class="punctuation">.</span><span class="name">write</span><span class="punctuation">(</span><span class="name">torrent</span><span class="punctuation">.</span><span class="name">data</span><span class="punctuation">(),</span> <span class="keyword type">int</span><span class="punctuation">(</span><span class="name">torrent</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">()));</span>
+  <span class="punctuation">}</span>
+  <span class="keyword">else</span> <span class="punctuation">{</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">cout</span><span class="punctuation">.</span><span class="name">write</span><span class="punctuation">(</span><span class="name">torrent</span><span class="punctuation">.</span><span class="name">data</span><span class="punctuation">(),</span> <span class="keyword type">int</span><span class="punctuation">(</span><span class="name">torrent</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">()));</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword">return</span> <span class="literal number integer">0</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+<span class="keyword">catch</span> <span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">exception</span><span class="operator">&amp;</span> <span class="name">e</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;ERROR: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">e</span><span class="punctuation">.</span><span class="name">what</span><span class="punctuation">()</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
+  <span class="keyword">return</span> <span class="literal number integer">1</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+</pre>
+</div>
+<div class="section" id="dump-torrent">
+<h2>dump_torrent</h2>
+<p>This is an example of a program that will take a torrent-file as a parameter and
+print information about it to std out:</p>
+<pre class="code c++ literal-block">
+<span class="comment preproc">#include</span> <span class="comment preprocfile">&lt;cstdio&gt;</span><span class="comment single"> // for snprintf</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;cinttypes&gt;</span><span class="comment single"> // for PRId64 et.al.</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;fstream&gt;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&lt;iostream&gt;</span><span class="comment preproc">
+</span>
+<span class="comment preproc">#include</span> <span class="comment preprocfile">&quot;libtorrent/entry.hpp&quot;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&quot;libtorrent/bencode.hpp&quot;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&quot;libtorrent/torrent_info.hpp&quot;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&quot;libtorrent/bdecode.hpp&quot;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&quot;libtorrent/magnet_uri.hpp&quot;</span><span class="comment preproc">
+#include</span> <span class="comment preprocfile">&quot;libtorrent/span.hpp&quot;</span><span class="comment preproc">
+</span>
+<span class="keyword">namespace</span> <span class="punctuation">{</span>
+
+<span class="punctuation">[[</span><span class="name">noreturn</span><span class="punctuation">]]</span> <span class="keyword type">void</span> <span class="name">print_usage</span><span class="punctuation">()</span>
+<span class="punctuation">{</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string affix">R</span><span class="literal string">&quot;</span><span class="literal string delimiter">(</span><span class="literal string">usage: dump_torrent torrent-file [options]
+    OPTIONS:
+    --items-limit &lt;count&gt;    set the upper limit of the number of bencode items
+                             in the torrent file.
+    --depth-limit &lt;count&gt;    set the recursion limit in the bdecoder
+    --show-padfiles          show pad files in file list
+    --max-pieces &lt;count&gt;     set the upper limit on the number of pieces to
+                             load in the torrent.
+    --max-size &lt;size in MiB&gt; reject files larger than this size limit
+</span><span class="literal string delimiter">)</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">exit</span><span class="punctuation">(</span><span class="literal number integer">1</span><span class="punctuation">);</span>
+<span class="punctuation">}</span>
+
+<span class="punctuation">}</span>
+
+<span class="keyword type">int</span> <span class="name">main</span><span class="punctuation">(</span><span class="keyword type">int</span> <span class="name">argc</span><span class="punctuation">,</span> <span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name">argv</span><span class="punctuation">[])</span> <span class="keyword">try</span>
+<span class="punctuation">{</span>
+  <span class="name">lt</span><span class="operator">::</span><span class="name">span</span><span class="operator">&lt;</span><span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*&gt;</span> <span class="name">args</span><span class="punctuation">(</span><span class="name">argv</span><span class="punctuation">,</span> <span class="name">argc</span><span class="punctuation">);</span>
+
+  <span class="comment single">// strip executable name
+</span>  <span class="name">args</span> <span class="operator">=</span> <span class="name">args</span><span class="punctuation">.</span><span class="name">subspan</span><span class="punctuation">(</span><span class="literal number integer">1</span><span class="punctuation">);</span>
+
+  <span class="name">lt</span><span class="operator">::</span><span class="name">load_torrent_limits</span> <span class="name">cfg</span><span class="punctuation">;</span>
+  <span class="keyword type">bool</span> <span class="name">show_pad</span> <span class="operator">=</span> <span class="name builtin">false</span><span class="punctuation">;</span>
+
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">args</span><span class="punctuation">.</span><span class="name">empty</span><span class="punctuation">())</span> <span class="name">print_usage</span><span class="punctuation">();</span>
+
+  <span class="keyword type">char</span> <span class="keyword">const</span><span class="operator">*</span> <span class="name">filename</span> <span class="operator">=</span> <span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">];</span>
+  <span class="name">args</span> <span class="operator">=</span> <span class="name">args</span><span class="punctuation">.</span><span class="name">subspan</span><span class="punctuation">(</span><span class="literal number integer">1</span><span class="punctuation">);</span>
+
+  <span class="keyword">using</span> <span class="keyword">namespace</span> <span class="name">lt</span><span class="operator">::</span><span class="name">literals</span><span class="punctuation">;</span>
+
+  <span class="keyword">while</span> <span class="punctuation">(</span><span class="operator">!</span><span class="name">args</span><span class="punctuation">.</span><span class="name">empty</span><span class="punctuation">())</span>
+  <span class="punctuation">{</span>
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span> <span class="operator">==</span> <span class="literal string">&quot;--items-limit&quot;</span><span class="name">_sv</span> <span class="operator">&amp;&amp;</span> <span class="name">args</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">()</span> <span class="operator">&gt;</span> <span class="literal number integer">1</span><span class="punctuation">)</span>
+    <span class="punctuation">{</span>
+      <span class="name">cfg</span><span class="punctuation">.</span><span class="name">max_decode_tokens</span> <span class="operator">=</span> <span class="name">atoi</span><span class="punctuation">(</span><span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]);</span>
+      <span class="name">args</span> <span class="operator">=</span> <span class="name">args</span><span class="punctuation">.</span><span class="name">subspan</span><span class="punctuation">(</span><span class="literal number integer">2</span><span class="punctuation">);</span>
+    <span class="punctuation">}</span>
+    <span class="keyword">else</span> <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span> <span class="operator">==</span> <span class="literal string">&quot;--depth-limit&quot;</span><span class="name">_sv</span> <span class="operator">&amp;&amp;</span> <span class="name">args</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">()</span> <span class="operator">&gt;</span> <span class="literal number integer">1</span><span class="punctuation">)</span>
+    <span class="punctuation">{</span>
+      <span class="name">cfg</span><span class="punctuation">.</span><span class="name">max_decode_depth</span> <span class="operator">=</span> <span class="name">atoi</span><span class="punctuation">(</span><span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]);</span>
+      <span class="name">args</span> <span class="operator">=</span> <span class="name">args</span><span class="punctuation">.</span><span class="name">subspan</span><span class="punctuation">(</span><span class="literal number integer">2</span><span class="punctuation">);</span>
+    <span class="punctuation">}</span>
+    <span class="keyword">else</span> <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span> <span class="operator">==</span> <span class="literal string">&quot;--max-pieces&quot;</span><span class="name">_sv</span> <span class="operator">&amp;&amp;</span> <span class="name">args</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">()</span> <span class="operator">&gt;</span> <span class="literal number integer">1</span><span class="punctuation">)</span>
+    <span class="punctuation">{</span>
+      <span class="name">cfg</span><span class="punctuation">.</span><span class="name">max_pieces</span> <span class="operator">=</span> <span class="name">atoi</span><span class="punctuation">(</span><span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]);</span>
+      <span class="name">args</span> <span class="operator">=</span> <span class="name">args</span><span class="punctuation">.</span><span class="name">subspan</span><span class="punctuation">(</span><span class="literal number integer">2</span><span class="punctuation">);</span>
+    <span class="punctuation">}</span>
+    <span class="keyword">else</span> <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span> <span class="operator">==</span> <span class="literal string">&quot;--max-size&quot;</span><span class="name">_sv</span> <span class="operator">&amp;&amp;</span> <span class="name">args</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">()</span> <span class="operator">&gt;</span> <span class="literal number integer">1</span><span class="punctuation">)</span>
+    <span class="punctuation">{</span>
+      <span class="name">cfg</span><span class="punctuation">.</span><span class="name">max_buffer_size</span> <span class="operator">=</span> <span class="name">atoi</span><span class="punctuation">(</span><span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">])</span> <span class="operator">*</span> <span class="literal number integer">1024</span> <span class="operator">*</span> <span class="literal number integer">1024</span><span class="punctuation">;</span>
+      <span class="name">args</span> <span class="operator">=</span> <span class="name">args</span><span class="punctuation">.</span><span class="name">subspan</span><span class="punctuation">(</span><span class="literal number integer">2</span><span class="punctuation">);</span>
+    <span class="punctuation">}</span>
+    <span class="keyword">else</span> <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span> <span class="operator">==</span> <span class="literal string">&quot;--show-padfiles&quot;</span><span class="name">_sv</span><span class="punctuation">)</span>
+    <span class="punctuation">{</span>
+      <span class="name">show_pad</span> <span class="operator">=</span> <span class="name builtin">true</span><span class="punctuation">;</span>
+      <span class="name">args</span> <span class="operator">=</span> <span class="name">args</span><span class="punctuation">.</span><span class="name">subspan</span><span class="punctuation">(</span><span class="literal number integer">1</span><span class="punctuation">);</span>
+    <span class="punctuation">}</span>
+    <span class="keyword">else</span>
+    <span class="punctuation">{</span>
+      <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;unknown option: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">args</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
+      <span class="name">print_usage</span><span class="punctuation">();</span>
+    <span class="punctuation">}</span>
+  <span class="punctuation">}</span>
+
+  <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_info</span> <span class="keyword">const</span> <span class="name">t</span><span class="punctuation">(</span><span class="name">filename</span><span class="punctuation">,</span> <span class="name">cfg</span><span class="punctuation">);</span>
+
+  <span class="comment single">// print info about torrent
+</span>  <span class="keyword">if</span> <span class="punctuation">(</span><span class="operator">!</span><span class="name">t</span><span class="punctuation">.</span><span class="name">nodes</span><span class="punctuation">().</span><span class="name">empty</span><span class="punctuation">())</span>
+  <span class="punctuation">{</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">printf</span><span class="punctuation">(</span><span class="literal string">&quot;nodes:</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">);</span>
+    <span class="keyword">for</span> <span class="punctuation">(</span><span class="keyword">auto</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name label">i</span> <span class="punctuation">:</span> <span class="name">t</span><span class="punctuation">.</span><span class="name">nodes</span><span class="punctuation">())</span>
+      <span class="name">std</span><span class="operator">::</span><span class="name">printf</span><span class="punctuation">(</span><span class="literal string">&quot;%s: %d</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">,</span> <span class="name">i</span><span class="punctuation">.</span><span class="name">first</span><span class="punctuation">.</span><span class="name">c_str</span><span class="punctuation">(),</span> <span class="name">i</span><span class="punctuation">.</span><span class="name">second</span><span class="punctuation">);</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="operator">!</span><span class="name">t</span><span class="punctuation">.</span><span class="name">trackers</span><span class="punctuation">().</span><span class="name">empty</span><span class="punctuation">())</span>
+  <span class="punctuation">{</span>
+    <span class="name">puts</span><span class="punctuation">(</span><span class="literal string">&quot;trackers:</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">);</span>
+    <span class="keyword">for</span> <span class="punctuation">(</span><span class="keyword">auto</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name label">i</span> <span class="punctuation">:</span> <span class="name">t</span><span class="punctuation">.</span><span class="name">trackers</span><span class="punctuation">())</span>
+      <span class="name">std</span><span class="operator">::</span><span class="name">printf</span><span class="punctuation">(</span><span class="literal string">&quot;%2d: %s</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">,</span> <span class="name">i</span><span class="punctuation">.</span><span class="name">tier</span><span class="punctuation">,</span> <span class="name">i</span><span class="punctuation">.</span><span class="name">url</span><span class="punctuation">.</span><span class="name">c_str</span><span class="punctuation">());</span>
+  <span class="punctuation">}</span>
+
+  <span class="name">std</span><span class="operator">::</span><span class="name">stringstream</span> <span class="name">ih</span><span class="punctuation">;</span>
+  <span class="name">ih</span> <span class="operator">&lt;&lt;</span> <span class="name">t</span><span class="punctuation">.</span><span class="name">info_hashes</span><span class="punctuation">().</span><span class="name">v1</span><span class="punctuation">;</span>
+  <span class="keyword">if</span> <span class="punctuation">(</span><span class="name">t</span><span class="punctuation">.</span><span class="name">info_hashes</span><span class="punctuation">().</span><span class="name">has_v2</span><span class="punctuation">())</span>
+    <span class="name">ih</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;, &quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">t</span><span class="punctuation">.</span><span class="name">info_hashes</span><span class="punctuation">().</span><span class="name">v2</span><span class="punctuation">;</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">printf</span><span class="punctuation">(</span><span class="literal string">&quot;number of pieces: %d</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span>
+    <span class="literal string">&quot;piece length: %d</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span>
+    <span class="literal string">&quot;info hash: %s</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span>
+    <span class="literal string">&quot;comment: %s</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span>
+    <span class="literal string">&quot;created by: %s</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span>
+    <span class="literal string">&quot;magnet link: %s</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span>
+    <span class="literal string">&quot;name: %s</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span>
+    <span class="literal string">&quot;number of files: %d</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span>
+    <span class="literal string">&quot;files:</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span>
+    <span class="punctuation">,</span> <span class="name">t</span><span class="punctuation">.</span><span class="name">num_pieces</span><span class="punctuation">()</span>
+    <span class="punctuation">,</span> <span class="name">t</span><span class="punctuation">.</span><span class="name">piece_length</span><span class="punctuation">()</span>
+    <span class="punctuation">,</span> <span class="name">ih</span><span class="punctuation">.</span><span class="name">str</span><span class="punctuation">().</span><span class="name">c_str</span><span class="punctuation">()</span>
+    <span class="punctuation">,</span> <span class="name">t</span><span class="punctuation">.</span><span class="name">comment</span><span class="punctuation">().</span><span class="name">c_str</span><span class="punctuation">()</span>
+    <span class="punctuation">,</span> <span class="name">t</span><span class="punctuation">.</span><span class="name">creator</span><span class="punctuation">().</span><span class="name">c_str</span><span class="punctuation">()</span>
+    <span class="punctuation">,</span> <span class="name">make_magnet_uri</span><span class="punctuation">(</span><span class="name">t</span><span class="punctuation">).</span><span class="name">c_str</span><span class="punctuation">()</span>
+    <span class="punctuation">,</span> <span class="name">t</span><span class="punctuation">.</span><span class="name">name</span><span class="punctuation">().</span><span class="name">c_str</span><span class="punctuation">()</span>
+    <span class="punctuation">,</span> <span class="name">t</span><span class="punctuation">.</span><span class="name">num_files</span><span class="punctuation">());</span>
+  <span class="name">lt</span><span class="operator">::</span><span class="name">file_storage</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name">st</span> <span class="operator">=</span> <span class="name">t</span><span class="punctuation">.</span><span class="name">files</span><span class="punctuation">();</span>
+  <span class="keyword">for</span> <span class="punctuation">(</span><span class="keyword">auto</span> <span class="keyword">const</span> <span class="name label">i</span> <span class="punctuation">:</span> <span class="name">st</span><span class="punctuation">.</span><span class="name">file_range</span><span class="punctuation">())</span>
+  <span class="punctuation">{</span>
+    <span class="keyword">auto</span> <span class="keyword">const</span> <span class="name">first</span> <span class="operator">=</span> <span class="name">st</span><span class="punctuation">.</span><span class="name">map_file</span><span class="punctuation">(</span><span class="name">i</span><span class="punctuation">,</span> <span class="literal number integer">0</span><span class="punctuation">,</span> <span class="literal number integer">0</span><span class="punctuation">).</span><span class="name">piece</span><span class="punctuation">;</span>
+    <span class="keyword">auto</span> <span class="keyword">const</span> <span class="name">last</span> <span class="operator">=</span> <span class="name">st</span><span class="punctuation">.</span><span class="name">map_file</span><span class="punctuation">(</span><span class="name">i</span><span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="name">max</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="keyword type">int64_t</span><span class="punctuation">(</span><span class="name">st</span><span class="punctuation">.</span><span class="name">file_size</span><span class="punctuation">(</span><span class="name">i</span><span class="punctuation">))</span> <span class="operator">-</span> <span class="literal number integer">1</span><span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="keyword type">int64_t</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">)),</span> <span class="literal number integer">0</span><span class="punctuation">).</span><span class="name">piece</span><span class="punctuation">;</span>
+    <span class="keyword">auto</span> <span class="keyword">const</span> <span class="name">flags</span> <span class="operator">=</span> <span class="name">st</span><span class="punctuation">.</span><span class="name">file_flags</span><span class="punctuation">(</span><span class="name">i</span><span class="punctuation">);</span>
+    <span class="keyword">if</span> <span class="punctuation">((</span><span class="name">flags</span> <span class="operator">&amp;</span> <span class="name">lt</span><span class="operator">::</span><span class="name">file_storage</span><span class="operator">::</span><span class="name">flag_pad_file</span><span class="punctuation">)</span> <span class="operator">&amp;&amp;</span> <span class="operator">!</span><span class="name">show_pad</span><span class="punctuation">)</span> <span class="keyword">continue</span><span class="punctuation">;</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">stringstream</span> <span class="name">file_root</span><span class="punctuation">;</span>
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="operator">!</span><span class="name">st</span><span class="punctuation">.</span><span class="name">root</span><span class="punctuation">(</span><span class="name">i</span><span class="punctuation">).</span><span class="name">is_all_zeros</span><span class="punctuation">())</span>
+      <span class="name">file_root</span> <span class="operator">&lt;&lt;</span> <span class="name">st</span><span class="punctuation">.</span><span class="name">root</span><span class="punctuation">(</span><span class="name">i</span><span class="punctuation">);</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">printf</span><span class="punctuation">(</span><span class="literal string">&quot; %8&quot;</span> <span class="name">PRIx64</span> <span class="literal string">&quot; %11&quot;</span> <span class="name">PRId64</span> <span class="literal string">&quot; %c%c%c%c [ %5d, %5d ] %7u %s %s %s%s</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span>
+      <span class="punctuation">,</span> <span class="name">st</span><span class="punctuation">.</span><span class="name">file_offset</span><span class="punctuation">(</span><span class="name">i</span><span class="punctuation">)</span>
+      <span class="punctuation">,</span> <span class="name">st</span><span class="punctuation">.</span><span class="name">file_size</span><span class="punctuation">(</span><span class="name">i</span><span class="punctuation">)</span>
+      <span class="punctuation">,</span> <span class="punctuation">((</span><span class="name">flags</span> <span class="operator">&amp;</span> <span class="name">lt</span><span class="operator">::</span><span class="name">file_storage</span><span class="operator">::</span><span class="name">flag_pad_file</span><span class="punctuation">)</span><span class="operator">?</span><span class="literal string char">'p'</span><span class="operator">:</span><span class="literal string char">'-'</span><span class="punctuation">)</span>
+      <span class="punctuation">,</span> <span class="punctuation">((</span><span class="name">flags</span> <span class="operator">&amp;</span> <span class="name">lt</span><span class="operator">::</span><span class="name">file_storage</span><span class="operator">::</span><span class="name">flag_executable</span><span class="punctuation">)</span><span class="operator">?</span><span class="literal string char">'x'</span><span class="operator">:</span><span class="literal string char">'-'</span><span class="punctuation">)</span>
+      <span class="punctuation">,</span> <span class="punctuation">((</span><span class="name">flags</span> <span class="operator">&amp;</span> <span class="name">lt</span><span class="operator">::</span><span class="name">file_storage</span><span class="operator">::</span><span class="name">flag_hidden</span><span class="punctuation">)</span><span class="operator">?</span><span class="literal string char">'h'</span><span class="operator">:</span><span class="literal string char">'-'</span><span class="punctuation">)</span>
+      <span class="punctuation">,</span> <span class="punctuation">((</span><span class="name">flags</span> <span class="operator">&amp;</span> <span class="name">lt</span><span class="operator">::</span><span class="name">file_storage</span><span class="operator">::</span><span class="name">flag_symlink</span><span class="punctuation">)</span><span class="operator">?</span><span class="literal string char">'l'</span><span class="operator">:</span><span class="literal string char">'-'</span><span class="punctuation">)</span>
+      <span class="punctuation">,</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="keyword type">int</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">first</span><span class="punctuation">)</span>
+      <span class="punctuation">,</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="keyword type">int</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">last</span><span class="punctuation">)</span>
+      <span class="punctuation">,</span> <span class="name">std</span><span class="operator">::</span><span class="keyword type">uint32_t</span><span class="punctuation">(</span><span class="name">st</span><span class="punctuation">.</span><span class="name">mtime</span><span class="punctuation">(</span><span class="name">i</span><span class="punctuation">))</span>
+      <span class="punctuation">,</span> <span class="name">file_root</span><span class="punctuation">.</span><span class="name">str</span><span class="punctuation">().</span><span class="name">c_str</span><span class="punctuation">()</span>
+      <span class="punctuation">,</span> <span class="name">st</span><span class="punctuation">.</span><span class="name">file_path</span><span class="punctuation">(</span><span class="name">i</span><span class="punctuation">).</span><span class="name">c_str</span><span class="punctuation">()</span>
+      <span class="punctuation">,</span> <span class="punctuation">(</span><span class="name">flags</span> <span class="operator">&amp;</span> <span class="name">lt</span><span class="operator">::</span><span class="name">file_storage</span><span class="operator">::</span><span class="name">flag_symlink</span><span class="punctuation">)</span> <span class="operator">?</span> <span class="literal string">&quot;-&gt; &quot;</span> <span class="operator">:</span> <span class="literal string">&quot;&quot;</span>
+      <span class="punctuation">,</span> <span class="punctuation">(</span><span class="name">flags</span> <span class="operator">&amp;</span> <span class="name">lt</span><span class="operator">::</span><span class="name">file_storage</span><span class="operator">::</span><span class="name">flag_symlink</span><span class="punctuation">)</span> <span class="operator">?</span> <span class="name">st</span><span class="punctuation">.</span><span class="name">symlink</span><span class="punctuation">(</span><span class="name">i</span><span class="punctuation">).</span><span class="name">c_str</span><span class="punctuation">()</span> <span class="operator">:</span> <span class="literal string">&quot;&quot;</span><span class="punctuation">);</span>
+  <span class="punctuation">}</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">printf</span><span class="punctuation">(</span><span class="literal string">&quot;web seeds:</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">);</span>
+  <span class="keyword">for</span> <span class="punctuation">(</span><span class="keyword">auto</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name label">ws</span> <span class="punctuation">:</span> <span class="name">t</span><span class="punctuation">.</span><span class="name">web_seeds</span><span class="punctuation">())</span>
+  <span class="punctuation">{</span>
+    <span class="name">std</span><span class="operator">::</span><span class="name">printf</span><span class="punctuation">(</span><span class="literal string">&quot;%s %s</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span>
+      <span class="punctuation">,</span> <span class="name">ws</span><span class="punctuation">.</span><span class="name">type</span> <span class="operator">==</span> <span class="name">lt</span><span class="operator">::</span><span class="name">web_seed_entry</span><span class="operator">::</span><span class="name">url_seed</span> <span class="operator">?</span> <span class="literal string">&quot;BEP19&quot;</span> <span class="operator">:</span> <span class="literal string">&quot;BEP17&quot;</span>
+      <span class="punctuation">,</span> <span class="name">ws</span><span class="punctuation">.</span><span class="name">url</span><span class="punctuation">.</span><span class="name">c_str</span><span class="punctuation">());</span>
+  <span class="punctuation">}</span>
+
+  <span class="keyword">return</span> <span class="literal number integer">0</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+<span class="keyword">catch</span> <span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">exception</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name">e</span><span class="punctuation">)</span>
+<span class="punctuation">{</span>
+  <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;ERROR: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">e</span><span class="punctuation">.</span><span class="name">what</span><span class="punctuation">()</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
+<span class="punctuation">}</span>
+</pre>
+</div>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

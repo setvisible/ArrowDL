@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="upgrading-to-libtorrent-1-2">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+<h1 class="title">Upgrading to libtorrent 1.2</h1>
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Author:</th>
+<td>Arvid Norberg, <a class="last reference external" href="mailto:arvid&#64;libtorrent.org">arvid&#64;libtorrent.org</a></td></tr>
+</tbody>
+</table>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#c-98-no-longer-supported" id="toc-entry-1">C++98 no longer supported</a></li>
+<li><a class="reference internal" href="#listen-interfaces" id="toc-entry-2">listen interfaces</a></li>
+<li><a class="reference internal" href="#forward-declaring-libtorrent-types-deprecated" id="toc-entry-3">forward declaring libtorrent types deprecated</a></li>
+<li><a class="reference internal" href="#resume-data-handling" id="toc-entry-4">resume data handling</a></li>
+<li><a class="reference internal" href="#rate-limit-utp-changed-defaults" id="toc-entry-5">rate_limit_utp changed defaults</a></li>
+<li><a class="reference internal" href="#announce-entry-multi-home-support" id="toc-entry-6">announce entry multi-home support</a></li>
+<li><a class="reference internal" href="#alerts-no-longer-cloneable" id="toc-entry-7">alerts no longer cloneable</a></li>
+<li><a class="reference internal" href="#progress-alert-category" id="toc-entry-8">progress alert category</a></li>
+<li><a class="reference internal" href="#boost-replaced-by-std" id="toc-entry-9">boost replaced by std</a></li>
+<li><a class="reference internal" href="#strong-typedefs" id="toc-entry-10">strong typedefs</a></li>
+<li><a class="reference internal" href="#strongly-typed-flags" id="toc-entry-11">strongly typed flags</a></li>
+<li><a class="reference internal" href="#span-and-string-view" id="toc-entry-12">span&lt;&gt; and string_view</a></li>
+<li><a class="reference internal" href="#periphery-utility-functions-no-longer-exported" id="toc-entry-13">periphery utility functions no longer exported</a></li>
+<li><a class="reference internal" href="#plugins" id="toc-entry-14">plugins</a></li>
+<li><a class="reference internal" href="#rss-functions-removed" id="toc-entry-15">RSS functions removed</a></li>
+</ul>
+</div>
+<p>libtorrent version 1.2 comes with some significant updates in the API.
+This document summarizes the changes affecting library users.</p>
+<div class="section" id="c-98-no-longer-supported">
+<h1>C++98 no longer supported</h1>
+<p>With libtorrent 1.2, C++98 is no longer supported, you need a compiler capable
+of at least C++11 to build libtorrent.</p>
+<p>This also means libtorrent types now support move.</p>
+</div>
+<div class="section" id="listen-interfaces">
+<h1>listen interfaces</h1>
+<p>There's a subtle change in how the <tt class="docutils literal">listen_interfaces</tt> setting is interpreted
+in 1.2 compared to 1.1.</p>
+<p>In libtorrent-1.1, if you listen to <tt class="docutils literal">0.0.0.0:6881</tt> (which was the default),
+not only would an IPv4 listen socket be opened (bound to INADDR_ANY) but also an
+IPv6 socket would be opened.</p>
+<p>In libtorrent-1.2, if you listen to <tt class="docutils literal">0.0.0.0:6881</tt> only the IPv4 INADDR_ANY is
+opened as a listen socket. If you want to listen to both IPv4 and IPv6, you need
+to listen to <tt class="docutils literal"><span class="pre">0.0.0.0:6881,[::]:6881</span></tt>.</p>
+</div>
+<div class="section" id="forward-declaring-libtorrent-types-deprecated">
+<h1>forward declaring libtorrent types deprecated</h1>
+<p>Clients are discouraged from forward declaring types from libtorrent.
+Instead, include the &lt;libtorrent/fwd.hpp&gt; header.</p>
+<p>A future release will introduce ABI versioning using an inline namespace, which will break any forward declarations by clients.</p>
+<p>There is a new namespace alias, <tt class="docutils literal">lt</tt> which is shorthand for <tt class="docutils literal">libtorrent</tt>.
+In the future, <tt class="docutils literal">libtorrent</tt> will be the alias and <tt class="docutils literal">lt</tt> the namespace name.
+With no forward declarations inside libtorrent's namespace though, there should not be any reason for clients to re-open the namespace.</p>
+</div>
+<div class="section" id="resume-data-handling">
+<h1>resume data handling</h1>
+<p>To significantly simplify handling of resume data, the previous way of handling it is deprecated.
+resume data is no longer passed in as a flat buffer in the <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a>.
+The <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> structure itself <em>is</em> the resume data now.</p>
+<p>In order to parse the bencoded fast resume file (which is still the same format, and backwards compatible) use the <a class="reference external" href="reference-Resume_Data.html#read_resume_data()">read_resume_data()</a> function.</p>
+<p>Similarly, when saving resume data, the <a class="reference external" href="reference-Alerts.html#save_resume_data_alert">save_resume_data_alert</a> now has a <tt class="docutils literal">params</tt> field of type <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> which contains the resume data.
+This object can be serialized into the bencoded form using <a class="reference external" href="reference-Resume_Data.html#write_resume_data()">write_resume_data()</a>.</p>
+<p>This give the client full control over which properties should be loaded from the resume data and which should be controlled by the client directly.
+The flags <tt class="docutils literal">flag_override_resume_data</tt>, <tt class="docutils literal">flag_merge_resume_trackers</tt>, <tt class="docutils literal">flag_use_resume_save_path</tt> and <tt class="docutils literal">flag_merge_resume_http_seeds</tt> have all been deprecated, since they are no longer needed.</p>
+<p>The old API is still supported as long as libtorrent is built with deprecated functions enabled (which is the default).
+It will be performing slightly better without deprecated functions present.</p>
+</div>
+<div class="section" id="rate-limit-utp-changed-defaults">
+<h1>rate_limit_utp changed defaults</h1>
+<p>The setting <tt class="docutils literal">rate_limit_utp</tt> was deprecated in libtorrent 1.1.
+When building without deprecated features (<tt class="docutils literal"><span class="pre">deprecated-functions=off</span></tt>) the default behavior also changed to have rate limits apply to utp sockets too.
+In order to be more consistent between the two build configurations, the default value has changed to true.
+The new mechanism provided to apply special rate limiting rules is <em>peer classes</em>.
+In order to implement the old behavior of not rate limiting uTP peers, one can set up a peer class for all uTP peers, to make the normal peer classes not apply to them (which is where the rate limits are set).</p>
+</div>
+<div class="section" id="announce-entry-multi-home-support">
+<h1>announce entry multi-home support</h1>
+<p>The <a class="reference external" href="reference-Trackers.html#announce_entry">announce_entry</a> type now captures status on individual endpoints, as opposed to treating every tracker behind the same name as a single tracker.
+This means some properties has moved into the <tt class="docutils literal">announce_endpoint</tt> structure, and an announce <a class="reference external" href="reference-Bencoding.html#entry">entry</a> has 0 or more endpoints.</p>
+</div>
+<div class="section" id="alerts-no-longer-cloneable">
+<h1>alerts no longer cloneable</h1>
+<p>As part of the transition to a more efficient handling of alerts, 1.1 allocated them in a contiguous, heterogeneous, vector.
+This means they are no longer heap allocated nor held by a smart pointer.
+The <tt class="docutils literal">clone()</tt> member on alerts was deprecated in 1.1 and removed in 1.2.
+To pass alerts across threads, instead pull out the relevant information from the alerts and pass that across.</p>
+</div>
+<div class="section" id="progress-alert-category">
+<h1>progress alert category</h1>
+<p>The <tt class="docutils literal"><span class="pre">alert::progress_notification</span></tt> category has been deprecated.
+Alerts posted in this category are now also posted in one of these new categories:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">alert::block_progress_notification</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">alert::piece_progress_notification</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">alert::file_progress_notification</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">alert::upload_notification</span></tt></li>
+</ul>
+</div>
+<div class="section" id="boost-replaced-by-std">
+<h1>boost replaced by std</h1>
+<p><tt class="docutils literal"><span class="pre">boost::shared_ptr</span></tt> has been replaced by <tt class="docutils literal"><span class="pre">std::shared_ptr</span></tt> in the libtorrent API.
+The same goes for <tt class="docutils literal">&lt;cstdint&gt;</tt> types, instead of <tt class="docutils literal"><span class="pre">boost::int64_t</span></tt>, libtorrent now uses <tt class="docutils literal"><span class="pre">std::int64_t</span></tt>.
+Instead of <tt class="docutils literal"><span class="pre">boost::array</span></tt>, <tt class="docutils literal"><span class="pre">std::array</span></tt> is used, and <tt class="docutils literal"><span class="pre">boost::function</span></tt> has been replaced by <tt class="docutils literal"><span class="pre">std::function</span></tt>.</p>
+</div>
+<div class="section" id="strong-typedefs">
+<h1>strong typedefs</h1>
+<p>In order to strengthen type-safety, libtorrent now uses special types to represent certain indexes and ID types.
+Any integer referring to a piece index, now has the type <tt class="docutils literal">piece_index_t</tt>, and indices to files in a torrent, use <tt class="docutils literal">file_index_t</tt>.
+Similarly, time points and duration now use <tt class="docutils literal">time_point</tt> and <tt class="docutils literal">duration</tt> from the <tt class="docutils literal">&lt;chrono&gt;</tt> standard library.</p>
+<p>The specific types have typedefs at <tt class="docutils literal"><span class="pre">lt::time_point</span></tt> and <tt class="docutils literal"><span class="pre">lt::duration</span></tt>, and the clock used by libtorrent is <tt class="docutils literal"><span class="pre">lt::clock_type</span></tt>.`</p>
+</div>
+<div class="section" id="strongly-typed-flags">
+<h1>strongly typed flags</h1>
+<p>Enum flags have been replaced by strongly typed flags.
+This means their implicit conversion to and from <tt class="docutils literal">int</tt> is deprecated.
+For example, the following expressions are deprecated:</p>
+<pre class="literal-block">
+if ((atp.flags &amp; add_torrent_params::flag_paused) == 0)
+
+atp.flags = 0;
+</pre>
+<p>Insted say:</p>
+<pre class="literal-block">
+if (!(atp.flags &amp; torrent_flags::paused))
+
+atp.flags = {};
+</pre>
+<p>(Also note that in this specific example, the flags moved out of the <tt class="docutils literal">add_torrent_params</tt> structure, but this is unrelated to them also having stronger types).</p>
+</div>
+<div class="section" id="span-and-string-view">
+<h1>span&lt;&gt; and string_view</h1>
+<p>The interface has adopted <tt class="docutils literal">string_view</tt> (from boost for now) and <tt class="docutils literal">span&lt;&gt;</tt> (custom implementation for now).
+This means some function calls that previously took <tt class="docutils literal">char const*</tt> or <tt class="docutils literal"><span class="pre">std::string</span></tt> may now take an <tt class="docutils literal"><span class="pre">lt::string_view</span></tt>.
+Similarly, functions that previously would take a pointer and length pair will now take a <tt class="docutils literal">span&lt;&gt;</tt>.</p>
+</div>
+<div class="section" id="periphery-utility-functions-no-longer-exported">
+<h1>periphery utility functions no longer exported</h1>
+<p>Historically, libtorrent has exported functions not essential to its core bittorrent functionality.
+Such as filesystem functions like <tt class="docutils literal">directory</tt>, <tt class="docutils literal">file</tt> classes and <tt class="docutils literal">remove</tt>, <tt class="docutils literal">create_directory</tt> functions.
+Path manipulation functions like <tt class="docutils literal">combine_path</tt>, <tt class="docutils literal">extension</tt>, <tt class="docutils literal">split_path</tt> etc.
+String manipulation functions like <tt class="docutils literal">from_hex</tt> and <tt class="docutils literal">to_hex</tt>.
+Time functions like <tt class="docutils literal">time_now</tt>. These functions are no longer available to clients, and some have been removed from the library.
+Instead, it is recommended to use boost.filesystem or the experimental filesystem TS.</p>
+</div>
+<div class="section" id="plugins">
+<h1>plugins</h1>
+<p>libtorrent <a class="reference external" href="reference-Session.html#session">session</a> plugins no longer have all callbacks called unconditionally.
+The <a class="reference external" href="reference-Plugins.html#plugin">plugin</a> has to register which callbacks it's interested in receiving by returning a bitmask from <tt class="docutils literal">feature_flags_t implemented_features()</tt>.
+The return value is documented in the <a class="reference external" href="reference-Plugins.html#plugin">plugin</a> class.</p>
+</div>
+<div class="section" id="rss-functions-removed">
+<h1>RSS functions removed</h1>
+<p>The deprecated RSS functions have been removed from the library interface.</p>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>

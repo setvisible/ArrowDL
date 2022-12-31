@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>libtorrent</title>
+<meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
+<meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta property="og:image" content="img/logo-color.png" />
+<meta property="og:site_name" content="libtorrent" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="upgrading-to-libtorrent-2-0">
+    <div id="container">
+    <a href="index.html">
+    <img src="img/logo-color-text.png" alt="libtorrent logo"/>
+    </a>
+    <div>
+<h1 class="title">Upgrading to libtorrent 2.0</h1>
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Author:</th>
+<td>Arvid Norberg, <a class="last reference external" href="mailto:arvid&#64;libtorrent.org">arvid&#64;libtorrent.org</a></td></tr>
+</tbody>
+</table>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title">Table of contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#c-11-no-longer-supported" id="toc-entry-1">C++11 no longer supported</a></li>
+<li><a class="reference internal" href="#boost-version" id="toc-entry-2">boost version</a></li>
+<li><a class="reference internal" href="#bittorrent-v2-support" id="toc-entry-3">BitTorrent v2 support</a><ul>
+<li><a class="reference internal" href="#example-torrents" id="toc-entry-4">Example torrents</a></li>
+<li><a class="reference internal" href="#info-hashes" id="toc-entry-5">info-hashes</a></li>
+<li><a class="reference internal" href="#announce-entry-tracker-changes" id="toc-entry-6">announce_entry/tracker changes</a></li>
+<li><a class="reference internal" href="#merkle-tree-support-removed" id="toc-entry-7">Merkle tree support removed</a></li>
+<li><a class="reference internal" href="#create-torrent-changes" id="toc-entry-8">create_torrent changes</a></li>
+<li><a class="reference internal" href="#on-unknown-torrent-plugin-api" id="toc-entry-9">on_unknown_torrent() plugin API</a></li>
+<li><a class="reference internal" href="#socket-type-t" id="toc-entry-10">socket_type_t</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dht-settings" id="toc-entry-11">DHT settings</a></li>
+<li><a class="reference internal" href="#stats-alert" id="toc-entry-12">stats_alert</a></li>
+<li><a class="reference internal" href="#saving-and-restoring-session-state" id="toc-entry-13">saving and restoring session state</a></li>
+<li><a class="reference internal" href="#userdata-is-no-longer-a-void" id="toc-entry-14">userdata is no longer a void*</a></li>
+<li><a class="reference internal" href="#adding-torrents-by-url-no-longer-supported" id="toc-entry-15">Adding torrents by URL no longer supported</a><ul>
+<li><a class="reference internal" href="#downloading-over-http" id="toc-entry-16">downloading over HTTP</a></li>
+<li><a class="reference internal" href="#magnet-links" id="toc-entry-17">magnet links</a></li>
+<li><a class="reference internal" href="#async-loading-of-torrent-files" id="toc-entry-18">async loading of .torrent files</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#disk-i-o-overhaul" id="toc-entry-19">Disk I/O overhaul</a><ul>
+<li><a class="reference internal" href="#aio-threads-and-hashing-threads" id="toc-entry-20"><tt class="docutils literal">aio_threads</tt> and <tt class="docutils literal">hashing_threads</tt></a></li>
+<li><a class="reference internal" href="#cache-size" id="toc-entry-21">cache_size</a></li>
+<li><a class="reference internal" href="#get-cache-info-get-cache-status" id="toc-entry-22">get_cache_info() get_cache_status()</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#last-remnants-of-rss-support-removed" id="toc-entry-23">last remnants of RSS support removed</a></li>
+</ul>
+</div>
+<p>In libtorrent 2.0, some parts of the API has changed and some deprecated parts
+have been removed.
+This document summarizes the changes affecting library clients.</p>
+<div class="section" id="c-11-no-longer-supported">
+<h1>C++11 no longer supported</h1>
+<p>libtorrent 2.0 requires at least C++-14. To build with boost build, specify the
+C++ version using the <tt class="docutils literal">cxxstd=14</tt> build feature (14 is the default).</p>
+</div>
+<div class="section" id="boost-version">
+<h1>boost version</h1>
+<p>The oldest boost version supported is 1.67</p>
+</div>
+<div class="section" id="bittorrent-v2-support">
+<h1>BitTorrent v2 support</h1>
+<p>Supporting bittorrent v2 come with some changes to the API. Specifically to
+support <em>hybrid</em> torrents. i.e. torrents that are compatible with v1-only
+bittorrent clients as well as supporting v2 features among the peers that
+support them.</p>
+<div class="section" id="example-torrents">
+<h2>Example torrents</h2>
+<ul class="simple">
+<li><a class="reference external" href="https://libtorrent.org/bittorrent-v2-hybrid-test.torrent">bittorrent-v2-hybrid-test.torrent</a></li>
+<li><a class="reference external" href="https://libtorrent.org/bittorrent-v2-test.torrent">bittorrent-v2-test.torrent</a></li>
+</ul>
+</div>
+<div class="section" id="info-hashes">
+<h2>info-hashes</h2>
+<p>With bittorrent v2 support, each torrent may now have two separate info hashes,
+one SHA-1 hash and one SHA-256 hash. These are bundled in a new type called
+<a class="reference external" href="reference-Core.html#info_hash_t">info_hash_t</a>. Many places that previously took an info-hash as sha1_hash now
+takes an <a class="reference external" href="reference-Core.html#info_hash_t">info_hash_t</a>. For backwards compatibility, <a class="reference external" href="reference-Core.html#info_hash_t">info_hash_t</a> is implicitly
+convertible to and from sha1_hash and is interpreted as the v1 info-hash.
+The implicit conversion is deprecated though.</p>
+<p>Perhaps most noteworthy is that <tt class="docutils literal"><span class="pre">add_torrent_params::info_hash</span></tt> is now
+deprecated in favor of <tt class="docutils literal"><span class="pre">add_torrent_params::info_hashes</span></tt> which is an
+<a class="reference external" href="reference-Core.html#info_hash_t">info_hash_t</a>.</p>
+<p>The alerts <a class="reference external" href="reference-Alerts.html#torrent_removed_alert">torrent_removed_alert</a>, <a class="reference external" href="reference-Alerts.html#torrent_deleted_alert">torrent_deleted_alert</a>,
+<a class="reference external" href="reference-Alerts.html#torrent_delete_failed_alert">torrent_delete_failed_alert</a> all have <tt class="docutils literal">info_hash</tt> members. Those members are
+now deprecated in favor of an <tt class="docutils literal">info_hashes</tt> member, which is of type
+<a class="reference external" href="reference-Core.html#info_hash_t">info_hash_t</a>.</p>
+<p>An <a class="reference external" href="reference-Core.html#info_hash_t">info_hash_t</a> object for a hybrid torrent will have both the v1 and v2 hashes
+set, it will compare false to a sha1_hash of <em>just</em> the v1 hash.</p>
+<p>Calls to <a class="reference external" href="reference-Torrent_Handle.html#info_hash()">torrent_handle::info_hash()</a> may need to be replaced by
+<a class="reference external" href="reference-Torrent_Handle.html#info_hashes()">torrent_handle::info_hashes()</a>, in order to get both v1 and v2 hashes.</p>
+</div>
+<div class="section" id="announce-entry-tracker-changes">
+<h2>announce_entry/tracker changes</h2>
+<p>On major change in the API is reporting of trackers. Since hybrid torrents
+announce once per info-hash (once for v1 and once for v2), the tracker results
+are also reported per <em>bittorrent version</em>.</p>
+<p>Each tracker (<a class="reference external" href="reference-Trackers.html#announce_entry">announce_entry</a>) has a list of <tt class="docutils literal">endpoints</tt>. Each corresponding to
+a local listen socket. Each listen socket is announced independently. The
+<a class="reference external" href="reference-Trackers.html#announce_endpoint">announce_endpoint</a> in turn has an array <tt class="docutils literal">info_hashes</tt>, containing objects of
+type <a class="reference external" href="reference-Trackers.html#announce_infohash">announce_infohash</a>, for each bittorrent version. The array is indexed by
+the enum <a class="reference external" href="reference-Core.html#protocol_version">protocol_version</a>. There are two members, <tt class="docutils literal">V1</tt> and <tt class="docutils literal">V2</tt>.</p>
+<p>Example:</p>
+<pre class="code c++ literal-block">
+<span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">lt</span><span class="operator">::</span><span class="name">announce_entry</span><span class="operator">&gt;</span> <span class="name">tr</span> <span class="operator">=</span> <span class="name">h</span><span class="punctuation">.</span><span class="name">trackers</span><span class="punctuation">();</span>
+<span class="keyword">for</span> <span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">announce_entry</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name label">ae</span> <span class="punctuation">:</span> <span class="name">h</span><span class="punctuation">.</span><span class="name">trackers</span><span class="punctuation">())</span> <span class="punctuation">{</span>
+    <span class="keyword">for</span> <span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">announce_endpoint</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name label">aep</span> <span class="punctuation">:</span> <span class="name">ae</span><span class="punctuation">.</span><span class="name">endpoints</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+        <span class="keyword type">int</span> <span class="name">version</span> <span class="operator">=</span> <span class="literal number integer">1</span><span class="punctuation">;</span>
+        <span class="keyword">for</span> <span class="punctuation">(</span><span class="name">lt</span><span class="operator">::</span><span class="name">announce_infohash</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name label">ai</span> <span class="punctuation">:</span> <span class="name">aep</span><span class="punctuation">.</span><span class="name">info_hashes</span><span class="punctuation">)</span> <span class="punctuation">{</span>
+            <span class="name">std</span><span class="operator">::</span><span class="name">cout</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;[V&quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">version</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;] &quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">ae</span><span class="punctuation">.</span><span class="name">tier</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot; &quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">ae</span><span class="punctuation">.</span><span class="name">url</span>
+                <span class="operator">&lt;&lt;</span> <span class="literal string">&quot; &quot;</span> <span class="operator">&lt;&lt;</span> <span class="punctuation">(</span><span class="name">ih</span><span class="punctuation">.</span><span class="name">updating</span> <span class="operator">?</span> <span class="literal string">&quot;updating&quot;</span> <span class="operator">:</span> <span class="literal string">&quot;&quot;</span><span class="punctuation">)</span>
+                <span class="operator">&lt;&lt;</span> <span class="literal string">&quot; &quot;</span> <span class="operator">&lt;&lt;</span> <span class="punctuation">(</span><span class="name">ih</span><span class="punctuation">.</span><span class="name">start_sent</span> <span class="operator">?</span> <span class="literal string">&quot;start-sent&quot;</span> <span class="operator">:</span> <span class="literal string">&quot;&quot;</span><span class="punctuation">)</span>
+                <span class="operator">&lt;&lt;</span> <span class="literal string">&quot; fails: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">ih</span><span class="punctuation">.</span><span class="name">fails</span>
+                <span class="operator">&lt;&lt;</span> <span class="literal string">&quot; msg: &quot;</span> <span class="operator">&lt;&lt;</span> <span class="name">ih</span><span class="punctuation">.</span><span class="name">message</span>
+                <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
+            <span class="operator">++</span><span class="name">version</span><span class="punctuation">;</span>
+        <span class="punctuation">}</span>
+    <span class="punctuation">}</span>
+<span class="punctuation">}</span>
+</pre>
+</div>
+<div class="section" id="merkle-tree-support-removed">
+<h2>Merkle tree support removed</h2>
+<p>The old merkle tree torrent support has been removed, as BitTorrent v2 has
+better support for merkle trees, where each file has its own merkle tree.</p>
+<p>This means <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> no longer has the <tt class="docutils literal">merkle_tree</tt> member. Instead
+it has the new <tt class="docutils literal">verified_leaf_hashes</tt> and <tt class="docutils literal">merkle_trees</tt> members.</p>
+<p>It also means the <tt class="docutils literal">merkle</tt> flag for <a class="reference external" href="reference-Create_Torrents.html#create_torrent">create_torrent</a> has been removed.
+<a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> no longer has <tt class="docutils literal">set_merkle_tree()</tt> and <tt class="docutils literal">merkle_tree()</tt> member
+functions.</p>
+</div>
+<div class="section" id="create-torrent-changes">
+<h2>create_torrent changes</h2>
+<p>The <a class="reference external" href="reference-Create_Torrents.html#create_torrent">create_torrent</a> class creates <em>hybrid</em> torrents by default. i.e. torrents
+compatible with both v1 and v2 bittorrent clients.</p>
+<p>To create v1-only torrents use the <tt class="docutils literal">v1_only</tt> flag. To create v2-only torrents,
+use the <tt class="docutils literal">v2_only</tt> flag.</p>
+<p>Perhaps the most important addition for v2 torrents is the new member function
+<a class="reference external" href="reference-Create_Torrents.html#set_hash2()">set_hash2()</a>, which is similar to <a class="reference external" href="reference-Create_Torrents.html#set_hash()">set_hash()</a>, but for the v2-part of a torrent.
+One important difference is that v2 hashes are SHA-256 hashes, and they are set
+<em>per file</em>. In v2 torrents, each file forms a merkle tree and each v2 piece hash
+is the SHA-256 merkle root hash of the 16 kiB blocks in that piece.</p>
+<p>All v2 torrents have pieces aligned to files, so the <tt class="docutils literal">optimize_alignment</tt> flag
+is no longer relevant (as it's effectively always on). Similarly, the
+<tt class="docutils literal">mutable_torrent_support</tt> flag is also always on.</p>
+<p><tt class="docutils literal">pad_file_limit</tt> and <tt class="docutils literal">alignment</tt> parameters to the <a class="reference external" href="reference-Create_Torrents.html#create_torrent">create_torrent</a> constructor
+have also been removed. The rules for padding and alignment is well defined for
+v2 torrents.</p>
+<p>set_file_hash() and file_hash() functions are obsolete, as v2 torrents have
+a file_root() for each file.</p>
+</div>
+<div class="section" id="on-unknown-torrent-plugin-api">
+<h2>on_unknown_torrent() plugin API</h2>
+<p>Since hybrid torrents have two info-hashes, the <a class="reference external" href="reference-Plugins.html#on_unknown_torrent()">on_unknown_torrent()</a> function
+on the <a class="reference external" href="reference-Plugins.html#plugin">plugin</a> class now takes an <a class="reference external" href="reference-Core.html#info_hash_t">info_hash_t</a> instead of a sha1_hash.</p>
+</div>
+<div class="section" id="socket-type-t">
+<h2>socket_type_t</h2>
+<p>There is a new <tt class="docutils literal">enum class</tt> called <tt class="docutils literal">socket_type_t</tt> used to identify different
+kinds of sockets. In previous versions of libtorrent this was exposed as plain
+<tt class="docutils literal">int</tt> with subtly different sets of meanings.</p>
+<p>Previously there was an enum value <tt class="docutils literal">udp</tt>, which has been deprecated in favor of <tt class="docutils literal">utp</tt>.</p>
+<p>The socket type is exposed in the following alerts, which now use the <tt class="docutils literal">socket_type_t</tt>
+enum instead of <tt class="docutils literal">int</tt>:</p>
+<ul class="simple">
+<li><tt class="docutils literal">peer_connect_alert</tt></li>
+<li><tt class="docutils literal">peer_disconnected_alert</tt></li>
+<li><tt class="docutils literal">incoming_connection_alert</tt></li>
+<li><tt class="docutils literal">listen_failed_alert</tt></li>
+<li><tt class="docutils literal">listen_succeeded_alert</tt></li>
+</ul>
+</div>
+</div>
+<div class="section" id="dht-settings">
+<h1>DHT settings</h1>
+<p>DHT configuration options have previously been set separately from the main client settings.
+In libtorrent 2.0 they have been unified into the main <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a>.</p>
+<p>Hence, <cite>lt::dht::dht_settings</cite> is now deprecated, in favor of the new <cite>dht_*</cite>
+settings in <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a>.</p>
+<p>Deprecating <cite>dht_settings</cite> also causes an API change to the dht custom storage
+constructor (see <a class="reference external" href="reference-Session.html#session_params">session_params</a>). Instead of taking a <cite>dht_settings</cite> object, it
+is now passed the full <cite>settings_pack</cite>. This is considered a niche interface,
+so there is no backward compatibility option provided.</p>
+</div>
+<div class="section" id="stats-alert">
+<h1>stats_alert</h1>
+<p>The stats_alert is deprecated. Instead, call session::post_torrent_updates().
+This will post a <a class="reference external" href="reference-Alerts.html#state_update_alert">state_update_alert</a> containing <a class="reference external" href="reference-Torrent_Status.html#torrent_status">torrent_status</a> of all torrents
+that have any updates since last time this function was called.</p>
+<p>The new mechanism scales a lot better.</p>
+</div>
+<div class="section" id="saving-and-restoring-session-state">
+<h1>saving and restoring session state</h1>
+<p>The functions <tt class="docutils literal">save_state()</tt> and <tt class="docutils literal">load_state()</tt> on the <a class="reference external" href="reference-Session.html#session">session</a> object have
+been deprecated in favor loading the <a class="reference external" href="reference-Session.html#session">session</a> state up-front using
+<a class="reference external" href="reference-Session.html#read_session_params()">read_session_params()</a> and construct the <a class="reference external" href="reference-Session.html#session">session</a> from it.</p>
+<p>The <a class="reference external" href="reference-Session.html#session">session</a> state can be acquired, in the form of a <a class="reference external" href="reference-Session.html#session_params">session_params</a> object, by
+calling session::session_state().</p>
+<p>The <a class="reference external" href="reference-Session.html#session_params">session_params</a> object is passed to the <a class="reference external" href="reference-Session.html#session">session</a> constructor, and will restore
+the state from a previous <a class="reference external" href="reference-Session.html#session">session</a>.</p>
+<p>Use <a class="reference external" href="reference-Session.html#read_session_params()">read_session_params()</a> and <a class="reference external" href="reference-Session.html#write_session_params()">write_session_params()</a> to serialize and de-serialize
+the <a class="reference external" href="reference-Session.html#session_params">session_params</a> object.</p>
+<p>As a result of this, plugins that wish to save and restore state or settings
+must now use the new overload of <a class="reference external" href="reference-Plugins.html#load_state()">load_state()</a>, that takes a
+<tt class="docutils literal"><span class="pre">std::map&lt;std::string,</span> <span class="pre">std::string&gt;</span></tt>. Similarly, for saving state, it now has
+to be saved to a <tt class="docutils literal"><span class="pre">std::map&lt;std::string,</span> <span class="pre">std::string&gt;</span></tt> via the new overload of
+<a class="reference external" href="reference-Plugins.html#save_state()">save_state()</a>.</p>
+<p>A lot of <a class="reference external" href="reference-Session.html#session">session</a> constructors have been deprecated in favor of the ones that take
+a <a class="reference external" href="reference-Session.html#session_params">session_params</a> object. The <a class="reference external" href="reference-Session.html#session_params">session_params</a> object can be implicitly constructed
+from a <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a>, to cover one of the now-deprecated constructors. However,
+to access this conversion <cite>libtorrent/session_params.hpp</cite> must be included.</p>
+</div>
+<div class="section" id="userdata-is-no-longer-a-void">
+<h1>userdata is no longer a void*</h1>
+<p>The <tt class="docutils literal">userdata</tt> field in <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> is no longer a raw void pointer.
+Instead it is a type-safe <a class="reference external" href="reference-Add_Torrent.html#client_data_t">client_data_t</a> object. <a class="reference external" href="reference-Add_Torrent.html#client_data_t">client_data_t</a> is similar to
+<tt class="docutils literal"><span class="pre">std::any</span></tt>, it can hold a pointer of any type by assignment and can be cast
+back to that pointer via <tt class="docutils literal">static_cast</tt> (explicit conversion). However, if the
+pointer type it is cast to is not identical to what was assigned, a <tt class="docutils literal">nullptr</tt>
+is returned. Note that the type has to be identical in CV-qualifiers as well.</p>
+<p>This userdata field affects the <a class="reference external" href="reference-Plugins.html#plugin">plugin</a> APIs that has this field passed into it.</p>
+<p>Additionally, there's now a way to ask a <a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a> for the userdata, so it is
+associated with the torrent itself.</p>
+</div>
+<div class="section" id="adding-torrents-by-url-no-longer-supported">
+<h1>Adding torrents by URL no longer supported</h1>
+<p>The URL covers 3 separate features, all deprecated in the previous version and
+removed in 2.0.</p>
+<div class="section" id="downloading-over-http">
+<h2>downloading over HTTP</h2>
+<p>One used to be able to add a torrent by specifying an HTTP URL in the
+<tt class="docutils literal"><span class="pre">add_torrent_params::url</span></tt> member. Libtorrent would download the file and attempt
+to load the file as a .torrent file. The <a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a> in this mode would
+not represent a torrent, but a <em>potential</em> torrent. Its info-hash was the hash of
+the URL until the torrent file could be loaded, at which point the info hash <em>changed</em>.
+The corresponding <tt class="docutils literal">torrent_update_alert</tt> has also been removed. In libtorrent 2.0
+info-hashes cannot change. (Although they can be amended with bittorrent v1 or v2
+info-hashes).</p>
+<p>Instead of using this feature, clients should download the .torrent files
+themselves, possibly spawn their own threads, before adding them to the <a class="reference external" href="reference-Session.html#session">session</a>.</p>
+</div>
+<div class="section" id="magnet-links">
+<h2>magnet links</h2>
+<p>The <tt class="docutils literal"><span class="pre">add_torrent_params::url</span></tt> could also be used to add torrents by magnet link.
+This was also deprecated in the previous version and has been removed in
+libtorrent 2.0. Instead, use <a class="reference external" href="reference-Core.html#parse_magnet_uri()">parse_magnet_uri()</a> to construct an <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a>
+object to add to the <a class="reference external" href="reference-Session.html#session">session</a>. This also allows the client to alter settings,
+such as <tt class="docutils literal">save_path</tt>, before adding the magnet link.</p>
+</div>
+<div class="section" id="async-loading-of-torrent-files">
+<h2>async loading of .torrent files</h2>
+<p>The <tt class="docutils literal"><span class="pre">add_torrent_params::url</span></tt> field also supported <tt class="docutils literal"><span class="pre">file://</span></tt> URLs. This would
+use a libtorrent thread to load the file from disk, asynchronously (in the case
+of <a class="reference external" href="reference-Session.html#async_add_torrent()">async_add_torrent()</a>). This feature has been removed. Clients should instead
+load their torrents from disk themselves, before adding them to the <a class="reference external" href="reference-Session.html#session">session</a>.
+Possibly spawning their own threads.</p>
+</div>
+</div>
+<div class="section" id="disk-i-o-overhaul">
+<h1>Disk I/O overhaul</h1>
+<p>In libtorrent 2.0, the disk I/O subsystem underwent a significant update. In
+previous versions of libtorrent, each torrent has had its own, isolated,
+disk storage object. This was a customization point. In order to share things
+like a pool of open file handles across torrents (to have a global limit on
+open file descriptors) all storage objects would share a file_pool object
+passed in to them.</p>
+<p>In libtorrent 2.0, the default disk I/O uses memory mapped files, which means
+a lot more of what used to belong in the disk caching subsystem is now handled
+by the kernel. This greatly simplifies the disk code and also has the potential
+of making a lot more efficient use of modern disks as well as physical memory.</p>
+<p>In this new system, the customization point is the whole disk I/O subsystem.
+Instead of configuring a custom storage (implementing <tt class="docutils literal">storage_interface</tt>) when
+adding a torrent, you can now configure a disk subsystem (implementing
+<a class="reference external" href="reference-Custom_Storage.html#disk_interface">disk_interface</a>) when creating a <a class="reference external" href="reference-Session.html#session">session</a>.</p>
+<p>Systems that don't support memory mapped files can still be used with a simple
+<tt class="docutils literal">fopen()</tt>/<tt class="docutils literal">fclose()</tt> family of functions. This disk subsystem is also not threaded
+and generally more primitive than the memory mapped file one.</p>
+<p>Clients that need to customize storage should implement the <a class="reference external" href="reference-Custom_Storage.html#disk_interface">disk_interface</a> and
+configure it at <a class="reference external" href="reference-Session.html#session">session</a> creation time instead of <tt class="docutils literal">storage_interface</tt> configured
+in <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a>. <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> no longer has a storage_constructor
+member.</p>
+<p>As a consequence of this, <tt class="docutils literal">get_storage_impl()</tt> has been removed from <a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a>.</p>
+<div class="section" id="aio-threads-and-hashing-threads">
+<h2><tt class="docutils literal">aio_threads</tt> and <tt class="docutils literal">hashing_threads</tt></h2>
+<p>In previous versions of libtorrent, the number of disk threads to use were
+configured by <a class="reference external" href="reference-Settings.html#aio_threads">settings_pack::aio_threads</a>. Every fourth thread was dedicated to
+run hash jobs, i.e. computing SHA-1 piece hashes to compare them against the
+expected hash.</p>
+<p>This setting has now been split up to allow controlling the number of dedicated
+hash threads independently from the number of generic disk I/O threads.
+<a class="reference external" href="reference-Settings.html#hashing_threads">settings_pack::hashing_threads</a> is now used to control the number of threads
+dedicated to computing hashes.</p>
+</div>
+<div class="section" id="cache-size">
+<h2>cache_size</h2>
+<p>The <tt class="docutils literal">cache_size</tt> setting is no longer used. The caching of disk I/O is handled
+by the operating system.</p>
+</div>
+<div class="section" id="get-cache-info-get-cache-status">
+<h2>get_cache_info() get_cache_status()</h2>
+<p>Since libtorrent no longer manages the disk cache (except for a store-buffer),
+<tt class="docutils literal">get_cache_info()</tt> and <tt class="docutils literal">get_cache_status()</tt> on the <a class="reference external" href="reference-Session.html#session">session</a> object has also
+been removed. They cannot return anything useful.</p>
+</div>
+</div>
+<div class="section" id="last-remnants-of-rss-support-removed">
+<h1>last remnants of RSS support removed</h1>
+<p>The <tt class="docutils literal">rss_notification</tt> <a class="reference external" href="reference-Alerts.html#alert">alert</a> category flag has been removed, which has been unused
+and deprecated since libtorrent 1.2.</p>
+<p>The <tt class="docutils literal">uuid</tt> member of <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> has been removed. Torrents can no longer
+be added under a specific UUID. This feature was specifically meant for RSS feeds,
+which was removed in the previous version of libtorrent.</p>
+</div>
+
+    </div>
+    </div>
+    <div id="gradient"></div>
+    <div id="filler">
+    <div id="footer">
+    <div><a href="index.html">home</a></div>
+    <div><a href="https://blog.libtorrent.org">blog</a></div>
+    <div><a href="utp.html">uTP</a></div>
+    <div><a href="https://sourceforge.net/projects/libtorrent/files/libtorrent/">download</a></div>
+    <div><a href="reference.html">documentation</a></div>
+    <div><a href="dht_store.html">DHT put extension</a></div>
+    <div><a href="python_binding.html">python bindings</a></div>
+    <div><a href="features-ref.html">features</a></div>
+    <div><a href="dht_sec.html">DHT security extension</a></div>
+    <div><a href="https://sourceforge.net/p/libtorrent/mailman/libtorrent-discuss/">mailing list archive</a></div>
+    <div><a href="contributing.html">contributing</a></div>
+    <div><a href="streaming.html">streaming</a></div>
+    <div><a href="https://github.com/arvidn/libtorrent/issues">report a bug</a></div>
+    <div><a href="building.html">building</a></div>
+    <div><a href="bittorrent.pdf">bittorrent slides</a></div>
+    </div>
+	</div>
+
+</div>
+</body>
+</html>
