@@ -85,14 +85,46 @@ Due to rapid evolution of web technology, *DownZemAll!* is designed to implement
 Click [here](CODE_OF_CONDUCT.md "CODE_OF_CONDUCT.md") for Code of Conduct.
 
 
-## Coding
-
-Click [here](CONTRIBUTING.md "CONTRIBUTING.md") for build instructions.
-
-
 ## Translations
 
 Click [here](TRANSLATORS.md "TRANSLATORS.md") for translator guide.
+
+
+## Build with QtCreator on Windows
+
+Assuming that the configured Kit in QtCreator is the auto-detected *Desktop Qt 6.3.1 MinGW 64-bit (by default)*. (see **Tools** > **Options** > **Kits**)
+
+Assuming that libtorrent is already compiled.
+
+1. **File** > **Open File or Project...**. 
+   Select `./CMakeLists.txt`
+
+1. Go to page **Debug**. Click **Configure**
+
+1. Go to page **Projects**.
+   Select **Build** > **Parameters**    
+   Set the values:
+    - *Boost_ROOT*: "path/to/Boost"
+    - *LibtorrentRasterbar_ROOT*: "path/to/libtorrent"
+
+    Eventually, if OpenSSL path is not recognized, set explicitly:
+    - *OpenSSL_ROOT_DIR*: "(path/to/Qt6)/Tools/OpenSSL/Win_x64"
+
+    Moreover,
+    - *CMAKE_INSTALL_PREFIX*: Chose another install path.
+
+1. Click **Run CMake**.
+
+1. Go to page **Editor**. Build. Run.
+
+1. To install: go to page **Projects**.
+    Select **Build** > **Parameters**.
+    In Step *Build*, check *install* amongst the targets, thus CMake will build and install.
+
+
+## Other builds
+
+Click [here](CONTRIBUTING.md "CONTRIBUTING.md") for build instructions and tips.
 
 
 ## License and Disclaimer
