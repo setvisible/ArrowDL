@@ -175,8 +175,8 @@ jobs:
            regex_tiny = re.compile(r"#define LIBTORRENT_VERSION_TINY (?P<value>\d+)")
            
            with open(r"${{env.Application_VERSION_FILE}}", "rt") as my_file:
-               application_version = my_file.readline()
-               application_version = ''.join(application_version.split())
+               version = my_file.readline()
+               version = ''.join(version.split())
            
            with open(r"${{env.LibtorrentRasterbar_VERSION_FILE}}", "rt") as my_file:
                for line in my_file:
@@ -195,12 +195,11 @@ jobs:
            else:
                libtorrent_version = ""
            
-           cpu_arch = "x86_64"
-           
            output_pairs = {
-               'Application_VERSION': application_version,
+               'Application_VERSION': version,
                'LibtorrentRasterbar_VERSION': libtorrent_version,
-               'Application_NAME': f"DownZemAll_v{application_version}_{cpu_arch}",  # ex: DownZemAll_v1.2.0_x86_64
+               'Application_Linux_NAME': f"DownZemAll_v{version}_x86_64",
+               'Application_Windows_MinGW_x64_NAME': f"DownZemAll_v{version}_windows-mingw-x64",
            }
            
            if "GITHUB_OUTPUT" in os.environ:
@@ -396,12 +395,12 @@ jobs:
            echo "After:"
            ls -al
 
-    - name: Zip
+    - name: Zip (Linux Portable)
       if: ${{ matrix.os == 'ubuntu-latest' }}
       working-directory: "${{env.Project_RELEASE_DIR}}"
       shell: bash
       env:
-        TARBALL_NAME: "${{ steps.getversion.outputs.Application_NAME }}.tar.gz"
+        TARBALL_NAME: "${{ steps.getversion.outputs.Application_Linux_NAME }}.tar.gz"
       run: |
            tar -zcvf ${{env.TARBALL_NAME}} -C "${{env.Project_INSTALL_DIR}}" .
            cd "${{env.Project_INSTALL_DIR}}"
@@ -411,10 +410,38 @@ jobs:
       if: ${{ matrix.os == 'ubuntu-latest' }}
       uses: actions/upload-artifact@v3
       env:
-        TARBALL_NAME: "${{ steps.getversion.outputs.Application_NAME }}.tar.gz"
+        TARBALL_NAME: "${{ steps.getversion.outputs.Application_Linux_NAME }}.tar.gz"
       with:
         name: artifact_linux_portable
         path: "${{env.Project_RELEASE_DIR}}/${{env.TARBALL_NAME}}"
+
+    - name: Zip (Windows MingGW x64 Portable)
+      if: ${{ matrix.os == 'windows-latest' }}
+      working-directory: "${{env.Project_RELEASE_DIR}}"
+      shell: python
+      env:
+        ZIP_NAME: "${{ steps.getversion.outputs.Application_Windows_MinGW_x64_NAME }}"
+      run: |
+           import os
+           from shutil import make_archive
+           root_dir = os.path.normpath("${{env.Project_INSTALL_DIR}}")
+           print(f"Archiving {root_dir}")
+           full_name = make_archive(
+               base_name="${{env.ZIP_NAME}}",
+               format="zip",
+               root_dir=root_dir,
+               base_dir=".",
+           )
+           print(f"Archive: {full_name}")
+
+    - name: Upload Windows MingGW x64 Portable
+      if: ${{ matrix.os == 'windows-latest' }}
+      uses: actions/upload-artifact@v3
+      env:
+        ZIP_NAME: "${{ steps.getversion.outputs.Application_Windows_MinGW_x64_NAME }}.zip"
+      with:
+        name: artifact_windows_mingw_64_portable
+        path: "${{env.Project_RELEASE_DIR}}/${{env.ZIP_NAME}}"
 
     - name: Create NSIS installer
       if: ${{ matrix.os == 'windows-latest' }}
@@ -477,6 +504,12 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: artifact_linux_portable
+        path: "${{env.Project_RELEASE_DIR}}"
+
+    - name: Download Windows MinGW 64 Portable
+      uses: actions/download-artifact@v3
+      with:
+        name: artifact_windows_mingw_64_portable
         path: "${{env.Project_RELEASE_DIR}}"
 
     - name: Download Windows 64 Installer
