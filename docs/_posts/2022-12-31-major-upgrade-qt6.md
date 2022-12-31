@@ -25,7 +25,7 @@ Thus, the *DownZemAll!* of 2023 will be better than 2022. It deserves a "version
 
 It permits to use the last C++ standard: **C++20**, instead of C++11.
 
-Many other advantages of this major upgrade: simplier and more robust API, some changes with network and sockets like QWebEngine, etc. We might dream that the Gumbo Parser and other workarounds could be eventually replaced soon by native Qt6 functions.
+Many other advantages of this major upgrade: simpler and more robust API, some changes with network and sockets like QWebEngine, etc. We might dream that the Gumbo Parser and other workarounds could be eventually replaced soon by native Qt6 functions.
 
 
 ### Introducing Libtorrent-Rasterbar v2.0
@@ -34,7 +34,7 @@ In 2022, **LibTorrent-Rasterbar** has been also upgraded from v1.2.5 to v2.0.7.
 
 This change was only possible because the Qt6's compiler enables C++20.
 
-Note: Some deprecated functions still remain temporarly, but should be removed in future releases.
+Note: Some deprecated functions still remain temporarily, but should be removed in future releases.
 
 
 ### Introducing Github Actions

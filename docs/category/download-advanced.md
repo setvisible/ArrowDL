@@ -71,12 +71,13 @@ The next table explains the differences between the packages.
 #### Windows<a name="download-plateform-win32"></a>[^1]
 
 - <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-windows-setup-x64">DownZemAll <span class="version-text">v0.0.0</span> for Windows (Installer, 64 bit)</a>
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-windows-setup-x86">DownZemAll <span class="version-text">v0.0.0</span> for Windows (Installer, 32 bit)</a>
 - <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-windows-mingw-x64">DownZemAll <span class="version-text">v0.0.0</span> for Windows (Portable, MinGW, 64 bit)</a>
+{% comment %}
+- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-windows-setup-x86">DownZemAll <span class="version-text">v0.0.0</span> for Windows (Installer, 32 bit)</a>
 - <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-windows-mingw-x86">DownZemAll <span class="version-text">v0.0.0</span> for Windows (Portable, MinGW, 32 bit)</a>
 - <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-windows-msvc-x64" >DownZemAll <span class="version-text">v0.0.0</span> for Windows (Portable, MSVC, 64 bit)</a>
 - <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-windows-msvc-x86" >DownZemAll <span class="version-text">v0.0.0</span> for Windows (Portable, MSVC, 32 bit)</a>
-
+{% endcomment %}
 
 [^1]: Prefer the MSVC version if you are on Windows.
       It uses the *Chromium* engine that parses HTML *and* Javascript.
@@ -84,8 +85,9 @@ The next table explains the differences between the packages.
 
 
 #### Linux<a name="download-plateform-unix"></a>[^2]
-
+{% comment %}
 - <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-linux-x64-app"     >DownZemAll <span class="version-text">v0.0.0</span> for Linux (AppImage, 64 bit)</a>
+{% endcomment %}
 - <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-linux-x64-zip"     >DownZemAll <span class="version-text">v0.0.0</span> for Linux (Portable, GCC, 64 bit)</a>
 
 [^2]: Prefer the Tarball if you are on Linux.
@@ -96,9 +98,11 @@ The next table explains the differences between the packages.
 
 #### MacOS<a name="download-plateform-macos"></a>
 
+- Not available yet
+{% comment %}
 - <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-mac-x64-zip">DownZemAll <span class="version-text">v0.0.0</span> for Mac (Portable, 64 bit)</a>
 - <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-mac-x64-dmg">DownZemAll <span class="version-text">v0.0.0</span> for Mac (64 bit)</a>
-
+{% endcomment %}
 
 
 #### Source Code<a name="download-source"></a>
@@ -110,10 +114,9 @@ The next table explains the differences between the packages.
 
 ### Latest release build status<a name="last-build-status"></a>
 
-| Platform    | Status   |
-|-------------|----------|
-| Windows     | [![Build status](https://ci.appveyor.com/api/projects/status/github/setvisible/downzemall?branch=master&svg=true)](https://ci.appveyor.com/project/setvisible/downzemall)  |
-| Linux/MacOS | [![Build status](https://api.travis-ci.com/setvisible/downzemall.svg?branch=master)](https://app.travis-ci.com/github/setvisible/downzemall) |
+| Platform                | Status   |
+|-------------------------|----------|
+| Windows/Linux/MacOS     | [![Built with GitHub Actions](https://github.com/setvisible/downzemall/actions/workflows/deployment.yml/badge.svg?branch=master)](https://github.com/setvisible/DownZemAll/actions "Go to GitHub Actions") |
 
 <br/>
 
