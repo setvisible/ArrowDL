@@ -47,8 +47,8 @@ if(EXISTS "${OpenSSL_ROOT_DIR}/include/openssl/ssl.h")
         set(OPENSSL_CRYPTO_LIBRARY "${OpenSSL_ROOT_DIR}/lib/libcrypto.so" CACHE PATH "Location of the OpenSSL Crypto Lib")
         set(OPENSSL_SSL_LIBRARY "${OpenSSL_ROOT_DIR}/lib/libssl.so" CACHE PATH "Location of the OpenSSL SSL Lib")
         set(OPENSSL_INCLUDE_DIRS "${OpenSSL_ROOT_DIR}/include" CACHE PATH "Location of the OpenSSL include files")
-        #Rem: OPENSSL_CRYPTO_BIN: no binary on Unix
-        #Rem: OPENSSL_SSL_BIN: no binary on Unix
+        set(OPENSSL_CRYPTO_BIN "${OpenSSL_ROOT_DIR}/lib/libcrypto.so.1.1" CACHE PATH "Location of the OpenSSL Crypto DLL")
+        set(OPENSSL_SSL_BIN "${OpenSSL_ROOT_DIR}/lib/libssl.so.1.1" CACHE PATH "Location of the OpenSSL SSL DLL")
 
     endif()
 

@@ -278,15 +278,25 @@ jobs:
       run: |
            import os
            
+           # OLD NAME -> NEW NAME
+           # libeay32 -> libcrypto
+           # ssleay32 -> libssl
+           
            if "${{ matrix.os }}" == "windows-latest":
                openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSL", "Win_x64"))
+               openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libcrypto.lib"))
+               openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libssl.lib"))
            
            if "${{ matrix.os }}" == "ubuntu-latest":
                openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSL", "binary"))
+               openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libcrypto.a"))
+               openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libssl.a"))
            
            if "GITHUB_OUTPUT" in os.environ:
                with open(os.environ["GITHUB_OUTPUT"], "a") as f:
                    print(f"OpenSSL_ROOT_DIR={ openssl_dir }", file=f)
+                   print(f"OpenSSL_LIB_EAY={ openssl_lib_eay }", file=f)
+                   print(f"OpenSSL_SSL_EAY={ openssl_ssl_eay }", file=f)
 
     - name: List files in OpenSSL
       shell: bash
@@ -310,6 +320,9 @@ jobs:
         DIRECTIVE_CMAKE_GENERATOR: ${{matrix.DIRECTIVE_CMAKE_GENERATOR}}
         BUILD_TESTS: "OFF" # OFF because they take 10+ minutes to build and 776.74 sec to run tests on Ubuntu
         DEPRECATED_FUNCTIONS: "OFF" # OFF to remove deprecated functions
+        OPENSSL_INCLUDE_DIR: "${{ steps.qt6openssl.outputs.OpenSSL_ROOT_DIR }}/include"
+        OpenSSL_LIB_EAY: ${{ steps.qt6openssl.outputs.OpenSSL_LIB_EAY }}
+        OpenSSL_SSL_EAY: ${{ steps.qt6openssl.outputs.OpenSSL_SSL_EAY }}
       working-directory: "${{env.LibtorrentRasterbar_BUILD_DIR}}"
       run:
         cmake "${{env.LibtorrentRasterbar_SOURCE_DIR}}"
@@ -323,6 +336,9 @@ jobs:
           -Dbuild_tests=${{env.BUILD_TESTS}}
           -Ddeprecated-functions=${{env.DEPRECATED_FUNCTIONS}}  
           -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}"
+          -DOPENSSL_INCLUDE_DIR="${{env.OPENSSL_INCLUDE_DIR}}"
+          -DLIB_EAY="${{env.OpenSSL_LIB_EAY}}"
+          -DSSL_EAY="${{env.OpenSSL_SSL_EAY}}"
 
     - name: Build Libtorrent
       if: ${{ steps.cache-libtorrent.outputs.cache-hit != 'true' }}
@@ -394,6 +410,18 @@ jobs:
            echo ""
            echo "After:"
            ls -al
+
+    - name: List Dynamic Dependencies (Linux Only)
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      working-directory: "${{env.Project_INSTALL_DIR}}"
+      continue-on-error: true
+      shell: bash
+      run: |
+           echo "Run 'ldd' to find missing Qt libraries or missing plugins."
+           echo "Tips: If missing, add directive install(FILE [..]) in 'src/CMakeLists.txt'."
+           ldd --verbose ./launcher
+           ldd --verbose ./DownZemAll
+           ls -R
 
     - name: Zip (Linux Portable)
       if: ${{ matrix.os == 'ubuntu-latest' }}
