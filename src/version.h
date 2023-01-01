@@ -17,7 +17,9 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-/* Cmake */
+#include <libtorrent/version.hpp>
+
+/* CMake */
 #ifndef APP_VERSION
 #  include "config.h"
 #endif
@@ -28,6 +30,6 @@
 
 #define GOOGLE_GUMBO_VERSION_STR      "0.10.1"
 
-#define LIBTORRENT_VERSION_STR        "2.0.6"
+#define LIBTORRENT_VERSION_STR LIBTORRENT_VERSION
 
 #endif // VERSION_H
