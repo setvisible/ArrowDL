@@ -37,7 +37,6 @@
 #include <fstream>   // std::fstream
 #include <string>    // std::string
 
-
 #include "libtorrent/add_torrent_params.hpp"
 #include "libtorrent/alert_types.hpp"
 #include "libtorrent/announce_entry.hpp"
@@ -1171,7 +1170,8 @@ TorrentInitialMetaInfo WorkerThread::dump(const QString &filename) const
 UniqueId WorkerThread::toUniqueId(const lt::sha1_hash &hash)
 {
     if (!hash.is_all_zeros()) {
-        return QString::fromStdString(lt::aux::to_hex(hash)).toUpper();
+        auto hex = lt::aux::to_hex(hash);
+        return QString::fromStdString(hex).toUpper();
     }
     return QString();
 }
@@ -1256,16 +1256,17 @@ void WorkerThread::run()
 
 #endif
 
-#ifndef TORRENT_DISABLE_DHT
-    if (settings.has_val(lt::settings_pack::dht_upload_rate_limit)) {
-        params.dht_settings.upload_rate_limit
-                = params.settings.get_int(lt::settings_pack::dht_upload_rate_limit);
-    }
-    session.set_dht_settings(std::move(params.dht_settings));
-
-    TORRENT_ASSERT(params.dht_storage_constructor);
-    session.set_dht_storage(std::move(params.dht_storage_constructor));
-#endif
+//#ifndef TORRENT_DISABLE_DHT
+//    if (settings.has_val(lt::settings_pack::dht_upload_rate_limit)) {
+//        auto key = lt::settings_pack::dht_upload_rate_limit;
+//        params.settings.dht_upload_rate_limit
+//        params.dht_settings.upload_rate_limit = params.settings.get_int(key);
+//    }
+//    session.set_dht_settings(std::move(params.dht_settings));
+//
+//    TORRENT_ASSERT(params.dht_storage_constructor);
+//    session.set_dht_storage(std::move(params.dht_storage_constructor));
+//#endif
 
     lt::ip_filter loaded_ip_filter;
     session.set_ip_filter(loaded_ip_filter);
@@ -1477,9 +1478,6 @@ void WorkerThread::signalizeAlert(lt::alert* a)
 
 
     /* stats_notification */
-    else if (lt::stats_alert* s = lt::alert_cast<lt::stats_alert>(a)) {
-        Q_UNUSED(s) //  emit statsUpdated();
-    }
     else if (lt::session_stats_alert* s = lt::alert_cast<lt::session_stats_alert>(a)) {
         //        const lt::span<std::int64_t const> counters = s->counters() ;
 
@@ -2236,7 +2234,8 @@ inline QString WorkerThread::toString(const lt::string_view &s) const
 inline QString WorkerThread::toString(const lt::sha1_hash &hash) const
 {
     if (!hash.is_all_zeros()) {
-        return QString::fromStdString(lt::aux::to_hex(hash)).toUpper();
+        auto hex = lt::aux::to_hex(hash);
+        return QString::fromStdString(hex).toUpper();
     }
     return QString();
 }

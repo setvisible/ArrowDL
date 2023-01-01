@@ -309,7 +309,7 @@ jobs:
         Qt6_Dir2: ${{env.Qt6_DIR}}
         DIRECTIVE_CMAKE_GENERATOR: ${{matrix.DIRECTIVE_CMAKE_GENERATOR}}
         BUILD_TESTS: "OFF" # OFF because they take 10+ minutes to build and 776.74 sec to run tests on Ubuntu
-        DEPRECATED_FUNCTIONS: "ON" # OFF disables deprecated functions
+        DEPRECATED_FUNCTIONS: "OFF" # OFF to remove deprecated functions
       working-directory: "${{env.LibtorrentRasterbar_BUILD_DIR}}"
       run:
         cmake "${{env.LibtorrentRasterbar_SOURCE_DIR}}"
