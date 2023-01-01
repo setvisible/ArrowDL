@@ -64,7 +64,8 @@ namespace libtorrent { namespace aux {
 	file_view_pool::file_view_pool(int size) : m_size(size) {}
 	file_view_pool::~file_view_pool() = default;
 
-	file_view file_view_pool::open_file(storage_index_t st, std::string const& p
+	std::shared_ptr<file_mapping>
+	file_view_pool::open_file(storage_index_t st, std::string const& p
 		, file_index_t const file_index, file_storage const& fs
 		, open_mode_t const m
 #if TORRENT_HAVE_MAP_VIEW_OF_FILE
@@ -120,7 +121,7 @@ namespace libtorrent { namespace aux {
 				std::cout << std::this_thread::get_id() << " file opened: ("
 					<< file_key.first << ", " << file_key.second << ")\n";
 #endif
-				return woe.mapping->view();
+				return woe.mapping;
 			}
 		}
 
@@ -139,7 +140,7 @@ namespace libtorrent { namespace aux {
 			auto& lru_view = m_files.get<1>();
 			lru_view.relocate(m_files.project<1>(i), lru_view.begin());
 
-			return i->mapping->view();
+			return i->mapping;
 		}
 
 		if (int(m_files.size()) >= m_size - 1)
@@ -163,18 +164,11 @@ namespace libtorrent { namespace aux {
 
 		try
 		{
-#if TORRENT_HAVE_MAP_VIEW_OF_FILE
-			std::unique_lock<std::mutex> lou(*open_unmap_lock);
-#endif
-			file_entry e(file_key, fs.file_path(file_index, p), m
-				, fs.file_size(file_index)
+			file_entry e = open_file_impl(p, file_index, fs, m, file_key
 #if TORRENT_HAVE_MAP_VIEW_OF_FILE
 				, open_unmap_lock
 #endif
 				);
-#if TORRENT_HAVE_MAP_VIEW_OF_FILE
-			lou.unlock();
-#endif
 
 			l.lock();
 
@@ -209,7 +203,7 @@ namespace libtorrent { namespace aux {
 				lru_view.relocate(m_files.project<1>(i), lru_view.begin());
 			}
 			notify_file_open(ofe, i->mapping, storage_error());
-			return i->mapping->view();
+			return i->mapping;
 		}
 		catch (storage_error const& se)
 		{
@@ -261,12 +255,72 @@ namespace libtorrent { namespace aux {
 		}
 	}
 
-	file_open_mode_t to_file_open_mode(open_mode_t const mode)
+	file_view_pool::file_entry file_view_pool::open_file_impl(std::string const& p
+		, file_index_t const file_index, file_storage const& fs
+		, open_mode_t const m, file_id const file_key
+#if TORRENT_HAVE_MAP_VIEW_OF_FILE
+		, std::shared_ptr<std::mutex> open_unmap_lock
+#endif
+		)
+	{
+		std::string const file_path = fs.file_path(file_index, p);
+#if TORRENT_HAVE_MAP_VIEW_OF_FILE
+		std::unique_lock<std::mutex> lou(*open_unmap_lock);
+#endif
+		try
+		{
+			return file_entry(file_key, file_path, m, fs.file_size(file_index)
+#if TORRENT_HAVE_MAP_VIEW_OF_FILE
+				, open_unmap_lock
+#endif
+				);
+		}
+		catch (storage_error& se)
+		{
+			// opening the file failed. If it was becase the directory was
+			// missing, create it and try again. Otherwise, propagate the
+			// error
+			if (!(m & open_mode::write)
+				|| (se.ec != boost::system::errc::no_such_file_or_directory
+#ifdef TORRENT_WINDOWS
+					// this is a workaround for improper handling of files on windows shared drives.
+					// if the directory on a shared drive does not exist,
+					// windows returns ERROR_IO_DEVICE instead of ERROR_FILE_NOT_FOUND
+					&& se.ec != error_code(ERROR_IO_DEVICE, system_category())
+#endif
+				   ))
+			{
+				throw;
+			}
+
+			// create directory and try again
+			// this means the directory the file is in doesn't exist.
+			// so create it
+			se.ec.clear();
+			create_directories(parent_path(fs.file_path(file_index, p)), se.ec);
+
+			if (se.ec)
+			{
+				// if the directory creation failed, don't try to open the file again
+				// but actually just fail
+				throw_ex<storage_error>(se);
+			}
+
+			return file_entry(file_key, file_path, m, fs.file_size(file_index)
+#if TORRENT_HAVE_MAP_VIEW_OF_FILE
+				, open_unmap_lock
+#endif
+				);
+		}
+	}
+
+	file_open_mode_t to_file_open_mode(open_mode_t const mode, bool const has_mapping)
 	{
 		return ((mode & open_mode::write)
 				? file_open_mode::read_write : file_open_mode::read_only)
 			| ((mode & open_mode::no_atime)
 				? file_open_mode::no_atime : file_open_mode::read_only)
+			| (has_mapping ? file_open_mode::mmapped : file_open_mode_t{})
 			;
 	}
 
@@ -283,7 +337,7 @@ namespace libtorrent { namespace aux {
 			for (auto i = start; i != end; ++i)
 			{
 				ret.push_back({i->key.second
-					, to_file_open_mode(i->mode)
+					, to_file_open_mode(i->mode, i->mapping->has_memory_map())
 					, i->last_use});
 			}
 		}

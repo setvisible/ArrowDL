@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,54 +25,54 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.7</td></tr>
+<td>2.0.8</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#web-seed-entry" id="toc-entry-1">web_seed_entry</a><ul>
-<li><a class="reference internal" href="#operator" id="toc-entry-2">operator==()</a></li>
-<li><a class="reference internal" href="#operator-1" id="toc-entry-3">operator&lt;()</a></li>
-<li><a class="reference internal" href="#enum-type-t" id="toc-entry-4">enum type_t</a></li>
+<li><a class="reference internal" href="#web-seed-entry" id="id45">web_seed_entry</a><ul>
+<li><a class="reference internal" href="#operator" id="id46">operator==()</a></li>
+<li><a class="reference internal" href="#id4" id="id47">operator&lt;()</a></li>
+<li><a class="reference internal" href="#enum-type-t" id="id48">enum type_t</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#load-torrent-limits" id="toc-entry-5">load_torrent_limits</a></li>
-<li><a class="reference internal" href="#torrent-info" id="toc-entry-6">torrent_info</a><ul>
-<li><a class="reference internal" href="#torrent-info-1" id="toc-entry-7">torrent_info()</a></li>
-<li><a class="reference internal" href="#torrent-info-2" id="toc-entry-8">~torrent_info()</a></li>
-<li><a class="reference internal" href="#files-orig-files" id="toc-entry-9">files() orig_files()</a></li>
-<li><a class="reference internal" href="#rename-file" id="toc-entry-10">rename_file()</a></li>
-<li><a class="reference internal" href="#remap-files" id="toc-entry-11">remap_files()</a></li>
-<li><a class="reference internal" href="#clear-trackers-trackers-add-tracker" id="toc-entry-12">clear_trackers() trackers() add_tracker()</a></li>
-<li><a class="reference internal" href="#collections-similar-torrents" id="toc-entry-13">collections() similar_torrents()</a></li>
-<li><a class="reference internal" href="#add-http-seed-set-web-seeds-web-seeds-add-url-seed" id="toc-entry-14">add_http_seed() set_web_seeds() web_seeds() add_url_seed()</a></li>
-<li><a class="reference internal" href="#total-size" id="toc-entry-15">total_size()</a></li>
-<li><a class="reference internal" href="#num-pieces-piece-length" id="toc-entry-16">num_pieces() piece_length()</a></li>
-<li><a class="reference internal" href="#end-piece-last-piece-piece-range" id="toc-entry-17">end_piece() last_piece() piece_range()</a></li>
-<li><a class="reference internal" href="#info-hash-info-hashes" id="toc-entry-18">info_hash() info_hashes()</a></li>
-<li><a class="reference internal" href="#v1-v2" id="toc-entry-19">v1() v2()</a></li>
-<li><a class="reference internal" href="#num-files" id="toc-entry-20">num_files()</a></li>
-<li><a class="reference internal" href="#map-block" id="toc-entry-21">map_block()</a></li>
-<li><a class="reference internal" href="#map-file" id="toc-entry-22">map_file()</a></li>
-<li><a class="reference internal" href="#ssl-cert" id="toc-entry-23">ssl_cert()</a></li>
-<li><a class="reference internal" href="#is-valid" id="toc-entry-24">is_valid()</a></li>
-<li><a class="reference internal" href="#priv" id="toc-entry-25">priv()</a></li>
-<li><a class="reference internal" href="#is-i2p" id="toc-entry-26">is_i2p()</a></li>
-<li><a class="reference internal" href="#piece-size" id="toc-entry-27">piece_size()</a></li>
-<li><a class="reference internal" href="#hash-for-piece-ptr-hash-for-piece" id="toc-entry-28">hash_for_piece_ptr() hash_for_piece()</a></li>
-<li><a class="reference internal" href="#name" id="toc-entry-29">name()</a></li>
-<li><a class="reference internal" href="#creation-date" id="toc-entry-30">creation_date()</a></li>
-<li><a class="reference internal" href="#creator" id="toc-entry-31">creator()</a></li>
-<li><a class="reference internal" href="#comment" id="toc-entry-32">comment()</a></li>
-<li><a class="reference internal" href="#nodes" id="toc-entry-33">nodes()</a></li>
-<li><a class="reference internal" href="#add-node" id="toc-entry-34">add_node()</a></li>
-<li><a class="reference internal" href="#parse-info-section" id="toc-entry-35">parse_info_section()</a></li>
-<li><a class="reference internal" href="#info" id="toc-entry-36">info()</a></li>
-<li><a class="reference internal" href="#info-section" id="toc-entry-37">info_section()</a></li>
-<li><a class="reference internal" href="#piece-layer" id="toc-entry-38">piece_layer()</a></li>
-<li><a class="reference internal" href="#free-piece-layers" id="toc-entry-39">free_piece_layers()</a></li>
+<li><a class="reference internal" href="#load-torrent-limits" id="id49">load_torrent_limits</a></li>
+<li><a class="reference internal" href="#torrent-info" id="id50">torrent_info</a><ul>
+<li><a class="reference internal" href="#id10" id="id51">torrent_info()</a></li>
+<li><a class="reference internal" href="#id18" id="id52">~torrent_info()</a></li>
+<li><a class="reference internal" href="#files-orig-files" id="id53">files() orig_files()</a></li>
+<li><a class="reference internal" href="#rename-file" id="id54">rename_file()</a></li>
+<li><a class="reference internal" href="#remap-files" id="id55">remap_files()</a></li>
+<li><a class="reference internal" href="#trackers-add-tracker-clear-trackers" id="id56">trackers() add_tracker() clear_trackers()</a></li>
+<li><a class="reference internal" href="#similar-torrents-collections" id="id57">similar_torrents() collections()</a></li>
+<li><a class="reference internal" href="#add-http-seed-set-web-seeds-web-seeds-add-url-seed" id="id58">add_http_seed() set_web_seeds() web_seeds() add_url_seed()</a></li>
+<li><a class="reference internal" href="#total-size" id="id59">total_size()</a></li>
+<li><a class="reference internal" href="#piece-length-num-pieces" id="id60">piece_length() num_pieces()</a></li>
+<li><a class="reference internal" href="#last-piece-end-piece-piece-range" id="id61">last_piece() end_piece() piece_range()</a></li>
+<li><a class="reference internal" href="#info-hash-info-hashes" id="id62">info_hash() info_hashes()</a></li>
+<li><a class="reference internal" href="#v2-v1" id="id63">v2() v1()</a></li>
+<li><a class="reference internal" href="#num-files" id="id64">num_files()</a></li>
+<li><a class="reference internal" href="#map-block" id="id65">map_block()</a></li>
+<li><a class="reference internal" href="#map-file" id="id66">map_file()</a></li>
+<li><a class="reference internal" href="#ssl-cert" id="id67">ssl_cert()</a></li>
+<li><a class="reference internal" href="#is-valid" id="id68">is_valid()</a></li>
+<li><a class="reference internal" href="#priv" id="id69">priv()</a></li>
+<li><a class="reference internal" href="#is-i2p" id="id70">is_i2p()</a></li>
+<li><a class="reference internal" href="#piece-size" id="id71">piece_size()</a></li>
+<li><a class="reference internal" href="#hash-for-piece-ptr-hash-for-piece" id="id72">hash_for_piece_ptr() hash_for_piece()</a></li>
+<li><a class="reference internal" href="#name" id="id73">name()</a></li>
+<li><a class="reference internal" href="#creation-date" id="id74">creation_date()</a></li>
+<li><a class="reference internal" href="#creator" id="id75">creator()</a></li>
+<li><a class="reference internal" href="#comment" id="id76">comment()</a></li>
+<li><a class="reference internal" href="#nodes" id="id77">nodes()</a></li>
+<li><a class="reference internal" href="#add-node" id="id78">add_node()</a></li>
+<li><a class="reference internal" href="#parse-info-section" id="id79">parse_info_section()</a></li>
+<li><a class="reference internal" href="#info" id="id80">info()</a></li>
+<li><a class="reference internal" href="#info-section" id="id81">info_section()</a></li>
+<li><a class="reference internal" href="#piece-layer" id="id82">piece_layer()</a></li>
+<li><a class="reference internal" href="#free-piece-layers" id="id83">free_piece_layers()</a></li>
 </ul>
 </li>
 </ul>
@@ -108,7 +108,7 @@ bool <strong>operator==</strong> (web_seed_entry const&amp; e) const;
 </pre>
 <p>URL and type comparison</p>
 <a name="operator<()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:web_seed_entry%3A%3A%5Boperator%3C%28%29%5D&labels=documentation&body=Documentation+under+heading+%22web_seed_entry%3A%3A%5Boperator%3C%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="operator-1">
+<div class="section" id="id4">
 <h2>operator&lt;()</h2>
 <pre class="literal-block">
 bool <strong>operator&lt;</strong> (web_seed_entry const&amp; e) const;
@@ -200,45 +200,45 @@ struct load_torrent_limits
 <pre class="literal-block">
 class torrent_info
 {
-   explicit <strong>torrent_info</strong> (bdecode_node const&amp; torrent_file);
-   explicit <strong>torrent_info</strong> (info_hash_t const&amp; info_hash);
-   <strong>torrent_info</strong> (torrent_info const&amp; t);
-   explicit <strong>torrent_info</strong> (std::string const&amp; filename);
-   <strong>torrent_info</strong> (std::string const&amp; filename, error_code&amp; ec);
-   <strong>torrent_info</strong> (char const* buffer, int size);
-   <strong>torrent_info</strong> (bdecode_node const&amp; torrent_file, load_torrent_limits const&amp; cfg);
-   <strong>torrent_info</strong> (span&lt;char const&gt; buffer, error_code&amp; ec, from_span_t);
-   <strong>torrent_info</strong> (char const* buffer, int size, error_code&amp; ec);
-   <strong>torrent_info</strong> (span&lt;char const&gt; buffer, load_torrent_limits const&amp; cfg, from_span_t);
-   explicit <strong>torrent_info</strong> (span&lt;char const&gt; buffer, from_span_t);
    <strong>torrent_info</strong> (std::string const&amp; filename, load_torrent_limits const&amp; cfg);
+   <strong>torrent_info</strong> (char const* buffer, int size, error_code&amp; ec);
+   <strong>torrent_info</strong> (std::string const&amp; filename, error_code&amp; ec);
+   <strong>torrent_info</strong> (torrent_info const&amp; t);
+   <strong>torrent_info</strong> (span&lt;char const&gt; buffer, error_code&amp; ec, from_span_t);
    <strong>torrent_info</strong> (bdecode_node const&amp; torrent_file, error_code&amp; ec);
+   <strong>torrent_info</strong> (span&lt;char const&gt; buffer, load_torrent_limits const&amp; cfg, from_span_t);
+   explicit <strong>torrent_info</strong> (info_hash_t const&amp; info_hash);
+   <strong>torrent_info</strong> (char const* buffer, int size);
+   explicit <strong>torrent_info</strong> (span&lt;char const&gt; buffer, from_span_t);
+   explicit <strong>torrent_info</strong> (std::string const&amp; filename);
+   <strong>torrent_info</strong> (bdecode_node const&amp; torrent_file, load_torrent_limits const&amp; cfg);
+   explicit <strong>torrent_info</strong> (bdecode_node const&amp; torrent_file);
    <strong>~torrent_info</strong> ();
-   file_storage const&amp; <strong>files</strong> () const;
    file_storage const&amp; <strong>orig_files</strong> () const;
+   file_storage const&amp; <strong>files</strong> () const;
    void <strong>rename_file</strong> (file_index_t index, std::string const&amp; new_filename);
    void <strong>remap_files</strong> (file_storage const&amp; f);
-   std::vector&lt;announce_entry&gt; const&amp; <strong>trackers</strong> () const;
+   void <strong>add_tracker</strong> (std::string const&amp; url, int tier = 0);
    void <strong>add_tracker</strong> (std::string const&amp; url, int tier
       , announce_entry::tracker_source source);
    void <strong>clear_trackers</strong> ();
-   void <strong>add_tracker</strong> (std::string const&amp; url, int tier = 0);
+   std::vector&lt;announce_entry&gt; const&amp; <strong>trackers</strong> () const;
    std::vector&lt;std::string&gt; <strong>collections</strong> () const;
    std::vector&lt;sha1_hash&gt; <strong>similar_torrents</strong> () const;
-   void <strong>set_web_seeds</strong> (std::vector&lt;web_seed_entry&gt; seeds);
    void <strong>add_url_seed</strong> (std::string const&amp; url
       , std::string const&amp; ext_auth = std::string()
       , web_seed_entry::headers_t const&amp; ext_headers = web_seed_entry::headers_t());
    void <strong>add_http_seed</strong> (std::string const&amp; url
       , std::string const&amp; extern_auth = std::string()
       , web_seed_entry::headers_t const&amp; extra_headers = web_seed_entry::headers_t());
+   void <strong>set_web_seeds</strong> (std::vector&lt;web_seed_entry&gt; seeds);
    std::vector&lt;web_seed_entry&gt; const&amp; <strong>web_seeds</strong> () const;
    std::int64_t <strong>total_size</strong> () const;
-   int <strong>piece_length</strong> () const;
    int <strong>num_pieces</strong> () const;
+   int <strong>piece_length</strong> () const;
    piece_index_t <strong>last_piece</strong> () const;
-   piece_index_t <strong>end_piece</strong> () const;
    index_range&lt;piece_index_t&gt; <strong>piece_range</strong> () const;
+   piece_index_t <strong>end_piece</strong> () const;
    sha1_hash <strong>info_hash</strong> () const noexcept;
    info_hash_t const&amp; <strong>info_hashes</strong> () const;
    bool <strong>v1</strong> () const;
@@ -252,8 +252,8 @@ class torrent_info
    bool <strong>priv</strong> () const;
    bool <strong>is_i2p</strong> () const;
    int <strong>piece_size</strong> (piece_index_t index) const;
-   sha1_hash <strong>hash_for_piece</strong> (piece_index_t index) const;
    char const* <strong>hash_for_piece_ptr</strong> (piece_index_t const index) const;
+   sha1_hash <strong>hash_for_piece</strong> (piece_index_t index) const;
    bool <strong>is_loaded</strong> () const;
    const std::string&amp; <strong>name</strong> () const;
    std::time_t <strong>creation_date</strong> () const;
@@ -268,22 +268,22 @@ class torrent_info
    void <strong>free_piece_layers</strong> ();
 };
 </pre>
-<a name="torrent_info()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Btorrent_info%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Btorrent_info%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="torrent-info-1">
+<a name="torrent_info()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Btorrent_info%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Btorrent_info%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="id10">
 <h2>torrent_info()</h2>
 <pre class="literal-block">
-explicit <strong>torrent_info</strong> (bdecode_node const&amp; torrent_file);
-explicit <strong>torrent_info</strong> (info_hash_t const&amp; info_hash);
-<strong>torrent_info</strong> (torrent_info const&amp; t);
-explicit <strong>torrent_info</strong> (std::string const&amp; filename);
-<strong>torrent_info</strong> (std::string const&amp; filename, error_code&amp; ec);
-<strong>torrent_info</strong> (char const* buffer, int size);
-<strong>torrent_info</strong> (bdecode_node const&amp; torrent_file, load_torrent_limits const&amp; cfg);
-<strong>torrent_info</strong> (span&lt;char const&gt; buffer, error_code&amp; ec, from_span_t);
-<strong>torrent_info</strong> (char const* buffer, int size, error_code&amp; ec);
-<strong>torrent_info</strong> (span&lt;char const&gt; buffer, load_torrent_limits const&amp; cfg, from_span_t);
-explicit <strong>torrent_info</strong> (span&lt;char const&gt; buffer, from_span_t);
 <strong>torrent_info</strong> (std::string const&amp; filename, load_torrent_limits const&amp; cfg);
+<strong>torrent_info</strong> (char const* buffer, int size, error_code&amp; ec);
+<strong>torrent_info</strong> (std::string const&amp; filename, error_code&amp; ec);
+<strong>torrent_info</strong> (torrent_info const&amp; t);
+<strong>torrent_info</strong> (span&lt;char const&gt; buffer, error_code&amp; ec, from_span_t);
 <strong>torrent_info</strong> (bdecode_node const&amp; torrent_file, error_code&amp; ec);
+<strong>torrent_info</strong> (span&lt;char const&gt; buffer, load_torrent_limits const&amp; cfg, from_span_t);
+explicit <strong>torrent_info</strong> (info_hash_t const&amp; info_hash);
+<strong>torrent_info</strong> (char const* buffer, int size);
+explicit <strong>torrent_info</strong> (span&lt;char const&gt; buffer, from_span_t);
+explicit <strong>torrent_info</strong> (std::string const&amp; filename);
+<strong>torrent_info</strong> (bdecode_node const&amp; torrent_file, load_torrent_limits const&amp; cfg);
+explicit <strong>torrent_info</strong> (bdecode_node const&amp; torrent_file);
 </pre>
 <p>The constructor that takes an info-hash will initialize the info-hash
 to the given value, but leave all other fields empty. This is used
@@ -314,7 +314,7 @@ type <tt class="docutils literal">from_span_t</tt> to disambiguate the <tt class
 string literals. There is an object in the libtorrent namespace of this
 type called <tt class="docutils literal">from_span</tt>.</p>
 <a name="~torrent_info()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5B~torrent_info%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5B~torrent_info%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="torrent-info-2">
+<div class="section" id="id18">
 <h2>~torrent_info()</h2>
 <pre class="literal-block">
 <strong>~torrent_info</strong> ();
@@ -325,8 +325,8 @@ type called <tt class="docutils literal">from_span</tt>.</p>
 <div class="section" id="files-orig-files">
 <h2>files() orig_files()</h2>
 <pre class="literal-block">
-file_storage const&amp; <strong>files</strong> () const;
 file_storage const&amp; <strong>orig_files</strong> () const;
+file_storage const&amp; <strong>files</strong> () const;
 </pre>
 <p>The <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a> object contains the information on how to map the
 pieces to files. It is separated from the <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> object because
@@ -378,17 +378,17 @@ number of fixed size sector aligned files, regardless of the number
 and sizes of the files in the torrent.</p>
 <p>The new specified <tt class="docutils literal">file_storage</tt> must have the exact same size as
 the current one.</p>
-<a name="clear_trackers()"></a>
 <a name="trackers()"></a>
-<a name="add_tracker()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bclear_trackers%28%29+trackers%28%29+add_tracker%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bclear_trackers%28%29+trackers%28%29+add_tracker%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="clear-trackers-trackers-add-tracker">
-<h2>clear_trackers() trackers() add_tracker()</h2>
+<a name="add_tracker()"></a>
+<a name="clear_trackers()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Btrackers%28%29+add_tracker%28%29+clear_trackers%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Btrackers%28%29+add_tracker%28%29+clear_trackers%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="trackers-add-tracker-clear-trackers">
+<h2>trackers() add_tracker() clear_trackers()</h2>
 <pre class="literal-block">
-std::vector&lt;announce_entry&gt; const&amp; <strong>trackers</strong> () const;
+void <strong>add_tracker</strong> (std::string const&amp; url, int tier = 0);
 void <strong>add_tracker</strong> (std::string const&amp; url, int tier
       , announce_entry::tracker_source source);
 void <strong>clear_trackers</strong> ();
-void <strong>add_tracker</strong> (std::string const&amp; url, int tier = 0);
+std::vector&lt;announce_entry&gt; const&amp; <strong>trackers</strong> () const;
 </pre>
 <p><tt class="docutils literal">add_tracker()</tt> adds a tracker to the announce-list. The <tt class="docutils literal">tier</tt>
 determines the order in which the trackers are to be tried.
@@ -400,10 +400,10 @@ lower tier will always be tried before the one with higher tier
 number. For more information, see <a class="reference external" href="reference-Trackers.html#announce_entry">announce_entry</a>.</p>
 <p><tt class="docutils literal">trackers()</tt> returns all entries from announce-list.</p>
 <p><tt class="docutils literal">clear_trackers()</tt> removes all trackers from announce-list.</p>
-<a name="collections()"></a>
-<a name="similar_torrents()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bcollections%28%29+similar_torrents%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bcollections%28%29+similar_torrents%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="collections-similar-torrents">
-<h2>collections() similar_torrents()</h2>
+<a name="similar_torrents()"></a>
+<a name="collections()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bsimilar_torrents%28%29+collections%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bsimilar_torrents%28%29+collections%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="similar-torrents-collections">
+<h2>similar_torrents() collections()</h2>
 <pre class="literal-block">
 std::vector&lt;std::string&gt; <strong>collections</strong> () const;
 std::vector&lt;sha1_hash&gt; <strong>similar_torrents</strong> () const;
@@ -420,13 +420,13 @@ included.</p>
 <div class="section" id="add-http-seed-set-web-seeds-web-seeds-add-url-seed">
 <h2>add_http_seed() set_web_seeds() web_seeds() add_url_seed()</h2>
 <pre class="literal-block">
-void <strong>set_web_seeds</strong> (std::vector&lt;web_seed_entry&gt; seeds);
 void <strong>add_url_seed</strong> (std::string const&amp; url
       , std::string const&amp; ext_auth = std::string()
       , web_seed_entry::headers_t const&amp; ext_headers = web_seed_entry::headers_t());
 void <strong>add_http_seed</strong> (std::string const&amp; url
       , std::string const&amp; extern_auth = std::string()
       , web_seed_entry::headers_t const&amp; extra_headers = web_seed_entry::headers_t());
+void <strong>set_web_seeds</strong> (std::vector&lt;web_seed_entry&gt; seeds);
 std::vector&lt;web_seed_entry&gt; const&amp; <strong>web_seeds</strong> () const;
 </pre>
 <p><tt class="docutils literal">web_seeds()</tt> returns all url seeds and http seeds in the torrent.
@@ -455,13 +455,13 @@ represents. Note that this is the number of pieces times the piece
 size (modulo the last piece possibly being smaller). With pad files,
 the total size will be larger than the sum of all (regular) file
 sizes.</p>
-<a name="num_pieces()"></a>
-<a name="piece_length()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bnum_pieces%28%29+piece_length%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bnum_pieces%28%29+piece_length%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="num-pieces-piece-length">
-<h2>num_pieces() piece_length()</h2>
+<a name="piece_length()"></a>
+<a name="num_pieces()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bpiece_length%28%29+num_pieces%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bpiece_length%28%29+num_pieces%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="piece-length-num-pieces">
+<h2>piece_length() num_pieces()</h2>
 <pre class="literal-block">
-int <strong>piece_length</strong> () const;
 int <strong>num_pieces</strong> () const;
+int <strong>piece_length</strong> () const;
 </pre>
 <p><tt class="docutils literal">piece_length()</tt> and <tt class="docutils literal">num_pieces()</tt> returns the number of byte
 for each piece and the total number of pieces, respectively. The
@@ -470,15 +470,15 @@ difference between <tt class="docutils literal">piece_size()</tt> and <tt class=
 exact size of that piece. It will always be the same as
 <tt class="docutils literal">piece_length()</tt> except in the case of the last piece, which may be
 smaller.</p>
-<a name="end_piece()"></a>
 <a name="last_piece()"></a>
-<a name="piece_range()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bend_piece%28%29+last_piece%28%29+piece_range%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bend_piece%28%29+last_piece%28%29+piece_range%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="end-piece-last-piece-piece-range">
-<h2>end_piece() last_piece() piece_range()</h2>
+<a name="end_piece()"></a>
+<a name="piece_range()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Blast_piece%28%29+end_piece%28%29+piece_range%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Blast_piece%28%29+end_piece%28%29+piece_range%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="last-piece-end-piece-piece-range">
+<h2>last_piece() end_piece() piece_range()</h2>
 <pre class="literal-block">
 piece_index_t <strong>last_piece</strong> () const;
-piece_index_t <strong>end_piece</strong> () const;
 index_range&lt;piece_index_t&gt; <strong>piece_range</strong> () const;
+piece_index_t <strong>end_piece</strong> () const;
 </pre>
 <p><tt class="docutils literal">last_piece()</tt> returns the index to the last piece in the torrent and
 <tt class="docutils literal">end_piece()</tt> returns the index to the one-past-end piece in the
@@ -497,10 +497,10 @@ info_hash_t const&amp; <strong>info_hashes</strong> () const;
 <p>returns the info-hash of the torrent. For BitTorrent v2 support, use
 <tt class="docutils literal">info_hashes()</tt> to get an object that may hold both a v1 and v2
 info-hash</p>
-<a name="v1()"></a>
-<a name="v2()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bv1%28%29+v2%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bv1%28%29+v2%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="v1-v2">
-<h2>v1() v2()</h2>
+<a name="v2()"></a>
+<a name="v1()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_info%3A%3A%5Bv2%28%29+v1%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_info%3A%3A%5Bv2%28%29+v1%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="v2-v1">
+<h2>v2() v1()</h2>
 <pre class="literal-block">
 bool <strong>v1</strong> () const;
 bool <strong>v2</strong> () const;
@@ -589,8 +589,8 @@ except for the last piece, which may be shorter.</p>
 <div class="section" id="hash-for-piece-ptr-hash-for-piece">
 <h2>hash_for_piece_ptr() hash_for_piece()</h2>
 <pre class="literal-block">
-sha1_hash <strong>hash_for_piece</strong> (piece_index_t index) const;
 char const* <strong>hash_for_piece_ptr</strong> (piece_index_t const index) const;
+sha1_hash <strong>hash_for_piece</strong> (piece_index_t index) const;
 </pre>
 <p><tt class="docutils literal">hash_for_piece()</tt> takes a piece-index and returns the 20-bytes
 sha1-hash for that piece and <tt class="docutils literal">info_hash()</tt> returns the 20-bytes

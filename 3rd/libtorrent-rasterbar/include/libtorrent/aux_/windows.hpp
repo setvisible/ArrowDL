@@ -43,7 +43,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #ifndef STRICT
 #define STRICT
 #endif
-#include <Windows.h>
+#include <windows.h>
 
 #endif // TORRENT_WINDOWS_HPP_INCLUDED
 

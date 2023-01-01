@@ -252,6 +252,7 @@ struct TORRENT_EXTRA_EXPORT utp_stream
 	void add_read_buffer(void* buf, int len);
 	void issue_read();
 	void add_write_buffer(void const* buf, int len);
+	bool check_fin_sent() const;
 	void issue_write();
 	std::size_t read_some(bool clear_buffers);
 	std::size_t write_some(bool clear_buffers);
@@ -379,6 +380,13 @@ struct TORRENT_EXTRA_EXPORT utp_stream
 			return 0;
 		}
 
+		if (check_fin_sent())
+		{
+			// we can't send more data after closing the socket
+			ec = boost::asio::error::broken_pipe;
+			return 0;
+		}
+
 #if TORRENT_USE_ASSERTS
 		size_t buf_size = 0;
 #endif
@@ -438,6 +446,14 @@ struct TORRENT_EXTRA_EXPORT utp_stream
 		{
 			post(m_io_service, std::bind<void>(std::move(handler)
 				, boost::asio::error::operation_not_supported, std::size_t(0)));
+			return;
+		}
+
+		if (check_fin_sent())
+		{
+			// we can't send more data after closing the socket
+			post(m_io_service, std::bind<void>(std::move(handler)
+				, boost::asio::error::broken_pipe, std::size_t(0)));
 			return;
 		}
 
@@ -635,6 +651,8 @@ struct utp_socket_impl
 	void issue_read();
 	void issue_write();
 
+	bool check_fin_sent() const;
+
 	void do_connect(tcp::endpoint const& ep);
 
 	std::size_t read_some(bool const clear_buffers);
@@ -798,6 +816,9 @@ private:
 	std::uint32_t m_adv_wnd = TORRENT_ETHERNET_MTU;
 
 	// the number of un-acked bytes we have sent
+	// This does not include packets that have been created but either failed to
+	// be sent or were lost. i.e. when a packet is lost, it's no longer
+	// considered in-flight.
 	std::int32_t m_bytes_in_flight = 0;
 
 	// the number of bytes read into the user provided
@@ -856,7 +877,9 @@ private:
 	std::uint16_t m_ack_nr = 0;
 
 	// the sequence number of the next packet
-	// we'll send
+	// we'll send. when we're closing the connection
+	// this becomes the sequence number of the ST_FIN packet
+	// and will no longer increase
 	std::uint16_t m_seq_nr = 0;
 
 	// this is the sequence number of the packet that
@@ -870,6 +893,12 @@ private:
 	// packet immediately, if m_fast_resend_seq_nr is set
 	// to that packet's sequence number
 	std::uint16_t m_fast_resend_seq_nr = 0;
+
+	// this is the sequence number of the last undersized
+	// packet that we sent. this is used to ensure there
+	// is no more than one undersized packet in flight
+	// at a time
+	std::uint16_t m_nagle_seq_nr = 0;
 
 	// this is the sequence number of the FIN packet
 	// we've received. This sequence number is only

@@ -58,7 +58,7 @@ namespace errors {
 #define SIG_ENUM(name, sig) name = sig,
 #endif
 
-	enum error_code_enum
+	enum error_code_enum: int
 	{
 		SIG_ENUM(abort, SIGABRT)
 		SIG_ENUM(alarm, SIGALRM)
@@ -104,31 +104,34 @@ std::error_category& sig_category();
 #ifdef _WIN32
 namespace seh_errors {
 
-	enum error_code_enum
+	// standard error codes are "int", the win32 exceptions are DWORD (i.e.
+	// unsigned int). We coerce them into int here for compatibility, and we're
+	// not concerned about their arithmetic
+	enum error_code_enum: int
 	{
-		access_violation = EXCEPTION_ACCESS_VIOLATION,
-		array_bounds_exceeded = EXCEPTION_ARRAY_BOUNDS_EXCEEDED,
-		guard_page = EXCEPTION_GUARD_PAGE,
-		stack_overflow = EXCEPTION_STACK_OVERFLOW,
-		flt_stack_check = EXCEPTION_FLT_STACK_CHECK,
-		in_page_error = EXCEPTION_IN_PAGE_ERROR,
-		breakpoint = EXCEPTION_BREAKPOINT,
-		single_step = EXCEPTION_SINGLE_STEP,
-		datatype_misalignment = EXCEPTION_DATATYPE_MISALIGNMENT,
-		flt_denormal_operand = EXCEPTION_FLT_DENORMAL_OPERAND,
-		flt_divide_by_zero = EXCEPTION_FLT_DIVIDE_BY_ZERO,
-		flt_inexact_result = EXCEPTION_FLT_INEXACT_RESULT,
-		flt_invalid_operation = EXCEPTION_FLT_INVALID_OPERATION,
-		flt_overflow = EXCEPTION_FLT_OVERFLOW,
-		flt_underflow = EXCEPTION_FLT_UNDERFLOW,
-		int_divide_by_zero = EXCEPTION_INT_DIVIDE_BY_ZERO,
-		int_overflow = EXCEPTION_INT_OVERFLOW,
-		illegal_instruction = EXCEPTION_ILLEGAL_INSTRUCTION,
-		invalid_disposition = EXCEPTION_INVALID_DISPOSITION,
-		priv_instruction = EXCEPTION_PRIV_INSTRUCTION,
-		noncontinuable_exception = EXCEPTION_NONCONTINUABLE_EXCEPTION,
-		status_unwind_consolidate = STATUS_UNWIND_CONSOLIDATE,
-		invalid_handle = EXCEPTION_INVALID_HANDLE,
+		access_violation = int(EXCEPTION_ACCESS_VIOLATION),
+		array_bounds_exceeded = int(EXCEPTION_ARRAY_BOUNDS_EXCEEDED),
+		guard_page = int(EXCEPTION_GUARD_PAGE),
+		stack_overflow = int(EXCEPTION_STACK_OVERFLOW),
+		flt_stack_check = int(EXCEPTION_FLT_STACK_CHECK),
+		in_page_error = int(EXCEPTION_IN_PAGE_ERROR),
+		breakpoint = int(EXCEPTION_BREAKPOINT),
+		single_step = int(EXCEPTION_SINGLE_STEP),
+		datatype_misalignment = int(EXCEPTION_DATATYPE_MISALIGNMENT),
+		flt_denormal_operand = int(EXCEPTION_FLT_DENORMAL_OPERAND),
+		flt_divide_by_zero = int(EXCEPTION_FLT_DIVIDE_BY_ZERO),
+		flt_inexact_result = int(EXCEPTION_FLT_INEXACT_RESULT),
+		flt_invalid_operation = int(EXCEPTION_FLT_INVALID_OPERATION),
+		flt_overflow = int(EXCEPTION_FLT_OVERFLOW),
+		flt_underflow = int(EXCEPTION_FLT_UNDERFLOW),
+		int_divide_by_zero = int(EXCEPTION_INT_DIVIDE_BY_ZERO),
+		int_overflow = int(EXCEPTION_INT_OVERFLOW),
+		illegal_instruction = int(EXCEPTION_ILLEGAL_INSTRUCTION),
+		invalid_disposition = int(EXCEPTION_INVALID_DISPOSITION),
+		priv_instruction = int(EXCEPTION_PRIV_INSTRUCTION),
+		noncontinuable_exception = int(EXCEPTION_NONCONTINUABLE_EXCEPTION),
+		status_unwind_consolidate = int(STATUS_UNWIND_CONSOLIDATE),
+		invalid_handle = int(EXCEPTION_INVALID_HANDLE),
 	};
 
 	std::error_code make_error_code(error_code_enum e);

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <title>libtorrent</title>
 <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
@@ -32,21 +32,21 @@
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#c-98-no-longer-supported" id="toc-entry-1">C++98 no longer supported</a></li>
-<li><a class="reference internal" href="#listen-interfaces" id="toc-entry-2">listen interfaces</a></li>
-<li><a class="reference internal" href="#forward-declaring-libtorrent-types-deprecated" id="toc-entry-3">forward declaring libtorrent types deprecated</a></li>
-<li><a class="reference internal" href="#resume-data-handling" id="toc-entry-4">resume data handling</a></li>
-<li><a class="reference internal" href="#rate-limit-utp-changed-defaults" id="toc-entry-5">rate_limit_utp changed defaults</a></li>
-<li><a class="reference internal" href="#announce-entry-multi-home-support" id="toc-entry-6">announce entry multi-home support</a></li>
-<li><a class="reference internal" href="#alerts-no-longer-cloneable" id="toc-entry-7">alerts no longer cloneable</a></li>
-<li><a class="reference internal" href="#progress-alert-category" id="toc-entry-8">progress alert category</a></li>
-<li><a class="reference internal" href="#boost-replaced-by-std" id="toc-entry-9">boost replaced by std</a></li>
-<li><a class="reference internal" href="#strong-typedefs" id="toc-entry-10">strong typedefs</a></li>
-<li><a class="reference internal" href="#strongly-typed-flags" id="toc-entry-11">strongly typed flags</a></li>
-<li><a class="reference internal" href="#span-and-string-view" id="toc-entry-12">span&lt;&gt; and string_view</a></li>
-<li><a class="reference internal" href="#periphery-utility-functions-no-longer-exported" id="toc-entry-13">periphery utility functions no longer exported</a></li>
-<li><a class="reference internal" href="#plugins" id="toc-entry-14">plugins</a></li>
-<li><a class="reference internal" href="#rss-functions-removed" id="toc-entry-15">RSS functions removed</a></li>
+<li><a class="reference internal" href="#c-98-no-longer-supported" id="id12">C++98 no longer supported</a></li>
+<li><a class="reference internal" href="#listen-interfaces" id="id13">listen interfaces</a></li>
+<li><a class="reference internal" href="#forward-declaring-libtorrent-types-deprecated" id="id14">forward declaring libtorrent types deprecated</a></li>
+<li><a class="reference internal" href="#resume-data-handling" id="id15">resume data handling</a></li>
+<li><a class="reference internal" href="#rate-limit-utp-changed-defaults" id="id16">rate_limit_utp changed defaults</a></li>
+<li><a class="reference internal" href="#announce-entry-multi-home-support" id="id17">announce entry multi-home support</a></li>
+<li><a class="reference internal" href="#alerts-no-longer-cloneable" id="id18">alerts no longer cloneable</a></li>
+<li><a class="reference internal" href="#progress-alert-category" id="id19">progress alert category</a></li>
+<li><a class="reference internal" href="#boost-replaced-by-std" id="id20">boost replaced by std</a></li>
+<li><a class="reference internal" href="#strong-typedefs" id="id21">strong typedefs</a></li>
+<li><a class="reference internal" href="#strongly-typed-flags" id="id22">strongly typed flags</a></li>
+<li><a class="reference internal" href="#span-and-string-view" id="id23">span&lt;&gt; and string_view</a></li>
+<li><a class="reference internal" href="#periphery-utility-functions-no-longer-exported" id="id24">periphery utility functions no longer exported</a></li>
+<li><a class="reference internal" href="#plugins" id="id25">plugins</a></li>
+<li><a class="reference internal" href="#rss-functions-removed" id="id26">RSS functions removed</a></li>
 </ul>
 </div>
 <p>libtorrent version 1.2 comes with some significant updates in the API.

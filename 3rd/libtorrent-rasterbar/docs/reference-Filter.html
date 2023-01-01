@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,25 +25,25 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.7</td></tr>
+<td>2.0.8</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#ip-filter" id="toc-entry-1">ip_filter</a><ul>
-<li><a class="reference internal" href="#empty" id="toc-entry-2">empty()</a></li>
-<li><a class="reference internal" href="#add-rule" id="toc-entry-3">add_rule()</a></li>
-<li><a class="reference internal" href="#access" id="toc-entry-4">access()</a></li>
-<li><a class="reference internal" href="#export-filter" id="toc-entry-5">export_filter()</a></li>
-<li><a class="reference internal" href="#enum-access-flags" id="toc-entry-6">enum access_flags</a></li>
+<li><a class="reference internal" href="#ip-filter" id="id12">ip_filter</a><ul>
+<li><a class="reference internal" href="#empty" id="id13">empty()</a></li>
+<li><a class="reference internal" href="#add-rule" id="id14">add_rule()</a></li>
+<li><a class="reference internal" href="#access" id="id15">access()</a></li>
+<li><a class="reference internal" href="#export-filter" id="id16">export_filter()</a></li>
+<li><a class="reference internal" href="#enum-access-flags" id="id17">enum access_flags</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#port-filter" id="toc-entry-7">port_filter</a><ul>
-<li><a class="reference internal" href="#add-rule-1" id="toc-entry-8">add_rule()</a></li>
-<li><a class="reference internal" href="#access-1" id="toc-entry-9">access()</a></li>
-<li><a class="reference internal" href="#enum-access-flags-1" id="toc-entry-10">enum access_flags</a></li>
+<li><a class="reference internal" href="#port-filter" id="id18">port_filter</a><ul>
+<li><a class="reference internal" href="#id7" id="id19">add_rule()</a></li>
+<li><a class="reference internal" href="#id8" id="id20">access()</a></li>
+<li><a class="reference internal" href="#id10" id="id21">enum access_flags</a></li>
 </ul>
 </li>
 </ul>
@@ -60,12 +60,12 @@ IPv6 range).</p>
 <pre class="literal-block">
 struct ip_filter
 {
+   <strong>ip_filter</strong> ();
+   ip_filter&amp; <strong>operator=</strong> (ip_filter&amp;&amp;);
    <strong>~ip_filter</strong> ();
    <strong>ip_filter</strong> (ip_filter&amp;&amp;);
-   ip_filter&amp; <strong>operator=</strong> (ip_filter&amp;&amp;);
-   ip_filter&amp; <strong>operator=</strong> (ip_filter const&amp;);
-   <strong>ip_filter</strong> ();
    <strong>ip_filter</strong> (ip_filter const&amp;);
+   ip_filter&amp; <strong>operator=</strong> (ip_filter const&amp;);
    bool <strong>empty</strong> () const;
    void <strong>add_rule</strong> (address const&amp; first, address const&amp; last, std::uint32_t flags);
    std::uint32_t <strong>access</strong> (address const&amp; addr) const;
@@ -157,12 +157,12 @@ range (0-65535) set to flag 0.</p>
 <pre class="literal-block">
 class port_filter
 {
-   <strong>port_filter</strong> (port_filter const&amp;);
-   port_filter&amp; <strong>operator=</strong> (port_filter const&amp;);
-   <strong>port_filter</strong> (port_filter&amp;&amp;);
    <strong>port_filter</strong> ();
+   port_filter&amp; <strong>operator=</strong> (port_filter const&amp;);
    port_filter&amp; <strong>operator=</strong> (port_filter&amp;&amp;);
+   <strong>port_filter</strong> (port_filter&amp;&amp;);
    <strong>~port_filter</strong> ();
+   <strong>port_filter</strong> (port_filter const&amp;);
    void <strong>add_rule</strong> (std::uint16_t first, std::uint16_t last, std::uint32_t flags);
    std::uint32_t <strong>access</strong> (std::uint16_t port) const;
 
@@ -172,7 +172,7 @@ class port_filter
    };
 };
 </pre>
-<a name="add_rule()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:port_filter%3A%3A%5Badd_rule%28%29%5D&labels=documentation&body=Documentation+under+heading+%22port_filter%3A%3A%5Badd_rule%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="add-rule-1">
+<a name="add_rule()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:port_filter%3A%3A%5Badd_rule%28%29%5D&labels=documentation&body=Documentation+under+heading+%22port_filter%3A%3A%5Badd_rule%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="id7">
 <h2>add_rule()</h2>
 <pre class="literal-block">
 void <strong>add_rule</strong> (std::uint16_t first, std::uint16_t last, std::uint32_t flags);
@@ -181,7 +181,7 @@ void <strong>add_rule</strong> (std::uint16_t first, std::uint16_t last, std::ui
 <tt class="docutils literal">flags</tt> overwriting any existing rule for those ports. The range
 is inclusive, i.e. the port <tt class="docutils literal">last</tt> also has the flag set on it.</p>
 <a name="access()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:port_filter%3A%3A%5Baccess%28%29%5D&labels=documentation&body=Documentation+under+heading+%22port_filter%3A%3A%5Baccess%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="access-1">
+<div class="section" id="id8">
 <h2>access()</h2>
 <pre class="literal-block">
 std::uint32_t <strong>access</strong> (std::uint16_t port) const;
@@ -190,7 +190,7 @@ std::uint32_t <strong>access</strong> (std::uint16_t port) const;
 or not. The returned value is the flags set for this port.
 see <a class="reference external" href="reference-Filter.html#access_flags">access_flags</a>.</p>
 <a name="access_flags"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+access_flags&labels=documentation&body=Documentation+under+heading+%22enum+access_flags%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="enum-access-flags-1">
+<div class="section" id="id10">
 <h2>enum access_flags</h2>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/ip_filter.hpp">libtorrent/ip_filter.hpp</a>&quot;</p>
 <table border="1" class="docutils">

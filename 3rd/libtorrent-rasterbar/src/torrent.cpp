@@ -1734,6 +1734,8 @@ bool is_downloading_state(int const st)
 
 		if (int(m_file_priority.size()) > m_torrent_file->num_files())
 			m_file_priority.resize(m_torrent_file->num_files());
+		else if (m_add_torrent_params->flags & torrent_flags::default_dont_download)
+			m_file_priority.resize(m_torrent_file->num_files(), dont_download);
 
 		auto cert = m_torrent_file->ssl_cert();
 		if (!cert.empty())
@@ -6854,7 +6856,8 @@ namespace {
 		ret.save_path = m_save_path;
 
 		ret.info_hashes = torrent_file().info_hashes();
-		if (m_name) ret.name = *m_name;
+		if (valid_metadata()) ret.name = m_torrent_file->name();
+		else if (m_name) ret.name = *m_name;
 
 #if TORRENT_ABI_VERSION < 3
 		ret.info_hash = ret.info_hashes.get_best();
@@ -7539,7 +7542,7 @@ namespace {
 		bdecode_node const metadata = bdecode(metadata_buf, ec, &pos, 200
 			, settings().get_int(settings_pack::metadata_token_limit));
 
-		auto info = std::make_shared<torrent_info>(old_ih);
+		auto info = std::make_shared<torrent_info>(*m_torrent_file);
 		if (ec || !info->parse_info_section(metadata, ec
 			, settings().get_int(settings_pack::max_piece_count)))
 		{
@@ -9557,9 +9560,6 @@ namespace {
 			&& m_announce_to_trackers
 			&& m_announce_to_lsd) return;
 
-		m_announce_to_dht = true;
-		m_announce_to_trackers = true;
-		m_announce_to_lsd = true;
 		m_paused = false;
 		if (!m_session_paused) m_graceful_pause_mode = false;
 
@@ -9589,6 +9589,10 @@ namespace {
 
 		if (alerts().should_post<torrent_resumed_alert>())
 			alerts().emplace_alert<torrent_resumed_alert>(get_handle());
+
+		m_announce_to_dht = true;
+		m_announce_to_trackers = true;
+		m_announce_to_lsd = true;
 
 		m_started = aux::time_now32();
 		if (is_seed()) m_became_seed = m_started;
@@ -10035,7 +10039,7 @@ namespace {
 
 		// these counters are saved in the resume data, since they updated
 		// we need to save the resume data too
-		m_need_save_resume_data = true;
+		set_need_save_resume();
 
 		// if the rate is 0, there's no update because of network transfers
 		if (m_stat.low_pass_upload_rate() > 0 || m_stat.low_pass_download_rate() > 0)

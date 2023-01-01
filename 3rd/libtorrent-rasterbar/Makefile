@@ -1,4 +1,4 @@
-VERSION=2.0.7
+VERSION=2.0.8
 
 BUILD_CONFIG=release link=shared crypto=openssl warnings=off address-model=64
 
@@ -315,6 +315,7 @@ SOURCES = \
   disk_io_thread_pool.cpp         \
   disk_job_fence.cpp              \
   disk_job_pool.cpp               \
+  drive_info.cpp                  \
   entry.cpp                       \
   enum_net.cpp                    \
   error_code.cpp                  \
@@ -456,6 +457,7 @@ HEADERS = \
   extensions.hpp               \
   file.hpp                     \
   file_storage.hpp             \
+  file_layout.hpp              \
   fingerprint.hpp              \
   flags.hpp                    \
   fwd.hpp                      \
@@ -596,10 +598,12 @@ HEADERS = \
   aux_/disk_io_thread_pool.hpp      \
   aux_/disk_job_fence.hpp           \
   aux_/disk_job_pool.hpp            \
+  aux_/drive_info.hpp               \
   aux_/ed25519.hpp                  \
   aux_/escape_string.hpp            \
   aux_/export.hpp                   \
   aux_/ffs.hpp                      \
+  aux_/file_descriptor.hpp          \
   aux_/file_pointer.hpp             \
   aux_/file_progress.hpp            \
   aux_/file_view_pool.hpp           \
@@ -619,6 +623,7 @@ HEADERS = \
   aux_/merkle_tree.hpp              \
   aux_/mmap.hpp                     \
   aux_/mmap_disk_job.hpp            \
+  aux_/netlink_utils.hpp            \
   aux_/noexcept_movable.hpp         \
   aux_/numeric_cast.hpp             \
   aux_/open_mode.hpp                \
@@ -664,6 +669,7 @@ HEADERS = \
   aux_/windows.hpp                  \
   aux_/win_cng.hpp                  \
   aux_/win_crypto_provider.hpp      \
+  aux_/win_file_handle.hpp          \
   aux_/win_util.hpp                 \
   \
   extensions/smart_ban.hpp          \
@@ -1067,6 +1073,7 @@ TEST_TORRENTS = \
   v2_zero_root.torrent \
   v2_zero_root_small.torrent \
   v2_hybrid.torrent \
+  v2_hybrid-missing-tailpad.torrent \
   v2_invalid_root_hash.torrent \
   zero.torrent \
   zero2.torrent

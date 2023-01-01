@@ -46,6 +46,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/aux_/path.hpp" // for combine_path etc.
 #include "libtorrent/fwd.hpp"
 #include "libtorrent/aux_/throw.hpp"
+#include "libtorrent/index_range.hpp"
 
 #include <vector>
 #include <string>
@@ -91,6 +92,11 @@ POSSIBILITY OF SUCH DAMAGE.
 //	set_piece_hashes(t, ".");
 //
 //	ofstream out("my_torrent.torrent", std::ios_base::binary);
+//	std::vector<char> buf = t.generate_buf();
+//	out.write(buf.data(), buf.size());
+//
+//	// alternatively, generate an entry and encode it directly to an ostream
+//	// iterator
 //	bencode(std::ostream_iterator<char>(out), t.generate());
 //
 namespace libtorrent {
@@ -185,9 +191,21 @@ namespace libtorrent {
 		// across systems, this flag should be set.
 		static constexpr create_flags_t no_attributes = 8_bit;
 
+		// this flag enforces the file layout to be canonical according to the
+		// bittorrent v2 specification (just like the ``canonical_files`` flag)
+		// with the one exception that tail padding is not added to the last
+		// file.
+		// This behavior deviates from the specification but was the way
+		// libtorrent created torrents in version up to and including 2.0.7.
+		// This flag is here for backwards compatibility.
+		static constexpr create_flags_t canonical_files_no_tail_padding = 9_bit;
+
 		// The ``piece_size`` is the size of each piece in bytes. It must be a
 		// power of 2 and a minimum of 16 kiB. If a piece size of 0 is
 		// specified, a piece_size will be set automatically.
+		//
+		// The ``flags`` arguments specifies options for the torrent creation. It can
+		// be any combination of the flags defined by create_flags_t.
 		//
 		// The file_storage (``fs``) parameter defines the files, sizes and
 		// their properties for the torrent to be created. Set this up first,
@@ -198,14 +216,13 @@ namespace libtorrent {
 		// the info dictionary will be used by create_torrent::generate(). This means
 		// that none of the member functions of create_torrent that affects
 		// the content of the info dictionary (such as set_hash()), will
-		// have any affect.
+		// have any affect. Instead of using this overload, consider using
+		// write_torrent_file() instead.
 		//
 		// .. warning::
 		// 	The file_storage and torrent_info objects must stay alive for the
 		// 	entire duration of the create_torrent object.
 		//
-		// The ``flags`` arguments specifies options for the torrent creation. It can
-		// be any combination of the flags defined by create_flags_t.
 		explicit create_torrent(file_storage& fs, int piece_size = 0
 			, create_flags_t flags = {});
 		explicit create_torrent(torrent_info const& ti);
@@ -220,11 +237,12 @@ namespace libtorrent {
 		// internal
 		~create_torrent();
 
-		// This function will generate the .torrent file as a bencode tree. In order to
-		// generate the flat file, use the bencode() function.
+		// This function will generate the .torrent file as a bencode tree, or a
+		// bencoded into a buffer.
+		// In order to encode the entry into a flat file, use the bencode() function.
 		//
-		// It may be useful to add custom entries to the torrent file before bencoding it
-		// and saving it to disk.
+		// The function returning an entry may be useful to add custom entries
+		// to the torrent file before bencoding it and saving it to disk.
 		//
 		// Whether the resulting torrent object is v1, v2 or hybrid depends on
 		// whether any of the v1_only or v2_only flags were set on the
@@ -244,6 +262,7 @@ namespace libtorrent {
 		//   a file. If that's encountered in the file storage, generate()
 		//   fails.
 		entry generate() const;
+		std::vector<char> generate_buf() const;
 
 		// returns an immutable reference to the file_storage used to create
 		// the torrent from.
@@ -344,6 +363,27 @@ namespace libtorrent {
 
 		// returns the number of pieces in the associated file_storage object.
 		int num_pieces() const { return m_files.num_pieces(); }
+
+		piece_index_t end_piece() const { return m_files.end_piece(); }
+
+		// all piece indices in the torrent to be created
+		index_range<piece_index_t> piece_range() const noexcept
+		{ return {piece_index_t{0}, end_piece()}; }
+
+		file_index_t end_file() const { return m_files.end_file(); }
+
+		// all file indices in the torrent to be created
+		index_range<file_index_t> file_range() const noexcept
+		{ return m_files.file_range(); }
+
+		// for v2 and hybrid torrents only, the pieces in the
+		// specified file, specified as delta from the first piece in the file.
+		// i.e. the first index is 0.
+		index_range<piece_index_t::diff_type> file_piece_range(file_index_t f)
+		{ return m_files.file_piece_range(f); }
+
+		// the total number of bytes of all files and pad files
+		std::int64_t total_size() const { return m_files.total_size(); }
 
 		// ``piece_length()`` returns the piece size of all pieces but the
 		// last one. ``piece_size()`` returns the size of the specified piece.

@@ -26,7 +26,6 @@ All rights reserved.
 
 using namespace sim::asio;
 using namespace sim::asio::ip;
-using namespace std::placeholders;
 
 using boost::system::error_code;
 
@@ -57,7 +56,7 @@ namespace sim
 		m_listen_socket.listen();
 
 		m_listen_socket.async_accept(m_conn->socket(), m_ep
-			, std::bind(&socks_server::on_accept, this, _1));
+			, std::bind(&socks_server::on_accept, this, std::placeholders::_1));
 	}
 
 	void socks_server::on_accept(error_code const& ec)
@@ -82,7 +81,7 @@ namespace sim
 
 		// now we can accept another connection
 		m_listen_socket.async_accept(m_conn->socket(), m_ep
-			, std::bind(&socks_server::on_accept, this, _1));
+			, std::bind(&socks_server::on_accept, this, std::placeholders::_1));
 	}
 
 	void socks_server::stop()
@@ -95,6 +94,7 @@ namespace sim
 		, int version, std::array<int, 3>& cmd_counts, std::uint32_t const flags, int& bind_port)
 		: m_bind_port(bind_port)
 		, m_ios(ios)
+		, m_udp_resolver(ios)
 		, m_resolver(m_ios)
 		, m_client_connection(ios)
 		, m_server_connection(m_ios)
@@ -114,11 +114,11 @@ namespace sim
 		if (m_version == 4)
 		{
 			asio::async_read(m_client_connection, asio::buffer(&m_out_buffer[0], 9)
-				, std::bind(&socks_connection::on_request1, shared_from_this(), _1, _2));
+				, std::bind(&socks_connection::on_request1, shared_from_this(), std::placeholders::_1, std::placeholders::_2));
 		} else {
 			// read protocol version and number of auth-methods
 			asio::async_read(m_client_connection, asio::buffer(&m_out_buffer[0], 2)
-				, std::bind(&socks_connection::on_handshake1, shared_from_this(), _1, _2));
+				, std::bind(&socks_connection::on_handshake1, shared_from_this(), std::placeholders::_1, std::placeholders::_2));
 		}
 	}
 
@@ -146,7 +146,7 @@ namespace sim
 		asio::async_read(m_client_connection, asio::buffer(&m_out_buffer[0],
 				num_methods)
 			, std::bind(&socks_connection::on_handshake2, shared_from_this()
-				, _1, _2));
+				, std::placeholders::_1, std::placeholders::_2));
 	}
 
 	void socks_connection::on_handshake2(error_code const& ec, size_t bytes_transferred)
@@ -171,7 +171,7 @@ namespace sim
 
 		asio::async_write(m_client_connection, asio::buffer(&m_in_buffer[0], 2)
 			, std::bind(&socks_connection::on_handshake3, shared_from_this()
-				, _1, _2));
+				, std::placeholders::_1, std::placeholders::_2));
 	}
 
 	void socks_connection::on_handshake3(error_code const& ec, size_t bytes_transferred)
@@ -186,7 +186,7 @@ namespace sim
 
 		asio::async_read(m_client_connection, asio::buffer(&m_out_buffer[0], 10)
 			, std::bind(&socks_connection::on_request1, shared_from_this()
-				, _1, _2));
+				, std::placeholders::_1, std::placeholders::_2));
 	}
 
 	void socks_connection::on_request1(error_code const& ec, size_t bytes_transferred)
@@ -357,7 +357,7 @@ namespace sim
 				const int additional_bytes = len - 3;
 				asio::async_read(m_client_connection, asio::buffer(&m_out_buffer[10], additional_bytes)
 					, std::bind(&socks_connection::on_request_domain_name
-						, shared_from_this(), _1, _2));
+						, shared_from_this(), std::placeholders::_1, std::placeholders::_2));
 				break;
 			}
 			case 4: // IPv6 address
@@ -397,7 +397,7 @@ namespace sim
 		std::snprintf(port_str, sizeof(port_str), "%d", port);
 		m_resolver.async_resolve(hostname, port_str
 			, std::bind(&socks_connection::on_request_domain_lookup
-				, shared_from_this(), _1, _2));
+				, shared_from_this(), std::placeholders::_1, std::placeholders::_2));
 	}
 
 	void socks_connection::on_request_domain_lookup(boost::system::error_code const& ec
@@ -455,7 +455,7 @@ namespace sim
 		m_server_connection.open(target.protocol());
 		m_server_connection.async_connect(target
 			, std::bind(&socks_connection::on_connected, shared_from_this()
-				, _1));
+				, std::placeholders::_1));
 	}
 
 	void socks_connection::bind_connection(const asio::ip::tcp::endpoint& target)
@@ -503,7 +503,7 @@ namespace sim
 		// send response
 		asio::async_write(m_client_connection
 			, asio::buffer(&m_in_buffer[0], len)
-			, std::bind(&socks_connection::start_accept, shared_from_this(), _1));
+			, std::bind(&socks_connection::start_accept, shared_from_this(), std::placeholders::_1));
 	}
 
 	void socks_connection::udp_associate(const asio::ip::tcp::endpoint& target)
@@ -533,13 +533,15 @@ namespace sim
 			{
 				m_udp_associate.non_blocking(true);
 				m_udp_associate.async_receive_from(boost::asio::buffer(m_udp_buffer)
-					, m_udp_from, 0, std::bind(&socks_connection::on_read_udp, this, _1, _2));
+					, m_udp_from, 0, std::bind(&socks_connection::on_read_udp, this, std::placeholders::_1, std::placeholders::_2));
 			}
 		}
 
 		int const response = ec ? 1 : 0;
 		udp::endpoint ep = m_udp_associate.local_bound_to();
-		int const len = format_response(ep.address(), ep.port(), response);
+		int const len = (m_flags & udp_associate_respond_empty_hostname)
+			? format_hostname_response("foobar", ep.port(), response)
+			: format_response(ep.address(), ep.port(), response);
 
 		if (ec)
 		{
@@ -556,7 +558,7 @@ namespace sim
 
 		// send response
 		asio::async_write(m_client_connection, asio::buffer(&m_in_buffer[0], len)
-			, std::bind(&socks_connection::wait_for_eof, shared_from_this(), _1, _2));
+			, std::bind(&socks_connection::wait_for_eof, shared_from_this(), std::placeholders::_1, std::placeholders::_2));
 	}
 
 	void socks_connection::wait_for_eof(boost::system::error_code const& ec, std::size_t)
@@ -580,7 +582,7 @@ namespace sim
 		m_client_connection.async_read_some(
 			asio::buffer(m_out_buffer)
 			, std::bind(&socks_connection::wait_for_eof, shared_from_this()
-				, _1, _2));
+				, std::placeholders::_1, std::placeholders::_2));
 	}
 
 	void socks_connection::on_read_udp(boost::system::error_code const& ec
@@ -611,57 +613,148 @@ namespace sim
 			// | 2  |  1   |  1   | Variable |    2     | Variable |
 			// +----+------+------+----------+----------+----------+
 
-			char const* ptr = m_udp_buffer.data();
-			if (ptr[2] != 0) std::printf("fragment != 0, not supported\n");
+			char const* buf = m_udp_buffer.data();
+			if (buf[2] != 0) std::printf("fragment != 0, not supported\n");
 
-			// TODO: support hostnames too
-			if (ptr[3] != 1) std::printf("only supports IPv4. ATYP: %d\n", ptr[3]);
+			int const atyp = buf[3];
+			if (atyp == 3)
+			{
+				// hostname
+				int const len = buf[4];
 
-			std::uint32_t addr = ptr[4] & 0xff;
-			addr <<= 8;
-			addr |= ptr[5] & 0xff;
-			addr <<= 8;
-			addr |= ptr[6] & 0xff;
-			addr <<= 8;
-			addr |= ptr[7] & 0xff;
+				buf += 5;
+				bytes_transferred -= 5;
+				std::string const hostname(buf, len);
+				buf += len;
+				bytes_transferred -= len;
 
-			std::uint16_t port = ptr[8] & 0xff;
-			port <<= 8;
-			port |= ptr[9] & 0xff;
+				std::uint16_t port = buf[0] & 0xff;
+				port <<= 8;
+				port |= buf[1] & 0xff;
+				buf += 2;
+				bytes_transferred -= 2;
 
-			asio::ip::udp::endpoint const target(address_v4(addr), port);
-			error_code err;
-			m_udp_associate.send_to(boost::asio::buffer(ptr + 10, bytes_transferred - 10), target, 0, err);
-			if (err) std::printf("send_to failed: %s\n", err.message().c_str());
+				auto it = m_name_mapping.right.find(hostname);
+				if (it != m_name_mapping.right.end())
+				{
+					error_code err;
+					m_udp_associate.send_to(boost::asio::buffer(buf, bytes_transferred)
+						, udp::endpoint(it->second, port), 0, err);
+					if (err) std::printf("send_to failed: %s\n", err.message().c_str());
+					return;
+				}
+
+				std::vector<char> forward_buffer(buf, buf + bytes_transferred);
+
+				m_udp_resolver.async_resolve(hostname.c_str(), std::to_string(port).c_str()
+					, [buf=std::move(forward_buffer), hostname, this]
+						(error_code const& ec, asio::ip::udp::resolver::results_type ips)
+					{
+						if (ec)
+						{
+							std::printf("resolve failed: %s\n", ec.message().c_str());
+							return;
+						}
+
+						for (auto const& ip : ips)
+						{
+							auto const target = ip.endpoint();
+							error_code err;
+							m_udp_associate.send_to(boost::asio::buffer(buf)
+								, target, 0, err);
+							if (!err)
+							{
+								m_name_mapping.insert({target.address(), hostname});
+								break;
+							}
+							std::printf("send_to failed: %s\n", err.message().c_str());
+						}
+					});
+			}
+			else if (atyp == 1)
+			{
+				// IPv4
+				std::uint32_t addr = buf[4] & 0xff;
+				addr <<= 8;
+				addr |= buf[5] & 0xff;
+				addr <<= 8;
+				addr |= buf[6] & 0xff;
+				addr <<= 8;
+				addr |= buf[7] & 0xff;
+
+				std::uint16_t port = buf[8] & 0xff;
+				port <<= 8;
+				port |= buf[9] & 0xff;
+
+				buf += 10;
+				bytes_transferred -= 10;
+
+				asio::ip::udp::endpoint const target(address_v4(addr), port);
+
+				error_code err;
+				m_udp_associate.send_to(boost::asio::buffer(buf, bytes_transferred), target, 0, err);
+				if (err) std::printf("send_to failed: %s\n", err.message().c_str());
+			}
+			else
+			{
+				std::printf("only supports IPv4 and hostname. ATYP: %d\n", atyp);
+			}
 		}
 		else
 		{
-			// add UDP ASSOCIATE header and forward to client
-			std::uint32_t const from_addr = m_udp_from.address().to_v4().to_uint();
 			std::uint16_t const from_port = m_udp_from.port();
-			std::array<char, 10> header;
-			header[0] = 0; // RSV
-			header[1] = 0;
-			header[2] = 0; // fragment
-			header[3] = 1; // ATYP
-			header[4] = (from_addr >> 24) & 0xff; // Address
-			header[5] = (from_addr >> 16) & 0xff;
-			header[6] = (from_addr >> 8) & 0xff;
-			header[7] = (from_addr) & 0xff;
-			header[8] = (from_port >> 8) & 0xff;
-			header[9] = from_port & 0xff;
 
-			std::array<boost::asio::const_buffer, 2> vec{{
-				{header.data(), header.size()},
-				{m_udp_buffer.data(), bytes_transferred}}};
+			auto it = m_name_mapping.left.find(m_udp_from.address());
+			if (it != m_name_mapping.left.end())
+			{
+				std::vector<char> header(7 + it->second.size());
+				header[0] = 0; // RSV
+				header[1] = 0;
+				header[2] = 0; // fragment
+				header[3] = 3; // ATYP
+				header[4] = static_cast<char>(it->second.size());
+				int idx = 5;
+				std::copy(it->second.begin(), it->second.end(), header.data() + idx);
+				idx += it->second.size();
+				header[idx] = (from_port >> 8) & 0xff;
+				header[idx + 1] = from_port & 0xff;
 
-			error_code err;
-			m_udp_associate.send_to(vec, m_udp_associate_ep, 0, err);
-			if (err) std::printf("send_to failed: %s\n", err.message().c_str());
+				std::array<boost::asio::const_buffer, 2> vec{{
+					{header.data(), header.size()},
+					{m_udp_buffer.data(), bytes_transferred}}};
+
+				error_code err;
+				m_udp_associate.send_to(vec, m_udp_associate_ep, 0, err);
+				if (err) std::printf("send_to failed: %s\n", err.message().c_str());
+			}
+			else
+			{
+				// add UDP ASSOCIATE header and forward to client
+				std::uint32_t const from_addr = m_udp_from.address().to_v4().to_uint();
+				std::array<char, 10> header;
+				header[0] = 0; // RSV
+				header[1] = 0;
+				header[2] = 0; // fragment
+				header[3] = 1; // ATYP
+				header[4] = (from_addr >> 24) & 0xff; // Address
+				header[5] = (from_addr >> 16) & 0xff;
+				header[6] = (from_addr >> 8) & 0xff;
+				header[7] = (from_addr) & 0xff;
+				header[8] = (from_port >> 8) & 0xff;
+				header[9] = from_port & 0xff;
+
+				std::array<boost::asio::const_buffer, 2> vec{{
+					{header.data(), header.size()},
+					{m_udp_buffer.data(), bytes_transferred}}};
+
+				error_code err;
+				m_udp_associate.send_to(vec, m_udp_associate_ep, 0, err);
+				if (err) std::printf("send_to failed: %s\n", err.message().c_str());
+			}
 		}
 
 		m_udp_associate.async_receive_from(boost::asio::buffer(m_udp_buffer)
-			, m_udp_from, 0, std::bind(&socks_connection::on_read_udp, this, _1, _2));
+			, m_udp_from, 0, std::bind(&socks_connection::on_read_udp, this, std::placeholders::_1, std::placeholders::_2));
 	}
 
 	void socks_connection::start_accept(boost::system::error_code const& ec)
@@ -677,12 +770,12 @@ namespace sim
 		m_bind_socket.listen();
 		m_bind_socket.async_accept(m_server_connection
 			, std::bind(&socks_connection::on_connected
-				, shared_from_this(), _1));
+				, shared_from_this(), std::placeholders::_1));
 
 		m_client_connection.async_read_some(
 			sim::asio::buffer(m_out_buffer)
 			, std::bind(&socks_connection::on_client_receive, shared_from_this()
-				, _1, _2));
+				, std::placeholders::_1, std::placeholders::_2));
 	}
 
 	int socks_connection::format_response(address const& addr, int const port
@@ -730,6 +823,35 @@ namespace sim
 			memcpy(&m_in_buffer[i], &b[0], b.size());
 			i += int(b.size());
 		}
+		return i;
+	}
+
+	int socks_connection::format_hostname_response(char const* hostname, int const port
+		, int const response)
+	{
+		int i = 0;
+		if (m_version != 5)
+		{
+			std::printf("socks_connection: hostname response requires SOCKS v5\n");
+			close_connection();
+			return 0;
+		}
+// +----+-----+-------+------+----------+----------+
+// |VER | REP |  RSV  | ATYP | BND.ADDR | BND.PORT |
+// +----+-----+-------+------+----------+----------+
+// | 1  |  1  | X'00' |  1   | Variable |    2     |
+// +----+-----+-------+------+----------+----------+
+
+		m_in_buffer[i++] = char(m_version); // version
+		m_in_buffer[i++] = char(response); // response
+		m_in_buffer[i++] = 0; // reserved
+		m_in_buffer[i++] = 3; // DOMAINNAME
+		m_in_buffer[i++] = std::uint8_t(::strlen(hostname));
+		for (; *hostname != '\0'; ++hostname)
+			m_in_buffer[i++] = *hostname;
+
+		m_in_buffer[i++] = (port >> 8) & 0xff;
+		m_in_buffer[i++] = port & 0xff;
 		return i;
 	}
 
@@ -790,11 +912,11 @@ namespace sim
 			self->m_server_connection.async_read_some(
 				sim::asio::buffer(m_in_buffer)
 				, std::bind(&socks_connection::on_server_receive, self
-					, _1, _2));
+					, std::placeholders::_1, std::placeholders::_2));
 			self->m_client_connection.async_read_some(
 				sim::asio::buffer(m_out_buffer)
 				, std::bind(&socks_connection::on_client_receive, self
-					, _1, _2));
+					, std::placeholders::_1, std::placeholders::_2));
 			});
 	}
 
@@ -818,7 +940,7 @@ namespace sim
 		}
 		asio::async_write(m_server_connection, asio::buffer(&m_out_buffer[0], bytes_transferred)
 			, std::bind(&socks_connection::on_client_forward, shared_from_this()
-				, _1, _2));
+				, std::placeholders::_1, std::placeholders::_2));
 	}
 
 	void socks_connection::on_client_forward(error_code const& ec
@@ -835,7 +957,7 @@ namespace sim
 		m_client_connection.async_read_some(
 			sim::asio::buffer(m_out_buffer)
 			, std::bind(&socks_connection::on_client_receive, shared_from_this()
-				, _1, _2));
+				, std::placeholders::_1, std::placeholders::_2));
 	}
 
 	// we received some data from the server, forward it to the server
@@ -852,7 +974,7 @@ namespace sim
 
 		asio::async_write(m_client_connection, asio::buffer(&m_in_buffer[0], bytes_transferred)
 			, std::bind(&socks_connection::on_server_forward, shared_from_this()
-				, _1, _2));
+				, std::placeholders::_1, std::placeholders::_2));
 	}
 
 	void socks_connection::on_server_forward(error_code const& ec
@@ -869,7 +991,7 @@ namespace sim
 		m_server_connection.async_read_some(
 			sim::asio::buffer(m_in_buffer)
 			, std::bind(&socks_connection::on_server_receive, shared_from_this()
-				, _1, _2));
+				, std::placeholders::_1, std::placeholders::_2));
 	}
 
 	void socks_connection::close_connection()

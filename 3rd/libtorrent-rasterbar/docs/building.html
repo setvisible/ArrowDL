@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,35 +25,35 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.7</td></tr>
+<td>2.0.8</td></tr>
 </tbody>
 </table>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#downloading-and-building" id="toc-entry-1">downloading and building</a></li>
-<li><a class="reference internal" href="#building-from-git" id="toc-entry-2">building from git</a></li>
-<li><a class="reference internal" href="#building-with-boost-build" id="toc-entry-3">building with boost build</a><ul>
-<li><a class="reference internal" href="#build-commands" id="toc-entry-4">build commands</a></li>
-<li><a class="reference internal" href="#docker-file" id="toc-entry-5">docker file</a></li>
-<li><a class="reference internal" href="#step-1-download-boost" id="toc-entry-6">Step 1: Download boost</a></li>
-<li><a class="reference internal" href="#step-2-setup-bbv2" id="toc-entry-7">Step 2: Setup BBv2</a></li>
-<li><a class="reference internal" href="#step-3-building-libtorrent" id="toc-entry-8">Step 3: Building libtorrent</a></li>
-<li><a class="reference internal" href="#build-features" id="toc-entry-9">Build features</a></li>
-<li><a class="reference internal" href="#step-4-installing-libtorrent" id="toc-entry-10">Step 4: Installing libtorrent</a></li>
-<li><a class="reference internal" href="#custom-build-flags" id="toc-entry-11">Custom build flags</a></li>
-<li><a class="reference internal" href="#cross-compiling" id="toc-entry-12">Cross compiling</a></li>
+<li><a class="reference internal" href="#downloading-and-building" id="id10">downloading and building</a></li>
+<li><a class="reference internal" href="#building-from-git" id="id11">building from git</a></li>
+<li><a class="reference internal" href="#building-with-boost-build" id="id12">building with boost build</a><ul>
+<li><a class="reference internal" href="#build-commands" id="id13">build commands</a></li>
+<li><a class="reference internal" href="#docker-file" id="id14">docker file</a></li>
+<li><a class="reference internal" href="#step-1-download-boost" id="id15">Step 1: Download boost</a></li>
+<li><a class="reference internal" href="#step-2-setup-bbv2" id="id16">Step 2: Setup BBv2</a></li>
+<li><a class="reference internal" href="#step-3-building-libtorrent" id="id17">Step 3: Building libtorrent</a></li>
+<li><a class="reference internal" href="#build-features" id="id18">Build features</a></li>
+<li><a class="reference internal" href="#step-4-installing-libtorrent" id="id19">Step 4: Installing libtorrent</a></li>
+<li><a class="reference internal" href="#custom-build-flags" id="id20">Custom build flags</a></li>
+<li><a class="reference internal" href="#cross-compiling" id="id21">Cross compiling</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#building-with-cmake" id="toc-entry-13">building with cmake</a><ul>
-<li><a class="reference internal" href="#step-1-generating-the-build-system" id="toc-entry-14">Step 1: Generating the build system</a></li>
-<li><a class="reference internal" href="#step-2-building-libtorrent" id="toc-entry-15">Step 2: Building libtorrent</a></li>
+<li><a class="reference internal" href="#building-with-cmake" id="id22">building with cmake</a><ul>
+<li><a class="reference internal" href="#step-1-generating-the-build-system" id="id23">Step 1: Generating the build system</a></li>
+<li><a class="reference internal" href="#step-2-building-libtorrent" id="id24">Step 2: Building libtorrent</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#building-with-vcpkg" id="toc-entry-16">building with VCPKG</a></li>
-<li><a class="reference internal" href="#build-configurations" id="toc-entry-17">build configurations</a></li>
-<li><a class="reference internal" href="#building-openssl-for-windows" id="toc-entry-18">building openssl for windows</a></li>
-<li><a class="reference internal" href="#list-of-macros" id="toc-entry-19">list of macros</a></li>
+<li><a class="reference internal" href="#building-with-vcpkg" id="id25">building with VCPKG</a></li>
+<li><a class="reference internal" href="#build-configurations" id="id26">build configurations</a></li>
+<li><a class="reference internal" href="#building-openssl-for-windows" id="id27">building openssl for windows</a></li>
+<li><a class="reference internal" href="#list-of-macros" id="id28">list of macros</a></li>
 </ul>
 </div>
 <div class="section" id="downloading-and-building">

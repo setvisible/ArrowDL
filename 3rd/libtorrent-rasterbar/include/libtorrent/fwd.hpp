@@ -1,7 +1,7 @@
 /*
 
-Copyright (c) 2017-2021, Arvid Norberg
 Copyright (c) 2017-2018, Steven Siloti
+Copyright (c) 2017-2021, Arvid Norberg
 Copyright (c) 2020, Alden Torres
 All rights reserved.
 
@@ -143,6 +143,8 @@ struct alerts_dropped_alert;
 struct socks5_alert;
 struct file_prio_alert;
 TORRENT_VERSION_NAMESPACE_3_END
+struct oversized_file_alert;
+struct torrent_conflict_alert;
 
 // include/libtorrent/announce_entry.hpp
 TORRENT_VERSION_NAMESPACE_2
@@ -311,6 +313,8 @@ struct utp_status;
 struct session_status;
 
 #endif // TORRENT_ABI_VERSION
+
+	using file_layout = file_storage;
 
 }
 

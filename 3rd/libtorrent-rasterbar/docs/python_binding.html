@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,31 +25,31 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.7</td></tr>
+<td>2.0.8</td></tr>
 </tbody>
 </table>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#building" id="toc-entry-1">building</a></li>
-<li><a class="reference internal" href="#prerequisites" id="toc-entry-2">prerequisites</a><ul>
-<li><a class="reference internal" href="#environment-variables" id="toc-entry-3">environment variables</a></li>
+<li><a class="reference internal" href="#building" id="id2">building</a></li>
+<li><a class="reference internal" href="#prerequisites" id="id3">prerequisites</a><ul>
+<li><a class="reference internal" href="#environment-variables" id="id4">environment variables</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#building-with-setup-py" id="toc-entry-4">building with setup.py</a><ul>
-<li><a class="reference internal" href="#build-for-a-different-python-version" id="toc-entry-5">build for a different python version</a></li>
-<li><a class="reference internal" href="#customizing-the-build" id="toc-entry-6">customizing the build</a></li>
+<li><a class="reference internal" href="#building-with-setup-py" id="id5">building with setup.py</a><ul>
+<li><a class="reference internal" href="#build-for-a-different-python-version" id="id6">build for a different python version</a></li>
+<li><a class="reference internal" href="#customizing-the-build" id="id7">customizing the build</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#building-with-b2" id="toc-entry-7">building with b2</a><ul>
-<li><a class="reference internal" href="#invoking-b2" id="toc-entry-8">invoking b2</a></li>
-<li><a class="reference internal" href="#static-linking" id="toc-entry-9">static linking</a></li>
-<li><a class="reference internal" href="#helper-targets" id="toc-entry-10">helper targets</a></li>
+<li><a class="reference internal" href="#building-with-b2" id="id8">building with b2</a><ul>
+<li><a class="reference internal" href="#invoking-b2" id="id9">invoking b2</a></li>
+<li><a class="reference internal" href="#static-linking" id="id10">static linking</a></li>
+<li><a class="reference internal" href="#helper-targets" id="id11">helper targets</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#using-libtorrent-in-python" id="toc-entry-11">using libtorrent in python</a></li>
-<li><a class="reference internal" href="#set-alert-notify" id="toc-entry-12">set_alert_notify</a></li>
-<li><a class="reference internal" href="#example" id="toc-entry-13">Example</a></li>
+<li><a class="reference internal" href="#using-libtorrent-in-python" id="id12">using libtorrent in python</a></li>
+<li><a class="reference internal" href="#set-alert-notify" id="id13">set_alert_notify</a></li>
+<li><a class="reference internal" href="#example" id="id14">Example</a></li>
 </ul>
 </div>
 <div class="section" id="building">
@@ -70,7 +70,7 @@ install the build prerequisites on your system:</p>
 boost libraries and <tt class="docutils literal">b2</tt>, and your building toolchain (<tt class="docutils literal">gcc</tt>, visual
 studio, etc).</li>
 <li>Boost.Python, if not otherwise included in your boost installation</li>
-<li>Python 3.6+. Older versions may work, but are not tested.</li>
+<li>Python 3.7+. Older versions may work, but are not tested.</li>
 </ol>
 <div class="section" id="environment-variables">
 <h2>environment variables</h2>
@@ -106,8 +106,8 @@ python setup.py bdist_wheel
 <p><tt class="docutils literal">setup.py</tt> will target the running interpreter. To build for different python
 versions, you must change how you invoke <tt class="docutils literal">setup.py</tt>:</p>
 <pre class="literal-block">
-# build for python3.6
-python3.6 setup.py build
+# build for python3.7
+python3.7 setup.py build
 # build for python3.7
 python3.7 setup.py build
 </pre>
@@ -141,16 +141,16 @@ python setup.py build_ext --b2-args=&quot;optimization=space&quot; install
 installation.</p>
 <p><tt class="docutils literal">b2</tt> has some auto-detection capabilities. You may be able to do just this:</p>
 <pre class="literal-block">
-using python : 3.6 ;
+using python : 3.7 ;
 </pre>
 <p>However you may need to specify full paths. On windows, it make look like
 this:</p>
 <pre class="literal-block">
-using python : 3.6 : C:/Users/&lt;UserName&gt;/AppData/Local/Programs/Python/Python36 : C:/Users/&lt;UserName&gt;/AppData/Local/Programs/Python/Python36/include : C:/Users/&lt;UserName&gt;/AppData/Local/Programs/Python/Python36/libs ;
+using python : 3.7 : C:/Users/&lt;UserName&gt;/AppData/Local/Programs/Python/Python36 : C:/Users/&lt;UserName&gt;/AppData/Local/Programs/Python/Python36/include : C:/Users/&lt;UserName&gt;/AppData/Local/Programs/Python/Python36/libs ;
 </pre>
 <p>Or on Linux, like this:</p>
 <pre class="literal-block">
-using python : 3.6 : /usr/bin/python3.6 : /usr/include/python3.6 : /usr/lib/python3.6 ;
+using python : 3.7 : /usr/bin/python3.7 : /usr/include/python3.7 : /usr/lib/python3.7 ;
 </pre>
 <p>Note that <tt class="docutils literal">b2</tt>'s python path detection is known to only work for global
 python installations. It is known to be broken for virtualenvs or <tt class="docutils literal">pyenv</tt>. If
@@ -161,7 +161,7 @@ include and library paths yourself.</p>
 <p>Build the bindings like so:</p>
 <pre class="literal-block">
 cd bindings/python
-b2 release python=3.6 address-model=64
+b2 release python=3.7 address-model=64
 </pre>
 <p>Note that <tt class="docutils literal"><span class="pre">address-model</span></tt> should match the python installation you are
 building for.</p>
@@ -180,32 +180,32 @@ from source. Specify the <tt class="docutils literal">BOOST_ROOT</tt> environmen
 root directory of the boost source distribution.</p>
 <p>For example, to build a self-contained python module:</p>
 <pre class="literal-block">
-b2 release python=3.6 libtorrent-link=static boost-link=static
+b2 release python=3.7 libtorrent-link=static boost-link=static
 </pre>
 </div>
 <div class="section" id="helper-targets">
 <h2>helper targets</h2>
 <p>There are some targets for placing the build artifact in a helpful location:</p>
 <pre class="literal-block">
-$ b2 release python=3.6 stage_module stage_dependencies
+$ b2 release python=3.7 stage_module stage_dependencies
 </pre>
 <p>This will produce a <tt class="docutils literal">libtorrent</tt> python module in the current directory (file
 name extension depends on operating system). The libraries the python module depends
 on will be copied into <tt class="docutils literal">./dependencies</tt>.</p>
 <p>To install the python module, build it with the following command:</p>
 <pre class="literal-block">
-b2 release python=3.6 install_module
+b2 release python=3.7 install_module
 </pre>
 <p>By default the module will be installed to the python user site. This can be
 changed with the <tt class="docutils literal"><span class="pre">python-install-scope</span></tt> feature. The valid values are <tt class="docutils literal">user</tt>
 (default) and <tt class="docutils literal">system</tt>. e.g.:</p>
 <pre class="literal-block">
-b2 release python=3.6 install_module python-install-scope=system
+b2 release python=3.7 install_module python-install-scope=system
 </pre>
 <p>To specify a custom installation path for the python module, specify the desired
 path with the <tt class="docutils literal"><span class="pre">python-install-path</span></tt> feature. e.g.:</p>
 <pre class="literal-block">
-b2 release python=3.6 install_module python-install-path=/home/foobar/python-site/
+b2 release python=3.7 install_module python-install-path=/home/foobar/python-site/
 </pre>
 </div>
 </div>

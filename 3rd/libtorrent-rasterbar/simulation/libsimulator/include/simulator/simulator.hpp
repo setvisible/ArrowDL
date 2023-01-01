@@ -68,6 +68,9 @@ namespace sim
 		struct channel;
 		struct packet;
 		struct pcap;
+
+		// this is outgoing NIC bandwidth
+		constexpr int nic_bandwidth = 100000000; // 100 MB/s
 	}
 
 	// this represents a network route (a series of sinks to pass a packet
@@ -238,9 +241,12 @@ namespace sim
 			m_max_receive_queue_size = op.value();
 		}
 
-		void set_option(send_buffer_size const&, boost::system::error_code&)
+		void set_option(send_buffer_size const& op, boost::system::error_code&)
 		{
-			// TODO: implement
+			// this limit is specified in microseconds. Given the line rate of
+			// nic_bandwidth, this is the time it takes to send the specified number
+			// of bytes.
+			m_send_queue_time = chrono::microseconds(std::int64_t(double(op.value()) * 1000000.0 / double(aux::nic_bandwidth)));
 		}
 
 		void set_option(reuse_address const&, boost::system::error_code&)
@@ -349,6 +355,10 @@ namespace sim
 		// receive buffer. This should also depend on the bandwidth, to not
 		// make the queue size not grow too long in time.
 		int m_max_receive_queue_size = 64 * 1024;
+
+		// the number of microseconds worth of send buffer this socket has, at
+		// NIC linerate.
+		chrono::microseconds m_send_queue_time{200000};
 	};
 
 	namespace ip {

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,19 +25,19 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.7</td></tr>
+<td>2.0.8</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#client-data-t" id="toc-entry-1">client_data_t</a><ul>
-<li><a class="reference internal" href="#client-data-t-1" id="toc-entry-2">client_data_t()</a></li>
-<li><a class="reference internal" href="#void-operator-const" id="toc-entry-3">void*() operator=() const*()</a></li>
+<li><a class="reference internal" href="#client-data-t" id="id33">client_data_t</a><ul>
+<li><a class="reference internal" href="#id3" id="id34">client_data_t()</a></li>
+<li><a class="reference internal" href="#void-operator-const" id="id35">void*() operator=() const*()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#add-torrent-params" id="toc-entry-4">add_torrent_params</a></li>
+<li><a class="reference internal" href="#add-torrent-params" id="id36">add_torrent_params</a></li>
 </ul>
 </div>
 <a name="client_data_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+client_data_t&labels=documentation&body=Documentation+under+heading+%22class+client_data_t%22+could+be+improved">report issue</a>]</span><div class="section" id="client-data-t">
@@ -52,8 +52,8 @@ struct client_data_t
    <strong>client_data_t</strong> () = default;
    explicit <strong>client_data_t</strong> (T* v);
    client_data_t&amp; <strong>operator=</strong> (T* v);
-   explicit operator <strong>T</strong> () const;
    T* <strong>get</strong> () const;
+   explicit operator <strong>T</strong> () const;
    operator <strong>void*</strong> () const = delete;
    operator void <strong>const*</strong> () const = delete;
    client_data_t&amp; <strong>operator=</strong> (void const*) = delete;
@@ -62,7 +62,7 @@ struct client_data_t
    template &lt;typename T, typename <strong>U</strong>  = typename std::enable_if&lt;std::is_pointer&lt;T&gt;::value&gt;::type&gt;
 };
 </pre>
-<a name="client_data_t()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:client_data_t%3A%3A%5Bclient_data_t%28%29%5D&labels=documentation&body=Documentation+under+heading+%22client_data_t%3A%3A%5Bclient_data_t%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="client-data-t-1">
+<a name="client_data_t()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:client_data_t%3A%3A%5Bclient_data_t%28%29%5D&labels=documentation&body=Documentation+under+heading+%22client_data_t%3A%3A%5Bclient_data_t%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="id3">
 <h2>client_data_t()</h2>
 <pre class="literal-block">
 <strong>client_data_t</strong> () = default;
@@ -85,16 +85,19 @@ client_data_t&amp; <strong>operator=</strong> (void*) = delete;
 <div class="section" id="add-torrent-params">
 <h1>add_torrent_params</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/add_torrent_params.hpp">libtorrent/add_torrent_params.hpp</a>&quot;</p>
-<p>The <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> is a parameter pack for adding torrents to a
-<a class="reference external" href="reference-Session.html#session">session</a>. The key fields when adding a torrent are:</p>
+<p>The <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> contains all the information in a .torrent file
+along with all information necessary to add that torrent to a <a class="reference external" href="reference-Session.html#session">session</a>.
+The key fields when adding a torrent are:</p>
 <ul class="simple">
-<li>ti - when you have loaded a .torrent file into a <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> object</li>
-<li>info_hash - when you don't have the metadata (.torrent file) but. This
-is set when adding a magnet link.</li>
+<li>ti - the immutable info-dict part of the torrent</li>
+<li>info_hash - when you don't have the metadata (.torrent file). This
+uniquely identifies the torrent and can validate the info-dict when
+received from the swarm.</li>
 </ul>
-<p>one of those fields must be set. Another mandatory field is
-<tt class="docutils literal">save_path</tt>. The <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object is passed into one of the
-<tt class="docutils literal"><span class="pre">session::add_torrent()</span></tt> overloads or <tt class="docutils literal"><span class="pre">session::async_add_torrent()</span></tt>.</p>
+<p>In order to add a torrent to a <a class="reference external" href="reference-Session.html#session">session</a>, one of those fields must be set
+in addition to <tt class="docutils literal">save_path</tt>. The <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object can then be
+passed into one of the <tt class="docutils literal"><span class="pre">session::add_torrent()</span></tt> overloads or
+<tt class="docutils literal"><span class="pre">session::async_add_torrent()</span></tt>.</p>
 <p>If you only specify the info-hash, the torrent file will be downloaded
 from peers, which requires them to support the metadata extension. For
 the metadata extension to work, libtorrent must be built with extensions
@@ -108,6 +111,9 @@ torrent. It can be saved to and restored from a file and added back to a
 new <a class="reference external" href="reference-Session.html#session">session</a>. For serialization and de-serialization of
 <tt class="docutils literal">add_torrent_params</tt> objects, see <a class="reference external" href="reference-Resume_Data.html#read_resume_data()">read_resume_data()</a> and
 <a class="reference external" href="reference-Resume_Data.html#write_resume_data()">write_resume_data()</a>.</p>
+<p>The <tt class="docutils literal">add_torrent_params</tt> is also used to represent a parsed .torrent
+file. It can be loaded via <a class="reference external" href="reference-Core.html#load_torrent_file()">load_torrent_file()</a>, <a class="reference external" href="reference-Core.html#load_torrent_buffer()">load_torrent_buffer()</a> and
+<a class="reference external" href="reference-Core.html#load_torrent_parsed()">load_torrent_parsed()</a>. It can be saved via <a class="reference external" href="reference-Resume_Data.html#write_torrent_file()">write_torrent_file()</a>.</p>
 <pre class="literal-block">
 struct add_torrent_params
 {
@@ -219,7 +225,11 @@ torrent object and can be retrieved by calling <a class="reference external" hre
 torrent. The semantics are the same as for
 <tt class="docutils literal"><span class="pre">torrent_handle::prioritize_files()</span></tt>. The file priorities specified
 in here take precedence over those specified in the resume data, if
-any.</dd>
+any.
+If this vector of file priorities is shorter than the number of files
+in the torrent, the remaining files (not covered by this) will still
+have the default download priority. This default can be changed by
+setting the default_dont_download torrent_flag.</dd>
 </dl>
 <a name="trackerid"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Btrackerid%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Btrackerid%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
 <dt>trackerid</dt>

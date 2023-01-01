@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,18 +25,18 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.7</td></tr>
+<td>2.0.8</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#announce-infohash" id="toc-entry-1">announce_infohash</a></li>
-<li><a class="reference internal" href="#announce-endpoint" id="toc-entry-2">announce_endpoint</a></li>
-<li><a class="reference internal" href="#announce-entry" id="toc-entry-3">announce_entry</a><ul>
-<li><a class="reference internal" href="#operator-announce-entry-announce-entry" id="toc-entry-4">operator=() announce_entry() ~announce_entry()</a></li>
-<li><a class="reference internal" href="#enum-tracker-source" id="toc-entry-5">enum tracker_source</a></li>
+<li><a class="reference internal" href="#announce-infohash" id="id8">announce_infohash</a></li>
+<li><a class="reference internal" href="#announce-endpoint" id="id9">announce_endpoint</a></li>
+<li><a class="reference internal" href="#announce-entry" id="id10">announce_entry</a><ul>
+<li><a class="reference internal" href="#announce-entry-operator-announce-entry" id="id11">announce_entry() operator=() ~announce_entry()</a></li>
+<li><a class="reference internal" href="#enum-tracker-source" id="id12">enum tracker_source</a></li>
 </ul>
 </li>
 </ul>
@@ -135,11 +135,11 @@ relates to a specific torrent.</p>
 <pre class="literal-block">
 struct announce_entry
 {
-   announce_entry&amp; <strong>operator=</strong> (announce_entry const&amp;) &amp;;
-   <strong>announce_entry</strong> (announce_entry const&amp;);
    <strong>~announce_entry</strong> ();
-   <strong>announce_entry</strong> ();
+   <strong>announce_entry</strong> (announce_entry const&amp;);
    explicit <strong>announce_entry</strong> (string_view u);
+   announce_entry&amp; <strong>operator=</strong> (announce_entry const&amp;) &amp;;
+   <strong>announce_entry</strong> ();
 
    enum tracker_source
    {
@@ -158,16 +158,16 @@ struct announce_entry
    bool verified:1;
 };
 </pre>
-<a name="operator=()"></a>
 <a name="announce_entry()"></a>
-<a name="~announce_entry()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_entry%3A%3A%5Boperator%3D%28%29+announce_entry%28%29+~announce_entry%28%29%5D&labels=documentation&body=Documentation+under+heading+%22announce_entry%3A%3A%5Boperator%3D%28%29+announce_entry%28%29+~announce_entry%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="operator-announce-entry-announce-entry">
-<h2>operator=() announce_entry() ~announce_entry()</h2>
+<a name="operator=()"></a>
+<a name="~announce_entry()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_entry%3A%3A%5Bannounce_entry%28%29+operator%3D%28%29+~announce_entry%28%29%5D&labels=documentation&body=Documentation+under+heading+%22announce_entry%3A%3A%5Bannounce_entry%28%29+operator%3D%28%29+~announce_entry%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="announce-entry-operator-announce-entry">
+<h2>announce_entry() operator=() ~announce_entry()</h2>
 <pre class="literal-block">
-announce_entry&amp; <strong>operator=</strong> (announce_entry const&amp;) &amp;;
-<strong>announce_entry</strong> (announce_entry const&amp;);
 <strong>~announce_entry</strong> ();
-<strong>announce_entry</strong> ();
+<strong>announce_entry</strong> (announce_entry const&amp;);
 explicit <strong>announce_entry</strong> (string_view u);
+announce_entry&amp; <strong>operator=</strong> (announce_entry const&amp;) &amp;;
+<strong>announce_entry</strong> ();
 </pre>
 <p>constructs a tracker announce <a class="reference external" href="reference-Bencoding.html#entry">entry</a> with <tt class="docutils literal">u</tt> as the URL.</p>
 <a name="tracker_source"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+tracker_source&labels=documentation&body=Documentation+under+heading+%22enum+tracker_source%22+could+be+improved">report issue</a>]</span></div>

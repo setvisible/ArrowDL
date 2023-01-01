@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,30 +25,30 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.7</td></tr>
+<td>2.0.8</td></tr>
 </tbody>
 </table>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#introduction" id="toc-entry-1">introduction</a></li>
-<li><a class="reference internal" href="#features" id="toc-entry-2">features</a><ul>
-<li><a class="reference internal" href="#bittorrent-v2" id="toc-entry-3">BitTorrent v2</a></li>
-<li><a class="reference internal" href="#extensions" id="toc-entry-4">extensions</a></li>
-<li><a class="reference internal" href="#disk-management" id="toc-entry-5">disk management</a></li>
-<li><a class="reference internal" href="#network" id="toc-entry-6">network</a></li>
+<li><a class="reference internal" href="#introduction" id="id4">introduction</a></li>
+<li><a class="reference internal" href="#features" id="id5">features</a><ul>
+<li><a class="reference internal" href="#bittorrent-v2" id="id6">BitTorrent v2</a></li>
+<li><a class="reference internal" href="#extensions" id="id7">extensions</a></li>
+<li><a class="reference internal" href="#disk-management" id="id8">disk management</a></li>
+<li><a class="reference internal" href="#network" id="id9">network</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#highlighted-features" id="toc-entry-7">highlighted features</a><ul>
-<li><a class="reference internal" href="#disk-i-o" id="toc-entry-8">disk I/O</a></li>
-<li><a class="reference internal" href="#network-buffers" id="toc-entry-9">network buffers</a></li>
-<li><a class="reference internal" href="#piece-picker" id="toc-entry-10">piece picker</a></li>
-<li><a class="reference internal" href="#share-mode" id="toc-entry-11">share mode</a></li>
-<li><a class="reference internal" href="#customizable-file-i-o" id="toc-entry-12">customizable file I/O</a></li>
-<li><a class="reference internal" href="#easy-to-use-api" id="toc-entry-13">easy to use API</a></li>
+<li><a class="reference internal" href="#highlighted-features" id="id10">highlighted features</a><ul>
+<li><a class="reference internal" href="#disk-i-o" id="id11">disk I/O</a></li>
+<li><a class="reference internal" href="#network-buffers" id="id12">network buffers</a></li>
+<li><a class="reference internal" href="#piece-picker" id="id13">piece picker</a></li>
+<li><a class="reference internal" href="#share-mode" id="id14">share mode</a></li>
+<li><a class="reference internal" href="#customizable-file-i-o" id="id15">customizable file I/O</a></li>
+<li><a class="reference internal" href="#easy-to-use-api" id="id16">easy to use API</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#portability" id="toc-entry-14">portability</a></li>
+<li><a class="reference internal" href="#portability" id="id17">portability</a></li>
 </ul>
 </div>
 <div class="section" id="introduction">
@@ -255,29 +255,29 @@ operating system's disk cache).</p>
 have it possible to do complicated and advanced operations. This is best illustrated by example
 code to implement a simple bittorrent client:</p>
 <pre class="code c++ literal-block">
-<span class="comment preproc">#include</span> <span class="comment preprocfile">&lt;iostream&gt;</span><span class="comment preproc">
-#include</span> <span class="comment preprocfile">&quot;libtorrent/session.hpp&quot;</span><span class="comment preproc">
-</span>
-<span class="comment single">// usage a.out [torrent-file]
-</span><span class="keyword type">int</span> <span class="name function">main</span><span class="punctuation">(</span><span class="keyword type">int</span> <span class="name">argc</span><span class="punctuation">,</span> <span class="keyword type">char</span><span class="operator">*</span> <span class="name">argv</span><span class="punctuation">[])</span> <span class="keyword">try</span>
-<span class="punctuation">{</span>
-        <span class="name">lt</span><span class="operator">::</span><span class="name">session</span> <span class="name">s</span><span class="punctuation">;</span>
-        <span class="name">lt</span><span class="operator">::</span><span class="name">add_torrent_params</span> <span class="name">p</span><span class="punctuation">;</span>
-        <span class="name">p</span><span class="punctuation">.</span><span class="name">save_path</span> <span class="operator">=</span> <span class="literal string">&quot;./&quot;</span><span class="punctuation">;</span>
-        <span class="name">p</span><span class="punctuation">.</span><span class="name">ti</span> <span class="operator">=</span> <span class="name">std</span><span class="operator">::</span><span class="name">make_shared</span><span class="operator">&lt;</span><span class="name">torrent_info</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">argv</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]);</span>
-        <span class="name">lt</span><span class="operator">::</span><span class="name">torrent_handle</span> <span class="name">h</span> <span class="operator">=</span> <span class="name">s</span><span class="punctuation">.</span><span class="name">add_torrent</span><span class="punctuation">(</span><span class="name">p</span><span class="punctuation">);</span>
+<span class="comment preproc">#include</span><span class="whitespace"> </span><span class="comment preprocfile">&lt;iostream&gt;</span><span class="comment preproc">
+#include</span><span class="whitespace"> </span><span class="comment preprocfile">&quot;libtorrent/session.hpp&quot;</span><span class="comment preproc">
+</span><span class="whitespace">
+</span><span class="comment single">// usage a.out [torrent-file]
+</span><span class="keyword type">int</span><span class="whitespace"> </span><span class="name function">main</span><span class="punctuation">(</span><span class="keyword type">int</span><span class="whitespace"> </span><span class="name">argc</span><span class="punctuation">,</span><span class="whitespace"> </span><span class="keyword type">char</span><span class="operator">*</span><span class="whitespace"> </span><span class="name">argv</span><span class="punctuation">[])</span><span class="whitespace"> </span><span class="keyword">try</span><span class="whitespace">
+</span><span class="punctuation">{</span><span class="whitespace">
+        </span><span class="name">lt</span><span class="operator">::</span><span class="name">session</span><span class="whitespace"> </span><span class="name">s</span><span class="punctuation">;</span><span class="whitespace">
+        </span><span class="name">lt</span><span class="operator">::</span><span class="name">add_torrent_params</span><span class="whitespace"> </span><span class="name">p</span><span class="punctuation">;</span><span class="whitespace">
+        </span><span class="name">p</span><span class="punctuation">.</span><span class="name">save_path</span><span class="whitespace"> </span><span class="operator">=</span><span class="whitespace"> </span><span class="literal string">&quot;./&quot;</span><span class="punctuation">;</span><span class="whitespace">
+        </span><span class="name">p</span><span class="punctuation">.</span><span class="name">ti</span><span class="whitespace"> </span><span class="operator">=</span><span class="whitespace"> </span><span class="name">std</span><span class="operator">::</span><span class="name">make_shared</span><span class="operator">&lt;</span><span class="name">torrent_info</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">argv</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]);</span><span class="whitespace">
+        </span><span class="name">lt</span><span class="operator">::</span><span class="name">torrent_handle</span><span class="whitespace"> </span><span class="name">h</span><span class="whitespace"> </span><span class="operator">=</span><span class="whitespace"> </span><span class="name">s</span><span class="punctuation">.</span><span class="name">add_torrent</span><span class="punctuation">(</span><span class="name">p</span><span class="punctuation">);</span><span class="whitespace">
 
-        <span class="comment single">// wait for the user to end
-</span>        <span class="keyword type">char</span> <span class="name">a</span><span class="punctuation">;</span>
-        <span class="name">std</span><span class="operator">::</span><span class="name">cin</span><span class="punctuation">.</span><span class="name">unsetf</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">skipws</span><span class="punctuation">);</span>
-        <span class="name">std</span><span class="operator">::</span><span class="name">cin</span> <span class="operator">&gt;&gt;</span> <span class="name">a</span><span class="punctuation">;</span>
-        <span class="keyword">return</span> <span class="literal number integer">0</span><span class="punctuation">;</span>
-<span class="punctuation">}</span>
-<span class="keyword">catch</span> <span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">exception</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name">e</span><span class="punctuation">)</span>
-<span class="punctuation">{</span>
-        <span class="name">std</span><span class="operator">::</span><span class="name">cerr</span> <span class="operator">&lt;&lt;</span> <span class="name">ec</span><span class="punctuation">.</span><span class="name">what</span><span class="punctuation">()</span> <span class="operator">&lt;&lt;</span> <span class="name">std</span><span class="operator">::</span><span class="name">endl</span><span class="punctuation">;</span>
-        <span class="keyword">return</span> <span class="literal number integer">1</span><span class="punctuation">;</span>
-<span class="punctuation">}</span>
+        </span><span class="comment single">// wait for the user to end
+</span><span class="whitespace">        </span><span class="keyword type">char</span><span class="whitespace"> </span><span class="name">a</span><span class="punctuation">;</span><span class="whitespace">
+        </span><span class="name">std</span><span class="operator">::</span><span class="name">cin</span><span class="punctuation">.</span><span class="name">unsetf</span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">skipws</span><span class="punctuation">);</span><span class="whitespace">
+        </span><span class="name">std</span><span class="operator">::</span><span class="name">cin</span><span class="whitespace"> </span><span class="operator">&gt;&gt;</span><span class="whitespace"> </span><span class="name">a</span><span class="punctuation">;</span><span class="whitespace">
+        </span><span class="keyword">return</span><span class="whitespace"> </span><span class="literal number integer">0</span><span class="punctuation">;</span><span class="whitespace">
+</span><span class="punctuation">}</span><span class="whitespace">
+</span><span class="keyword">catch</span><span class="whitespace"> </span><span class="punctuation">(</span><span class="name">std</span><span class="operator">::</span><span class="name">exception</span><span class="whitespace"> </span><span class="keyword">const</span><span class="operator">&amp;</span><span class="whitespace"> </span><span class="name">e</span><span class="punctuation">)</span><span class="whitespace">
+</span><span class="punctuation">{</span><span class="whitespace">
+        </span><span class="name">std</span><span class="operator">::</span><span class="name">cerr</span><span class="whitespace"> </span><span class="operator">&lt;&lt;</span><span class="whitespace"> </span><span class="name">ec</span><span class="punctuation">.</span><span class="name">what</span><span class="punctuation">()</span><span class="whitespace"> </span><span class="operator">&lt;&lt;</span><span class="whitespace"> </span><span class="name">std</span><span class="operator">::</span><span class="name">endl</span><span class="punctuation">;</span><span class="whitespace">
+        </span><span class="keyword">return</span><span class="whitespace"> </span><span class="literal number integer">1</span><span class="punctuation">;</span><span class="whitespace">
+</span><span class="punctuation">}</span>
 </pre>
 <p>This client doesn't give the user any status information or progress about the
 torrent, but it is fully functional.</p>

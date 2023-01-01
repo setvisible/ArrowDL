@@ -552,11 +552,12 @@ TORRENT_TEST(unc_tests)
 	TEST_CHECK(!exists(long_file_name1));
 	TEST_CHECK(exists(long_file_name2));
 
-	lt::copy_file(long_file_name2, long_file_name1, ec);
-	TEST_EQUAL(ec, error_code());
-	if (ec)
+	lt::storage_error se;
+	lt::aux::copy_file(long_file_name2, long_file_name1, se);
+	TEST_EQUAL(se.ec, error_code());
+	if (se.ec)
 	{
-		std::cout << "copy_file \"" << long_file_name2 << "\" failed " << ec.message() << "\n";
+		std::cout << "copy_file \"" << long_file_name2 << "\" failed " << se.ec.message() << "\n";
 		std::wcout << convert_to_native_path_string(long_file_name2) << L"\n";
 	}
 	TEST_CHECK(exists(long_file_name1));
@@ -597,20 +598,21 @@ TORRENT_TEST(unc_paths)
 	std::string const reserved_name = "con";
 	error_code ec;
 	{
-		file f(reserved_name, aux::open_mode::write, ec);
+		aux::file_handle f(reserved_name, 0, aux::open_mode::write);
 		TEST_CHECK(!ec);
 	}
 	remove(reserved_name, ec);
 	TEST_CHECK(!ec);
 }
 
+#endif
+
 TORRENT_TEST(to_file_open_mode)
 {
-	TEST_CHECK(aux::to_file_open_mode(aux::open_mode::write) == file_open_mode::read_write);
-	TEST_CHECK(aux::to_file_open_mode({}) == file_open_mode::read_only);
-	TEST_CHECK(aux::to_file_open_mode(aux::open_mode::no_atime) == (file_open_mode::read_only | file_open_mode::no_atime));
-	TEST_CHECK(aux::to_file_open_mode(aux::open_mode::write | aux::open_mode::no_atime) == (file_open_mode::read_write | file_open_mode::no_atime));
+	TEST_CHECK(aux::to_file_open_mode(aux::open_mode::write, false) == file_open_mode::read_write);
+	TEST_CHECK(aux::to_file_open_mode({}, false) == file_open_mode::read_only);
+	TEST_CHECK(aux::to_file_open_mode(aux::open_mode::no_atime, false) == (file_open_mode::read_only | file_open_mode::no_atime));
+	TEST_CHECK(aux::to_file_open_mode(aux::open_mode::write | aux::open_mode::no_atime, false) == (file_open_mode::read_write | file_open_mode::no_atime));
+	TEST_CHECK(aux::to_file_open_mode(aux::open_mode::write, true) == (file_open_mode::read_write | file_open_mode::mmapped));
 }
 
-
-#endif
