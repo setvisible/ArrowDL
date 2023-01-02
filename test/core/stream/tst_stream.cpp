@@ -726,9 +726,9 @@ void tst_Stream::fileBaseName_data()
     QTest::newRow("empty") << "" << QString();
 
     QTest::newRow("separator") << "Live 10/02/2018" << "Live 10-02-2018";
-    QTest::newRow("separator") << "here\\we\\come" << "here-we-come";
+    QTest::newRow("separator") << "here\\we\\come" << "Here-we-come";
 
-    QTest::newRow("tab") << "\t here\twe\tcome \t" << "here we come";
+    QTest::newRow("tab") << "\t here\twe\tcome \t" << "Here We Come";
 
     QTest::newRow("minus") << "- \x2D — \u2212 \u2014" << "- - - - -";
 
@@ -737,16 +737,23 @@ void tst_Stream::fileBaseName_data()
     QTest::newRow("@")        << "Live @ Windsor" << "Live @ Windsor";
     QTest::newRow("extra _") << "_*_Cambridge_*_" << "-Cambridge-";
 
-    QTest::newRow("double quote") << "\"Hello\" by Adele" << "'Hello' by Adele";
-    QTest::newRow("simple quote") << "Live in Paris '79" << "Live in Paris '79";
+    QTest::newRow("double quote") << "\"Hello\" by Adele" << "'Hello' By Adele";
+    QTest::newRow("simple quote") << "Live in Paris '79" << "Live In Paris '79";
 
     QTest::newRow("")
             << "\"Bohemian Rhapsody\" Steve Vai & Malmsteen & Zakk Wylde & Nuno@Atlantic City (11/30/18)"
             << "'Bohemian Rhapsody' Steve Vai & Malmsteen & Zakk Wylde & Nuno@Atlantic City (11-30-18)" ;
 
-    QTest::newRow("stupid text") << "Live '01 (Official Video)" << "Live '01";
-    QTest::newRow("stupid text") << "(Official Video) Live '01" << "Live '01";
-    QTest::newRow("stupid text") << "Live (Official Video) '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live '01 (Official Video)" << "Live '01";
+    QTest::newRow("unuseful text") << "(Official Video) Live '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live (Official Video) '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live (Official Visualizer) '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live ((Official Visualizer)) '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live (Radio Edit) '01" << "Live '01";
+
+    // BUGFIX with "Construction" that becomes "filestruction"
+    // https://www.youtube.com/watch?v=lSQ7pWUo3g4
+    QTest::newRow("_Con_struction") << "Construction" << "Construction";
 }
 
 void tst_Stream::fileBaseName()

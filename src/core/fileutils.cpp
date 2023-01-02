@@ -141,16 +141,38 @@ QString FileUtils::validateFileName(const QString &name, bool allowSubDir)
 
 /******************************************************************************
  ******************************************************************************/
+/*!
+ * \brief Replace "RUFUS THOMAS, THE FUNKY CHICKEN-LIVE"
+ *  to title-capitalized "Rufus Thomas, The Funky Chicken-Live"
+ */
+static QString capitalize(const QString &sentence)
+{
+    auto capitalized = sentence.toLower();
+    for (auto sep: {" ", ",", "-", "_", "\"", "'", "@"}) {
+        auto words = capitalized.split(sep, Qt::KeepEmptyParts);
+        for (int i = 0; i < words.size(); ++i) {
+            if (words[i].count() > 0) {
+                words[i].replace(0, 1, words[i][0].toUpper());
+            }
+        }
+        capitalized = words.join(sep);
+    }
+    return capitalized;
+}
+
 QString FileUtils::cleanFileName(const QString &fileName)
 {
-    QString ret = fileName.simplified();
+    auto ret = fileName.simplified();
     ret = ret.remove(QRegularExpression("official music video", QRegularExpression::CaseInsensitiveOption));
     ret = ret.remove(QRegularExpression("official video", QRegularExpression::CaseInsensitiveOption));
+    ret = ret.remove(QRegularExpression("official visualizer", QRegularExpression::CaseInsensitiveOption));
     ret = ret.remove(QRegularExpression("official audio", QRegularExpression::CaseInsensitiveOption));
     ret = ret.remove(QRegularExpression("video", QRegularExpression::CaseInsensitiveOption));
     ret = ret.remove(QRegularExpression("audio", QRegularExpression::CaseInsensitiveOption));
-    ret = ret.remove(QRegularExpression("\\(\\)", QRegularExpression::CaseInsensitiveOption));
-    ret = ret.remove(QRegularExpression("\\[\\]", QRegularExpression::CaseInsensitiveOption));
+    ret = ret.remove(QRegularExpression("radio edit", QRegularExpression::CaseInsensitiveOption));
+    ret = ret.remove(QRegularExpression("\\(+\\)+", QRegularExpression::CaseInsensitiveOption));
+    ret = ret.remove(QRegularExpression("\\[+\\]+", QRegularExpression::CaseInsensitiveOption));
+    ret = capitalize(ret);
     ret = ret.simplified();
 
     QString::iterator it;
