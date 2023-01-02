@@ -138,13 +138,13 @@ bool fs_supports_sparse_files()
 TORRENT_TEST(basic)
 {
 	write_file("basic-1", 10);
-	lt::error_code ec;
-	lt::copy_file("basic-1", "basic-1.copy", ec);
+	lt::storage_error ec;
+	lt::aux::copy_file("basic-1", "basic-1.copy", ec);
 	TEST_CHECK(!ec);
 	TEST_CHECK(compare_files("basic-1", "basic-1.copy"));
 
 	write_file("basic-2", 1000000);
-	lt::copy_file("basic-2", "basic-2.copy", ec);
+	lt::aux::copy_file("basic-2", "basic-2.copy", ec);
 	TEST_CHECK(!ec);
 	TEST_CHECK(compare_files("basic-2", "basic-2.copy"));
 }
@@ -154,7 +154,6 @@ TORRENT_TEST(sparse_file)
 {
 	using lt::aux::file_handle;
 	using lt::aux::file_mapping;
-	using lt::aux::file_view;
 	namespace open_mode = lt::aux::open_mode;
 
 	{
@@ -169,8 +168,7 @@ TORRENT_TEST(sparse_file)
 			, open_unmap_lock
 #endif
 			);
-		file_view view = map->view();
-		auto range = view.range();
+		auto range = map->range();
 		TEST_CHECK(range.size() == 50'000'000);
 
 		range[0] = 1;
@@ -202,8 +200,8 @@ TORRENT_TEST(sparse_file)
 		TEST_CHECK(original_size >= 50'000'000);
 	}
 
-	lt::error_code ec;
-	lt::copy_file("sparse-1", "sparse-1.copy", ec);
+	lt::storage_error ec;
+	lt::aux::copy_file("sparse-1", "sparse-1.copy", ec);
 	TEST_CHECK(!ec);
 
 	// make sure the copy is sparse

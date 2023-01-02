@@ -177,15 +177,33 @@ void tst_FileUtils::cleanFileName_data()
     QTest::addColumn<QString>("input");
     QTest::addColumn<QString>("expected");
 
-    QTest::newRow("") << "a - b" << "a - b";
-    QTest::newRow("dot") << "a • b" << "a - b";
+    QTest::newRow("empty") << "" << "";
+    QTest::newRow("simple") << "a" << "A";
+    QTest::newRow("simple") << "A" << "A";
+
+    QTest::newRow("") << "A - B" << "A - B";
+    QTest::newRow("dot") << "A • B" << "A - B";
     QTest::newRow("") << "Rénet Schlüß" << "Rénet Schlüß";
 
     QTest::newRow("dash") << "Quikelol #lol" << "Quikelol #lol";
 
-    QTest::newRow("stupid text") << "Live '01 (Official Video)" << "Live '01";
-    QTest::newRow("stupid text") << "(Official Video) Live '01" << "Live '01";
-    QTest::newRow("stupid text") << "Live (Official Video) '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live '01 (Official Video)" << "Live '01";
+    QTest::newRow("unuseful text") << "(Official Video) Live '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live (Official Video) '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live (Official Visualizer) '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live ((Official Visualizer)) '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live (Radio Edit) '01" << "Live '01";
+
+    // BUGFIX with "Construction" that becomes "filestruction"
+    // https://www.youtube.com/watch?v=lSQ7pWUo3g4
+    QTest::newRow("_Con_struction") << "Construction" << "Construction";
+
+    QTest::newRow("capitalized") << "ALICE AND BOB" << "Alice And Bob";
+    QTest::newRow("capitalized") << "ALICE and BOB" << "Alice And Bob";
+    QTest::newRow("capitalized") << "alice and bob" << "Alice And Bob";
+    QTest::newRow("capitalized") << "alice,and-bob" << "Alice,And-Bob";
+    QTest::newRow("capitalized") << "'alice'" << "'Alice'";
+    QTest::newRow("capitalized") << "\"alice\"" << "'Alice'";
 
     // Unicode UTF chars
     QTest::newRow("utf") << "لة الش" << "لة الش";

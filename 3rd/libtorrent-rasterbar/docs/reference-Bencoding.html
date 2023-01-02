@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,29 +25,29 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.7</td></tr>
+<td>2.0.8</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#entry" id="toc-entry-1">entry</a><ul>
-<li><a class="reference internal" href="#type" id="toc-entry-2">type()</a></li>
-<li><a class="reference internal" href="#entry-1" id="toc-entry-3">entry()</a></li>
-<li><a class="reference internal" href="#entry-2" id="toc-entry-4">entry()</a></li>
-<li><a class="reference internal" href="#entry-3" id="toc-entry-5">entry()</a></li>
-<li><a class="reference internal" href="#operator" id="toc-entry-6">operator=()</a></li>
-<li><a class="reference internal" href="#list-dict-preformatted-integer-string" id="toc-entry-7">list() dict() preformatted() integer() string()</a></li>
-<li><a class="reference internal" href="#swap" id="toc-entry-8">swap()</a></li>
-<li><a class="reference internal" href="#operator-1" id="toc-entry-9">operator[]()</a></li>
-<li><a class="reference internal" href="#find-key" id="toc-entry-10">find_key()</a></li>
-<li><a class="reference internal" href="#to-string" id="toc-entry-11">to_string()</a></li>
-<li><a class="reference internal" href="#enum-data-type" id="toc-entry-12">enum data_type</a></li>
+<li><a class="reference internal" href="#entry" id="id29">entry</a><ul>
+<li><a class="reference internal" href="#type" id="id30">type()</a></li>
+<li><a class="reference internal" href="#id11" id="id31">entry()</a></li>
+<li><a class="reference internal" href="#id13" id="id32">entry()</a></li>
+<li><a class="reference internal" href="#id16" id="id33">entry()</a></li>
+<li><a class="reference internal" href="#operator" id="id34">operator=()</a></li>
+<li><a class="reference internal" href="#list-string-dict-integer-preformatted" id="id35">list() string() dict() integer() preformatted()</a></li>
+<li><a class="reference internal" href="#swap" id="id36">swap()</a></li>
+<li><a class="reference internal" href="#id21" id="id37">operator[]()</a></li>
+<li><a class="reference internal" href="#find-key" id="id38">find_key()</a></li>
+<li><a class="reference internal" href="#to-string" id="id39">to_string()</a></li>
+<li><a class="reference internal" href="#enum-data-type" id="id40">enum data_type</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#operator-2" id="toc-entry-13">operator&lt;&lt;()</a></li>
-<li><a class="reference internal" href="#bencode" id="toc-entry-14">bencode()</a></li>
+<li><a class="reference internal" href="#id25" id="id41">operator&lt;&lt;()</a></li>
+<li><a class="reference internal" href="#bencode" id="id42">bencode()</a></li>
 </ul>
 </div>
 <p>Bencoding is a common representation in bittorrent used for dictionary,
@@ -73,33 +73,33 @@ or a string.</p>
 class entry
 {
    data_type <strong>type</strong> () const;
+   <strong>entry</strong> (preformatted_type);
+   <strong>entry</strong> (list_type);
+   <strong>entry</strong> (span&lt;char const&gt;);
    <strong>entry</strong> (integer_type);
    <strong>entry</strong> (dictionary_type);
-   <strong>entry</strong> (span&lt;char const&gt;);
-   <strong>entry</strong> (list_type);
-   <strong>entry</strong> (preformatted_type);
    <strong>entry</strong> (U v);
    <strong>entry</strong> (data_type t);
    <strong>entry</strong> (bdecode_node const&amp; n);
    entry&amp; <strong>operator=</strong> (span&lt;char const&gt;) &amp;;
-   entry&amp; <strong>operator=</strong> (entry const&amp;) &amp;;
    entry&amp; <strong>operator=</strong> (preformatted_type) &amp;;
    entry&amp; <strong>operator=</strong> (bdecode_node const&amp;) &amp;;
+   entry&amp; <strong>operator=</strong> (list_type) &amp;;
    entry&amp; <strong>operator=</strong> (integer_type) &amp;;
    entry&amp; <strong>operator=</strong> (dictionary_type) &amp;;
-   entry&amp; <strong>operator=</strong> (list_type) &amp;;
    entry&amp; <strong>operator=</strong> (entry&amp;&amp;) &amp; noexcept;
+   entry&amp; <strong>operator=</strong> (entry const&amp;) &amp;;
    entry&amp; <strong>operator=</strong> (U v) &amp;;
    list_type const&amp; <strong>list</strong> () const;
-   dictionary_type&amp; <strong>dict</strong> ();
-   integer_type const&amp; <strong>integer</strong> () const;
-   string_type&amp; <strong>string</strong> ();
-   string_type const&amp; <strong>string</strong> () const;
-   integer_type&amp; <strong>integer</strong> ();
-   preformatted_type const&amp; <strong>preformatted</strong> () const;
    preformatted_type&amp; <strong>preformatted</strong> ();
+   dictionary_type&amp; <strong>dict</strong> ();
    dictionary_type const&amp; <strong>dict</strong> () const;
    list_type&amp; <strong>list</strong> ();
+   string_type const&amp; <strong>string</strong> () const;
+   integer_type const&amp; <strong>integer</strong> () const;
+   string_type&amp; <strong>string</strong> ();
+   integer_type&amp; <strong>integer</strong> ();
+   preformatted_type const&amp; <strong>preformatted</strong> () const;
    void <strong>swap</strong> (entry&amp; e);
    entry&amp; <strong>operator[]</strong> (string_view key);
    entry const&amp; <strong>operator[]</strong> (string_view key) const;
@@ -125,20 +125,20 @@ data_type <strong>type</strong> () const;
 </pre>
 <p>returns the concrete type of the <a class="reference external" href="reference-Bencoding.html#entry">entry</a></p>
 <a name="entry()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Bentry%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Bentry%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="entry-1">
+<div class="section" id="id11">
 <h2>entry()</h2>
 <pre class="literal-block">
+<strong>entry</strong> (preformatted_type);
+<strong>entry</strong> (list_type);
+<strong>entry</strong> (span&lt;char const&gt;);
 <strong>entry</strong> (integer_type);
 <strong>entry</strong> (dictionary_type);
-<strong>entry</strong> (span&lt;char const&gt;);
-<strong>entry</strong> (list_type);
-<strong>entry</strong> (preformatted_type);
 </pre>
 <p>constructors directly from a specific type.
 The content of the argument is copied into the
 newly constructed <a class="reference external" href="reference-Bencoding.html#entry">entry</a></p>
 <a name="entry()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Bentry%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Bentry%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="entry-2">
+<div class="section" id="id13">
 <h2>entry()</h2>
 <pre class="literal-block">
 <strong>entry</strong> (data_type t);
@@ -146,7 +146,7 @@ newly constructed <a class="reference external" href="reference-Bencoding.html#e
 <p>construct an empty <a class="reference external" href="reference-Bencoding.html#entry">entry</a> of the specified type.
 see <a class="reference external" href="reference-Bencoding.html#data_type">data_type</a> enum.</p>
 <a name="entry()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Bentry%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Bentry%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="entry-3">
+<div class="section" id="id16">
 <h2>entry()</h2>
 <pre class="literal-block">
 <strong>entry</strong> (bdecode_node const&amp; n);
@@ -157,34 +157,34 @@ see <a class="reference external" href="reference-Bencoding.html#data_type">data
 <h2>operator=()</h2>
 <pre class="literal-block">
 entry&amp; <strong>operator=</strong> (span&lt;char const&gt;) &amp;;
-entry&amp; <strong>operator=</strong> (entry const&amp;) &amp;;
 entry&amp; <strong>operator=</strong> (preformatted_type) &amp;;
 entry&amp; <strong>operator=</strong> (bdecode_node const&amp;) &amp;;
+entry&amp; <strong>operator=</strong> (list_type) &amp;;
 entry&amp; <strong>operator=</strong> (integer_type) &amp;;
 entry&amp; <strong>operator=</strong> (dictionary_type) &amp;;
-entry&amp; <strong>operator=</strong> (list_type) &amp;;
 entry&amp; <strong>operator=</strong> (entry&amp;&amp;) &amp; noexcept;
+entry&amp; <strong>operator=</strong> (entry const&amp;) &amp;;
 </pre>
 <p>copies the structure of the right hand side into this
 <a class="reference external" href="reference-Bencoding.html#entry">entry</a>.</p>
 <a name="list()"></a>
+<a name="string()"></a>
 <a name="dict()"></a>
-<a name="preformatted()"></a>
 <a name="integer()"></a>
-<a name="string()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Blist%28%29+dict%28%29+preformatted%28%29+integer%28%29+string%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Blist%28%29+dict%28%29+preformatted%28%29+integer%28%29+string%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="list-dict-preformatted-integer-string">
-<h2>list() dict() preformatted() integer() string()</h2>
+<a name="preformatted()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Blist%28%29+string%28%29+dict%28%29+integer%28%29+preformatted%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Blist%28%29+string%28%29+dict%28%29+integer%28%29+preformatted%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="list-string-dict-integer-preformatted">
+<h2>list() string() dict() integer() preformatted()</h2>
 <pre class="literal-block">
 list_type const&amp; <strong>list</strong> () const;
-dictionary_type&amp; <strong>dict</strong> ();
-integer_type const&amp; <strong>integer</strong> () const;
-string_type&amp; <strong>string</strong> ();
-string_type const&amp; <strong>string</strong> () const;
-integer_type&amp; <strong>integer</strong> ();
-preformatted_type const&amp; <strong>preformatted</strong> () const;
 preformatted_type&amp; <strong>preformatted</strong> ();
+dictionary_type&amp; <strong>dict</strong> ();
 dictionary_type const&amp; <strong>dict</strong> () const;
 list_type&amp; <strong>list</strong> ();
+string_type const&amp; <strong>string</strong> () const;
+integer_type const&amp; <strong>integer</strong> () const;
+string_type&amp; <strong>string</strong> ();
+integer_type&amp; <strong>integer</strong> ();
+preformatted_type const&amp; <strong>preformatted</strong> () const;
 </pre>
 <p>The <tt class="docutils literal">integer()</tt>, <tt class="docutils literal">string()</tt>, <tt class="docutils literal">list()</tt> and <tt class="docutils literal">dict()</tt> functions
 are accessors that return the respective type. If the <tt class="docutils literal">entry</tt> object
@@ -198,30 +198,30 @@ have.</p>
 <p>The typical code to get info from a torrent file will then look like
 this:</p>
 <pre class="code c++ literal-block">
-<span class="name">entry</span> <span class="name">torrent_file</span><span class="punctuation">;</span>
-<span class="comment single">// ...
-</span>
-<span class="comment single">// throws if this is not a dictionary
-</span><span class="name">entry</span><span class="operator">::</span><span class="name">dictionary_type</span> <span class="keyword">const</span><span class="operator">&amp;</span> <span class="name">dict</span> <span class="operator">=</span> <span class="name">torrent_file</span><span class="punctuation">.</span><span class="name">dict</span><span class="punctuation">();</span>
-<span class="name">entry</span><span class="operator">::</span><span class="name">dictionary_type</span><span class="operator">::</span><span class="name">const_iterator</span> <span class="name">i</span><span class="punctuation">;</span>
-<span class="name">i</span> <span class="operator">=</span> <span class="name">dict</span><span class="punctuation">.</span><span class="name">find</span><span class="punctuation">(</span><span class="literal string">&quot;announce&quot;</span><span class="punctuation">);</span>
-<span class="keyword">if</span> <span class="punctuation">(</span><span class="name">i</span> <span class="operator">!=</span> <span class="name">dict</span><span class="punctuation">.</span><span class="name">end</span><span class="punctuation">())</span>
-<span class="punctuation">{</span>
-        <span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="name">tracker_url</span> <span class="operator">=</span> <span class="name">i</span><span class="operator">-&gt;</span><span class="name">second</span><span class="punctuation">.</span><span class="name">string</span><span class="punctuation">();</span>
-        <span class="name">std</span><span class="operator">::</span><span class="name">cout</span> <span class="operator">&lt;&lt;</span> <span class="name">tracker_url</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
-<span class="punctuation">}</span>
+<span class="name">entry</span><span class="whitespace"> </span><span class="name">torrent_file</span><span class="punctuation">;</span><span class="whitespace">
+</span><span class="comment single">// ...
+</span><span class="whitespace">
+</span><span class="comment single">// throws if this is not a dictionary
+</span><span class="name">entry</span><span class="operator">::</span><span class="name">dictionary_type</span><span class="whitespace"> </span><span class="keyword">const</span><span class="operator">&amp;</span><span class="whitespace"> </span><span class="name">dict</span><span class="whitespace"> </span><span class="operator">=</span><span class="whitespace"> </span><span class="name">torrent_file</span><span class="punctuation">.</span><span class="name">dict</span><span class="punctuation">();</span><span class="whitespace">
+</span><span class="name">entry</span><span class="operator">::</span><span class="name">dictionary_type</span><span class="operator">::</span><span class="name">const_iterator</span><span class="whitespace"> </span><span class="name">i</span><span class="punctuation">;</span><span class="whitespace">
+</span><span class="name">i</span><span class="whitespace"> </span><span class="operator">=</span><span class="whitespace"> </span><span class="name">dict</span><span class="punctuation">.</span><span class="name">find</span><span class="punctuation">(</span><span class="literal string">&quot;announce&quot;</span><span class="punctuation">);</span><span class="whitespace">
+</span><span class="keyword">if</span><span class="whitespace"> </span><span class="punctuation">(</span><span class="name">i</span><span class="whitespace"> </span><span class="operator">!=</span><span class="whitespace"> </span><span class="name">dict</span><span class="punctuation">.</span><span class="name">end</span><span class="punctuation">())</span><span class="whitespace">
+</span><span class="punctuation">{</span><span class="whitespace">
+        </span><span class="name">std</span><span class="operator">::</span><span class="name">string</span><span class="whitespace"> </span><span class="name">tracker_url</span><span class="whitespace"> </span><span class="operator">=</span><span class="whitespace"> </span><span class="name">i</span><span class="operator">-&gt;</span><span class="name">second</span><span class="punctuation">.</span><span class="name">string</span><span class="punctuation">();</span><span class="whitespace">
+        </span><span class="name">std</span><span class="operator">::</span><span class="name">cout</span><span class="whitespace"> </span><span class="operator">&lt;&lt;</span><span class="whitespace"> </span><span class="name">tracker_url</span><span class="whitespace"> </span><span class="operator">&lt;&lt;</span><span class="whitespace"> </span><span class="literal string">&quot;</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span><span class="whitespace">
+</span><span class="punctuation">}</span>
 </pre>
 <p>The following code is equivalent, but a little bit shorter:</p>
 <pre class="code c++ literal-block">
-<span class="name">entry</span> <span class="name">torrent_file</span><span class="punctuation">;</span>
-<span class="comment single">// ...
-</span>
-<span class="comment single">// throws if this is not a dictionary
-</span><span class="keyword">if</span> <span class="punctuation">(</span><span class="name">entry</span><span class="operator">*</span> <span class="name">i</span> <span class="operator">=</span> <span class="name">torrent_file</span><span class="punctuation">.</span><span class="name">find_key</span><span class="punctuation">(</span><span class="literal string">&quot;announce&quot;</span><span class="punctuation">))</span>
-<span class="punctuation">{</span>
-        <span class="name">std</span><span class="operator">::</span><span class="name">string</span> <span class="name">tracker_url</span> <span class="operator">=</span> <span class="name">i</span><span class="operator">-&gt;</span><span class="name">string</span><span class="punctuation">();</span>
-        <span class="name">std</span><span class="operator">::</span><span class="name">cout</span> <span class="operator">&lt;&lt;</span> <span class="name">tracker_url</span> <span class="operator">&lt;&lt;</span> <span class="literal string">&quot;</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span>
-<span class="punctuation">}</span>
+<span class="name">entry</span><span class="whitespace"> </span><span class="name">torrent_file</span><span class="punctuation">;</span><span class="whitespace">
+</span><span class="comment single">// ...
+</span><span class="whitespace">
+</span><span class="comment single">// throws if this is not a dictionary
+</span><span class="keyword">if</span><span class="whitespace"> </span><span class="punctuation">(</span><span class="name">entry</span><span class="operator">*</span><span class="whitespace"> </span><span class="name">i</span><span class="whitespace"> </span><span class="operator">=</span><span class="whitespace"> </span><span class="name">torrent_file</span><span class="punctuation">.</span><span class="name">find_key</span><span class="punctuation">(</span><span class="literal string">&quot;announce&quot;</span><span class="punctuation">))</span><span class="whitespace">
+</span><span class="punctuation">{</span><span class="whitespace">
+        </span><span class="name">std</span><span class="operator">::</span><span class="name">string</span><span class="whitespace"> </span><span class="name">tracker_url</span><span class="whitespace"> </span><span class="operator">=</span><span class="whitespace"> </span><span class="name">i</span><span class="operator">-&gt;</span><span class="name">string</span><span class="punctuation">();</span><span class="whitespace">
+        </span><span class="name">std</span><span class="operator">::</span><span class="name">cout</span><span class="whitespace"> </span><span class="operator">&lt;&lt;</span><span class="whitespace"> </span><span class="name">tracker_url</span><span class="whitespace"> </span><span class="operator">&lt;&lt;</span><span class="whitespace"> </span><span class="literal string">&quot;</span><span class="literal string escape">\n</span><span class="literal string">&quot;</span><span class="punctuation">;</span><span class="whitespace">
+</span><span class="punctuation">}</span>
 </pre>
 <p>To make it easier to extract information from a torrent file, the
 class <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> exists.</p>
@@ -233,7 +233,7 @@ void <strong>swap</strong> (entry&amp; e);
 </pre>
 <p>swaps the content of <em>this</em> with <tt class="docutils literal">e</tt>.</p>
 <a name="operator[]()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Boperator%5B%5D%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Boperator%5B%5D%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="operator-1">
+<div class="section" id="id21">
 <h2>operator[]()</h2>
 <pre class="literal-block">
 entry&amp; <strong>operator[]</strong> (string_view key);
@@ -313,7 +313,7 @@ of the bencoded structure, with JSON-style syntax</p>
 </table>
 <a name="operator<<()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:operator%3C%3C%28%29&labels=documentation&body=Documentation+under+heading+%22operator%3C%3C%28%29%22+could+be+improved">report issue</a>]</span></div>
 </div>
-<div class="section" id="operator-2">
+<div class="section" id="id25">
 <h1>operator&lt;&lt;()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/entry.hpp">libtorrent/entry.hpp</a>&quot;</p>
 <pre class="literal-block">

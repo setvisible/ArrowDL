@@ -73,7 +73,7 @@ namespace aux {
 
 	namespace mi = boost::multi_index;
 
-	TORRENT_EXTRA_EXPORT file_open_mode_t to_file_open_mode(open_mode_t);
+	TORRENT_EXTRA_EXPORT file_open_mode_t to_file_open_mode(open_mode_t, bool const mmapped);
 
 	// this is an internal cache of open file mappings.
 	struct TORRENT_EXTRA_EXPORT file_view_pool
@@ -89,7 +89,8 @@ namespace aux {
 		// return an open file handle to file at ``file_index`` in the
 		// file_storage ``fs`` opened at save path ``p``. ``m`` is the
 		// file open mode (see file::open_mode_t).
-		file_view open_file(storage_index_t st, std::string const& p
+		std::shared_ptr<file_mapping>
+		open_file(storage_index_t st, std::string const& p
 			, file_index_t file_index, file_storage const& fs, open_mode_t m
 #if TORRENT_HAVE_MAP_VIEW_OF_FILE
 			, std::shared_ptr<std::mutex> open_unmap_lock
@@ -205,6 +206,14 @@ namespace aux {
 		};
 
 		void notify_file_open(opening_file_entry& ofe, std::shared_ptr<file_mapping>, lt::storage_error const&);
+
+		file_entry open_file_impl(std::string const& p
+			, file_index_t file_index, file_storage const& fs
+			, open_mode_t m, file_id file_key
+#if TORRENT_HAVE_MAP_VIEW_OF_FILE
+			, std::shared_ptr<std::mutex> open_unmap_lock
+#endif
+			);
 
 		// In order to avoid multiple threads opening the same file in parallel,
 		// just to race to add it to the pool. This list, also protected by

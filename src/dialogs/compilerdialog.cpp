@@ -209,6 +209,7 @@ QString CompilerDialog::getVersionString(const QString &fName)
 
 #else /* POSIX */
     // \todo
+    Q_UNUSED(fName)
     ret = QString("?.?.??");
 #endif
     return ret;

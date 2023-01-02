@@ -174,7 +174,7 @@
           <item row="4" column="0">
            <widget class="QLabel" name="libtorrentVersionLabel">
             <property name="text">
-             <string notr="true">libtorrent:</string>
+             <string notr="true">Libtorrent</string>
             </property>
            </widget>
           </item>

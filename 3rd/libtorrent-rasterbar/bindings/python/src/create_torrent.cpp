@@ -214,6 +214,7 @@ void bind_create_torrent()
             , arg("flags") = create_flags_t{})))
 
         .def("generate", &create_torrent::generate)
+        .def("generate_buf", &create_torrent::generate_buf)
 
         .def("files", &create_torrent::files, return_internal_reference<>())
         .def("set_comment", &create_torrent::set_comment)
@@ -247,6 +248,7 @@ void bind_create_torrent()
         s.attr("modification_time") = create_torrent::modification_time;
         s.attr("symlinks") = create_torrent::symlinks;
         s.attr("no_attributes") = create_torrent::no_attributes;
+        s.attr("canonical_files_no_tail_padding") = create_torrent::canonical_files_no_tail_padding;
     }
 
     {

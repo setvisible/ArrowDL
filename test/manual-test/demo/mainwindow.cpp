@@ -440,13 +440,13 @@ void MainWindow::refreshMenus()
     const bool hasJobs = !m_downloadManager->downloadItems().isEmpty();
     const bool hasSelection = !m_downloadManager->selection().isEmpty();
     // const bool hasOnlyOneSelected = m_downloadManager->selection().count() == 1;
-    bool hasOnlyCompletedSelected = hasSelection;
-    foreach (auto item, m_downloadManager->selection()) {
-        if (item->state() != IDownloadItem::Completed) {
-            hasOnlyCompletedSelected = false;
-            continue;
-        }
-    }
+    //bool hasOnlyCompletedSelected = hasSelection;
+    //foreach (auto item, m_downloadManager->selection()) {
+    //    if (item->state() != IDownloadItem::Completed) {
+    //        hasOnlyCompletedSelected = false;
+    //        continue;
+    //    }
+    //}
     bool hasAtLeastOneUncompletedSelected = false;
     foreach (auto item, m_downloadManager->selection()) {
         if (item->state() != IDownloadItem::Completed) {

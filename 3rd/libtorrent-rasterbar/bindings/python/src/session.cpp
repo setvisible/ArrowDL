@@ -1046,6 +1046,7 @@ void bind_session()
     s.attr("disable_lsd") = torrent_flags::disable_lsd;
     s.attr("disable_pex") = torrent_flags::disable_pex;
     s.attr("no_verify_files") = torrent_flags::no_verify_files;
+    s.attr("default_dont_download") = torrent_flags::default_dont_download;
     s.attr("default_flags") = torrent_flags::default_flags;
     }
 
@@ -1324,6 +1325,7 @@ void bind_session()
 
     entry (*write_torrent_file0)(add_torrent_params const&, write_torrent_flags_t) = &write_torrent_file;
     def("write_torrent_file", write_torrent_file0, (arg("atp"), arg("flags") = 0));
+    def("write_torrent_file_buf", write_torrent_file_buf, (arg("atp"), arg("flags") = 0));
 
     {
         scope s = class_<dummy17>("write_flags");

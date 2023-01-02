@@ -309,8 +309,6 @@ private:
 	// must hold the job mutex to access
 	int m_num_running_threads = 0;
 
-	aux::disk_job_pool m_job_pool;
-
 	// std::mutex to protect the m_generic_io_jobs and m_hash_io_jobs lists
 	mutable std::mutex m_job_mutex;
 
@@ -327,6 +325,8 @@ private:
 
 	// disk cache
 	aux::disk_buffer_pool m_buffer_pool;
+
+	aux::disk_job_pool m_job_pool;
 
 	// total number of blocks in use by both the read
 	// and the write cache. This is not supposed to
@@ -620,9 +620,9 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 		time_point const start_time = clock_type::now();
 
 		aux::open_mode_t const file_mode = file_mode_for_job(j);
-		iovec_t b = {buffer.data() + j->d.io.buffer_offset, j->d.io.buffer_size};
+		span<char> const b = {buffer.data() + j->d.io.buffer_offset, j->d.io.buffer_size};
 
-		int const ret = j->storage->readv(m_settings, b
+		int const ret = j->storage->read(m_settings, b
 			, j->piece, j->d.io.offset, file_mode, j->flags, j->error);
 
 		TORRENT_ASSERT(ret >= 0 || j->error.ec);
@@ -632,7 +632,6 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 		{
 			std::int64_t const read_time = total_microseconds(clock_type::now() - start_time);
 
-			m_stats_counters.inc_stats_counter(counters::num_read_back);
 			m_stats_counters.inc_stats_counter(counters::num_blocks_read);
 			m_stats_counters.inc_stats_counter(counters::num_read_ops);
 			m_stats_counters.inc_stats_counter(counters::disk_read_time, read_time);
@@ -654,10 +653,10 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 
 		time_point const start_time = clock_type::now();
 
-		aux::open_mode_t const file_mode= file_mode_for_job(j);
-		iovec_t b = {buffer.data(), j->d.io.buffer_size};
+		aux::open_mode_t const file_mode = file_mode_for_job(j);
+		span<char> const b = {buffer.data(), j->d.io.buffer_size};
 
-		int const ret = j->storage->readv(m_settings, b
+		int const ret = j->storage->read(m_settings, b
 			, j->piece, j->d.io.offset, file_mode, j->flags, j->error);
 
 		TORRENT_ASSERT(ret >= 0 || j->error.ec);
@@ -667,7 +666,6 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 		{
 			std::int64_t const read_time = total_microseconds(clock_type::now() - start_time);
 
-			m_stats_counters.inc_stats_counter(counters::num_read_back);
 			m_stats_counters.inc_stats_counter(counters::num_blocks_read);
 			m_stats_counters.inc_stats_counter(counters::num_read_ops);
 			m_stats_counters.inc_stats_counter(counters::disk_read_time, read_time);
@@ -681,13 +679,13 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 		time_point const start_time = clock_type::now();
 		auto buffer = std::move(boost::get<disk_buffer_holder>(j->argument));
 
-		iovec_t const b = { buffer.data(), j->d.io.buffer_size};
+		span<char> const b = { buffer.data(), j->d.io.buffer_size};
 		aux::open_mode_t const file_mode= file_mode_for_job(j);
 
 		m_stats_counters.inc_stats_counter(counters::num_writing_threads, 1);
 
 		// the actual write operation
-		int const ret = j->storage->writev(m_settings, b
+		int const ret = j->storage->write(m_settings, b
 			, j->piece, j->d.io.offset, file_mode, j->flags, j->error);
 
 		m_stats_counters.inc_stats_counter(counters::num_writing_threads, -1);
@@ -722,6 +720,7 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 		TORRENT_ASSERT(r.length <= default_block_size);
 		TORRENT_ASSERT(r.length > 0);
 		TORRENT_ASSERT(r.start >= 0);
+		TORRENT_ASSERT(r.start + r.length <= m_torrents[storage]->files().piece_size(r.piece));
 
 		storage_error ec;
 		if (r.length <= 0 || r.start < 0)
@@ -799,19 +798,7 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 				j->d.io.buffer_offset = std::uint16_t((ret == 1) ? 0 : len1);
 				j->flags = flags;
 				j->callback = std::move(handler);
-
-				if (j->storage->is_blocked(j))
-				{
-					// this means the job was queued up inside storage
-					m_stats_counters.inc_stats_counter(counters::blocked_disk_jobs);
-					DLOG("blocked job: %s (torrent: %d total: %d)\n"
-						, job_name(j->action), j->storage ? j->storage->num_blocked() : 0
-						, int(m_stats_counters[counters::blocked_disk_jobs]));
-				}
-				else
-				{
-					add_job(j);
-				}
+				add_job(j);
 				return;
 			}
 
@@ -845,19 +832,7 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 		j->d.io.buffer_size = std::uint16_t(r.length);
 		j->flags = flags;
 		j->callback = std::move(handler);
-
-		if (j->storage->is_blocked(j))
-		{
-			// this means the job was queued up inside storage
-			m_stats_counters.inc_stats_counter(counters::blocked_disk_jobs);
-			DLOG("blocked job: %s (torrent: %d total: %d)\n"
-				, job_name(j->action), j->storage ? j->storage->num_blocked() : 0
-				, int(m_stats_counters[counters::blocked_disk_jobs]));
-		}
-		else
-		{
-			add_job(j);
-		}
+		add_job(j);
 	}
 
 	bool mmap_disk_io::async_write(storage_index_t const storage, peer_request const& r
@@ -873,6 +848,7 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 
 		TORRENT_ASSERT(r.start % default_block_size == 0);
 		TORRENT_ASSERT(r.length <= default_block_size);
+		TORRENT_ASSERT(r.start + r.length <= m_torrents[storage]->files().piece_size(r.piece));
 
 		aux::mmap_disk_job* j = m_job_pool.allocate_job(aux::job_action_t::write);
 		j->storage = m_torrents[storage]->shared_from_this();
@@ -885,17 +861,6 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 
 		m_store_buffer.insert({j->storage->storage_index(), j->piece, j->d.io.offset}
 			, boost::get<disk_buffer_holder>(j->argument).data());
-
-		if (j->storage->is_blocked(j))
-		{
-			// this means the job was queued up inside storage
-			m_stats_counters.inc_stats_counter(counters::blocked_disk_jobs);
-			DLOG("blocked job: %s (torrent: %d total: %d)\n"
-				, job_name(j->action), j->storage ? j->storage->num_blocked() : 0
-				, int(m_stats_counters[counters::blocked_disk_jobs]));
-			return exceeded;
-		}
-
 		add_job(j);
 		return exceeded;
 	}
@@ -1053,6 +1018,10 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 		// it would be to have a fence for just this one piece.
 		// but it hardly seems worth the complexity and cost just for the edge
 		// case of receiving a corrupt piece
+
+		// TODO: Perhaps the job queue could be traversed and all jobs for this
+		// piece could be cancelled. If there are no threads currently writing
+		// to this piece, we could skip the fence alltogether
 		add_fence_job(j);
 	}
 
@@ -1066,9 +1035,9 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 		bool const v2 = !j->d.h.block_hashes.empty();
 
 		int const piece_size = v1 ? j->storage->files().piece_size(j->piece) : 0;
-		int const piece_size2 = v2 ? j->storage->orig_files().piece_size2(j->piece) : 0;
+		int const piece_size2 = v2 ? j->storage->files().piece_size2(j->piece) : 0;
 		int const blocks_in_piece = v1 ? (piece_size + default_block_size - 1) / default_block_size : 0;
-		int const blocks_in_piece2 = v2 ? j->storage->orig_files().blocks_in_piece2(j->piece) : 0;
+		int const blocks_in_piece2 = v2 ? j->storage->files().blocks_in_piece2(j->piece) : 0;
 		aux::open_mode_t const file_mode = file_mode_for_job(j);
 
 		TORRENT_ASSERT(!v2 || int(j->d.h.block_hashes.size()) >= blocks_in_piece2);
@@ -1078,13 +1047,12 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 		int ret = 0;
 		int offset = 0;
 		int const blocks_to_read = std::max(blocks_in_piece, blocks_in_piece2);
+		time_point const start_time = clock_type::now();
 		for (int i = 0; i < blocks_to_read; ++i)
 		{
 			bool const v2_block = i < blocks_in_piece2;
 
 			DLOG("do_hash: reading (piece: %d block: %d)\n", int(j->piece), i);
-
-			time_point const start_time = clock_type::now();
 
 			std::ptrdiff_t const len = v1 ? std::min(default_block_size, piece_size - offset) : 0;
 			std::ptrdiff_t const len2 = v2_block ? std::min(default_block_size, piece_size2 - offset) : 0;
@@ -1108,31 +1076,28 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 			{
 				if (v1)
 				{
-					// if we will call hashv2() in a bit, don't trigger a flush
-					// just yet, let hashv2() do it
+					// if we will call hash2() in a bit, don't trigger a flush
+					// just yet, let hash2() do it
 					auto const flags = v2_block ? (j->flags & ~disk_interface::flush_piece) : j->flags;
 					j->error.ec.clear();
-					ret = j->storage->hashv(m_settings, h, len, j->piece, offset
+					ret = j->storage->hash(m_settings, h, len, j->piece, offset
 						, file_mode, flags, j->error);
 					if (ret < 0) break;
 				}
 				if (v2_block)
 				{
 					j->error.ec.clear();
-					ret = j->storage->hashv2(m_settings, h2, len2, j->piece, offset
+					ret = j->storage->hash2(m_settings, h2, len2, j->piece, offset
 						, file_mode, j->flags, j->error);
 					if (ret < 0) break;
 				}
-			}
 
-			if (!j->error.ec)
-			{
-				std::int64_t const read_time = total_microseconds(clock_type::now() - start_time);
-
-				m_stats_counters.inc_stats_counter(counters::num_blocks_read, blocks_to_read);
-				m_stats_counters.inc_stats_counter(counters::num_read_ops);
-				m_stats_counters.inc_stats_counter(counters::disk_hash_time, read_time);
-				m_stats_counters.inc_stats_counter(counters::disk_job_time, read_time);
+				if (!j->error.ec)
+				{
+					m_stats_counters.inc_stats_counter(counters::num_read_back);
+					m_stats_counters.inc_stats_counter(counters::num_blocks_read);
+					m_stats_counters.inc_stats_counter(counters::num_read_ops);
+				}
 			}
 
 			if (v2_block)
@@ -1141,6 +1106,13 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 			if (ret <= 0) break;
 
 			offset += default_block_size;
+		}
+
+		if (!j->error.ec)
+		{
+			std::int64_t const read_time = total_microseconds(clock_type::now() - start_time);
+			m_stats_counters.inc_stats_counter(counters::disk_hash_time, read_time);
+			m_stats_counters.inc_stats_counter(counters::disk_job_time, read_time);
 		}
 
 		if (v1)
@@ -1172,17 +1144,21 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 			ret = int(len);
 		}))
 		{
-			ret = j->storage->hashv2(m_settings, h, len, j->piece, j->d.io.offset
+			ret = j->storage->hash2(m_settings, h, len, j->piece, j->d.io.offset
 				, file_mode, j->flags, j->error);
 			if (ret < 0) return status_t::fatal_disk_error;
+			if (!j->error.ec)
+			{
+				m_stats_counters.inc_stats_counter(counters::num_read_back);
+				m_stats_counters.inc_stats_counter(counters::num_blocks_read);
+				m_stats_counters.inc_stats_counter(counters::num_read_ops);
+			}
 		}
 
 		if (!j->error.ec)
 		{
 			std::int64_t const read_time = total_microseconds(clock_type::now() - start_time);
 
-			m_stats_counters.inc_stats_counter(counters::num_blocks_read);
-			m_stats_counters.inc_stats_counter(counters::num_read_ops);
 			m_stats_counters.inc_stats_counter(counters::disk_hash_time, read_time);
 			m_stats_counters.inc_stats_counter(counters::disk_job_time, read_time);
 		}
@@ -1405,25 +1381,7 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 			return;
 		}
 
-		// this happens for read jobs that get hung on pieces in the
-		// block cache, and then get issued
-		if (j->flags & aux::mmap_disk_job::in_progress)
-		{
-			std::unique_lock<std::mutex> l(m_job_mutex);
-			TORRENT_ASSERT((j->flags & aux::mmap_disk_job::in_progress) || !j->storage);
-			m_generic_io_jobs.m_queued_jobs.push_back(j);
-
-			// if we literally have 0 disk threads, we have to execute the jobs
-			// immediately. If add job is called internally by the mmap_disk_io,
-			// we need to defer executing it. We only want the top level to loop
-			// over the job queue (as is done below)
-			if (num_threads() == 0 && user_add)
-			{
-				l.unlock();
-				immediate_execute();
-			}
-			return;
-		}
+		TORRENT_ASSERT(!(j->flags & aux::mmap_disk_job::in_progress));
 
 		DLOG("add_job: %s (outstanding: %d)\n"
 			, job_name(j->action)
@@ -1546,7 +1504,7 @@ TORRENT_EXPORT std::unique_ptr<disk_interface> mmap_disk_io_constructor(
 	{
 		std::thread::id const thread_id = std::this_thread::get_id();
 
-		set_thread_name("Disk");
+		set_thread_name("libtorrent-disk-thread");
 
 #ifdef _WIN32
 		using SetThreadInformation_t = BOOL (WINAPI*)(HANDLE, THREAD_INFORMATION_CLASS, LPVOID, DWORD);

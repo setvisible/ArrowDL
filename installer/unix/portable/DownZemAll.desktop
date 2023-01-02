@@ -8,5 +8,8 @@ Comment[fr]=Le parfait téléchargeur de masse
 Categories=Utility;
 StartupNotify=false
 Terminal=false
-Exec=/ABSOLUTE/PATH/TO/APP/DIRECTORY/../DownZemAll %U
 Icon=/ABSOLUTE/PATH/TO/APP/DIRECTORY/DownZemAll_64x64.png
+# HOTFIX for Ubuntu 22.04 using xcb display: 
+Exec=bash -c "cd '/ABSOLUTE/PATH/TO/APP/DIRECTORY/../' && export QT_QPA_PLATFORM=xcb && export LD_LIBRARY_PATH=. && ./DownZemAll %U"
+# Other:
+#Exec=/ABSOLUTE/PATH/TO/APP/DIRECTORY/../DownZemAll %U

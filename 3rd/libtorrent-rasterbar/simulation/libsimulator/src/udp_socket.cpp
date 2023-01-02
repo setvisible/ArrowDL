@@ -228,13 +228,12 @@ namespace ip {
 		{
 			abort_send_handlers();
 
-			// TODO: make the send buffer size configurable
 			time_point const now = chrono::high_resolution_clock::now();
 			boost::system::error_code no_error;
-			if (m_next_send - now > chrono::milliseconds(1000))
+			if (m_next_send - now > m_send_queue_time / 2)
 			{
 				// our send queue is too large. Defer
-				m_recv_timer.expires_at(m_next_send - chrono::milliseconds(1000) / 2);
+				m_recv_timer.expires_at(m_next_send + m_send_queue_time / 2);
 
 				m_wait_send_handler = std::move(handler);
 				m_recv_timer.async_wait(make_malloc(std::bind(std::ref(m_wait_send_handler), no_error)));
@@ -391,9 +390,6 @@ namespace ip {
 
 		time_point now = chrono::high_resolution_clock::now();
 
-		// this is outgoing NIC bandwidth
-		// TODO: make this configurable
-		const int bandwidth = 100000000; // 100 MB/s
 		const int mtu = m_io_service.get_path_mtu(m_bound_to.address(), dst.address());
 
 		if (int(ret) > 65535)
@@ -411,10 +407,9 @@ namespace ip {
 
 		// determine the bandwidth in terms of nanoseconds / byte
 		const double nanoseconds_per_byte = 1000000000.0
-			/ double(bandwidth);
+			/ double(aux::nic_bandwidth);
 
-		// TODO: make the send buffer size configurable
-		if (m_next_send - now > chrono::milliseconds(500))
+		if (m_next_send - now > m_send_queue_time)
 		{
 			// our send queue is too large.
 			ec = boost::system::error_code(asio::error::would_block);

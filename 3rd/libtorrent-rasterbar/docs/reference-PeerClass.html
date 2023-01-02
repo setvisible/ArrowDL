@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,19 +25,19 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.7</td></tr>
+<td>2.0.8</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#peer-class-info" id="toc-entry-1">peer_class_info</a></li>
-<li><a class="reference internal" href="#peer-class-type-filter" id="toc-entry-2">peer_class_type_filter</a><ul>
-<li><a class="reference internal" href="#add-remove" id="toc-entry-3">add() remove()</a></li>
-<li><a class="reference internal" href="#allow-disallow" id="toc-entry-4">allow() disallow()</a></li>
-<li><a class="reference internal" href="#apply" id="toc-entry-5">apply()</a></li>
-<li><a class="reference internal" href="#enum-socket-type-t" id="toc-entry-6">enum socket_type_t</a></li>
+<li><a class="reference internal" href="#peer-class-info" id="id7">peer_class_info</a></li>
+<li><a class="reference internal" href="#peer-class-type-filter" id="id8">peer_class_type_filter</a><ul>
+<li><a class="reference internal" href="#add-remove" id="id9">add() remove()</a></li>
+<li><a class="reference internal" href="#allow-disallow" id="id10">allow() disallow()</a></li>
+<li><a class="reference internal" href="#apply" id="id11">apply()</a></li>
+<li><a class="reference internal" href="#enum-socket-type-t" id="id12">enum socket_type_t</a></li>
 </ul>
 </li>
 </ul>
@@ -108,8 +108,8 @@ is based on the peer's IP address).</p>
 <pre class="literal-block">
 struct peer_class_type_filter
 {
-   void <strong>add</strong> (socket_type_t const st, peer_class_t const peer_class);
    void <strong>remove</strong> (socket_type_t const st, peer_class_t const peer_class);
+   void <strong>add</strong> (socket_type_t const st, peer_class_t const peer_class);
    void <strong>allow</strong> (socket_type_t const st, peer_class_t const peer_class);
    void <strong>disallow</strong> (socket_type_t const st, peer_class_t const peer_class);
    std::uint32_t <strong>apply</strong> (socket_type_t const st, std::uint32_t peer_class_mask);
@@ -131,8 +131,8 @@ struct peer_class_type_filter
 <a name="remove()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_class_type_filter%3A%3A%5Badd%28%29+remove%28%29%5D&labels=documentation&body=Documentation+under+heading+%22peer_class_type_filter%3A%3A%5Badd%28%29+remove%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="add-remove">
 <h2>add() remove()</h2>
 <pre class="literal-block">
-void <strong>add</strong> (socket_type_t const st, peer_class_t const peer_class);
 void <strong>remove</strong> (socket_type_t const st, peer_class_t const peer_class);
+void <strong>add</strong> (socket_type_t const st, peer_class_t const peer_class);
 </pre>
 <p><tt class="docutils literal">add()</tt> and <tt class="docutils literal">remove()</tt> adds and removes a peer class to be added
 to new peers based on socket type.</p>

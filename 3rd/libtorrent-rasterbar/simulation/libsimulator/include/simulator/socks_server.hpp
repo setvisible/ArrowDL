@@ -21,6 +21,19 @@ All rights reserved.
 
 #include "simulator/simulator.hpp"
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#if __GNUC__ >= 9
+#pragma GCC diagnostic ignored "-Wparentheses"
+#endif
+#endif
+
+#include <boost/bimap.hpp>
+
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
+
 #ifdef _MSC_VER
 #pragma warning(push)
 // warning C4251: X: class Y needs to have dll-interface to be used by clients of struct
@@ -34,7 +47,11 @@ enum socks_flag
 {
 	// when this flag is set, the proxy will close the client connection
 	// immediately after sending the response to a UDP ASSOCIATE command
-	disconnect_udp_associate = 1
+	disconnect_udp_associate = 1,
+
+	// when this flag is set, the reponse to UDP ASSOCIATE will contain an empty
+	// hostname, rather than the relay IP address
+	udp_associate_respond_empty_hostname = 2
 };
 
 struct SIMULATOR_DECL socks_connection : std::enable_shared_from_this<socks_connection>
@@ -59,6 +76,7 @@ private:
 	void close_connection();
 
 	int format_response(asio::ip::address const& addr, int port, int response);
+	int format_hostname_response(char const* hostname, int port, int response);
 
 	void on_connected(boost::system::error_code const& ec);
 	void on_request_domain_name(boost::system::error_code const& ec, size_t bytes_transferred);
@@ -89,7 +107,11 @@ private:
 
 	asio::io_context& m_ios;
 
+	asio::ip::udp::resolver m_udp_resolver;
+
 	asio::ip::tcp::resolver m_resolver;
+
+	boost::bimap<asio::ip::address, std::string> m_name_mapping;
 
 	// this is the SOCKS client connection, i.e. the client connecting to us and
 	// being forwarded

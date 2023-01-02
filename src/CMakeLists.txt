@@ -58,6 +58,7 @@ add_executable(${TARGET_NAME} WIN32 # build a Win32 application, not a console a
 target_include_directories(${TARGET_NAME}
     PRIVATE
         ${Boost_INCLUDE_DIR}
+        ${OPENSSL_INCLUDE_DIRS}
         ${LibtorrentRasterbar_INCLUDE_DIRS}
         ${Project_INCLUDE_DIRS}
 )
@@ -170,7 +171,7 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     get_target_property(QtCore_LOCATION Qt6::Core LOCATION)
     get_filename_component(QT_DLL_DIR ${QtCore_LOCATION} PATH)
 
-     install(
+    install(
         FILES
             ${QT_DLL_DIR}/Qt6Core.dll
             ${QT_DLL_DIR}/Qt6Gui.dll
@@ -214,7 +215,9 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     ## Qt Platform Plugin
     install(
         FILES
+            # ${QT_DLL_DIR}/../plugins/platforms/qdirect2d.dll
             ${QT_DLL_DIR}/../plugins/platforms/qminimal.dll
+            # ${QT_DLL_DIR}/../plugins/platforms/qoffscreen.dll
             ${QT_DLL_DIR}/../plugins/platforms/qwindows.dll
         DESTINATION
             ${CMAKE_INSTALL_PREFIX}/platforms
@@ -224,8 +227,14 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     install(
         FILES
             ${QT_DLL_DIR}/../plugins/imageformats/qgif.dll
+            # ${QT_DLL_DIR}/../plugins/imageformats/qicns.dll
             ${QT_DLL_DIR}/../plugins/imageformats/qico.dll
             ${QT_DLL_DIR}/../plugins/imageformats/qjpeg.dll
+            # ${QT_DLL_DIR}/../plugins/imageformats/qsvg.dll
+            # ${QT_DLL_DIR}/../plugins/imageformats/qtga.dll
+            # ${QT_DLL_DIR}/../plugins/imageformats/qtiff.dll
+            # ${QT_DLL_DIR}/../plugins/imageformats/qwbmp.dll
+            # ${QT_DLL_DIR}/../plugins/imageformats/qwebp.dll
         DESTINATION
             ${CMAKE_INSTALL_PREFIX}/imageformats
     )
@@ -256,12 +265,177 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
     )
     install(
         FILES
+            # ${QT_DLL_DIR}/../plugins/tls/qcertonlybackend.dll
             ${QT_DLL_DIR}/../plugins/tls/qopensslbackend.dll
+            # ${QT_DLL_DIR}/../plugins/tls/qschannelbackend.dll
         DESTINATION
             ${CMAKE_INSTALL_PREFIX}/tls
     )
 
-endif(MSVC OR MSYS OR MINGW)
+else() # MacOS or Unix Compilers
+
+    ## Qt Libraries
+    get_target_property(QtCore_LOCATION Qt6::Core LOCATION)
+    get_filename_component(QT_SHARED_LIB_DIR ${QtCore_LOCATION} PATH)
+
+    install(
+        FILES
+            # Rem: ${QT_SHARED_LIB_DIR}/libQt6Core.so is not a file but a namelink (symbolic link)
+            ${QT_SHARED_LIB_DIR}/libQt6Core.so # required by libQt6Gui
+            ${QT_SHARED_LIB_DIR}/libQt6Core.so.6
+            ${QT_SHARED_LIB_DIR}/libQt6Core.so.6.3.1
+
+            ${QT_SHARED_LIB_DIR}/libQt6Gui.so # required by libQt6Widgets
+            ${QT_SHARED_LIB_DIR}/libQt6Gui.so.6
+            ${QT_SHARED_LIB_DIR}/libQt6Gui.so.6.3.1
+
+            ${QT_SHARED_LIB_DIR}/libQt6Widgets.so
+            ${QT_SHARED_LIB_DIR}/libQt6Widgets.so.6
+            ${QT_SHARED_LIB_DIR}/libQt6Widgets.so.6.3.1
+
+            ${QT_SHARED_LIB_DIR}/libQt6Network.so
+            ${QT_SHARED_LIB_DIR}/libQt6Network.so.6
+            ${QT_SHARED_LIB_DIR}/libQt6Network.so.6.3.1
+
+            ${QT_SHARED_LIB_DIR}/libQt6DBus.so # required by libQt6Gui
+            ${QT_SHARED_LIB_DIR}/libQt6DBus.so.6
+            ${QT_SHARED_LIB_DIR}/libQt6DBus.so.6.3.1
+
+            ${QT_SHARED_LIB_DIR}/libicudata.so # required by libQt6Core
+            ${QT_SHARED_LIB_DIR}/libicudata.so.56
+            ${QT_SHARED_LIB_DIR}/libicudata.so.56.1
+
+            ${QT_SHARED_LIB_DIR}/libicui18n.so # required by libQt6Core
+            ${QT_SHARED_LIB_DIR}/libicui18n.so.56
+            ${QT_SHARED_LIB_DIR}/libicui18n.so.56.1
+
+            ${QT_SHARED_LIB_DIR}/libicuio.so
+            ${QT_SHARED_LIB_DIR}/libicuio.so.56
+            ${QT_SHARED_LIB_DIR}/libicuio.so.56.1
+
+            ${QT_SHARED_LIB_DIR}/libicule.so
+            ${QT_SHARED_LIB_DIR}/libicule.so.56
+            ${QT_SHARED_LIB_DIR}/libicule.so.56.1
+
+            ${QT_SHARED_LIB_DIR}/libiculx.so
+            ${QT_SHARED_LIB_DIR}/libiculx.so.56
+            ${QT_SHARED_LIB_DIR}/libiculx.so.56.1
+
+            ${QT_SHARED_LIB_DIR}/libicutest.so
+            ${QT_SHARED_LIB_DIR}/libicutest.so.56
+            ${QT_SHARED_LIB_DIR}/libicutest.so.56.1
+
+            ${QT_SHARED_LIB_DIR}/libicutu.so
+            ${QT_SHARED_LIB_DIR}/libicutu.so.56
+            ${QT_SHARED_LIB_DIR}/libicutu.so.56.1
+
+            ${QT_SHARED_LIB_DIR}/libicuuc.so # required by libQt6Core
+            ${QT_SHARED_LIB_DIR}/libicuuc.so.56
+            ${QT_SHARED_LIB_DIR}/libicuuc.so.56.1
+
+            ${QT_SHARED_LIB_DIR}/libQt6XcbQpa.so # required by libqxcb
+            ${QT_SHARED_LIB_DIR}/libQt6XcbQpa.so.6 
+            ${QT_SHARED_LIB_DIR}/libQt6XcbQpa.so.6.3.1
+
+            ${QT_SHARED_LIB_DIR}/libQt6OpenGL.so # required by libqxcb
+            ${QT_SHARED_LIB_DIR}/libQt6OpenGL.so.6 
+            ${QT_SHARED_LIB_DIR}/libQt6OpenGL.so.6.3.1
+
+            ${QT_SHARED_LIB_DIR}/libQt6OpenGLWidgets.so # in case?
+            ${QT_SHARED_LIB_DIR}/libQt6OpenGLWidgets.so.6 
+            ${QT_SHARED_LIB_DIR}/libQt6OpenGLWidgets.so.6.3.1
+
+            ${QT_SHARED_LIB_DIR}/libQt6WaylandClient.so # required by libqwayland-generic and libqwayland-egl
+            ${QT_SHARED_LIB_DIR}/libQt6WaylandClient.so.6
+            ${QT_SHARED_LIB_DIR}/libQt6WaylandClient.so.6.3.1
+
+            ${QT_SHARED_LIB_DIR}/libQt6WaylandEglClientHwIntegration.so # required by libqwayland-egl
+            ${QT_SHARED_LIB_DIR}/libQt6WaylandEglClientHwIntegration.so.6
+            ${QT_SHARED_LIB_DIR}/libQt6WaylandEglClientHwIntegration.so.6.3.1
+        DESTINATION
+            ${CMAKE_INSTALL_PREFIX}
+    )
+
+    ## Qt Platform Plugin
+    install(
+        FILES
+            ${QT_SHARED_LIB_DIR}/../plugins/platforms/libqeglfs.so
+            ${QT_SHARED_LIB_DIR}/../plugins/platforms/libqlinuxfb.so
+            ${QT_SHARED_LIB_DIR}/../plugins/platforms/libqminimal.so
+            ${QT_SHARED_LIB_DIR}/../plugins/platforms/libqminimalegl.so
+            ${QT_SHARED_LIB_DIR}/../plugins/platforms/libqoffscreen.so
+            ${QT_SHARED_LIB_DIR}/../plugins/platforms/libqvkkhrdisplay.so
+            ${QT_SHARED_LIB_DIR}/../plugins/platforms/libqvnc.so
+            ${QT_SHARED_LIB_DIR}/../plugins/platforms/libqwayland-egl.so
+            ${QT_SHARED_LIB_DIR}/../plugins/platforms/libqwayland-generic.so
+            ${QT_SHARED_LIB_DIR}/../plugins/platforms/libqxcb.so
+        DESTINATION
+            ${CMAKE_INSTALL_PREFIX}/platforms
+    )
+
+    ## Qt Image Formats Plugin
+    install(
+        FILES
+            ${QT_SHARED_LIB_DIR}/../plugins/imageformats/libqgif.so
+            ${QT_SHARED_LIB_DIR}/../plugins/imageformats/libqico.so
+            ${QT_SHARED_LIB_DIR}/../plugins/imageformats/libqjpeg.so
+            ${QT_SHARED_LIB_DIR}/../plugins/imageformats/libqsvg.so
+        DESTINATION
+            ${CMAKE_INSTALL_PREFIX}/imageformats
+    )
+
+    # Qt Icon Engine Plugin
+    install(
+        FILES
+            ${QT_SHARED_LIB_DIR}/../plugins/iconengines/libqsvgicon.so
+        DESTINATION
+            ${CMAKE_INSTALL_PREFIX}/iconengines
+    )
+
+    ## Qt Styles Plugin
+    install(
+        FILES
+            ${QT_SHARED_LIB_DIR}/../plugins/platformthemes/libqgtk3.so
+            ${QT_SHARED_LIB_DIR}/../plugins/platformthemes/libqxdgdesktopportal.so
+        DESTINATION
+            ${CMAKE_INSTALL_PREFIX}/platformthemes
+    )
+
+    ## Qt Network
+    install(
+        FILES
+            ${QT_SHARED_LIB_DIR}/../plugins/networkinformation/libqglib.so
+            ${QT_SHARED_LIB_DIR}/../plugins/networkinformation/libqnetworkmanager.so
+        DESTINATION
+            ${CMAKE_INSTALL_PREFIX}/networkinformation
+    )
+
+    ## OpenSSL
+    install(
+        FILES
+            ${OPENSSL_CRYPTO_BIN}
+            ${OPENSSL_SSL_BIN}
+        DESTINATION
+            ${CMAKE_INSTALL_PREFIX}
+    )
+    install(
+        FILES
+            ${QT_SHARED_LIB_DIR}/../plugins/tls/libqcertonlybackend.so
+            ${QT_SHARED_LIB_DIR}/../plugins/tls/libqopensslbackend.so
+        DESTINATION
+            ${CMAKE_INSTALL_PREFIX}/tls
+    )
+
+    ## Qt XCB GL Integrations Plugin
+    install(
+        FILES
+            ${QT_SHARED_LIB_DIR}/../plugins/xcbglintegrations/libqxcb-egl-integration.so
+            ${QT_SHARED_LIB_DIR}/../plugins/xcbglintegrations/libqxcb-glx-integration.so
+        DESTINATION
+            ${CMAKE_INSTALL_PREFIX}/xcbglintegrations
+    )
+
+endif()
 
 ## YT-DLP
 if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers

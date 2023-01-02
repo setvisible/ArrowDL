@@ -49,6 +49,7 @@ set(libtorrent_include_files
 	extensions.hpp
 	file.hpp
 	file_storage.hpp
+	file_layout.hpp
 	fingerprint.hpp
 	flags.hpp
 	fwd.hpp
@@ -218,10 +219,12 @@ set(libtorrent_aux_include_files
 	disk_io_thread_pool.hpp
 	disk_job_fence.hpp
 	disk_job_pool.hpp
+	drive_info.hpp
 	ed25519.hpp
 	escape_string.hpp
 	export.hpp
 	ffs.hpp
+	file_descriptor.hpp
 	file_progress.hpp
 	file_view_pool.hpp
 	has_block.hpp
@@ -236,6 +239,7 @@ set(libtorrent_aux_include_files
 	lsd.hpp
 	merkle.hpp
 	merkle_tree.hpp
+	netlink_utils.hpp
 	noexcept_movable.hpp
 	numeric_cast.hpp
 	packet_buffer.hpp
@@ -275,6 +279,7 @@ set(libtorrent_aux_include_files
 	utp_stream.hpp
 	vector.hpp
 	win_crypto_provider.hpp
+	win_file_handle.hpp
 	win_util.hpp
 )
 
@@ -314,6 +319,7 @@ set(sources
 	disk_io_thread_pool.cpp
 	disk_job_fence.cpp
 	disk_job_pool.cpp
+	drive_info.cpp
 	entry.cpp
 	enum_net.cpp
 	error_code.cpp
@@ -802,7 +808,7 @@ endif()
 find_public_dependency(Boost REQUIRED)
 target_link_libraries(torrent-rasterbar PUBLIC Boost::headers)
 if (Boost_MAJOR_VERSION LESS_EQUAL 1 AND Boost_MINOR_VERSION LESS 69)
-	find_package(Boost REQUIRED COMPONENTS system)
+	find_public_dependency(Boost REQUIRED COMPONENTS system)
 	target_link_libraries(torrent-rasterbar PUBLIC Boost::system)
 endif()
 

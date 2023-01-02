@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,34 +25,34 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.7</td></tr>
+<td>2.0.8</td></tr>
 </tbody>
 </table>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#tuning-libtorrent" id="toc-entry-1">tuning libtorrent</a></li>
-<li><a class="reference internal" href="#profiling" id="toc-entry-2">profiling</a></li>
-<li><a class="reference internal" href="#reducing-memory-footprint" id="toc-entry-3">reducing memory footprint</a><ul>
-<li><a class="reference internal" href="#remove-torrents" id="toc-entry-4">remove torrents</a></li>
-<li><a class="reference internal" href="#socket-buffer-sizes" id="toc-entry-5">socket buffer sizes</a></li>
-<li><a class="reference internal" href="#peer-list-size" id="toc-entry-6">peer list size</a></li>
-<li><a class="reference internal" href="#send-buffer-watermark" id="toc-entry-7">send buffer watermark</a></li>
-<li><a class="reference internal" href="#reduce-executable-size" id="toc-entry-8">reduce executable size</a></li>
+<li><a class="reference internal" href="#tuning-libtorrent" id="id39">tuning libtorrent</a></li>
+<li><a class="reference internal" href="#profiling" id="id40">profiling</a></li>
+<li><a class="reference internal" href="#reducing-memory-footprint" id="id41">reducing memory footprint</a><ul>
+<li><a class="reference internal" href="#remove-torrents" id="id42">remove torrents</a></li>
+<li><a class="reference internal" href="#socket-buffer-sizes" id="id43">socket buffer sizes</a></li>
+<li><a class="reference internal" href="#peer-list-size" id="id44">peer list size</a></li>
+<li><a class="reference internal" href="#send-buffer-watermark" id="id45">send buffer watermark</a></li>
+<li><a class="reference internal" href="#reduce-executable-size" id="id46">reduce executable size</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#high-performance-seeding" id="toc-entry-9">high performance seeding</a><ul>
-<li><a class="reference internal" href="#file-pool" id="toc-entry-10">file pool</a></li>
-<li><a class="reference internal" href="#utp-tcp-mixed-mode" id="toc-entry-11">uTP-TCP mixed mode</a></li>
-<li><a class="reference internal" href="#send-buffer-low-watermark" id="toc-entry-12">send buffer low watermark</a></li>
-<li><a class="reference internal" href="#peers" id="toc-entry-13">peers</a></li>
-<li><a class="reference internal" href="#torrent-limits" id="toc-entry-14">torrent limits</a></li>
-<li><a class="reference internal" href="#hashing" id="toc-entry-15">hashing</a></li>
+<li><a class="reference internal" href="#high-performance-seeding" id="id47">high performance seeding</a><ul>
+<li><a class="reference internal" href="#file-pool" id="id48">file pool</a></li>
+<li><a class="reference internal" href="#utp-tcp-mixed-mode" id="id49">uTP-TCP mixed mode</a></li>
+<li><a class="reference internal" href="#send-buffer-low-watermark" id="id50">send buffer low watermark</a></li>
+<li><a class="reference internal" href="#peers" id="id51">peers</a></li>
+<li><a class="reference internal" href="#torrent-limits" id="id52">torrent limits</a></li>
+<li><a class="reference internal" href="#hashing" id="id53">hashing</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#scalability" id="toc-entry-16">scalability</a></li>
-<li><a class="reference internal" href="#understanding-the-disk-threads" id="toc-entry-17">understanding the disk threads</a></li>
-<li><a class="reference internal" href="#contributions" id="toc-entry-18">contributions</a></li>
+<li><a class="reference internal" href="#scalability" id="id54">scalability</a></li>
+<li><a class="reference internal" href="#understanding-the-disk-threads" id="id55">understanding the disk threads</a></li>
+<li><a class="reference internal" href="#contributions" id="id56">contributions</a></li>
 </ul>
 </div>
 <div class="section" id="tuning-libtorrent">
