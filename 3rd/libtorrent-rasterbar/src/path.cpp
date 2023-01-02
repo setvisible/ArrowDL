@@ -107,15 +107,9 @@ POSSIBILITY OF SUCH DAMAGE.
 #endif // posix part
 
 #include "libtorrent/aux_/disable_warnings_pop.hpp"
+#include "libtorrent/aux_/storage_utils.hpp" // copy_file
 
 namespace libtorrent {
-
-	int bufs_size(span<iovec_t const> bufs)
-	{
-		std::ptrdiff_t size = 0;
-		for (auto buf : bufs) size += buf.size();
-		return int(size);
-	}
 
 #if defined TORRENT_WINDOWS
 	std::string convert_from_native_path(wchar_t const* s)
@@ -451,7 +445,9 @@ namespace {
 #endif
 
 		// if we get here, we should copy the file
-		copy_file(file, link, ec);
+		storage_error se;
+		aux::copy_file(file, link, se);
+		ec = se.ec;
 	}
 
 	bool is_directory(std::string const& f, error_code& ec)
@@ -463,23 +459,6 @@ namespace {
 		if (!e && s.mode & file_status::directory) return true;
 		ec = e;
 		return false;
-	}
-
-	void move_file(std::string const& inf, std::string const& newf, error_code& ec)
-	{
-		ec.clear();
-
-		file_status s;
-		stat_file(inf, &s, ec);
-		if (ec) return;
-
-		if (has_parent_path(newf))
-		{
-			create_directories(parent_path(newf), ec);
-			if (ec) return;
-		}
-
-		rename(inf, newf, ec);
 	}
 
 	std::string extension(std::string const& f)
@@ -830,7 +809,9 @@ namespace {
 		stat_file(f, &s, ec);
 		if (ec)
 		{
-			if (ec == boost::system::errc::no_such_file_or_directory)
+			// if the filename is too long, the file also cannot exist
+			if (ec == boost::system::errc::no_such_file_or_directory
+				|| ec == boost::system::errc::filename_too_long)
 				ec.clear();
 			return false;
 		}

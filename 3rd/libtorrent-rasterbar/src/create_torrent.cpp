@@ -76,6 +76,7 @@ namespace libtorrent {
 	constexpr create_flags_t create_torrent::v1_only;
 	constexpr create_flags_t create_torrent::canonical_files;
 	constexpr create_flags_t create_torrent::no_attributes;
+	constexpr create_flags_t create_torrent::canonical_files_no_tail_padding;
 
 namespace {
 
@@ -452,8 +453,11 @@ namespace {
 		}
 
 		fs.set_piece_length(piece_size);
-		if (!(flags & v1_only) || (flags & canonical_files))
-			fs.canonicalize();
+		if (!(flags & v1_only)
+			|| (flags & canonical_files)
+			|| (flags & canonical_files_no_tail_padding))
+			fs.canonicalize_impl(bool(flags & canonical_files_no_tail_padding));
+
 		fs.set_num_pieces(aux::calc_num_pieces(fs));
 		TORRENT_ASSERT(fs.piece_length() > 0);
 	}
@@ -599,6 +603,14 @@ namespace {
 			sympath_e.list().emplace_back(elems.first);
 	}
 }
+
+	std::vector<char> create_torrent::generate_buf() const
+	{
+		// TODO: this can be optimized
+		std::vector<char> ret;
+		bencode(std::back_inserter(ret), generate());
+		return ret;
+	}
 
 	entry create_torrent::generate() const
 	{

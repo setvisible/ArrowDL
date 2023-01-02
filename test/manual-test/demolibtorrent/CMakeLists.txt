@@ -16,6 +16,7 @@ add_executable(${MY_TEST_TARGET} WIN32
 target_include_directories(${MY_TEST_TARGET}
     PRIVATE
         ${Boost_INCLUDE_DIR}
+        ${OPENSSL_INCLUDE_DIRS}
         ${LibtorrentRasterbar_INCLUDE_DIRS}
     )
 

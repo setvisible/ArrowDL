@@ -49,8 +49,8 @@ Choose the browser:
 
 #### Portable Archives
 
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-chromium">Addon for Chrome (Portable)</a>
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-firefox">Addon for Firefox (Portable)</a>
+- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_chromium">Addon for Chrome (Portable)</a>
+- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_firefox">Addon for Firefox (Portable)</a>
 
 
 <br/>
@@ -70,13 +70,13 @@ The next table explains the differences between the packages.
 
 #### Windows<a name="download-plateform-win32"></a>[^1]
 
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-windows-setup-x64">DownZemAll <span class="version-text">v0.0.0</span> for Windows (Installer, 64 bit)</a>
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-windows-mingw-x64">DownZemAll <span class="version-text">v0.0.0</span> for Windows (Portable, MinGW, 64 bit)</a>
+- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_windows_setup_x64">DownZemAll <span class="version-text">v0.0.0</span> for Windows (Installer, 64 bit)</a>
+- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_windows_mingw_x64">DownZemAll <span class="version-text">v0.0.0</span> for Windows (Portable, MinGW, 64 bit)</a>
 {% comment %}
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-windows-setup-x86">DownZemAll <span class="version-text">v0.0.0</span> for Windows (Installer, 32 bit)</a>
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-windows-mingw-x86">DownZemAll <span class="version-text">v0.0.0</span> for Windows (Portable, MinGW, 32 bit)</a>
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-windows-msvc-x64" >DownZemAll <span class="version-text">v0.0.0</span> for Windows (Portable, MSVC, 64 bit)</a>
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-windows-msvc-x86" >DownZemAll <span class="version-text">v0.0.0</span> for Windows (Portable, MSVC, 32 bit)</a>
+- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_windows_setup_x86">DownZemAll <span class="version-text">v0.0.0</span> for Windows (Installer, 32 bit)</a>
+- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_windows_mingw_x86">DownZemAll <span class="version-text">v0.0.0</span> for Windows (Portable, MinGW, 32 bit)</a>
+- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_windows_msvc_x64" >DownZemAll <span class="version-text">v0.0.0</span> for Windows (Portable, MSVC, 64 bit)</a>
+- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_windows_msvc_x86" >DownZemAll <span class="version-text">v0.0.0</span> for Windows (Portable, MSVC, 32 bit)</a>
 {% endcomment %}
 
 [^1]: Prefer the MSVC version if you are on Windows.
@@ -86,9 +86,9 @@ The next table explains the differences between the packages.
 
 #### Linux<a name="download-plateform-unix"></a>[^2]
 {% comment %}
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-linux-x64-app"     >DownZemAll <span class="version-text">v0.0.0</span> for Linux (AppImage, 64 bit)</a>
+- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_linux_x64_app"     >DownZemAll <span class="version-text">v0.0.0</span> for Linux (AppImage, 64 bit)</a>
 {% endcomment %}
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-linux-x64-zip"     >DownZemAll <span class="version-text">v0.0.0</span> for Linux (Portable, GCC, 64 bit)</a>
+- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_linux_x64_zip"     >DownZemAll <span class="version-text">v0.0.0</span> for Linux (Portable, GCC, 64 bit)</a>
 
 [^2]: Prefer the Tarball if you are on Linux.
       The AppImage can only run DownZemAll, unfortunately the launcher can't be used here.
@@ -100,15 +100,15 @@ The next table explains the differences between the packages.
 
 - Not available yet
 {% comment %}
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-mac-x64-zip">DownZemAll <span class="version-text">v0.0.0</span> for Mac (Portable, 64 bit)</a>
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-mac-x64-dmg">DownZemAll <span class="version-text">v0.0.0</span> for Mac (64 bit)</a>
+- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_mac_x64_zip">DownZemAll <span class="version-text">v0.0.0</span> for Mac (Portable, 64 bit)</a>
+- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_mac_x64_dmg">DownZemAll <span class="version-text">v0.0.0</span> for Mac (64 bit)</a>
 {% endcomment %}
 
 
 #### Source Code<a name="download-source"></a>
 
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-tarball">DownZemAll <span class="version-text">v0.0.0</span> Source Code</a> (Tarball)
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="url-zipball">DownZemAll <span class="version-text">v0.0.0</span> Source Code</a> (Zip)
+- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_tarball">DownZemAll <span class="version-text">v0.0.0</span> Source Code</a> (Tarball)
+- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_zipball">DownZemAll <span class="version-text">v0.0.0</span> Source Code</a> (Zip)
 
 <br/>
 
@@ -130,12 +130,11 @@ Footnotes:
 
 
 
-
-<script>
+<script type="module">
 
   /* Github latest release version detection */
   function doHttpGetAsync(theUrl, callback) {
-    var xmlHttp = new XMLHttpRequest();
+    const xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() { 
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
             callback(xmlHttp.responseText);
@@ -147,30 +146,41 @@ Footnotes:
 
   function onGithubResponse(json) {
     const obj = JSON.parse(json);
-    tag_name = obj.tag_name;
-    tarball_url = obj.tarball_url;
-    zipball_url = obj.zipball_url;
+    const tag_name = obj['tag_name'];
+    const tarball_url = obj['tarball_url'];
+    const zipball_url = obj['zipball_url'];
 
     /* A-Z sorted Urls */
-    document.getElementById('url-chromium').href            = "https://github.com/setvisible/DownZemAll/releases/latest/download/DownRightNow_chromium_" + tag_name + ".zip";
-    document.getElementById('url-firefox').href             = "https://github.com/setvisible/DownZemAll/releases/latest/download/DownRightNow_firefox_" + tag_name + ".xpi";
-    document.getElementById('url-windows-mingw-x64').href   = "https://github.com/setvisible/DownZemAll/releases/latest/download/DownZemAll_" + tag_name + "_windows-mingw-x64.zip";
-    document.getElementById('url-windows-mingw-x86').href   = "https://github.com/setvisible/DownZemAll/releases/latest/download/DownZemAll_" + tag_name + "_windows-mingw-x86.zip";
-    document.getElementById('url-windows-msvc-x64').href    = "https://github.com/setvisible/DownZemAll/releases/latest/download/DownZemAll_" + tag_name + "_windows-msvc-x64.zip";
-    document.getElementById('url-windows-msvc-x86').href    = "https://github.com/setvisible/DownZemAll/releases/latest/download/DownZemAll_" + tag_name + "_windows-msvc-x86.zip";
-    document.getElementById('url-linux-x64-zip').href       = "https://github.com/setvisible/DownZemAll/releases/latest/download/DownZemAll_" + tag_name + "_x86_64.tar.gz";
-    document.getElementById('url-linux-x64-app').href       = "https://github.com/setvisible/DownZemAll/releases/latest/download/DownZemAll_" + tag_name + "_x86_64_no_launcher.AppImage";
-    document.getElementById('url-mac-x64-zip').href         = "https://github.com/setvisible/DownZemAll/releases/latest/download/DownZemAll_" + tag_name + "_x86_64_macos.zip";
-    document.getElementById('url-mac-x64-dmg').href         = "https://github.com/setvisible/DownZemAll/releases/latest/download/DownZemAll_" + tag_name + "_x86_64.dmg";
-    document.getElementById('url-windows-setup-x64').href   = "https://github.com/setvisible/DownZemAll/releases/latest/download/DownZemAll_x64_Setup.exe";
-    document.getElementById('url-windows-setup-x86').href   = "https://github.com/setvisible/DownZemAll/releases/latest/download/DownZemAll_x86_Setup.exe";
-    document.getElementById('url-tarball').href             = tarball_url;
-    document.getElementById('url-zipball').href             = zipball_url;
+    const artifact_id_to_filenames = {
+      'id_chromium':            "DownRightNow_chromium_" + tag_name + ".zip",
+      'id_firefox':             "DownRightNow_firefox_" + tag_name + ".xpi",
+      'id_linux_x64_app':       "DownZemAll_" + tag_name + "_x86_64_no_launcher.AppImage",
+      'id_linux_x64_zip':       "DownZemAll_" + tag_name + "_x86_64.tar.gz",
+      'id_mac_x64_dmg':         "DownZemAll_" + tag_name + "_x86_64.dmg",
+      'id_mac_x64_zip':         "DownZemAll_" + tag_name + "_x86_64_macos.zip",
+      'id_windows_mingw_x64':   "DownZemAll_" + tag_name + "_windows_mingw_x64.zip",
+      'id_windows_mingw_x86':   "DownZemAll_" + tag_name + "_windows_mingw_x86.zip",
+      'id_windows_msvc_x64':    "DownZemAll_" + tag_name + "_windows_msvc_x64.zip",
+      'id_windows_msvc_x86':    "DownZemAll_" + tag_name + "_windows_msvc_x86.zip",
+      'id_windows_setup_x64':   "DownZemAll_x64_Setup.exe",
+      'id_windows_setup_x86':   "DownZemAll_x86_Setup.exe",
+    };
+
+    const url_root = "https://github.com/setvisible/DownZemAll/releases/latest/download/";
+    for (let id in artifact_id_to_filenames) {
+      const artifact = document.getElementById(id);
+      if (artifact) {
+        artifact.href = url_root + artifact_id_to_filenames[id];
+      }
+    }
+
+    document.getElementById('id_tarball').href = tarball_url;
+    document.getElementById('id_zipball').href = zipball_url;
 
     /* Text */
-    var version = tag_name.replace("v", "");
-    var element = document.getElementsByClassName("version-text");
-    for (var i = 0; i < element.length; i++) {
+    const version = tag_name.replace("v", "");
+    const element = document.getElementsByClassName("version-text");
+    for (let i = 0; i < element.length; i++) {
       element[i].innerHTML = version;
     }
   }

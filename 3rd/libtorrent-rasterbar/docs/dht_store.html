@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,36 +25,36 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.7</td></tr>
+<td>2.0.8</td></tr>
 </tbody>
 </table>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#terminology" id="toc-entry-1">terminology</a></li>
-<li><a class="reference internal" href="#messages" id="toc-entry-2">messages</a></li>
-<li><a class="reference internal" href="#immutable-items" id="toc-entry-3">immutable items</a><ul>
-<li><a class="reference internal" href="#put-message" id="toc-entry-4">put message</a></li>
-<li><a class="reference internal" href="#get-message" id="toc-entry-5">get message</a></li>
+<li><a class="reference internal" href="#terminology" id="id3">terminology</a></li>
+<li><a class="reference internal" href="#messages" id="id4">messages</a></li>
+<li><a class="reference internal" href="#immutable-items" id="id5">immutable items</a><ul>
+<li><a class="reference internal" href="#put-message" id="id6">put message</a></li>
+<li><a class="reference internal" href="#get-message" id="id7">get message</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#mutable-items" id="toc-entry-6">mutable items</a><ul>
-<li><a class="reference internal" href="#put-message-1" id="toc-entry-7">put message</a></li>
-<li><a class="reference internal" href="#cas" id="toc-entry-8">CAS</a></li>
-<li><a class="reference internal" href="#response" id="toc-entry-9">response</a></li>
-<li><a class="reference internal" href="#errors" id="toc-entry-10">errors</a></li>
-<li><a class="reference internal" href="#get-message-1" id="toc-entry-11">get message</a></li>
+<li><a class="reference internal" href="#mutable-items" id="id8">mutable items</a><ul>
+<li><a class="reference internal" href="#id1" id="id9">put message</a></li>
+<li><a class="reference internal" href="#cas" id="id10">CAS</a></li>
+<li><a class="reference internal" href="#response" id="id11">response</a></li>
+<li><a class="reference internal" href="#errors" id="id12">errors</a></li>
+<li><a class="reference internal" href="#id2" id="id13">get message</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#signature-verification" id="toc-entry-12">signature verification</a></li>
-<li><a class="reference internal" href="#expiration" id="toc-entry-13">expiration</a></li>
-<li><a class="reference internal" href="#test-vectors" id="toc-entry-14">test vectors</a><ul>
-<li><a class="reference internal" href="#test-1-mutable" id="toc-entry-15">test 1 (mutable)</a></li>
-<li><a class="reference internal" href="#test-2-mutable-with-salt" id="toc-entry-16">test 2 (mutable with salt)</a></li>
-<li><a class="reference internal" href="#test-3-immutable" id="toc-entry-17">test 3 (immutable)</a></li>
+<li><a class="reference internal" href="#signature-verification" id="id14">signature verification</a></li>
+<li><a class="reference internal" href="#expiration" id="id15">expiration</a></li>
+<li><a class="reference internal" href="#test-vectors" id="id16">test vectors</a><ul>
+<li><a class="reference internal" href="#test-1-mutable" id="id17">test 1 (mutable)</a></li>
+<li><a class="reference internal" href="#test-2-mutable-with-salt" id="id18">test 2 (mutable with salt)</a></li>
+<li><a class="reference internal" href="#test-3-immutable" id="id19">test 3 (immutable)</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#resources" id="toc-entry-18">resources</a></li>
+<li><a class="reference internal" href="#resources" id="id20">resources</a></li>
 </ul>
 </div>
 <p>This is a proposal for an extension to the BitTorrent DHT to allow
@@ -199,7 +199,7 @@ the buffer to be signed is:</p>
 <pre class="literal-block">
 4:salt6:foobar3:seqi4e1:v12:Hello world!
 </pre>
-<div class="section" id="put-message-1">
+<div class="section" id="id1">
 <h2>put message</h2>
 <p>Request:</p>
 <pre class="literal-block">
@@ -329,7 +329,7 @@ current.</td>
 critical feature in synchronization of multiple agents sharing an immutable
 item.</p>
 </div>
-<div class="section" id="get-message-1">
+<div class="section" id="id2">
 <h2>get message</h2>
 <p>Request:</p>
 <pre class="literal-block">

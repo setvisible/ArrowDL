@@ -458,7 +458,7 @@ void wait_for_downloading(lt::session& ses, char const* name)
 				return sc && sc->state == torrent_status::downloading;
 			}, false);
 		if (downloading_done) break;
-		if (total_seconds(clock_type::now() - start) > 10) break;
+		if (clock_type::now() - start > seconds(30)) break;
 		a = ses.wait_for_alert(seconds(5));
 	} while (a);
 	if (!downloading_done)
@@ -483,7 +483,7 @@ void wait_for_seeding(lt::session& ses, char const* name)
 				return sc && sc->state == torrent_status::seeding;
 			}, false);
 		if (seeding) break;
-		if (total_seconds(clock_type::now() - start) > 10) break;
+		if (clock_type::now() - start > seconds(30)) break;
 		a = ses.wait_for_alert(seconds(5));
 	} while (a);
 	if (!seeding)
@@ -962,7 +962,7 @@ std::shared_ptr<torrent_info> create_torrent(std::ostream* file
 		}
 		merkle_fill_tree(v2tree, merkle_num_leafs(blocks_in_piece));
 
-		for (piece_index_t i(0); i < t.files().end_piece(); ++i)
+		for (piece_index_t i(0); i < t.end_piece(); ++i)
 			t.set_hash2(file_index_t{ 0 }, i - 0_piece, v2tree[0]);
 	}
 

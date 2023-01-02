@@ -81,8 +81,17 @@ void tst_UpdateChecker::isVersionGreaterThan_data()
         QTest::newRow("number") << false << "2.5.0" << "2.5.1";
         QTest::newRow("number") << true << "2.5.1" << "2.5.0";
 
+        // Sort versions with different length:
+        // "2" < "2.0" < "2.4" <"2.4.0"
+        QTest::newRow("different length") << true << "2.0" << "2";
+        QTest::newRow("different length") << true << "2.4" << "2.0";
+        QTest::newRow("different length") << true << "2.4.0" << "2.4";
+        QTest::newRow("different length") << true << "2.5" << "2.4.9";
+
+        // Bugfix QCollator when no ICU is available
         QTest::newRow("QCollator 100 > 99") << true << "2.5.100" << "2.5.99";
-        QTest::newRow("QCollator 10 < 99") << true << "2.5.99" << "2.5.10";
+        QTest::newRow("QCollator 99 > 10 ") << true << "2.5.99" << "2.5.10";
+        QTest::newRow("QCollator 099 > 10 ") << true << "2.5.099" << "2.5.10";
 
         QTest::newRow("prefix") << true << "2.5.1" << "v2.5.0";
         QTest::newRow("prefix") << true << "2.5.1" << "v_2.5.0";

@@ -13,7 +13,10 @@ on:
       - "gha-*"
 
 env:
-  CXX_FLAGS: "-Wall -Wextra -Wpedantic -Wvla -Wno-noexcept-type -Wno-format-zero-length -ftemplate-depth=512 -Wno-attributes -Wno-narrowing -Wno-overflow -Wno-redundant-move -Wno-maybe-uninitialized" # -Wa,-mbig-obj"
+  # We want to see all warnings for the project, but hide them for Libtorrent:
+  CXX_FLAGS_Libtorrent: "-Wall -Wextra -Wpedantic -Wvla -Wno-noexcept-type -Wno-format-zero-length -ftemplate-depth=512 -Wno-attributes -Wno-narrowing -Wno-overflow -Wno-redundant-move -Wno-maybe-uninitialized" # -Wa,-mbig-obj"
+  CXX_FLAGS_Project: "-Wall -Wextra -Wpedantic -Wvla -ftemplate-depth=512" 
+
   BUILD_TYPE: "Release" # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BOOST_VERSION: 1.77.0
   BOOST_PATH: ${{github.workspace}}/../install/boost/
@@ -81,6 +84,7 @@ jobs:
     name: "Build Project on ${{matrix.os}}"
 
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
         include:
@@ -123,16 +127,16 @@ jobs:
 #           print("Relative pathing '.' and '..' is not allowed.")
 #           
 #           output_pairs = {
-#               'LibtorrentRasterbar_SOURCE_DIR': "${{env.LibtorrentRasterbar_SOURCE_DIR}}",
-#               'LibtorrentRasterbar_BUILD_DIR': "${{env.LibtorrentRasterbar_BUILD_DIR}}",
-#               'LibtorrentRasterbar_INSTALL_DIR': "${{env.LibtorrentRasterbar_INSTALL_DIR}}",
-#               'LibtorrentRasterbar_VERSION_FILE': "${{env.LibtorrentRasterbar_VERSION_FILE}}",
-#               'Application_VERSION_FILE': "${{env.Application_VERSION_FILE}}",
-#               'Changelog_FILE_NAME': "${{env.Changelog_FILE_NAME}}",
-#               'Project_SOURCE_DIR': "${{env.Project_SOURCE_DIR}}",
-#               'Project_BUILD_DIR': "${{env.Project_BUILD_DIR}}",
-#               'Project_INSTALL_DIR': "${{env.Project_INSTALL_DIR}}",
-#               'Project_RELEASE_DIR': "${{env.Project_RELEASE_DIR}}",
+#               'LibtorrentRasterbar_SOURCE_DIR': r"${{env.LibtorrentRasterbar_SOURCE_DIR}}",
+#               'LibtorrentRasterbar_BUILD_DIR': r"${{env.LibtorrentRasterbar_BUILD_DIR}}",
+#               'LibtorrentRasterbar_INSTALL_DIR': r"${{env.LibtorrentRasterbar_INSTALL_DIR}}",
+#               'LibtorrentRasterbar_VERSION_FILE': r"${{env.LibtorrentRasterbar_VERSION_FILE}}",
+#               'Application_VERSION_FILE': r"${{env.Application_VERSION_FILE}}",
+#               'Changelog_FILE_NAME': r"${{env.Changelog_FILE_NAME}}",
+#               'Project_SOURCE_DIR': r"${{env.Project_SOURCE_DIR}}",
+#               'Project_BUILD_DIR': r"${{env.Project_BUILD_DIR}}",
+#               'Project_INSTALL_DIR': r"${{env.Project_INSTALL_DIR}}",
+#               'Project_RELEASE_DIR': r"${{env.Project_RELEASE_DIR}}",
 #           }
 #           
 #           if "GITHUB_OUTPUT" in os.environ:
@@ -278,29 +282,32 @@ jobs:
       run: |
            import os
            
+           # OLD NAME -> NEW NAME
+           # libeay32 -> libcrypto
+           # ssleay32 -> libssl
+           
            if "${{ matrix.os }}" == "windows-latest":
                openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSL", "Win_x64"))
+               openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libcrypto.lib"))
+               openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libssl.lib"))
            
            if "${{ matrix.os }}" == "ubuntu-latest":
                openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSL", "binary"))
+               openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libcrypto.a"))
+               openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libssl.a"))
            
            if "GITHUB_OUTPUT" in os.environ:
                with open(os.environ["GITHUB_OUTPUT"], "a") as f:
                    print(f"OpenSSL_ROOT_DIR={ openssl_dir }", file=f)
+                   print(f"OpenSSL_LIB_EAY={ openssl_lib_eay }", file=f)
+                   print(f"OpenSSL_SSL_EAY={ openssl_ssl_eay }", file=f)
 
     - name: List files in OpenSSL
       shell: bash
       env:
         OpenSSL_ROOT_DIR: ${{ steps.qt6openssl.outputs.OpenSSL_ROOT_DIR }}
-      run: |
-           cd "${{env.OpenSSL_ROOT_DIR}}"
-           ls -al
-           cd "${{env.OpenSSL_ROOT_DIR}}/lib/"
-           ls -al
-           cd "${{env.OpenSSL_ROOT_DIR}}/include/"
-           ls -al
-           cd "${{env.OpenSSL_ROOT_DIR}}/bin/"
-           ls -al
+      run: cd "${{env.OpenSSL_ROOT_DIR}}" && ls -alR
+      
 
     - name: Configure Libtorrent
       if: ${{ steps.cache-libtorrent.outputs.cache-hit != 'true' }}
@@ -309,13 +316,16 @@ jobs:
         Qt6_Dir2: ${{env.Qt6_DIR}}
         DIRECTIVE_CMAKE_GENERATOR: ${{matrix.DIRECTIVE_CMAKE_GENERATOR}}
         BUILD_TESTS: "OFF" # OFF because they take 10+ minutes to build and 776.74 sec to run tests on Ubuntu
-        DEPRECATED_FUNCTIONS: "ON" # OFF disables deprecated functions
+        DEPRECATED_FUNCTIONS: "OFF" # OFF to remove deprecated functions
+        OPENSSL_INCLUDE_DIR: "${{ steps.qt6openssl.outputs.OpenSSL_ROOT_DIR }}/include"
+        OpenSSL_LIB_EAY: ${{ steps.qt6openssl.outputs.OpenSSL_LIB_EAY }}
+        OpenSSL_SSL_EAY: ${{ steps.qt6openssl.outputs.OpenSSL_SSL_EAY }}
       working-directory: "${{env.LibtorrentRasterbar_BUILD_DIR}}"
       run:
         cmake "${{env.LibtorrentRasterbar_SOURCE_DIR}}"
           ${{env.DIRECTIVE_CMAKE_GENERATOR}}
           -DCMAKE_PREFIX_PATH="${{env.Qt6_Dir2}}"
-          -DCMAKE_CXX_FLAGS="${{env.CXX_FLAGS}}"
+          -DCMAKE_CXX_FLAGS="${{env.CXX_FLAGS_Libtorrent}}"
           -DCMAKE_INSTALL_PREFIX="${{env.LibtorrentRasterbar_INSTALL_DIR}}"
           -DBoost_ROOT:PATH="${{env.Boost_ROOT}}"
           -DBUILD_SHARED_LIBS=OFF
@@ -323,6 +333,9 @@ jobs:
           -Dbuild_tests=${{env.BUILD_TESTS}}
           -Ddeprecated-functions=${{env.DEPRECATED_FUNCTIONS}}  
           -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}"
+          -DOPENSSL_INCLUDE_DIR="${{env.OPENSSL_INCLUDE_DIR}}"
+          -DLIB_EAY="${{env.OpenSSL_LIB_EAY}}"
+          -DSSL_EAY="${{env.OpenSSL_SSL_EAY}}"
 
     - name: Build Libtorrent
       if: ${{ steps.cache-libtorrent.outputs.cache-hit != 'true' }}
@@ -343,7 +356,7 @@ jobs:
 
     - name: List files in Libtorrent
       shell: bash
-      run: cd "${{env.LibtorrentRasterbar_INSTALL_DIR}}" && ls -al
+      run: cd "${{env.LibtorrentRasterbar_INSTALL_DIR}}" && ls -alR
 
     - name: Configure Project
       env:
@@ -356,7 +369,7 @@ jobs:
         cmake "${{env.Project_SOURCE_DIR}}"
           ${{env.DIRECTIVE_CMAKE_GENERATOR}}
           -DCMAKE_PREFIX_PATH="${{env.Qt6_Dir2}}"
-          -DCMAKE_CXX_FLAGS="${{env.CXX_FLAGS}}"
+          -DCMAKE_CXX_FLAGS="${{env.CXX_FLAGS_Project}}"
           -DCMAKE_INSTALL_PREFIX="${{env.Project_INSTALL_DIR}}"
           -DOpenSSL_ROOT_DIR="${{env.OpenSSL_ROOT_DIR}}"
           -DBoost_ROOT:PATH="${{env.Boost_ROOT}}"
@@ -395,6 +408,18 @@ jobs:
            echo "After:"
            ls -al
 
+    - name: List Dynamic Dependencies (Linux Only)
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      working-directory: "${{env.Project_INSTALL_DIR}}"
+      continue-on-error: true
+      shell: bash
+      run: |
+           echo "Run 'ldd' to find missing Qt libraries or missing plugins."
+           echo "Tips: If missing, add directive install(FILE [..]) in 'src/CMakeLists.txt'."
+           ldd --verbose ./launcher
+           ldd --verbose ./DownZemAll
+           ls -R
+
     - name: Zip (Linux Portable)
       if: ${{ matrix.os == 'ubuntu-latest' }}
       working-directory: "${{env.Project_RELEASE_DIR}}"
@@ -424,7 +449,7 @@ jobs:
       run: |
            import os
            from shutil import make_archive
-           root_dir = os.path.normpath("${{env.Project_INSTALL_DIR}}")
+           root_dir = os.path.normpath(r"${{env.Project_INSTALL_DIR}}")
            print(f"Archiving {root_dir}")
            full_name = make_archive(
                base_name="${{env.ZIP_NAME}}",
@@ -455,7 +480,7 @@ jobs:
     - name: List files in Project
       if: ${{ matrix.os == 'windows-latest' }}
       shell: bash
-      run: cd "${{env.Project_INSTALL_DIR}}" && ls -al
+      run: cd "${{env.Project_INSTALL_DIR}}" && ls -alR
 
     - name: Rename NSIS installer
       if: ${{ matrix.os == 'windows-latest' }}

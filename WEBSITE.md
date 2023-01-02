@@ -1,43 +1,52 @@
-# Gihub.io Website
+# Github.io Website
 
-The pages are in /docs/
+The website is stored in `<path/to/project>/docs/`.
 
 It uses [Jekyll](https://en.wikipedia.org/wiki/Jekyll_(software)) (a Ruby app) and the [Hideout](https://github.com/fongandrew/hydeout) theme.
 
-## How to add a post
 
-Add a *.md file under `/docs/_posts`
+## How to post
+
+Add a *.md file under `<path/to/project>/docs/_posts`
 
 
 ## How to run the website locally
 
-1. Install Ruby
+1. Install [Ruby](https://www.ruby-lang.org/en/downloads/).
 
-2. Install Jekyll and Bundler gems
+2. Install the gems: [Jekyll](https://jekyllrb.com/) and [Bundler](https://bundler.io/). Open a console and type:
 
-    > gem install jekyll
-    > gem install bundler
+        > gem install jekyll
+        > gem install bundler
 
-3. Build the site and make it available on a local server
+3. Build the site and make it available on a local server:
 
-    > cd /docs/
-    > bundle exec jekyll serve
+        > cd <path/to/project>/docs/
 
-4. Browse to http://localhost:4000/DownZemAll/
+4. Run
+
+        > bundle exec jekyll serve
+
+The site is available at [localhost:4000/DownZemAll](http://localhost:4000/DownZemAll/)
 
 
 ## How to upgrade Jekyll
 
+To [upgrade Jekyll](https://jekyllrb.com/docs/upgrading/), open a console and type:
+
     > bundle update jekyll
 
-or simply
-
+    or alternatively:
     > bundle update
-
-Source: https://jekyllrb.com/docs/upgrading/
 
 
 ## How to clean
+
+To clean the directory `<path/to/project>/docs/`:
+
+    > bundle exec jekyll clean
+
+To clean Jekyll:
 
     > bundle clean --force
 

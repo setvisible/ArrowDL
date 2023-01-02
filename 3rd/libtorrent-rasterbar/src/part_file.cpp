@@ -100,8 +100,7 @@ namespace libtorrent {
 
 		// parse header
 		std::vector<char> header(static_cast<std::size_t>(m_header_size));
-		iovec_t b = header;
-		int const n = int(f.readv(0, b, ec));
+		int const n = int(aux::pread_all(f.fd(), header, 0, ec));
 		if (ec) return;
 
 		// we don't have a full header. consider the file empty
@@ -173,11 +172,11 @@ namespace libtorrent {
 		return slot;
 	}
 
-	int part_file::writev(span<iovec_t const> bufs, piece_index_t const piece
+	int part_file::write(span<char> buf, piece_index_t const piece
 		, int const offset, error_code& ec)
 	{
 		TORRENT_ASSERT(offset >= 0);
-		TORRENT_ASSERT(int(bufs.size()) + offset <= m_piece_size);
+		TORRENT_ASSERT(int(buf.size()) + offset <= m_piece_size);
 		std::unique_lock<std::mutex> l(m_mutex);
 
 		auto f = open_file(aux::open_mode::write | aux::open_mode::hidden, ec);
@@ -189,15 +188,15 @@ namespace libtorrent {
 
 		l.unlock();
 
-		return int(f.writev(slot_offset(slot) + offset, bufs, ec));
+		return int(aux::pwrite_all(f.fd(), buf, slot_offset(slot) + offset, ec));
 	}
 
-	int part_file::readv(span<iovec_t const> bufs
+	int part_file::read(span<char> buf
 		, piece_index_t const piece
 		, int const offset, error_code& ec)
 	{
 		TORRENT_ASSERT(offset >= 0);
-		TORRENT_ASSERT(int(bufs.size()) + offset <= m_piece_size);
+		TORRENT_ASSERT(int(buf.size()) + offset <= m_piece_size);
 		std::unique_lock<std::mutex> l(m_mutex);
 
 		auto const i = m_piece_map.find(piece);
@@ -213,27 +212,27 @@ namespace libtorrent {
 		auto f = open_file(aux::open_mode::read_only | aux::open_mode::hidden, ec);
 		if (ec) return -1;
 
-		return int(f.readv(slot_offset(slot) + offset, bufs, ec));
+		return int(aux::pread_all(f.fd(), buf, slot_offset(slot) + offset, ec));
 	}
 
-	int part_file::hashv(hasher& ph
+	int part_file::hash(hasher& ph
 		, std::ptrdiff_t const len
 		, piece_index_t const piece
 		, int const offset, error_code& ec)
 	{
-		return do_hashv(ph, len, piece, offset, ec);
+		return do_hash(ph, len, piece, offset, ec);
 	}
 
-	int part_file::hashv2(hasher256& ph
+	int part_file::hash2(hasher256& ph
 		, std::ptrdiff_t const len
 		, piece_index_t const piece
 		, int const offset, error_code& ec)
 	{
-		return do_hashv(ph, len, piece, offset, ec);
+		return do_hash(ph, len, piece, offset, ec);
 	}
 
 	template <typename Hasher>
-	int part_file::do_hashv(Hasher& ph
+	int part_file::do_hash(Hasher& ph
 		, std::ptrdiff_t const len
 		, piece_index_t const piece
 		, int const offset, error_code& ec)
@@ -258,30 +257,37 @@ namespace libtorrent {
 		l.unlock();
 
 		std::vector<char> buffer(static_cast<std::size_t>(len));
-		iovec_t v = buffer;
 		std::int64_t const slot_offset = std::int64_t(m_header_size) + std::int64_t(static_cast<int>(slot)) * m_piece_size;
-		int const ret = int(f.readv(slot_offset + offset, v, ec));
+		int const ret = int(aux::pread_all(f.fd(), buffer, slot_offset + offset, ec));
 		ph.update(buffer);
 		return ret;
 	}
 
-	file part_file::open_file(aux::open_mode_t const mode, error_code& ec)
+	aux::file_handle part_file::open_file(aux::open_mode_t const mode, error_code& ec) try
 	{
 		std::string const fn = combine_path(m_path, m_name);
-		file f(fn, mode, ec);
-		if ((mode & aux::open_mode::write)
-			&& ec == boost::system::errc::no_such_file_or_directory)
-		{
-			// this means the directory the file is in doesn't exist.
-			// so create it
-			ec.clear();
-			create_directories(m_path, ec);
-
-			if (ec) return {};
-			f = file(fn, mode, ec);
+		try {
+			return aux::file_handle(fn, 0, mode);
 		}
-		if (ec) return {};
-		return f;
+		catch (storage_error const& e)
+		{
+			if ((mode & aux::open_mode::write)
+				&& e.ec == boost::system::errc::no_such_file_or_directory)
+			{
+				// this means the directory the file is in doesn't exist.
+				// so create it
+				ec.clear();
+				create_directories(m_path, ec);
+				if (ec) return {};
+				return aux::file_handle(fn, 0, mode);
+			}
+			return {};
+		}
+	}
+	catch (storage_error const& e)
+	{
+		ec = e.ec;
+		return {};
 	}
 
 	void part_file::free_piece(piece_index_t const piece)
@@ -319,7 +325,9 @@ namespace libtorrent {
 
 			if (ec)
 			{
-				copy_file(old_path, new_path, ec);
+				storage_error se;
+				aux::copy_file(old_path, new_path, se);
+				ec = se.ec;
 				if (ec) return;
 				remove(old_path, ec);
 			}
@@ -359,8 +367,8 @@ namespace libtorrent {
 				// don't hold the lock during disk I/O
 				l.unlock();
 
-				iovec_t v = {buf.get(), block_to_copy};
-				auto bytes_read = file.readv(slot_offset(slot) + piece_offset, v, ec);
+				span<char> v = {buf.get(), block_to_copy};
+				auto bytes_read = aux::pread_all(file.fd(), v, slot_offset(slot) + piece_offset, ec);
 				v = v.first(static_cast<std::ptrdiff_t>(bytes_read));
 				TORRENT_ASSERT(!ec);
 				if (ec || v.empty()) return;
@@ -439,8 +447,7 @@ namespace libtorrent {
 			write_int32(static_cast<int>(slot), ptr);
 		}
 		std::memset(ptr, 0, std::size_t(m_header_size - (ptr - header.data())));
-		iovec_t b = header;
-		f.writev(0, b, ec);
+		aux::pwrite_all(f.fd(), header, 0, ec);
 		if (ec) return;
 		m_dirty_metadata = false;
 	}

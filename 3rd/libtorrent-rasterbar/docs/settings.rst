@@ -245,7 +245,7 @@ sets the i2p_ SAM bridge to connect to. set the port with the
 +------------------+--------+----------+
 | name             | type   | default  |
 +==================+========+==========+
-| peer_fingerprint | string | -LT2070- |
+| peer_fingerprint | string | -LT2080- |
 +------------------+--------+----------+
 
 this is the fingerprint for the client. It will be used as the
@@ -3401,4 +3401,40 @@ when receiving metadata (torrent file) from peers, this is the
 max number of bencoded tokens we're willing to parse. This limit
 is meant to prevent DoS attacks on peers. For very large
 torrents, this limit may have to be raised.
+
+.. _disk_write_mode:
+
+.. raw:: html
+
+	<a name="disk_write_mode"></a>
+
++-----------------+------+---------------------------------------------------+
+| name            | type | default                                           |
++=================+======+===================================================+
+| disk_write_mode | int  | settings_pack::mmap_write_mode_t::auto_mmap_write |
++-----------------+------+---------------------------------------------------+
+
+controls whether disk writes will be made through a memory mapped
+file or via normal write calls. This only affects the
+mmap_disk_io. When saving to a non-local drive (network share,
+NFS or NAS) using memory mapped files is most likely inferior.
+When writing to a local SSD (especially in DAX mode) using memory
+mapped files likely gives the best performance.
+The values for this setting are specified as mmap_write_mode_t.
+
+.. _mmap_file_size_cutoff:
+
+.. raw:: html
+
+	<a name="mmap_file_size_cutoff"></a>
+
++-----------------------+------+---------+
+| name                  | type | default |
++=======================+======+=========+
+| mmap_file_size_cutoff | int  | 40      |
++-----------------------+------+---------+
+
+when using mmap_disk_io, files smaller than this number of blocks
+will not be memory mapped, but will use normal pread/pwrite
+operations. This file size limit is specified in 16 kiB blocks.
 

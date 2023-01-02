@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,31 +25,31 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.7</td></tr>
+<td>2.0.8</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#read-resume-data" id="toc-entry-1">read_resume_data()</a></li>
-<li><a class="reference internal" href="#write-resume-data-write-resume-data-buf" id="toc-entry-2">write_resume_data() write_resume_data_buf()</a></li>
-<li><a class="reference internal" href="#write-torrent-file" id="toc-entry-3">write_torrent_file()</a></li>
-<li><a class="reference internal" href="#write-torrent-flags-t" id="toc-entry-4">write_torrent_flags_t</a></li>
+<li><a class="reference internal" href="#read-resume-data" id="id14">read_resume_data()</a></li>
+<li><a class="reference internal" href="#write-resume-data-write-resume-data-buf" id="id15">write_resume_data() write_resume_data_buf()</a></li>
+<li><a class="reference internal" href="#write-torrent-file-buf-write-torrent-file" id="id16">write_torrent_file_buf() write_torrent_file()</a></li>
+<li><a class="reference internal" href="#write-torrent-flags-t" id="id17">write_torrent_flags_t</a></li>
 </ul>
 </div>
 <a name="read_resume_data()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:read_resume_data%28%29&labels=documentation&body=Documentation+under+heading+%22read_resume_data%28%29%22+could+be+improved">report issue</a>]</span><div class="section" id="read-resume-data">
 <h1>read_resume_data()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/read_resume_data.hpp">libtorrent/read_resume_data.hpp</a>&quot;</p>
 <pre class="literal-block">
-add_torrent_params <strong>read_resume_data</strong> (bdecode_node const&amp; rd
-   , error_code&amp; ec, int piece_limit = 0x200000);
 add_torrent_params <strong>read_resume_data</strong> (span&lt;char const&gt; buffer
    , error_code&amp; ec, load_torrent_limits const&amp; cfg = {});
-add_torrent_params <strong>read_resume_data</strong> (bdecode_node const&amp; rd
-   , int piece_limit = 0x200000);
 add_torrent_params <strong>read_resume_data</strong> (span&lt;char const&gt; buffer
    , load_torrent_limits const&amp; cfg = {});
+add_torrent_params <strong>read_resume_data</strong> (bdecode_node const&amp; rd
+   , int piece_limit = 0x200000);
+add_torrent_params <strong>read_resume_data</strong> (bdecode_node const&amp; rd
+   , error_code&amp; ec, int piece_limit = 0x200000);
 </pre>
 <p>these functions are used to parse resume data and populate the appropriate
 fields in an <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object. This object can then be used to add
@@ -71,18 +71,21 @@ to <a class="reference external" href="reference-Torrent_Info.html#parse_info_se
 <h1>write_resume_data() write_resume_data_buf()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/write_resume_data.hpp">libtorrent/write_resume_data.hpp</a>&quot;</p>
 <pre class="literal-block">
-entry <strong>write_resume_data</strong> (add_torrent_params const&amp; atp);
 std::vector&lt;char&gt; <strong>write_resume_data_buf</strong> (add_torrent_params const&amp; atp);
+entry <strong>write_resume_data</strong> (add_torrent_params const&amp; atp);
 </pre>
 <p>this function turns the resume data in an <tt class="docutils literal">add_torrent_params</tt> object
 into a bencoded structure</p>
-<a name="write_torrent_file()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:write_torrent_file%28%29&labels=documentation&body=Documentation+under+heading+%22write_torrent_file%28%29%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="write-torrent-file">
-<h1>write_torrent_file()</h1>
+<a name="write_torrent_file_buf()"></a>
+<a name="write_torrent_file()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:write_torrent_file_buf%28%29+write_torrent_file%28%29&labels=documentation&body=Documentation+under+heading+%22write_torrent_file_buf%28%29+write_torrent_file%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="write-torrent-file-buf-write-torrent-file">
+<h1>write_torrent_file_buf() write_torrent_file()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/write_resume_data.hpp">libtorrent/write_resume_data.hpp</a>&quot;</p>
 <pre class="literal-block">
-entry <strong>write_torrent_file</strong> (add_torrent_params const&amp; atp);
 entry <strong>write_torrent_file</strong> (add_torrent_params const&amp; atp, write_torrent_flags_t flags);
+entry <strong>write_torrent_file</strong> (add_torrent_params const&amp; atp);
+std::vector&lt;char&gt; <strong>write_torrent_file_buf</strong> (add_torrent_params const&amp; atp
+   , write_torrent_flags_t flags);
 </pre>
 <p>writes only the fields to create a .torrent file. This function may fail
 with a <tt class="docutils literal"><span class="pre">std::system_error</span></tt> exception if:</p>
@@ -91,6 +94,9 @@ with a <tt class="docutils literal"><span class="pre">std::system_error</span></
 info dictionary (the <tt class="docutils literal">ti</tt> field)</li>
 <li>The piece layers are not complete for all files that need them</li>
 </ul>
+<p>The <tt class="docutils literal">write_torrent_file_buf()</tt> overload returns the torrent file in
+bencoded buffer form. This overload may be faster at the expense of lost
+flexibility to add custom fields.</p>
 <a name="write_torrent_flags_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:write_torrent_flags_t&labels=documentation&body=Documentation+under+heading+%22write_torrent_flags_t%22+could+be+improved">report issue</a>]</span></div>
 <div class="section" id="write-torrent-flags-t">
 <h1>write_torrent_flags_t</h1>

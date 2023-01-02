@@ -93,7 +93,6 @@ void GetAndAssertBody(GumboNode* root, GumboNode** body) {
 
 void SanityCheckPointers(
         const char* input, size_t input_length, const GumboNode* node, int depth) {
-    /*ASSERT_GE*/ QVERIFY(input_length >= 0);
     /*ASSERT_TRUE*/ QVERIFY(node != NULL);
     // There are some truly pathological HTML documents out there - the
     // integration tests for this include one where the DOM "tree" is actually a
@@ -119,9 +118,7 @@ void SanityCheckPointers(
             /*EXPECT_LT*/ QVERIFY(element->original_end_tag.data < input + input_length);
             /*EXPECT_LE*/ QVERIFY(element->original_end_tag.length <= input_length);
         }
-        /*EXPECT_GE*/ QVERIFY(element->start_pos.offset >= 0);
         /*EXPECT_LE*/ QVERIFY(element->start_pos.offset <= input_length);
-        /*EXPECT_GE*/ QVERIFY(element->end_pos.offset >= 0);
         /*EXPECT_LE*/ QVERIFY(element->end_pos.offset <= input_length);
 
         const GumboVector* children = &element->children;
@@ -138,7 +135,6 @@ void SanityCheckPointers(
         /*EXPECT_GE*/ QVERIFY(text->original_text.data >= input);
         /*EXPECT_LT*/ QVERIFY(text->original_text.data < input + input_length);
         /*EXPECT_LE*/ QVERIFY(text->original_text.length <= input_length);
-        /*EXPECT_GE*/ QVERIFY(text->start_pos.offset >= 0);
         /*EXPECT_LT*/ QVERIFY(text->start_pos.offset < input_length);
     }
 }
