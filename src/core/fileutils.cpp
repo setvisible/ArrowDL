@@ -165,11 +165,13 @@ QString FileUtils::cleanFileName(const QString &fileName)
     auto ret = fileName.simplified();
     ret = ret.remove(QRegularExpression("official music video", QRegularExpression::CaseInsensitiveOption));
     ret = ret.remove(QRegularExpression("official video", QRegularExpression::CaseInsensitiveOption));
+    ret = ret.remove(QRegularExpression("official visualizer", QRegularExpression::CaseInsensitiveOption));
     ret = ret.remove(QRegularExpression("official audio", QRegularExpression::CaseInsensitiveOption));
     ret = ret.remove(QRegularExpression("video", QRegularExpression::CaseInsensitiveOption));
     ret = ret.remove(QRegularExpression("audio", QRegularExpression::CaseInsensitiveOption));
-    ret = ret.remove(QRegularExpression("\\(\\)", QRegularExpression::CaseInsensitiveOption));
-    ret = ret.remove(QRegularExpression("\\[\\]", QRegularExpression::CaseInsensitiveOption));
+    ret = ret.remove(QRegularExpression("radio edit", QRegularExpression::CaseInsensitiveOption));
+    ret = ret.remove(QRegularExpression("\\(+\\)+", QRegularExpression::CaseInsensitiveOption));
+    ret = ret.remove(QRegularExpression("\\[+\\]+", QRegularExpression::CaseInsensitiveOption));
     ret = capitalize(ret);
     ret = ret.simplified();
 

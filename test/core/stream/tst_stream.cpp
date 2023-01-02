@@ -744,9 +744,12 @@ void tst_Stream::fileBaseName_data()
             << "\"Bohemian Rhapsody\" Steve Vai & Malmsteen & Zakk Wylde & Nuno@Atlantic City (11/30/18)"
             << "'Bohemian Rhapsody' Steve Vai & Malmsteen & Zakk Wylde & Nuno@Atlantic City (11-30-18)" ;
 
-    QTest::newRow("stupid text") << "Live '01 (Official Video)" << "Live '01";
-    QTest::newRow("stupid text") << "(Official Video) Live '01" << "Live '01";
-    QTest::newRow("stupid text") << "Live (Official Video) '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live '01 (Official Video)" << "Live '01";
+    QTest::newRow("unuseful text") << "(Official Video) Live '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live (Official Video) '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live (Official Visualizer) '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live ((Official Visualizer)) '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live (Radio Edit) '01" << "Live '01";
 
     // BUGFIX with "Construction" that becomes "filestruction"
     // https://www.youtube.com/watch?v=lSQ7pWUo3g4

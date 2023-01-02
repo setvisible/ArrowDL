@@ -187,9 +187,12 @@ void tst_FileUtils::cleanFileName_data()
 
     QTest::newRow("dash") << "Quikelol #lol" << "Quikelol #lol";
 
-    QTest::newRow("stupid text") << "Live '01 (Official Video)" << "Live '01";
-    QTest::newRow("stupid text") << "(Official Video) Live '01" << "Live '01";
-    QTest::newRow("stupid text") << "Live (Official Video) '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live '01 (Official Video)" << "Live '01";
+    QTest::newRow("unuseful text") << "(Official Video) Live '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live (Official Video) '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live (Official Visualizer) '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live ((Official Visualizer)) '01" << "Live '01";
+    QTest::newRow("unuseful text") << "Live (Radio Edit) '01" << "Live '01";
 
     // BUGFIX with "Construction" that becomes "filestruction"
     // https://www.youtube.com/watch?v=lSQ7pWUo3g4
