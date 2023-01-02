@@ -273,7 +273,10 @@ jobs:
 
     - name: List files in Qt
       shell: bash
-      run: cd "${{env.Qt6_DIR}}" && ls -al
+      run: cd "${{env.Qt6_DIR}}/../../" && ls -alR
+      # env.Qt6_DIR
+      #   "/home/runner/work/DownZemAll/qt/Qt/6.3.1/gcc_64"
+      #   "D:\a\DownZemAll\qt\Qt\6.3.1\mingw_64"
 
     - name: Find OpenSSL in Qt6
       # The thing is that "env.Qt6_DIR" is defined only at runtime, *after* install-qt-action has run.
