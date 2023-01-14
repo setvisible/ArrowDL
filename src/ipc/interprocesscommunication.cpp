@@ -37,33 +37,12 @@ QString InterProcessCommunication::readMessageFromLauncher()
 
     if (sharedMemory.attach(QSharedMemory::ReadWrite)) {
 
-        QByteArray bytes;
-
-        if (sharedMemory.lock()) {
-            // Reads the shared memory
-            auto ptr = static_cast<const char*>(sharedMemory.constData());
-            auto n = static_cast<uint>(sharedMemory.size());
-            bytes.setRawData(ptr, n);
-            sharedMemory.unlock();
-        }
-
-        message += QString(bytes);
+        // Read message from Launcher
+        message += shm_read(&sharedMemory);
         message += QChar::Space;
 
-        if (sharedMemory.lock()) {
-            // Replies the ACK message
-            bytes = C_SHARED_MEMORY_ACK_REPLY.toUtf8();
-
-            const char *from = bytes.constData();
-            void *to = sharedMemory.data();
-            size_t size = static_cast<size_t>(qMin(bytes.size() + 1, sharedMemory.size()));
-            memcpy(to, from, size);
-
-            char *d_ptr = static_cast<char*>(sharedMemory.data());
-            d_ptr[sharedMemory.size() - 1] = '\0';
-
-            sharedMemory.unlock();
-        }
+        // Write Acknowledge to Launcher
+        shm_write(&sharedMemory, C_SHARED_MEMORY_ACK_REPLY);
 
         sharedMemory.detach();
 
