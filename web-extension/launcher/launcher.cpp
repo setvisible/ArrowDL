@@ -40,7 +40,7 @@
 #  include <QtCore/QFileInfo>
 #endif
 
-#if defined(DEBUG_LAUNCHER)
+#if defined(DEBUG_LAUNCHER_TO_APP)
 #  include <QtCore/QDebug>
 #endif
 
@@ -66,16 +66,16 @@ void log(const QString &label, const std::string &message);
 
 // Constants: Launcher <-> Browser
 #ifdef Q_OS_WIN
-static const std::string C_PROCESS              ("./DownZemAll.exe");
+std::string C_PROCESS              {"./DownZemAll.exe"};
 #elif defined(Q_OS_UNIX)
-static const std::string C_PROCESS              ("./DownZemAll");
+std::string C_PROCESS              {"./DownZemAll"};
 #else
 #endif
-static const std::string C_HAND_SHAKE_QUESTION  ("\"areyouthere");
-static const std::string C_HAND_SHAKE_ANSWER    ("somewhere");
-static const std::string C_LAUNCH               ("\"launch ");
-static const std::string C_CHROMIUM_HEADER      ("{\"text\":");
-static const std::string C_CHROMIUM_FOOTER      ("}");
+std::string C_HAND_SHAKE_QUESTION  {"\"areyouthere"};
+std::string C_HAND_SHAKE_ANSWER    {"somewhere"};
+std::string C_LAUNCH               {"\"launch "};
+std::string C_CHROMIUM_HEADER      {"{\"text\":"};
+std::string C_CHROMIUM_FOOTER      {"}"};
 
 
 static std::string unquote(const std::string &str)
@@ -106,12 +106,12 @@ void log(const char* label, const std::string &message)
 
 void log(const char* label, const QString &message1, const QString &message2)
 {
-    log(QString("%0: %1 %2").arg(label).arg(message1).arg(message2));
+    log(QString("%0: %1 %2").arg(QString::fromUtf8(label), message1, message2));
 }
 
 void log(const QString &label, const std::string &message)
 {
-    log(QString("%0: %1").arg(label).arg(QString::fromStdString(message)));
+    log(QString("%0: %1").arg(label, QString::fromStdString(message)));
 }
 
 void log(const QString &message)
@@ -260,20 +260,7 @@ static bool sendCommandToProcess(const QString &program, const QString &argument
 
         if (sharedMemory.isAttached()) {
 
-            if (sharedMemory.lock()) {
-                // Write the message into the shared memory
-                QByteArray bytes = arguments.toUtf8();
-
-                const char *from = bytes.constData();
-                void *to = sharedMemory.data();
-                size_t size = static_cast<size_t>(qMin(bytes.size() + 1, sharedMemory.size()));
-                memcpy(to, from, size);
-
-                char *d_ptr = static_cast<char*>(sharedMemory.data());
-                d_ptr[sharedMemory.size() - 1] = '\0';
-
-                sharedMemory.unlock();
-            }
+            shm_write(&sharedMemory, arguments);
 
         } else {
             log(Q_FUNC_INFO, QString("Unable to attach to the shared memory segment"));
@@ -313,17 +300,9 @@ static bool sendCommandToProcess(const QString &program, const QString &argument
         counter++;
 
         mSleep(1000);
-        QByteArray answer;
+        QString answer = shm_read(&sharedMemory);
 
-        if (sharedMemory.lock()) {
-            // Reads the shared memory
-            const char* ptr = static_cast<const char*>(sharedMemory.constData());
-            uint n = static_cast<uint>(sharedMemory.size());
-            answer.setRawData(ptr, n);
-            sharedMemory.unlock();
-        }
-
-        if (QString(answer) == C_SHARED_MEMORY_ACK_REPLY) {
+        if (answer == C_SHARED_MEMORY_ACK_REPLY) {
             sharedMemory.detach();
             return true;
         }
@@ -367,7 +346,7 @@ std::string compress(const std::string &command)
 
 int main(int argc, char* argv[])
 {
-#if defined(DEBUG_LAUNCHER)
+#if defined(DEBUG_LAUNCHER_TO_APP)
     /*
      * The code below permits to step-by-step debug the Launcher,
      * launching the Application and passing a dummy message

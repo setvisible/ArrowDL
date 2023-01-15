@@ -18,6 +18,7 @@
 #define IPC_CONSTANTS_H
 
 #include <QtCore/QString>
+#include <QtCore/QSharedMemory>
 
 /*!
  * \class InterProcessCommunication
@@ -91,5 +92,44 @@ static const std::string C_STR_OPEN_URL(        C_KEYWORD_OPEN_URL.toStdString()
 static const std::string C_STR_DOWNLOAD_LINK(   C_KEYWORD_DOWNLOAD_LINK.toStdString());
 static const std::string C_STR_ERROR(           C_PACKET_ERROR.toStdString());
 
+
+static inline QString shm_read(QSharedMemory *sharedMemory)
+{
+    // Reads the shared memory.
+    QByteArray bytes;
+    if (sharedMemory->lock()) {
+        bytes.setRawData((char*)sharedMemory->constData(), sharedMemory->size());
+        sharedMemory->unlock();
+    }
+
+    // Qt5 to Qt6
+    // QString::QString(const QByteArray &ba)
+    // Note: : any null ('\0') bytes in the byte array will be included in this string,
+    // converted to Unicode null characters (U+0000).
+    // This behavior is different from Qt 5.x.
+    auto real_size_excluding_null = bytes.indexOf(QChar::Null);
+    bytes.truncate(real_size_excluding_null);
+    return QString(bytes);
+}
+
+static inline void shm_write(QSharedMemory *sharedMemory, const QString &message)
+{
+    // Qt5 to Qt6
+    // QString::QString(const QByteArray &ba)
+    // Note: : any null ('\0') bytes in the byte array will be included in this string,
+    // converted to Unicode null characters (U+0000).
+    // This behavior is different from Qt 5.x.
+    QByteArray bytes = message.toUtf8();
+    bytes.append(QChar::Null);
+
+    // Write message into shared memory.
+    if (sharedMemory->lock()) {
+        char *to = (char*)sharedMemory->data();
+        const char *from = bytes.constData();
+        qsizetype max_count = qMin(sharedMemory->size(), bytes.size());
+        memcpy(to, from, max_count);
+        sharedMemory->unlock();
+    }
+}
 
 #endif // IPC_CONSTANTS_H
