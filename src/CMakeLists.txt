@@ -81,12 +81,14 @@ qt_add_translations(${TARGET_NAME}
         ${CMAKE_SOURCE_DIR}/src/locale/dza_fr_FR.ts  # French
         ${CMAKE_SOURCE_DIR}/src/locale/dza_hu_HU.ts  # Hungarian
         ${CMAKE_SOURCE_DIR}/src/locale/dza_it_IT.ts  # Italian
+        ${CMAKE_SOURCE_DIR}/src/locale/dza_ja_JP.ts  # Japanese
         ${CMAKE_SOURCE_DIR}/src/locale/dza_ko_KR.ts  # Korean
         ${CMAKE_SOURCE_DIR}/src/locale/dza_nl_NL.ts  # Dutch
         ${CMAKE_SOURCE_DIR}/src/locale/dza_pl_PL.ts  # Polish
         ${CMAKE_SOURCE_DIR}/src/locale/dza_pt_BR.ts  # Portuguese (Brazil)
         ${CMAKE_SOURCE_DIR}/src/locale/dza_pt_PT.ts  # Portuguese (Portugal)
         ${CMAKE_SOURCE_DIR}/src/locale/dza_ru_RU.ts  # Russian
+        ${CMAKE_SOURCE_DIR}/src/locale/dza_vi_VN.ts  # Vietnamese
         ${CMAKE_SOURCE_DIR}/src/locale/dza_zh_CN.ts  # Chinese (Simplified & Traditional)
     QM_FILES_OUTPUT_VARIABLE
         qm_files
