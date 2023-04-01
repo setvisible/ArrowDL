@@ -4,158 +4,158 @@
     "description": "Name of the extension, displayed in the web store. Should not exceed 45 characters."
   },
   "extensionDescription": {
-    "message": "The Right Download Manager for your browser",
+    "message": "A megfelelő letöltéskezelő a böngészőhöz",
     "description": "Description of the extension, displayed in the web store. Should not exceed 132 characters."
   },
 
 
   "contextMenuSavePage": {
-    "message": "Save page",
+    "message": "Oldal mentése",
     "description": "Title of the context menu for Save page"
   },
   "contextMenuSaveFrame": {
-    "message": "Save frame",
+    "message": "Keret mentése",
     "description": "Title of the context menu for Save frame"
   },
   "contextMenuSaveSelection": {
-    "message": "Save selection",
+    "message": "Kijelőlés mentése",
     "description": "Title of the context menu for Save selection"
   },
   "contextMenuSaveLink": {
-    "message": "Save link",
+    "message": "Link mentése",
     "description": "Title of the context menu for Save link"
   },
   "contextMenuSaveEditable": {
-    "message": "Save editable",
+    "message": "Szerkeszthető mentése",
     "description": "Title of the context menu for Save editable"
   },
   "contextMenuSaveImage": {
-    "message": "Save image",
+    "message": "Kép mentése",
     "description": "Title of the context menu for Save image"
   },
   "contextMenuSaveVideo": {
-    "message": "Save video",
+    "message": "Videó mentése",
     "description": "Title of the context menu for Save video"
   },
   "contextMenuSaveAudio": {
-    "message": "Save audio",
+    "message": "Audio mentése",
     "description": "Title of the context menu for Save audio"
   },
   "contextMenuSaveLauncher": {
-    "message": "Save launcher",
+    "message": "Futtatható mentése",
     "description": "Title of the context menu for Save launcher"
   },
 
 
   "popupDownload": {
-    "message": "Download...",
+    "message": "Letöltés...",
     "description": "Title of the context menu for Download..."
   },
   "popupDownloadLinks": {
-    "message": "Download links",
+    "message": "Linkek letöltése",
     "description": "Title of the context menu for Download links"
   },
   "popupDownloadLinksPaused": {
-    "message": "Download links (paused)",
+    "message": "Linkek letöltése (megállítva)",
     "description": "Title of the context menu for Download links (paused)"
   },
   "popupDownloadContent": {
-    "message": "Download content",
+    "message": "Tartalom letöltése",
     "description": "Title of the context menu for Download content"
   },
   "popupDownloadContentPaused": {
-    "message": "Download content (paused)",
+    "message": "Tartalom letöltése (megállítva)",
     "description": "Title of the context menu for Download content (paused)"
   },
   "popupOpen": {
-    "message": "Open DZA!",
+    "message": "DZA megnyitása!",
     "description": "Title of the context menu for Open DZA!"
   },
   "popupPreferences": {
-    "message": "Preferences...",
+    "message": "Tulajdonságok...",
     "description": "Title of the context menu for Preferences..."
   },
   "popupOptions": {
-    "message": "Options...",
+    "message": "Opciók...",
     "description": "Title of the context menu for Options..."
   },
   "popupVisitWebsite": {
-    "message": "Visit DZA website",
+    "message": "DZA weboldal felkeresése",
     "description": "Title of the context menu for Visit DZA website"
   },
 
   "popupError": {
-    "message": "Error",
+    "message": "Hiba",
     "description": "Title of Error"
   },
   "popupError1": {
-    "message": "Can't find the application",
+    "message": "Az alkalmazás nem található",
     "description": "Error message 1"
   },
   "popupError2": {
-    "message": "Open 'Options' to check",
+    "message": "Ellenőrzéshez nyisd meg az \"Opciókat\"",
     "description": "Error message 2"
   },
   "popupRemark": {
-    "message": "Remark",
+    "message": "Megjegyzés",
     "description": "Title of Remark"
   },
   "popupRemark1": {
-    "message": "Incognito Mode disables<br />download features",
+    "message": "Inkognitó mód kikapcsolva <br /> letöltési tuljdonságok",
     "description": "Remark message 1"
   },
 
 
   "optionsMainTitle": {
-    "message": "Options",
+    "message": "Opciók",
     "description": "Title of Options"
   },
   "optionsToolbarMenu": {
-    "message": "Toolbar Menu",
+    "message": "Eszköztár menü",
     "description": "Title of Toolbar Menu"
   },
   "optionsShowSimpleMenu": {
-    "message": "Show simple menu (always ask what to do)",
+    "message": "Egyszerű menü megjelenítése (mindig kérdezze meg, mit kell tennie)",
     "description": "Title of Show simple menu"
   },
   "optionsShowFullMenu": {
-    "message": "Show full menu",
+    "message": "Tejes menü megjelenítése",
     "description": "Title of Show full menu"
   },
   "optionsShowFullMenuDescription": {
-    "message": "Simple download, and immediate download for:",
+    "message": "Egyszerű letöltés, és azonnali letöltés:",
     "description": "Description of Show full menu"
   },
   "optionsChoiceGetLinks": {
-    "message": "Links",
+    "message": "Linkek",
     "description": "Title of Links"
   },
   "optionsChoiceGetContent": {
-    "message": "Content",
+    "message": "Tartalom",
     "description": "Title of Content"
   },
   "optionsChoiceStartPaused": {
-    "message": "Start paused",
+    "message": "Indítás szüneteltetve",
     "description": "Title of Start paused"
   },
   "optionsAbout": {
-    "message": "About",
+    "message": "Névjegy",
     "description": "Title of About"
   },
   "optionsInstall": {
-    "message": "Installation",
+    "message": "Telepítés",
     "description": "Title of Installation"
   },
   "optionsInstallMessage": {
-    "message": "Go to link below to install the application for your operating system.",
+    "message": "Az alábbi hivatkozásra kattintva telepítheted az alkalmazást az operációs rendszeredhez.",
     "description": "Tells the user how to install the application."
   },
   "optionsInstallMessageLink": {
-    "message": "Visit DZA website",
+    "message": "DZA weboldal felkeresése",
     "description": "Link to the application URL."
   },
   "optionsRefresh": {
-    "message": "Refresh information $SYMBOL$",
+    "message": "Információ frissítése $SYMBOL$",
     "description": "Title of Refresh information",
     "placeholders": {
       "symbol" : {
@@ -165,7 +165,7 @@
   },
 
   "optionsStatus": {
-    "message": "Status:",
+    "message": "Állapot:",
     "description": "Title of Status"
   },
   "optionsOk": {
@@ -173,15 +173,15 @@
     "description": "Title of Ok"
   },
   "optionsDetectedPath": {
-    "message": "Detected path:",
+    "message": "Észlelt útvonal:",
     "description": "Title of Detected path"
   },
   "optionsError": {
-    "message": "Error: Can't find the launcher",
+    "message": "Hiba: Nem található az indító",
     "description": "Title of Error"
   },
   "optionsInstructions": {
-    "message": "Follow the instructions below.",
+    "message": "Kövesd az alábbi utasításokat.",
     "description": "Title of Instructions"
   }
 }

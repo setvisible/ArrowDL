@@ -15,9 +15,9 @@ To add the language 'xx' in country 'XX':
 
 2. Go to Transifex > Language > Add the language > Add xx_XX
 
-3. Add following line to `./src/src.pro`:
+3. Add following line to `qt_add_translations(...)` in `./src/CMakeLists.txt`:
         
-        TRANSLATIONS += $$PWD/locale/dza_xx_XX.ts
+        ${CMAKE_SOURCE_DIR}/src/locale/dza_xx_XX.ts
         
 4. Add following line to `lang_map` in the Transifex config file `./.tx/config`:
 
@@ -50,9 +50,15 @@ To add the language 'xx' in country 'XX':
 
 6. Translate (eventually)
 
-7. Run `lupdate ./src/src.pro -noobsolete`. It recreates the *.ts.
+7. To recreate the *.ts, run:
 
-8. Run `lrelease ./src/src.pro`. It generates the *.qm.
+        `cmake.exe --build . --target update_translations`
+        (previously: `lupdate ./src/src.pro -noobsolete`)
+
+8. To generate the *.qm, run:
+
+        `cmake.exe --build . --target release_translations`
+        (previously: `lrelease ./src/src.pro`)
 
 9. 'Push' the source file and translation files to the server with TX.exe (transifex client)
 
@@ -62,7 +68,16 @@ To add the language 'xx' in country 'XX':
 
     Rem: '--skip' is useful when the file has not been translated yet. indeed, empty .ts returns a server error.
 
-10. That's it. Follow instructions in next sections to update, build and release it.
+10. To recreate the *.nsh (NSIS), type: 
+
+    `cd <REPO>/installer/windows/NSIS/i18n`
+    `python.exe ./json2nsh.py`
+
+11. Add the language in `<REPO>/installer/windows/NSIS/setup.nsi`:
+
+    `!insertmacro LOAD_LANGUAGE XXX`
+
+12. That's it. Follow instructions in next sections to update, build and release it.
 
 
 ## Translators Corner
@@ -119,7 +134,8 @@ Translation files can be desynchronized after an update of the C++ source code.
 
 To resynchronize *.ts with the source code, use `lupdate` and `lrelease`:
 
-    lupdate ./src/src.pro -noobsolete
+    `cmake.exe --build . --target update_translations`
+    (previously: `lupdate <REPO>/src/src.pro -noobsolete`)
 
 Then the *.ts files are synchronized with the C++ code.
 
@@ -162,7 +178,8 @@ At this point, *.ts files are synchronized with Transifex.
 
 Before deploying, type:
 
-    lrelease <REPO>/src/src.pro
+    `cmake.exe --build . --target release_translations`
+    (previously: `lrelease <REPO>/src/src.pro`)
 
 
 It generates *.qm (compiled translation files) to be deployed with the application.
