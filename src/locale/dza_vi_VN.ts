@@ -3580,7 +3580,7 @@ Help: if you get an error, follow these instructions:
         <location filename="../widgets/texteditorwidget.ui" line="28"/>
         <location filename="../widgets/texteditorwidget.ui" line="31"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Hoàn tác</translation>
     </message>
     <message>
         <location filename="../widgets/texteditorwidget.ui" line="51"/>
@@ -3588,7 +3588,7 @@ Help: if you get an error, follow these instructions:
         <location filename="../widgets/texteditorwidget.ui" line="57"/>
         <location filename="../widgets/texteditorwidget.ui" line="60"/>
         <source>Redo</source>
-        <translation type="unfinished"/>
+        <translation>Làm lại </translation>
     </message>
     <message>
         <location filename="../widgets/texteditorwidget.ui" line="87"/>
