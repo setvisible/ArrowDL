@@ -157,10 +157,12 @@ Unicode true
     !insertmacro LOAD_LANGUAGE "German"
     !insertmacro LOAD_LANGUAGE "Korean"
     !insertmacro LOAD_LANGUAGE "Italian"
+    !insertmacro LOAD_LANGUAGE "Japanese"
     !insertmacro LOAD_LANGUAGE "Portuguese"
     !insertmacro LOAD_LANGUAGE "PortugueseBR"
     !insertmacro LOAD_LANGUAGE "Russian"
     !insertmacro LOAD_LANGUAGE "Spanish"
+    !insertmacro LOAD_LANGUAGE "Vietnamese"
 
 ;--------------------------------
 ;Installer Sections
