@@ -17,12 +17,12 @@ source_file  = web-extension/extension/src/base/_locales/en/messages.json
 source_lang  = en
 type         = CHROME
 minimum_perc = 0
-lang_map     = ar_EG: ar, de_DE: de, en_US: en, es_ES: es, fr_FR: fr, hu_HU: hu, it_IT: it, ja_JP: ja, ko_KR: ko, nl_NL: nl, pl_PL: pl_PL, pt_BR: pt_BR, pt_PT: pt_PT, ru_RU: ru, vi_VN: vi, zh_CN: zh_CN
+lang_map     = ar_EG: ar, de_DE: de, en_US: en, es_ES: es, fr_FR: fr, hu_HU: hu, it_IT: it, ja_JP: ja, ko_KR: ko, nl_NL: nl, pl_PL: pl, pt_BR: pt_BR, pt_PT: pt_PT, ru_RU: ru, vi_VN: vi, zh_CN: zh_CN
 
 [o:downzemall:p:downzemall:r:windows-installer]
 file_filter = installer/windows/NSIS/i18n/sources/<lang>.json
 source_file = installer/windows/NSIS/i18n/sources/en.json
 source_lang = en
 type        = KEYVALUEJSON
-lang_map    = ar_EG: ar, de_DE: de, en_US: en, es_ES: es, fr_FR: fr, hu_HU: hu, it_IT: it, ja_JP: ja, ko_KR: ko, nl_NL: nl, pl_PL: pl_PL, pt_BR: pt_BR, pt_PT: pt, ru_RU: ru, vi_VN: vi, zh_CN: zh_CN
+lang_map    = ar_EG: ar, de_DE: de, en_US: en, es_ES: es, fr_FR: fr, hu_HU: hu, it_IT: it, ja_JP: ja, ko_KR: ko, nl_NL: nl, pl_PL: pl, pt_BR: pt_BR, pt_PT: pt, ru_RU: ru, vi_VN: vi, zh_CN: zh_CN
 

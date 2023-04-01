@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "Scarica ora",
+    "message": "Down Right Now",
     "description": "Name of the extension, displayed in the web store. Should not exceed 45 characters."
   },
   "extensionDescription": {
