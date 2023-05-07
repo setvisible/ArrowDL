@@ -208,10 +208,12 @@ public:
                     && originalFilename == other.originalFilename
                     && subtitles        == other.subtitles
                     && webpage_url      == other.webpage_url
-                    && fulltitle        == other.fulltitle
-                    && defaultTitle     == other.defaultTitle
+                    && title            == other.title
                     && defaultSuffix    == other.defaultSuffix
                     && description      == other.description
+                    && artist           == other.artist
+                    && album            == other.album
+                    && release_year     == other.release_year
                     && thumbnail        == other.thumbnail
                     && extractor        == other.extractor
                     && extractor_key    == other.extractor_key
@@ -237,15 +239,17 @@ public:
         QList<Subtitle> subtitles;
 
         QString webpage_url;            // (string): URL to the video webpage
-        QString fulltitle;              // (string): Video title
-        QString defaultTitle;           // (string): Video title
+        QString title;                  // (string): Video title
         QString defaultSuffix;          // (string): Video filename suffix (complete extension)
         QString description;            // (string): Video description
+        QString artist;                 // (string): Artist(s) of the track
+        QString album;                  // (string): Title of the album the track belongs to
+        QString release_year;           // (numeric): Year (YYYY) when the album was released
         QString thumbnail;              // (string): thumbnail URL
         QString extractor;              // (string): Name of the extractor
         QString extractor_key;          // (string): Key name of the extractor
         StreamFormatId defaultFormatId; // (string): Format code specified by --format
-        QList<Format> formats;      // List of available formats, ordered from worst to best quality
+        QList<Format> formats;          // List of available formats, ordered from worst to best quality
         QString playlist;               // (string): Name or id of the playlist that contains the video
         QString playlist_index;         // (numeric): Index of the video in the playlist padded with leading zeros according to the total length of the playlist
     };
@@ -401,6 +405,8 @@ public:
 
     qint64 guestimateFullSize() const;
     qint64 guestimateFullSize(const StreamFormatId &formatId) const;
+
+    QString defaultTitle() const;
 
     QString title() const;
     void setTitle(const QString &title);

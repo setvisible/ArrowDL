@@ -448,7 +448,7 @@ QVariant StreamTableModel::data(const QModelIndex &index, int role) const
         case  0: return QVariant();
         case  1: return streamObject.data().playlist_index;
         case  2: return filenameOrErrorMessage(streamObject);
-        case  3: return streamObject.data().defaultTitle;
+        case  3: return streamObject.data().title;
         case  4: return Format::fileSizeToString(streamObject.guestimateFullSize());
         case  5: return streamObject.formatToString();
         default:

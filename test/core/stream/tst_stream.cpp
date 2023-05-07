@@ -349,7 +349,7 @@ void tst_Stream::parseDumpMap_singleVideo()
     QByteArray stderrBytes;
     auto actualMap = StreamAssetDownloader::parseDumpMap(stdoutBytes, stderrBytes);
     auto actual = actualMap.value("YsYYO_fKxE0");
-    QCOMPARE(actual.data().fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actual.data().title, QLatin1String("Fun Test: Which is real?"));
     QCOMPARE(actual.error(), StreamObject::NoError);
 }
 
@@ -371,9 +371,9 @@ void tst_Stream::parseDumpMap_playlist()
     auto actual_0 = actualMap.value("YsYYO_fKxE0");
     auto actual_1 = actualMap.value("lD_qyjcMEEJ");
     auto actual_2 = actualMap.value("sfePkSig_DD");
-    QCOMPARE(actual_0.data().fulltitle, QLatin1String("Fun Test: Which is real?"));
-    QCOMPARE(actual_1.data().fulltitle, QLatin1String("Fun Test: Which is real?"));
-    QCOMPARE(actual_2.data().fulltitle, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actual_0.data().title, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actual_1.data().title, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actual_2.data().title, QLatin1String("Fun Test: Which is real?"));
     QCOMPARE(actual_0.error(), StreamObject::NoError);
     QCOMPARE(actual_1.error(), StreamObject::NoError);
     QCOMPARE(actual_2.error(), StreamObject::NoError);
@@ -389,11 +389,11 @@ void tst_Stream::parseDumpMap_playlistWithErrors()
     auto actual_2 = actualMap.value("sfePkSig_DD");
     auto actual_3 = actualMap.value("LdRxXID_b28");
     auto actual_4 = actualMap.value("TB_QmSWVY7o");
-    QCOMPARE(actual_0.data().fulltitle, QLatin1String("Fun Test: Which is real?"));
-    QCOMPARE(actual_1.data().fulltitle, QLatin1String("Fun Test: Which is real?"));
-    QCOMPARE(actual_2.data().fulltitle, QLatin1String("Fun Test: Which is real?"));
-    QCOMPARE(actual_3.data().fulltitle, QLatin1String(""));
-    QCOMPARE(actual_4.data().fulltitle, QLatin1String(""));
+    QCOMPARE(actual_0.data().title, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actual_1.data().title, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actual_2.data().title, QLatin1String("Fun Test: Which is real?"));
+    QCOMPARE(actual_3.data().title, QLatin1String(""));
+    QCOMPARE(actual_4.data().title, QLatin1String(""));
     QCOMPARE(actual_0.error(), StreamObject::NoError);
     QCOMPARE(actual_1.error(), StreamObject::NoError);
     QCOMPARE(actual_2.error(), StreamObject::NoError);
@@ -411,6 +411,10 @@ void tst_Stream::parseDumpMap_overview()
     " 'thumbnails': [],                                                      "
     " 'thumbnail': 'https://test.test.com/maxresdefault.webp',               "
     " 'description': 'test descripted in 2006',                              "
+    " 'artist': 'The Artist 1, The Artist 2',                                "
+    " 'album': 'The Album',                                                  "
+    " 'release_date': '20060101',                                            "
+    " 'release_year': 2006,                                                  "
     " 'upload_date': '20121106',                                             "
     " 'uploader': 'an_user',                                                 "
     " 'uploader_id': 'AnUser',                                               "
@@ -477,17 +481,19 @@ void tst_Stream::parseDumpMap_overview()
     auto actualMap = StreamAssetDownloader::parseDumpMap(stdoutBytes, stderrBytes);
     auto actual = actualMap.value("0123ABcD-98");
     QCOMPARE(actual.data().id, QLatin1String("0123ABcD-98"));
-    QCOMPARE(actual.data().defaultTitle, QLatin1String("Test title - test"));
-    QCOMPARE(actual.data().thumbnail, QLatin1String("https://test.test.com/maxresdefault.webp"));
+    QCOMPARE(actual.data().title, QLatin1String("Test title - test"));
+    QCOMPARE(actual.defaultTitle(), QLatin1String("The Artist 1, The Artist 2 - Test title - test (2006)"));
     QCOMPARE(actual.data().description, QLatin1String("test descripted in 2006"));
+    QCOMPARE(actual.data().artist, QLatin1String("The Artist 1, The Artist 2"));
+    QCOMPARE(actual.data().album, QLatin1String("The Album"));
+    QCOMPARE(actual.data().release_year, QLatin1String("2006"));
+    QCOMPARE(actual.data().thumbnail, QLatin1String("https://test.test.com/maxresdefault.webp"));
     QCOMPARE(actual.data().webpage_url, QLatin1String("https://www.test.com/watch?v=0123ABcD-98"));
+    QCOMPARE(actual.data().originalFilename, QLatin1String("Test title - test [0123ABcD-98].webm"));
     QCOMPARE(actual.data().extractor, QLatin1String("Test"));
     QCOMPARE(actual.data().extractor_key, QLatin1String("test"));
     QCOMPARE(actual.data().playlist, QLatin1String(""));
     QCOMPARE(actual.data().playlist_index, QLatin1String(""));
-    QCOMPARE(actual.data().fulltitle, QLatin1String("Test title - test"));
-    QCOMPARE(actual.data().originalFilename, QLatin1String("Test title - test [0123ABcD-98].webm"));
-
     QCOMPARE(actual.error(), StreamObject::NoError);
 }
 
@@ -540,7 +546,6 @@ void tst_Stream::parseDumpMap_formats()
     QCOMPARE(actual.data().id, QLatin1String("0123ABcD-98"));
     auto formats = actual.data().formats;
     auto format = formats.first();
-
     QCOMPARE(format.asr, 22050);
     QCOMPARE(format.filesize, 692219);
     QCOMPARE(format.formatId, StreamFormatId("139"));
@@ -557,7 +562,6 @@ void tst_Stream::parseDumpMap_formats()
     QCOMPARE(format.abr, 47.622);
     QCOMPARE(format.format, QLatin1String("139 - audio only (low)"));
     QCOMPARE(format.resolution, QLatin1String("audio only"));
-
     QCOMPARE(actual.error(), StreamObject::NoError);
 }
 
@@ -763,8 +767,7 @@ void tst_Stream::fileBaseName()
 
     StreamObject target;
     auto data = target.data();
-    data.defaultTitle = input;
-    data.fulltitle = input;
+    data.title = input;
     target.setData(data);
     auto actual = target.fileBaseName();
 
