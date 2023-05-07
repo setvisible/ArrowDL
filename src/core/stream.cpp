@@ -964,7 +964,9 @@ StreamObject StreamAssetDownloader::parseDumpItemStdOut(const QByteArray &bytes)
         format.vcodec       = jsonFmt[QLatin1String("vcodec")].toString();
 
         format.filesize     = jsonFmt[QLatin1String("filesize")].toInt();
-
+        if (!(format.filesize > 0)) {
+            format.filesize = jsonFmt[QLatin1String("filesize_approx")].toInt();
+        }
         data.formats << format;
     }
 
