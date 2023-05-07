@@ -370,6 +370,7 @@ QStringList Stream::arguments() const
         }
     }
     if (m_config.chapter.writeChapters) {
+        /// \todo implement chapters writing
     }
     if (m_config.thumbnail.writeDefaultThumbnail) {
         arguments << QLatin1String("--write-thumbnail");
@@ -980,7 +981,22 @@ StreamObject StreamAssetDownloader::parseDumpItemStdOut(const QByteArray &bytes)
     data.defaultFormatId    = StreamFormatId(json[QLatin1String("format_id")].toString());
 
     data.playlist           = json[QLatin1String("playlist")].toString();
-    data.playlist_index     = json[QLatin1String("playlist_index")].toString();
+    auto playlist_index     = json[QLatin1String("playlist_index")].toInt();
+    auto playlist_autonumber= json[QLatin1String("playlist_autonumber")].toInt();
+    auto playlist_count     = json[QLatin1String("playlist_count")].toInt();
+    auto n_entries          = json[QLatin1String("n_entries")].toInt();
+
+    if (!(playlist_index > 0)) {
+        playlist_index = playlist_autonumber;
+    }
+    if (!(playlist_count > 0)) {
+        playlist_count = n_entries;
+    }
+    if (playlist_index > 0) {
+        auto digits = QString::number(playlist_count).count();
+        data.playlist_index = QString("%0").arg(QString::number(playlist_index), digits, QLatin1Char('0'));
+    }
+
     obj.setError(StreamObject::NoError);
     obj.setData(data);
     return obj;
