@@ -454,6 +454,7 @@ public:
 
     static QString version();
     static QString website();
+    static void setConcurrentFragments(int fragments);
     static void setLastModifiedTimeEnabled(bool enabled);
     static void setUserAgent(const QString &userAgent);
     static void setConnectionProtocol(int index);

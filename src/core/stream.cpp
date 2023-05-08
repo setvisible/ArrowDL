@@ -61,6 +61,7 @@ static const QString C_DOWNLOAD_next_section = QLatin1String("Destination:");
 
 
 static QString s_youtubedl_version = QString();
+static int s_youtubedl_concurrent_fragments = 0;
 static bool s_youtubedl_last_modified_time_enabled = true;
 static QString s_youtubedl_user_agent = QString();
 static int s_youtubedl_socket_type = 0;
@@ -124,6 +125,11 @@ QString Stream::version()
 QString Stream::website()
 {
     return C_WEBSITE_URL;
+}
+
+void Stream::setConcurrentFragments(int fragments)
+{
+    s_youtubedl_concurrent_fragments = fragments > 0 ? fragments : 0;
 }
 
 void Stream::setLastModifiedTimeEnabled(bool enabled)
@@ -391,6 +397,10 @@ QStringList Stream::arguments() const
     arguments << QLatin1String("--format") << m_selectedFormatId.toString();
 
     /* Global settings */
+    if (s_youtubedl_concurrent_fragments > 1) {
+        arguments << QLatin1String("--concurrent-fragments")
+                  << QString::number(s_youtubedl_concurrent_fragments);
+    }
     if (!s_youtubedl_last_modified_time_enabled) {
         arguments << QLatin1String("--no-mtime");
     }

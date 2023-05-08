@@ -47,6 +47,7 @@ void StreamManager::setSettings(Settings *settings)
 void StreamManager::onSettingsChanged()
 {
     if (m_settings) {
+        Stream::setConcurrentFragments(m_settings->concurrentFragments());
         Stream::setLastModifiedTimeEnabled(m_settings->isRemoteLastModifiedTimeEnabled());
         Stream::setUserAgent(m_settings->httpUserAgent());
         Stream::setConnectionProtocol(m_settings->connectionProtocol());

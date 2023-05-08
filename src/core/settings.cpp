@@ -61,6 +61,7 @@ static const QString REGISTRY_STREAM_SHORTCUT  = "StreamShortcutEnabled";
 
 // Tab Network
 static const QString REGISTRY_MAX_SIMULTANEOUS = "MaxSimultaneous";
+static const QString REGISTRY_CONCURRENT_FRAG  = "ConcurrentFragments";
 static const QString REGISTRY_CUSTOM_BATCH     = "CustomBatchEnabled";
 static const QString REGISTRY_CUSTOM_BATCH_BL  = "CustomBatchButtonLabel";
 static const QString REGISTRY_CUSTOM_BATCH_RGE = "CustomBatchRange";
@@ -125,6 +126,7 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
 
     // Tab Network
     addDefaultSettingInt(REGISTRY_MAX_SIMULTANEOUS, 4);
+    addDefaultSettingInt(REGISTRY_CONCURRENT_FRAG, DEFAULT_CONCURRENT_FRAGMENTS);
     addDefaultSettingBool(REGISTRY_CUSTOM_BATCH, true);
     addDefaultSettingString(REGISTRY_CUSTOM_BATCH_BL, QLatin1String("1 -> 25"));
     addDefaultSettingString(REGISTRY_CUSTOM_BATCH_RGE, QLatin1String("[1:25]"));
@@ -368,6 +370,16 @@ int Settings::maxSimultaneousDownloads() const
 void Settings::setMaxSimultaneousDownloads(int number)
 {
     setSettingInt(REGISTRY_MAX_SIMULTANEOUS, number);
+}
+
+int Settings::concurrentFragments() const
+{
+    return getSettingInt(REGISTRY_CONCURRENT_FRAG);
+}
+
+void Settings::setConcurrentFragments(int fragments)
+{
+    setSettingInt(REGISTRY_CONCURRENT_FRAG, fragments);
 }
 
 bool Settings::isCustomBatchEnabled() const
