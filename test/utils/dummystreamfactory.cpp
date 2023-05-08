@@ -26,7 +26,7 @@ StreamObject DummyStreamFactory::createDummyErrorStreamObject()
     StreamObject obj;
     auto data = obj.data();
     data.id               = "C0DPdy98e4c";
-    data.defaultTitle     = "TEST VIDEO";
+    data.title            = "TEST VIDEO";
     obj.setError(StreamObject::ErrorUnavailable);
     obj.setData(data);
     return obj;
@@ -39,10 +39,12 @@ StreamObject DummyStreamFactory::createDummyStreamObject_Youtube()
     data.id               = "C0DPdy98e4c";
     data.originalFilename = "TEST VIDEO-C0DPdy98e4c.webm";
     data.webpage_url      = "https://www.youtube.com/watch?v=C0DPdy98e4c";
-    data.fulltitle        = "TEST VIDEO";
-    data.defaultTitle     = "TEST VIDEO";
+    data.title            = "TEST VIDEO";
     data.defaultSuffix    = "webm";
     data.description      = "COUNTING LEADER AND TONE";
+    data.artist           = "Some Artist, Another Artist";
+    data.album            = "The TEST Album";
+    data.release_year     = "2006";
     data.thumbnail        = "https://i.ytimg.com/vi/C0DPdy98e4c/hqdefault.jpg";
     data.extractor        = "youtube";
     data.extractor_key    = "Youtube";
@@ -75,10 +77,12 @@ StreamObject DummyStreamFactory::createDummyStreamObject_Dailymotion()
     data.id               = "eLCvrLUvC0E";
     data.originalFilename = "Tatort - Das goldene Band | NDR-eLCvrLUvC0E.mp4";
     data.webpage_url      = "https://www.youtube.com/watch?v=eLCvrLUvC0E";
-    data.fulltitle        = "Tatort - Das goldene Band | NDR";
-    data.defaultTitle     = "Tatort - Das goldene Band | NDR";
+    data.title            = "Tatort - Das goldene Band | NDR";
     data.defaultSuffix    = "mp4";
     data.description      = "";
+    data.artist           = "";
+    data.album            = "";
+    data.release_year     = "";
     data.thumbnail        = "https://i.ytimg.com/vi/eLCvrLUvC0E/hqdefault.jpg";
     data.extractor        = "dailymotion";
     data.extractor_key    = "Dailymotion";
@@ -121,10 +125,12 @@ StreamObject DummyStreamFactory::createDummyStreamObject_Other()
     data.id               = "a1b2f3f4gh5t4";
     data.originalFilename = "San Francisco-a1b2f3f4gh5t4.mp4";
     data.webpage_url      = "https://videos.com/videos/a1b2f3f4gh5t4";
-    data.fulltitle        = "San Francisco";
-    data.defaultTitle     = "San Francisco";
+    data.title            = "San Francisco";
     data.defaultSuffix    = "mp4";
     data.description      = "";
+    data.artist           = "Some Artist, Another Artist";
+    data.album            = "The Album";
+    data.release_year     = "2006";
     data.thumbnail        = "https://videos.com/videos/2019/10/27/SanFrancisco-27164.jpg";
     data.extractor        = "videos";
     data.extractor_key    = "videos";
@@ -146,7 +152,7 @@ StreamObject DummyStreamFactory::createDummyStreamObject_unavailable()
 {
     StreamObject obj;
     auto data = obj.data();
-    data.defaultTitle     = "Les Kaka, les sosos, les Kassos";
+    data.title     = "Les Kaka, les sosos, les Kassos";
     data.webpage_url      = "v2D6gf5d2sM";
     obj.setError(StreamObject::ErrorUnavailable);
     obj.setData(data);

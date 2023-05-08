@@ -61,6 +61,7 @@ static const QString C_DOWNLOAD_next_section = QLatin1String("Destination:");
 
 
 static QString s_youtubedl_version = QString();
+static int s_youtubedl_concurrent_fragments = 0;
 static bool s_youtubedl_last_modified_time_enabled = true;
 static QString s_youtubedl_user_agent = QString();
 static int s_youtubedl_socket_type = 0;
@@ -124,6 +125,11 @@ QString Stream::version()
 QString Stream::website()
 {
     return C_WEBSITE_URL;
+}
+
+void Stream::setConcurrentFragments(int fragments)
+{
+    s_youtubedl_concurrent_fragments = fragments > 0 ? fragments : 0;
 }
 
 void Stream::setLastModifiedTimeEnabled(bool enabled)
@@ -370,6 +376,7 @@ QStringList Stream::arguments() const
         }
     }
     if (m_config.chapter.writeChapters) {
+        /// \todo implement chapters writing
     }
     if (m_config.thumbnail.writeDefaultThumbnail) {
         arguments << QLatin1String("--write-thumbnail");
@@ -390,6 +397,10 @@ QStringList Stream::arguments() const
     arguments << QLatin1String("--format") << m_selectedFormatId.toString();
 
     /* Global settings */
+    if (s_youtubedl_concurrent_fragments > 1) {
+        arguments << QLatin1String("--concurrent-fragments")
+                  << QString::number(s_youtubedl_concurrent_fragments);
+    }
     if (!s_youtubedl_last_modified_time_enabled) {
         arguments << QLatin1String("--no-mtime");
     }
@@ -525,7 +536,9 @@ void Stream::parseStandardOutput(const QString &msg)
          tokens.at(2) == QLatin1String("of")) {
 
         auto percentToken = tokens.at(1);
-        auto sizeToken = tokens.at(3);
+        auto sizeToken = (tokens.at(3) != QLatin1String("~"))
+                ? tokens.at(3)
+                : tokens.at(4);
 
         auto percent = Format::parsePercentDecimal(percentToken);
         if (percent < 0) {
@@ -924,7 +937,18 @@ StreamObject StreamAssetDownloader::parseDumpItemStdOut(const QByteArray &bytes)
     }
     QJsonObject json = loadDoc.object();
     data.id                 = json[QLatin1String("id")].toString();
-    data.defaultTitle       = json[QLatin1String("title")].toString();
+
+    auto title              = json[QLatin1String("title")].toString();
+    if (title.isEmpty()) {
+        title               = json[QLatin1String("alt_title")].toString();
+    }
+    if (title.isEmpty()) {
+        title               = json[QLatin1String("fulltitle")].toString();
+    }
+    if (title.isEmpty()) {
+        title               = json[QLatin1String("track")].toString();
+    }
+    data.title = title;
 
     QJsonArray jsonFormats  = json[QLatin1String("formats")].toArray();
     foreach (auto jsonFormat, jsonFormats) {
@@ -952,13 +976,32 @@ StreamObject StreamAssetDownloader::parseDumpItemStdOut(const QByteArray &bytes)
         format.vcodec       = jsonFmt[QLatin1String("vcodec")].toString();
 
         format.filesize     = jsonFmt[QLatin1String("filesize")].toInt();
-
+        if (!(format.filesize > 0)) {
+            format.filesize = jsonFmt[QLatin1String("filesize_approx")].toInt();
+        }
         data.formats << format;
     }
 
     data.defaultSuffix      = json[QLatin1String("ext")].toString();
-    data.thumbnail          = json[QLatin1String("thumbnail")].toString();
     data.description        = json[QLatin1String("description")].toString();
+
+    auto artist             = json[QLatin1String("artist")].toString();
+    if (artist.isEmpty()) {
+        artist              = json[QLatin1String("creator")].toString();
+    }
+    data.artist = artist;
+
+    data.album              = json[QLatin1String("album")].toString();
+
+    auto release_year       = json[QLatin1String("release_year")].toInt();
+    if (release_year > 0) {
+        data.release_year = QString("%0").arg(QString::number(release_year));
+    } else {
+        data.release_year   = json[QLatin1String("release_date")].toString();
+    }
+
+    data.thumbnail          = json[QLatin1String("thumbnail")].toString();
+
     // Subtitles and Automatic Captions have the same format
     {
         QJsonObject jsonSubtitles = json[QLatin1String("subtitles")].toObject();
@@ -972,15 +1015,29 @@ StreamObject StreamAssetDownloader::parseDumpItemStdOut(const QByteArray &bytes)
     data.webpage_url        = json[QLatin1String("webpage_url")].toString();
 
     //-----
-    // Specific extractors
+    // Specific Extractors
     data.originalFilename   = json[QLatin1String("_filename")].toString();
-    data.fulltitle          = json[QLatin1String("fulltitle")].toString();
     data.extractor          = json[QLatin1String("extractor")].toString();
     data.extractor_key      = json[QLatin1String("extractor_key")].toString();
     data.defaultFormatId    = StreamFormatId(json[QLatin1String("format_id")].toString());
 
     data.playlist           = json[QLatin1String("playlist")].toString();
-    data.playlist_index     = json[QLatin1String("playlist_index")].toString();
+    auto playlist_index     = json[QLatin1String("playlist_index")].toInt();
+    auto playlist_autonumber= json[QLatin1String("playlist_autonumber")].toInt();
+    auto playlist_count     = json[QLatin1String("playlist_count")].toInt();
+    auto n_entries          = json[QLatin1String("n_entries")].toInt();
+
+    if (!(playlist_index > 0)) {
+        playlist_index = playlist_autonumber;
+    }
+    if (!(playlist_count > 0)) {
+        playlist_count = n_entries;
+    }
+    if (playlist_index > 0) {
+        auto digits = QString::number(playlist_count).count();
+        data.playlist_index = QString("%0").arg(QString::number(playlist_index), digits, QLatin1Char('0'));
+    }
+
     obj.setError(StreamObject::NoError);
     obj.setData(data);
     return obj;
@@ -1076,8 +1133,8 @@ StreamObject StreamAssetDownloader::createStreamObject(const StreamFlatListItem 
         /// \todo replace with ErrorGeoRestriction instead?
         si.setError(StreamObject::ErrorUnavailable);
     }
-    if (si.data().defaultTitle.isEmpty()) {
-        si.data().defaultTitle = flatItem.title;
+    if (si.data().title.isEmpty()) {
+        si.data().title = flatItem.title;
     }
     if (si.data().webpage_url.isEmpty()) {
         si.data().webpage_url = flatItem.url; /// \todo fix incomplete URL
@@ -1506,14 +1563,26 @@ qint64 StreamObject::guestimateFullSize(const StreamFormatId &formatId) const
     return estimatedSize;
 }
 
+QString StreamObject::defaultTitle() const
+{
+    auto title = m_data.title;
+    if (!m_data.artist.isEmpty() && !title.contains(m_data.artist, Qt::CaseInsensitive)) {
+        title.prepend(QString("%0 - ").arg(m_data.artist));
+    }
+    if (!m_data.release_year.isEmpty() && !title.contains(m_data.release_year, Qt::CaseInsensitive)) {
+        title.append(QString(" (%0)").arg(m_data.release_year));
+    }
+    return title;
+}
+
 QString StreamObject::title() const
 {
-    return m_userTitle.isEmpty() ? m_data.defaultTitle : m_userTitle;
+    return m_userTitle.isEmpty() ? defaultTitle() : m_userTitle;
 }
 
 void StreamObject::setTitle(const QString &title)
 {
-    m_userTitle = (title == m_data.defaultTitle) ? QString() : title;
+    m_userTitle = (title == defaultTitle()) ? QString() : title;
 }
 
 QString StreamObject::fullFileName() const
@@ -1671,11 +1740,12 @@ QString StreamObject::Data::debug_description() const
     descr.append(QString("StreamObject::Data '%0' [%1] (%2, %3)").arg(
                      originalFilename,
                      webpage_url,
-                     QString("%0, %1, %2, %3, %4").arg(
-                         fulltitle,
-                         defaultTitle,
+                     QString("%0, %1, %2, %3, %4, %5").arg(
+                         title,
                          defaultSuffix,
                          description,
+                         artist,
+                         release_year,
                          thumbnail),
                      QString("%0, %1, %2, %3, %4").arg(
                          extractor,

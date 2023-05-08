@@ -110,5 +110,6 @@ const QString STR_CURRENT_CPU = QSysInfo::currentCpuArchitecture();
 const bool IS_HOST_64BIT = STR_CURRENT_CPU.contains(QLatin1String("64"));
 
 const int DEFAULT_TIMEOUT_SECS = 30; // ref.: QNetworkConfigurationPrivate::DefaultTimeout
+const int DEFAULT_CONCURRENT_FRAGMENTS = 20;
 
 #endif // GLOBALS_H
