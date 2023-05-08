@@ -43,6 +43,7 @@ private slots:
 
     void readStandardOutput();
     void readStandardOutputWithEstimedSize();
+    void readStandardOutputWithEstimedSizeAlternative();
     void readStandardOutputWithTwoStreams();
     void readStandardOutputHTTPError();
 
@@ -208,6 +209,96 @@ void tst_Stream::readStandardOutputWithEstimedSize()
     VERIFY_PROGRESS_SIGNAL(spyProgress, 22, 471862976, 645503386); //  73.1%
     VERIFY_PROGRESS_SIGNAL(spyProgress, 23, 601609156, 645503386); //  93.2%
     VERIFY_PROGRESS_SIGNAL(spyProgress, 24, 645503386, 645503386); // 100.0%
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void tst_Stream::readStandardOutputWithEstimedSizeAlternative()
+{
+    // Given
+    QSharedPointer<FriendlyStream> target(new FriendlyStream(this));
+    QSignalSpy spyProgress(target.data(), SIGNAL(downloadProgress(qint64, qint64)));
+
+    // When
+    target->parseStandardOutput("[vk] Extracting URL: https://vk.com/video-0123456");
+    target->parseStandardOutput("[vk] -0123456: Downloading JSON metadata");
+    target->parseStandardOutput("[vk] -0123456: Downloading m3u8 information");
+    target->parseStandardOutput("[info] -0123456: Downloading 1 format(s): hls-1530");
+    target->parseStandardOutput("[hlsnative] Downloading m3u8 manifest");
+    target->parseStandardOutput("[hlsnative] Total fragments: 20");
+    target->parseStandardOutput("[download] Destination: Video [-0123456].mp4");
+    target->parseStandardOutput("");
+    target->parseStandardOutput("[download]   0.0% of ~  30.85MiB at    4.04KiB/s ETA 02:10:16 (frag 0/20)");
+    target->parseStandardOutput("[download]   0.0% of ~  30.85MiB at   12.12KiB/s ETA 43:25 (frag 0/20)   ");
+    target->parseStandardOutput("[download]   0.0% of ~  34.57MiB at    3.94KiB/s ETA 02:29:51 (frag 0/20)");
+    target->parseStandardOutput("[download]   0.0% of ~  34.57MiB at   11.81KiB/s ETA 49:56 (frag 0/20)   ");
+    target->parseStandardOutput("[download]   0.0% of ~  34.57MiB at   59.06KiB/s ETA 09:59 (frag 0/20)");
+    target->parseStandardOutput("[download]   0.0% of ~  41.30MiB at  Unknown B/s ETA 02:59:00 (frag 0/20)");
+    target->parseStandardOutput("[download]   0.0% of ~  29.29MiB at    3.94KiB/s ETA 02:06:56 (frag 0/20)");
+    target->parseStandardOutput("[download]   0.1% of ~  30.85MiB at  122.07KiB/s ETA 04:18 (frag 0/20)  ");
+    target->parseStandardOutput("[download]   1.1% of ~  33.01MiB at  154.88KiB/s ETA 03:35 (frag 0/20)");
+    target->parseStandardOutput("[download]   5.0% of ~  10.55MiB at  202.89KiB/s ETA 00:50 (frag 0/20)");
+    target->parseStandardOutput("[download]   5.0% of ~  10.55MiB at  202.89KiB/s ETA 00:50 (frag 1/20)");
+    target->parseStandardOutput("[download]   4.9% of ~  19.92MiB at    5.81MiB/s ETA 00:52 (frag 1/20)");
+    target->parseStandardOutput("[download]   5.3% of ~  21.76MiB at    4.20MiB/s ETA 00:50 (frag 1/20)");
+    target->parseStandardOutput("[download]  10.0% of ~  19.18MiB at  389.33KiB/s ETA 00:56 (frag 1/20)");
+    target->parseStandardOutput("[download]  14.3% of ~  24.31MiB at    7.80MiB/s ETA 00:39 (frag 2/20)");
+    target->parseStandardOutput("[download]  17.7% of ~  28.16MiB at   34.01MiB/s ETA 00:30 (frag 3/20)");
+    target->parseStandardOutput("[download]  20.0% of ~  25.56MiB at   13.14MiB/s ETA 00:26 (frag 4/20)");
+    target->parseStandardOutput("[download]  25.0% of ~  26.61MiB at    2.20MiB/s ETA 00:24 (frag 5/20)");
+    target->parseStandardOutput("[download]  30.0% of ~  27.23MiB at  Unknown B/s ETA 00:24 (frag 6/20)");
+    target->parseStandardOutput("[download]  35.0% of ~  27.73MiB at  Unknown B/s ETA 00:24 (frag 7/20)");
+    target->parseStandardOutput("[download]  45.0% of ~  28.60MiB at    8.77MiB/s ETA 00:09 (frag 9/20)");
+    target->parseStandardOutput("[download]  50.0% of ~  29.04MiB at  105.97MiB/s ETA 00:07 (frag 10/20)");
+    target->parseStandardOutput("[download]  60.0% of ~  29.99MiB at    6.76MiB/s ETA 00:05 (frag 11/20)");
+    target->parseStandardOutput("[download]  65.0% of ~  30.46MiB at    5.44MiB/s ETA 00:04 (frag 12/20)");
+    target->parseStandardOutput("[download]  65.0% of ~  30.46MiB at    5.44MiB/s ETA 00:04 (frag 13/20)");
+    target->parseStandardOutput("[download]  75.0% of ~  32.07MiB at    9.26MiB/s ETA 00:03 (frag 14/20)");
+    target->parseStandardOutput("[download]  79.7% of ~  32.48MiB at  117.73MiB/s ETA 00:02 (frag 15/20)");
+    target->parseStandardOutput("[download]  80.0% of ~  32.48MiB at   16.66MiB/s ETA 00:02 (frag 16/20)");
+    target->parseStandardOutput("[download]  85.0% of ~  33.00MiB at    6.52MiB/s ETA 00:01 (frag 17/20)");
+    target->parseStandardOutput("[download]  92.5% of ~  34.92MiB at  137.37MiB/s ETA 00:00 (frag 18/20)");
+    target->parseStandardOutput("[download]  98.2% of ~  35.38MiB at   15.56MiB/s ETA 00:00 (frag 19/20)");
+    target->parseStandardOutput("[download] 100.0% of ~  35.38MiB at    1.13MiB/s ETA 00:00 (frag 20/20)");
+    target->parseStandardOutput("[download] 100% of   35.38MiB in 00:00:13 at 2.58MiB/s                 ");
+    target->parseStandardOutput("[FixupM3u8] Fixing MPEG-TS in MP4 container of \"Video [-0123456].mp4\"");
+
+    // Then
+    QCOMPARE(spyProgress.count(), 34);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  0,        0,        0); // -idle-
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  1,        0, 32348570); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  2,        0, 32348570); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  3,        0, 36249273); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  4,        0, 36249273); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  5,        0, 36249273); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  6,        0, 43306189); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  7,        0, 30712792); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  8,    32349, 32348570); //   0.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  9,   380749, 34613494); //   1.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 10,   553124, 11062477); //   5.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 11,   553124, 11062477); //   5.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 12,  1023495, 20887634); //   4.9%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 13,  1209302, 22817014); //   5.3%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 14,  2011169, 20111688); //  10.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 15,  3645197, 25490883); //  14.3%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 16,  5226439, 29527901); //  17.7%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 17,  5360321, 26801603); //  20.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 18,  6975652, 27902608); //  25.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 19,  8565818, 28552725); //  30.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 20, 10176955, 29077013); //  35.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 21, 13495174, 29989274); //  45.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 22, 15225324, 30450648); //  50.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 23, 18868077, 31446795); //  60.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 24, 20760757, 31939625); //  65.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 25, 20760757, 31939625); //  65.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 26, 25220875, 33627833); //  75.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 27, 27144026, 34057749); //  79.7%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 28, 27246200, 34057749); //  80.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 29, 29412557, 34603008); //  85.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 30, 33870054, 36616274); //  92.5%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 31, 36430844, 37098619); //  98.2%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 32, 37098619, 37098619); // 100.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 33, 37098619, 37098619); // 100%
 }
 
 /******************************************************************************

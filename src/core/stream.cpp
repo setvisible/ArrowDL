@@ -526,7 +526,9 @@ void Stream::parseStandardOutput(const QString &msg)
          tokens.at(2) == QLatin1String("of")) {
 
         auto percentToken = tokens.at(1);
-        auto sizeToken = tokens.at(3);
+        auto sizeToken = (tokens.at(3) != QLatin1String("~"))
+                ? tokens.at(3)
+                : tokens.at(4);
 
         auto percent = Format::parsePercentDecimal(percentToken);
         if (percent < 0) {
