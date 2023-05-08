@@ -103,27 +103,23 @@ void BatchRenameDialog::renameToDefault()
 
 void BatchRenameDialog::renameToEnumeration()
 {
-    const int count = m_items.count();
-    const int from = ui->startSpinBox->value();
-    const int by = ui->incrementSpinBox->value();
+    auto count = m_items.count();
+    auto from = ui->startSpinBox->value();
+    auto by = ui->incrementSpinBox->value();
 
-    int digits = 0;
+    auto digits = 0;
     if (ui->fillRadioButton->isChecked()) {
-        int last = from + count * by;
-        QString lastName = QString("%0").arg(last);
-        digits = lastName.count();
+        auto last = from + count * by;
+        digits = QString::number(last).count();
 
     } else if (ui->customFillRadioButton->isChecked()) {
         digits = ui->digitSpinBox->value();
     }
 
-    int i = from;
+    auto i = from;
     foreach (auto item, m_items) {
         auto downloadItem = dynamic_cast<DownloadItem*>(item);
-        QString newName = QString("%0").arg(i);
-        if (digits > newName.count()) {
-            newName = newName.rightJustified(digits, QChar('0'));
-        }
+        auto newName = QString("%0").arg(QString::number(i), digits, QLatin1Char('0'));
         rename(downloadItem, newName);
         i += by;
     }

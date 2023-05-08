@@ -61,6 +61,8 @@ private slots:
     void themeChanged();
 
     void maxSimultaneousDownloadSlided(int value);
+    void concurrentFragmentSlided(int value);
+
     void proxyTypeChanged(int index);
     void proxyAuthToggled(bool checked);
     void proxyShowPwdToggled(bool checked);
