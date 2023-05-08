@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu_HU" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="hu_HU">
 <context>
     <name>AbstractDownloadItem</name>
     <message>
@@ -262,29 +264,29 @@ A kötegleírók használatával több fájlt is letölthetsz egyszerre.</transl
         <translation>Letöltés...</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="285"/>
-        <location filename="../dialogs/addcontentdialog.cpp" line="325"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="287"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="327"/>
         <source>Collecting links...</source>
         <translation>Hivatkozások összegyűjtése...</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="293"/>
-        <location filename="../dialogs/addcontentdialog.cpp" line="337"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="295"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="339"/>
         <source>Finished</source>
         <translation>Befejezve</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="357"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="359"/>
         <source>The wizard can&apos;t connect to URL:</source>
         <translation>A varázsló nem tud kapcsolódni az alábbi oldalhoz:</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="390"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="392"/>
         <source>After selecting links, click on Start!</source>
         <translation>A hivatkozások kijelölése után, kattints a Start-ra!</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="393"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="395"/>
         <source>Selected links: %0 of %1</source>
         <translation>Kijelölt linkek: %0 of %1</translation>
     </message>
@@ -560,7 +562,7 @@ A kötegleírók használatával több fájlt is letölthetsz egyszerre.</transl
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="179"/>
         <source>1 ... 123456</source>
-        <translation>1 ... 123456 </translation>
+        <translation>1 ... 123456&#xa0;</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="189"/>
@@ -629,7 +631,7 @@ A kötegleírók használatával több fájlt is letölthetsz egyszerre.</transl
 <context>
     <name>ComboBox</name>
     <message>
-        <location filename="../widgets/combobox.cpp" line="164"/>
+        <location filename="../widgets/combobox.cpp" line="169"/>
         <source>Clear History</source>
         <translation>Előzmények törlése</translation>
     </message>
@@ -689,27 +691,27 @@ A kötegleírók használatával több fájlt is letölthetsz egyszerre.</transl
         <translation>SSL könyvtár verzió.</translation>
     </message>
     <message>
-        <location filename="../dialogs/compilerdialog.ui" line="318"/>
+        <location filename="../dialogs/compilerdialog.ui" line="321"/>
         <source>SSL Library Build Version:</source>
         <translation>SSL könyvtár build verzió.</translation>
     </message>
     <message>
-        <location filename="../dialogs/compilerdialog.ui" line="344"/>
+        <location filename="../dialogs/compilerdialog.ui" line="347"/>
         <source>Found in application path:</source>
         <translation>Alkalmazás elérési útvonala:</translation>
     </message>
     <message>
-        <location filename="../dialogs/compilerdialog.ui" line="356"/>
+        <location filename="../dialogs/compilerdialog.ui" line="359"/>
         <source>* OpenSSL SSL library:</source>
         <translation>* OpenSSL SSL könyvtár:</translation>
     </message>
     <message>
-        <location filename="../dialogs/compilerdialog.ui" line="370"/>
+        <location filename="../dialogs/compilerdialog.ui" line="373"/>
         <source>* OpenSSL Crypto library:</source>
         <translation>* OpenSSL SSL Crypto könyvtár:</translation>
     </message>
     <message>
-        <location filename="../dialogs/compilerdialog.ui" line="416"/>
+        <location filename="../dialogs/compilerdialog.ui" line="419"/>
         <source>Libraries and Build Version</source>
         <translation>Könyvtár és build verzió:</translation>
     </message>
@@ -1255,9 +1257,14 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
         <translation>%0 MB/s</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="146"/>
+        <location filename="../core/format.cpp" line="147"/>
         <source>%0 GB/s</source>
         <translation>%0 GB/s</translation>
+    </message>
+    <message>
+        <location filename="../core/format.cpp" line="150"/>
+        <source>%0 TB/s</source>
+        <translation>%0 TB/s</translation>
     </message>
 </context>
 <context>
@@ -2022,12 +2029,12 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
         <translation>Fájl betöltve</translation>
     </message>
     <message>
-        <location filename="../mainwindow.h" line="178"/>
+        <location filename="../mainwindow.h" line="179"/>
         <source>Save As</source>
         <translation>Mentés másként</translation>
     </message>
     <message>
-        <location filename="../mainwindow.h" line="179"/>
+        <location filename="../mainwindow.h" line="180"/>
         <source>Open</source>
         <translation>Megnyitás</translation>
     </message>
@@ -2095,17 +2102,17 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
 <context>
     <name>NetworkManager</name>
     <message>
-        <location filename="../core/networkmanager.cpp" line="65"/>
+        <location filename="../core/networkmanager.cpp" line="64"/>
         <source>(none)</source>
         <translation>(nincs)</translation>
     </message>
     <message>
-        <location filename="../core/networkmanager.cpp" line="66"/>
+        <location filename="../core/networkmanager.cpp" line="65"/>
         <source>SOCKS5</source>
         <translation>SOCKS5</translation>
     </message>
     <message>
-        <location filename="../core/networkmanager.cpp" line="67"/>
+        <location filename="../core/networkmanager.cpp" line="66"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
@@ -2119,17 +2126,17 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
         <translation>Tallózás...</translation>
     </message>
     <message>
-        <location filename="../widgets/pathwidget.cpp" line="140"/>
+        <location filename="../widgets/pathwidget.cpp" line="141"/>
         <source>All Files (*);;%0 (*%1)</source>
         <translation>Minden fájl (*);;%0 (*%1)</translation>
     </message>
     <message>
-        <location filename="../widgets/pathwidget.cpp" line="141"/>
+        <location filename="../widgets/pathwidget.cpp" line="142"/>
         <source>Please select a file</source>
         <translation>Válaszd ki a fájlt</translation>
     </message>
     <message>
-        <location filename="../widgets/pathwidget.cpp" line="146"/>
+        <location filename="../widgets/pathwidget.cpp" line="147"/>
         <source>Please select a directory</source>
         <translation>Válaszd ki a könyvtárat</translation>
     </message>
@@ -2138,7 +2145,7 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
     <name>PreferenceDialog</name>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="80"/>
-        <location filename="../dialogs/preferencedialog.ui" line="1318"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1380"/>
         <source>General</source>
         <translation>Általános</translation>
     </message>
@@ -2203,534 +2210,549 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
         <translation>A tálcaikon megjelenítése (értesítési terület)</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="239"/>
+        <location filename="../dialogs/preferencedialog.ui" line="238"/>
         <source>Hide when minimized</source>
         <translation>Kis méretben rejtse el</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="248"/>
+        <location filename="../dialogs/preferencedialog.ui" line="247"/>
         <source>Show balloon messages</source>
         <translation>Buboréküzenetek megjelenítése</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="276"/>
+        <location filename="../dialogs/preferencedialog.ui" line="274"/>
         <source>Minimize when ESC key is pressed</source>
         <translation>ESC billentyűre elrejteni</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="286"/>
+        <location filename="../dialogs/preferencedialog.ui" line="284"/>
         <source>Confirmation</source>
         <translation>Megerősítés</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="292"/>
+        <location filename="../dialogs/preferencedialog.ui" line="290"/>
         <source>Confirm removal of downloads</source>
         <translation>Letöltések eltávolításának megerősítése</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="299"/>
+        <location filename="../dialogs/preferencedialog.ui" line="297"/>
         <source>Confirm download batch</source>
         <translation>Kötegelt letöltés megerősítése</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="309"/>
+        <location filename="../dialogs/preferencedialog.ui" line="307"/>
         <source>Style and Icons</source>
         <translation>Stílus és ikonok</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="343"/>
+        <location filename="../dialogs/preferencedialog.ui" line="341"/>
         <source>Video/Audio Stream</source>
         <translation>Videó/Audio adatfolyam</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="351"/>
+        <location filename="../dialogs/preferencedialog.ui" line="349"/>
         <source>Use stream downloader if the URL host is:</source>
         <translation>Használja a stream letöltőt, ha az URL gazdagép:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="415"/>
+        <location filename="../dialogs/preferencedialog.ui" line="413"/>
         <source>Network</source>
         <translation>Hálózat</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="421"/>
+        <location filename="../dialogs/preferencedialog.ui" line="419"/>
         <source>Downloads</source>
         <translation>Letöltések</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="448"/>
+        <location filename="../dialogs/preferencedialog.ui" line="427"/>
         <source>Concurrent downloads:</source>
         <translation>Aktuális letöltés</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="535"/>
+        <location filename="../dialogs/preferencedialog.ui" line="434"/>
+        <source>Concurrent fragments:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="517"/>
+        <source>20</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.ui" line="597"/>
         <source>Proxy</source>
         <translation>Kiszolgáló</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="543"/>
+        <location filename="../dialogs/preferencedialog.ui" line="605"/>
         <source>Type:</source>
         <translation>Típus:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="569"/>
+        <location filename="../dialogs/preferencedialog.ui" line="631"/>
         <source>Proxy:</source>
         <translation>Kiszolgáló:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="602"/>
+        <location filename="../dialogs/preferencedialog.ui" line="664"/>
         <source>Port:</source>
         <translation>Port:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="652"/>
+        <location filename="../dialogs/preferencedialog.ui" line="714"/>
         <source>Username:</source>
         <translation>Felhasználónév:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="678"/>
+        <location filename="../dialogs/preferencedialog.ui" line="740"/>
         <source>Password:</source>
         <translation>Jelszó:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="692"/>
+        <location filename="../dialogs/preferencedialog.ui" line="754"/>
         <source>Show</source>
         <translation>Mutat</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="704"/>
+        <location filename="../dialogs/preferencedialog.ui" line="766"/>
         <source>Socket</source>
         <translation>Socket</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="713"/>
+        <location filename="../dialogs/preferencedialog.ui" line="775"/>
         <source>Tolerant (IPv4 or IPv6)</source>
         <translation>Tolerancia (IPv4 vagy IPv6)</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="718"/>
+        <location filename="../dialogs/preferencedialog.ui" line="780"/>
         <source>Use IPv4 only</source>
         <translation>Csak IPv4 használata</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="723"/>
+        <location filename="../dialogs/preferencedialog.ui" line="785"/>
         <source>Use IPv6 only</source>
         <translation>Csak IPv6 használata</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="731"/>
+        <location filename="../dialogs/preferencedialog.ui" line="793"/>
         <source> seconds</source>
         <translation>mp</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="747"/>
+        <location filename="../dialogs/preferencedialog.ui" line="809"/>
         <source>Connection Protocol:</source>
         <translation>Hálózati protokoll:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="754"/>
+        <location filename="../dialogs/preferencedialog.ui" line="816"/>
         <source>Timeout to establish a connection:</source>
         <translation>Időtúllépés a kapcsolat létrehozásához:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="784"/>
+        <location filename="../dialogs/preferencedialog.ui" line="846"/>
         <source>Downloaded Files</source>
         <translation>Letöltött fájlok</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="790"/>
+        <location filename="../dialogs/preferencedialog.ui" line="852"/>
         <source>Get time from server for the file&apos;s...:</source>
         <translation>Idő beszerzése szerverről a fájlhoz...:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="797"/>
+        <location filename="../dialogs/preferencedialog.ui" line="859"/>
         <source>Last modified time</source>
         <translation>Utolsó módosítás ideje:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="804"/>
+        <location filename="../dialogs/preferencedialog.ui" line="866"/>
         <source>Creation time (may not be not supported on UNIX)</source>
         <translation>Létrehozási idő (előfordulhat, hogy UNIX rendszeren nem támogatott)</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="811"/>
+        <location filename="../dialogs/preferencedialog.ui" line="873"/>
         <source>Most recent access (e.g. read or written to)</source>
         <translation>Legutóbbi hozzáférés (pl. olvasás vagy írás)</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="818"/>
+        <location filename="../dialogs/preferencedialog.ui" line="880"/>
         <source>Metadata change time</source>
         <translation>Metaadat változásának időpontja</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="828"/>
+        <location filename="../dialogs/preferencedialog.ui" line="890"/>
         <source>Downloaded Audio/Video</source>
         <translation>Letöltött Audio/Video</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="836"/>
+        <location filename="../dialogs/preferencedialog.ui" line="898"/>
         <source>Download subtitle</source>
         <translation>Felirat letöltése</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="843"/>
+        <location filename="../dialogs/preferencedialog.ui" line="905"/>
         <source>Download description</source>
         <translation>Leírás letöltése</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="850"/>
+        <location filename="../dialogs/preferencedialog.ui" line="912"/>
         <source>Mark watched (only for Youtube)</source>
         <translation>Megjelölés megnézettként (csak Youtube-on)</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="857"/>
+        <location filename="../dialogs/preferencedialog.ui" line="919"/>
         <source>Download thumbnail</source>
         <translation>Miniatűr letöltése</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="864"/>
+        <location filename="../dialogs/preferencedialog.ui" line="926"/>
         <source>Download metadata</source>
         <translation>Metaadat letöltése</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="871"/>
+        <location filename="../dialogs/preferencedialog.ui" line="933"/>
         <source>Download comments </source>
         <translation>Hozzászólások letöltése</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="878"/>
+        <location filename="../dialogs/preferencedialog.ui" line="940"/>
         <source>Create internet shortcut</source>
         <translation>Internet parancsikon létrehozása</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1070"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1132"/>
         <source>Identification</source>
         <translation>Azonosítás</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="709"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="730"/>
         <source>Servers might use HTTP identification contained in the HTTP request to log client attributes. Some server even don&apos;t respond to the client if the identification attribute is empty. The fields allow you to send fake information, to protect privacy.</source>
         <translation>A kiszolgálók használhatják a HTTP-kérésben található HTTP-azonosítót az ügyfélattribútumok naplózásához. Egyes szerverek még akkor sem válaszolnak az ügyfélnek, ha az azonosító attribútum üres. A mezők lehetővé teszik hamis információk küldését a magánélet védelme érdekében.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1140"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1202"/>
         <source>HTTP User Agent:</source>
         <translation>HTTP felhasználói ügynök:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1240"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1302"/>
         <source>Filter</source>
         <translation>Szűrő</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="480"/>
+        <location filename="../dialogs/preferencedialog.ui" line="542"/>
         <source>Enable Custom Batch Button in &quot;Add download&quot; Dialog</source>
         <translation>Engedélyezd az egyéni kötegelt gombot a „Letöltés hozzáadása” párbeszédpanelen</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="492"/>
+        <location filename="../dialogs/preferencedialog.ui" line="554"/>
         <source>Ex: &quot;1 -&gt; 50&quot;, &quot;001 -&gt; 200&quot;, ...</source>
         <translation>Pl: &quot;1 -&gt; 50&quot;, &quot;001 -&gt; 200&quot;, ...</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="499"/>
+        <location filename="../dialogs/preferencedialog.ui" line="561"/>
         <source>Custom button label:</source>
         <translation>Egyedi gomb felirat:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="506"/>
+        <location filename="../dialogs/preferencedialog.ui" line="568"/>
         <source>Ex: &quot;[1:50]&quot;, &quot;[001:200]&quot;, ...</source>
         <translation>Pl: &quot;[1:50]&quot;, &quot;[001:200]&quot;, ...</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="513"/>
+        <location filename="../dialogs/preferencedialog.ui" line="575"/>
         <source>Range:</source>
         <translation>Sor:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="525"/>
+        <location filename="../dialogs/preferencedialog.ui" line="587"/>
         <source>Rem: must describe a range of numbers &quot;[x:y]&quot; with x &lt; y</source>
         <translation>Le kell írnod egy „[x:y]” számtartományt, ahol x &lt; y</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="629"/>
+        <location filename="../dialogs/preferencedialog.ui" line="691"/>
         <source>Authentication</source>
         <translation>Hitelesítés</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="923"/>
+        <location filename="../dialogs/preferencedialog.ui" line="985"/>
         <source>Privacy</source>
         <translation>Magánszféra</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="931"/>
+        <location filename="../dialogs/preferencedialog.ui" line="993"/>
         <source>When Manager window is closed</source>
         <translation>Amikor a kezelő ablak be van zárva</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="937"/>
+        <location filename="../dialogs/preferencedialog.ui" line="999"/>
         <source>Remove completed downloads</source>
         <translation>Befejezett letöltések eltávolítása</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="944"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1006"/>
         <source>Remove canceled/failed downloads</source>
         <translation>Törölt/sikertelen letöltések eltávolítása</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="951"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1013"/>
         <source>Remove unfinished (paused) downloads</source>
         <translation>Befejezetlen (megállított) letöltések eltávolítása</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1019"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1081"/>
         <source>Database</source>
         <translation>Adatbázis</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1025"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1087"/>
         <source>The current downloads queue is temporarly saved in:</source>
         <translation>Az aktuális letöltési sor ideiglenesen az alábbi helyre kerül mentésre:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1038"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1100"/>
         <source>Stream Cache</source>
         <translation>Stream Cache</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1049"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="738"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1111"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="759"/>
         <source>Clean Cache</source>
         <translation>Cache tisztítása</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="961"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1023"/>
         <source>Auto Update</source>
         <translation>Automatikus frissítés</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="967"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1029"/>
         <source>Check for updates automatically:</source>
         <translation>Frissítések keresése automatikusan:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="981"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1043"/>
         <source>Never</source>
         <translation>Soha</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="986"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1048"/>
         <source>Once a day</source>
         <translation>Naponta egyszer</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="991"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1053"/>
         <source>Once a week</source>
         <translation>Hetente egyszer</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1005"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1067"/>
         <source>Check updates now...</source>
         <translation>Frissítések keresése most...</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1154"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1216"/>
         <source>Enable Referrer:</source>
         <translation>Hivatkozó engedélyezése:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1191"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1253"/>
         <source>Filters</source>
         <translation>Szűrők</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="235"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="236"/>
         <source>Caption</source>
         <translation>Felirat</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="236"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="237"/>
         <source>Extensions</source>
         <translation>Kiterjesztések</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1249"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1311"/>
         <source>Caption:</source>
         <translation>Felirat:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1256"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1318"/>
         <source>Filtered Extensions:</source>
         <translation>Szűrt kiterjesztések:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1268"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1330"/>
         <source>Add New Filter</source>
         <translation>Új szűrő hozzáadása</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1275"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1337"/>
         <source>Update Filter</source>
         <translation>Szűrő frissítése</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1282"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1344"/>
         <source>Remove Filter</source>
         <translation>Szűrő eltávolítása</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1312"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1374"/>
         <source>Torrent</source>
         <translation>Torrent</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1324"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1386"/>
         <source>Enable Torrent</source>
         <translation>Torrent engedélyezése</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1331"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1393"/>
         <source>If enabled, this software becomes a torrent client. It shares DHT (distributed hash table) with peers, .torrents files you share (those in your torrent share folder actually) and .torrents files currently downloading in the download queue.</source>
         <translation>Ha engedélyezve van, ez a szoftver torrent klienssé válik. Megosztja a DHT-t (elosztott hash tábla) a társakkal, a megosztott .torrents fájlokkal (azokkal, amelyek valójában a torrent megosztási mappájában vannak) és a letöltési sorban jelenleg letöltött .torrents fájlokkal.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1344"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1406"/>
         <source>Directory</source>
         <translation>Könyvtár</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1350"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1412"/>
         <source>Share folder:</source>
         <translation>Megosztási könyvtár:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1365"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1427"/>
         <source>Bandwidth</source>
         <translation>Sávszélesség</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1373"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1435"/>
         <source>Max Upload Rate* (kB/s):</source>
         <translation>Max feltöltési ráta* (kB/s):</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1390"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1452"/>
         <source>Max Download Rate* (kB/s):</source>
         <translation>Max letöltési ráta* (kB/s):</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1407"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1469"/>
         <source>Max Number of Connections:</source>
         <translation>Kapcsolatok maximális száma:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1424"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1486"/>
         <source>Max Number of Peers per Torrent:</source>
         <translation>Maximális peerek száma torrentenként:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1443"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1505"/>
         <source>* (0: unlimited)</source>
         <translation>* (0: korlátlan)</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1466"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1528"/>
         <source>Connection</source>
         <translation>Kapcsolat</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1472"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1534"/>
         <source>Peers:</source>
         <translation>Peerek:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1479"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1541"/>
         <source>Ex: 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894</source>
         <translation>Pl: 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894, 123.45.6.78:56789, 127.0.0.65:7894</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1486"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1548"/>
         <source>Note:  If not empty, these peers will be added to all torrents (format is &lt;IP:port&gt;. Ex: &quot;123.45.6.78:56789, 127.0.0.65:7894...&quot;)</source>
         <translation>Megjegyzés: Ha nem üres, ezek a társprogramok hozzáadódnak az összes torrenthez (formátum: . &lt;IP:port&gt; Pl.: &quot;123.45.6.78:56789, 127.0.0.65:7894...&quot;)</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1506"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1568"/>
         <source>Advanced</source>
         <translation>Haladó</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1554"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1616"/>
         <source>Restore default settings</source>
         <translation>Alapérékek visszaállítása</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1580"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1642"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.ui" line="1596"/>
+        <location filename="../dialogs/preferencedialog.ui" line="1658"/>
         <source>Cancel</source>
         <translation>Mégse</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="211"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="212"/>
         <source>Queue Database</source>
         <translation>Adatbázis sor</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="217"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="218"/>
         <source>Located in %0</source>
         <translation>Itt található: %0</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="224"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="225"/>
         <source>(none)</source>
         <translation>(nincs)</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="256"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="257"/>
         <source>Warning: The system tray is not available.</source>
         <translation>Figyelmeztetés: A rendszertálca nem érhető el.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="259"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="260"/>
         <source>Warning: The system tray doesn&apos;t support balloon messages.</source>
         <translation>Figyelmeztetés: A rendszertálca nem támogatja a buborék üzeneteket.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="264"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="265"/>
         <source>Preferences</source>
         <translation>Beállítások</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="330"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="332"/>
         <source>Reset all filters</source>
         <translation>Minden szűrő törlése</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="675"/>
         <location filename="../dialogs/preferencedialog.cpp" line="684"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="693"/>
         <source>The host may be %0, %1 or %2</source>
         <translation>A gazdagép %0, %1 vagy %2 lehet</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="680"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="689"/>
         <source>The host may be %0 but not %1</source>
         <translation>A gazdagép %0 lehet, de nem lehet %1</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="691"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="700"/>
         <source>Examples:</source>
         <translation>Példák:</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="715"/>
+        <source>Servers might split large files into multiple fragments, to optimize downloads. This option enables multi-threaded fragment downloads: Select the number of fragments that should be downloaded concurrently. Note that the concurrency makes download faster (when available), but the progress status and estimated time could be inaccurate (by design). Choose between precision and speed. Recommended value depends on your connection and machine. 20 is a good start. To disable it, set it to 1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../dialogs/preferencedialog.cpp" line="736"/>
         <source>Referring Page (or Referrer) is an HTTP option that communicates to the server the address of the previous web page from which the resource is requested. This typically allows the HTTP server to track a visitor&apos;s browsing, page after page. To protect privacy, enter an empty or fake Referrer address.</source>
         <translation>A hivatkozó oldal (vagy Hivatkozó) egy HTTP-beállítás, amely közli a szerverrel annak az előző weboldalnak a címét, amelyről az erőforrást kérték. Ez általában lehetővé teszi a HTTP-kiszolgáló számára, hogy nyomon kövesse a látogató böngészését, oldalról oldalra. A magánélet védelme érdekében, adj meg egy üres, vagy hamis hivatkozói címet.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="727"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="748"/>
         <source>Cleaning...</source>
         <translation>Tisztítás...</translation>
     </message>
@@ -2748,102 +2770,97 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
         <translation>Nem lehet betölteni %0</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1359"/>
+        <location filename="../core/stream.cpp" line="1469"/>
         <source>Video %0 x %1%2%3</source>
         <translation>Videó  %0 x %1%2%3</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1366"/>
+        <location filename="../core/stream.cpp" line="1476"/>
         <source>[%0] %1 x %2 (%3 fps) @ %4 KBit/s, codec: %5</source>
         <translation>[%0] %1 x %2 (%3 fps) @ %4 KBit/s, kodek: %5</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1375"/>
+        <location filename="../core/stream.cpp" line="1485"/>
         <source>[%0] %1 Hz @ %2 KBit/s, codec: %3</source>
         <translation>[%0] %1 Hz @ %2 KBit/s, kodek: %3</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="231"/>
+        <location filename="../core/torrentmessage.h" line="235"/>
         <source>ignore</source>
         <translation>Mellőz</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="232"/>
+        <location filename="../core/torrentmessage.h" line="236"/>
         <source>low</source>
         <translation>alacsony</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="233"/>
+        <location filename="../core/torrentmessage.h" line="237"/>
         <source>high</source>
         <translation>magas</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="234"/>
+        <location filename="../core/torrentmessage.h" line="238"/>
         <source>normal</source>
         <translation>normál</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="447"/>
+        <location filename="../core/torrentmessage.h" line="451"/>
         <source>.torrent file</source>
         <translation>.torrent fájl</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="448"/>
+        <location filename="../core/torrentmessage.h" line="452"/>
         <source>program settings</source>
         <translation>program beállítások</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="449"/>
+        <location filename="../core/torrentmessage.h" line="453"/>
         <source>magnet link</source>
         <translation>magnet link</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="450"/>
+        <location filename="../core/torrentmessage.h" line="454"/>
         <source>tracker exchange</source>
         <translation>tarcker exchange</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="451"/>
+        <location filename="../core/torrentmessage.h" line="455"/>
         <source>no source</source>
         <translation>nincs forrás</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="509"/>
+        <location filename="../core/torrentmessage.h" line="512"/>
         <source>Stopped</source>
         <translation>Megállítva</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="510"/>
+        <location filename="../core/torrentmessage.h" line="513"/>
         <source>Checking Files...</source>
         <translation>Fájlok ellenőrzése...</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="511"/>
+        <location filename="../core/torrentmessage.h" line="514"/>
         <source>Downloading Metadata...</source>
         <translation>Metaadatok letöltése...</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="512"/>
+        <location filename="../core/torrentmessage.h" line="515"/>
         <source>Downloading...</source>
         <translation>Letöltés...</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="513"/>
+        <location filename="../core/torrentmessage.h" line="516"/>
         <source>Finished</source>
         <translation>Befejezve</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="514"/>
+        <location filename="../core/torrentmessage.h" line="517"/>
         <source>Seeding...</source>
         <translation>Seedelés...</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="515"/>
-        <source>Allocating...</source>
-        <translation>Elosztás...</translation>
-    </message>
-    <message>
-        <location filename="../core/torrentmessage.h" line="516"/>
+        <location filename="../core/torrentmessage.h" line="518"/>
         <source>Checking Resume Data...</source>
         <translation>Adat folytathatóságának ellenőrzése...</translation>
     </message>
@@ -2957,47 +2974,47 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../core/settings.cpp" line="734"/>
+        <location filename="../core/settings.cpp" line="747"/>
         <source>All Files</source>
         <translation>Minden fájl</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="735"/>
+        <location filename="../core/settings.cpp" line="748"/>
         <source>Archives (zip, rar...)</source>
         <translation>Archívumok (zip, rar...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="736"/>
+        <location filename="../core/settings.cpp" line="749"/>
         <source>Application (exe, xpi...)</source>
         <translation>Alkalmazás (exe, xpl...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="737"/>
+        <location filename="../core/settings.cpp" line="750"/>
         <source>Audio (mp3, wav...)</source>
         <translation>Audio (mp3, wav...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="738"/>
+        <location filename="../core/settings.cpp" line="751"/>
         <source>Documents (pdf, odf...)</source>
         <translation>Dokumentumok (pdf, odf...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="739"/>
+        <location filename="../core/settings.cpp" line="752"/>
         <source>Images (jpg, png...)</source>
         <translation>Képek (jpg, png...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="740"/>
+        <location filename="../core/settings.cpp" line="753"/>
         <source>Images JPEG</source>
         <translation>Képek JPEG</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="741"/>
+        <location filename="../core/settings.cpp" line="754"/>
         <source>Images PNG</source>
         <translation>Képek PNG</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="742"/>
+        <location filename="../core/settings.cpp" line="755"/>
         <source>Video (mpeg, avi...)</source>
         <translation>Video (mpeg, avi...)</translation>
     </message>
@@ -3005,7 +3022,7 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
 <context>
     <name>Stream</name>
     <message>
-        <location filename="../core/stream.cpp" line="491"/>
+        <location filename="../core/stream.cpp" line="508"/>
         <source>The process crashed.</source>
         <translation>Az folyamat összeomlott.</translation>
     </message>
@@ -3013,28 +3030,28 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
 <context>
     <name>StreamAssetDownloader</name>
     <message>
-        <location filename="../core/stream.cpp" line="827"/>
+        <location filename="../core/stream.cpp" line="894"/>
         <source>Couldn&apos;t parse JSON file.</source>
         <translation>Nem sikerült elemezni a JSON-fájlt.</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="830"/>
-        <location filename="../core/stream.cpp" line="853"/>
+        <location filename="../core/stream.cpp" line="897"/>
+        <location filename="../core/stream.cpp" line="920"/>
         <source>The process crashed.</source>
         <translation>A folyamat összeomlott.</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="847"/>
+        <location filename="../core/stream.cpp" line="914"/>
         <source>Couldn&apos;t parse playlist (no data received).</source>
         <translation>Nem sikerült elemezni a lejátszási listát (nem érkezett adat).</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="850"/>
+        <location filename="../core/stream.cpp" line="917"/>
         <source>Couldn&apos;t parse playlist (ill-formed JSON file).</source>
         <translation>Nem sikerült elemezni a lejátszási listát (rosszul formázott JSON-fájl).</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1053"/>
+        <location filename="../core/stream.cpp" line="1164"/>
         <source>Cancelled.</source>
         <translation>Törölve.</translation>
     </message>
@@ -3090,8 +3107,8 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
 <context>
     <name>StreamExtractorListCollector</name>
     <message>
-        <location filename="../core/stream.cpp" line="1228"/>
-        <location filename="../core/stream.cpp" line="1247"/>
+        <location filename="../core/stream.cpp" line="1339"/>
+        <location filename="../core/stream.cpp" line="1358"/>
         <source>The process crashed.</source>
         <translation>Az folyamat összeomlott.</translation>
     </message>
@@ -3182,15 +3199,15 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
 Help: if you get an error, follow these instructions:
 
 1. Verify the URL
-   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after '?' in the URL:
-   Ex: 'https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278'
+   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after &apos;?&apos; in the URL:
+   Ex: &apos;https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278&apos;
          becomes 
-         'https://www.abc.com/watch?video=some_video'
+         &apos;https://www.abc.com/watch?video=some_video&apos;
 
 2. Open the URL in a Web browser, and Play it
     (Rem: the Web browser can force the server to play the video)
 
-3. Click 'Continue' button again
+3. Click &apos;Continue&apos; button again
 
 4. Retry later</source>
         <translation>---
@@ -3540,37 +3557,37 @@ címből legyen csak
         <translation>Becsült méret:</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.cpp" line="116"/>
+        <location filename="../widgets/streamwidget.cpp" line="117"/>
         <source> (no video)</source>
         <translation>(nincs videó)</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.cpp" line="121"/>
+        <location filename="../widgets/streamwidget.cpp" line="122"/>
         <source> + subtitles</source>
         <translation>+ feliratok</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.cpp" line="124"/>
+        <location filename="../widgets/streamwidget.cpp" line="125"/>
         <source> + chapters</source>
         <translation>+ fejezetek</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.cpp" line="127"/>
+        <location filename="../widgets/streamwidget.cpp" line="128"/>
         <source> + thumbnails</source>
         <translation>+ miniatűrök</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.cpp" line="130"/>
+        <location filename="../widgets/streamwidget.cpp" line="131"/>
         <source> + .description</source>
         <translation>+ leírás</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.cpp" line="133"/>
+        <location filename="../widgets/streamwidget.cpp" line="134"/>
         <source> + .info.json</source>
         <translation> + .info.json</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.cpp" line="136"/>
+        <location filename="../widgets/streamwidget.cpp" line="137"/>
         <source> + shortcut</source>
         <translation>+ hivatkozás</translation>
     </message>
@@ -3655,17 +3672,17 @@ címből legyen csak
 <context>
     <name>TorrentContextPrivate</name>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="496"/>
+        <location filename="../core/torrentcontext_p.cpp" line="495"/>
         <source>Network request rejected.</source>
         <translation>Hálózati kérés elutasítva.</translation>
     </message>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="547"/>
+        <location filename="../core/torrentcontext_p.cpp" line="546"/>
         <source>Can&apos;t download metadata.</source>
         <translation>Nem lehet letölteni a metaadatot.</translation>
     </message>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="558"/>
+        <location filename="../core/torrentcontext_p.cpp" line="557"/>
         <source>No metadata downloaded.</source>
         <translation>Nem lett letöltve a metaadat.</translation>
     </message>
@@ -3673,67 +3690,67 @@ címből legyen csak
 <context>
     <name>TorrentFileTableModel</name>
     <message>
-        <location filename="../core/torrent.cpp" line="363"/>
+        <location filename="../core/torrent.cpp" line="362"/>
         <source>#</source>
         <translation>#</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="364"/>
+        <location filename="../core/torrent.cpp" line="363"/>
         <source>Name</source>
         <translation>Név</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="365"/>
+        <location filename="../core/torrent.cpp" line="364"/>
         <source>Path</source>
         <translation>Útvonal</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="366"/>
+        <location filename="../core/torrent.cpp" line="365"/>
         <source>Size</source>
         <translation>Méret</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="367"/>
+        <location filename="../core/torrent.cpp" line="366"/>
         <source>Done</source>
         <translation>Kész</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="368"/>
+        <location filename="../core/torrent.cpp" line="367"/>
         <source>Percent</source>
         <translation>Százalék</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="369"/>
+        <location filename="../core/torrent.cpp" line="368"/>
         <source>First Piece</source>
         <translation>Első darab</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="370"/>
+        <location filename="../core/torrent.cpp" line="369"/>
         <source># Pieces</source>
         <translation># darab</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="371"/>
+        <location filename="../core/torrent.cpp" line="370"/>
         <source>Pieces</source>
         <translation>darabok</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="372"/>
+        <location filename="../core/torrent.cpp" line="371"/>
         <source>Priority</source>
         <translation>Prioritás</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="373"/>
+        <location filename="../core/torrent.cpp" line="372"/>
         <source>Modification date</source>
         <translation>Módosítás ideje</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="374"/>
+        <location filename="../core/torrent.cpp" line="373"/>
         <source>SHA-1</source>
         <translation>SHA-1</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="375"/>
+        <location filename="../core/torrent.cpp" line="374"/>
         <source>CRC-32</source>
         <translation>CRC-32</translation>
     </message>
@@ -4104,8 +4121,8 @@ címből legyen csak
         <location filename="../widgets/torrentwidget.cpp" line="669"/>
         <source>Enter the IP address and port number of the peer to add.
 Ex:
- - for IPv4, type 'x.x.x.x:p'
- - for IPv6, type '[x:x:x:x:x:x:x:x]:p'
+ - for IPv4, type &apos;x.x.x.x:p&apos;
+ - for IPv6, type &apos;[x:x:x:x:x:x:x:x]:p&apos;
 </source>
         <translation>A peer IP-címének és portszámának bevitele a hozzáadáshoz.
 Pl:
@@ -4388,12 +4405,12 @@ Pl:
 <context>
     <name>main</name>
     <message>
-        <location filename="../main.cpp" line="72"/>
+        <location filename="../main.cpp" line="69"/>
         <source>Another Download Manager</source>
         <translation>Másik Letöltésvezérlő</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="82"/>
+        <location filename="../main.cpp" line="79"/>
         <source>target URL to proceed</source>
         <translation>cél URL a folytatáshoz</translation>
     </message>
