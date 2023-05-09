@@ -58,6 +58,7 @@ static const QString C_WARNING_merge_output_format = QLatin1String(
 
 static const QString C_DOWNLOAD_msg_header = QLatin1String("[download]");
 static const QString C_DOWNLOAD_next_section = QLatin1String("Destination:");
+static const QString C_MERGER_msg_header = QLatin1String("[Merger]");
 
 
 static QString s_youtubedl_version = QString();
@@ -66,6 +67,11 @@ static bool s_youtubedl_last_modified_time_enabled = true;
 static QString s_youtubedl_user_agent = QString();
 static int s_youtubedl_socket_type = 0;
 static int s_youtubedl_socket_timeout = 0;
+
+static bool areEqual(const QString &s1, const QString &s2)
+{
+    return s1.compare(s2, Qt::CaseInsensitive) == 0;
+}
 
 static void debug(QObject *sender, QProcess::ProcessError error);
 static QString generateErrorMessage(QProcess::ProcessError error);
@@ -521,41 +527,51 @@ void Stream::parseStandardOutput(const QString &msg)
     if (tokens.isEmpty()) {
         return;
     }
-    if (tokens.at(0).toLower() != C_DOWNLOAD_msg_header) {
+    if (tokens.count() == 0) {
         return;
     }
-    if ( tokens.count() > 2 &&
-         tokens.at(1) == C_DOWNLOAD_next_section) {
-        m_bytesReceived += m_bytesReceivedCurrentSection;
-        emit downloadProgress(m_bytesReceived, _q_bytesTotal());
+    if (areEqual(tokens.at(0), C_MERGER_msg_header)) {
+        // During merger, the progress is arbitrarily at 99%, not 100%.
+        qsizetype bytesTotal = _q_bytesTotal();
+        qsizetype almostFinished = static_cast<qsizetype>(0.99 * qreal(bytesTotal));
+        emit downloadProgress(almostFinished, bytesTotal);
         return;
     }
+    if (areEqual(tokens.at(0), C_DOWNLOAD_msg_header)) {
 
-    if ( tokens.count() > 3 &&
-         tokens.at(1).contains(QChar('%')) &&
-         tokens.at(2) == QLatin1String("of")) {
-
-        auto percentToken = tokens.at(1);
-        auto sizeToken = (tokens.at(3) != QLatin1String("~"))
-                ? tokens.at(3)
-                : tokens.at(4);
-
-        qreal percent = Format::parsePercentDecimal(percentToken);
-        if (percent < 0) {
-            qWarning("Can't parse '%s'.", percentToken.toLatin1().data());
+        if ( tokens.count() > 2 &&
+             areEqual(tokens.at(1), C_DOWNLOAD_next_section)) {
+            m_bytesReceived += m_bytesReceivedCurrentSection;
+            emit downloadProgress(m_bytesReceived, _q_bytesTotal());
             return;
         }
 
-        m_bytesTotalCurrentSection = Format::parseBytes(sizeToken);
-        if (m_bytesTotalCurrentSection < 0) {
-            qWarning("Can't parse '%s'.", sizeToken.toLatin1().data());
-            return;
-        }
-        m_bytesReceivedCurrentSection = static_cast<qsizetype>(qreal(percent * m_bytesTotalCurrentSection) / 100);
-    }
+        if ( tokens.count() > 3 &&
+             tokens.at(1).contains(QChar('%')) &&
+             areEqual(tokens.at(2), QLatin1String("of")) ) {
 
-    qsizetype received = m_bytesReceived + m_bytesReceivedCurrentSection;
-    emit downloadProgress(received, _q_bytesTotal());
+            auto percentToken = tokens.at(1);
+            auto sizeToken = !areEqual(tokens.at(3), QLatin1String("~"))
+                    ? tokens.at(3)
+                    : tokens.at(4);
+
+            qreal percent = Format::parsePercentDecimal(percentToken);
+            if (percent < 0) {
+                qWarning("Can't parse '%s'.", percentToken.toLatin1().data());
+                return;
+            }
+
+            m_bytesTotalCurrentSection = Format::parseBytes(sizeToken);
+            if (m_bytesTotalCurrentSection < 0) {
+                qWarning("Can't parse '%s'.", sizeToken.toLatin1().data());
+                return;
+            }
+            m_bytesReceivedCurrentSection = static_cast<qsizetype>(qreal(percent * m_bytesTotalCurrentSection) / 100);
+        }
+
+        qsizetype received = m_bytesReceived + m_bytesReceivedCurrentSection;
+        emit downloadProgress(received, _q_bytesTotal());
+    }
 }
 
 void Stream::parseStandardError(const QString &msg)
