@@ -167,7 +167,7 @@ static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *do
 
     resourceItem->setStreamFileName(json["streamFileName"].toString());
     resourceItem->setStreamFormatId(json["streamFormatId"].toString());
-    resourceItem->setStreamFileSize(json["streamFileSize"].toInt());
+    resourceItem->setStreamFileSize(static_cast<qsizetype>(json["streamFileSize"].toInteger()));
 
     auto config = readStreamConfig(json["streamConfig"].toObject());
     resourceItem->setStreamConfig(config);
@@ -189,8 +189,8 @@ static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *do
     item->setResource(resourceItem);
 
     item->setState(intToState(json["state"].toInt()));
-    item->setBytesReceived(json["bytesReceived"].toInt());
-    item->setBytesTotal(json["bytesTotal"].toInt());
+    item->setBytesReceived(static_cast<qsizetype>(json["bytesReceived"].toInteger()));
+    item->setBytesTotal(static_cast<qsizetype>(json["bytesTotal"].toInteger()));
     item->setMaxConnectionSegments(json["maxConnectionSegments"].toInt());
     item->setMaxConnections(json["maxConnections"].toInt());
     item->setLog(json["log"].toString());
@@ -211,7 +211,7 @@ static inline void writeJob(const DownloadItem *item, QJsonObject &json)
 
     json["streamFileName"] = item->resource()->streamFileName();
     json["streamFormatId"] = item->resource()->streamFormatId();
-    json["streamFileSize"] = item->resource()->streamFileSize();
+    json["streamFileSize"] = static_cast<qsizetype>(item->resource()->streamFileSize());
 
     auto config = item->resource()->streamConfig();
     json["streamConfig"] = writeStreamConfig(config);
@@ -219,8 +219,8 @@ static inline void writeJob(const DownloadItem *item, QJsonObject &json)
     json["torrentPreferredFilePriorities"] = item->resource()->torrentPreferredFilePriorities();
 
     json["state"] = stateToInt(item->state());
-    json["bytesReceived"] = item->bytesReceived();
-    json["bytesTotal"] = item->bytesTotal();
+    json["bytesReceived"] = static_cast<qsizetype>(item->bytesReceived());
+    json["bytesTotal"] = static_cast<qsizetype>(item->bytesTotal());
     json["maxConnectionSegments"] = item->maxConnectionSegments();
     json["maxConnections"] = item->maxConnections();
     json["log"] = item->log();

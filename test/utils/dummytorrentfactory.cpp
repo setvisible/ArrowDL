@@ -20,8 +20,8 @@
 
 #include <QtCore/QtMath>
 
-constexpr qint64 kilobytes = 1024;
-constexpr qint64 block_size_bytes = 16 * kilobytes;
+constexpr qsizetype kilobytes = 1024;
+constexpr qsizetype block_size_bytes = 16 * kilobytes;
 
 
 /*!
@@ -31,25 +31,25 @@ constexpr qint64 block_size_bytes = 16 * kilobytes;
 class TorrentSkeleton
 {
 public:
-    TorrentSkeleton(const QString &name, int piece_size_in_KB = 32);
+    TorrentSkeleton(const QString &name, qsizetype piece_size_in_KB = 32);
 
-    void addFile(qint64 size, const QString &name);
+    void addFile(qsizetype size, const QString &name);
 
     TorrentPtr toTorrent(QObject *parent);
 
 private:
     QString m_name;
-    int m_piece_size_in_KB;
+    qsizetype m_piece_size_in_KB;
 
     struct BasicFile
     {
-        BasicFile(const QString &_name, qint64 _size_in_KB)
+        BasicFile(const QString &_name, qsizetype _size_in_KB)
             : name(_name)
             , size_in_KB(_size_in_KB)
         {}
 
         QString name;
-        qint64 size_in_KB;
+        qsizetype size_in_KB;
 
     };
     QList<BasicFile> m_basicFiles;
@@ -57,13 +57,13 @@ private:
 
 /******************************************************************************
  ******************************************************************************/
-TorrentSkeleton::TorrentSkeleton(const QString &name, int piece_size_in_KB)
+TorrentSkeleton::TorrentSkeleton(const QString &name, qsizetype piece_size_in_KB)
     : m_name(name)
     , m_piece_size_in_KB(piece_size_in_KB)
 {
 }
 
-void TorrentSkeleton::addFile(qint64 size, const QString &name)
+void TorrentSkeleton::addFile(qsizetype size, const QString &name)
 {
     m_basicFiles << BasicFile(name, size);
 }
@@ -74,12 +74,12 @@ TorrentPtr TorrentSkeleton::toTorrent(QObject *parent)
 {
     TorrentPtr t(new Torrent(parent));
 
-    int total_size_in_KB = 0;
+    qsizetype total_size_in_KB = 0;
     foreach (auto basicFile, m_basicFiles) {
         total_size_in_KB += basicFile.size_in_KB;
     }
-    int total_pieces_count = qCeil(qreal(total_size_in_KB) / m_piece_size_in_KB);
-    int last_piece_size_in_KB = total_size_in_KB - (total_pieces_count - 1) * m_piece_size_in_KB;
+    qint64 total_pieces_count = static_cast<qint64>(qreal(total_size_in_KB) / m_piece_size_in_KB);
+    qint64 last_piece_size_in_KB = static_cast<qint64>(total_size_in_KB - (total_pieces_count - 1) * m_piece_size_in_KB);
 
     QString infohash = "A1C231234D653E65D2149056688D2EF93210C1858";
     QStringList trackers;
@@ -111,12 +111,12 @@ TorrentPtr TorrentSkeleton::toTorrent(QObject *parent)
     info.verifiedPieces = QBitArray(total_pieces_count, false);
 
     info.bytesReceived = 0;
-    info.bytesTotal = total_size_in_KB * kilobytes;
+    info.bytesTotal = static_cast<qint64>(total_size_in_KB * kilobytes);
     info.percent = 0;
     info.blockSizeInByte = block_size_bytes;
 
 
-    auto offset_in_KB = 0;
+    qsizetype offset_in_KB = 0;
     foreach (auto file, m_basicFiles) {
 
         TorrentFileMetaInfo::Flags flags;
@@ -217,12 +217,12 @@ TorrentPtr DummyTorrentFactory::createDummyTorrent(QObject *parent)
 
 /******************************************************************************
  ******************************************************************************/
-static QBitArray toAvailablePieces(int size, const QString &pieceSketch)
+static QBitArray toAvailablePieces(qsizetype size, const QString &pieceSketch)
 {
     QBitArray ba = QBitArray(size, false);
-    const int count = pieceSketch.count();
-    const int sectionSize = qCeil(qreal(size) / count);
-    for (int i = 0; i < count; ++i) {
+    const qsizetype count = pieceSketch.count();
+    const qsizetype sectionSize = static_cast<qsizetype>(qreal(size) / count);
+    for (auto i = 0; i < count; ++i) {
         auto sectionBegin = i * sectionSize;
         auto sectionEnd = qMin(size, (i + 1) * sectionSize);
         auto ch = pieceSketch.at(i);
@@ -247,15 +247,21 @@ static QBitArray toAvailablePieces(int size, const QString &pieceSketch)
  *
  */
 TorrentPeerInfo DummyTorrentFactory::createDummyPeer(
-        const EndPoint &endpoint, const QString &pieceSketch, const QString &userAgent,
-        qint64 size)
+        const EndPoint &endpoint,
+        const QString &pieceSketch,
+        const QString &userAgent,
+        qsizetype size)
 {
     return createDummyPeer2(endpoint, pieceSketch, userAgent, size, 0, 0);
 }
 
 TorrentPeerInfo DummyTorrentFactory::createDummyPeer2(
-        const EndPoint &endpoint, const QString &pieceSketch, const QString &userAgent,
-        qint64 size, qint64 bytesDownloaded, qint64 bytesUploaded)
+        const EndPoint &endpoint,
+        const QString &pieceSketch,
+        const QString &userAgent,
+        qsizetype size,
+        qsizetype bytesDownloaded,
+        qsizetype bytesUploaded)
 {
     TorrentPeerInfo peer;
     peer.endpoint = endpoint;

@@ -34,13 +34,13 @@ public:
     static QString timeToString(qint64 seconds);
 
     static QString currentSpeedToString(qreal speed, bool showInfiniteSymbol = false);
-    static QString fileSizeToString(qint64 size);
-    static QString fileSizeThousandSeparator(qint64 size);
+    static QString fileSizeToString(qsizetype size);
+    static QString fileSizeThousandSeparator(qsizetype size);
 
     static QString yesOrNo(bool yes);
 
-    static double parsePercentDecimal(const QString &text);
-    static qint64 parseBytes(const QString &text);
+    static qreal parsePercentDecimal(const QString &text);
+    static qsizetype parseBytes(const QString &text);
 
     static QString toHtmlMark(const QUrl &url, bool wrap = false);
     static QString wrapText(const QString &text, int blockLength = 50);

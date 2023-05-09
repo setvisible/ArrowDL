@@ -198,13 +198,13 @@ void UpdateChecker::downloadAndInstallUpdate()
         return;
     }
 
-    connect(reply, SIGNAL(downloadProgress(qint64,qint64)),
-            this, SLOT(onBinaryProgress(qint64,qint64)));
+    connect(reply, SIGNAL(downloadProgress(qsizetype, qsizetype)),
+            this, SLOT(onBinaryProgress(qsizetype, qsizetype)));
     connect(reply, SIGNAL(finished()),
             this, SLOT(onBinaryFinished()));
 }
 
-void UpdateChecker::onBinaryProgress(qint64 bytesReceived, qint64 bytesTotal)
+void UpdateChecker::onBinaryProgress(qsizetype bytesReceived, qsizetype bytesTotal)
 {
     emit downloadProgress(bytesReceived, bytesTotal);
 }

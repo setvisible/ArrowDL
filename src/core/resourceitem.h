@@ -77,8 +77,8 @@ public:
     QString streamFormatId() const;
     void setStreamFormatId(const QString &streamFormatId);
 
-    qint64 streamFileSize() const;
-    void setStreamFileSize(qint64 streamFileSize);
+    qsizetype streamFileSize() const;
+    void setStreamFileSize(qsizetype streamFileSize);
 
     StreamObject::Config streamConfig() const;
     void setStreamConfig(const StreamObject::Config &config);
@@ -102,7 +102,7 @@ private:
     /* Stream-specific properties */
     QString m_streamFileName;
     QString m_streamFormatId;
-    qint64 m_streamFileSize{0};
+    qsizetype m_streamFileSize{0};
 
     StreamObject::Config m_streamConfig;
 

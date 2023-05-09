@@ -122,7 +122,7 @@ public:
                     const QString &format_id,
                     const QString &ext,
                     const QString &formatNote,
-                    int filesize,
+                    qsizetype filesize,
                     const QString &acodec,
                     int abr,
                     int asr,
@@ -165,7 +165,7 @@ public:
             QString ext;                // (string): Video filename extension
             QString format;
             QString formatNote;         // (string): Additional info about the format
-            int filesize{};             // (numeric): The number of bytes, if known in advance
+            qsizetype filesize{};       // (numeric): The number of bytes, if known in advance
             QString acodec;             // (string): Name of the audio codec in use
             qreal abr;                  // (numeric): Average audio bitrate in KBit/s
             int asr{};                  // (numeric): Audio sampling rate in Hertz
@@ -403,8 +403,8 @@ public:
 
     StreamObjectId id() const { return m_data.id; }
 
-    qint64 guestimateFullSize() const;
-    qint64 guestimateFullSize(const StreamFormatId &formatId) const;
+    qsizetype guestimateFullSize() const;
+    qsizetype guestimateFullSize(const StreamFormatId &formatId) const;
 
     QString defaultTitle() const;
 
@@ -479,8 +479,8 @@ public:
 
     QString fileName() const;
 
-    qint64 fileSizeInBytes() const;
-    void setFileSizeInBytes(qint64 fileSizeInBytes);
+    qsizetype fileSizeInBytes() const;
+    void setFileSizeInBytes(qsizetype fileSizeInBytes);
 
     StreamObject::Config config() const;
     void setConfig(const StreamObject::Config &config);
@@ -495,7 +495,7 @@ public slots:
 
 signals:
     void downloadMetadataChanged();
-    void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void downloadProgress(qsizetype bytesReceived, qsizetype bytesTotal);
     void downloadFinished();
     void downloadError(QString message);
 
@@ -519,17 +519,17 @@ private:
     QString m_referringPage;
     StreamFormatId m_selectedFormatId;
 
-    qint64 m_bytesReceived;
-    qint64 m_bytesReceivedCurrentSection;
-    qint64 m_bytesTotal;
-    qint64 m_bytesTotalCurrentSection;
+    qsizetype m_bytesReceived;
+    qsizetype m_bytesReceivedCurrentSection;
+    qsizetype m_bytesTotal;
+    qsizetype m_bytesTotalCurrentSection;
 
     QString m_fileBaseName;
     QString m_fileExtension;
 
     StreamObject::Config m_config;
 
-    qint64 _q_bytesTotal() const;
+    qsizetype _q_bytesTotal() const;
     bool isMergeFormat(const QString &suffix) const;
     QStringList arguments() const;
 };

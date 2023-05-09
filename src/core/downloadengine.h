@@ -55,7 +55,7 @@ public:
     QList<IDownloadItem *> failedJobs() const;
     QList<IDownloadItem *> runningJobs() const;
 
-    double totalSpeed();
+    qreal totalSpeed();
 
     /* Actions */
     void resume(IDownloadItem *item);
@@ -113,7 +113,7 @@ private slots:
 private:
     QList<IDownloadItem *> m_items;
 
-    double m_previouSpeed = 0;
+    qreal m_previouSpeed = 0;
     QTimer m_speedTimer;
 
     // Pool

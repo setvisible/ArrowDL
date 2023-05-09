@@ -31,9 +31,13 @@ class FakeDownloadItem : public AbstractDownloadItem
 public:
     explicit FakeDownloadItem(QObject *parent = Q_NULLPTR);
     explicit FakeDownloadItem(QString localFileName, QObject *parent = Q_NULLPTR);
-    explicit FakeDownloadItem(QUrl url, QString filename,
-                              qint64 bytesTotal, qint64 timeIncrement, qint64 duration,
-                              QObject *parent= Q_NULLPTR);
+    explicit FakeDownloadItem(
+            QUrl url,
+            QString filename,
+            qsizetype bytesTotal,
+            qint64 timeIncrement,
+            qint64 duration,
+            QObject *parent= Q_NULLPTR);
 
     ~FakeDownloadItem() Q_DECL_OVERRIDE;
 
@@ -66,7 +70,7 @@ private:
     QUrl m_resourceUrl;
     QString m_resourceLocalFileName;
 
-    qint64 m_simulationBytesTotal;
+    qsizetype m_simulationBytesTotal;
     qint64 m_simulationTimeIncrement;
     qint64 m_simulationTimeDuration;
 

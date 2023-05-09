@@ -22,8 +22,8 @@
 struct BigInteger
 {
     explicit BigInteger() : value(0) {}
-    explicit BigInteger(qint64 _value) : value(_value) {}
-    qint64 value;
+    explicit BigInteger(qsizetype _value) : value(_value) {}
+    qsizetype value;
 };
 
 Q_DECLARE_METATYPE(BigInteger)

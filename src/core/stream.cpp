@@ -301,12 +301,12 @@ void Stream::setSelectedFormatId(const StreamFormatId &formatId)
 
 /******************************************************************************
  ******************************************************************************/
-qint64 Stream::fileSizeInBytes() const
+qsizetype Stream::fileSizeInBytes() const
 {
     return _q_bytesTotal();
 }
 
-void Stream::setFileSizeInBytes(qint64 fileSizeInBytes)
+void Stream::setFileSizeInBytes(qsizetype fileSizeInBytes)
 {
     m_bytesTotal = fileSizeInBytes;
 }
@@ -540,7 +540,7 @@ void Stream::parseStandardOutput(const QString &msg)
                 ? tokens.at(3)
                 : tokens.at(4);
 
-        auto percent = Format::parsePercentDecimal(percentToken);
+        qreal percent = Format::parsePercentDecimal(percentToken);
         if (percent < 0) {
             qWarning("Can't parse '%s'.", percentToken.toLatin1().data());
             return;
@@ -551,10 +551,10 @@ void Stream::parseStandardOutput(const QString &msg)
             qWarning("Can't parse '%s'.", sizeToken.toLatin1().data());
             return;
         }
-        m_bytesReceivedCurrentSection = qCeil((percent * m_bytesTotalCurrentSection) / 100.0);
+        m_bytesReceivedCurrentSection = static_cast<qsizetype>(qreal(percent * m_bytesTotalCurrentSection) / 100);
     }
 
-    auto received = m_bytesReceived + m_bytesReceivedCurrentSection;
+    qsizetype received = m_bytesReceived + m_bytesReceivedCurrentSection;
     emit downloadProgress(received, _q_bytesTotal());
 }
 
@@ -580,7 +580,7 @@ void Stream::parseStandardError(const QString &msg)
     }
 }
 
-qint64 Stream::_q_bytesTotal() const
+qsizetype Stream::_q_bytesTotal() const
 {
     return m_bytesTotal > 0 ? m_bytesTotal : m_bytesTotalCurrentSection;
 }
@@ -975,9 +975,9 @@ StreamObject StreamAssetDownloader::parseDumpItemStdOut(const QByteArray &bytes)
         format.fps          = jsonFmt[QLatin1String("fps")].toInt();
         format.vcodec       = jsonFmt[QLatin1String("vcodec")].toString();
 
-        format.filesize     = jsonFmt[QLatin1String("filesize")].toInt();
+        format.filesize     = jsonFmt[QLatin1String("filesize")].toInteger();
         if (!(format.filesize > 0)) {
-            format.filesize = jsonFmt[QLatin1String("filesize_approx")].toInt();
+            format.filesize = jsonFmt[QLatin1String("filesize_approx")].toInteger();
         }
         data.formats << format;
     }
@@ -1364,11 +1364,10 @@ bool StreamFormatId::operator<(const StreamFormatId &other) const
 
 /******************************************************************************
  ******************************************************************************/
-StreamObject::Data::Format::Format(
-        const QString &format_id,
+StreamObject::Data::Format::Format(const QString &format_id,
         const QString &ext,
         const QString &formatNote,
-        int filesize,
+        qsizetype filesize,
         const QString &acodec,
         int abr,
         int asr,
@@ -1542,21 +1541,21 @@ void StreamObject::setConfig(const Config &config)
 
 /******************************************************************************
  ******************************************************************************/
-qint64 StreamObject::guestimateFullSize() const
+qsizetype StreamObject::guestimateFullSize() const
 {
     return guestimateFullSize(formatId());
 }
 
-qint64 StreamObject::guestimateFullSize(const StreamFormatId &formatId) const
+qsizetype StreamObject::guestimateFullSize(const StreamFormatId &formatId) const
 {
     if (formatId.isEmpty()) {
         return -1;
     }
-    QMap<StreamFormatId, qint64> sizes;
+    QMap<StreamFormatId, qsizetype> sizes;
     for (auto format : m_data.formats) {
         sizes.insert(format.formatId, format.filesize);
     }
-    qint64 estimatedSize = 0;
+    qsizetype estimatedSize = 0;
     for (auto id : formatId.compoundIds()) {
         estimatedSize += sizes.value(id, 0);
     }

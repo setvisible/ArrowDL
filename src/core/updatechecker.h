@@ -64,13 +64,13 @@ public:
 signals:
     void updateAvailable(); // for non-GUI
     void updateAvailable(UpdateChecker::ChangeLog changelog);
-    void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void downloadProgress(qsizetype bytesReceived, qsizetype bytesTotal);
     void updateDownloadFinished();
     void updateError(QString errorMessage);
 
 private slots:
     void onMetadataFinished();
-    void onBinaryProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void onBinaryProgress(qsizetype bytesReceived, qsizetype bytesTotal);
     void onBinaryFinished();
 
 private:

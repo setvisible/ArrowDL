@@ -156,13 +156,13 @@ private:
     QList<TorrentFileMetaInfo> m_filesMeta;
     QList<TorrentFileInfo> m_files;
 
-    int m_pieceByteSize = 0;
+    qsizetype m_pieceByteSize = 0;
     QBitArray m_downloadedPieces;
     int percent(const TorrentFileMetaInfo &mi, const TorrentFileInfo &ti) const;
-    int firstPieceIndex(const TorrentFileMetaInfo &mi) const;
-    int lastPieceIndex(const TorrentFileMetaInfo &mi) const;
-    int startBlockInFirstPiece(const TorrentFileMetaInfo &mi) const;
-    int pieceCount(const TorrentFileMetaInfo &mi) const;
+    qint64 firstPieceIndex(const TorrentFileMetaInfo &mi) const;
+    qint64 lastPieceIndex(const TorrentFileMetaInfo &mi) const;
+    qint64 startBlockInFirstPiece(const TorrentFileMetaInfo &mi) const;
+    qint64 pieceCount(const TorrentFileMetaInfo &mi) const;
     QBitArray pieceSegments(const TorrentFileMetaInfo &mi) const;
 };
 

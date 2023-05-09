@@ -68,9 +68,9 @@ QString Format::timeToString(qint64 seconds)
 /*!
  * \brief Returns a string formatting the given size, in bytes.
  */
-QString Format::fileSizeToString(qint64 size)
+QString Format::fileSizeToString(qsizetype size)
 {
-    if (size < 0 || size >= INT64_MAX) {
+    if (size < 0 || size >= SIZE_MAX) {
         return tr("Unknown");
     }
     if (size == 0) {
@@ -82,7 +82,7 @@ QString Format::fileSizeToString(qint64 size)
     if (size < 1000) {
         return tr("%0 bytes").arg(QString::number(size));
     }
-    double correctSize = size / 1024.0; // KB
+    qreal correctSize = qreal(size) / 1024; // KB
     if (correctSize < 1000) {
         return tr("%0 KB").arg(QString::number(correctSize > 0 ? correctSize : 0, 'f', 0));
     }
@@ -105,9 +105,9 @@ QString Format::fileSizeToString(qint64 size)
  * fileSizeThousandSeparator(123456789); // returns "123,456,789"
  * \endcode
  */
-QString Format::fileSizeThousandSeparator(qint64 size)
+QString Format::fileSizeThousandSeparator(qsizetype size)
 {
-    auto number = QString::number(size);
+    QString number = QString::number(size);
     int i = number.count();
     while (i > 3) {
         i -= 3;
@@ -143,30 +143,34 @@ QString Format::currentSpeedToString(qreal speed, bool showInfiniteSymbol)
         return tr("%0 MB/s").arg(QString::number(speed, 'f', 1));
     }
     speed /= 1024; // GB
-    return tr("%0 GB/s").arg(QString::number(speed, 'f', 2));
+    if (speed < 1000) {
+        return tr("%0 GB/s").arg(QString::number(speed, 'f', 2));
+    }
+    speed /= 1024; // TB
+    return tr("%0 TB/s").arg(QString::number(speed, 'f', 2));
 }
 
 
 /******************************************************************************
  ******************************************************************************/
-static bool parseDouble(const QString &str, double &p)
+static bool parseDouble(const QString &str, qreal &p)
 {
     bool ok = false;
-    auto val = str.toDouble(&ok);
+    qreal val = str.toDouble(&ok);
     if (ok) {
         p = val;
     }
     return ok;
 }
 
-double Format::parsePercentDecimal(const QString &text)
+qreal Format::parsePercentDecimal(const QString &text)
 {
     if (!text.contains('%')) {
         return -1.0;
     }
     QString percentString = text;
     percentString.remove('%');
-    double percent = 0;
+    qreal percent = 0;
     if (!parseDouble(percentString, percent)) {
         return -1.0;
     }
@@ -175,7 +179,7 @@ double Format::parsePercentDecimal(const QString &text)
 
 /******************************************************************************
  ******************************************************************************/
-qint64 Format::parseBytes(const QString &text)
+qsizetype Format::parseBytes(const QString &text)
 {
     QString textwithoutTilde = text;
     textwithoutTilde.remove(QChar('~'));
@@ -206,6 +210,9 @@ qint64 Format::parseBytes(const QString &text)
     } else if (unitString == QLatin1String("GB")) {
         multiple = 1000000000;
 
+    } else if (unitString == QLatin1String("TB")) {
+        multiple = 1000000000000;
+
     } else if (unitString == QLatin1String("KIB")) {
         multiple = 1024;  // 1 KiB = 2^10 bytes = 1024 bytes
 
@@ -214,6 +221,9 @@ qint64 Format::parseBytes(const QString &text)
 
     } else if (unitString == QLatin1String("GIB")) {
         multiple = 1073741824;  // 1 GiB = 2^30 bytes = 1073741824 bytes
+
+    } else if (unitString == QLatin1String("TIB")) {
+        multiple = 1099511627776;  // 1 TiB = 2^40 bytes = 1099511627776 bytes
 
     } else {
         return -1;
@@ -231,7 +241,7 @@ qint64 Format::parseBytes(const QString &text)
      * => Issue when the filesize is greater than 1.999 GiB...
      */
     // qint64 bytes = qCeil(decimal * multiple);
-    auto bytes = static_cast<qint64>(std::ceil(decimal * multiple));
+    qsizetype bytes = static_cast<qsizetype>(decimal * multiple);
     return bytes;
 }
 

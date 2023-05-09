@@ -145,8 +145,10 @@ void tst_Format::fileSizeToString_data()
     QTest::newRow("1234567890123 bytes") << BigInteger(1234567890123) << "1.123 TB";
     QTest::newRow("1234567890123456 bytes") << BigInteger(1234567890123456) << "1122.833 TB";
 
-    QTest::newRow("MIN") << BigInteger(INT64_MIN) << "Unknown";
-    QTest::newRow("MAX") << BigInteger(INT64_MAX) << "Unknown";
+    QTest::newRow("MAX") << BigInteger(SIZE_MAX) << "Unknown";
+    QTest::newRow("negative") << BigInteger(-1) << "Unknown";
+
+    QTest::newRow("MIN") << BigInteger(-SIZE_MAX) << "1 byte";
 }
 
 void tst_Format::fileSizeToString()
@@ -212,7 +214,8 @@ void tst_Format::currentSpeedToString_data()
     QTest::newRow("123456 bytes") << 123456.0 << "121 KB/s";
     QTest::newRow("123456789 bytes") << 123456789.0 << "117.7 MB/s";
     QTest::newRow("1234567890 bytes") << 1234567890.0 << "1.15 GB/s";
-    QTest::newRow("1234567890123 bytes") << 1234567890123.0 << "1149.78 GB/s";
+    QTest::newRow("1234567890123 bytes") << 1234567890123.0 << "1.12 TB/s";
+    QTest::newRow("1234567890123456 bytes") << 1234567890123456.0 << "1122.83 TB/s";
 
     QTest::newRow("INFINITY") << qInf() << "-";
     QTest::newRow("NaN") << qQNaN() << "-";
@@ -232,7 +235,7 @@ void tst_Format::currentSpeedToString()
 void tst_Format::parsePercentDecimal_data()
 {
     QTest::addColumn<QString>("str");
-    QTest::addColumn<double>("expected");
+    QTest::addColumn<qreal>("expected");
 
     /* Invalid */
     QTest::newRow("invalid") << "" << -1.0;
@@ -255,8 +258,8 @@ void tst_Format::parsePercentDecimal_data()
 void tst_Format::parsePercentDecimal()
 {
     QFETCH(QString, str);
-    QFETCH(double, expected);
-    double actual = Format::parsePercentDecimal(str);
+    QFETCH(qreal, expected);
+    qreal actual = Format::parsePercentDecimal(str);
     QCOMPARE(actual, expected);
 }
 
@@ -298,20 +301,27 @@ void tst_Format::parseBytes_data()
     QTest::newRow("1 MiB") << "1 MiB" << BigInteger(1024*1024);
     QTest::newRow("1 GiB") << "1 GiB" << BigInteger(1024*1024*1024);
 
-    QTest::newRow("167.85MiB") << "167.85MiB" << BigInteger(176003482);
-    QTest::newRow("167.85MiB") << "167.85 MiB" << BigInteger(176003482);
-    QTest::newRow("167.85MiB") << "167.85    MiB" << BigInteger(176003482);
+    QTest::newRow("167.85MiB") << "167.85MiB" << BigInteger(176003481);
+    QTest::newRow("167.85MiB") << "167.85 MiB" << BigInteger(176003481);
+    QTest::newRow("167.85MiB") << "167.85    MiB" << BigInteger(176003481);
+    QTest::newRow("167.85MiB") << "167.85\tMiB" << BigInteger(176003481);
 
-    QTest::newRow("2.95GiB") << "2.95GiB" << BigInteger(3167538381);
-    QTest::newRow("2.95GiB") << "2.95 GiB" << BigInteger(3167538381);
-    QTest::newRow("2.95GiB") << "2.95\tGiB" << BigInteger(3167538381);
+    QTest::newRow("2.95GiB") << "2.95GiB" << BigInteger(3167538380);
+    QTest::newRow("2.95GiB") << "2.95 GiB" << BigInteger(3167538380);
+    QTest::newRow("2.95GiB") << "2.95    GiB" << BigInteger(3167538380);
+    QTest::newRow("2.95GiB") << "2.95\tGiB" << BigInteger(3167538380);
 
-    QTest::newRow("estim") << "~55.43MiB" << BigInteger(58122568);
-    QTest::newRow("estim") << "~55.43  MiB" << BigInteger(58122568);
-    QTest::newRow("estim") << " ~ 55.43   MiB" << BigInteger(58122568);
+    QTest::newRow("1.02TiB") << "1.02TiB" << BigInteger(1121501860331);
+    QTest::newRow("1.02TiB") << "1.02 TiB" << BigInteger(1121501860331);
+    QTest::newRow("1.02TiB") << "1.02    TiB" << BigInteger(1121501860331);
+    QTest::newRow("1.02TiB") << "1.02\tTiB" << BigInteger(1121501860331);
+
+    QTest::newRow("estim") << "~55.43MiB" << BigInteger(58122567);
+    QTest::newRow("estim") << "~55.43  MiB" << BigInteger(58122567);
+    QTest::newRow("estim") << " ~ 55.43   MiB" << BigInteger(58122567);
 
     QTest::newRow("bigger than integer 32-bit range")
-            << "999.99GiB" << BigInteger(1073731086582);
+            << "999.99GiB" << BigInteger(1073731086581);
 }
 
 void tst_Format::parseBytes()

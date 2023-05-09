@@ -49,8 +49,8 @@ UpdateDialog::UpdateDialog(UpdateChecker *updateChecker, QWidget *parent)
 
     connect(m_updateChecker, SIGNAL(updateAvailable(UpdateChecker::ChangeLog)),
             this, SLOT(onUpdateAvailable(UpdateChecker::ChangeLog)));
-    connect(m_updateChecker, SIGNAL(downloadProgress(qint64, qint64)),
-            this, SLOT(onDownloadProgress(qint64, qint64)));
+    connect(m_updateChecker, SIGNAL(downloadProgress(qsizetype, qsizetype)),
+            this, SLOT(onDownloadProgress(qsizetype, qsizetype)));
     connect(m_updateChecker, SIGNAL(updateDownloadFinished()),
             this, SLOT(onUpdateDownloadFinished()));
     connect(m_updateChecker, SIGNAL(updateError(QString)),
@@ -167,12 +167,12 @@ void UpdateDialog::onUpdateAvailable(const UpdateChecker::ChangeLog &changelog)
     }
 }
 
-void UpdateDialog::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
+void UpdateDialog::onDownloadProgress(qsizetype bytesReceived, qsizetype bytesTotal)
 {
     int percent = 0;
     if (bytesTotal != 0) {
         if (bytesReceived < bytesTotal) {
-             percent = qIntCast(100 * float(bytesReceived) / float(bytesTotal));
+             percent = qFloor(qreal(100 * bytesReceived) / bytesTotal);
         } else {
             percent = 100;
         }
