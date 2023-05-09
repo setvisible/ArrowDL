@@ -66,6 +66,7 @@ void StreamWidget::setStreamObject(const StreamObject &streamObject)
         ui->streamFormatPicker->setData(streamObject);
         ui->fileNameEdit->setText(m_streamObject.fileBaseName());
         ui->fileExtensionEdit->setText(m_streamObject.suffix());
+        updateEstimatedSize();
 
         ui->stackedWidget->setCurrentWidget(ui->pageInfo);
     } else {

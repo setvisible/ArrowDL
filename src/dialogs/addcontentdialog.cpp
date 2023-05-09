@@ -268,12 +268,14 @@ void AddContentDialog::onDownloadProgress(qsizetype bytesReceived, qsizetype byt
 void AddContentDialog::onFinished()
 {
     auto reply = qobject_cast<QNetworkReply*>(sender());
-    if (reply && reply->error() == QNetworkReply::NoError) {
-        QByteArray downloadedData = reply->readAll();
-        reply->deleteLater();
-        parseHtml(downloadedData);
-    } else {
-        setNetworkError(reply->errorString());
+    if (reply) {
+        if (reply->error() == QNetworkReply::NoError) {
+            QByteArray downloadedData = reply->readAll();
+            reply->deleteLater();
+            parseHtml(downloadedData);
+        } else {
+            setNetworkError(reply->errorString());
+        }
     }
 }
 #endif
