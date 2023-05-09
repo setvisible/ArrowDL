@@ -503,6 +503,7 @@ protected:
     /* For test purpose */
     void parseStandardError(const QString &msg);
     void parseStandardOutput(const QString &msg);
+    QStringList splitMultiThreadMessages(const QString &raw) const;
 
 private slots:
     void onStarted();
@@ -532,6 +533,8 @@ private:
     qsizetype _q_bytesTotal() const;
     bool isMergeFormat(const QString &suffix) const;
     QStringList arguments() const;
+
+    void parseSingleStandardOutput(const QString &msg);
 };
 
 /******************************************************************************

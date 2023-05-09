@@ -521,7 +521,45 @@ void Stream::onStandardErrorReady()
 
 /******************************************************************************
  ******************************************************************************/
+/*!
+ * \brief Try to clean properly the given multi-threaded raw that come in a single line.
+ *
+ * It takes a single-line message like:
+ *    "[download] 11.2% ... [download] 12.3% ... [download] Destination: path\to\file.f599.m4a ..."
+ *
+ * and returns it as separate messages:
+ *    "[download] 11.2% ..."
+ *    "[download] 12.3% ..."
+ *    "[download] Destination: path\to\file.f599.m4a ..."
+ */
+QStringList Stream::splitMultiThreadMessages(const QString &raw) const
+{
+    QStringList messages;
+    QRegularExpression re(R"(\[download\]|\[Merger\])", QRegularExpression::CaseInsensitiveOption);
+    QString raw2 = raw;
+    qsizetype pos = raw2.lastIndexOf(re);
+    if (0 <= pos && pos <= raw2.size()) {
+        while (pos != -1) {
+            QString message = raw2.last(raw2.size() - pos);
+            messages.prepend(message);
+            raw2.truncate(pos);
+            pos = raw2.lastIndexOf(re);
+        }
+    } else {
+        messages << raw2;
+    }
+    return messages;
+}
+
 void Stream::parseStandardOutput(const QString &msg)
+{
+    QStringList messages = splitMultiThreadMessages(msg);
+    foreach (auto message, messages) {
+        parseSingleStandardOutput(message);
+    }
+}
+
+void Stream::parseSingleStandardOutput(const QString &msg)
 {
     auto tokens = msg.split(QChar::Space, Qt::SkipEmptyParts);
     if (tokens.isEmpty()) {
