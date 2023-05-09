@@ -39,13 +39,13 @@ public:
     QString stateToString() const;
     const char* state_c_str() const;
 
-    qint64 bytesReceived() const Q_DECL_OVERRIDE;
-    void setBytesReceived(qint64 bytesReceived);
+    qsizetype bytesReceived() const Q_DECL_OVERRIDE;
+    void setBytesReceived(qsizetype bytesReceived);
 
-    qint64 bytesTotal() const Q_DECL_OVERRIDE;
-    void setBytesTotal(qint64 bytesTotal);
+    qsizetype bytesTotal() const Q_DECL_OVERRIDE;
+    void setBytesTotal(qsizetype bytesTotal);
 
-    double speed() const Q_DECL_OVERRIDE;
+    qreal speed() const Q_DECL_OVERRIDE;
     int progress() const Q_DECL_OVERRIDE;
 
     QString errorMessage() const;
@@ -88,7 +88,7 @@ signals:
     void renamed(QString oldName, QString newName, bool success);
 
 public slots:
-    void updateInfo(qint64 bytesReceived, qint64 bytesTotal);
+    void updateInfo(qsizetype bytesReceived, qsizetype bytesTotal);
 
 private slots:
     void updateInfo();
@@ -97,8 +97,8 @@ private:
     State m_state;
 
     qreal m_speed;
-    qint64 m_bytesReceived;
-    qint64 m_bytesTotal;
+    qsizetype m_bytesReceived;
+    qsizetype m_bytesTotal;
 
     QString m_errorMessage;
 

@@ -27,8 +27,8 @@
 
 constexpr int msec_file_refresh = 10;
 constexpr int msec_peer_refresh = 500;
-constexpr qint64 piece_size = 32*1024*8;
-constexpr qint64 max_torrent_size = 1024*1024;
+constexpr qsizetype piece_size = 32*1024*8;
+constexpr qsizetype max_torrent_size = 1024*1024;
 
 namespace Utils {
 /*!
@@ -88,37 +88,37 @@ void DummyTorrentAnimator::setProgress(int percent)
     const TorrentMetaInfo metaInfo = m_torrent->metaInfo();
     TorrentInfo info = m_torrent->info();
 
-    auto pieceCount = metaInfo.initialMetaInfo.pieceCount;
-    auto pieceByteSize = metaInfo.initialMetaInfo.pieceByteSize;
+    qint64 pieceCount = metaInfo.initialMetaInfo.pieceCount;
+    qsizetype pieceByteSize = metaInfo.initialMetaInfo.pieceByteSize;
 
     Q_ASSERT(pieceByteSize > 0);
 
-    qint64 bytesReceived = 0;
+    qsizetype bytesReceived = 0;
 
     // First, create a random piece map
     info.downloadedPieces = createRandomBitArray(static_cast<int>(pieceCount), percent);
 
     TorrentHandleInfo detail = m_torrent->detail();
-    int total = metaInfo.initialMetaInfo.files.count();
-    for (int i = 0; i < total; ++i) {
-        auto fileMetaInfo = metaInfo.initialMetaInfo.files.at(i);
+    qsizetype total = metaInfo.initialMetaInfo.files.count();
+    for (qsizetype i = 0; i < total; ++i) {
+        const TorrentFileMetaInfo fileMetaInfo = metaInfo.initialMetaInfo.files.at(i);
 
-        qint64 bytesOffset = fileMetaInfo.bytesOffset;
-        qint64 bytesTotal = fileMetaInfo.bytesTotal;
+        qsizetype bytesOffset = fileMetaInfo.bytesOffset;
+        qsizetype bytesTotal = fileMetaInfo.bytesTotal;
 
-        auto firstPieceIndex = qCeil(qreal(bytesOffset) / pieceByteSize);
-        auto lastPieceIndex = qCeil(qreal(bytesOffset + bytesTotal) / pieceByteSize);
-        auto filePieceCount = 1 + lastPieceIndex - firstPieceIndex;
+        qint64 firstPieceIndex = static_cast<qint64>(qreal(bytesOffset) / pieceByteSize);
+        qint64 lastPieceIndex = static_cast<qint64>(qreal(bytesOffset + bytesTotal) / pieceByteSize);
+        qint64 filePieceCount = 1 + lastPieceIndex - firstPieceIndex;
         filePieceCount = qMin(filePieceCount, pieceCount);
 
         // Count pieces for each file
-        qint64 received = 0;
-        for (int j = 0; j < filePieceCount; ++j) {
+        qint64 received_pieces = 0;
+        for (qint64 j = 0; j < filePieceCount; ++j) {
             if (info.downloadedPieces.testBit(j)) {
-                received++;
+                received_pieces++;
             }
         }
-        received *= pieceByteSize;
+        qsizetype received = static_cast<qsizetype>(received_pieces * pieceByteSize);
         received = qMin(received, bytesTotal);
 
         detail.files[i].bytesReceived = received;
@@ -222,7 +222,7 @@ void DummyTorrentAnimator::animateFile(int index)
 
     // qDebug() << Q_FUNC_INFO << index;
     TorrentMetaInfo metaInfo = m_torrent->metaInfo();
-    auto bytesTotal = metaInfo.initialMetaInfo.files.at(index).bytesTotal;
+    qsizetype bytesTotal = metaInfo.initialMetaInfo.files.at(index).bytesTotal;
 
     TorrentHandleInfo detail = m_torrent->detail();
     detail.files[index].bytesReceived += piece_size;

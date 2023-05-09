@@ -45,11 +45,13 @@ FakeDownloadItem::FakeDownloadItem(QString localFileName, QObject *parent)
     init();
 }
 
-FakeDownloadItem::FakeDownloadItem(QUrl url, QString filename,
-                                   qint64 bytesTotal,
-                                   qint64 timeIncrement,
-                                   qint64 duration,
-                                   QObject *parent) : AbstractDownloadItem(parent)
+FakeDownloadItem::FakeDownloadItem(
+        QUrl url,
+        QString filename,
+        qsizetype bytesTotal,
+        qint64 timeIncrement,
+        qint64 duration,
+        QObject *parent) : AbstractDownloadItem(parent)
   , m_resourceUrl(url)
   , m_resourceLocalFileName(filename)
   , m_simulationBytesTotal(bytesTotal)
@@ -105,12 +107,12 @@ void FakeDownloadItem::stop()
  ******************************************************************************/
 void FakeDownloadItem::tickFakeStream()
 {
-    qint64 received = bytesReceived();
+    qsizetype received = bytesReceived();
     if (received < m_simulationBytesTotal) {
-        const qint64 incrementCount = m_simulationTimeDuration / m_simulationTimeIncrement;
-        received += m_simulationBytesTotal / incrementCount;
-
-        updateInfo(qMin(m_simulationBytesTotal, received), m_simulationBytesTotal);
+        const qint64 incrementCount = static_cast<qint64>(qreal(m_simulationTimeDuration) / m_simulationTimeIncrement);
+        qsizetype incrementReceived = static_cast<qsizetype>(qreal(m_simulationBytesTotal) / incrementCount);
+        received = qMin(received + incrementReceived, m_simulationBytesTotal);
+        updateInfo(received, m_simulationBytesTotal);
 
     } else {
         preFinish(!m_isSimulateFileErrorAtTheEndEnabled);

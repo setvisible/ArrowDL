@@ -41,7 +41,10 @@ class tst_Stream : public QObject
 private slots:
     void relationalOperators();
 
+    void splitMultiThreadMessages();
+
     void readStandardOutput();
+    void readStandardOutputWithMultipleMessages();
     void readStandardOutputWithEstimedSize();
     void readStandardOutputWithEstimedSizeAlternative();
     void readStandardOutputWithTwoStreams();
@@ -110,11 +113,33 @@ void tst_Stream::relationalOperators()
 
 /******************************************************************************
  ******************************************************************************/
+void tst_Stream::splitMultiThreadMessages()
+{
+    // Given
+    QSharedPointer<FriendlyStream> target(new FriendlyStream(this));
+    QString input = "[download] 10.6% ... [download] 10.6%"
+                    " ... [download] Destination:"
+                    " path\to\file.f599.m4a ... [Merger] Merged ...";
+
+    // When
+    auto actual = target->splitMultiThreadMessages(input);
+
+    // Then
+    QStringList expected;
+    expected << QLatin1String("[download] 10.6% ... ")
+             << QLatin1String("[download] 10.6% ... ")
+             << QLatin1String("[download] Destination: path\to\file.f599.m4a ... ")
+             << QLatin1String("[Merger] Merged ...");
+    QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 void tst_Stream::readStandardOutput()
 {
     // Given
     QSharedPointer<FriendlyStream> target(new FriendlyStream(this));
-    QSignalSpy spyProgress(target.data(), SIGNAL(downloadProgress(qint64, qint64)));
+    QSignalSpy spyProgress(target.data(), SIGNAL(downloadProgress(qsizetype, qsizetype)));
 
     // When
     target->parseStandardOutput(" .\\yt-dlp.exe https://www.youtube.com/watch?v=jDQv2jTNL04");
@@ -130,15 +155,48 @@ void tst_Stream::readStandardOutput()
     target->parseStandardOutput("[download] 100% of 167.85MiB in 00:41");
 
     // Then
-    // 167.85 MiB = 176003482 bytes
+    // 167.85 MiB = 176003481 bytes
     QCOMPARE(spyProgress.count(), 7);
     VERIFY_PROGRESS_SIGNAL(spyProgress, 0,         0,         0); // -idle-
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 1,         0, 176003482); //   0.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 2,  14432286, 176003482); //   8.2%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 3,  45056892, 176003482); //  25.6%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 4, 138866748, 176003482); //  78.9%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 5, 172835420, 176003482); //  98.2%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 6, 176003482, 176003482); // 100.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 1,         0, 176003481); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 2,  14432285, 176003481); //   8.2%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 3,  45056891, 176003481); //  25.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 4, 138866746, 176003481); //  78.9%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 5, 172835418, 176003481); //  98.2%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 6, 176003481, 176003481); // 100.0%
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void tst_Stream::readStandardOutputWithMultipleMessages()
+{
+    // Given
+    QSharedPointer<FriendlyStream> target(new FriendlyStream(this));
+    QSignalSpy spyProgress(target.data(), SIGNAL(downloadProgress(qsizetype, qsizetype)));
+
+    // When
+    // Here stdout has 3 outputs, but they contains 6 useful messages
+    target->parseStandardOutput(
+                "[dashsegments] Total fragments: 4 [download] 10.6%"
+                " of ~536.33MiB at 3.71MiB/s ETA 00:41");
+    target->parseStandardOutput(
+                "[download] 10.6% of ~547.63MiB at 3.71MiB/s"
+                " ETA 00:49 [download] 10.6% of ~547.63MiB"
+                " at 3.71MiB/s ETA 02:49");
+    target->parseStandardOutput(
+                "[download] 10.6% of ~547.63MiB at 3.71MiB/s"
+                " ETA 00:49 [dashsegments] Total fragments: 4"
+                " [download] Destination: path\to\file.f599.m4a"
+                "[download] 10.6% of ~547.63MiB at 3.71MiB/s ETA 02:49");
+
+    // Then
+    QCOMPARE(spyProgress.count(), 6);
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 0,  59612573, 562382766); //  10.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 1,  60868557, 574231674); //  10.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 2,  60868557, 574231674); //  10.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 3,  60868557, 574231674); //  10.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 4,  60868557, 574231674); //  10.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 5,  121737114, 574231674); //  10.6%
 }
 
 /******************************************************************************
@@ -147,7 +205,7 @@ void tst_Stream::readStandardOutputWithEstimedSize()
 {
     // Given
     QSharedPointer<FriendlyStream> target(new FriendlyStream(this));
-    QSignalSpy spyProgress(target.data(), SIGNAL(downloadProgress(qint64, qint64)));
+    QSignalSpy spyProgress(target.data(), SIGNAL(downloadProgress(qsizetype, qsizetype)));
 
     // When
     target->parseStandardOutput("[adobetv] ph5e313e3e632cb: Downloading pc webpage");
@@ -183,32 +241,35 @@ void tst_Stream::readStandardOutputWithEstimedSize()
     target->parseStandardOutput("[download] 100.0% of ~615.60MiB at 3.89MiB/s ETA 00:01");
 
     // Then
-    QCOMPARE(spyProgress.count(), 25);
+    QCOMPARE(spyProgress.count(), 28);
     VERIFY_PROGRESS_SIGNAL(spyProgress,  0,         0,         0); // -idle-
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  1,         0,  58122568); //   0.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  2,         0,  58122568); //   0.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  3,         0,  58122568); //   0.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  4,         0,  58122568); //   0.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  5,     58123,  58122568); //   0.1%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  6,   1976168,  58122568); //   3.4%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  7,  21962635, 549065851); //   4.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  8,  21962635, 549065851); //   4.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  9,  21962635, 549065851); //   4.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 10,  32394886, 549065851); //   5.9%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 11,  32126387, 544515032); //   5.9%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 12,  37571538, 544515032); //   6.9%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 13,  47240153, 562382767); //   8.4%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 14,  59612574, 562382767); //  10.6%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 15,  59612574, 562382767); //  10.6%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 16,  60868558, 574231675); //  10.6%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 17,  60868558, 574231675); //  10.6%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 18, 201201990, 573225042); //  35.1%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 19, 229863242, 573225042); //  40.1%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 20, 229863242, 573225042); //  40.1%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 21, 229863242, 573225042); //  40.1%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 22, 471862976, 645503386); //  73.1%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 23, 601609156, 645503386); //  93.2%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 24, 645503386, 645503386); // 100.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  1,         0,  58122567); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  2,         0,  58122567); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  3,         0,  58122567); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  4,         0,  58122567); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  5,     58122,  58122567); //   0.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  6,   1976167,  58122567); //   3.4%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  7,  21962634, 549065850); //   4.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  8,  21962634, 549065850); //   4.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  9,  21962634, 549065850); //   4.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 10,  32394885, 549065850); //   5.9%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 11,  32126386, 544515031); //   5.9%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 12,  37571537, 544515031); //   6.9%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 13,  47240152, 562382766); //   8.4%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 14,  59612573, 562382766); //  10.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 15,  59612573, 562382766); //  10.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 16,  60868557, 574231674); //  10.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 17,  60868557, 574231674); //  10.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 18,  60868557, 574231674); //  10.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 19, 201201989, 573225041); //  35.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 20, 229863241, 573225041); //  40.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 21, 229863241, 573225041); //  40.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 22, 229863241, 573225041); //  40.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 23, 229863241, 573225041); //  40.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 24, 471862974, 645503385); //  73.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 25, 471862974, 645503385); //  73.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 26, 601609154, 645503385); //  93.2%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 27, 645503385, 645503385); // 100.0%
 }
 
 /******************************************************************************
@@ -217,7 +278,7 @@ void tst_Stream::readStandardOutputWithEstimedSizeAlternative()
 {
     // Given
     QSharedPointer<FriendlyStream> target(new FriendlyStream(this));
-    QSignalSpy spyProgress(target.data(), SIGNAL(downloadProgress(qint64, qint64)));
+    QSignalSpy spyProgress(target.data(), SIGNAL(downloadProgress(qsizetype, qsizetype)));
 
     // When
     target->parseStandardOutput("[vk] Extracting URL: https://vk.com/video-0123456");
@@ -266,39 +327,39 @@ void tst_Stream::readStandardOutputWithEstimedSizeAlternative()
     // Then
     QCOMPARE(spyProgress.count(), 34);
     VERIFY_PROGRESS_SIGNAL(spyProgress,  0,        0,        0); // -idle-
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  1,        0, 32348570); //   0.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  2,        0, 32348570); //   0.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  3,        0, 36249273); //   0.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  4,        0, 36249273); //   0.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  5,        0, 36249273); //   0.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  6,        0, 43306189); //   0.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  7,        0, 30712792); //   0.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  8,    32349, 32348570); //   0.1%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  9,   380749, 34613494); //   1.1%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 10,   553124, 11062477); //   5.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 11,   553124, 11062477); //   5.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 12,  1023495, 20887634); //   4.9%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 13,  1209302, 22817014); //   5.3%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 14,  2011169, 20111688); //  10.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 15,  3645197, 25490883); //  14.3%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 16,  5226439, 29527901); //  17.7%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 17,  5360321, 26801603); //  20.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 18,  6975652, 27902608); //  25.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 19,  8565818, 28552725); //  30.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 20, 10176955, 29077013); //  35.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 21, 13495174, 29989274); //  45.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 22, 15225324, 30450648); //  50.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 23, 18868077, 31446795); //  60.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 24, 20760757, 31939625); //  65.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 25, 20760757, 31939625); //  65.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 26, 25220875, 33627833); //  75.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 27, 27144026, 34057749); //  79.7%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 28, 27246200, 34057749); //  80.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 29, 29412557, 34603008); //  85.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 30, 33870054, 36616274); //  92.5%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 31, 36430844, 37098619); //  98.2%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 32, 37098619, 37098619); // 100.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 33, 37098619, 37098619); // 100%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  1,        0, 32348569); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  2,        0, 32348569); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  3,        0, 36249272); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  4,        0, 36249272); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  5,        0, 36249272); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  6,        0, 43306188); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  7,        0, 30712791); //   0.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  8,    32348, 32348569); //   0.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  9,   380748, 34613493); //   1.1%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 10,   553123, 11062476); //   5.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 11,   553123, 11062476); //   5.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 12,  1023494, 20887633); //   4.9%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 13,  1209301, 22817013); //   5.3%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 14,  2011168, 20111687); //  10.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 15,  3645196, 25490882); //  14.3%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 16,  5226438, 29527900); //  17.7%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 17,  5360320, 26801602); //  20.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 18,  6975651, 27902607); //  25.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 19,  8565817, 28552724); //  30.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 20, 10176954, 29077012); //  35.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 21, 13495172, 29989273); //  45.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 22, 15225323, 30450647); //  50.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 23, 18868076, 31446794); //  60.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 24, 20760755, 31939624); //  65.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 25, 20760755, 31939624); //  65.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 26, 25220874, 33627832); //  75.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 27, 27144025, 34057748); //  79.7%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 28, 27246198, 34057748); //  80.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 29, 29412556, 34603008); //  85.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 30, 33870052, 36616273); //  92.5%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 31, 36430842, 37098618); //  98.2%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 32, 37098618, 37098618); // 100.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 33, 37098618, 37098618); // 100%
 }
 
 /******************************************************************************
@@ -307,7 +368,7 @@ void tst_Stream::readStandardOutputWithTwoStreams()
 {
     // Given
     QSharedPointer<FriendlyStream> target(new FriendlyStream(this));
-    QSignalSpy spyProgress(target.data(), SIGNAL(downloadProgress(qint64, qint64)));
+    QSignalSpy spyProgress(target.data(), SIGNAL(downloadProgress(qsizetype, qsizetype)));
 
     target->setFileSizeInBytes(185178582); // Size is assumed known before download
 
@@ -337,16 +398,16 @@ void tst_Stream::readStandardOutputWithTwoStreams()
     // Total.....:  185,178,582 bytes (176.60 MiB)
     QCOMPARE(spyProgress.count(), 11);
     VERIFY_PROGRESS_SIGNAL(spyProgress,  0,         0, 185178582); // -idle stream 1-
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  1,  14432286, 185178582); //   8.2%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  2,  45056892, 185178582); //  25.6%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  3, 138866748, 185178582); //  78.9%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  4, 172835420, 185178582); //  98.2%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  5, 176003482, 185178582); // 100.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  6, 176003482, 185178582); // -idle stream 2-
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  7, 176333784, 185178582); //   3.6%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  8, 182013134, 185178582); //  65.5%
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  9, 185178522, 185178582); // 100.0%
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 10, 185178522, 185178582); // 100.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  1,  14432285, 185178582); //   8.2%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  2,  45056891, 185178582); //  25.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  3, 138866746, 185178582); //  78.9%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  4, 172835418, 185178582); //  98.2%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  5, 176003481, 185178582); // 100.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  6, 176003481, 185178582); // -idle stream 2-
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  7, 176333782, 185178582); //   3.6%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  8, 182013132, 185178582); //  65.5%
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  9, 185178521, 185178582); // 100.0%
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 10, 185178521, 185178582); // 100.0%
 }
 
 /******************************************************************************
@@ -355,7 +416,7 @@ void tst_Stream::readStandardOutputHTTPError()
 {
     // Given
     QSharedPointer<FriendlyStream> target(new FriendlyStream(this));
-    QSignalSpy spyProgress(target.data(), SIGNAL(downloadProgress(qint64, qint64)));
+    QSignalSpy spyProgress(target.data(), SIGNAL(downloadProgress(qsizetype, qsizetype)));
 
     // When
     target->parseStandardOutput(" .\\yt-dlp.exe https://www.youtube.com/watch?v=8_X5Iq9niDE");
@@ -390,23 +451,25 @@ void tst_Stream::readStandardOutputHTTPError()
      * Total size will change all the time (even sometimes it will decrease)
      * because we don't presume it before downloading
      */
-    QCOMPARE(spyProgress.count(), 16);
+    QCOMPARE(spyProgress.count(), 18);
     VERIFY_PROGRESS_SIGNAL(spyProgress,  0,       0,       0); // -idle stream 1-
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  1, 2583294, 4173333);
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  2, 2583294, 4173333);
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  3, 2583294, 4173333);
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  4, 2583294, 4173333);
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  5, 2583294, 4173333);
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  6, 2583294, 4173333);
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  7, 2583294, 4173333);
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  8, 2583294, 4173333);
-    VERIFY_PROGRESS_SIGNAL(spyProgress,  9, 2583294, 4173333);
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 10, 2583294, 4173333);
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 11, 3271747, 4582278);
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 12, 4634706, 4634706);
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 13, 4634706, 4634706);
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 14, 5478601, 1677722); // -idle stream 2-
-    VERIFY_PROGRESS_SIGNAL(spyProgress, 15, 6312428, 1677722);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  1, 2583292, 4173332);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  2, 2583292, 4173332);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  3, 2583292, 4173332);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  4, 2583292, 4173332);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  5, 2583292, 4173332);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  6, 2583292, 4173332);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  7, 2583292, 4173332);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  8, 2583292, 4173332);
+    VERIFY_PROGRESS_SIGNAL(spyProgress,  9, 2583292, 4173332);
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 10, 2583292, 4173332);
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 11, 2583292, 4173332);
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 12, 3271745, 4582277);
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 13, 3271745, 4582277);
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 14, 4634705, 4634705);
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 15, 4634705, 4634705);
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 16, 5478598, 1677721); // -idle stream 2-
+    VERIFY_PROGRESS_SIGNAL(spyProgress, 17, 6312426, 1677721);
 }
 
 /******************************************************************************
@@ -902,7 +965,7 @@ void tst_Stream::guestimateFullSize()
     QFETCH(BigInteger, expected);
 
     auto target = DummyStreamFactory::createDummyStreamObject_Youtube();
-    qint64 actual = target.guestimateFullSize(input);
+    qsizetype actual = target.guestimateFullSize(input);
 
     QCOMPARE(actual, expected.value);
 }

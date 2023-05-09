@@ -107,31 +107,31 @@ const char* AbstractDownloadItem::state_c_str() const
 
 /******************************************************************************
  ******************************************************************************/
-qint64 AbstractDownloadItem::bytesReceived() const
+qsizetype AbstractDownloadItem::bytesReceived() const
 {
     return m_bytesReceived;
 }
 
-void AbstractDownloadItem::setBytesReceived(qint64 bytesReceived)
+void AbstractDownloadItem::setBytesReceived(qsizetype bytesReceived)
 {
     m_bytesReceived = bytesReceived;
 }
 
 /******************************************************************************
  ******************************************************************************/
-qint64 AbstractDownloadItem::bytesTotal() const
+qsizetype AbstractDownloadItem::bytesTotal() const
 {
     return m_bytesTotal;
 }
 
-void AbstractDownloadItem::setBytesTotal(qint64 bytesTotal)
+void AbstractDownloadItem::setBytesTotal(qsizetype bytesTotal)
 {
     m_bytesTotal = bytesTotal;
 }
 
 /******************************************************************************
  ******************************************************************************/
-double AbstractDownloadItem::speed() const
+qreal AbstractDownloadItem::speed() const
 {
     return m_state == Downloading ? m_speed : -1;
 }
@@ -365,7 +365,7 @@ void AbstractDownloadItem::rename(const QString &newName)
 
 /******************************************************************************
  ******************************************************************************/
-void AbstractDownloadItem::updateInfo(qint64 bytesReceived, qint64 bytesTotal)
+void AbstractDownloadItem::updateInfo(qsizetype bytesReceived, qsizetype bytesTotal)
 {
     m_bytesReceived = bytesReceived;
     m_bytesTotal = bytesTotal;

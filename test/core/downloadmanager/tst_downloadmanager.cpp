@@ -107,12 +107,12 @@ void tst_DownloadManager::appendJobPaused()
     QCOMPARE(spyJobFinished.count(), 1);
 
     QCOMPARE(item->state(), DownloadItem::Completed);
-    QCOMPARE(item->bytesReceived(), 1256);
-    QCOMPARE(item->bytesTotal(), 1256);
+    QCOMPARE(item->bytesReceived(), qsizetype(1256));
+    QCOMPARE(item->bytesTotal(), qsizetype(1256));
 
     QFile localFile(item->localFullFileName());
     QVERIFY(localFile.exists());
-    QCOMPARE(localFile.size(), 1256);
+    QCOMPARE(localFile.size(), qsizetype(1256));
 }
 
 /******************************************************************************

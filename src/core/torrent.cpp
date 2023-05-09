@@ -383,34 +383,35 @@ int TorrentFileTableModel::rowCount(const QModelIndex &parent) const
 int TorrentFileTableModel::percent(const TorrentFileMetaInfo &mi,
                                    const TorrentFileInfo &ti) const
 {
-    const qint64 percentageDownloaded
-            = mi.bytesTotal != 0 ? 100 * ti.bytesReceived / mi.bytesTotal : 0;
-    const int percent = static_cast<int>(percentageDownloaded);
-    return percent;
+    if (mi.bytesTotal != 0) {
+        return static_cast<int>(qreal(100 * ti.bytesReceived) / mi.bytesTotal);
+    } else {
+        return 0;
+    }
 }
 
-int TorrentFileTableModel::firstPieceIndex(const TorrentFileMetaInfo &mi) const
+qint64 TorrentFileTableModel::firstPieceIndex(const TorrentFileMetaInfo &mi) const
 {
     if (m_pieceByteSize != 0) {
-        return qCeil(qreal(mi.bytesOffset) / m_pieceByteSize);
+        return static_cast<qint64>(qreal(mi.bytesOffset) / m_pieceByteSize);
     }
     return 0;
 }
 
-int TorrentFileTableModel::lastPieceIndex(const TorrentFileMetaInfo &mi) const
+qint64 TorrentFileTableModel::lastPieceIndex(const TorrentFileMetaInfo &mi) const
 {
     if (m_pieceByteSize != 0) {
-        return qCeil(qreal(mi.bytesOffset + mi.bytesTotal) / m_pieceByteSize);
+        return static_cast<qint64>(qreal(mi.bytesOffset + mi.bytesTotal) / m_pieceByteSize);
     }
     return 0;
 }
 
-int TorrentFileTableModel::startBlockInFirstPiece(const TorrentFileMetaInfo &mi) const
+qint64 TorrentFileTableModel::startBlockInFirstPiece(const TorrentFileMetaInfo &mi) const
 {
-    return int(mi.bytesOffset % m_pieceByteSize);
+    return static_cast<qint64>(mi.bytesOffset % m_pieceByteSize);
 }
 
-int TorrentFileTableModel::pieceCount(const TorrentFileMetaInfo &mi) const
+qint64 TorrentFileTableModel::pieceCount(const TorrentFileMetaInfo &mi) const
 {
     return 1 + lastPieceIndex(mi) - firstPieceIndex(mi);
 }

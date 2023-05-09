@@ -30,11 +30,18 @@ public:
     static TorrentPtr createDummyTorrent(QObject *parent);
 
     static TorrentPeerInfo createDummyPeer(
-            const EndPoint &endpoint, const QString &pieceSketch, const QString &userAgent,
-            qint64 size);
+            const EndPoint &endpoint,
+            const QString &pieceSketch,
+            const QString &userAgent,
+            qsizetype size);
+
     static TorrentPeerInfo createDummyPeer2(
-            const EndPoint &endpoint, const QString &pieceSketch, const QString &userAgent,
-            qint64 size, qint64 bytesDownloaded, qint64 bytesUploaded);
+            const EndPoint &endpoint,
+            const QString &pieceSketch,
+            const QString &userAgent,
+            qsizetype size,
+            qsizetype bytesDownloaded,
+            qsizetype bytesUploaded);
 };
 
 #endif // DUMMY_TORRENT_FACTORY_H

@@ -39,7 +39,7 @@ public:
 
 private slots:
     void onMetaDataChanged();
-    void onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void onDownloadProgress(qsizetype bytesReceived, qsizetype bytesTotal);
     void onFinished();
     void onError(const QString &errorMessage);
 

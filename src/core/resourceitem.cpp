@@ -231,12 +231,12 @@ void ResourceItem::setStreamFormatId(const QString &streamFormatId)
 
 /******************************************************************************
  ******************************************************************************/
-qint64 ResourceItem::streamFileSize() const
+qsizetype ResourceItem::streamFileSize() const
 {
     return m_streamFileSize;
 }
 
-void ResourceItem::setStreamFileSize(qint64 streamFileSize)
+void ResourceItem::setStreamFileSize(qsizetype streamFileSize)
 {
     m_streamFileSize = streamFileSize;
 }

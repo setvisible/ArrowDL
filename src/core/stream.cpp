@@ -58,6 +58,7 @@ static const QString C_WARNING_merge_output_format = QLatin1String(
 
 static const QString C_DOWNLOAD_msg_header = QLatin1String("[download]");
 static const QString C_DOWNLOAD_next_section = QLatin1String("Destination:");
+static const QString C_MERGER_msg_header = QLatin1String("[Merger]");
 
 
 static QString s_youtubedl_version = QString();
@@ -66,6 +67,11 @@ static bool s_youtubedl_last_modified_time_enabled = true;
 static QString s_youtubedl_user_agent = QString();
 static int s_youtubedl_socket_type = 0;
 static int s_youtubedl_socket_timeout = 0;
+
+static bool areEqual(const QString &s1, const QString &s2)
+{
+    return s1.compare(s2, Qt::CaseInsensitive) == 0;
+}
 
 static void debug(QObject *sender, QProcess::ProcessError error);
 static QString generateErrorMessage(QProcess::ProcessError error);
@@ -301,12 +307,12 @@ void Stream::setSelectedFormatId(const StreamFormatId &formatId)
 
 /******************************************************************************
  ******************************************************************************/
-qint64 Stream::fileSizeInBytes() const
+qsizetype Stream::fileSizeInBytes() const
 {
     return _q_bytesTotal();
 }
 
-void Stream::setFileSizeInBytes(qint64 fileSizeInBytes)
+void Stream::setFileSizeInBytes(qsizetype fileSizeInBytes)
 {
     m_bytesTotal = fileSizeInBytes;
 }
@@ -515,47 +521,95 @@ void Stream::onStandardErrorReady()
 
 /******************************************************************************
  ******************************************************************************/
+/*!
+ * \brief Try to clean properly the given multi-threaded raw that come in a single line.
+ *
+ * It takes a single-line message like:
+ *    "[download] 11.2% ... [download] 12.3% ... [download] Destination: path\to\file.f599.m4a ..."
+ *
+ * and returns it as separate messages:
+ *    "[download] 11.2% ..."
+ *    "[download] 12.3% ..."
+ *    "[download] Destination: path\to\file.f599.m4a ..."
+ */
+QStringList Stream::splitMultiThreadMessages(const QString &raw) const
+{
+    QStringList messages;
+    QRegularExpression re(R"(\[download\]|\[Merger\])", QRegularExpression::CaseInsensitiveOption);
+    QString raw2 = raw;
+    qsizetype pos = raw2.lastIndexOf(re);
+    if (0 <= pos && pos <= raw2.size()) {
+        while (pos != -1) {
+            QString message = raw2.last(raw2.size() - pos);
+            messages.prepend(message);
+            raw2.truncate(pos);
+            pos = raw2.lastIndexOf(re);
+        }
+    } else {
+        messages << raw2;
+    }
+    return messages;
+}
+
 void Stream::parseStandardOutput(const QString &msg)
+{
+    QStringList messages = splitMultiThreadMessages(msg);
+    foreach (auto message, messages) {
+        parseSingleStandardOutput(message);
+    }
+}
+
+void Stream::parseSingleStandardOutput(const QString &msg)
 {
     auto tokens = msg.split(QChar::Space, Qt::SkipEmptyParts);
     if (tokens.isEmpty()) {
         return;
     }
-    if (tokens.at(0).toLower() != C_DOWNLOAD_msg_header) {
+    if (tokens.count() == 0) {
         return;
     }
-    if ( tokens.count() > 2 &&
-         tokens.at(1) == C_DOWNLOAD_next_section) {
-        m_bytesReceived += m_bytesReceivedCurrentSection;
-        emit downloadProgress(m_bytesReceived, _q_bytesTotal());
+    if (areEqual(tokens.at(0), C_MERGER_msg_header)) {
+        // During merger, the progress is arbitrarily at 99%, not 100%.
+        qsizetype bytesTotal = _q_bytesTotal();
+        qsizetype almostFinished = static_cast<qsizetype>(0.99 * qreal(bytesTotal));
+        emit downloadProgress(almostFinished, bytesTotal);
         return;
     }
+    if (areEqual(tokens.at(0), C_DOWNLOAD_msg_header)) {
 
-    if ( tokens.count() > 3 &&
-         tokens.at(1).contains(QChar('%')) &&
-         tokens.at(2) == QLatin1String("of")) {
-
-        auto percentToken = tokens.at(1);
-        auto sizeToken = (tokens.at(3) != QLatin1String("~"))
-                ? tokens.at(3)
-                : tokens.at(4);
-
-        auto percent = Format::parsePercentDecimal(percentToken);
-        if (percent < 0) {
-            qWarning("Can't parse '%s'.", percentToken.toLatin1().data());
+        if ( tokens.count() > 2 &&
+             areEqual(tokens.at(1), C_DOWNLOAD_next_section)) {
+            m_bytesReceived += m_bytesReceivedCurrentSection;
+            emit downloadProgress(m_bytesReceived, _q_bytesTotal());
             return;
         }
 
-        m_bytesTotalCurrentSection = Format::parseBytes(sizeToken);
-        if (m_bytesTotalCurrentSection < 0) {
-            qWarning("Can't parse '%s'.", sizeToken.toLatin1().data());
-            return;
-        }
-        m_bytesReceivedCurrentSection = qCeil((percent * m_bytesTotalCurrentSection) / 100.0);
-    }
+        if ( tokens.count() > 3 &&
+             tokens.at(1).contains(QChar('%')) &&
+             areEqual(tokens.at(2), QLatin1String("of")) ) {
 
-    auto received = m_bytesReceived + m_bytesReceivedCurrentSection;
-    emit downloadProgress(received, _q_bytesTotal());
+            auto percentToken = tokens.at(1);
+            auto sizeToken = !areEqual(tokens.at(3), QLatin1String("~"))
+                    ? tokens.at(3)
+                    : tokens.at(4);
+
+            qreal percent = Format::parsePercentDecimal(percentToken);
+            if (percent < 0) {
+                qWarning("Can't parse '%s'.", percentToken.toLatin1().data());
+                return;
+            }
+
+            m_bytesTotalCurrentSection = Format::parseBytes(sizeToken);
+            if (m_bytesTotalCurrentSection < 0) {
+                qWarning("Can't parse '%s'.", sizeToken.toLatin1().data());
+                return;
+            }
+            m_bytesReceivedCurrentSection = static_cast<qsizetype>(qreal(percent * m_bytesTotalCurrentSection) / 100);
+        }
+
+        qsizetype received = m_bytesReceived + m_bytesReceivedCurrentSection;
+        emit downloadProgress(received, _q_bytesTotal());
+    }
 }
 
 void Stream::parseStandardError(const QString &msg)
@@ -580,7 +634,7 @@ void Stream::parseStandardError(const QString &msg)
     }
 }
 
-qint64 Stream::_q_bytesTotal() const
+qsizetype Stream::_q_bytesTotal() const
 {
     return m_bytesTotal > 0 ? m_bytesTotal : m_bytesTotalCurrentSection;
 }
@@ -975,9 +1029,9 @@ StreamObject StreamAssetDownloader::parseDumpItemStdOut(const QByteArray &bytes)
         format.fps          = jsonFmt[QLatin1String("fps")].toInt();
         format.vcodec       = jsonFmt[QLatin1String("vcodec")].toString();
 
-        format.filesize     = jsonFmt[QLatin1String("filesize")].toInt();
+        format.filesize     = jsonFmt[QLatin1String("filesize")].toInteger();
         if (!(format.filesize > 0)) {
-            format.filesize = jsonFmt[QLatin1String("filesize_approx")].toInt();
+            format.filesize = jsonFmt[QLatin1String("filesize_approx")].toInteger();
         }
         data.formats << format;
     }
@@ -1364,11 +1418,10 @@ bool StreamFormatId::operator<(const StreamFormatId &other) const
 
 /******************************************************************************
  ******************************************************************************/
-StreamObject::Data::Format::Format(
-        const QString &format_id,
+StreamObject::Data::Format::Format(const QString &format_id,
         const QString &ext,
         const QString &formatNote,
-        int filesize,
+        qsizetype filesize,
         const QString &acodec,
         int abr,
         int asr,
@@ -1542,21 +1595,21 @@ void StreamObject::setConfig(const Config &config)
 
 /******************************************************************************
  ******************************************************************************/
-qint64 StreamObject::guestimateFullSize() const
+qsizetype StreamObject::guestimateFullSize() const
 {
     return guestimateFullSize(formatId());
 }
 
-qint64 StreamObject::guestimateFullSize(const StreamFormatId &formatId) const
+qsizetype StreamObject::guestimateFullSize(const StreamFormatId &formatId) const
 {
     if (formatId.isEmpty()) {
         return -1;
     }
-    QMap<StreamFormatId, qint64> sizes;
+    QMap<StreamFormatId, qsizetype> sizes;
     for (auto format : m_data.formats) {
         sizes.insert(format.formatId, format.filesize);
     }
-    qint64 estimatedSize = 0;
+    qsizetype estimatedSize = 0;
     for (auto id : formatId.compoundIds()) {
         estimatedSize += sizes.value(id, 0);
     }

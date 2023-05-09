@@ -1120,8 +1120,8 @@ void MainWindow::onTorrentContextChanged()
 
 void MainWindow::refreshTitleAndStatus()
 {
-    auto speed = m_downloadManager->totalSpeed();
-    auto totalSpeed = speed > 0
+    qreal speed = m_downloadManager->totalSpeed();
+    QString totalSpeed = speed > 0
             ? QString("~%0").arg(Format::currentSpeedToString(speed))
             : QString();
 
