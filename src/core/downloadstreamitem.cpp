@@ -67,7 +67,7 @@ void DownloadStreamItem::resume()
         m_stream->setConfig(resource()->streamConfig());
 
         connect(m_stream, SIGNAL(downloadMetadataChanged()), this, SLOT(onMetaDataChanged()));
-        connect(m_stream, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
+        connect(m_stream, SIGNAL(downloadProgress(qsizetype, qsizetype)), this, SLOT(onDownloadProgress(qsizetype, qsizetype)));
         connect(m_stream, SIGNAL(downloadError(QString)), this, SLOT(onError(QString)));
         connect(m_stream, SIGNAL(downloadFinished()), this, SLOT(onFinished()));
 
@@ -110,7 +110,7 @@ void DownloadStreamItem::onMetaDataChanged()
     }
 }
 
-void DownloadStreamItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
+void DownloadStreamItem::onDownloadProgress(qsizetype bytesReceived, qsizetype bytesTotal)
 {
     if (bytesReceived > 0 && bytesTotal > 0) {
         logInfo(QString("Downloaded '%0' (%1 of %2 bytes).")

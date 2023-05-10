@@ -28,7 +28,7 @@ private slots:
     void install();
 
     void onUpdateAvailable(const UpdateChecker::ChangeLog &changelog);
-    void onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void onDownloadProgress(qsizetype bytesReceived, qsizetype bytesTotal);
     void onUpdateDownloadFinished();
     void onUpdateError(const QString &errorMessage);
 

@@ -44,10 +44,10 @@ public:
 
     virtual State state() const = 0;
 
-    virtual qint64 bytesReceived() const = 0; /*!< in bytes */
-    virtual qint64 bytesTotal() const = 0; /*!< in bytes */
+    virtual qsizetype bytesReceived() const = 0; /*!< in bytes */
+    virtual qsizetype bytesTotal() const = 0; /*!< in bytes */
 
-    virtual double speed() const = 0; /*!< Returns the speed in byte per second */
+    virtual qreal speed() const = 0; /*!< Returns the speed in byte per second */
     virtual int progress() const = 0; /*!< Return a value between 0 and 100, or -1 if undefined */
 
     virtual int maxConnectionSegments() const = 0;

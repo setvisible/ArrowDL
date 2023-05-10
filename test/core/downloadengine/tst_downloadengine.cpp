@@ -62,7 +62,7 @@ void tst_DownloadEngine::append()
     QSignalSpy spyJobStateChanged(target.data(), &DownloadEngine::jobStateChanged);
     QSignalSpy spyJobFinished(target.data(), &DownloadEngine::jobFinished);
 
-    const qint64 bytesTotal = 123*1024*1024;
+    const qsizetype bytesTotal = 123*1024*1024;
     const qint64 timeIncrement = 150;
     const qint64 duration = 2500;
 

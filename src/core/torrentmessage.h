@@ -208,8 +208,8 @@ public:
     bool isPathAbsolute = false;
     bool isPadFile = false;
 
-    qint64 bytesTotal = 0;
-    qint64 bytesOffset = 0;
+    qsizetype bytesTotal = 0;
+    qsizetype bytesOffset = 0;
 
     quint32 crc32FilePathHash = 0;
 
@@ -240,7 +240,7 @@ public:
         Q_UNREACHABLE();
     }
 
-    qint64 bytesReceived = 0;
+    qsizetype bytesReceived = 0;
     Priority priority = Normal;
 };
 
@@ -541,26 +541,26 @@ public:
 
     QString lastWorkingTrackerUrl;
 
-    qint64 bytesSessionDownloaded = 0;
-    qint64 bytesSessionUploaded = 0;
+    qsizetype bytesSessionDownloaded = 0;
+    qsizetype bytesSessionUploaded = 0;
 
-    qint64 bytesSessionPayloadDownload = 0;
-    qint64 bytesSessionPayloadUpload = 0;
+    qsizetype bytesSessionPayloadDownload = 0;
+    qsizetype bytesSessionPayloadUpload = 0;
 
-    qint64 bytesFailed = 0;
-    qint64 bytesRedundant = 0;
+    qsizetype bytesFailed = 0;
+    qsizetype bytesRedundant = 0;
 
     QBitArray downloadedPieces;
     QBitArray verifiedPieces; // seed mode only
 
-    qint64 bytesReceived = 0;
-    qint64 bytesTotal = 0;
+    qsizetype bytesReceived = 0;
+    qsizetype bytesTotal = 0;
 
-    qint64 bytesWantedReceived = 0; // == bytesReceived - padding bytes
-    qint64 bytesWantedTotal = 0; // == bytesTotal - padding bytes
+    qsizetype bytesWantedReceived = 0; // == bytesReceived - padding bytes
+    qsizetype bytesWantedTotal = 0; // == bytesTotal - padding bytes
 
-    qint64 bytesAllSessionsPayloadDownload = 0;
-    qint64 bytesAllSessionsPayloadUpload = 0;
+    qsizetype bytesAllSessionsPayloadDownload = 0;
+    qsizetype bytesAllSessionsPayloadUpload = 0;
 
     QDateTime addedTime;   /// \todo maybe it's duplicate?
     QDateTime completedTime;
@@ -594,7 +594,7 @@ public:
     int distributedFraction = 0;
     qreal distributedCopiesFraction = 0;
 
-    int blockSizeInByte = 0;
+    qsizetype blockSizeInByte = 0;
 
     int peersUnchokedCount = 0;
     int peersConnectionCount = 0;
@@ -674,9 +674,9 @@ public:
     qint64 bytesMetaData = 0;
 
     qint64 bytesTotal = 0;
-    int pieceCount = 0;
-    int pieceByteSize = 0; // piece's size in byte (generally 16 kB)
-    int pieceLastByteSize = 0; // last piece's size in byte, can be less than 16 kB
+    qint64 pieceCount = 0;
+    qint64 pieceByteSize = 0; // piece's size in byte (generally 16 kB)
+    qint64 pieceLastByteSize = 0; // last piece's size in byte, can be less than 16 kB
 
     QString sslRootCertificate; // public certificate in x509 format
 

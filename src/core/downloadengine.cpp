@@ -238,11 +238,11 @@ void DownloadEngine::onSpeedTimerTimeout()
     emit onChanged();
 }
 
-double DownloadEngine::totalSpeed()
+qreal DownloadEngine::totalSpeed()
 {
-    double speed = 0;
+    qreal speed = 0;
     foreach (auto item, m_items) {
-        speed += qMax(item->speed(), 0.0);
+        speed += qMax(item->speed(), qreal(0));
     }
     if (speed > 0) {
         m_previouSpeed = speed;

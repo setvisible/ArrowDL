@@ -83,8 +83,8 @@ void DownloadItem::resume()
 
         /* Signals/Slots of QNetworkReply */
         connect(d->reply, SIGNAL(metaDataChanged()), this, SLOT(onMetaDataChanged()));
-        connect(d->reply, SIGNAL(downloadProgress(qint64,qint64)),
-                this, SLOT(onDownloadProgress(qint64,qint64)));
+        connect(d->reply, SIGNAL(downloadProgress(qsizetype, qsizetype)),
+                this, SLOT(onDownloadProgress(qsizetype, qsizetype)));
         connect(d->reply, SIGNAL(redirected(QUrl)), this, SLOT(onRedirected(QUrl)));
         connect(d->reply, SIGNAL(error(QNetworkReply::NetworkError)),
                 this, SLOT(onError(QNetworkReply::NetworkError)));
@@ -181,7 +181,7 @@ void DownloadItem::onMetaDataChanged()
     }
 }
 
-void DownloadItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
+void DownloadItem::onDownloadProgress(qsizetype bytesReceived, qsizetype bytesTotal)
 {
     if (d->reply && bytesReceived > 0 && bytesTotal > 0) {
         logInfo(QString("Downloaded '%0' (%1 of %2 bytes).")

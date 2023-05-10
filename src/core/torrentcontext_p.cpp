@@ -1138,7 +1138,7 @@ static std::vector<char> load_file(std::string const& filename)
     in.exceptions(std::ifstream::failbit);
     in.open(filename.c_str(), std::ios_base::in | std::ios_base::binary);
     in.seekg(0, std::ios_base::end);
-    size_t const size = size_t(in.tellg());
+    qsizetype const size = static_cast<qsizetype>(in.tellg());
     in.seekg(0, std::ios_base::beg);
     std::vector<char> ret(size);
     in.read(ret.data(), static_cast<std::streamsize>(size));
@@ -1794,26 +1794,26 @@ inline void WorkerThread::signalizeStatusUpdated(const lt::torrent_status &statu
     // ***************
     // Stats
     // ***************
-    t.bytesSessionDownloaded    = status.total_download;
-    t.bytesSessionUploaded      = status.total_upload;
+    t.bytesSessionDownloaded    = static_cast<qsizetype>(status.total_download);
+    t.bytesSessionUploaded      = static_cast<qsizetype>(status.total_upload);
 
-    t.bytesSessionPayloadDownload   = status.total_payload_download;
-    t.bytesSessionPayloadUpload     = status.total_payload_upload;
+    t.bytesSessionPayloadDownload = static_cast<qsizetype>(status.total_payload_download);
+    t.bytesSessionPayloadUpload   = static_cast<qsizetype>(status.total_payload_upload);
 
-    t.bytesFailed       = status.total_failed_bytes;
-    t.bytesRedundant    = status.total_redundant_bytes;
+    t.bytesFailed       = static_cast<qsizetype>(status.total_failed_bytes);
+    t.bytesRedundant    = static_cast<qsizetype>(status.total_redundant_bytes);
 
     t.downloadedPieces  = toBitArray(status.pieces);
     t.verifiedPieces    = toBitArray(status.verified_pieces);
 
-    t.bytesReceived     = status.total_done;
-    t.bytesTotal        = status.total;
+    t.bytesReceived     = static_cast<qsizetype>(status.total_done);
+    t.bytesTotal        = static_cast<qsizetype>(status.total);
 
-    t.bytesWantedReceived   = status.total_wanted_done;
-    t.bytesWantedTotal      = status.total_wanted;
+    t.bytesWantedReceived   = static_cast<qsizetype>(status.total_wanted_done);
+    t.bytesWantedTotal      = static_cast<qsizetype>(status.total_wanted);
 
-    t.bytesAllSessionsPayloadDownload   = status.all_time_upload;
-    t.bytesAllSessionsPayloadUpload     = status.all_time_download;
+    t.bytesAllSessionsPayloadDownload   = static_cast<qsizetype>(status.all_time_upload);
+    t.bytesAllSessionsPayloadUpload     = static_cast<qsizetype>(status.all_time_download);
 
     t.addedTime             = toDateTime(status.added_time);
     t.completedTime         = toDateTime(status.completed_time);
@@ -1844,7 +1844,7 @@ inline void WorkerThread::signalizeStatusUpdated(const lt::torrent_status &statu
     t.distributedFraction           = status.distributed_fraction;
     t.distributedCopiesFraction     = qreal(status.distributed_copies);
 
-    t.blockSizeInByte = status.block_size;
+    t.blockSizeInByte = static_cast<qsizetype>(status.block_size);
 
     t.peersUnchokedCount     = status.num_uploads;
     t.peersConnectionCount   = status.num_connections;
@@ -1940,9 +1940,9 @@ inline TorrentInitialMetaInfo WorkerThread::toTorrentInitialMetaInfo(std::shared
         f.modifiedTime      = toDateTime(files.mtime(index));
         f.filePath          = toString(files.file_path(index)) ;
         f.fileName          = toString(files.file_name(index));
-        f.bytesTotal        = files.file_size(index);
+        f.bytesTotal        = static_cast<qsizetype>(files.file_size(index));
         f.isPadFile         = files.pad_file_at(index);
-        f.bytesOffset       = files.file_offset(index);
+        f.bytesOffset       = static_cast<qsizetype>(files.file_offset(index));
         f.isPathAbsolute    = files.file_absolute_path(index);
         f.crc32FilePathHash = files.file_path_hash(index, std::string());
 
@@ -2015,15 +2015,15 @@ inline TorrentHandleInfo WorkerThread::toTorrentHandleInfo(const lt::torrent_han
 
 
         // auto list = std::initializer_list<int>();
-        const int count = std::min({ static_cast<int>(handle.torrent_file()->num_files()),
-                                     static_cast<int>(progress.size()),
-                                     static_cast<int>(priorities.size())
-                                   });
+        const qsizetype count = std::min(
+                    { static_cast<qsizetype>(handle.torrent_file()->num_files()),
+                      static_cast<qsizetype>(progress.size()),
+                      static_cast<qsizetype>(priorities.size()) });
 
-        for (int index = 0; index < count; ++index) {
+        for (qsizetype index = 0; index < count; ++index) {
             lt::file_index_t findex = static_cast<lt::file_index_t>(index);
             TorrentFileInfo fi;
-            fi.bytesReceived = progress.at(static_cast<std::size_t>(index));
+            fi.bytesReceived = static_cast<qsizetype>(progress.at(static_cast<std::size_t>(index)));
             fi.priority = toPriority(handle.file_priority(findex));
             t.files.append(fi);
         }

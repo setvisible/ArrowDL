@@ -213,7 +213,7 @@ void AddContentDialog::loadUrl(const QUrl &url)
         qInfo("Loading URL. HTML parser is Google Gumbo.");
         NetworkManager *networkManager = m_downloadManager->networkManager();
         QNetworkReply *reply = networkManager->get(m_url);
-        connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
+        connect(reply, SIGNAL(downloadProgress(qsizetype, qsizetype)), this, SLOT(onDownloadProgress(qsizetype, qsizetype)));
         connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
 #endif
         setProgressInfo(0, tr("Connecting..."));
@@ -255,7 +255,7 @@ void AddContentDialog::onHtmlReceived(QString content)
     parseHtml(downloadedData);
 }
 #else
-void AddContentDialog::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
+void AddContentDialog::onDownloadProgress(qsizetype bytesReceived, qsizetype bytesTotal)
 {
     /* Between 1% and 90% */
     int percent = 1;
@@ -268,12 +268,14 @@ void AddContentDialog::onDownloadProgress(qint64 bytesReceived, qint64 bytesTota
 void AddContentDialog::onFinished()
 {
     auto reply = qobject_cast<QNetworkReply*>(sender());
-    if (reply && reply->error() == QNetworkReply::NoError) {
-        QByteArray downloadedData = reply->readAll();
-        reply->deleteLater();
-        parseHtml(downloadedData);
-    } else {
-        setNetworkError(reply->errorString());
+    if (reply) {
+        if (reply->error() == QNetworkReply::NoError) {
+            QByteArray downloadedData = reply->readAll();
+            reply->deleteLater();
+            parseHtml(downloadedData);
+        } else {
+            setNetworkError(reply->errorString());
+        }
     }
 }
 #endif

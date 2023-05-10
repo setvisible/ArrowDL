@@ -119,7 +119,7 @@ void InformationDialog::initialize(const QList<IDownloadItem *> &items)
     ui->urlLineEdit->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
     ui->urlLineEdit->setOpenExternalLinks(true);
 
-    auto bytes = item->bytesTotal();
+    qsizetype bytes = item->bytesTotal();
     if (bytes > 0) {
         auto text = QString("%0 (%1 bytes)").arg(
                     Format::fileSizeToString(bytes),
