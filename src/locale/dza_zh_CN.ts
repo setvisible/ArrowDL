@@ -762,172 +762,172 @@ You can also use batch descriptors to download multiple files at one time.</sour
 <context>
     <name>DownloadItem</name>
     <message>
-        <location filename="../core/downloaditem.cpp" line="265"/>
+        <location filename="../core/downloaditem.cpp" line="266"/>
         <source>No Error</source>
         <translation>没有错误</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="268"/>
+        <location filename="../core/downloaditem.cpp" line="269"/>
         <source>3xx Redirect connection refused</source>
         <translation>3xx 重定向连接被拒绝</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="269"/>
+        <location filename="../core/downloaditem.cpp" line="270"/>
         <source>3xx Redirect remote host closed</source>
         <translation>3xx 重定向远程主机关闭</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="270"/>
+        <location filename="../core/downloaditem.cpp" line="271"/>
         <source>3xx Redirect host not found</source>
         <translation>3xx 重定向主机未找到</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="271"/>
+        <location filename="../core/downloaditem.cpp" line="272"/>
         <source>3xx Redirect timeout</source>
         <translation>3xx 重定向超时</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="272"/>
+        <location filename="../core/downloaditem.cpp" line="273"/>
         <source>3xx Redirect operation canceled</source>
         <translation>3xx 重定向操作已取消</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="273"/>
+        <location filename="../core/downloaditem.cpp" line="274"/>
         <source>3xx Redirect SSL handshake failed</source>
         <translation>3xx 重定向 SSL 握手失败</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="274"/>
+        <location filename="../core/downloaditem.cpp" line="275"/>
         <source>3xx Redirect temporary network failure</source>
         <translation>3xx 重定向临时网络故障</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="275"/>
+        <location filename="../core/downloaditem.cpp" line="276"/>
         <source>3xx Redirect network session failed</source>
         <translation>3xx 重定向网络会话失败</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="276"/>
+        <location filename="../core/downloaditem.cpp" line="277"/>
         <source>3xx Redirect background request not allowed</source>
         <translation>3xx 不允许重定向后台请求</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="278"/>
+        <location filename="../core/downloaditem.cpp" line="279"/>
         <source>3xx Too many redirects</source>
         <translation>3xx 重定向过多</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="279"/>
+        <location filename="../core/downloaditem.cpp" line="280"/>
         <source>3xx Insecure redirect</source>
         <translation>3xx 不安全重定向</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="281"/>
+        <location filename="../core/downloaditem.cpp" line="282"/>
         <source>3xx Unknown redirect error</source>
         <translation>3xx 未知重定向错误</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="284"/>
+        <location filename="../core/downloaditem.cpp" line="285"/>
         <source>5xx Proxy connection refused</source>
         <translation>5xx 代理连接被拒绝</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="285"/>
+        <location filename="../core/downloaditem.cpp" line="286"/>
         <source>5xx Proxy connection closed</source>
         <translation>5xx 代理连接已关闭</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="286"/>
+        <location filename="../core/downloaditem.cpp" line="287"/>
         <source>5xx Proxy not found</source>
         <translation>5xx 代理未找到</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="287"/>
+        <location filename="../core/downloaditem.cpp" line="288"/>
         <source>504 Proxy timeout error</source>
         <translation>504 代理超时错误</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="288"/>
+        <location filename="../core/downloaditem.cpp" line="289"/>
         <source>407 Proxy authentication required</source>
         <translation>407 需要代理身份验证</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="289"/>
+        <location filename="../core/downloaditem.cpp" line="290"/>
         <source>5xx Unknown proxy error</source>
         <translation>5xx 未知代理错误</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="292"/>
+        <location filename="../core/downloaditem.cpp" line="293"/>
         <source>403 Access denied</source>
         <translation>403 拒绝访问</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="293"/>
+        <location filename="../core/downloaditem.cpp" line="294"/>
         <source>405 Method not allowed</source>
         <translation>405 方法不允许</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="294"/>
+        <location filename="../core/downloaditem.cpp" line="295"/>
         <source>404 Not found</source>
         <translation>404 未找到</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="295"/>
+        <location filename="../core/downloaditem.cpp" line="296"/>
         <source>401 Authorization required</source>
         <translation>401 需要授权</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="296"/>
+        <location filename="../core/downloaditem.cpp" line="297"/>
         <source>4xx Resend error</source>
         <translation>4xx 重发错误</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="297"/>
+        <location filename="../core/downloaditem.cpp" line="298"/>
         <source>409 Conflict</source>
         <translation>409 冲突</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="298"/>
+        <location filename="../core/downloaditem.cpp" line="299"/>
         <source>410 Content no longer available</source>
         <translation>410 内容不再可用</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="299"/>
+        <location filename="../core/downloaditem.cpp" line="300"/>
         <source>4xx Unknown content error</source>
         <translation>4xx 未知内容错误</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="302"/>
+        <location filename="../core/downloaditem.cpp" line="303"/>
         <source>4xx Unknown protocol error</source>
         <translation>4xx 未知协议错误</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="303"/>
+        <location filename="../core/downloaditem.cpp" line="304"/>
         <source>400 Bad request</source>
         <translation>400 错误请求</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="304"/>
+        <location filename="../core/downloaditem.cpp" line="305"/>
         <source>4xx Protocol failure</source>
         <translation>4xx 协议失败</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="307"/>
+        <location filename="../core/downloaditem.cpp" line="308"/>
         <source>500 Internal server error</source>
         <translation>500 内部服务器错误</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="308"/>
+        <location filename="../core/downloaditem.cpp" line="309"/>
         <source>501 Server does not support this functionality</source>
         <translation>501 服务器不支持此功能</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="309"/>
+        <location filename="../core/downloaditem.cpp" line="310"/>
         <source>503 Service unavailable</source>
         <translation>503 服务不可用</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="310"/>
+        <location filename="../core/downloaditem.cpp" line="311"/>
         <source>5xx Unknown serveur error</source>
         <translation>5xx 未知服务器错误</translation>
     </message>
@@ -4236,7 +4236,7 @@ Ex:
         <location filename="../core/updatechecker.cpp" line="92"/>
         <location filename="../core/updatechecker.cpp" line="104"/>
         <location filename="../core/updatechecker.cpp" line="197"/>
-        <location filename="../core/updatechecker.cpp" line="216"/>
+        <location filename="../core/updatechecker.cpp" line="217"/>
         <source>Network request rejected.</source>
         <translation>网络请求被拒绝。</translation>
     </message>
