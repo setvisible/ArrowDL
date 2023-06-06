@@ -57,10 +57,10 @@ public:
 
 private slots:
     void onMetaDataChanged();
-    void onDownloadProgress(qsizetype bytesReceived, qsizetype bytesTotal);
+    void onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void onRedirected(const QUrl &url);
     void onFinished();
-    void onError(QNetworkReply::NetworkError error);
+    void onErrorOccurred(QNetworkReply::NetworkError error);
     void onReadyRead();
     void onAboutToClose();
 

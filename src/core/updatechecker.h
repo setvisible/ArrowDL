@@ -70,7 +70,7 @@ signals:
 
 private slots:
     void onMetadataFinished();
-    void onBinaryProgress(qsizetype bytesReceived, qsizetype bytesTotal);
+    void onBinaryProgress(qint64 bytesReceived, qint64 bytesTotal);
     void onBinaryFinished();
 
 private:
