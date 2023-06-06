@@ -762,173 +762,173 @@ Utiliser les délimiteurs de grappe, pour télécharger plusieurs fichiers en m�
 <context>
     <name>DownloadItem</name>
     <message>
-        <location filename="../core/downloaditem.cpp" line="265"/>
+        <location filename="../core/downloaditem.cpp" line="266"/>
         <source>No Error</source>
         <translation>Pas d&apos;erreur</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="268"/>
+        <location filename="../core/downloaditem.cpp" line="269"/>
         <source>3xx Redirect connection refused</source>
         <translation>3xx Connexion au serveur de redirection refusée</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="269"/>
+        <location filename="../core/downloaditem.cpp" line="270"/>
         <source>3xx Redirect remote host closed</source>
         <translation>3xx Connexion au serveur de redirection fermée</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="270"/>
+        <location filename="../core/downloaditem.cpp" line="271"/>
         <source>3xx Redirect host not found</source>
         <translation>3xx Serveur de redirection non trouvé</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="271"/>
+        <location filename="../core/downloaditem.cpp" line="272"/>
         <source>3xx Redirect timeout</source>
         <translation>3xx Temps de redirection expiré</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="272"/>
+        <location filename="../core/downloaditem.cpp" line="273"/>
         <source>3xx Redirect operation canceled</source>
         <translation>3xx Redirection annulée</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="273"/>
+        <location filename="../core/downloaditem.cpp" line="274"/>
         <source>3xx Redirect SSL handshake failed</source>
         <translation>3xx Echec de la poignée de main SSL avec le serveur de redirection</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="274"/>
+        <location filename="../core/downloaditem.cpp" line="275"/>
         <source>3xx Redirect temporary network failure</source>
         <translation>3xx Serveur de redirection temporairement indisponible</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="275"/>
+        <location filename="../core/downloaditem.cpp" line="276"/>
         <source>3xx Redirect network session failed</source>
         <translation>3xx Echec de la session du serveur de redirection</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="276"/>
+        <location filename="../core/downloaditem.cpp" line="277"/>
         <source>3xx Redirect background request not allowed</source>
         <translation>3xx Requête d&apos;arrière-plan au serveur de redirection non autorisée</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="278"/>
+        <location filename="../core/downloaditem.cpp" line="279"/>
         <source>3xx Too many redirects</source>
         <translation>3xx Trop de redirections</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="279"/>
+        <location filename="../core/downloaditem.cpp" line="280"/>
         <source>3xx Insecure redirect</source>
         <translation>3xx Redirection non sécurisée</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="281"/>
+        <location filename="../core/downloaditem.cpp" line="282"/>
         <source>3xx Unknown redirect error</source>
         <translation>3xx Erreur de redirection inconnue</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="284"/>
+        <location filename="../core/downloaditem.cpp" line="285"/>
         <source>5xx Proxy connection refused</source>
         <translation>5xx Connexion au Proxy refusée</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="285"/>
+        <location filename="../core/downloaditem.cpp" line="286"/>
         <source>5xx Proxy connection closed</source>
         <translation>5xx Connexion au Proxy fermée</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="286"/>
+        <location filename="../core/downloaditem.cpp" line="287"/>
         <source>5xx Proxy not found</source>
         <translation>5xx Proxy non trouvé</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="287"/>
+        <location filename="../core/downloaditem.cpp" line="288"/>
         <source>504 Proxy timeout error</source>
         <translation>504 Temps de connexion au Proxy expiré</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="288"/>
+        <location filename="../core/downloaditem.cpp" line="289"/>
         <source>407 Proxy authentication required</source>
         <translation>407 Proxy requiert une authentification
  </translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="289"/>
+        <location filename="../core/downloaditem.cpp" line="290"/>
         <source>5xx Unknown proxy error</source>
         <translation>5xx Erreur de Proxy inconnue</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="292"/>
+        <location filename="../core/downloaditem.cpp" line="293"/>
         <source>403 Access denied</source>
         <translation>403 Accès serveur refusé</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="293"/>
+        <location filename="../core/downloaditem.cpp" line="294"/>
         <source>405 Method not allowed</source>
         <translation>405 Méthode de requête non autorisée</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="294"/>
+        <location filename="../core/downloaditem.cpp" line="295"/>
         <source>404 Not found</source>
         <translation>404 Ressource non trouvée</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="295"/>
+        <location filename="../core/downloaditem.cpp" line="296"/>
         <source>401 Authorization required</source>
         <translation>401 Authentification nécessaire</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="296"/>
+        <location filename="../core/downloaditem.cpp" line="297"/>
         <source>4xx Resend error</source>
         <translation>4xx Erreur de renvoi de requête</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="297"/>
+        <location filename="../core/downloaditem.cpp" line="298"/>
         <source>409 Conflict</source>
         <translation>409 Conflit</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="298"/>
+        <location filename="../core/downloaditem.cpp" line="299"/>
         <source>410 Content no longer available</source>
         <translation>410 La ressource n&apos;est plus disponible </translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="299"/>
+        <location filename="../core/downloaditem.cpp" line="300"/>
         <source>4xx Unknown content error</source>
         <translation>4xx Erreur inconnue de ressource</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="302"/>
+        <location filename="../core/downloaditem.cpp" line="303"/>
         <source>4xx Unknown protocol error</source>
         <translation>4xx Erreur inconnue de protocole</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="303"/>
+        <location filename="../core/downloaditem.cpp" line="304"/>
         <source>400 Bad request</source>
         <translation>400 Syntaxe de requête erronée</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="304"/>
+        <location filename="../core/downloaditem.cpp" line="305"/>
         <source>4xx Protocol failure</source>
         <translation>4xx Echec de protocole</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="307"/>
+        <location filename="../core/downloaditem.cpp" line="308"/>
         <source>500 Internal server error</source>
         <translation>500 Erreur interne du serveur</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="308"/>
+        <location filename="../core/downloaditem.cpp" line="309"/>
         <source>501 Server does not support this functionality</source>
         <translation>501 Fonctionnalité réclamée non supportée par le serveur</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="309"/>
+        <location filename="../core/downloaditem.cpp" line="310"/>
         <source>503 Service unavailable</source>
         <translation>503 Service temporairement indisponible</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="310"/>
+        <location filename="../core/downloaditem.cpp" line="311"/>
         <source>5xx Unknown serveur error</source>
         <translation>5xx Erreur de serveur inconnue</translation>
     </message>
@@ -4238,7 +4238,7 @@ Ex:
         <location filename="../core/updatechecker.cpp" line="92"/>
         <location filename="../core/updatechecker.cpp" line="104"/>
         <location filename="../core/updatechecker.cpp" line="197"/>
-        <location filename="../core/updatechecker.cpp" line="216"/>
+        <location filename="../core/updatechecker.cpp" line="217"/>
         <source>Network request rejected.</source>
         <translation>Rejet de la requête réseau.</translation>
     </message>
