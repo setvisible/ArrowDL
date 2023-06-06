@@ -761,172 +761,172 @@ You can also use batch descriptors to download multiple files at one time.</sour
 <context>
     <name>DownloadItem</name>
     <message>
-        <location filename="../core/downloaditem.cpp" line="265"/>
+        <location filename="../core/downloaditem.cpp" line="266"/>
         <source>No Error</source>
         <translation>Keine Fehler</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="268"/>
+        <location filename="../core/downloaditem.cpp" line="269"/>
         <source>3xx Redirect connection refused</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="269"/>
+        <location filename="../core/downloaditem.cpp" line="270"/>
         <source>3xx Redirect remote host closed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="270"/>
+        <location filename="../core/downloaditem.cpp" line="271"/>
         <source>3xx Redirect host not found</source>
         <translation>3xx Redirect Host nicht gefunden</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="271"/>
+        <location filename="../core/downloaditem.cpp" line="272"/>
         <source>3xx Redirect timeout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="272"/>
+        <location filename="../core/downloaditem.cpp" line="273"/>
         <source>3xx Redirect operation canceled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="273"/>
+        <location filename="../core/downloaditem.cpp" line="274"/>
         <source>3xx Redirect SSL handshake failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="274"/>
+        <location filename="../core/downloaditem.cpp" line="275"/>
         <source>3xx Redirect temporary network failure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="275"/>
+        <location filename="../core/downloaditem.cpp" line="276"/>
         <source>3xx Redirect network session failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="276"/>
+        <location filename="../core/downloaditem.cpp" line="277"/>
         <source>3xx Redirect background request not allowed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="278"/>
+        <location filename="../core/downloaditem.cpp" line="279"/>
         <source>3xx Too many redirects</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="279"/>
+        <location filename="../core/downloaditem.cpp" line="280"/>
         <source>3xx Insecure redirect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="281"/>
+        <location filename="../core/downloaditem.cpp" line="282"/>
         <source>3xx Unknown redirect error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="284"/>
+        <location filename="../core/downloaditem.cpp" line="285"/>
         <source>5xx Proxy connection refused</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="285"/>
+        <location filename="../core/downloaditem.cpp" line="286"/>
         <source>5xx Proxy connection closed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="286"/>
+        <location filename="../core/downloaditem.cpp" line="287"/>
         <source>5xx Proxy not found</source>
         <translation>5xx Proxy nicht gefunden</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="287"/>
+        <location filename="../core/downloaditem.cpp" line="288"/>
         <source>504 Proxy timeout error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="288"/>
+        <location filename="../core/downloaditem.cpp" line="289"/>
         <source>407 Proxy authentication required</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="289"/>
+        <location filename="../core/downloaditem.cpp" line="290"/>
         <source>5xx Unknown proxy error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="292"/>
+        <location filename="../core/downloaditem.cpp" line="293"/>
         <source>403 Access denied</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="293"/>
+        <location filename="../core/downloaditem.cpp" line="294"/>
         <source>405 Method not allowed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="294"/>
+        <location filename="../core/downloaditem.cpp" line="295"/>
         <source>404 Not found</source>
         <translation>404 Nicht gefunden</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="295"/>
+        <location filename="../core/downloaditem.cpp" line="296"/>
         <source>401 Authorization required</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="296"/>
+        <location filename="../core/downloaditem.cpp" line="297"/>
         <source>4xx Resend error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="297"/>
+        <location filename="../core/downloaditem.cpp" line="298"/>
         <source>409 Conflict</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="298"/>
+        <location filename="../core/downloaditem.cpp" line="299"/>
         <source>410 Content no longer available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="299"/>
+        <location filename="../core/downloaditem.cpp" line="300"/>
         <source>4xx Unknown content error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="302"/>
+        <location filename="../core/downloaditem.cpp" line="303"/>
         <source>4xx Unknown protocol error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="303"/>
+        <location filename="../core/downloaditem.cpp" line="304"/>
         <source>400 Bad request</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="304"/>
+        <location filename="../core/downloaditem.cpp" line="305"/>
         <source>4xx Protocol failure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="307"/>
+        <location filename="../core/downloaditem.cpp" line="308"/>
         <source>500 Internal server error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="308"/>
+        <location filename="../core/downloaditem.cpp" line="309"/>
         <source>501 Server does not support this functionality</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="309"/>
+        <location filename="../core/downloaditem.cpp" line="310"/>
         <source>503 Service unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="310"/>
+        <location filename="../core/downloaditem.cpp" line="311"/>
         <source>5xx Unknown serveur error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4217,7 +4217,7 @@ Ex:
         <location filename="../core/updatechecker.cpp" line="92"/>
         <location filename="../core/updatechecker.cpp" line="104"/>
         <location filename="../core/updatechecker.cpp" line="197"/>
-        <location filename="../core/updatechecker.cpp" line="216"/>
+        <location filename="../core/updatechecker.cpp" line="217"/>
         <source>Network request rejected.</source>
         <translation type="unfinished"></translation>
     </message>

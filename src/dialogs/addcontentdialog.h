@@ -67,7 +67,7 @@ private slots:
     void onLoadFinished(bool finished);
     void onHtmlReceived(QString content);
 #else
-    void onDownloadProgress(qsizetype bytesReceived, qsizetype bytesTotal);
+    void onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void onFinished();
 #endif
     void onSelectionChanged();
