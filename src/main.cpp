@@ -80,6 +80,9 @@ int main(int argc, char *argv[])
 
     parser.process(application);
 
+    // Fix missing Title Bar icon on KDE Plasma's Wayland session.
+    application.setDesktopFileName("downzemall");
+
 #ifndef QT_DEBUG
     if (parser.isSet(verboseOption)) {
         qInstallMessageHandler(releaseVerboseMessageHandler);
