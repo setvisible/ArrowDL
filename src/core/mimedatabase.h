@@ -20,6 +20,7 @@
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
+#include <QtCore/QUrl>
 #include <QtGui/QPixmap>
 
 constexpr int default_icon_size = 32;
