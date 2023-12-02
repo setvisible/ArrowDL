@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,67 +25,67 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.8</td></tr>
+<td>2.0.9</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#a-word-of-caution" id="id91">a word of caution</a></li>
-<li><a class="reference internal" href="#plugin-interface" id="id92">plugin-interface</a></li>
-<li><a class="reference internal" href="#custom-alerts" id="id93">custom alerts</a></li>
-<li><a class="reference internal" href="#peer-connection-handle" id="id94">peer_connection_handle</a></li>
-<li><a class="reference internal" href="#bt-peer-connection-handle" id="id95">bt_peer_connection_handle</a></li>
-<li><a class="reference internal" href="#plugin" id="id96">plugin</a><ul>
-<li><a class="reference internal" href="#implemented-features" id="id97">implemented_features()</a></li>
-<li><a class="reference internal" href="#new-torrent" id="id98">new_torrent()</a></li>
-<li><a class="reference internal" href="#added" id="id99">added()</a></li>
-<li><a class="reference internal" href="#abort" id="id100">abort()</a></li>
-<li><a class="reference internal" href="#on-dht-request" id="id101">on_dht_request()</a></li>
-<li><a class="reference internal" href="#on-alert" id="id102">on_alert()</a></li>
-<li><a class="reference internal" href="#on-unknown-torrent" id="id103">on_unknown_torrent()</a></li>
-<li><a class="reference internal" href="#on-tick" id="id104">on_tick()</a></li>
-<li><a class="reference internal" href="#get-unchoke-priority" id="id105">get_unchoke_priority()</a></li>
-<li><a class="reference internal" href="#load-state" id="id106">load_state()</a></li>
+<li><a class="reference internal" href="#a-word-of-caution" id="toc-entry-1">a word of caution</a></li>
+<li><a class="reference internal" href="#plugin-interface" id="toc-entry-2">plugin-interface</a></li>
+<li><a class="reference internal" href="#custom-alerts" id="toc-entry-3">custom alerts</a></li>
+<li><a class="reference internal" href="#peer-connection-handle" id="toc-entry-4">peer_connection_handle</a></li>
+<li><a class="reference internal" href="#bt-peer-connection-handle" id="toc-entry-5">bt_peer_connection_handle</a></li>
+<li><a class="reference internal" href="#plugin" id="toc-entry-6">plugin</a><ul>
+<li><a class="reference internal" href="#implemented-features" id="toc-entry-7">implemented_features()</a></li>
+<li><a class="reference internal" href="#new-torrent" id="toc-entry-8">new_torrent()</a></li>
+<li><a class="reference internal" href="#added" id="toc-entry-9">added()</a></li>
+<li><a class="reference internal" href="#abort" id="toc-entry-10">abort()</a></li>
+<li><a class="reference internal" href="#on-dht-request" id="toc-entry-11">on_dht_request()</a></li>
+<li><a class="reference internal" href="#on-alert" id="toc-entry-12">on_alert()</a></li>
+<li><a class="reference internal" href="#on-unknown-torrent" id="toc-entry-13">on_unknown_torrent()</a></li>
+<li><a class="reference internal" href="#on-tick" id="toc-entry-14">on_tick()</a></li>
+<li><a class="reference internal" href="#get-unchoke-priority" id="toc-entry-15">get_unchoke_priority()</a></li>
+<li><a class="reference internal" href="#load-state" id="toc-entry-16">load_state()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#torrent-plugin" id="id107">torrent_plugin</a><ul>
-<li><a class="reference internal" href="#new-connection" id="id108">new_connection()</a></li>
-<li><a class="reference internal" href="#on-piece-pass-on-piece-failed" id="id109">on_piece_pass() on_piece_failed()</a></li>
-<li><a class="reference internal" href="#tick" id="id110">tick()</a></li>
-<li><a class="reference internal" href="#on-pause-on-resume" id="id111">on_pause() on_resume()</a></li>
-<li><a class="reference internal" href="#on-files-checked" id="id112">on_files_checked()</a></li>
-<li><a class="reference internal" href="#on-state" id="id113">on_state()</a></li>
-<li><a class="reference internal" href="#on-add-peer" id="id114">on_add_peer()</a></li>
+<li><a class="reference internal" href="#torrent-plugin" id="toc-entry-17">torrent_plugin</a><ul>
+<li><a class="reference internal" href="#new-connection" id="toc-entry-18">new_connection()</a></li>
+<li><a class="reference internal" href="#on-piece-failed-on-piece-pass" id="toc-entry-19">on_piece_failed() on_piece_pass()</a></li>
+<li><a class="reference internal" href="#tick" id="toc-entry-20">tick()</a></li>
+<li><a class="reference internal" href="#on-resume-on-pause" id="toc-entry-21">on_resume() on_pause()</a></li>
+<li><a class="reference internal" href="#on-files-checked" id="toc-entry-22">on_files_checked()</a></li>
+<li><a class="reference internal" href="#on-state" id="toc-entry-23">on_state()</a></li>
+<li><a class="reference internal" href="#on-add-peer" id="toc-entry-24">on_add_peer()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#peer-plugin" id="id115">peer_plugin</a><ul>
-<li><a class="reference internal" href="#type" id="id116">type()</a></li>
-<li><a class="reference internal" href="#add-handshake" id="id117">add_handshake()</a></li>
-<li><a class="reference internal" href="#on-disconnect" id="id118">on_disconnect()</a></li>
-<li><a class="reference internal" href="#on-connected" id="id119">on_connected()</a></li>
-<li><a class="reference internal" href="#on-handshake" id="id120">on_handshake()</a></li>
-<li><a class="reference internal" href="#on-extension-handshake" id="id121">on_extension_handshake()</a></li>
-<li><a class="reference internal" href="#on-bitfield-on-dont-have-on-allowed-fast-on-choke-on-have-on-unchoke-on-have-all-on-request-on-not-interested-on-interested-on-have-none" id="id122">on_bitfield() on_dont_have() on_allowed_fast() on_choke() on_have() on_unchoke() on_have_all() on_request() on_not_interested() on_interested() on_have_none()</a></li>
-<li><a class="reference internal" href="#on-piece" id="id123">on_piece()</a></li>
-<li><a class="reference internal" href="#sent-have-sent-not-interested-sent-interested-sent-unchoke-sent-piece" id="id124">sent_have() sent_not_interested() sent_interested() sent_unchoke() sent_piece()</a></li>
-<li><a class="reference internal" href="#sent-payload" id="id125">sent_payload()</a></li>
-<li><a class="reference internal" href="#can-disconnect" id="id126">can_disconnect()</a></li>
-<li><a class="reference internal" href="#on-extended" id="id127">on_extended()</a></li>
-<li><a class="reference internal" href="#on-unknown-message" id="id128">on_unknown_message()</a></li>
-<li><a class="reference internal" href="#id79" id="id129">on_piece_pass() on_piece_failed()</a></li>
-<li><a class="reference internal" href="#id80" id="id130">tick()</a></li>
-<li><a class="reference internal" href="#write-request" id="id131">write_request()</a></li>
+<li><a class="reference internal" href="#peer-plugin" id="toc-entry-25">peer_plugin</a><ul>
+<li><a class="reference internal" href="#type" id="toc-entry-26">type()</a></li>
+<li><a class="reference internal" href="#add-handshake" id="toc-entry-27">add_handshake()</a></li>
+<li><a class="reference internal" href="#on-disconnect" id="toc-entry-28">on_disconnect()</a></li>
+<li><a class="reference internal" href="#on-connected" id="toc-entry-29">on_connected()</a></li>
+<li><a class="reference internal" href="#on-handshake" id="toc-entry-30">on_handshake()</a></li>
+<li><a class="reference internal" href="#on-extension-handshake" id="toc-entry-31">on_extension_handshake()</a></li>
+<li><a class="reference internal" href="#on-have-none-on-have-on-allowed-fast-on-request-on-have-all-on-bitfield-on-unchoke-on-interested-on-dont-have-on-not-interested-on-choke" id="toc-entry-32">on_have_none() on_have() on_allowed_fast() on_request() on_have_all() on_bitfield() on_unchoke() on_interested() on_dont_have() on_not_interested() on_choke()</a></li>
+<li><a class="reference internal" href="#on-piece" id="toc-entry-33">on_piece()</a></li>
+<li><a class="reference internal" href="#sent-not-interested-sent-interested-sent-have-sent-piece-sent-unchoke" id="toc-entry-34">sent_not_interested() sent_interested() sent_have() sent_piece() sent_unchoke()</a></li>
+<li><a class="reference internal" href="#sent-payload" id="toc-entry-35">sent_payload()</a></li>
+<li><a class="reference internal" href="#can-disconnect" id="toc-entry-36">can_disconnect()</a></li>
+<li><a class="reference internal" href="#on-extended" id="toc-entry-37">on_extended()</a></li>
+<li><a class="reference internal" href="#on-unknown-message" id="toc-entry-38">on_unknown_message()</a></li>
+<li><a class="reference internal" href="#on-piece-failed-on-piece-pass-1" id="toc-entry-39">on_piece_failed() on_piece_pass()</a></li>
+<li><a class="reference internal" href="#tick-1" id="toc-entry-40">tick()</a></li>
+<li><a class="reference internal" href="#write-request" id="toc-entry-41">write_request()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#crypto-plugin" id="id132">crypto_plugin</a><ul>
-<li><a class="reference internal" href="#decrypt" id="id133">decrypt()</a></li>
+<li><a class="reference internal" href="#crypto-plugin" id="toc-entry-42">crypto_plugin</a><ul>
+<li><a class="reference internal" href="#decrypt" id="toc-entry-43">decrypt()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#create-ut-metadata-plugin" id="id134">create_ut_metadata_plugin()</a></li>
-<li><a class="reference internal" href="#create-smart-ban-plugin" id="id135">create_smart_ban_plugin()</a></li>
-<li><a class="reference internal" href="#create-ut-pex-plugin" id="id136">create_ut_pex_plugin()</a></li>
+<li><a class="reference internal" href="#create-ut-metadata-plugin" id="toc-entry-44">create_ut_metadata_plugin()</a></li>
+<li><a class="reference internal" href="#create-smart-ban-plugin" id="toc-entry-45">create_smart_ban_plugin()</a></li>
+<li><a class="reference internal" href="#create-ut-pex-plugin" id="toc-entry-46">create_ut_pex_plugin()</a></li>
 </ul>
 </div>
 <p>libtorrent has a <a class="reference external" href="reference-Plugins.html#plugin">plugin</a> interface for implementing extensions to the protocol.
@@ -194,42 +194,42 @@ struct peer_connection_handle
 {
    explicit <strong>peer_connection_handle</strong> (std::weak_ptr&lt;peer_connection&gt; impl);
    connection_type <strong>type</strong> () const;
-   void <strong>add_extension</strong> (std::shared_ptr&lt;peer_plugin&gt;);
    peer_plugin const* <strong>find_plugin</strong> (string_view type) const;
+   void <strong>add_extension</strong> (std::shared_ptr&lt;peer_plugin&gt;);
    bool <strong>is_seed</strong> () const;
    bool <strong>upload_only</strong> () const;
-   peer_id const&amp; <strong>pid</strong> () const;
    bool <strong>has_piece</strong> (piece_index_t i) const;
-   bool <strong>is_choked</strong> () const;
+   peer_id const&amp; <strong>pid</strong> () const;
    bool <strong>is_interesting</strong> () const;
-   bool <strong>is_peer_interested</strong> () const;
+   bool <strong>is_choked</strong> () const;
    bool <strong>has_peer_choked</strong> () const;
-   void <strong>choke_this_peer</strong> ();
+   bool <strong>is_peer_interested</strong> () const;
    void <strong>maybe_unchoke_this_peer</strong> ();
+   void <strong>choke_this_peer</strong> ();
    void <strong>get_peer_info</strong> (peer_info&amp; p) const;
    torrent_handle <strong>associated_torrent</strong> () const;
    <a class="reference external" href="tcp::endpoint">tcp::endpoint</a> <strong>local_endpoint</strong> () const;
    <a class="reference external" href="tcp::endpoint">tcp::endpoint</a> const&amp; <strong>remote</strong> () const;
-   void <strong>disconnect</strong> (error_code const&amp; ec, operation_t op
-      , disconnect_severity_t = peer_connection_interface::normal);
    bool <strong>is_connecting</strong> () const;
    bool <strong>is_disconnecting</strong> () const;
+   void <strong>disconnect</strong> (error_code const&amp; ec, operation_t op
+      , disconnect_severity_t = peer_connection_interface::normal);
    bool <strong>is_outgoing</strong> () const;
    bool <strong>ignore_unchoke_slots</strong> () const;
    bool <strong>on_local_network</strong> () const;
    bool <strong>failed</strong> () const;
+   bool <strong>should_log</strong> (peer_log_alert::direction_t direction) const;
    void <strong>peer_log</strong> (peer_log_alert::direction_t direction
       , char const* event, char const* fmt = &quot;&quot;, ...) const TORRENT_FORMAT(4,5);
-   bool <strong>should_log</strong> (peer_log_alert::direction_t direction) const;
    bool <strong>can_disconnect</strong> (error_code const&amp; ec) const;
    bool <strong>has_metadata</strong> () const;
    bool <strong>in_handshake</strong> () const;
    void <strong>send_buffer</strong> (char const* begin, int size);
    time_point <strong>time_of_last_unchoke</strong> () const;
    std::time_t <strong>last_seen_complete</strong> () const;
-   bool <strong>operator&lt;</strong> (peer_connection_handle const&amp; o) const;
    bool <strong>operator!=</strong> (peer_connection_handle const&amp; o) const;
    bool <strong>operator==</strong> (peer_connection_handle const&amp; o) const;
+   bool <strong>operator&lt;</strong> (peer_connection_handle const&amp; o) const;
    std::shared_ptr&lt;peer_connection&gt; <strong>native_handle</strong> () const;
 };
 </pre>
@@ -247,8 +247,8 @@ struct bt_peer_connection_handle : peer_connection_handle
    bool <strong>packet_finished</strong> () const;
    bool <strong>support_extensions</strong> () const;
    bool <strong>supports_encryption</strong> () const;
-   void <strong>switch_send_crypto</strong> (std::shared_ptr&lt;crypto_plugin&gt; crypto);
    void <strong>switch_recv_crypto</strong> (std::shared_ptr&lt;crypto_plugin&gt; crypto);
+   void <strong>switch_send_crypto</strong> (std::shared_ptr&lt;crypto_plugin&gt; crypto);
    std::shared_ptr&lt;bt_peer_connection&gt; <strong>native_handle</strong> () const;
 };
 </pre>
@@ -416,8 +416,8 @@ struct torrent_plugin
    virtual void <strong>on_piece_failed</strong> (piece_index_t);
    virtual void <strong>on_piece_pass</strong> (piece_index_t);
    virtual void <strong>tick</strong> ();
-   virtual bool <strong>on_pause</strong> ();
    virtual bool <strong>on_resume</strong> ();
+   virtual bool <strong>on_pause</strong> ();
    virtual void <strong>on_files_checked</strong> ();
    virtual void <strong>on_state</strong> (torrent_status::state_t);
    virtual void <strong>on_add_peer</strong> (tcp::endpoint const&amp;,
@@ -444,10 +444,10 @@ is being held by the torrent object. So, it is generally a good idea to not
 keep a <tt class="docutils literal">shared_ptr</tt> to your own <a class="reference external" href="reference-Plugins.html#peer_plugin">peer_plugin</a>. If you want to keep references
 to it, use <tt class="docutils literal">weak_ptr</tt>.</p>
 <p>If this function throws an exception, the connection will be closed.</p>
-<a name="on_piece_pass()"></a>
-<a name="on_piece_failed()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_plugin%3A%3A%5Bon_piece_pass%28%29+on_piece_failed%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_plugin%3A%3A%5Bon_piece_pass%28%29+on_piece_failed%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="on-piece-pass-on-piece-failed">
-<h2>on_piece_pass() on_piece_failed()</h2>
+<a name="on_piece_failed()"></a>
+<a name="on_piece_pass()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_plugin%3A%3A%5Bon_piece_failed%28%29+on_piece_pass%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_plugin%3A%3A%5Bon_piece_failed%28%29+on_piece_pass%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="on-piece-failed-on-piece-pass">
+<h2>on_piece_failed() on_piece_pass()</h2>
 <pre class="literal-block">
 virtual void <strong>on_piece_failed</strong> (piece_index_t);
 virtual void <strong>on_piece_pass</strong> (piece_index_t);
@@ -464,13 +464,13 @@ virtual void <strong>tick</strong> ();
 </pre>
 <p>This hook is called approximately once per second. It is a way of making it
 easy for plugins to do timed events, for sending messages or whatever.</p>
-<a name="on_pause()"></a>
-<a name="on_resume()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_plugin%3A%3A%5Bon_pause%28%29+on_resume%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_plugin%3A%3A%5Bon_pause%28%29+on_resume%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="on-pause-on-resume">
-<h2>on_pause() on_resume()</h2>
+<a name="on_resume()"></a>
+<a name="on_pause()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_plugin%3A%3A%5Bon_resume%28%29+on_pause%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_plugin%3A%3A%5Bon_resume%28%29+on_pause%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="on-resume-on-pause">
+<h2>on_resume() on_pause()</h2>
 <pre class="literal-block">
-virtual bool <strong>on_pause</strong> ();
 virtual bool <strong>on_resume</strong> ();
+virtual bool <strong>on_pause</strong> ();
 </pre>
 <p>These hooks are called when the torrent is paused and resumed respectively.
 The return value indicates if the event was handled. A return value of
@@ -543,35 +543,35 @@ struct peer_plugin
    virtual void <strong>on_connected</strong> ();
    virtual bool <strong>on_handshake</strong> (span&lt;char const&gt;);
    virtual bool <strong>on_extension_handshake</strong> (bdecode_node const&amp;);
-   virtual bool <strong>on_choke</strong> ();
-   virtual bool <strong>on_bitfield</strong> (bitfield const&amp; <em>/*bitfield*/</em>);
-   virtual bool <strong>on_have_all</strong> ();
-   virtual bool <strong>on_have</strong> (piece_index_t);
-   virtual bool <strong>on_dont_have</strong> (piece_index_t);
-   virtual bool <strong>on_allowed_fast</strong> (piece_index_t);
-   virtual bool <strong>on_not_interested</strong> ();
    virtual bool <strong>on_request</strong> (peer_request const&amp;);
-   virtual bool <strong>on_interested</strong> ();
-   virtual bool <strong>on_have_none</strong> ();
    virtual bool <strong>on_unchoke</strong> ();
+   virtual bool <strong>on_have</strong> (piece_index_t);
+   virtual bool <strong>on_not_interested</strong> ();
+   virtual bool <strong>on_choke</strong> ();
+   virtual bool <strong>on_dont_have</strong> (piece_index_t);
+   virtual bool <strong>on_have_all</strong> ();
+   virtual bool <strong>on_allowed_fast</strong> (piece_index_t);
+   virtual bool <strong>on_have_none</strong> ();
+   virtual bool <strong>on_interested</strong> ();
+   virtual bool <strong>on_bitfield</strong> (bitfield const&amp; <em>/*bitfield*/</em>);
    virtual bool <strong>on_piece</strong> (peer_request const&amp; <em>/*piece*/</em>
       , span&lt;char const&gt; <em>/*buf*/</em>);
+   virtual bool <strong>on_reject</strong> (peer_request const&amp;);
    virtual bool <strong>on_cancel</strong> (peer_request const&amp;);
    virtual bool <strong>on_suggest</strong> (piece_index_t);
-   virtual bool <strong>on_reject</strong> (peer_request const&amp;);
-   virtual void <strong>sent_choke</strong> ();
-   virtual void <strong>sent_request</strong> (peer_request const&amp;);
    virtual void <strong>sent_cancel</strong> (peer_request const&amp;);
-   virtual void <strong>sent_allow_fast</strong> (piece_index_t);
    virtual void <strong>sent_suggest</strong> (piece_index_t);
+   virtual void <strong>sent_choke</strong> ();
+   virtual void <strong>sent_allow_fast</strong> (piece_index_t);
+   virtual void <strong>sent_have_none</strong> ();
+   virtual void <strong>sent_request</strong> (peer_request const&amp;);
    virtual void <strong>sent_reject_request</strong> (peer_request const&amp;);
    virtual void <strong>sent_have_all</strong> ();
-   virtual void <strong>sent_have_none</strong> ();
    virtual void <strong>sent_piece</strong> (peer_request const&amp;);
-   virtual void <strong>sent_have</strong> (piece_index_t);
    virtual void <strong>sent_unchoke</strong> ();
-   virtual void <strong>sent_interested</strong> ();
    virtual void <strong>sent_not_interested</strong> ();
+   virtual void <strong>sent_have</strong> (piece_index_t);
+   virtual void <strong>sent_interested</strong> ();
    virtual void <strong>sent_payload</strong> (int <em>/* bytes */</em>);
    virtual bool <strong>can_disconnect</strong> (error_code const&amp; <em>/*ec*/</em>);
    virtual bool <strong>on_extended</strong> (int <em>/*length*/</em>, int <em>/*msg*/</em>,
@@ -637,31 +637,31 @@ if this returns false, it means that this extension isn't
 supported by this peer. It will result in this <a class="reference external" href="reference-Plugins.html#peer_plugin">peer_plugin</a>
 being removed from the peer_connection and destructed.
 this is not called for web seeds</p>
-<a name="on_bitfield()"></a>
-<a name="on_dont_have()"></a>
-<a name="on_allowed_fast()"></a>
-<a name="on_choke()"></a>
+<a name="on_have_none()"></a>
 <a name="on_have()"></a>
-<a name="on_unchoke()"></a>
-<a name="on_have_all()"></a>
+<a name="on_allowed_fast()"></a>
 <a name="on_request()"></a>
-<a name="on_not_interested()"></a>
+<a name="on_have_all()"></a>
+<a name="on_bitfield()"></a>
+<a name="on_unchoke()"></a>
 <a name="on_interested()"></a>
-<a name="on_have_none()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_plugin%3A%3A%5Bon_bitfield%28%29+on_dont_have%28%29+on_allowed_fast%28%29+on_choke%28%29+on_have%28%29+on_unchoke%28%29+on_have_all%28%29+on_request%28%29+on_not_interested%28%29+on_interested%28%29+on_have_none%28%29%5D&labels=documentation&body=Documentation+under+heading+%22peer_plugin%3A%3A%5Bon_bitfield%28%29+on_dont_have%28%29+on_allowed_fast%28%29+on_choke%28%29+on_have%28%29+on_unchoke%28%29+on_have_all%28%29+on_request%28%29+on_not_interested%28%29+on_interested%28%29+on_have_none%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="on-bitfield-on-dont-have-on-allowed-fast-on-choke-on-have-on-unchoke-on-have-all-on-request-on-not-interested-on-interested-on-have-none">
-<h2>on_bitfield() on_dont_have() on_allowed_fast() on_choke() on_have() on_unchoke() on_have_all() on_request() on_not_interested() on_interested() on_have_none()</h2>
+<a name="on_dont_have()"></a>
+<a name="on_not_interested()"></a>
+<a name="on_choke()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_plugin%3A%3A%5Bon_have_none%28%29+on_have%28%29+on_allowed_fast%28%29+on_request%28%29+on_have_all%28%29+on_bitfield%28%29+on_unchoke%28%29+on_interested%28%29+on_dont_have%28%29+on_not_interested%28%29+on_choke%28%29%5D&labels=documentation&body=Documentation+under+heading+%22peer_plugin%3A%3A%5Bon_have_none%28%29+on_have%28%29+on_allowed_fast%28%29+on_request%28%29+on_have_all%28%29+on_bitfield%28%29+on_unchoke%28%29+on_interested%28%29+on_dont_have%28%29+on_not_interested%28%29+on_choke%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="on-have-none-on-have-on-allowed-fast-on-request-on-have-all-on-bitfield-on-unchoke-on-interested-on-dont-have-on-not-interested-on-choke">
+<h2>on_have_none() on_have() on_allowed_fast() on_request() on_have_all() on_bitfield() on_unchoke() on_interested() on_dont_have() on_not_interested() on_choke()</h2>
 <pre class="literal-block">
-virtual bool <strong>on_choke</strong> ();
-virtual bool <strong>on_bitfield</strong> (bitfield const&amp; <em>/*bitfield*/</em>);
-virtual bool <strong>on_have_all</strong> ();
-virtual bool <strong>on_have</strong> (piece_index_t);
-virtual bool <strong>on_dont_have</strong> (piece_index_t);
-virtual bool <strong>on_allowed_fast</strong> (piece_index_t);
-virtual bool <strong>on_not_interested</strong> ();
 virtual bool <strong>on_request</strong> (peer_request const&amp;);
-virtual bool <strong>on_interested</strong> ();
-virtual bool <strong>on_have_none</strong> ();
 virtual bool <strong>on_unchoke</strong> ();
+virtual bool <strong>on_have</strong> (piece_index_t);
+virtual bool <strong>on_not_interested</strong> ();
+virtual bool <strong>on_choke</strong> ();
+virtual bool <strong>on_dont_have</strong> (piece_index_t);
+virtual bool <strong>on_have_all</strong> ();
+virtual bool <strong>on_allowed_fast</strong> (piece_index_t);
+virtual bool <strong>on_have_none</strong> ();
+virtual bool <strong>on_interested</strong> ();
+virtual bool <strong>on_bitfield</strong> (bitfield const&amp; <em>/*bitfield*/</em>);
 </pre>
 <p>returning true from any of the message handlers
 indicates that the <a class="reference external" href="reference-Plugins.html#plugin">plugin</a> has handled the message.
@@ -681,19 +681,19 @@ internal immutable disk buffer. The length of the data is specified
 in the <tt class="docutils literal">length</tt> member of the <tt class="docutils literal">piece</tt> parameter.
 returns true to indicate that the piece is handled and the
 rest of the logic should be ignored.</p>
-<a name="sent_have()"></a>
 <a name="sent_not_interested()"></a>
 <a name="sent_interested()"></a>
-<a name="sent_unchoke()"></a>
-<a name="sent_piece()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_plugin%3A%3A%5Bsent_have%28%29+sent_not_interested%28%29+sent_interested%28%29+sent_unchoke%28%29+sent_piece%28%29%5D&labels=documentation&body=Documentation+under+heading+%22peer_plugin%3A%3A%5Bsent_have%28%29+sent_not_interested%28%29+sent_interested%28%29+sent_unchoke%28%29+sent_piece%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="sent-have-sent-not-interested-sent-interested-sent-unchoke-sent-piece">
-<h2>sent_have() sent_not_interested() sent_interested() sent_unchoke() sent_piece()</h2>
+<a name="sent_have()"></a>
+<a name="sent_piece()"></a>
+<a name="sent_unchoke()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_plugin%3A%3A%5Bsent_not_interested%28%29+sent_interested%28%29+sent_have%28%29+sent_piece%28%29+sent_unchoke%28%29%5D&labels=documentation&body=Documentation+under+heading+%22peer_plugin%3A%3A%5Bsent_not_interested%28%29+sent_interested%28%29+sent_have%28%29+sent_piece%28%29+sent_unchoke%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="sent-not-interested-sent-interested-sent-have-sent-piece-sent-unchoke">
+<h2>sent_not_interested() sent_interested() sent_have() sent_piece() sent_unchoke()</h2>
 <pre class="literal-block">
 virtual void <strong>sent_piece</strong> (peer_request const&amp;);
-virtual void <strong>sent_have</strong> (piece_index_t);
 virtual void <strong>sent_unchoke</strong> ();
-virtual void <strong>sent_interested</strong> ();
 virtual void <strong>sent_not_interested</strong> ();
+virtual void <strong>sent_have</strong> (piece_index_t);
+virtual void <strong>sent_interested</strong> ();
 </pre>
 <p>called after a choke message has been sent to the peer</p>
 <a name="sent_payload()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_plugin%3A%3A%5Bsent_payload%28%29%5D&labels=documentation&body=Documentation+under+heading+%22peer_plugin%3A%3A%5Bsent_payload%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
@@ -737,10 +737,10 @@ virtual bool <strong>on_unknown_message</strong> (int <em>/*length*/</em>, int <
       span&lt;char const&gt; <em>/*body*/</em>);
 </pre>
 <p>this is not called for web seeds</p>
-<a name="on_piece_pass()"></a>
-<a name="on_piece_failed()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_plugin%3A%3A%5Bon_piece_pass%28%29+on_piece_failed%28%29%5D&labels=documentation&body=Documentation+under+heading+%22peer_plugin%3A%3A%5Bon_piece_pass%28%29+on_piece_failed%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="id79">
-<h2>on_piece_pass() on_piece_failed()</h2>
+<a name="on_piece_failed()"></a>
+<a name="on_piece_pass()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_plugin%3A%3A%5Bon_piece_failed%28%29+on_piece_pass%28%29%5D&labels=documentation&body=Documentation+under+heading+%22peer_plugin%3A%3A%5Bon_piece_failed%28%29+on_piece_pass%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="on-piece-failed-on-piece-pass-1">
+<h2>on_piece_failed() on_piece_pass()</h2>
 <pre class="literal-block">
 virtual void <strong>on_piece_failed</strong> (piece_index_t);
 virtual void <strong>on_piece_pass</strong> (piece_index_t);
@@ -748,7 +748,7 @@ virtual void <strong>on_piece_pass</strong> (piece_index_t);
 <p>called when a piece that this peer participated in either
 fails or passes the hash_check</p>
 <a name="tick()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_plugin%3A%3A%5Btick%28%29%5D&labels=documentation&body=Documentation+under+heading+%22peer_plugin%3A%3A%5Btick%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="id80">
+<div class="section" id="tick-1">
 <h2>tick()</h2>
 <pre class="literal-block">
 virtual void <strong>tick</strong> ();
@@ -771,8 +771,8 @@ no other <a class="reference external" href="reference-Plugins.html#plugin">plug
 <pre class="literal-block">
 struct crypto_plugin
 {
-   virtual void <strong>set_outgoing_key</strong> (span&lt;char const&gt; key) = 0;
    virtual void <strong>set_incoming_key</strong> (span&lt;char const&gt; key) = 0;
+   virtual void <strong>set_outgoing_key</strong> (span&lt;char const&gt; key) = 0;
    <strong>encrypt</strong> (span&lt;span&lt;char&gt;&gt; <em>/*send_vec*/</em>) = 0;
    virtual std::tuple&lt;int, int, int&gt; <strong>decrypt</strong> (span&lt;span&lt;char&gt;&gt; <em>/*receive_vec*/</em>) = 0;
 };

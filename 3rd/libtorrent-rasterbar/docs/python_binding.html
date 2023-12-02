@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,31 +25,31 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.8</td></tr>
+<td>2.0.9</td></tr>
 </tbody>
 </table>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#building" id="id2">building</a></li>
-<li><a class="reference internal" href="#prerequisites" id="id3">prerequisites</a><ul>
-<li><a class="reference internal" href="#environment-variables" id="id4">environment variables</a></li>
+<li><a class="reference internal" href="#building" id="toc-entry-1">building</a></li>
+<li><a class="reference internal" href="#prerequisites" id="toc-entry-2">prerequisites</a><ul>
+<li><a class="reference internal" href="#environment-variables" id="toc-entry-3">environment variables</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#building-with-setup-py" id="id5">building with setup.py</a><ul>
-<li><a class="reference internal" href="#build-for-a-different-python-version" id="id6">build for a different python version</a></li>
-<li><a class="reference internal" href="#customizing-the-build" id="id7">customizing the build</a></li>
+<li><a class="reference internal" href="#building-with-setup-py" id="toc-entry-4">building with setup.py</a><ul>
+<li><a class="reference internal" href="#build-for-a-different-python-version" id="toc-entry-5">build for a different python version</a></li>
+<li><a class="reference internal" href="#customizing-the-build" id="toc-entry-6">customizing the build</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#building-with-b2" id="id8">building with b2</a><ul>
-<li><a class="reference internal" href="#invoking-b2" id="id9">invoking b2</a></li>
-<li><a class="reference internal" href="#static-linking" id="id10">static linking</a></li>
-<li><a class="reference internal" href="#helper-targets" id="id11">helper targets</a></li>
+<li><a class="reference internal" href="#building-with-b2" id="toc-entry-7">building with b2</a><ul>
+<li><a class="reference internal" href="#invoking-b2" id="toc-entry-8">invoking b2</a></li>
+<li><a class="reference internal" href="#static-linking" id="toc-entry-9">static linking</a></li>
+<li><a class="reference internal" href="#helper-targets" id="toc-entry-10">helper targets</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#using-libtorrent-in-python" id="id12">using libtorrent in python</a></li>
-<li><a class="reference internal" href="#set-alert-notify" id="id13">set_alert_notify</a></li>
-<li><a class="reference internal" href="#example" id="id14">Example</a></li>
+<li><a class="reference internal" href="#using-libtorrent-in-python" id="toc-entry-11">using libtorrent in python</a></li>
+<li><a class="reference internal" href="#set-alert-notify" id="toc-entry-12">set_alert_notify</a></li>
+<li><a class="reference internal" href="#example" id="toc-entry-13">Example</a></li>
 </ul>
 </div>
 <div class="section" id="building">
@@ -263,34 +263,34 @@ is what <tt class="docutils literal">fileno()</tt> returns on a socket.</p>
 directory.</p>
 <p>A very simple example usage of the module would be something like this:</p>
 <pre class="code python literal-block">
-<span class="keyword namespace">import</span> <span class="name namespace">libtorrent</span> <span class="keyword">as</span> <span class="name namespace">lt</span>
-<span class="keyword namespace">import</span> <span class="name namespace">time</span>
-<span class="keyword namespace">import</span> <span class="name namespace">sys</span>
+<span class="keyword namespace">import</span> <span class="name namespace">libtorrent</span> <span class="keyword">as</span> <span class="name namespace">lt</span><span class="whitespace">
+</span><span class="keyword namespace">import</span> <span class="name namespace">time</span><span class="whitespace">
+</span><span class="keyword namespace">import</span> <span class="name namespace">sys</span><span class="whitespace">
 
-<span class="name">ses</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">.</span><span class="name">session</span><span class="punctuation">({</span><span class="literal string single">'listen_interfaces'</span><span class="punctuation">:</span> <span class="literal string single">'0.0.0.0:6881'</span><span class="punctuation">})</span>
+</span><span class="name">ses</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">.</span><span class="name">session</span><span class="punctuation">({</span><span class="literal string single">'listen_interfaces'</span><span class="punctuation">:</span> <span class="literal string single">'0.0.0.0:6881'</span><span class="punctuation">})</span><span class="whitespace">
 
-<span class="name">info</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">.</span><span class="name">torrent_info</span><span class="punctuation">(</span><span class="name">sys</span><span class="operator">.</span><span class="name">argv</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">])</span>
-<span class="name">h</span> <span class="operator">=</span> <span class="name">ses</span><span class="operator">.</span><span class="name">add_torrent</span><span class="punctuation">({</span><span class="literal string single">'ti'</span><span class="punctuation">:</span> <span class="name">info</span><span class="punctuation">,</span> <span class="literal string single">'save_path'</span><span class="punctuation">:</span> <span class="literal string single">'.'</span><span class="punctuation">})</span>
-<span class="name">s</span> <span class="operator">=</span> <span class="name">h</span><span class="operator">.</span><span class="name">status</span><span class="punctuation">()</span>
-<span class="name builtin">print</span><span class="punctuation">(</span><span class="literal string single">'starting'</span><span class="punctuation">,</span> <span class="name">s</span><span class="operator">.</span><span class="name">name</span><span class="punctuation">)</span>
+</span><span class="name">info</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">.</span><span class="name">torrent_info</span><span class="punctuation">(</span><span class="name">sys</span><span class="operator">.</span><span class="name">argv</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">])</span><span class="whitespace">
+</span><span class="name">h</span> <span class="operator">=</span> <span class="name">ses</span><span class="operator">.</span><span class="name">add_torrent</span><span class="punctuation">({</span><span class="literal string single">'ti'</span><span class="punctuation">:</span> <span class="name">info</span><span class="punctuation">,</span> <span class="literal string single">'save_path'</span><span class="punctuation">:</span> <span class="literal string single">'.'</span><span class="punctuation">})</span><span class="whitespace">
+</span><span class="name">s</span> <span class="operator">=</span> <span class="name">h</span><span class="operator">.</span><span class="name">status</span><span class="punctuation">()</span><span class="whitespace">
+</span><span class="name builtin">print</span><span class="punctuation">(</span><span class="literal string single">'starting'</span><span class="punctuation">,</span> <span class="name">s</span><span class="operator">.</span><span class="name">name</span><span class="punctuation">)</span><span class="whitespace">
 
-<span class="keyword">while</span> <span class="punctuation">(</span><span class="operator word">not</span> <span class="name">s</span><span class="operator">.</span><span class="name">is_seeding</span><span class="punctuation">):</span>
-    <span class="name">s</span> <span class="operator">=</span> <span class="name">h</span><span class="operator">.</span><span class="name">status</span><span class="punctuation">()</span>
+</span><span class="keyword">while</span> <span class="punctuation">(</span><span class="operator word">not</span> <span class="name">s</span><span class="operator">.</span><span class="name">is_seeding</span><span class="punctuation">):</span><span class="whitespace">
+</span>    <span class="name">s</span> <span class="operator">=</span> <span class="name">h</span><span class="operator">.</span><span class="name">status</span><span class="punctuation">()</span><span class="whitespace">
 
-    <span class="name builtin">print</span><span class="punctuation">(</span><span class="literal string single">'</span><span class="literal string escape">\r</span><span class="literal string interpol">%.2f%%</span><span class="literal string single"> complete (down: </span><span class="literal string interpol">%.1f</span><span class="literal string single"> kB/s up: </span><span class="literal string interpol">%.1f</span><span class="literal string single"> kB/s peers: </span><span class="literal string interpol">%d</span><span class="literal string single">) </span><span class="literal string interpol">%s</span><span class="literal string single">'</span> <span class="operator">%</span> <span class="punctuation">(</span>
-        <span class="name">s</span><span class="operator">.</span><span class="name">progress</span> <span class="operator">*</span> <span class="literal number integer">100</span><span class="punctuation">,</span> <span class="name">s</span><span class="operator">.</span><span class="name">download_rate</span> <span class="operator">/</span> <span class="literal number integer">1000</span><span class="punctuation">,</span> <span class="name">s</span><span class="operator">.</span><span class="name">upload_rate</span> <span class="operator">/</span> <span class="literal number integer">1000</span><span class="punctuation">,</span>
-        <span class="name">s</span><span class="operator">.</span><span class="name">num_peers</span><span class="punctuation">,</span> <span class="name">s</span><span class="operator">.</span><span class="name">state</span><span class="punctuation">),</span> <span class="name">end</span><span class="operator">=</span><span class="literal string single">' '</span><span class="punctuation">)</span>
+</span>    <span class="name builtin">print</span><span class="punctuation">(</span><span class="literal string single">'</span><span class="literal string escape">\r</span><span class="literal string interpol">%.2f%%</span><span class="literal string single"> complete (down: </span><span class="literal string interpol">%.1f</span><span class="literal string single"> kB/s up: </span><span class="literal string interpol">%.1f</span><span class="literal string single"> kB/s peers: </span><span class="literal string interpol">%d</span><span class="literal string single">) </span><span class="literal string interpol">%s</span><span class="literal string single">'</span> <span class="operator">%</span> <span class="punctuation">(</span><span class="whitespace">
+</span>        <span class="name">s</span><span class="operator">.</span><span class="name">progress</span> <span class="operator">*</span> <span class="literal number integer">100</span><span class="punctuation">,</span> <span class="name">s</span><span class="operator">.</span><span class="name">download_rate</span> <span class="operator">/</span> <span class="literal number integer">1000</span><span class="punctuation">,</span> <span class="name">s</span><span class="operator">.</span><span class="name">upload_rate</span> <span class="operator">/</span> <span class="literal number integer">1000</span><span class="punctuation">,</span><span class="whitespace">
+</span>        <span class="name">s</span><span class="operator">.</span><span class="name">num_peers</span><span class="punctuation">,</span> <span class="name">s</span><span class="operator">.</span><span class="name">state</span><span class="punctuation">),</span> <span class="name">end</span><span class="operator">=</span><span class="literal string single">' '</span><span class="punctuation">)</span><span class="whitespace">
 
-    <span class="name">alerts</span> <span class="operator">=</span> <span class="name">ses</span><span class="operator">.</span><span class="name">pop_alerts</span><span class="punctuation">()</span>
-    <span class="keyword">for</span> <span class="name">a</span> <span class="operator word">in</span> <span class="name">alerts</span><span class="punctuation">:</span>
-        <span class="keyword">if</span> <span class="name">a</span><span class="operator">.</span><span class="name">category</span><span class="punctuation">()</span> <span class="operator">&amp;</span> <span class="name">lt</span><span class="operator">.</span><span class="name">alert</span><span class="operator">.</span><span class="name">category_t</span><span class="operator">.</span><span class="name">error_notification</span><span class="punctuation">:</span>
-            <span class="name builtin">print</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">)</span>
+</span>    <span class="name">alerts</span> <span class="operator">=</span> <span class="name">ses</span><span class="operator">.</span><span class="name">pop_alerts</span><span class="punctuation">()</span><span class="whitespace">
+</span>    <span class="keyword">for</span> <span class="name">a</span> <span class="operator word">in</span> <span class="name">alerts</span><span class="punctuation">:</span><span class="whitespace">
+</span>        <span class="keyword">if</span> <span class="name">a</span><span class="operator">.</span><span class="name">category</span><span class="punctuation">()</span> <span class="operator">&amp;</span> <span class="name">lt</span><span class="operator">.</span><span class="name">alert</span><span class="operator">.</span><span class="name">category_t</span><span class="operator">.</span><span class="name">error_notification</span><span class="punctuation">:</span><span class="whitespace">
+</span>            <span class="name builtin">print</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">)</span><span class="whitespace">
 
-    <span class="name">sys</span><span class="operator">.</span><span class="name">stdout</span><span class="operator">.</span><span class="name">flush</span><span class="punctuation">()</span>
+</span>    <span class="name">sys</span><span class="operator">.</span><span class="name">stdout</span><span class="operator">.</span><span class="name">flush</span><span class="punctuation">()</span><span class="whitespace">
 
-    <span class="name">time</span><span class="operator">.</span><span class="name">sleep</span><span class="punctuation">(</span><span class="literal number integer">1</span><span class="punctuation">)</span>
+</span>    <span class="name">time</span><span class="operator">.</span><span class="name">sleep</span><span class="punctuation">(</span><span class="literal number integer">1</span><span class="punctuation">)</span><span class="whitespace">
 
-<span class="name builtin">print</span><span class="punctuation">(</span><span class="name">h</span><span class="operator">.</span><span class="name">status</span><span class="punctuation">()</span><span class="operator">.</span><span class="name">name</span><span class="punctuation">,</span> <span class="literal string single">'complete'</span><span class="punctuation">)</span>
+</span><span class="name builtin">print</span><span class="punctuation">(</span><span class="name">h</span><span class="operator">.</span><span class="name">status</span><span class="punctuation">()</span><span class="operator">.</span><span class="name">name</span><span class="punctuation">,</span> <span class="literal string single">'complete'</span><span class="punctuation">)</span>
 </pre>
 </div>
 

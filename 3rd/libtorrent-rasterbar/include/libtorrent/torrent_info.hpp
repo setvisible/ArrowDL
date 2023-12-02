@@ -61,6 +61,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/file_storage.hpp"
 #include "libtorrent/aux_/vector.hpp"
 #include "libtorrent/announce_entry.hpp"
+#include "libtorrent/index_range.hpp"
 #include "libtorrent/aux_/merkle_tree.hpp"
 
 namespace libtorrent {
@@ -73,6 +74,13 @@ namespace aux {
 	TORRENT_EXTRA_EXPORT void sanitize_append_path_element(std::string& path
 		, string_view element);
 	TORRENT_EXTRA_EXPORT bool verify_encoding(std::string& target);
+
+	struct internal_drained_state
+	{
+		aux::vector<lt::announce_entry> urls;
+		std::vector<web_seed_entry> web_seeds;
+		std::vector<std::pair<std::string, int>> nodes;
+	};
 }
 
 	// the web_seed_entry holds information about a web seed (also known
@@ -341,7 +349,9 @@ TORRENT_VERSION_NAMESPACE_3
 		void set_web_seeds(std::vector<web_seed_entry> seeds);
 
 		// internal
-		void clear_web_seeds() { m_web_seeds.clear(); }
+		aux::internal_drained_state _internal_drain() {
+			return aux::internal_drained_state{std::move(m_urls), std::move(m_web_seeds), std::move(m_nodes)};
+		}
 
 		// ``total_size()`` returns the total number of bytes the torrent-file
 		// represents. Note that this is the number of pieces times the piece
@@ -359,6 +369,10 @@ TORRENT_VERSION_NAMESPACE_3
 		// smaller.
 		int piece_length() const { return m_files.piece_length(); }
 		int num_pieces() const { return m_files.num_pieces(); }
+
+		// returns the number of blocks there are in the typical piece. There
+		// may be fewer in the last piece)
+		int blocks_per_piece() const { return m_files.blocks_per_piece(); }
 
 		// ``last_piece()`` returns the index to the last piece in the torrent and
 		// ``end_piece()`` returns the index to the one-past-end piece in the

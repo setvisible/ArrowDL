@@ -1,7 +1,37 @@
-	* fix uTP streams timing out instead of closing cleanly
+2.0.9 released
+
+	* fix issue with web seed connections when they close and re-open
+	* fallocate() not supported is not a fatal error
+	* fix proxying of IPv6 connections via IPv4 proxy
+	* treat CGNAT address range as local IPs
+	* add stricter checking of piece layers when loading torrents
+	* add stricter checking of v1 and v2 hashes being consistent
+	* cache failed DNS lookups as well as successful ones
+	* add an i2p torrent state to control interactions with clear swarms
+	* fix i2p SAM protocol parsing of quoted messages
+	* expose i2p peer destination in peer_info
+	* fix i2p tracker announces
+	* fix issue with read_piece() stopping torrent on pieces not yet downloaded
+	* improve handling of allow_i2p_mixed setting to work for magnet links
+	* fix web seed request for renamed single-file torrents
+	* fix issue where web seeds could disappear from resume data
+	* extend save_resume with additional conditional flags
+	* fix issue with retrying trackers in tiers > 0
+	* fix last_upload and last_download resume data fields to use posix time
+	* improve error messages for no_connect_privileged_ports, by untangle it from the port filter
+	* fix I2P issue introduced in 2.0.0
+	* add async tracker status query, post_trackers()
+	* add async torrent status query, post_status()
+	* support loading version 2 of resume data format
+	* fix issue with odd piece sizes
+	* add async piece availability query, post_piece_availability()
+	* add async download queue query, post_download_queue()
+	* add async file_progress query, post_file_progress()
+	* add async peer_info query, post_peer_info()
 
 2.0.8 released
 
+	* fix uTP streams timing out instead of closing cleanly
 	* add write_torrent_file_buf() overload for generating .torrent files
 	* add create_torrent::generate_buf() function to generate into a buffer
 	* fix copy_file when the file ends with a sparse region

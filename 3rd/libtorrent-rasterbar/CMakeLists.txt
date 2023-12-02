@@ -544,11 +544,6 @@ if(static_runtime)
 	set(OPENSSL_MSVC_STATIC_RT ON)
 endif()
 
-if (NOT BUILD_SHARED_LIBS)
-	set(Boost_USE_STATIC_LIBS ON)
-	set(OPENSSL_USE_STATIC_LIBS ON)
-endif()
-
 add_library(torrent-rasterbar
 	${sources}
 	${try_signal_sources}
@@ -618,7 +613,7 @@ if (WIN32)
 			debug dbghelp crypt32
 	)
 
-	add_definitions(-D_WIN32_WINNT=0x0600) # target Windows Vista or later
+	add_definitions(-D_WIN32_WINNT=0x0601) # target Windows 7 or later
 
 	target_compile_definitions(torrent-rasterbar
 		PUBLIC WIN32_LEAN_AND_MEAN # prevent winsock1 to be included

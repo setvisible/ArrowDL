@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,69 +25,69 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.8</td></tr>
+<td>2.0.9</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#session-handle" id="id191">session_handle</a><ul>
-<li><a class="reference internal" href="#is-valid" id="id192">is_valid()</a></li>
-<li><a class="reference internal" href="#session-state" id="id193">session_state()</a></li>
-<li><a class="reference internal" href="#refresh-torrent-status-get-torrent-status" id="id194">refresh_torrent_status() get_torrent_status()</a></li>
-<li><a class="reference internal" href="#post-torrent-updates" id="id195">post_torrent_updates()</a></li>
-<li><a class="reference internal" href="#post-session-stats" id="id196">post_session_stats()</a></li>
-<li><a class="reference internal" href="#post-dht-stats" id="id197">post_dht_stats()</a></li>
-<li><a class="reference internal" href="#set-dht-state" id="id198">set_dht_state()</a></li>
-<li><a class="reference internal" href="#find-torrent-get-torrents" id="id199">find_torrent() get_torrents()</a></li>
-<li><a class="reference internal" href="#add-torrent-async-add-torrent" id="id200">add_torrent() async_add_torrent()</a></li>
-<li><a class="reference internal" href="#is-paused-pause-resume" id="id201">is_paused() pause() resume()</a></li>
-<li><a class="reference internal" href="#is-dht-running" id="id202">is_dht_running()</a></li>
-<li><a class="reference internal" href="#set-dht-storage" id="id203">set_dht_storage()</a></li>
-<li><a class="reference internal" href="#add-dht-node" id="id204">add_dht_node()</a></li>
-<li><a class="reference internal" href="#dht-get-item" id="id205">dht_get_item()</a></li>
-<li><a class="reference internal" href="#id54" id="id206">dht_get_item()</a></li>
-<li><a class="reference internal" href="#dht-put-item" id="id207">dht_put_item()</a></li>
-<li><a class="reference internal" href="#id56" id="id208">dht_put_item()</a></li>
-<li><a class="reference internal" href="#dht-get-peers-dht-announce" id="id209">dht_get_peers() dht_announce()</a></li>
-<li><a class="reference internal" href="#dht-live-nodes" id="id210">dht_live_nodes()</a></li>
-<li><a class="reference internal" href="#dht-sample-infohashes" id="id211">dht_sample_infohashes()</a></li>
-<li><a class="reference internal" href="#dht-direct-request" id="id212">dht_direct_request()</a></li>
-<li><a class="reference internal" href="#add-extension" id="id213">add_extension()</a></li>
-<li><a class="reference internal" href="#set-ip-filter-get-ip-filter" id="id214">set_ip_filter() get_ip_filter()</a></li>
-<li><a class="reference internal" href="#set-port-filter" id="id215">set_port_filter()</a></li>
-<li><a class="reference internal" href="#listen-port-is-listening-ssl-listen-port" id="id216">listen_port() is_listening() ssl_listen_port()</a></li>
-<li><a class="reference internal" href="#get-peer-class-filter-set-peer-class-filter" id="id217">get_peer_class_filter() set_peer_class_filter()</a></li>
-<li><a class="reference internal" href="#set-peer-class-type-filter-get-peer-class-type-filter" id="id218">set_peer_class_type_filter() get_peer_class_type_filter()</a></li>
-<li><a class="reference internal" href="#create-peer-class" id="id219">create_peer_class()</a></li>
-<li><a class="reference internal" href="#delete-peer-class" id="id220">delete_peer_class()</a></li>
-<li><a class="reference internal" href="#get-peer-class-set-peer-class" id="id221">get_peer_class() set_peer_class()</a></li>
-<li><a class="reference internal" href="#remove-torrent" id="id222">remove_torrent()</a></li>
-<li><a class="reference internal" href="#apply-settings-get-settings" id="id223">apply_settings() get_settings()</a></li>
-<li><a class="reference internal" href="#set-alert-notify-pop-alerts-wait-for-alert" id="id224">set_alert_notify() pop_alerts() wait_for_alert()</a></li>
-<li><a class="reference internal" href="#add-port-mapping-delete-port-mapping" id="id225">add_port_mapping() delete_port_mapping()</a></li>
-<li><a class="reference internal" href="#reopen-network-sockets" id="id226">reopen_network_sockets()</a></li>
-<li><a class="reference internal" href="#native-handle" id="id227">native_handle()</a></li>
+<li><a class="reference internal" href="#session-handle" id="toc-entry-1">session_handle</a><ul>
+<li><a class="reference internal" href="#is-valid" id="toc-entry-2">is_valid()</a></li>
+<li><a class="reference internal" href="#session-state" id="toc-entry-3">session_state()</a></li>
+<li><a class="reference internal" href="#refresh-torrent-status-get-torrent-status" id="toc-entry-4">refresh_torrent_status() get_torrent_status()</a></li>
+<li><a class="reference internal" href="#post-torrent-updates" id="toc-entry-5">post_torrent_updates()</a></li>
+<li><a class="reference internal" href="#post-session-stats" id="toc-entry-6">post_session_stats()</a></li>
+<li><a class="reference internal" href="#post-dht-stats" id="toc-entry-7">post_dht_stats()</a></li>
+<li><a class="reference internal" href="#set-dht-state" id="toc-entry-8">set_dht_state()</a></li>
+<li><a class="reference internal" href="#get-torrents-find-torrent" id="toc-entry-9">get_torrents() find_torrent()</a></li>
+<li><a class="reference internal" href="#async-add-torrent-add-torrent" id="toc-entry-10">async_add_torrent() add_torrent()</a></li>
+<li><a class="reference internal" href="#is-paused-pause-resume" id="toc-entry-11">is_paused() pause() resume()</a></li>
+<li><a class="reference internal" href="#is-dht-running" id="toc-entry-12">is_dht_running()</a></li>
+<li><a class="reference internal" href="#set-dht-storage" id="toc-entry-13">set_dht_storage()</a></li>
+<li><a class="reference internal" href="#add-dht-node" id="toc-entry-14">add_dht_node()</a></li>
+<li><a class="reference internal" href="#dht-get-item" id="toc-entry-15">dht_get_item()</a></li>
+<li><a class="reference internal" href="#dht-get-item-1" id="toc-entry-16">dht_get_item()</a></li>
+<li><a class="reference internal" href="#dht-put-item" id="toc-entry-17">dht_put_item()</a></li>
+<li><a class="reference internal" href="#dht-put-item-1" id="toc-entry-18">dht_put_item()</a></li>
+<li><a class="reference internal" href="#dht-announce-dht-get-peers" id="toc-entry-19">dht_announce() dht_get_peers()</a></li>
+<li><a class="reference internal" href="#dht-live-nodes" id="toc-entry-20">dht_live_nodes()</a></li>
+<li><a class="reference internal" href="#dht-sample-infohashes" id="toc-entry-21">dht_sample_infohashes()</a></li>
+<li><a class="reference internal" href="#dht-direct-request" id="toc-entry-22">dht_direct_request()</a></li>
+<li><a class="reference internal" href="#add-extension" id="toc-entry-23">add_extension()</a></li>
+<li><a class="reference internal" href="#set-ip-filter-get-ip-filter" id="toc-entry-24">set_ip_filter() get_ip_filter()</a></li>
+<li><a class="reference internal" href="#set-port-filter" id="toc-entry-25">set_port_filter()</a></li>
+<li><a class="reference internal" href="#listen-port-is-listening-ssl-listen-port" id="toc-entry-26">listen_port() is_listening() ssl_listen_port()</a></li>
+<li><a class="reference internal" href="#set-peer-class-filter-get-peer-class-filter" id="toc-entry-27">set_peer_class_filter() get_peer_class_filter()</a></li>
+<li><a class="reference internal" href="#get-peer-class-type-filter-set-peer-class-type-filter" id="toc-entry-28">get_peer_class_type_filter() set_peer_class_type_filter()</a></li>
+<li><a class="reference internal" href="#create-peer-class" id="toc-entry-29">create_peer_class()</a></li>
+<li><a class="reference internal" href="#delete-peer-class" id="toc-entry-30">delete_peer_class()</a></li>
+<li><a class="reference internal" href="#set-peer-class-get-peer-class" id="toc-entry-31">set_peer_class() get_peer_class()</a></li>
+<li><a class="reference internal" href="#remove-torrent" id="toc-entry-32">remove_torrent()</a></li>
+<li><a class="reference internal" href="#get-settings-apply-settings" id="toc-entry-33">get_settings() apply_settings()</a></li>
+<li><a class="reference internal" href="#wait-for-alert-pop-alerts-set-alert-notify" id="toc-entry-34">wait_for_alert() pop_alerts() set_alert_notify()</a></li>
+<li><a class="reference internal" href="#delete-port-mapping-add-port-mapping" id="toc-entry-35">delete_port_mapping() add_port_mapping()</a></li>
+<li><a class="reference internal" href="#reopen-network-sockets" id="toc-entry-36">reopen_network_sockets()</a></li>
+<li><a class="reference internal" href="#native-handle" id="toc-entry-37">native_handle()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#session-proxy" id="id228">session_proxy</a><ul>
-<li><a class="reference internal" href="#operator-session-proxy-session-proxy" id="id229">operator=() session_proxy() ~session_proxy()</a></li>
+<li><a class="reference internal" href="#session-proxy" id="toc-entry-38">session_proxy</a><ul>
+<li><a class="reference internal" href="#session-proxy-session-proxy-operator" id="toc-entry-39">session_proxy() ~session_proxy() operator=()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#session" id="id230">session</a><ul>
-<li><a class="reference internal" href="#id144" id="id231">session()</a></li>
-<li><a class="reference internal" href="#id151" id="id232">session()</a></li>
-<li><a class="reference internal" href="#id159" id="id233">~session()</a></li>
-<li><a class="reference internal" href="#abort" id="id234">abort()</a></li>
+<li><a class="reference internal" href="#session" id="toc-entry-40">session</a><ul>
+<li><a class="reference internal" href="#session-1" id="toc-entry-41">session()</a></li>
+<li><a class="reference internal" href="#session-2" id="toc-entry-42">session()</a></li>
+<li><a class="reference internal" href="#session-3" id="toc-entry-43">~session()</a></li>
+<li><a class="reference internal" href="#abort" id="toc-entry-44">abort()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#session-params" id="id235">session_params</a><ul>
-<li><a class="reference internal" href="#id174" id="id236">session_params()</a></li>
-<li><a class="reference internal" href="#id177" id="id237">session_params()</a></li>
+<li><a class="reference internal" href="#session-params" id="toc-entry-45">session_params</a><ul>
+<li><a class="reference internal" href="#session-params-1" id="toc-entry-46">session_params()</a></li>
+<li><a class="reference internal" href="#session-params-2" id="toc-entry-47">session_params()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#write-session-params-write-session-params-buf-read-session-params" id="id238">write_session_params() write_session_params_buf() read_session_params()</a></li>
+<li><a class="reference internal" href="#read-session-params-write-session-params-write-session-params-buf" id="toc-entry-48">read_session_params() write_session_params() write_session_params_buf()</a></li>
 </ul>
 </div>
 <a name="session_handle"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+session_handle&labels=documentation&body=Documentation+under+heading+%22class+session_handle%22+could+be+improved">report issue</a>]</span><div class="section" id="session-handle">
@@ -115,15 +115,15 @@ struct session_handle
    void <strong>set_dht_state</strong> (dht::dht_state&amp;&amp; st);
    torrent_handle <strong>find_torrent</strong> (sha1_hash const&amp; info_hash) const;
    std::vector&lt;torrent_handle&gt; <strong>get_torrents</strong> () const;
-   torrent_handle <strong>add_torrent</strong> (add_torrent_params&amp;&amp; params, error_code&amp; ec);
    torrent_handle <strong>add_torrent</strong> (add_torrent_params const&amp; params, error_code&amp; ec);
    torrent_handle <strong>add_torrent</strong> (add_torrent_params const&amp; params);
-   void <strong>async_add_torrent</strong> (add_torrent_params&amp;&amp; params);
-   torrent_handle <strong>add_torrent</strong> (add_torrent_params&amp;&amp; params);
    void <strong>async_add_torrent</strong> (add_torrent_params const&amp; params);
-   void <strong>resume</strong> ();
+   void <strong>async_add_torrent</strong> (add_torrent_params&amp;&amp; params);
+   torrent_handle <strong>add_torrent</strong> (add_torrent_params&amp;&amp; params, error_code&amp; ec);
+   torrent_handle <strong>add_torrent</strong> (add_torrent_params&amp;&amp; params);
    void <strong>pause</strong> ();
    bool <strong>is_paused</strong> () const;
+   void <strong>resume</strong> ();
    bool <strong>is_dht_running</strong> () const;
    void <strong>set_dht_storage</strong> (dht::dht_storage_constructor_type sc);
    void <strong>add_dht_node</strong> (std::pair&lt;std::string, int&gt; const&amp; node);
@@ -140,17 +140,17 @@ struct session_handle
    void <strong>dht_live_nodes</strong> (sha1_hash const&amp; nid);
    void <strong>dht_sample_infohashes</strong> (udp::endpoint const&amp; ep, sha1_hash const&amp; target);
    void <strong>dht_direct_request</strong> (udp::endpoint const&amp; ep, entry const&amp; e, client_data_t userdata = {});
-   void <strong>add_extension</strong> (std::shared_ptr&lt;plugin&gt; ext);
    void <strong>add_extension</strong> (std::function&lt;std::shared_ptr&lt;torrent_plugin&gt;(
       torrent_handle const&amp;, client_data_t)&gt; ext);
-   void <strong>set_ip_filter</strong> (ip_filter f);
+   void <strong>add_extension</strong> (std::shared_ptr&lt;plugin&gt; ext);
    ip_filter <strong>get_ip_filter</strong> () const;
+   void <strong>set_ip_filter</strong> (ip_filter f);
    void <strong>set_port_filter</strong> (port_filter const&amp; f);
-   unsigned short <strong>ssl_listen_port</strong> () const;
    unsigned short <strong>listen_port</strong> () const;
    bool <strong>is_listening</strong> () const;
-   void <strong>set_peer_class_filter</strong> (ip_filter const&amp; f);
+   unsigned short <strong>ssl_listen_port</strong> () const;
    ip_filter <strong>get_peer_class_filter</strong> () const;
+   void <strong>set_peer_class_filter</strong> (ip_filter const&amp; f);
    peer_class_type_filter <strong>get_peer_class_type_filter</strong> () const;
    void <strong>set_peer_class_type_filter</strong> (peer_class_type_filter const&amp; f);
    peer_class_t <strong>create_peer_class</strong> (char const* name);
@@ -159,8 +159,8 @@ struct session_handle
    void <strong>set_peer_class</strong> (peer_class_t cid, peer_class_info const&amp; pci);
    void <strong>remove_torrent</strong> (const torrent_handle&amp;, remove_flags_t = {});
    void <strong>apply_settings</strong> (settings_pack&amp;&amp;);
-   settings_pack <strong>get_settings</strong> () const;
    void <strong>apply_settings</strong> (settings_pack const&amp;);
+   settings_pack <strong>get_settings</strong> () const;
    void <strong>set_alert_notify</strong> (std::function&lt;void()&gt; const&amp; fun);
    void <strong>pop_alerts</strong> (std::vector&lt;alert*&gt;* alerts);
    alert* <strong>wait_for_alert</strong> (time_duration max_wait);
@@ -292,10 +292,10 @@ void <strong>set_dht_state</strong> (dht::dht_state&amp;&amp; st);
 <p>set the DHT state for the <a class="reference external" href="reference-Session.html#session">session</a>. This will be taken into account the
 next time the DHT is started, as if it had been passed in via the
 <a class="reference external" href="reference-Session.html#session_params">session_params</a> on startup.</p>
-<a name="find_torrent()"></a>
-<a name="get_torrents()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Bfind_torrent%28%29+get_torrents%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Bfind_torrent%28%29+get_torrents%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="find-torrent-get-torrents">
-<h2>find_torrent() get_torrents()</h2>
+<a name="get_torrents()"></a>
+<a name="find_torrent()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Bget_torrents%28%29+find_torrent%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Bget_torrents%28%29+find_torrent%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="get-torrents-find-torrent">
+<h2>get_torrents() find_torrent()</h2>
 <pre class="literal-block">
 torrent_handle <strong>find_torrent</strong> (sha1_hash const&amp; info_hash) const;
 std::vector&lt;torrent_handle&gt; <strong>get_torrents</strong> () const;
@@ -308,17 +308,17 @@ torrent is returned. In case the torrent cannot be found, an invalid
 not.</p>
 <p><tt class="docutils literal">get_torrents()</tt> returns a vector of torrent_handles to all the
 torrents currently in the <a class="reference external" href="reference-Session.html#session">session</a>.</p>
-<a name="add_torrent()"></a>
-<a name="async_add_torrent()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Badd_torrent%28%29+async_add_torrent%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Badd_torrent%28%29+async_add_torrent%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="add-torrent-async-add-torrent">
-<h2>add_torrent() async_add_torrent()</h2>
+<a name="async_add_torrent()"></a>
+<a name="add_torrent()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Basync_add_torrent%28%29+add_torrent%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Basync_add_torrent%28%29+add_torrent%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="async-add-torrent-add-torrent">
+<h2>async_add_torrent() add_torrent()</h2>
 <pre class="literal-block">
-torrent_handle <strong>add_torrent</strong> (add_torrent_params&amp;&amp; params, error_code&amp; ec);
 torrent_handle <strong>add_torrent</strong> (add_torrent_params const&amp; params, error_code&amp; ec);
 torrent_handle <strong>add_torrent</strong> (add_torrent_params const&amp; params);
-void <strong>async_add_torrent</strong> (add_torrent_params&amp;&amp; params);
-torrent_handle <strong>add_torrent</strong> (add_torrent_params&amp;&amp; params);
 void <strong>async_add_torrent</strong> (add_torrent_params const&amp; params);
+void <strong>async_add_torrent</strong> (add_torrent_params&amp;&amp; params);
+torrent_handle <strong>add_torrent</strong> (add_torrent_params&amp;&amp; params, error_code&amp; ec);
+torrent_handle <strong>add_torrent</strong> (add_torrent_params&amp;&amp; params);
 </pre>
 <p>You add torrents through the <a class="reference external" href="reference-Session.html#add_torrent()">add_torrent()</a> function where you give an
 object with all the parameters. The <a class="reference external" href="reference-Session.html#add_torrent()">add_torrent()</a> overloads will block
@@ -352,9 +352,9 @@ compatible with v1). For more details, see <a class="reference external" href="m
 <div class="section" id="is-paused-pause-resume">
 <h2>is_paused() pause() resume()</h2>
 <pre class="literal-block">
-void <strong>resume</strong> ();
 void <strong>pause</strong> ();
 bool <strong>is_paused</strong> () const;
+void <strong>resume</strong> ();
 </pre>
 <p>Pausing the <a class="reference external" href="reference-Session.html#session">session</a> has the same effect as pausing every torrent in
 it, except that torrents will not be resumed by the auto-manage
@@ -404,7 +404,7 @@ void <strong>dht_get_item</strong> (sha1_hash const&amp; target);
 <p>query the DHT for an immutable item at the <tt class="docutils literal">target</tt> hash.
 the result is posted as a <a class="reference external" href="reference-Alerts.html#dht_immutable_item_alert">dht_immutable_item_alert</a>.</p>
 <a name="dht_get_item()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Bdht_get_item%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Bdht_get_item%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="id54">
+<div class="section" id="dht-get-item-1">
 <h2>dht_get_item()</h2>
 <pre class="literal-block">
 void <strong>dht_get_item</strong> (std::array&lt;char, 32&gt; key
@@ -426,7 +426,7 @@ the returned hash is the key that is to be used to look the item
 up again. It's just the SHA-1 hash of the bencoded form of the
 structure.</p>
 <a name="dht_put_item()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Bdht_put_item%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Bdht_put_item%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="id56">
+<div class="section" id="dht-put-item-1">
 <h2>dht_put_item()</h2>
 <pre class="literal-block">
 void <strong>dht_put_item</strong> (std::array&lt;char, 32&gt; key
@@ -470,10 +470,10 @@ race conditions. If you want to <em>update</em> the value in the DHT, you
 must first retrieve it, then modify it, then write it back. The way
 the DHT works, it is natural to always do a lookup before storing and
 calling the callback in between is convenient.</p>
-<a name="dht_get_peers()"></a>
-<a name="dht_announce()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Bdht_get_peers%28%29+dht_announce%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Bdht_get_peers%28%29+dht_announce%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="dht-get-peers-dht-announce">
-<h2>dht_get_peers() dht_announce()</h2>
+<a name="dht_announce()"></a>
+<a name="dht_get_peers()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Bdht_announce%28%29+dht_get_peers%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Bdht_announce%28%29+dht_get_peers%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="dht-announce-dht-get-peers">
+<h2>dht_announce() dht_get_peers()</h2>
 <pre class="literal-block">
 void <strong>dht_get_peers</strong> (sha1_hash const&amp; info_hash);
 void <strong>dht_announce</strong> (sha1_hash const&amp; info_hash, int port = 0, dht::announce_flags_t flags = {});
@@ -528,9 +528,9 @@ posted, regardless of the <a class="reference external" href="reference-Alerts.h
 <div class="section" id="add-extension">
 <h2>add_extension()</h2>
 <pre class="literal-block">
-void <strong>add_extension</strong> (std::shared_ptr&lt;plugin&gt; ext);
 void <strong>add_extension</strong> (std::function&lt;std::shared_ptr&lt;torrent_plugin&gt;(
       torrent_handle const&amp;, client_data_t)&gt; ext);
+void <strong>add_extension</strong> (std::shared_ptr&lt;plugin&gt; ext);
 </pre>
 <p>This function adds an extension to this <a class="reference external" href="reference-Session.html#session">session</a>. The argument is a
 function object that is called with a <tt class="docutils literal">torrent_handle</tt> and which should
@@ -571,8 +571,8 @@ eliminate most problems on poisoned torrents.</dd>
 <div class="section" id="set-ip-filter-get-ip-filter">
 <h2>set_ip_filter() get_ip_filter()</h2>
 <pre class="literal-block">
-void <strong>set_ip_filter</strong> (ip_filter f);
 ip_filter <strong>get_ip_filter</strong> () const;
+void <strong>set_ip_filter</strong> (ip_filter f);
 </pre>
 <p>Sets a filter that will be used to reject and accept incoming as well
 as outgoing connections based on their originating ip address. The
@@ -597,9 +597,9 @@ anti-virus software by connecting to SMTP, FTP ports.</p>
 <div class="section" id="listen-port-is-listening-ssl-listen-port">
 <h2>listen_port() is_listening() ssl_listen_port()</h2>
 <pre class="literal-block">
-unsigned short <strong>ssl_listen_port</strong> () const;
 unsigned short <strong>listen_port</strong> () const;
 bool <strong>is_listening</strong> () const;
+unsigned short <strong>ssl_listen_port</strong> () const;
 </pre>
 <p><tt class="docutils literal">is_listening()</tt> will tell you whether or not the <a class="reference external" href="reference-Session.html#session">session</a> has
 successfully opened a listening port. If it hasn't, this function will
@@ -607,13 +607,13 @@ return false, and then you can set a new
 <a class="reference external" href="reference-Settings.html#listen_interfaces">settings_pack::listen_interfaces</a> to try another interface and port to
 bind to.</p>
 <p><tt class="docutils literal">listen_port()</tt> returns the port we ended up listening on.</p>
-<a name="get_peer_class_filter()"></a>
-<a name="set_peer_class_filter()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Bget_peer_class_filter%28%29+set_peer_class_filter%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Bget_peer_class_filter%28%29+set_peer_class_filter%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="get-peer-class-filter-set-peer-class-filter">
-<h2>get_peer_class_filter() set_peer_class_filter()</h2>
+<a name="set_peer_class_filter()"></a>
+<a name="get_peer_class_filter()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Bset_peer_class_filter%28%29+get_peer_class_filter%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Bset_peer_class_filter%28%29+get_peer_class_filter%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="set-peer-class-filter-get-peer-class-filter">
+<h2>set_peer_class_filter() get_peer_class_filter()</h2>
 <pre class="literal-block">
-void <strong>set_peer_class_filter</strong> (ip_filter const&amp; f);
 ip_filter <strong>get_peer_class_filter</strong> () const;
+void <strong>set_peer_class_filter</strong> (ip_filter const&amp; f);
 </pre>
 <p>Sets the peer class filter for this <a class="reference external" href="reference-Session.html#session">session</a>. All new peer connections
 will take this into account and be added to the peer classes specified
@@ -641,10 +641,10 @@ classes are only added.</p>
 representing peer classes in the <tt class="docutils literal">peer_class_filter</tt> are 32 bits.</p>
 <p>The <tt class="docutils literal">get_peer_class_filter()</tt> function returns the current filter.</p>
 <p>For more information, see <a class="reference external" href="manual-ref.html#peer-classes">peer classes</a>.</p>
-<a name="set_peer_class_type_filter()"></a>
-<a name="get_peer_class_type_filter()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Bset_peer_class_type_filter%28%29+get_peer_class_type_filter%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Bset_peer_class_type_filter%28%29+get_peer_class_type_filter%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="set-peer-class-type-filter-get-peer-class-type-filter">
-<h2>set_peer_class_type_filter() get_peer_class_type_filter()</h2>
+<a name="get_peer_class_type_filter()"></a>
+<a name="set_peer_class_type_filter()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Bget_peer_class_type_filter%28%29+set_peer_class_type_filter%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Bget_peer_class_type_filter%28%29+set_peer_class_type_filter%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="get-peer-class-type-filter-set-peer-class-type-filter">
+<h2>get_peer_class_type_filter() set_peer_class_type_filter()</h2>
 <pre class="literal-block">
 peer_class_type_filter <strong>get_peer_class_type_filter</strong> () const;
 void <strong>set_peer_class_type_filter</strong> (peer_class_type_filter const&amp; f);
@@ -694,10 +694,10 @@ references to it.</p>
 peer classes will be properly destructed when the <a class="reference external" href="reference-Session.html#session">session</a> object
 destructs.</p>
 <p>For more information on peer classes, see <a class="reference external" href="manual-ref.html#peer-classes">peer classes</a>.</p>
-<a name="get_peer_class()"></a>
-<a name="set_peer_class()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Bget_peer_class%28%29+set_peer_class%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Bget_peer_class%28%29+set_peer_class%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="get-peer-class-set-peer-class">
-<h2>get_peer_class() set_peer_class()</h2>
+<a name="set_peer_class()"></a>
+<a name="get_peer_class()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Bset_peer_class%28%29+get_peer_class%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Bset_peer_class%28%29+get_peer_class%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="set-peer-class-get-peer-class">
+<h2>set_peer_class() get_peer_class()</h2>
 <pre class="literal-block">
 peer_class_info <strong>get_peer_class</strong> (peer_class_t cid) const;
 void <strong>set_peer_class</strong> (peer_class_t cid, peer_class_info const&amp; pci);
@@ -748,23 +748,23 @@ queue has their queue positions updated. This can potentially cause a
 large state_update to be posted. When removing all torrents, it is
 advised to remove them from the back of the queue, to minimize the
 shifting.</p>
-<a name="apply_settings()"></a>
-<a name="get_settings()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Bapply_settings%28%29+get_settings%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Bapply_settings%28%29+get_settings%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="apply-settings-get-settings">
-<h2>apply_settings() get_settings()</h2>
+<a name="get_settings()"></a>
+<a name="apply_settings()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Bget_settings%28%29+apply_settings%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Bget_settings%28%29+apply_settings%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="get-settings-apply-settings">
+<h2>get_settings() apply_settings()</h2>
 <pre class="literal-block">
 void <strong>apply_settings</strong> (settings_pack&amp;&amp;);
-settings_pack <strong>get_settings</strong> () const;
 void <strong>apply_settings</strong> (settings_pack const&amp;);
+settings_pack <strong>get_settings</strong> () const;
 </pre>
 <p>Applies the settings specified by the <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a> <tt class="docutils literal">s</tt>. This is an
 asynchronous operation that will return immediately and actually apply
 the settings to the main thread of libtorrent some time later.</p>
-<a name="set_alert_notify()"></a>
+<a name="wait_for_alert()"></a>
 <a name="pop_alerts()"></a>
-<a name="wait_for_alert()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Bset_alert_notify%28%29+pop_alerts%28%29+wait_for_alert%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Bset_alert_notify%28%29+pop_alerts%28%29+wait_for_alert%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="set-alert-notify-pop-alerts-wait-for-alert">
-<h2>set_alert_notify() pop_alerts() wait_for_alert()</h2>
+<a name="set_alert_notify()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Bwait_for_alert%28%29+pop_alerts%28%29+set_alert_notify%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Bwait_for_alert%28%29+pop_alerts%28%29+set_alert_notify%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="wait-for-alert-pop-alerts-set-alert-notify">
+<h2>wait_for_alert() pop_alerts() set_alert_notify()</h2>
 <pre class="literal-block">
 void <strong>set_alert_notify</strong> (std::function&lt;void()&gt; const&amp; fun);
 void <strong>pop_alerts</strong> (std::vector&lt;alert*&gt;* alerts);
@@ -822,10 +822,10 @@ It really should just notify the main application thread.</p>
 <p>The type of an <a class="reference external" href="reference-Alerts.html#alert">alert</a> is returned by the polymorphic function
 <tt class="docutils literal"><span class="pre">alert::type()</span></tt> but can also be queries from a concrete type via
 <tt class="docutils literal"><span class="pre">T::alert_type</span></tt>, as a static constant.</p>
-<a name="add_port_mapping()"></a>
-<a name="delete_port_mapping()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Badd_port_mapping%28%29+delete_port_mapping%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Badd_port_mapping%28%29+delete_port_mapping%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="add-port-mapping-delete-port-mapping">
-<h2>add_port_mapping() delete_port_mapping()</h2>
+<a name="delete_port_mapping()"></a>
+<a name="add_port_mapping()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_handle%3A%3A%5Bdelete_port_mapping%28%29+add_port_mapping%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_handle%3A%3A%5Bdelete_port_mapping%28%29+add_port_mapping%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="delete-port-mapping-add-port-mapping">
+<h2>delete_port_mapping() add_port_mapping()</h2>
 <pre class="literal-block">
 void <strong>delete_port_mapping</strong> (port_mapping_t handle);
 std::vector&lt;port_mapping_t&gt; <strong>add_port_mapping</strong> (portmap_protocol t, int external_port, int local_port);
@@ -917,24 +917,24 @@ is done shutting down.</p>
 struct session_proxy
 {
    session_proxy&amp; <strong>operator=</strong> (session_proxy const&amp;) &amp;;
-   <strong>session_proxy</strong> (session_proxy&amp;&amp;) noexcept;
-   <strong>session_proxy</strong> ();
-   session_proxy&amp; <strong>operator=</strong> (session_proxy&amp;&amp;) &amp; noexcept;
    <strong>session_proxy</strong> (session_proxy const&amp;);
+   session_proxy&amp; <strong>operator=</strong> (session_proxy&amp;&amp;) &amp; noexcept;
    <strong>~session_proxy</strong> ();
+   <strong>session_proxy</strong> ();
+   <strong>session_proxy</strong> (session_proxy&amp;&amp;) noexcept;
 };
 </pre>
-<a name="operator=()"></a>
 <a name="session_proxy()"></a>
-<a name="~session_proxy()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_proxy%3A%3A%5Boperator%3D%28%29+session_proxy%28%29+~session_proxy%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_proxy%3A%3A%5Boperator%3D%28%29+session_proxy%28%29+~session_proxy%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="operator-session-proxy-session-proxy">
-<h2>operator=() session_proxy() ~session_proxy()</h2>
+<a name="~session_proxy()"></a>
+<a name="operator=()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_proxy%3A%3A%5Bsession_proxy%28%29+~session_proxy%28%29+operator%3D%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_proxy%3A%3A%5Bsession_proxy%28%29+~session_proxy%28%29+operator%3D%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="session-proxy-session-proxy-operator">
+<h2>session_proxy() ~session_proxy() operator=()</h2>
 <pre class="literal-block">
 session_proxy&amp; <strong>operator=</strong> (session_proxy const&amp;) &amp;;
-<strong>session_proxy</strong> (session_proxy&amp;&amp;) noexcept;
-<strong>session_proxy</strong> ();
-session_proxy&amp; <strong>operator=</strong> (session_proxy&amp;&amp;) &amp; noexcept;
 <strong>session_proxy</strong> (session_proxy const&amp;);
+session_proxy&amp; <strong>operator=</strong> (session_proxy&amp;&amp;) &amp; noexcept;
 <strong>~session_proxy</strong> ();
+<strong>session_proxy</strong> ();
+<strong>session_proxy</strong> (session_proxy&amp;&amp;) noexcept;
 </pre>
 <p>default constructor, does not refer to any <a class="reference external" href="reference-Session.html#session">session</a>
 implementation object.</p>
@@ -957,24 +957,24 @@ the settings to be set and pass it in to <tt class="docutils literal"><span clas
 struct session : session_handle
 {
    <strong>session</strong> (session_params const&amp; params, session_flags_t flags);
-   <strong>session</strong> ();
    explicit <strong>session</strong> (session_params&amp;&amp; params);
+   <strong>session</strong> ();
    explicit <strong>session</strong> (session_params const&amp; params);
    <strong>session</strong> (session_params&amp;&amp; params, session_flags_t flags);
    <strong>session</strong> (session_params const&amp; params, io_context&amp; ios);
+   <strong>session</strong> (session_params&amp;&amp; params, io_context&amp; ios, session_flags_t);
    <strong>session</strong> (session_params const&amp; params, io_context&amp; ios, session_flags_t);
    <strong>session</strong> (session_params&amp;&amp; params, io_context&amp; ios);
-   <strong>session</strong> (session_params&amp;&amp; params, io_context&amp; ios, session_flags_t);
    <strong>~session</strong> ();
    session_proxy <strong>abort</strong> ();
 };
 </pre>
-<a name="session()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session%3A%3A%5Bsession%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session%3A%3A%5Bsession%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="id144">
+<a name="session()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session%3A%3A%5Bsession%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session%3A%3A%5Bsession%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="session-1">
 <h2>session()</h2>
 <pre class="literal-block">
 <strong>session</strong> (session_params const&amp; params, session_flags_t flags);
-<strong>session</strong> ();
 explicit <strong>session</strong> (session_params&amp;&amp; params);
+<strong>session</strong> ();
 explicit <strong>session</strong> (session_params const&amp; params);
 <strong>session</strong> (session_params&amp;&amp; params, session_flags_t flags);
 </pre>
@@ -987,13 +987,13 @@ paused mode (by passing in <tt class="docutils literal"><span class="pre">sessio
 <tt class="docutils literal">add_default_plugins</tt> do not have an affect on constructors that
 take a <a class="reference external" href="reference-Session.html#session_params">session_params</a> object. It already contains the plugins to use.</p>
 <a name="session()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session%3A%3A%5Bsession%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session%3A%3A%5Bsession%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="id151">
+<div class="section" id="session-2">
 <h2>session()</h2>
 <pre class="literal-block">
 <strong>session</strong> (session_params const&amp; params, io_context&amp; ios);
+<strong>session</strong> (session_params&amp;&amp; params, io_context&amp; ios, session_flags_t);
 <strong>session</strong> (session_params const&amp; params, io_context&amp; ios, session_flags_t);
 <strong>session</strong> (session_params&amp;&amp; params, io_context&amp; ios);
-<strong>session</strong> (session_params&amp;&amp; params, io_context&amp; ios, session_flags_t);
 </pre>
 <p>Overload of the constructor that takes an external io_context to run
 the <a class="reference external" href="reference-Session.html#session">session</a> object on. This is primarily useful for tests that may want
@@ -1010,7 +1010,7 @@ destruct the <a class="reference external" href="reference-Session.html#session"
 destruct the <a class="reference external" href="reference-Session.html#session_proxy">session_proxy</a> object.</p>
 </div>
 <a name="~session()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session%3A%3A%5B~session%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session%3A%3A%5B~session%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="id159">
+<div class="section" id="session-3">
 <h2>~session()</h2>
 <pre class="literal-block">
 <strong>~session</strong> ();
@@ -1051,12 +1051,12 @@ before it's started.</p>
 <pre class="literal-block">
 struct session_params
 {
-   <strong>session_params</strong> ();
-   <strong>session_params</strong> (settings_pack&amp;&amp; sp);
    <strong>session_params</strong> (settings_pack const&amp; sp);
-   <strong>session_params</strong> (settings_pack const&amp; sp
-      , std::vector&lt;std::shared_ptr&lt;plugin&gt;&gt; exts);
+   <strong>session_params</strong> (settings_pack&amp;&amp; sp);
+   <strong>session_params</strong> ();
    <strong>session_params</strong> (settings_pack&amp;&amp; sp
+      , std::vector&lt;std::shared_ptr&lt;plugin&gt;&gt; exts);
+   <strong>session_params</strong> (settings_pack const&amp; sp
       , std::vector&lt;std::shared_ptr&lt;plugin&gt;&gt; exts);
 
    settings_pack settings;
@@ -1068,23 +1068,23 @@ struct session_params
    libtorrent::ip_filter ip_filter;
 };
 </pre>
-<a name="session_params()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_params%3A%3A%5Bsession_params%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_params%3A%3A%5Bsession_params%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="id174">
+<a name="session_params()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_params%3A%3A%5Bsession_params%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_params%3A%3A%5Bsession_params%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="session-params-1">
 <h2>session_params()</h2>
 <pre class="literal-block">
-<strong>session_params</strong> ();
-<strong>session_params</strong> (settings_pack&amp;&amp; sp);
 <strong>session_params</strong> (settings_pack const&amp; sp);
+<strong>session_params</strong> (settings_pack&amp;&amp; sp);
+<strong>session_params</strong> ();
 </pre>
 <p>This constructor can be used to start with the default plugins
 (ut_metadata, ut_pex and smart_ban). Pass a <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a> to set the
 initial settings when the <a class="reference external" href="reference-Session.html#session">session</a> starts.</p>
 <a name="session_params()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_params%3A%3A%5Bsession_params%28%29%5D&labels=documentation&body=Documentation+under+heading+%22session_params%3A%3A%5Bsession_params%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="id177">
+<div class="section" id="session-params-2">
 <h2>session_params()</h2>
 <pre class="literal-block">
-<strong>session_params</strong> (settings_pack const&amp; sp
-      , std::vector&lt;std::shared_ptr&lt;plugin&gt;&gt; exts);
 <strong>session_params</strong> (settings_pack&amp;&amp; sp
+      , std::vector&lt;std::shared_ptr&lt;plugin&gt;&gt; exts);
+<strong>session_params</strong> (settings_pack const&amp; sp
       , std::vector&lt;std::shared_ptr&lt;plugin&gt;&gt; exts);
 </pre>
 <p>This constructor helps to configure the set of initial plugins
@@ -1121,21 +1121,21 @@ sessions, using <a class="reference external" href="reference-Session.html#read_
 <dd>the IP filter to use for the <a class="reference external" href="reference-Session.html#session">session</a>. This restricts which peers are allowed
 to connect. As if passed to <a class="reference external" href="reference-Session.html#set_ip_filter()">set_ip_filter()</a>.</dd>
 </dl>
+<a name="read_session_params()"></a>
 <a name="write_session_params()"></a>
-<a name="write_session_params_buf()"></a>
-<a name="read_session_params()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:write_session_params%28%29+write_session_params_buf%28%29+read_session_params%28%29&labels=documentation&body=Documentation+under+heading+%22write_session_params%28%29+write_session_params_buf%28%29+read_session_params%28%29%22+could+be+improved">report issue</a>]</span></div>
+<a name="write_session_params_buf()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:read_session_params%28%29+write_session_params%28%29+write_session_params_buf%28%29&labels=documentation&body=Documentation+under+heading+%22read_session_params%28%29+write_session_params%28%29+write_session_params_buf%28%29%22+could+be+improved">report issue</a>]</span></div>
 </div>
-<div class="section" id="write-session-params-write-session-params-buf-read-session-params">
-<h1>write_session_params() write_session_params_buf() read_session_params()</h1>
+<div class="section" id="read-session-params-write-session-params-write-session-params-buf">
+<h1>read_session_params() write_session_params() write_session_params_buf()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/session_params.hpp">libtorrent/session_params.hpp</a>&quot;</p>
 <pre class="literal-block">
-session_params <strong>read_session_params</strong> (span&lt;char const&gt; buf
-   , save_state_flags_t flags = save_state_flags_t::all());
 entry <strong>write_session_params</strong> (session_params const&amp; sp
    , save_state_flags_t flags = save_state_flags_t::all());
 std::vector&lt;char&gt; <strong>write_session_params_buf</strong> (session_params const&amp; sp
    , save_state_flags_t flags = save_state_flags_t::all());
 session_params <strong>read_session_params</strong> (bdecode_node const&amp; e
+   , save_state_flags_t flags = save_state_flags_t::all());
+session_params <strong>read_session_params</strong> (span&lt;char const&gt; buf
    , save_state_flags_t flags = save_state_flags_t::all());
 </pre>
 <p>These functions serialize and de-serialize a <tt class="docutils literal">session_params</tt> object to and

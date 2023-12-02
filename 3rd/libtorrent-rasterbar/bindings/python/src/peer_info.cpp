@@ -108,6 +108,9 @@ void bind_peer_info()
         .def_readonly("estimated_reciprocation_rate", &peer_info::estimated_reciprocation_rate)
 #endif
         .add_property("local_endpoint", get_local_endpoint)
+#if TORRENT_USE_I2P
+        .def("i2p_destination", &peer_info::i2p_destination)
+#endif
         ;
 
     // flags
@@ -120,6 +123,7 @@ void bind_peer_info()
     pi.attr("outgoing_connection") = peer_info::outgoing_connection;
     pi.attr("handshake") = peer_info::handshake;
     pi.attr("connecting") = peer_info::connecting;
+    pi.attr("i2p_socket") = peer_info::i2p_socket;
 #if TORRENT_ABI_VERSION == 1
     pi.attr("queued") = peer_info::queued;
 #endif

@@ -1,4 +1,4 @@
-VERSION=2.0.8
+VERSION=2.0.9
 
 BUILD_CONFIG=release link=shared crypto=openssl warnings=off address-model=64
 
@@ -776,7 +776,9 @@ SIM_SOURCES = \
   test_torrent_status.cpp \
   test_tracker.cpp \
   test_transfer.cpp \
-  test_transfer_matrix.cpp \
+  test_transfer_full_invalid_files.cpp \
+  test_transfer_no_files.cpp \
+  test_transfer_partial_valid_files.cpp \
   test_utp.cpp \
   test_web_seed.cpp \
   transfer_sim.hpp \
@@ -1059,7 +1061,9 @@ TEST_TORRENTS = \
   v2_incomplete_piece_layer.torrent \
   v2_invalid_pad_file.torrent \
   v2_invalid_piece_layer.torrent \
+  v2_invalid_piece_layer_root.torrent \
   v2_invalid_piece_layer_size.torrent \
+  v2_unknown_piece_layer_entry.torrent \
   v2_multiple_files.torrent \
   v2_bad_file_alignment.torrent \
   v2_unordered_files.torrent \

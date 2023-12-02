@@ -232,7 +232,10 @@ connecting to it. see proxy_type
 +--------------+--------+---------+
 
 sets the i2p_ SAM bridge to connect to. set the port with the
-``i2p_port`` setting.
+``i2p_port`` setting. Unless this is set, i2p torrents are not
+supported. This setting is separate from the other proxy settings
+since i2p torrents and their peers are orthogonal. You can have
+i2p peers as well as regular peers via a proxy.
 
 .. _i2p: http://www.i2p2.de
 
@@ -245,7 +248,7 @@ sets the i2p_ SAM bridge to connect to. set the port with the
 +------------------+--------+----------+
 | name             | type   | default  |
 +==================+========+==========+
-| peer_fingerprint | string | -LT2080- |
+| peer_fingerprint | string | -LT2090- |
 +------------------+--------+----------+
 
 this is the fingerprint for the client. It will be used as the
@@ -2212,6 +2215,11 @@ default (i.e. don't change the buffer sizes).
 The socket buffer sizes are changed using setsockopt() with
 SOL_SOCKET/SO_RCVBUF and SO_SNDBUFFER.
 
+Note that uTP peers share a single UDP socket buffer for each of the
+``listen_interfaces``, along with DHT and UDP tracker traffic.
+If the buffer size is too small for the combined traffic through the
+socket, packets may be dropped.
+
 .. _max_peer_recv_buffer_size:
 
 .. raw:: html
@@ -3437,4 +3445,39 @@ The values for this setting are specified as mmap_write_mode_t.
 when using mmap_disk_io, files smaller than this number of blocks
 will not be memory mapped, but will use normal pread/pwrite
 operations. This file size limit is specified in 16 kiB blocks.
+
+.. _i2p_inbound_quantity:
+
+.. _i2p_outbound_quantity:
+
+.. _i2p_inbound_length:
+
+.. _i2p_outbound_length:
+
+.. raw:: html
+
+	<a name="i2p_inbound_quantity"></a>
+	<a name="i2p_outbound_quantity"></a>
+	<a name="i2p_inbound_length"></a>
+	<a name="i2p_outbound_length"></a>
+
++-----------------------+------+---------+
+| name                  | type | default |
++=======================+======+=========+
+| i2p_inbound_quantity  | int  | 3       |
++-----------------------+------+---------+
+| i2p_outbound_quantity | int  | 3       |
++-----------------------+------+---------+
+| i2p_inbound_length    | int  | 3       |
++-----------------------+------+---------+
+| i2p_outbound_length   | int  | 3       |
++-----------------------+------+---------+
+
+Configures the SAM session
+quantity of I2P inbound and outbound tunnels [1..16].
+number of hops for I2P inbound and outbound tunnels [0..7]
+Changing these will not trigger a reconnect to the SAM bridge,
+they will take effect the next time the SAM connection is
+re-established (by restarting or changing i2p_hostname or
+i2p_port).
 

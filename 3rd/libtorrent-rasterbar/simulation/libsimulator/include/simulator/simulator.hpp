@@ -1041,7 +1041,7 @@ namespace sim
 			, boost::system::error_code& ec);
 		void unbind_socket(asio::ip::tcp::socket* socket
 			, asio::ip::tcp::endpoint const& ep);
-		void rebind_socket(asio::ip::tcp::socket* s, asio::ip::tcp::endpoint ep);
+		void rebind_socket(asio::ip::tcp::socket* prev, asio::ip::tcp::socket* s, asio::ip::tcp::endpoint ep);
 
 		asio::ip::udp::endpoint bind_udp_socket(asio::ip::udp::socket* socket
 			, asio::ip::udp::endpoint ep
@@ -1166,7 +1166,7 @@ namespace sim
 			, boost::system::error_code& ec);
 		void unbind_socket(ip::tcp::socket* socket
 			, ip::tcp::endpoint const& ep);
-		void rebind_socket(asio::ip::tcp::socket* s, asio::ip::tcp::endpoint ep);
+		void rebind_socket(asio::ip::tcp::socket* prev, asio::ip::tcp::socket* s, asio::ip::tcp::endpoint ep);
 
 		ip::udp::endpoint bind_udp_socket(ip::udp::socket* socket, ip::udp::endpoint ep
 			, boost::system::error_code& ec);

@@ -211,8 +211,10 @@ namespace torrent_flags {
 	constexpr torrent_flags_t override_web_seeds = 12_bit;
 
 	// if this flag is set (which it is by default) the torrent will be
-	// considered needing to save its resume data immediately as it's
-	// added. New torrents that don't have any resume data should do that.
+	// considered needing to save its resume data immediately, in the
+	// category if_metadata_changed. See resume_data_flags_t and
+	// save_resume_data() for details.
+	//
 	// This flag is cleared by a successful call to save_resume_data()
 	// This flag is not saved by write_resume_data(), since it represents an
 	// ephemeral state of a running torrent.
@@ -290,6 +292,18 @@ namespace torrent_flags {
 	// unless this flag is set, in which case they will be set to 0
 	// (dont_download).
 	constexpr torrent_flags_t default_dont_download = 23_bit;
+
+	// this flag makes the torrent be considered an "i2p torrent" for purposes
+	// of the allow_i2p_mixed setting. When mixing regular peers and i2p peers
+	// is disabled, i2p torrents won't add normal peers to its peer list.
+	// Note that non i2p torrents may still allow i2p peers (on the off-chance
+	// that a tracker return them and the session is configured with a SAM
+	// connection).
+	// This flag is set automatically when adding a torrent that has at least
+	// one tracker whose hostname ends with .i2p.
+	// It's also set by parse_magnet_uri() if the tracker list contains such
+	// URL.
+	constexpr torrent_flags_t i2p_torrent = 24_bit;
 
 	// all torrent flags combined. Can conveniently be used when creating masks
 	// for flags
