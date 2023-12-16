@@ -246,7 +246,8 @@ jobs:
         arch: ${{matrix.INSTALL_BOOST_ARCH}}
         cache: true
 
-    - name: List files in Boost
+    - name: List files in Boost (if Debug Logging is enabled)
+      if:  runner.debug == '1'
       shell: bash
       env:
         Installed_Boost_VER: ${{ steps.install-boost.outputs.Boost_VER }}
@@ -272,7 +273,8 @@ jobs:
         tools: ${{matrix.qt_tools}}
         cache: true
 
-    - name: List files in Qt
+    - name: List files in Qt (if Debug Logging is enabled)
+      if:  runner.debug == '1'
       shell: bash
       run: cd "${{env.Qt6_DIR}}/../../" && ls -alR
       # env.Qt6_DIR
@@ -324,7 +326,8 @@ jobs:
                    print(f"OpenSSL_LIB_EAY={ openssl_lib_eay }", file=f)
                    print(f"OpenSSL_SSL_EAY={ openssl_ssl_eay }", file=f)
 
-    - name: List files in OpenSSL
+    - name: List files in OpenSSL (if Debug Logging is enabled)
+      if:  runner.debug == '1'
       shell: bash
       env:
         OpenSSL_ROOT_DIR: ${{ steps.qt6openssl.outputs.OpenSSL_ROOT_DIR }}
@@ -376,7 +379,8 @@ jobs:
       working-directory: "${{env.LibtorrentRasterbar_BUILD_DIR}}"
       run: cmake --build . --target install
 
-    - name: List files in Libtorrent
+    - name: List files in Libtorrent (if Debug Logging is enabled)
+      if:  runner.debug == '1'
       shell: bash
       run: cd "${{env.LibtorrentRasterbar_INSTALL_DIR}}" && ls -alR
 
