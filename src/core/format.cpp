@@ -70,7 +70,7 @@ QString Format::timeToString(qint64 seconds)
  */
 QString Format::fileSizeToString(qsizetype size)
 {
-    if (size < 0 || size >= SIZE_MAX) {
+    if (size < 0 || size >= PTRDIFF_MAX) {
         return tr("Unknown");
     }
     if (size == 0) {
