@@ -92,7 +92,7 @@ jobs:
             qt_host: 'linux'
             qt_target: 'desktop'
             qt_arch: 'gcc_64'
-            qt_tools: 'tools_openssl_x64'
+            qt_tools: ''  # To build OpenSSLv3: 'tools_opensslv3_src'
             Qt6_CUSTOM_INSTALL_PATH: "/home/runner/work/DownZemAll/qt/"
             DIRECTIVE_CMAKE_GENERATOR: ''
             INSTALL_BOOST_PLATFORM_VERSION: '18.04'  # 18.04, 20.04 Rem: Ubuntu 20.04 doesn't have Boost 1.77.0
@@ -102,7 +102,7 @@ jobs:
             qt_host: 'windows'
             qt_target: 'desktop'
             qt_arch: 'win64_mingw'
-            qt_tools: 'tools_openssl_x64'
+            qt_tools: 'tools_opensslv3_x64'
             Qt6_CUSTOM_INSTALL_PATH: "D:\\a\\DownZemAll\\qt\\"
             DIRECTIVE_CMAKE_GENERATOR: '-G "MinGW Makefiles"'
             INSTALL_BOOST_PLATFORM_VERSION: '2019' # 2019, 2022
@@ -283,6 +283,24 @@ jobs:
       # The thing is that "env.Qt6_DIR" is defined only at runtime, *after* install-qt-action has run.
       id: qt6openssl
       shell: python
+      # 2 versions present in Ubuntu:
+      # * Default version (3.0.2-0ubuntu1.12)
+      #    in /usr/ (see "apt list libssl-dev")
+      #    => openssl_dir = os.path.normpath("/usr")
+      #
+      # * Qt6 version (3.0.12)
+      #    To build it:
+      #    openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSLv3", "src"))
+      #        cd "${{openssl_dir}}"
+      #        ./config
+      #        make
+      #        make test
+      #        sudo make install_sw 
+      #    Then:
+      #    openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSLv3", "src"))
+      #    openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libcrypto.a"))
+      #    openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libssl.a"))
+      #
       run: |
            import os
            
@@ -291,14 +309,14 @@ jobs:
            # ssleay32 -> libssl
            
            if "${{ matrix.os }}" == "windows-latest":
-               openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSL", "Win_x64"))
+               openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSLv3", "Win_x64"))
                openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libcrypto.lib"))
                openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libssl.lib"))
            
            if "${{ matrix.os }}" == "ubuntu-latest":
-               openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSL", "binary"))
-               openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libcrypto.a"))
-               openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libssl.a"))
+               openssl_dir = os.path.normpath("/usr")
+               openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "x86_64-linux-gnu", "libcrypto.a"))
+               openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "x86_64-linux-gnu", "libssl.a"))
            
            if "GITHUB_OUTPUT" in os.environ:
                with open(os.environ["GITHUB_OUTPUT"], "a") as f:
