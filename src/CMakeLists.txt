@@ -106,6 +106,8 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
             # debug
             # dbghelp
 
+            bcrypt  # required by libtorrent-rasterbar >= 2.0.9
+
             version.dll # might be "C:/Windows/System32/version.dll" or "C:/Windows/SysWOW64/version.dll"
 
             crypt32  # required by openssl
