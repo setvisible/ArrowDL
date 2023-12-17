@@ -146,8 +146,8 @@ void CompilerDialog::populateOpenSSL()
     libCrypto = QLatin1String("libeay32");
 
 #elif defined(Q_OS_WIN32) && defined(Q_OS_WIN64) // 32-bit or 64-bit
-    libSsl = QLatin1String("libssl-1_1-x64");
-    libCrypto = QLatin1String("libcrypto-1_1-x64");
+    libSsl = QLatin1String("libssl-3-x64");
+    libCrypto = QLatin1String("libcrypto-3-x64");
 
 #elif defined(Q_OS_UNIX)
     libSsl = QLatin1String("libssl");
