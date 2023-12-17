@@ -457,6 +457,9 @@ void bind_torrent_handle()
     void (torrent_handle::*move_storage0)(std::string const&, lt::move_flags_t) const = &torrent_handle::move_storage;
     void (torrent_handle::*rename_file0)(file_index_t, std::string const&) const = &torrent_handle::rename_file;
 
+    bool (torrent_handle::*need_save_resume_data0)() const = &torrent_handle::need_save_resume_data;
+    bool (torrent_handle::*need_save_resume_data1)(resume_data_flags_t) const = &torrent_handle::need_save_resume_data;
+
     std::vector<open_file_state> (torrent_handle::*file_status0)() const = &torrent_handle::file_status;
 
 #define _ allow_threads
@@ -482,10 +485,15 @@ void bind_torrent_handle()
         .def(self < self)
         .def("__hash__", (std::size_t (*)(torrent_handle const&))&libtorrent::hash_value)
         .def("get_peer_info", get_peer_info)
+        .def("post_peer_info", &torrent_handle::post_peer_info)
         .def("status", _(&torrent_handle::status), arg("flags") = 0xffffffff)
+        .def("post_status", &torrent_handle::post_status, arg("flags") = 0xffffffff)
         .def("get_download_queue", get_download_queue)
+        .def("post_download_queue", &torrent_handle::post_download_queue)
         .def("file_progress", file_progress, arg("flags") = file_progress_flags_t{})
+        .def("post_file_progress", &torrent_handle::post_file_progress, arg("flags") = file_progress_flags_t{})
         .def("trackers", trackers)
+        .def("post_trackers", &torrent_handle::post_trackers)
         .def("replace_trackers", replace_trackers)
         .def("add_tracker", add_tracker)
         .def("add_url_seed", _(&torrent_handle::add_url_seed))
@@ -515,6 +523,7 @@ void bind_torrent_handle()
         .def("reset_piece_deadline", _(&torrent_handle::reset_piece_deadline), (arg("index")))
         .def("clear_piece_deadlines", _(&torrent_handle::clear_piece_deadlines), (arg("index")))
         .def("piece_availability", &piece_availability)
+        .def("post_piece_availability", &torrent_handle::post_piece_availability)
         .def("piece_priority", _(piece_priority0))
         .def("piece_priority", _(piece_priority1))
         .def("prioritize_pieces", &prioritize_pieces)
@@ -525,7 +534,8 @@ void bind_torrent_handle()
         .def("file_priority", &file_prioritity1)
         .def("file_status", _(file_status0))
         .def("save_resume_data", _(&torrent_handle::save_resume_data), arg("flags") = 0)
-        .def("need_save_resume_data", _(&torrent_handle::need_save_resume_data))
+        .def("need_save_resume_data", _(need_save_resume_data0))
+        .def("need_save_resume_data", _(need_save_resume_data1), arg("flags"))
         .def("force_reannounce", _(force_reannounce0)
             , (arg("seconds") = 0, arg("tracker_idx") = -1, arg("flags") = reannounce_flags_t{}))
 #ifndef TORRENT_DISABLE_DHT

@@ -180,9 +180,9 @@ namespace sim { namespace asio {
 		m_sim.unbind_socket(socket, ep);
 	}
 
-	void io_context::rebind_socket(asio::ip::tcp::socket* s, asio::ip::tcp::endpoint ep)
+	void io_context::rebind_socket(asio::ip::tcp::socket* prev, asio::ip::tcp::socket* s, asio::ip::tcp::endpoint ep)
 	{
-		m_sim.rebind_socket(s, ep);
+		m_sim.rebind_socket(prev, s, ep);
 	}
 
 	ip::udp::endpoint io_context::bind_udp_socket(ip::udp::socket* socket

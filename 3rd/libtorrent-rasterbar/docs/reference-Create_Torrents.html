@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,38 +25,38 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.8</td></tr>
+<td>2.0.9</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#create-torrent" id="id42">create_torrent</a><ul>
-<li><a class="reference internal" href="#id6" id="id43">create_torrent()</a></li>
-<li><a class="reference internal" href="#generate-buf-generate" id="id44">generate_buf() generate()</a></li>
-<li><a class="reference internal" href="#files" id="id45">files()</a></li>
-<li><a class="reference internal" href="#set-comment" id="id46">set_comment()</a></li>
-<li><a class="reference internal" href="#set-creator" id="id47">set_creator()</a></li>
-<li><a class="reference internal" href="#set-creation-date" id="id48">set_creation_date()</a></li>
-<li><a class="reference internal" href="#set-hash" id="id49">set_hash()</a></li>
-<li><a class="reference internal" href="#set-hash2" id="id50">set_hash2()</a></li>
-<li><a class="reference internal" href="#add-http-seed-add-url-seed" id="id51">add_http_seed() add_url_seed()</a></li>
-<li><a class="reference internal" href="#add-node" id="id52">add_node()</a></li>
-<li><a class="reference internal" href="#add-tracker" id="id53">add_tracker()</a></li>
-<li><a class="reference internal" href="#set-root-cert" id="id54">set_root_cert()</a></li>
-<li><a class="reference internal" href="#priv-set-priv" id="id55">priv() set_priv()</a></li>
-<li><a class="reference internal" href="#num-pieces" id="id56">num_pieces()</a></li>
-<li><a class="reference internal" href="#piece-range" id="id57">piece_range()</a></li>
-<li><a class="reference internal" href="#file-range" id="id58">file_range()</a></li>
-<li><a class="reference internal" href="#file-piece-range" id="id59">file_piece_range()</a></li>
-<li><a class="reference internal" href="#total-size" id="id60">total_size()</a></li>
-<li><a class="reference internal" href="#piece-size-piece-length" id="id61">piece_size() piece_length()</a></li>
-<li><a class="reference internal" href="#add-similar-torrent-add-collection" id="id62">add_similar_torrent() add_collection()</a></li>
+<li><a class="reference internal" href="#create-torrent" id="toc-entry-1">create_torrent</a><ul>
+<li><a class="reference internal" href="#create-torrent-1" id="toc-entry-2">create_torrent()</a></li>
+<li><a class="reference internal" href="#generate-buf-generate" id="toc-entry-3">generate_buf() generate()</a></li>
+<li><a class="reference internal" href="#files" id="toc-entry-4">files()</a></li>
+<li><a class="reference internal" href="#set-comment" id="toc-entry-5">set_comment()</a></li>
+<li><a class="reference internal" href="#set-creator" id="toc-entry-6">set_creator()</a></li>
+<li><a class="reference internal" href="#set-creation-date" id="toc-entry-7">set_creation_date()</a></li>
+<li><a class="reference internal" href="#set-hash" id="toc-entry-8">set_hash()</a></li>
+<li><a class="reference internal" href="#set-hash2" id="toc-entry-9">set_hash2()</a></li>
+<li><a class="reference internal" href="#add-url-seed-add-http-seed" id="toc-entry-10">add_url_seed() add_http_seed()</a></li>
+<li><a class="reference internal" href="#add-node" id="toc-entry-11">add_node()</a></li>
+<li><a class="reference internal" href="#add-tracker" id="toc-entry-12">add_tracker()</a></li>
+<li><a class="reference internal" href="#set-root-cert" id="toc-entry-13">set_root_cert()</a></li>
+<li><a class="reference internal" href="#priv-set-priv" id="toc-entry-14">priv() set_priv()</a></li>
+<li><a class="reference internal" href="#num-pieces" id="toc-entry-15">num_pieces()</a></li>
+<li><a class="reference internal" href="#piece-range" id="toc-entry-16">piece_range()</a></li>
+<li><a class="reference internal" href="#file-range" id="toc-entry-17">file_range()</a></li>
+<li><a class="reference internal" href="#file-piece-range" id="toc-entry-18">file_piece_range()</a></li>
+<li><a class="reference internal" href="#total-size" id="toc-entry-19">total_size()</a></li>
+<li><a class="reference internal" href="#piece-size-piece-length" id="toc-entry-20">piece_size() piece_length()</a></li>
+<li><a class="reference internal" href="#add-collection-add-similar-torrent" id="toc-entry-21">add_collection() add_similar_torrent()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#add-files" id="id63">add_files()</a></li>
-<li><a class="reference internal" href="#set-piece-hashes" id="id64">set_piece_hashes()</a></li>
+<li><a class="reference internal" href="#add-files" id="toc-entry-22">add_files()</a></li>
+<li><a class="reference internal" href="#set-piece-hashes" id="toc-entry-23">set_piece_hashes()</a></li>
 </ul>
 </div>
 <p>This section describes the functions and classes that are used
@@ -91,7 +91,7 @@ requires to read all the bytes from all the files in the torrent.</p>
 </span><span class="comment single">// reads the files and calculates the hashes
 </span><span class="name">set_piece_hashes</span><span class="punctuation">(</span><span class="name">t</span><span class="punctuation">,</span><span class="whitespace"> </span><span class="literal string">&quot;.&quot;</span><span class="punctuation">);</span><span class="whitespace">
 
-</span><span class="name">ofstream</span><span class="whitespace"> </span><span class="name function">out</span><span class="punctuation">(</span><span class="literal string">&quot;my_torrent.torrent&quot;</span><span class="punctuation">,</span><span class="whitespace"> </span><span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">binary</span><span class="punctuation">);</span><span class="whitespace">
+</span><span class="name">ofstream</span><span class="whitespace"> </span><span class="name">out</span><span class="punctuation">(</span><span class="literal string">&quot;my_torrent.torrent&quot;</span><span class="punctuation">,</span><span class="whitespace"> </span><span class="name">std</span><span class="operator">::</span><span class="name">ios_base</span><span class="operator">::</span><span class="name">binary</span><span class="punctuation">);</span><span class="whitespace">
 </span><span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="keyword type">char</span><span class="operator">&gt;</span><span class="whitespace"> </span><span class="name">buf</span><span class="whitespace"> </span><span class="operator">=</span><span class="whitespace"> </span><span class="name">t</span><span class="punctuation">.</span><span class="name">generate_buf</span><span class="punctuation">();</span><span class="whitespace">
 </span><span class="name">out</span><span class="punctuation">.</span><span class="name">write</span><span class="punctuation">(</span><span class="name">buf</span><span class="punctuation">.</span><span class="name">data</span><span class="punctuation">(),</span><span class="whitespace"> </span><span class="name">buf</span><span class="punctuation">.</span><span class="name">size</span><span class="punctuation">());</span><span class="whitespace">
 
@@ -109,9 +109,9 @@ the torrent. The <a class="reference external" href="reference-Bencoding.html#en
 <pre class="literal-block">
 struct create_torrent
 {
-   explicit <strong>create_torrent</strong> (torrent_info const&amp; ti);
    explicit <strong>create_torrent</strong> (file_storage&amp; fs, int piece_size = 0
       , create_flags_t flags = {});
+   explicit <strong>create_torrent</strong> (torrent_info const&amp; ti);
    entry <strong>generate</strong> () const;
    std::vector&lt;char&gt; <strong>generate_buf</strong> () const;
    file_storage const&amp; <strong>files</strong> () const;
@@ -120,8 +120,8 @@ struct create_torrent
    void <strong>set_creation_date</strong> (std::time_t timestamp);
    void <strong>set_hash</strong> (piece_index_t index, sha1_hash const&amp; h);
    void <strong>set_hash2</strong> (file_index_t file, piece_index_t::diff_type piece, sha256_hash const&amp; h);
-   void <strong>add_http_seed</strong> (string_view url);
    void <strong>add_url_seed</strong> (string_view url);
+   void <strong>add_http_seed</strong> (string_view url);
    void <strong>add_node</strong> (std::pair&lt;std::string, int&gt; node);
    void <strong>add_tracker</strong> (string_view url, int tier = 0);
    void <strong>set_root_cert</strong> (string_view cert);
@@ -150,12 +150,12 @@ struct create_torrent
    static constexpr create_flags_t <strong>canonical_files_no_tail_padding</strong>  = 9_bit;
 };
 </pre>
-<a name="create_torrent()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:create_torrent%3A%3A%5Bcreate_torrent%28%29%5D&labels=documentation&body=Documentation+under+heading+%22create_torrent%3A%3A%5Bcreate_torrent%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="id6">
+<a name="create_torrent()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:create_torrent%3A%3A%5Bcreate_torrent%28%29%5D&labels=documentation&body=Documentation+under+heading+%22create_torrent%3A%3A%5Bcreate_torrent%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="create-torrent-1">
 <h2>create_torrent()</h2>
 <pre class="literal-block">
-explicit <strong>create_torrent</strong> (torrent_info const&amp; ti);
 explicit <strong>create_torrent</strong> (file_storage&amp; fs, int piece_size = 0
       , create_flags_t flags = {});
+explicit <strong>create_torrent</strong> (torrent_info const&amp; ti);
 </pre>
 <p>The <tt class="docutils literal">piece_size</tt> is the size of each piece in bytes. It must be a
 power of 2 and a minimum of 16 kiB. If a piece size of 0 is
@@ -274,13 +274,13 @@ that has not been set. Setting such hash will not be considered set
 when calling <a class="reference external" href="reference-Create_Torrents.html#generate()">generate()</a>.
 This function will throw <tt class="docutils literal"><span class="pre">std::system_error</span></tt> if it is called on an
 object constructed with the v1_only flag.</p>
-<a name="add_http_seed()"></a>
-<a name="add_url_seed()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:create_torrent%3A%3A%5Badd_http_seed%28%29+add_url_seed%28%29%5D&labels=documentation&body=Documentation+under+heading+%22create_torrent%3A%3A%5Badd_http_seed%28%29+add_url_seed%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="add-http-seed-add-url-seed">
-<h2>add_http_seed() add_url_seed()</h2>
+<a name="add_url_seed()"></a>
+<a name="add_http_seed()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:create_torrent%3A%3A%5Badd_url_seed%28%29+add_http_seed%28%29%5D&labels=documentation&body=Documentation+under+heading+%22create_torrent%3A%3A%5Badd_url_seed%28%29+add_http_seed%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="add-url-seed-add-http-seed">
+<h2>add_url_seed() add_http_seed()</h2>
 <pre class="literal-block">
-void <strong>add_http_seed</strong> (string_view url);
 void <strong>add_url_seed</strong> (string_view url);
+void <strong>add_http_seed</strong> (string_view url);
 </pre>
 <p>This adds a url seed to the torrent. You can have any number of url seeds. For a
 single file torrent, this should be an HTTP url, pointing to a file with identical
@@ -382,10 +382,10 @@ int <strong>piece_size</strong> (piece_index_t i) const;
 <p><tt class="docutils literal">piece_length()</tt> returns the piece size of all pieces but the
 last one. <tt class="docutils literal">piece_size()</tt> returns the size of the specified piece.
 these functions are just forwarding to the associated <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a>.</p>
-<a name="add_similar_torrent()"></a>
-<a name="add_collection()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:create_torrent%3A%3A%5Badd_similar_torrent%28%29+add_collection%28%29%5D&labels=documentation&body=Documentation+under+heading+%22create_torrent%3A%3A%5Badd_similar_torrent%28%29+add_collection%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="add-similar-torrent-add-collection">
-<h2>add_similar_torrent() add_collection()</h2>
+<a name="add_collection()"></a>
+<a name="add_similar_torrent()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:create_torrent%3A%3A%5Badd_collection%28%29+add_similar_torrent%28%29%5D&labels=documentation&body=Documentation+under+heading+%22create_torrent%3A%3A%5Badd_collection%28%29+add_similar_torrent%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="add-collection-add-similar-torrent">
+<h2>add_collection() add_similar_torrent()</h2>
 <pre class="literal-block">
 void <strong>add_similar_torrent</strong> (sha1_hash ih);
 void <strong>add_collection</strong> (string_view c);
@@ -485,20 +485,20 @@ constructor.</p>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/create_torrent.hpp">libtorrent/create_torrent.hpp</a>&quot;</p>
 <pre class="literal-block">
 inline void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p);
+inline void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p
+   , settings_interface const&amp; settings
+   , std::function&lt;void(piece_index_t)&gt; const&amp; f);
+void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p
+   , settings_interface const&amp; settings
+   , std::function&lt;void(piece_index_t)&gt; const&amp; f, error_code&amp; ec);
+void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p
+   , std::function&lt;void(piece_index_t)&gt; const&amp; f, error_code&amp; ec);
 void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p
    , settings_interface const&amp; settings, disk_io_constructor_type disk_io
    , std::function&lt;void(piece_index_t)&gt; const&amp; f, error_code&amp; ec);
 inline void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p
    , std::function&lt;void(piece_index_t)&gt; const&amp; f);
-void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p
-   , settings_interface const&amp; settings
-   , std::function&lt;void(piece_index_t)&gt; const&amp; f, error_code&amp; ec);
-void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p
-   , std::function&lt;void(piece_index_t)&gt; const&amp; f, error_code&amp; ec);
 inline void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p, error_code&amp; ec);
-inline void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p
-   , settings_interface const&amp; settings
-   , std::function&lt;void(piece_index_t)&gt; const&amp; f);
 </pre>
 <p>This function will assume that the files added to the torrent file exists at path
 <tt class="docutils literal">p</tt>, read those files and hash the content and set the hashes in the <tt class="docutils literal">create_torrent</tt>

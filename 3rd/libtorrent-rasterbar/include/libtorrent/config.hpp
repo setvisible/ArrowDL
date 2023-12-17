@@ -43,7 +43,9 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include "libtorrent/aux_/disable_warnings_push.hpp"
 
+#if !defined __MINGW64__ && !defined __MINGW32__
 #define _FILE_OFFSET_BITS 64
+#endif
 
 #include <cstddef>
 
@@ -61,6 +63,21 @@ POSSIBILITY OF SUCH DAMAGE.
 // format codes are. So we need to disable those for mingw targets
 #pragma GCC diagnostic ignored "-Wformat"
 #pragma GCC diagnostic ignored "-Wformat-extra-args"
+// Mingw does not like friend declarations of dllexport functions. This
+// suppresses those warnings
+#pragma GCC diagnostic ignored "-Wattributes"
+#endif
+
+// This is the GCC indication of building with address sanitizer
+#if defined __SANITIZE_ADDRESS__ && __SANITIZE_ADDRESS__
+#define TORRENT_ADDRESS_SANITIZER 1
+#endif
+
+// This is the clang indication of building with address sanitizer
+#if defined(__has_feature)
+#if __has_feature(address_sanitizer)
+#define TORRENT_ADDRESS_SANITIZER 1
+#endif
 #endif
 
 #if defined __GNUC__
@@ -127,7 +144,11 @@ POSSIBILITY OF SUCH DAMAGE.
 #define TORRENT_USE_EXECINFO 1
 #endif
 
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= 1070
+// this is used for the ip_change_notifier on macOS, which isn't supported on
+// 10.6 and earlier
 #define TORRENT_USE_SYSTEMCONFIGURATION 1
+#endif
 
 #if TARGET_OS_IPHONE
 #define TORRENT_USE_SC_NETWORK_REACHABILITY 1
@@ -566,19 +587,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #if TORRENT_USE_INVARIANT_CHECKS && !TORRENT_USE_ASSERTS
 #error "invariant checks cannot be enabled without asserts"
 #endif
-
-// for non-exception builds
-#ifdef BOOST_NO_EXCEPTIONS
-#define TORRENT_TRY if (true)
-#define TORRENT_CATCH(x) else if (false)
-#define TORRENT_CATCH_ALL else if (false)
-#define TORRENT_DECLARE_DUMMY(x, y) x y
-#else
-#define TORRENT_TRY try
-#define TORRENT_CATCH(x) catch(x)
-#define TORRENT_CATCH_ALL catch(...)
-#define TORRENT_DECLARE_DUMMY(x, y)
-#endif // BOOST_NO_EXCEPTIONS
 
 // SSE is x86 / amd64 specific. On top of that, we only
 // know how to access it on msvc and gcc (and gcc compatibles).

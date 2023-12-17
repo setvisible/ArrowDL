@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -31,8 +31,9 @@
 <div class="line"><a class="reference external" href="reference-Core.html#piece_block">piece_block</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#version()">version()</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#load_torrent_parsed()">load_torrent_parsed()</a></div>
-<div class="line"><a class="reference external" href="reference-Core.html#load_torrent_file()">load_torrent_file()</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#load_torrent_buffer()">load_torrent_buffer()</a></div>
+<div class="line"><a class="reference external" href="reference-Core.html#load_torrent_file()">load_torrent_file()</a></div>
+<div class="line"><a class="reference external" href="reference-Core.html#torrent_peer_equal()">torrent_peer_equal()</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#truncate_files()">truncate_files()</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#make_magnet_uri()">make_magnet_uri()</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#parse_magnet_uri()">parse_magnet_uri()</a></div>
@@ -67,8 +68,8 @@
 <div class="line"><a class="reference external" href="reference-Settings.html#name_for_setting()">name_for_setting()</a></div>
 <div class="line"><a class="reference external" href="reference-Settings.html#setting_by_name()">setting_by_name()</a></div>
 <div class="line"><a class="reference external" href="reference-Settings.html#default_settings()">default_settings()</a></div>
-<div class="line"><a class="reference external" href="reference-Settings.html#high_performance_seed()">high_performance_seed()</a></div>
 <div class="line"><a class="reference external" href="reference-Settings.html#min_memory_usage()">min_memory_usage()</a></div>
+<div class="line"><a class="reference external" href="reference-Settings.html#high_performance_seed()">high_performance_seed()</a></div>
 <div class="line"><a class="reference external" href="reference-Settings.html#generate_fingerprint()">generate_fingerprint()</a></div>
 </div>
 <p class="rubric">Session</p>
@@ -77,9 +78,9 @@
 <div class="line"><a class="reference external" href="reference-Session.html#session_proxy">session_proxy</a></div>
 <div class="line"><a class="reference external" href="reference-Session.html#session">session</a></div>
 <div class="line"><a class="reference external" href="reference-Session.html#session_params">session_params</a></div>
+<div class="line"><a class="reference external" href="reference-Session.html#read_session_params()">read_session_params()</a></div>
 <div class="line"><a class="reference external" href="reference-Session.html#write_session_params()">write_session_params()</a></div>
 <div class="line"><a class="reference external" href="reference-Session.html#write_session_params_buf()">write_session_params_buf()</a></div>
-<div class="line"><a class="reference external" href="reference-Session.html#read_session_params()">read_session_params()</a></div>
 </div>
 <p class="rubric">Stats</p>
 <div class="line-block">
@@ -120,8 +121,8 @@
 <div class="line"><a class="reference external" href="reference-Resume_Data.html#read_resume_data()">read_resume_data()</a></div>
 <div class="line"><a class="reference external" href="reference-Resume_Data.html#write_resume_data()">write_resume_data()</a></div>
 <div class="line"><a class="reference external" href="reference-Resume_Data.html#write_resume_data_buf()">write_resume_data_buf()</a></div>
-<div class="line"><a class="reference external" href="reference-Resume_Data.html#write_torrent_file_buf()">write_torrent_file_buf()</a></div>
 <div class="line"><a class="reference external" href="reference-Resume_Data.html#write_torrent_file()">write_torrent_file()</a></div>
+<div class="line"><a class="reference external" href="reference-Resume_Data.html#write_torrent_file_buf()">write_torrent_file_buf()</a></div>
 <div class="line"><a class="reference external" href="reference-Resume_Data.html#write_torrent_flags_t">write_torrent_flags_t</a></div>
 </div>
 </div>
@@ -332,6 +333,11 @@
 <div class="line"><a class="reference external" href="reference-Alerts.html#file_prio_alert">file_prio_alert</a></div>
 <div class="line"><a class="reference external" href="reference-Alerts.html#oversized_file_alert">oversized_file_alert</a></div>
 <div class="line"><a class="reference external" href="reference-Alerts.html#torrent_conflict_alert">torrent_conflict_alert</a></div>
+<div class="line"><a class="reference external" href="reference-Alerts.html#peer_info_alert">peer_info_alert</a></div>
+<div class="line"><a class="reference external" href="reference-Alerts.html#file_progress_alert">file_progress_alert</a></div>
+<div class="line"><a class="reference external" href="reference-Alerts.html#piece_info_alert">piece_info_alert</a></div>
+<div class="line"><a class="reference external" href="reference-Alerts.html#piece_availability_alert">piece_availability_alert</a></div>
+<div class="line"><a class="reference external" href="reference-Alerts.html#tracker_list_alert">tracker_list_alert</a></div>
 <div class="line"><a class="reference external" href="reference-Alerts.html#alert_cast()">alert_cast()</a></div>
 <div class="line"><a class="reference external" href="reference-Alerts.html#operation_name()">operation_name()</a></div>
 <div class="line"><a class="reference external" href="reference-Alerts.html#operation_t">operation_t</a></div>

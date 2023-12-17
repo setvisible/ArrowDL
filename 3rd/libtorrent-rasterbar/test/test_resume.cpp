@@ -50,6 +50,8 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "setup_transfer.hpp"
 #include "test_utils.hpp"
 
+#include <iostream>
+
 #include "test.hpp"
 #include "test_utils.hpp"
 #include "settings.hpp"
@@ -73,7 +75,8 @@ torrent_flags_t const flags_mask
 	| torrent_flags::super_seeding
 	| torrent_flags::share_mode
 	| torrent_flags::upload_mode
-	| torrent_flags::apply_ip_filter;
+	| torrent_flags::apply_ip_filter
+	| torrent_flags::i2p_torrent;
 
 std::vector<char> generate_resume_data(torrent_info* ti
 	, char const* file_priorities = "")
@@ -95,11 +98,12 @@ std::vector<char> generate_resume_data(torrent_info* ti
 	rd["max_connections"] = 1345;
 	rd["max_uploads"] = 1346;
 	rd["seed_mode"] = 0;
+	rd["i2p"] = 0;
 	rd["super_seeding"] = 0;
 	rd["added_time"] = 1347;
 	rd["completed_time"] = 1348;
-	rd["last_download"] = 2;
-	rd["last_upload"] = 3;
+	rd["last_download"] = time(nullptr) - 1350;
+	rd["last_upload"] = time(nullptr) - 1351;
 	rd["finished_time"] = 1352;
 	rd["last_seen_complete"] = 1353;
 	if (file_priorities && file_priorities[0])
@@ -207,19 +211,20 @@ void default_tests(torrent_status const& s, lt::time_point const time_now)
 	TEST_CHECK(s.active_time >= 1339);
 	TEST_CHECK(s.active_time < 1339 + 10);
 
-	auto const now = duration_cast<seconds>(time_now.time_since_epoch()).count();
-	TEST_CHECK(s.time_since_download >= now - 2);
-	TEST_CHECK(s.time_since_upload >= now - 3);
+	std::cout << "time since download: " << s.time_since_download << std::endl;
+	TEST_CHECK(s.time_since_download >= 1350 - 3);
+	TEST_CHECK(s.time_since_download <= 1350 + 2);
 
-	TEST_CHECK(s.time_since_download < now - 2 + 10);
-	TEST_CHECK(s.time_since_upload < now - 3 + 10);
+	std::cout << "time since upload: " << s.time_since_upload << std::endl;
+	TEST_CHECK(s.time_since_upload >= 1351 - 3);
+	TEST_CHECK(s.time_since_upload <= 1351 + 2);
 
 	TEST_CHECK(s.finished_time < 1352 + 2);
 	TEST_CHECK(s.finished_time >= 1352);
 #endif
 
 	using lt::seconds;
-	TEST_CHECK(s.finished_duration< seconds(1352 + 2));
+	TEST_CHECK(s.finished_duration < seconds(1352 + 2));
 	TEST_CHECK(s.seeding_duration < seconds(1340 + 2));
 	TEST_CHECK(s.active_duration >= seconds(1339));
 	TEST_CHECK(s.active_duration < seconds(1339 + 10));
@@ -228,6 +233,16 @@ void default_tests(torrent_status const& s, lt::time_point const time_now)
 	TEST_CHECK(s.added_time >= 1347);
 	TEST_CHECK(s.completed_time < 1348 + 2);
 	TEST_CHECK(s.completed_time >= 1348);
+
+	auto const now = lt::clock_type::now();
+	std::cout << "now: " << now.time_since_epoch().count() << std::endl;
+	std::cout << "last_download: " << s.last_download.time_since_epoch().count() << std::endl;
+	TEST_CHECK(s.last_download <= now - lt::seconds(1350 - 3));
+	TEST_CHECK(s.last_download >= now - lt::seconds(1350 + 2));
+
+	std::cout << "last_upload: " << s.last_upload.time_since_epoch().count() << std::endl;
+	TEST_CHECK(s.last_upload <= now - lt::seconds(1351 - 3));
+	TEST_CHECK(s.last_upload >= now - lt::seconds(1351 + 2));
 
 	TEST_EQUAL(s.last_seen_complete, 1353);
 }

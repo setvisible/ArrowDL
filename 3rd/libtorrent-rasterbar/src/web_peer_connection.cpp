@@ -116,7 +116,7 @@ web_peer_connection::web_peer_connection(peer_connection_args& pack
 
 		if (!m_url.empty() && m_url[m_url.size() - 1] == '/')
 		{
-			m_url += escape_file_path(t->torrent_file().files(), file_index_t(0));
+			m_url += escape_file_path(t->torrent_file().orig_files(), file_index_t(0));
 		}
 	}
 
@@ -280,7 +280,7 @@ void web_peer_connection::disconnect(error_code const& ec
 			if (t) t->add_redundant_bytes(int(m_web->restart_piece.size())
 				, waste_reason::piece_closing);
 		}
-		m_web->restart_piece.swap(m_piece);
+		m_web->restart_piece = std::move(m_piece);
 
 		// we have to do this to not count this data as redundant. The
 		// upper layer will call downloading_piece_progress and assume
@@ -303,7 +303,8 @@ void web_peer_connection::disconnect(error_code const& ec
 	}
 
 	peer_connection::disconnect(ec, op, error);
-	if (t) t->disconnect_web_seed(this);
+	TORRENT_ASSERT(m_web->resolving == false);
+	m_web->peer_info.connection = nullptr;
 }
 
 piece_block_progress web_peer_connection::downloading_piece_progress() const
@@ -359,13 +360,16 @@ void web_peer_connection::write_request(peer_request const& r)
 	{
 		int request_offset = r.start + r.length - size;
 		pr.start = request_offset % piece_size;
-		pr.length = std::min(block_size, size);
+		pr.length = std::min(std::min(block_size, size), piece_size - pr.start);
 		pr.piece = piece_index_t(static_cast<int>(r.piece) + request_offset / piece_size);
+		TORRENT_ASSERT(validate_piece_request(pr));
 		m_requests.push_back(pr);
 
 		if (m_web->restart_request == m_requests.front())
 		{
-			m_piece.swap(m_web->restart_piece);
+			TORRENT_ASSERT(int(m_piece.size()) == m_received_in_piece);
+			TORRENT_ASSERT(m_piece.empty());
+			m_piece = std::move(m_web->restart_piece);
 			peer_request const& front = m_requests.front();
 			TORRENT_ASSERT(front.length > int(m_piece.size()));
 
@@ -385,6 +389,8 @@ void web_peer_connection::write_request(peer_request const& r)
 			// it doesn't know we just re-wrote the request
 			incoming_piece_fragment(int(m_piece.size()));
 			m_web->restart_request.piece = piece_index_t(-1);
+
+			TORRENT_ASSERT(int(m_piece.size()) == m_received_in_piece);
 		}
 
 #if 0
@@ -635,6 +641,21 @@ void web_peer_connection::handle_error(int const bytes_left)
 	disconnect(error_code(m_parser.status_code(), http_category()), operation_t::bittorrent, failure);
 }
 
+void web_peer_connection::disable(error_code const& ec)
+{
+	// we should not try this server again.
+	m_web->disabled = true;
+	disconnect(ec, operation_t::bittorrent, peer_error);
+	if (m_web->ephemeral)
+	{
+		std::shared_ptr<torrent> t = associated_torrent().lock();
+		TORRENT_ASSERT(t);
+		t->remove_web_seed_conn(this);
+	}
+	m_web = nullptr;
+	TORRENT_ASSERT(is_disconnecting());
+}
+
 void web_peer_connection::handle_redirect(int const bytes_left)
 {
 	// this means we got a redirection request
@@ -647,10 +668,7 @@ void web_peer_connection::handle_redirect(int const bytes_left)
 
 	if (location.empty())
 	{
-		// we should not try this server again.
-		t->remove_web_seed_conn(this, errors::missing_location, operation_t::bittorrent, peer_error);
-		m_web = nullptr;
-		TORRENT_ASSERT(is_disconnecting());
+		disable(errors::missing_location);
 		return;
 	}
 
@@ -902,10 +920,7 @@ void web_peer_connection::on_receive(error_code const& error
 		if (ec)
 		{
 			received_bytes(0, int(recv_buffer.size()));
-			// we should not try this server again.
-			t->remove_web_seed_conn(this, ec, operation_t::bittorrent, peer_error);
-			m_web = nullptr;
-			TORRENT_ASSERT(is_disconnecting());
+			disable(ec);
 			return;
 		}
 
@@ -1089,7 +1104,11 @@ void web_peer_connection::incoming_payload(char const* buf, int len)
 	// deliver all complete bittorrent requests to the bittorrent engine
 	while (len > 0)
 	{
-		if (m_requests.empty()) return;
+		if (m_requests.empty())
+		{
+			TORRENT_ASSERT(m_piece.empty());
+			return;
+		}
 
 		TORRENT_ASSERT(!m_requests.empty());
 		peer_request const& front_request = m_requests.front();
@@ -1098,6 +1117,7 @@ void web_peer_connection::incoming_payload(char const* buf, int len)
 
 		// m_piece may not hold more than the response to the next BT request
 		TORRENT_ASSERT(front_request.length > piece_size);
+		TORRENT_ASSERT(int(m_piece.size()) == m_received_in_piece);
 
 		// copy_size is the number of bytes we need to add to the end of m_piece
 		// to not exceed the size of the next bittorrent request to be delivered.
@@ -1111,28 +1131,7 @@ void web_peer_connection::incoming_payload(char const* buf, int len)
 		incoming_piece_fragment(copy_size);
 
 		TORRENT_ASSERT(front_request.length >= piece_size);
-		if (int(m_piece.size()) == front_request.length)
-		{
-			std::shared_ptr<torrent> t = associated_torrent().lock();
-			TORRENT_ASSERT(t);
-
-#ifndef TORRENT_DISABLE_LOGGING
-			peer_log(peer_log_alert::incoming_message, "POP_REQUEST"
-				, "piece: %d start: %d len: %d"
-				, static_cast<int>(front_request.piece), front_request.start, front_request.length);
-#endif
-
-			// Make a copy of the request and pop it off the queue before calling
-			// incoming_piece because that may lead to a call to disconnect()
-			// which will clear the request queue and invalidate any references
-			// to the request
-			peer_request const front_request_copy = front_request;
-			m_requests.pop_front();
-
-			incoming_piece(front_request_copy, m_piece.data());
-
-			m_piece.clear();
-		}
+		maybe_harvest_piece();
 	}
 }
 
@@ -1168,6 +1167,8 @@ void web_peer_connection::incoming_zeroes(int len)
 
 void web_peer_connection::maybe_harvest_piece()
 {
+	TORRENT_ASSERT(!m_requests.empty());
+
 	peer_request const& front_request = m_requests.front();
 	TORRENT_ASSERT(front_request.length >= int(m_piece.size()));
 	if (int(m_piece.size()) != front_request.length) return;
@@ -1181,9 +1182,10 @@ void web_peer_connection::maybe_harvest_piece()
 		, static_cast<int>(front_request.piece)
 		, front_request.start, front_request.length);
 #endif
+	peer_request const req = m_requests.front();
 	m_requests.pop_front();
 
-	incoming_piece(front_request, m_piece.data());
+	incoming_piece(req, m_piece.data());
 	m_piece.clear();
 }
 

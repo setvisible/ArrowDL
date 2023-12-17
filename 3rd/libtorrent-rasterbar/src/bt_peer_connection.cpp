@@ -222,10 +222,10 @@ namespace {
 			out_policy = settings_pack::pe_disabled;
 #endif
 #ifndef TORRENT_DISABLE_LOGGING
-		static char const* policy_name[] = {"forced", "enabled", "disabled"};
-		TORRENT_ASSERT(out_policy < sizeof(policy_name)/sizeof(policy_name[0]));
+		static char const* policy_name[] = {"forced", "enabled", "disabled", "invalid-setting"};
+		int const policy_name_idx = out_policy > 3 ? 3 : out_policy;
 		peer_log(peer_log_alert::info, "ENCRYPTION"
-			, "outgoing encryption policy: %s", policy_name[out_policy]);
+			, "outgoing encryption policy: %s", policy_name[policy_name_idx]);
 #endif
 
 		if (out_policy == settings_pack::pe_forced)
@@ -270,11 +270,15 @@ namespace {
 				setup_receive();
 			}
 		}
-		else if (out_policy == settings_pack::pe_disabled)
+		else
 #endif
 		{
+#if !defined TORRENT_DISABLE_ENCRYPTION
+			TORRENT_ASSERT(out_policy == settings_pack::pe_disabled);
+#endif
 			write_handshake();
 
+			TORRENT_ASSERT(m_sent_handshake);
 			// start in the state where we are trying to read the
 			// handshake from the other side
 			m_recv_buffer.reset(20);
@@ -481,7 +485,27 @@ namespace {
 		if (support_extensions()) p.flags |= peer_info::supports_extensions;
 		if (is_outgoing()) p.flags |= peer_info::local_connection;
 #if TORRENT_USE_I2P
-		if (is_i2p(get_socket())) p.flags |= peer_info::i2p_socket;
+		if (is_i2p(get_socket()))
+		{
+			p.flags |= peer_info::i2p_socket;
+			auto const* pi = peer_info_struct();
+			if (pi != nullptr)
+			{
+				try
+				{
+					sha256_hash const b32_addr = hasher256(base64decode_i2p(pi->dest())).final();
+					p.set_i2p_destination(b32_addr);
+				}
+				catch (lt::system_error const&)
+				{
+					p.set_i2p_destination(sha256_hash());
+				}
+			}
+			else
+			{
+				p.set_i2p_destination(sha256_hash());
+			}
+		}
 #endif
 		if (is_utp(get_socket())) p.flags |= peer_info::utp_socket;
 		if (is_ssl(get_socket())) p.flags |= peer_info::ssl_socket;
@@ -3273,6 +3297,8 @@ namespace {
 
 		if (m_state == state_t::read_protocol_identifier)
 		{
+			TORRENT_ASSERT(!m_outgoing || m_sent_handshake);
+
 			received_bytes(0, int(bytes_transferred));
 			bytes_transferred = 0;
 			TORRENT_ASSERT(m_recv_buffer.packet_size() == 20);
@@ -3359,6 +3385,7 @@ namespace {
 #endif
 			}
 
+			TORRENT_ASSERT(!m_outgoing || m_sent_handshake);
 			m_state = state_t::read_info_hash;
 			m_recv_buffer.reset(28);
 		}

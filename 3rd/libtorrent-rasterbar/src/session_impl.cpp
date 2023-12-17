@@ -567,6 +567,9 @@ bool ssl_server_name_callback(ssl::stream_handle_type stream_handle, std::string
 		, m_close_file_timer(m_io_context)
 		, m_paused(flags & session::paused)
 	{
+#if !defined TORRENT_DISABLE_LOGGING || TORRENT_USE_ASSERTS
+		validate_settings();
+#endif
 	}
 
 	template <typename Fun, typename... Args>
@@ -1093,7 +1096,6 @@ bool ssl_server_name_callback(ssl::stream_handle_type stream_handle, std::string
 			m_i2p_listen_socket->close(ec);
 			TORRENT_ASSERT(!ec);
 		}
-		m_i2p_listen_socket.reset();
 #endif
 
 #ifndef TORRENT_DISABLE_LOGGING
@@ -1191,10 +1193,8 @@ bool ssl_server_name_callback(ssl::stream_handle_type stream_handle, std::string
 	void session_impl::set_port_filter(port_filter const& f)
 	{
 		m_port_filter = f;
-		if (m_settings.get_bool(settings_pack::no_connect_privileged_ports))
-			m_port_filter.add_rule(0, 1024, port_filter::blocked);
 		// Close connections whose endpoint is filtered
-		// by the new ip-filter
+		// by the new port-filter
 		for (auto const& t : m_torrents)
 			t->port_filter_updated();
 	}
@@ -1299,18 +1299,21 @@ namespace {
 			req.ssl_ctx = &m_ssl_ctx;
 #endif
 
-		TORRENT_ASSERT(req.outgoing_socket);
-			auto ls = req.outgoing_socket.get();
-
-		req.listen_port =
-#if TORRENT_USE_I2P
-			(req.kind == tracker_request::i2p) ? 1 :
-#endif
+		auto ls = req.outgoing_socket.get();
+		if (ls)
+		{
+			req.listen_port =
 #ifdef TORRENT_SSL_PEERS
 			// SSL torrents use the SSL listen port
 			use_ssl ? make_announce_port(ssl_listen_port(ls)) :
 #endif
 			make_announce_port(listen_port(ls));
+		}
+		else
+		{
+			TORRENT_ASSERT(req.kind == tracker_request::i2p);
+			req.listen_port = 1;
+		}
 		m_tracker_manager.queue_request(get_context(), std::move(req), m_settings, c);
 	}
 
@@ -1519,6 +1522,34 @@ namespace {
 	}
 }
 
+#if !defined TORRENT_DISABLE_LOGGING || TORRENT_USE_ASSERTS
+	void session_impl::validate_setting(int const int_name, int const min, int const max)
+	{
+		int const val = m_settings.get_int(int_name);
+		TORRENT_ASSERT_PRECOND_MSG(val >= min, name_for_setting(int_name));
+		TORRENT_ASSERT_PRECOND_MSG(val <= max, name_for_setting(int_name));
+#ifndef TORRENT_DISABLE_LOGGING
+		if (val < min || val > max)
+			session_log("invalid %s setting: %d", name_for_setting(int_name), val);
+#endif
+	}
+
+	void session_impl::validate_settings()
+	{
+		validate_setting(settings_pack::out_enc_policy, 0, 2);
+		validate_setting(settings_pack::in_enc_policy, 0, 2);
+		validate_setting(settings_pack::allowed_enc_level, 1, 3);
+		validate_setting(settings_pack::mixed_mode_algorithm, 0, 1);
+		validate_setting(settings_pack::proxy_type, 0, 5);
+		validate_setting(settings_pack::disk_io_read_mode, 0, 3);
+		validate_setting(settings_pack::disk_io_write_mode, 0, 3);
+		validate_setting(settings_pack::choking_algorithm, 0, 3);
+		validate_setting(settings_pack::seed_choking_algorithm, 0, 3);
+		validate_setting(settings_pack::suggest_mode, 0, 1);
+		validate_setting(settings_pack::disk_write_mode, 0, 2);
+	}
+#endif
+
 	void session_impl::apply_settings_pack_impl(settings_pack const& pack)
 	{
 		bool const reopen_listen_port
@@ -1542,6 +1573,11 @@ namespace {
 #endif
 
 		apply_pack(&pack, m_settings, this);
+
+#if !defined TORRENT_DISABLE_LOGGING || TORRENT_USE_ASSERTS
+		validate_settings();
+#endif
+
 		m_disk_thread->settings_updated();
 
 		if (!reopen_listen_port)
@@ -2331,8 +2367,16 @@ namespace {
 			m_i2p_conn.close(ec);
 			return;
 		}
+		TORRENT_ASSERT(!m_abort);
+		i2p_session_options session_options{
+			m_settings.get_int(settings_pack::i2p_inbound_quantity)
+			, m_settings.get_int(settings_pack::i2p_outbound_quantity)
+			, m_settings.get_int(settings_pack::i2p_inbound_length)
+			, m_settings.get_int(settings_pack::i2p_outbound_length)
+		};
 		m_i2p_conn.open(m_settings.get_str(settings_pack::i2p_hostname)
 			, m_settings.get_int(settings_pack::i2p_port)
+			, session_options
 			, std::bind(&session_impl::on_i2p_open, this, _1));
 #endif
 	}
@@ -2354,17 +2398,6 @@ namespace {
 #endif
 
 #if TORRENT_USE_I2P
-
-	proxy_settings session_impl::i2p_proxy() const
-	{
-		proxy_settings ret;
-
-		ret.hostname = m_settings.get_str(settings_pack::i2p_hostname);
-		ret.type = settings_pack::i2p_proxy;
-		ret.port = std::uint16_t(m_settings.get_int(settings_pack::i2p_port));
-		return ret;
-	}
-
 	void session_impl::on_i2p_open(error_code const& ec)
 	{
 		if (ec)
@@ -2386,6 +2419,7 @@ namespace {
 
 	void session_impl::open_new_incoming_i2p_connection()
 	{
+		if (m_abort) return;
 		if (!m_i2p_conn.is_open()) return;
 
 		if (m_i2p_listen_socket) return;
@@ -2420,9 +2454,9 @@ namespace {
 #endif
 			return;
 		}
-		open_new_incoming_i2p_connection();
 		incoming_connection(std::move(*m_i2p_listen_socket));
 		m_i2p_listen_socket.reset();
+		open_new_incoming_i2p_connection();
 	}
 #endif
 
@@ -2469,7 +2503,12 @@ namespace {
 
 		auto s = std::static_pointer_cast<aux::listen_socket_t>(si)->udp_sock;
 
-		TORRENT_ASSERT(s->sock.is_closed() || s->sock.local_endpoint().protocol() == ep.protocol());
+		// the destination address family matching the local socket's address
+		// family does not hold for proxies that we talk to over IPv4 but can
+		// route to IPv6
+		TORRENT_ASSERT(s->sock.is_closed()
+			|| s->sock.get_proxy_settings().type != settings_pack::none
+			|| s->sock.local_endpoint().protocol() == ep.protocol());
 
 		s->sock.send(ep, p, ec, flags);
 
@@ -4882,11 +4921,11 @@ namespace {
 
 		torrent_handle handle(torrent_ptr);
 
-        if (!torrent_ptr)
-        {
-            m_alerts.emplace_alert<add_torrent_alert>(handle, std::move(alert_params), ec);
-            return handle;
-        }
+		if (!torrent_ptr)
+		{
+			m_alerts.emplace_alert<add_torrent_alert>(handle, std::move(alert_params), ec);
+			return handle;
+		}
 
 		TORRENT_ASSERT(info_hash.has_v1() || info_hash.has_v2());
 
@@ -4900,7 +4939,7 @@ namespace {
 		if (!added)
 		{
 			abort_torrent.disarm();
-            m_alerts.emplace_alert<add_torrent_alert>(handle, std::move(alert_params), ec);
+			m_alerts.emplace_alert<add_torrent_alert>(handle, std::move(alert_params), ec);
 			return handle;
 		}
 
@@ -5126,12 +5165,16 @@ namespace {
 			std::shared_ptr<listen_socket_t> match;
 			for (auto& ls : m_listen_sockets)
 			{
-				if (is_v4(ls->local_endpoint) != remote_address.is_v4()) continue;
+				// this is almost, but not quite, like can_route()
+				if (!(ls->flags & listen_socket_t::proxy)
+					&& is_v4(ls->local_endpoint) != remote_address.is_v4())
+					continue;
 				if (ls->ssl != ssl) continue;
 				if (!(ls->flags & listen_socket_t::local_network))
 					with_gateways.push_back(ls);
 
-				if (match_addr_mask(ls->local_endpoint.address(), remote_address, ls->netmask))
+				if (ls->flags & listen_socket_t::proxy
+					|| match_addr_mask(ls->local_endpoint.address(), remote_address, ls->netmask))
 				{
 					// is this better than the previous match?
 					match = ls;
@@ -5235,9 +5278,7 @@ namespace {
 
 		std::shared_ptr<torrent> tptr = h.m_torrent.lock();
 		if (!tptr) return;
-
-		m_alerts.emplace_alert<torrent_removed_alert>(tptr->get_handle()
-			, tptr->info_hash(), tptr->get_userdata());
+		if (!tptr->is_added()) return;
 
 		remove_torrent_impl(tptr, options);
 
@@ -5343,16 +5384,10 @@ namespace {
 	{
 		if (m_settings.get_bool(settings_pack::no_connect_privileged_ports))
 		{
-			m_port_filter.add_rule(0, 1024, port_filter::blocked);
-
 			// Close connections whose endpoint is filtered
-			// by the new ip-filter
+			// by the new setting
 			for (auto const& t : m_torrents)
-				t->port_filter_updated();
-		}
-		else
-		{
-			m_port_filter.add_rule(0, 1024, 0);
+				t->privileged_port_updated();
 		}
 	}
 
@@ -6210,6 +6245,7 @@ namespace {
 		// since we're destructing the session, no more alerts will make it out to
 		// the user. So stop posting them now
 		m_alerts.set_alert_mask({});
+		m_alerts.set_notify_function({});
 
 		// this is not allowed to be the network thread!
 //		TORRENT_ASSERT(is_not_thread());
@@ -7097,19 +7133,25 @@ namespace {
 			&& m_settings.get_int(settings_pack::choking_algorithm) == settings_pack::fixed_slots_choker)
 			TORRENT_ASSERT(m_stats_counters[counters::num_unchoke_slots] == std::numeric_limits<int>::max());
 
-		for (torrent_list_index_t l{}; l != m_torrent_lists.end_index(); ++l)
+#ifndef TORRENT_EXPENSIVE_INVARIANT_CHECKS
+		// this can get expensive when there are a lot of torrents
+		if (m_download_queue.size() < 500)
+#endif
 		{
-			std::vector<torrent*> const& list = m_torrent_lists[l];
-			for (auto const& i : list)
+			for (torrent_list_index_t l{}; l != m_torrent_lists.end_index(); ++l)
 			{
-				TORRENT_ASSERT(i->m_links[l].in_list());
-			}
+				std::vector<torrent*> const& list = m_torrent_lists[l];
+				for (auto const& i : list)
+				{
+					TORRENT_ASSERT(i->m_links[l].in_list());
+				}
 
-			queue_position_t idx{};
-			for (auto t : m_download_queue)
-			{
-				TORRENT_ASSERT(t->queue_position() == idx);
-				++idx;
+				queue_position_t idx{};
+				for (auto t : m_download_queue)
+				{
+					TORRENT_ASSERT(t->queue_position() == idx);
+					++idx;
+				}
 			}
 		}
 

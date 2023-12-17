@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,73 +25,73 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.8</td></tr>
+<td>2.0.9</td></tr>
 </tbody>
 </table>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#overview" id="id108">overview</a></li>
-<li><a class="reference internal" href="#forward-declarations" id="id109">forward declarations</a></li>
-<li><a class="reference internal" href="#trouble-shooting" id="id110">trouble shooting</a></li>
-<li><a class="reference internal" href="#abi-considerations" id="id111">ABI considerations</a></li>
-<li><a class="reference internal" href="#network-primitives" id="id112">network primitives</a></li>
-<li><a class="reference internal" href="#exceptions" id="id113">exceptions</a><ul>
-<li><a class="reference internal" href="#translating-error-codes" id="id114">translating error codes</a></li>
+<li><a class="reference internal" href="#overview" id="toc-entry-1">overview</a></li>
+<li><a class="reference internal" href="#forward-declarations" id="toc-entry-2">forward declarations</a></li>
+<li><a class="reference internal" href="#trouble-shooting" id="toc-entry-3">trouble shooting</a></li>
+<li><a class="reference internal" href="#abi-considerations" id="toc-entry-4">ABI considerations</a></li>
+<li><a class="reference internal" href="#network-primitives" id="toc-entry-5">network primitives</a></li>
+<li><a class="reference internal" href="#exceptions" id="toc-entry-6">exceptions</a><ul>
+<li><a class="reference internal" href="#translating-error-codes" id="toc-entry-7">translating error codes</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#magnet-links" id="id115">magnet links</a><ul>
-<li><a class="reference internal" href="#torrent-file" id="id116">.torrent file</a></li>
+<li><a class="reference internal" href="#magnet-links" id="toc-entry-8">magnet links</a><ul>
+<li><a class="reference internal" href="#torrent-file" id="toc-entry-9">.torrent file</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#bittorrent-v2-torrents" id="id117">BitTorrent v2 torrents</a></li>
-<li><a class="reference internal" href="#queuing" id="id118">queuing</a><ul>
-<li><a class="reference internal" href="#queue-position" id="id119">queue position</a></li>
-<li><a class="reference internal" href="#checking-queue" id="id120">checking queue</a></li>
-<li><a class="reference internal" href="#downloading-queue" id="id121">downloading queue</a></li>
-<li><a class="reference internal" href="#seeding-queue" id="id122">seeding queue</a></li>
-<li><a class="reference internal" href="#queuing-options" id="id123">queuing options</a></li>
+<li><a class="reference internal" href="#bittorrent-v2-torrents" id="toc-entry-10">BitTorrent v2 torrents</a></li>
+<li><a class="reference internal" href="#queuing" id="toc-entry-11">queuing</a><ul>
+<li><a class="reference internal" href="#queue-position" id="toc-entry-12">queue position</a></li>
+<li><a class="reference internal" href="#checking-queue" id="toc-entry-13">checking queue</a></li>
+<li><a class="reference internal" href="#downloading-queue" id="toc-entry-14">downloading queue</a></li>
+<li><a class="reference internal" href="#seeding-queue" id="toc-entry-15">seeding queue</a></li>
+<li><a class="reference internal" href="#queuing-options" id="toc-entry-16">queuing options</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#fast-resume" id="id124">fast resume</a><ul>
-<li><a class="reference internal" href="#file-format" id="id125">file format</a></li>
+<li><a class="reference internal" href="#fast-resume" id="toc-entry-17">fast resume</a><ul>
+<li><a class="reference internal" href="#file-format" id="toc-entry-18">file format</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#storage-allocation" id="id126">storage allocation</a><ul>
-<li><a class="reference internal" href="#sparse-allocation" id="id127">sparse allocation</a></li>
-<li><a class="reference internal" href="#full-allocation" id="id128">full allocation</a></li>
+<li><a class="reference internal" href="#storage-allocation" id="toc-entry-19">storage allocation</a><ul>
+<li><a class="reference internal" href="#sparse-allocation" id="toc-entry-20">sparse allocation</a></li>
+<li><a class="reference internal" href="#full-allocation" id="toc-entry-21">full allocation</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#http-seeding" id="id129">HTTP seeding</a></li>
-<li><a class="reference internal" href="#piece-picker" id="id130">piece picker</a><ul>
-<li><a class="reference internal" href="#internal-representation" id="id131">internal representation</a></li>
-<li><a class="reference internal" href="#picker-strategy" id="id132">picker strategy</a></li>
-<li><a class="reference internal" href="#reverse-order" id="id133">reverse order</a></li>
-<li><a class="reference internal" href="#parole-mode" id="id134">parole mode</a></li>
-<li><a class="reference internal" href="#prioritize-partial-pieces" id="id135">prioritize partial pieces</a></li>
-<li><a class="reference internal" href="#prefer-whole-pieces" id="id136">prefer whole pieces</a></li>
+<li><a class="reference internal" href="#http-seeding" id="toc-entry-22">HTTP seeding</a></li>
+<li><a class="reference internal" href="#piece-picker" id="toc-entry-23">piece picker</a><ul>
+<li><a class="reference internal" href="#internal-representation" id="toc-entry-24">internal representation</a></li>
+<li><a class="reference internal" href="#picker-strategy" id="toc-entry-25">picker strategy</a></li>
+<li><a class="reference internal" href="#reverse-order" id="toc-entry-26">reverse order</a></li>
+<li><a class="reference internal" href="#parole-mode" id="toc-entry-27">parole mode</a></li>
+<li><a class="reference internal" href="#prioritize-partial-pieces" id="toc-entry-28">prioritize partial pieces</a></li>
+<li><a class="reference internal" href="#prefer-whole-pieces" id="toc-entry-29">prefer whole pieces</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#multi-homed-hosts" id="id137">Multi-homed hosts</a><ul>
-<li><a class="reference internal" href="#expanding-device-names" id="id138">expanding device names</a></li>
-<li><a class="reference internal" href="#expanding-unspecified-addresses" id="id139">expanding unspecified addresses</a></li>
-<li><a class="reference internal" href="#routing" id="id140">routing</a></li>
-<li><a class="reference internal" href="#tracker-announces" id="id141">tracker announces</a></li>
-<li><a class="reference internal" href="#socks5-udp-tunnels" id="id142">SOCKS5 UDP tunnels</a></li>
+<li><a class="reference internal" href="#multi-homed-hosts" id="toc-entry-30">Multi-homed hosts</a><ul>
+<li><a class="reference internal" href="#expanding-device-names" id="toc-entry-31">expanding device names</a></li>
+<li><a class="reference internal" href="#expanding-unspecified-addresses" id="toc-entry-32">expanding unspecified addresses</a></li>
+<li><a class="reference internal" href="#routing" id="toc-entry-33">routing</a></li>
+<li><a class="reference internal" href="#tracker-announces" id="toc-entry-34">tracker announces</a></li>
+<li><a class="reference internal" href="#socks5-udp-tunnels" id="toc-entry-35">SOCKS5 UDP tunnels</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#rate-based-choking" id="id143">rate based choking</a></li>
-<li><a class="reference internal" href="#predictive-piece-announce" id="id144">predictive piece announce</a></li>
-<li><a class="reference internal" href="#peer-classes" id="id145">peer classes</a><ul>
-<li><a class="reference internal" href="#peer-class-examples" id="id146">peer class examples</a></li>
+<li><a class="reference internal" href="#rate-based-choking" id="toc-entry-36">rate based choking</a></li>
+<li><a class="reference internal" href="#predictive-piece-announce" id="toc-entry-37">predictive piece announce</a></li>
+<li><a class="reference internal" href="#peer-classes" id="toc-entry-38">peer classes</a><ul>
+<li><a class="reference internal" href="#peer-class-examples" id="toc-entry-39">peer class examples</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#ssl-torrents" id="id147">SSL torrents</a><ul>
-<li><a class="reference internal" href="#testing" id="id148">testing</a></li>
+<li><a class="reference internal" href="#ssl-torrents" id="toc-entry-40">SSL torrents</a><ul>
+<li><a class="reference internal" href="#testing" id="toc-entry-41">testing</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#session-statistics" id="id149">session statistics</a></li>
-<li><a class="reference internal" href="#glossary" id="id150">glossary</a></li>
+<li><a class="reference internal" href="#session-statistics" id="toc-entry-42">session statistics</a></li>
+<li><a class="reference internal" href="#glossary" id="toc-entry-43">glossary</a></li>
 </ul>
 </div>
 <div class="section" id="overview">
@@ -495,6 +495,9 @@ storage for that torrent.</p>
 <tbody valign="top">
 <tr><td><tt class="docutils literal"><span class="pre">file-format</span></tt></td>
 <td>string: &quot;libtorrent resume file&quot;</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">file-version</span></tt></td>
+<td>integer: 1</td>
 </tr>
 <tr><td><tt class="docutils literal"><span class="pre">info-hash</span></tt></td>
 <td>string, the info hash of the torrent this data is saved for.

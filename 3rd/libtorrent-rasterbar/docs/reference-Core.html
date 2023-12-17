@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,44 +25,48 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.8</td></tr>
+<td>2.0.9</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#peer-request" id="id74">peer_request</a><ul>
-<li><a class="reference internal" href="#operator" id="id75">operator==()</a></li>
+<li><a class="reference internal" href="#peer-request" id="toc-entry-1">peer_request</a><ul>
+<li><a class="reference internal" href="#operator" id="toc-entry-2">operator==()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#info-hash-t" id="id76">info_hash_t</a><ul>
-<li><a class="reference internal" href="#id5" id="id77">info_hash_t()</a></li>
-<li><a class="reference internal" href="#has-has-v1-has-v2" id="id78">has() has_v1() has_v2()</a></li>
-<li><a class="reference internal" href="#get" id="id79">get()</a></li>
-<li><a class="reference internal" href="#get-best" id="id80">get_best()</a></li>
-<li><a class="reference internal" href="#for-each" id="id81">for_each()</a></li>
+<li><a class="reference internal" href="#info-hash-t" id="toc-entry-3">info_hash_t</a><ul>
+<li><a class="reference internal" href="#info-hash-t-1" id="toc-entry-4">info_hash_t()</a></li>
+<li><a class="reference internal" href="#has-v2-has-v1-has" id="toc-entry-5">has_v2() has_v1() has()</a></li>
+<li><a class="reference internal" href="#get" id="toc-entry-6">get()</a></li>
+<li><a class="reference internal" href="#get-best" id="toc-entry-7">get_best()</a></li>
+<li><a class="reference internal" href="#for-each" id="toc-entry-8">for_each()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#peer-info" id="id82">peer_info</a></li>
-<li><a class="reference internal" href="#piece-block" id="id83">piece_block</a></li>
-<li><a class="reference internal" href="#version" id="id84">version()</a></li>
-<li><a class="reference internal" href="#load-torrent-parsed-load-torrent-file-load-torrent-buffer" id="id85">load_torrent_parsed() load_torrent_file() load_torrent_buffer()</a></li>
-<li><a class="reference internal" href="#truncate-files" id="id86">truncate_files()</a></li>
-<li><a class="reference internal" href="#make-magnet-uri" id="id87">make_magnet_uri()</a></li>
-<li><a class="reference internal" href="#parse-magnet-uri" id="id88">parse_magnet_uri()</a></li>
-<li><a class="reference internal" href="#enum-protocol-version" id="id89">enum protocol_version</a></li>
-<li><a class="reference internal" href="#enum-event-t" id="id90">enum event_t</a></li>
-<li><a class="reference internal" href="#enum-socket-type-t" id="id91">enum socket_type_t</a></li>
-<li><a class="reference internal" href="#enum-portmap-transport" id="id92">enum portmap_transport</a></li>
-<li><a class="reference internal" href="#enum-portmap-protocol" id="id93">enum portmap_protocol</a></li>
-<li><a class="reference internal" href="#enum-connection-type" id="id94">enum connection_type</a></li>
-<li><a class="reference internal" href="#download-priority-t" id="id95">download_priority_t</a></li>
-<li><a class="reference internal" href="#int" id="id96">int</a></li>
-<li><a class="reference internal" href="#char-const" id="id97">char const*</a></li>
-<li><a class="reference internal" href="#std-uint64-t" id="id98">std::uint64_t</a></li>
-<li><a class="reference internal" href="#pex-flags-t" id="id99">pex_flags_t</a></li>
-<li><a class="reference internal" href="#torrent-flags-t" id="id100">torrent_flags_t</a></li>
+<li><a class="reference internal" href="#peer-info" id="toc-entry-9">peer_info</a><ul>
+<li><a class="reference internal" href="#i2p-destination" id="toc-entry-10">i2p_destination()</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#piece-block" id="toc-entry-11">piece_block</a></li>
+<li><a class="reference internal" href="#version" id="toc-entry-12">version()</a></li>
+<li><a class="reference internal" href="#load-torrent-parsed-load-torrent-buffer-load-torrent-file" id="toc-entry-13">load_torrent_parsed() load_torrent_buffer() load_torrent_file()</a></li>
+<li><a class="reference internal" href="#torrent-peer-equal" id="toc-entry-14">torrent_peer_equal()</a></li>
+<li><a class="reference internal" href="#truncate-files" id="toc-entry-15">truncate_files()</a></li>
+<li><a class="reference internal" href="#make-magnet-uri" id="toc-entry-16">make_magnet_uri()</a></li>
+<li><a class="reference internal" href="#parse-magnet-uri" id="toc-entry-17">parse_magnet_uri()</a></li>
+<li><a class="reference internal" href="#enum-protocol-version" id="toc-entry-18">enum protocol_version</a></li>
+<li><a class="reference internal" href="#enum-event-t" id="toc-entry-19">enum event_t</a></li>
+<li><a class="reference internal" href="#enum-socket-type-t" id="toc-entry-20">enum socket_type_t</a></li>
+<li><a class="reference internal" href="#enum-portmap-transport" id="toc-entry-21">enum portmap_transport</a></li>
+<li><a class="reference internal" href="#enum-portmap-protocol" id="toc-entry-22">enum portmap_protocol</a></li>
+<li><a class="reference internal" href="#enum-connection-type" id="toc-entry-23">enum connection_type</a></li>
+<li><a class="reference internal" href="#download-priority-t" id="toc-entry-24">download_priority_t</a></li>
+<li><a class="reference internal" href="#int" id="toc-entry-25">int</a></li>
+<li><a class="reference internal" href="#char-const" id="toc-entry-26">char const*</a></li>
+<li><a class="reference internal" href="#std-uint64-t" id="toc-entry-27">std::uint64_t</a></li>
+<li><a class="reference internal" href="#pex-flags-t" id="toc-entry-28">pex_flags_t</a></li>
+<li><a class="reference internal" href="#torrent-flags-t" id="toc-entry-29">torrent_flags_t</a></li>
 </ul>
 </div>
 <a name="peer_request"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+peer_request&labels=documentation&body=Documentation+under+heading+%22class+peer_request%22+could+be+improved">report issue</a>]</span><div class="section" id="peer-request">
@@ -114,10 +118,10 @@ v2 hash</p>
 <pre class="literal-block">
 struct info_hash_t
 {
-   <strong>info_hash_t</strong> (sha1_hash h1, sha256_hash h2) noexcept;
-   explicit <strong>info_hash_t</strong> (sha256_hash h2) noexcept;
    <strong>info_hash_t</strong> () noexcept = default;
+   <strong>info_hash_t</strong> (sha1_hash h1, sha256_hash h2) noexcept;
    explicit <strong>info_hash_t</strong> (sha1_hash h1) noexcept;
+   explicit <strong>info_hash_t</strong> (sha256_hash h2) noexcept;
    bool <strong>has_v2</strong> () const;
    bool <strong>has</strong> (protocol_version v) const;
    bool <strong>has_v1</strong> () const;
@@ -133,24 +137,24 @@ struct info_hash_t
    sha256_hash v2;
 };
 </pre>
-<a name="info_hash_t()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Binfo_hash_t%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Binfo_hash_t%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="id5">
+<a name="info_hash_t()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Binfo_hash_t%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Binfo_hash_t%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="info-hash-t-1">
 <h2>info_hash_t()</h2>
 <pre class="literal-block">
-<strong>info_hash_t</strong> (sha1_hash h1, sha256_hash h2) noexcept;
-explicit <strong>info_hash_t</strong> (sha256_hash h2) noexcept;
 <strong>info_hash_t</strong> () noexcept = default;
+<strong>info_hash_t</strong> (sha1_hash h1, sha256_hash h2) noexcept;
 explicit <strong>info_hash_t</strong> (sha1_hash h1) noexcept;
+explicit <strong>info_hash_t</strong> (sha256_hash h2) noexcept;
 </pre>
 <p>The default constructor creates an object that has neither a v1 or v2
 hash.</p>
 <p>For backwards compatibility, make it possible to construct directly
 from a v1 hash. This constructor allows <em>implicit</em> conversion from a
 v1 hash, but the implicitness is deprecated.</p>
-<a name="has()"></a>
+<a name="has_v2()"></a>
 <a name="has_v1()"></a>
-<a name="has_v2()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Bhas%28%29+has_v1%28%29+has_v2%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Bhas%28%29+has_v1%28%29+has_v2%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="has-has-v1-has-v2">
-<h2>has() has_v1() has_v2()</h2>
+<a name="has()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Bhas_v2%28%29+has_v1%28%29+has%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Bhas_v2%28%29+has_v1%28%29+has%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="has-v2-has-v1-has">
+<h2>has_v2() has_v1() has()</h2>
 <pre class="literal-block">
 bool <strong>has_v2</strong> () const;
 bool <strong>has</strong> (protocol_version v) const;
@@ -194,6 +198,8 @@ that libtorrent is connected to</p>
 <pre class="literal-block">
 struct peer_info
 {
+   sha256_hash <strong>i2p_destination</strong> () const;
+
    std::string client;
    typed_bitfield&lt;piece_index_t&gt; pieces;
    std::int64_t total_download;
@@ -278,6 +284,13 @@ struct peer_info
    bandwidth_state_flags_t write_state;
 };
 </pre>
+<a name="i2p_destination()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bi2p_destination%28%29%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bi2p_destination%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="i2p-destination">
+<h2>i2p_destination()</h2>
+<pre class="literal-block">
+sha256_hash <strong>i2p_destination</strong> () const;
+</pre>
+<p>If this peer is an i2p peer, this function returns the destination
+address of the peer</p>
 <a name="client"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bclient%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bclient%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
 <dt>client</dt>
 <dd>A human readable string describing the software at the other end of
@@ -474,7 +487,7 @@ was received. A combination of the peer_source_flags_t above.</dd>
 </dl>
 <a name="pid"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bpid%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bpid%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
 <dt>pid</dt>
-<dd>the peer's id as used in the bit torrent protocol. This id can be used
+<dd>the peer's id as used in the bittorrent protocol. This id can be used
 to extract 'fingerprints' from the peer. Sometimes it can tell you
 which client the peer is using. See identify_client()_</dd>
 </dl>
@@ -623,13 +636,15 @@ floating point operations are disabled, instead use <tt class="docutils literal"
 <a name="ip"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bip%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bip%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
 <dt>ip</dt>
 <dd>the IP-address to this peer. The type is an asio endpoint. For
-more info, see the <a class="reference external" href="http://asio.sourceforge.net/asio-0.3.8/doc/asio/reference.html">asio</a> documentation.</dd>
+more info, see the <a class="reference external" href="http://asio.sourceforge.net/asio-0.3.8/doc/asio/reference.html">asio</a> documentation. This field is not valid for
+i2p peers. Instead use the <a class="reference external" href="reference-Core.html#i2p_destination()">i2p_destination()</a> function.</dd>
 </dl>
 <a name="local_endpoint"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Blocal_endpoint%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Blocal_endpoint%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
 <dt>local_endpoint</dt>
 <dd>the IP and port pair the socket is bound to locally. i.e. the IP
 address of the interface it's going out over. This may be useful for
-multi-homed clients with multiple interfaces to the internet.</dd>
+multi-homed clients with multiple interfaces to the internet.
+This field is not valid for i2p peers.</dd>
 </dl>
 <a name="bw_idle"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:peer_info%3A%3A%5Bbw_idle%5D&labels=documentation&body=Documentation+under+heading+%22peer_info%3A%3A%5Bbw_idle%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
 <dt>bw_idle</dt>
@@ -661,6 +676,7 @@ defined as independent flags of type bandwidth_state_flags_t, in this
 class.</dd>
 </dl>
 <a name="piece_block"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+piece_block&labels=documentation&body=Documentation+under+heading+%22class+piece_block%22+could+be+improved">report issue</a>]</span></div>
+</div>
 <div class="section" id="piece-block">
 <h1>piece_block</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/piece_block.hpp">libtorrent/piece_block.hpp</a>&quot;</p>
@@ -688,24 +704,24 @@ char const* <strong>version</strong> ();
 <p>returns the libtorrent version as string form in this format:
 &quot;&lt;major&gt;.&lt;minor&gt;.&lt;tiny&gt;.&lt;tag&gt;&quot;</p>
 <a name="load_torrent_parsed()"></a>
-<a name="load_torrent_file()"></a>
-<a name="load_torrent_buffer()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:load_torrent_parsed%28%29+load_torrent_file%28%29+load_torrent_buffer%28%29&labels=documentation&body=Documentation+under+heading+%22load_torrent_parsed%28%29+load_torrent_file%28%29+load_torrent_buffer%28%29%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="load-torrent-parsed-load-torrent-file-load-torrent-buffer">
-<h1>load_torrent_parsed() load_torrent_file() load_torrent_buffer()</h1>
+<a name="load_torrent_buffer()"></a>
+<a name="load_torrent_file()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:load_torrent_parsed%28%29+load_torrent_buffer%28%29+load_torrent_file%28%29&labels=documentation&body=Documentation+under+heading+%22load_torrent_parsed%28%29+load_torrent_buffer%28%29+load_torrent_file%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="load-torrent-parsed-load-torrent-buffer-load-torrent-file">
+<h1>load_torrent_parsed() load_torrent_buffer() load_torrent_file()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/load_torrent.hpp">libtorrent/load_torrent.hpp</a>&quot;</p>
 <pre class="literal-block">
-add_torrent_params <strong>load_torrent_parsed</strong> (
-   bdecode_node const&amp; torrent_file, load_torrent_limits const&amp; cfg);
-add_torrent_params <strong>load_torrent_file</strong> (
-   std::string const&amp; filename);
 add_torrent_params <strong>load_torrent_buffer</strong> (
    span&lt;char const&gt; buffer);
-add_torrent_params <strong>load_torrent_parsed</strong> (
-   bdecode_node const&amp; torrent_file);
 add_torrent_params <strong>load_torrent_buffer</strong> (
    span&lt;char const&gt; buffer, load_torrent_limits const&amp; cfg);
 add_torrent_params <strong>load_torrent_file</strong> (
    std::string const&amp; filename, load_torrent_limits const&amp; cfg);
+add_torrent_params <strong>load_torrent_file</strong> (
+   std::string const&amp; filename);
+add_torrent_params <strong>load_torrent_parsed</strong> (
+   bdecode_node const&amp; torrent_file);
+add_torrent_params <strong>load_torrent_parsed</strong> (
+   bdecode_node const&amp; torrent_file, load_torrent_limits const&amp; cfg);
 </pre>
 <p>These functions load the content of a .torrent file into an
 <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object.
@@ -720,6 +736,13 @@ The returned object is suitable to be:</p>
 <li>turned into a magnet link via <a class="reference external" href="reference-Core.html#make_magnet_uri()">make_magnet_uri()</a></li>
 </ul>
 </blockquote>
+<a name="torrent_peer_equal()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_peer_equal%28%29&labels=documentation&body=Documentation+under+heading+%22torrent_peer_equal%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="torrent-peer-equal">
+<h1>torrent_peer_equal()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/torrent_peer.hpp">libtorrent/torrent_peer.hpp</a>&quot;</p>
+<pre class="literal-block">
+inline bool <strong>torrent_peer_equal</strong> (torrent_peer const* lhs, torrent_peer const* rhs);
+</pre>
 <a name="truncate_files()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:truncate_files%28%29&labels=documentation&body=Documentation+under+heading+%22truncate_files%28%29%22+could+be+improved">report issue</a>]</span></div>
 <div class="section" id="truncate-files">
 <h1>truncate_files()</h1>
@@ -734,9 +757,9 @@ the specified save_path.</p>
 <h1>make_magnet_uri()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/magnet_uri.hpp">libtorrent/magnet_uri.hpp</a>&quot;</p>
 <pre class="literal-block">
-std::string <strong>make_magnet_uri</strong> (torrent_info const&amp; info);
 std::string <strong>make_magnet_uri</strong> (torrent_handle const&amp; handle);
 std::string <strong>make_magnet_uri</strong> (add_torrent_params const&amp; atp);
+std::string <strong>make_magnet_uri</strong> (torrent_info const&amp; info);
 </pre>
 <p>Generates a magnet URI from the specified torrent.</p>
 <p>Several fields from the <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> objects are recorded in the
@@ -765,8 +788,8 @@ an empty string is returned.</p>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/magnet_uri.hpp">libtorrent/magnet_uri.hpp</a>&quot;</p>
 <pre class="literal-block">
 void <strong>parse_magnet_uri</strong> (string_view uri, add_torrent_params&amp; p, error_code&amp; ec);
-add_torrent_params <strong>parse_magnet_uri</strong> (string_view uri);
 add_torrent_params <strong>parse_magnet_uri</strong> (string_view uri, error_code&amp; ec);
+add_torrent_params <strong>parse_magnet_uri</strong> (string_view uri);
 </pre>
 <p>This function parses out information from the magnet link and populates the
 <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object. The overload that does not take an
@@ -1240,12 +1263,14 @@ This flag is not saved by <a class="reference external" href="reference-Resume_D
 </dl>
 <a name="torrent_flags_t::need_save_resume"></a><dl class="docutils">
 <dt>need_save_resume</dt>
-<dd>if this flag is set (which it is by default) the torrent will be
-considered needing to save its resume data immediately as it's
-added. New torrents that don't have any resume data should do that.
-This flag is cleared by a successful call to <a class="reference external" href="reference-Torrent_Handle.html#save_resume_data()">save_resume_data()</a>
+<dd><p class="first">if this flag is set (which it is by default) the torrent will be
+considered needing to save its resume data immediately, in the
+category if_metadata_changed. See resume_data_flags_t and
+<a class="reference external" href="reference-Torrent_Handle.html#save_resume_data()">save_resume_data()</a> for details.</p>
+<p class="last">This flag is cleared by a successful call to <a class="reference external" href="reference-Torrent_Handle.html#save_resume_data()">save_resume_data()</a>
 This flag is not saved by <a class="reference external" href="reference-Resume_Data.html#write_resume_data()">write_resume_data()</a>, since it represents an
-ephemeral state of a running torrent.</dd>
+ephemeral state of a running torrent.</p>
+</dd>
 </dl>
 <a name="torrent_flags_t::disable_dht"></a><dl class="docutils">
 <dt>disable_dht</dt>
@@ -1280,6 +1305,19 @@ file_priorities is still set for some files. Any file not covered by
 the file_priorities list will be set to normal download priority,
 unless this flag is set, in which case they will be set to 0
 (dont_download).</dd>
+</dl>
+<a name="torrent_flags_t::i2p_torrent"></a><dl class="docutils">
+<dt>i2p_torrent</dt>
+<dd>this flag makes the torrent be considered an &quot;i2p torrent&quot; for purposes
+of the allow_i2p_mixed setting. When mixing regular peers and i2p peers
+is disabled, i2p torrents won't add normal peers to its peer list.
+Note that non i2p torrents may still allow i2p peers (on the off-chance
+that a tracker return them and the <a class="reference external" href="reference-Session.html#session">session</a> is configured with a SAM
+connection).
+This flag is set automatically when adding a torrent that has at least
+one tracker whose hostname ends with .i2p.
+It's also set by <a class="reference external" href="reference-Core.html#parse_magnet_uri()">parse_magnet_uri()</a> if the tracker list contains such
+URL.</dd>
 </dl>
 <a name="torrent_flags_t::all"></a><dl class="docutils">
 <dt>all</dt>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,30 +25,30 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.8</td></tr>
+<td>2.0.9</td></tr>
 </tbody>
 </table>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#terminology" id="id1">terminology</a></li>
-<li><a class="reference internal" href="#linked-lists" id="id2">linked lists</a></li>
-<li><a class="reference internal" href="#skip-lists" id="id3">skip lists</a></li>
-<li><a class="reference internal" href="#list-head" id="id4">list-head</a></li>
-<li><a class="reference internal" href="#messages" id="id5">messages</a><ul>
-<li><a class="reference internal" href="#requesting-items" id="id6">requesting items</a></li>
-<li><a class="reference internal" href="#request-item-response" id="id7">request item response</a></li>
-<li><a class="reference internal" href="#announcing-items" id="id8">announcing items</a></li>
+<li><a class="reference internal" href="#terminology" id="toc-entry-1">terminology</a></li>
+<li><a class="reference internal" href="#linked-lists" id="toc-entry-2">linked lists</a></li>
+<li><a class="reference internal" href="#skip-lists" id="toc-entry-3">skip lists</a></li>
+<li><a class="reference internal" href="#list-head" id="toc-entry-4">list-head</a></li>
+<li><a class="reference internal" href="#messages" id="toc-entry-5">messages</a><ul>
+<li><a class="reference internal" href="#requesting-items" id="toc-entry-6">requesting items</a></li>
+<li><a class="reference internal" href="#request-item-response" id="toc-entry-7">request item response</a></li>
+<li><a class="reference internal" href="#announcing-items" id="toc-entry-8">announcing items</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#re-announcing" id="id9">re-announcing</a></li>
-<li><a class="reference internal" href="#timeouts" id="id10">timeouts</a></li>
-<li><a class="reference internal" href="#rss-feeds" id="id11">RSS feeds</a><ul>
-<li><a class="reference internal" href="#example" id="id12">example</a></li>
+<li><a class="reference internal" href="#re-announcing" id="toc-entry-9">re-announcing</a></li>
+<li><a class="reference internal" href="#timeouts" id="toc-entry-10">timeouts</a></li>
+<li><a class="reference internal" href="#rss-feeds" id="toc-entry-11">RSS feeds</a><ul>
+<li><a class="reference internal" href="#example" id="toc-entry-12">example</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#rss-feed-uri-scheme" id="id13">RSS feed URI scheme</a></li>
-<li><a class="reference internal" href="#rationale" id="id14">rationale</a></li>
+<li><a class="reference internal" href="#rss-feed-uri-scheme" id="toc-entry-13">RSS feed URI scheme</a></li>
+<li><a class="reference internal" href="#rationale" id="toc-entry-14">rationale</a></li>
 </ul>
 </div>
 <p>This proposal has been superseded by the <a class="reference external" href="dht_store.html">dht_put</a> feature. This may

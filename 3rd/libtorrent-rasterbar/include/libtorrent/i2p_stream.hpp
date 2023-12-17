@@ -101,6 +101,14 @@ namespace libtorrent {
 	{ return i2p_category(); }
 #endif
 
+struct i2p_session_options
+{
+	int m_inbound_quantity = 3;
+	int m_outbound_quantity = 3;
+	int m_inbound_length = 3;
+	int m_outbound_length = 3;
+};
+
 struct i2p_stream : proxy_base
 {
 	explicit i2p_stream(io_context& io_context);
@@ -123,10 +131,17 @@ struct i2p_stream : proxy_base
 
 	void set_command(command_t c) { m_command = c; }
 
+	void set_session_options(i2p_session_options const& session_options)
+	{
+		m_session_options = session_options;
+	}
+
 	void set_session_id(char const* id) { m_id = id; }
 
+	void set_local_i2p_endpoint(string_view d) { m_local = d.to_string(); }
+	std::string const& local_i2p_endpoint() const { return m_local; }
 	void set_destination(string_view d) { m_dest = d.to_string(); }
-	std::string const& destination() { return m_dest; }
+	std::string const& destination() const { return m_dest; }
 
 	template <class Handler>
 	void async_connect(endpoint_type const&, Handler h)
@@ -193,7 +208,7 @@ private:
 
 		// send hello command
 		m_state = read_hello_response;
-		static const char cmd[] = "HELLO VERSION MIN=3.0 MAX=3.0\n";
+		static const char cmd[] = "HELLO VERSION MIN=3.1 MAX=3.1\n";
 
 		ADD_OUTSTANDING_ASYNC("i2p_stream::start_read_line");
 		async_write(m_sock, boost::asio::buffer(cmd, sizeof(cmd) - 1), wrap_allocator(
@@ -232,11 +247,6 @@ private:
 			ADD_OUTSTANDING_ASYNC("i2p_stream::read_line");
 			// read another byte from the socket
 			m_buffer.resize(read_pos + 1);
-			async_read(m_sock, boost::asio::buffer(&m_buffer[read_pos], 1), wrap_allocator(
-			[this](error_code const& ec, std::size_t, Handler hn) {
-				start_read_line(ec, std::move(hn));
-			}, std::move(h)));
-
 			async_read(m_sock, boost::asio::buffer(&m_buffer[read_pos], 1), wrap_allocator(
 			[this](error_code const& ec, std::size_t, Handler hn) {
 				read_line(ec, std::move(hn));
@@ -282,7 +292,8 @@ private:
 				break;
 		}
 
-		string_view remaining(m_buffer.data(), m_buffer.size());
+		TORRENT_ASSERT(m_buffer[int(m_buffer.size()) - 1] == '\0');
+		string_view remaining(m_buffer.data(), m_buffer.size() - 1);
 		string_view token;
 
 		std::tie(token, remaining) = split_string(remaining, ' ');
@@ -301,7 +312,16 @@ private:
 			std::tie(name, remaining) = split_string(remaining, '=');
 			if (name.empty()) break;
 			string_view value;
-			std::tie(value, remaining) = split_string(remaining, ' ');
+			if (remaining[0] == '"')
+			{
+				std::tie(value, remaining) = split_string(remaining.substr(1), '"');
+				if (value.empty()) { handle_error(invalid_response, h); return; }
+				value.remove_suffix(1);
+			}
+			else
+			{
+				std::tie(value, remaining) = split_string(remaining, ' ');
+			}
 			if (value.empty()) { handle_error(invalid_response, h); return; }
 
 			if ("RESULT"_sv == name)
@@ -342,16 +362,10 @@ private:
 		}
 
 		error_code ec(result, i2p_category());
-		switch (result)
+		if (ec)
 		{
-			case i2p_error::no_error:
-			case i2p_error::invalid_key:
-				break;
-			default:
-			{
-				handle_error (ec, h);
-				return;
-			}
+			std::forward<Handler>(h)(ec);
+			return;
 		}
 
 		switch (m_state)
@@ -371,14 +385,14 @@ private:
 				case cmd_none:
 				case cmd_name_lookup:
 				case cmd_incoming:
-					h(e);
+					std::forward<Handler>(h)(ec);
 					std::vector<char>().swap(m_buffer);
 			}
 			break;
 		case read_connect_response:
 		case read_session_create_response:
 		case read_name_lookup_response:
-			h(ec);
+			std::forward<Handler>(h)(ec);
 			std::vector<char>().swap(m_buffer);
 			break;
 		case read_accept_response:
@@ -408,7 +422,7 @@ private:
 		ADD_OUTSTANDING_ASYNC("i2p_stream::start_read_line");
 		async_write(m_sock, boost::asio::buffer(cmd, std::size_t(size)), wrap_allocator(
 			[this](error_code const& ec, std::size_t, Handler hn) {
-				read_line(ec, std::move(hn));
+				start_read_line(ec, std::move(hn));
 			}, std::move(h)));
 	}
 
@@ -432,8 +446,11 @@ private:
 		TORRENT_ASSERT(m_magic == 0x1337);
 		m_state = read_session_create_response;
 		char cmd[400];
-		int size = std::snprintf(cmd, sizeof(cmd), "SESSION CREATE STYLE=STREAM ID=%s DESTINATION=TRANSIENT\n"
-			, m_id);
+		int size = std::snprintf(cmd, sizeof(cmd),
+			"SESSION CREATE STYLE=STREAM ID=%s DESTINATION=TRANSIENT SIGNATURE_TYPE=7 "
+			"inbound.quantity=%d outbound.quantity=%d inbound.length=%d outbound.length=%d\n",
+			m_id, m_session_options.m_inbound_quantity, m_session_options.m_outbound_quantity,
+			m_session_options.m_inbound_length, m_session_options.m_outbound_length);
 		ADD_OUTSTANDING_ASYNC("i2p_stream::start_read_line");
 		async_write(m_sock, boost::asio::buffer(cmd, std::size_t(size)), wrap_allocator(
 			[this](error_code const& ec, std::size_t, Handler hn) {
@@ -443,9 +460,12 @@ private:
 
 	// send and receive buffer
 	aux::noexcept_movable<aux::vector<char>> m_buffer;
-	char const* m_id;
+	char const* m_id = nullptr;
 	std::string m_dest;
+	std::string m_local;
 	std::string m_name_lookup;
+
+	i2p_session_options m_session_options;
 
 	enum state_t : std::uint8_t
 	{
@@ -459,7 +479,7 @@ private:
 	command_t m_command;
 	state_t m_state;
 #if TORRENT_USE_ASSERTS
-	int m_magic;
+	int m_magic = 0x1337;
 #endif
 };
 
@@ -480,7 +500,8 @@ public:
 			&& m_state != sam_connecting;
 	}
 	template <typename Handler>
-	void open(std::string const& hostname, int port, Handler handler)
+	void open(std::string const& hostname, int port,
+		i2p_session_options const& session_options, Handler handler)
 	{
 		// we already seem to have a session to this SAM router
 		if (m_hostname == hostname
@@ -504,6 +525,7 @@ public:
 		m_sam_socket->set_proxy(m_hostname, m_port);
 		m_sam_socket->set_command(i2p_stream::cmd_create_session);
 		m_sam_socket->set_session_id(m_session_id.c_str());
+		m_sam_socket->set_session_options(session_options);
 
 		ADD_OUTSTANDING_ASYNC("i2p_stream::on_sam_connect");
 		m_sam_socket->async_connect(tcp::endpoint(), wrap_allocator(
@@ -513,6 +535,7 @@ public:
 	}
 	void close(error_code&);
 
+	// TODO: make this a string_view
 	char const* session_id() const { return m_session_id.c_str(); }
 	std::string const& local_endpoint() const { return m_i2p_local_endpoint; }
 

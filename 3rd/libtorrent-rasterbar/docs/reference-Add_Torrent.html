@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,19 +25,19 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.8</td></tr>
+<td>2.0.9</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#client-data-t" id="id33">client_data_t</a><ul>
-<li><a class="reference internal" href="#id3" id="id34">client_data_t()</a></li>
-<li><a class="reference internal" href="#void-operator-const" id="id35">void*() operator=() const*()</a></li>
+<li><a class="reference internal" href="#client-data-t" id="toc-entry-1">client_data_t</a><ul>
+<li><a class="reference internal" href="#client-data-t-1" id="toc-entry-2">client_data_t()</a></li>
+<li><a class="reference internal" href="#operator-void-const" id="toc-entry-3">operator=() void*() const*()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#add-torrent-params" id="id36">add_torrent_params</a></li>
+<li><a class="reference internal" href="#add-torrent-params" id="toc-entry-4">add_torrent_params</a></li>
 </ul>
 </div>
 <a name="client_data_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+client_data_t&labels=documentation&body=Documentation+under+heading+%22class+client_data_t%22+could+be+improved">report issue</a>]</span><div class="section" id="client-data-t">
@@ -55,28 +55,28 @@ struct client_data_t
    T* <strong>get</strong> () const;
    explicit operator <strong>T</strong> () const;
    operator <strong>void*</strong> () const = delete;
-   operator void <strong>const*</strong> () const = delete;
    client_data_t&amp; <strong>operator=</strong> (void const*) = delete;
+   operator void <strong>const*</strong> () const = delete;
    client_data_t&amp; <strong>operator=</strong> (void*) = delete;
 
    template &lt;typename T, typename <strong>U</strong>  = typename std::enable_if&lt;std::is_pointer&lt;T&gt;::value&gt;::type&gt;
 };
 </pre>
-<a name="client_data_t()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:client_data_t%3A%3A%5Bclient_data_t%28%29%5D&labels=documentation&body=Documentation+under+heading+%22client_data_t%3A%3A%5Bclient_data_t%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="id3">
+<a name="client_data_t()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:client_data_t%3A%3A%5Bclient_data_t%28%29%5D&labels=documentation&body=Documentation+under+heading+%22client_data_t%3A%3A%5Bclient_data_t%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="client-data-t-1">
 <h2>client_data_t()</h2>
 <pre class="literal-block">
 <strong>client_data_t</strong> () = default;
 </pre>
 <p>construct a nullptr client data</p>
-<a name="void*()"></a>
 <a name="operator=()"></a>
-<a name="const*()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:client_data_t%3A%3A%5Bvoid%2A%28%29+operator%3D%28%29+const%2A%28%29%5D&labels=documentation&body=Documentation+under+heading+%22client_data_t%3A%3A%5Bvoid%2A%28%29+operator%3D%28%29+const%2A%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="void-operator-const">
-<h2>void*() operator=() const*()</h2>
+<a name="void*()"></a>
+<a name="const*()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:client_data_t%3A%3A%5Boperator%3D%28%29+void%2A%28%29+const%2A%28%29%5D&labels=documentation&body=Documentation+under+heading+%22client_data_t%3A%3A%5Boperator%3D%28%29+void%2A%28%29+const%2A%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="operator-void-const">
+<h2>operator=() void*() const*()</h2>
 <pre class="literal-block">
 operator <strong>void*</strong> () const = delete;
-operator void <strong>const*</strong> () const = delete;
 client_data_t&amp; <strong>operator=</strong> (void const*) = delete;
+operator void <strong>const*</strong> () const = delete;
 client_data_t&amp; <strong>operator=</strong> (void*) = delete;
 </pre>
 <p>we don't allow type-unsafe operations</p>
@@ -399,7 +399,9 @@ applied before the torrent is added.</dd>
 <a name="last_upload"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:add_torrent_params%3A%3A%5Blast_download+last_upload%5D&labels=documentation&body=Documentation+under+heading+%22add_torrent_params%3A%3A%5Blast_download+last_upload%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
 <dt>last_download last_upload</dt>
 <dd>the posix time of the last time payload was received or sent for this
-torrent, respectively.</dd>
+torrent, respectively. A value of 0 means we don't know when we last
+uploaded or downloaded, or we have never uploaded or downloaded any
+payload for this torrent.</dd>
 </dl>
 </div>
 

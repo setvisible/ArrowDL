@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,35 +25,35 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.8</td></tr>
+<td>2.0.9</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#dht-state" id="id19">dht_state</a></li>
-<li><a class="reference internal" href="#dht-storage-counters" id="id20">dht_storage_counters</a><ul>
-<li><a class="reference internal" href="#reset" id="id21">reset()</a></li>
+<li><a class="reference internal" href="#dht-state" id="toc-entry-1">dht_state</a></li>
+<li><a class="reference internal" href="#dht-storage-counters" id="toc-entry-2">dht_storage_counters</a><ul>
+<li><a class="reference internal" href="#reset" id="toc-entry-3">reset()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#dht-storage-interface" id="id22">dht_storage_interface</a><ul>
-<li><a class="reference internal" href="#update-node-ids" id="id23">update_node_ids()</a></li>
-<li><a class="reference internal" href="#get-peers" id="id24">get_peers()</a></li>
-<li><a class="reference internal" href="#announce-peer" id="id25">announce_peer()</a></li>
-<li><a class="reference internal" href="#get-immutable-item" id="id26">get_immutable_item()</a></li>
-<li><a class="reference internal" href="#put-immutable-item" id="id27">put_immutable_item()</a></li>
-<li><a class="reference internal" href="#get-mutable-item-seq" id="id28">get_mutable_item_seq()</a></li>
-<li><a class="reference internal" href="#get-mutable-item" id="id29">get_mutable_item()</a></li>
-<li><a class="reference internal" href="#put-mutable-item" id="id30">put_mutable_item()</a></li>
-<li><a class="reference internal" href="#get-infohashes-sample" id="id31">get_infohashes_sample()</a></li>
-<li><a class="reference internal" href="#tick" id="id32">tick()</a></li>
-<li><a class="reference internal" href="#counters" id="id33">counters()</a></li>
+<li><a class="reference internal" href="#dht-storage-interface" id="toc-entry-4">dht_storage_interface</a><ul>
+<li><a class="reference internal" href="#update-node-ids" id="toc-entry-5">update_node_ids()</a></li>
+<li><a class="reference internal" href="#get-peers" id="toc-entry-6">get_peers()</a></li>
+<li><a class="reference internal" href="#announce-peer" id="toc-entry-7">announce_peer()</a></li>
+<li><a class="reference internal" href="#get-immutable-item" id="toc-entry-8">get_immutable_item()</a></li>
+<li><a class="reference internal" href="#put-immutable-item" id="toc-entry-9">put_immutable_item()</a></li>
+<li><a class="reference internal" href="#get-mutable-item-seq" id="toc-entry-10">get_mutable_item_seq()</a></li>
+<li><a class="reference internal" href="#get-mutable-item" id="toc-entry-11">get_mutable_item()</a></li>
+<li><a class="reference internal" href="#put-mutable-item" id="toc-entry-12">put_mutable_item()</a></li>
+<li><a class="reference internal" href="#get-infohashes-sample" id="toc-entry-13">get_infohashes_sample()</a></li>
+<li><a class="reference internal" href="#tick" id="toc-entry-14">tick()</a></li>
+<li><a class="reference internal" href="#counters" id="toc-entry-15">counters()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#sign-mutable-item" id="id34">sign_mutable_item()</a></li>
-<li><a class="reference internal" href="#dht-default-storage-constructor" id="id35">dht_default_storage_constructor()</a></li>
-<li><a class="reference internal" href="#announce-flags-t" id="id36">announce_flags_t</a></li>
+<li><a class="reference internal" href="#sign-mutable-item" id="toc-entry-16">sign_mutable_item()</a></li>
+<li><a class="reference internal" href="#dht-default-storage-constructor" id="toc-entry-17">dht_default_storage_constructor()</a></li>
+<li><a class="reference internal" href="#announce-flags-t" id="toc-entry-18">announce_flags_t</a></li>
 </ul>
 </div>
 <a name="dht_state"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+dht_state&labels=documentation&body=Documentation+under+heading+%22class+dht_state%22+could+be+improved">report issue</a>]</span><div class="section" id="dht-state">

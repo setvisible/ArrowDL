@@ -128,7 +128,7 @@ namespace
 				throw_error_already_set();
 			}
 
-			TORRENT_TRY
+			try
 			{
 				// if the dictionary doesn't contain "key", it will throw, hence
 				// the try-catch here
@@ -153,7 +153,7 @@ namespace
 						break;
 				}
 			}
-			TORRENT_CATCH(...) {}
+			catch (...) {}
 		}
 	}
 
@@ -407,20 +407,29 @@ namespace
         add_torrent_params p;
         dict_to_add_torrent_params(params, p);
 
+        if (p.save_path.empty())
+        {
+            PyErr_SetString(PyExc_KeyError,
+                "save_path must be set in add_torrent_params");
+            throw_error_already_set();
+        }
+
         allow_threading_guard guard;
 
-#ifndef BOOST_NO_EXCEPTIONS
         return s.add_torrent(std::move(p));
-#else
-        error_code ec;
-        return s.add_torrent(std::move(p), ec);
-#endif
     }
 
     void async_add_torrent(lt::session& s, dict params)
     {
         add_torrent_params p;
         dict_to_add_torrent_params(params, p);
+
+        if (p.save_path.empty())
+        {
+            PyErr_SetString(PyExc_KeyError,
+                "save_path must be set in add_torrent_params");
+            throw_error_already_set();
+        }
 
         allow_threading_guard guard;
 
@@ -433,14 +442,16 @@ namespace
         if (p.ti)
             atp.ti = std::make_shared<torrent_info>(*p.ti);
 
+        if (p.save_path.empty())
+        {
+            PyErr_SetString(PyExc_KeyError,
+                "save_path must be set in add_torrent_params");
+            throw_error_already_set();
+        }
+
         allow_threading_guard guard;
 
-#ifndef BOOST_NO_EXCEPTIONS
         return s.add_torrent(std::move(p));
-#else
-        error_code ec;
-        return s.add_torrent(std::move(p), ec);
-#endif
     }
 
     void wrap_async_add_torrent(lt::session& s, lt::add_torrent_params const& p)
@@ -448,6 +459,13 @@ namespace
         add_torrent_params atp = p;
         if (p.ti)
             atp.ti = std::make_shared<torrent_info>(*p.ti);
+
+        if (p.save_path.empty())
+        {
+            PyErr_SetString(PyExc_ValueError,
+                "save_path must be set in add_torrent_params");
+            throw_error_already_set();
+        }
 
         allow_threading_guard guard;
 

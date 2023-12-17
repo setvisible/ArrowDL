@@ -23,6 +23,7 @@ All rights reserved.
 #include <tuple> // for tie
 #include <memory> // for make_shared
 #include <cstdio> // for printf
+#include <iostream>
 
 using namespace sim::asio;
 
@@ -130,10 +131,11 @@ namespace sim
 		m_timer_queue.erase(begin);
 	}
 
-	void simulation::rebind_socket(ip::tcp::socket* s, ip::tcp::endpoint ep)
+	void simulation::rebind_socket(ip::tcp::socket* prev, ip::tcp::socket* s, ip::tcp::endpoint ep)
 	{
 		auto i = m_listen_sockets.find(ep);
 		assert(i != m_listen_sockets.end());
+		if (i->second != prev) return;
 		i->second = s;
 	}
 
