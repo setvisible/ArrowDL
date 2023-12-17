@@ -536,30 +536,35 @@ jobs:
                os.makedirs(directory)
 
     - name: Download Chromium Addon
+      continue-on-error: true
       uses: actions/download-artifact@v3
       with:
         name: artifact_chromium
         path: "${{env.Project_RELEASE_DIR}}"
 
     - name: Download Firefox Addon
+      continue-on-error: true
       uses: actions/download-artifact@v3
       with:
         name: artifact_firefox
         path: "${{env.Project_RELEASE_DIR}}"
 
     - name: Download Linux Portable
+      continue-on-error: true
       uses: actions/download-artifact@v3
       with:
         name: artifact_linux_portable
         path: "${{env.Project_RELEASE_DIR}}"
 
     - name: Download Windows MinGW 64 Portable
+      continue-on-error: true
       uses: actions/download-artifact@v3
       with:
         name: artifact_windows_mingw_64_portable
         path: "${{env.Project_RELEASE_DIR}}"
 
     - name: Download Windows 64 Installer
+      continue-on-error: true
       uses: actions/download-artifact@v3
       with:
         name: artifact_windows_64_installer
