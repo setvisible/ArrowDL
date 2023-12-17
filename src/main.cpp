@@ -31,26 +31,24 @@ constexpr int msec_message_timeout = 2000;
 #ifndef QT_DEBUG
 void releaseVerboseMessageHandler(QtMsgType type, const QMessageLogContext &, const QString &msg)
 {
-    QByteArray localMsg = msg.toLocal8Bit();
     switch (type) {
-    case QtDebugMsg: fprintf(stderr, "Debug: %s\n", localMsg.constData()); break;
-    case QtInfoMsg: fprintf(stderr, "Info: %s\n", localMsg.constData()); break;
-    case QtWarningMsg: fprintf(stderr, "Warning: %s\n", localMsg.constData()); break;
-    case QtCriticalMsg: fprintf(stderr, "Critical: %s\n", localMsg.constData()); break;
-    case QtFatalMsg: fprintf(stderr, "Fatal: %s\n", localMsg.constData()); break;
+    case QtDebugMsg: fprintf(stderr, "Debug: %s\n", qPrintable(msg)); break;
+    case QtInfoMsg: fprintf(stderr, "Info: %s\n", qPrintable(msg)); break;
+    case QtWarningMsg: fprintf(stderr, "Warning: %s\n", qPrintable(msg)); break;
+    case QtCriticalMsg: fprintf(stderr, "Critical: %s\n", qPrintable(msg)); break;
+    case QtFatalMsg: fprintf(stderr, "Fatal: %s\n", qPrintable(msg)); break;
     }
 }
 void releaseDefaultMessageHandler(QtMsgType type, const QMessageLogContext &, const QString &msg)
 {
-    QByteArray localMsg = msg.toLocal8Bit();
     switch (type) {
     case QtDebugMsg:
         // In release mode, ignore debug messages but show fatal and warning.
         break;
-    case QtInfoMsg: fprintf(stderr, "Info: %s\n", localMsg.constData()); break;
-    case QtWarningMsg: fprintf(stderr, "Warning: %s\n", localMsg.constData()); break;
-    case QtCriticalMsg: fprintf(stderr, "Critical: %s\n", localMsg.constData()); break;
-    case QtFatalMsg: fprintf(stderr, "Fatal: %s\n", localMsg.constData()); break;
+    case QtInfoMsg: fprintf(stderr, "Info: %s\n", qPrintable(msg)); break;
+    case QtWarningMsg: fprintf(stderr, "Warning: %s\n", qPrintable(msg)); break;
+    case QtCriticalMsg: fprintf(stderr, "Critical: %s\n", qPrintable(msg)); break;
+    case QtFatalMsg: fprintf(stderr, "Fatal: %s\n", qPrintable(msg)); break;
     }
 }
 #endif
