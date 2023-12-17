@@ -21,7 +21,7 @@ env:
   BOOST_VERSION: 1.77.0
   BOOST_PATH: ${{github.workspace}}/../install/boost/
   #rem qt_standard_project_setup()  was introduced in Qt 6.3.
-  Qt6_VERSION: 6.3.1
+  Qt6_VERSION: 6.5.3
   LibtorrentRasterbar_SOURCE_DIR: ${{github.workspace}}/3rd/libtorrent-rasterbar
   LibtorrentRasterbar_BUILD_DIR: ${{github.workspace}}/00/build/libtorrent-rasterbar
   LibtorrentRasterbar_INSTALL_DIR: ${{github.workspace}}/00/install/libtorrent-rasterbar

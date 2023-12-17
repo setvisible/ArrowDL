@@ -10,12 +10,12 @@ if(NOT OpenSSL_ROOT_DIR)
     if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
 
         # Warning: Qt6_DIR is not always the same:
-        # On remote 'Github Actions' runner : Qt6_DIR: D:\a\project\my-qt\Qt\6.3.1\mingw_64
-        # On local it points to             : Qt6_DIR: D:\a\project\my-qt\6.3.1\mingw_64\lib\cmake\Qt6
+        # On remote 'Github Actions' runner : Qt6_DIR: D:\a\project\my-qt\Qt\X.Y.Z\mingw_64
+        # On local it points to             : Qt6_DIR: D:\a\project\my-qt\X.Y.Z\mingw_64\lib\cmake\Qt6
 
         if(Qt6Core_DIR)
 
-            # Qt6Core_DIR: D:\a\project\my-qt\6.3.1\mingw_64\lib\cmake\Qt6Core
+            # Qt6Core_DIR: D:\a\project\my-qt\X.Y.Z\mingw_64\lib\cmake\Qt6Core
             # TODO use cmake_path?
             get_filename_component(Qt6_OPENSSL_DIR ${Qt6Core_DIR} DIRECTORY)
             get_filename_component(Qt6_OPENSSL_DIR ${Qt6_OPENSSL_DIR} DIRECTORY) # like "cd ..". Move to parent directory.
