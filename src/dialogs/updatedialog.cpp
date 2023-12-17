@@ -47,7 +47,7 @@ UpdateDialog::UpdateDialog(UpdateChecker *updateChecker, QWidget *parent)
     connect(ui->checkButton, SIGNAL(released()), this, SLOT(check()));
     connect(ui->installButton, SIGNAL(released()), this, SLOT(install()));
 
-    connect(m_updateChecker, SIGNAL(updateAvailable(UpdateChecker::ChangeLog)), this, SLOT(onUpdateAvailable(UpdateChecker::ChangeLog)));
+    connect(m_updateChecker, SIGNAL(updateAvailableForGui(UpdateChecker::ChangeLog)), this, SLOT(updateAvailableForGui(UpdateChecker::ChangeLog)));
     connect(m_updateChecker, SIGNAL(downloadProgress(qsizetype,qsizetype)), this, SLOT(onDownloadProgress(qsizetype,qsizetype)));
     connect(m_updateChecker, SIGNAL(updateDownloadFinished()), this, SLOT(onUpdateDownloadFinished()));
     connect(m_updateChecker, SIGNAL(updateError(QString)), this, SLOT(onUpdateError(QString)));
@@ -120,7 +120,7 @@ void UpdateDialog::install()
 
 /******************************************************************************
  ******************************************************************************/
-void UpdateDialog::onUpdateAvailable(const UpdateChecker::ChangeLog &changelog)
+void UpdateDialog::onUpdateAvailableForGui(const UpdateChecker::ChangeLog &changelog)
 {
     if (!changelog.empty()) {
         ui->stackedWidget->setCurrentWidget(ui->pageNewVersionAvailable);
