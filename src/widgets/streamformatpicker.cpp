@@ -206,13 +206,13 @@ void StreamFormatPicker::onButtonBarClicked()
  ******************************************************************************/
 void StreamFormatPicker::propagateIcons()
 {
-    const QMap<QAbstractButton*, QString> map = {
+    const QHash<QAbstractButton *, QString> hash = {
         {ui->buttonSimple, "add-stream"},
         {ui->buttonAudio, "stream-audio"},
         {ui->buttonVideo, "stream-video"},
         {ui->buttonOther, "stream-subtitle"}
     };
-    Theme::setIcons(this, map);
+    Theme::setIcons(this, hash);
 }
 
 /******************************************************************************

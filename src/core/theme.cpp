@@ -231,38 +231,38 @@ void Theme::applyTheme(const QMap<QString, QVariant> &map)
 /*!
  * QtDesigner doesn't icon themes correctly, this is a workaround
  */
-void Theme::setIcons(const QWidget *widget, const QMap<QAbstractButton*, QString> &map)
+void Theme::setIcons(const QWidget *widget, const QHash<QAbstractButton *, QString> &hash)
 {
-    QMapIterator<QAbstractButton*, QString> it(map);
+    QHashIterator<QAbstractButton *, QString> it(hash);
     while (it.hasNext()) {
         it.next();
-        auto button = it.key();
+        auto qbutton = it.key();
         auto name = it.value();
-        button->setIcon(QIcon::fromTheme(name));
+        qbutton->setIcon(QIcon::fromTheme(name));
     }
     _assertNoMissingIconTheme(widget);
 }
 
-void Theme::setIcons(const QWidget *widget, const QMap<QAction*, QString> &map)
+void Theme::setIcons(const QWidget *widget, const QHash<QAction *, QString> &hash)
 {
-    QMapIterator<QAction*, QString> it(map);
+    QHashIterator<QAction*, QString> it(hash);
     while (it.hasNext()) {
         it.next();
-        auto action = it.key();
+        auto qaction = it.key();
         auto name = it.value();
-        action->setIcon(QIcon::fromTheme(name));
+        qaction->setIcon(QIcon::fromTheme(name));
     }
     _assertNoMissingIconTheme(widget);
 }
 
-void Theme::setIcons(const QWidget *widget, const QMap<QLabel*, QString> &map, int extent)
+void Theme::setIcons(const QWidget *widget, const QHash<QLabel *, QString> &hash, int extent)
 {
-    QMapIterator<QLabel*, QString> it(map);
+    QHashIterator<QLabel *, QString> it(hash);
     while (it.hasNext()) {
         it.next();
-        auto label = it.key();
+        auto qlabel = it.key();
         auto name = it.value();
-        label->setPixmap(QIcon::fromTheme(name).pixmap(extent));
+        qlabel->setPixmap(QIcon::fromTheme(name).pixmap(extent));
     }
     _assertNoMissingIconTheme(widget);
 }

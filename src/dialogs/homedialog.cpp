@@ -76,12 +76,12 @@ void HomeDialog::acceptUrls()
 
 void HomeDialog::propagateIcons()
 {
-    const QMap<QAbstractButton*, QString> map = {
+    const QHash<QAbstractButton *, QString> hash = {
         {ui->buttonContent, "add-content"},
         {ui->buttonBatch  , "add-batch"},
         {ui->buttonStream , "add-stream"},
         {ui->buttonTorrent, "add-torrent"},
         {ui->buttonUrls   , "add-urls"}
     };
-    Theme::setIcons(this, map);
+    Theme::setIcons(this, hash);
 }

@@ -279,13 +279,13 @@ void PreferenceDialog::restylizeUi()
     ui->tabWidget->setTabIcon(6, QIcon::fromTheme("preference-advanced"));
 
     // Restylize icons
-    const QMap<QLabel*, QString> map = {
-        {ui->streamHelp, "help"},
-        {ui->concurrentFragmentHelp, "help"},
-        {ui->httpUserAgentHelp, "help"},
-        {ui->httpReferringPageHelp, "help"}
+    const QHash<QLabel *, QString> hash = {
+        {ui->streamHelp,                "help"},
+        {ui->concurrentFragmentHelp,    "help"},
+        {ui->httpUserAgentHelp,         "help"},
+        {ui->httpReferringPageHelp,     "help"}
     };
-    Theme::setIcons(this, map);
+    Theme::setIcons(this, hash);
 }
 
 /******************************************************************************

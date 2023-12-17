@@ -110,7 +110,7 @@ void TextEditorWidget::onBlockModeToggled(bool checked)
  ******************************************************************************/
 void TextEditorWidget::propagateIcons()
 {
-    const QMap<QAbstractButton*, QString> map = {
+    const QHash<QAbstractButton *, QString> hash = {
         {ui->editblockmode, "edit-block-mode"},
         {ui->editcopy     , "edit-copy"},
         {ui->editcut      , "edit-cut"},
@@ -118,5 +118,5 @@ void TextEditorWidget::propagateIcons()
         {ui->editredo     , "edit-redo"},
         {ui->editundo     , "edit-undo"}
     };
-    Theme::setIcons(this, map);
+    Theme::setIcons(this, hash);
 }
