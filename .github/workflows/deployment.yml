@@ -261,8 +261,9 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       # Rem: Once installed, ${{env.Qt6_DIR}} is set.
+      # https://ddalcino.github.io/aqt-list-server/
       with:
-        aqtversion: '==2.1.*'
+        aqtversion: '==3.1.*'
         version: ${{env.Qt6_VERSION}}
         dir: ${{matrix.Qt6_CUSTOM_INSTALL_PATH}}
         host: ${{matrix.qt_host}}
