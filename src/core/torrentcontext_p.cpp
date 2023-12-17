@@ -506,7 +506,7 @@ void TorrentContextPrivate::downloadTorrentFile(Torrent *torrent)
 
 void TorrentContextPrivate::abortNetworkReply(Torrent *torrent)
 {
-    QMapIterator<QNetworkReply*, Torrent*> it(m_currentDownloads);
+    QHashIterator<QNetworkReply *, Torrent *> it(m_currentDownloads);
     while (it.hasNext()) {
         it.next();
         auto currentReply = it.key();

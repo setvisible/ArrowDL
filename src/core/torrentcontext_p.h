@@ -117,8 +117,9 @@ public:
 
 private slots:
     void onNetworkReplyFinished();
+
 private:
-    QMap<QNetworkReply*, Torrent*> m_currentDownloads;
+    QHash<QNetworkReply *, Torrent *> m_currentDownloads;
     void downloadMagnetLink(Torrent *torrent);
     void downloadTorrentFile(Torrent *torrent);
     void abortNetworkReply(Torrent *torrent);
