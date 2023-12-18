@@ -953,9 +953,7 @@ inline QString TorrentWidget::text(int value, bool showInfiniteSymbol)
 
 inline QString TorrentWidget::text(const QString &text)
 {
-    return text.isNull() || text.isEmpty()
-            ? QString("-")
-            : text;
+    return text.isEmpty() ? "-" : text;
 }
 
 inline QString TorrentWidget::text(const QDateTime &datetime)

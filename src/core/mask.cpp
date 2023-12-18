@@ -192,7 +192,7 @@ QString Mask::interpret(const QUrl &url,
         return QString();
     }
     QString decodedMask = QString("%0.%1").arg(NAME, EXT);
-    if (mask.isNull() || mask.isEmpty()) {
+    if (mask.isEmpty()) {
         decodedMask = QString("%0/%1/%2.%3").arg(URL, SUBDIRS, NAME, EXT);
     } else {
         decodedMask = mask;
