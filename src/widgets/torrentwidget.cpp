@@ -958,7 +958,5 @@ inline QString TorrentWidget::text(const QString &text)
 
 inline QString TorrentWidget::text(const QDateTime &datetime)
 {
-    return datetime.isNull() || !datetime.isValid()
-            ? QString("-")
-            : datetime.toString("dd/MM/yy HH:mm:ss");
+    return !datetime.isValid() ? "-" : datetime.toString("dd/MM/yy HH:mm:ss");
 }
