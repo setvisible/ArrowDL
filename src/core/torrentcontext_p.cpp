@@ -68,6 +68,7 @@
 #define qDebug_1 qDebug() << " + | "
 #define qDebug_2 qDebug() << " | + "
 
+using namespace Qt::Literals::StringLiterals;
 
 static const lt::status_flags_t s_torrent_status_flags =
         lt::torrent_handle::query_distributed_copies
@@ -352,14 +353,14 @@ void TorrentContextPrivate::ensureDestinationPathExists(Torrent *torrent)
 static bool isMagnetSource(const QString &source)
 {
     const QUrl url = QUrl::fromUserInput(source);
-    return url.scheme().toLower() == QLatin1String("magnet");
+    return url.scheme().toLower() == "magnet"_L1;
 }
 
 static bool isTorrentSource(const QString &source)
 {
     const QUrl url = QUrl::fromUserInput(source);
     QFileInfo fi(url.path());
-    return fi.suffix().toLower() == QLatin1String("torrent");
+    return fi.suffix().toLower() == "torrent"_L1;
 }
 
 static bool isLocalSource(const QString &source)

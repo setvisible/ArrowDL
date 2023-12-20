@@ -27,6 +27,8 @@
 #include <QtCore/QDir>
 #include <QtNetwork/QNetworkReply>
 
+using namespace Qt::Literals::StringLiterals;
+
 DownloadItemPrivate::DownloadItemPrivate(DownloadItem *qq)
     : q(qq)
 {
@@ -121,7 +123,10 @@ void DownloadItem::stop()
  ******************************************************************************/
 void DownloadItem::rename(const QString &newName)
 {
-    QString newCustomFileName = newName.trimmed().isEmpty() ? QString() : newName;
+    QString newCustomFileName;
+    if (!newName.trimmed().isEmpty()) {
+        newCustomFileName = newName;
+    }
     const QString oldPath = d->resource->localFileFullPath(d->resource->customFileName());
     const QString newPath = d->resource->localFileFullPath(newCustomFileName);
 

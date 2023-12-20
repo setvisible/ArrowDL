@@ -30,6 +30,8 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 
+using namespace Qt::Literals::StringLiterals;
+
 constexpr int msec_auto_save = 3000; ///< Autosave the queue every 3 seconds.
 
 /*!
@@ -45,9 +47,6 @@ constexpr int msec_auto_save = 3000; ///< Autosave the queue every 3 seconds.
 
 DownloadManager::DownloadManager(QObject *parent) : DownloadEngine(parent)
   , m_networkManager(new NetworkManager(this))
-  , m_settings(Q_NULLPTR)
-  , m_dirtyQueueTimer(Q_NULLPTR)
-  , m_queueFile(QString())
 {
     /* Auto save of the queue */
     connect(this, SIGNAL(jobAppended(DownloadRange)), this, SLOT(onQueueChanged(DownloadRange)));
@@ -212,17 +211,17 @@ inline ResourceItem* DownloadManager::createResourceItem(const QUrl &url)
 {
     QSettings settings;
     settings.beginGroup("Wizard");
-    const QString path = settings.value("Path", QString()).toString();
-    const QString mask = settings.value("Mask", QString()).toString();
+    const QString path = settings.value("Path"_L1, {}).toString();
+    const QString mask = settings.value("Mask"_L1, {}).toString();
     settings.endGroup();
 
     auto resource = new ResourceItem();
     resource->setUrl(url.toString().toUtf8());
-    resource->setCustomFileName(QString());
-    resource->setReferringPage(QString());
-    resource->setDescription(QString());
+    resource->setCustomFileName({});
+    resource->setReferringPage({});
+    resource->setDescription({});
     resource->setDestination(path);
     resource->setMask(mask);
-    resource->setCheckSum(QString());
+    resource->setCheckSum({});
     return resource;
 }

@@ -22,8 +22,8 @@
 #include <QtCore/QDebug>
 #include <QtWidgets/QListView>
 
-static const QString s_default_caption = QLatin1String("default");
-static const QString s_automatic_caption = QLatin1String("automatic");
+static const QLatin1StringView s_default_caption("default");
+static const QLatin1StringView s_automatic_caption("automatic");
 
 
 StreamToolBox::StreamToolBox(QWidget *parent, Qt::WindowFlags f) : QToolBox(parent, f)

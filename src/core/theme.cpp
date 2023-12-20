@@ -32,18 +32,18 @@
 
 
 /* Public static constants */
-const QLatin1String Theme::PlatformStyle("platformStyle");
-const QLatin1String Theme::IconTheme("iconTheme");
-const QLatin1String Theme::ColorScheme("colorScheme");
+const QLatin1StringView Theme::PlatformStyle("platformStyle");
+const QLatin1StringView Theme::IconTheme("iconTheme");
+const QLatin1StringView Theme::ColorScheme("colorScheme");
 
 /* Private static constants */
 static QString s_themeSearchPath = QString::fromUtf8(":/resources/icons/");
 
 /* Settings flags */
-static QLatin1String s_themeDefault("default");
-static QLatin1String s_themeFlat("flat");
-static QLatin1String s_schemeLight("light");
-static QLatin1String s_schemeDark("dark");
+static const QLatin1StringView s_themeDefault("default");
+static const QLatin1StringView s_themeFlat("flat");
+static const QLatin1StringView s_schemeLight("light");
+static const QLatin1StringView s_schemeDark("dark");
 
 
 /* Runtime Debug Purpose */

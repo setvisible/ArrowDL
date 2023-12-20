@@ -29,9 +29,9 @@ class QWidget;
 class Theme
 {
 public:
-    static const QLatin1String PlatformStyle;
-    static const QLatin1String IconTheme;
-    static const QLatin1String ColorScheme;
+    static const QLatin1StringView PlatformStyle;
+    static const QLatin1StringView IconTheme;
+    static const QLatin1StringView ColorScheme;
 
     Theme();
 

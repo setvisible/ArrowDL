@@ -21,17 +21,19 @@
 #include "version.h"
 #include <QtCore/QString>
 
-const QString STR_APPLICATION_NAME("DownZemAll!");
-const QLatin1String STR_APPLICATION_VERSION(APP_VERSION);
-const QLatin1String STR_APPLICATION_DATE("2020");
-const QString STR_APPLICATION_AUTHOR("Sébastien Vavassori");
-const QString STR_APPLICATION_WEBSITE("https://github.com/setvisible/DownZemAll");
-const QString STR_TUTORIAL_WEBSITE("https://setvisible.github.io/DownZemAll/category/tutorial.html");
+using namespace Qt::Literals::StringLiterals;
 
-const QString STR_GITHUB_OWNER("setvisible");
-const QString STR_GITHUB_REPO("DownZemAll");
-const QString STR_GITHUB_REPO_ADDRESS = QString("https://github.com/%0/%1").arg(STR_GITHUB_OWNER, STR_GITHUB_REPO);
-const QString STR_GITHUB_RELEASES_API = QString("https://api.github.com/repos/%0/%1/releases").arg(STR_GITHUB_OWNER, STR_GITHUB_REPO);
+const QString STR_APPLICATION_NAME{ "DownZemAll!" };
+const QString STR_APPLICATION_VERSION{ APP_VERSION };
+const QString STR_APPLICATION_DATE{ "2020" };
+const QString STR_APPLICATION_AUTHOR{ "Sébastien Vavassori" };
+const QString STR_APPLICATION_WEBSITE{ "https://github.com/setvisible/DownZemAll" };
+const QString STR_TUTORIAL_WEBSITE{ "https://setvisible.github.io/DownZemAll/category/tutorial.html" };
+
+const QString STR_GITHUB_OWNER{ "setvisible" };
+const QString STR_GITHUB_REPO{ "DownZemAll" };
+const QString STR_GITHUB_REPO_ADDRESS{ "https://github.com/" % STR_GITHUB_OWNER % "/" % STR_GITHUB_REPO };
+const QString STR_GITHUB_RELEASES_API{ "https://api.github.com/repos/" % STR_GITHUB_OWNER % "/" % STR_GITHUB_REPO % "/releases" };
 
 /*
  * Remark: the "Application Organization Name"
@@ -39,75 +41,73 @@ const QString STR_GITHUB_RELEASES_API = QString("https://api.github.com/repos/%0
  * It should contain only ASCII characters for maximizing
  * compatibility with Windows 7/8/10 and following.
  */
-const QString STR_APPLICATION_ORGANIZATION("Sebastien Vavassori");
+const QString STR_APPLICATION_ORGANIZATION{ "Sebastien Vavassori" };
 
 
 /* Something like "2017-05-20_15:36:58" */
 const QString STR_APPLICATION_BUILD =
         QString("%1-%2-%3_%4:%5:%6")
-        .arg(BUILD_YEAR, 4, 10, QChar('0'))
-        .arg(BUILD_MONTH, 2, 10, QChar('0'))
-        .arg(BUILD_DAY, 2, 10, QChar('0'))
-        .arg(BUILD_HOUR, 2, 10, QChar('0'))
-        .arg(BUILD_MIN, 2, 10, QChar('0'))
-        .arg(BUILD_SEC, 2, 10, QChar('0'));
+        .arg(BUILD_YEAR, 4, 10, '0'_L1)
+        .arg(BUILD_MONTH, 2, 10, '0'_L1)
+        .arg(BUILD_DAY, 2, 10, '0'_L1)
+        .arg(BUILD_HOUR, 2, 10, '0'_L1)
+        .arg(BUILD_MIN, 2, 10, '0'_L1)
+        .arg(BUILD_SEC, 2, 10, '0'_L1);
 
 
 /* Compiler Info */
-const QString STR_COMPILER_WORDSIZE(QString("%0-bit").arg(QSysInfo::WordSize));
-const QString STR_COMPILER_BUILD_ABI = QSysInfo::buildAbi();
-const QString STR_COMPILER_BUILD_CPU = QSysInfo::buildCpuArchitecture();
+const QString STR_COMPILER_WORDSIZE{ QString::number(QSysInfo::WordSize) % "-bit"_L1 };
+const QString STR_COMPILER_BUILD_ABI{ QSysInfo::buildAbi() };
+const QString STR_COMPILER_BUILD_CPU{ QSysInfo::buildCpuArchitecture() };
 
 const QString STR_COMPILER_NAME=
 #if defined(Q_CC_BOR)
-    "Borland/Turbo C++"
+    "Borland/Turbo C++"_L1
 #elif defined(Q_CC_CDS)
-    "Reliant C++"
+    "Reliant C++"_L1
 #elif defined(Q_CC_COMEAU)
-    "Comeau C++"
+    "Comeau C++"_L1
 #elif defined(Q_CC_DEC)
-    "DEC C++"
+    "DEC C++"_L1
 #elif defined(Q_CC_EDG)
-    "Edison Design Group C++"
+    "Edison Design Group C++"_L1
 #elif defined(Q_CC_GHS)
-    "Green Hills Optimizing C++ Compilers"
+    "Green Hills Optimizing C++ Compilers"_L1
 #elif defined(Q_CC_GNU)
-    "GNU C++"
+    "GNU C++"_L1
 #elif defined(Q_CC_HIGHC)
-    "MetaWare High C/C++"
+    "MetaWare High C/C++"_L1
 #elif defined(Q_CC_HPACC)
-    "HP aC++"
+    "HP aC++"_L1
 #elif defined(Q_CC_INTEL)
-    "Intel C++ for Linux, Intel C++ for Windows"
+    "Intel C++ for Linux, Intel C++ for Windows"_L1
 #elif defined(Q_CC_KAI)
-    "KAI C++"
+    "KAI C++"_L1
 #elif defined(Q_CC_MIPS)
-    "MIPSpro C++"
+    "MIPSpro C++"_L1
 #elif defined(Q_CC_MSVC)
-    "Microsoft Visual C/C++, Intel C++ for Windows"
+    "Microsoft Visual C/C++, Intel C++ for Windows"_L1
 #elif defined(Q_CC_OC)
-    "CenterLine C++"
+    "CenterLine C++"_L1
 #elif defined(Q_CC_PGI)
-    "Portland Group C++"
+    "Portland Group C++"_L1
 #elif defined(Q_CC_SUN)
-    "Forte Developer, or Sun Studio C++"
+    "Forte Developer, or Sun Studio C++"_L1
 #elif defined(Q_CC_SYM)
-    "Digital Mars C/C++ (used to be Symantec C++)"
+    "Digital Mars C/C++ (used to be Symantec C++)"_L1
 #elif defined(Q_CC_USLC)
-    "SCO OUDK and UDK"
+    "SCO OUDK and UDK"_L1
 #elif defined(Q_CC_WAT)
-    "Watcom C++"
+    "Watcom C++"_L1
 #else
-    "UNKNOWN"
+    "UNKNOWN"_L1
 #endif
 ;
 
-const QString STR_CURRENT_PLATFORM = QSysInfo::prettyProductName();
-const QString STR_CURRENT_VERSION = QString("%0 (kernel: %1)").arg(
-            QSysInfo::productVersion(),
-            QSysInfo::kernelVersion());
-const QString STR_CURRENT_CPU = QSysInfo::currentCpuArchitecture();
-const bool IS_HOST_64BIT = STR_CURRENT_CPU.contains(QLatin1String("64"));
+const QString STR_CURRENT_PLATFORM{ QSysInfo::prettyProductName() };
+const QString STR_CURRENT_VERSION{ QSysInfo::productVersion() % " (kernel: " % QSysInfo::kernelVersion() % ")" };
+const QString STR_CURRENT_CPU{ QSysInfo::currentCpuArchitecture() };
+const bool IS_HOST_64BIT = STR_CURRENT_CPU.contains( "64"_L1 );
 
 const int DEFAULT_TIMEOUT_SECS = 30; // ref.: QNetworkConfigurationPrivate::DefaultTimeout
 const int DEFAULT_CONCURRENT_FRAGMENTS = 20;

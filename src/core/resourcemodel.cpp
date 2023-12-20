@@ -20,6 +20,7 @@
 
 #include <QtCore/QRegularExpression>
 
+using namespace Qt::Literals::StringLiterals;
 
 ResourceModel::ResourceModel(QObject *parent) : CheckableTableModel(parent)
 {
@@ -127,7 +128,7 @@ void ResourceModel::onResourceChanged()
 void ResourceModel::retranslateUi()
 {
     m_headers = QStringList()
-            << QString() // checkbox
+            << ""_L1 // checkbox
             << tr("Download")
             << tr("Resource Name")
             << tr("Description")

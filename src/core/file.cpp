@@ -280,5 +280,5 @@ QString File::customFileName() const
         QFileInfo fi(m_file->fileName());
         return fi.completeBaseName();
     }
-    return QString();
+    return {};
 }

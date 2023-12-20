@@ -100,12 +100,12 @@ private:
     qsizetype m_bytesReceived;
     qsizetype m_bytesTotal;
 
-    QString m_errorMessage;
+    QString m_errorMessage = {};
 
     int m_maxConnectionSegments;
     int m_maxConnections;
 
-    QString m_log;
+    QString m_log = {};
 
     QElapsedTimer m_downloadElapsedTimer;
     QTime m_remainingTime;

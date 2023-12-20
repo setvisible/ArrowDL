@@ -25,9 +25,9 @@
 #include <QtCore/QRegularExpression>
 #include <QtCore/QUrl>
 
-static const QString s_regular = QLatin1String("regular");
-static const QString s_stream  = QLatin1String("stream");
-static const QString s_torrent = QLatin1String("torrent");
+static const QLatin1StringView s_regular("regular");
+static const QLatin1StringView s_stream("stream");
+static const QLatin1StringView s_torrent("torrent");
 
 
 ResourceItem::ResourceItem()
@@ -142,7 +142,7 @@ QString ResourceItem::fileName() const
     if (!url.isEmpty() && url.isValid()) {
         return url.fileName();
     }
-    return QString();
+    return {};
 }
 
 QString ResourceItem::localFileFullPath(const QString &customFileName) const

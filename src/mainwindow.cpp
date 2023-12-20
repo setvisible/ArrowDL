@@ -1121,10 +1121,10 @@ void MainWindow::onTorrentContextChanged()
 void MainWindow::refreshTitleAndStatus()
 {
     qreal speed = m_downloadManager->totalSpeed();
-    QString totalSpeed = speed > 0
-            ? QString("~%0").arg(Format::currentSpeedToString(speed))
-            : QString();
-
+    QString totalSpeed;
+    if (speed > 0) {
+        totalSpeed = QString("~%0").arg(Format::currentSpeedToString(speed));
+    }
     const int completedCount = m_downloadManager->completedJobs().count();
     const int runningCount = m_downloadManager->runningJobs().count();
     const int failedCount = m_downloadManager->failedJobs().count();
@@ -1394,7 +1394,7 @@ inline QString MainWindow::fromClipboard() const
 {
     const QClipboard *clipboard = QApplication::clipboard();
     const QMimeData *mimeData = clipboard->mimeData();
-    return mimeData->hasText() ? mimeData->text() : QString();
+    return mimeData->hasText() ? mimeData->text() : ""_L1;
 }
 
 inline QUrl MainWindow::urlFromClipboard() const

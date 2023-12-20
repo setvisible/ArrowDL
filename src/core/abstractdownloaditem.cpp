@@ -34,7 +34,6 @@ constexpr int timeout_update_msec = 150; // in milliseconds
  * \brief Constructor
  */
 AbstractDownloadItem::AbstractDownloadItem(QObject *parent) : QObject(parent)
-  , m_log(QString())
 {
     connect(&m_updateInfoTimer, SIGNAL(timeout()), this, SLOT(updateInfo()));
     connect(&m_updateCountDownTimer, SIGNAL(timeout()), this, SLOT(updateInfo()));

@@ -78,7 +78,8 @@ QString TorrentContext::version()
 
 QString TorrentContext::website()
 {
-    return QString("libtorrent");
+    using namespace Qt::Literals::StringLiterals;
+    return "libtorrent"_L1;
 }
 
 /******************************************************************************

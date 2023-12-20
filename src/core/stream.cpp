@@ -37,6 +37,8 @@
 
 #include <algorithm> /* std::sort */
 
+using namespace Qt::Literals::StringLiterals;
+
 #if defined Q_OS_WIN
 static const QString C_PROGRAM_NAME  = QLatin1String("yt-dlp.exe");
 #else
@@ -111,8 +113,8 @@ QString Stream::version()
 {
     if (s_youtubedl_version.isEmpty()) {
         auto arguments = QStringList()
-                << QLatin1String("--no-colors")
-                << QLatin1String("--version");
+                << "--no-colors"_L1
+                << "--version"_L1;
         QProcess process;
         process.setWorkingDirectory(qApp->applicationDirPath());
         process.start(C_PROGRAM_NAME, arguments);
@@ -385,7 +387,7 @@ QStringList Stream::arguments() const
         /// \todo implement chapters writing
     }
     if (m_config.thumbnail.writeDefaultThumbnail) {
-        arguments << QLatin1String("--write-thumbnail");
+        arguments << "--write-thumbnail"_L1;
     }
     if (m_config.comment.writeComment) {
         arguments << QLatin1String("--write-comments");
@@ -424,7 +426,7 @@ QStringList Stream::arguments() const
         break;
     }
     if (!m_referringPage.isEmpty()) {
-        arguments << QLatin1String("--referer") << m_referringPage;
+        arguments << "--referer"_L1 << m_referringPage;
     }
     if (isMergeFormat(m_fileExtension)) {
         arguments << QLatin1String("--merge-output-format") << m_fileExtension;
@@ -674,8 +676,8 @@ void StreamCleanCache::runAsync()
 {
     if (m_process->state() == QProcess::NotRunning) {
         auto arguments = QStringList()
-                << QLatin1String("--no-colors")
-                << QLatin1String("--rm-cache-dir");
+                << "--no-colors"_L1
+                << "--rm-cache-dir"_L1;
         m_process->setWorkingDirectory(qApp->applicationDirPath());
         m_process->start(C_PROGRAM_NAME, arguments);
         debugPrintProcessCommand(m_process);
@@ -688,7 +690,7 @@ QUrl StreamCleanCache::cacheDir()
     // it has to be in ~/.cache as per XDG standard
     QString dir = QString::fromUtf8(getenv("XDG_CACHE_HOME"));
     if (dir.isEmpty()) {
-        dir = QDir::cleanPath(QDir::homePath() + QLatin1String("/.cache"));
+        dir = QDir::cleanPath(QDir::homePath() + "/.cache"_L1);
     }
     return QUrl::fromLocalFile(dir);
 }

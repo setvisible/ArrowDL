@@ -59,7 +59,7 @@ public:
     /* Local file URL, once the file is downloaded */
     QUrl localFileUrl() const;
     QString fileName() const;
-    QString localFileFullPath(const QString &customFileName = QString()) const;
+    QString localFileFullPath(const QString &customFileName = {}) const;
 
     /* Options */
     QString referringPage() const;

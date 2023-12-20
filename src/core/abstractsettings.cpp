@@ -28,9 +28,9 @@
  * If a collision appears, the only risk is to reset the faulty parameter
  * to its default value.
  */
-static const QLatin1String UNDEFINED ("<UNDEFINED>");
-static const QLatin1String VALUE_TRUE ("<TRUE>");
-static const QLatin1String VALUE_FALSE ("<FALSE>");
+static const QLatin1StringView UNDEFINED( "<UNDEFINED>" );
+static const QLatin1StringView VALUE_TRUE( "<TRUE>" );
+static const QLatin1StringView VALUE_FALSE( "<FALSE>" );
 
 /*
  * Helper methods

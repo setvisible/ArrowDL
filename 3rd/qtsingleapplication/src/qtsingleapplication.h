@@ -43,6 +43,8 @@
 
 #include <QtWidgets/QApplication>
 
+using namespace Qt::Literals::StringLiterals;
+
 class QtLocalPeer;
 
 #if defined(Q_OS_WIN)
@@ -97,7 +99,7 @@ Q_SIGNALS:
 
 
 private:
-    void sysInit(const QString &appId = QString());
+    void sysInit(const QString &appId = {});
     QtLocalPeer *peer;
     QWidget *actWin;
 };

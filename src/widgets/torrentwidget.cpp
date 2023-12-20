@@ -40,6 +40,8 @@
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTableView>
 
+using namespace Qt::Literals::StringLiterals;
+
 constexpr int column_minimum_width = 10;
 constexpr int column_default_width = 100;
 constexpr int row_default_height = 18;
@@ -61,7 +63,7 @@ public:
     int count() const { return d.count(); }
 
     QString title(int index) const {
-        return (index >= 0 && index < d.count()) ? d.at(index).second : QString();
+        return (index >= 0 && index < d.count()) ? d.at(index).second : ""_L1;
     }
 
     int width(int index) const {
@@ -86,47 +88,47 @@ constexpr int file_table_progress_bar_column_index = 8;
 
 static const Headers fileTableHeaders
 ({
-     {  30, QLatin1String("#")},
-     { 320, QLatin1String("Name")},
-     { 320, QLatin1String("Path")},
-     {  60, QLatin1String("Size")},
-     {  60, QLatin1String("Done")},
-     {  60, QLatin1String("Percent")},
-     {  60, QLatin1String("First Piece")},
-     {  60, QLatin1String("# Pieces")},
-     { 120, QLatin1String("Pieces")}, // drawn as a progress bar
-     {  60, QLatin1String("Priority")},
-     { 120, QLatin1String("Modification date")},
-     { 100, QLatin1String("SHA-1")},
-     { 100, QLatin1String("CRC-32")}
+     {  30, "#"_L1},
+     { 320, "Name"_L1},
+     { 320, "Path"_L1},
+     {  60, "Size"_L1},
+     {  60, "Done"_L1},
+     {  60, "Percent"_L1},
+     {  60, "First Piece"_L1},
+     {  60, "# Pieces"_L1},
+     { 120, "Pieces"_L1}, // drawn as a progress bar
+     {  60, "Priority"_L1},
+     { 120, "Modification date"_L1},
+     { 100, "SHA-1"_L1},
+     { 100, "CRC-32"_L1}
  });
 
 constexpr int peer_table_progress_bar_column_index = 5;
 
 static const Headers peerTableHeaders
 ({
-     { 120, QLatin1String("IP")},
-     {  50, QLatin1String("Port")},
-     { 120, QLatin1String("User Agent")},
-     {  80, QLatin1String("Downloaded")},
-     {  80, QLatin1String("Uploaded")},
-     { 120, QLatin1String("Pieces")}, // drawn as a progress bar
-     {  80, QLatin1String("Request Time")},
-     {  80, QLatin1String("Active Time")},
-     {  80, QLatin1String("Queue Time")},
-     { 160, QLatin1String("Flags")},
-     { 100, QLatin1String("Source Flags")}
+     { 120, "IP"_L1},
+     {  50, "Port"_L1},
+     { 120, "User Agent"_L1},
+     {  80, "Downloaded"_L1},
+     {  80, "Uploaded"_L1},
+     { 120, "Pieces"_L1}, // drawn as a progress bar
+     {  80, "Request Time"_L1},
+     {  80, "Active Time"_L1},
+     {  80, "Queue Time"_L1},
+     { 160, "Flags"_L1},
+     { 100, "Source Flags"_L1}
  });
 
 static const Headers trackerTableHeaders
 ({
-     { 360, QLatin1String("Url")},
-     {  60, QLatin1String("Id")},
-     { 240, QLatin1String("Number of listened sockets (endpoints)")},
-     { 160, QLatin1String("Tier this tracker belongs to")},
-     { 120, QLatin1String("Max number of failures")},
-     {  80, QLatin1String("Source")},
-     {  80, QLatin1String("Verified?")}
+     { 360, "Url"_L1},
+     {  60, "Id"_L1},
+     { 240, "Number of listened sockets (endpoints)"_L1},
+     { 160, "Tier this tracker belongs to"_L1},
+     { 120, "Max number of failures"_L1},
+     {  80, "Source"_L1},
+     {  80, "Verified?"_L1}
  });
 
 
@@ -670,7 +672,7 @@ void TorrentWidget::addPeer()
                    "Ex:\n"
                    " - for IPv4, type 'x.x.x.x:p'\n"
                    " - for IPv6, type '[x:x:x:x:x:x:x:x]:p'\n"),
-                QLineEdit::Normal, QString(), &ok);
+                QLineEdit::Normal, {}, &ok);
     if (ok && !input.isEmpty()) {
         m_torrent->addPeer(input);
     }
@@ -729,7 +731,7 @@ void TorrentWidget::addTracker()
     QString input = QInputDialog::getText(
                 this, tr("Add Tracker"),
                 tr("Enter the URL of the tracker to add:"),
-                QLineEdit::Normal, QString(), &ok);
+                QLineEdit::Normal, {}, &ok);
     if (ok && !input.isEmpty()) {
         m_torrent->addTracker(input);
     }
@@ -876,7 +878,7 @@ void TorrentWidget::updateTorrentPage()
                 text(mi.peersInSwarm));
 
     auto shareRatio = text(QString("0.000"));
-    auto status = text(m_torrent ? m_torrent->status() : QString());
+    auto status = text(m_torrent ? m_torrent->status() : ""_L1);
 
     auto pieces = tr("%0 x %1").arg(
                 text(mi.initialMetaInfo.pieceCount),
@@ -945,7 +947,7 @@ void TorrentWidget::setColumnWidths(QTableView *view, const QList<int> &widths)
  ******************************************************************************/
 inline QString TorrentWidget::text(int value, bool showInfiniteSymbol)
 {
-    const QString defaultSymbol = showInfiniteSymbol ? Format::infinity() : QString("-");
+    const QString defaultSymbol = showInfiniteSymbol ? Format::infinity() : "-"_L1;
     return value < 0
             ? defaultSymbol
             : QString::number(value);
@@ -953,10 +955,10 @@ inline QString TorrentWidget::text(int value, bool showInfiniteSymbol)
 
 inline QString TorrentWidget::text(const QString &text)
 {
-    return text.isEmpty() ? "-" : text;
+    return text.isEmpty() ? "-"_L1 : text;
 }
 
 inline QString TorrentWidget::text(const QDateTime &datetime)
 {
-    return !datetime.isValid() ? "-" : datetime.toString("dd/MM/yy HH:mm:ss");
+    return !datetime.isValid() ? "-"_L1 : datetime.toString("dd/MM/yy HH:mm:ss"_L1);
 }
