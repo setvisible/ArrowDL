@@ -30,24 +30,6 @@ static const QLatin1StringView s_stream("stream");
 static const QLatin1StringView s_torrent("torrent");
 
 
-ResourceItem::ResourceItem()
-    : m_type(Type::Regular)
-    , m_url(QString())
-    , m_destination(QString())
-    , m_mask(QString())
-    , m_customFileName(QString())
-    , m_referringPage(QString())
-    , m_description(QString())
-    , m_checkSum(QString())
-    , m_streamFileName(QString())
-    , m_streamFormatId(QString())
-    , m_streamFileSize(0)
-    , m_torrentPreferredFilePriorities(QString())
-{
-}
-
-/******************************************************************************
- ******************************************************************************/
 ResourceItem::Type ResourceItem::type() const
 {
     return m_type;

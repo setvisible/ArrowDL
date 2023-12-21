@@ -89,7 +89,6 @@ void LinkWidgetItemDelegate::paint(QPainter *painter,
  ******************************************************************************/
 LinkWidget::LinkWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::LinkWidget)
-  , m_model(Q_NULLPTR)
 {
     ui->setupUi(this);
 

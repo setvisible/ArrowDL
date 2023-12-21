@@ -69,8 +69,7 @@ static QList<IDownloadItem*> createItems(const QList<ResourceItem*> &resources,
 }
 
 
-AddContentDialog::AddContentDialog(DownloadManager *downloadManager,
-                                   Settings *settings, QWidget *parent)
+AddContentDialog::AddContentDialog(DownloadManager *downloadManager, Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddContentDialog)
     , m_downloadManager(downloadManager)

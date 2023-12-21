@@ -29,12 +29,11 @@
 constexpr int max_peer_list_count = 1024;
 
 
-Torrent::Torrent(QObject *parent) : QObject(parent)
+Torrent::Torrent(QObject *parent) : QObject(parent),
+    m_fileModel(new TorrentFileTableModel(this)),
+    m_peerModel(new TorrentPeerTableModel(this)),
+    m_trackerModel(new TorrentTrackerTableModel(this))
 {
-    m_fileModel = new TorrentFileTableModel(this);
-    m_peerModel = new TorrentPeerTableModel(this);
-    m_trackerModel = new TorrentTrackerTableModel(this);
-
     clear();
 }
 
@@ -160,7 +159,7 @@ void Torrent::setError(TorrentError::Type errorType, const QString &message)
 
 /******************************************************************************
  ******************************************************************************/
-int Torrent::fileCount() const
+qsizetype Torrent::fileCount() const
 {
     return m_detail.files.count();
 }
@@ -718,7 +717,7 @@ void TorrentPeerTableModel::refreshData(const QList<TorrentPeerInfo> &peers)
     foreach (auto newItem, peers) {
         m_connectedPeers.insert(newItem.endpoint);
         bool replaced = false;
-        for (int i = 0, count = m_peers.count(); i < count; ++i) {
+        for (qsizetype i = 0, count = m_peers.count(); i < count; ++i) {
             auto item = m_peers.at(i);
 
             // Try update
@@ -844,10 +843,10 @@ void TorrentTrackerTableModel::refreshData(const QList<TorrentTrackerInfo> &trac
 
     QList<TorrentTrackerInfo> newItems;
 
-    for (int i = 0, count = trackers.count(); i < count; ++i) {
+    for (qsizetype i = 0, count = trackers.count(); i < count; ++i) {
         auto newItem = trackers.at(i);
         bool replaced = false;
-        for (int j = 0, count2 = m_trackers.count(); j < count2; ++j) {
+        for (qsizetype j = 0, count2 = m_trackers.count(); j < count2; ++j) {
             auto item = m_trackers.at(j);
 
             // Try update

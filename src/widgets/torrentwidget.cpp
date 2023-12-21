@@ -270,8 +270,6 @@ void TrackerTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionVi
  ******************************************************************************/
 TorrentWidget::TorrentWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::TorrentWidget)
-  , m_torrentContext(Q_NULLPTR)
-  , m_torrent(Q_NULLPTR)
 {
     ui->setupUi(this);
 

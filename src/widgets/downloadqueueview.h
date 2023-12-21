@@ -71,9 +71,9 @@ private slots:
     void showContextMenu(const QPoint &pos) ;
 
 private:
-    DownloadEngine *m_downloadEngine;
-    QueueView *m_queueView;
-    QMenu *m_contextMenu;
+    DownloadEngine *m_downloadEngine = nullptr;
+    QueueView *m_queueView = nullptr;
+    QMenu *m_contextMenu = nullptr;
 
     void retranslateUi();
     void restylizeUi();

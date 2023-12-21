@@ -68,7 +68,7 @@ private slots:
     void format(QTreeWidgetItem *item, int column);
 
 private:
-    Ui::AdvancedSettingsWidget *ui;
+    Ui::AdvancedSettingsWidget *ui = nullptr;
 
     void restylizeUi();
 

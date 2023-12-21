@@ -657,7 +657,6 @@ bool Stream::isMergeFormat(const QString &suffix) const
  ******************************************************************************/
 StreamCleanCache::StreamCleanCache(QObject *parent) : QObject(parent)
   , m_process(new QProcess(this))
-  , m_isCleaned(false)
 {
     connect(m_process, SIGNAL(started()), this, SLOT(onStarted()));
 #if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)

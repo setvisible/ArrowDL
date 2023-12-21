@@ -94,16 +94,16 @@ private slots:
     void updateInfo();
 
 private:
-    State m_state;
+    State m_state = State::Idle;
 
-    qreal m_speed;
-    qsizetype m_bytesReceived;
-    qsizetype m_bytesTotal;
+    qreal m_speed = -1;
+    qsizetype m_bytesReceived = 0;
+    qsizetype m_bytesTotal = 0;
 
     QString m_errorMessage = {};
 
-    int m_maxConnectionSegments;
-    int m_maxConnections;
+    int m_maxConnectionSegments = 4;
+    int m_maxConnections = 1;
 
     QString m_log = {};
 
@@ -111,7 +111,6 @@ private:
     QTime m_remainingTime;
     QTimer m_updateInfoTimer;
     QTimer m_updateCountDownTimer;
-
 };
 
 #endif // CORE_ABSTRACT_DOWNLOAD_ITEM_H

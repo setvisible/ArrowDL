@@ -61,11 +61,11 @@ private slots:
 private:
     /* Network parameters (SSL, Proxy, UserAgent...) */
     NetworkManager *m_networkManager;
-    Settings *m_settings;
+    Settings *m_settings = nullptr;
 
     /* Crash Recovery */
-    QTimer* m_dirtyQueueTimer;
-    QString m_queueFile;
+    QTimer* m_dirtyQueueTimer = nullptr;
+    QString m_queueFile = {};
 
     inline ResourceItem* createResourceItem(const QUrl &url);
 };

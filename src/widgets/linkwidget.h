@@ -56,8 +56,8 @@ private slots:
     void open();
 
 private:
-    Ui::LinkWidget *ui;
-    Model *m_model;
+    Ui::LinkWidget *ui = nullptr;
+    Model *m_model = nullptr;
 
     void setup(CheckableTableView *view);
     void resizeSection(CheckableTableView *view, int logicalIndex, int newSize);

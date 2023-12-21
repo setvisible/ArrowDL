@@ -29,7 +29,6 @@ constexpr int max_redirects_allowed = 5;
 
 NetworkManager::NetworkManager(QObject *parent) : QObject(parent)
   , m_networkAccessManager(new QNetworkAccessManager(this))
-  , m_settings(Q_NULLPTR)
 {
 }
 

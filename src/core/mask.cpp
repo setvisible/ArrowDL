@@ -91,7 +91,7 @@ QString Mask::decodeMagnetEncoding(const QString &s)
                 return ret;
             }
 
-            int high;
+            int high = 0;
             if (*i >= '0' && *i <= '9') high = (*i).toLatin1() - '0';
             else if (*i >= 'A' && *i <= 'F') high = (*i).toLatin1() + 10 - 'A';
             else if (*i >= 'a' && *i <= 'f') high = (*i).toLatin1() + 10 - 'a';
@@ -106,7 +106,7 @@ QString Mask::decodeMagnetEncoding(const QString &s)
                 return ret;
             }
 
-            int low;
+            int low = 0;
             if(*i >= '0' && *i <= '9') low = (*i).toLatin1() - '0';
             else if(*i >= 'A' && *i <= 'F') low = (*i).toLatin1() + 10 - 'A';
             else if(*i >= 'a' && *i <= 'f') low = (*i).toLatin1() + 10 - 'a';

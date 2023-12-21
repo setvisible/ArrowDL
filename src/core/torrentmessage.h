@@ -97,11 +97,11 @@ public:
 
     TorrentError() = default;
     explicit TorrentError(Type _type, int _fileIndex = -1)
-        : type(_type), fileIndex(_fileIndex), message(QString()) {}
+        : type(_type), fileIndex(_fileIndex) {}
 
-    Type type{NoError};
-    int fileIndex{-1};
-    QString message;
+    Type type = NoError;
+    int fileIndex = -1;
+    QString message = {};
 };
 
 /******************************************************************************
@@ -459,8 +459,8 @@ public:
 
     TorrentTrackerInfo(const QString &_url) : url(_url) {}
 
-    QString url;
-    QString trackerId; // '&trackerid=' argument passed to the tracker
+    QString url = {};
+    QString trackerId = {}; // '&trackerid=' argument passed to the tracker
 
     QList<EndPoint> endpoints; // local listen socket (endpoint) announced to the tracker
 
@@ -535,11 +535,11 @@ public:
         Q_UNREACHABLE();
     }
 
-    TorrentError error;
+    TorrentError error = {};
 
-    TorrentState state{stopped};
+    TorrentState state = stopped;
 
-    QString lastWorkingTrackerUrl;
+    QString lastWorkingTrackerUrl = {};
 
     qsizetype bytesSessionDownloaded = 0;
     qsizetype bytesSessionUploaded = 0;
@@ -550,8 +550,8 @@ public:
     qsizetype bytesFailed = 0;
     qsizetype bytesRedundant = 0;
 
-    QBitArray downloadedPieces;
-    QBitArray verifiedPieces; // seed mode only
+    QBitArray downloadedPieces = {};
+    QBitArray verifiedPieces = {}; // seed mode only
 
     qsizetype bytesReceived = 0;
     qsizetype bytesTotal = 0;
@@ -562,9 +562,9 @@ public:
     qsizetype bytesAllSessionsPayloadDownload = 0;
     qsizetype bytesAllSessionsPayloadUpload = 0;
 
-    QDateTime addedTime;   /// \todo maybe it's duplicate?
-    QDateTime completedTime;
-    QDateTime lastSeenCompletedTime;
+    QDateTime addedTime = {};   /// \todo maybe it's duplicate?
+    QDateTime completedTime = {};
+    QDateTime lastSeenCompletedTime = {};
 
     qreal percent = 0; // between 0 and 100
 
@@ -574,8 +574,8 @@ public:
     int download_payload_rate = 0; // better speed to calc the ETAs
     int upload_payload_rate = 0;
 
-    QTime elapsedTime; /// \todo ETA
-    QTime remaingTime; /// \todo ETA
+    QTime elapsedTime = {}; /// \todo ETA
+    QTime remaingTime = {}; /// \todo ETA
 
     int connectedSeedsCount = 0;
     int connectedPeersCount = 0;
@@ -617,16 +617,14 @@ public:
     bool isAnnouncingToLSD = false;
     bool isAnnouncingToDHT = false;
 
-    QString infohash;
-
+    QString infohash = {};
 
     qint64 activeTimeDuration = 0; // in seconds
     qint64 finishedTimeDuration = 0; /// \todo duplicate?
     qint64 seedingTimeDuration = 0;
 
-    QDateTime lastTimeDownload; /// \todo duplicate?
-    QDateTime lastTimeUpload;
-
+    QDateTime lastTimeDownload = {}; /// \todo duplicate?
+    QDateTime lastTimeUpload = {};
 };
 
 
@@ -639,7 +637,8 @@ public:
     explicit TorrentNodeInfo(const QString &_host, int _port)
         : host(_host), port(_port)
     {}
-    QString host;
+
+    QString host = {};
     int port = 0;
 };
 
@@ -653,9 +652,9 @@ public:
         UrlSeed,
         HttpSeed
     };
-    QString url;
-    QString auth;
-    QList<QPair<QString, QString> > extraHeaders;
+    QString url = {};
+    QString auth = {};
+    QList<QPair<QString, QString> > extraHeaders = {};
     Type type = UrlSeed;
 };
 
@@ -664,12 +663,12 @@ public:
 class TorrentInitialMetaInfo
 {
 public:
-    QString name;
-    QDateTime creationDate;
-    QString creator;
-    QString comment;
-    QString infohash;
-    QString magnetLink;
+    QString name = {};
+    QDateTime creationDate = {};
+    QString creator = {};
+    QString comment = {};
+    QString infohash = {};
+    QString magnetLink = {};
 
     qint64 bytesMetaData = 0;
 
@@ -678,20 +677,20 @@ public:
     qint64 pieceByteSize = 0; // piece's size in byte (generally 16 kB)
     qint64 pieceLastByteSize = 0; // last piece's size in byte, can be less than 16 kB
 
-    QString sslRootCertificate; // public certificate in x509 format
+    QString sslRootCertificate = {}; // public certificate in x509 format
 
     bool isPrivate = false;
     bool isI2P = false;
 
-    QList<TorrentNodeInfo> nodes;
+    QList<TorrentNodeInfo> nodes = {};
 
-    QList<TorrentFileMetaInfo> files;
-    QList<TorrentTrackerInfo> trackers;
+    QList<TorrentFileMetaInfo> files = {};
+    QList<TorrentTrackerInfo> trackers = {};
 
-    QList<QString> similarTorrents;
-    QList<QString> collections;
+    QList<QString> similarTorrents = {};
+    QList<QString> collections = {};
 
-    QList<TorrentWebSeedMetaInfo> webSeeds;
+    QList<TorrentWebSeedMetaInfo> webSeeds = {};
 };
 
 /******************************************************************************
@@ -699,18 +698,18 @@ public:
 class TorrentMetaInfo
 {
 public:
-    TorrentError error;
+    TorrentError error = {};
 
-    QString status;
+    QString status = {};
 
-    TorrentInitialMetaInfo initialMetaInfo;
+    TorrentInitialMetaInfo initialMetaInfo = {};
 
-    QList<QString> trackers2;
-    QList<TorrentNodeInfo> dhtNodes;
+    QList<QString> trackers2 = {};
+    QList<TorrentNodeInfo> dhtNodes = {};
 
-    QString outputPath;
+    QString outputPath = {};
 
-    QString defaultTrackerId;
+    QString defaultTrackerId = {};
     /// \todo flags torrent_flags_t OPTIONS torrent_flags.hpp
     /// \todo QString info_hash; // in case we don't have magnet link nor torrent file
 
@@ -731,9 +730,9 @@ public:
     int finishedTimeDuration = 0;
     int seedingTimeDuration = 0;
 
-    QDateTime addedTime;
-    QDateTime completedTime;
-    QDateTime lastSeenCompletedTime;
+    QDateTime addedTime = {};
+    QDateTime completedTime = {};
+    QDateTime lastSeenCompletedTime = {};
 
     // -1 indicates we don't know, or we have not received any scrape data.
     int seedsInSwarm = -1; // number of peers in the swarm that are seeds, or have every piece in the torrent.
@@ -744,15 +743,15 @@ public:
     QList<QString> httpSeeds; // if not empty, this list overrides the ones given in .torrent file
     QList<QString> urlSeeds; /// \todo unify seeds QLists
 
-    QList<TorrentPeerInfo> defaultPeers;
-    QList<TorrentPeerInfo> bannedPeers;
+    QList<TorrentPeerInfo> defaultPeers = {};
+    QList<TorrentPeerInfo> bannedPeers = {};
 
-    QBitArray unfinishedPieces;
-    QBitArray downloadedPieces;
-    QBitArray verifiedPieces; // seed mode only
+    QBitArray unfinishedPieces = {};
+    QBitArray downloadedPieces = {};
+    QBitArray verifiedPieces = {}; // seed mode only
 
-    QDateTime lastTimeDownload;
-    QDateTime lastTimeUpload;
+    QDateTime lastTimeDownload = {};
+    QDateTime lastTimeUpload = {};
 
 };
 
@@ -762,20 +761,22 @@ using UniqueId = QString;
 
 struct TorrentData
 {
-    UniqueId unique_id;
-    TorrentMetaInfo metaInfo;
-    TorrentHandleInfo detail;
+    UniqueId unique_id = {};
+    TorrentMetaInfo metaInfo = {};
+    TorrentHandleInfo detail = {};
 };
 
 struct TorrentStatus
 {
-    UniqueId unique_id;
-    TorrentInfo info;
-    TorrentHandleInfo detail;
+    UniqueId unique_id = {};
+    TorrentInfo info = {};
+    TorrentHandleInfo detail = {};
 };
 
 /* Enable the type to be used with QVariant. */
 Q_DECLARE_METATYPE(TorrentData)
+
 Q_DECLARE_METATYPE(TorrentStatus)
+
 
 #endif // CORE_TORRENT_MESSAGE_H

@@ -82,12 +82,12 @@ private slots:
 
 private:
     Ui::TorrentWidget *ui;
-    TorrentBaseContext *m_torrentContext;
-    Torrent *m_torrent;
+    TorrentBaseContext *m_torrentContext = nullptr;
+    Torrent *m_torrent = nullptr;
 
-    QList<int> m_fileColumnsWidths;
-    QList<int> m_peerColumnsWidths;
-    QList<int> m_trackerColumnsWidths;
+    QList<int> m_fileColumnsWidths = {};
+    QList<int> m_peerColumnsWidths = {};
+    QList<int> m_trackerColumnsWidths = {};
 
     void resetUi();
     void retranslateUi();

@@ -98,14 +98,10 @@ static inline lt::torrent_status::state_t fromState(const TorrentInfo::TorrentSt
 TorrentContextPrivate::TorrentContextPrivate(TorrentContext *qq)
     : QObject(qq)
     , q(qq)
-    , workerThread(Q_NULLPTR)
-    , settings(Q_NULLPTR)
-    , networkManager(Q_NULLPTR)
+    , workerThread(new WorkerThread(this))
 {
     qRegisterMetaType<TorrentData>("TorrentData");
     qRegisterMetaType<TorrentStatus>("TorrentStatus");
-
-    workerThread = new WorkerThread(this);
 
     connect(workerThread, &WorkerThread::metadataUpdated, this, &TorrentContextPrivate::onMetadataUpdated);
     connect(workerThread, &WorkerThread::dataUpdated, this, &TorrentContextPrivate::onDataUpdated);
@@ -1072,8 +1068,8 @@ inline lt::torrent_handle TorrentContextPrivate::find(Torrent *torrent)
 /******************************************************************************
  ******************************************************************************/
 WorkerThread::WorkerThread(QObject *parent) : QThread(parent)
+  , m_session_ptr(new lt::session())
 {
-    m_session_ptr = new lt::session();
 }
 
 /******************************************************************************

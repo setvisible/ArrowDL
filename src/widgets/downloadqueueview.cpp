@@ -417,9 +417,7 @@ void QueueItem::updateItem()
 /******************************************************************************
  ******************************************************************************/
 DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
-  , m_downloadEngine(Q_NULLPTR)
   , m_queueView(new QueueView(this))
-  , m_contextMenu(Q_NULLPTR)
 {
     this->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),

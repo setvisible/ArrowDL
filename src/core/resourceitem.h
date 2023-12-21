@@ -24,16 +24,16 @@
 #include <QtCore/QVariant>
 
 class ResourceItem
-{    
+{
 public:
-    ResourceItem();
-    ~ResourceItem() = default;
-
     enum class Type {
         Regular = 0,    ///< The resource is a regular file
         Stream  = 1,    ///< The resource is a stream
         Torrent = 2     ///< The resource is a torrent
     };
+
+    ResourceItem() = default;
+    ~ResourceItem() = default;
 
     Type type() const;
     void setType(Type type);
@@ -87,27 +87,27 @@ public:
     void setTorrentPreferredFilePriorities(const QString &priorities);
 
 private:
-    Type m_type{Type::Regular};
-    QString m_url;              // QUrl ?
-    QString m_destination;      // QDir ?
-    QString m_mask;             // Mask ?
-    QString m_customFileName;   // QFileInfo ?
+    Type m_type = Type::Regular;
+    QString m_url = {};              // QUrl ?
+    QString m_destination = {};      // QDir ?
+    QString m_mask = {};             // Mask ?
+    QString m_customFileName = {};   // QFileInfo ?
 
-    QString m_referringPage;
-    QString m_description;
+    QString m_referringPage = {};
+    QString m_description = {};
 
     /* Regular file-specific properties */
-    QString m_checkSum;
+    QString m_checkSum = {};
 
     /* Stream-specific properties */
-    QString m_streamFileName;
-    QString m_streamFormatId;
-    qsizetype m_streamFileSize{0};
+    QString m_streamFileName = {};
+    QString m_streamFormatId = {};
+    qsizetype m_streamFileSize = 0;
 
-    StreamObject::Config m_streamConfig;
+    StreamObject::Config m_streamConfig = {};
 
     /* Torrent-specific properties */
-    QString m_torrentPreferredFilePriorities;
+    QString m_torrentPreferredFilePriorities = {};
 
     inline QString localFilePath(const QString &customFileName) const;
     inline QString localStreamFile(const QString &customFileName) const;

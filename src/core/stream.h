@@ -562,8 +562,8 @@ private slots:
     void onFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
 private:
-    QProcess *m_process;
-    bool m_isCleaned;
+    QProcess *m_process = nullptr;
+    bool m_isCleaned = false;
 };
 
 class StreamAssetDownloader : public QObject
@@ -572,12 +572,13 @@ class StreamAssetDownloader : public QObject
 public:
     struct StreamFlatListItem
     {
-        QString _type;
+        QString _type = {};
         StreamObjectId id;
         QString ie_key;
         QString title;
         QString url;
     };
+
     using StreamFlatList = QList<StreamFlatListItem>;
     using StreamDumpMap = QMap<StreamObjectId, StreamObject>;
 

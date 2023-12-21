@@ -106,10 +106,10 @@ public slots:
     void onStatusUpdated(TorrentStatus status);
 
 public:
-    TorrentContext *q;
-    WorkerThread *workerThread;
-    Settings *settings;
-    NetworkManager *networkManager;
+    TorrentContext *q = nullptr;
+    WorkerThread *workerThread = nullptr;
+    Settings *settings = nullptr;
+    NetworkManager *networkManager = nullptr;
     QHash<UniqueId, Torrent*> hashMap;
 
     inline Torrent *find(const UniqueId &uuid);

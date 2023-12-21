@@ -37,8 +37,6 @@ InvokeWrapper<Arg, R, C> invoke(R *receiver, void (C::*memberFun)(Arg))
 
 MainWindow::MainWindow(const QUrl& url)
 {
-    progress = 0;
-
     QFile file;
     file.setFileName(":/jquery.min.js");
     file.open(QIODevice::ReadOnly);

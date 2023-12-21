@@ -47,8 +47,8 @@ private slots:
 
 private:
     /* Network parameters (SSL, Proxy, UserAgent...) */
-    QNetworkAccessManager *m_networkAccessManager;
-    Settings *m_settings;
+    QNetworkAccessManager *m_networkAccessManager = nullptr;
+    Settings *m_settings = nullptr;
 
     void setNetworkSettings(Settings *settings);
 };

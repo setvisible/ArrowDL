@@ -37,15 +37,6 @@ AbstractDownloadItem::AbstractDownloadItem(QObject *parent) : QObject(parent)
 {
     connect(&m_updateInfoTimer, SIGNAL(timeout()), this, SLOT(updateInfo()));
     connect(&m_updateCountDownTimer, SIGNAL(timeout()), this, SLOT(updateInfo()));
-
-    m_state = State::Idle;
-
-    m_speed = -1;
-    m_bytesReceived = 0;
-    m_bytesTotal = 0;
-
-    m_maxConnectionSegments = 4;
-    m_maxConnections = 1;
 }
 
 /******************************************************************************

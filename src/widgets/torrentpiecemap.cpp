@@ -69,6 +69,8 @@ static QString decorate(int count, TorrentFileInfo::Priority priority)
 TorrentPieceMap::TorrentPieceMap(QWidget *parent) : QWidget(parent)
   , ui(new Ui::TorrentPieceMap)
   , m_scene(new QGraphicsScene(this))
+  , m_workerThread(new TorrentPieceMapWorker(this))
+  , m_tileFont(font())
 {
     ui->setupUi(this);
 
@@ -82,7 +84,7 @@ TorrentPieceMap::TorrentPieceMap(QWidget *parent) : QWidget(parent)
                     QString("³"), QString("²"), QString("¹"), QString("°")));
 
     /* Calculate metrics */
-    m_tileFont = font();
+
     // const int pointSize = m_tileFont.pointSize();
     // m_tileFont.setPointSize(pointSize - 1);
 
@@ -116,7 +118,6 @@ TorrentPieceMap::TorrentPieceMap(QWidget *parent) : QWidget(parent)
     ui->graphicsView->setCacheMode(QGraphicsView::CacheBackground);
 
     /* Worker thread */
-    m_workerThread = new TorrentPieceMapWorker(this);
     connect(m_workerThread, &TorrentPieceMapWorker::resultReady, this, &TorrentPieceMap::handleResults);
 
     resetUi();
@@ -426,7 +427,7 @@ void TorrentPieceMap::retranslateUi()
 
 /******************************************************************************
  ******************************************************************************/
-TorrentPieceItem::TorrentPieceItem(int width, int height, int padding,
+TorrentPieceItem::TorrentPieceItem(qreal width, qreal height, qreal padding,
                                    const QFont &font, QGraphicsItem *parent)
     : QGraphicsItem(parent)
     , m_font(font)

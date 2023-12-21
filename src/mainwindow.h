@@ -141,18 +141,18 @@ private slots:
     void onTorrentContextChanged();
 
 private:
-    Ui::MainWindow *ui;
-    DownloadManager *m_downloadManager;
-    StreamManager *m_streamManager;
-    FileAccessManager *m_fileAccessManager;
-    Settings *m_settings;
-    QLabel *m_statusBarLabel;
+    Ui::MainWindow *ui = nullptr;
+    DownloadManager *m_downloadManager = nullptr;
+    StreamManager *m_streamManager = nullptr;
+    FileAccessManager *m_fileAccessManager = nullptr;
+    Settings *m_settings = nullptr;
+    QLabel *m_statusBarLabel = nullptr;
 #ifdef USE_QT_WINEXTRAS
     QWinTaskbarButton *m_winTaskbarButton = Q_NULLPTR;
     QWinTaskbarProgress *m_winTaskbarProgress = Q_NULLPTR;
 #endif
-    UpdateChecker *m_updateChecker;
-    SystemTray *m_systemTray;
+    UpdateChecker *m_updateChecker = nullptr;
+    SystemTray *m_systemTray = nullptr;
 
     void readSettings();
     void writeSettings();
