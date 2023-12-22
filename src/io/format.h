@@ -45,7 +45,7 @@ static const FileFormat formats[] = {
     { "txt", "Text Files", IFileHandlerPtr(new TextHandler()) },
     { "json", "Json Files", IFileHandlerPtr(new JsonHandler()) },
     { "torrent", "Torrent Files", IFileHandlerPtr(new TorrentHandler()) },
-    { Q_NULLPTR, Q_NULLPTR, IFileHandlerPtr() }
+    { nullptr, nullptr, IFileHandlerPtr() }
 };
 
 static IFileHandlerPtr findHandlerFromSuffix(const QString &suffix)

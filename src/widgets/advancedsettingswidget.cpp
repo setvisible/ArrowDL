@@ -351,7 +351,7 @@ inline QTreeWidgetItem* AdvancedSettingsWidget::findItem(const QString &key) con
         }
     }
     qWarning("Can't find setting key '%s'.", key.toLatin1().data());
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 /******************************************************************************

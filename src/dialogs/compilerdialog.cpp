@@ -190,7 +190,7 @@ QString CompilerDialog::getVersionString(const QString &fName)
     }
 
     // VerQueryValue
-    VS_FIXEDFILEINFO *lpBuffer = Q_NULLPTR;
+    VS_FIXEDFILEINFO *lpBuffer = nullptr;
     dwLen = sizeof( VS_FIXEDFILEINFO );
     // UINT uLen;
     if (VerQueryValue(

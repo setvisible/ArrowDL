@@ -56,7 +56,7 @@ class LinkWidgetItemDelegate : public CheckableItemDelegate
     Q_OBJECT
 
 public:
-    explicit LinkWidgetItemDelegate(QObject *parent = Q_NULLPTR);
+    explicit LinkWidgetItemDelegate(QObject *parent = nullptr);
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const override;
@@ -178,8 +178,8 @@ void LinkWidget::setModel(Model *model)
         disconnect(m_model->linkModel(), SIGNAL(resourceChanged()), this, SLOT(onResourceChanged()));
         disconnect(m_model->contentModel(), SIGNAL(resourceChanged()), this, SLOT(onResourceChanged()));
 
-        ui->linkTableView->setModel(Q_NULLPTR);
-        ui->contentTableView->setModel(Q_NULLPTR);
+        ui->linkTableView->setModel(nullptr);
+        ui->contentTableView->setModel(nullptr);
     }
     m_model = model;
     if (m_model) {

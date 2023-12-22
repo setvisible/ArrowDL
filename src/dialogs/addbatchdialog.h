@@ -33,8 +33,7 @@ class AddBatchDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddBatchDialog(const QUrl &url, DownloadManager *downloadManager,
-                            Settings *settings, QWidget *parent = Q_NULLPTR);
+    explicit AddBatchDialog(const QUrl &url, DownloadManager *downloadManager, Settings *settings, QWidget *parent = nullptr);
     ~AddBatchDialog() override;
 
     static void quickDownload(const QUrl &url, DownloadManager *downloadManager);

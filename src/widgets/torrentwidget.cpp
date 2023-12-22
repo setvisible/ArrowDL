@@ -312,13 +312,13 @@ void TorrentWidget::setTorrentContext(TorrentBaseContext *torrentContext)
  ******************************************************************************/
 void TorrentWidget::clear()
 {
-    m_torrent = Q_NULLPTR;
+    m_torrent = nullptr;
     resetUi();
 }
 
 bool TorrentWidget::isEmpty() const
 {
-    return m_torrent == Q_NULLPTR;
+    return m_torrent == nullptr;
 }
 
 /******************************************************************************
@@ -793,9 +793,9 @@ void TorrentWidget::resetUi()
         getColumnWidths(ui->peerTableView, &m_peerColumnsWidths);
         getColumnWidths(ui->trackerTableView, &m_trackerColumnsWidths);
 
-        ui->fileTableView->setModel(Q_NULLPTR);
-        ui->peerTableView->setModel(Q_NULLPTR);
-        ui->trackerTableView->setModel(Q_NULLPTR);
+        ui->fileTableView->setModel(nullptr);
+        ui->peerTableView->setModel(nullptr);
+        ui->trackerTableView->setModel(nullptr);
     }
 
     updateWidget();

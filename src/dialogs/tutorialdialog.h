@@ -30,7 +30,7 @@ class TutorialDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit TutorialDialog(Settings *settings, QWidget *parent = Q_NULLPTR);
+    explicit TutorialDialog(Settings *settings, QWidget *parent = nullptr);
     ~TutorialDialog() override;
 
 public slots:

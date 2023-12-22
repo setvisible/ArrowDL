@@ -33,7 +33,7 @@ class AbstractSettings : public QObject
     struct SettingsItem;
 
 public:
-    explicit AbstractSettings(QObject *parent = Q_NULLPTR);
+    explicit AbstractSettings(QObject *parent = nullptr);
     ~AbstractSettings() override;
 
     void beginRestoreDefault();

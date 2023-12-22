@@ -47,7 +47,7 @@ public:
     static bool isCommandDownloadLink(const QString &message);
     static QString getDownloadLink(const QString &message);
 
-    static void parseMessage(const QString &message, Model *model, Options *options = Q_NULLPTR);
+    static void parseMessage(const QString &message, Model *model, Options *options = nullptr);
 
 };
 

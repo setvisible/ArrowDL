@@ -28,7 +28,7 @@ class ThemeWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit ThemeWidget(QWidget *parent = Q_NULLPTR);
+    explicit ThemeWidget(QWidget *parent = nullptr);
     ~ThemeWidget() override;
 
     QMap<QString, QVariant> theme() const;

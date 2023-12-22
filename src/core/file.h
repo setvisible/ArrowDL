@@ -35,7 +35,7 @@ public:
         Error
     };
 
-    explicit File(QObject *parent = Q_NULLPTR);
+    explicit File(QObject *parent = nullptr);
     ~File() override;
 
     static void setFileAccessManager(IFileAccessManager *manager);
@@ -56,7 +56,7 @@ public:
     void setMetadataChangeFileTime(const QDateTime &newDate);
 
 private:
-    QSaveFile *m_file = Q_NULLPTR;
+    QSaveFile *m_file = nullptr;
 
     inline OpenFlag open(const QString &fileName);
     static inline QString nextAvailableName(const QString &name);

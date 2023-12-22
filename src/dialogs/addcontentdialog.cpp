@@ -52,9 +52,10 @@ constexpr int column_download_width = 400;
 constexpr int column_mask_width = 200;
 
 
-static QList<IDownloadItem*> createItems(const QList<ResourceItem*> &resources,
-                                         DownloadManager *downloadManager,
-                                         const Settings *settings)
+static QList<IDownloadItem*> createItems(
+    const QList<ResourceItem*> &resources,
+    DownloadManager *downloadManager,
+    const Settings *settings)
 {
     QList<IDownloadItem*> items;
     foreach (auto resource, resources) {
@@ -75,7 +76,7 @@ AddContentDialog::AddContentDialog(DownloadManager *downloadManager, Settings *s
     , m_downloadManager(downloadManager)
     , m_model(new Model(this))
     #ifdef USE_QT_WEBENGINE
-    , m_webEngineView(Q_NULLPTR)
+    , m_webEngineView(nullptr)
     #endif
     , m_settings(settings)
 {

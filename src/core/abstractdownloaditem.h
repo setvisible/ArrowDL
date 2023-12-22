@@ -31,7 +31,7 @@ class AbstractDownloadItem : public QObject, public IDownloadItem
     Q_OBJECT
 
 public:
-    explicit AbstractDownloadItem(QObject *parent = Q_NULLPTR);
+    explicit AbstractDownloadItem(QObject *parent = nullptr);
     ~AbstractDownloadItem() noexcept override = default; // IMPORTANT: virtual destructor
 
     State state() const override;

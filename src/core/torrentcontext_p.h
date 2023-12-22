@@ -48,7 +48,7 @@ class TorrentContextPrivate : public QObject
     Q_OBJECT
 
 public:
-    explicit TorrentContextPrivate(TorrentContext *qq = Q_NULLPTR);
+    explicit TorrentContextPrivate(TorrentContext *qq = nullptr);
     ~TorrentContextPrivate() override;
 
     QList<TorrentSettingItem> allSettingsKeysAndValues() const;

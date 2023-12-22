@@ -28,7 +28,7 @@
 #include <QtCore/QDate>
 #include <QtCore/QTime>
 
-static IFileAccessManager *s_fileAccessManager = Q_NULLPTR;
+static IFileAccessManager *s_fileAccessManager = nullptr;
 
 static ExistingFileOption existingFileOption()
 {
@@ -144,7 +144,7 @@ bool File::rename(ResourceItem *resource)
             inputFile.close();
         }
         m_file->deleteLater();
-        m_file = Q_NULLPTR;
+        m_file = nullptr;
         QFile::remove(oldFile);
     }
     /* Open a new temporary file and append previous data */
@@ -252,7 +252,7 @@ bool File::commit()
     if (m_file) {
         const bool commited = m_file->commit();
         m_file->deleteLater();
-        m_file = Q_NULLPTR;
+        m_file = nullptr;
         return commited;
     }
     return false;
@@ -268,7 +268,7 @@ void File::cancel()
     if (m_file) {
         m_file->cancelWriting();
         m_file->deleteLater();
-        m_file = Q_NULLPTR;
+        m_file = nullptr;
     }
 }
 

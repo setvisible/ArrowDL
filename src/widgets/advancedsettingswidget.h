@@ -38,7 +38,7 @@ public:
         KeyType
     };
 
-    explicit AdvancedSettingsWidget(QWidget *parent = Q_NULLPTR);
+    explicit AdvancedSettingsWidget(QWidget *parent = nullptr);
     ~AdvancedSettingsWidget() override;
 
     QMap<QString, QVariant> torrentSettings() const;

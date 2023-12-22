@@ -34,7 +34,7 @@ public:
         Torrent,
         Urls
     };
-    explicit HomeDialog(QWidget *parent = Q_NULLPTR);
+    explicit HomeDialog(QWidget *parent = nullptr);
     ~HomeDialog() override;
 
 private slots:

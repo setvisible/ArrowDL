@@ -53,7 +53,7 @@ class TorrentPieceMap : public QWidget
 {
     Q_OBJECT
 public:
-    explicit TorrentPieceMap(QWidget *parent = Q_NULLPTR);
+    explicit TorrentPieceMap(QWidget *parent = nullptr);
     ~TorrentPieceMap() override;
 
     Torrent *torrent() const;
@@ -103,7 +103,7 @@ class TorrentPieceMapWorker : public QThread
 {
     Q_OBJECT
 public:
-    TorrentPieceMapWorker(QObject *parent = Q_NULLPTR): QThread(parent) {}
+    TorrentPieceMapWorker(QObject *parent = nullptr): QThread(parent) {}
 
     bool isUseful();
     void setUseful(bool useful);

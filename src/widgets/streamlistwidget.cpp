@@ -49,7 +49,7 @@ class StreamListItemDelegate : public CheckableItemDelegate
     Q_OBJECT
 
 public:
-    explicit StreamListItemDelegate(QObject *parent = Q_NULLPTR)
+    explicit StreamListItemDelegate(QObject *parent = nullptr)
         : CheckableItemDelegate(parent)
     {}
 

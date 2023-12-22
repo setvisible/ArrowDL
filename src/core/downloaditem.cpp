@@ -47,13 +47,13 @@ DownloadItem::~DownloadItem()
 {
     if (d->file) {
         d->file->deleteLater();
-        d->file = Q_NULLPTR;
+        d->file = nullptr;
     }
 
     if (d->reply) {
         d->reply->abort();
         d->reply->deleteLater();
-        d->reply = Q_NULLPTR;
+        d->reply = nullptr;
     }
 }
 
@@ -114,7 +114,7 @@ void DownloadItem::stop()
     if (d->reply) {
         d->reply->abort();
         d->reply->deleteLater();
-        d->reply = Q_NULLPTR;
+        d->reply = nullptr;
     }
     AbstractDownloadItem::stop();
 }
@@ -252,7 +252,7 @@ void DownloadItem::onFinished()
     }
     if (d->reply) {
         d->reply->deleteLater();
-        d->reply = Q_NULLPTR;
+        d->reply = nullptr;
     }
     this->finish();
 }

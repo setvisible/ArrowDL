@@ -28,7 +28,7 @@ class SystemTray : public QWidget
 {
     Q_OBJECT
 public:
-    explicit SystemTray(QWidget *parent = Q_NULLPTR);
+    explicit SystemTray(QWidget *parent = nullptr);
     ~SystemTray() override = default;
 
     QString title() const;
@@ -61,11 +61,11 @@ private slots:
     void onSettingsChanged();
 
 private:
-    Settings *m_settings{Q_NULLPTR};
+    Settings *m_settings{nullptr};
     QSystemTrayIcon *m_trayIcon;
-    QAction* m_titleAction{Q_NULLPTR};
-    QAction* m_restoreAction{Q_NULLPTR};
-    QAction* m_hideWhenMinimizedAction{Q_NULLPTR};
+    QAction* m_titleAction{nullptr};
+    QAction* m_restoreAction{nullptr};
+    QAction* m_hideWhenMinimizedAction{nullptr};
 
     void retranslateUi();
 };

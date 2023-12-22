@@ -27,7 +27,7 @@ class FileAccessManager : public QObject, public IFileAccessManager
     Q_OBJECT
 
 public:
-    explicit FileAccessManager(QWidget *parent = Q_NULLPTR);
+    explicit FileAccessManager(QWidget *parent = nullptr);
     ~FileAccessManager() override = default;
 
     Settings* settings() const override;
@@ -37,7 +37,7 @@ public:
 
 private:
     QWidget *m_parent;
-    Settings *m_settings= Q_NULLPTR;
+    Settings *m_settings= nullptr;
 };
 
 #endif // CORE_FILE_ACCESS_MANAGER_H

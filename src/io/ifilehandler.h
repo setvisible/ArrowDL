@@ -51,7 +51,7 @@ public:
 
 
 private:
-    QIODevice *m_device{Q_NULLPTR};
+    QIODevice *m_device{nullptr};
 
     Q_DISABLE_COPY(IFileHandler)
 };

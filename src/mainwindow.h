@@ -49,7 +49,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = Q_NULLPTR);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
     bool saveFile(const QString &path);
@@ -148,8 +148,8 @@ private:
     Settings *m_settings = nullptr;
     QLabel *m_statusBarLabel = nullptr;
 #ifdef USE_QT_WINEXTRAS
-    QWinTaskbarButton *m_winTaskbarButton = Q_NULLPTR;
-    QWinTaskbarProgress *m_winTaskbarProgress = Q_NULLPTR;
+    QWinTaskbarButton *m_winTaskbarButton = nullptr;
+    QWinTaskbarProgress *m_winTaskbarProgress = nullptr;
 #endif
     UpdateChecker *m_updateChecker = nullptr;
     SystemTray *m_systemTray = nullptr;

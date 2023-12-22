@@ -155,7 +155,7 @@ class QueueViewItemDelegate : public QStyledItemDelegate
     Q_OBJECT
 
 public:
-    explicit QueueViewItemDelegate(QObject *parent = Q_NULLPTR);
+    explicit QueueViewItemDelegate(QObject *parent = nullptr);
 
     // painting
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const override;
@@ -265,10 +265,10 @@ QWidget* QueueViewItemDelegate::createEditor(
     const QModelIndex &index) const
 {
     if (!index.isValid())
-        return Q_NULLPTR;
+        return nullptr;
 
     if (index.column() != col_0_file_name)
-        return Q_NULLPTR;
+        return nullptr;
 
     auto editor = new QLineEdit(parent);
     editor->setAutoFillBackground(true);
@@ -739,7 +739,7 @@ QueueItem* DownloadQueueView::getQueueItem(IDownloadItem *downloadItem)
             }
         }
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 /******************************************************************************

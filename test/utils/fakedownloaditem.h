@@ -29,15 +29,15 @@ class FakeDownloadItem : public AbstractDownloadItem
     Q_OBJECT
 
 public:
-    explicit FakeDownloadItem(QObject *parent = Q_NULLPTR);
-    explicit FakeDownloadItem(QString localFileName, QObject *parent = Q_NULLPTR);
+    explicit FakeDownloadItem(QObject *parent = nullptr);
+    explicit FakeDownloadItem(QString localFileName, QObject *parent = nullptr);
     explicit FakeDownloadItem(
             QUrl url,
             QString filename,
             qsizetype bytesTotal,
             qint64 timeIncrement,
             qint64 duration,
-            QObject *parent= Q_NULLPTR);
+            QObject *parent= nullptr);
 
     ~FakeDownloadItem() override;
 

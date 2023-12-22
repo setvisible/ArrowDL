@@ -26,7 +26,7 @@ class ComboBox : public QComboBox
     Q_OBJECT
 
 public:
-    explicit ComboBox(QWidget *parent = Q_NULLPTR);
+    explicit ComboBox(QWidget *parent = nullptr);
     ~ComboBox() override = default;
 
     QStringList history() const;
@@ -51,7 +51,7 @@ private slots:
     void showContextMenu(const QPoint &pos);
 
 private:
-    InputValidityPtr m_inputValidityPtr = Q_NULLPTR;
+    InputValidityPtr m_inputValidityPtr = nullptr;
 
     inline void colorize();
 };

@@ -39,8 +39,10 @@
 #include <QtWidgets/QMessageBox>
 
 
-AddBatchDialog::AddBatchDialog(const QUrl &url, DownloadManager *downloadManager,
-                               Settings *settings, QWidget *parent)
+AddBatchDialog::AddBatchDialog(
+    const QUrl &url,
+    DownloadManager *downloadManager,
+    Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddBatchDialog)
     , m_downloadManager(downloadManager)
@@ -128,7 +130,7 @@ void AddBatchDialog::writeUiSettings()
  */
 void AddBatchDialog::quickDownload(const QUrl &url, DownloadManager *downloadManager)
 {
-    if (downloadManager == Q_NULLPTR) {
+    if (downloadManager == nullptr) {
         return;
     }
     // Remove trailing / and \ and .

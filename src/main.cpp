@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
         qInstallMessageHandler(releaseDefaultMessageHandler);
     }
 #else
-    qInstallMessageHandler(Q_NULLPTR); // default handler (show all messages)
+    qInstallMessageHandler(nullptr); // default handler (show all messages)
 #endif
 
     QString message;

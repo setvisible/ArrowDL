@@ -45,7 +45,7 @@ private slots:
     void onSettingsChanged();
 
 private:
-    Settings *m_settings{Q_NULLPTR};
+    Settings *m_settings{nullptr};
 
     void setProxySettings(Settings *settings);
 };

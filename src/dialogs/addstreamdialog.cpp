@@ -30,8 +30,10 @@
 #include <QtCore/QSettings>
 
 
-AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManager,
-                                 Settings *settings, QWidget *parent)
+AddStreamDialog::AddStreamDialog(
+    const QUrl &url,
+    DownloadManager *downloadManager,
+    Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddStreamDialog)
     , m_downloadManager(downloadManager)

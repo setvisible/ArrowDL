@@ -120,7 +120,7 @@ class FileTableViewItemDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    explicit FileTableViewItemDelegate(QObject *parent = Q_NULLPTR);
+    explicit FileTableViewItemDelegate(QObject *parent = nullptr);
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const override;
 };
@@ -134,7 +134,7 @@ class PeerTableViewItemDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    explicit PeerTableViewItemDelegate(QObject *parent = Q_NULLPTR);
+    explicit PeerTableViewItemDelegate(QObject *parent = nullptr);
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const override;
 };
@@ -145,7 +145,7 @@ class TrackerTableViewItemDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    explicit TrackerTableViewItemDelegate(QObject *parent = Q_NULLPTR);
+    explicit TrackerTableViewItemDelegate(QObject *parent = nullptr);
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const override;
 };

@@ -86,7 +86,7 @@ class RadioItemDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    explicit RadioItemDelegate(QObject *parent = Q_NULLPTR);
+    explicit RadioItemDelegate(QObject *parent = nullptr);
 
     // painting
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;

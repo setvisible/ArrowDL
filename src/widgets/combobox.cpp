@@ -114,7 +114,7 @@ void ComboBox::setCurrentText(const QString &text)
  ******************************************************************************/
 bool ComboBox::isInputValid() const
 {
-    return m_inputValidityPtr == Q_NULLPTR || m_inputValidityPtr(this->currentText());
+    return m_inputValidityPtr == nullptr || m_inputValidityPtr(this->currentText());
 }
 
 /**
@@ -124,7 +124,7 @@ bool ComboBox::isInputValid() const
  * \li If it returns true, the combobox hightlights an error.
  * \li If it returns false, the combobox doesn't hightlight any error.
  *
- * To disable the coloration, just pass a null pointer (Q_NULLPTR) as argument,
+ * To disable the coloration, just pass a null pointer (nullptr) as argument,
  * or a functor to a method that always returns false.
  *
  * @param functor The callback method functor, or null.

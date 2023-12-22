@@ -40,8 +40,7 @@ class AddContentDialog : public QDialog
     enum Bypass { None, Start, StartPaused }; // Dirty hack to NOT show the dialog
 
 public:
-    explicit AddContentDialog(DownloadManager *downloadManager,
-                              Settings *settings, QWidget *parent);
+    explicit AddContentDialog(DownloadManager *downloadManager, Settings *settings, QWidget *parent);
     ~AddContentDialog() override;
 
     bool loadResources(const QString &message);

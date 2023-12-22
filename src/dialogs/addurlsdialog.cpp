@@ -33,8 +33,10 @@
 #include <QtWidgets/QLineEdit>
 
 
-AddUrlsDialog::AddUrlsDialog(const QString &text, DownloadManager *downloadManager,
-                             Settings *settings, QWidget *parent)
+AddUrlsDialog::AddUrlsDialog(
+    const QString &text,
+    DownloadManager *downloadManager,
+    Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddUrlsDialog)
     , m_fakeUrlLineEdit(new QLineEdit(this))

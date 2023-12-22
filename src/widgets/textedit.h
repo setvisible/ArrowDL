@@ -66,7 +66,7 @@ class TextEdit : public QPlainTextEdit
 {
     Q_OBJECT
 public:
-    explicit TextEdit(QWidget *parent = Q_NULLPTR);
+    explicit TextEdit(QWidget *parent = nullptr);
     ~TextEdit() override = default;
 
     bool isBlockModeEnabled() const;

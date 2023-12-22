@@ -23,7 +23,7 @@ class UrlLineEdit : public QLineEdit
 {
     Q_OBJECT
 public:
-    explicit UrlLineEdit(QWidget *parent = Q_NULLPTR);
+    explicit UrlLineEdit(QWidget *parent = nullptr);
     ~UrlLineEdit() override = default;
 };
 

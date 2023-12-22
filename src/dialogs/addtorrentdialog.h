@@ -32,8 +32,7 @@ class AddTorrentDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit AddTorrentDialog(const QUrl &url, DownloadManager *downloadManager,
-                              Settings *settings, QWidget *parent = Q_NULLPTR);
+    explicit AddTorrentDialog(const QUrl &url, DownloadManager *downloadManager, Settings *settings, QWidget *parent = nullptr);
     ~AddTorrentDialog() override;
 
     static bool isTorrentUrl(const QUrl &url);

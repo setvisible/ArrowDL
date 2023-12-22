@@ -103,7 +103,7 @@ void AbstractSettings::writeSettings()
  ******************************************************************************/
 QString AbstractSettings::uniqueRegisterKey(const SettingsItem *item) const
 {
-    Q_ASSERT(item != Q_NULLPTR);
+    Q_ASSERT(item != nullptr);
     switch (item->keyType) {
     case BOOL:
         return  QString("%0_bool").arg(item->key);

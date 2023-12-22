@@ -34,8 +34,7 @@ class AddStreamDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit AddStreamDialog(const QUrl &url, DownloadManager *downloadManager,
-                             Settings *settings, QWidget *parent = Q_NULLPTR);
+    explicit AddStreamDialog(const QUrl &url, DownloadManager *downloadManager, Settings *settings, QWidget *parent = nullptr);
     ~AddStreamDialog() override;
 
     static bool isStreamUrl(const QUrl &url, const Settings *settings);

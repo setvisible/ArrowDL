@@ -24,7 +24,7 @@ class FakeDownloadManager : public DownloadEngine
     Q_OBJECT
 
 public:
-    explicit FakeDownloadManager(QObject *parent = Q_NULLPTR);
+    explicit FakeDownloadManager(QObject *parent = nullptr);
     ~FakeDownloadManager();
 
     virtual IDownloadItem* createItem(const QUrl &url) override;

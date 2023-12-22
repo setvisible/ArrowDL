@@ -364,10 +364,10 @@ void MainWindow::createContextMenu()
 {
     // delete previous menu if any
     QMenu *contextMenu = ui->downloadQueueView->contextMenu();
-    ui->downloadQueueView->setContextMenu(Q_NULLPTR);
+    ui->downloadQueueView->setContextMenu(nullptr);
     if (contextMenu) {
         delete contextMenu;
-        contextMenu = Q_NULLPTR;
+        contextMenu = nullptr;
     }
 
     contextMenu = new QMenu(this);
@@ -1285,9 +1285,9 @@ void MainWindow::refreshSplitter()
     if (m_downloadManager->selection().count() == 1) {
         auto item = m_downloadManager->selection().first();
         DownloadTorrentItem *torrentItem = dynamic_cast<DownloadTorrentItem*>(item);
-        ui->torrentWidget->setTorrent(torrentItem ? torrentItem->torrent() : Q_NULLPTR);
+        ui->torrentWidget->setTorrent(torrentItem ? torrentItem->torrent() : nullptr);
     } else {
-        ui->torrentWidget->setTorrent(Q_NULLPTR);
+        ui->torrentWidget->setTorrent(nullptr);
     }
     if (!ui->torrentWidget->isEmpty() /*&& option.showable */) {
         ui->torrentWidget->show();

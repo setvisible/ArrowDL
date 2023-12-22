@@ -65,7 +65,7 @@ void DownloadEngine::startNext(IDownloadItem * /*item*/)
         foreach (auto item, m_items) {
             if (item->state() == IDownloadItem::Idle) {
                 item->resume();
-                startNext(Q_NULLPTR);
+                startNext(nullptr);
                 break;
             }
         }
@@ -120,7 +120,7 @@ void DownloadEngine::append(const QList<IDownloadItem*> &items, bool started)
     emit jobAppended(items);
 
     if (started) {
-        startNext(Q_NULLPTR);
+        startNext(nullptr);
     }
 }
 
@@ -488,12 +488,12 @@ void DownloadEngine::oneFewerSegment()
  */
 IDownloadItem* DownloadEngine::createItem(const QUrl &/*url*/)
 {
-    return Q_NULLPTR;
+    return nullptr;
 }
 /*!
  * \sa DownloadEngine::createItem()
  */
 IDownloadItem* DownloadEngine::createTorrentItem(const QUrl &/*url*/)
 {
-    return Q_NULLPTR;
+    return nullptr;
 }

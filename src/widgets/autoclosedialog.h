@@ -26,7 +26,7 @@ class AutoCloseDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AutoCloseDialog(QFrame *content, QWidget *parent = Q_NULLPTR);
+    explicit AutoCloseDialog(QFrame *content, QWidget *parent = nullptr);
 
 protected:
     void leaveEvent(QEvent *event) override;

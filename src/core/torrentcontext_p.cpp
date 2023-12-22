@@ -525,7 +525,7 @@ void TorrentContextPrivate::onNetworkReplyFinished()
         return;
     }
 
-    Torrent *torrent = Q_NULLPTR;
+    Torrent *torrent = nullptr;
     if (m_currentDownloads.contains(reply)) {
         torrent = m_currentDownloads.take(reply);
     }

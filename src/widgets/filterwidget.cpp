@@ -170,7 +170,7 @@ void FilterWidget::clearFilters()
     const QList<QCheckBox*> checkboxes = ui->checkBoxGroup->findChildren<QCheckBox*>();
     foreach (auto checkbox, checkboxes) {
         ui->checkBoxGroup->layout()->removeWidget(checkbox);
-        checkbox->setParent(Q_NULLPTR);
+        checkbox->setParent(nullptr);
         delete checkbox;
     }
 }

@@ -33,8 +33,7 @@ class AddUrlsDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit AddUrlsDialog(const QString &text, DownloadManager *downloadManager,
-                           Settings *settings, QWidget *parent = Q_NULLPTR);
+    explicit AddUrlsDialog(const QString &text, DownloadManager *downloadManager, Settings *settings, QWidget *parent = nullptr);
     ~AddUrlsDialog() override;
 
 public slots:

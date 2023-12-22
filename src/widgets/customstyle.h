@@ -23,11 +23,11 @@
 class CustomStyle : public QProxyStyle
 {
 public:
-    CustomStyle(QStyle *style = Q_NULLPTR);
+    CustomStyle(QStyle *style = nullptr);
     CustomStyle(const QString &key);
     ~CustomStyle() override = default;
 
-    void drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget = Q_NULLPTR) const override;
+    void drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget = nullptr) const override;
 
 private:
     QImage m_textureImage;

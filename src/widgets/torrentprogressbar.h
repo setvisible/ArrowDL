@@ -24,7 +24,7 @@ class TorrentProgressBar : public QProgressBar
 {
     Q_OBJECT
 public:
-    explicit TorrentProgressBar(QWidget *parent = Q_NULLPTR);
+    explicit TorrentProgressBar(QWidget *parent = nullptr);
     ~TorrentProgressBar() override = default;
 
     void clearPieces();

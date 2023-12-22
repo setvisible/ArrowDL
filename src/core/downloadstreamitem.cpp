@@ -25,7 +25,7 @@
  ******************************************************************************/
 DownloadStreamItem::DownloadStreamItem(DownloadManager *downloadManager)
     : DownloadItem(downloadManager)
-    , m_stream(Q_NULLPTR)
+    , m_stream(nullptr)
 {
 }
 
@@ -52,7 +52,7 @@ void DownloadStreamItem::resume()
 
         if (m_stream) {
             m_stream->deleteLater();
-            m_stream = Q_NULLPTR;
+            m_stream = nullptr;
         }
         m_stream = new Stream(this);
 
@@ -93,7 +93,7 @@ void DownloadStreamItem::stop()
     if (m_stream) {
         m_stream->abort();
         m_stream->deleteLater();
-        m_stream = Q_NULLPTR;
+        m_stream = nullptr;
     }
     AbstractDownloadItem::stop();
 }

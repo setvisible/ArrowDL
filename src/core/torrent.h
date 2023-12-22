@@ -33,7 +33,7 @@ class Torrent : public QObject
     Q_OBJECT
 
 public:
-    explicit Torrent(QObject *parent = Q_NULLPTR);
+    explicit Torrent(QObject *parent = nullptr);
     ~Torrent() override = default;
 
     void clear();
@@ -110,7 +110,7 @@ class SortFilterProxyModel: public QSortFilterProxyModel
 {
     Q_OBJECT
 public:
-    explicit SortFilterProxyModel(QObject *parent = Q_NULLPTR);
+    explicit SortFilterProxyModel(QObject *parent = nullptr);
 };
 
 /******************************************************************************
@@ -126,7 +126,7 @@ public:
         SortRole
     };
 
-    explicit AbstractTorrentTableModel(Torrent *parent = Q_NULLPTR);
+    explicit AbstractTorrentTableModel(Torrent *parent = nullptr);
 
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
@@ -142,7 +142,7 @@ class TorrentFileTableModel: public AbstractTorrentTableModel
 {
     Q_OBJECT
 public:
-    explicit TorrentFileTableModel(Torrent *parent = Q_NULLPTR);
+    explicit TorrentFileTableModel(Torrent *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -175,7 +175,7 @@ class TorrentPeerTableModel: public AbstractTorrentTableModel
 {
     Q_OBJECT
 public:
-    explicit TorrentPeerTableModel(Torrent *parent = Q_NULLPTR);
+    explicit TorrentPeerTableModel(Torrent *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -198,7 +198,7 @@ class TorrentTrackerTableModel: public AbstractTorrentTableModel
 {
     Q_OBJECT
 public:
-    explicit TorrentTrackerTableModel(Torrent *parent = Q_NULLPTR);
+    explicit TorrentTrackerTableModel(Torrent *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;

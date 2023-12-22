@@ -32,7 +32,7 @@ class UrlFormWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit UrlFormWidget(QWidget *parent = Q_NULLPTR);
+    explicit UrlFormWidget(QWidget *parent = nullptr);
     ~UrlFormWidget() override;
 
     void setExternalUrlLabelAndLineEdit(QLabel *urlLabel, QLineEdit *urlLineEdit);
