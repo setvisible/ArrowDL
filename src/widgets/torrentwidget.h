@@ -38,7 +38,7 @@ class TorrentWidget : public QWidget
     Q_OBJECT
 public:
     explicit TorrentWidget(QWidget *parent);
-    ~TorrentWidget() Q_DECL_OVERRIDE;
+    ~TorrentWidget() override;
 
     TorrentBaseContext* torrentContext() const;
     void setTorrentContext(TorrentBaseContext *torrentContext);
@@ -53,7 +53,7 @@ public:
     bool restoreState(const QByteArray &state, int version = 0);
 
 protected slots:
-    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent *event) override;
 
 private slots:
     void onChanged();
@@ -122,8 +122,7 @@ class FileTableViewItemDelegate : public QStyledItemDelegate
 public:
     explicit FileTableViewItemDelegate(QObject *parent = Q_NULLPTR);
 
-    void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index ) const Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const override;
 };
 
 /******************************************************************************
@@ -137,8 +136,7 @@ class PeerTableViewItemDelegate : public QStyledItemDelegate
 public:
     explicit PeerTableViewItemDelegate(QObject *parent = Q_NULLPTR);
 
-    void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index ) const Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const override;
 };
 
 /******************************************************************************
@@ -149,8 +147,7 @@ class TrackerTableViewItemDelegate : public QStyledItemDelegate
 public:
     explicit TrackerTableViewItemDelegate(QObject *parent = Q_NULLPTR);
 
-    void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index ) const Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const override;
 };
 
 #endif // WIDGETS_TORRENT_WIDGET_H

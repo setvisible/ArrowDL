@@ -25,13 +25,13 @@ class TorrentProgressBar : public QProgressBar
     Q_OBJECT
 public:
     explicit TorrentProgressBar(QWidget *parent = Q_NULLPTR);
-    ~TorrentProgressBar() Q_DECL_OVERRIDE = default;
+    ~TorrentProgressBar() override = default;
 
     void clearPieces();
     void setPieces(const QBitArray &downloadedPieces);
 
 protected:
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *) override;
 
 private:
     QBitArray m_downloadedPieces;

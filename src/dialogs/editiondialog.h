@@ -32,11 +32,11 @@ class EditionDialog : public QDialog
     Q_OBJECT
 public:
     explicit EditionDialog(const QList<IDownloadItem*> &items, QWidget *parent);
-    ~EditionDialog() Q_DECL_OVERRIDE;
+    ~EditionDialog() override;
 
 public slots:
-    void closeEvent(QCloseEvent *) Q_DECL_OVERRIDE;
-    void accept() Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *) override;
+    void accept() override;
 
 private slots:
     void onTextChanged();

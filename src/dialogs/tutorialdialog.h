@@ -31,10 +31,10 @@ class TutorialDialog : public QDialog
 
 public:
     explicit TutorialDialog(Settings *settings, QWidget *parent = Q_NULLPTR);
-    ~TutorialDialog() Q_DECL_OVERRIDE;
+    ~TutorialDialog() override;
 
 public slots:
-    void closeEvent(QCloseEvent *) Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *) override;
 
 private:
     Ui::TutorialDialog *ui;

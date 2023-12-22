@@ -42,13 +42,13 @@ class AddContentDialog : public QDialog
 public:
     explicit AddContentDialog(DownloadManager *downloadManager,
                               Settings *settings, QWidget *parent);
-    ~AddContentDialog() Q_DECL_OVERRIDE;
+    ~AddContentDialog() override;
 
     bool loadResources(const QString &message);
     void loadUrl(const QUrl &url);
 
 protected:
-    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *event) override;
 
 signals:
 #ifdef USE_QT_WEBENGINE
@@ -56,10 +56,10 @@ signals:
 #endif
 
 public slots:
-    int exec() Q_DECL_OVERRIDE;
-    void accept() Q_DECL_OVERRIDE;
+    int exec() override;
+    void accept() override;
     virtual void acceptPaused();
-    void reject() Q_DECL_OVERRIDE;
+    void reject() override;
 
 private slots:
 #ifdef USE_QT_WEBENGINE

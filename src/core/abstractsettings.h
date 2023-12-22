@@ -34,7 +34,7 @@ class AbstractSettings : public QObject
 
 public:
     explicit AbstractSettings(QObject *parent = Q_NULLPTR);
-    ~AbstractSettings() Q_DECL_OVERRIDE;
+    ~AbstractSettings() override;
 
     void beginRestoreDefault();
     void endRestoreDefault();

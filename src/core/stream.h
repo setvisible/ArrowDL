@@ -450,7 +450,7 @@ class Stream : public QObject
 
 public:
     explicit Stream(QObject *parent);
-    ~Stream() Q_DECL_OVERRIDE;
+    ~Stream() override;
 
     static QString version();
     static QString website();
@@ -546,7 +546,7 @@ class StreamCleanCache : public QObject
     Q_OBJECT
 public:
     explicit StreamCleanCache(QObject *parent);
-    ~StreamCleanCache() Q_DECL_OVERRIDE;
+    ~StreamCleanCache() override;
 
     static QUrl cacheDir();
 
@@ -583,7 +583,7 @@ public:
     using StreamDumpMap = QMap<StreamObjectId, StreamObject>;
 
     explicit StreamAssetDownloader(QObject *parent);
-    ~StreamAssetDownloader() Q_DECL_OVERRIDE;
+    ~StreamAssetDownloader() override;
 
     void runAsync(const QString &url);
     void stop();
@@ -632,7 +632,7 @@ class StreamVersion : public QThread
 public:
     StreamVersion(QObject *parent = nullptr): QThread(parent) {}
 
-    void run() Q_DECL_OVERRIDE;
+    void run() override;
     void stop();
 
 signals:
@@ -647,7 +647,7 @@ class StreamUpgrader : public QObject
     Q_OBJECT
 public:
     explicit StreamUpgrader(QObject *parent);
-    ~StreamUpgrader() Q_DECL_OVERRIDE;
+    ~StreamUpgrader() override;
 
     void runAsync();
 
@@ -670,7 +670,7 @@ class StreamExtractorListCollector : public QObject
     Q_OBJECT
 public:
     explicit StreamExtractorListCollector(QObject *parent);
-    ~StreamExtractorListCollector() Q_DECL_OVERRIDE;
+    ~StreamExtractorListCollector() override;
 
     void runAsync();
 

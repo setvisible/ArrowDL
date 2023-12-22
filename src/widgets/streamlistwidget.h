@@ -35,7 +35,7 @@ class StreamListWidget : public QWidget
 
 public:
     explicit StreamListWidget(QWidget *parent);
-    ~StreamListWidget() Q_DECL_OVERRIDE;
+    ~StreamListWidget() override;
 
     void retranslateUi();
 
@@ -54,8 +54,8 @@ public:
     QList<StreamObject> selection() const;
 
 protected slots:
-    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
-    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *event) override;
+    void changeEvent(QEvent *event) override;
 
 private slots:
     void onSelectionChanged(const QItemSelection &selected,
@@ -90,9 +90,9 @@ class StreamTableModel: public CheckableTableModel
 
 public:
     explicit StreamTableModel(QObject *parent);
-    ~StreamTableModel() Q_DECL_OVERRIDE = default;
+    ~StreamTableModel() override = default;
 
-    void clear() Q_DECL_OVERRIDE;
+    void clear() override;
 
     void retranslateUi();
 
@@ -104,10 +104,10 @@ public:
 
     QList<StreamObject> selection() const;
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
 private:
     QStringList m_headers;

@@ -40,7 +40,7 @@ public:
     };
 
     explicit StreamFormatPicker(QWidget *parent);
-    ~StreamFormatPicker() Q_DECL_OVERRIDE;
+    ~StreamFormatPicker() override;
 
     void clear();
     void setData(const StreamObject &streamObject);
@@ -89,13 +89,10 @@ public:
     explicit RadioItemDelegate(QObject *parent = Q_NULLPTR);
 
     // painting
-    void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
     // editing
-    bool editorEvent(QEvent *event, QAbstractItemModel *model,
-                     const QStyleOptionViewItem &option,
-                     const QModelIndex &index) Q_DECL_OVERRIDE;
+    bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) override;
 };
 
 #endif // WIDGETS_STREAM_FORMAT_PICKER_H

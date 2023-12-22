@@ -27,7 +27,7 @@ public:
     explicit FakeDownloadManager(QObject *parent = Q_NULLPTR);
     ~FakeDownloadManager();
 
-    virtual IDownloadItem* createItem(const QUrl &url) Q_DECL_OVERRIDE;
+    virtual IDownloadItem* createItem(const QUrl &url) override;
 
     /* Utility */
     void createFakeJobs(int count = 100);

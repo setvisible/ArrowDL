@@ -30,7 +30,7 @@ class StreamManager : public QObject
 
 public:
     explicit StreamManager(QObject *parent = nullptr);
-    ~StreamManager() Q_DECL_OVERRIDE = default;
+    ~StreamManager() override = default;
 
     Settings* settings() const;
     void setSettings(Settings *settings);

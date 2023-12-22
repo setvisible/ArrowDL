@@ -27,7 +27,7 @@ class ComboBox : public QComboBox
 
 public:
     explicit ComboBox(QWidget *parent = Q_NULLPTR);
-    ~ComboBox() Q_DECL_OVERRIDE = default;
+    ~ComboBox() override = default;
 
     QStringList history() const;
     void setHistory(const QStringList &history);

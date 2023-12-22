@@ -29,7 +29,7 @@ class SystemTray : public QWidget
     Q_OBJECT
 public:
     explicit SystemTray(QWidget *parent = Q_NULLPTR);
-    ~SystemTray() Q_DECL_OVERRIDE = default;
+    ~SystemTray() override = default;
 
     QString title() const;
     void setTitle(const QString &title);
@@ -51,8 +51,8 @@ public:
     void hideParentWidget();
 
 protected slots:
-    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
-    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *event) override;
+    void changeEvent(QEvent *event) override;
 
 private slots:
     void onSystemTrayIconActivated(QSystemTrayIcon::ActivationReason reason);

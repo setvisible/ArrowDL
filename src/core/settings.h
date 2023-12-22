@@ -61,7 +61,7 @@ class Settings : public AbstractSettings
 
 public:
     explicit Settings(QObject *parent);
-    ~Settings() Q_DECL_OVERRIDE = default;
+    ~Settings() override = default;
 
     // Tab General
     ExistingFileOption existingFileOption() const;

@@ -33,7 +33,7 @@ class DownloadQueueView : public QWidget
     Q_OBJECT
 public:
     explicit DownloadQueueView(QWidget *parent);
-    ~DownloadQueueView() Q_DECL_OVERRIDE = default;
+    ~DownloadQueueView() override = default;
 
     DownloadEngine* engine() const;
     void setEngine(DownloadEngine *downloadEngine);
@@ -54,7 +54,7 @@ signals:
     void selectionChanged();
 
 protected slots:
-    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent *event) override;
 
 private slots:
     void onJobAdded(const DownloadRange &range);

@@ -30,7 +30,7 @@ class MaskTip : public QFrame
 
 public:
     explicit MaskTip(QWidget *parent);
-    ~MaskTip() Q_DECL_OVERRIDE;
+    ~MaskTip() override;
 
     void add(const QString &text, const QString &link);
 

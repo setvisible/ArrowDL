@@ -36,14 +36,14 @@ class AddStreamDialog : public QDialog
 public:
     explicit AddStreamDialog(const QUrl &url, DownloadManager *downloadManager,
                              Settings *settings, QWidget *parent = Q_NULLPTR);
-    ~AddStreamDialog() Q_DECL_OVERRIDE;
+    ~AddStreamDialog() override;
 
     static bool isStreamUrl(const QUrl &url, const Settings *settings);
 
 public slots:
-    void accept() Q_DECL_OVERRIDE;
+    void accept() override;
     virtual void acceptPaused();
-    void reject() Q_DECL_OVERRIDE;
+    void reject() override;
 
 private slots:
     void onContinueClicked();

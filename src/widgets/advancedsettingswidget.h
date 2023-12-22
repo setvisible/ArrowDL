@@ -39,7 +39,7 @@ public:
     };
 
     explicit AdvancedSettingsWidget(QWidget *parent = Q_NULLPTR);
-    ~AdvancedSettingsWidget() Q_DECL_OVERRIDE;
+    ~AdvancedSettingsWidget() override;
 
     QMap<QString, QVariant> torrentSettings() const;
     void setTorrentSettings(const QMap<QString, QVariant> &map);
@@ -51,7 +51,7 @@ signals:
     void changed();
 
 protected:
-    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent *event) override;
 
 private slots:
     void setPresetDefault();

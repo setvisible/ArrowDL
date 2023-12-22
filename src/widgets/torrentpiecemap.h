@@ -54,18 +54,18 @@ class TorrentPieceMap : public QWidget
     Q_OBJECT
 public:
     explicit TorrentPieceMap(QWidget *parent = Q_NULLPTR);
-    ~TorrentPieceMap() Q_DECL_OVERRIDE;
+    ~TorrentPieceMap() override;
 
     Torrent *torrent() const;
     void setTorrent(Torrent *torrent);
 
 protected:
-    void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
-    void hideEvent(QHideEvent *event) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent *event) override;
+    void hideEvent(QHideEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 protected slots:
-    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent *event) override;
 
 private slots:
     void onChanged();
@@ -117,7 +117,7 @@ signals:
     void resultReady(const TorrentPieceData &pieceData);
 
 protected:
-    void run() Q_DECL_OVERRIDE;
+    void run() override;
 
 private:
     QReadWriteLock m_lock;
@@ -149,9 +149,9 @@ public:
 
     void setStatus(Status status);
 
-    QRectF boundingRect() const Q_DECL_OVERRIDE;
-    QPainterPath shape() const Q_DECL_OVERRIDE;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+    QRectF boundingRect() const override;
+    QPainterPath shape() const override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 private:
     QFont m_font = {};

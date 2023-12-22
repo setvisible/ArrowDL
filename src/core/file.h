@@ -36,7 +36,7 @@ public:
     };
 
     explicit File(QObject *parent = Q_NULLPTR);
-    ~File() Q_DECL_OVERRIDE;
+    ~File() override;
 
     static void setFileAccessManager(IFileAccessManager *manager);
 

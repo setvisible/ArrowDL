@@ -21,7 +21,7 @@ class UpdateDialog : public QDialog
 
 public:
     explicit UpdateDialog(UpdateChecker *updateChecker, QWidget *parent = Q_NULLPTR);
-    ~UpdateDialog() Q_DECL_OVERRIDE;
+    ~UpdateDialog() override;
 
 private slots:
     void check();

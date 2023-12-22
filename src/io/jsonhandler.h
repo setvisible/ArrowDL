@@ -24,11 +24,11 @@ class JsonHandler : public IFileHandler
 public:
     explicit JsonHandler() = default;
 
-    bool canRead() const Q_DECL_OVERRIDE;
-    bool canWrite() const Q_DECL_OVERRIDE;
+    bool canRead() const override;
+    bool canWrite() const override;
 
-    bool read(DownloadEngine *engine) Q_DECL_OVERRIDE;
-    bool write(const DownloadEngine &engine) Q_DECL_OVERRIDE;
+    bool read(DownloadEngine *engine) override;
+    bool write(const DownloadEngine &engine) override;
 
 private:
 };

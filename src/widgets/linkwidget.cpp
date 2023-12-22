@@ -59,7 +59,7 @@ public:
     explicit LinkWidgetItemDelegate(QObject *parent = Q_NULLPTR);
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const Q_DECL_OVERRIDE;
+               const QModelIndex &index) const override;
 };
 
 LinkWidgetItemDelegate::LinkWidgetItemDelegate(QObject *parent)

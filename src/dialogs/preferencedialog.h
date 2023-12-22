@@ -33,18 +33,18 @@ class PreferenceDialog : public QDialog
 
 public:
     explicit PreferenceDialog(Settings *settings, QWidget *parent);
-    ~PreferenceDialog() Q_DECL_OVERRIDE;
+    ~PreferenceDialog() override;
 
 signals:
     void checkUpdate();
 
 protected:
-    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
-    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *event) override;
+    void changeEvent(QEvent *event) override;
 
 public slots:
-    void accept() Q_DECL_OVERRIDE;
-    void reject() Q_DECL_OVERRIDE;
+    void accept() override;
+    void reject() override;
     virtual void restoreDefaultSettings();
 
 private slots:

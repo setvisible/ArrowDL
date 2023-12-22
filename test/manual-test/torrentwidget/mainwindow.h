@@ -33,7 +33,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 public:
     explicit MainWindow(QWidget *parent = Q_NULLPTR);
-    ~MainWindow() Q_DECL_OVERRIDE;
+    ~MainWindow() override;
 
 private slots:
     void onStartClicked();

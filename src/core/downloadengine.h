@@ -32,7 +32,7 @@ class DownloadEngine : public QObject
 
 public:
     explicit DownloadEngine(QObject *parent = nullptr);
-    ~DownloadEngine() Q_DECL_OVERRIDE;
+    ~DownloadEngine() override;
 
     /* Queue Management */
     int count() const;

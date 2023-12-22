@@ -158,19 +158,14 @@ public:
     explicit QueueViewItemDelegate(QObject *parent = Q_NULLPTR);
 
     // painting
-    void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index ) const Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const override;
 
     // editing
-    QWidget *createEditor(QWidget *parent,
-                          const QStyleOptionViewItem &option,
-                          const QModelIndex &index) const Q_DECL_OVERRIDE;
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
-    void setEditorData(QWidget *editor, const QModelIndex &index) const Q_DECL_OVERRIDE;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
 
-    void updateEditorGeometry(QWidget *editor,
-                              const QStyleOptionViewItem &option,
-                              const QModelIndex &index) const Q_DECL_OVERRIDE;
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
     void restylizeUi();
 
@@ -210,8 +205,10 @@ void QueueViewItemDelegate::restylizeUi()
     m_completedIcon.addPixmap(QIcon::fromTheme("remove-completed").pixmap(16), QIcon::Normal, QIcon::On);
 }
 
-void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
-                                  const QModelIndex &index ) const
+void QueueViewItemDelegate::paint(
+    QPainter *painter,
+    const QStyleOptionViewItem &option,
+    const QModelIndex &index ) const
 {
     QStyleOptionViewItem myOption = option;
     initStyleOption(&myOption, index);
@@ -262,9 +259,10 @@ void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
     }
 }
 
-QWidget* QueueViewItemDelegate::createEditor(QWidget *parent,
-                                             const QStyleOptionViewItem &/*option*/,
-                                             const QModelIndex &index) const
+QWidget* QueueViewItemDelegate::createEditor(
+    QWidget *parent,
+    const QStyleOptionViewItem &/*option*/,
+    const QModelIndex &index) const
 {
     if (!index.isValid())
         return Q_NULLPTR;
@@ -287,9 +285,10 @@ void QueueViewItemDelegate::setEditorData(QWidget *editor, const QModelIndex &in
     }
 }
 
-void QueueViewItemDelegate::updateEditorGeometry(QWidget *editor,
-                                                 const QStyleOptionViewItem &option,
-                                                 const QModelIndex &/*index*/) const
+void QueueViewItemDelegate::updateEditorGeometry(
+    QWidget *editor,
+    const QStyleOptionViewItem &option,
+    const QModelIndex &/*index*/) const
 {
     editor->setGeometry(option.rect);
 }

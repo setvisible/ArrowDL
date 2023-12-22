@@ -35,7 +35,7 @@ public:
         Urls
     };
     explicit HomeDialog(QWidget *parent = Q_NULLPTR);
-    ~HomeDialog() Q_DECL_OVERRIDE;
+    ~HomeDialog() override;
 
 private slots:
     void acceptContent();

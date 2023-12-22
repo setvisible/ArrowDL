@@ -28,7 +28,7 @@ class TextEditorWidget : public QWidget
     Q_OBJECT
 public:
     explicit TextEditorWidget(QWidget *parent = Q_NULLPTR);
-    ~TextEditorWidget() Q_DECL_OVERRIDE;
+    ~TextEditorWidget() override;
 
     void clear();
     void append(const QString &text);

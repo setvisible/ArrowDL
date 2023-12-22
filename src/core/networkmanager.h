@@ -31,7 +31,7 @@ class NetworkManager : public QObject
 
 public:
     explicit NetworkManager(QObject *parent);
-    ~NetworkManager() Q_DECL_OVERRIDE = default;
+    ~NetworkManager() override = default;
 
     Settings* settings() const;
     void setSettings(Settings *settings);

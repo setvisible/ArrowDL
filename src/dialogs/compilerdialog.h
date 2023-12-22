@@ -16,7 +16,7 @@ class CompilerDialog : public QDialog
 
 public:
     explicit CompilerDialog(QWidget *parent = Q_NULLPTR);
-    ~CompilerDialog() Q_DECL_OVERRIDE;
+    ~CompilerDialog() override;
 
 private slots:
     void onOkButtonReleased();

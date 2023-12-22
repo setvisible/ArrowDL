@@ -31,11 +31,11 @@ class DownloadStreamItem : public DownloadItem
 
 public:
     DownloadStreamItem(DownloadManager *downloadManager);
-    ~DownloadStreamItem() Q_DECL_OVERRIDE = default;
+    ~DownloadStreamItem() override = default;
 
-    void resume() Q_DECL_OVERRIDE;
-    void pause() Q_DECL_OVERRIDE;
-    void stop() Q_DECL_OVERRIDE;
+    void resume() override;
+    void pause() override;
+    void stop() override;
 
 private slots:
     void onMetaDataChanged();

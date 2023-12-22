@@ -31,7 +31,7 @@ public:
     enum Tab{LINK, CONTENT};
 
     explicit Model(QObject *parent);
-    ~Model() Q_DECL_OVERRIDE = default;
+    ~Model() override = default;
 
     ResourceModel* currentModel() const;
 

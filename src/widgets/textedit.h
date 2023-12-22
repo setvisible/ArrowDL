@@ -67,7 +67,7 @@ class TextEdit : public QPlainTextEdit
     Q_OBJECT
 public:
     explicit TextEdit(QWidget *parent = Q_NULLPTR);
-    ~TextEdit() Q_DECL_OVERRIDE = default;
+    ~TextEdit() override = default;
 
     bool isBlockModeEnabled() const;
 
@@ -77,12 +77,12 @@ signals:
     void blockModeEnabled(bool enabled);
 
 protected:
-    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *e) override;
+    void paintEvent(QPaintEvent *e) override;
+    void mousePressEvent(QMouseEvent *e) override;
+    void mouseMoveEvent(QMouseEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
+    void mouseDoubleClickEvent(QMouseEvent *e) override;
 
 public slots:
     void setBlockModeEnabled(bool enabled);

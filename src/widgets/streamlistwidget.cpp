@@ -53,15 +53,15 @@ public:
         : CheckableItemDelegate(parent)
     {}
 
-    ~StreamListItemDelegate() Q_DECL_OVERRIDE = default;
+    ~StreamListItemDelegate() override = default;
 
-    void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
-void StreamListItemDelegate::paint(QPainter *painter,
-                                   const QStyleOptionViewItem &option,
-                                   const QModelIndex &index) const
+void StreamListItemDelegate::paint(
+    QPainter *painter,
+    const QStyleOptionViewItem &option,
+    const QModelIndex &index) const
 {
     QStyleOptionViewItem myOption = option;
     initStyleOption(&myOption, index);

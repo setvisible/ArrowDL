@@ -31,7 +31,7 @@ class StreamWidget : public QWidget
     Q_OBJECT
 public:
     explicit StreamWidget(QWidget *parent);
-    ~StreamWidget() Q_DECL_OVERRIDE;
+    ~StreamWidget() override;
 
     void setStreamObject(const StreamObject &streamObject);
 

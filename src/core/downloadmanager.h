@@ -35,7 +35,7 @@ class DownloadManager : public DownloadEngine
 
 public:
     explicit DownloadManager(QObject *parent);
-    ~DownloadManager() Q_DECL_OVERRIDE;
+    ~DownloadManager() override;
 
     /* Settings */
     Settings* settings() const;
@@ -45,8 +45,8 @@ public:
     NetworkManager* networkManager() const;
 
     /* Utility */
-    IDownloadItem* createItem(const QUrl &url) Q_DECL_OVERRIDE;
-    IDownloadItem* createTorrentItem(const QUrl &url) Q_DECL_OVERRIDE;
+    IDownloadItem* createItem(const QUrl &url) override;
+    IDownloadItem* createTorrentItem(const QUrl &url) override;
 
 private slots:
     void onSettingsChanged();

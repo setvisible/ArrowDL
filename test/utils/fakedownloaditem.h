@@ -39,23 +39,23 @@ public:
             qint64 duration,
             QObject *parent= Q_NULLPTR);
 
-    ~FakeDownloadItem() Q_DECL_OVERRIDE;
+    ~FakeDownloadItem() override;
 
-    virtual QUrl sourceUrl() const Q_DECL_OVERRIDE;
+    virtual QUrl sourceUrl() const override;
     void setSourceUrl(const QUrl &resourceUrl);
 
-    virtual QString localFileName() const Q_DECL_OVERRIDE;
+    virtual QString localFileName() const override;
 
-    virtual QString localFullFileName() const Q_DECL_OVERRIDE;
-    virtual QString localFilePath() const Q_DECL_OVERRIDE;
+    virtual QString localFullFileName() const override;
+    virtual QString localFilePath() const override;
 
-    virtual QUrl localFileUrl() const Q_DECL_OVERRIDE;
-    virtual QUrl localDirUrl() const Q_DECL_OVERRIDE;
+    virtual QUrl localFileUrl() const override;
+    virtual QUrl localDirUrl() const override;
 
 public slots:
-    virtual void resume() Q_DECL_OVERRIDE;
-    virtual void pause() Q_DECL_OVERRIDE;
-    virtual void stop() Q_DECL_OVERRIDE;
+    virtual void resume() override;
+    virtual void pause() override;
+    virtual void stop() override;
 
 private slots:
 

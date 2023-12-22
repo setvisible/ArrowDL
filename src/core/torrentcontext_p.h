@@ -49,7 +49,7 @@ class TorrentContextPrivate : public QObject
 
 public:
     explicit TorrentContextPrivate(TorrentContext *qq = Q_NULLPTR);
-    ~TorrentContextPrivate() Q_DECL_OVERRIDE;
+    ~TorrentContextPrivate() override;
 
     QList<TorrentSettingItem> allSettingsKeysAndValues() const;
     QList<TorrentSettingItem> presetDefault() const;
@@ -144,7 +144,7 @@ class WorkerThread : public QThread
 public:
     WorkerThread(QObject *parent = nullptr);
 
-    void run() Q_DECL_OVERRIDE;
+    void run() override;
     void stop();
 
     lt::settings_pack settings() const;
