@@ -24,8 +24,7 @@ using namespace Qt::Literals::StringLiterals;
 
 ResourceModel::ResourceModel(QObject *parent) : CheckableTableModel(parent)
 {
-    connect(this, SIGNAL(checkStateChanged(QModelIndex , bool)),
-            this, SLOT(onCheckStateChanged(QModelIndex , bool)));
+    connect(this, SIGNAL(checkStateChanged(QModelIndex , bool)), this, SLOT(onCheckStateChanged(QModelIndex , bool)));
     connect(this, SIGNAL(resourceChanged()), this, SLOT(onResourceChanged()));
 
     retranslateUi();

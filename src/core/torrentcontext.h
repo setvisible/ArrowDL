@@ -77,7 +77,6 @@ public:
     QList<TorrentSettingItem> presetMinCache() const;
     QList<TorrentSettingItem> presetHighPerf() const;
 
-
     /* Session */
     bool isEnabled() const;
     void setEnabled(bool enabled);

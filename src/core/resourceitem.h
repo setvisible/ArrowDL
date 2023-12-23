@@ -115,8 +115,7 @@ private:
 
     inline QString parseMagnetUrl(const QString &url) const;
 
-    inline static QString localFile(const QString &destination, const QUrl &url,
-                                    const QString &customFileName, const QString &mask);
+    inline static QString localFile(const QString &destination, const QUrl &url, const QString &customFileName, const QString &mask);
 };
 
 #endif // CORE_RESOURCE_ITEM_H

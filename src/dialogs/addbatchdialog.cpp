@@ -65,19 +65,23 @@ AddBatchDialog::AddBatchDialog(
     ui->urlLineEdit->setClearButtonEnabled(true);
 
     ui->titleListLabel->setToolTip(
-                QString("<html><head/><body><p>"
-                        "%0"
-                        "</p><p>- "
-                        "%1"
-                        "</p><p>- "
-                        "%2"
-                        "</p><p>- "
-                        "%3"
-                        "</p></body></html>").arg(
-                    tr("Batch descriptors:"),
-                    tr("Must start with '[' or '('"),
-                    tr("Must contain two numbers, separated by ':', '-' or a space character"),
-                    tr("Must end with ']' or ')'")));
+        QString(
+            "<html><head/><body><p>"
+            "%0"
+            "</p><p>- "
+            "%1"
+            "</p><p>- "
+            "%2"
+            "</p><p>- "
+            "%3"
+            "</p></body></html>"
+            ).arg(
+                tr("Batch descriptors:"),
+                tr("Must start with '[' or '('"),
+                tr("Must contain two numbers, separated by ':', '-' or a space character"),
+                tr("Must end with ']' or ')'")
+                )
+        );
 
     if (m_settings && m_settings->isCustomBatchEnabled()) {
         ui->tagButton_Custom->setText(m_settings->customBatchButtonLabel());
@@ -86,8 +90,7 @@ AddBatchDialog::AddBatchDialog(
         ui->tagButton_Custom->setVisible(false);
     }
 
-    connect(ui->urlLineEdit, SIGNAL(customContextMenuRequested(const QPoint &)),
-            this, SLOT(showContextMenu(const QPoint &)));
+    connect(ui->urlLineEdit, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(showContextMenu(const QPoint &)));
 
     connect(ui->tagButton_1_10, SIGNAL(released()), this, SLOT(insert_1_to_10()));
     connect(ui->tagButton_1_100, SIGNAL(released()), this, SLOT(insert_1_to_100()));

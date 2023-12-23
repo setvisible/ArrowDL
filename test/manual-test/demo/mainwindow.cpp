@@ -40,7 +40,6 @@
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
   , m_downloadManager(new FakeDownloadManager(this))
-
 {
     ui->setupUi(this);
 
@@ -51,15 +50,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     /* Connect the SceneManager to the MainWindow. */
     /* The SceneManager centralizes the changes. */
-    QObject::connect(m_downloadManager, SIGNAL(jobAppended(DownloadRange)),
-                     this, SLOT(onJobAddedOrRemoved(DownloadRange)));
-    QObject::connect(m_downloadManager, SIGNAL(jobRemoved(DownloadRange)),
-                     this, SLOT(onJobAddedOrRemoved(DownloadRange)));
-    QObject::connect(m_downloadManager, SIGNAL(jobStateChanged(IDownloadItem*)),
-                     this, SLOT(onJobStateChanged(IDownloadItem*)));
-    QObject::connect(m_downloadManager, SIGNAL(selectionChanged()),
-                     this, SLOT(onSelectionChanged()));
-
+    QObject::connect(m_downloadManager, SIGNAL(jobAppended(DownloadRange)), this, SLOT(onJobAddedOrRemoved(DownloadRange)));
+    QObject::connect(m_downloadManager, SIGNAL(jobRemoved(DownloadRange)), this, SLOT(onJobAddedOrRemoved(DownloadRange)));
+    QObject::connect(m_downloadManager, SIGNAL(jobStateChanged(IDownloadItem*)), this, SLOT(onJobStateChanged(IDownloadItem*)));
+    QObject::connect(m_downloadManager, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 
     /* Connect the rest of the GUI widgets together (selection, focus, etc.) */
     createActions();

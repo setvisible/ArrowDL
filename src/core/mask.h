@@ -28,13 +28,8 @@ class Mask : public QObject
 public:
     static QUrl fromUserInput(const QString &input);
 
-    static QString interpret(const QString &input,
-                             const QString &customFileName,
-                             const QString &mask);
-
-    static QString interpret(const QUrl &url,
-                             const QString &customFileName,
-                             const QString &mask);
+    static QString interpret(const QString &input, const QString &customFileName, const QString &mask);
+    static QString interpret(const QUrl &url, const QString &customFileName, const QString &mask);
 
     static QStringList tags();
     static QString description(const QString &tag);

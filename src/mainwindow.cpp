@@ -108,7 +108,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     m_streamManager->setSettings(m_settings);
 
-    TorrentContext& torrentContext =  TorrentContext::getInstance();
+    TorrentContext& torrentContext = TorrentContext::getInstance();
     torrentContext.setSettings(m_settings);
     torrentContext.setNetworkManager(m_downloadManager->networkManager());
 

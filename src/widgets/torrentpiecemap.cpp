@@ -80,8 +80,8 @@ TorrentPieceMap::TorrentPieceMap(QWidget *parent) : QWidget(parent)
     colorize(ui->boxVerified,     TorrentPieceItem::Status::Verified);
 
     ui->priorityLabel->setText(
-                tr("Priority: %0=high %1=normal %2=low %3=ignore").arg(
-                    QString("³"), QString("²"), QString("¹"), QString("°")));
+        tr("Priority: %0=high %1=normal %2=low %3=ignore").arg(
+            QString("³"), QString("²"), QString("¹"), QString("°")));
 
     /* Calculate metrics */
 

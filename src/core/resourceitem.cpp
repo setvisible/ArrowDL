@@ -284,18 +284,19 @@ inline QString ResourceItem::localMagnetFile(const QString &customFileName) cons
 inline QString ResourceItem::parseMagnetUrl(const QString &url) const
 {
     /// todo move to Mask::interpretMagnet ?
-    QRegularExpression regex("^"
-                  + QRegularExpression::escape("magnet:?")
-                  + ".*"+ QRegularExpression::escape("&") + "?"
-                  + QRegularExpression::escape("dn=")
-                  // *********************
-                  // captured group #1
-                  // rem: [^A] means anything not A
-                  + "([^" + QRegularExpression::escape("&") + "]*)"
-                  // *********************
-                  + "(" + QRegularExpression::escape("&") + ".*)?"
-                  + "$"
-                  );
+    QRegularExpression regex(
+        "^"
+        % QRegularExpression::escape("magnet:?")
+        % ".*"% QRegularExpression::escape("&") % "?"
+        % QRegularExpression::escape("dn=")
+        // *********************
+        // captured group #1
+        // rem: [^A] means anything not A
+        % "([^" % QRegularExpression::escape("&") % "]*)"
+        // *********************
+        % "(" % QRegularExpression::escape("&") % ".*)?"
+        % "$");
+
     QRegularExpressionMatch match = regex.match(url);
     if (match.hasMatch()) {
         QString displayName = match.captured(1);

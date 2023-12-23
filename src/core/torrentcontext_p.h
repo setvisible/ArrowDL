@@ -179,29 +179,20 @@ private:
 
     void signalizeAlert(lt::alert* alert);
 
-
-    inline void onTorrentAdded(const lt::torrent_handle &handle,
-                               const lt::add_torrent_params &params,
-                               const lt::error_code &error);
+    inline void onTorrentAdded(const lt::torrent_handle &handle, const lt::add_torrent_params &params, const lt::error_code &error);
     inline void onMetadataReceived(const lt::torrent_handle &handle);
     inline void onStateUpdated(const std::vector<lt::torrent_status> &status);
 
-
-    inline void signalizeDataUpdated(const lt::torrent_handle &handle,
-                                     const lt::add_torrent_params &params);
+    inline void signalizeDataUpdated(const lt::torrent_handle &handle, const lt::add_torrent_params &params);
     inline void signalizeStatusUpdated(const lt::torrent_status &status);
-
 
     inline TorrentInitialMetaInfo toTorrentInitialMetaInfo(std::shared_ptr<lt::torrent_info const> ti) const;
     inline TorrentMetaInfo toTorrentMetaInfo(const lt::add_torrent_params &params) const;
     inline TorrentHandleInfo toTorrentHandleInfo(const lt::torrent_handle &handle) const;
 
-
     inline QString toString(const std::string &str) const;
     inline QString toString(const lt::string_view &s) const;
-
     inline QString toString(const lt::sha1_hash &hash) const;
-
     inline QDateTime toDateTime(const std::time_t &time) const;
 
     inline void log(lt::alert *s);

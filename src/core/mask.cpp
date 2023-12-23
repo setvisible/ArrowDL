@@ -176,17 +176,19 @@ QUrl Mask::fromUserInput(const QString &input)
     return url;
 }
 
-QString Mask::interpret(const QString &input,
-                        const QString &customFileName,
-                        const QString &mask)
+QString Mask::interpret(
+    const QString &input,
+    const QString &customFileName,
+    const QString &mask)
 {
     const QUrl url = fromUserInput(input);
     return interpret(url, customFileName, mask);
 }
 
-QString Mask::interpret(const QUrl &url,
-                        const QString &customFileName,
-                        const QString &mask)
+QString Mask::interpret(
+    const QUrl &url,
+    const QString &customFileName,
+    const QString &mask)
 {
     if (!url.isValid()) {
         return QString();
