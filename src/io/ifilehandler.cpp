@@ -36,6 +36,6 @@ QIODevice *IFileHandler::device() const
 
 bool IFileHandler::write(const DownloadEngine &engine)
 {
-    Q_UNUSED(engine);
+    Q_UNUSED(engine)
     return false;
 }

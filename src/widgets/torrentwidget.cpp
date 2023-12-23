@@ -542,8 +542,9 @@ void TorrentWidget::setupContextMenus()
 
 /******************************************************************************
  ******************************************************************************/
-void TorrentWidget::showContextMenuFileTable(const QPoint &/*pos*/)
+void TorrentWidget::showContextMenuFileTable(const QPoint &pos)
 {
+    Q_UNUSED(pos)
     auto contextMenu = new QMenu(this);
 
     QAction actionOpen(tr("Open"), contextMenu);
@@ -639,8 +640,9 @@ void TorrentWidget::setPriority(TorrentFileInfo::Priority priority)
 
 /******************************************************************************
  ******************************************************************************/
-void TorrentWidget::showContextMenuPeerTable(const QPoint &/*pos*/)
+void TorrentWidget::showContextMenuPeerTable(const QPoint &pos)
 {
+    Q_UNUSED(pos)
     QMenu *contextMenu = new QMenu(this);
 
     QAction actionAdd(tr("Add Peer..."), contextMenu);

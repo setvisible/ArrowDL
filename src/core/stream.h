@@ -77,7 +77,7 @@ private:
 };
 
 /* Enable the type to be used with QVariant. */
-Q_DECLARE_METATYPE(StreamFormatId);
+Q_DECLARE_METATYPE(StreamFormatId)
 
 inline size_t qHash(const StreamFormatId &key, size_t seed)
 {
@@ -705,8 +705,10 @@ char *toString(const StreamObject &streamObject);
 #endif
 
 /* Enable the type to be used with QVariant. */
-Q_DECLARE_METATYPE(StreamFormat);
-Q_DECLARE_METATYPE(StreamObject);
+Q_DECLARE_METATYPE(StreamFormat)
+
+Q_DECLARE_METATYPE(StreamObject)
+
 
 #ifdef QT_DEBUG
 QT_BEGIN_NAMESPACE
