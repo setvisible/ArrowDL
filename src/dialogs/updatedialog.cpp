@@ -47,14 +47,10 @@ UpdateDialog::UpdateDialog(UpdateChecker *updateChecker, QWidget *parent)
     connect(ui->checkButton, SIGNAL(released()), this, SLOT(check()));
     connect(ui->installButton, SIGNAL(released()), this, SLOT(install()));
 
-    connect(m_updateChecker, SIGNAL(updateAvailable(UpdateChecker::ChangeLog)),
-            this, SLOT(onUpdateAvailable(UpdateChecker::ChangeLog)));
-    connect(m_updateChecker, SIGNAL(downloadProgress(qsizetype, qsizetype)),
-            this, SLOT(onDownloadProgress(qsizetype, qsizetype)));
-    connect(m_updateChecker, SIGNAL(updateDownloadFinished()),
-            this, SLOT(onUpdateDownloadFinished()));
-    connect(m_updateChecker, SIGNAL(updateError(QString)),
-            this, SLOT(onUpdateError(QString)));
+    connect(m_updateChecker, SIGNAL(updateAvailable(UpdateChecker::ChangeLog)), this, SLOT(onUpdateAvailable(UpdateChecker::ChangeLog)));
+    connect(m_updateChecker, SIGNAL(downloadProgress(qsizetype,qsizetype)), this, SLOT(onDownloadProgress(qsizetype,qsizetype)));
+    connect(m_updateChecker, SIGNAL(updateDownloadFinished()), this, SLOT(onUpdateDownloadFinished()));
+    connect(m_updateChecker, SIGNAL(updateError(QString)), this, SLOT(onUpdateError(QString)));
 
     ui->stackedWidget->setCurrentWidget(ui->pageAlreadyUpToDate);
     ui->progressBar->setVisible(false);

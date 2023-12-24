@@ -198,16 +198,15 @@ void UpdateChecker::downloadAndInstallUpdate()
         return;
     }
 
-    connect(reply, SIGNAL(downloadProgress(qint64, qint64)),
-            this, SLOT(onBinaryProgress(qint64, qint64)));
-    connect(reply, SIGNAL(finished()),
-            this, SLOT(onBinaryFinished()));
+    connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onBinaryProgress(qint64,qint64)));
+    connect(reply, SIGNAL(finished()), this, SLOT(onBinaryFinished()));
 }
 
 void UpdateChecker::onBinaryProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
-    emit downloadProgress(static_cast<qsizetype>(bytesReceived),
-                          static_cast<qsizetype>(bytesTotal));
+    emit downloadProgress(
+        static_cast<qsizetype>(bytesReceived),
+        static_cast<qsizetype>(bytesTotal));
 }
 
 void UpdateChecker::onBinaryFinished()

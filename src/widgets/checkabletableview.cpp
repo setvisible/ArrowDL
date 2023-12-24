@@ -52,12 +52,10 @@ CheckableTableView::CheckableTableView(QWidget *parent) : QTableView(parent)
     hHeader->setDefaultAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     hHeader->setHighlightSections(false);
 
-    connect(hHeader, SIGNAL(sectionCountChanged(int,int)),
-            this, SLOT(onSectionCountChanged(int,int)));
+    connect(hHeader, SIGNAL(sectionCountChanged(int,int)), this, SLOT(onSectionCountChanged(int,int)));
 
     setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
-            this, SLOT(showContextMenu(const QPoint &)));
+    connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
 }
 
 /******************************************************************************

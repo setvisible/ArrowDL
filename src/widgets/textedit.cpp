@@ -107,8 +107,7 @@ void BlockSelector::setPosition(int line, int column, MoveMode anchor)
  ******************************************************************************/
 TextEdit::TextEdit(QWidget *parent) : QPlainTextEdit(parent)
 {
-    connect(this, SIGNAL(updateRequest(const QRect &, int)),
-            this, SLOT(onUpdateRequest(const QRect &, int)));
+    connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(onUpdateRequest(QRect,int)));
 
     setCursorWidth(2);
     setBlockModeEnabled(false);

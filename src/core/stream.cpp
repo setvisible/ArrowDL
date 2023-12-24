@@ -94,7 +94,7 @@ Stream::Stream(QObject *parent) : QObject(parent)
 #if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
     connect(m_process, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onError(QProcess::ProcessError)));
 #endif
-    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinished(int, QProcess::ExitStatus)));
+    connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinished(int,QProcess::ExitStatus)));
     connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onStandardOutputReady()));
     connect(m_process, SIGNAL(readyReadStandardError()), this, SLOT(onStandardErrorReady()));
 
@@ -662,7 +662,7 @@ StreamCleanCache::StreamCleanCache(QObject *parent) : QObject(parent)
 #if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
     connect(m_process, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onError(QProcess::ProcessError)));
 #endif
-    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinished(int, QProcess::ExitStatus)));
+    connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinished(int,QProcess::ExitStatus)));
 }
 
 StreamCleanCache::~StreamCleanCache()
@@ -740,8 +740,8 @@ StreamAssetDownloader::StreamAssetDownloader(QObject *parent) : QObject(parent)
     connect(m_processDumpJson, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onError(QProcess::ProcessError)));
     connect(m_processFlatList, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onError(QProcess::ProcessError)));
 #endif
-    connect(m_processDumpJson, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinishedDumpJson(int, QProcess::ExitStatus)));
-    connect(m_processFlatList, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinishedFlatList(int, QProcess::ExitStatus)));
+    connect(m_processDumpJson, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinishedDumpJson(int,QProcess::ExitStatus)));
+    connect(m_processFlatList, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinishedFlatList(int,QProcess::ExitStatus)));
 
     // Cache cleaner
     connect(m_streamCleanCache, SIGNAL(done()), this, SLOT(onCacheCleaned()));
@@ -1211,7 +1211,7 @@ StreamUpgrader::StreamUpgrader(QObject *parent) : QObject(parent)
 #if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
     connect(m_process, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onError(QProcess::ProcessError)));
 #endif
-    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinished(int, QProcess::ExitStatus)));
+    connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinished(int,QProcess::ExitStatus)));
     connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onStandardOutputReady()));
     connect(m_process, SIGNAL(readyReadStandardError()), this, SLOT(onStandardErrorReady()));
 }
@@ -1279,8 +1279,8 @@ StreamExtractorListCollector::StreamExtractorListCollector(QObject *parent) : QO
     connect(m_processExtractors, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onError(QProcess::ProcessError)));
     connect(m_processDescriptions, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onError(QProcess::ProcessError)));
 #endif
-    connect(m_processExtractors, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinishedExtractors(int, QProcess::ExitStatus)));
-    connect(m_processDescriptions, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinishedDescriptions(int, QProcess::ExitStatus)));
+    connect(m_processExtractors, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinishedExtractors(int,QProcess::ExitStatus)));
+    connect(m_processDescriptions, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinishedDescriptions(int,QProcess::ExitStatus)));
 }
 
 StreamExtractorListCollector::~StreamExtractorListCollector()

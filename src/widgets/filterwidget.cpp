@@ -62,12 +62,9 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
 
     clearFilters();
 
-    connect(ui->fastFilteringOnlyCheckBox, SIGNAL(stateChanged(int)),
-            this, SLOT(onFilterChanged(int)));
-    connect(ui->fastFilteringComboBox, SIGNAL(currentTextChanged(QString)),
-            this, SLOT(onFilterChanged(QString)));
-    connect(ui->fastFilteringTipToolButton, SIGNAL(released()),
-            this, SLOT(onFilterTipToolReleased()));
+    connect(ui->fastFilteringOnlyCheckBox, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));
+    connect(ui->fastFilteringComboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(onFilterChanged(QString)));
+    connect(ui->fastFilteringTipToolButton, SIGNAL(released()), this, SLOT(onFilterTipToolReleased()));
 }
 
 FilterWidget::~FilterWidget()
@@ -151,8 +148,7 @@ void FilterWidget::onFilterTipToolReleased()
 {
     auto tip = new FilterTip(this);
 
-    connect(tip, SIGNAL(linkActivated(QString)),
-            this, SLOT(onFilterTipToolLinkActivated(QString)));
+    connect(tip, SIGNAL(linkActivated(QString)), this, SLOT(onFilterTipToolLinkActivated(QString)));
 
     AutoCloseDialog dialog(tip, ui->fastFilteringTipToolButton);
     dialog.exec();

@@ -46,13 +46,11 @@ AdvancedSettingsWidget::AdvancedSettingsWidget(QWidget *parent) : QWidget(parent
     connect(ui->searchLineEdit, &QLineEdit::textChanged, this, &AdvancedSettingsWidget::setFilter);
     connect(ui->searchClearToolButton, &QToolButton::released, ui->searchLineEdit, &QLineEdit::clear);
 
-    connect(ui->modifiedOnlyCheckBox, &QCheckBox::stateChanged,
-            this, &AdvancedSettingsWidget::showModifiedOnly);
+    connect(ui->modifiedOnlyCheckBox, &QCheckBox::stateChanged, this, &AdvancedSettingsWidget::showModifiedOnly);
 
     /* Context menu */
     ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->treeWidget, &QTreeWidget::customContextMenuRequested,
-            this, &AdvancedSettingsWidget::showContextMenu);
+    connect(ui->treeWidget, &QTreeWidget::customContextMenuRequested, this, &AdvancedSettingsWidget::showContextMenu);
 
     /*
      * Workaround to make column 1 only editable:
@@ -61,10 +59,8 @@ AdvancedSettingsWidget::AdvancedSettingsWidget(QWidget *parent) : QWidget(parent
      * 3) Connect QTreeWidget's "doubleClicked" signal to conditional edit slot
      */
     ui->treeWidget->setEditTriggers(QTreeWidget::NoEditTriggers);
-    connect(ui->treeWidget, &QTreeWidget::doubleClicked,
-            this, &AdvancedSettingsWidget::edit);
-    connect(ui->treeWidget, &QTreeWidget::itemChanged,
-            this, &AdvancedSettingsWidget::format);
+    connect(ui->treeWidget, &QTreeWidget::doubleClicked, this, &AdvancedSettingsWidget::edit);
+    connect(ui->treeWidget, &QTreeWidget::itemChanged, this, &AdvancedSettingsWidget::format);
 
     populate();
     setupPresetToolTip();

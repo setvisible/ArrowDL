@@ -67,7 +67,7 @@ void DownloadStreamItem::resume()
         m_stream->setConfig(resource()->streamConfig());
 
         connect(m_stream, SIGNAL(downloadMetadataChanged()), this, SLOT(onMetaDataChanged()));
-        connect(m_stream, SIGNAL(downloadProgress(qsizetype, qsizetype)), this, SLOT(onDownloadProgress(qsizetype, qsizetype)));
+        connect(m_stream, SIGNAL(downloadProgress(qsizetype,qsizetype)), this, SLOT(onDownloadProgress(qsizetype,qsizetype)));
         connect(m_stream, SIGNAL(downloadError(QString)), this, SLOT(onError(QString)));
         connect(m_stream, SIGNAL(downloadFinished()), this, SLOT(onFinished()));
 

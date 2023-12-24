@@ -85,11 +85,9 @@ void DownloadItem::resume()
 
         /* Signals/Slots of QNetworkReply */
         connect(d->reply, SIGNAL(metaDataChanged()), this, SLOT(onMetaDataChanged()));
-        connect(d->reply, SIGNAL(downloadProgress(qint64, qint64)),
-                this, SLOT(onDownloadProgress(qint64, qint64)));
+        connect(d->reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
         connect(d->reply, SIGNAL(redirected(QUrl)), this, SLOT(onRedirected(QUrl)));
-        connect(d->reply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)),
-                this, SLOT(onErrorOccurred(QNetworkReply::NetworkError)));
+        connect(d->reply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onErrorOccurred(QNetworkReply::NetworkError)));
         connect(d->reply, SIGNAL(finished()), this, SLOT(onFinished()));
 
         /* Signals/Slots of QIODevice */

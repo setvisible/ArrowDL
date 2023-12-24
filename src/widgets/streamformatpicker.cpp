@@ -98,8 +98,7 @@ StreamFormatPicker::StreamFormatPicker(QWidget *parent) : QWidget(parent)
     connect(ui->buttonVideo, SIGNAL(released()), this, SLOT(onButtonBarClicked()));
     connect(ui->buttonOther, SIGNAL(released()), this, SLOT(onButtonBarClicked()));
 
-    connect(ui->listView->selectionModel(), SIGNAL(currentChanged(QModelIndex, QModelIndex)),
-            this, SLOT(onCurrentChanged(QModelIndex, QModelIndex)));
+    connect(ui->listView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onCurrentChanged(QModelIndex,QModelIndex)));
     connect(ui->audioComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
     connect(ui->videoComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
 

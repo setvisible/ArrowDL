@@ -133,9 +133,9 @@ void PreferenceDialog::connectUi()
     connect(ui->httpReferringPageCheckBox, SIGNAL(toggled(bool)), ui->httpReferringPageLineEdit, SLOT(setEnabled(bool)));
 
     // Tab Filters
-    connect(ui->filterTableWidget, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(filterContextMenu(const QPoint &)));
+    connect(ui->filterTableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(filterContextMenu(QPoint)));
     connect(ui->filterTableWidget, SIGNAL(itemSelectionChanged()), this, SLOT(filterSelectionChanged()));
-    connect(ui->filterTableWidget, SIGNAL(itemChanged(QTableWidgetItem *)), this, SLOT(filterChanged(QTableWidgetItem *)));
+    connect(ui->filterTableWidget, SIGNAL(itemChanged(QTableWidgetItem*)), this, SLOT(filterChanged(QTableWidgetItem*)));
 
     connect(ui->filterAddButton, SIGNAL(released()), this, SLOT(filterAdded()));
     connect(ui->filterUpdateButton, SIGNAL(released()), this, SLOT(filterUpdated()));

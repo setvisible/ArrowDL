@@ -213,7 +213,7 @@ void AddContentDialog::loadUrl(const QUrl &url)
         qInfo("Loading URL. HTML parser is Google Gumbo.");
         NetworkManager *networkManager = m_downloadManager->networkManager();
         QNetworkReply *reply = networkManager->get(m_url);
-        connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(onDownloadProgress(qint64, qint64)));
+        connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
         connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
 #endif
         setProgressInfo(0, tr("Connecting..."));

@@ -121,8 +121,8 @@ int main(int argc, char *argv[])
     }
 
     application.setActivationWindow(&window);
-    QObject::connect(&application, SIGNAL(messageReceived(const QString&)),
-                     &window, SLOT(handleMessage(const QString&)));
+
+    QObject::connect(&application, SIGNAL(messageReceived(QString)), &window, SLOT(handleMessage(QString)));
 
     return QtSingleApplication::exec();
 }

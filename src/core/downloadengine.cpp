@@ -102,8 +102,7 @@ void DownloadEngine::append(const QList<IDownloadItem*> &items, bool started)
 
         connect(downloadItem, SIGNAL(changed()), this, SLOT(onChanged()));
         connect(downloadItem, SIGNAL(finished()), this, SLOT(onFinished()));
-        connect(downloadItem, SIGNAL(renamed(QString, QString, bool)),
-                this, SLOT(onRenamed(QString, QString, bool)));
+        connect(downloadItem, SIGNAL(renamed(QString,QString,bool)), this, SLOT(onRenamed(QString,QString,bool)));
 
         if (started) {
             if (downloadItem->isResumable()) {

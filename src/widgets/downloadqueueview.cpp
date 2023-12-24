@@ -419,8 +419,8 @@ DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
   , m_queueView(new QueueView(this))
 {
     this->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
-            this, SLOT(showContextMenu(const QPoint &)));
+
+    connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
 
     // Main queue list
     m_queueView->setItemDelegate(new QueueViewItemDelegate(this));
@@ -435,17 +435,13 @@ DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
     // Edit with second click
     m_queueView->setEditTriggers(QAbstractItemView::SelectedClicked);
 
-    connect(m_queueView, SIGNAL(itemSelectionChanged()),
-            this, SLOT(onQueueViewItemSelectionChanged()));
-    connect(m_queueView, SIGNAL(doubleClicked(QModelIndex)),
-            this, SLOT(onQueueViewDoubleClicked(QModelIndex)));
+    connect(m_queueView, SIGNAL(itemSelectionChanged()), this, SLOT(onQueueViewItemSelectionChanged()));
+    connect(m_queueView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onQueueViewDoubleClicked(QModelIndex)));
 
-    connect(m_queueView->itemDelegate(), SIGNAL(commitData(QWidget*)),
-            this, SLOT(onQueueItemCommitData(QWidget*)));
+    connect(m_queueView->itemDelegate(), SIGNAL(commitData(QWidget*)), this, SLOT(onQueueItemCommitData(QWidget*)));
 
     // Drag-n-Drop
-    connect(m_queueView, SIGNAL(dropped(QueueItem*)),
-            this, SLOT(onQueueItemDropped(QueueItem*)));
+    connect(m_queueView, SIGNAL(dropped(QueueItem*)), this, SLOT(onQueueItemDropped(QueueItem*)));
 
     QLayout* layout = new QGridLayout(this);
     layout->addWidget(m_queueView);

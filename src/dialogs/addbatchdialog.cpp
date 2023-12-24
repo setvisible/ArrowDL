@@ -50,7 +50,9 @@ AddBatchDialog::AddBatchDialog(
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Add Batch and Single File")));
+    using namespace Qt::Literals::StringLiterals;
+
+    setWindowTitle(STR_APPLICATION_NAME % " - " % tr("Add Batch and Single File"));
 
     Theme::setIcons(this, { {ui->logo, "add-batch"} });
 
@@ -90,7 +92,7 @@ AddBatchDialog::AddBatchDialog(
         ui->tagButton_Custom->setVisible(false);
     }
 
-    connect(ui->urlLineEdit, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(showContextMenu(const QPoint &)));
+    connect(ui->urlLineEdit, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
 
     connect(ui->tagButton_1_10, SIGNAL(released()), this, SLOT(insert_1_to_10()));
     connect(ui->tagButton_1_100, SIGNAL(released()), this, SLOT(insert_1_to_100()));

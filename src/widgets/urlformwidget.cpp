@@ -68,8 +68,7 @@ void UrlFormWidget::setExternalUrlLabelAndLineEdit(QLabel *urlLabel, QLineEdit *
         ui->urlLabel->setText(urlLabel->text());
         ui->urlLineEdit->setText(urlLineEdit->text());
 
-        connect(urlLineEdit, SIGNAL(textChanged(const QString &)),
-                ui->urlLineEdit, SLOT(setText(const QString &)));
+        connect(urlLineEdit, SIGNAL(textChanged(QString)), ui->urlLineEdit, SLOT(setText(QString)));
 
         urlLabel->setMinimumWidth(ui->urlLabel->width());
     }

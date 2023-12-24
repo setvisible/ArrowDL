@@ -93,18 +93,13 @@ StreamListWidget::StreamListWidget(QWidget *parent) : QWidget(parent)
 
     adjustSize();
 
-    connect(m_playlistModel, SIGNAL(checkStateChanged(QModelIndex, bool)),
-            this, SLOT(onCheckStateChanged(QModelIndex, bool)));
+    connect(m_playlistModel, SIGNAL(checkStateChanged(QModelIndex,bool)), this, SLOT(onCheckStateChanged(QModelIndex,bool)));
 
-    connect(ui->playlistView->selectionModel(),
-            SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
-            this, SLOT(onSelectionChanged(const QItemSelection &, const QItemSelection &)));
+    connect(ui->playlistView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(onSelectionChanged(QItemSelection,QItemSelection)));
 
-    connect(ui->streamWidget, SIGNAL(streamObjectChanged(StreamObject)),
-            this, SLOT(onStreamObjectChanged(StreamObject)));
+    connect(ui->streamWidget, SIGNAL(streamObjectChanged(StreamObject)), this, SLOT(onStreamObjectChanged(StreamObject)));
 
-    connect(ui->trackNumberCheckBox, SIGNAL(stateChanged(int)), this,
-            SLOT(onTrackNumberChecked(int)));
+    connect(ui->trackNumberCheckBox, SIGNAL(stateChanged(int)), this, SLOT(onTrackNumberChecked(int)));
 
     /* Fancy GIF animation */
     QMovie *movie = new QMovie(":/resources/animations/spinner.gif");

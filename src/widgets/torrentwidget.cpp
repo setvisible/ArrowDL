@@ -443,8 +443,7 @@ void TorrentWidget::setupUiTableView(QTableView *view)
     view->horizontalHeader()->setMinimumSectionSize(column_minimum_width);
     view->verticalHeader()->setVisible(false);
 
-    connect(view->horizontalHeader(), SIGNAL(sectionClicked(int)),
-            this, SLOT(onSectionClicked(int)));
+    connect(view->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(onSectionClicked(int)));
 }
 
 /******************************************************************************
@@ -531,13 +530,9 @@ void TorrentWidget::setupContextMenus()
     ui->peerTableView->setContextMenuPolicy(Qt::CustomContextMenu);
     ui->trackerTableView->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    connect(ui->fileTableView, SIGNAL(customContextMenuRequested(const QPoint &)),
-            this, SLOT(showContextMenuFileTable(const QPoint &)));
-    connect(ui->peerTableView, SIGNAL(customContextMenuRequested(const QPoint &)),
-            this, SLOT(showContextMenuPeerTable(const QPoint &)));
-    connect(ui->trackerTableView, SIGNAL(customContextMenuRequested(const QPoint &)),
-            this, SLOT(showContextMenuTrackerTable(const QPoint &)));
-
+    connect(ui->fileTableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenuFileTable(QPoint)));
+    connect(ui->peerTableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenuPeerTable(QPoint)));
+    connect(ui->trackerTableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenuTrackerTable(QPoint)));
 }
 
 /******************************************************************************
