@@ -605,7 +605,8 @@ void TextEdit::pasteBlockSelection()
 
 QString TextEdit::fragmentToPaste(const QString &input)
 {
-    QStringList list = input.split(QRegularExpression("[\\r\\n]"), Qt::KeepEmptyParts);
+    static QRegularExpression reLineCarriage("[\\r\\n]");
+    QStringList list = input.split(reLineCarriage, Qt::KeepEmptyParts);
     if (!list.isEmpty()) {
         return list.first();
     }

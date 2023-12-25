@@ -19,10 +19,6 @@
 #include <QtCore/QDebug>
 #include <QtCore/QRegularExpression>
 
-
-static const QRegularExpression reBatch("([\\[\\(]\\d+[:\\-\\s]\\d+[\\]\\)])");
-static const QRegularExpression reGroup("[\\[\\(](\\d+)[:\\-\\s](\\d+)[\\]\\)]");
-
 constexpr int firstGroupPosition     = 1; // 0 is reseved to full string
 constexpr int secondGroupPosition    = 2;
 
@@ -38,6 +34,7 @@ struct Capture
 static QList<Capture> capture(const QString &str)
 {
     QList<Capture> captures;
+    static QRegularExpression reBatch("([\\[\\(]\\d+[:\\-\\s]\\d+[\\]\\)])");
     QRegularExpressionMatchIterator i = reBatch.globalMatch(str);
     while (i.hasNext()) {
         QRegularExpressionMatch match = i.next();
@@ -90,7 +87,7 @@ QStringList Regex::interpret(const QString &str)
      */
     for (int index = 0; index < captures.count(); ++index) {
         Capture &cap = captures[index];
-
+        static QRegularExpression reGroup("[\\[\\(](\\d+)[:\\-\\s](\\d+)[\\]\\)]");
         QRegularExpressionMatch match = reGroup.match(cap.capture);
         if (!match.hasMatch()) {
             Q_ASSERT(false);

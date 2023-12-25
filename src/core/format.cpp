@@ -183,17 +183,19 @@ qreal Format::parsePercentDecimal(const QString &text)
  ******************************************************************************/
 qsizetype Format::parseBytes(const QString &text)
 {
-    QString textwithoutTilde = text;
-    textwithoutTilde.remove('~'_L1);
+    QString textWithoutTilde = text;
+    textWithoutTilde.remove('~'_L1);
 
-    QString numberString = textwithoutTilde;
-    numberString.remove(QRegularExpression("[a-zA-Z]*"));
+    QString numberString = textWithoutTilde;
+
+    static QRegularExpression reLetters("[a-zA-Z]*");
+    numberString.remove(reLetters);
     qreal decimal = 0;
     if (!parseDouble(numberString, decimal)) {
         return -1;
     }
 
-    QString unitString = textwithoutTilde;
+    QString unitString = textWithoutTilde;
     unitString.remove(numberString);
     unitString = unitString.toUpper();
 

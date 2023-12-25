@@ -74,7 +74,7 @@ static ResourceItem* createResourceItem(const GumboElement &element, const QUrl 
 
     {
         if (!fullfilename.isEmpty()) {
-            const QRegularExpression re{
+            static QRegularExpression re{
                 "^(.*)(" + QRegularExpression::escape("/") + ")$",
                         QRegularExpression::CaseInsensitiveOption};
             fullfilename = fullfilename.replace(re, "\\1");

@@ -284,7 +284,7 @@ inline QString ResourceItem::localMagnetFile(const QString &customFileName) cons
 inline QString ResourceItem::parseMagnetUrl(const QString &url) const
 {
     /// todo move to Mask::interpretMagnet ?
-    QRegularExpression regex(
+    static QRegularExpression regex(
         "^"
         % QRegularExpression::escape("magnet:?")
         % ".*"% QRegularExpression::escape("&") % "?"

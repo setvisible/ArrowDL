@@ -104,7 +104,7 @@ QString FileUtils::validateFileName(const QString &name, bool allowSubDir)
     }
 
     // Windows devices
-    QRegularExpression regex(
+    static QRegularExpression regex(
                 QString("^")
                 // *********************
                 // captured group #0

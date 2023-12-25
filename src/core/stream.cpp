@@ -537,7 +537,7 @@ void Stream::onStandardErrorReady()
 QStringList Stream::splitMultiThreadMessages(const QString &raw) const
 {
     QStringList messages;
-    QRegularExpression re(R"(\[download\]|\[Merger\])", QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression re(R"(\[download\]|\[Merger\])", QRegularExpression::CaseInsensitiveOption);
     QString raw2 = raw;
     qsizetype pos = raw2.lastIndexOf(re);
     if (0 <= pos && pos <= raw2.size()) {
