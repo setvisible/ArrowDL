@@ -84,7 +84,7 @@ int DownloadEngine::count() const
 void DownloadEngine::clear()
 {
     clearSelection();
-    remove(m_items);
+    removeItems(m_items);
 }
 
 /******************************************************************************
@@ -124,6 +124,11 @@ void DownloadEngine::append(const QList<IDownloadItem*> &items, bool started)
 }
 
 void DownloadEngine::remove(const QList<IDownloadItem*> &items)
+{
+    removeItems(items);
+}
+
+void DownloadEngine::removeItems(const QList<IDownloadItem*> &items)
 {
     if (items.isEmpty()) {
         return;
