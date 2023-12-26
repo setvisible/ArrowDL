@@ -98,7 +98,7 @@ QString InterProcessCommunication::getCurrentUrl(const QString &message)
             return resources.at(i+1).trimmed();
         }
     }
-    return QString();
+    return {};
 }
 
 bool InterProcessCommunication::isCommandDownloadLink(const QString &message)
@@ -114,7 +114,7 @@ QString InterProcessCommunication::getDownloadLink(const QString &message)
             return resources.at(i+1).trimmed();
         }
     }
-    return QString();
+    return {};
 }
 
 

@@ -396,7 +396,7 @@ void AddContentDialog::onSelectionChanged()
                                   QString::number(selectionCount),
                                   QString::number(count)));
     }
-    onChanged(QString());
+    onChanged({});
 }
 
 /******************************************************************************

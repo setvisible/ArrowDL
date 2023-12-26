@@ -63,10 +63,10 @@ static const QString C_DOWNLOAD_next_section = QLatin1String("Destination:");
 static const QString C_MERGER_msg_header = QLatin1String("[Merger]");
 
 
-static QString s_youtubedl_version = QString();
+static QString s_youtubedl_version = {};
 static int s_youtubedl_concurrent_fragments = 0;
 static bool s_youtubedl_last_modified_time_enabled = true;
-static QString s_youtubedl_user_agent = QString();
+static QString s_youtubedl_user_agent = {};
 static int s_youtubedl_socket_type = 0;
 static int s_youtubedl_socket_timeout = 0;
 
@@ -1489,7 +1489,7 @@ QString StreamObject::Data::Format::toString() const
                 .arg(abr)
                 .arg(acodec);
     }
-    return QString();
+    return {};
 }
 
 QString StreamObject::Data::Format::debug_description() const
@@ -1690,7 +1690,7 @@ StreamFormatId StreamObject::formatId() const
 
 void StreamObject::setFormatId(const StreamFormatId &formatId)
 {
-    m_userSuffix = QString();
+    m_userSuffix = {};
     m_userFormatId = (formatId == m_data.defaultFormatId) ? StreamFormatId() : formatId;
 }
 
@@ -1849,7 +1849,7 @@ static QString generateErrorMessage(QProcess::ProcessError error)
     default:
         Q_UNREACHABLE();
     }
-    return QString();
+    return {};
 }
 
 static QString toString(QProcess *process)

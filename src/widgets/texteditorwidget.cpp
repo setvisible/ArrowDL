@@ -83,7 +83,7 @@ QString TextEditorWidget::at(int lineNumber) const
         QTextBlock textBlock = ui->textEdit->document()->findBlockByLineNumber(lineNumber);
         return textBlock.text().simplified();
     }
-    return QString();
+    return {};
 }
 
 /******************************************************************************

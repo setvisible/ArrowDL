@@ -342,7 +342,7 @@ QVariant AbstractTorrentTableModel::headerData(int section, Qt::Orientation orie
         if (section >= 0 && section < m_headers.count()) {
             return m_headers.at(section);
         }
-        return QString();
+        return {};
     }
     return QAbstractItemModel::headerData(section, orientation, role);
 }

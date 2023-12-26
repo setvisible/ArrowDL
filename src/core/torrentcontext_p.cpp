@@ -398,7 +398,7 @@ static QString localSource(const QString &source)
         return fromPercentEncoding;
     }
 
-    return QString();
+    return {};
 }
 
 static bool copyFile(const QString &from, const QString &to)
@@ -1170,7 +1170,7 @@ UniqueId WorkerThread::toUniqueId(const lt::sha1_hash &hash)
         auto hex = lt::aux::to_hex(hash);
         return QString::fromStdString(hex).toUpper();
     }
-    return QString();
+    return {};
 }
 
 lt::sha1_hash WorkerThread::fromUniqueId(const UniqueId &uuid)
@@ -2234,7 +2234,7 @@ inline QString WorkerThread::toString(const lt::sha1_hash &hash) const
         auto hex = lt::aux::to_hex(hash);
         return QString::fromStdString(hex).toUpper();
     }
-    return QString();
+    return {};
 }
 
 /******************************************************************************

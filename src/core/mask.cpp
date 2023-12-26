@@ -191,7 +191,7 @@ QString Mask::interpret(
     const QString &mask)
 {
     if (!url.isValid()) {
-        return QString();
+        return {};
     }
     QString decodedMask = QString("%0.%1").arg(NAME, EXT);
     if (mask.isEmpty()) {
@@ -279,7 +279,7 @@ QString Mask::description(const QString &tag)
     if (tag == SUBDIRS     ) return tr("URL subdirectories");
     if (tag == FLATSUBDIRS ) return tr("Flat URL subdirectories");
     if (tag == QSTRING     ) return tr("Query string");
-    return QString();
+    return {};
 }
 
 /******************************************************************************

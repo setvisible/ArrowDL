@@ -610,7 +610,7 @@ QString TextEdit::fragmentToPaste(const QString &input)
     if (!list.isEmpty()) {
         return list.first();
     }
-    return QString();
+    return {};
 }
 
 void TextEdit::removeBlockSelection(const QString &text)

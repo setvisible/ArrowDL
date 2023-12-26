@@ -37,7 +37,7 @@ struct FileFormat {
         if (tr_text == "Text Files") {    return QObject::tr("Text Files"); }
         if (tr_text == "Json Files") {    return QObject::tr("Json Files"); }
         if (tr_text == "Torrent Files") { return QObject::tr("Torrent Files"); }
-        return QString();
+        return {};
     }
 };
 

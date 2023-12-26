@@ -46,7 +46,7 @@ static inline QString get_setting_key(int s)
     if (name) {
         return QString::fromUtf8(name);
     }
-    return QString();
+    return {};
 }
 
 QString TorrentContext::upload_rate_limit()
