@@ -120,7 +120,7 @@ void MainWindow::adjustLocation()
 
 void MainWindow::changeLocation()
 {
-    QUrl url = QUrl::fromUserInput(locationEdit->text());
+    auto url = QUrl::fromUserInput(locationEdit->text());
     view->load(url);
     view->setFocus();
 }

@@ -51,8 +51,8 @@ signals:
     void regexChanged(const QRegularExpression &regex);
 
 private slots:
-    void onFilterChanged(int);
-    void onFilterChanged(const QString &);
+    void onFilterChanged(int state);
+    void onFilterChanged(const QString &text);
     void onFilterTipToolReleased();
     void onFilterTipToolLinkActivated(const QString& link);
 

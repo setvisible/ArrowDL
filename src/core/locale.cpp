@@ -70,7 +70,7 @@ QStringList Locale::availableLanguages()
 QString Locale::toLanguage(int index)
 {
     if (index >= 0 && index < s_locales.count()) {
-        const QLocale &locale = s_locales.at(index);
+        auto locale = s_locales.at(index);
         return locale.name();
     }
     return QLatin1String(""); // Must be an empty string, not a null QString
@@ -81,9 +81,9 @@ int Locale::fromLanguage(QString language)
     if (language.isEmpty()) {
         language = QLocale::system().name();
     }
-    for (int index = 0; index < s_locales.count(); ++index) {
-        const QLocale &locale = s_locales.at(index);
-        QString localeLanguage = locale.name();
+    for (auto index = 0; index < s_locales.count(); ++index) {
+        auto locale = s_locales.at(index);
+        auto localeLanguage = locale.name();
         if (localeLanguage.compare(language, Qt::CaseInsensitive) == 0) {
             return index;
         }
@@ -100,10 +100,10 @@ void Locale::applyLanguage(const QString &language)
         delete s_translator;
         s_translator = nullptr;
     }
-    const QLocale locale = !language.isEmpty() ? QLocale(language) : QLocale::system();
-    const QString localeName = locale.name();
-    const QString localeFilename = translationFileName(localeName);
-    const QString localeInfo = QObject::tr("translation '%0', locale '%1': %2")
+    auto locale = !language.isEmpty() ? QLocale(language) : QLocale::system();
+    auto localeName = locale.name();
+    auto localeFilename = translationFileName(localeName);
+    auto localeInfo = QObject::tr("translation '%0', locale '%1': %2")
             .arg(language, localeName, localeFilename);
 
     s_translator = new QTranslator();

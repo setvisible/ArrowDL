@@ -60,7 +60,7 @@ public:
     Headers(const QList<QPair<int, QString> > &l) {d = l; }
     Headers &operator=(const QList<QPair<int, QString> > &l) { d = l; return *this; }
 
-    int count() const { return d.count(); }
+    qsizetype count() const { return d.count(); }
 
     QString title(int index) const {
         return (index >= 0 && index < d.count()) ? d.at(index).second : ""_L1;
@@ -155,8 +155,8 @@ void FileTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
     }
 
     if (index.column() == file_table_progress_bar_column_index) {
-        const int progress = index.data(AbstractTorrentTableModel::ProgressRole).toInt();
-        const QBitArray segments = index.data(AbstractTorrentTableModel::SegmentRole).toBitArray();
+        auto progress = index.data(AbstractTorrentTableModel::ProgressRole).toInt();
+        auto segments = index.data(AbstractTorrentTableModel::SegmentRole).toBitArray();
 
         CustomStyleOptionProgressBar progressBarOption;
         progressBarOption.state = myOption.state;
@@ -203,7 +203,7 @@ void PeerTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
         myOption.font.setBold(true);
     }
 
-    const bool connected = index.data(AbstractTorrentTableModel::ConnectRole).toBool();
+    auto connected = index.data(AbstractTorrentTableModel::ConnectRole).toBool();
     if (!connected) {
         myOption.palette.setColor(QPalette::All, QPalette::Text, s_darkGrey);
         myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_darkGrey);
@@ -211,8 +211,8 @@ void PeerTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
     }
 
     if (index.column() == peer_table_progress_bar_column_index) {
-        const int progress = index.data(AbstractTorrentTableModel::ProgressRole).toInt();
-        const QBitArray segments = index.data(AbstractTorrentTableModel::SegmentRole).toBitArray();
+        auto progress = index.data(AbstractTorrentTableModel::ProgressRole).toInt();
+        auto segments = index.data(AbstractTorrentTableModel::SegmentRole).toBitArray();
 
         CustomStyleOptionProgressBar progressBarOption;
         progressBarOption.state = myOption.state;
@@ -364,7 +364,7 @@ bool TorrentWidget::restoreState(const QByteArray &state, int version)
     if (state.isEmpty()) {
         return false;
     }
-    QByteArray sd = state;
+    auto sd = state;
     QDataStream stream(&sd, QIODevice::ReadOnly);
     int marker;
     int v;
@@ -498,7 +498,7 @@ void TorrentWidget::setupInfoCopy(QLabel *label, QFrame *buddy)
     foreach (auto action, buddy->actions()) { buddy->removeAction(action); }
 
     // Context menu > Copy
-    QAction *copyAction = new QAction(tr("Copy"), buddy);
+    auto copyAction = new QAction(tr("Copy"), buddy);
     connect(copyAction, &QAction::triggered, this, &TorrentWidget::copy);
 
     label->setBuddy(buddy);
@@ -619,12 +619,12 @@ void TorrentWidget::setPriorityByFileOrder()
 
 void TorrentWidget::setPriority(TorrentFileInfo::Priority priority)
 {
-    QItemSelection selection = ui->fileTableView->selectionModel()->selection();
+    auto selection = ui->fileTableView->selectionModel()->selection();
     auto proxymodel = qobject_cast<SortFilterProxyModel *>(ui->fileTableView->model());
     if (proxymodel) {
         selection = proxymodel->mapSelectionToSource(selection);
     }
-    QModelIndexList indexes = selection.indexes();
+    auto indexes = selection.indexes();
 
     foreach (auto index, indexes) {
         if (m_torrentContext) {
@@ -661,13 +661,15 @@ void TorrentWidget::showContextMenuPeerTable(const QPoint &pos)
 void TorrentWidget::addPeer()
 {
     bool ok;
-    QString input = QInputDialog::getText(
-                this, tr("Add Peer"),
-                tr("Enter the IP address and port number of the peer to add.\n"
-                   "Ex:\n"
-                   " - for IPv4, type 'x.x.x.x:p'\n"
-                   " - for IPv6, type '[x:x:x:x:x:x:x:x]:p'\n"),
-                QLineEdit::Normal, {}, &ok);
+    auto input = QInputDialog::getText(
+        this,
+        tr("Add Peer"),
+        tr("Enter the IP address and port number of the peer to add.\n"
+           "Ex:\n"
+           " - for IPv4, type 'x.x.x.x:p'\n"
+           " - for IPv6, type '[x:x:x:x:x:x:x:x]:p'\n"),
+        QLineEdit::Normal, {}, &ok);
+
     if (ok && !input.isEmpty()) {
         m_torrent->addPeer(input);
     }
@@ -684,8 +686,7 @@ void TorrentWidget::copyPeerList()
         text += address;
         text += QChar::LineFeed; // '\n'
     }
-    QClipboard *clipboard = QApplication::clipboard();
-    clipboard->setText(text);
+    QApplication::clipboard()->setText(text);
 }
 
 void TorrentWidget::removeUnconnected()
@@ -723,10 +724,12 @@ void TorrentWidget::showContextMenuTrackerTable(const QPoint &/*pos*/)
 void TorrentWidget::addTracker()
 {
     bool ok;
-    QString input = QInputDialog::getText(
-                this, tr("Add Tracker"),
-                tr("Enter the URL of the tracker to add:"),
-                QLineEdit::Normal, {}, &ok);
+    auto input = QInputDialog::getText(
+        this,
+        tr("Add Tracker"),
+        tr("Enter the URL of the tracker to add:"),
+        QLineEdit::Normal, {}, &ok);
+
     if (ok && !input.isEmpty()) {
         m_torrent->addTracker(input);
     }
@@ -734,10 +737,10 @@ void TorrentWidget::addTracker()
 
 void TorrentWidget::removeTracker()
 {
-    QModelIndexList selection = ui->trackerTableView->selectionModel()->selectedRows();
-    for (int i = 0; i < selection.count(); ++i) {
-        QModelIndex index = selection.at(i);
-        int row = index.row();
+    auto selection = ui->trackerTableView->selectionModel()->selectedRows();
+    for (auto i = 0; i < selection.count(); ++i) {
+        auto index = selection.at(i);
+        auto row = index.row();
         m_torrent->removeTrackerAt(row);
     }
 }
@@ -745,7 +748,7 @@ void TorrentWidget::removeTracker()
 void TorrentWidget::copyTrackerList()
 {
     QStringList urls;
-    foreach (const TorrentTrackerInfo &tracker, m_torrent->detail().trackers) {
+    foreach (auto tracker, m_torrent->detail().trackers) {
         urls << tracker.url;
     }
     QString text;
@@ -753,9 +756,7 @@ void TorrentWidget::copyTrackerList()
         text += url;
         text += QChar::LineFeed;
     }
-    QClipboard *clipboard = QApplication::clipboard();
-    clipboard->setText(text);
-
+    QApplication::clipboard()->setText(text);
 }
 
 /******************************************************************************
@@ -765,9 +766,9 @@ void TorrentWidget::resetUi()
     if (m_torrent) {
         m_torrent->retranslateUi();
 
-        QAbstractTableModel* fileModel = m_torrent->fileModel();
-        QAbstractTableModel* peerModel = m_torrent->peerModel();
-        QAbstractTableModel* trackerModel = m_torrent->trackerModel();
+        auto fileModel = m_torrent->fileModel();
+        auto peerModel = m_torrent->peerModel();
+        auto trackerModel = m_torrent->trackerModel();
 
         Q_ASSERT(fileTableHeaders.count() == fileModel->columnCount());
         Q_ASSERT(peerTableHeaders.count() == peerModel->columnCount());
@@ -847,8 +848,8 @@ void TorrentWidget::updateTorrentPage()
     if (!m_torrent) {
         return;
     }
-    const TorrentMetaInfo &mi = m_torrent->metaInfo();
-    const TorrentInfo &ti = m_torrent->info();
+    auto mi = m_torrent->metaInfo();
+    auto ti = m_torrent->info();
 
     auto wasted = tr("%0 (%1 hashfails)").arg(
                 Format::fileSizeToString(ti.bytesFailed + ti.bytesRedundant),
@@ -917,7 +918,7 @@ void TorrentWidget::getColumnWidths(QTableView *view, QList<int> *widths)
 {
     if (view && view->model() && view->model()->columnCount() > 0) {
         widths->clear();
-        for (int column = 0, count = view->model()->columnCount(); column < count; ++column) {
+        for (auto column = 0; column < view->model()->columnCount(); ++column) {
             auto width = view->columnWidth(column);
             widths->append(width);
         }
@@ -927,7 +928,7 @@ void TorrentWidget::getColumnWidths(QTableView *view, QList<int> *widths)
 void TorrentWidget::setColumnWidths(QTableView *view, const QList<int> &widths)
 {
     if (view && view->model()) {
-        for (int column = 0, count = view->model()->columnCount(); column < count; ++column) {
+        for (auto column = 0; column < view->model()->columnCount(); ++column) {
             if (column < widths.count()) {
                 auto width = widths.at(column);
                 view->setColumnWidth(column, width);
@@ -942,7 +943,7 @@ void TorrentWidget::setColumnWidths(QTableView *view, const QList<int> &widths)
  ******************************************************************************/
 inline QString TorrentWidget::text(int value, bool showInfiniteSymbol)
 {
-    const QString defaultSymbol = showInfiniteSymbol ? Format::infinity() : "-"_L1;
+    auto defaultSymbol = showInfiniteSymbol ? Format::infinity() : "-"_L1;
     return value < 0
             ? defaultSymbol
             : QString::number(value);

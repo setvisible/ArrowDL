@@ -65,7 +65,7 @@ void DownloadItem::resume()
 
     this->beginResume();
 
-    File::OpenFlag flag = d->file->open(d->resource);
+    auto flag = d->file->open(d->resource);
 
     if (flag == File::Skip) {
         setState(Skipped);
@@ -74,12 +74,12 @@ void DownloadItem::resume()
         return;
     }
 
-    const bool connected = flag == File::Open;
+    auto connected = flag == File::Open;
 
     /* Prepare the connection, try to contact the server */
     if (this->checkResume(connected)) {
 
-        QUrl url(d->resource->url());
+        auto url = d->resource->url_TODO();
         d->reply = d->downloadManager->networkManager()->get(url);
         d->reply->setParent(this);
 
@@ -125,10 +125,10 @@ void DownloadItem::rename(const QString &newName)
     if (!newName.trimmed().isEmpty()) {
         newCustomFileName = newName;
     }
-    const QString oldPath = d->resource->localFileFullPath(d->resource->customFileName());
-    const QString newPath = d->resource->localFileFullPath(newCustomFileName);
+    auto oldPath = d->resource->localFileFullPath(d->resource->customFileName());
+    auto newPath = d->resource->localFileFullPath(newCustomFileName);
 
-    const QString oldFileName = d->resource->fileName();
+    auto oldFileName = d->resource->fileName();
 
     if (oldPath == newPath) {
         return;
@@ -146,7 +146,7 @@ void DownloadItem::rename(const QString &newName)
             d->file->rename(d->resource);
         }
     }
-    const QString newFileName = success ? d->resource->fileName() : newName;
+    auto newFileName = success ? d->resource->fileName() : newName;
     emit renamed(oldFileName, newFileName, success);
 }
 
@@ -157,8 +157,8 @@ void DownloadItem::onMetaDataChanged()
     if (d->reply) {
         auto rawNewUrl = d->reply->header(QNetworkRequest::LocationHeader);
         if (rawNewUrl.isValid()) {
-            const QUrl oldUrl = d->resource->url();
-            const QUrl newUrl = rawNewUrl.toUrl();
+            auto oldUrl = d->resource->url_TODO();
+            auto newUrl = rawNewUrl.toUrl();
             /* Check if the metadata change is a redirection */
             if (newUrl.isValid() && oldUrl.isValid() && oldUrl != newUrl) {
                 logInfo(QString("HTTP redirect: '%0' to '%1'.").arg(oldUrl.toString(), newUrl.toString()));
@@ -376,7 +376,7 @@ QUrl DownloadItem::sourceUrl() const
  */
 QString DownloadItem::localFullFileName() const
 {
-    const QUrl target = d->resource->localFileUrl();
+    auto target = d->resource->localFileUrl();
     return target.toLocalFile();
 }
 
@@ -385,7 +385,7 @@ QString DownloadItem::localFullFileName() const
  */
 QString DownloadItem::localFileName() const
 {
-    const QUrl target = d->resource->localFileUrl();
+    auto target = d->resource->localFileUrl();
     const QFileInfo fi(target.toLocalFile());
     return fi.fileName();
 }
@@ -395,7 +395,7 @@ QString DownloadItem::localFileName() const
  */
 QString DownloadItem::localFilePath() const
 {
-    const QUrl target = d->resource->localFileUrl();
+    auto target = d->resource->localFileUrl();
     const QFileInfo fi(target.toLocalFile());
     return fi.absolutePath();
 }

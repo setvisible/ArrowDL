@@ -721,15 +721,15 @@ QList<Filter> Settings::defaultFilters(bool defaults)
     if (defaults) {
         beginRestoreDefault();
     }
-    QStringList keys = getSettingStringList(REGISTRY_FILTER_KEY);
-    QStringList names = getSettingStringList(REGISTRY_FILTER_NAME);
-    QStringList values = getSettingStringList(REGISTRY_FILTER_VALUE);
+    auto keys = getSettingStringList(REGISTRY_FILTER_KEY);
+    auto names = getSettingStringList(REGISTRY_FILTER_NAME);
+    auto values = getSettingStringList(REGISTRY_FILTER_VALUE);
     if (defaults) {
         endRestoreDefault();
     }
 
-    const int count = qMin(qMin(keys.count(), values.count()), names.count());
-    for (int i = 0; i < count; ++i) {
+    auto count = qMin(qMin(keys.count(), values.count()), names.count());
+    for (auto i = 0; i < count; ++i) {
         Filter filter;
         filter.setKey(keys.at(i));
         filter.setName(names.at(i));

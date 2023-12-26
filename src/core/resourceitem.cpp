@@ -64,6 +64,11 @@ QString ResourceItem::url() const
     return m_url;
 }
 
+QUrl ResourceItem::url_TODO() const
+{
+    return QUrl(m_url);
+}
+
 void ResourceItem::setUrl(const QString &url)
 {
     m_url = url;
@@ -114,13 +119,13 @@ void ResourceItem::setCustomFileName(const QString &customFileName)
  ******************************************************************************/
 QUrl ResourceItem::localFileUrl() const
 {
-    const QString path = localFilePath(m_customFileName);
+    auto path = localFilePath(m_customFileName);
     return QUrl::fromLocalFile(path);
 }
 
 QString ResourceItem::fileName() const
 {
-    const QUrl url = localFileUrl();
+    auto url = localFileUrl();
     if (!url.isEmpty() && url.isValid()) {
         return url.fileName();
     }
@@ -262,16 +267,16 @@ inline QString ResourceItem::localFilePath(const QString &customFileName) const
 
 inline QString ResourceItem::localStreamFile(const QString &customFileName) const
 {
-    QString url = QUrl(m_url).host() + "/" + m_streamFileName;
-    QString fileName = Mask::interpret(url, customFileName, m_mask);
+    QString url = QUrl(m_url).host() % "/" % m_streamFileName;
+    auto fileName = Mask::interpret(url, customFileName, m_mask);
     fileName = FileUtils::validateFileName(fileName, true);
     return QDir(m_destination).filePath(fileName);
 }
 
 inline QString ResourceItem::localMagnetFile(const QString &customFileName) const
 {
-    QString displayName = parseMagnetUrl(m_url);
-    QString fileName = customFileName.isEmpty() ? displayName : customFileName;
+    auto displayName = parseMagnetUrl(m_url);
+    auto fileName = customFileName.isEmpty() ? displayName : customFileName;
     fileName += ".torrent";
 
     // Remark: No mask for magnets
@@ -297,9 +302,9 @@ inline QString ResourceItem::parseMagnetUrl(const QString &url) const
         % "(" % QRegularExpression::escape("&") % ".*)?"
         % "$");
 
-    QRegularExpressionMatch match = regex.match(url);
+    auto match = regex.match(url);
     if (match.hasMatch()) {
-        QString displayName = match.captured(1);
+        auto displayName = match.captured(1);
         displayName = Mask::decodeMagnetEncoding(displayName);
         return displayName;
     }
@@ -311,7 +316,7 @@ inline QString ResourceItem::parseMagnetUrl(const QString &url) const
 inline QString ResourceItem::localFile(const QString &destination, const QUrl &url,
                                        const QString &customFileName, const QString &mask)
 {
-    QString fileName = Mask::interpret(url, customFileName, mask);
+    auto fileName = Mask::interpret(url, customFileName, mask);
     fileName = FileUtils::validateFileName(fileName, true);
     return QDir(destination).filePath(fileName);
 }

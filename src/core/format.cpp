@@ -109,8 +109,8 @@ QString Format::fileSizeToString(qsizetype size)
  */
 QString Format::fileSizeThousandSeparator(qsizetype size)
 {
-    QString number = QString::number(size);
-    int i = number.count();
+    auto number = QString::number(size);
+    auto i = number.count();
     while (i > 3) {
         i -= 3;
         number.insert(i, ","_L1);

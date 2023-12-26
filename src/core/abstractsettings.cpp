@@ -79,7 +79,7 @@ void AbstractSettings::readSettings()
     QSettings settings;
     settings.beginGroup(QLatin1String("Preference"));
     foreach (auto item, m_items) {
-        const QString value = settings.value(uniqueRegisterKey(item), UNDEFINED).toString();
+        auto value = settings.value(uniqueRegisterKey(item), UNDEFINED).toString();
         item->value = (value != UNDEFINED) ? value : item->defaultValue;
     }
     settings.endGroup();
@@ -91,7 +91,7 @@ void AbstractSettings::writeSettings()
     QSettings settings;
     settings.beginGroup(QLatin1String("Preference"));
     foreach (auto item, m_items) {
-        const QString name = uniqueRegisterKey(item);
+        auto name = uniqueRegisterKey(item);
         if (item->value != item->defaultValue || settings.contains(name)) {
             settings.setValue(name, item->value);
         }
@@ -174,8 +174,8 @@ void AbstractSettings::setSettingString(const QString &key, const QString &value
 QStringList AbstractSettings::getSettingStringList(const QString &key) const
 {
     QStringList ret;
-    for (int i = 0; i < m_items.count(); ++i) {
-        const QString subkey = QString("%0%1").arg(key, QString::number(i));
+    for (auto i = 0; i < m_items.count(); ++i) {
+        auto subkey = QString("%0%1").arg(key, QString::number(i));
         foreach (auto item, m_items) {
             if (item->key == subkey) {
                 ret << (m_default ? item->defaultValue : item->value);
@@ -187,18 +187,18 @@ QStringList AbstractSettings::getSettingStringList(const QString &key) const
 
 void AbstractSettings::addDefaultSettingStringList(const QString &key, const QStringList &defaultValue)
 {
-    for (int i = 0; i < defaultValue.count(); ++i) {
-        const QString subkey = QString("%0%1").arg(key, QString::number(i));
-        const QString& subvalue = defaultValue.at(i);
+    for (auto i = 0; i < defaultValue.count(); ++i) {
+        auto subkey = QString("%0%1").arg(key, QString::number(i));
+        auto subvalue = defaultValue.at(i);
         addDefaultSettingString(subkey, subvalue);
     }
 }
 
 void AbstractSettings::setSettingStringList(const QString &key, const QStringList &value)
 {
-    for (int i = 0; i < value.count(); ++i) {
-        const QString subkey = QString("%0%1").arg(key, QString::number(i));
-        const QString& subvalue = value.at(i);
+    for (auto i = 0; i < value.count(); ++i) {
+        auto subkey = QString("%0%1").arg(key, QString::number(i));
+        auto subvalue = value.at(i);
         setSettingString(subkey, subvalue);
     }
 }

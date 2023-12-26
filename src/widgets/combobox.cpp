@@ -84,7 +84,7 @@ void ComboBox::addToHistory(const QString &text)
 
 void ComboBox::removeFromHistory(const QString &text)
 {
-    int i = count();
+    auto i = count();
     while (i > 0) {
         i--;
         if (itemText(i) == text) {
@@ -163,10 +163,10 @@ void ComboBox::onCurrentIndexChanged(int /*index*/)
  ******************************************************************************/
 void ComboBox::showContextMenu(const QPoint &/*pos*/)
 {
-    QMenu *contextMenu = lineEdit()->createStandardContextMenu();
+    auto contextMenu = lineEdit()->createStandardContextMenu();
 
     contextMenu->addSeparator();
-    QAction *clearAction = contextMenu->addAction(tr("Clear History"));
+    auto clearAction = contextMenu->addAction(tr("Clear History"));
     connect(clearAction, SIGNAL(triggered()), this, SLOT(clearHistory()));
 
     contextMenu->exec(QCursor::pos());
@@ -175,7 +175,7 @@ void ComboBox::showContextMenu(const QPoint &/*pos*/)
 
 void ComboBox::clearHistory()
 {
-    const QString text = currentText();
+    auto text = currentText();
     clear();
     setCurrentText(text);
 }

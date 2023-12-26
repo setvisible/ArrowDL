@@ -270,7 +270,7 @@ void AddContentDialog::onFinished()
     auto reply = qobject_cast<QNetworkReply*>(sender());
     if (reply) {
         if (reply->error() == QNetworkReply::NoError) {
-            QByteArray downloadedData = reply->readAll();
+            auto downloadedData = reply->readAll();
             reply->deleteLater();
             parseHtml(downloadedData);
         } else {
@@ -386,12 +386,12 @@ void AddContentDialog::setProgressInfo(int percent, const QString &text)
  ******************************************************************************/
 void AddContentDialog::onSelectionChanged()
 {
-    const ResourceModel *currentModel = m_model->currentModel();
-    const int selectionCount = currentModel->selection().count();
+    auto currentModel = m_model->currentModel();
+    auto selectionCount = currentModel->selection().count();
     if (selectionCount == 0) {
         ui->tipLabel->setText(tr("After selecting links, click on Start!"));
     } else {
-        const int count = currentModel->items().count();
+        auto count = currentModel->items().count();
         ui->tipLabel->setText(tr("Selected links: %0 of %1").arg(
                                   QString::number(selectionCount),
                                   QString::number(count)));
@@ -401,11 +401,12 @@ void AddContentDialog::onSelectionChanged()
 
 /******************************************************************************
  ******************************************************************************/
-void AddContentDialog::onChanged(QString)
+void AddContentDialog::onChanged(const QString &value)
 {
-    const ResourceModel *currentModel = m_model->currentModel();
-    const int selectionCount = currentModel->selection().count();
-    const bool enabled =
+    Q_UNUSED(value)
+    auto currentModel = m_model->currentModel();
+    auto selectionCount = currentModel->selection().count();
+    auto enabled =
             !ui->pathWidget->currentPath().isEmpty() &&
             !ui->maskWidget->currentMask().isEmpty() &&
             selectionCount > 0;

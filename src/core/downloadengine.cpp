@@ -50,7 +50,7 @@ DownloadEngine::~DownloadEngine()
  ******************************************************************************/
 int DownloadEngine::downloadingCount() const
 {
-    int count = 0;
+    auto count = 0;
     foreach (auto item, m_items) {
         if (item->isDownloading()) {
             count++;
@@ -390,12 +390,11 @@ void DownloadEngine::sortSelectionByIndex()
     m_selectedItems = map.values();
 }
 
-void DownloadEngine::moveUpTo(int targetIndex)
+void DownloadEngine::moveUpTo(qsizetype targetIndex)
 {
-    for (int i = 0, total = m_selectedItems.size(); i < total; ++i) {
+    for (auto i = 0; i < m_selectedItems.size(); ++i) {
         auto indexToMove = m_items.indexOf(m_selectedItems.at(i));
-        for (int j = indexToMove; j > targetIndex + i; --j) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
+        for (auto j = indexToMove; j > targetIndex + i; --j) {
             m_items.swapItemsAt(j, j - 1);
 #else
             m_items.swap(j, j - 1);
@@ -405,18 +404,14 @@ void DownloadEngine::moveUpTo(int targetIndex)
     emit sortChanged();
 }
 
-void DownloadEngine::moveDownTo(int targetIndex)
+void DownloadEngine::moveDownTo(qsizetype targetIndex)
 {
     auto count = m_selectedItems.size() - 1;
-    for (int i = count; i >= 0; --i) {
-        auto i2 = count - i;
+    for (auto i = count; i >= 0; --i) {
+        auto k = count - i;
         auto indexToMove = m_items.indexOf(m_selectedItems.at(i));
-        for (int j = indexToMove; j < targetIndex - i2; ++j) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
+        for (auto j = indexToMove; j < targetIndex - k; ++j) {
             m_items.swapItemsAt(j, j + 1);
-#else
-            m_items.swap(j, j + 1);
-#endif
         }
     }
     emit sortChanged();
@@ -467,7 +462,7 @@ void DownloadEngine::oneMoreSegment()
 {
     foreach (auto item, selection()) {
         auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
-        int segments = downloadItem->maxConnectionSegments();
+        auto segments = downloadItem->maxConnectionSegments();
         segments++;
         downloadItem->setMaxConnectionSegments(segments);
     }
@@ -477,7 +472,7 @@ void DownloadEngine::oneFewerSegment()
 {
     foreach (auto item, selection()) {
         auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
-        int segments = downloadItem->maxConnectionSegments();
+        auto segments = downloadItem->maxConnectionSegments();
         segments--;
         downloadItem->setMaxConnectionSegments(segments);
     }

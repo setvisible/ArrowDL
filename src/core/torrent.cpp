@@ -187,7 +187,7 @@ void Torrent::setFilePriority(int index, TorrentFileInfo::Priority priority)
 QString Torrent::preferredFilePriorities() const
 {
     QString code;
-    for (int fi = 0; fi < fileCount(); ++fi) {
+    for (auto fi = 0; fi < fileCount(); ++fi) {
         auto priority = filePriority(fi);
         switch (priority) {
         case TorrentFileInfo::Ignore: code.append("-"); break;
@@ -202,7 +202,7 @@ QString Torrent::preferredFilePriorities() const
 void Torrent::setPreferredFilePriorities(const QString &priorities)
 {
     bool hasChanged = false;
-    for (int fi = 0; fi < fileCount(); ++fi) {
+    for (auto fi = 0; fi < fileCount(); ++fi) {
         if (fi < priorities.length()) {
             auto priority = TorrentFileInfo::Normal;
             switch (priorities.at(fi).toLatin1()) {
@@ -426,7 +426,7 @@ QBitArray TorrentFileTableModel::pieceSegments(const TorrentFileMetaInfo &mi) co
         return {};
     }
     QBitArray ba(size, false);
-    for (int i = 0; i < size; ++i) {
+    for (auto i = 0; i < size; ++i) {
         if (m_downloadedPieces.testBit(offset + i)) {
             ba.setBit(i);
         }
@@ -442,8 +442,8 @@ QVariant TorrentFileTableModel::data(const QModelIndex &index, int role) const
     if (index.row() >= rowCount() || index.row() < 0) {
         return {};
     }
-    const int fileIndex = index.row();
-    const TorrentFileMetaInfo mi = m_filesMeta.at(fileIndex);
+    auto fileIndex = index.row();
+    auto mi = m_filesMeta.at(fileIndex);
     TorrentFileInfo ti;
     if (fileIndex < m_files.count()) {
         ti = m_files.at(fileIndex);
@@ -603,7 +603,7 @@ QVariant TorrentPeerTableModel::data(const QModelIndex &index, int role) const
     if (index.row() >= rowCount() || index.row() < 0) {
         return {};
     }
-    const TorrentPeerInfo peer = m_peers.at(index.row());
+    auto peer = m_peers.at(index.row());
     if (role == Qt::TextAlignmentRole) {
         switch (index.column()) {
         case  0:
@@ -717,13 +717,14 @@ void TorrentPeerTableModel::refreshData(const QList<TorrentPeerInfo> &peers)
     foreach (auto newItem, peers) {
         m_connectedPeers.insert(newItem.endpoint);
         bool replaced = false;
-        for (qsizetype i = 0, count = m_peers.count(); i < count; ++i) {
+        for (auto i = 0; i < m_peers.count(); ++i) {
             auto item = m_peers.at(i);
 
             // Try update
             if (item.endpoint == newItem.endpoint) {
                 m_peers.replace(i, newItem);
-                emit dataChanged(index(i, 0), index(i, columnCount()), {Qt::DisplayRole});
+                auto row = static_cast<int>(i);
+                emit dataChanged(index(row, 0), index(row, columnCount()), {Qt::DisplayRole});
                 replaced = true;
                 break;
             }
@@ -745,20 +746,21 @@ void TorrentPeerTableModel::appendRemainingSafely(const QList<TorrentPeerInfo> &
     if (m_peers.count() < max_peer_list_count) {
         ptr = qMin(newItems.count(), max_peer_list_count - m_peers.count());
 
-        const int first = m_peers.count();
-        const int last = qMin(first + ptr - 1, max_peer_list_count - 1);
+        auto first = m_peers.count();
+        auto last = qMin(first + ptr - 1, max_peer_list_count - 1);
         beginInsertRows(QModelIndex(), first, last);
         m_peers.append(newItems.mid(0, ptr));
         endInsertRows();
     }
     if (ptr < newItems.count()) {
-        for (int i = m_peers.count() - 1; i >= 0; --i) {
+        for (auto i = m_peers.count() - 1; i >= 0; --i) {
             auto peer = m_peers.at(i);
             if (m_connectedPeers.contains(peer.endpoint)) {
                 continue;
             }
             m_peers.replace(i, newItems.at(ptr));
-            emit dataChanged(index(i, 0), index(i, columnCount()), {Qt::DisplayRole});
+            auto row = static_cast<int>(i);
+            emit dataChanged(index(row, 0), index(row, columnCount()), {Qt::DisplayRole});
             ptr++;
             if (ptr >=newItems.count() ) {
                 break;
@@ -843,17 +845,18 @@ void TorrentTrackerTableModel::refreshData(const QList<TorrentTrackerInfo> &trac
 
     QList<TorrentTrackerInfo> newItems;
 
-    for (qsizetype i = 0, count = trackers.count(); i < count; ++i) {
+    for (auto i = 0; i < trackers.count(); ++i) {
         auto newItem = trackers.at(i);
         bool replaced = false;
-        for (qsizetype j = 0, count2 = m_trackers.count(); j < count2; ++j) {
+        for (auto j = 0; j < m_trackers.count(); ++j) {
             auto item = m_trackers.at(j);
 
             // Try update
             if (item.url == newItem.url) {
                 m_trackers.removeAt(j);
                 m_trackers.insert(j, newItem);
-                emit dataChanged(index(j, 0), index(j, columnCount()), {Qt::DisplayRole});
+                auto row = static_cast<int>(j);
+                emit dataChanged(index(row, 0), index(row, columnCount()), {Qt::DisplayRole});
                 replaced = true;
                 break;
             }
@@ -864,8 +867,8 @@ void TorrentTrackerTableModel::refreshData(const QList<TorrentTrackerInfo> &trac
     }
     // Otherwise append
     if (!newItems.isEmpty()) {
-        const int first = m_trackers.count();
-        const int last = first + newItems.count() - 1;
+        auto first = m_trackers.count();
+        auto last = first + newItems.count() - 1;
         beginInsertRows(parent, first, last);
         m_trackers.append(newItems);
         endInsertRows();

@@ -36,8 +36,8 @@ IDownloadItem* FakeDownloadManager::createItem(const QUrl &url)
 void FakeDownloadManager::createFakeJobs(int count)
 {
     QList<IDownloadItem*> items;
-    for (int i = 0; i < count; ++i) {
-        FakeDownloadItem *item = new FakeDownloadItem(this);
+    for (auto i = 0; i < count; ++i) {
+        auto item = new FakeDownloadItem(this);
         items.append(item);
     }
     DownloadEngine::append(items, false);

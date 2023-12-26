@@ -155,12 +155,12 @@ QBitArray DummyTorrentAnimator::createRandomBitArray(int size, int percent)
     }
     QBitArray ba = QBitArray(size, false);
     if (percent == 50) {
-        for (int i = 0; i < size; i+=2) {
+        for (auto i = 0; i < size; i+=2) {
             ba.setBit(i);
         }
     } else {
-        for (int i = 0; i < size; ++i) {
-            const int v = Utils::randomBetween(0, 100);
+        for (auto i = 0; i < size; ++i) {
+            auto v = Utils::randomBetween(0, 100);
             if (v <= percent) {
                 ba.setBit(i);
             }
@@ -204,7 +204,7 @@ void DummyTorrentAnimator::animate()
     if (m_ticks.count() != m_timeouts.count()) {
         m_ticks = m_timeouts;
     }
-    for (int i = 0, total = m_ticks.count(); i < total; ++i) {
+    for (auto i = 0; i < m_ticks.count(); ++i) {
         m_ticks[i]--;
         if (m_ticks[i] <= 0) {
             m_ticks[i] = m_timeouts[i];
@@ -252,12 +252,12 @@ void DummyTorrentAnimator::animatePieces()
 void DummyTorrentAnimator::animatePeers()
 {
     static int counter = 0;
-    counter += msec_peer_refresh;
-    const TorrentInfo info = m_torrent->info();
-    const int total_pieces_count = info.downloadedPieces.count();
+    counter += MSEC_PEER_REFRESH;
+    auto info = m_torrent->info();
+    auto total_pieces_count = info.downloadedPieces.count();
 
     TorrentHandleInfo detail = m_torrent->detail();
-    const int count = detail.peers.count();
+    auto count = detail.peers.count();
 
     if (count >= 10) {
         for (int i = 0; i < 7; ++i) {
@@ -295,7 +295,7 @@ void DummyTorrentAnimator::animatePeers()
  ******************************************************************************/
 void DummyTorrentAnimator::setPiecesRandomly(QBitArray &pieces)
 {
-    const int count = pieces.count();
+    auto count = pieces.count();
     if (pieces.count(true) >  count - 10) {
         pieces.fill(true);
         return;
@@ -303,7 +303,7 @@ void DummyTorrentAnimator::setPiecesRandomly(QBitArray &pieces)
 
     // turn random bits to 1
     for (int i = 0; i < 3; ++i) {
-        const int index = Utils::randomBetween(0, count - 1);
+        auto index = Utils::randomBetween(0, count - 1);
         pieces.setBit(index);
     }
 
@@ -324,11 +324,11 @@ void DummyTorrentAnimator::setPiecesRandomly(QBitArray &pieces)
 void DummyTorrentAnimator::randomize()
 {
     Q_ASSERT(m_torrent);
-    int total = m_torrent->metaInfo().initialMetaInfo.files.count();
+    auto total = m_torrent->metaInfo().initialMetaInfo.files.count();
     m_timeouts.clear();
     m_ticks.clear();
-    for (int i = 0; i < total; ++i) {
-        int timeout = msec_file_refresh * Utils::randomBetween(1, 10);
+    for (auto i = 0; i < total; ++i) {
+        auto timeout = MSEC_FILE_REFRESH * Utils::randomBetween(1, 10);
         m_timeouts << timeout;
     }
 }

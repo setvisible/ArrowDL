@@ -40,7 +40,7 @@ TorrentFileInfo::Priority TorrentBaseContext::computePriority(int row, qsizetype
     if (count < 3) {
         return TorrentFileInfo::Normal;
     }
-    qreal pos = qreal(row + 1) / count;
+    auto pos = static_cast<qreal>(row + 1) / static_cast<qreal>(count);
     if (pos < 0.3334) {
         return TorrentFileInfo::High;
     } else if (pos < 0.6667) {

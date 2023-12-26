@@ -129,7 +129,7 @@ qreal AbstractDownloadItem::speed() const
 int AbstractDownloadItem::progress() const
 {
     if (m_bytesTotal > 0) {
-        return qBound(0, qFloor(qreal(100 * m_bytesReceived) / m_bytesTotal), 100);
+        return qBound(0, qFloor(100 * static_cast<qreal>(m_bytesReceived) / static_cast<qreal>(m_bytesTotal)), 100);
     }
     if (m_state == Idle) {
         return 0;
@@ -359,9 +359,9 @@ void AbstractDownloadItem::updateInfo(qsizetype bytesReceived, qsizetype bytesTo
 {
     m_bytesReceived = bytesReceived;
     m_bytesTotal = bytesTotal;
-    const int elapsed = m_downloadElapsedTimer.elapsed();
+    auto elapsed = m_downloadElapsedTimer.elapsed();
     if (elapsed > 0) {
-        m_speed = qreal(1000 * bytesReceived) / m_downloadElapsedTimer.elapsed();
+        m_speed = 1000 * static_cast<qreal>(bytesReceived) / static_cast<qreal>(m_downloadElapsedTimer.elapsed());
     } else {
         m_speed = qreal(-1);
     }
@@ -378,9 +378,9 @@ void AbstractDownloadItem::updateInfo(qsizetype bytesReceived, qsizetype bytesTo
 void AbstractDownloadItem::updateInfo()
 {
     if (m_speed > 0 && m_bytesReceived > 0 && m_bytesTotal > 0) {
-        const int estimatedTime = qCeil(qreal(m_bytesTotal - m_bytesReceived) / m_speed);
+        auto estimatedTime = qCeil(static_cast<qreal>(m_bytesTotal - m_bytesReceived) / m_speed);
         QTime time(0, 0, 0);
-        time = time.addSecs(estimatedTime);
+        time = time.addSecs(static_cast<int>(estimatedTime));
         m_remainingTime = time;
     } else {
         m_remainingTime = {};

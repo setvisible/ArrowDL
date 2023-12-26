@@ -43,6 +43,7 @@ public:
 
     /* Source */
     QString url() const;
+    QUrl url_TODO() const;
     void setUrl(const QString &url);
     QUrl distantFileUrl() const;
 

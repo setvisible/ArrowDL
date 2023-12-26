@@ -43,12 +43,12 @@ CheckableTableView::CheckableTableView(QWidget *parent) : QTableView(parent)
     setAlternatingRowColors(false);
     setMidLineWidth(3);
 
-    QHeaderView *vHeader = verticalHeader();
+    auto vHeader = verticalHeader();
     vHeader->setSectionResizeMode(QHeaderView::Fixed);
     vHeader->setDefaultSectionSize(vertical_header_width);
     vHeader->setVisible(false);
 
-    QHeaderView *hHeader = horizontalHeader();
+    auto hHeader = horizontalHeader();
     hHeader->setDefaultAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     hHeader->setHighlightSections(false);
 
@@ -73,8 +73,8 @@ QList<int> CheckableTableView::columnWidths() const
     Q_ASSERT(model);
     QList<int> widths;
     if (model) {
-        for (int column = 0; column < model->columnCount(); ++column) {
-            const int width = columnWidth(column);
+        for (auto column = 0; column < model->columnCount(); ++column) {
+            auto width = columnWidth(column);
             widths.append(width);
         }
     }
@@ -86,11 +86,11 @@ void CheckableTableView::setColumnWidths(const QList<int> &widths)
     QAbstractItemModel *model = this->model();
     Q_ASSERT(model);
     if (model) {
-        for (int column = 0; column < model->columnCount(); ++column) {
+        for (auto column = 0; column < model->columnCount(); ++column) {
             if (column == 0) {
                 setColumnWidth(column, CheckableItemDelegate::widthHint());
             } else if (column > 0 && column < widths.count()) {
-                int width = widths.at(column);
+                auto width = widths.at(column);
                 if (width < 0 || width > column_max_width) {
                     width =  column_default_width;
                 }
@@ -169,7 +169,7 @@ void CheckableTableView::showContextMenu(const QPoint &/*pos*/)
  ******************************************************************************/
 void CheckableTableView::checkSelected()
 {
-    foreach (auto index, selectedIndexesAtColumn(0)) {
+    for (auto index: selectedIndexesAtColumn(0)) {
         auto model = const_cast<QAbstractItemModel*>(index.model());
         model->setData(index, true, CheckableTableModel::CheckStateRole);
     }
@@ -177,7 +177,7 @@ void CheckableTableView::checkSelected()
 
 void CheckableTableView::uncheckSelected()
 {
-    foreach (auto index, selectedIndexesAtColumn(0)) {
+    for (auto index: selectedIndexesAtColumn(0)) {
         auto model = const_cast<QAbstractItemModel*>(index.model());
         model->setData(index, false, CheckableTableModel::CheckStateRole);
     }
@@ -185,8 +185,8 @@ void CheckableTableView::uncheckSelected()
 
 void CheckableTableView::toggleCheck()
 {
-    foreach (auto index, selectedIndexesAtColumn(0)) {
-        const bool selected = index.model()->data(index, CheckableTableModel::CheckStateRole).toBool();
+    for (auto index: selectedIndexesAtColumn(0)) {
+        auto selected = index.model()->data(index, CheckableTableModel::CheckStateRole).toBool();
         auto model = const_cast<QAbstractItemModel*>(index.model());
         model->setData(index, !selected, CheckableTableModel::CheckStateRole);
     }
@@ -196,16 +196,16 @@ void CheckableTableView::selectFiltered()
 {
     selectionModel()->clearSelection();
 
-    const int rowCount = model()->rowCount();
-    const int colCount = model()->columnCount();
-    for (int i = 0; i < rowCount; ++i) {
+    auto rowCount = model()->rowCount();
+    auto colCount = model()->columnCount();
+    for (auto i = 0; i < rowCount; ++i) {
 
-        const QModelIndex &index = model()->index(i, 0);
-        const bool selected = index.model()->data(index, CheckableTableModel::CheckStateRole).toBool();
+        auto index = model()->index(i, 0);
+        auto selected = index.model()->data(index, CheckableTableModel::CheckStateRole).toBool();
 
         if (selected) {
-            for (int j = 0; j < colCount; ++j) {
-                const QModelIndex &selectedIndex = model()->index(i, j);
+            for (auto j = 0; j < colCount; ++j) {
+                auto selectedIndex = model()->index(i, j);
                 selectionModel()->select(selectedIndex, QItemSelectionModel::Select);
             }
         }
@@ -214,11 +214,11 @@ void CheckableTableView::selectFiltered()
 
 void CheckableTableView::invertSelection()
 {
-    const int rowCount = model()->rowCount();
-    const int colCount = model()->columnCount();
-    for (int i = 0; i < rowCount; ++i) {
-        for (int j = 0; j < colCount; ++j) {
-            const QModelIndex &index = model()->index(i, j);
+    auto rowCount = model()->rowCount();
+    auto colCount = model()->columnCount();
+    for (auto i = 0; i < rowCount; ++i) {
+        for (auto j = 0; j < colCount; ++j) {
+            auto index = model()->index(i, j);
             selectionModel()->select(index, QItemSelectionModel::Toggle);
         }
     }
@@ -229,7 +229,7 @@ void CheckableTableView::invertSelection()
 QModelIndexList CheckableTableView::selectedIndexesAtColumn(int column)
 {
     QModelIndexList indexes;
-    foreach (auto index, selectionModel()->selectedIndexes()) {
+    for (auto index: selectionModel()->selectedIndexes()) {
         if (index.column() == column) {
             indexes.append(index);
         }

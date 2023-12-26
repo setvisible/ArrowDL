@@ -113,12 +113,12 @@ QNetworkReply* NetworkManager::get(const QUrl &url, const QString &referer)
     request.setUrl(url);
 
     // User-Agent
-    const QString httpUserAgent = m_settings ? m_settings->httpUserAgent() : QLatin1String("");
+    auto httpUserAgent = m_settings ? m_settings->httpUserAgent() : QLatin1String("");
     request.setHeader(QNetworkRequest::UserAgentHeader, httpUserAgent);
 
     // Referer
     if (!referer.isEmpty()) {
-        QByteArray rawReferer = referer.toUtf8();
+        auto rawReferer = referer.toUtf8();
         request.setRawHeader(QByteArray("Referer"), rawReferer);
     }
 
@@ -136,7 +136,7 @@ QNetworkReply* NetworkManager::get(const QUrl &url, const QString &referer)
                          QNetworkRequest::NoLessSafeRedirectPolicy);
 #endif
 
-    QNetworkReply* reply = m_networkAccessManager->get(request);
+    auto reply = m_networkAccessManager->get(request);
     Q_ASSERT(reply);
     connect(reply, SIGNAL(metaDataChanged()), this, SLOT(onMetaDataChanged()));
     connect(reply, SIGNAL(redirected(QUrl)), this, SLOT(onRedirected(QUrl)));

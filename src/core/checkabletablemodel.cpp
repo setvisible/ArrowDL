@@ -71,7 +71,7 @@ bool CheckableTableModel::setData(const QModelIndex &index, const QVariant &valu
         return false;
     }
     if (index.column() == 0 && role == CheckStateRole) {
-        const bool checked = value.toBool();
+        auto checked = value.toBool();
         if (m_checkedIndexes.contains(index) == checked) {
             return true; // Successful
         }
@@ -82,8 +82,8 @@ bool CheckableTableModel::setData(const QModelIndex &index, const QVariant &valu
         }
         emit checkStateChanged(index, checked);
 
-        QModelIndex topLeft = index;
-        QModelIndex bottomRight = this->index(index.row(), columnCount());
+        auto topLeft = index;
+        auto bottomRight = this->index(index.row(), columnCount());
         emit dataChanged(topLeft, bottomRight);
         return true;
     }

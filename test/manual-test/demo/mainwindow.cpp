@@ -416,11 +416,11 @@ void MainWindow::refreshTitleAndStatus()
             ? QString("~%0").arg(Format::currentSpeedToString(speed))
             : QString();
 
-    const int completedCount = m_downloadManager->completedJobs().count();
-    // const int runningCount = m_downloadManager->runningJobs().count();
-    const int failedCount = m_downloadManager->failedJobs().count();
-    const int count = m_downloadManager->count();
-    const int doneCount = completedCount + failedCount;
+    auto completedCount = m_downloadManager->completedJobs().count();
+    // auto runningCount = m_downloadManager->runningJobs().count();
+    auto failedCount = m_downloadManager->failedJobs().count();
+    auto count = m_downloadManager->count();
+    auto doneCount = completedCount + failedCount;
 
     auto windowTitle = QString("%0 %1/%2 - %3")
             .arg(totalSpeed).arg(doneCount).arg(count)
@@ -431,10 +431,10 @@ void MainWindow::refreshTitleAndStatus()
 
 void MainWindow::refreshMenus()
 {
-    const bool hasJobs = !m_downloadManager->downloadItems().isEmpty();
-    const bool hasSelection = !m_downloadManager->selection().isEmpty();
-    // const bool hasOnlyOneSelected = m_downloadManager->selection().count() == 1;
-    //bool hasOnlyCompletedSelected = hasSelection;
+    auto hasJobs = !m_downloadManager->downloadItems().isEmpty();
+    auto hasSelection = !m_downloadManager->selection().isEmpty();
+    //auto hasOnlyOneSelected = m_downloadManager->selection().count() == 1;
+    //auto hasOnlyCompletedSelected = hasSelection;
     //foreach (auto item, m_downloadManager->selection()) {
     //    if (item->state() != IDownloadItem::Completed) {
     //        hasOnlyCompletedSelected = false;

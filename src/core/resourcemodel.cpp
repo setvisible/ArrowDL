@@ -138,7 +138,7 @@ void ResourceModel::retranslateUi()
  ******************************************************************************/
 int ResourceModel::columnCount(const QModelIndex &parent) const
 {
-    return parent.isValid() ? 0 : m_headers.count();
+    return parent.isValid() ? 0 : static_cast<int>(m_headers.count());
 }
 
 QVariant ResourceModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -154,7 +154,7 @@ QVariant ResourceModel::headerData(int section, Qt::Orientation orientation, int
 
 int ResourceModel::rowCount(const QModelIndex &parent) const
 {
-    return parent.isValid() ? 0 : m_items.count();
+    return parent.isValid() ? 0 : static_cast<int>(m_items.count());
 }
 
 QVariant ResourceModel::data(const QModelIndex &index, int role) const

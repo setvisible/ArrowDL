@@ -87,7 +87,7 @@ void tst_TorrentContext::toBitArray()
     // Given
     QFETCH(QBitArray, input);
     lt::typed_bitfield<lt::piece_index_t> pieces(input.size(), false);
-    for (int i = 0; i < input.size(); ++i) {
+    for (auto i = 0; i < input.size(); ++i) {
         if (input.testBit(i)) {
             pieces.set_bit(static_cast<lt::piece_index_t>(i));
         }

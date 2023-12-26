@@ -101,12 +101,12 @@ void StreamDialog::onCollected(const QStringList &extractors, const QStringList 
     ui->plainTextEdit->appendPlainText(QString());
     ui->plainTextEdit->appendPlainText(QString("%0\t%1").arg(tr("Site"), tr("Description")));
     ui->plainTextEdit->appendPlainText(QString());
-    for (int i = 0; i < count; ++i) {
+    for (auto i = 0; i < count; ++i) {
         ui->plainTextEdit->appendPlainText(QString("%0\t%1").arg(
                                                extractors.at(i),
                                                descriptions.at(i)));
     }
-    for (int i = count, total = extractors.count(); i < total; ++i) {
+    for (auto i = count, total = extractors.count(); i < total; ++i) {
         ui->plainTextEdit->appendPlainText(QString("%0").arg(
                                                extractors.at(i)));
     }

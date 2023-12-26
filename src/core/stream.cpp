@@ -538,11 +538,11 @@ QStringList Stream::splitMultiThreadMessages(const QString &raw) const
 {
     QStringList messages;
     static QRegularExpression re(R"(\[download\]|\[Merger\])", QRegularExpression::CaseInsensitiveOption);
-    QString raw2 = raw;
-    qsizetype pos = raw2.lastIndexOf(re);
+    auto raw2 = raw;
+    auto pos = raw2.lastIndexOf(re);
     if (0 <= pos && pos <= raw2.size()) {
         while (pos != -1) {
-            QString message = raw2.last(raw2.size() - pos);
+            auto message = raw2.last(raw2.size() - pos);
             messages.prepend(message);
             raw2.truncate(pos);
             pos = raw2.lastIndexOf(re);
@@ -555,7 +555,7 @@ QStringList Stream::splitMultiThreadMessages(const QString &raw) const
 
 void Stream::parseStandardOutput(const QString &msg)
 {
-    QStringList messages = splitMultiThreadMessages(msg);
+    auto messages = splitMultiThreadMessages(msg);
     foreach (auto message, messages) {
         parseSingleStandardOutput(message);
     }
@@ -572,8 +572,8 @@ void Stream::parseSingleStandardOutput(const QString &msg)
     }
     if (areEqual(tokens.at(0), C_MERGER_msg_header)) {
         // During merger, the progress is arbitrarily at 99%, not 100%.
-        qsizetype bytesTotal = _q_bytesTotal();
-        qsizetype almostFinished = static_cast<qsizetype>(0.99 * qreal(bytesTotal));
+        auto bytesTotal = _q_bytesTotal();
+        auto almostFinished = static_cast<qsizetype>(0.99 * qreal(bytesTotal));
         emit downloadProgress(almostFinished, bytesTotal);
         return;
     }
@@ -595,7 +595,7 @@ void Stream::parseSingleStandardOutput(const QString &msg)
                     ? tokens.at(3)
                     : tokens.at(4);
 
-            qreal percent = Format::parsePercentDecimal(percentToken);
+            auto percent = Format::parsePercentDecimal(percentToken);
             if (percent < 0) {
                 qWarning("Can't parse '%s'.", percentToken.toLatin1().data());
                 return;
@@ -609,7 +609,7 @@ void Stream::parseSingleStandardOutput(const QString &msg)
             m_bytesReceivedCurrentSection = static_cast<qsizetype>(qreal(percent * m_bytesTotalCurrentSection) / 100);
         }
 
-        qsizetype received = m_bytesReceived + m_bytesReceivedCurrentSection;
+        auto received = m_bytesReceived + m_bytesReceivedCurrentSection;
         emit downloadProgress(received, _q_bytesTotal());
     }
 }
@@ -687,7 +687,7 @@ QUrl StreamCleanCache::cacheDir()
 {
     // Try to get the .cache from $XDG_CACHE_HOME, if it's not set,
     // it has to be in ~/.cache as per XDG standard
-    QString dir = QString::fromUtf8(getenv("XDG_CACHE_HOME"));
+    auto dir = QString::fromUtf8(getenv("XDG_CACHE_HOME"));
     if (dir.isEmpty()) {
         dir = QDir::cleanPath(QDir::homePath() + "/.cache"_L1);
     }

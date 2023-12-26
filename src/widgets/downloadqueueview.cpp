@@ -86,7 +86,7 @@ void QueueView::mouseMoveEvent(QMouseEvent *event)
             < QApplication::startDragDistance()) {
         return;
     }
-    const QList<QueueItem*> queueItems = toQueueItem(selectedItems());
+    auto queueItems = toQueueItem(selectedItems());
 
     QPixmap pixmap;
     QList<QUrl> urls;
@@ -235,7 +235,7 @@ void QueueViewItemDelegate::paint(
 
     } else if (index.column() == col_2_progress_bar) {
 
-        const int progress = index.data(QueueItem::ProgressRole).toInt();
+        auto progress = index.data(QueueItem::ProgressRole).toInt();
         auto state = static_cast<IDownloadItem::State>(index.data(QueueItem::StateRole).toInt());
 
         CustomStyleOptionProgressBar progressBarOption;
@@ -258,11 +258,10 @@ void QueueViewItemDelegate::paint(
     }
 }
 
-QWidget* QueueViewItemDelegate::createEditor(
-    QWidget *parent,
-    const QStyleOptionViewItem &/*option*/,
-    const QModelIndex &index) const
+QWidget* QueueViewItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    Q_UNUSED(option)
+
     if (!index.isValid())
         return nullptr;
 
@@ -442,7 +441,7 @@ DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
     // Drag-n-Drop
     connect(m_queueView, SIGNAL(dropped(QueueItem*)), this, SLOT(onQueueItemDropped(QueueItem*)));
 
-    QLayout* layout = new QGridLayout(this);
+    auto layout = new QGridLayout(this);
     layout->addWidget(m_queueView);
     layout->setContentsMargins(0, 0, 0, 0);
 
@@ -455,15 +454,16 @@ DownloadQueueView::DownloadQueueView(QWidget *parent) : QWidget(parent)
  ******************************************************************************/
 QSize DownloadQueueView::sizeHint() const
 {
-    const QHeaderView *header = m_queueView->header();
+    auto header = m_queueView->header();
 
     // Add up the sizes of all header sections. The last section is
     // stretched, so its size is relative to the size of the width;
     // instead of counting it, we count the size of its largest value.
     int width = 200;
     // int width = fontMetrics().horizontalAdvance(tr("Downloading") + "  ");
-    for (int i = 0; i < header->count() - 1; ++i)
+    for (auto i = 0; i < header->count() - 1; ++i) {
         width += header->sectionSize(i);
+    }
 
     return QSize(width, QWidget::sizeHint().height());
 }
@@ -573,13 +573,13 @@ void DownloadQueueView::setEngine(DownloadEngine *downloadEngine)
     }
 
     if (m_downloadEngine) {
-        for (const Cx *cx = &connections[0]; cx->signal; cx++) {
+        for (auto cx = &connections[0]; cx->signal; cx++) {
             QObject::disconnect(m_downloadEngine, cx->signal, this, cx->slot);
         }
     }
     m_downloadEngine = downloadEngine;
     if (m_downloadEngine) {
-        for (const Cx *cx = &connections[0]; cx->signal; cx++) {
+        for (auto cx = &connections[0]; cx->signal; cx++) {
             QObject::connect(m_downloadEngine, cx->signal, this, cx->slot);
         }
     }
@@ -613,7 +613,7 @@ void DownloadQueueView::retranslateUi()
                ;
     m_queueView->setHeaderLabels(headers);
 
-    for (int index = 0, count = m_queueView->topLevelItemCount(); index < count; ++index) {
+    for (auto index = 0; index < m_queueView->topLevelItemCount(); ++index) {
         auto treeItem = m_queueView->topLevelItem(index);
         auto queueItem = dynamic_cast<QueueItem *>(treeItem);
         if (queueItem) {
@@ -659,7 +659,7 @@ void DownloadQueueView::onJobRemoved(const DownloadRange &range)
 
 void DownloadQueueView::onJobStateChanged(IDownloadItem *item)
 {
-    QueueItem* queueItem = getQueueItem(item);
+    auto queueItem = getQueueItem(item);
     if (queueItem) {
         queueItem->updateItem();
     }
@@ -673,7 +673,7 @@ void DownloadQueueView::onSelectionChanged()
     m_downloadEngine->beginSelectionChange();
 
     auto selection = m_downloadEngine->selection();
-    for (int index = 0, count = m_queueView->topLevelItemCount(); index < count; ++index) {
+    for (auto index = 0; index < m_queueView->topLevelItemCount(); ++index) {
         auto treeItem = m_queueView->topLevelItem(index);
         auto queueItem = dynamic_cast<const QueueItem *>(treeItem);
         auto isSelected = selection.contains(queueItem->downloadItem());
@@ -690,14 +690,14 @@ void DownloadQueueView::onSortChanged()
     auto selection = m_downloadEngine->selection();
 
     auto items = m_downloadEngine->downloadItems();
-    for (int i = 0, total = items.size(); i < total; ++i) {
+    for (auto i = 0; i < items.size(); ++i) {
         auto downloadItem = items.at(i);
         auto index = getIndex(downloadItem);
         if (index != -1) {
             // Rem: takeTopLevelItem() changes the selection
             auto treeItem =  m_queueView->takeTopLevelItem(index);
             if (treeItem) {
-                m_queueView->insertTopLevelItem(i, treeItem);
+                m_queueView->insertTopLevelItem(static_cast<int>(i), treeItem);
             }
         }
     }
@@ -710,7 +710,7 @@ void DownloadQueueView::onSortChanged()
  ******************************************************************************/
 int DownloadQueueView::getIndex(IDownloadItem *downloadItem) const
 {
-    for (int index = 0, count = m_queueView->topLevelItemCount(); index < count; ++index) {
+    for (auto index = 0; index < m_queueView->topLevelItemCount(); ++index) {
         auto treeItem = m_queueView->topLevelItem(index);
         if (treeItem->type() == QTreeWidgetItem::UserType) {
             auto queueItem = dynamic_cast<const QueueItem *>(treeItem);
@@ -766,17 +766,17 @@ void DownloadQueueView::onQueueItemCommitData(QWidget *editor)
 {
     auto lineEdit = qobject_cast<QLineEdit*>(editor);
     if (lineEdit) {
-        QString newName = lineEdit->text();
+        auto newName = lineEdit->text();
 
         // remove extension from base name
-        int pos = newName.lastIndexOf('.');
+        auto pos = newName.lastIndexOf('.');
         if (pos != -1) {
             newName = newName.left(pos);
         }
 
         auto treeItem = m_queueView->currentItem();
         auto queueItem = dynamic_cast<QueueItem *>(treeItem);
-        AbstractDownloadItem* downloadItem = queueItem->downloadItem();
+        auto downloadItem = queueItem->downloadItem();
 
         downloadItem->rename(newName);
         queueItem->updateItem();

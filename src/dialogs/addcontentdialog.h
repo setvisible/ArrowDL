@@ -70,7 +70,7 @@ private slots:
     void onFinished();
 #endif
     void onSelectionChanged();
-    void onChanged(QString);
+    void onChanged(const QString &value);
     void refreshFilters();
 
 private:

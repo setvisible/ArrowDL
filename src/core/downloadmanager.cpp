@@ -118,11 +118,11 @@ void DownloadManager::saveQueue()
     if (!m_queueFile.isEmpty()) {
         QList<DownloadItem *> items;
 
-        const bool skipCompleted = m_settings->isRemoveCompletedEnabled();
-        const bool skipCanceled = m_settings->isRemoveCanceledEnabled();
-        const bool skipPaused = m_settings->isRemovePausedEnabled();
+        auto skipCompleted = m_settings->isRemoveCompletedEnabled();
+        auto skipCanceled = m_settings->isRemoveCanceledEnabled();
+        auto skipPaused = m_settings->isRemovePausedEnabled();
 
-        QList<IDownloadItem *> abstractItems = downloadItems();
+        auto abstractItems = downloadItems();
         foreach (auto abstractItem, abstractItems) {
             auto item = dynamic_cast<DownloadItem*>(abstractItem);
             if (item) {
@@ -211,8 +211,8 @@ inline ResourceItem* DownloadManager::createResourceItem(const QUrl &url)
 {
     QSettings settings;
     settings.beginGroup("Wizard");
-    const QString path = settings.value("Path"_L1, {}).toString();
-    const QString mask = settings.value("Mask"_L1, {}).toString();
+    auto path = settings.value("Path"_L1, {}).toString();
+    auto mask = settings.value("Mask"_L1, {}).toString();
     settings.endGroup();
 
     auto resource = new ResourceItem();

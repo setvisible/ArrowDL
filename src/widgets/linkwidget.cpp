@@ -75,8 +75,8 @@ void LinkWidgetItemDelegate::paint(QPainter *painter,
     initStyleOption(&myOption, index);
 
     if (index.column() == 1) {
-        const QUrl url(myOption.text);
-        const QPixmap pixmap = MimeDatabase::fileIcon(url, thumbnailHint());
+        auto url = QUrl(myOption.text);
+        auto pixmap = MimeDatabase::fileIcon(url, thumbnailHint());
         myOption.icon.addPixmap(pixmap);
         myOption.decorationAlignment = Qt::AlignHCenter |Qt::AlignVCenter;
         myOption.decorationPosition = QStyleOptionViewItem::Left;
@@ -160,7 +160,7 @@ void LinkWidget::onSectionResized(int logicalIndex, int /*oldSize*/, int newSize
 
 void LinkWidget::resizeSection(CheckableTableView *view, int logicalIndex, int newSize)
 {
-    QHeaderView *header = view->horizontalHeader();
+    auto header = view->horizontalHeader();
     QSignalBlocker blocker(header);
     header->resizeSection(logicalIndex, newSize);
 }
@@ -233,15 +233,15 @@ void LinkWidget::contextMenuCallback(QMenu *contextMenu)
     if (!contextMenu) {
         return;
     }
-    QAction *actionMask = new QAction(tr("Mask..."), contextMenu);
+    auto actionMask = new QAction(tr("Mask..."), contextMenu);
     actionMask->setIcon(QIcon::fromTheme("mask"));
     connect(actionMask, SIGNAL(triggered()), this, SLOT(customizeMask()));
 
-    QAction *actionCopyLinks = new QAction(tr("Copy Links"), contextMenu);
+    auto actionCopyLinks = new QAction(tr("Copy Links"), contextMenu);
     actionCopyLinks->setShortcut(QKeySequence::Copy);
     connect(actionCopyLinks, SIGNAL(triggered()), this, SLOT(copyLinks()));
 
-    QAction *actionOpen = new QAction(textForOpenAction(), contextMenu);
+    auto actionOpen = new QAction(textForOpenAction(), contextMenu);
     actionOpen->setIcon(QIcon::fromTheme("file-open"));
     actionOpen->setShortcut(QKeySequence::Open);
     connect(actionOpen, SIGNAL(triggered()), this, SLOT(open()));
@@ -267,15 +267,14 @@ void LinkWidget::copyLinks()
         input.append(text);
         input.append('\n');
     }
-    QClipboard *clipboard = QApplication::clipboard();
-    clipboard->setText(input);
+    QApplication::clipboard()->setText(input);
 }
 
 void LinkWidget::open()
 {
     foreach (auto index, currentTableView()->selectedIndexesAtColumn(1)) {
-        const QString text = index.model()->data(index, Qt::DisplayRole).toString();
-        QUrl url(text);
+        auto text = index.model()->data(index, Qt::DisplayRole).toString();
+        auto url = QUrl(text);
         QDesktopServices::openUrl(url);
     }
 }
@@ -292,7 +291,7 @@ static inline QString elide(const QString &text)
 
 inline QString LinkWidget::textForOpenAction() const
 {
-    const QModelIndexList indexes = currentTableView()->selectionModel()->selectedIndexes();
+    auto indexes = currentTableView()->selectionModel()->selectedIndexes();
     QModelIndexList urlIndexes;
     foreach (auto index, indexes) {
         if (index.column() == 1) {
@@ -303,8 +302,8 @@ inline QString LinkWidget::textForOpenAction() const
         return QLatin1String("-");
     }
     if (urlIndexes.count() == 1) {
-        const QModelIndex urlIndex = urlIndexes.first();
-        const QString text = urlIndex.model()->data(urlIndex, Qt::DisplayRole).toString();
+        auto urlIndex = urlIndexes.first();
+        auto text = urlIndex.model()->data(urlIndex, Qt::DisplayRole).toString();
         return tr("Open %0").arg(elide(text));
     }
     return tr("Open %0 Links").arg(urlIndexes.count());

@@ -126,8 +126,8 @@ private:
     bool m_selectionAboutToChange;
 
     void sortSelectionByIndex();
-    void moveUpTo(int targetIndex);
-    void moveDownTo(int targetIndex);
+    void moveUpTo(qsizetype targetIndex);
+    void moveDownTo(qsizetype targetIndex);
 };
 
 #endif // CORE_DOWNLOAD_ENGINE_H

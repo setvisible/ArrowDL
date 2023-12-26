@@ -50,7 +50,7 @@ static QString decodePercentEncoding(const QString &input)
      * when the URL is misformed and contains a mix
      * of ASCII and UTF-8 encoding.
      */
-    QString decoded = input;
+    auto decoded = input;
     decoded.replace("%0A", "\r");
     decoded.replace("%0D", "\n");
     decoded.replace("%20", " ");
@@ -126,9 +126,9 @@ QString Mask::decodeMagnetEncoding(const QString &s)
  ******************************************************************************/
 QUrl Mask::fromUserInput(const QString &input)
 {
-    QString cleaned = decodePercentEncoding(input);
+    auto cleaned = decodePercentEncoding(input);
     cleaned = cleaned.trimmed();
-    QUrl url = QUrl::fromUserInput(cleaned);
+    auto url = QUrl::fromUserInput(cleaned);
     if (url.isEmpty()) {
         url = QUrl::toPercentEncoding(cleaned);
     }
@@ -147,14 +147,14 @@ QUrl Mask::fromUserInput(const QString &input)
      * - Not a fragment:  myfile#.txt
      */
     if (url.hasQuery()) {
-        const QString query = url.query();
+        auto query = url.query();
         if ( query.isEmpty() ||
              query.contains('=') ||
              query.contains('#') ||
              url.hasFragment()) {
             // valid query, just continue.
         } else {
-            QString encoded = cleaned;
+            auto encoded = cleaned;
             encoded.replace("?", "%3F");
             encoded.replace("#", "%23");
             url = QUrl::fromUserInput(encoded);
@@ -164,7 +164,7 @@ QUrl Mask::fromUserInput(const QString &input)
         }
     } else {
         if (url.hasFragment()) {
-            QString encoded = cleaned;
+            auto encoded = cleaned;
             encoded.replace("?", "%3F");
             encoded.replace("#", "%23");
             url = QUrl::fromUserInput(encoded);
@@ -176,44 +176,38 @@ QUrl Mask::fromUserInput(const QString &input)
     return url;
 }
 
-QString Mask::interpret(
-    const QString &input,
-    const QString &customFileName,
-    const QString &mask)
+QString Mask::interpret(const QString &input, const QString &customFileName, const QString &mask)
 {
-    const QUrl url = fromUserInput(input);
+    auto url = fromUserInput(input);
     return interpret(url, customFileName, mask);
 }
 
-QString Mask::interpret(
-    const QUrl &url,
-    const QString &customFileName,
-    const QString &mask)
+QString Mask::interpret(const QUrl &url, const QString &customFileName, const QString &mask)
 {
     if (!url.isValid()) {
         return {};
     }
-    QString decodedMask = QString("%0.%1").arg(NAME, EXT);
+    auto decodedMask = QString("%0.%1").arg(NAME, EXT);
     if (mask.isEmpty()) {
         decodedMask = QString("%0/%1/%2.%3").arg(URL, SUBDIRS, NAME, EXT);
     } else {
         decodedMask = mask;
     }
 
-    const QString host = url.host();
-    const QString path = url.path();
-    const QString filename = url.fileName();
-    const QString query = url.query();
+    auto host = url.host();
+    auto path = url.path();
+    auto filename = url.fileName();
+    auto query = url.query();
 
     QFileInfo fi(filename);
-    QString basename = fi.completeBaseName();
-    QString suffix = fi.suffix();
+    auto basename = fi.completeBaseName();
+    auto suffix = fi.suffix();
 
     if (!customFileName.isEmpty()) {
         basename = customFileName;
     }
 
-    QString subdirs = path;
+    auto subdirs = path;
     subdirs.chop(filename.count());
     if (subdirs.startsWith(QChar('/'))) {
         subdirs.remove(0, 1);
@@ -222,12 +216,12 @@ QString Mask::interpret(
         subdirs.chop(1);
     }
 
-    QString fullUrl = host + path;
+    auto fullUrl = host + path;
 
-    QString flatUrl = fullUrl;
+    auto flatUrl = fullUrl;
     flatUrl.replace(QChar('/'), QChar('-'));
 
-    QString flatSubdirs = subdirs;
+    auto flatSubdirs = subdirs;
     flatSubdirs.replace(QChar('/'), QChar('-'));
 
     // Renaming Tags

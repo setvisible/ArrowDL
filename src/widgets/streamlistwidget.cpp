@@ -337,7 +337,7 @@ void StreamTableModel::setStreamObjects(const QList<StreamObject> &streamObjects
     clear();
     if (!streamObjects.isEmpty()) {
         QModelIndex parent = QModelIndex(); // root is always empty
-        beginInsertRows(parent, 0, streamObjects.count());
+        beginInsertRows(parent, 0, static_cast<int>(streamObjects.count()));
         m_items = streamObjects;
         endInsertRows();
     }
@@ -347,7 +347,7 @@ void StreamTableModel::setStreamObjects(const QList<StreamObject> &streamObjects
  ******************************************************************************/
 void StreamTableModel::enableTrackNumberPrefix(bool enable)
 {
-    for (int row = 0; row < m_items.count(); ++row) {
+    for (auto row = 0; row < m_items.count(); ++row) {
         auto item = m_items.at(row); // copy!
         auto title = item.title();
         auto prefix = QString("%0 ").arg(item.data().playlist_index);
@@ -398,7 +398,7 @@ QList<StreamObject> StreamTableModel::selection() const
 
 int StreamTableModel::columnCount(const QModelIndex &parent) const
 {
-    return parent.isValid() ? 0 : m_headers.count();
+    return parent.isValid() ? 0 : static_cast<int>(m_headers.count());
 }
 
 QVariant StreamTableModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -414,7 +414,7 @@ QVariant StreamTableModel::headerData(int section, Qt::Orientation orientation, 
 
 int StreamTableModel::rowCount(const QModelIndex &parent) const
 {
-    return parent.isValid() ? 0 : m_items.count();
+    return parent.isValid() ? 0 : static_cast<int>(m_items.count());
 }
 
 QVariant StreamTableModel::data(const QModelIndex &index, int role) const

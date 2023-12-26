@@ -47,8 +47,8 @@ static QColor color(TorrentPieceItem::Status status)
 
 static void colorize(QWidget *widget, TorrentPieceItem::Status status)
 {
-    QColor _color = color(status);
-    QPalette pal = widget->palette();
+    auto _color = color(status);
+    auto pal = widget->palette();
     pal.setColor(QPalette::Window, _color);
     widget->setAutoFillBackground(true);
     widget->setPalette(pal);
@@ -242,8 +242,8 @@ void TorrentPieceMapWorker::run()
 #endif
 
     m_lock.lockForRead();
-    TorrentPieceData pieceData = m_pieceData;
-    const QList<TorrentPeerInfo> peers = m_peers;
+    auto pieceData = m_pieceData;
+    // const QList<TorrentPeerInfo> peers = m_peers;
     m_lock.unlock();
 
     setDirty(false);
@@ -281,7 +281,7 @@ void TorrentPieceMap::updateWidget()
 
         pieceData.pieceAvailability = m_torrent->detail().pieceAvailability;
         pieceData.piecePriority = m_torrent->detail().piecePriority;
-        const QList<TorrentPeerInfo> peers = m_torrent->detail().peers;
+        auto peers = m_torrent->detail().peers;
 
         m_workerThread->doWork(pieceData, peers);
 
@@ -345,10 +345,10 @@ void TorrentPieceMap::populateScene(const TorrentPieceData &pieceData)
  */
 void TorrentPieceMap::adjustScene()
 {
-    const QSize viewportSize = ui->graphicsView->viewport()->size();
-    const int maxWidth = viewportSize.width();
-    const qreal width = m_tileWidth + 2 * m_tilePadding;
-    const qreal height = m_tileHeight + 2 * m_tilePadding;
+    auto viewportSize = ui->graphicsView->viewport()->size();
+    qreal maxWidth = static_cast<qreal>(viewportSize.width());
+    qreal width = m_tileWidth + 2 * m_tilePadding;
+    qreal height = m_tileHeight + 2 * m_tilePadding;
     qreal x = 0;
     qreal y = 0;
     foreach (auto item, m_items) {
@@ -360,7 +360,7 @@ void TorrentPieceMap::adjustScene()
         x += width;
     }
     const QRectF viewportRect(QPointF(0, 0), viewportSize);
-    const QRectF rect = m_scene->itemsBoundingRect().united(viewportRect);
+    auto rect = m_scene->itemsBoundingRect().united(viewportRect);
     m_scene->setSceneRect(rect);
 }
 
@@ -369,9 +369,9 @@ void TorrentPieceMap::adjustScene()
 void TorrentPieceMap::updateScene(const TorrentPieceData &pieceData)
 {
     Q_ASSERT(pieceData.size == m_items.count());
-    const int size = pieceData.size;
-    for (int i = 0; i < size; ++i) {
-        TorrentPieceItem *item = m_items.at(i);
+    auto size = pieceData.size;
+    for (auto i = 0; i < size; ++i) {
+        auto item = m_items.at(i);
 
         if (i < pieceData.pieceAvailability.size()) {
             item->setAvailability(pieceData.pieceAvailability.at(i));

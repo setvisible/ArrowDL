@@ -105,7 +105,7 @@ static void VERIFY_ORDER(const QScopedPointer<DownloadEngine> &engine, QList<int
     if (engine->downloadItems().size() != indexes.size()) {
         QFAIL("Sizes must be the same");
     }
-    for (int i = 0, total = indexes.size(); i < total; ++i) {
+    for (auto i = 0; i < indexes.size(); ++i) {
         auto expected = QString("item %0").arg(indexes.at(i));
         auto actual = items.at(i)->localFileName();
         if (actual != expected) {
@@ -131,7 +131,7 @@ static void select(const QScopedPointer<DownloadEngine> &engine, QList<int> inde
 {
     Q_ASSERT(!engine.isNull());
     QList<IDownloadItem*> selection;
-    for (int i = 0, total = indexes.size(); i < total; ++i) {
+    for (auto i = 0; i < indexes.size(); ++i) {
         auto index = indexes.at(i);
         selection.append(engine->downloadItems().at(index));
     }

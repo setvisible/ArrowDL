@@ -68,7 +68,7 @@ void TorrentProgressBar::paintEvent(QPaintEvent *)
     myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
     myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
 
-    const int progress = value();
+    auto progress = value();
 
     CustomStyleOptionProgressBar progressBarOption;
     progressBarOption.state = myOption.state;

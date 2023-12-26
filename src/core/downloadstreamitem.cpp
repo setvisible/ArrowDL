@@ -45,7 +45,7 @@ void DownloadStreamItem::resume()
         return;
     }
 
-    const bool connected = flag == File::Open;
+    auto connected = flag == File::Open;
 
     /* Prepare the connection, try to contact the server */
     if (this->checkResume(connected)) {
@@ -56,7 +56,7 @@ void DownloadStreamItem::resume()
         }
         m_stream = new Stream(this);
 
-        const QString outputPath = localFullFileName();
+        auto outputPath = localFullFileName();
         m_stream->setLocalFullOutputPath(outputPath);
 
         m_stream->setUrl(resource()->url());

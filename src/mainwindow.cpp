@@ -1111,18 +1111,18 @@ void MainWindow::onTorrentContextChanged()
 
 void MainWindow::refreshTitleAndStatus()
 {
-    qreal speed = m_downloadManager->totalSpeed();
+    auto speed = m_downloadManager->totalSpeed();
     QString totalSpeed;
     if (speed > 0) {
         totalSpeed = QString("~%0").arg(Format::currentSpeedToString(speed));
     }
-    const int completedCount = m_downloadManager->completedJobs().count();
-    const int runningCount = m_downloadManager->runningJobs().count();
-    const int failedCount = m_downloadManager->failedJobs().count();
-    const int count = m_downloadManager->count();
-    const int doneCount = completedCount + failedCount;
+    auto completedCount = m_downloadManager->completedJobs().count();
+    auto runningCount = m_downloadManager->runningJobs().count();
+    auto failedCount = m_downloadManager->failedJobs().count();
+    auto count = m_downloadManager->count();
+    auto doneCount = completedCount + failedCount;
 
-    const bool torrent = TorrentContext::getInstance().isEnabled();
+    auto torrent = TorrentContext::getInstance().isEnabled();
 
     auto windowTitle = QString("%0 %1/%2 - %3 v%4").arg(
                 totalSpeed,

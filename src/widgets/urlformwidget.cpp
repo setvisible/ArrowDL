@@ -150,7 +150,7 @@ QString UrlFormWidget::url() const
     const QUrl url(ui->urlLineEdit->text());
 
     // Remove trailing / and \ and . in the given text.
-    const QString adjusted = url.adjusted(QUrl::StripTrailingSlash).toString();
+    auto adjusted = url.adjusted(QUrl::StripTrailingSlash).toString();
 
     return adjusted;
 }
