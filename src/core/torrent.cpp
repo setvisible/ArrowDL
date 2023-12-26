@@ -418,12 +418,12 @@ qint64 TorrentFileTableModel::pieceCount(const TorrentFileMetaInfo &mi) const
 QBitArray TorrentFileTableModel::pieceSegments(const TorrentFileMetaInfo &mi) const
 {
     if (m_downloadedPieces.isEmpty()) {
-        return QBitArray();
+        return {};
     }
     auto offset = firstPieceIndex(mi);
     auto size = pieceCount(mi);
     if (offset < 0 || size < 0 || m_downloadedPieces.size() < offset + size) {
-        return QBitArray();
+        return {};
     }
     QBitArray ba(size, false);
     for (int i = 0; i < size; ++i) {
@@ -839,7 +839,7 @@ void TorrentTrackerTableModel::refreshData(const QList<TorrentTrackerInfo> &trac
         return;
     }
 
-    QModelIndex parent = QModelIndex(); // empty is always root
+    QModelIndex parent = {}; // empty is always root
 
     QList<TorrentTrackerInfo> newItems;
 

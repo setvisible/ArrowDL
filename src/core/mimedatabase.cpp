@@ -114,7 +114,7 @@ QPixmap MimeDatabaseSingleton::fileIcon(const QUrl &url, int extend)
         const QDir dir(QDir::tempPath());
         if (!dir.exists()) {
             qWarning("Can't find: '%s'.", dir.path().toLatin1().data());
-            return QPixmap();
+            return {};
         }
 
         const QString filename = dir.filePath("XXXXXX_" + nativeName);

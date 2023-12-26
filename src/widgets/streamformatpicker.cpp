@@ -381,7 +381,7 @@ StreamFormatId StreamFormatPicker::currentSimple() const
             return index.data(StreamFormatPicker::FormatIdRole).value<StreamFormatId>();
         }
     }
-    return StreamFormatId();
+    return {};
 }
 
 StreamFormatId StreamFormatPicker::currentAudio() const

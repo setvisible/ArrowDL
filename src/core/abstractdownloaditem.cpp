@@ -383,7 +383,7 @@ void AbstractDownloadItem::updateInfo()
         time = time.addSecs(estimatedTime);
         m_remainingTime = time;
     } else {
-        m_remainingTime = QTime();
+        m_remainingTime = {};
     }
     emit changed();
 }

@@ -1378,7 +1378,7 @@ inline QUrl MainWindow::droppedUrl(const QMimeData* mimeData) const
         auto supposedFilePath = mimeData->text();
         return QUrl(supposedFilePath);
     }
-    return QUrl();
+    return {};
 }
 
 inline QString MainWindow::fromClipboard() const

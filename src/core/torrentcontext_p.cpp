@@ -1155,7 +1155,7 @@ TorrentInitialMetaInfo WorkerThread::dump(const QString &filename) const
         qDebug_2 << "failed to decode: '"
                  << QString::fromStdString(ec.message())
                  << "' at character: " << pos;
-        return TorrentInitialMetaInfo();
+        return {};
     }
     lt::torrent_info const t(std::move(e), cfg);
     std::shared_ptr<lt::torrent_info> ti = std::make_shared<lt::torrent_info>(t);
@@ -1194,7 +1194,7 @@ lt::torrent_handle WorkerThread::addTorrent(lt::add_torrent_params const& params
     if (m_session_ptr && m_session_ptr->is_valid()) {
         return m_session_ptr->add_torrent(params, ec);
     }
-    return lt::torrent_handle();
+    return {};
 }
 
 /******************************************************************************

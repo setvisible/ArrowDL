@@ -170,7 +170,7 @@ void FileTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
         progressBarOption.palette = myOption.palette;
         progressBarOption.progress = progress;
         progressBarOption.color = progress < 100 ? s_green : s_darkGreen;
-        progressBarOption.icon = QIcon();
+        progressBarOption.icon = {};
 
         progressBarOption.hasSegments = true;
         progressBarOption.segments = segments;
@@ -230,7 +230,7 @@ void PeerTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
         } else {
             progressBarOption.color = progress < 100 ? s_grey : s_darkGrey;
         }
-        progressBarOption.icon = QIcon();
+        progressBarOption.icon = {};
 
         progressBarOption.hasSegments = true;
         progressBarOption.segments = segments;

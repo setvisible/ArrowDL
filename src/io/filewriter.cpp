@@ -140,10 +140,10 @@ IFileHandlerPtr FileWriter::createWriteHandlerHelper(QIODevice *device)
         handler = Io::findHandlerFromSuffix(suffix);
     }
     if (!handler) {
-        return IFileHandlerPtr();
+        return {};
     }
     if (!handler->canWrite()) {
-        return IFileHandlerPtr();
+        return {};
     }
     handler->setDevice(device);
     return handler;

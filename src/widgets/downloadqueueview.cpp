@@ -131,18 +131,17 @@ QList<QueueItem*> QueueView::toQueueItem(const QList<QTreeWidgetItem *> &items) 
 QUrl QueueView::urlFrom(const QueueItem *queueItem) const
 {
     if (!queueItem)
-        return QUrl();
+        return {};
 
     const AbstractDownloadItem* downloadItem = queueItem->downloadItem();
     if (!downloadItem)
-        return QUrl();
+        return {};
 
     const QFileInfo fi(downloadItem->localFullFileName());
     if (!fi.exists())
-        return QUrl();
+        return {};
 
-    const QUrl url = QUrl::fromLocalFile(downloadItem->localFullFileName());
-    return url;
+    return QUrl::fromLocalFile(downloadItem->localFullFileName());
 }
 
 /******************************************************************************
@@ -192,11 +191,11 @@ QueueViewItemDelegate::QueueViewItemDelegate(QObject *parent)
 
 void QueueViewItemDelegate::restylizeUi()
 {
-    m_idleIcon = QIcon();
-    m_resumeIcon = QIcon();
-    m_pauseIcon = QIcon();
-    m_stopIcon = QIcon();
-    m_completedIcon = QIcon();
+    m_idleIcon = {};
+    m_resumeIcon = {};
+    m_pauseIcon = {};
+    m_stopIcon = {};
+    m_completedIcon = {};
 
     m_idleIcon.addPixmap(QIcon::fromTheme("play-idle").pixmap(16), QIcon::Normal, QIcon::On);
     m_resumeIcon.addPixmap(QIcon::fromTheme("play-resume").pixmap(16), QIcon::Normal, QIcon::On);
@@ -356,7 +355,7 @@ QIcon QueueViewItemDelegate::stateIcon(IDownloadItem::State state) const
         Q_UNREACHABLE();
         break;
     }
-    return QIcon();
+    return {};
 }
 
 /******************************************************************************

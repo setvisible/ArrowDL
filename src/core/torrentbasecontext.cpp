@@ -35,7 +35,7 @@ void TorrentBaseContext::setPriorityByFileOrder(Torrent *torrent, const QList<in
     }
 }
 
-TorrentFileInfo::Priority TorrentBaseContext::computePriority(int row, int count)
+TorrentFileInfo::Priority TorrentBaseContext::computePriority(int row, qsizetype count)
 {
     if (count < 3) {
         return TorrentFileInfo::Normal;

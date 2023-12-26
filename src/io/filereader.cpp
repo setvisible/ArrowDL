@@ -132,10 +132,10 @@ IFileHandlerPtr FileReader::createReadHandlerHelper(QIODevice *device)
 
     if (handler.isNull()) {
         // no handler: give up.
-        return IFileHandlerPtr();
+        return {};
     }
     if (!handler->canRead()) {
-        return IFileHandlerPtr();
+        return {};
     }
     handler->setDevice(device);
     return handler;

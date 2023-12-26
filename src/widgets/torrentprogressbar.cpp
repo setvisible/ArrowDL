@@ -82,7 +82,7 @@ void TorrentProgressBar::paintEvent(QPaintEvent *)
     progressBarOption.palette = myOption.palette;
     progressBarOption.progress = progress;
     progressBarOption.color = progress < max_progress ? s_green : s_darkGreen;
-    progressBarOption.icon = QIcon();
+    progressBarOption.icon = {};
 
     progressBarOption.hasSegments = true;
     progressBarOption.segments = m_downloadedPieces;

@@ -225,7 +225,7 @@ void Stream::clear()
 {
     m_url.clear();
     m_outputPath.clear();
-    m_selectedFormatId = StreamFormatId();
+    m_selectedFormatId = {};
     m_bytesReceived = 0;
     m_bytesReceivedCurrentSection = 0;
     m_bytesTotal = 0;

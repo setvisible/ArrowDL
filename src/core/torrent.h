@@ -64,7 +64,7 @@ public:
 
     void setError(TorrentError::Type errorType, const QString &message);
 
-    int fileCount() const;
+    qsizetype fileCount() const;
 
     TorrentFileInfo::Priority filePriority(int index) const;
     void setFilePriority(int index, TorrentFileInfo::Priority priority);
@@ -91,17 +91,17 @@ signals:
     void changed();
 
 private:
-    QString m_url;
-    QString m_localTorrentFileName;
-    QString m_outputPath;
+    QString m_url = {};
+    QString m_localTorrentFileName = {};
+    QString m_outputPath = {};
 
-    TorrentMetaInfo m_metaInfo;
-    TorrentInfo m_info;
-    TorrentHandleInfo m_detail;
+    TorrentMetaInfo m_metaInfo = {};
+    TorrentInfo m_info = {};
+    TorrentHandleInfo m_detail = {};
 
-    TorrentFileTableModel* m_fileModel;
-    TorrentPeerTableModel* m_peerModel;
-    TorrentTrackerTableModel* m_trackerModel;
+    TorrentFileTableModel* m_fileModel = nullptr;
+    TorrentPeerTableModel* m_peerModel = nullptr;
+    TorrentTrackerTableModel* m_trackerModel = nullptr;
 };
 
 /******************************************************************************
@@ -133,7 +133,7 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
 protected:
-    QStringList m_headers;
+    QStringList m_headers = {};
 };
 
 /******************************************************************************
@@ -156,7 +156,8 @@ private:
     QList<TorrentFileInfo> m_files;
 
     qsizetype m_pieceByteSize = 0;
-    QBitArray m_downloadedPieces;
+    QBitArray m_downloadedPieces = {};
+
     int percent(const TorrentFileMetaInfo &mi, const TorrentFileInfo &ti) const;
     qint64 firstPieceIndex(const TorrentFileMetaInfo &mi) const;
     qint64 lastPieceIndex(const TorrentFileMetaInfo &mi) const;
