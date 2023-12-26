@@ -147,7 +147,7 @@ QVariant ResourceModel::headerData(int section, Qt::Orientation orientation, int
         if (section >= 0 && section < m_headers.count()) {
             return m_headers.at(section);
         }
-        return QVariant();
+        return {};
     }
     return QAbstractItemModel::headerData(section, orientation, role);
 }
@@ -160,12 +160,12 @@ int ResourceModel::rowCount(const QModelIndex &parent) const
 QVariant ResourceModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
     ResourceItem *item = m_items.at(index.row());
     if (role == Qt::DisplayRole) {
         switch ( index.column()) {
-        case 0: return QVariant();
+        case 0: return {};
         case 1: return item->url();
         case 2: return item->customFileName();
         case 3: return item->description();

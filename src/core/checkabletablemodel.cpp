@@ -57,12 +57,12 @@ QList<int> CheckableTableModel::checkedRows() const
 QVariant CheckableTableModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
     if (role == CheckStateRole) {
         return m_checkedIndexes.contains(index);
     }
-    return QVariant();
+    return {};
 }
 
 bool CheckableTableModel::setData(const QModelIndex &index, const QVariant &value, int role)

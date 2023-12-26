@@ -437,10 +437,10 @@ QBitArray TorrentFileTableModel::pieceSegments(const TorrentFileMetaInfo &mi) co
 QVariant TorrentFileTableModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
     if (index.row() >= rowCount() || index.row() < 0) {
-        return QVariant();
+        return {};
     }
     const int fileIndex = index.row();
     const TorrentFileMetaInfo mi = m_filesMeta.at(fileIndex);
@@ -506,7 +506,7 @@ QVariant TorrentFileTableModel::data(const QModelIndex &index, int role) const
         case  5: return QString("%0%").arg(QString::number(percent(mi, ti)));
         case  6: return firstPieceIndex(mi);
         case  7: return pieceCount(mi);
-        case  8: return QVariant(); // Progress bar
+        case  8: return {}; // Progress bar
         case  9: return ti.priorityString();
         case 10: return mi.modifiedTime;
         case 11: return mi.hash;
@@ -523,7 +523,7 @@ QVariant TorrentFileTableModel::data(const QModelIndex &index, int role) const
         case  3:
         case  4:
         case  5:
-        case  6:return QVariant();
+        case  6:return {};
         case  7:
         case  8: {
             auto done = QString::number(percent(mi, ti));
@@ -533,12 +533,12 @@ QVariant TorrentFileTableModel::data(const QModelIndex &index, int role) const
         case  9:
         case 10:
         case 11:
-        case 12: return QVariant();
+        case 12: return {};
         default:
             break;
         }
     }
-    return QVariant();
+    return {};
 }
 
 void TorrentFileTableModel::refreshMetaData(const QList<TorrentFileMetaInfo> &files)
@@ -598,10 +598,10 @@ int TorrentPeerTableModel::rowCount(const QModelIndex &parent) const
 QVariant TorrentPeerTableModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
     if (index.row() >= rowCount() || index.row() < 0) {
-        return QVariant();
+        return {};
     }
     const TorrentPeerInfo peer = m_peers.at(index.row());
     if (role == Qt::TextAlignmentRole) {
@@ -659,7 +659,7 @@ QVariant TorrentPeerTableModel::data(const QModelIndex &index, int role) const
         case  2: return peer.userAgent;
         case  3: return Format::fileSizeToString(peer.bytesDownloaded);
         case  4: return Format::fileSizeToString(peer.bytesUploaded);
-        case  5: return QVariant(); // Progress bar
+        case  5: return {}; // Progress bar
         case  6: return Format::timeToString(peer.lastTimeRequested);
         case  7: return Format::timeToString(peer.lastTimeActive);
         case  8: return Format::timeToString(peer.timeDownloadQueue);
@@ -675,7 +675,7 @@ QVariant TorrentPeerTableModel::data(const QModelIndex &index, int role) const
         case  1:
         case  2:
         case  3:
-        case  4: return QVariant();
+        case  4: return {};
         case  5: {
             auto done = QString::number(peer.availablePieces.count(true));
             auto total = QString::number(peer.availablePieces.count());
@@ -683,14 +683,14 @@ QVariant TorrentPeerTableModel::data(const QModelIndex &index, int role) const
         }
         case  6:
         case  7:
-        case  8: return QVariant();
+        case  8: return {};
         case  9: return TorrentPeerInfo::flagTooltip();
         case 10: return TorrentPeerInfo::sourceFlagTooltip();
         default:
             break;
         }
     }
-    return QVariant();
+    return {};
 }
 
 void TorrentPeerTableModel::removeUnconnectedPeers()
@@ -795,10 +795,10 @@ int TorrentTrackerTableModel::rowCount(const QModelIndex &parent) const
 QVariant TorrentTrackerTableModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
     if (index.row() >= rowCount() || index.row() < 0) {
-        return QVariant();
+        return {};
     }
     if (role == Qt::TextAlignmentRole) {
         switch (index.column()) {
@@ -830,7 +830,7 @@ QVariant TorrentTrackerTableModel::data(const QModelIndex &index, int role) cons
             break;
         }
     }
-    return QVariant();
+    return {};
 }
 
 void TorrentTrackerTableModel::refreshData(const QList<TorrentTrackerInfo> &trackers)

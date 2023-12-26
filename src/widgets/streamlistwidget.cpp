@@ -407,7 +407,7 @@ QVariant StreamTableModel::headerData(int section, Qt::Orientation orientation, 
         if (section >= 0 && section < m_headers.count()) {
             return m_headers.at(section);
         }
-        return QVariant();
+        return {};
     }
     return QAbstractItemModel::headerData(section, orientation, role);
 }
@@ -420,10 +420,10 @@ int StreamTableModel::rowCount(const QModelIndex &parent) const
 QVariant StreamTableModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
     if (index.row() >= rowCount() || index.row() < 0) {
-        return QVariant();
+        return {};
     }
     if (role == Qt::TextAlignmentRole) {
         switch (index.column()) {
@@ -440,7 +440,7 @@ QVariant StreamTableModel::data(const QModelIndex &index, int role) const
     } else if (role == Qt::DisplayRole) {
         auto streamObject = m_items.at(index.row());
         switch (index.column()) {
-        case  0: return QVariant();
+        case  0: return {};
         case  1: return streamObject.data().playlist_index;
         case  2: return filenameOrErrorMessage(streamObject);
         case  3: return streamObject.data().title;
