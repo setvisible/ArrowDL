@@ -16,6 +16,7 @@
 
 #include "networkmanager.h"
 
+#include <Constants>
 #include <Core/Settings>
 
 #include <QtCore/QDebug>
@@ -24,7 +25,6 @@
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkProxy>
 
-constexpr int max_redirects_allowed = 5;
 
 
 NetworkManager::NetworkManager(QObject *parent) : QObject(parent)
@@ -124,17 +124,8 @@ QNetworkReply* NetworkManager::get(const QUrl &url, const QString &referer)
 
     // SSL
     request.setSslConfiguration(QSslConfiguration::defaultConfiguration()); // HTTPS
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
-    request.setMaximumRedirectsAllowed(max_redirects_allowed);
-#endif
-#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0) && QT_VERSION < QT_VERSION_CHECK(5, 9, 0)
-    request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
-    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
-                         QNetworkRequest::NoLessSafeRedirectPolicy);
-#endif
+    request.setMaximumRedirectsAllowed(MAX_REDIRECTS_ALLOWED);
+    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
 
     auto reply = m_networkAccessManager->get(request);
     Q_ASSERT(reply);

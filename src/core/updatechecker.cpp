@@ -17,7 +17,7 @@
 #include "updatechecker.h"
 #include "updatechecker_p.h"
 
-#include <Globals>
+#include "../version.h"
 #include <Core/NetworkManager>
 #include <Core/Settings>
 #include <Core/Stream>

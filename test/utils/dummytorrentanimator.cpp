@@ -25,10 +25,10 @@
 #include <QtCore/QtMath>
 #include <QtCore/QTimer>
 
-constexpr int msec_file_refresh = 10;
-constexpr int msec_peer_refresh = 500;
-constexpr qsizetype piece_size = 32*1024*8;
-constexpr qsizetype max_torrent_size = 1024*1024;
+constexpr int MSEC_FILE_REFRESH = 10;
+constexpr int MSEC_PEER_REFRESH = 500;
+constexpr qsizetype PIECE_SIZE = 32*1024*8;
+constexpr qsizetype MAX_TORRENT_SIZE = 1024*1024;
 
 namespace Utils {
 /*!
@@ -184,8 +184,8 @@ void DummyTorrentAnimator::start()
     }
     randomize();
 
-    m_fileTimer.start(msec_file_refresh);
-    m_peerTimer.start(msec_peer_refresh);
+    m_fileTimer.start(MSEC_FILE_REFRESH);
+    m_peerTimer.start(MSEC_PEER_REFRESH);
 
     emit started(true);
 }
@@ -225,14 +225,14 @@ void DummyTorrentAnimator::animateFile(int index)
     qsizetype bytesTotal = metaInfo.initialMetaInfo.files.at(index).bytesTotal;
 
     TorrentHandleInfo detail = m_torrent->detail();
-    detail.files[index].bytesReceived += piece_size;
+    detail.files[index].bytesReceived += PIECE_SIZE;
     detail.files[index].bytesReceived = qMin(detail.files[index].bytesReceived, bytesTotal);
 
     TorrentInfo info = m_torrent->info();
-    info.bytesReceived += piece_size;
+    info.bytesReceived += PIECE_SIZE;
     info.bytesReceived = qMin(info.bytesReceived, info.bytesTotal);
-    info.bytesSessionDownloaded += piece_size;
-    info.bytesSessionUploaded += piece_size >> 2;
+    info.bytesSessionDownloaded += PIECE_SIZE;
+    info.bytesSessionUploaded += PIECE_SIZE >> 2;
     info.state = TorrentInfo::downloading;
 
     m_torrent->setInfo(info, false);
@@ -285,8 +285,8 @@ void DummyTorrentAnimator::animatePeers()
                     QString::number(Utils::randomBetween(1, 65535)));
         auto fct = DummyTorrentFactory::createDummyPeer2;
         detail.peers << fct(EndPoint(randomIP), "XXXXXX--X-", "", total_pieces_count,
-                            (max_torrent_size / 1024) * Utils::randomBetweenLog(0, 1024),
-                            (max_torrent_size / 1024) * Utils::randomBetweenLog(0, 1024));
+                            (MAX_TORRENT_SIZE / 1024) * Utils::randomBetweenLog(0, 1024),
+                            (MAX_TORRENT_SIZE / 1024) * Utils::randomBetweenLog(0, 1024));
     }
     m_torrent->setDetail(detail, false); // emit changed
 }

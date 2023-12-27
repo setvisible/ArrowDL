@@ -16,19 +16,15 @@
 
 #include "mask.h"
 
+#include <Constants>
+
 #include <QtCore/QDebug>
 #include <QtCore/QFileInfo>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QUrl>
 
-static const QString NAME          = "*name*";
-static const QString EXT           = "*ext*";
-static const QString URL           = "*url*";
-static const QString CURL          = "*curl*";
-static const QString FLATURL       = "*flaturl*";
-static const QString SUBDIRS       = "*subdirs*";
-static const QString FLATSUBDIRS   = "*flatsubdirs*";
-static const QString QSTRING       = "*qstring*";
+using namespace Qt::Literals::StringLiterals;
+
 
 static const QStringList s_tags
 {
@@ -265,14 +261,14 @@ QStringList Mask::tags()
  */
 QString Mask::description(const QString &tag)
 {
-    if (tag == NAME        ) return tr("File name");
-    if (tag == EXT         ) return tr("Extension");
-    if (tag == URL         ) return tr("Base URL");
-    if (tag == CURL        ) return tr("Full URL");
-    if (tag == FLATURL     ) return tr("Flat full URL");
-    if (tag == SUBDIRS     ) return tr("URL subdirectories");
-    if (tag == FLATSUBDIRS ) return tr("Flat URL subdirectories");
-    if (tag == QSTRING     ) return tr("Query string");
+    if (tag == NAME        ) {return tr("File name");}
+    if (tag == EXT         ) {return tr("Extension");}
+    if (tag == URL         ) {return tr("Base URL");}
+    if (tag == CURL        ) {return tr("Full URL");}
+    if (tag == FLATURL     ) {return tr("Flat full URL");}
+    if (tag == SUBDIRS     ) {return tr("URL subdirectories");}
+    if (tag == FLATSUBDIRS ) {return tr("Flat URL subdirectories");}
+    if (tag == QSTRING     ) {return tr("Query string");}
     return {};
 }
 

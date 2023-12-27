@@ -16,6 +16,7 @@
 
 #include "checkabletableview.h"
 
+#include <Constants>
 #include <Core/CheckableTableModel>
 #include <Widgets/CheckableItemDelegate>
 
@@ -23,10 +24,6 @@
 #include <QtGui/QAction>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMenu>
-
-constexpr int vertical_header_width = 22;
-constexpr int column_default_width = 100;
-constexpr int column_max_width = 1000;
 
 
 CheckableTableView::CheckableTableView(QWidget *parent) : QTableView(parent) 
@@ -45,7 +42,7 @@ CheckableTableView::CheckableTableView(QWidget *parent) : QTableView(parent)
 
     auto vHeader = verticalHeader();
     vHeader->setSectionResizeMode(QHeaderView::Fixed);
-    vHeader->setDefaultSectionSize(vertical_header_width);
+    vHeader->setDefaultSectionSize(VERTICAL_HEADER_WIDTH);
     vHeader->setVisible(false);
 
     auto hHeader = horizontalHeader();
@@ -91,12 +88,12 @@ void CheckableTableView::setColumnWidths(const QList<int> &widths)
                 setColumnWidth(column, CheckableItemDelegate::widthHint());
             } else if (column > 0 && column < widths.count()) {
                 auto width = widths.at(column);
-                if (width < 0 || width > column_max_width) {
-                    width =  column_default_width;
+                if (width < 0 || width > COLUMN_MAX_WIDTH) {
+                    width =  COLUMN_DEFAULT_WIDTH;
                 }
                 setColumnWidth(column, width);
             } else {
-                setColumnWidth(column, column_default_width);
+                setColumnWidth(column, COLUMN_DEFAULT_WIDTH);
             }
         }
     }

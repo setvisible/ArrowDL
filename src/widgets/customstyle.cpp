@@ -16,6 +16,7 @@
 
 #include "customstyle.h"
 
+#include <Constants>
 #include <Core/IDownloadItem>
 #include <Widgets/CustomStyleOptionProgressBar>
 #include <Widgets/Globals>
@@ -26,8 +27,6 @@
 #include <QtWidgets/QStyleFactory>
 #include <QtWidgets/QStyleOption>
 
-constexpr int icon_size  = 16;
-constexpr int icon_width = 19;
 
 
 /*!
@@ -84,7 +83,7 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
                 auto size = ICON_SIZE;
                 auto margin = (qMax(size, pb->rect.height()) - size ) / 2;
                 auto iconRect = QRect(pb->rect.x() + margin , pb->rect.y() + margin, size, size);
-                p->drawPixmap(iconRect, pb->icon.pixmap(icon_size));
+                p->drawPixmap(iconRect, pb->icon.pixmap(ICON_SIZE));
             }
 
             /* Draw the progress bar */
@@ -96,7 +95,7 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
                 frameRect.setTop(frameRect.top() + marginV);
                 frameRect.setBottom(frameRect.bottom() - marginV);
                 if (hasIcon) {
-                    frameRect.setLeft(frameRect.left() + marginH + icon_width);
+                    frameRect.setLeft(frameRect.left() + marginH + ICON_WIDTH);
                 } else {
                     frameRect.setLeft(frameRect.left() + marginH);
                 }

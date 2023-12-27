@@ -17,7 +17,7 @@
 #include "updatedialog.h"
 #include "ui_updatedialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/Format>
 #include <Core/UpdateChecker>
 

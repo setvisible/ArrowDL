@@ -17,7 +17,7 @@
 #include "addbatchdialog.h"
 #include "ui_addbatchdialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
 #include <Core/Mask>

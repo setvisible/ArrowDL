@@ -16,13 +16,12 @@
 
 #include "downloadengine.h"
 
+#include <Constants>
 #include <Core/AbstractDownloadItem>
 
 #include <QtCore/QDebug>
 #include <QtCore/QtMath>
 
-constexpr int selection_display_limit = 10;
-constexpr int msec_speed_display_time = 2000;
 
 DownloadEngine::DownloadEngine(QObject *parent) : QObject(parent)
   , m_maxSimultaneousDownloads(4)
@@ -250,7 +249,7 @@ qreal DownloadEngine::totalSpeed()
     }
     if (speed > 0) {
         m_previouSpeed = speed;
-        m_speedTimer.start(msec_speed_display_time);
+        m_speedTimer.start(MSEC_SPEED_DISPLAY_TIME);
     }
     return m_previouSpeed;
 }
@@ -344,8 +343,8 @@ QString DownloadEngine::selectionToString() const
         ret += item->localFileName();
         ret += "\n";
         count++;
-        if (count > selection_display_limit) {
-            ret += tr("... (%0 others)").arg(m_selectedItems.count() - selection_display_limit);
+        if (count > SELECTION_DISPLAY_LIMIT) {
+            ret += tr("... (%0 others)").arg(m_selectedItems.count() - SELECTION_DISPLAY_LIMIT);
             break;
         }
     }

@@ -17,6 +17,7 @@
 #include "torrentwidget.h"
 #include "ui_torrentwidget.h"
 
+#include <Constants>
 #include <Core/Format>
 #include <Core/Torrent>
 #include <Core/TorrentBaseContext>
@@ -42,17 +43,12 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-constexpr int column_minimum_width = 10;
-constexpr int column_default_width = 100;
-constexpr int row_default_height = 18;
 
-constexpr int min_progress = 0;
-constexpr int max_progress = 100;
+static const int FILE_TABLE_HIDDEN_COLUMN_INDEX = 1; // Hide 'Name' column
+static const int FILE_TABLE_PROGRESS_BAR_COLUMN_INDEX = 8;
+static const int PEER_TABLE_PROGRESS_BAR_COLUMN_INDEX = 5;
 
-constexpr int version_marker = 0xff;
 
-/******************************************************************************
- ******************************************************************************/
 class Headers // Holds column header's widths and titles
 {
 public:
@@ -67,7 +63,7 @@ public:
     }
 
     int width(int index) const {
-        return (index >= 0 && index < d.count()) ? d.at(index).first : column_default_width;
+        return (index >= 0 && index < d.count()) ? d.at(index).first : COLUMN_DEFAULT_WIDTH;
     }
 
     QList<int> widths() const
@@ -80,11 +76,6 @@ public:
 private:
     QList<QPair<int, QString> > d;
 };
-
-/******************************************************************************
- ******************************************************************************/
-constexpr int file_table_hidden_column_index = 1; // Hide 'Name' column
-constexpr int file_table_progress_bar_column_index = 8;
 
 static const Headers fileTableHeaders
 ({
@@ -102,8 +93,6 @@ static const Headers fileTableHeaders
      { 100, "SHA-1"_L1},
      { 100, "CRC-32"_L1}
  });
-
-constexpr int peer_table_progress_bar_column_index = 5;
 
 static const Headers peerTableHeaders
 ({
@@ -154,7 +143,7 @@ void FileTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
         myOption.font.setBold(true);
     }
 
-    if (index.column() == file_table_progress_bar_column_index) {
+    if (index.column() == FILE_TABLE_PROGRESS_BAR_COLUMN_INDEX) {
         auto progress = index.data(AbstractTorrentTableModel::ProgressRole).toInt();
         auto segments = index.data(AbstractTorrentTableModel::SegmentRole).toBitArray();
 
@@ -163,8 +152,8 @@ void FileTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
         progressBarOption.direction = QApplication::layoutDirection();
         progressBarOption.rect = myOption.rect;
         progressBarOption.fontMetrics = QApplication::fontMetrics();
-        progressBarOption.minimum = min_progress;
-        progressBarOption.maximum = max_progress;
+        progressBarOption.minimum = MIN_PROGRESS;
+        progressBarOption.maximum = MAX_PROGRESS;
         progressBarOption.textAlignment = Qt::AlignCenter;
         progressBarOption.textVisible = false;
         progressBarOption.palette = myOption.palette;
@@ -210,7 +199,7 @@ void PeerTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
         myOption.font.setItalic(true);
     }
 
-    if (index.column() == peer_table_progress_bar_column_index) {
+    if (index.column() == PEER_TABLE_PROGRESS_BAR_COLUMN_INDEX) {
         auto progress = index.data(AbstractTorrentTableModel::ProgressRole).toInt();
         auto segments = index.data(AbstractTorrentTableModel::SegmentRole).toBitArray();
 
@@ -219,8 +208,8 @@ void PeerTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
         progressBarOption.direction = QApplication::layoutDirection();
         progressBarOption.rect = myOption.rect;
         progressBarOption.fontMetrics = QApplication::fontMetrics();
-        progressBarOption.minimum = min_progress;
-        progressBarOption.maximum = max_progress;
+        progressBarOption.minimum = MIN_PROGRESS;
+        progressBarOption.maximum = MAX_PROGRESS;
         progressBarOption.textAlignment = Qt::AlignCenter;
         progressBarOption.textVisible = false;
         progressBarOption.palette = myOption.palette;
@@ -350,7 +339,7 @@ QByteArray TorrentWidget::saveState(int version) const
 {
     QByteArray data;
     QDataStream stream(&data, QIODevice::WriteOnly);
-    stream << version_marker;
+    stream << VERSION_MARKER;
     stream << version;
     stream << ui->tabWidget->currentIndex();
     stream << m_fileColumnsWidths;
@@ -370,7 +359,7 @@ bool TorrentWidget::restoreState(const QByteArray &state, int version)
     int v;
     stream >> marker;
     stream >> v;
-    if (stream.status() != QDataStream::Ok || marker != version_marker || v != version) {
+    if (stream.status() != QDataStream::Ok || marker != VERSION_MARKER || v != version) {
         return false;
     }
     int currentTabIndex = 0;
@@ -436,11 +425,11 @@ void TorrentWidget::setupUiTableView(QTableView *view)
     view->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
     view->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     view->verticalHeader()->setHighlightSections(false);
-    view->verticalHeader()->setDefaultSectionSize(row_default_height);
-    view->verticalHeader()->setMinimumSectionSize(row_default_height);
+    view->verticalHeader()->setDefaultSectionSize(ROW_DEFAULT_HEIGHT);
+    view->verticalHeader()->setMinimumSectionSize(ROW_DEFAULT_HEIGHT);
     view->horizontalHeader()->setHighlightSections(false);
-    view->horizontalHeader()->setDefaultSectionSize(column_default_width);
-    view->horizontalHeader()->setMinimumSectionSize(column_minimum_width);
+    view->horizontalHeader()->setDefaultSectionSize(COLUMN_DEFAULT_WIDTH);
+    view->horizontalHeader()->setMinimumSectionSize(COLUMN_MINIMUM_WIDTH);
     view->verticalHeader()->setVisible(false);
 
     connect(view->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(onSectionClicked(int)));
@@ -783,7 +772,7 @@ void TorrentWidget::resetUi()
         setColumnWidths(ui->trackerTableView, m_trackerColumnsWidths);
 
         // hide column
-        ui->fileTableView->hideColumn(file_table_hidden_column_index);
+        ui->fileTableView->hideColumn(FILE_TABLE_HIDDEN_COLUMN_INDEX);
 
     } else {
 
@@ -933,7 +922,7 @@ void TorrentWidget::setColumnWidths(QTableView *view, const QList<int> &widths)
                 auto width = widths.at(column);
                 view->setColumnWidth(column, width);
             } else {
-                view->setColumnWidth(column, column_default_width);
+                view->setColumnWidth(column, COLUMN_DEFAULT_WIDTH);
             }
         }
     }

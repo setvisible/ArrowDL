@@ -16,6 +16,8 @@
 
 #include "abstractdownloaditem.h"
 
+#include <Constants>
+
 #include <QtCore/QDateTime>
 #include <QtCore/QDebug>
 #include <QtCore/QtMath>
@@ -28,7 +30,6 @@
  *
  */
 
-constexpr int timeout_update_msec = 150; // in milliseconds
 
 /*!
  * \brief Constructor
@@ -164,7 +165,7 @@ int AbstractDownloadItem::maxConnectionSegments() const
 
 void AbstractDownloadItem::setMaxConnectionSegments(int connectionSegments)
 {
-    if (connectionSegments > 0 && connectionSegments <= 10) {
+    if (connectionSegments > 0 && connectionSegments <= MAX_CONNECTION_SEGMENTS) {
         m_maxConnectionSegments = connectionSegments;
     }
 }
@@ -311,13 +312,13 @@ void AbstractDownloadItem::tearDownResume()
     /*
      * This timer ticks each second, in order to update the remaining time information (countdown)
      */
-    m_updateCountDownTimer.start(1000);
+    m_updateCountDownTimer.start(TIMEOUT_COUNT_DOWN);
 
     /*
      * This timer updates the speed/progress info.
      * It can be quicker than the countdown timer.
      */
-    m_updateInfoTimer.start(timeout_update_msec);
+    m_updateInfoTimer.start(TIMEOUT_INFO);
 
     /* Start downloading now. */
     m_state = Downloading;

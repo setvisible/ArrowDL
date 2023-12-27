@@ -14,9 +14,10 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "globals.h"
 #include "mainwindow.h"
 
+#include "version.h"
+#include <Constants>
 #include <QtSingleApplication>
 #include <Ipc/InterProcessCommunication>
 
@@ -24,8 +25,6 @@
 
 /* Enable the type to be used with QVariant. */
 Q_DECLARE_METATYPE(QList<int>)
-
-constexpr int msec_message_timeout = 2000;
 
 
 #ifndef QT_DEBUG
@@ -105,7 +104,7 @@ int main(int argc, char *argv[])
     if (application.isRunning()) {
         qWarning("Another instance is running...");
         // Rem: Even if is empty, the message is still sent to activate the window.
-        bool ok = application.sendMessage(message, msec_message_timeout);
+        bool ok = application.sendMessage(message, MSEC_MESSAGE_TIMEOUT);
         if (!ok) {
             qCritical("Message sending failed; the application may be frozen.");
         }

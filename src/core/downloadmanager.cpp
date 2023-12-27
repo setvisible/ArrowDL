@@ -16,6 +16,7 @@
 
 #include "downloadmanager.h"
 
+#include <Constants>
 #include <Core/DownloadItem>
 #include <Core/DownloadTorrentItem>
 #include <Core/NetworkManager>
@@ -32,7 +33,6 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-constexpr int msec_auto_save = 3000; ///< Autosave the queue every 3 seconds.
 
 /*!
  * \class DownloadManager
@@ -175,7 +175,7 @@ void DownloadManager::onQueueChanged()
         connect(m_dirtyQueueTimer, SIGNAL(timeout()), SLOT(saveQueue()));
     }
     if (!m_dirtyQueueTimer->isActive()) {
-        m_dirtyQueueTimer->start(msec_auto_save);
+        m_dirtyQueueTimer->start(MSEC_AUTO_SAVE);
     }
 }
 

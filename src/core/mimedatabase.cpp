@@ -16,6 +16,8 @@
 
 #include "mimedatabase.h"
 
+#include <Constants>
+
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtCore/QMimeDatabase>
@@ -77,7 +79,7 @@ void MimeDatabaseSingleton::init()
      * Construction of QFileIconProvider is heavy
      */
     m_fileIconProvider.setOptions(QFileIconProvider::DontUseCustomDirectoryIcons);
-    m_defaultPixmap = fileIcon(QUrl("page.html"), default_icon_size);
+    m_defaultPixmap = fileIcon(QUrl("page.html"), DEFAULT_ICON_SIZE);
 }
 
 /******************************************************************************

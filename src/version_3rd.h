@@ -14,26 +14,16 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_MIME_DATABASE_H
-#define CORE_MIME_DATABASE_H
+#ifndef VERSION_3RD_H
+#define VERSION_3RD_H
 
-#include <Constants>
+#include <libtorrent/version.hpp>
+#define LIBTORRENT_VERSION_STR LIBTORRENT_VERSION
 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QUrl>
-#include <QtGui/QPixmap>
+#ifndef BOOST_VERSION_STR
+#  include "config_3rd.h"
+#endif
 
+#define GOOGLE_GUMBO_VERSION_STR      "0.10.1"
 
-/*!
- * \class MimeDatabase
- * \brief Internal GUI helper methods related to file mime types.
- */
-class MimeDatabase
-{
-public:
-    static QPixmap fileIcon(const QUrl &url, int extend = DEFAULT_ICON_SIZE);
-
-};
-
-#endif // CORE_MIME_DATABASE_H
+#endif // VERSION_3RD_H

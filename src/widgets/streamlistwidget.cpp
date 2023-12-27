@@ -17,6 +17,7 @@
 #include "streamlistwidget.h"
 #include "ui_streamlistwidget.h"
 
+#include <Constants>
 #include <Core/Format>
 #include <Widgets/CheckableItemDelegate>
 #include <Widgets/Globals>
@@ -26,9 +27,6 @@
 #include <QtGui/QMovie>
 
 #include <algorithm> /* std::sort */
-
-constexpr int column_id_width = 10;
-constexpr int column_name_width = 200;
 
 
 /******************************************************************************
@@ -88,7 +86,7 @@ StreamListWidget::StreamListWidget(QWidget *parent) : QWidget(parent)
     ui->playlistView->setItemDelegate(new StreamListItemDelegate(ui->playlistView));
     ui->playlistView->setModel(m_playlistModel);
 
-    QList<int> defaultWidths = {-1, column_id_width, column_name_width, -1, -1, -1};
+    QList<int> defaultWidths = {-1, COLUMN_ID_WIDTH, COLUMN_NAME_WIDTH, -1, -1, -1};
     setColumnWidths(defaultWidths);
 
     adjustSize();

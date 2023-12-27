@@ -17,7 +17,7 @@
 #include "addcontentdialog.h"
 #include "ui_addcontentdialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/HtmlParser>
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>

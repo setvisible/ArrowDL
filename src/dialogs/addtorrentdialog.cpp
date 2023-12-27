@@ -17,7 +17,7 @@
 #include "addtorrentdialog.h"
 #include "ui_addtorrentdialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
 #include <Core/DownloadTorrentItem>

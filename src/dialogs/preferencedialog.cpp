@@ -17,7 +17,7 @@
 #include "preferencedialog.h"
 #include "ui_preferencedialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/Locale>
 #include <Core/NetworkManager>
 #include <Core/Settings>

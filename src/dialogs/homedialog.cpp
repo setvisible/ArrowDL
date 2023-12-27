@@ -17,7 +17,7 @@
 #include "homedialog.h"
 #include "ui_homedialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/Theme>
 
 #include <QtWidgets/QCommandLinkButton>

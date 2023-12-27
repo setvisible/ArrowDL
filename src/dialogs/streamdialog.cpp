@@ -17,7 +17,7 @@
 #include "streamdialog.h"
 #include "ui_streamdialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/Stream>
 
 #include <QtCore/QDebug>

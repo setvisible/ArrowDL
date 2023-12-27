@@ -17,7 +17,7 @@
 #include "batchrenamedialog.h"
 #include "ui_batchrenamedialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/DownloadItem>
 #include <Core/IDownloadItem>
 #include <Core/ResourceItem>

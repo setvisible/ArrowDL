@@ -16,83 +16,14 @@
 
 #include "settings.h"
 
-#include <Globals>
+#include <Constants>
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <QtCore/QStandardPaths>
 #include <QtCore/QVariant>
 
-/*!
- * Registry Keys. They must be unique
- */
-// Tab General
-static const QString REGISTRY_EXISTING_FILE    = "ExistingFile";
-
-// Tab Interface
-static const QString REGISTRY_UI_LANGUAGE      = "Language";
-static const QString REGISTRY_UI_THEME         = "Theme";
-static const QString REGISTRY_DONT_SHOW_TUTO   = "DontShowTutorial";
-static const QString REGISTRY_SHOW_SYSTEM_TRAY = "SystemTrayIconEnabled";
-static const QString REGISTRY_HIDE_MINIMIZED   = "HideWhenMinimized";
-static const QString REGISTRY_SHOW_BALLOON     = "SystemTrayBalloonEnabled";
-static const QString REGISTRY_MINIMIZE_ESCAPE  = "MinimizeWhenEscapePressed";
-static const QString REGISTRY_CONFIRM_REMOVAL  = "ConfirmRemoval";
-static const QString REGISTRY_CONFIRM_BATCH    = "ConfirmBatchDownload";
-static const QString REGISTRY_PROXY_TYPE       = "ProxyType";
-static const QString REGISTRY_PROXY_HOSTNAME   = "ProxyHostName";
-static const QString REGISTRY_PROXY_PORT       = "ProxyPort";
-static const QString REGISTRY_PROXY_IS_AUTH    = "ProxyAuth";
-static const QString REGISTRY_PROXY_USERNAME   = "ProxyUser";
-static const QString REGISTRY_PROXY_PASSWORD   = "ProxyPwd";
-static const QString REGISTRY_SOCKET_TYPE      = "SocketType";
-static const QString REGISTRY_SOCKET_TIMEOUT   = "SocketTimeout";
-static const QString REGISTRY_REMOTE_CREATION  = "RemoteCreationTime";
-static const QString REGISTRY_REMOTE_LAST_MOD  = "RemoteLastModifiedTime";
-static const QString REGISTRY_REMOTE_ACCESS    = "RemoteAccessTime";
-static const QString REGISTRY_REMOTE_META_MOD  = "RemoteMetadataChangeTime";
-static const QString REGISTRY_STREAM_WATCHED   = "StreamMarkWatchedEnabled";
-static const QString REGISTRY_STREAM_SUBTITLE  = "StreamSubtitleEnabled";
-static const QString REGISTRY_STREAM_THUMBNAIL = "StreamThumbnailEnabled";
-static const QString REGISTRY_STREAM_DESCR     = "StreamDescriptionEnabled";
-static const QString REGISTRY_STREAM_METADATA  = "StreamMetaDataEnabled";
-static const QString REGISTRY_STREAM_COMMENT   = "StreamCommentEnabled";
-static const QString REGISTRY_STREAM_SHORTCUT  = "StreamShortcutEnabled";
-
-// Tab Network
-static const QString REGISTRY_MAX_SIMULTANEOUS = "MaxSimultaneous";
-static const QString REGISTRY_CONCURRENT_FRAG  = "ConcurrentFragments";
-static const QString REGISTRY_CUSTOM_BATCH     = "CustomBatchEnabled";
-static const QString REGISTRY_CUSTOM_BATCH_BL  = "CustomBatchButtonLabel";
-static const QString REGISTRY_CUSTOM_BATCH_RGE = "CustomBatchRange";
-static const QString REGISTRY_STREAM_HOST      = "StreamHostEnabled";
-static const QString REGISTRY_STREAM_HOST_LIST = "StreamHosts";
-
-// Tab Privacy
-static const QString REGISTRY_REMOVE_COMPLETED = "PrivacyRemoveCompleted";
-static const QString REGISTRY_REMOVE_CANCELED  = "PrivacyRemoveCanceled";
-static const QString REGISTRY_REMOVE_PAUSED    = "PrivacyRemovePaused";
-static const QString REGISTRY_DATABASE         = "Database";
-static const QString REGISTRY_HTTP_USER_AGENT  = "HttpUserAgent";
-static const QString REGISTRY_HTTP_REFERRER_ON = "HttpReferringPageEnabled";
-static const QString REGISTRY_HTTP_REFERRER    = "HttpReferringPage";
-
-// Tab Filters
-static const QString REGISTRY_FILTER_KEY       = "FilterKey";
-static const QString REGISTRY_FILTER_NAME      = "FilterName";
-static const QString REGISTRY_FILTER_VALUE     = "FilterValue";
-
-// Tab Torrent
-static const QString REGISTRY_TORRENT_ENABLED  = "TorrentEnabled";
-static const QString REGISTRY_TORRENT_SHARED   = "TorrentShareFolderEnabled";
-static const QString REGISTRY_TORRENT_DIR      = "TorrentShareFolder";
-static const QString REGISTRY_TORRENT_PEERS    = "TorrentPeerList";
-static const QString REGISTRY_TORRENT_ADVANCED = "TorrentAdvanced";
-
-
-// Tab Advanced
-static const QString REGISTRY_CHECK_UPDATE     = "CheckUpdate";
-
+using namespace Qt::Literals::StringLiterals;
 
 static const QLatin1Char STREAM_HOST_SEPARATOR = QLatin1Char(' ');
 static const QList<QString> DEFAULT_STREAM_HOST_LIST =
@@ -160,9 +91,7 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     addDefaultSettingBool(REGISTRY_REMOVE_COMPLETED, false);
     addDefaultSettingBool(REGISTRY_REMOVE_CANCELED, false);
     addDefaultSettingBool(REGISTRY_REMOVE_PAUSED, false);
-    addDefaultSettingString(
-                REGISTRY_DATABASE,
-                QString("%0/queue.json").arg(qApp->applicationDirPath()));
+    addDefaultSettingString(REGISTRY_DATABASE, QString("%0/queue.json").arg(qApp->applicationDirPath()));
     addDefaultSettingString(REGISTRY_HTTP_USER_AGENT, httpUserAgents().at(0));
     addDefaultSettingBool(REGISTRY_HTTP_REFERRER_ON, false);
     addDefaultSettingString(REGISTRY_HTTP_REFERRER, QLatin1String("https://www.example.com/"));
@@ -217,8 +146,7 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
     addDefaultSettingString(REGISTRY_TORRENT_ADVANCED, QLatin1String(""));
 
     // Tab Advanced
-    addDefaultSettingInt(REGISTRY_CHECK_UPDATE,
-                         static_cast<int>(CheckUpdateBeatMode::OnceADay));
+    addDefaultSettingInt(REGISTRY_CHECK_UPDATE, static_cast<int>(CheckUpdateBeatMode::OnceADay));
 
 }
 
@@ -744,15 +672,15 @@ QList<Filter> Settings::defaultFilters(bool defaults)
 QString Settings::translateFilter(const QString &key, const QString &defaultName)
 {
     if (!key.isEmpty()) {
-        if (key == QLatin1String("KEY_ALL")         ) return tr("All Files");
-        if (key == QLatin1String("KEY_ARCHIVES")    ) return tr("Archives (zip, rar...)");
-        if (key == QLatin1String("KEY_APPLICATIONS")) return tr("Application (exe, xpi...)");
-        if (key == QLatin1String("KEY_AUDIO")       ) return tr("Audio (mp3, wav...)");
-        if (key == QLatin1String("KEY_DOCUMENTS")   ) return tr("Documents (pdf, odf...)");
-        if (key == QLatin1String("KEY_IMAGES")      ) return tr("Images (jpg, png...)");
-        if (key == QLatin1String("KEY_IMAGES_JPEG") ) return tr("Images JPEG");
-        if (key == QLatin1String("KEY_IMAGES_PNG")  ) return tr("Images PNG");
-        if (key == QLatin1String("KEY_VIDEO")       ) return tr("Video (mpeg, avi...)");
+        if (key == QLatin1String("KEY_ALL")         ) { return tr("All Files"); }
+        if (key == QLatin1String("KEY_ARCHIVES")    ) { return tr("Archives (zip, rar...)"); }
+        if (key == QLatin1String("KEY_APPLICATIONS")) { return tr("Application (exe, xpi...)"); }
+        if (key == QLatin1String("KEY_AUDIO")       ) { return tr("Audio (mp3, wav...)"); }
+        if (key == QLatin1String("KEY_DOCUMENTS")   ) { return tr("Documents (pdf, odf...)"); }
+        if (key == QLatin1String("KEY_IMAGES")      ) { return tr("Images (jpg, png...)"); }
+        if (key == QLatin1String("KEY_IMAGES_JPEG") ) { return tr("Images JPEG"); }
+        if (key == QLatin1String("KEY_IMAGES_PNG")  ) { return tr("Images PNG"); }
+        if (key == QLatin1String("KEY_VIDEO")       ) { return tr("Video (mpeg, avi...)"); }
     }
     return defaultName;
 }

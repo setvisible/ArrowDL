@@ -16,6 +16,7 @@
 
 #include "torrent.h"
 
+#include <Constants>
 #include <Core/Format>
 #include <Core/TorrentMessage>
 
@@ -25,8 +26,6 @@
 #ifdef QT_TESTLIB_LIB
 #  include <QtTest/QTest>
 #endif
-
-constexpr int max_peer_list_count = 1024;
 
 
 Torrent::Torrent(QObject *parent) : QObject(parent),
@@ -570,7 +569,7 @@ void TorrentFileTableModel::refreshData(const QList<TorrentFileInfo> &files)
 TorrentPeerTableModel::TorrentPeerTableModel(Torrent *parent)
     : AbstractTorrentTableModel(parent)
 {
-    m_peers.reserve(max_peer_list_count);
+    m_peers.reserve(MAX_PEER_LIST_COUNT);
     retranslateUi();
 }
 
@@ -743,11 +742,11 @@ void TorrentPeerTableModel::appendRemainingSafely(const QList<TorrentPeerInfo> &
         return;
     }
     int ptr = 0;
-    if (m_peers.count() < max_peer_list_count) {
-        ptr = qMin(newItems.count(), max_peer_list_count - m_peers.count());
+    if (m_peers.count() < MAX_PEER_LIST_COUNT) {
+        ptr = qMin(newItems.count(), MAX_PEER_LIST_COUNT - m_peers.count());
 
         auto first = m_peers.count();
-        auto last = qMin(first + ptr - 1, max_peer_list_count - 1);
+        auto last = qMin(first + ptr - 1, MAX_PEER_LIST_COUNT - 1);
         beginInsertRows(QModelIndex(), first, last);
         m_peers.append(newItems.mid(0, ptr));
         endInsertRows();

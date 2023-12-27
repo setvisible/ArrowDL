@@ -16,6 +16,7 @@
 
 #include "theme.h"
 
+#include <Constants>
 #include <Widgets/CustomStyle>
 
 #include <QtCore/QDebug>
@@ -38,13 +39,6 @@ const QLatin1StringView Theme::ColorScheme("colorScheme");
 
 /* Private static constants */
 static QString s_themeSearchPath = QString::fromUtf8(":/resources/icons/");
-
-/* Settings flags */
-static const QLatin1StringView s_themeDefault("default");
-static const QLatin1StringView s_themeFlat("flat");
-static const QLatin1StringView s_schemeLight("light");
-static const QLatin1StringView s_schemeDark("dark");
-
 
 /* Runtime Debug Purpose */
 static void _assertNoMissingIconTheme(const QWidget *widget)
@@ -110,8 +104,8 @@ QStringList Theme::availableIconThemes()
 QString Theme::toIconTheme(int index)
 {
     switch (index) {
-    case 0: return s_themeDefault;
-    case 1: return s_themeFlat;
+    case 0: return THEME_DEFAULT;
+    case 1: return THEME_FLAT;
     default: break;
     }
     return QLatin1String(""); // Must be an empty string, not a null QString
@@ -119,9 +113,9 @@ QString Theme::toIconTheme(int index)
 
 int Theme::fromIconTheme(const QString &iconTheme)
 {
-    if (iconTheme.compare(s_themeDefault, Qt::CaseInsensitive) == 0) {
+    if (iconTheme.compare(THEME_DEFAULT, Qt::CaseInsensitive) == 0) {
         return 0;
-    } else if (iconTheme.compare(s_themeFlat, Qt::CaseInsensitive) == 0) {
+    } else if (iconTheme.compare(THEME_FLAT, Qt::CaseInsensitive) == 0) {
         return 1;
     }
     return 0;
@@ -137,8 +131,8 @@ QStringList Theme::availableColorSchemes()
 QString Theme::toColorScheme(int index)
 {
     switch (index) {
-    case 0: return s_schemeLight;
-    case 1: return s_schemeDark;
+    case 0: return SCHEME_LIGHT;
+    case 1: return SCHEME_DARK;
     default: break;
     }
     return QLatin1String(""); // Must be an empty string, not a null QString
@@ -146,9 +140,9 @@ QString Theme::toColorScheme(int index)
 
 int Theme::fromColorScheme(const QString &colorScheme)
 {
-    if (colorScheme.compare(s_schemeLight, Qt::CaseInsensitive) == 0) {
+    if (colorScheme.compare(SCHEME_LIGHT, Qt::CaseInsensitive) == 0) {
         return 0;
-    } else if (colorScheme.compare(s_schemeDark, Qt::CaseInsensitive) == 0) {
+    } else if (colorScheme.compare(SCHEME_DARK, Qt::CaseInsensitive) == 0) {
         return 1;
     }
     return 0;

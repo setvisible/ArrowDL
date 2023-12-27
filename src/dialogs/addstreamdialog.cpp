@@ -17,7 +17,7 @@
 #include "addstreamdialog.h"
 #include "ui_addstreamdialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
 #include <Core/DownloadStreamItem>

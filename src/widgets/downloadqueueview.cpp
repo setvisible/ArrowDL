@@ -16,6 +16,7 @@
 
 #include "downloadqueueview_p.h"
 
+#include <Constants>
 #include <Core/AbstractDownloadItem>
 #include <Core/DownloadEngine>
 #include <Core/Format>
@@ -36,26 +37,6 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QStyledItemDelegate>
-
-constexpr int col_0_file_name         =  0;
-constexpr int col_1_website_domain    =  1;
-constexpr int col_2_progress_bar      =  2;
-constexpr int col_3_percent           =  3;
-constexpr int col_4_size              =  4;
-constexpr int col_5_estimated_time    =  5;
-constexpr int col_6_speed             =  6;
-// constexpr int col_7_segments          =  7; /* hidden */
-// constexpr int col_8_mask              =  8; /* hidden */
-// constexpr int col_9_save_path         =  9; /* hidden */
-// constexpr int col_10_checksum         = 10; /* hidden */
-
-constexpr int column_default_width    = 100;
-constexpr int column_0_default_width  = 300;
-constexpr int row_default_height      =  22;
-
-constexpr int min_progress = 0;
-constexpr int max_progress = 100;
-constexpr int version_marker = 0xff;
 
 
 QueueView::QueueView(QWidget *parent)
@@ -221,7 +202,7 @@ void QueueViewItemDelegate::paint(
     myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
     myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
 
-    if (index.column() == col_0_file_name) {
+    if (index.column() == COL_0_FILE_NAME) {
 
         const QUrl url(myOption.text);
         const QPixmap pixmap = MimeDatabase::fileIcon(url, 16);
@@ -233,7 +214,7 @@ void QueueViewItemDelegate::paint(
 
         QStyledItemDelegate::paint(painter, myOption, index);
 
-    } else if (index.column() == col_2_progress_bar) {
+    } else if (index.column() == COL_2_PROGRESS_BAR) {
 
         auto progress = index.data(QueueItem::ProgressRole).toInt();
         auto state = static_cast<IDownloadItem::State>(index.data(QueueItem::StateRole).toInt());
@@ -243,8 +224,8 @@ void QueueViewItemDelegate::paint(
         progressBarOption.direction = QApplication::layoutDirection();
         progressBarOption.rect = myOption.rect;
         progressBarOption.fontMetrics = QApplication::fontMetrics();
-        progressBarOption.minimum = min_progress;
-        progressBarOption.maximum = max_progress;
+        progressBarOption.minimum = MIN_PROGRESS;
+        progressBarOption.maximum = MAX_PROGRESS;
         progressBarOption.textAlignment = Qt::AlignCenter;
         progressBarOption.textVisible = false;
         progressBarOption.palette = myOption.palette;
@@ -265,7 +246,7 @@ QWidget* QueueViewItemDelegate::createEditor(QWidget *parent, const QStyleOption
     if (!index.isValid())
         return nullptr;
 
-    if (index.column() != col_0_file_name)
+    if (index.column() != COL_0_FILE_NAME)
         return nullptr;
 
     auto editor = new QLineEdit(parent);
@@ -364,7 +345,7 @@ QueueItem::QueueItem(AbstractDownloadItem *downloadItem, QTreeWidget *view)
     , QTreeWidgetItem(view, QTreeWidgetItem::UserType)
     , m_downloadItem(downloadItem)
 {
-    this->setSizeHint(col_2_progress_bar, QSize(column_default_width, row_default_height));
+    this->setSizeHint(COL_2_PROGRESS_BAR, QSize(COLUMN_DEFAULT_WIDTH, ROW_DEFAULT_HEIGHT));
     this->setFlags(Qt::ItemIsEditable | flags());
 
     connect(m_downloadItem, SIGNAL(changed()), this, SLOT(updateItem()));
@@ -398,14 +379,14 @@ void QueueItem::updateItem()
 
     QString speed = Format::currentSpeedToString(m_downloadItem->speed());
 
-    this->setText(col_0_file_name      , m_downloadItem->localFileName());
-    this->setText(col_1_website_domain , m_downloadItem->sourceUrl().host()); /// \todo domain only
-    this->setData(col_2_progress_bar   , StateRole, m_downloadItem->state());
-    this->setData(col_2_progress_bar   , ProgressRole, m_downloadItem->progress());
-    this->setText(col_3_percent        , QString("%0%").arg(qMax(0, m_downloadItem->progress())));
-    this->setText(col_4_size           , size);
-    this->setText(col_5_estimated_time , estimatedTime(m_downloadItem));
-    this->setText(col_6_speed          , speed);
+    this->setText(COL_0_FILE_NAME      , m_downloadItem->localFileName());
+    this->setText(COL_1_WEBSITE_DOMAIN , m_downloadItem->sourceUrl().host()); /// \todo domain only
+    this->setData(COL_2_PROGRESS_BAR   , StateRole, m_downloadItem->state());
+    this->setData(COL_2_PROGRESS_BAR   , ProgressRole, m_downloadItem->progress());
+    this->setText(COL_3_PERCENT        , QString("%0%").arg(qMax(0, m_downloadItem->progress())));
+    this->setText(COL_4_SIZE           , size);
+    this->setText(COL_5_ESTIMATED_TIME , estimatedTime(m_downloadItem));
+    this->setText(COL_6_SPEED          , speed);
 
     //item->setText(C_COL_7_SEGMENTS, "Unknown");
     // todo etc...
@@ -474,7 +455,7 @@ QByteArray DownloadQueueView::saveState(int version) const
 {
     QByteArray data;
     QDataStream stream(&data, QIODevice::WriteOnly);
-    stream << version_marker;
+    stream << VERSION_MARKER;
     stream << version;
     stream << columnWidths();
     return data;
@@ -491,7 +472,7 @@ bool DownloadQueueView::restoreState(const QByteArray &state, int version)
     int v;
     stream >> marker;
     stream >> v;
-    if (stream.status() != QDataStream::Ok || marker != version_marker || v != version) {
+    if (stream.status() != QDataStream::Ok || marker != VERSION_MARKER || v != version) {
         return false;
     }
     QList<int> widths;
@@ -515,7 +496,7 @@ QList<int> DownloadQueueView::columnWidths() const
 
 static int defaultColumnWidth(int index)
 {
-    return index == 0 ? column_0_default_width : column_default_width;
+    return index == 0 ? COLUMN_0_DEFAULT_WIDTH : COLUMN_DEFAULT_WIDTH;
 }
 
 void DownloadQueueView::setColumnWidths(const QList<int> &widths)
@@ -536,8 +517,8 @@ void DownloadQueueView::rename()
 {
     if (!m_queueView->selectedItems().isEmpty()) {
         auto treeItem = m_queueView->selectedItems().first();
-        m_queueView->setCurrentItem(treeItem, col_0_file_name);
-        m_queueView->editItem(treeItem, col_0_file_name);
+        m_queueView->setCurrentItem(treeItem, COL_0_FILE_NAME);
+        m_queueView->editItem(treeItem, COL_0_FILE_NAME);
     }
 }
 

@@ -16,26 +16,19 @@
 
 #include "abstractsettings.h"
 
+#include <Constants>
+
 #include <QtCore/QBuffer>
 #include <QtCore/QDataStream>
 #include <QtCore/QSettings>
 #include <QtCore/QString>
 #include <QtCore/QDebug>
 
-/*
- * Remark:
- * Characters '<' and '>' are unlikely to be used as value for data or directory path.
- * If a collision appears, the only risk is to reset the faulty parameter
- * to its default value.
- */
-static const QLatin1StringView UNDEFINED( "<UNDEFINED>" );
-static const QLatin1StringView VALUE_TRUE( "<TRUE>" );
-static const QLatin1StringView VALUE_FALSE( "<FALSE>" );
 
 /*
  * Helper methods
  */
-static QString boolToString(bool b) { return b ? VALUE_TRUE : VALUE_FALSE; }
+static QString boolToString(bool value) { return value ? VALUE_TRUE : VALUE_FALSE; }
 static bool stringToBool(const QString &str) { return str == VALUE_TRUE; }
 
 static QString intToString(int value) { return QString::number(value); }
@@ -77,7 +70,7 @@ void AbstractSettings::endRestoreDefault()
 void AbstractSettings::readSettings()
 {
     QSettings settings;
-    settings.beginGroup(QLatin1String("Preference"));
+    settings.beginGroup(SETTING_GROUP_PREFERENCE);
     foreach (auto item, m_items) {
         auto value = settings.value(uniqueRegisterKey(item), UNDEFINED).toString();
         item->value = (value != UNDEFINED) ? value : item->defaultValue;
@@ -89,7 +82,7 @@ void AbstractSettings::readSettings()
 void AbstractSettings::writeSettings()
 {
     QSettings settings;
-    settings.beginGroup(QLatin1String("Preference"));
+    settings.beginGroup(SETTING_GROUP_PREFERENCE);
     foreach (auto item, m_items) {
         auto name = uniqueRegisterKey(item);
         if (item->value != item->defaultValue || settings.contains(name)) {

@@ -16,7 +16,7 @@
 
 #include "torrentcontext_p.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/NetworkManager>
 #include <Core/ResourceItem>
 #include <Core/Settings>
@@ -94,6 +94,9 @@ static inline lt::download_priority_t fromPriority(const TorrentFileInfo::Priori
 static inline TorrentInfo::TorrentState toState(const lt::torrent_status::state_t &s);
 static inline lt::torrent_status::state_t fromState(const TorrentInfo::TorrentState &s);
 
+const std::chrono::milliseconds TIMEOUT_TERMINATING( 3000 );
+const std::chrono::milliseconds TIMEOUT_REFRESH( 500);
+
 
 TorrentContextPrivate::TorrentContextPrivate(TorrentContext *qq)
     : QObject(qq)
@@ -117,7 +120,7 @@ TorrentContextPrivate::TorrentContextPrivate(TorrentContext *qq)
 TorrentContextPrivate::~TorrentContextPrivate()
 {
     workerThread->stop();
-    if (!workerThread->wait(3000)) {
+    if (!workerThread->wait(TIMEOUT_TERMINATING.count())) {
         qDebug_1 << Q_FUNC_INFO << "Terminating...";
         workerThread->terminate();
         workerThread->wait();
@@ -1275,7 +1278,7 @@ void WorkerThread::run()
         session.post_session_stats();
         session.post_dht_stats();
 
-        QThread::msleep(500);
+        QThread::msleep(TIMEOUT_REFRESH.count());
 
         std::vector<lt::alert*> alerts;
         session.pop_alerts(&alerts);

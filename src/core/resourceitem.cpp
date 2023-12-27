@@ -16,6 +16,8 @@
 
 #include "resourceitem.h"
 
+#include <Constants>
+
 #include <Core/FileUtils>
 #include <Core/Mask>
 #include <Core/Stream>
@@ -24,10 +26,6 @@
 #include <QtCore/QFile>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QUrl>
-
-static const QLatin1StringView s_regular("regular");
-static const QLatin1StringView s_stream("stream");
-static const QLatin1StringView s_torrent("torrent");
 
 
 ResourceItem::Type ResourceItem::type() const
@@ -43,17 +41,17 @@ void ResourceItem::setType(Type type)
 QString ResourceItem::toString(Type type)
 {
     switch (type) {
-    case Type::Stream:  return s_stream;
-    case Type::Torrent: return s_torrent;
+    case Type::Stream:  return S_KEY_STREAM;
+    case Type::Torrent: return S_KEY_TORRENT;
     default:
-        return s_regular;
+        return S_KEY_REGULAR;
     }
 }
 
 ResourceItem::Type ResourceItem::fromString(const QString &str)
 {
-    if (str.toLower() == s_stream)  return Type::Stream;
-    if (str.toLower() == s_torrent) return Type::Torrent;
+    if (str.toLower() == S_KEY_STREAM)  { return Type::Stream; }
+    if (str.toLower() == S_KEY_TORRENT) { return Type::Torrent; }
     return Type::Regular;
 }
 

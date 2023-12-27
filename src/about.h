@@ -17,7 +17,6 @@
 #ifndef ABOUT_H
 #define ABOUT_H
 
-#include "globals.h"
 #include "version.h"
 
 #include <QtCore/QObject>

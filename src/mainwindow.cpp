@@ -18,9 +18,8 @@
 #include "ui_mainwindow.h"
 
 #include "about.h"
-#include "version.h"
-#include "globals.h"
 
+#include <Constants>
 #include <Core/IDownloadItem>
 #include <Core/DownloadManager>
 #include <Core/DownloadTorrentItem>
@@ -86,10 +85,6 @@
 #  include <QtWinExtras/QWinTaskbarProgress>
 #endif
 
-constexpr int default_width = 1000;
-constexpr int default_height = 700;
-constexpr int default_x = 100;
-constexpr int default_y = 100;
 
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
@@ -179,7 +174,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     ui->splitter->setStretchFactor(1, 0);
 
     if (!m_settings->isDontShowTutorialEnabled()) {
-        QTimer::singleShot(250, this, SLOT(showTutorial()));
+        QTimer::singleShot(TIMEOUT_TUTORIAL, this, SLOT(showTutorial()));
     }
 
     /* Update Checker */
@@ -858,7 +853,7 @@ void MainWindow::addContent()
     dialog.setInputMethodHints(Qt::ImhUrlCharactersOnly);
     dialog.setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     dialog.adjustSize();
-    dialog.resize(600, dialog.height());
+    dialog.resize(DIALOG_WIDTH, dialog.height());
 
     const int ret = dialog.exec();
     const QUrl url = QUrl(dialog.textValue());
@@ -1309,8 +1304,8 @@ void MainWindow::readSettings()
 {
     QSettings settings;
     if ( !isMaximized() ) {
-        const QPoint defaultPosition(default_x, default_y);
-        const QSize defaultSize(default_width, default_height);
+        const QPoint defaultPosition(DEFAULT_X, DEFAULT_Y);
+        const QSize defaultSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         QPoint position = settings.value("Position", defaultPosition).toPoint();
         QSize size = settings.value("Size", defaultSize).toSize();
 
@@ -1420,7 +1415,7 @@ bool MainWindow::saveFile(const QString &path)
     }
     this->refreshTitleAndStatus();
     this->refreshMenus();
-    this->statusBar()->showMessage(tr("File saved"), 2000);
+    this->statusBar()->showMessage(tr("File saved"), TIMEOUT_STATUSBAR.count());
     return true;
 }
 
@@ -1439,6 +1434,6 @@ bool MainWindow::loadFile(const QString &path)
     }
     this->refreshTitleAndStatus();
     this->refreshMenus();
-    this->statusBar()->showMessage(tr("File loaded"), 5000);
+    this->statusBar()->showMessage(tr("File loaded"), TIMEOUT_STATUSBAR_LONG.count());
     return true;
 }

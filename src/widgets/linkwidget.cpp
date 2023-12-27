@@ -17,6 +17,7 @@
 #include "linkwidget.h"
 #include "ui_linkwidget.h"
 
+#include <Constants>
 #include <Core/CheckableTableModel>
 #include <Core/MimeDatabase>
 #include <Core/Model>
@@ -35,7 +36,6 @@
 #include <QtGui/QPixmap>
 #include <QtWidgets/QMenu>
 
-constexpr int elide_char_count = 30;
 
 
 /******************************************************************************
@@ -283,8 +283,8 @@ void LinkWidget::open()
  ******************************************************************************/
 static inline QString elide(const QString &text)
 {
-    if (text.length() > 2 * elide_char_count) {
-        return QString("%0...%1").arg(text.left(elide_char_count), text.right(elide_char_count));
+    if (text.length() > 2 * ELIDE_CHAR_COUNT) {
+        return QString("%0...%1").arg(text.left(ELIDE_CHAR_COUNT), text.right(ELIDE_CHAR_COUNT));
     }
     return text;
 }

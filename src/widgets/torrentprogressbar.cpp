@@ -16,6 +16,7 @@
 
 #include "torrentprogressbar.h"
 
+#include <Constants>
 #include <Widgets/CustomStyleOptionProgressBar>
 #include <Widgets/Globals>
 
@@ -25,8 +26,6 @@
 #include <QtGui/QPaintEvent>
 #include <QtWidgets/QApplication>
 
-constexpr int min_progress = 0;
-constexpr int max_progress = 100;
 
 /*!
  * \class TorrentProgressBar
@@ -36,8 +35,8 @@ constexpr int max_progress = 100;
 TorrentProgressBar::TorrentProgressBar(QWidget *parent) : QProgressBar(parent)
   , m_downloadedPieces(QBitArray())
 {    
-    setRange(min_progress, max_progress);
-    setValue(min_progress);
+    setRange(MIN_PROGRESS, MAX_PROGRESS);
+    setValue(MIN_PROGRESS);
 }
 
 /******************************************************************************
@@ -75,13 +74,13 @@ void TorrentProgressBar::paintEvent(QPaintEvent *)
     progressBarOption.direction = QApplication::layoutDirection();
     progressBarOption.rect = myOption.rect;
     progressBarOption.fontMetrics = QApplication::fontMetrics();
-    progressBarOption.minimum = min_progress;
-    progressBarOption.maximum = max_progress;
+    progressBarOption.minimum = MIN_PROGRESS;
+    progressBarOption.maximum = MAX_PROGRESS;
     progressBarOption.textAlignment = Qt::AlignCenter;
     progressBarOption.textVisible = false;
     progressBarOption.palette = myOption.palette;
     progressBarOption.progress = progress;
-    progressBarOption.color = progress < max_progress ? s_green : s_darkGreen;
+    progressBarOption.color = progress < MAX_PROGRESS ? s_green : s_darkGreen;
     progressBarOption.icon = {};
 
     progressBarOption.hasSegments = true;

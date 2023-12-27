@@ -17,7 +17,8 @@
 #include "compilerdialog.h"
 #include "ui_compilerdialog.h"
 
-#include <Globals>
+#include "../version_3rd.h"
+#include <Constants>
 #include <Core/Stream>
 
 #include <QtCore/QDebug>

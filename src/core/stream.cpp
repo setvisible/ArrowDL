@@ -16,6 +16,7 @@
 
 #include "stream.h"
 
+#include <Constants>
 #include <Core/FileUtils>
 #include <Core/Format>
 
@@ -38,29 +39,6 @@
 #include <algorithm> /* std::sort */
 
 using namespace Qt::Literals::StringLiterals;
-
-#if defined Q_OS_WIN
-static const QString C_PROGRAM_NAME  = QLatin1String("yt-dlp.exe");
-#else
-static const QString C_PROGRAM_NAME  = QLatin1String("yt-dlp");
-#endif
-
-static const QString C_WEBSITE_URL   = QLatin1String("https://github.com/yt-dlp/yt-dlp");
-static const int     C_EXIT_SUCCESS  = 0;
-
-static const QString C_NONE          = QLatin1String("none");
-
-static const QString C_WARNING_msg_header_01 = QLatin1String("WARNING:");
-static const QString C_WARNING_msg_header_02 = QLatin1String("\\033[0;33mWARNING:\\033[0m");
-static const QString C_ERROR_msg_header_01 = QLatin1String("ERROR:");
-static const QString C_ERROR_msg_header_02 = QLatin1String("\\033[0;31mERROR:\\033[0m");
-
-static const QString C_WARNING_merge_output_format = QLatin1String(
-            "Requested formats are incompatible for merge and will be merged into mkv.");
-
-static const QString C_DOWNLOAD_msg_header = QLatin1String("[download]");
-static const QString C_DOWNLOAD_next_section = QLatin1String("Destination:");
-static const QString C_MERGER_msg_header = QLatin1String("[Merger]");
 
 
 static QString s_youtubedl_version = {};

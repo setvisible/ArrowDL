@@ -16,6 +16,8 @@
 
 #include "format.h"
 
+#include <Constants>
+
 #include <QtCore/QtMath>
 #include <QtCore/QDebug>
 #include <QtCore/QRegularExpression>
@@ -24,13 +26,10 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-static const QString s_infinite_symbol = QString::fromUtf8("\xE2\x88\x9E");
 
-/******************************************************************************
- ******************************************************************************/
 QString Format::infinity()
 {
-    return s_infinite_symbol;
+    return SYMBOL_INFINITE;
 }
 
 /******************************************************************************
@@ -57,8 +56,8 @@ QString Format::timeToString(qint64 seconds)
     if (seconds < 0) {
         return "--:--"_L1;
     }
-    if (seconds >= 24*60*60) { // More than one day
-        return s_infinite_symbol;
+    if (seconds >= ONE_DAY_IN_SECONDS) { // More than one day
+        return SYMBOL_INFINITE;
     }
     QTime time(0, 0, 0, 0);
     time = time.addSecs(static_cast<int>(seconds));
@@ -134,7 +133,7 @@ QString Format::yesOrNo(bool yes)
 QString Format::currentSpeedToString(qreal speed, bool showInfiniteSymbol)
 {
     if (speed < 0 || !qIsFinite(speed)) {
-        return showInfiniteSymbol ? s_infinite_symbol : QLatin1String("-");
+        return showInfiniteSymbol ? SYMBOL_INFINITE : QLatin1String("-");
     }
     speed /= 1024.0; // KB
     if (speed < 1000) {

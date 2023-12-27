@@ -17,7 +17,7 @@
 #include "editiondialog.h"
 #include "ui_editiondialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/DownloadItem>
 #include <Core/IDownloadItem>
 #include <Core/ResourceItem>
