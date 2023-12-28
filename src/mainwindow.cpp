@@ -1321,11 +1321,7 @@ void MainWindow::readSettings()
         this->move(position);
         this->resize(size);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
     setWindowState(settings.value("WindowState", 0).value<Qt::WindowStates>());
-#else
-    setWindowState((Qt::WindowStates)settings.value("WindowState", 0).toInt() );
-#endif
     setWorkingDirectory(settings.value("WorkingDirectory").toString());
 
     restoreState(settings.value("WindowToolbarState").toByteArray());

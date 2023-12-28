@@ -160,46 +160,30 @@ bool File::rename(ResourceItem *resource)
  ******************************************************************************/
 void File::setCreationFileTime(const QDateTime &newDate)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     if (m_file && m_file->isOpen()) {
         m_file->setFileTime(newDate, QFileDevice::FileBirthTime);
     }
-#else
-    Q_UNUSED(newDate)
-#endif
 }
 
 void File::setLastModifiedFileTime(const QDateTime &newDate)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     if (m_file && m_file->isOpen()) {
         m_file->setFileTime(newDate, QFileDevice::FileModificationTime);
     }
-#else
-    Q_UNUSED(newDate)
-#endif
 }
 
 void File::setAccessFileTime(const QDateTime &newDate)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     if (m_file && m_file->isOpen()) {
         m_file->setFileTime(newDate, QFileDevice::FileAccessTime);
     }
-#else
-    Q_UNUSED(newDate)
-#endif
 }
 
 void File::setMetadataChangeFileTime(const QDateTime &newDate)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     if (m_file && m_file->isOpen()) {
         m_file->setFileTime(newDate, QFileDevice::FileMetadataChangeTime);
     }
-#else
-    Q_UNUSED(newDate)
-#endif
 }
 
 /******************************************************************************

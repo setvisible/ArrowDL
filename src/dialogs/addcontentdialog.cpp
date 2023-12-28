@@ -197,16 +197,10 @@ void AddContentDialog::loadUrl(const QUrl &url)
             /* Only load source, not media */
             QWebEngineSettings *settings =  m_webEngineView->settings()->globalSettings();
             settings->setAttribute(QWebEngineSettings::AutoLoadImages, false);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
             settings->setAttribute(QWebEngineSettings::AutoLoadIconsForPage, false);
             m_webEngineView->page()->setAudioMuted(true);
-#endif
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
             settings->setAttribute(QWebEngineSettings::ShowScrollBars, false);
-#endif
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
             settings->setAttribute(QWebEngineSettings::PdfViewerEnabled, false);
-#endif
         }
         m_webEngineView->load(m_url);
 #else

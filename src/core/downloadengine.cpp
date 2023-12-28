@@ -395,9 +395,6 @@ void DownloadEngine::moveUpTo(qsizetype targetIndex)
         auto indexToMove = m_items.indexOf(m_selectedItems.at(i));
         for (auto j = indexToMove; j > targetIndex + i; --j) {
             m_items.swapItemsAt(j, j - 1);
-#else
-            m_items.swap(j, j - 1);
-#endif
         }
     }
     emit sortChanged();

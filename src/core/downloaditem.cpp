@@ -278,10 +278,8 @@ QString DownloadItem::statusToHttp(QNetworkReply::NetworkError error)
     case QNetworkReply::TemporaryNetworkFailureError:     return tr("3xx Redirect temporary network failure");
     case QNetworkReply::NetworkSessionFailedError:        return tr("3xx Redirect network session failed");
     case QNetworkReply::BackgroundRequestNotAllowedError: return tr("3xx Redirect background request not allowed");
-#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
     case QNetworkReply::TooManyRedirectsError:            return tr("3xx Too many redirects");
     case QNetworkReply::InsecureRedirectError:            return tr("3xx Insecure redirect");
-#endif
     case QNetworkReply::UnknownNetworkError:              return tr("3xx Unknown redirect error");
 
         // proxy errors (101-199):

@@ -128,6 +128,7 @@ QNetworkReply* NetworkManager::get(const QUrl &url, const QString &referer)
     request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
 
     auto reply = m_networkAccessManager->get(request);
+
     Q_ASSERT(reply);
     connect(reply, SIGNAL(metaDataChanged()), this, SLOT(onMetaDataChanged()));
     connect(reply, SIGNAL(redirected(QUrl)), this, SLOT(onRedirected(QUrl)));

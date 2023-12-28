@@ -30,11 +30,7 @@
 
 static QModelIndex getSiblingAtColumn(const QModelIndex &index, int acolumn)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
     return index.siblingAtColumn(acolumn);
-#else
-    return index.sibling(index.row(), acolumn);
-#endif
 }
 
 /*!

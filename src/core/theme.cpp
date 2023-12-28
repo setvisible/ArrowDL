@@ -189,9 +189,7 @@ static void polishDark(QPalette &palette)
     palette.setColor(QPalette::ToolTipBase, Qt::white);
     palette.setColor(QPalette::ToolTipText, QColor(53, 53, 53));
     // --
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     palette.setColor(QPalette::PlaceholderText, QColor(127, 127, 127)); // custom
-#endif
     // --
 }
 
@@ -202,11 +200,9 @@ void Theme::applyTheme(const QMap<QString, QVariant> &map)
     if (!QIcon::themeSearchPaths().contains(s_themeSearchPath)) {
         QIcon::setThemeSearchPaths(QIcon::themeSearchPaths() << s_themeSearchPath);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     if (QIcon::fallbackThemeName().isEmpty()) {
         QIcon::setFallbackThemeName(QLatin1String("default"));
     }
-#endif
 
     const QString platformStyle = map.value(Theme::PlatformStyle, QString()).toString();
     const QString iconTheme = map.value(Theme::IconTheme, QString()).toString();

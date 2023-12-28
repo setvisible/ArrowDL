@@ -91,11 +91,7 @@ TorrentPieceMap::TorrentPieceMap(QWidget *parent) : QWidget(parent)
     qRegisterMetaType<TorrentPieceData>("TorrentPieceData");
 
     QFontMetrics fm(m_tileFont);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
     m_tileWidth = fm.horizontalAdvance(decorate(999, TorrentFileInfo::Low));
-#else
-    m_tileWidth = fm.width(decorate(999, TorrentFileInfo::Low));
-#endif
     m_tileHeight = fm.height() + 2 * m_tilePadding;
     m_tileWidth += 2 * m_tilePadding;
 
@@ -319,20 +315,11 @@ void TorrentPieceMap::populateScene(const TorrentPieceData &pieceData)
                     m_rootItem);
 
         auto flags = item->flags();
-#if QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
         flags.setFlag(QGraphicsItem::ItemIsMovable, false);
         flags.setFlag(QGraphicsItem::ItemIsSelectable, false);
         flags.setFlag(QGraphicsItem::ItemIsFocusable, false);
         flags.setFlag(QGraphicsItem::ItemSendsGeometryChanges, false);
         flags.setFlag(QGraphicsItem::ItemSendsScenePositionChanges, false);
-#else
-        flags &= ~QGraphicsItem::ItemIsMovable;
-        flags &= ~QGraphicsItem::ItemIsMovable;
-        flags &= ~QGraphicsItem::ItemIsSelectable;
-        flags &= ~QGraphicsItem::ItemIsFocusable;
-        flags &= ~QGraphicsItem::ItemSendsGeometryChanges;
-        flags &= ~QGraphicsItem::ItemSendsScenePositionChanges;
-#endif
         item->setFlags(flags);
         m_items.append(item);
     }
