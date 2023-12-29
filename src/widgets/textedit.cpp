@@ -392,7 +392,7 @@ void TextEdit::paintBlockSelector(QPaintEvent *e)
                 cursorPosition = m_blockSelector.cursorPosition(blnum);
             }
 
-            foreach (auto range, context.selections) {
+            for (const auto &range: context.selections) {
                 const int selStart = range.cursor.selectionStart() - blpos;
                 const int selEnd = range.cursor.selectionEnd() - blpos;
                 if (selStart < bllen && selEnd > 0

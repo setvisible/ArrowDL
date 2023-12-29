@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
         message = InterProcessCommunication::readMessageFromLauncher();
     } else {
         const QStringList positionalArguments = parser.positionalArguments();
-        foreach (auto positionalArgument, positionalArguments) {
+        for (auto positionalArgument : positionalArguments) {
             message += positionalArgument;
             message += QChar::Space;
         }

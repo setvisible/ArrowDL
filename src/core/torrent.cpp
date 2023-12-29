@@ -694,7 +694,7 @@ void TorrentPeerTableModel::removeUnconnectedPeers()
 {
     beginResetModel();
     QList<TorrentPeerInfo> peers;
-    foreach (auto peer, m_peers) {
+    for (auto peer : m_peers) {
         if (m_connectedPeers.contains(peer.endpoint)) {
             peers.append(peer);
         }
@@ -711,7 +711,7 @@ void TorrentPeerTableModel::refreshData(const QList<TorrentPeerInfo> &peers)
     m_connectedPeers.clear();
     QList<TorrentPeerInfo> newItems;
 
-    foreach (auto newItem, peers) {
+    for (auto newItem : peers) {
         m_connectedPeers.insert(newItem.endpoint);
         bool replaced = false;
         for (auto i = 0; i < m_peers.count(); ++i) {

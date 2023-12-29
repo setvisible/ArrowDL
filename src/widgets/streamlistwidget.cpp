@@ -295,7 +295,7 @@ QList<int> StreamListWidget::selectedRows() const
 {
     QSet<int> rows;
     auto indexes = ui->playlistView->selectionModel()->selectedRows(0);
-    foreach (auto index, indexes) {
+    for (auto index : indexes) {
         rows.insert(index.row());
     }
     auto list = rows.values();
@@ -334,7 +334,7 @@ void StreamTableModel::setStreamObjects(const QList<StreamObject> &streamObjects
 {
     clear();
     if (!streamObjects.isEmpty()) {
-        QModelIndex parent = QModelIndex(); // root is always empty
+        QModelIndex parent = {}; // root is always empty
         beginInsertRows(parent, 0, static_cast<int>(streamObjects.count()));
         m_items = streamObjects;
         endInsertRows();
@@ -386,7 +386,7 @@ void StreamTableModel::setItemAt(int row, const StreamObject &streamObject)
 QList<StreamObject> StreamTableModel::selection() const
 {
     QList<StreamObject> selection;
-    foreach (int row, this->checkedRows()) {
+    for (auto row : this->checkedRows()) {
         if (row >= 0 && row < m_items.count()) {
             selection << m_items.at(row);
         }

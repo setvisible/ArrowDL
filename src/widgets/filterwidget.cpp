@@ -166,7 +166,7 @@ void FilterWidget::onFilterTipToolLinkActivated(const QString& link)
 void FilterWidget::clearFilters()
 {
     auto checkboxes = ui->checkBoxGroup->findChildren<QCheckBox*>();
-    foreach (auto checkbox, checkboxes) {
+    for (auto checkbox : checkboxes) {
         ui->checkBoxGroup->layout()->removeWidget(checkbox);
         checkbox->setParent(nullptr);
         delete checkbox;
@@ -205,7 +205,7 @@ QRegularExpression FilterWidget::regex() const
     if (!ui->fastFilteringOnlyCheckBox->isChecked()) {
         QStringList parts;
         auto checkboxes = ui->checkBoxGroup->findChildren<QCheckBox*>();
-        foreach (auto checkbox, checkboxes) {
+        for (auto checkbox : checkboxes) {
             if (checkbox->isChecked()) {
                 parts << checkbox->property("regexp").toString();
             }
@@ -214,7 +214,7 @@ QRegularExpression FilterWidget::regex() const
             if (!filter.isEmpty()) {
                 filter += "|";
             }
-            foreach (auto part, parts) {
+            for (auto part : parts) {
                 filter += "(";
                 filter += part;
                 filter += ")|";

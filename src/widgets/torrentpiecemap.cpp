@@ -300,7 +300,7 @@ void TorrentPieceMap::setPieceData(const TorrentPieceData &pieceData)
  ******************************************************************************/
 void TorrentPieceMap::clearScene()
 {
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         m_scene->removeItem(item);
     }
     m_items.clear();
@@ -338,7 +338,7 @@ void TorrentPieceMap::adjustScene()
     qreal height = m_tileHeight + 2 * m_tilePadding;
     qreal x = 0;
     qreal y = 0;
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         if (x + width >= maxWidth) {
             x = 0;
             y += height;

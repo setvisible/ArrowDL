@@ -630,7 +630,7 @@ void Settings::setFilters(const QList<Filter> &filters)
     QStringList keys;
     QStringList names;
     QStringList values;
-    foreach (auto filter, filters) {
+    for (auto filter : filters) {
         keys.append(filter.key());
         names.append(filter.name());
         values.append(filter.regex());

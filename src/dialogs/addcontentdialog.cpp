@@ -58,7 +58,7 @@ static QList<IDownloadItem*> createItems(
     const Settings *settings)
 {
     QList<IDownloadItem*> items;
-    foreach (auto resource, resources) {
+    for (auto resource : resources) {
         if (settings && settings->isHttpReferringPageEnabled()) {
             resource->setReferringPage(settings->httpReferringPage());
         }
@@ -414,7 +414,7 @@ void AddContentDialog::refreshFilters()
 {
     QList<Filter> filters = m_settings->filters();
     ui->filterWidget->clearFilters();
-    foreach (auto filter, filters) {
+    for (auto filter : filters) {
         ui->filterWidget->addFilter(filter.name(), filter.regex());
     }
 }

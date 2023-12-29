@@ -226,7 +226,7 @@ QList<TorrentSettingItem> TorrentContextPrivate::_toPreset(const lt::settings_pa
         }
     };
 
-    foreach (auto c, cs) {
+    for (auto c : cs) {
         for (auto index = c.begin; index < c.end; ++index) {
 
             // Remove non-modifiable settings and settings managed somewhere else.
@@ -1734,7 +1734,7 @@ inline void WorkerThread::onMetadataReceived(const lt::torrent_handle &handle)
  ******************************************************************************/
 inline void WorkerThread::onStateUpdated(const std::vector<lt::torrent_status> &status)
 {
-    foreach (const lt::torrent_status &s, status) {
+    for (auto s : status) {
         signalizeStatusUpdated(s);
     }
 }
@@ -2121,7 +2121,7 @@ inline TorrentHandleInfo WorkerThread::toTorrentHandleInfo(const lt::torrent_han
     {
         auto priorities = handle.get_piece_priorities();
         QVector<TorrentFileInfo::Priority> newPiecePriority;
-        foreach (auto priority, priorities) {
+        for (auto priority : priorities) {
             newPiecePriority.append(toPriority(priority));
         }
         t.piecePriority.swap(newPiecePriority);
@@ -2154,7 +2154,7 @@ inline TorrentMetaInfo WorkerThread::toTorrentMetaInfo(const lt::add_torrent_par
     }
     m.outputPath    = toString(params.save_path);
 
-    // for (const lt::download_priority_t &file_priority : params.file_priorities) {
+    // for (const lt : :download_priority_t &file_priority : params.file_priorities) {
     // ?
     // }
 
@@ -2264,7 +2264,7 @@ QBitArray WorkerThread::toBitArray(const std::map<lt::piece_index_t, lt::bitfiel
         size = qMax(size, index);
     }
     QBitArray ba(size, false);
-    foreach (auto index, indexes) {
+    for (auto index : indexes) {
         ba.setBit(index);
     }
     return ba;

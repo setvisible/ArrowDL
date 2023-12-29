@@ -44,7 +44,7 @@ static void populateLocales()
 
     // Get locale from the ISO 639 language code
     QList<QLocale> locales;
-    foreach (const QString &dotQM, allDotQMs) {
+    for (const auto &dotQM : allDotQMs) {
         auto code = dotQM;
         code.replace("dza_", "");
         code.replace(".qm", "");
@@ -61,7 +61,7 @@ QStringList Locale::availableLanguages()
         populateLocales();
     }
     QStringList languageNames;
-    foreach (const QLocale &locale, s_locales) {
+    for (const auto &locale : s_locales) {
         languageNames << locale.nativeLanguageName();
     }
     return languageNames;

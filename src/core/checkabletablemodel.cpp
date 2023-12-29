@@ -38,7 +38,7 @@ QList<int> CheckableTableModel::checkedRows() const
 {
     QSet<int> rows;
     auto indexes = m_checkedIndexes.values();
-    foreach (auto index, indexes) {
+    for (auto index : indexes) {
         rows.insert(index.row());
     }
     auto list = rows.values();

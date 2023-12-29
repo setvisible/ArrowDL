@@ -104,7 +104,7 @@ void DownloadManager::loadQueue()
         Session::read(downloadItems, m_queueFile, this);
 
         QList<IDownloadItem*> abstractItems;
-        foreach (auto item, downloadItems) {
+        for (auto item : downloadItems) {
             // Cast items of the list
             abstractItems.append(static_cast<IDownloadItem*>(item));
         }
@@ -123,7 +123,7 @@ void DownloadManager::saveQueue()
         auto skipPaused = m_settings->isRemovePausedEnabled();
 
         auto abstractItems = downloadItems();
-        foreach (auto abstractItem, abstractItems) {
+        for (auto abstractItem : abstractItems) {
             auto item = dynamic_cast<DownloadItem*>(abstractItem);
             if (item) {
                 switch (item->state()) {

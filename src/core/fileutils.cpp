@@ -120,7 +120,7 @@ QString FileUtils::validateFileName(const QString &name, bool allowSubDir)
 static QString capitalize(const QString &sentence)
 {
     auto capitalized = sentence.toLower();
-    for (auto sep: {" ", ",", "-", "_", "\"", "'", "@"}) {
+    for (auto sep : {" ", ",", "-", "_", "\"", "'", "@"}) {
         auto words = capitalized.split(sep, Qt::KeepEmptyParts);
         for (int i = 0; i < words.size(); ++i) {
             if (words[i].count() > 0) {

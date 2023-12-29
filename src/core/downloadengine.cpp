@@ -50,7 +50,7 @@ DownloadEngine::~DownloadEngine()
 qsizetype DownloadEngine::downloadingCount() const
 {
     auto count = 0;
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         if (item->isDownloading()) {
             count++;
         }
@@ -61,7 +61,7 @@ qsizetype DownloadEngine::downloadingCount() const
 void DownloadEngine::startNext(IDownloadItem * /*item*/)
 {
     if (downloadingCount() < m_maxSimultaneousDownloads) {
-        foreach (auto item, m_items) {
+        for (auto item : m_items) {
             if (item->state() == IDownloadItem::Idle) {
                 item->resume();
                 startNext(nullptr);
@@ -93,7 +93,7 @@ void DownloadEngine::append(const QList<IDownloadItem*> &items, bool started)
     if (items.isEmpty()) {
         return;
     }
-    foreach (auto item, items) {
+    for (auto item : items) {
         auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
         if (!downloadItem) {
             return;
@@ -134,13 +134,13 @@ void DownloadEngine::removeItems(const QList<IDownloadItem*> &items)
     }
     /* First, deselect */
     beginSelectionChange();
-    foreach (auto item, items) {
+    for (auto item : items) {
         setSelected(item, false);
     }
     endSelectionChange();
 
     /* Then, remove */
-    foreach (auto item, items) {
+    for (auto item : items) {
         cancel(item); // stop the reply first
         m_items.removeAll(item);
         auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
@@ -153,7 +153,7 @@ void DownloadEngine::removeItems(const QList<IDownloadItem*> &items)
 
 void DownloadEngine::updateItems(const QList<IDownloadItem *> &items)
 {
-    foreach (auto item, items) {
+    for (auto item : items) {
         emit jobStateChanged(item);
     }
 }
@@ -189,8 +189,8 @@ static inline QList<IDownloadItem*> filter(const QList<IDownloadItem*> &items,
                                            const QList<IDownloadItem::State> &states)
 {
     QList<IDownloadItem*> list;
-    foreach (auto item, items) {
-        foreach (auto state, states) {
+    for (auto item : items) {
+        for (auto state : states) {
             if (item->state() == state) {
                 list.append(item);
             }
@@ -244,7 +244,7 @@ void DownloadEngine::onSpeedTimerTimeout()
 qreal DownloadEngine::totalSpeed()
 {
     qreal speed = 0;
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         speed += qMax(item->speed(), qreal(0));
     }
     if (speed > 0) {
@@ -339,7 +339,7 @@ QString DownloadEngine::selectionToString() const
 {
     QString ret;
     int count = 0;
-    foreach (auto item, m_selectedItems) {
+    for (auto item : m_selectedItems) {
         ret += item->localFileName();
         ret += "\n";
         count++;
@@ -354,7 +354,7 @@ QString DownloadEngine::selectionToString() const
 QString DownloadEngine::selectionToClipboard() const
 {
     QString ret;
-    foreach (auto item, m_selectedItems) {
+    for (auto item : m_selectedItems) {
         ret += item->sourceUrl().toString();
         ret += "\n";
     }
@@ -456,7 +456,7 @@ void DownloadEngine::moveCurrentBottom()
  ******************************************************************************/
 void DownloadEngine::oneMoreSegment()
 {
-    foreach (auto item, selection()) {
+    for (auto item : selection()) {
         auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
         auto segments = downloadItem->maxConnectionSegments();
         segments++;
@@ -466,7 +466,7 @@ void DownloadEngine::oneMoreSegment()
 
 void DownloadEngine::oneFewerSegment()
 {
-    foreach (auto item, selection()) {
+    for (auto item : selection()) {
         auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
         auto segments = downloadItem->maxConnectionSegments();
         segments--;

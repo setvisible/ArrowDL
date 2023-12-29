@@ -71,7 +71,7 @@ void AbstractSettings::readSettings()
 {
     QSettings settings;
     settings.beginGroup(SETTING_GROUP_PREFERENCE);
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         auto value = settings.value(uniqueRegisterKey(item), UNDEFINED).toString();
         item->value = (value != UNDEFINED) ? value : item->defaultValue;
     }
@@ -83,7 +83,7 @@ void AbstractSettings::writeSettings()
 {
     QSettings settings;
     settings.beginGroup(SETTING_GROUP_PREFERENCE);
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         auto name = uniqueRegisterKey(item);
         if (item->value != item->defaultValue || settings.contains(name)) {
             settings.setValue(name, item->value);
@@ -169,7 +169,7 @@ QStringList AbstractSettings::getSettingStringList(const QString &key) const
     QStringList ret;
     for (auto i = 0; i < m_items.count(); ++i) {
         auto subkey = QString("%0%1").arg(key, QString::number(i));
-        foreach (auto item, m_items) {
+        for (auto item : m_items) {
             if (item->key == subkey) {
                 ret << (m_default ? item->defaultValue : item->value);
             }
@@ -248,7 +248,7 @@ void AbstractSettings::_q_addDefaultSetting(const QString &key,
     if (defaultValue.isNull() || defaultValue == UNDEFINED) {
         throw IllegalValueException();
     }
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         if (item->keyType == keyType && item->key == key) {
             item->defaultValue = defaultValue;
             return;
@@ -266,7 +266,7 @@ QString AbstractSettings::_q_getSetting(const QString &key, KeyType keyType) con
     if (key.isEmpty() || key == UNDEFINED) {
         throw IllegalKeyException();
     }
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         if (item->key == key) {
             if (item->keyType != keyType) {
                 throw WrongTypeException();
@@ -287,7 +287,7 @@ void AbstractSettings::_q_setSetting(const QString &key,
     if (value.isNull() || value == UNDEFINED) {
         throw IllegalValueException();
     }
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         if (item->key == key) {
             if (item->keyType != keyType) {
                 throw WrongTypeException();

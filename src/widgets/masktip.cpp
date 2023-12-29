@@ -31,7 +31,7 @@ MaskTip::MaskTip(QWidget *parent) : QFrame(parent)
 
     ui->groupBox->setLayout(new QVBoxLayout());
 
-    foreach (auto tag, Mask::tags()) {
+    for (auto tag : Mask::tags()) {
         add(Mask::description(tag), tag);
     }
 }

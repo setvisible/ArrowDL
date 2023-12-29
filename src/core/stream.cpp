@@ -170,9 +170,9 @@ static inline bool matches(const QString &host, const QString &regexHost)
     auto domains = host.split('.', Qt::SkipEmptyParts);
     auto mandatoryDomains = regexHost.split(delimiters, Qt::SkipEmptyParts);
 
-    foreach (auto mandatory, mandatoryDomains) {
+    for (auto mandatory : mandatoryDomains) {
         bool found = false;
-        foreach (auto domain, domains) {
+        for (auto domain : domains) {
             if (QString::compare(domain, mandatory, Qt::CaseInsensitive) == 0) {
                 found = true;
                 break;
@@ -187,7 +187,7 @@ static inline bool matches(const QString &host, const QString &regexHost)
 
 bool Stream::matchesHost(const QString &host, const QStringList &regexHosts)
 {
-    foreach (auto regexHost, regexHosts) {
+    for (auto regexHost : regexHosts) {
         if (matches(host, regexHost)) {
             return true;
         }
@@ -418,7 +418,7 @@ QString Stream::command(int indent) const
 
     // Inline command
     QString cmd = C_PROGRAM_NAME + " ";
-    foreach (auto argument, args) {
+    for (auto argument : args) {
         auto quote = argument.contains(' ') ? QString('\"') : QString();
         cmd += quote + argument + quote + " ";
     }
@@ -427,7 +427,7 @@ QString Stream::command(int indent) const
 
     // Smartly wrapped arguments
     cmd += C_PROGRAM_NAME + " ";
-    foreach (auto argument, args) {
+    for (auto argument : args) {
         if (argument.startsWith("--")) {
             cmd += "\\\n" + QString().fill(' ', indent);
         }
@@ -532,7 +532,7 @@ QStringList Stream::splitMultiThreadMessages(const QString &raw) const
 void Stream::parseStandardOutput(const QString &msg)
 {
     auto messages = splitMultiThreadMessages(msg);
-    foreach (auto message, messages) {
+    for (auto message : messages) {
         parseSingleStandardOutput(message);
     }
 }
@@ -900,7 +900,7 @@ StreamAssetDownloader::StreamDumpMap StreamAssetDownloader::parseDumpMap(
 {
     StreamDumpMap map;
     QList<QByteArray> stdoutLines = stdoutBytes.split(QChar('\n').toLatin1());
-    foreach (auto stdoutLine, stdoutLines) {
+    for (auto stdoutLine : stdoutLines) {
         if (!stdoutLine.isEmpty()) {
             StreamObject streamObject = parseDumpItemStdOut(stdoutLine);
             map.insert(streamObject.id(), streamObject);
@@ -908,7 +908,7 @@ StreamAssetDownloader::StreamDumpMap StreamAssetDownloader::parseDumpMap(
         }
     }
     QList<QByteArray> stderrLines = stderrBytes.split(QChar('\n').toLatin1());
-    foreach (auto stderrLine, stderrLines) {
+    for (auto stderrLine : stderrLines) {
         if (!stderrLine.isEmpty()) {
             StreamObject streamObject = parseDumpItemStdErr(stderrLine);
             map.insert(streamObject.id(), streamObject);
@@ -923,10 +923,10 @@ static void parseSubtitles(
         StreamObject::Data *data = nullptr)
 {
     Q_ASSERT(data);
-    foreach (const QString &languageCode, jsonSubtitles.keys()) {
+    for (const auto &languageCode : jsonSubtitles.keys()) {
         QJsonValue jsonLanguage = jsonSubtitles.value(languageCode);
         QJsonArray jsonExtensions = jsonLanguage.toArray();
-        foreach (auto jsonExtension, jsonExtensions) {
+        for (auto jsonExtension : jsonExtensions) {
             QJsonObject jsonSub = jsonExtension.toObject();
             StreamSubtitle subtitle;
             subtitle.languageCode = languageCode;
@@ -978,7 +978,7 @@ StreamObject StreamAssetDownloader::parseDumpItemStdOut(const QByteArray &bytes)
     data.title = title;
 
     QJsonArray jsonFormats  = json[QLatin1String("formats")].toArray();
-    foreach (auto jsonFormat, jsonFormats) {
+    for (auto jsonFormat : jsonFormats) {
         QJsonObject jsonFmt = jsonFormat.toObject();
         StreamFormat format;
 
@@ -1097,7 +1097,7 @@ StreamAssetDownloader::StreamFlatList StreamAssetDownloader::parseFlatList(
 {
     QList<StreamFlatListItem> list;
     QList<QByteArray> stdoutLines = stdoutBytes.split(QChar('\n').toLatin1());
-    foreach (auto stdoutLine, stdoutLines) {
+    for (auto stdoutLine : stdoutLines) {
         if (!stdoutLine.isEmpty()) {
             StreamFlatListItem item = parseFlatItem(stdoutLine);
             if (!item.id.isEmpty()) {
@@ -1106,7 +1106,7 @@ StreamAssetDownloader::StreamFlatList StreamAssetDownloader::parseFlatList(
         }
     }
     QList<QByteArray> stderrLines = stderrBytes.split(QChar('\n').toLatin1());
-    foreach (auto stderrLine, stderrLines) {
+    for (auto stderrLine : stderrLines) {
         if (!stderrLine.isEmpty()) {
             qWarning("Stream error: '%s'.", stderrLine.data());
         }
@@ -1140,7 +1140,7 @@ void StreamAssetDownloader::onFinished()
     if (!m_dumpMap.isEmpty() && !m_flatList.isEmpty()) {
         QList<StreamObject> streamObjects;
         int playlist_index = 0;
-        foreach (auto flatItem, m_flatList) {
+        for (auto flatItem : m_flatList) {
             playlist_index++;
             StreamObject si = createStreamObject(flatItem);
             si.data().playlist_index = QString::number(playlist_index);
@@ -1359,7 +1359,7 @@ void StreamFormatId::fromString(const QString &format_id)
 QList<StreamFormatId> StreamFormatId::compoundIds() const
 {
     QList<StreamFormatId> ret;
-    foreach (auto identifier, m_identifiers) {
+    for (auto identifier : m_identifiers) {
         ret << StreamFormatId(identifier);
     }
     return ret;
@@ -1633,8 +1633,8 @@ QString StreamObject::suffix(const StreamFormatId &formatId) const
         return m_data.defaultSuffix;
     }
     auto suffix = m_data.defaultSuffix;
-    foreach (auto id, formatId.compoundIds()) {
-        foreach (auto format, m_data.formats) {
+    for (auto id : formatId.compoundIds()) {
+        for (auto format : m_data.formats) {
             if (id == format.formatId) {
                 if (format.hasVideo()) {
                     return format.ext;
@@ -1665,7 +1665,7 @@ void StreamObject::setFormatId(const StreamFormatId &formatId)
 QString StreamObject::formatToString() const
 {
     QString ret;
-    foreach (auto id, formatId().compoundIds()) {
+    for (auto id : formatId().compoundIds()) {
         for (auto format : m_data.formats) {
             if (id == format.formatId) {
                 if (!ret.isEmpty()) {
@@ -1682,7 +1682,7 @@ QList<StreamObject::Data::Format> StreamObject::Data::defaultFormats() const
 {
     // Map avoids duplicate entries
     QMap<QString, StreamFormat> map;
-    foreach (auto format, formats) {
+    for (auto format : formats) {
         if (format.hasVideo() && format.hasMusic()) {
 
             // The output list should be sorted in ascending order of
@@ -1701,7 +1701,7 @@ QList<StreamObject::Data::Format> StreamObject::Data::defaultFormats() const
 QList<StreamObject::Data::Format> StreamObject::Data::audioFormats() const
 {
     QList<StreamFormat> list;
-    foreach (auto format, formats) {
+    for (auto format : formats) {
         if (!format.hasVideo() && format.hasMusic()) {
             list.append(format);
         }
@@ -1712,7 +1712,7 @@ QList<StreamObject::Data::Format> StreamObject::Data::audioFormats() const
 QList<StreamObject::Data::Format> StreamObject::Data::videoFormats() const
 {
     QList<StreamFormat> list;
-    foreach (auto format, formats) {
+    for (auto format : formats) {
         if (format.hasVideo() && !format.hasMusic()) {
             list.append(format);
         }
@@ -1728,7 +1728,7 @@ QList<StreamObject::Data::Format> StreamObject::Data::videoFormats() const
 QList<StreamObject::Data::Subtitle> StreamObject::Data::subtitleLanguages() const
 {
     QMap<QString, StreamObject::Data::Subtitle> map;
-    foreach (auto subtitle, subtitles) {
+    for (auto subtitle : subtitles) {
         QString key =
                 subtitle.languageCode + " " +
                 subtitle.languageName + " " +
@@ -1743,7 +1743,7 @@ QList<QString> StreamObject::Data::subtitleExtensions() const
 {
     // QSet avoids duplicate entries
     QSet<QString> set;
-    foreach (auto subtitle, subtitles) {
+    for (auto subtitle : subtitles) {
         set.insert(subtitle.ext);
     }
     return set.values();  // unsorted
@@ -1775,7 +1775,7 @@ QString StreamObject::Data::debug_description() const
                          defaultFormatId.toString(),
                          playlist,
                          playlist_index)));
-    foreach (auto format, formats) {
+    for (auto format : formats) {
         descr.append("\n");
         descr.append(format.debug_description());
     }
@@ -1896,7 +1896,7 @@ void debugPrintProcessCommand(QProcess *process)
     QString text = "";
     text +=  process->program();
     text +=  " ";
-    foreach (auto arg, process->arguments()) {
+    for (auto arg : process->arguments()) {
         text +=  arg;
         text +=  " ";
     }

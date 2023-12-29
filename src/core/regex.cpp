@@ -121,8 +121,8 @@ QStringList Regex::interpret(const QString &str)
     for (auto i = captures.count() - 1; i >= 0; --i) {
         auto capture = captures.at(i);
         QStringList buffer;
-        foreach (auto interpretedCapture, capture.interpretedCapture) {
-            foreach (auto interpreted, list) {
+        for (auto interpretedCapture : capture.interpretedCapture) {
+            for (auto interpreted : list) {
                 interpreted.replace(capture.pos, capture.len, interpretedCapture);
                 buffer << interpreted;
             }
@@ -137,7 +137,7 @@ QStringList Regex::getCaptures(const QString &str)
 {
     QList<Capture> captures = capture(str);
     QStringList ret;
-    foreach (auto capture, captures) {
+    for (auto capture : captures) {
         ret.append(capture.capture);
     }
     return ret;

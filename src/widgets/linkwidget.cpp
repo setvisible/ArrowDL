@@ -262,8 +262,8 @@ void LinkWidget::customizeMask()
 void LinkWidget::copyLinks()
 {
     QString input;
-    foreach (auto index, currentTableView()->selectedIndexesAtColumn(1)) {
-        const QString text = index.model()->data(index, Qt::DisplayRole).toString();
+    for (auto index : currentTableView()->selectedIndexesAtColumn(1)) {
+        auto text = index.model()->data(index, Qt::DisplayRole).toString();
         input.append(text);
         input.append('\n');
     }
@@ -272,7 +272,7 @@ void LinkWidget::copyLinks()
 
 void LinkWidget::open()
 {
-    foreach (auto index, currentTableView()->selectedIndexesAtColumn(1)) {
+    for (auto index : currentTableView()->selectedIndexesAtColumn(1)) {
         auto text = index.model()->data(index, Qt::DisplayRole).toString();
         auto url = QUrl(text);
         QDesktopServices::openUrl(url);
@@ -293,7 +293,7 @@ inline QString LinkWidget::textForOpenAction() const
 {
     auto indexes = currentTableView()->selectionModel()->selectedIndexes();
     QModelIndexList urlIndexes;
-    foreach (auto index, indexes) {
+    for (auto index : indexes) {
         if (index.column() == 1) {
             urlIndexes.append(index);
         }

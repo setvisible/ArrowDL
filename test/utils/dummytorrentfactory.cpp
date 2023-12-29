@@ -75,7 +75,7 @@ TorrentPtr TorrentSkeleton::toTorrent(QObject *parent)
     TorrentPtr t(new Torrent(parent));
 
     qsizetype total_size_in_KB = 0;
-    foreach (auto basicFile, m_basicFiles) {
+    for (auto basicFile : m_basicFiles) {
         total_size_in_KB += basicFile.size_in_KB;
     }
     qint64 total_pieces_count = static_cast<qint64>(qreal(total_size_in_KB) / m_piece_size_in_KB);
@@ -89,7 +89,7 @@ TorrentPtr TorrentSkeleton::toTorrent(QObject *parent)
     QString magnetLink;
     magnetLink = QString("magnet:?xt=urn:btih:%0&dn=%1").arg(
                 infohash, m_name.replace(".zip", "-ZIP"));
-    foreach (auto tracker, trackers) {
+    for (auto tracker : trackers) {
         magnetLink += QString("&tr=%0")
                 .arg(tracker.replace(':', "%3A").replace('/', "%2F"));
     }
@@ -117,7 +117,7 @@ TorrentPtr TorrentSkeleton::toTorrent(QObject *parent)
 
 
     qsizetype offset_in_KB = 0;
-    foreach (auto file, m_basicFiles) {
+    for (auto file : m_basicFiles) {
 
         TorrentFileMetaInfo::Flags flags;
         if (file.name.contains(".exe")) {
@@ -157,7 +157,7 @@ TorrentPtr TorrentSkeleton::toTorrent(QObject *parent)
     detail.peers << fct(EndPoint("86.120.101.138:42624"), "XA--------", "", total_pieces_count);
     detail.peers << fct(EndPoint("175.158.201.29:32725"), "XXXXXX--X-", "", total_pieces_count);
 
-    foreach (auto tracker, trackers) {
+    for (auto tracker : trackers) {
         detail.trackers << TorrentTrackerInfo(tracker);
     }
 

@@ -305,7 +305,7 @@ void PreferenceDialog::filterSelectionChanged()
     ui->filterRegexLineEdit->clear();
     ui->filterUpdateButton->setEnabled(false);
     QList<QTableWidgetItem *> items = ui->filterTableWidget->selectedItems();
-    foreach (auto item, items) {
+    for (auto item : items) {
         if (item->column() == 1) {
             ui->filterCaptionLineEdit->setText(item->text());
             ui->filterUpdateButton->setEnabled(!item->text().isEmpty());
@@ -355,7 +355,7 @@ void PreferenceDialog::filterUpdated()
             items << ui->filterTableWidget->item(row, col);
         }
     }
-    foreach (auto item, items) {
+    for (auto item : items) {
         if (item->column() == 0) {
             item->setText(QLatin1String(""));
         } else if (item->column() == 1) {
@@ -643,7 +643,7 @@ void PreferenceDialog::write()
 void PreferenceDialog::setStreamHosts(const QStringList &streamHosts)
 {
     ui->streamHostPlainTextEdit->clear();
-    foreach (auto streamHost, streamHosts) {
+    for (auto streamHost : streamHosts) {
         ui->streamHostPlainTextEdit->appendPlainText(streamHost);
     }
 
@@ -698,7 +698,7 @@ void PreferenceDialog::setupStreamToolTip()
     QString tooltip;
     tooltip += "<html><head/><body>";
     tooltip += QString("<p>%0</p>").arg(tr("Examples:"));
-    foreach (auto preset, presets) {
+    for (auto preset : presets) {
         tooltip +=
                 "<p>"
                 "<span style=\" font-weight:600;\">- "
@@ -795,7 +795,7 @@ void PreferenceDialog::setFilters(const QList<Filter> &filters)
     while (ui->filterTableWidget->rowCount() > 0) {
         ui->filterTableWidget->removeRow(0);
     }
-    foreach (auto filter, filters) {
+    for (auto filter : filters) {
         addFilter(filter);
     }
 }

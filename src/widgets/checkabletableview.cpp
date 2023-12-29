@@ -166,7 +166,7 @@ void CheckableTableView::showContextMenu(const QPoint &/*pos*/)
  ******************************************************************************/
 void CheckableTableView::checkSelected()
 {
-    for (auto index: selectedIndexesAtColumn(0)) {
+    for (auto index : selectedIndexesAtColumn(0)) {
         auto model = const_cast<QAbstractItemModel*>(index.model());
         model->setData(index, true, CheckableTableModel::CheckStateRole);
     }
@@ -174,7 +174,7 @@ void CheckableTableView::checkSelected()
 
 void CheckableTableView::uncheckSelected()
 {
-    for (auto index: selectedIndexesAtColumn(0)) {
+    for (auto index : selectedIndexesAtColumn(0)) {
         auto model = const_cast<QAbstractItemModel*>(index.model());
         model->setData(index, false, CheckableTableModel::CheckStateRole);
     }
@@ -182,7 +182,7 @@ void CheckableTableView::uncheckSelected()
 
 void CheckableTableView::toggleCheck()
 {
-    for (auto index: selectedIndexesAtColumn(0)) {
+    for (auto index : selectedIndexesAtColumn(0)) {
         auto selected = index.model()->data(index, CheckableTableModel::CheckStateRole).toBool();
         auto model = const_cast<QAbstractItemModel*>(index.model());
         model->setData(index, !selected, CheckableTableModel::CheckStateRole);
@@ -226,7 +226,7 @@ void CheckableTableView::invertSelection()
 QModelIndexList CheckableTableView::selectedIndexesAtColumn(int column)
 {
     QModelIndexList indexes;
-    for (auto index: selectionModel()->selectedIndexes()) {
+    for (auto index : selectionModel()->selectedIndexes()) {
         if (index.column() == column) {
             indexes.append(index);
         }

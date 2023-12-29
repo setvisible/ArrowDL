@@ -427,7 +427,7 @@ void MainWindow::propagateToolTips()
 {
     // Propagate tooltip to whatsThis and statusTip
     QList<QAction*> actions = this->findChildren<QAction*>();
-    foreach (QAction *action, actions) {
+    for (auto *action : actions) {
         if (!action->isSeparator()) {
             auto str = action->toolTip();
             action->setWhatsThis(str);
@@ -552,7 +552,7 @@ void MainWindow::selectNone()
 void MainWindow::invertSelection()
 {
     QList<IDownloadItem *> inverted;
-    foreach (auto item, m_downloadManager->downloadItems()) {
+    for (auto item : m_downloadManager->downloadItems()) {
         if (!m_downloadManager->isSelected(item)) {
             inverted.append(item);
         }
@@ -949,21 +949,21 @@ void MainWindow::addUrls(const QString &text)
  ******************************************************************************/
 void MainWindow::resume()
 {
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         m_downloadManager->resume(item);
     }
 }
 
 void MainWindow::cancel()
 {
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         m_downloadManager->cancel(item);
     }
 }
 
 void MainWindow::pause()
 {
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         m_downloadManager->pause(item);
     }
 }
@@ -1000,7 +1000,7 @@ void MainWindow::addDomainSpecificLimit()
 
 void MainWindow::forceStart()
 {
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         /// todo Maybe run the item instantly (in a higher priority queue?)
         m_downloadManager->cancel(item);
         m_downloadManager->resume(item);
@@ -1171,14 +1171,14 @@ void MainWindow::refreshMenus()
     const bool hasSelection = !m_downloadManager->selection().isEmpty();
     const bool hasOnlyOneSelected = m_downloadManager->selection().count() == 1;
     bool hasOnlyCompletedSelected = hasSelection;
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         if (item->state() != IDownloadItem::Completed) {
             hasOnlyCompletedSelected = false;
             continue;
         }
     }
     bool hasAtLeastOneUncompletedSelected = false;
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         if (item->state() != IDownloadItem::Completed) {
             hasAtLeastOneUncompletedSelected = true;
             continue;
@@ -1187,7 +1187,7 @@ void MainWindow::refreshMenus()
     bool hasResumableSelection = false;
     bool hasPausableSelection = false;
     bool hasCancelableSelection = false;
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         if (item->isResumable()) {
             hasResumableSelection = true;
         }
@@ -1310,7 +1310,7 @@ void MainWindow::readSettings()
         QSize size = settings.value("Size", defaultSize).toSize();
 
         QRect availableGeometry(0, 0, 0, 0);
-        foreach (auto screen, QApplication::screens()) {
+        for (auto screen : QApplication::screens()) {
             availableGeometry = availableGeometry.united(screen->availableGeometry());
         }
 

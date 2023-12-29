@@ -51,7 +51,7 @@ EditionDialog::EditionDialog(const QList<IDownloadItem*> &items, QWidget *parent
     ui->warningLabel->setVisible(false);
 
     ui->editor->clear();
-    foreach (auto item, items) {
+    for (auto item : items) {
         auto downloadItem = dynamic_cast<const DownloadItem*>(item);
         if (downloadItem) {
             auto resource = downloadItem->resource();

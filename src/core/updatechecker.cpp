@@ -111,7 +111,7 @@ void UpdateChecker::onMetadataFinished()
     QByteArray result = reply->readAll();
     QJsonDocument jsonResponse = QJsonDocument::fromJson(result);
     QJsonArray releases = jsonResponse.array();
-    foreach (auto release, releases) {
+    for (auto release : releases) {
 
         QJsonObject jsonRelease = release.toObject();
 
@@ -131,7 +131,7 @@ void UpdateChecker::onMetadataFinished()
         version.body = jsonRelease["body"].toString();
 
         auto assets = jsonRelease["assets"].toArray();
-        foreach (auto asset, assets) {
+        for (auto asset : assets) {
             QJsonObject jsonAsset = asset.toObject();
             auto assetName = jsonAsset["name"].toString();
 

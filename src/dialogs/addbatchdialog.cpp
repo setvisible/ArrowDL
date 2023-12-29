@@ -340,7 +340,7 @@ QList<IDownloadItem*> AddBatchDialog::createItems(const QUrl &inputUrl) const
 {
     QList<IDownloadItem*> items;
     const QStringList urls = Regex::interpret(inputUrl);
-    foreach (auto url, urls) {
+    for (auto url : urls) {
         items << createItem(url);
     }
     return items;

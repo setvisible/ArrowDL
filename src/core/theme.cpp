@@ -45,7 +45,7 @@ static void _assertNoMissingIconTheme(const QWidget *widget)
 {
     auto widgetName = widget->windowTitle().toLatin1().data();
     QList<QAbstractButton*> buttons = widget->findChildren<QAbstractButton*>();
-    foreach (QAbstractButton* button, buttons) {
+    for (auto *button : buttons) {
         if ( button->objectName() == QLatin1String("qt_menubar_ext_button") ||
              button->objectName() == QLatin1String("qt_toolbar_ext_button")) {
             continue;
@@ -58,7 +58,7 @@ static void _assertNoMissingIconTheme(const QWidget *widget)
         }
     }
     QList<QAction*> actions = widget->findChildren<QAction*>();
-    foreach (QAction* action, actions) {
+    for (auto *action : actions) {
         if (!action->icon().isNull() && action->icon().name().isEmpty()) {
             qWarning("Missing icon theme name for QAction '%s' ('%s') in QWidget '%s'.",
                      action->objectName().toLatin1().data(),

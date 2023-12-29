@@ -70,7 +70,9 @@ public:
     QList<int> widths() const
     {
         QList<int> widths;
-        foreach (auto header, d) { widths << header.first; }
+        for (const auto &header : d) {
+            widths << header.first;
+        }
         return widths;
     }
 
@@ -484,8 +486,12 @@ void TorrentWidget::setupInfoCopy(QLabel *label, QFrame *buddy)
         buddyTextEdit->setFrameShape(QFrame::NoFrame);
     }
 
-    foreach (auto action, label->actions()) { label->removeAction(action); }
-    foreach (auto action, buddy->actions()) { buddy->removeAction(action); }
+    for (auto action : label->actions()) {
+        label->removeAction(action);
+    }
+    for (auto action : buddy->actions()) {
+        buddy->removeAction(action);
+    }
 
     // Context menu > Copy
     auto copyAction = new QAction(tr("Copy"), buddy);
@@ -599,7 +605,7 @@ void TorrentWidget::setPriorityByFileOrder()
 {
     QSet<int> rows;
     auto indexes = ui->fileTableView->selectionModel()->selectedRows();
-    foreach (auto index, indexes) {
+    for (auto index : indexes) {
         rows.insert(index.row());
     }
     if (m_torrentContext) {
@@ -616,7 +622,7 @@ void TorrentWidget::setPriority(TorrentFileInfo::Priority priority)
     }
     auto indexes = selection.indexes();
 
-    foreach (auto index, indexes) {
+    for (auto index : indexes) {
         if (m_torrentContext) {
             m_torrentContext->setPriority(m_torrent, index.row(), priority);
         }
@@ -668,11 +674,11 @@ void TorrentWidget::addPeer()
 void TorrentWidget::copyPeerList()
 {
     QStringList addresses;
-    foreach (auto peer, m_torrent->detail().peers) {
+    for (auto peer : m_torrent->detail().peers) {
         addresses.append(peer.endpoint.toString());
     }
     QString text;
-    foreach (auto address, addresses) {
+    for (auto address : addresses) {
         text += address;
         text += QChar::LineFeed; // '\n'
     }
@@ -738,11 +744,11 @@ void TorrentWidget::removeTracker()
 void TorrentWidget::copyTrackerList()
 {
     QStringList urls;
-    foreach (auto tracker, m_torrent->detail().trackers) {
+    for (auto tracker : m_torrent->detail().trackers) {
         urls << tracker.url;
     }
     QString text;
-    foreach (auto url, urls) {
+    for (auto url : urls) {
         text += url;
         text += QChar::LineFeed;
     }

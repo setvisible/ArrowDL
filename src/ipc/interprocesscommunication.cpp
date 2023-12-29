@@ -132,7 +132,7 @@ void InterProcessCommunication::parseMessage(const QString &message, Model *mode
 
     auto resources = message.split(QChar::Space, Qt::SkipEmptyParts);
 
-    foreach (auto resource, resources) {
+    for (auto resource : resources) {
         auto trimmed = resource.trimmed();
         if (trimmed.isEmpty()) {
             continue;

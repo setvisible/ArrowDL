@@ -192,7 +192,7 @@ void AdvancedSettingsWidget::format(QTreeWidgetItem *item, int /*column*/)
  ******************************************************************************/
 void AdvancedSettingsWidget::resetSelected()
 {
-    foreach (auto item, ui->treeWidget->selectedItems()) {
+    for (auto item : ui->treeWidget->selectedItems()) {
         resetToDefaultValue(item);
     }
 }
@@ -253,7 +253,7 @@ void AdvancedSettingsWidget::setPresetHighPerf()
 
 void AdvancedSettingsWidget::setPreset(const QList<TorrentSettingItem> &params)
 {
-    for (auto param: params) {
+    for (auto param : params) {
         auto item = findItem(param.key);
         if (item) {
             setValue(item, param.value);
@@ -270,7 +270,7 @@ void AdvancedSettingsWidget::populate()
     ui->treeWidget->clear();
 
     auto params = TorrentContext::getInstance().allSettingsKeysAndValues();
-    for (auto param: params) {
+    for (auto param : params) {
         auto item = new QTreeWidgetItem(ui->treeWidget);
         setKey(item, param.key, param.displayKey);
         setValue(item, param.value);
@@ -356,7 +356,7 @@ void AdvancedSettingsWidget::setupPresetToolTip()
     };
     QString tooltip;
     tooltip += "<html><head/><body>";
-    for (auto preset: presets) {
+    for (auto preset : presets) {
         tooltip +=
                 "<p>"
                 "<span style=\" font-weight:600;\">- "

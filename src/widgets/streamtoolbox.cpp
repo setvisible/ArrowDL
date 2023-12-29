@@ -41,7 +41,7 @@ StreamToolBox::StreamToolBox(QWidget *parent, Qt::WindowFlags f) : QToolBox(pare
     // this event *after* the QToolBox events.
     // **********************************************************************
     auto objs = this->findChildren<QAbstractButton*>();
-    foreach (auto obj, objs) {
+    for (auto obj : objs) {
         if (obj->objectName() == QLatin1String("qt_toolbox_toolboxbutton")) {
             obj->setCursor(Qt::PointingHandCursor);
             m_buttons.append(obj);
@@ -60,28 +60,28 @@ StreamToolBox::StreamToolBox(QWidget *parent, Qt::WindowFlags f) : QToolBox(pare
     // **********************************************************************
     {
         QList<QWidget*> done;
-        foreach (auto w, this->findChildren<QCheckBox*>()) {
+        for (auto w : this->findChildren<QCheckBox *>()) {
             connect(w, SIGNAL(toggled(bool)), this, SLOT(onChangedBool(bool)));
             // done << w;
         }
-        foreach (auto w, this->findChildren<QComboBox*>()) {
+        for (auto w : this->findChildren<QComboBox *>()) {
             connect(w, SIGNAL(currentIndexChanged(int)), this, SLOT(onChangedInt(int)));
             // done << w;
         }
-        foreach (auto w, this->findChildren<QSpinBox*>()) {
+        for (auto w : this->findChildren<QSpinBox *>()) {
             connect(w, SIGNAL(valueChanged(int)), this, SLOT(onChangedInt(int)));
             // done << w;
         }
-        foreach (auto w, this->findChildren<QLineEdit*>()) {
+        for (auto w : this->findChildren<QLineEdit *>()) {
             connect(w, SIGNAL(editingFinished()), this, SLOT(onChanged()));
             // done << w;
         }
-        // foreach (auto w, this->findChildren<QWidget*>()) {
+        // for (auto w : this->findChildren<QWidget*>()) {
         //   QSet<QString> undone;
         //   if (!done.contains(w)) {
         //     undone.insert(QString::fromLatin1(w->metaObject()->className()));
         //   }
-        //   foreach (auto value, undone.values()) {
+        //   for (auto value : undone.values()) {
         //     qDebug() << Q_FUNC_INFO << "WARNING: unconnected input:" << value;
         //   }
         // }
@@ -107,7 +107,7 @@ void StreamToolBox::initializeSubtitles()
 {
     QStringList supportedConvertExts{"srt", "vtt", "ass", "lrc"};
     ui->subtitleConvComboBox->clear();
-    foreach (auto ext, supportedConvertExts) {
+    for (auto ext : supportedConvertExts) {
         ui->subtitleConvComboBox->addItem(ext.toUpper(), ext.toLower());
     }
     ui->subtitleConvComboBox->setCurrentIndex(0);
@@ -176,7 +176,7 @@ void StreamToolBox::setData(const StreamObject::Data &data)
         ui->subtitleLangComboBox->setItemData(1, QLatin1String("all"), SubtitleLangRole);
         ui->subtitleLangComboBox->insertSeparator(2);
         auto subtitles = data.subtitleLanguages();
-        foreach (auto subtitle, subtitles) {
+        for (auto subtitle : subtitles) {
             auto code = subtitle.languageCode.toUpper();
             auto label = subtitle.isAutomatic
                     ? QString("%0 (auto-generated) - %1").arg(code, subtitle.languageName)
@@ -195,7 +195,7 @@ void StreamToolBox::setData(const StreamObject::Data &data)
         ui->subtitleExtComboBox->addItem(tr("(default)"), QString());
         auto extenstions = data.subtitleExtensions();
         extenstions.sort();
-        foreach (auto ext, extenstions) {
+        for (auto ext : extenstions) {
             ui->subtitleExtComboBox->addItem(ext.toUpper(), ext.toLower());
         }
         ui->subtitleExtComboBox->setCurrentIndex(0);

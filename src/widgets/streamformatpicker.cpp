@@ -141,7 +141,7 @@ void StreamFormatPicker::select(const StreamFormatId &formatId)
 {
     if (!formatId.isEmpty()) {
         const QSignalBlocker blocker(this);
-        foreach (auto compoundId, formatId.compoundIds()) {
+        for (auto compoundId : formatId.compoundIds()) {
             setCurrentSimple(compoundId);
             setCurrentAudio(compoundId);
             setCurrentVideo(compoundId);
@@ -285,7 +285,7 @@ void StreamFormatPicker::updateButtonBar()
 void StreamFormatPicker::populateSimple(const QList<StreamFormat> &formats)
 {
     bool checked = true;
-    foreach (auto format, formats) {
+    for (auto format : formats) {
         auto item = new QStandardItem(format.toString());
 
         item->setData(checked, StreamFormatPicker::CheckStateRole);
@@ -305,7 +305,7 @@ void StreamFormatPicker::populateSimple(const QList<StreamFormat> &formats)
 void StreamFormatPicker::populateComboBox(const QList<StreamFormat> &formats, QComboBox *comboBox)
 {
     comboBox->clear();
-    foreach (auto format, formats) {
+    for (auto format : formats) {
         QVariant variant;
         variant.setValue(format.formatId);
         comboBox->addItem(format.toString(), variant);

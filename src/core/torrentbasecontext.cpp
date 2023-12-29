@@ -31,7 +31,7 @@ void TorrentBaseContext::setPriorityByFileOrder(Torrent *torrent, const QList<in
 {
     Q_ASSERT(torrent);
     auto fileCount = torrent->fileCount();
-    foreach (auto fileIndex, fileIndexes) {
+    for (auto fileIndex : fileIndexes) {
         auto priority = TorrentBaseContext::computePriority(fileIndex, fileCount);
         setPriority(torrent, fileIndex, priority);
     }

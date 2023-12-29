@@ -71,7 +71,7 @@ void QueueView::mouseMoveEvent(QMouseEvent *event)
 
     QPixmap pixmap;
     QList<QUrl> urls;
-    foreach (auto queueItem, queueItems) {
+    for (auto queueItem : queueItems) {
         auto url = urlFrom(queueItem);
         if (!url.isEmpty()) {
             if (pixmap.isNull()) {
@@ -92,7 +92,7 @@ void QueueView::mouseMoveEvent(QMouseEvent *event)
 
     Qt::DropAction dropAction = drag->exec(Qt::MoveAction);
     if (dropAction == Qt::MoveAction) {
-        foreach (auto queueItem, queueItems) {
+        for (auto queueItem : queueItems) {
             emit dropped(queueItem);
         }
     }
@@ -101,7 +101,7 @@ void QueueView::mouseMoveEvent(QMouseEvent *event)
 QList<QueueItem*> QueueView::toQueueItem(const QList<QTreeWidgetItem *> &items) const
 {
     QList<QueueItem*> queueItems;
-    foreach (auto item, items) {
+    for (auto item : items) {
         auto queueItem = dynamic_cast<QueueItem*>(item);
         if (queueItem)
             queueItems << queueItem;
@@ -616,7 +616,7 @@ void DownloadQueueView::restylizeUi()
  ******************************************************************************/
 void DownloadQueueView::onJobAdded(const DownloadRange &range)
 {
-    foreach (auto item, range) {
+    for (auto item : range) {
         auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
         auto queueItem = new QueueItem(downloadItem, m_queueView);
         m_queueView->addTopLevelItem(queueItem);
@@ -625,7 +625,7 @@ void DownloadQueueView::onJobAdded(const DownloadRange &range)
 
 void DownloadQueueView::onJobRemoved(const DownloadRange &range)
 {
-    foreach (auto item, range) {
+    for (auto item : range) {
         auto index = getIndex(item);
         if (index >= 0) {
             auto treeItem = m_queueView->takeTopLevelItem(index);
@@ -733,7 +733,7 @@ void DownloadQueueView::onQueueViewDoubleClicked(const QModelIndex &index)
 void DownloadQueueView::onQueueViewItemSelectionChanged()
 {
     QList<IDownloadItem *> selection;
-    foreach (auto treeItem, m_queueView->selectedItems()) {
+    for (auto treeItem : m_queueView->selectedItems()) {
         auto queueItem = dynamic_cast<const QueueItem *>(treeItem);
         selection << queueItem->downloadItem();
     }

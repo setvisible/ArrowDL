@@ -50,7 +50,7 @@ QList<ResourceItem*> ResourceModel::items() const
 
 void ResourceModel::add(ResourceItem *item)
 {
-    foreach (auto itemOld, m_items) {
+    for (auto itemOld : m_items) {
         if (itemOld->url() == item->url()) {
             return;
         }
@@ -64,7 +64,7 @@ void ResourceModel::add(ResourceItem *item)
 QList<ResourceItem*> ResourceModel::selection() const
 {
     QList<ResourceItem*> selection;
-    foreach (int row, this->checkedRows()) {
+    for (auto row : this->checkedRows()) {
         if (row >= 0 && row < m_items.count()) {
             selection << m_items.at(row);
         }
@@ -76,7 +76,7 @@ QList<ResourceItem*> ResourceModel::selection() const
  ******************************************************************************/
 void ResourceModel::setDestination(const QString &destination)
 {
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         item->setDestination(destination);
     }
     emit resourceChanged();
@@ -84,7 +84,7 @@ void ResourceModel::setDestination(const QString &destination)
 
 void ResourceModel::setMask(const QString &mask)
 {
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         item->setMask(mask);
     }
     emit resourceChanged();
