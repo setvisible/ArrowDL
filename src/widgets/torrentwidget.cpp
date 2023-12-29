@@ -62,7 +62,8 @@ public:
         return (index >= 0 && index < d.count()) ? d.at(index).second : ""_L1;
     }
 
-    int width(int index) const {
+    int width(qsizetype index) const
+    {
         return (index >= 0 && index < d.count()) ? d.at(index).first : COLUMN_DEFAULT_WIDTH;
     }
 

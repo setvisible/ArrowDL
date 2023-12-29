@@ -67,7 +67,7 @@ QStringList Locale::availableLanguages()
     return languageNames;
 }
 
-QString Locale::toLanguage(int index)
+QString Locale::toLanguage(qsizetype index)
 {
     if (index >= 0 && index < s_locales.count()) {
         auto locale = s_locales.at(index);
@@ -76,7 +76,7 @@ QString Locale::toLanguage(int index)
     return QLatin1String(""); // Must be an empty string, not a null QString
 }
 
-int Locale::fromLanguage(QString language)
+qsizetype Locale::fromLanguage(QString language)
 {
     if (language.isEmpty()) {
         language = QLocale::system().name();

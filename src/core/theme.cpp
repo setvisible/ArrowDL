@@ -79,7 +79,7 @@ QStringList Theme::availablePlatformStyles()
     return QStyleFactory::keys();
 }
 
-QString Theme::toPlatformStyle(int index)
+QString Theme::toPlatformStyle(qsizetype index)
 {
     auto keys = QStyleFactory::keys();
     if (index >= 0 && index < keys.count()) {
@@ -88,7 +88,7 @@ QString Theme::toPlatformStyle(int index)
     return QLatin1String(""); // Must be an empty string, not a null QString
 }
 
-int Theme::fromPlatformStyle(const QString &platformStyle)
+qsizetype Theme::fromPlatformStyle(const QString &platformStyle)
 {
     auto index = QStyleFactory::keys().indexOf(platformStyle);
     return index == -1 ? 0 : index;

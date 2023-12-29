@@ -254,7 +254,7 @@ void AddContentDialog::onDownloadProgress(qint64 bytesReceived, qint64 bytesTota
     /* Between 1% and 90% */
     int percent = 1;
     if (bytesTotal > 0) {
-        percent = qMin(qCeil(qreal(90 * bytesReceived) / bytesTotal), 90);
+        percent = qMin(qCeil(90 * static_cast<qreal>(bytesReceived) / static_cast<qreal>(bytesTotal)), 90);
     }
     setProgressInfo(percent, tr("Downloading..."));
 }

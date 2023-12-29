@@ -25,9 +25,9 @@ constexpr int secondGroupPosition    = 2;
 
 struct Capture
 {
-    QString capture;
-    int pos{0};
-    int len{0};
+    QString capture = {};
+    qsizetype pos = 0;
+    qsizetype len = 0;
     QStringList interpretedCapture;
 };
 

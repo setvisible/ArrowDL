@@ -168,7 +168,7 @@ void UpdateDialog::onDownloadProgress(qsizetype bytesReceived, qsizetype bytesTo
     int percent = 0;
     if (bytesTotal != 0) {
         if (bytesReceived < bytesTotal) {
-             percent = qFloor(qreal(100 * bytesReceived) / bytesTotal);
+            percent = qFloor(100 * static_cast<qreal>(bytesReceived) / static_cast<qreal>(bytesTotal));
         } else {
             percent = 100;
         }

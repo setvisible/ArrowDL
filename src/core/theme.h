@@ -36,8 +36,8 @@ public:
     Theme();
 
     static QStringList availablePlatformStyles();
-    static QString toPlatformStyle(int index);
-    static int fromPlatformStyle(const QString &platformStyle);
+    static QString toPlatformStyle(qsizetype index);
+    static qsizetype fromPlatformStyle(const QString &platformStyle);
 
     static QStringList availableIconThemes();
     static QString toIconTheme(int index);

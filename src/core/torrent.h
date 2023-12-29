@@ -75,7 +75,7 @@ public:
     void addPeer(const QString &input);
     void removeUnconnectedPeers();
 
-    int trackerCount() const;
+    qsizetype trackerCount() const;
     void addTracker(const QString &url);
     void removeTrackerAt(int index);
 

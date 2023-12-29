@@ -47,7 +47,7 @@ DownloadEngine::~DownloadEngine()
 
 /******************************************************************************
  ******************************************************************************/
-int DownloadEngine::downloadingCount() const
+qsizetype DownloadEngine::downloadingCount() const
 {
     auto count = 0;
     foreach (auto item, m_items) {
@@ -73,7 +73,7 @@ void DownloadEngine::startNext(IDownloadItem * /*item*/)
 
 /******************************************************************************
  ******************************************************************************/
-int DownloadEngine::count() const
+qsizetype DownloadEngine::count() const
 {
     return m_items.count();
 }
@@ -160,7 +160,7 @@ void DownloadEngine::updateItems(const QList<IDownloadItem *> &items)
 
 /******************************************************************************
  ******************************************************************************/
-const IDownloadItem* DownloadEngine::clientForRow(int row) const
+const IDownloadItem* DownloadEngine::clientForRow(qsizetype row) const
 {
     Q_ASSERT(row >=0 && row < m_items.count());
     return m_items.at(row);
@@ -381,7 +381,7 @@ void DownloadEngine::sortSelectionByIndex()
     if (m_selectedItems.isEmpty()) {
         return;
     }
-    QMap<int, IDownloadItem*> map;
+    QMap<qsizetype, IDownloadItem*> map;
     for (auto selectedItem : m_selectedItems) {
         auto index = m_items.indexOf(selectedItem);
         map.insert(index, selectedItem);

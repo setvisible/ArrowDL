@@ -582,7 +582,7 @@ void Stream::parseSingleStandardOutput(const QString &msg)
                 qWarning("Can't parse '%s'.", sizeToken.toLatin1().data());
                 return;
             }
-            m_bytesReceivedCurrentSection = static_cast<qsizetype>(qreal(percent * m_bytesTotalCurrentSection) / 100);
+            m_bytesReceivedCurrentSection = static_cast<qsizetype>(percent * static_cast<qreal>(m_bytesTotalCurrentSection) / 100);
         }
 
         auto received = m_bytesReceived + m_bytesReceivedCurrentSection;
