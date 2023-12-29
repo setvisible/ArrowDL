@@ -39,7 +39,7 @@ public:
     };
 
     explicit StreamToolBox(QWidget *parent, Qt::WindowFlags f = Qt::WindowFlags());
-    ~StreamToolBox() Q_DECL_OVERRIDE;
+    ~StreamToolBox() override;
 
     void clear();
     void setData(const StreamObject::Data &data);

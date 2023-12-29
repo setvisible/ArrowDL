@@ -30,8 +30,8 @@ class PathWidget : public QWidget
 public:
     enum PathType { File, Directory };
 
-    explicit PathWidget(QWidget *parent = Q_NULLPTR);
-    ~PathWidget() Q_DECL_OVERRIDE;
+    explicit PathWidget(QWidget *parent = nullptr);
+    ~PathWidget() override;
 
     QString currentPath() const;
     void setCurrentPath(const QString &path);

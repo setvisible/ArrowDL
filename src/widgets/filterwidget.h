@@ -31,7 +31,7 @@ class FilterWidget : public QWidget
     Q_OBJECT
 public:
     explicit FilterWidget(QWidget *parent);
-    ~FilterWidget() Q_DECL_OVERRIDE;
+    ~FilterWidget() override;
 
     void clearFilters();
     void addFilter(const QString &name, const QString &regexp);
@@ -51,8 +51,8 @@ signals:
     void regexChanged(const QRegularExpression &regex);
 
 private slots:
-    void onFilterChanged(int);
-    void onFilterChanged(const QString &);
+    void onFilterChanged(int state);
+    void onFilterChanged(const QString &text);
     void onFilterTipToolReleased();
     void onFilterTipToolLinkActivated(const QString& link);
 

@@ -81,7 +81,7 @@ bool JsonHandler::write(const DownloadEngine &engine)
     }
     QJsonObject json;
     QJsonArray jobsArray;
-    foreach (auto item, engine.downloadItems()) {
+    for (auto item : engine.downloadItems()) {
         QUrl url = item->sourceUrl();
 
         QJsonObject jobObject;

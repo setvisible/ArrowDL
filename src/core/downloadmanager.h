@@ -35,7 +35,7 @@ class DownloadManager : public DownloadEngine
 
 public:
     explicit DownloadManager(QObject *parent);
-    ~DownloadManager() Q_DECL_OVERRIDE;
+    ~DownloadManager() override;
 
     /* Settings */
     Settings* settings() const;
@@ -45,8 +45,8 @@ public:
     NetworkManager* networkManager() const;
 
     /* Utility */
-    IDownloadItem* createItem(const QUrl &url) Q_DECL_OVERRIDE;
-    IDownloadItem* createTorrentItem(const QUrl &url) Q_DECL_OVERRIDE;
+    IDownloadItem* createItem(const QUrl &url) override;
+    IDownloadItem* createTorrentItem(const QUrl &url) override;
 
 private slots:
     void onSettingsChanged();
@@ -61,11 +61,11 @@ private slots:
 private:
     /* Network parameters (SSL, Proxy, UserAgent...) */
     NetworkManager *m_networkManager;
-    Settings *m_settings;
+    Settings *m_settings = nullptr;
 
     /* Crash Recovery */
-    QTimer* m_dirtyQueueTimer;
-    QString m_queueFile;
+    QTimer* m_dirtyQueueTimer = nullptr;
+    QString m_queueFile = {};
 
     inline ResourceItem* createResourceItem(const QUrl &url);
 };

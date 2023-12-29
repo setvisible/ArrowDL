@@ -92,13 +92,13 @@ bool InterProcessCommunication::isCommandOpenUrl(const QString &message)
 
 QString InterProcessCommunication::getCurrentUrl(const QString &message)
 {
-    const QStringList resources = message.split(QChar::Space, Qt::SkipEmptyParts);
-    for (int i = 0; i < resources.count() - 1; ++i) {
+    auto resources = message.split(QChar::Space, Qt::SkipEmptyParts);
+    for (auto i = 0; i < resources.count() - 1; ++i) {
         if (resources.at(i).trimmed() == C_KEYWORD_OPEN_URL) {
             return resources.at(i+1).trimmed();
         }
     }
-    return QString();
+    return {};
 }
 
 bool InterProcessCommunication::isCommandDownloadLink(const QString &message)
@@ -114,14 +114,14 @@ QString InterProcessCommunication::getDownloadLink(const QString &message)
             return resources.at(i+1).trimmed();
         }
     }
-    return QString();
+    return {};
 }
 
 
 void InterProcessCommunication::parseMessage(const QString &message, Model *model,
                                         InterProcessCommunication::Options *options)
 {
-    if (model == Q_NULLPTR) {
+    if (model == nullptr) {
         return;
     }
     if (message.contains(C_PACKET_ERROR, Qt::CaseInsensitive)) {
@@ -130,9 +130,9 @@ void InterProcessCommunication::parseMessage(const QString &message, Model *mode
 
     Mode mode = None;
 
-    const QStringList resources = message.split(QChar::Space, Qt::SkipEmptyParts);
+    auto resources = message.split(QChar::Space, Qt::SkipEmptyParts);
 
-    foreach (auto resource, resources) {
+    for (auto resource : resources) {
         auto trimmed = resource.trimmed();
         if (trimmed.isEmpty()) {
             continue;

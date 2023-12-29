@@ -20,11 +20,11 @@
 
 #include <QtCore/QRegularExpression>
 
+using namespace Qt::Literals::StringLiterals;
 
 ResourceModel::ResourceModel(QObject *parent) : CheckableTableModel(parent)
 {
-    connect(this, SIGNAL(checkStateChanged(QModelIndex , bool)),
-            this, SLOT(onCheckStateChanged(QModelIndex , bool)));
+    connect(this, SIGNAL(checkStateChanged(QModelIndex,bool)), this, SLOT(onCheckStateChanged(QModelIndex,bool)));
     connect(this, SIGNAL(resourceChanged()), this, SLOT(onResourceChanged()));
 
     retranslateUi();
@@ -50,7 +50,7 @@ QList<ResourceItem*> ResourceModel::items() const
 
 void ResourceModel::add(ResourceItem *item)
 {
-    foreach (auto itemOld, m_items) {
+    for (auto itemOld : m_items) {
         if (itemOld->url() == item->url()) {
             return;
         }
@@ -64,7 +64,7 @@ void ResourceModel::add(ResourceItem *item)
 QList<ResourceItem*> ResourceModel::selection() const
 {
     QList<ResourceItem*> selection;
-    foreach (int row, this->checkedRows()) {
+    for (auto row : this->checkedRows()) {
         if (row >= 0 && row < m_items.count()) {
             selection << m_items.at(row);
         }
@@ -76,7 +76,7 @@ QList<ResourceItem*> ResourceModel::selection() const
  ******************************************************************************/
 void ResourceModel::setDestination(const QString &destination)
 {
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         item->setDestination(destination);
     }
     emit resourceChanged();
@@ -84,7 +84,7 @@ void ResourceModel::setDestination(const QString &destination)
 
 void ResourceModel::setMask(const QString &mask)
 {
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         item->setMask(mask);
     }
     emit resourceChanged();
@@ -127,7 +127,7 @@ void ResourceModel::onResourceChanged()
 void ResourceModel::retranslateUi()
 {
     m_headers = QStringList()
-            << QString() // checkbox
+            << ""_L1 // checkbox
             << tr("Download")
             << tr("Resource Name")
             << tr("Description")
@@ -138,7 +138,7 @@ void ResourceModel::retranslateUi()
  ******************************************************************************/
 int ResourceModel::columnCount(const QModelIndex &parent) const
 {
-    return parent.isValid() ? 0 : m_headers.count();
+    return parent.isValid() ? 0 : static_cast<int>(m_headers.count());
 }
 
 QVariant ResourceModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -147,25 +147,25 @@ QVariant ResourceModel::headerData(int section, Qt::Orientation orientation, int
         if (section >= 0 && section < m_headers.count()) {
             return m_headers.at(section);
         }
-        return QVariant();
+        return {};
     }
     return QAbstractItemModel::headerData(section, orientation, role);
 }
 
 int ResourceModel::rowCount(const QModelIndex &parent) const
 {
-    return parent.isValid() ? 0 : m_items.count();
+    return parent.isValid() ? 0 : static_cast<int>(m_items.count());
 }
 
 QVariant ResourceModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
     ResourceItem *item = m_items.at(index.row());
     if (role == Qt::DisplayRole) {
         switch ( index.column()) {
-        case 0: return QVariant();
+        case 0: return {};
         case 1: return item->url();
         case 2: return item->customFileName();
         case 3: return item->description();

@@ -28,8 +28,8 @@ class ThemeWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit ThemeWidget(QWidget *parent = Q_NULLPTR);
-    ~ThemeWidget() Q_DECL_OVERRIDE;
+    explicit ThemeWidget(QWidget *parent = nullptr);
+    ~ThemeWidget() override;
 
     QMap<QString, QVariant> theme() const;
     void setTheme(const QMap<QString, QVariant> &map);
@@ -38,7 +38,7 @@ signals:
     void changed();
 
 protected:
-    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent *event) override;
 
 private slots:
     void comboboxChanged(int value);

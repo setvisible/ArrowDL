@@ -17,7 +17,7 @@
 #include "updatechecker.h"
 #include "updatechecker_p.h"
 
-#include <Globals>
+#include "../version.h"
 #include <Core/NetworkManager>
 #include <Core/Settings>
 #include <Core/Stream>
@@ -111,7 +111,7 @@ void UpdateChecker::onMetadataFinished()
     QByteArray result = reply->readAll();
     QJsonDocument jsonResponse = QJsonDocument::fromJson(result);
     QJsonArray releases = jsonResponse.array();
-    foreach (auto release, releases) {
+    for (auto release : releases) {
 
         QJsonObject jsonRelease = release.toObject();
 
@@ -131,7 +131,7 @@ void UpdateChecker::onMetadataFinished()
         version.body = jsonRelease["body"].toString();
 
         auto assets = jsonRelease["assets"].toArray();
-        foreach (auto asset, assets) {
+        for (auto asset : assets) {
             QJsonObject jsonAsset = asset.toObject();
             auto assetName = jsonAsset["name"].toString();
 
@@ -198,16 +198,15 @@ void UpdateChecker::downloadAndInstallUpdate()
         return;
     }
 
-    connect(reply, SIGNAL(downloadProgress(qint64, qint64)),
-            this, SLOT(onBinaryProgress(qint64, qint64)));
-    connect(reply, SIGNAL(finished()),
-            this, SLOT(onBinaryFinished()));
+    connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onBinaryProgress(qint64,qint64)));
+    connect(reply, SIGNAL(finished()), this, SLOT(onBinaryFinished()));
 }
 
 void UpdateChecker::onBinaryProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
-    emit downloadProgress(static_cast<qsizetype>(bytesReceived),
-                          static_cast<qsizetype>(bytesTotal));
+    emit downloadProgress(
+        static_cast<qsizetype>(bytesReceived),
+        static_cast<qsizetype>(bytesTotal));
 }
 
 void UpdateChecker::onBinaryFinished()

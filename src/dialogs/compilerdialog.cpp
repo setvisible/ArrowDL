@@ -17,7 +17,8 @@
 #include "compilerdialog.h"
 #include "ui_compilerdialog.h"
 
-#include <Globals>
+#include "../version_3rd.h"
+#include <Constants>
 #include <Core/Stream>
 
 #include <QtCore/QDebug>
@@ -190,7 +191,7 @@ QString CompilerDialog::getVersionString(const QString &fName)
     }
 
     // VerQueryValue
-    VS_FIXEDFILEINFO *lpBuffer = Q_NULLPTR;
+    VS_FIXEDFILEINFO *lpBuffer = nullptr;
     dwLen = sizeof( VS_FIXEDFILEINFO );
     // UINT uLen;
     if (VerQueryValue(

@@ -51,7 +51,7 @@ class TorrentContext : public QObject, public TorrentBaseContext
     // before deleted status
 private:
     TorrentContext();
-    ~TorrentContext() Q_DECL_OVERRIDE = default;
+    ~TorrentContext() override = default;
 public:
     TorrentContext(TorrentContext const&) = delete; // Don't Implement
     void operator=(TorrentContext const&) = delete; // Don't implement
@@ -77,7 +77,6 @@ public:
     QList<TorrentSettingItem> presetMinCache() const;
     QList<TorrentSettingItem> presetHighPerf() const;
 
-
     /* Session */
     bool isEnabled() const;
     void setEnabled(bool enabled);
@@ -93,7 +92,7 @@ public:
     void resumeTorrent(Torrent *torrent);
     void pauseTorrent(Torrent *torrent);
 
-    void setPriority(Torrent *torrent, int index, TorrentFileInfo::Priority p) Q_DECL_OVERRIDE;
+    void setPriority(Torrent *torrent, int index, TorrentFileInfo::Priority p) override;
 
 signals:
     void changed();

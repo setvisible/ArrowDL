@@ -40,15 +40,14 @@ class AddContentDialog : public QDialog
     enum Bypass { None, Start, StartPaused }; // Dirty hack to NOT show the dialog
 
 public:
-    explicit AddContentDialog(DownloadManager *downloadManager,
-                              Settings *settings, QWidget *parent);
-    ~AddContentDialog() Q_DECL_OVERRIDE;
+    explicit AddContentDialog(DownloadManager *downloadManager, Settings *settings, QWidget *parent);
+    ~AddContentDialog() override;
 
     bool loadResources(const QString &message);
     void loadUrl(const QUrl &url);
 
 protected:
-    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *event) override;
 
 signals:
 #ifdef USE_QT_WEBENGINE
@@ -56,10 +55,10 @@ signals:
 #endif
 
 public slots:
-    int exec() Q_DECL_OVERRIDE;
-    void accept() Q_DECL_OVERRIDE;
+    int exec() override;
+    void accept() override;
     virtual void acceptPaused();
-    void reject() Q_DECL_OVERRIDE;
+    void reject() override;
 
 private slots:
 #ifdef USE_QT_WEBENGINE
@@ -71,7 +70,7 @@ private slots:
     void onFinished();
 #endif
     void onSelectionChanged();
-    void onChanged(QString);
+    void onChanged(const QString &value);
     void refreshFilters();
 
 private:

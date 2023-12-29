@@ -25,7 +25,7 @@
  ******************************************************************************/
 DownloadStreamItem::DownloadStreamItem(DownloadManager *downloadManager)
     : DownloadItem(downloadManager)
-    , m_stream(Q_NULLPTR)
+    , m_stream(nullptr)
 {
 }
 
@@ -45,18 +45,18 @@ void DownloadStreamItem::resume()
         return;
     }
 
-    const bool connected = flag == File::Open;
+    auto connected = flag == File::Open;
 
     /* Prepare the connection, try to contact the server */
     if (this->checkResume(connected)) {
 
         if (m_stream) {
             m_stream->deleteLater();
-            m_stream = Q_NULLPTR;
+            m_stream = nullptr;
         }
         m_stream = new Stream(this);
 
-        const QString outputPath = localFullFileName();
+        auto outputPath = localFullFileName();
         m_stream->setLocalFullOutputPath(outputPath);
 
         m_stream->setUrl(resource()->url());
@@ -67,7 +67,7 @@ void DownloadStreamItem::resume()
         m_stream->setConfig(resource()->streamConfig());
 
         connect(m_stream, SIGNAL(downloadMetadataChanged()), this, SLOT(onMetaDataChanged()));
-        connect(m_stream, SIGNAL(downloadProgress(qsizetype, qsizetype)), this, SLOT(onDownloadProgress(qsizetype, qsizetype)));
+        connect(m_stream, SIGNAL(downloadProgress(qsizetype,qsizetype)), this, SLOT(onDownloadProgress(qsizetype,qsizetype)));
         connect(m_stream, SIGNAL(downloadError(QString)), this, SLOT(onError(QString)));
         connect(m_stream, SIGNAL(downloadFinished()), this, SLOT(onFinished()));
 
@@ -93,7 +93,7 @@ void DownloadStreamItem::stop()
     if (m_stream) {
         m_stream->abort();
         m_stream->deleteLater();
-        m_stream = Q_NULLPTR;
+        m_stream = nullptr;
     }
     AbstractDownloadItem::stop();
 }

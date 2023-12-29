@@ -16,19 +16,20 @@
 
 #include "format.h"
 
+#include <Constants>
+
 #include <QtCore/QtMath>
 #include <QtCore/QDebug>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QTime>
 #include <QtCore/QUrl>
 
-static const QString s_infinite_symbol = QString::fromUtf8("\xE2\x88\x9E");
+using namespace Qt::Literals::StringLiterals;
 
-/******************************************************************************
- ******************************************************************************/
+
 QString Format::infinity()
 {
-    return s_infinite_symbol;
+    return SYMBOL_INFINITE;
 }
 
 /******************************************************************************
@@ -39,24 +40,24 @@ QString Format::infinity()
 QString Format::timeToString(QTime time)
 {
     if (!time.isValid()) {
-        return QLatin1String("--:--");
+        return "--:--"_L1;
     }
     if (time < QTime(0, 0, 1, 0)) {
-        return time.toString("00:01");
+        return time.toString("00:01"_L1);
     }
     if (time < QTime(1, 0, 0, 0)) {
-        return time.toString("mm:ss");
+        return time.toString("mm:ss"_L1);
     }
-    return time.toString("hh:mm:ss");
+    return time.toString("hh:mm:ss"_L1);
 }
 
 QString Format::timeToString(qint64 seconds)
 {
     if (seconds < 0) {
-        return QLatin1String("--:--");
+        return "--:--"_L1;
     }
-    if (seconds >= 24*60*60) { // More than one day
-        return s_infinite_symbol;
+    if (seconds >= ONE_DAY_IN_SECONDS) { // More than one day
+        return SYMBOL_INFINITE;
     }
     QTime time(0, 0, 0, 0);
     time = time.addSecs(static_cast<int>(seconds));
@@ -107,11 +108,11 @@ QString Format::fileSizeToString(qsizetype size)
  */
 QString Format::fileSizeThousandSeparator(qsizetype size)
 {
-    QString number = QString::number(size);
-    int i = number.count();
+    auto number = QString::number(size);
+    auto i = number.count();
     while (i > 3) {
         i -= 3;
-        number.insert(i, QLatin1Char(','));
+        number.insert(i, ","_L1);
     }
     return number;
 }
@@ -132,7 +133,7 @@ QString Format::yesOrNo(bool yes)
 QString Format::currentSpeedToString(qreal speed, bool showInfiniteSymbol)
 {
     if (speed < 0 || !qIsFinite(speed)) {
-        return showInfiniteSymbol ? s_infinite_symbol : QLatin1String("-");
+        return showInfiniteSymbol ? SYMBOL_INFINITE : QLatin1String("-");
     }
     speed /= 1024.0; // KB
     if (speed < 1000) {
@@ -181,48 +182,50 @@ qreal Format::parsePercentDecimal(const QString &text)
  ******************************************************************************/
 qsizetype Format::parseBytes(const QString &text)
 {
-    QString textwithoutTilde = text;
-    textwithoutTilde.remove(QChar('~'));
+    QString textWithoutTilde = text;
+    textWithoutTilde.remove('~'_L1);
 
-    QString numberString = textwithoutTilde;
-    numberString.remove(QRegularExpression("[a-zA-Z]*"));
+    QString numberString = textWithoutTilde;
+
+    static QRegularExpression reLetters("[a-zA-Z]*");
+    numberString.remove(reLetters);
     qreal decimal = 0;
     if (!parseDouble(numberString, decimal)) {
         return -1;
     }
 
-    QString unitString = textwithoutTilde;
+    QString unitString = textWithoutTilde;
     unitString.remove(numberString);
     unitString = unitString.toUpper();
 
     qreal multiple = 0;
-    if ( unitString == QLatin1String("B") ||
-         unitString == QLatin1String("BYTE") ||
-         unitString == QLatin1String("BYTES")) {
+    if ( unitString == "B"_L1 ||
+         unitString == "BYTE"_L1 ||
+         unitString == "BYTES"_L1) {
         multiple = 1;
 
-    } else if (unitString == QLatin1String("KB")) {
+    } else if (unitString == "KB"_L1) {
         multiple = 1000;
 
-    } else if (unitString == QLatin1String("MB")) {
+    } else if (unitString == "MB"_L1) {
         multiple = 1000000;
 
-    } else if (unitString == QLatin1String("GB")) {
+    } else if (unitString == "GB"_L1) {
         multiple = 1000000000;
 
-    } else if (unitString == QLatin1String("TB")) {
+    } else if (unitString == "TB"_L1) {
         multiple = 1000000000000;
 
-    } else if (unitString == QLatin1String("KIB")) {
+    } else if (unitString == "KIB"_L1) {
         multiple = 1024;  // 1 KiB = 2^10 bytes = 1024 bytes
 
-    } else if (unitString == QLatin1String("MIB")) {
+    } else if (unitString == "MIB"_L1) {
         multiple = 1048576;  // 1 MiB = 2^20 bytes = 1048576 bytes
 
-    } else if (unitString == QLatin1String("GIB")) {
+    } else if (unitString == "GIB"_L1) {
         multiple = 1073741824;  // 1 GiB = 2^30 bytes = 1073741824 bytes
 
-    } else if (unitString == QLatin1String("TIB")) {
+    } else if (unitString == "TIB"_L1) {
         multiple = 1099511627776;  // 1 TiB = 2^40 bytes = 1099511627776 bytes
 
     } else {
@@ -294,7 +297,7 @@ QString Format::wrapText(const QString &text, int blockLength)
  ******************************************************************************/
 QString Format::boolToHtml(bool value)
 {
-    return value ? "True" : "False";
+    return value ? "True"_L1 : "False"_L1;
 }
 
 QString Format::sizeToHtml(int size)
@@ -307,7 +310,7 @@ QString Format::markDownToHtml(const QString &markdown)
 {
     /// \todo Replace this with QTextDocument::setMarkDown() introduced in Qt 5.14.
     QString html = markdown;
-    html = html.replace('\n', "<br>\n");
+    html = html.replace("\n"_L1, "<br>\n"_L1);
     return html;
 }
 

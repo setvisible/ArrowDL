@@ -16,6 +16,7 @@
 
 #include "networkmanager.h"
 
+#include <Constants>
 #include <Core/Settings>
 
 #include <QtCore/QDebug>
@@ -24,12 +25,10 @@
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkProxy>
 
-constexpr int max_redirects_allowed = 5;
 
 
 NetworkManager::NetworkManager(QObject *parent) : QObject(parent)
   , m_networkAccessManager(new QNetworkAccessManager(this))
-  , m_settings(Q_NULLPTR)
 {
 }
 
@@ -114,30 +113,22 @@ QNetworkReply* NetworkManager::get(const QUrl &url, const QString &referer)
     request.setUrl(url);
 
     // User-Agent
-    const QString httpUserAgent = m_settings ? m_settings->httpUserAgent() : QLatin1String("");
+    auto httpUserAgent = m_settings ? m_settings->httpUserAgent() : QLatin1String("");
     request.setHeader(QNetworkRequest::UserAgentHeader, httpUserAgent);
 
     // Referer
     if (!referer.isEmpty()) {
-        QByteArray rawReferer = referer.toUtf8();
+        auto rawReferer = referer.toUtf8();
         request.setRawHeader(QByteArray("Referer"), rawReferer);
     }
 
     // SSL
     request.setSslConfiguration(QSslConfiguration::defaultConfiguration()); // HTTPS
+    request.setMaximumRedirectsAllowed(MAX_REDIRECTS_ALLOWED);
+    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
-    request.setMaximumRedirectsAllowed(max_redirects_allowed);
-#endif
-#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0) && QT_VERSION < QT_VERSION_CHECK(5, 9, 0)
-    request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
-#endif
-#if QT_VERSION >= QT_VERSION_CHECK(5, 9, 0)
-    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
-                         QNetworkRequest::NoLessSafeRedirectPolicy);
-#endif
+    auto reply = m_networkAccessManager->get(request);
 
-    QNetworkReply* reply = m_networkAccessManager->get(request);
     Q_ASSERT(reply);
     connect(reply, SIGNAL(metaDataChanged()), this, SLOT(onMetaDataChanged()));
     connect(reply, SIGNAL(redirected(QUrl)), this, SLOT(onRedirected(QUrl)));

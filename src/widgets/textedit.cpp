@@ -81,17 +81,17 @@ void BlockSelector::setPosition(int line, int column, MoveMode anchor)
     QTextCursor cursor = m_editor->textCursor();
 
     if (anchor == KeepAnchor) {
-        const QTextBlock blockAnchor = m_editor->document()->findBlockByNumber(anchorLine);
+        auto blockAnchor = m_editor->document()->findBlockByNumber(anchorLine);
         cursor.setPosition(blockAnchor.position()
                            + qMin(anchorColumn, blockAnchor.length() - 1 ),
                            QTextCursor::MoveAnchor );
-        const QTextBlock blockCursor = m_editor->document()->findBlockByNumber(cursorLine);
+        auto blockCursor = m_editor->document()->findBlockByNumber(cursorLine);
         cursor.setPosition(blockCursor.position()
                            + qMin(cursorColumn, blockCursor.length() - 1 ),
                            QTextCursor::KeepAnchor );
     } else {
         // MoveAnchor
-        const QTextBlock blockCursor = m_editor->document()->findBlockByNumber(cursorLine);
+        auto blockCursor = m_editor->document()->findBlockByNumber(cursorLine);
         cursor.setPosition(blockCursor.position()
                            + qMin(cursorColumn, blockCursor.length() - 1 ),
                            QTextCursor::MoveAnchor );
@@ -107,8 +107,7 @@ void BlockSelector::setPosition(int line, int column, MoveMode anchor)
  ******************************************************************************/
 TextEdit::TextEdit(QWidget *parent) : QPlainTextEdit(parent)
 {
-    connect(this, SIGNAL(updateRequest(const QRect &, int)),
-            this, SLOT(onUpdateRequest(const QRect &, int)));
+    connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(onUpdateRequest(QRect,int)));
 
     setCursorWidth(2);
     setBlockModeEnabled(false);
@@ -135,7 +134,7 @@ void TextEdit::setBlockModeEnabled(bool enabled)
     if (isBlockModeEnabled() != enabled) {
         if (enabled) {
             if (!m_blockSelector.isActive()) {
-                const QTextCursor cursor = textCursor();
+                auto cursor = textCursor();
                 m_blockSelector.setPosition(cursor.anchor() );
                 m_blockSelector.setPosition(cursor.position(), BlockSelector::KeepAnchor);
             }
@@ -393,7 +392,7 @@ void TextEdit::paintBlockSelector(QPaintEvent *e)
                 cursorPosition = m_blockSelector.cursorPosition(blnum);
             }
 
-            foreach (auto range, context.selections) {
+            for (const auto &range: context.selections) {
                 const int selStart = range.cursor.selectionStart() - blpos;
                 const int selEnd = range.cursor.selectionEnd() - blpos;
                 if (selStart < bllen && selEnd > 0
@@ -471,17 +470,17 @@ void TextEdit::paintBlockSelector(QPaintEvent *e)
 void TextEdit::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton) {
-        const QTextCursor cursorLastPosition = textCursor();
-        const QTextCursor cursorUnderMouse = cursorForPosition(e->pos());
-        if (e->modifiers() == Qt::NoModifier ) {
+        auto cursorLastPosition = textCursor();
+        auto cursorUnderMouse = cursorForPosition(e->pos());
+        if (e->modifiers() == Qt::NoModifier) {
             // Nothing
 
         } else if ((e->modifiers() & Qt::AltModifier)
                    && !(e->modifiers() & Qt::ShiftModifier)) {
             // Mouse Left + Alt without Shift = block start selection
 
-            const int line = cursorUnderMouse.blockNumber();
-            const int column = qCeil(qreal(e->pos().x()) / QFontMetricsF(font()).horizontalAdvance(QLatin1Char(' ')));
+            auto line = cursorUnderMouse.blockNumber();
+            auto column = qCeil(static_cast<qreal>(e->pos().x()) / QFontMetricsF(font()).horizontalAdvance(QLatin1Char(' ')));
             m_blockSelector.setPosition(line, column);
             e->accept();
             return;
@@ -493,13 +492,13 @@ void TextEdit::mousePressEvent(QMouseEvent *e)
             QTextCursor selection = cursorLastPosition;
             selection.setPosition( cursorLastPosition.anchor() );
             if (!m_blockSelector.isActive()) {
-                const int line = selection.blockNumber();
-                int column = qMin(selection.block().text().size(), selection.positionInBlock());
+                auto line = selection.blockNumber();
+                auto column = qMin(static_cast<int>(selection.block().text().size()), selection.positionInBlock());
                 m_blockSelector.setPosition(line, column);
             }
             selection.setPosition( cursorUnderMouse.position(), QTextCursor::KeepAnchor );
-            const int line = cursorUnderMouse.blockNumber();
-            const int column = qCeil(qreal(e->pos().x()) / QFontMetricsF(font()).horizontalAdvance(QLatin1Char(' ')));
+            auto line = cursorUnderMouse.blockNumber();
+            auto column = qCeil(static_cast<qreal>(e->pos().x()) / QFontMetricsF(font()).horizontalAdvance(QLatin1Char(' ')));
             m_blockSelector.setPosition(line, column, BlockSelector::KeepAnchor);
             return;
 
@@ -521,7 +520,7 @@ void TextEdit::mousePressEvent(QMouseEvent *e)
             setBlockModeEnabled(false);
         }
     } else if (e->button() == Qt::RightButton) {
-        int eventCursorPosition = cursorForPosition(e->pos()).position();
+        auto eventCursorPosition = cursorForPosition(e->pos()).position();
         if (eventCursorPosition < textCursor().selectionStart()
                 || eventCursorPosition > textCursor().selectionEnd()) {
             setTextCursor(cursorForPosition(e->pos()));
@@ -543,9 +542,9 @@ void TextEdit::mouseMoveEvent(QMouseEvent *e)
 
             setBlockModeEnabled(true);
 
-            const QTextCursor cursorUnderMouse = cursorForPosition(e->pos());
-            const int line = cursorUnderMouse.blockNumber();
-            const int column = qCeil(qreal(e->pos().x()) / QFontMetricsF(font()).horizontalAdvance(QLatin1Char(' ')));
+            auto cursorUnderMouse = cursorForPosition(e->pos());
+            auto line = cursorUnderMouse.blockNumber();
+            auto column = qCeil(static_cast<qreal>(e->pos().x()) / QFontMetricsF(font()).horizontalAdvance(QLatin1Char(' ')));
             m_blockSelector.setPosition(line, column, BlockSelector::KeepAnchor);
 
         } else {
@@ -571,11 +570,12 @@ void TextEdit::mouseDoubleClickEvent(QMouseEvent *e)
  ******************************************************************************/
 void TextEdit::copyBlockSelection()
 {
-    if (m_blockSelector.isEmpty())
+    if (m_blockSelector.isEmpty()) {
         return;
+    }
 
     QString text;
-    for (int i = m_blockSelector.topLine(); i <= m_blockSelector.bottomLine(); ++i) {
+    for (auto i = m_blockSelector.topLine(); i <= m_blockSelector.bottomLine(); ++i) {
         auto block = document()->findBlockByLineNumber(i).text();
         block = block.leftJustified(m_blockSelector.leftColumn() + m_blockSelector.width() + 1, ' ');
         auto fragment = block.mid(m_blockSelector.leftColumn(), m_blockSelector.width());
@@ -589,11 +589,12 @@ void TextEdit::copyBlockSelection()
 
 void TextEdit::pasteBlockSelection()
 {
-    if (m_blockSelector.isEmpty())
+    if (m_blockSelector.isEmpty()) {
         return;
+    }
 
-    QClipboard *clipboard = QApplication::clipboard();
-    const QMimeData *mimeData = clipboard->mimeData();
+    auto clipboard = QApplication::clipboard();
+    auto mimeData = clipboard->mimeData();
 
     QString fragment;
     if (mimeData->hasHtml()) {
@@ -606,11 +607,12 @@ void TextEdit::pasteBlockSelection()
 
 QString TextEdit::fragmentToPaste(const QString &input)
 {
-    QStringList list = input.split(QRegularExpression("[\\r\\n]"), Qt::KeepEmptyParts);
+    static QRegularExpression reLineCarriage("[\\r\\n]");
+    auto list = input.split(reLineCarriage, Qt::KeepEmptyParts);
     if (!list.isEmpty()) {
         return list.first();
     }
-    return QString();
+    return {};
 }
 
 void TextEdit::removeBlockSelection(const QString &text)
@@ -618,20 +620,20 @@ void TextEdit::removeBlockSelection(const QString &text)
     if (m_blockSelector.isEmpty())
         return;
 
-    QTextCursor cursor = textCursor();
+    auto cursor = textCursor();
     cursor.beginEditBlock();
 
-    int topLine     = m_blockSelector.topLine();
-    int bottomLine  = m_blockSelector.bottomLine();
-    int leftColumn  = m_blockSelector.leftColumn();
-    int rightColumn = m_blockSelector.rightColumn();
+    auto topLine     = m_blockSelector.topLine();
+    auto bottomLine  = m_blockSelector.bottomLine();
+    auto leftColumn  = m_blockSelector.leftColumn();
+    auto rightColumn = m_blockSelector.rightColumn();
 
-    QTextBlock block            = document()->findBlockByNumber( topLine );
-    const QTextBlock lastBlock  = document()->findBlockByNumber( bottomLine );
+    auto block     = document()->findBlockByNumber( topLine );
+    auto lastBlock = document()->findBlockByNumber( bottomLine );
 
     for (;;) { // for each selected line
-        int endPos = qMin( rightColumn, block.length()-1 ) ;
-        if (leftColumn < block.length()-1 ) {
+        auto endPos = qMin( rightColumn, block.length() - 1 ) ;
+        if (leftColumn < block.length() - 1 ) {
             cursor.setPosition( block.position() + leftColumn, QTextCursor::MoveAnchor);
             cursor.setPosition( block.position() + endPos, QTextCursor::KeepAnchor);
             cursor.removeSelectedText();
@@ -644,16 +646,17 @@ void TextEdit::removeBlockSelection(const QString &text)
         if (!text.isEmpty()) {
             cursor.insertText( text );
         }
-        if (block == lastBlock)
+        if (block == lastBlock) {
             break;
+        }
         block = block.next();
     }
 
     if (!text.isEmpty()) {
-        leftColumn = leftColumn + text.length();
+        leftColumn = leftColumn + static_cast<int>(text.length());
     }
-    int anchorLine = m_blockSelector.anchorLine;
-    int cursorLine = m_blockSelector.cursorLine;
+    auto anchorLine = m_blockSelector.anchorLine;
+    auto cursorLine = m_blockSelector.cursorLine;
     m_blockSelector.setPosition(anchorLine, leftColumn, BlockSelector::MoveAnchor);
     m_blockSelector.setPosition(cursorLine, leftColumn, BlockSelector::KeepAnchor);
 
@@ -666,35 +669,38 @@ void TextEdit::deleteBlockSelection(bool after)
     if (m_blockSelector.isEmpty())
         return;
 
-    QTextCursor cursor = textCursor();
+    auto cursor = textCursor();
     cursor.beginEditBlock();
 
-    int topLine     = m_blockSelector.topLine();
-    int bottomLine  = m_blockSelector.bottomLine();
-    int leftColumn  = m_blockSelector.leftColumn();
+    auto topLine     = m_blockSelector.topLine();
+    auto bottomLine  = m_blockSelector.bottomLine();
+    auto leftColumn  = m_blockSelector.leftColumn();
 
-    QTextBlock block            = document()->findBlockByNumber( topLine );
-    const QTextBlock lastBlock  = document()->findBlockByNumber( bottomLine );
+    auto block     = document()->findBlockByNumber( topLine );
+    auto lastBlock = document()->findBlockByNumber( bottomLine );
 
     for (;;) { // for each selected line
-        if (leftColumn < block.length()-1 ) {
+        if (leftColumn < block.length() - 1 ) {
             cursor.setPosition( block.position() + leftColumn, QTextCursor::MoveAnchor);
-            if(after){
+            if (after){
                 cursor.deleteChar();
-            }else{
-                if(leftColumn>0)
+            } else {
+                if (leftColumn > 0) {
                     cursor.deletePreviousChar();
+                }
             }
         }
-        if (block == lastBlock)
+        if (block == lastBlock) {
             break;
+        }
         block = block.next();
     }
-    if( !after )
+    if (!after) {
         --leftColumn;
+    }
 
-    int anchorLine = m_blockSelector.anchorLine;
-    int cursorLine = m_blockSelector.cursorLine;
+    auto anchorLine = m_blockSelector.anchorLine;
+    auto cursorLine = m_blockSelector.cursorLine;
     m_blockSelector.setPosition(anchorLine, leftColumn, BlockSelector::MoveAnchor);
     m_blockSelector.setPosition(cursorLine, leftColumn, BlockSelector::KeepAnchor);
 
@@ -703,11 +709,12 @@ void TextEdit::deleteBlockSelection(bool after)
 
 void TextEdit::clearBlockSelection()
 {
-    if (m_blockSelector.isEmpty())
+    if (m_blockSelector.isEmpty()) {
         return;
+    }
 
     m_blockSelector.clear();
-    QTextCursor cursor = textCursor();
+    auto cursor = textCursor();
     cursor.clearSelection();
     setTextCursor(cursor);
 }

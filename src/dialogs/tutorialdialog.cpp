@@ -17,7 +17,7 @@
 #include "tutorialdialog.h"
 #include "ui_tutorialdialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/Settings>
 
 #include <QtCore/QDebug>

@@ -30,7 +30,7 @@ public:
     virtual void setPriority(Torrent *torrent, int index, TorrentFileInfo::Priority p);
     virtual void setPriorityByFileOrder(Torrent *torrent, const QList<int> &rows);
 
-    static TorrentFileInfo::Priority computePriority(int row, int count);
+    static TorrentFileInfo::Priority computePriority(int row, qsizetype count);
 };
 
 #endif // CORE_TORRENT_BASE_CONTEXT_H

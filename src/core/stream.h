@@ -77,7 +77,7 @@ private:
 };
 
 /* Enable the type to be used with QVariant. */
-Q_DECLARE_METATYPE(StreamFormatId);
+Q_DECLARE_METATYPE(StreamFormatId)
 
 inline size_t qHash(const StreamFormatId &key, size_t seed)
 {
@@ -450,7 +450,7 @@ class Stream : public QObject
 
 public:
     explicit Stream(QObject *parent);
-    ~Stream() Q_DECL_OVERRIDE;
+    ~Stream() override;
 
     static QString version();
     static QString website();
@@ -546,7 +546,7 @@ class StreamCleanCache : public QObject
     Q_OBJECT
 public:
     explicit StreamCleanCache(QObject *parent);
-    ~StreamCleanCache() Q_DECL_OVERRIDE;
+    ~StreamCleanCache() override;
 
     static QUrl cacheDir();
 
@@ -562,8 +562,8 @@ private slots:
     void onFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
 private:
-    QProcess *m_process;
-    bool m_isCleaned;
+    QProcess *m_process = nullptr;
+    bool m_isCleaned = false;
 };
 
 class StreamAssetDownloader : public QObject
@@ -572,17 +572,18 @@ class StreamAssetDownloader : public QObject
 public:
     struct StreamFlatListItem
     {
-        QString _type;
+        QString _type = {};
         StreamObjectId id;
         QString ie_key;
         QString title;
         QString url;
     };
+
     using StreamFlatList = QList<StreamFlatListItem>;
     using StreamDumpMap = QMap<StreamObjectId, StreamObject>;
 
     explicit StreamAssetDownloader(QObject *parent);
-    ~StreamAssetDownloader() Q_DECL_OVERRIDE;
+    ~StreamAssetDownloader() override;
 
     void runAsync(const QString &url);
     void stop();
@@ -631,7 +632,7 @@ class StreamVersion : public QThread
 public:
     StreamVersion(QObject *parent = nullptr): QThread(parent) {}
 
-    void run() Q_DECL_OVERRIDE;
+    void run() override;
     void stop();
 
 signals:
@@ -646,7 +647,7 @@ class StreamUpgrader : public QObject
     Q_OBJECT
 public:
     explicit StreamUpgrader(QObject *parent);
-    ~StreamUpgrader() Q_DECL_OVERRIDE;
+    ~StreamUpgrader() override;
 
     void runAsync();
 
@@ -669,7 +670,7 @@ class StreamExtractorListCollector : public QObject
     Q_OBJECT
 public:
     explicit StreamExtractorListCollector(QObject *parent);
-    ~StreamExtractorListCollector() Q_DECL_OVERRIDE;
+    ~StreamExtractorListCollector() override;
 
     void runAsync();
 
@@ -704,8 +705,10 @@ char *toString(const StreamObject &streamObject);
 #endif
 
 /* Enable the type to be used with QVariant. */
-Q_DECLARE_METATYPE(StreamFormat);
-Q_DECLARE_METATYPE(StreamObject);
+Q_DECLARE_METATYPE(StreamFormat)
+
+Q_DECLARE_METATYPE(StreamObject)
+
 
 #ifdef QT_DEBUG
 QT_BEGIN_NAMESPACE

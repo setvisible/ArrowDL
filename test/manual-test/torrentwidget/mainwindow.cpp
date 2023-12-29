@@ -87,7 +87,7 @@ void MainWindow::onCompletedClicked()
 void MainWindow::onRandomClicked()
 {
     m_animator->stop();
-    const int percent = Utils::randomBetween(1, 100);
+    auto percent = Utils::randomBetween(1, 100);
     m_animator->setProgress(percent);
 }
 

@@ -27,19 +27,19 @@ class ResourceModel : public CheckableTableModel
 
 public:
     explicit ResourceModel(QObject *parent);
-    ~ResourceModel() Q_DECL_OVERRIDE = default;
+    ~ResourceModel() override = default;
 
-    void clear() Q_DECL_OVERRIDE;
+    void clear() override;
 
     QList<ResourceItem*> items() const;
     void add(ResourceItem *item);
 
     QList<ResourceItem*> selection() const;
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
     void retranslateUi();
 

@@ -19,25 +19,22 @@
 #include <QtCore/QDebug>
 #include <QtCore/QRegularExpression>
 
-
-static const QRegularExpression reBatch("([\\[\\(]\\d+[:\\-\\s]\\d+[\\]\\)])");
-static const QRegularExpression reGroup("[\\[\\(](\\d+)[:\\-\\s](\\d+)[\\]\\)]");
-
 constexpr int firstGroupPosition     = 1; // 0 is reseved to full string
 constexpr int secondGroupPosition    = 2;
 
 
 struct Capture
 {
-    QString capture;
-    int pos{0};
-    int len{0};
+    QString capture = {};
+    qsizetype pos = 0;
+    qsizetype len = 0;
     QStringList interpretedCapture;
 };
 
 static QList<Capture> capture(const QString &str)
 {
     QList<Capture> captures;
+    static QRegularExpression reBatch("([\\[\\(]\\d+[:\\-\\s]\\d+[\\]\\)])");
     QRegularExpressionMatchIterator i = reBatch.globalMatch(str);
     while (i.hasNext()) {
         QRegularExpressionMatch match = i.next();
@@ -88,9 +85,9 @@ QStringList Regex::interpret(const QString &str)
      * "[8:11]" is interpreted {8 9 10 11}
      *
      */
-    for (int index = 0; index < captures.count(); ++index) {
+    for (auto index = 0; index < captures.count(); ++index) {
         Capture &cap = captures[index];
-
+        static QRegularExpression reGroup("[\\[\\(](\\d+)[:\\-\\s](\\d+)[\\]\\)]");
         QRegularExpressionMatch match = reGroup.match(cap.capture);
         if (!match.hasMatch()) {
             Q_ASSERT(false);
@@ -99,18 +96,18 @@ QStringList Regex::interpret(const QString &str)
             auto strBegin = match.captured(firstGroupPosition);
             auto strEnd = match.captured(secondGroupPosition);
 
-            int fieldWidth = strBegin.length();
-            int begin = strBegin.toInt();
-            int end = strEnd.toInt();
+            auto fieldWidth = strBegin.length();
+            auto begin = strBegin.toInt();
+            auto end = strEnd.toInt();
 
             if (begin > end) {
-                int t = end;
+                auto t = end;
                 end = begin;
                 begin = t;
                 fieldWidth = match.captured(secondGroupPosition).length();
             }
 
-            for (int i = begin; i <= end; ++i) {
+            for (auto i = begin; i <= end; ++i) {
                 cap.interpretedCapture.append(QString("%0").arg(i, fieldWidth, 10, QChar('0')));
             }
         }
@@ -121,11 +118,11 @@ QStringList Regex::interpret(const QString &str)
      */
     QStringList list;
     list << str;
-    for (int i = captures.count() - 1; i >= 0; --i) {
+    for (auto i = captures.count() - 1; i >= 0; --i) {
         auto capture = captures.at(i);
         QStringList buffer;
-        foreach (auto interpretedCapture, capture.interpretedCapture) {
-            foreach (auto interpreted, list) {
+        for (auto interpretedCapture : capture.interpretedCapture) {
+            for (auto interpreted : list) {
                 interpreted.replace(capture.pos, capture.len, interpretedCapture);
                 buffer << interpreted;
             }
@@ -140,7 +137,7 @@ QStringList Regex::getCaptures(const QString &str)
 {
     QList<Capture> captures = capture(str);
     QStringList ret;
-    foreach (auto capture, captures) {
+    for (auto capture : captures) {
         ret.append(capture.capture);
     }
     return ret;

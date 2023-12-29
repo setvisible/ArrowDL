@@ -17,7 +17,7 @@
 #include "addbatchdialog.h"
 #include "ui_addbatchdialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
 #include <Core/Mask>
@@ -39,8 +39,10 @@
 #include <QtWidgets/QMessageBox>
 
 
-AddBatchDialog::AddBatchDialog(const QUrl &url, DownloadManager *downloadManager,
-                               Settings *settings, QWidget *parent)
+AddBatchDialog::AddBatchDialog(
+    const QUrl &url,
+    DownloadManager *downloadManager,
+    Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddBatchDialog)
     , m_downloadManager(downloadManager)
@@ -48,7 +50,9 @@ AddBatchDialog::AddBatchDialog(const QUrl &url, DownloadManager *downloadManager
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("%0 - %1").arg(STR_APPLICATION_NAME, tr("Add Batch and Single File")));
+    using namespace Qt::Literals::StringLiterals;
+
+    setWindowTitle(STR_APPLICATION_NAME % " - " % tr("Add Batch and Single File"));
 
     Theme::setIcons(this, { {ui->logo, "add-batch"} });
 
@@ -63,19 +67,23 @@ AddBatchDialog::AddBatchDialog(const QUrl &url, DownloadManager *downloadManager
     ui->urlLineEdit->setClearButtonEnabled(true);
 
     ui->titleListLabel->setToolTip(
-                QString("<html><head/><body><p>"
-                        "%0"
-                        "</p><p>- "
-                        "%1"
-                        "</p><p>- "
-                        "%2"
-                        "</p><p>- "
-                        "%3"
-                        "</p></body></html>").arg(
-                    tr("Batch descriptors:"),
-                    tr("Must start with '[' or '('"),
-                    tr("Must contain two numbers, separated by ':', '-' or a space character"),
-                    tr("Must end with ']' or ')'")));
+        QString(
+            "<html><head/><body><p>"
+            "%0"
+            "</p><p>- "
+            "%1"
+            "</p><p>- "
+            "%2"
+            "</p><p>- "
+            "%3"
+            "</p></body></html>"
+            ).arg(
+                tr("Batch descriptors:"),
+                tr("Must start with '[' or '('"),
+                tr("Must contain two numbers, separated by ':', '-' or a space character"),
+                tr("Must end with ']' or ')'")
+                )
+        );
 
     if (m_settings && m_settings->isCustomBatchEnabled()) {
         ui->tagButton_Custom->setText(m_settings->customBatchButtonLabel());
@@ -84,8 +92,7 @@ AddBatchDialog::AddBatchDialog(const QUrl &url, DownloadManager *downloadManager
         ui->tagButton_Custom->setVisible(false);
     }
 
-    connect(ui->urlLineEdit, SIGNAL(customContextMenuRequested(const QPoint &)),
-            this, SLOT(showContextMenu(const QPoint &)));
+    connect(ui->urlLineEdit, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
 
     connect(ui->tagButton_1_10, SIGNAL(released()), this, SLOT(insert_1_to_10()));
     connect(ui->tagButton_1_100, SIGNAL(released()), this, SLOT(insert_1_to_100()));
@@ -128,7 +135,7 @@ void AddBatchDialog::writeUiSettings()
  */
 void AddBatchDialog::quickDownload(const QUrl &url, DownloadManager *downloadManager)
 {
-    if (downloadManager == Q_NULLPTR) {
+    if (downloadManager == nullptr) {
         return;
     }
     // Remove trailing / and \ and .
@@ -333,7 +340,7 @@ QList<IDownloadItem*> AddBatchDialog::createItems(const QUrl &inputUrl) const
 {
     QList<IDownloadItem*> items;
     const QStringList urls = Regex::interpret(inputUrl);
-    foreach (auto url, urls) {
+    for (auto url : urls) {
         items << createItem(url);
     }
     return items;

@@ -16,6 +16,7 @@
 
 #include "combobox.h"
 
+#include <Constants>
 #include <QtGui/QAction>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QLineEdit>
@@ -23,7 +24,6 @@
 
 #include <QtCore/QDebug>
 
-constexpr int max_history_count = 10;
 
 /*!
  * \class ComboBox
@@ -36,7 +36,7 @@ constexpr int max_history_count = 10;
 ComboBox::ComboBox(QWidget *parent) : QComboBox(parent)
 {
     setDuplicatesEnabled(false);
-    setMaxCount(max_history_count);
+    setMaxCount(MAX_HISTORY_COUNT);
 
     connect(this, SIGNAL(currentTextChanged(QString)), this, SLOT(onCurrentTextChanged(QString)));
     connect(this, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
@@ -63,7 +63,7 @@ void ComboBox::setHistory(const QStringList &history)
 {
     auto text = currentText();
     clear();
-    int i = qMin(max_history_count, history.count());
+    auto i = qMin(static_cast<qsizetype>(MAX_HISTORY_COUNT), history.count());
     while (i > 0) {
         i--;
         auto item = history.at(i);
@@ -84,7 +84,7 @@ void ComboBox::addToHistory(const QString &text)
 
 void ComboBox::removeFromHistory(const QString &text)
 {
-    int i = count();
+    auto i = count();
     while (i > 0) {
         i--;
         if (itemText(i) == text) {
@@ -114,7 +114,7 @@ void ComboBox::setCurrentText(const QString &text)
  ******************************************************************************/
 bool ComboBox::isInputValid() const
 {
-    return m_inputValidityPtr == Q_NULLPTR || m_inputValidityPtr(this->currentText());
+    return m_inputValidityPtr == nullptr || m_inputValidityPtr(this->currentText());
 }
 
 /**
@@ -124,7 +124,7 @@ bool ComboBox::isInputValid() const
  * \li If it returns true, the combobox hightlights an error.
  * \li If it returns false, the combobox doesn't hightlight any error.
  *
- * To disable the coloration, just pass a null pointer (Q_NULLPTR) as argument,
+ * To disable the coloration, just pass a null pointer (nullptr) as argument,
  * or a functor to a method that always returns false.
  *
  * @param functor The callback method functor, or null.
@@ -163,10 +163,10 @@ void ComboBox::onCurrentIndexChanged(int /*index*/)
  ******************************************************************************/
 void ComboBox::showContextMenu(const QPoint &/*pos*/)
 {
-    QMenu *contextMenu = lineEdit()->createStandardContextMenu();
+    auto contextMenu = lineEdit()->createStandardContextMenu();
 
     contextMenu->addSeparator();
-    QAction *clearAction = contextMenu->addAction(tr("Clear History"));
+    auto clearAction = contextMenu->addAction(tr("Clear History"));
     connect(clearAction, SIGNAL(triggered()), this, SLOT(clearHistory()));
 
     contextMenu->exec(QCursor::pos());
@@ -175,7 +175,7 @@ void ComboBox::showContextMenu(const QPoint &/*pos*/)
 
 void ComboBox::clearHistory()
 {
-    const QString text = currentText();
+    auto text = currentText();
     clear();
     setCurrentText(text);
 }
@@ -187,6 +187,6 @@ inline void ComboBox::colorize()
     if (!isInputValid()) {
         QComboBox::setStyleSheet(QLatin1String("QComboBox { background-color: palette(link); }"));
     } else {
-        QComboBox::setStyleSheet(QString());
+        QComboBox::setStyleSheet({});
     }
 }

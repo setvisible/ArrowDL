@@ -17,7 +17,7 @@
 #include "addurlsdialog.h"
 #include "ui_addurlsdialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
 #include <Core/ResourceItem>
@@ -33,8 +33,10 @@
 #include <QtWidgets/QLineEdit>
 
 
-AddUrlsDialog::AddUrlsDialog(const QString &text, DownloadManager *downloadManager,
-                             Settings *settings, QWidget *parent)
+AddUrlsDialog::AddUrlsDialog(
+    const QString &text,
+    DownloadManager *downloadManager,
+    Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddUrlsDialog)
     , m_fakeUrlLineEdit(new QLineEdit(this))

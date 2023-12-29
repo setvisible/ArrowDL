@@ -47,8 +47,8 @@ static QColor color(TorrentPieceItem::Status status)
 
 static void colorize(QWidget *widget, TorrentPieceItem::Status status)
 {
-    QColor _color = color(status);
-    QPalette pal = widget->palette();
+    auto _color = color(status);
+    auto pal = widget->palette();
     pal.setColor(QPalette::Window, _color);
     widget->setAutoFillBackground(true);
     widget->setPalette(pal);
@@ -69,6 +69,8 @@ static QString decorate(int count, TorrentFileInfo::Priority priority)
 TorrentPieceMap::TorrentPieceMap(QWidget *parent) : QWidget(parent)
   , ui(new Ui::TorrentPieceMap)
   , m_scene(new QGraphicsScene(this))
+  , m_workerThread(new TorrentPieceMapWorker(this))
+  , m_tileFont(font())
 {
     ui->setupUi(this);
 
@@ -78,22 +80,18 @@ TorrentPieceMap::TorrentPieceMap(QWidget *parent) : QWidget(parent)
     colorize(ui->boxVerified,     TorrentPieceItem::Status::Verified);
 
     ui->priorityLabel->setText(
-                tr("Priority: %0=high %1=normal %2=low %3=ignore").arg(
-                    QString("³"), QString("²"), QString("¹"), QString("°")));
+        tr("Priority: %0=high %1=normal %2=low %3=ignore").arg(
+            QString("³"), QString("²"), QString("¹"), QString("°")));
 
     /* Calculate metrics */
-    m_tileFont = font();
+
     // const int pointSize = m_tileFont.pointSize();
     // m_tileFont.setPointSize(pointSize - 1);
 
     qRegisterMetaType<TorrentPieceData>("TorrentPieceData");
 
     QFontMetrics fm(m_tileFont);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
     m_tileWidth = fm.horizontalAdvance(decorate(999, TorrentFileInfo::Low));
-#else
-    m_tileWidth = fm.width(decorate(999, TorrentFileInfo::Low));
-#endif
     m_tileHeight = fm.height() + 2 * m_tilePadding;
     m_tileWidth += 2 * m_tilePadding;
 
@@ -116,7 +114,6 @@ TorrentPieceMap::TorrentPieceMap(QWidget *parent) : QWidget(parent)
     ui->graphicsView->setCacheMode(QGraphicsView::CacheBackground);
 
     /* Worker thread */
-    m_workerThread = new TorrentPieceMapWorker(this);
     connect(m_workerThread, &TorrentPieceMapWorker::resultReady, this, &TorrentPieceMap::handleResults);
 
     resetUi();
@@ -241,8 +238,8 @@ void TorrentPieceMapWorker::run()
 #endif
 
     m_lock.lockForRead();
-    TorrentPieceData pieceData = m_pieceData;
-    const QList<TorrentPeerInfo> peers = m_peers;
+    auto pieceData = m_pieceData;
+    // const QList<TorrentPeerInfo> peers = m_peers;
     m_lock.unlock();
 
     setDirty(false);
@@ -280,7 +277,7 @@ void TorrentPieceMap::updateWidget()
 
         pieceData.pieceAvailability = m_torrent->detail().pieceAvailability;
         pieceData.piecePriority = m_torrent->detail().piecePriority;
-        const QList<TorrentPeerInfo> peers = m_torrent->detail().peers;
+        auto peers = m_torrent->detail().peers;
 
         m_workerThread->doWork(pieceData, peers);
 
@@ -303,7 +300,7 @@ void TorrentPieceMap::setPieceData(const TorrentPieceData &pieceData)
  ******************************************************************************/
 void TorrentPieceMap::clearScene()
 {
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         m_scene->removeItem(item);
     }
     m_items.clear();
@@ -318,20 +315,11 @@ void TorrentPieceMap::populateScene(const TorrentPieceData &pieceData)
                     m_rootItem);
 
         auto flags = item->flags();
-#if QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
         flags.setFlag(QGraphicsItem::ItemIsMovable, false);
         flags.setFlag(QGraphicsItem::ItemIsSelectable, false);
         flags.setFlag(QGraphicsItem::ItemIsFocusable, false);
         flags.setFlag(QGraphicsItem::ItemSendsGeometryChanges, false);
         flags.setFlag(QGraphicsItem::ItemSendsScenePositionChanges, false);
-#else
-        flags &= ~QGraphicsItem::ItemIsMovable;
-        flags &= ~QGraphicsItem::ItemIsMovable;
-        flags &= ~QGraphicsItem::ItemIsSelectable;
-        flags &= ~QGraphicsItem::ItemIsFocusable;
-        flags &= ~QGraphicsItem::ItemSendsGeometryChanges;
-        flags &= ~QGraphicsItem::ItemSendsScenePositionChanges;
-#endif
         item->setFlags(flags);
         m_items.append(item);
     }
@@ -344,13 +332,13 @@ void TorrentPieceMap::populateScene(const TorrentPieceData &pieceData)
  */
 void TorrentPieceMap::adjustScene()
 {
-    const QSize viewportSize = ui->graphicsView->viewport()->size();
-    const int maxWidth = viewportSize.width();
-    const qreal width = m_tileWidth + 2 * m_tilePadding;
-    const qreal height = m_tileHeight + 2 * m_tilePadding;
+    auto viewportSize = ui->graphicsView->viewport()->size();
+    qreal maxWidth = static_cast<qreal>(viewportSize.width());
+    qreal width = m_tileWidth + 2 * m_tilePadding;
+    qreal height = m_tileHeight + 2 * m_tilePadding;
     qreal x = 0;
     qreal y = 0;
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         if (x + width >= maxWidth) {
             x = 0;
             y += height;
@@ -359,7 +347,7 @@ void TorrentPieceMap::adjustScene()
         x += width;
     }
     const QRectF viewportRect(QPointF(0, 0), viewportSize);
-    const QRectF rect = m_scene->itemsBoundingRect().united(viewportRect);
+    auto rect = m_scene->itemsBoundingRect().united(viewportRect);
     m_scene->setSceneRect(rect);
 }
 
@@ -368,9 +356,9 @@ void TorrentPieceMap::adjustScene()
 void TorrentPieceMap::updateScene(const TorrentPieceData &pieceData)
 {
     Q_ASSERT(pieceData.size == m_items.count());
-    const int size = pieceData.size;
-    for (int i = 0; i < size; ++i) {
-        TorrentPieceItem *item = m_items.at(i);
+    auto size = pieceData.size;
+    for (auto i = 0; i < size; ++i) {
+        auto item = m_items.at(i);
 
         if (i < pieceData.pieceAvailability.size()) {
             item->setAvailability(pieceData.pieceAvailability.at(i));
@@ -426,7 +414,7 @@ void TorrentPieceMap::retranslateUi()
 
 /******************************************************************************
  ******************************************************************************/
-TorrentPieceItem::TorrentPieceItem(int width, int height, int padding,
+TorrentPieceItem::TorrentPieceItem(qreal width, qreal height, qreal padding,
                                    const QFont &font, QGraphicsItem *parent)
     : QGraphicsItem(parent)
     , m_font(font)

@@ -38,12 +38,12 @@ AutoCloseDialog::AutoCloseDialog(QFrame *content, QWidget *parent) : QDialog(par
     layout->addWidget(content);
     setLayout(layout);
 
-    QRect rect = geometry();
-    const QSize minAcceptableSize = QLayout::closestAcceptableSize(this, QSize(0,0));
+    auto rect = geometry();
+    auto minAcceptableSize = QLayout::closestAcceptableSize(this, QSize(0,0));
     rect.setSize(minAcceptableSize);
     if (parent) {
         // aligned to parent widget
-        const QPoint parentTopRight = parent->mapToGlobal(QPoint(parent->width() - 5, -5));
+        auto parentTopRight = parent->mapToGlobal(QPoint(parent->width() - 5, -5));
         rect.moveBottomRight(parentTopRight);
     }
     setGeometry(rect);

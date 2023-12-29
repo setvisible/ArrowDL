@@ -16,13 +16,12 @@
 
 #include "downloadengine.h"
 
+#include <Constants>
 #include <Core/AbstractDownloadItem>
 
 #include <QtCore/QDebug>
 #include <QtCore/QtMath>
 
-constexpr int selection_display_limit = 10;
-constexpr int msec_speed_display_time = 2000;
 
 DownloadEngine::DownloadEngine(QObject *parent) : QObject(parent)
   , m_maxSimultaneousDownloads(4)
@@ -48,10 +47,10 @@ DownloadEngine::~DownloadEngine()
 
 /******************************************************************************
  ******************************************************************************/
-int DownloadEngine::downloadingCount() const
+qsizetype DownloadEngine::downloadingCount() const
 {
-    int count = 0;
-    foreach (auto item, m_items) {
+    auto count = 0;
+    for (auto item : m_items) {
         if (item->isDownloading()) {
             count++;
         }
@@ -62,10 +61,10 @@ int DownloadEngine::downloadingCount() const
 void DownloadEngine::startNext(IDownloadItem * /*item*/)
 {
     if (downloadingCount() < m_maxSimultaneousDownloads) {
-        foreach (auto item, m_items) {
+        for (auto item : m_items) {
             if (item->state() == IDownloadItem::Idle) {
                 item->resume();
-                startNext(Q_NULLPTR);
+                startNext(nullptr);
                 break;
             }
         }
@@ -74,7 +73,7 @@ void DownloadEngine::startNext(IDownloadItem * /*item*/)
 
 /******************************************************************************
  ******************************************************************************/
-int DownloadEngine::count() const
+qsizetype DownloadEngine::count() const
 {
     return m_items.count();
 }
@@ -84,7 +83,7 @@ int DownloadEngine::count() const
 void DownloadEngine::clear()
 {
     clearSelection();
-    remove(m_items);
+    removeItems(m_items);
 }
 
 /******************************************************************************
@@ -94,7 +93,7 @@ void DownloadEngine::append(const QList<IDownloadItem*> &items, bool started)
     if (items.isEmpty()) {
         return;
     }
-    foreach (auto item, items) {
+    for (auto item : items) {
         auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
         if (!downloadItem) {
             return;
@@ -102,8 +101,7 @@ void DownloadEngine::append(const QList<IDownloadItem*> &items, bool started)
 
         connect(downloadItem, SIGNAL(changed()), this, SLOT(onChanged()));
         connect(downloadItem, SIGNAL(finished()), this, SLOT(onFinished()));
-        connect(downloadItem, SIGNAL(renamed(QString, QString, bool)),
-                this, SLOT(onRenamed(QString, QString, bool)));
+        connect(downloadItem, SIGNAL(renamed(QString,QString,bool)), this, SLOT(onRenamed(QString,QString,bool)));
 
         if (started) {
             if (downloadItem->isResumable()) {
@@ -120,24 +118,29 @@ void DownloadEngine::append(const QList<IDownloadItem*> &items, bool started)
     emit jobAppended(items);
 
     if (started) {
-        startNext(Q_NULLPTR);
+        startNext(nullptr);
     }
 }
 
 void DownloadEngine::remove(const QList<IDownloadItem*> &items)
+{
+    removeItems(items);
+}
+
+void DownloadEngine::removeItems(const QList<IDownloadItem*> &items)
 {
     if (items.isEmpty()) {
         return;
     }
     /* First, deselect */
     beginSelectionChange();
-    foreach (auto item, items) {
+    for (auto item : items) {
         setSelected(item, false);
     }
     endSelectionChange();
 
     /* Then, remove */
-    foreach (auto item, items) {
+    for (auto item : items) {
         cancel(item); // stop the reply first
         m_items.removeAll(item);
         auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
@@ -150,14 +153,14 @@ void DownloadEngine::remove(const QList<IDownloadItem*> &items)
 
 void DownloadEngine::updateItems(const QList<IDownloadItem *> &items)
 {
-    foreach (auto item, items) {
+    for (auto item : items) {
         emit jobStateChanged(item);
     }
 }
 
 /******************************************************************************
  ******************************************************************************/
-const IDownloadItem* DownloadEngine::clientForRow(int row) const
+const IDownloadItem* DownloadEngine::clientForRow(qsizetype row) const
 {
     Q_ASSERT(row >=0 && row < m_items.count());
     return m_items.at(row);
@@ -186,8 +189,8 @@ static inline QList<IDownloadItem*> filter(const QList<IDownloadItem*> &items,
                                            const QList<IDownloadItem::State> &states)
 {
     QList<IDownloadItem*> list;
-    foreach (auto item, items) {
-        foreach (auto state, states) {
+    for (auto item : items) {
+        for (auto state : states) {
             if (item->state() == state) {
                 list.append(item);
             }
@@ -241,12 +244,12 @@ void DownloadEngine::onSpeedTimerTimeout()
 qreal DownloadEngine::totalSpeed()
 {
     qreal speed = 0;
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         speed += qMax(item->speed(), qreal(0));
     }
     if (speed > 0) {
         m_previouSpeed = speed;
-        m_speedTimer.start(msec_speed_display_time);
+        m_speedTimer.start(MSEC_SPEED_DISPLAY_TIME);
     }
     return m_previouSpeed;
 }
@@ -336,12 +339,12 @@ QString DownloadEngine::selectionToString() const
 {
     QString ret;
     int count = 0;
-    foreach (auto item, m_selectedItems) {
+    for (auto item : m_selectedItems) {
         ret += item->localFileName();
         ret += "\n";
         count++;
-        if (count > selection_display_limit) {
-            ret += tr("... (%0 others)").arg(m_selectedItems.count() - selection_display_limit);
+        if (count > SELECTION_DISPLAY_LIMIT) {
+            ret += tr("... (%0 others)").arg(m_selectedItems.count() - SELECTION_DISPLAY_LIMIT);
             break;
         }
     }
@@ -351,7 +354,7 @@ QString DownloadEngine::selectionToString() const
 QString DownloadEngine::selectionToClipboard() const
 {
     QString ret;
-    foreach (auto item, m_selectedItems) {
+    for (auto item : m_selectedItems) {
         ret += item->sourceUrl().toString();
         ret += "\n";
     }
@@ -378,7 +381,7 @@ void DownloadEngine::sortSelectionByIndex()
     if (m_selectedItems.isEmpty()) {
         return;
     }
-    QMap<int, IDownloadItem*> map;
+    QMap<qsizetype, IDownloadItem*> map;
     for (auto selectedItem : m_selectedItems) {
         auto index = m_items.indexOf(selectedItem);
         map.insert(index, selectedItem);
@@ -386,33 +389,25 @@ void DownloadEngine::sortSelectionByIndex()
     m_selectedItems = map.values();
 }
 
-void DownloadEngine::moveUpTo(int targetIndex)
+void DownloadEngine::moveUpTo(qsizetype targetIndex)
 {
-    for (int i = 0, total = m_selectedItems.size(); i < total; ++i) {
+    for (auto i = 0; i < m_selectedItems.size(); ++i) {
         auto indexToMove = m_items.indexOf(m_selectedItems.at(i));
-        for (int j = indexToMove; j > targetIndex + i; --j) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
+        for (auto j = indexToMove; j > targetIndex + i; --j) {
             m_items.swapItemsAt(j, j - 1);
-#else
-            m_items.swap(j, j - 1);
-#endif
         }
     }
     emit sortChanged();
 }
 
-void DownloadEngine::moveDownTo(int targetIndex)
+void DownloadEngine::moveDownTo(qsizetype targetIndex)
 {
     auto count = m_selectedItems.size() - 1;
-    for (int i = count; i >= 0; --i) {
-        auto i2 = count - i;
+    for (auto i = count; i >= 0; --i) {
+        auto k = count - i;
         auto indexToMove = m_items.indexOf(m_selectedItems.at(i));
-        for (int j = indexToMove; j < targetIndex - i2; ++j) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
+        for (auto j = indexToMove; j < targetIndex - k; ++j) {
             m_items.swapItemsAt(j, j + 1);
-#else
-            m_items.swap(j, j + 1);
-#endif
         }
     }
     emit sortChanged();
@@ -461,9 +456,9 @@ void DownloadEngine::moveCurrentBottom()
  ******************************************************************************/
 void DownloadEngine::oneMoreSegment()
 {
-    foreach (auto item, selection()) {
+    for (auto item : selection()) {
         auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
-        int segments = downloadItem->maxConnectionSegments();
+        auto segments = downloadItem->maxConnectionSegments();
         segments++;
         downloadItem->setMaxConnectionSegments(segments);
     }
@@ -471,9 +466,9 @@ void DownloadEngine::oneMoreSegment()
 
 void DownloadEngine::oneFewerSegment()
 {
-    foreach (auto item, selection()) {
+    for (auto item : selection()) {
         auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
-        int segments = downloadItem->maxConnectionSegments();
+        auto segments = downloadItem->maxConnectionSegments();
         segments--;
         downloadItem->setMaxConnectionSegments(segments);
     }
@@ -488,12 +483,12 @@ void DownloadEngine::oneFewerSegment()
  */
 IDownloadItem* DownloadEngine::createItem(const QUrl &/*url*/)
 {
-    return Q_NULLPTR;
+    return nullptr;
 }
 /*!
  * \sa DownloadEngine::createItem()
  */
 IDownloadItem* DownloadEngine::createTorrentItem(const QUrl &/*url*/)
 {
-    return Q_NULLPTR;
+    return nullptr;
 }

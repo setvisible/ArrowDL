@@ -14,23 +14,16 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef IO_TORRENT_HANDLER_H
-#define IO_TORRENT_HANDLER_H
+#ifndef VERSION_3RD_H
+#define VERSION_3RD_H
 
-#include <Io/IFileHandler>
+#include <libtorrent/version.hpp>
+#define LIBTORRENT_VERSION_STR LIBTORRENT_VERSION
 
-class TorrentHandler : public IFileHandler
-{
-public:
-    explicit TorrentHandler() = default;
+#ifndef BOOST_VERSION_STR
+#  include "config_3rd.h"
+#endif
 
-    bool canRead() const override;
-    bool canWrite() const override;
+#define GOOGLE_GUMBO_VERSION_STR      "0.10.1"
 
-    bool read(DownloadEngine *engine) override;
-    bool write(const DownloadEngine &engine) override;
-
-private:
-};
-
-#endif // IO_TORRENT_HANDLER_H
+#endif // VERSION_3RD_H

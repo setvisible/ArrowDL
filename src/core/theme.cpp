@@ -16,6 +16,7 @@
 
 #include "theme.h"
 
+#include <Constants>
 #include <Widgets/CustomStyle>
 
 #include <QtCore/QDebug>
@@ -32,26 +33,19 @@
 
 
 /* Public static constants */
-const QLatin1String Theme::PlatformStyle("platformStyle");
-const QLatin1String Theme::IconTheme("iconTheme");
-const QLatin1String Theme::ColorScheme("colorScheme");
+const QLatin1StringView Theme::PlatformStyle("platformStyle");
+const QLatin1StringView Theme::IconTheme("iconTheme");
+const QLatin1StringView Theme::ColorScheme("colorScheme");
 
 /* Private static constants */
 static QString s_themeSearchPath = QString::fromUtf8(":/resources/icons/");
-
-/* Settings flags */
-static QLatin1String s_themeDefault("default");
-static QLatin1String s_themeFlat("flat");
-static QLatin1String s_schemeLight("light");
-static QLatin1String s_schemeDark("dark");
-
 
 /* Runtime Debug Purpose */
 static void _assertNoMissingIconTheme(const QWidget *widget)
 {
     auto widgetName = widget->windowTitle().toLatin1().data();
     QList<QAbstractButton*> buttons = widget->findChildren<QAbstractButton*>();
-    foreach (QAbstractButton* button, buttons) {
+    for (auto *button : buttons) {
         if ( button->objectName() == QLatin1String("qt_menubar_ext_button") ||
              button->objectName() == QLatin1String("qt_toolbar_ext_button")) {
             continue;
@@ -64,7 +58,7 @@ static void _assertNoMissingIconTheme(const QWidget *widget)
         }
     }
     QList<QAction*> actions = widget->findChildren<QAction*>();
-    foreach (QAction* action, actions) {
+    for (auto *action : actions) {
         if (!action->icon().isNull() && action->icon().name().isEmpty()) {
             qWarning("Missing icon theme name for QAction '%s' ('%s') in QWidget '%s'.",
                      action->objectName().toLatin1().data(),
@@ -85,7 +79,7 @@ QStringList Theme::availablePlatformStyles()
     return QStyleFactory::keys();
 }
 
-QString Theme::toPlatformStyle(int index)
+QString Theme::toPlatformStyle(qsizetype index)
 {
     auto keys = QStyleFactory::keys();
     if (index >= 0 && index < keys.count()) {
@@ -94,7 +88,7 @@ QString Theme::toPlatformStyle(int index)
     return QLatin1String(""); // Must be an empty string, not a null QString
 }
 
-int Theme::fromPlatformStyle(const QString &platformStyle)
+qsizetype Theme::fromPlatformStyle(const QString &platformStyle)
 {
     auto index = QStyleFactory::keys().indexOf(platformStyle);
     return index == -1 ? 0 : index;
@@ -110,8 +104,8 @@ QStringList Theme::availableIconThemes()
 QString Theme::toIconTheme(int index)
 {
     switch (index) {
-    case 0: return s_themeDefault;
-    case 1: return s_themeFlat;
+    case 0: return THEME_DEFAULT;
+    case 1: return THEME_FLAT;
     default: break;
     }
     return QLatin1String(""); // Must be an empty string, not a null QString
@@ -119,9 +113,9 @@ QString Theme::toIconTheme(int index)
 
 int Theme::fromIconTheme(const QString &iconTheme)
 {
-    if (iconTheme.compare(s_themeDefault, Qt::CaseInsensitive) == 0) {
+    if (iconTheme.compare(THEME_DEFAULT, Qt::CaseInsensitive) == 0) {
         return 0;
-    } else if (iconTheme.compare(s_themeFlat, Qt::CaseInsensitive) == 0) {
+    } else if (iconTheme.compare(THEME_FLAT, Qt::CaseInsensitive) == 0) {
         return 1;
     }
     return 0;
@@ -137,8 +131,8 @@ QStringList Theme::availableColorSchemes()
 QString Theme::toColorScheme(int index)
 {
     switch (index) {
-    case 0: return s_schemeLight;
-    case 1: return s_schemeDark;
+    case 0: return SCHEME_LIGHT;
+    case 1: return SCHEME_DARK;
     default: break;
     }
     return QLatin1String(""); // Must be an empty string, not a null QString
@@ -146,9 +140,9 @@ QString Theme::toColorScheme(int index)
 
 int Theme::fromColorScheme(const QString &colorScheme)
 {
-    if (colorScheme.compare(s_schemeLight, Qt::CaseInsensitive) == 0) {
+    if (colorScheme.compare(SCHEME_LIGHT, Qt::CaseInsensitive) == 0) {
         return 0;
-    } else if (colorScheme.compare(s_schemeDark, Qt::CaseInsensitive) == 0) {
+    } else if (colorScheme.compare(SCHEME_DARK, Qt::CaseInsensitive) == 0) {
         return 1;
     }
     return 0;
@@ -195,9 +189,7 @@ static void polishDark(QPalette &palette)
     palette.setColor(QPalette::ToolTipBase, Qt::white);
     palette.setColor(QPalette::ToolTipText, QColor(53, 53, 53));
     // --
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     palette.setColor(QPalette::PlaceholderText, QColor(127, 127, 127)); // custom
-#endif
     // --
 }
 
@@ -208,11 +200,9 @@ void Theme::applyTheme(const QMap<QString, QVariant> &map)
     if (!QIcon::themeSearchPaths().contains(s_themeSearchPath)) {
         QIcon::setThemeSearchPaths(QIcon::themeSearchPaths() << s_themeSearchPath);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     if (QIcon::fallbackThemeName().isEmpty()) {
         QIcon::setFallbackThemeName(QLatin1String("default"));
     }
-#endif
 
     const QString platformStyle = map.value(Theme::PlatformStyle, QString()).toString();
     const QString iconTheme = map.value(Theme::IconTheme, QString()).toString();

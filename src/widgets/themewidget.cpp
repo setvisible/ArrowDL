@@ -58,9 +58,9 @@ void ThemeWidget::changeEvent(QEvent *event)
  */
 QMap<QString, QVariant> ThemeWidget::theme() const
 {
-    const QString platformStyle = Theme::toPlatformStyle(ui->platformStyleComboBox->currentIndex());
-    const QString iconTheme = Theme::toIconTheme(ui->iconThemeComboBox->currentIndex());
-    const QString colorScheme = Theme::toColorScheme(ui->colorSchemeComboBox->currentIndex());
+    auto platformStyle = Theme::toPlatformStyle(ui->platformStyleComboBox->currentIndex());
+    auto iconTheme = Theme::toIconTheme(ui->iconThemeComboBox->currentIndex());
+    auto colorScheme = Theme::toColorScheme(ui->colorSchemeComboBox->currentIndex());
 
     QMap<QString, QVariant> map;
     map.insert(Theme::PlatformStyle, platformStyle);
@@ -75,9 +75,9 @@ void ThemeWidget::setTheme(const QMap<QString, QVariant> &map)
     QSignalBlocker blocker2(ui->iconThemeComboBox);
     QSignalBlocker blocker3(ui->colorSchemeComboBox);
 
-    const QString platformStyle = map.value(Theme::PlatformStyle, QString()).toString();
-    const QString iconTheme = map.value(Theme::IconTheme, QString()).toString();
-    const QString colorScheme = map.value(Theme::ColorScheme, QString()).toString();
+    auto platformStyle = map.value(Theme::PlatformStyle, QString()).toString();
+    auto iconTheme = map.value(Theme::IconTheme, QString()).toString();
+    auto colorScheme = map.value(Theme::ColorScheme, QString()).toString();
 
     ui->platformStyleComboBox->setCurrentIndex(Theme::fromPlatformStyle(platformStyle));
     ui->iconThemeComboBox->setCurrentIndex(Theme::fromIconTheme(iconTheme));

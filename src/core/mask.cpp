@@ -16,19 +16,15 @@
 
 #include "mask.h"
 
+#include <Constants>
+
 #include <QtCore/QDebug>
 #include <QtCore/QFileInfo>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QUrl>
 
-static const QString NAME          = "*name*";
-static const QString EXT           = "*ext*";
-static const QString URL           = "*url*";
-static const QString CURL          = "*curl*";
-static const QString FLATURL       = "*flaturl*";
-static const QString SUBDIRS       = "*subdirs*";
-static const QString FLATSUBDIRS   = "*flatsubdirs*";
-static const QString QSTRING       = "*qstring*";
+using namespace Qt::Literals::StringLiterals;
+
 
 static const QStringList s_tags
 {
@@ -50,7 +46,7 @@ static QString decodePercentEncoding(const QString &input)
      * when the URL is misformed and contains a mix
      * of ASCII and UTF-8 encoding.
      */
-    QString decoded = input;
+    auto decoded = input;
     decoded.replace("%0A", "\r");
     decoded.replace("%0D", "\n");
     decoded.replace("%20", " ");
@@ -91,7 +87,7 @@ QString Mask::decodeMagnetEncoding(const QString &s)
                 return ret;
             }
 
-            int high;
+            int high = 0;
             if (*i >= '0' && *i <= '9') high = (*i).toLatin1() - '0';
             else if (*i >= 'A' && *i <= 'F') high = (*i).toLatin1() + 10 - 'A';
             else if (*i >= 'a' && *i <= 'f') high = (*i).toLatin1() + 10 - 'a';
@@ -106,7 +102,7 @@ QString Mask::decodeMagnetEncoding(const QString &s)
                 return ret;
             }
 
-            int low;
+            int low = 0;
             if(*i >= '0' && *i <= '9') low = (*i).toLatin1() - '0';
             else if(*i >= 'A' && *i <= 'F') low = (*i).toLatin1() + 10 - 'A';
             else if(*i >= 'a' && *i <= 'f') low = (*i).toLatin1() + 10 - 'a';
@@ -126,9 +122,9 @@ QString Mask::decodeMagnetEncoding(const QString &s)
  ******************************************************************************/
 QUrl Mask::fromUserInput(const QString &input)
 {
-    QString cleaned = decodePercentEncoding(input);
+    auto cleaned = decodePercentEncoding(input);
     cleaned = cleaned.trimmed();
-    QUrl url = QUrl::fromUserInput(cleaned);
+    auto url = QUrl::fromUserInput(cleaned);
     if (url.isEmpty()) {
         url = QUrl::toPercentEncoding(cleaned);
     }
@@ -147,14 +143,14 @@ QUrl Mask::fromUserInput(const QString &input)
      * - Not a fragment:  myfile#.txt
      */
     if (url.hasQuery()) {
-        const QString query = url.query();
+        auto query = url.query();
         if ( query.isEmpty() ||
              query.contains('=') ||
              query.contains('#') ||
              url.hasFragment()) {
             // valid query, just continue.
         } else {
-            QString encoded = cleaned;
+            auto encoded = cleaned;
             encoded.replace("?", "%3F");
             encoded.replace("#", "%23");
             url = QUrl::fromUserInput(encoded);
@@ -164,7 +160,7 @@ QUrl Mask::fromUserInput(const QString &input)
         }
     } else {
         if (url.hasFragment()) {
-            QString encoded = cleaned;
+            auto encoded = cleaned;
             encoded.replace("?", "%3F");
             encoded.replace("#", "%23");
             url = QUrl::fromUserInput(encoded);
@@ -176,42 +172,38 @@ QUrl Mask::fromUserInput(const QString &input)
     return url;
 }
 
-QString Mask::interpret(const QString &input,
-                        const QString &customFileName,
-                        const QString &mask)
+QString Mask::interpret(const QString &input, const QString &customFileName, const QString &mask)
 {
-    const QUrl url = fromUserInput(input);
+    auto url = fromUserInput(input);
     return interpret(url, customFileName, mask);
 }
 
-QString Mask::interpret(const QUrl &url,
-                        const QString &customFileName,
-                        const QString &mask)
+QString Mask::interpret(const QUrl &url, const QString &customFileName, const QString &mask)
 {
     if (!url.isValid()) {
-        return QString();
+        return {};
     }
-    QString decodedMask = QString("%0.%1").arg(NAME, EXT);
-    if (mask.isNull() || mask.isEmpty()) {
+    auto decodedMask = QString("%0.%1").arg(NAME, EXT);
+    if (mask.isEmpty()) {
         decodedMask = QString("%0/%1/%2.%3").arg(URL, SUBDIRS, NAME, EXT);
     } else {
         decodedMask = mask;
     }
 
-    const QString host = url.host();
-    const QString path = url.path();
-    const QString filename = url.fileName();
-    const QString query = url.query();
+    auto host = url.host();
+    auto path = url.path();
+    auto filename = url.fileName();
+    auto query = url.query();
 
     QFileInfo fi(filename);
-    QString basename = fi.completeBaseName();
-    QString suffix = fi.suffix();
+    auto basename = fi.completeBaseName();
+    auto suffix = fi.suffix();
 
     if (!customFileName.isEmpty()) {
         basename = customFileName;
     }
 
-    QString subdirs = path;
+    auto subdirs = path;
     subdirs.chop(filename.count());
     if (subdirs.startsWith(QChar('/'))) {
         subdirs.remove(0, 1);
@@ -220,12 +212,12 @@ QString Mask::interpret(const QUrl &url,
         subdirs.chop(1);
     }
 
-    QString fullUrl = host + path;
+    auto fullUrl = host + path;
 
-    QString flatUrl = fullUrl;
+    auto flatUrl = fullUrl;
     flatUrl.replace(QChar('/'), QChar('-'));
 
-    QString flatSubdirs = subdirs;
+    auto flatSubdirs = subdirs;
     flatSubdirs.replace(QChar('/'), QChar('-'));
 
     // Renaming Tags
@@ -269,15 +261,15 @@ QStringList Mask::tags()
  */
 QString Mask::description(const QString &tag)
 {
-    if (tag == NAME        ) return tr("File name");
-    if (tag == EXT         ) return tr("Extension");
-    if (tag == URL         ) return tr("Base URL");
-    if (tag == CURL        ) return tr("Full URL");
-    if (tag == FLATURL     ) return tr("Flat full URL");
-    if (tag == SUBDIRS     ) return tr("URL subdirectories");
-    if (tag == FLATSUBDIRS ) return tr("Flat URL subdirectories");
-    if (tag == QSTRING     ) return tr("Query string");
-    return QString();
+    if (tag == NAME        ) {return tr("File name");}
+    if (tag == EXT         ) {return tr("Extension");}
+    if (tag == URL         ) {return tr("Base URL");}
+    if (tag == CURL        ) {return tr("Full URL");}
+    if (tag == FLATURL     ) {return tr("Flat full URL");}
+    if (tag == SUBDIRS     ) {return tr("URL subdirectories");}
+    if (tag == FLATSUBDIRS ) {return tr("Flat URL subdirectories");}
+    if (tag == QSTRING     ) {return tr("Query string");}
+    return {};
 }
 
 /******************************************************************************

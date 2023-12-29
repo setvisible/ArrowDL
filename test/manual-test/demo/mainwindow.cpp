@@ -40,7 +40,6 @@
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
   , m_downloadManager(new FakeDownloadManager(this))
-
 {
     ui->setupUi(this);
 
@@ -51,15 +50,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     /* Connect the SceneManager to the MainWindow. */
     /* The SceneManager centralizes the changes. */
-    QObject::connect(m_downloadManager, SIGNAL(jobAppended(DownloadRange)),
-                     this, SLOT(onJobAddedOrRemoved(DownloadRange)));
-    QObject::connect(m_downloadManager, SIGNAL(jobRemoved(DownloadRange)),
-                     this, SLOT(onJobAddedOrRemoved(DownloadRange)));
-    QObject::connect(m_downloadManager, SIGNAL(jobStateChanged(IDownloadItem*)),
-                     this, SLOT(onJobStateChanged(IDownloadItem*)));
-    QObject::connect(m_downloadManager, SIGNAL(selectionChanged()),
-                     this, SLOT(onSelectionChanged()));
-
+    QObject::connect(m_downloadManager, SIGNAL(jobAppended(DownloadRange)), this, SLOT(onJobAddedOrRemoved(DownloadRange)));
+    QObject::connect(m_downloadManager, SIGNAL(jobRemoved(DownloadRange)), this, SLOT(onJobAddedOrRemoved(DownloadRange)));
+    QObject::connect(m_downloadManager, SIGNAL(jobStateChanged(IDownloadItem*)), this, SLOT(onJobStateChanged(IDownloadItem*)));
+    QObject::connect(m_downloadManager, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 
     /* Connect the rest of the GUI widgets together (selection, focus, etc.) */
     createActions();
@@ -269,7 +263,7 @@ void MainWindow::selectNone()
 void MainWindow::invertSelection()
 {
     QList<IDownloadItem*> inverted;
-    foreach (auto item, m_downloadManager->downloadItems()) {
+    for (auto item : m_downloadManager->downloadItems()) {
         if (!m_downloadManager->isSelected(item)) {
             inverted.append(item);
         }
@@ -339,21 +333,21 @@ void MainWindow::add()
 
 void MainWindow::resume()
 {
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         m_downloadManager->resume(item);
     }
 }
 
 void MainWindow::cancel()
 {
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         m_downloadManager->cancel(item);
     }
 }
 
 void MainWindow::pause()
 {
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         m_downloadManager->pause(item);
     }
 }
@@ -390,7 +384,7 @@ void MainWindow::addDomainSpecificLimit()
 
 void MainWindow::forceStart()
 {
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         /// todo Maybe run the item instantly (in a higher priority queue?)
         m_downloadManager->cancel(item);
         m_downloadManager->resume(item);
@@ -422,11 +416,11 @@ void MainWindow::refreshTitleAndStatus()
             ? QString("~%0").arg(Format::currentSpeedToString(speed))
             : QString();
 
-    const int completedCount = m_downloadManager->completedJobs().count();
-    // const int runningCount = m_downloadManager->runningJobs().count();
-    const int failedCount = m_downloadManager->failedJobs().count();
-    const int count = m_downloadManager->count();
-    const int doneCount = completedCount + failedCount;
+    auto completedCount = m_downloadManager->completedJobs().count();
+    // auto runningCount = m_downloadManager->runningJobs().count();
+    auto failedCount = m_downloadManager->failedJobs().count();
+    auto count = m_downloadManager->count();
+    auto doneCount = completedCount + failedCount;
 
     auto windowTitle = QString("%0 %1/%2 - %3")
             .arg(totalSpeed).arg(doneCount).arg(count)
@@ -437,18 +431,18 @@ void MainWindow::refreshTitleAndStatus()
 
 void MainWindow::refreshMenus()
 {
-    const bool hasJobs = !m_downloadManager->downloadItems().isEmpty();
-    const bool hasSelection = !m_downloadManager->selection().isEmpty();
-    // const bool hasOnlyOneSelected = m_downloadManager->selection().count() == 1;
-    //bool hasOnlyCompletedSelected = hasSelection;
-    //foreach (auto item, m_downloadManager->selection()) {
+    auto hasJobs = !m_downloadManager->downloadItems().isEmpty();
+    auto hasSelection = !m_downloadManager->selection().isEmpty();
+    //auto hasOnlyOneSelected = m_downloadManager->selection().count() == 1;
+    //auto hasOnlyCompletedSelected = hasSelection;
+    //for (auto item : m_downloadManager->selection()) {
     //    if (item->state() != IDownloadItem::Completed) {
     //        hasOnlyCompletedSelected = false;
     //        continue;
     //    }
     //}
     bool hasAtLeastOneUncompletedSelected = false;
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         if (item->state() != IDownloadItem::Completed) {
             hasAtLeastOneUncompletedSelected = true;
             continue;
@@ -457,7 +451,7 @@ void MainWindow::refreshMenus()
     bool hasResumableSelection = false;
     bool hasPausableSelection = false;
     bool hasCancelableSelection = false;
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         if (item->isResumable()) {
             hasResumableSelection = true;
         }

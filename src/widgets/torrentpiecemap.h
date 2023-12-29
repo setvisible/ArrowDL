@@ -37,12 +37,12 @@ class TorrentPieceItem;
 
 struct TorrentPieceData
 {
-    int size = 0;
-    QBitArray availablePieces;
-    QBitArray downloadedPieces;
-    QBitArray verifiedPieces;
-    QVector<int> pieceAvailability;
-    QVector<TorrentFileInfo::Priority> piecePriority;
+    qint64 size = 0;
+    QBitArray availablePieces = {};
+    QBitArray downloadedPieces = {};
+    QBitArray verifiedPieces = {};
+    QVector<int> pieceAvailability = {};
+    QVector<TorrentFileInfo::Priority> piecePriority = {};
 };
 
 /* Enable the type to be used with QVariant. */
@@ -53,19 +53,19 @@ class TorrentPieceMap : public QWidget
 {
     Q_OBJECT
 public:
-    explicit TorrentPieceMap(QWidget *parent = Q_NULLPTR);
-    ~TorrentPieceMap() Q_DECL_OVERRIDE;
+    explicit TorrentPieceMap(QWidget *parent = nullptr);
+    ~TorrentPieceMap() override;
 
     Torrent *torrent() const;
     void setTorrent(Torrent *torrent);
 
 protected:
-    void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
-    void hideEvent(QHideEvent *event) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent *event) override;
+    void hideEvent(QHideEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 protected slots:
-    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent *event) override;
 
 private slots:
     void onChanged();
@@ -73,17 +73,17 @@ private slots:
 
 private:
     Ui::TorrentPieceMap *ui;
-    Torrent *m_torrent{Q_NULLPTR};
-    QGraphicsScene *m_scene;
-    QGraphicsRectItem *m_rootItem{Q_NULLPTR};
-    QList<TorrentPieceItem *> m_items;
+    Torrent *m_torrent = nullptr;
+    QGraphicsScene *m_scene = nullptr;
+    QGraphicsRectItem *m_rootItem = nullptr;
+    QList<TorrentPieceItem *> m_items = {};
 
-    TorrentPieceMapWorker *m_workerThread;
+    TorrentPieceMapWorker *m_workerThread = nullptr;
 
-    QFont m_tileFont;
-    int m_tileHeight;
-    int m_tileWidth;
-    int m_tilePadding = 1;
+    QFont m_tileFont = {};
+    qreal m_tileHeight = 0;
+    qreal m_tileWidth = 0;
+    qreal m_tilePadding = 1;
 
     void resetUi();
     void retranslateUi();
@@ -103,7 +103,7 @@ class TorrentPieceMapWorker : public QThread
 {
     Q_OBJECT
 public:
-    TorrentPieceMapWorker(QObject *parent = Q_NULLPTR): QThread(parent) {}
+    TorrentPieceMapWorker(QObject *parent = nullptr): QThread(parent) {}
 
     bool isUseful();
     void setUseful(bool useful);
@@ -117,15 +117,15 @@ signals:
     void resultReady(const TorrentPieceData &pieceData);
 
 protected:
-    void run() Q_DECL_OVERRIDE;
+    void run() override;
 
 private:
     QReadWriteLock m_lock;
-    bool m_isUseful{false};
-    bool m_isDirty{false};
+    bool m_isUseful = false;
+    bool m_isDirty = false;
 
-    TorrentPieceData m_pieceData;
-    QList<TorrentPeerInfo> m_peers;
+    TorrentPieceData m_pieceData = {};
+    QList<TorrentPeerInfo> m_peers = {};
 };
 
 /******************************************************************************
@@ -133,32 +133,34 @@ private:
 class TorrentPieceItem : public QGraphicsItem
 {
 public:
-    explicit TorrentPieceItem(int width, int height, int padding,
-                              const QFont &font, QGraphicsItem *parent = Q_NULLPTR);
-
-    void setAvailability(int availability);
-    void setPriority(TorrentFileInfo::Priority priority);
-
     enum class Status {
         NotAvailable,
         Available,
         Downloaded,
         Verified
     };
+
+    explicit TorrentPieceItem(
+        qreal width, qreal height, qreal padding,
+        const QFont &font, QGraphicsItem *parent = nullptr);
+
+    void setAvailability(int availability);
+    void setPriority(TorrentFileInfo::Priority priority);
+
     void setStatus(Status status);
 
-    QRectF boundingRect() const Q_DECL_OVERRIDE;
-    QPainterPath shape() const Q_DECL_OVERRIDE;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+    QRectF boundingRect() const override;
+    QPainterPath shape() const override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 private:
-    QFont m_font;
-    qreal m_width;
-    qreal m_height;
-    qreal m_padding;
-    int m_availability{0};
-    TorrentFileInfo::Priority m_priority{TorrentFileInfo::Normal};
-    Status m_status{Status::NotAvailable};
+    QFont m_font = {};
+    qreal m_width = 0;
+    qreal m_height = 0;
+    qreal m_padding = 0;
+    int m_availability = 0;
+    TorrentFileInfo::Priority m_priority = TorrentFileInfo::Normal;
+    Status m_status = Status::NotAvailable;
 };
 
 #endif // WIDGETS_TORRENT_PIECE_MAP_H

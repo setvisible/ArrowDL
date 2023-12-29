@@ -16,6 +16,7 @@
 
 #include "downloadmanager.h"
 
+#include <Constants>
 #include <Core/DownloadItem>
 #include <Core/DownloadTorrentItem>
 #include <Core/NetworkManager>
@@ -30,7 +31,8 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 
-constexpr int msec_auto_save = 3000; ///< Autosave the queue every 3 seconds.
+using namespace Qt::Literals::StringLiterals;
+
 
 /*!
  * \class DownloadManager
@@ -45,9 +47,6 @@ constexpr int msec_auto_save = 3000; ///< Autosave the queue every 3 seconds.
 
 DownloadManager::DownloadManager(QObject *parent) : DownloadEngine(parent)
   , m_networkManager(new NetworkManager(this))
-  , m_settings(Q_NULLPTR)
-  , m_dirtyQueueTimer(Q_NULLPTR)
-  , m_queueFile(QString())
 {
     /* Auto save of the queue */
     connect(this, SIGNAL(jobAppended(DownloadRange)), this, SLOT(onQueueChanged(DownloadRange)));
@@ -105,7 +104,7 @@ void DownloadManager::loadQueue()
         Session::read(downloadItems, m_queueFile, this);
 
         QList<IDownloadItem*> abstractItems;
-        foreach (auto item, downloadItems) {
+        for (auto item : downloadItems) {
             // Cast items of the list
             abstractItems.append(static_cast<IDownloadItem*>(item));
         }
@@ -119,12 +118,12 @@ void DownloadManager::saveQueue()
     if (!m_queueFile.isEmpty()) {
         QList<DownloadItem *> items;
 
-        const bool skipCompleted = m_settings->isRemoveCompletedEnabled();
-        const bool skipCanceled = m_settings->isRemoveCanceledEnabled();
-        const bool skipPaused = m_settings->isRemovePausedEnabled();
+        auto skipCompleted = m_settings->isRemoveCompletedEnabled();
+        auto skipCanceled = m_settings->isRemoveCanceledEnabled();
+        auto skipPaused = m_settings->isRemovePausedEnabled();
 
-        QList<IDownloadItem *> abstractItems = downloadItems();
-        foreach (auto abstractItem, abstractItems) {
+        auto abstractItems = downloadItems();
+        for (auto abstractItem : abstractItems) {
             auto item = dynamic_cast<DownloadItem*>(abstractItem);
             if (item) {
                 switch (item->state()) {
@@ -176,7 +175,7 @@ void DownloadManager::onQueueChanged()
         connect(m_dirtyQueueTimer, SIGNAL(timeout()), SLOT(saveQueue()));
     }
     if (!m_dirtyQueueTimer->isActive()) {
-        m_dirtyQueueTimer->start(msec_auto_save);
+        m_dirtyQueueTimer->start(MSEC_AUTO_SAVE);
     }
 }
 
@@ -212,17 +211,17 @@ inline ResourceItem* DownloadManager::createResourceItem(const QUrl &url)
 {
     QSettings settings;
     settings.beginGroup("Wizard");
-    const QString path = settings.value("Path", QString()).toString();
-    const QString mask = settings.value("Mask", QString()).toString();
+    auto path = settings.value("Path"_L1, {}).toString();
+    auto mask = settings.value("Mask"_L1, {}).toString();
     settings.endGroup();
 
     auto resource = new ResourceItem();
     resource->setUrl(url.toString().toUtf8());
-    resource->setCustomFileName(QString());
-    resource->setReferringPage(QString());
-    resource->setDescription(QString());
+    resource->setCustomFileName({});
+    resource->setReferringPage({});
+    resource->setDescription({});
     resource->setDestination(path);
     resource->setMask(mask);
-    resource->setCheckSum(QString());
+    resource->setCheckSum({});
     return resource;
 }

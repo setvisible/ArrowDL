@@ -17,7 +17,7 @@
 #include "addcontentdialog.h"
 #include "ui_addcontentdialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/HtmlParser>
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
@@ -52,12 +52,13 @@ constexpr int column_download_width = 400;
 constexpr int column_mask_width = 200;
 
 
-static QList<IDownloadItem*> createItems(const QList<ResourceItem*> &resources,
-                                         DownloadManager *downloadManager,
-                                         const Settings *settings)
+static QList<IDownloadItem*> createItems(
+    const QList<ResourceItem*> &resources,
+    DownloadManager *downloadManager,
+    const Settings *settings)
 {
     QList<IDownloadItem*> items;
-    foreach (auto resource, resources) {
+    for (auto resource : resources) {
         if (settings && settings->isHttpReferringPageEnabled()) {
             resource->setReferringPage(settings->httpReferringPage());
         }
@@ -69,14 +70,13 @@ static QList<IDownloadItem*> createItems(const QList<ResourceItem*> &resources,
 }
 
 
-AddContentDialog::AddContentDialog(DownloadManager *downloadManager,
-                                   Settings *settings, QWidget *parent)
+AddContentDialog::AddContentDialog(DownloadManager *downloadManager, Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddContentDialog)
     , m_downloadManager(downloadManager)
     , m_model(new Model(this))
     #ifdef USE_QT_WEBENGINE
-    , m_webEngineView(Q_NULLPTR)
+    , m_webEngineView(nullptr)
     #endif
     , m_settings(settings)
 {
@@ -197,23 +197,17 @@ void AddContentDialog::loadUrl(const QUrl &url)
             /* Only load source, not media */
             QWebEngineSettings *settings =  m_webEngineView->settings()->globalSettings();
             settings->setAttribute(QWebEngineSettings::AutoLoadImages, false);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
             settings->setAttribute(QWebEngineSettings::AutoLoadIconsForPage, false);
             m_webEngineView->page()->setAudioMuted(true);
-#endif
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
             settings->setAttribute(QWebEngineSettings::ShowScrollBars, false);
-#endif
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
             settings->setAttribute(QWebEngineSettings::PdfViewerEnabled, false);
-#endif
         }
         m_webEngineView->load(m_url);
 #else
         qInfo("Loading URL. HTML parser is Google Gumbo.");
         NetworkManager *networkManager = m_downloadManager->networkManager();
         QNetworkReply *reply = networkManager->get(m_url);
-        connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(onDownloadProgress(qint64, qint64)));
+        connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
         connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
 #endif
         setProgressInfo(0, tr("Connecting..."));
@@ -260,7 +254,7 @@ void AddContentDialog::onDownloadProgress(qint64 bytesReceived, qint64 bytesTota
     /* Between 1% and 90% */
     int percent = 1;
     if (bytesTotal > 0) {
-        percent = qMin(qCeil(qreal(90 * bytesReceived) / bytesTotal), 90);
+        percent = qMin(qCeil(90 * static_cast<qreal>(bytesReceived) / static_cast<qreal>(bytesTotal)), 90);
     }
     setProgressInfo(percent, tr("Downloading..."));
 }
@@ -270,7 +264,7 @@ void AddContentDialog::onFinished()
     auto reply = qobject_cast<QNetworkReply*>(sender());
     if (reply) {
         if (reply->error() == QNetworkReply::NoError) {
-            QByteArray downloadedData = reply->readAll();
+            auto downloadedData = reply->readAll();
             reply->deleteLater();
             parseHtml(downloadedData);
         } else {
@@ -386,26 +380,27 @@ void AddContentDialog::setProgressInfo(int percent, const QString &text)
  ******************************************************************************/
 void AddContentDialog::onSelectionChanged()
 {
-    const ResourceModel *currentModel = m_model->currentModel();
-    const int selectionCount = currentModel->selection().count();
+    auto currentModel = m_model->currentModel();
+    auto selectionCount = currentModel->selection().count();
     if (selectionCount == 0) {
         ui->tipLabel->setText(tr("After selecting links, click on Start!"));
     } else {
-        const int count = currentModel->items().count();
+        auto count = currentModel->items().count();
         ui->tipLabel->setText(tr("Selected links: %0 of %1").arg(
                                   QString::number(selectionCount),
                                   QString::number(count)));
     }
-    onChanged(QString());
+    onChanged({});
 }
 
 /******************************************************************************
  ******************************************************************************/
-void AddContentDialog::onChanged(QString)
+void AddContentDialog::onChanged(const QString &value)
 {
-    const ResourceModel *currentModel = m_model->currentModel();
-    const int selectionCount = currentModel->selection().count();
-    const bool enabled =
+    Q_UNUSED(value)
+    auto currentModel = m_model->currentModel();
+    auto selectionCount = currentModel->selection().count();
+    auto enabled =
             !ui->pathWidget->currentPath().isEmpty() &&
             !ui->maskWidget->currentMask().isEmpty() &&
             selectionCount > 0;
@@ -419,7 +414,7 @@ void AddContentDialog::refreshFilters()
 {
     QList<Filter> filters = m_settings->filters();
     ui->filterWidget->clearFilters();
-    foreach (auto filter, filters) {
+    for (auto filter : filters) {
         ui->filterWidget->addFilter(filter.name(), filter.regex());
     }
 }

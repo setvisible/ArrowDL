@@ -30,7 +30,7 @@
 
 static ResourceItem* createResourceItem(const GumboElement &element, const QUrl &baseUrl)
 {
-    const GumboVector* attributes = &element.attributes;
+    auto attributes = &element.attributes;
 
     GumboAttribute* href = nullptr;
     GumboAttribute* alt = nullptr;
@@ -66,15 +66,15 @@ static ResourceItem* createResourceItem(const GumboElement &element, const QUrl 
     if (url2.isEmpty()) {
         return nullptr;
     }
-    QUrl url3 = baseUrl.resolved(url2);
+    auto url3 = baseUrl.resolved(url2);
 
-    QString url = url3.toString();
+    auto url = url3.toString();
 
-    QString fullfilename = url;
+    auto fullfilename = url;
 
     {
         if (!fullfilename.isEmpty()) {
-            const QRegularExpression re{
+            static QRegularExpression re{
                 "^(.*)(" + QRegularExpression::escape("/") + ")$",
                         QRegularExpression::CaseInsensitiveOption};
             fullfilename = fullfilename.replace(re, "\\1");
@@ -93,7 +93,7 @@ static ResourceItem* createResourceItem(const GumboElement &element, const QUrl 
     QString titles = title ? QString(title->value) : QString();
     QString alts = alt ? QString(alt->value) : QString();
 
-    QString description = !alts.isEmpty() ? alts : titles;
+    auto description = !alts.isEmpty() ? alts : titles;
 
     auto item = new ResourceItem();
     item->setUrl(url);
@@ -109,9 +109,9 @@ static void searchForLinks(GumboNode* node, Model *model, const QUrl &url)
 
     if (node->v.element.tag == GUMBO_TAG_A) {
 
-        ResourceItem *item = createResourceItem(node->v.element, url);
+        auto item = createResourceItem(node->v.element, url);
         if (item) {
-            ResourceModel *linkModel = model->linkModel();
+            auto linkModel = model->linkModel();
             linkModel->add(item);
         }
 
@@ -128,15 +128,15 @@ static void searchForLinks(GumboNode* node, Model *model, const QUrl &url)
         /// \todo GUMBO_TAG_AUDIO
         /// \todo GUMBO_TAG_SOURCE
 
-        ResourceItem *item = createResourceItem(node->v.element, url);
+        auto item = createResourceItem(node->v.element, url);
         if (item) {
-            ResourceModel *contentModel = model->contentModel();
+            auto contentModel = model->contentModel();
             contentModel->add(item);
         }
     }
 
-    GumboVector* children = &node->v.element.children;
-    for (unsigned int i = 0; i < children->length; ++i) {
+    auto children = &node->v.element.children;
+    for (auto i = 0; i < children->length; ++i) {
         auto childNode = static_cast<GumboNode*>(children->data[i]);
         searchForLinks(childNode, model, url);
     }
@@ -149,7 +149,7 @@ static void searchForLinks(GumboNode* node, Model *model, const QUrl &url)
 void HtmlParser::parse(const QByteArray &bytes, const QUrl &url, Model *model)
 {
     Q_ASSERT(model);
-    GumboOutput* output = gumbo_parse(bytes.constData());
+    auto output = gumbo_parse(bytes.constData());
     searchForLinks(output->root, model, url);
     gumbo_destroy_output(&kGumboDefaultOptions, output);
 }
