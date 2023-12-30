@@ -78,7 +78,7 @@ namespace ip {
 		s.m_bound_to = ip::tcp::endpoint();
 
 		if (m_bound_to != ip::tcp::endpoint())
-			m_io_service.rebind_socket(this, m_bound_to);
+			m_io_service.rebind_socket(&s, this, m_bound_to);
 	}
 
 	tcp::socket::~socket()

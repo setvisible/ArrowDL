@@ -14,9 +14,10 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "globals.h"
 #include "mainwindow.h"
 
+#include "version.h"
+#include <Constants>
 #include <QtSingleApplication>
 #include <Ipc/InterProcessCommunication>
 
@@ -25,32 +26,28 @@
 /* Enable the type to be used with QVariant. */
 Q_DECLARE_METATYPE(QList<int>)
 
-constexpr int msec_message_timeout = 2000;
-
 
 #ifndef QT_DEBUG
 void releaseVerboseMessageHandler(QtMsgType type, const QMessageLogContext &, const QString &msg)
 {
-    QByteArray localMsg = msg.toLocal8Bit();
     switch (type) {
-    case QtDebugMsg: fprintf(stderr, "Debug: %s\n", localMsg.constData()); break;
-    case QtInfoMsg: fprintf(stderr, "Info: %s\n", localMsg.constData()); break;
-    case QtWarningMsg: fprintf(stderr, "Warning: %s\n", localMsg.constData()); break;
-    case QtCriticalMsg: fprintf(stderr, "Critical: %s\n", localMsg.constData()); break;
-    case QtFatalMsg: fprintf(stderr, "Fatal: %s\n", localMsg.constData()); break;
+    case QtDebugMsg: fprintf(stderr, "Debug: %s\n", qPrintable(msg)); break;
+    case QtInfoMsg: fprintf(stderr, "Info: %s\n", qPrintable(msg)); break;
+    case QtWarningMsg: fprintf(stderr, "Warning: %s\n", qPrintable(msg)); break;
+    case QtCriticalMsg: fprintf(stderr, "Critical: %s\n", qPrintable(msg)); break;
+    case QtFatalMsg: fprintf(stderr, "Fatal: %s\n", qPrintable(msg)); break;
     }
 }
 void releaseDefaultMessageHandler(QtMsgType type, const QMessageLogContext &, const QString &msg)
 {
-    QByteArray localMsg = msg.toLocal8Bit();
     switch (type) {
     case QtDebugMsg:
         // In release mode, ignore debug messages but show fatal and warning.
         break;
-    case QtInfoMsg: fprintf(stderr, "Info: %s\n", localMsg.constData()); break;
-    case QtWarningMsg: fprintf(stderr, "Warning: %s\n", localMsg.constData()); break;
-    case QtCriticalMsg: fprintf(stderr, "Critical: %s\n", localMsg.constData()); break;
-    case QtFatalMsg: fprintf(stderr, "Fatal: %s\n", localMsg.constData()); break;
+    case QtInfoMsg: fprintf(stderr, "Info: %s\n", qPrintable(msg)); break;
+    case QtWarningMsg: fprintf(stderr, "Warning: %s\n", qPrintable(msg)); break;
+    case QtCriticalMsg: fprintf(stderr, "Critical: %s\n", qPrintable(msg)); break;
+    case QtFatalMsg: fprintf(stderr, "Fatal: %s\n", qPrintable(msg)); break;
     }
 }
 #endif
@@ -80,6 +77,9 @@ int main(int argc, char *argv[])
 
     parser.process(application);
 
+    // Fix missing Title Bar icon on KDE Plasma's Wayland session.
+    application.setDesktopFileName("downzemall");
+
 #ifndef QT_DEBUG
     if (parser.isSet(verboseOption)) {
         qInstallMessageHandler(releaseVerboseMessageHandler);
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
         qInstallMessageHandler(releaseDefaultMessageHandler);
     }
 #else
-    qInstallMessageHandler(Q_NULLPTR); // default handler (show all messages)
+    qInstallMessageHandler(nullptr); // default handler (show all messages)
 #endif
 
     QString message;
@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
         message = InterProcessCommunication::readMessageFromLauncher();
     } else {
         const QStringList positionalArguments = parser.positionalArguments();
-        foreach (auto positionalArgument, positionalArguments) {
+        for (auto positionalArgument : positionalArguments) {
             message += positionalArgument;
             message += QChar::Space;
         }
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
     if (application.isRunning()) {
         qWarning("Another instance is running...");
         // Rem: Even if is empty, the message is still sent to activate the window.
-        bool ok = application.sendMessage(message, msec_message_timeout);
+        bool ok = application.sendMessage(message, MSEC_MESSAGE_TIMEOUT);
         if (!ok) {
             qCritical("Message sending failed; the application may be frozen.");
         }
@@ -120,8 +120,8 @@ int main(int argc, char *argv[])
     }
 
     application.setActivationWindow(&window);
-    QObject::connect(&application, SIGNAL(messageReceived(const QString&)),
-                     &window, SLOT(handleMessage(const QString&)));
+
+    QObject::connect(&application, SIGNAL(messageReceived(QString)), &window, SLOT(handleMessage(QString)));
 
     return QtSingleApplication::exec();
 }

@@ -492,6 +492,11 @@ namespace aux {
 		tcp::endpoint const& remote() const override { return m_remote; }
 		tcp::endpoint local_endpoint() const override { return m_local; }
 
+#if TORRENT_USE_I2P
+		std::string const& destination() const override;
+		std::string const& local_i2p_endpoint() const override;
+#endif
+
 		typed_bitfield<piece_index_t> const& get_bitfield() const;
 		std::vector<piece_index_t> const& allowed_fast();
 		std::vector<piece_index_t> const& suggested_pieces() const { return m_suggested_pieces; }
@@ -639,6 +644,7 @@ namespace aux {
 		// picker, allowing another peer to request it immediately
 		void cancel_request(piece_block const& b, bool force = false);
 		void send_block_requests();
+		void send_block_requests_impl();
 
 		void assign_bandwidth(int channel, int amount) override;
 
@@ -1151,7 +1157,8 @@ namespace aux {
 		// pick any pieces from this peer
 		bool m_no_download:1;
 
-		// 1 bit
+		// indicates that we want to request more blocks from this peer
+		bool m_deferred_send_block_requests:1;
 
 		// set to true while we're trying to holepunch
 		bool m_holepunch_mode:1;

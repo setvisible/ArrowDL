@@ -210,6 +210,7 @@ bool print_log = false;
 bool print_downloads = false;
 bool print_matrix = false;
 bool print_file_progress = false;
+bool print_piece_availability = false;
 bool show_pad_files = false;
 bool show_dht_status = false;
 
@@ -329,6 +330,56 @@ int peer_index(lt::tcp::endpoint addr, std::vector<lt::peer_info> const& peers)
 	return int(i - peers.begin());
 }
 
+#if TORRENT_USE_I2P
+void base32encode_i2p(lt::sha256_hash const& s, std::string& out, int limit)
+{
+	static char const base32_table[] =
+	{
+		'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+		'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+		'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
+		'y', 'z', '2', '3', '4', '5', '6', '7'
+	};
+
+	static std::array<int, 6> const input_output_mapping{{0, 2, 4, 5, 7, 8}};
+
+	std::array<std::uint8_t, 5> inbuf;
+	std::array<std::uint8_t, 8> outbuf;
+
+	TORRENT_ASSERT(s.size() % 5 );
+	for (auto i = s.begin(); i != s.end();)
+	{
+		int const available_input = std::min(int(inbuf.size()), int(s.end() - i));
+
+		// clear input buffer
+		inbuf.fill(0);
+
+		// read a chunk of input into inbuf
+		std::copy(i, i + available_input, inbuf.begin());
+		i += available_input;
+
+		// encode inbuf to outbuf
+		outbuf[0] = (inbuf[0] & 0xf8) >> 3;
+		outbuf[1] = (((inbuf[0] & 0x07) << 2) | ((inbuf[1] & 0xc0) >> 6)) & 0xff;
+		outbuf[2] = ((inbuf[1] & 0x3e) >> 1);
+		outbuf[3] = (((inbuf[1] & 0x01) << 4) | ((inbuf[2] & 0xf0) >> 4)) & 0xff;
+		outbuf[4] = (((inbuf[2] & 0x0f) << 1) | ((inbuf[3] & 0x80) >> 7)) & 0xff;
+		outbuf[5] = ((inbuf[3] & 0x7c) >> 2);
+		outbuf[6] = (((inbuf[3] & 0x03) << 3) | ((inbuf[4] & 0xe0) >> 5)) & 0xff;
+		outbuf[7] = inbuf[4] & 0x1f;
+
+		// write output
+		int const num_out = input_output_mapping[std::size_t(available_input)];
+		for (int j = 0; j < num_out; ++j)
+		{
+			out += base32_table[outbuf[std::size_t(j)]];
+			--limit;
+			if (limit <= 0) return;
+		}
+	}
+}
+#endif
+
 // returns the number of lines printed
 int print_peer_info(std::string& out
 	, std::vector<lt::peer_info> const& peers, int max_lines)
@@ -362,13 +413,29 @@ int print_peer_info(std::string& out
 
 		if (print_ip)
 		{
-			std::snprintf(str, sizeof(str), "%-30s ", ::print_endpoint(i->ip).c_str());
-			out += str;
+#if TORRENT_USE_I2P
+			if (i->flags & peer_info::i2p_socket)
+			{
+				base32encode_i2p(i->i2p_destination(), out, 31);
+			}
+			else
+#endif
+			{
+				std::snprintf(str, sizeof(str), "%-30s ", ::print_endpoint(i->ip).c_str());
+				out += str;
+			}
 		}
 		if (print_local_ip)
 		{
-			std::snprintf(str, sizeof(str), "%-30s ", ::print_endpoint(i->local_endpoint).c_str());
-			out += str;
+#if TORRENT_USE_I2P
+			if (i->flags & peer_info::i2p_socket)
+				out += "                               ";
+			else
+#endif
+			{
+				std::snprintf(str, sizeof(str), "%-30s ", ::print_endpoint(i->local_endpoint).c_str());
+				out += str;
+			}
 		}
 
 		char temp[10];
@@ -649,7 +716,6 @@ void assign_setting(lt::settings_pack& settings, std::string const& key, char co
 				{"socks5_pw"_sv, settings_pack::socks5_pw},
 				{"http"_sv, settings_pack::http},
 				{"http_pw"_sv, settings_pack::http_pw},
-				{"i2p_proxy"_sv, settings_pack::i2p_proxy},
 			};
 
 			{
@@ -913,17 +979,77 @@ int save_file(std::string const& filename, std::vector<char> const& v)
 	return !f.fail();
 }
 
+struct client_state_t
+{
+	torrent_view& view;
+	session_view& ses_view;
+	std::deque<std::string> events;
+	std::vector<lt::peer_info> peers;
+	std::vector<std::int64_t> file_progress;
+	std::vector<lt::partial_piece_info> download_queue;
+	std::vector<lt::block_info> download_queue_block_info;
+	std::vector<int> piece_availability;
+	std::vector<lt::announce_entry> trackers;
+
+	void clear()
+	{
+		peers.clear();
+		file_progress.clear();
+		download_queue.clear();
+		download_queue_block_info.clear();
+		piece_availability.clear();
+		trackers.clear();
+	}
+};
+
 // returns true if the alert was handled (and should not be printed to the log)
 // returns false if the alert was not handled
-bool handle_alert(torrent_view& view, session_view& ses_view
-	, lt::session&, lt::alert* a)
+bool handle_alert(client_state_t& client_state, lt::alert* a)
 {
 	using namespace lt;
 
 	if (session_stats_alert* s = alert_cast<session_stats_alert>(a))
 	{
-		ses_view.update_counters(s->counters(), s->timestamp());
+		client_state.ses_view.update_counters(s->counters(), s->timestamp());
 		return !stats_enabled;
+	}
+
+	if (auto* p = alert_cast<peer_info_alert>(a))
+	{
+		if (client_state.view.get_active_torrent().handle == p->handle)
+			client_state.peers = std::move(p->peer_info);
+		return true;
+	}
+
+	if (auto* p = alert_cast<file_progress_alert>(a))
+	{
+		if (client_state.view.get_active_torrent().handle == p->handle)
+			client_state.file_progress = std::move(p->files);
+		return true;
+	}
+
+	if (auto* p = alert_cast<piece_info_alert>(a))
+	{
+		if (client_state.view.get_active_torrent().handle == p->handle)
+		{
+			client_state.download_queue = std::move(p->piece_info);
+			client_state.download_queue_block_info = std::move(p->block_data);
+		}
+		return true;
+	}
+
+	if (auto* p = alert_cast<piece_availability_alert>(a))
+	{
+		if (client_state.view.get_active_torrent().handle == p->handle)
+			client_state.piece_availability = std::move(p->piece_availability);
+		return true;
+	}
+
+	if (auto* p = alert_cast<tracker_list_alert>(a))
+	{
+		if (client_state.view.get_active_torrent().handle == p->handle)
+			client_state.trackers = std::move(p->trackers);
+		return true;
 	}
 
 #ifndef TORRENT_DISABLE_DHT
@@ -1022,7 +1148,7 @@ bool handle_alert(torrent_view& view, session_view& ses_view
 		{
 			torrent_handle h = p->handle;
 
-			h.save_resume_data(torrent_handle::save_info_dict | torrent_handle::only_if_modified);
+			h.save_resume_data(torrent_handle::save_info_dict | torrent_handle::if_metadata_changed);
 			++num_outstanding_resume_data;
 
 			// if we have a peer specified, connect to it
@@ -1050,7 +1176,7 @@ bool handle_alert(torrent_view& view, session_view& ses_view
 		// the alert handler for save_resume_data_alert
 		// will save it to disk
 		torrent_handle h = p->handle;
-		h.save_resume_data(torrent_handle::save_info_dict);
+		h.save_resume_data(torrent_handle::save_info_dict | torrent_handle::if_download_progress);
 		++num_outstanding_resume_data;
 		if (exit_on_finish) quit = true;
 	}
@@ -1072,23 +1198,31 @@ bool handle_alert(torrent_view& view, session_view& ses_view
 
 	if (torrent_paused_alert* p = alert_cast<torrent_paused_alert>(a))
 	{
-		// write resume data for the finished torrent
-		// the alert handler for save_resume_data_alert
-		// will save it to disk
-		torrent_handle h = p->handle;
-		h.save_resume_data(torrent_handle::save_info_dict);
-		++num_outstanding_resume_data;
+		if (!quit)
+		{
+			// write resume data for the finished torrent
+			// the alert handler for save_resume_data_alert
+			// will save it to disk
+			torrent_handle h = p->handle;
+			h.save_resume_data(torrent_handle::save_info_dict);
+			++num_outstanding_resume_data;
+		}
 	}
 
 	if (state_update_alert* p = alert_cast<state_update_alert>(a))
 	{
-		view.update_torrents(std::move(p->status));
+		lt::torrent_handle const prev = client_state.view.get_active_handle();
+		client_state.view.update_torrents(std::move(p->status));
+
+		// when the active torrent changes, we need to clear the peers, trackers, files, etc.
+		if (client_state.view.get_active_handle() != prev)
+			client_state.clear();
 		return true;
 	}
 
 	if (torrent_removed_alert* p = alert_cast<torrent_removed_alert>(a))
 	{
-		view.remove_torrent(std::move(p->handle));
+		client_state.view.remove_torrent(std::move(p->handle));
 	}
 	return false;
 
@@ -1098,20 +1232,19 @@ bool handle_alert(torrent_view& view, session_view& ses_view
 
 }
 
-void pop_alerts(torrent_view& view, session_view& ses_view
-	, lt::session& ses, std::deque<std::string>& events)
+void pop_alerts(client_state_t& client_state, lt::session& ses)
 {
 	std::vector<lt::alert*> alerts;
 	ses.pop_alerts(&alerts);
 	for (auto a : alerts)
 	{
-		if (::handle_alert(view, ses_view, ses, a)) continue;
+		if (::handle_alert(client_state, a)) continue;
 
 		// if we didn't handle the alert, print it to the log
 		std::string event_string;
 		print_alert(a, event_string);
-		events.push_back(event_string);
-		if (events.size() >= 20) events.pop_front();
+		client_state.events.push_back(event_string);
+		if (client_state.events.size() >= 20) client_state.events.pop_front();
 	}
 }
 
@@ -1308,8 +1441,6 @@ int main(int argc, char* argv[])
 	std::vector<char> in;
 	if (load_file(".ses_state", in))
 		params = read_session_params(in, session_handle::save_dht_state);
-
-	params.settings.set_bool(settings_pack::dht_privacy_lookups, true);
 #endif
 
 	auto& settings = params.settings;
@@ -1334,7 +1465,9 @@ int main(int argc, char* argv[])
 	lt::time_duration refresh_delay = lt::milliseconds(500);
 	bool rate_limit_locals = false;
 
-	std::deque<std::string> events;
+	client_state_t client_state{
+		view, ses_view, {}, {}, {}, {}, {}, {}, {}
+	};
 	int loop_limit = -1;
 
 	lt::time_point next_dir_scan = lt::clock_type::now();
@@ -1522,7 +1655,6 @@ int main(int argc, char* argv[])
 	});
 
 	// main loop
-	std::vector<lt::peer_info> peers;
 
 #ifndef _WIN32
 	signal(SIGTERM, signal_handler);
@@ -1601,6 +1733,7 @@ int main(int argc, char* argv[])
 						int const filter = view.filter();
 						if (filter > 0)
 						{
+							client_state.clear();
 							view.set_filter(filter - 1);
 							h = view.get_active_handle();
 						}
@@ -1610,26 +1743,37 @@ int main(int argc, char* argv[])
 						int const filter = view.filter();
 						if (filter < torrent_view::torrents_max - 1)
 						{
+							client_state.clear();
 							view.set_filter(filter + 1);
 							h = view.get_active_handle();
 						}
 					}
 					else if (c2 == up_arrow)
 					{
+						client_state.clear();
 						view.arrow_up();
 						h = view.get_active_handle();
 					}
 					else if (c2 == down_arrow)
 					{
+						client_state.clear();
 						view.arrow_down();
 						h = view.get_active_handle();
 					}
 				}
 
-				if (c == ' ')
+				if (c == '<')
 				{
-					if (ses.is_paused()) ses.resume();
-					else ses.pause();
+					int const order = view.sort_order();
+					if (order > 0)
+						view.set_sort_order(order - 1);
+				}
+
+				if (c == '>')
+				{
+					int const order = view.sort_order();
+					if (order < 2)
+						view.set_sort_order(order + 1);
 				}
 
 				if (c == '[' && h.is_valid())
@@ -1702,6 +1846,7 @@ int main(int argc, char* argv[])
 							std::printf("failed to delete torrent, invalid handle: %s\n"
 								, st.name.c_str());
 						}
+						client_state.clear();
 					}
 				}
 
@@ -1793,6 +1938,7 @@ int main(int argc, char* argv[])
 				if (c == 'd') print_downloads = !print_downloads;
 				if (c == 'y') print_matrix = !print_matrix;
 				if (c == 'f') print_file_progress = !print_file_progress;
+				if (c == 'a') print_piece_availability = !print_piece_availability;
 				if (c == 'P') show_pad_files = !show_pad_files;
 				if (c == 'g') show_dht_status = !show_dht_status;
 				if (c == 'x') print_disk_stats = !print_disk_stats;
@@ -1835,6 +1981,7 @@ up/down arrow keys: select torrent
 [g] show DHT                                    [x] toggle disk cache stats
 [t] show trackers                               [l] toggle show log
 [y] toggle show piece matrix                    [I] toggle show peer flag legend
+[a] toggle show piece availability
 
 COLUMN OPTIONS
 [1] toggle IP column                            [2] toggle show peer connection attempts
@@ -1854,7 +2001,7 @@ COLUMN OPTIONS
 			}
 		}
 
-		pop_alerts(view, ses_view, ses, events);
+		pop_alerts(client_state, ses);
 
 		std::string out;
 
@@ -1934,8 +2081,9 @@ COLUMN OPTIONS
 
 			if ((print_downloads && s.state != torrent_status::seeding)
 				|| print_peers)
-				h.get_peer_info(peers);
+				h.post_peer_info();
 
+			auto& peers = client_state.peers;
 			if (print_peers && !peers.empty())
 			{
 				using lt::peer_info;
@@ -1972,8 +2120,8 @@ COLUMN OPTIONS
 					, s.current_tracker.c_str());
 				out += str;
 				pos += 1;
-				std::vector<lt::announce_entry> tr = h.trackers();
-				for (lt::announce_entry const& ae : h.trackers())
+				h.post_trackers();
+				for (lt::announce_entry const& ae : client_state.trackers)
 				{
 					std::snprintf(str, sizeof(str), "%2d %-55s %s\x1b[K\n"
 						, ae.tier, ae.url.c_str(), ae.verified?"OK ":"-  ");
@@ -2020,12 +2168,19 @@ done:
 				pos += height_out;
 			}
 
+			if (print_piece_availability)
+			{
+				h.post_piece_availability();
+				if (!client_state.piece_availability.empty())
+					print(avail_bar(client_state.piece_availability, terminal_width, pos).c_str());
+			}
+
 			if (print_downloads)
 			{
-				std::vector<lt::partial_piece_info> queue = h.get_download_queue();
+				h.post_download_queue();
 
 				int p = 0; // this is horizontal position
-				for (lt::partial_piece_info const& i : queue)
+				for (lt::partial_piece_info const& i : client_state.download_queue)
 				{
 					if (pos + 3 >= terminal_height) break;
 
@@ -2062,16 +2217,19 @@ done:
 				pos += 1;
 			}
 
-			if (print_file_progress && s.has_metadata)
+			if (print_file_progress && s.has_metadata && h.is_valid())
 			{
-				std::vector<std::int64_t> const file_progress = h.file_progress();
+				h.post_file_progress({});
 				std::vector<lt::open_file_state> file_status = h.file_status();
 				std::vector<lt::download_priority_t> file_prio = h.get_file_priorities();
 				auto f = file_status.begin();
-				std::shared_ptr<const lt::torrent_info> ti = h.torrent_file();
+				std::shared_ptr<const lt::torrent_info> ti = s.torrent_file.lock();
 
+				// TODO: ti may be nullptr here, we should check
+
+				auto const& file_progress = client_state.file_progress;
 				int p = 0; // this is horizontal position
-				for (file_index_t i(0); i < file_index_t(ti->num_files()); ++i)
+				for (file_index_t const i : ti->files().file_range())
 				{
 					auto const idx = std::size_t(static_cast<int>(i));
 					if (pos + 1 >= terminal_height) break;
@@ -2079,9 +2237,11 @@ done:
 					bool const pad_file = ti->files().pad_file_at(i);
 					if (pad_file && !show_pad_files) continue;
 
+					if (idx >= file_progress.size()) break;
+
 					int const progress = ti->files().file_size(i) > 0
 						? int(file_progress[idx] * 1000 / ti->files().file_size(i)) : 1000;
-					assert(file_progress[idx] <= ti->files().file_size(i));
+					TORRENT_ASSERT(file_progress[idx] <= ti->files().file_size(i));
 
 					bool const complete = file_progress[idx] == ti->files().file_size(i);
 
@@ -2137,7 +2297,7 @@ done:
 
 		if (print_log)
 		{
-			for (auto const& e : events)
+			for (auto const& e : client_state.events)
 			{
 				if (pos + 1 >= terminal_height) break;
 				out += e;
@@ -2161,6 +2321,7 @@ done:
 
 	resume_data_loader.join();
 
+	quit = true;
 	ses.pause();
 	std::printf("saving resume data\n");
 
@@ -2181,7 +2342,7 @@ done:
 		if ((idx % 32) == 0)
 		{
 			std::printf("\r%d  ", num_outstanding_resume_data);
-			pop_alerts(view, ses_view, ses, events);
+			pop_alerts(client_state, ses);
 		}
 	}
 	std::printf("\nwaiting for resume data [%d]\n", num_outstanding_resume_data);
@@ -2190,7 +2351,7 @@ done:
 	{
 		alert const* a = ses.wait_for_alert(seconds(10));
 		if (a == nullptr) continue;
-		pop_alerts(view, ses_view, ses, events);
+		pop_alerts(client_state, ses);
 	}
 
 	if (g_log_file) std::fclose(g_log_file);

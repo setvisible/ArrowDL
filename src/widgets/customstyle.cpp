@@ -16,6 +16,7 @@
 
 #include "customstyle.h"
 
+#include <Constants>
 #include <Core/IDownloadItem>
 #include <Widgets/CustomStyleOptionProgressBar>
 #include <Widgets/Globals>
@@ -26,8 +27,6 @@
 #include <QtWidgets/QStyleFactory>
 #include <QtWidgets/QStyleOption>
 
-constexpr int icon_size  = 16;
-constexpr int icon_width = 19;
 
 
 /*!
@@ -54,7 +53,7 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
     case CE_ProgressBar:
         if (auto pb = qstyleoption_cast<const CustomStyleOptionProgressBar *>(opt)) {
 
-            bool hasIcon = !pb->icon.isNull();
+            auto hasIcon = !pb->icon.isNull();
 
             QPalette::ColorGroup cg;
             QPalette::ColorRole cr;
@@ -74,17 +73,17 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
             }
 
             /* Draw the selection background */
-            QColor bgColor = pb->palette.color(cg, cr);
+            auto bgColor = pb->palette.color(cg, cr);
             p->setPen(Qt::NoPen);
             p->setBrush(bgColor);
             p->drawRect(pb->rect);
 
             /* Draw the icon */
             if (hasIcon) {
-                int size = icon_size;
-                int margin = (qMax(size, pb->rect.height()) - size ) / 2;
-                QRect iconRect = QRect(pb->rect.x() + margin , pb->rect.y() + margin, size, size);
-                p->drawPixmap(iconRect, pb->icon.pixmap(icon_size));
+                auto size = ICON_SIZE;
+                auto margin = (qMax(size, pb->rect.height()) - size ) / 2;
+                auto iconRect = QRect(pb->rect.x() + margin , pb->rect.y() + margin, size, size);
+                p->drawPixmap(iconRect, pb->icon.pixmap(ICON_SIZE));
             }
 
             /* Draw the progress bar */
@@ -96,7 +95,7 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
                 frameRect.setTop(frameRect.top() + marginV);
                 frameRect.setBottom(frameRect.bottom() - marginV);
                 if (hasIcon) {
-                    frameRect.setLeft(frameRect.left() + marginH + icon_width);
+                    frameRect.setLeft(frameRect.left() + marginH + ICON_WIDTH);
                 } else {
                     frameRect.setLeft(frameRect.left() + marginH);
                 }
@@ -111,11 +110,11 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
                 auto maximum = qint64(pb->maximum);
                 auto progress = qint64(pb->progress);
 
-                QColor color = pb->color;
+                auto color = pb->color;
                 QBrush brush;
 
                 const int margin = 2;
-                QRect indicatorRect = frameRect;
+                auto indicatorRect = frameRect;
                 indicatorRect.setLeft(indicatorRect.left() + margin);
                 indicatorRect.setRight(indicatorRect.right() + 1 - margin);
 
@@ -124,23 +123,23 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
 
                     // Top bar: Detailed segments
                     {
-                        QRect segmentRect = indicatorRect;
+                        auto segmentRect = indicatorRect;
                         segmentRect.setTop(segmentRect.top() + margin);
                         segmentRect.setBottom(segmentRect.bottom() + 1 - margin - indicatorBarHeight);
 
-                        QBitArray segments = pb->segments;
-                        int size = segments.size();
+                        auto segments = pb->segments;
+                        auto size = segments.size();
 
                         QImage segmentImage(qMax(1, size), 1, QImage::Format_RGB32);
                         segmentImage.fill(s_lightGrey);
-                        QRgb rgb = color.rgb();
-                        for (int i = 0; i < size; ++i) {
+                        auto rgb = color.rgb();
+                        for (auto i = 0; i < size; ++i) {
                             if (segments.testBit(i)) {
                                 segmentImage.setPixel(i, 0, rgb);
                             }
                         }
-                        QPixmap segmentPixmap = QPixmap::fromImage(segmentImage);
-                        QPixmap scaled = segmentPixmap.scaled(
+                        auto segmentPixmap = QPixmap::fromImage(segmentImage);
+                        auto scaled = segmentPixmap.scaled(
                                     segmentRect.size(),
                                     Qt::IgnoreAspectRatio,
                                     Qt::FastTransformation);
@@ -149,7 +148,7 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
                     }
 
                     // Bottom bar: Progress indicator bar
-                    int bottom = indicatorRect.bottom() + 1 - margin;
+                    auto bottom = indicatorRect.bottom() + 1 - margin;
                     indicatorRect.setTop(bottom - indicatorBarHeight);
                     indicatorRect.setBottom(bottom);
 
@@ -159,17 +158,17 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
                 }
 
                 if (progress < 0 || (minimum == 0 && maximum == 0)) {
-                    QRgb rgb = color.rgb();
-                    QImage textureImage = m_textureImage;
+                    auto rgb = color.rgb();
+                    auto textureImage = m_textureImage;
                     textureImage.setColor(1, rgb);
-                    QPixmap pixmap = QPixmap::fromImage(textureImage);
+                    auto pixmap = QPixmap::fromImage(textureImage);
                     brush.setTexture(pixmap);
 
                 } else {
                     auto p_v = qreal(progress - minimum);
                     auto t_s = (maximum - minimum) ? qreal(maximum - minimum) : qreal(1);
                     auto r = qreal(p_v / t_s);
-                    int w = qMax(qCeil(r * indicatorRect.width()), 1);
+                    auto w = static_cast<int>(qMax(qCeil(r * indicatorRect.width()), 1));
                     indicatorRect.setWidth(w);
                     brush.setStyle(Qt::SolidPattern);
                     brush.setColor(color);

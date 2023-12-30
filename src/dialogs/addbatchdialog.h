@@ -33,16 +33,15 @@ class AddBatchDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddBatchDialog(const QUrl &url, DownloadManager *downloadManager,
-                            Settings *settings, QWidget *parent = Q_NULLPTR);
-    ~AddBatchDialog() Q_DECL_OVERRIDE;
+    explicit AddBatchDialog(const QUrl &url, DownloadManager *downloadManager, Settings *settings, QWidget *parent = nullptr);
+    ~AddBatchDialog() override;
 
     static void quickDownload(const QUrl &url, DownloadManager *downloadManager);
 
 public slots:
-    void accept() Q_DECL_OVERRIDE;
+    void accept() override;
     virtual void acceptPaused();
-    void reject() Q_DECL_OVERRIDE;
+    void reject() override;
 
 private slots:
     void showContextMenu(const QPoint &pos);

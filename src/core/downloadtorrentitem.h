@@ -32,15 +32,15 @@ class DownloadTorrentItem : public DownloadItem
 
 public:
     DownloadTorrentItem(DownloadManager *downloadManager);
-    ~DownloadTorrentItem() Q_DECL_OVERRIDE = default;
+    ~DownloadTorrentItem() override = default;
 
-    void setResource(ResourceItem *resource) Q_DECL_OVERRIDE;
+    void setResource(ResourceItem *resource) override;
 
-    void resume() Q_DECL_OVERRIDE;
-    void pause() Q_DECL_OVERRIDE;
-    void stop() Q_DECL_OVERRIDE;
+    void resume() override;
+    void pause() override;
+    void stop() override;
 
-    void rename(const QString &newName) Q_DECL_OVERRIDE;
+    void rename(const QString &newName) override;
 
     Torrent* torrent() const;
 

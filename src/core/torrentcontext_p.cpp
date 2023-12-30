@@ -16,7 +16,7 @@
 
 #include "torrentcontext_p.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/NetworkManager>
 #include <Core/ResourceItem>
 #include <Core/Settings>
@@ -68,6 +68,7 @@
 #define qDebug_1 qDebug() << " + | "
 #define qDebug_2 qDebug() << " | + "
 
+using namespace Qt::Literals::StringLiterals;
 
 static const lt::status_flags_t s_torrent_status_flags =
         lt::torrent_handle::query_distributed_copies
@@ -93,18 +94,17 @@ static inline lt::download_priority_t fromPriority(const TorrentFileInfo::Priori
 static inline TorrentInfo::TorrentState toState(const lt::torrent_status::state_t &s);
 static inline lt::torrent_status::state_t fromState(const TorrentInfo::TorrentState &s);
 
+const std::chrono::milliseconds TIMEOUT_TERMINATING( 3000 );
+const std::chrono::milliseconds TIMEOUT_REFRESH( 500);
+
 
 TorrentContextPrivate::TorrentContextPrivate(TorrentContext *qq)
     : QObject(qq)
     , q(qq)
-    , workerThread(Q_NULLPTR)
-    , settings(Q_NULLPTR)
-    , networkManager(Q_NULLPTR)
+    , workerThread(new WorkerThread(this))
 {
     qRegisterMetaType<TorrentData>("TorrentData");
     qRegisterMetaType<TorrentStatus>("TorrentStatus");
-
-    workerThread = new WorkerThread(this);
 
     connect(workerThread, &WorkerThread::metadataUpdated, this, &TorrentContextPrivate::onMetadataUpdated);
     connect(workerThread, &WorkerThread::dataUpdated, this, &TorrentContextPrivate::onDataUpdated);
@@ -120,7 +120,7 @@ TorrentContextPrivate::TorrentContextPrivate(TorrentContext *qq)
 TorrentContextPrivate::~TorrentContextPrivate()
 {
     workerThread->stop();
-    if (!workerThread->wait(3000)) {
+    if (!workerThread->wait(TIMEOUT_TERMINATING.count())) {
         qDebug_1 << Q_FUNC_INFO << "Terminating...";
         workerThread->terminate();
         workerThread->wait();
@@ -136,16 +136,16 @@ void TorrentContextPrivate::onSettingsChanged()
     }
     lt::settings_pack pack = lt::default_settings(); /* = fromSettings(settings)*/
 
-    const QMap<QString, QVariant> map = settings->torrentSettings();
+    auto map = settings->torrentSettings();
     QMapIterator<QString, QVariant> it(map);
     while (it.hasNext()) {
         it.next();
         auto key = it.key();
         auto value = it.value();
 
-        int name = lt::setting_by_name(key.toUtf8().data());
+        auto name = lt::setting_by_name(key.toUtf8().data());
 
-        int type = name & lt::settings_pack::type_mask;
+        auto type = name & lt::settings_pack::type_mask;
 
         switch (type) {
         case lt::settings_pack::string_type_base:
@@ -170,7 +170,7 @@ void TorrentContextPrivate::onSettingsChanged()
 
     workerThread->setSettings(pack);
 
-    bool enabled = settings->isTorrentEnabled();
+    auto enabled = settings->isTorrentEnabled();
     workerThread->setEnabled(enabled);
 }
 
@@ -226,8 +226,8 @@ QList<TorrentSettingItem> TorrentContextPrivate::_toPreset(const lt::settings_pa
         }
     };
 
-    foreach (SettingClass c, cs) {
-        for (int index = c.begin; index < c.end; ++index) {
+    for (auto c : cs) {
+        for (auto index = c.begin; index < c.end; ++index) {
 
             // Remove non-modifiable settings and settings managed somewhere else.
             switch (index) {
@@ -238,11 +238,11 @@ QList<TorrentSettingItem> TorrentContextPrivate::_toPreset(const lt::settings_pa
                 break;
             }
 
-            const char* name = lt::name_for_setting(index);
+            auto name = lt::name_for_setting(index);
             if (name == nullptr) {
                 continue;
             }
-            const QString key = QString::fromUtf8(name);
+            auto key = QString::fromUtf8(name);
             if (!key.isEmpty()) {
                 QVariant value = c.pf(all, index);
                 TorrentSettingItem item;
@@ -286,16 +286,16 @@ void TorrentContextPrivate::onStopped()
 void TorrentContextPrivate::onMetadataUpdated(TorrentData data)
 {
     qDebug_1 << Q_FUNC_INFO;
-    Torrent *torrent = find(data.unique_id);
+    auto torrent = find(data.unique_id);
     if (torrent) {
         torrent->setDetail(data.detail, true);
         torrent->setMetaInfo(data.metaInfo); // setMetaInfo will emit the GUI update signal
 
-        lt::torrent_handle handle = workerThread->findTorrent(data.unique_id);
+        auto handle = workerThread->findTorrent(data.unique_id);
         if (handle.is_valid()) {
-            std::shared_ptr<lt::torrent_info const> ti = handle.torrent_file();
+            auto ti = handle.torrent_file();
             if (ti) {
-                const QString torrentFile = torrent->localFullFileName();  // destination
+                auto torrentFile = torrent->localFullFileName();  // destination
                 ensureDestinationPathExists(torrent);
 
                 writeTorrentFileFromMagnet(torrentFile, ti);
@@ -318,7 +318,7 @@ void TorrentContextPrivate::onMetadataUpdated(TorrentData data)
 void TorrentContextPrivate::onDataUpdated(TorrentData data)
 {
     qDebug_1 << Q_FUNC_INFO;
-    Torrent *torrent = find(data.unique_id);
+    auto torrent = find(data.unique_id);
     if (torrent) {
         torrent->setDetail(data.detail, true);
         torrent->setMetaInfo(data.metaInfo); // setMetaInfo will emit the GUI update signal
@@ -330,7 +330,7 @@ void TorrentContextPrivate::onDataUpdated(TorrentData data)
 void TorrentContextPrivate::onStatusUpdated(TorrentStatus status)
 {
     qDebug_1 << Q_FUNC_INFO;
-    Torrent *torrent = find(status.unique_id);
+    auto torrent = find(status.unique_id);
     if (torrent) {
         torrent->setInfo(status.info, false);
         torrent->setDetail(status.detail, false);
@@ -341,9 +341,9 @@ void TorrentContextPrivate::onStatusUpdated(TorrentStatus status)
  ******************************************************************************/
 void TorrentContextPrivate::ensureDestinationPathExists(Torrent *torrent)
 {
-    const QString path = torrent->localFullFileName();
+    auto path = torrent->localFullFileName();
     const QFileInfo fi(path);
-    const QString outputPath = fi.absolutePath();
+    auto outputPath = fi.absolutePath();
     QDir().mkpath(outputPath);
 }
 
@@ -351,15 +351,15 @@ void TorrentContextPrivate::ensureDestinationPathExists(Torrent *torrent)
  ******************************************************************************/
 static bool isMagnetSource(const QString &source)
 {
-    const QUrl url = QUrl::fromUserInput(source);
-    return url.scheme().toLower() == QLatin1String("magnet");
+    auto url = QUrl::fromUserInput(source);
+    return url.scheme().toLower() == "magnet"_L1;
 }
 
 static bool isTorrentSource(const QString &source)
 {
-    const QUrl url = QUrl::fromUserInput(source);
+    auto url = QUrl::fromUserInput(source);
     QFileInfo fi(url.path());
-    return fi.suffix().toLower() == QLatin1String("torrent");
+    return fi.suffix().toLower() == "torrent"_L1;
 }
 
 static bool isLocalSource(const QString &source)
@@ -372,9 +372,10 @@ static bool isDistantSource(const QString &source)
     return isTorrentSource(source) && !QUrl::fromUserInput(source).isLocalFile();
 }
 
-static bool isInfoHashSource(const QString &/*source*/)
+static bool isInfoHashSource(const QString &source)
 {
-    return false; // TODO
+    Q_UNUSED(source)
+    return false; /// \todo implement it
 }
 
 static QString localSource(const QString &source)
@@ -385,28 +386,28 @@ static QString localSource(const QString &source)
 
     // url can be percent-encoded or pretty-encoded or not encoded at all.
     // Try to figure out the correct path
-    const QUrl url = QUrl::fromUserInput(source);
-    const QString localFile = url.toLocalFile();
+    auto url = QUrl::fromUserInput(source);
+    auto localFile = url.toLocalFile();
     if (QFileInfo::exists(localFile)) {
         return localFile;
     }
-    const QString fromPercentEncoding = QUrl::fromPercentEncoding(source.toUtf8());
+    auto fromPercentEncoding = QUrl::fromPercentEncoding(source.toUtf8());
     if (QFileInfo::exists(fromPercentEncoding)) {
         return fromPercentEncoding;
     }
 
     // Url from app's argument
-    const QUrl url2 = QUrl::fromEncoded(source.toLocal8Bit());
+    auto url2 = QUrl::fromEncoded(source.toLocal8Bit());
     if (QFileInfo::exists(url2.path())) {
         return fromPercentEncoding;
     }
 
-    return QString();
+    return {};
 }
 
 static bool copyFile(const QString &from, const QString &to)
 {
-    const QString source = localSource(from); // eventually decode percent
+    auto source = localSource(from); // eventually decode percent
     return QFile::copy(source, to);
 }
 
@@ -418,11 +419,11 @@ void TorrentContextPrivate::prepareTorrent(Torrent *torrent)
     if (!torrent) {
         return;
     }
-    TorrentInfo info = torrent->info();
+    auto info = torrent->info();
     info.state = TorrentInfo::downloading_metadata;
     torrent->setInfo(info, false);
 
-    QString torrentFile = torrent->localFullFileName(); // destination
+    auto torrentFile = torrent->localFullFileName(); // destination
 
     if (QFileInfo::exists(torrentFile)) {
         readTorrentFile(torrentFile, torrent);
@@ -430,7 +431,7 @@ void TorrentContextPrivate::prepareTorrent(Torrent *torrent)
 
     } else {
         ensureDestinationPathExists(torrent);
-        const QString source = torrent->url();
+        auto source = torrent->url();
 
         if (isMagnetSource(source)) {
             downloadMagnetLink(torrent);
@@ -465,8 +466,8 @@ void TorrentContextPrivate::stopPrepare(Torrent *torrent)
  ******************************************************************************/
 void TorrentContextPrivate::downloadMagnetLink(Torrent *torrent)
 {
-    const QString source = torrent->url();
-    const QUrl url = QUrl::fromUserInput(source);
+    auto source = torrent->url();
+    auto url = QUrl::fromUserInput(source);
 
     qDebug_1 << Q_FUNC_INFO << url;
 
@@ -482,8 +483,8 @@ void TorrentContextPrivate::downloadMagnetLink(Torrent *torrent)
  */
 void TorrentContextPrivate::downloadTorrentFile(Torrent *torrent)
 {
-    const QString source = torrent->url();
-    const QUrl url = QUrl::fromUserInput(source);
+    auto source = torrent->url();
+    auto url = QUrl::fromUserInput(source);
 
     qDebug_1 << Q_FUNC_INFO << url;
 
@@ -505,11 +506,11 @@ void TorrentContextPrivate::downloadTorrentFile(Torrent *torrent)
 
 void TorrentContextPrivate::abortNetworkReply(Torrent *torrent)
 {
-    QMapIterator<QNetworkReply*, Torrent*> it(m_currentDownloads);
+    QHashIterator<QNetworkReply *, Torrent *> it(m_currentDownloads);
     while (it.hasNext()) {
         it.next();
-        QNetworkReply* currentReply = it.key();
-        Torrent* currentTorrent = it.value();
+        auto currentReply = it.key();
+        auto currentTorrent = it.value();
         if (currentTorrent == torrent) {
             currentReply->abort();
             /*
@@ -528,7 +529,7 @@ void TorrentContextPrivate::onNetworkReplyFinished()
         return;
     }
 
-    Torrent *torrent = Q_NULLPTR;
+    Torrent *torrent = nullptr;
     if (m_currentDownloads.contains(reply)) {
         torrent = m_currentDownloads.take(reply);
     }
@@ -536,11 +537,11 @@ void TorrentContextPrivate::onNetworkReplyFinished()
         return;
     }
 
-    QUrl url = reply->url();
+    auto url = reply->url();
     qDebug_1 << Q_FUNC_INFO << url;
 
     if (reply->error() != QNetworkReply::NoError) {
-        TorrentMetaInfo m = torrent->metaInfo();
+        auto m = torrent->metaInfo();
         m.error.type = TorrentError::MetadataDownloadError;
         m.error.message = QString("%0\n\n%1\n\n%2").arg(
                     tr("Can't download metadata."),
@@ -552,7 +553,7 @@ void TorrentContextPrivate::onNetworkReplyFinished()
         return;
     }
     if (reply->bytesAvailable() <= 0) {
-        TorrentMetaInfo m = torrent->metaInfo();
+        auto m = torrent->metaInfo();
         m.error.type = TorrentError::MetadataDownloadError;
         m.error.message = tr("No metadata downloaded.");
         torrent->setMetaInfo(m);
@@ -563,7 +564,7 @@ void TorrentContextPrivate::onNetworkReplyFinished()
 
     reply->deleteLater();
 
-    QString torrentFile = torrent->localFullFileName(); // destination
+    auto torrentFile = torrent->localFullFileName(); // destination
     writeTorrentFile(torrentFile, reply);
     /*
      * The .torrent file is immediately loaded after being written,
@@ -578,8 +579,8 @@ void TorrentContextPrivate::onNetworkReplyFinished()
 void TorrentContextPrivate::archiveExistingFile(const QString &filename)
 {
     if (QFileInfo::exists(filename)) {
-        QString archive = QString("%0.0.old").arg(filename);
-        int i = 0;
+        auto archive = QString("%0.0.old").arg(filename);
+        auto i = 0;
         while (QFileInfo::exists(archive)) {
             i++;
             archive = QString("%0.%1.old").arg(filename, QString::number(i));
@@ -602,15 +603,16 @@ void TorrentContextPrivate::writeTorrentFile(const QString &filename, QIODevice 
 }
 
 void TorrentContextPrivate::writeTorrentFileFromMagnet(
-        const QString &filename, std::shared_ptr<lt::torrent_info const> ti)
+    const QString &filename,
+    std::shared_ptr<lt::torrent_info const> ti)
 {
     archiveExistingFile(filename);
 
     // Bittorrent Encoding
     lt::create_torrent ct(*ti);
-    lt::entry te = ct.generate();
+    auto te = ct.generate();
     std::vector<char> buffer;
-    bencode(std::back_inserter(buffer), te);
+    lt::bencode(std::back_inserter(buffer), te);
 
     // Write
     QByteArray data(&buffer[0], static_cast<int>(buffer.size()));
@@ -640,16 +642,16 @@ void TorrentContextPrivate::readTorrentFile(const QString &filename, Torrent *to
         return;
     }
 
-    TorrentMetaInfo metaInfo = torrent->metaInfo();
+    auto metaInfo = torrent->metaInfo();
     metaInfo.initialMetaInfo = workerThread->dump(filename);
 
-    TorrentInfo info = torrent->info();
+    auto info = torrent->info();
     info.state = TorrentInfo::stopped;
     torrent->setInfo(info, true);
     torrent->setMetaInfo(metaInfo); // setMetaInfo will emit the GUI update signal
 
     // Do a fake 'detail' update, to initialize the torrent.
-    TorrentHandleInfo detail = torrent->detail();
+    auto detail = torrent->detail();
     detail.files.clear();
     for (int index = 0; index < metaInfo.initialMetaInfo.files.count(); ++index) {
         TorrentFileInfo fi;
@@ -664,8 +666,8 @@ void TorrentContextPrivate::readTorrentFile(const QString &filename, Torrent *to
 bool TorrentContextPrivate::hasTorrent(Torrent *torrent)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    return h.is_valid();
+    auto handle = find(torrent);
+    return handle.is_valid();
 }
 
 /******************************************************************************
@@ -675,12 +677,12 @@ bool TorrentContextPrivate::hasTorrent(Torrent *torrent)
  */
 bool TorrentContextPrivate::addTorrent(Torrent *torrent) // resumeTorrent
 {
-    TorrentInfo info = torrent->info();
+    auto info = torrent->info();
     info.state = TorrentInfo::checking_files;
     torrent->setInfo(info, false);
 
-    QString source = torrent->url();
-    QString torrentFile = torrent->localFullFileName(); // destination
+    auto source = torrent->url();
+    auto torrentFile = torrent->localFullFileName(); // destination
 
     if (QFileInfo::exists(torrentFile)) {
         source = torrentFile;
@@ -689,21 +691,20 @@ bool TorrentContextPrivate::addTorrent(Torrent *torrent) // resumeTorrent
     qDebug_1 << Q_FUNC_INFO << source;
 
     ensureDestinationPathExists(torrent);
-    const QString outputPath = torrent->localFilePath();
+    auto outputPath = torrent->localFilePath();
 
     lt::add_torrent_params p;
 
     if (isMagnetSource(source)) { // Add from magnet link
-        TorrentInfo info = torrent->info();
+        auto info = torrent->info();
         info.state = TorrentInfo::downloading_metadata;
         torrent->setInfo(info, false);
 
-        QByteArray bytes = source.toLatin1();
+        auto bytes = source.toLatin1();
         // QByteArray bytes = source.toUtf8();
 
-        const char * ptr = bytes.constData();
-        boost::string_view::size_type size
-                = static_cast<boost::string_view::size_type>(bytes.size());
+        auto ptr = bytes.constData();
+        auto size = static_cast<boost::string_view::size_type>(bytes.size());
 
         lt::string_view uri { ptr, size };
         lt::error_code ec;
@@ -722,7 +723,7 @@ bool TorrentContextPrivate::addTorrent(Torrent *torrent) // resumeTorrent
 
     } else {
         if (isTorrentSource(source)) { // Add from .torrent file
-            std::string torrent = source.toStdString();
+            auto torrent = source.toStdString();
             lt::error_code ec;
             auto ti = std::make_shared<lt::torrent_info>(torrent, ec);
             if (ec) {
@@ -741,7 +742,7 @@ bool TorrentContextPrivate::addTorrent(Torrent *torrent) // resumeTorrent
             // is the only known property of the torrent. i.e. you don't have a
             // .torrent file nor a magnet link.
 
-            char const* s = source.toLocal8Bit().data();
+            auto s = source.toLocal8Bit().data();
             lt::sha1_hash h1(s);
             lt::info_hash_t infohashes(h1);
             lt::add_torrent_params p;
@@ -749,21 +750,19 @@ bool TorrentContextPrivate::addTorrent(Torrent *torrent) // resumeTorrent
         }
 
         p.file_priorities.clear();
-        for (int fi = 0; fi < torrent->fileCount(); ++fi) {
+        for (auto fi = 0; fi < torrent->fileCount(); ++fi) {
             auto priority = fromPriority(torrent->filePriority(fi));
             p.file_priorities.push_back(priority);
         }
     }
 
-
     p.flags &= ~lt::torrent_flags::duplicate_is_error; // do not raise exception if duplicate
-
 
     p.save_path = outputPath.toStdString();
 
     // Blocking insertion
     lt::error_code ec2;
-    lt::torrent_handle h = workerThread->addTorrent(std::move(p), ec2);
+    auto handle = workerThread->addTorrent(std::move(p), ec2);
     if (ec2) {
         qDebug_1 << "failed to load torrent";
         qDebug_1 << QString::fromStdString(source.toStdString());
@@ -771,13 +770,13 @@ bool TorrentContextPrivate::addTorrent(Torrent *torrent) // resumeTorrent
         return false;
     }
 
-    if (!h.is_valid()) {
+    if (!handle.is_valid()) {
         return false;
     }
 
-    h.pause();
+    handle.pause();
 
-    const UniqueId uuid = WorkerThread::toUniqueId(h.info_hash());
+    auto uuid = WorkerThread::toUniqueId(handle.info_hash());
     hashMap.insert(uuid, torrent);
     return true;
 }
@@ -787,10 +786,10 @@ bool TorrentContextPrivate::addTorrent(Torrent *torrent) // resumeTorrent
 void TorrentContextPrivate::removeTorrent(Torrent *torrent)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        workerThread->removeTorrent(h); // needs calling lt::session
-        const UniqueId uuid = WorkerThread::toUniqueId(h.info_hash());
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        workerThread->removeTorrent(handle); // needs calling lt::session
+        auto uuid = WorkerThread::toUniqueId(handle.info_hash());
         hashMap.remove(uuid);
     }
 }
@@ -800,18 +799,18 @@ void TorrentContextPrivate::removeTorrent(Torrent *torrent)
 void TorrentContextPrivate::resumeTorrent(Torrent *torrent)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        h.resume();
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        handle.resume();
     }
 }
 
 void TorrentContextPrivate::pauseTorrent(Torrent *torrent)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        h.pause();
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        handle.pause();
     }
 }
 
@@ -820,36 +819,36 @@ void TorrentContextPrivate::pauseTorrent(Torrent *torrent)
 void TorrentContextPrivate::moveQueueUp(Torrent *torrent)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        h.queue_position_up();
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        handle.queue_position_up();
     }
 }
 
 void TorrentContextPrivate::moveQueueDown(Torrent *torrent)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        h.queue_position_down();
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        handle.queue_position_down();
     }
 }
 
 void TorrentContextPrivate::moveQueueTop(Torrent *torrent)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        h.queue_position_top();
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        handle.queue_position_top();
     }
 }
 
 void TorrentContextPrivate::moveQueueBottom(Torrent *torrent)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        h.queue_position_bottom();
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        handle.queue_position_bottom();
     }
 }
 
@@ -859,11 +858,11 @@ void TorrentContextPrivate::changeFilePriority(Torrent *torrent,
                                                int index, TorrentFileInfo::Priority p)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        lt::file_index_t findex = static_cast<lt::file_index_t>(index);
-        lt::download_priority_t priority = fromPriority(p);
-        h.file_priority(findex, priority);
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        auto findex = static_cast<lt::file_index_t>(index);
+        auto priority = fromPriority(p);
+        handle.file_priority(findex, priority);
     }
 }
 
@@ -872,12 +871,12 @@ void TorrentContextPrivate::changeFilePriority(Torrent *torrent,
 void TorrentContextPrivate::addSeed(Torrent *torrent, const TorrentWebSeedMetaInfo &seed)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
         if (seed.type == TorrentWebSeedMetaInfo::Type::UrlSeed) {
-            h.add_url_seed(seed.url.toStdString());
+            handle.add_url_seed(seed.url.toStdString());
         } else {
-            h.add_http_seed(seed.url.toStdString());
+            handle.add_http_seed(seed.url.toStdString());
         }
     }
 }
@@ -885,12 +884,12 @@ void TorrentContextPrivate::addSeed(Torrent *torrent, const TorrentWebSeedMetaIn
 void TorrentContextPrivate::removeSeed(Torrent *torrent, const TorrentWebSeedMetaInfo &seed)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
         if (seed.type == TorrentWebSeedMetaInfo::Type::UrlSeed) {
-            h.remove_url_seed(seed.url.toStdString());
+            handle.remove_url_seed(seed.url.toStdString());
         } else {
-            h.remove_http_seed(seed.url.toStdString());
+            handle.remove_http_seed(seed.url.toStdString());
         }
     }
 }
@@ -898,19 +897,18 @@ void TorrentContextPrivate::removeSeed(Torrent *torrent, const TorrentWebSeedMet
 void TorrentContextPrivate::removeAllSeeds(Torrent *torrent)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
         std::set<std::string>::iterator i, end;
-        std::set<std::string> seeds;
 
-        seeds = h.url_seeds();
-        for (i = seeds.begin(), end = (seeds.end()); i != end; ++i) {
-            h.remove_url_seed(*i);
+        auto url_seeds = handle.url_seeds();
+        for (i = url_seeds.begin(), end = (url_seeds.end()); i != end; ++i) {
+            handle.remove_url_seed(*i);
         }
 
-        seeds = h.http_seeds();
-        for (i = seeds.begin(), end = (seeds.end()); i != end; ++i) {
-            h.remove_http_seed(*i);
+        auto http_seeds = handle.http_seeds();
+        for (i = http_seeds.begin(), end = (http_seeds.end()); i != end; ++i) {
+            handle.remove_http_seed(*i);
         }
     }
 }
@@ -920,23 +918,22 @@ void TorrentContextPrivate::removeAllSeeds(Torrent *torrent)
 void TorrentContextPrivate::addPeer(Torrent *torrent, const TorrentPeerInfo &peer)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        lt::tcp::endpoint endpoint = fromEndPoint(peer.endpoint);
-        h.connect_peer(endpoint);
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        auto endpoint = fromEndPoint(peer.endpoint);
+        handle.connect_peer(endpoint);
     }
 }
 
 /******************************************************************************
  ******************************************************************************/
-void TorrentContextPrivate::addTracker(Torrent *torrent,
-                                       const TorrentTrackerInfo &tracker)
+void TorrentContextPrivate::addTracker(Torrent *torrent, const TorrentTrackerInfo &tracker)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        lt::announce_entry entry = fromTorrentTrackerInfo(tracker);
-        h.add_tracker(entry);
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        auto entry = fromTorrentTrackerInfo(tracker);
+        handle.add_tracker(entry);
     }
 }
 
@@ -955,27 +952,27 @@ void TorrentContextPrivate::removeTracker(Torrent *torrent,
 void TorrentContextPrivate::forceRecheck(Torrent *torrent)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        h.force_recheck();
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        handle.force_recheck();
     }
 }
 
 void TorrentContextPrivate::forceReannounce(Torrent *torrent)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        h.force_reannounce();
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        handle.force_reannounce();
     }
 }
 
 void TorrentContextPrivate::forceDHTReannounce(Torrent *torrent)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        h.force_dht_announce();
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        handle.force_dht_announce();
     }
 }
 
@@ -994,9 +991,9 @@ void TorrentContextPrivate::setSSLCertificatePath(Torrent *torrent, const QStrin
 void TorrentContextPrivate::scrapeTracker(Torrent *torrent, int index)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        h.scrape_tracker(index);
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        handle.scrape_tracker(index);
     }
 }
 
@@ -1005,18 +1002,18 @@ void TorrentContextPrivate::scrapeTracker(Torrent *torrent, int index)
 void TorrentContextPrivate::setUploadBandwidth(Torrent *torrent, int limit)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        h.set_upload_limit(limit);
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        handle.set_upload_limit(limit);
     }
 }
 
 void TorrentContextPrivate::setDownloadBandwidth(Torrent *torrent, int limit)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        h.set_download_limit(limit);
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        handle.set_download_limit(limit);
     }
 }
 
@@ -1025,18 +1022,18 @@ void TorrentContextPrivate::setDownloadBandwidth(Torrent *torrent, int limit)
 void TorrentContextPrivate::setMaxUploads(Torrent *torrent, int limit)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        h.set_max_uploads(limit);
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        handle.set_max_uploads(limit);
     }
 }
 
 void TorrentContextPrivate::setMaxConnections(Torrent *torrent, int limit)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        h.set_max_connections(limit);
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        handle.set_max_connections(limit);
     }
 }
 
@@ -1045,10 +1042,10 @@ void TorrentContextPrivate::setMaxConnections(Torrent *torrent, int limit)
 void TorrentContextPrivate::renameFile(Torrent *torrent, int index, const QString &newName)
 {
     qDebug_1 << Q_FUNC_INFO;
-    lt::torrent_handle h = find(torrent);
-    if (h.is_valid()) {
-        lt::file_index_t findex = static_cast<lt::file_index_t>(index);
-        h.rename_file(findex, newName.toStdString());
+    auto handle = find(torrent);
+    if (handle.is_valid()) {
+        auto findex = static_cast<lt::file_index_t>(index);
+        handle.rename_file(findex, newName.toStdString());
     }
 }
 
@@ -1063,7 +1060,7 @@ inline Torrent* TorrentContextPrivate::find(const UniqueId &uuid)
 inline lt::torrent_handle TorrentContextPrivate::find(Torrent *torrent)
 {
     qDebug_1 << Q_FUNC_INFO;
-    const UniqueId info_hash = hashMap.key(torrent, UniqueId());
+    auto info_hash = hashMap.key(torrent, UniqueId());
     return workerThread->findTorrent(info_hash);
     //    return hashMap.key(item, lt::torrent_handle());
 }
@@ -1071,8 +1068,8 @@ inline lt::torrent_handle TorrentContextPrivate::find(Torrent *torrent)
 /******************************************************************************
  ******************************************************************************/
 WorkerThread::WorkerThread(QObject *parent) : QThread(parent)
+  , m_session_ptr(new lt::session())
 {
-    m_session_ptr = new lt::session();
 }
 
 /******************************************************************************
@@ -1138,7 +1135,7 @@ static std::vector<char> load_file(std::string const& filename)
     in.exceptions(std::ifstream::failbit);
     in.open(filename.c_str(), std::ios_base::in | std::ios_base::binary);
     in.seekg(0, std::ios_base::end);
-    qsizetype const size = static_cast<qsizetype>(in.tellg());
+    auto size = static_cast<qsizetype>(in.tellg());
     in.seekg(0, std::ios_base::beg);
     std::vector<char> ret(size);
     in.read(ret.data(), static_cast<std::streamsize>(size));
@@ -1147,18 +1144,20 @@ static std::vector<char> load_file(std::string const& filename)
 
 TorrentInitialMetaInfo WorkerThread::dump(const QString &filename) const
 {
-    std::vector<char> buf = load_file(filename.toStdString());
+    auto buf = load_file(filename.toStdString());
     lt::error_code ec;
     int pos = -1;
     lt::load_torrent_limits cfg;
-    lt::bdecode_node const e = lt::bdecode(buf, ec, &pos,
-                                           cfg.max_decode_depth,
-                                           cfg.max_decode_tokens);
+    //lt::bdecode_node const e = lt::bdecode(
+    auto e = lt::bdecode(
+        buf, ec, &pos,
+        cfg.max_decode_depth,
+        cfg.max_decode_tokens);
     if (ec) {
         qDebug_2 << "failed to decode: '"
                  << QString::fromStdString(ec.message())
                  << "' at character: " << pos;
-        return TorrentInitialMetaInfo();
+        return {};
     }
     lt::torrent_info const t(std::move(e), cfg);
     std::shared_ptr<lt::torrent_info> ti = std::make_shared<lt::torrent_info>(t);
@@ -1173,7 +1172,7 @@ UniqueId WorkerThread::toUniqueId(const lt::sha1_hash &hash)
         auto hex = lt::aux::to_hex(hash);
         return QString::fromStdString(hex).toUpper();
     }
-    return QString();
+    return {};
 }
 
 lt::sha1_hash WorkerThread::fromUniqueId(const UniqueId &uuid)
@@ -1197,7 +1196,7 @@ lt::torrent_handle WorkerThread::addTorrent(lt::add_torrent_params const& params
     if (m_session_ptr && m_session_ptr->is_valid()) {
         return m_session_ptr->add_torrent(params, ec);
     }
-    return lt::torrent_handle();
+    return {};
 }
 
 /******************************************************************************
@@ -1279,7 +1278,7 @@ void WorkerThread::run()
         session.post_session_stats();
         session.post_dht_stats();
 
-        QThread::msleep(500);
+        QThread::msleep(TIMEOUT_REFRESH.count());
 
         std::vector<lt::alert*> alerts;
         session.pop_alerts(&alerts);
@@ -1313,223 +1312,223 @@ void WorkerThread::run()
 void WorkerThread::signalizeAlert(lt::alert* a)
 {
     /* status_notification */
-    if (lt::torrent_removed_alert* s = lt::alert_cast<lt::torrent_removed_alert>(a)) {
+    if (auto s = lt::alert_cast<lt::torrent_removed_alert>(a)) {
         //QString hash = toString(s->info_hashes.get_best());
         //  emit torrentRemoved(hash);
         log(s);
     }
-    else if (lt::state_changed_alert* s = lt::alert_cast<lt::state_changed_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::state_changed_alert>(a)) {
         //        lt::torrent_status::state_t oldStatus = s->prev_state;
         //        lt::torrent_status::state_t newStatus = s->state;
         //  emit torrentStateChanged(oldState, newState); // rem quel torrent ?
         log(s);
     }
-    else if (lt::hash_failed_alert* s = lt::alert_cast<lt::hash_failed_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::hash_failed_alert>(a)) {
         //        int piece_index = (int)s->piece_index;
         //  emit pieceHashCheckFailed(piece_index);
         log(s);
     }
-    else if (lt::torrent_finished_alert* s = lt::alert_cast<lt::torrent_finished_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::torrent_finished_alert>(a)) {
         //        emit torrentFinished();
         log(s);
     }
-    else if (lt::torrent_paused_alert* s = lt::alert_cast<lt::torrent_paused_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::torrent_paused_alert>(a)) {
         //        emit torrentPaused();
         log(s);
     }
-    else if (lt::torrent_resumed_alert* s = lt::alert_cast<lt::torrent_resumed_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::torrent_resumed_alert>(a)) {
         //        emit torrentResumed();
         log(s);
     }
-    else if (lt::torrent_checked_alert* s = lt::alert_cast<lt::torrent_checked_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::torrent_checked_alert>(a)) {
         //        emit torrentChecked();
         log(s);
     }
-    else if (lt::fastresume_rejected_alert* s = lt::alert_cast<lt::fastresume_rejected_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::fastresume_rejected_alert>(a)) {
         //        emit torrentFastResumeFailed();
         log(s);
     }
-    else if (lt::trackerid_alert* s = lt::alert_cast<lt::trackerid_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::trackerid_alert>(a)) {
         //        emit trackeridReceived();
         log(s);
     }
-    else if (lt::torrent_error_alert* s = lt::alert_cast<lt::torrent_error_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::torrent_error_alert>(a)) {
         //        emit torrentError();
         log(s);
     }
-    else if (lt::torrent_need_cert_alert* s = lt::alert_cast<lt::torrent_need_cert_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::torrent_need_cert_alert>(a)) {
         //        emit torrentSSLError();
         log(s);
     }
-    else if (lt::add_torrent_alert* s = lt::alert_cast<lt::add_torrent_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::add_torrent_alert>(a)) {
         log(s);
         onTorrentAdded(s->handle, s->params, s->error);
     }
-    else if (lt::state_update_alert* s = lt::alert_cast<lt::state_update_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::state_update_alert>(a)) {
         /* Note: This alert is emitted very often (each loop) */
         // log(s);
         onStateUpdated(s->status);
     }
 
     // magnet extension
-    else if (lt::metadata_failed_alert* s = lt::alert_cast<lt::metadata_failed_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::metadata_failed_alert>(a)) {
         //        emit metadataFailed();
         log(s);
     }
-    else if (lt::metadata_received_alert* s = lt::alert_cast<lt::metadata_received_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::metadata_received_alert>(a)) {
         log(s);
         onMetadataReceived(s->handle);
     }
 
 
     // IP
-    else if (lt::external_ip_alert* s = lt::alert_cast<lt::external_ip_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::external_ip_alert>(a)) {
         Q_UNUSED(s) //  emit externalIpAddressReceived();
     }
-    else if (lt::peer_blocked_alert* s = lt::alert_cast<lt::peer_blocked_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::peer_blocked_alert>(a)) {
         Q_UNUSED(s) //  emit peerIpBlocked();
     }
     // dht
-    else if (lt::dht_announce_alert* s = lt::alert_cast<lt::dht_announce_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::dht_announce_alert>(a)) {
         Q_UNUSED(s) //  emit peerDHT();
     }
-    else if (lt::dht_get_peers_alert* s = lt::alert_cast<lt::dht_get_peers_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::dht_get_peers_alert>(a)) {
         Q_UNUSED(s) //  emit peerDHTReceviedd();
     }
-    else if (lt::dht_bootstrap_alert* s = lt::alert_cast<lt::dht_bootstrap_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::dht_bootstrap_alert>(a)) {
         Q_UNUSED(s) //  emit peerDHTbootstrapDone();
     }
-    else if (lt::dht_error_alert* s = lt::alert_cast<lt::dht_error_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::dht_error_alert>(a)) {
         Q_UNUSED(s) //  emit peerDHTError();
     }
-    else if (lt::dht_immutable_item_alert* s = lt::alert_cast<lt::dht_immutable_item_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::dht_immutable_item_alert>(a)) {
         Q_UNUSED(s) //  emit peerDHTImmmutablee();
     }
-    else if (lt::dht_mutable_item_alert* s = lt::alert_cast<lt::dht_mutable_item_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::dht_mutable_item_alert>(a)) {
         Q_UNUSED(s) //  emit peerDHTmutablee();
     }
-    else if (lt::dht_put_alert* s = lt::alert_cast<lt::dht_put_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::dht_put_alert>(a)) {
         Q_UNUSED(s) //  emit peerDHTput();
     }
-    else if (lt::i2p_alert* s = lt::alert_cast<lt::i2p_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::i2p_alert>(a)) {
         Q_UNUSED(s) //  emit i2pError();
     }
-    else if (lt::dht_outgoing_get_peers_alert* s = lt::alert_cast<lt::dht_outgoing_get_peers_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::dht_outgoing_get_peers_alert>(a)) {
         Q_UNUSED(s) //  emit dht_get_peers_Sent();
     }
 
 
 
     // Firewall error ?
-    else if (lt::udp_error_alert* s = lt::alert_cast<lt::udp_error_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::udp_error_alert>(a)) {
         Q_UNUSED(s) //  emit protocolError();
     }
-    else if (lt::listen_succeeded_alert* s = lt::alert_cast<lt::listen_succeeded_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::listen_succeeded_alert>(a)) {
         Q_UNUSED(s) //  emit hostPortOpened();
     }
-    else if (lt::listen_failed_alert* s = lt::alert_cast<lt::listen_failed_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::listen_failed_alert>(a)) {
         Q_UNUSED(s) //  emit hostPortOpenFailed();
     }
-    else if (lt::portmap_alert* s = lt::alert_cast<lt::portmap_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::portmap_alert>(a)) {
         Q_UNUSED(s) //  emit portOpened();
     }
-    else if (lt::portmap_error_alert* s = lt::alert_cast<lt::portmap_error_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::portmap_error_alert>(a)) {
         Q_UNUSED(s) //  emit portOpenFailed();
     }
-    else if (lt::portmap_log_alert* s = lt::alert_cast<lt::portmap_log_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::portmap_log_alert>(a)) {
         Q_UNUSED(s) //  emit debugPort();
     }
-    else if (lt::log_alert* s = lt::alert_cast<lt::log_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::log_alert>(a)) {
         Q_UNUSED(s) //  emit debugLog();
     }
-    else if (lt::torrent_log_alert* s = lt::alert_cast<lt::torrent_log_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::torrent_log_alert>(a)) {
         Q_UNUSED(s) //  emit debugTorrentLog();
     }
-    else if (lt::peer_log_alert* s = lt::alert_cast<lt::peer_log_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::peer_log_alert>(a)) {
         Q_UNUSED(s) //  emit debugPeerLog();
     }
-    else if (lt::lsd_error_alert* s = lt::alert_cast<lt::lsd_error_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::lsd_error_alert>(a)) {
         Q_UNUSED(s) //  emit debugLSDPeerLog();
     }
-    else if (lt::dht_log_alert* s = lt::alert_cast<lt::dht_log_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::dht_log_alert>(a)) {
         Q_UNUSED(s) //  emit debugDHTLog();
     }
-    else if (lt::dht_pkt_alert* s = lt::alert_cast<lt::dht_pkt_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::dht_pkt_alert>(a)) {
         Q_UNUSED(s) //  emit dht_pkt_alert();
     }
-    else if (lt::dht_get_peers_reply_alert* s = lt::alert_cast<lt::dht_get_peers_reply_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::dht_get_peers_reply_alert>(a)) {
         Q_UNUSED(s) //  emit dht_get_peers_reply_alert();
     }
-    else if (lt::dht_direct_response_alert* s = lt::alert_cast<lt::dht_direct_response_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::dht_direct_response_alert>(a)) {
         Q_UNUSED(s) //  emit dht_direct_response_alert();
     }
-    else if (lt::picker_log_alert* s = lt::alert_cast<lt::picker_log_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::picker_log_alert>(a)) {
         Q_UNUSED(s) //  emit debugPickerLog();
     }
-    else if (lt::session_error_alert* s = lt::alert_cast<lt::session_error_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::session_error_alert>(a)) {
         Q_UNUSED(s) //  emit session_error_alert();
     }
-    else if (lt::dht_live_nodes_alert* s = lt::alert_cast<lt::dht_live_nodes_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::dht_live_nodes_alert>(a)) {
         Q_UNUSED(s) //  emit dht_live_nodes_alert();
     }
-    else if (lt::dht_sample_infohashes_alert* s = lt::alert_cast<lt::dht_sample_infohashes_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::dht_sample_infohashes_alert>(a)) {
         Q_UNUSED(s) //  emit dht_sample_infohashes_alert();
     }
 
 
     /* stats_notification */
-    else if (lt::session_stats_alert* s = lt::alert_cast<lt::session_stats_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::session_stats_alert>(a)) {
         //        const lt::span<std::int64_t const> counters = s->counters() ;
 
         // TODO
 
         Q_UNUSED(s) //  emit sessionStatsUpdated();
     }
-    else if (lt::dht_stats_alert* s = lt::alert_cast<lt::dht_stats_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::dht_stats_alert>(a)) {
         Q_UNUSED(s) //  emit dhtStatsUpdated();
     }
-    else if (lt::session_stats_header_alert* s = lt::alert_cast<lt::session_stats_header_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::session_stats_header_alert>(a)) {
         Q_UNUSED(s) //  emit session_stats_header_Updated();
     }
 
 
     /* storage_notification */
-    //    else if (lt::read_piece_alert* s = lt::alert_cast<lt::read_piece_alert>(a)) {
+    //    else if (auto s = lt::alert_cast<lt::read_piece_alert>(a)) {
     //                 emit fileCompleted(index);
     //        }
 
-    else if (lt::file_renamed_alert* s = lt::alert_cast<lt::file_renamed_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::file_renamed_alert>(a)) {
         //        int index = (int)s->index;
         //        QString newName = QString::fromUtf8(s->new_name());
         Q_UNUSED(s) //  emit fileRenamed(index, newName);
     }
-    else if (lt::file_rename_failed_alert* s = lt::alert_cast<lt::file_rename_failed_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::file_rename_failed_alert>(a)) {
         //        int index = (int)s->index;
         //        QString errorMessage = QString::fromStdString(s->error.message());
         Q_UNUSED(s) //  emit fileRenameFailed(index, errorMessage);
     }
-    else if (lt::storage_moved_alert* s = lt::alert_cast<lt::storage_moved_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::storage_moved_alert>(a)) {
         Q_UNUSED(s) //  emit storageMoved();
     }
-    else if (lt::storage_moved_failed_alert* s = lt::alert_cast<lt::storage_moved_failed_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::storage_moved_failed_alert>(a)) {
         Q_UNUSED(s) //  emit storageMoveFailed();
     }
-    else if (lt::torrent_deleted_alert* s = lt::alert_cast<lt::torrent_deleted_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::torrent_deleted_alert>(a)) {
         Q_UNUSED(s) //  emit torrentDeleted();
     }
-    else if (lt::torrent_delete_failed_alert* s = lt::alert_cast<lt::torrent_delete_failed_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::torrent_delete_failed_alert>(a)) {
         Q_UNUSED(s) //  emit torrentDeleteFailed();
     }
-    else if (lt::save_resume_data_alert* s = lt::alert_cast<lt::save_resume_data_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::save_resume_data_alert>(a)) {
         Q_UNUSED(s) //  emit resumeDataSaved();
 
-    } else if (lt::save_resume_data_failed_alert* s = lt::alert_cast<lt::save_resume_data_failed_alert>(a)) {
+    } else if (auto s = lt::alert_cast<lt::save_resume_data_failed_alert>(a)) {
         Q_UNUSED(s) //  emit resumeDataSaveFailed();
     }
-    else if (lt::file_error_alert* s = lt::alert_cast<lt::file_error_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::file_error_alert>(a)) {
         Q_UNUSED(s) //  emit fileReadOrWriteError();
     }
-    else if (lt::cache_flushed_alert* s = lt::alert_cast<lt::cache_flushed_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::cache_flushed_alert>(a)) {
         Q_UNUSED(s) //  emit cache_flushed();
     }
 
@@ -1537,129 +1536,129 @@ void WorkerThread::signalizeAlert(lt::alert* a)
 
 
     /* file_progress_notification */
-    else if (lt::file_completed_alert* s = lt::alert_cast<lt::file_completed_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::file_completed_alert>(a)) {
         //        int index = (int)s->index;
         Q_UNUSED(s) //  emit fileCompleted(index);
     }
 
     /* performance_warning */
-    else if (lt::performance_alert* s = lt::alert_cast<lt::performance_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::performance_alert>(a)) {
         //        QString message = QString::fromStdString(s->message());
         Q_UNUSED(s) //  emit performanceWarning(message);
     }
 
     /* tracker_notification & error_notification */
-    else if (lt::tracker_error_alert* s = lt::alert_cast<lt::tracker_error_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::tracker_error_alert>(a)) {
         //        int times_in_row = s->times_in_row;
         Q_UNUSED(s) //  emit trackerConnectionFailed(times_in_row, errorCode);
     }
-    else if (lt::tracker_warning_alert* s = lt::alert_cast<lt::tracker_warning_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::tracker_warning_alert>(a)) {
         //        QString message = QString::fromUtf8(s->warning_message());
         Q_UNUSED(s) //  emit trackerMessageReceived(message);
     }
-    else if (lt::scrape_reply_alert* s = lt::alert_cast<lt::scrape_reply_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::scrape_reply_alert>(a)) {
         //        int incomplete = s->incomplete;
         //        int complete = s->complete;
         Q_UNUSED(s) //  emit trackerScrapeSucceeded(incomplete, complete);
     }
-    else if (lt::scrape_failed_alert* s = lt::alert_cast<lt::scrape_failed_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::scrape_failed_alert>(a)) {
         //        QString errorCode = QString::fromStdString(s->error.message());
         //        QString errorMessage = QString::fromUtf8(s->error_message());
         Q_UNUSED(s) //  emit trackerScrapeFailed(errorCode, errorMessage);
     }
-    else if (lt::tracker_reply_alert* s = lt::alert_cast<lt::tracker_reply_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::tracker_reply_alert>(a)) {
         //        int peersCount = s->num_peers;
         Q_UNUSED(s) //  emit trackerInfo(peersCount);
     }
-    else if (lt::dht_reply_alert* s = lt::alert_cast<lt::dht_reply_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::dht_reply_alert>(a)) {
         //        int peersCount = s->num_peers;
         Q_UNUSED(s) //  emit trackerDHTInfo(peersCount);
     }
-    else if (lt::tracker_announce_alert* s = lt::alert_cast<lt::tracker_announce_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::tracker_announce_alert>(a)) {
         //        int eventcode = s->event;
         Q_UNUSED(s) //  emit trackerEventSent(eventcode);
     }
 
     /* peer_notification */
-    else if (lt::peer_ban_alert* s = lt::alert_cast<lt::peer_ban_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::peer_ban_alert>(a)) {
         Q_UNUSED(s) //  emit peerBanned();
     }
-    else if (lt::peer_unsnubbed_alert* s = lt::alert_cast<lt::peer_unsnubbed_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::peer_unsnubbed_alert>(a)) {
         Q_UNUSED(s) //  emit peerUnsnubbed();
     }
-    else if (lt::peer_snubbed_alert* s = lt::alert_cast<lt::peer_snubbed_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::peer_snubbed_alert>(a)) {
         Q_UNUSED(s) //  emit peerSnubbed();
     }
-    else if (lt::peer_error_alert* s = lt::alert_cast<lt::peer_error_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::peer_error_alert>(a)) {
         //        QString operation = QString::fromUtf8(lt::operation_name(s->op));
         //        QString errorCode = QString::fromStdString(s->error.message());
         Q_UNUSED(s) //  emit peerAboutToDisconnected(operation, errorCode);
     }
-    else if (lt::peer_connect_alert* s = lt::alert_cast<lt::peer_connect_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::peer_connect_alert>(a)) {
         Q_UNUSED(s)
         // don't log every peer we try to connect to
         return;
         //  int socket_type = s->socket_type;
         //  emit peerConnected(socket_type);
     }
-    else if (lt::peer_disconnected_alert* s = lt::alert_cast<lt::peer_disconnected_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::peer_disconnected_alert>(a)) {
         //        int socket_type = s->socket_type;
         //        operation_t const op;
         //		error_code const error;
         //		close_reason_t const reason;
         Q_UNUSED(s) //  emit peerDisconnected(/*socket_type*/);
     }
-    else if (lt::invalid_request_alert* s = lt::alert_cast<lt::invalid_request_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::invalid_request_alert>(a)) {
         //        peer_request const request;
         //		bool const we_have;
         //		bool const peer_interested;
         //		bool const withheld;
         Q_UNUSED(s) //  emit peerInvalidPieceReceived();
     }
-    else if (lt::piece_finished_alert* s = lt::alert_cast<lt::piece_finished_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::piece_finished_alert>(a)) {
         Q_UNUSED(s) //  emit pieceFinished();
     }
-    else if (lt::lsd_peer_alert* s = lt::alert_cast<lt::lsd_peer_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::lsd_peer_alert>(a)) {
         Q_UNUSED(s) //  emit lsd_peer();
     }
-    else if (lt::incoming_connection_alert* s = lt::alert_cast<lt::incoming_connection_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::incoming_connection_alert>(a)) {
         Q_UNUSED(s) //  emit peerIncomingConnectionAccepted();
     }
-    else if (lt::incoming_request_alert* s = lt::alert_cast<lt::incoming_request_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::incoming_request_alert>(a)) {
         Q_UNUSED(s) //  emit peerIncomingrequestAccepted();
     }
 
 
     /* block_progress_notification */
-    else if (lt::request_dropped_alert* s = lt::alert_cast<lt::request_dropped_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::request_dropped_alert>(a)) {
         Q_UNUSED(s) //  emit peerPieceRejected();
     }
-    else if (lt::block_timeout_alert* s = lt::alert_cast<lt::block_timeout_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::block_timeout_alert>(a)) {
         Q_UNUSED(s) //  emit peerPieceTimeOut();
     }
-    else if (lt::block_finished_alert* s = lt::alert_cast<lt::block_finished_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::block_finished_alert>(a)) {
         Q_UNUSED(s) //  emit peerPieceFinished();
     }
-    else if (lt::block_downloading_alert* s = lt::alert_cast<lt::block_downloading_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::block_downloading_alert>(a)) {
         Q_UNUSED(s) //  emit peerPieceDownloading();
     }
-    else if (lt::unwanted_block_alert* s = lt::alert_cast<lt::unwanted_block_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::unwanted_block_alert>(a)) {
         Q_UNUSED(s) //  emit peerPieceUnwanted();
     }
 
-    else if (lt::url_seed_alert* s = lt::alert_cast<lt::url_seed_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::url_seed_alert>(a)) {
         Q_UNUSED(s) //  emit seedUrlFailed();
     }
-    else if (lt::block_uploaded_alert* s = lt::alert_cast<lt::block_uploaded_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::block_uploaded_alert>(a)) {
         Q_UNUSED(s) //  emit blockUploaded();
     }
 
 
     /* block_progress_notification */
-    else if (lt::alerts_dropped_alert* s = lt::alert_cast<lt::alerts_dropped_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::alerts_dropped_alert>(a)) {
         Q_UNUSED(s) //  emit alerts_dropped_alert();
     }
-    else if (lt::socks5_alert* s = lt::alert_cast<lt::socks5_alert>(a)) {
+    else if (auto s = lt::alert_cast<lt::socks5_alert>(a)) {
         Q_UNUSED(s) //  emit socks5_alert();
     }
 
@@ -1710,9 +1709,9 @@ inline void WorkerThread::onMetadataReceived(const lt::torrent_handle &handle)
 
         // set all the files priority to zero, to not download them
         if (handle.torrent_file()) {
-            int fileCount = handle.torrent_file()->num_files();
-            for (int i = 0; i < fileCount; i++) {
-                lt::file_index_t findex = static_cast<lt::file_index_t>(i);
+            auto fileCount = handle.torrent_file()->num_files();
+            for (auto i = 0; i < fileCount; i++) {
+                auto findex = static_cast<lt::file_index_t>(i);
                 handle.file_priority(findex, lt::dont_download);
             }
         }
@@ -1735,7 +1734,7 @@ inline void WorkerThread::onMetadataReceived(const lt::torrent_handle &handle)
  ******************************************************************************/
 inline void WorkerThread::onStateUpdated(const std::vector<lt::torrent_status> &status)
 {
-    foreach (const lt::torrent_status &s, status) {
+    for (auto s : status) {
         signalizeStatusUpdated(s);
     }
 }
@@ -1753,7 +1752,7 @@ inline void WorkerThread::signalizeDataUpdated(const lt::torrent_handle &handle,
     d.unique_id = toUniqueId(handle.info_hash());
     d.detail = toTorrentHandleInfo(handle);
 
-    std::shared_ptr<lt::torrent_info> ti = params.ti;
+    auto ti = params.ti;
     if (!ti || !ti->is_valid()) {
         // it's a magnet link perhaps, metadata has not have been received yet
         d.metaInfo.error = TorrentError(TorrentError::NoInfoYetError);
@@ -1768,7 +1767,7 @@ inline void WorkerThread::signalizeDataUpdated(const lt::torrent_handle &handle,
 inline void WorkerThread::signalizeStatusUpdated(const lt::torrent_status &status)
 {
     qDebug_2 << Q_FUNC_INFO;
-    lt::torrent_handle handle = status.handle;
+    auto handle = status.handle;
     if (!handle.is_valid()) {
         return;
     }
@@ -1915,18 +1914,18 @@ inline TorrentInitialMetaInfo WorkerThread::toTorrentInitialMetaInfo(std::shared
     m.comment       = toString(ti->comment());
     m.magnetLink    = toString(lt::make_magnet_uri(*ti));
 
-    for (const std::pair<std::string, int> &node : ti->nodes()) {
+    for (auto node : ti->nodes()) {
         m.nodes.append( TorrentNodeInfo(toString(node.first), node.second) );
     }
 
     //m.bytesMetaData = ti->metadata_size();
 
-    const lt::file_storage files = ti->files();
-    for (const lt::file_index_t index : files.file_range()) {
+    auto files = ti->files();
+    for (auto index : files.file_range()) {
 
         TorrentFileMetaInfo f;
 
-        lt::file_flags_t flags = files.file_flags(index);
+        auto flags = files.file_flags(index);
         if (flags & lt::file_storage::flag_pad_file)   f.setFlag(TorrentFileMetaInfo::Flag::PadFile);
         if (flags & lt::file_storage::flag_hidden)     f.setFlag(TorrentFileMetaInfo::Flag::Hidden);
         if (flags & lt::file_storage::flag_executable) f.setFlag(TorrentFileMetaInfo::Flag::Executable);
@@ -1950,24 +1949,24 @@ inline TorrentInitialMetaInfo WorkerThread::toTorrentInitialMetaInfo(std::shared
     }
 
 
-    for (const lt::announce_entry &tracker : ti->trackers()) {
-        TorrentTrackerInfo t = toTorrentTrackerInfo(tracker);
+    for (auto tracker : ti->trackers()) {
+        auto t = toTorrentTrackerInfo(tracker);
         m.trackers.append(t);
     }
 
-    for (const lt::sha1_hash &similar_torrent : ti->similar_torrents()) {
+    for (auto similar_torrent : ti->similar_torrents()) {
         m.similarTorrents.append(toString(similar_torrent));
     }
 
-    for (const std::string &collection : ti->collections()) {
+    for (auto collection : ti->collections()) {
         m.collections.append(toString(collection));
     }
 
-    for (const lt::web_seed_entry &web_seed : ti->web_seeds()) {
+    for (auto web_seed : ti->web_seeds()) {
         TorrentWebSeedMetaInfo w;
         w.url   = toString(web_seed.url);
         w.auth  = toString(web_seed.auth);
-        for (const std::pair<std::string, std::string> &extra_header : web_seed.extra_headers) {
+        for (auto extra_header : web_seed.extra_headers) {
             w.extraHeaders.append(
                         QPair<QString,QString>(
                             toString(extra_header.first),
@@ -2009,7 +2008,7 @@ inline TorrentHandleInfo WorkerThread::toTorrentHandleInfo(const lt::torrent_han
 
         std::vector<std::int64_t> progress;
         handle.file_progress(progress, lt::torrent_handle::piece_granularity);
-        std::vector<lt::download_priority_t> priorities = handle.get_file_priorities();
+        auto priorities = handle.get_file_priorities();
 
         // const std::vector<lt::open_file_state> file_status = handle.file_status();
 
@@ -2020,8 +2019,8 @@ inline TorrentHandleInfo WorkerThread::toTorrentHandleInfo(const lt::torrent_han
                       static_cast<qsizetype>(progress.size()),
                       static_cast<qsizetype>(priorities.size()) });
 
-        for (qsizetype index = 0; index < count; ++index) {
-            lt::file_index_t findex = static_cast<lt::file_index_t>(index);
+        for (auto index = 0; index < count; ++index) {
+            auto findex = static_cast<lt::file_index_t>(index);
             TorrentFileInfo fi;
             fi.bytesReceived = static_cast<qsizetype>(progress.at(static_cast<std::size_t>(index)));
             fi.priority = toPriority(handle.file_priority(findex));
@@ -2034,11 +2033,11 @@ inline TorrentHandleInfo WorkerThread::toTorrentHandleInfo(const lt::torrent_han
     // ***************
     std::vector<lt::peer_info> peers;
     handle.get_peer_info(peers);
-    for (const lt::peer_info &peer : peers) {
+    for (auto peer : peers) {
         TorrentPeerInfo d;
 
-        QString peerIp = toString(peer.ip.address().to_string());
-        int peerPort = peer.ip.port();
+        auto peerIp = toString(peer.ip.address().to_string());
+        auto peerPort = peer.ip.port();
         d.endpoint = EndPoint(peerIp, peerPort);
         d.userAgent = toString(peer.client);
 
@@ -2051,7 +2050,7 @@ inline TorrentHandleInfo WorkerThread::toTorrentHandleInfo(const lt::torrent_han
         d.lastTimeActive    = peer.last_active.count();
         d.timeDownloadQueue = peer.download_queue_time.count();
 
-        lt::peer_flags_t flags = peer.flags;
+        auto flags = peer.flags;
         if (flags & lt::peer_info::interesting)         d.setFlag(TorrentPeerInfo::Flag::Interesting);
         if (flags & lt::peer_info::choked)              d.setFlag(TorrentPeerInfo::Flag::Choked);
         if (flags & lt::peer_info::remote_interested)   d.setFlag(TorrentPeerInfo::Flag::RemoteInterested);
@@ -2074,7 +2073,7 @@ inline TorrentHandleInfo WorkerThread::toTorrentHandleInfo(const lt::torrent_han
         if (flags & lt::peer_info::rc4_encrypted)       d.setFlag(TorrentPeerInfo::Flag::Rc4Encrypted);
         if (flags & lt::peer_info::plaintext_encrypted) d.setFlag(TorrentPeerInfo::Flag::Plaintextencrypted);
 
-        lt::peer_source_flags_t sourceFlags = peer.source;
+        auto sourceFlags = peer.source;
         if (sourceFlags & lt::peer_info::tracker)     d.setSourceFlag(TorrentPeerInfo::SourceFlag::FromTracker);
         if (sourceFlags & lt::peer_info::dht)         d.setSourceFlag(TorrentPeerInfo::SourceFlag::FromDHT);
         if (sourceFlags & lt::peer_info::pex)         d.setSourceFlag(TorrentPeerInfo::SourceFlag::FromPeerExchange);
@@ -2088,19 +2087,19 @@ inline TorrentHandleInfo WorkerThread::toTorrentHandleInfo(const lt::torrent_han
     // ***************
     // Trackers
     // ***************
-    std::vector<lt::announce_entry> trackers = handle.trackers();
-    for (const lt::announce_entry &tracker : trackers) {
-        TorrentTrackerInfo ti = toTorrentTrackerInfo(tracker);
+    auto trackers = handle.trackers();
+    for (auto tracker : trackers) {
+        auto ti = toTorrentTrackerInfo(tracker);
         t.trackers.append(ti);
     }
 
     // ***************
     // Seeds
     // ***************
-    for (const std::string &webSeed : handle.http_seeds()) {
+    for (auto webSeed : handle.http_seeds()) {
         t.httpSeeds.append(toString(webSeed));
     }
-    for (const std::string &webSeed : handle.url_seeds()) {
+    for (auto webSeed : handle.url_seeds()) {
         t.urlSeeds.append(toString(webSeed));
     }
 
@@ -2120,9 +2119,9 @@ inline TorrentHandleInfo WorkerThread::toTorrentHandleInfo(const lt::torrent_han
     }
 
     {
-        const std::vector<lt::download_priority_t> &priorities = handle.get_piece_priorities();
+        auto priorities = handle.get_piece_priorities();
         QVector<TorrentFileInfo::Priority> newPiecePriority;
-        foreach (const lt::download_priority_t &priority, priorities) {
+        for (auto priority : priorities) {
             newPiecePriority.append(toPriority(priority));
         }
         t.piecePriority.swap(newPiecePriority);
@@ -2137,16 +2136,16 @@ inline TorrentMetaInfo WorkerThread::toTorrentMetaInfo(const lt::add_torrent_par
 {
     TorrentMetaInfo m;
 
-    std::shared_ptr<lt::torrent_info const> ti = params.ti;
+    auto ti = params.ti;
 
     m.initialMetaInfo = toTorrentInitialMetaInfo(ti);
-    for (const std::string &tracker : params.trackers) {
+    for (auto tracker : params.trackers) {
         m.trackers2.append(toString(tracker));
     }
     // for (const int tracker_tier : params.tracker_tiers) {
     // ?
     // }
-    for (const std::pair<std::string, int> &dht_node : params.dht_nodes) {
+    for (auto dht_node : params.dht_nodes) {
         m.dhtNodes.append( TorrentNodeInfo(toString(dht_node.first), dht_node.second) );
     }
 
@@ -2155,7 +2154,7 @@ inline TorrentMetaInfo WorkerThread::toTorrentMetaInfo(const lt::add_torrent_par
     }
     m.outputPath    = toString(params.save_path);
 
-    // for (const lt::download_priority_t &file_priority : params.file_priorities) {
+    // for (const lt : :download_priority_t &file_priority : params.file_priorities) {
     // ?
     // }
 
@@ -2188,21 +2187,21 @@ inline TorrentMetaInfo WorkerThread::toTorrentMetaInfo(const lt::add_torrent_par
     m.peersInSwarm          = params.num_incomplete;
     m.downloadsInSwarm      = params.num_downloaded;
 
-    for (const std::string &http_seed : params.http_seeds) { // todo unify http et url
+    for (auto http_seed : params.http_seeds) { // todo unify http et url
         m.httpSeeds.append(toString(http_seed));
     }
 
-    for (const std::string &url_seed : params.url_seeds) {
+    for (auto url_seed : params.url_seeds) {
         m.urlSeeds.append(toString(url_seed));
 
     }
 
-    for (const lt::tcp::endpoint &peer : params.peers) {
+    for (auto peer : params.peers) {
         TorrentPeerInfo p(toEndPoint(peer), QString());
         m.defaultPeers.append(p);
     }
 
-    for (const lt::tcp::endpoint &banned_peer : params.banned_peers) {
+    for (auto banned_peer : params.banned_peers) {
         TorrentPeerInfo p(toEndPoint(banned_peer), QString());
         m.bannedPeers.append(p);
     }
@@ -2237,7 +2236,7 @@ inline QString WorkerThread::toString(const lt::sha1_hash &hash) const
         auto hex = lt::aux::to_hex(hash);
         return QString::fromStdString(hex).toUpper();
     }
-    return QString();
+    return {};
 }
 
 /******************************************************************************
@@ -2246,7 +2245,7 @@ QBitArray WorkerThread::toBitArray(const lt::typed_bitfield<lt::piece_index_t> &
 {
     auto size = vec.size();
     QBitArray ba(size, false);
-    for (int i = 0; i < size; ++i) {
+    for (auto i = 0; i < size; ++i) {
         if (vec.get_bit(static_cast<lt::piece_index_t>(i))) {
             ba.setBit(i);
         }
@@ -2258,14 +2257,14 @@ QBitArray WorkerThread::toBitArray(const std::map<lt::piece_index_t, lt::bitfiel
 {
     int size = 0;
     QList<int> indexes;
-    for (const auto &kv : map) {
-        const lt::piece_index_t &key = kv.first;
+    for (auto kv : map) {
+        auto key = kv.first;
         auto index = static_cast<int>(key);
         indexes.append(index);
         size = qMax(size, index);
     }
     QBitArray ba(size, false);
-    foreach (auto index, indexes) {
+    for (auto index : indexes) {
         ba.setBit(index);
     }
     return ba;
@@ -2275,10 +2274,11 @@ QBitArray WorkerThread::toBitArray(const std::map<lt::piece_index_t, lt::bitfiel
  ******************************************************************************/
 inline QDateTime WorkerThread::toDateTime(const std::time_t &time) const
 {
-    qint64 sec = static_cast<qint64>(time);
-    return sec > 0
-            ? QDateTime(QDate(1970, 1, 1), QTime(0, 0), Qt::UTC).addSecs(sec)
-            : QDateTime();
+    auto sec = static_cast<qint64>(time);
+    if (sec > 0) {
+        return QDateTime(QDate(1970, 1, 1), QTime(0, 0), Qt::UTC).addSecs(sec);
+    }
+    return {};
 }
 
 
@@ -2322,7 +2322,7 @@ static inline TorrentError toTorrentError(const lt::error_code &errc, const lt::
     TorrentError error;
     bool hasError = (static_cast<int>(errc.value()) != 0);
     if (!hasError) {
-        error = TorrentError();
+        error = {};
     } else {
         error.message = QString::fromStdString(errc.message());
 
@@ -2360,7 +2360,7 @@ static inline TorrentTrackerInfo toTorrentTrackerInfo(const lt::announce_entry &
 {
     TorrentTrackerInfo t(QString::fromStdString(tracker.url));
     t.trackerId     = QString::fromStdString(tracker.trackerid);
-    for (const lt::announce_endpoint &endpoint : tracker.endpoints) {
+    for (auto endpoint : tracker.endpoints) {
         EndPoint e = toEndPoint(endpoint.local_endpoint);
         t.endpoints.append(e);
     }

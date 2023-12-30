@@ -35,25 +35,25 @@ class DownloadItem : public AbstractDownloadItem
 
 public:
     DownloadItem(DownloadManager *downloadManager);
-    ~DownloadItem() Q_DECL_OVERRIDE;
+    ~DownloadItem() override;
 
     /* Resource to download */
     ResourceItem* resource() const;
     virtual void setResource(ResourceItem *resource);
 
     /* Convenient */
-    QUrl sourceUrl() const Q_DECL_OVERRIDE;
-    QString localFileName() const Q_DECL_OVERRIDE;
-    QString localFullFileName() const Q_DECL_OVERRIDE;
-    QString localFilePath() const Q_DECL_OVERRIDE;
-    QUrl localFileUrl() const Q_DECL_OVERRIDE;
-    QUrl localDirUrl() const Q_DECL_OVERRIDE;
+    QUrl sourceUrl() const override;
+    QString localFileName() const override;
+    QString localFullFileName() const override;
+    QString localFilePath() const override;
+    QUrl localFileUrl() const override;
+    QUrl localDirUrl() const override;
 
-    void resume() Q_DECL_OVERRIDE;
-    void pause() Q_DECL_OVERRIDE;
-    void stop() Q_DECL_OVERRIDE;
+    void resume() override;
+    void pause() override;
+    void stop() override;
 
-    void rename(const QString &newName) Q_DECL_OVERRIDE;
+    void rename(const QString &newName) override;
 
 private slots:
     void onMetaDataChanged();

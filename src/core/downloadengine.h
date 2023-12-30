@@ -32,17 +32,19 @@ class DownloadEngine : public QObject
 
 public:
     explicit DownloadEngine(QObject *parent = nullptr);
-    ~DownloadEngine() Q_DECL_OVERRIDE;
+    ~DownloadEngine() override;
 
     /* Queue Management */
-    int count() const;
+    qsizetype count() const;
     void clear();
 
     virtual void append(const QList<IDownloadItem *> &items, bool started = false);
     virtual void remove(const QList<IDownloadItem *> &items);
+
+    void removeItems(const QList<IDownloadItem *> &items);
     void updateItems(const QList<IDownloadItem *> &items);
 
-    const IDownloadItem* clientForRow(int row) const;
+    const IDownloadItem* clientForRow(qsizetype row) const;
 
     int maxSimultaneousDownloads() const;
     void setMaxSimultaneousDownloads(int number);
@@ -118,14 +120,14 @@ private:
 
     // Pool
     int m_maxSimultaneousDownloads;
-    int downloadingCount() const;
+    qsizetype downloadingCount() const;
 
     QList<IDownloadItem *> m_selectedItems;
     bool m_selectionAboutToChange;
 
     void sortSelectionByIndex();
-    void moveUpTo(int targetIndex);
-    void moveDownTo(int targetIndex);
+    void moveUpTo(qsizetype targetIndex);
+    void moveDownTo(qsizetype targetIndex);
 };
 
 #endif // CORE_DOWNLOAD_ENGINE_H

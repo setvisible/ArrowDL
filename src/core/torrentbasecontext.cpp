@@ -18,6 +18,8 @@
 
 #include <Core/Torrent>
 
+const double ONE_THIRD = 0.3334;
+const double TWO_THIRDS = 0.6667;
 
 void TorrentBaseContext::setPriority(Torrent *torrent, int fileIndex, TorrentFileInfo::Priority p)
 {
@@ -29,21 +31,21 @@ void TorrentBaseContext::setPriorityByFileOrder(Torrent *torrent, const QList<in
 {
     Q_ASSERT(torrent);
     auto fileCount = torrent->fileCount();
-    foreach (auto fileIndex, fileIndexes) {
+    for (auto fileIndex : fileIndexes) {
         auto priority = TorrentBaseContext::computePriority(fileIndex, fileCount);
         setPriority(torrent, fileIndex, priority);
     }
 }
 
-TorrentFileInfo::Priority TorrentBaseContext::computePriority(int row, int count)
+TorrentFileInfo::Priority TorrentBaseContext::computePriority(int row, qsizetype count)
 {
     if (count < 3) {
         return TorrentFileInfo::Normal;
     }
-    qreal pos = qreal(row + 1) / count;
-    if (pos < 0.3334) {
+    auto pos = static_cast<qreal>(row + 1) / static_cast<qreal>(count);
+    if (pos < ONE_THIRD) {
         return TorrentFileInfo::High;
-    } else if (pos < 0.6667) {
+    } else if (pos < TWO_THIRDS) {
         return TorrentFileInfo::Normal;
     }
     return TorrentFileInfo::Low;

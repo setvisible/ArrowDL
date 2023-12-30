@@ -32,8 +32,8 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit MainWindow(QWidget *parent = Q_NULLPTR);
-    ~MainWindow() Q_DECL_OVERRIDE;
+    explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow() override;
 
 private slots:
     void onStartClicked();

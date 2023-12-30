@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,21 +25,21 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.8</td></tr>
+<td>2.0.9</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#stats-metric" id="id16">stats_metric</a></li>
-<li><a class="reference internal" href="#counters" id="id17">counters</a><ul>
-<li><a class="reference internal" href="#inc-stats-counter-operator" id="id18">inc_stats_counter() operator[]()</a></li>
+<li><a class="reference internal" href="#stats-metric" id="toc-entry-1">stats_metric</a></li>
+<li><a class="reference internal" href="#counters" id="toc-entry-2">counters</a><ul>
+<li><a class="reference internal" href="#inc-stats-counter-operator" id="toc-entry-3">inc_stats_counter() operator[]()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#session-stats-metrics" id="id19">session_stats_metrics()</a></li>
-<li><a class="reference internal" href="#find-metric-idx" id="id20">find_metric_idx()</a></li>
-<li><a class="reference internal" href="#enum-metric-type-t" id="id21">enum metric_type_t</a></li>
+<li><a class="reference internal" href="#session-stats-metrics" id="toc-entry-4">session_stats_metrics()</a></li>
+<li><a class="reference internal" href="#find-metric-idx" id="toc-entry-5">find_metric_idx()</a></li>
+<li><a class="reference internal" href="#enum-metric-type-t" id="toc-entry-6">enum metric_type_t</a></li>
 </ul>
 </div>
 <a name="stats_metric"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+stats_metric&labels=documentation&body=Documentation+under+heading+%22class+stats_metric%22+could+be+improved">report issue</a>]</span><div class="section" id="stats-metric">
@@ -74,10 +74,10 @@ this counter or gauge is found. The <a class="reference external" href="referenc
 struct counters
 {
    <strong>counters</strong> () ;
-   <strong>counters</strong> (counters const&amp;) ;
    counters&amp; <strong>operator=</strong> (counters const&amp;) &amp; ;
-   std::int64_t <strong>operator[]</strong> (int i) const ;
+   <strong>counters</strong> (counters const&amp;) ;
    std::int64_t <strong>inc_stats_counter</strong> (int c, std::int64_t value = 1) ;
+   std::int64_t <strong>operator[]</strong> (int i) const ;
    void <strong>blend_stats_counter</strong> (int c, std::int64_t value, int ratio) ;
    void <strong>set_value</strong> (int c, std::int64_t value) ;
 };
@@ -86,8 +86,8 @@ struct counters
 <a name="operator[]()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:counters%3A%3A%5Binc_stats_counter%28%29+operator%5B%5D%28%29%5D&labels=documentation&body=Documentation+under+heading+%22counters%3A%3A%5Binc_stats_counter%28%29+operator%5B%5D%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="inc-stats-counter-operator">
 <h2>inc_stats_counter() operator[]()</h2>
 <pre class="literal-block">
-std::int64_t <strong>operator[]</strong> (int i) const ;
 std::int64_t <strong>inc_stats_counter</strong> (int c, std::int64_t value = 1) ;
+std::int64_t <strong>operator[]</strong> (int i) const ;
 </pre>
 <p>returns the new value</p>
 <a name="session_stats_metrics()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_stats_metrics%28%29&labels=documentation&body=Documentation+under+heading+%22session_stats_metrics%28%29%22+could+be+improved">report issue</a>]</span></div>

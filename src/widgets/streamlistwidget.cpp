@@ -17,6 +17,7 @@
 #include "streamlistwidget.h"
 #include "ui_streamlistwidget.h"
 
+#include <Constants>
 #include <Core/Format>
 #include <Widgets/CheckableItemDelegate>
 #include <Widgets/Globals>
@@ -26,9 +27,6 @@
 #include <QtGui/QMovie>
 
 #include <algorithm> /* std::sort */
-
-constexpr int column_id_width = 10;
-constexpr int column_name_width = 200;
 
 
 /******************************************************************************
@@ -49,19 +47,19 @@ class StreamListItemDelegate : public CheckableItemDelegate
     Q_OBJECT
 
 public:
-    explicit StreamListItemDelegate(QObject *parent = Q_NULLPTR)
+    explicit StreamListItemDelegate(QObject *parent = nullptr)
         : CheckableItemDelegate(parent)
     {}
 
-    ~StreamListItemDelegate() Q_DECL_OVERRIDE = default;
+    ~StreamListItemDelegate() override = default;
 
-    void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
-void StreamListItemDelegate::paint(QPainter *painter,
-                                   const QStyleOptionViewItem &option,
-                                   const QModelIndex &index) const
+void StreamListItemDelegate::paint(
+    QPainter *painter,
+    const QStyleOptionViewItem &option,
+    const QModelIndex &index) const
 {
     QStyleOptionViewItem myOption = option;
     initStyleOption(&myOption, index);
@@ -88,23 +86,18 @@ StreamListWidget::StreamListWidget(QWidget *parent) : QWidget(parent)
     ui->playlistView->setItemDelegate(new StreamListItemDelegate(ui->playlistView));
     ui->playlistView->setModel(m_playlistModel);
 
-    QList<int> defaultWidths = {-1, column_id_width, column_name_width, -1, -1, -1};
+    QList<int> defaultWidths = {-1, COLUMN_ID_WIDTH, COLUMN_NAME_WIDTH, -1, -1, -1};
     setColumnWidths(defaultWidths);
 
     adjustSize();
 
-    connect(m_playlistModel, SIGNAL(checkStateChanged(QModelIndex, bool)),
-            this, SLOT(onCheckStateChanged(QModelIndex, bool)));
+    connect(m_playlistModel, SIGNAL(checkStateChanged(QModelIndex,bool)), this, SLOT(onCheckStateChanged(QModelIndex,bool)));
 
-    connect(ui->playlistView->selectionModel(),
-            SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
-            this, SLOT(onSelectionChanged(const QItemSelection &, const QItemSelection &)));
+    connect(ui->playlistView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(onSelectionChanged(QItemSelection,QItemSelection)));
 
-    connect(ui->streamWidget, SIGNAL(streamObjectChanged(StreamObject)),
-            this, SLOT(onStreamObjectChanged(StreamObject)));
+    connect(ui->streamWidget, SIGNAL(streamObjectChanged(StreamObject)), this, SLOT(onStreamObjectChanged(StreamObject)));
 
-    connect(ui->trackNumberCheckBox, SIGNAL(stateChanged(int)), this,
-            SLOT(onTrackNumberChecked(int)));
+    connect(ui->trackNumberCheckBox, SIGNAL(stateChanged(int)), this, SLOT(onTrackNumberChecked(int)));
 
     /* Fancy GIF animation */
     QMovie *movie = new QMovie(":/resources/animations/spinner.gif");
@@ -302,7 +295,7 @@ QList<int> StreamListWidget::selectedRows() const
 {
     QSet<int> rows;
     auto indexes = ui->playlistView->selectionModel()->selectedRows(0);
-    foreach (auto index, indexes) {
+    for (auto index : indexes) {
         rows.insert(index.row());
     }
     auto list = rows.values();
@@ -341,8 +334,8 @@ void StreamTableModel::setStreamObjects(const QList<StreamObject> &streamObjects
 {
     clear();
     if (!streamObjects.isEmpty()) {
-        QModelIndex parent = QModelIndex(); // root is always empty
-        beginInsertRows(parent, 0, streamObjects.count());
+        QModelIndex parent = {}; // root is always empty
+        beginInsertRows(parent, 0, static_cast<int>(streamObjects.count()));
         m_items = streamObjects;
         endInsertRows();
     }
@@ -352,7 +345,7 @@ void StreamTableModel::setStreamObjects(const QList<StreamObject> &streamObjects
  ******************************************************************************/
 void StreamTableModel::enableTrackNumberPrefix(bool enable)
 {
-    for (int row = 0; row < m_items.count(); ++row) {
+    for (auto row = 0; row < m_items.count(); ++row) {
         auto item = m_items.at(row); // copy!
         auto title = item.title();
         auto prefix = QString("%0 ").arg(item.data().playlist_index);
@@ -393,7 +386,7 @@ void StreamTableModel::setItemAt(int row, const StreamObject &streamObject)
 QList<StreamObject> StreamTableModel::selection() const
 {
     QList<StreamObject> selection;
-    foreach (int row, this->checkedRows()) {
+    for (auto row : this->checkedRows()) {
         if (row >= 0 && row < m_items.count()) {
             selection << m_items.at(row);
         }
@@ -403,7 +396,7 @@ QList<StreamObject> StreamTableModel::selection() const
 
 int StreamTableModel::columnCount(const QModelIndex &parent) const
 {
-    return parent.isValid() ? 0 : m_headers.count();
+    return parent.isValid() ? 0 : static_cast<int>(m_headers.count());
 }
 
 QVariant StreamTableModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -412,23 +405,23 @@ QVariant StreamTableModel::headerData(int section, Qt::Orientation orientation, 
         if (section >= 0 && section < m_headers.count()) {
             return m_headers.at(section);
         }
-        return QVariant();
+        return {};
     }
     return QAbstractItemModel::headerData(section, orientation, role);
 }
 
 int StreamTableModel::rowCount(const QModelIndex &parent) const
 {
-    return parent.isValid() ? 0 : m_items.count();
+    return parent.isValid() ? 0 : static_cast<int>(m_items.count());
 }
 
 QVariant StreamTableModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
     if (index.row() >= rowCount() || index.row() < 0) {
-        return QVariant();
+        return {};
     }
     if (role == Qt::TextAlignmentRole) {
         switch (index.column()) {
@@ -445,7 +438,7 @@ QVariant StreamTableModel::data(const QModelIndex &index, int role) const
     } else if (role == Qt::DisplayRole) {
         auto streamObject = m_items.at(index.row());
         switch (index.column()) {
-        case  0: return QVariant();
+        case  0: return {};
         case  1: return streamObject.data().playlist_index;
         case  2: return filenameOrErrorMessage(streamObject);
         case  3: return streamObject.data().title;

@@ -62,8 +62,8 @@ public:
     QString latestUpdateUrl() const; // For Linux
 
 signals:
-    void updateAvailable(); // for non-GUI
-    void updateAvailable(UpdateChecker::ChangeLog changelog);
+    void updateAvailableForConsole(); // for non-GUI
+    void updateAvailableForGui(UpdateChecker::ChangeLog changelog);
     void downloadProgress(qsizetype bytesReceived, qsizetype bytesTotal);
     void updateDownloadFinished();
     void updateError(QString errorMessage);

@@ -37,6 +37,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "test.hpp"
 #include "setup_transfer.hpp" // for load_file
 #include "test_utils.hpp"
+#include "settings.hpp"
 #include "libtorrent/file_storage.hpp"
 #include "libtorrent/load_torrent.hpp"
 #include "libtorrent/aux_/path.hpp"
@@ -434,6 +435,8 @@ test_failing_torrent_t test_error_torrents[] =
 	{ "v2_non_multiple_piece_layer.torrent", errors::torrent_invalid_piece_layer},
 	{ "v2_piece_layer_invalid_file_hash.torrent", errors::torrent_invalid_piece_layer},
 	{ "v2_invalid_piece_layer.torrent", errors::torrent_invalid_piece_layer},
+	{ "v2_invalid_piece_layer_root.torrent", errors::torrent_invalid_piece_layer},
+	{ "v2_unknown_piece_layer_entry.torrent", errors::torrent_invalid_piece_layer},
 	{ "v2_invalid_piece_layer_size.torrent", errors::torrent_invalid_piece_layer},
 	{ "v2_bad_file_alignment.torrent", errors::torrent_inconsistent_files},
 	{ "v2_unordered_files.torrent", errors::invalid_bencoding},
@@ -1090,12 +1093,19 @@ TORRENT_TEST(parse_invalid_torrents)
 		auto ti = std::make_shared<torrent_info>(filename, ec);
 		std::printf("E:        \"%s\"\nexpected: \"%s\"\n", ec.message().c_str()
 			, e.error.message().c_str());
-		TEST_EQUAL(ec.message(), e.error.message());
-		TEST_EQUAL(ti->is_valid(), false);
+		// Some checks only happen in the load_torrent_*() functions, not in the
+		// torrent_info constructor. For these, it's OK for ec to not report an
+		// error
+		if (e.error != errors::torrent_invalid_piece_layer || ec)
+		{
+			TEST_EQUAL(ec.message(), e.error.message());
+			TEST_EQUAL(ti->is_valid(), false);
+		}
 
 		try
 		{
 			add_torrent_params atp = load_torrent_file(filename);
+			TORRENT_ASSERT(!e.error);
 		}
 		catch (system_error const& err)
 		{
@@ -1363,7 +1373,7 @@ TORRENT_TEST(torrent_info_with_hashes_roundtrip)
 	atp.ti = ti;
 	atp.save_path = ".";
 
-	session ses;
+	session ses(settings());
 	torrent_handle h = ses.add_torrent(atp);
 
 	TEST_CHECK(ti->v2());
@@ -1459,7 +1469,7 @@ TORRENT_TEST(write_torrent_file_session_roundtrip)
 		atp.ti = ti;
 		atp.save_path = ".";
 
-		session ses;
+		session ses(settings());
 		torrent_handle h = ses.add_torrent(atp);
 
 		h.save_resume_data(torrent_handle::save_info_dict);

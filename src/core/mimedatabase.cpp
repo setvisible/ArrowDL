@@ -16,6 +16,8 @@
 
 #include "mimedatabase.h"
 
+#include <Constants>
+
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtCore/QMimeDatabase>
@@ -77,7 +79,7 @@ void MimeDatabaseSingleton::init()
      * Construction of QFileIconProvider is heavy
      */
     m_fileIconProvider.setOptions(QFileIconProvider::DontUseCustomDirectoryIcons);
-    m_defaultPixmap = fileIcon(QUrl("page.html"), default_icon_size);
+    m_defaultPixmap = fileIcon(QUrl("page.html"), DEFAULT_ICON_SIZE);
 }
 
 /******************************************************************************
@@ -95,7 +97,7 @@ QPixmap MimeDatabaseSingleton::fileIcon(const QUrl &url, int extend)
 
     if ( fileInfo.suffix().isEmpty() ||
          (fileInfo.suffix() == "exe" && fileInfo.exists())) {
-        QIcon icon = m_fileIconProvider.icon(fileInfo);
+        auto icon = m_fileIconProvider.icon(fileInfo);
         pixmap = icon.pixmap(extend);
         if (pixmap.isNull()) {
             pixmap = m_defaultPixmap;
@@ -103,28 +105,28 @@ QPixmap MimeDatabaseSingleton::fileIcon(const QUrl &url, int extend)
         return pixmap;
     }
 
-    const QString key = QString("%0 %1").arg(fileInfo.suffix(), QString::number(extend));
+    auto key = QString("%0 %1").arg(fileInfo.suffix(), QString::number(extend));
 
     if (!QPixmapCache::find(key, &pixmap)) {
 
-        const QString nativeName = url.fileName();
+        auto nativeName = url.fileName();
         Q_ASSERT(!nativeName.contains('\\'));
         Q_ASSERT(!nativeName.contains('/')); // otherwise the temporary file is not opened
 
         const QDir dir(QDir::tempPath());
         if (!dir.exists()) {
             qWarning("Can't find: '%s'.", dir.path().toLatin1().data());
-            return QPixmap();
+            return {};
         }
 
-        const QString filename = dir.filePath("XXXXXX_" + nativeName);
+        auto filename = dir.filePath("XXXXXX_" + nativeName);
         QTemporaryFile tempFile(filename);
         if (tempFile.open()) {
             /* This is a trick to write the file */
         }
 
         const QFileInfo tempFileInfo(tempFile);
-        QIcon icon = m_fileIconProvider.icon(tempFileInfo);
+        auto icon = m_fileIconProvider.icon(tempFileInfo);
         if (icon.isNull()) {
             icon = m_fileIconProvider.icon(QFileIconProvider::File);
         }

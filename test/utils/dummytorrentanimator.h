@@ -31,7 +31,7 @@ class DummyTorrentAnimator : public QObject
 {
     Q_OBJECT
 public:
-    DummyTorrentAnimator(QObject *parent = Q_NULLPTR);
+    DummyTorrentAnimator(QObject *parent = nullptr);
 
     Torrent* torrent() const;
     void setTorrent(Torrent *torrent);
@@ -49,7 +49,7 @@ private slots:
     void animate();
 
 private:
-    Torrent *m_torrent{Q_NULLPTR};
+    Torrent *m_torrent{nullptr};
     QTimer m_fileTimer;
     QTimer m_peerTimer;
     QList<int> m_timeouts;

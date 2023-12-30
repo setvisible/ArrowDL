@@ -31,47 +31,47 @@ class AbstractDownloadItem : public QObject, public IDownloadItem
     Q_OBJECT
 
 public:
-    explicit AbstractDownloadItem(QObject *parent = Q_NULLPTR);
-    ~AbstractDownloadItem() noexcept Q_DECL_OVERRIDE = default; // IMPORTANT: virtual destructor
+    explicit AbstractDownloadItem(QObject *parent = nullptr);
+    ~AbstractDownloadItem() noexcept override = default; // IMPORTANT: virtual destructor
 
-    State state() const Q_DECL_OVERRIDE;
+    State state() const override;
     void setState(State state);
     QString stateToString() const;
     const char* state_c_str() const;
 
-    qsizetype bytesReceived() const Q_DECL_OVERRIDE;
+    qsizetype bytesReceived() const override;
     void setBytesReceived(qsizetype bytesReceived);
 
-    qsizetype bytesTotal() const Q_DECL_OVERRIDE;
+    qsizetype bytesTotal() const override;
     void setBytesTotal(qsizetype bytesTotal);
 
-    qreal speed() const Q_DECL_OVERRIDE;
-    int progress() const Q_DECL_OVERRIDE;
+    qreal speed() const override;
+    int progress() const override;
 
     QString errorMessage() const;
     void setErrorMessage(const QString &message);
 
-    int maxConnectionSegments() const Q_DECL_OVERRIDE;
+    int maxConnectionSegments() const override;
     void setMaxConnectionSegments(int connectionSegments);
 
-    int maxConnections() const Q_DECL_OVERRIDE;
+    int maxConnections() const override;
     void setMaxConnections(int connections);
 
-    QString log() const Q_DECL_OVERRIDE;
+    QString log() const override;
     void setLog(const QString &log);
     void logInfo(const QString &message);
 
-    bool isResumable() const Q_DECL_OVERRIDE;
-    bool isPausable() const Q_DECL_OVERRIDE;
-    bool isCancelable() const Q_DECL_OVERRIDE;
-    bool isDownloading() const Q_DECL_OVERRIDE;
+    bool isResumable() const override;
+    bool isPausable() const override;
+    bool isCancelable() const override;
+    bool isDownloading() const override;
 
     QTime remainingTime();
 
-    void setReadyToResume() Q_DECL_OVERRIDE;
+    void setReadyToResume() override;
 
-    void pause() Q_DECL_OVERRIDE;
-    void stop() Q_DECL_OVERRIDE;
+    void pause() override;
+    void stop() override;
 
     void beginResume();
     bool checkResume(bool connected);
@@ -94,24 +94,23 @@ private slots:
     void updateInfo();
 
 private:
-    State m_state;
+    State m_state = State::Idle;
 
-    qreal m_speed;
-    qsizetype m_bytesReceived;
-    qsizetype m_bytesTotal;
+    qreal m_speed = -1;
+    qsizetype m_bytesReceived = 0;
+    qsizetype m_bytesTotal = 0;
 
-    QString m_errorMessage;
+    QString m_errorMessage = {};
 
-    int m_maxConnectionSegments;
-    int m_maxConnections;
+    int m_maxConnectionSegments = 4;
+    int m_maxConnections = 1;
 
-    QString m_log;
+    QString m_log = {};
 
     QElapsedTimer m_downloadElapsedTimer;
     QTime m_remainingTime;
     QTimer m_updateInfoTimer;
     QTimer m_updateCountDownTimer;
-
 };
 
 #endif // CORE_ABSTRACT_DOWNLOAD_ITEM_H

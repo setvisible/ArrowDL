@@ -66,11 +66,36 @@ namespace aux {
 		COMPLETE_ASYNC("resolver::on_lookup");
 		if (ec)
 		{
+			failed_dns_cache_entry& ce = m_failed_cache[hostname];
+			ce.last_seen = time_now();
+			ce.error = ec;
+
+			// if the cache grows too big, weed out the
+			// oldest entries
+			if (int(m_failed_cache.size()) > m_max_size)
+			{
+				auto oldest = m_failed_cache.begin();
+				for (auto k = m_failed_cache.begin(); k != m_failed_cache.end(); ++k)
+				{
+					if (k->second.last_seen < oldest->second.last_seen)
+						oldest = k;
+				}
+
+				// remove the oldest entry
+				m_failed_cache.erase(oldest);
+			}
+
 			auto const range = m_callbacks.equal_range(hostname);
 			for (auto c = range.first; c != range.second; ++c)
 				callback(std::move(c->second), ec, {});
 			m_callbacks.erase(range.first, range.second);
 			return;
+		}
+
+		{
+			auto const k = m_failed_cache.find(hostname);
+			if (k != m_failed_cache.end())
+				m_failed_cache.erase(k);
 		}
 
 		dns_cache_entry& ce = m_cache[hostname];
@@ -109,7 +134,7 @@ namespace aux {
 		address const ip = make_address(host, ec);
 		if (!ec)
 		{
-			post(m_ios, [=]{ callback(h, ec, std::vector<address>{ip}); });
+			post(m_ios, [this, h, ec, ip]{ callback(h, ec, std::vector<address>{ip}); });
 			return;
 		}
 		ec.clear();
@@ -122,7 +147,20 @@ namespace aux {
 				|| i->second.last_seen + m_timeout >= time_now())
 			{
 				std::vector<address> ips = i->second.addresses;
-				post(m_ios, [=] { callback(h, ec, ips); });
+				post(m_ios, [this, h, ec, ips] { callback(h, ec, ips); });
+				return;
+			}
+		}
+
+		auto const k = m_failed_cache.find(host);
+		if (k != m_failed_cache.end())
+		{
+			// keep cache entries valid for m_timeout seconds
+			if ((flags & resolver_interface::cache_only)
+				|| k->second.last_seen + m_timeout >= time_now())
+			{
+				error_code error_code = k->second.error;
+				post(m_ios, [this, h, error_code] { callback(h, error_code, {}); });
 				return;
 			}
 		}
@@ -130,7 +168,7 @@ namespace aux {
 		if (flags & resolver_interface::cache_only)
 		{
 			// we did not find a cache entry, fail the lookup
-			post(m_ios, [=] {
+			post(m_ios, [this, h] {
 				callback(h, boost::asio::error::host_not_found, std::vector<address>{});
 			});
 			return;

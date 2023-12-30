@@ -108,6 +108,9 @@ namespace {
 #ifndef TORRENT_DISABLE_SUPERSEEDING
 		ret["super_seeding"] = bool(atp.flags & torrent_flags::super_seeding);
 #endif
+#if TORRENT_USE_I2P
+		ret["i2p"] = bool(atp.flags & torrent_flags::i2p_torrent);
+#endif
 		ret["sequential_download"] = bool(atp.flags & torrent_flags::sequential_download);
 		ret["stop_when_ready"] = bool(atp.flags & torrent_flags::stop_when_ready);
 		ret["disable_dht"] = bool(atp.flags & torrent_flags::disable_dht);
@@ -331,8 +334,7 @@ namespace {
 				if (fs.pad_file_at(f) || fs.file_size(f) <= fs.piece_length())
 					continue;
 
-				aux::merkle_tree t(fs.file_num_blocks(f)
-					, fs.piece_length() / default_block_size, fs.root_ptr(f));
+				aux::merkle_tree t(fs.file_num_blocks(f), fs.blocks_per_piece(), fs.root_ptr(f));
 
 				std::vector<bool> const& verified = (f >= atp.verified_leaf_hashes.end_index())
 					? empty_verified : atp.verified_leaf_hashes[f];

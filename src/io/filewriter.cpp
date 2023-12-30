@@ -75,8 +75,8 @@ bool FileWriter::canWriteHelper()
 bool FileWriter::canWrite()
 {
     if (auto file = qobject_cast<QFile *>(m_device)) {
-        const bool remove = !file->isOpen() && !file->exists();
-        const bool result = canWriteHelper();
+        auto remove = !file->isOpen() && !file->exists();
+        auto result = canWriteHelper();
         // This looks strange (why remove if it doesn't exist?) but the issue
         // here is that canWriteHelper will create the file in the process of
         // checking if the write can succeed. If it subsequently fails, we
@@ -140,10 +140,10 @@ IFileHandlerPtr FileWriter::createWriteHandlerHelper(QIODevice *device)
         handler = Io::findHandlerFromSuffix(suffix);
     }
     if (!handler) {
-        return IFileHandlerPtr();
+        return {};
     }
     if (!handler->canWrite()) {
-        return IFileHandlerPtr();
+        return {};
     }
     handler->setDevice(device);
     return handler;

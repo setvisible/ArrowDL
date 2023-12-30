@@ -33,7 +33,7 @@ class LinkWidget : public QWidget
     Q_OBJECT
 public:
     explicit LinkWidget(QWidget *parent);
-    ~LinkWidget() Q_DECL_OVERRIDE;
+    ~LinkWidget() override;
 
     Model* model() const;
     void setModel(Model *model);
@@ -44,7 +44,7 @@ public:
     void contextMenuCallback(QMenu *contextMenu);
 
 protected:
-    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *event) override;
 
 private slots:
     void onCurrentTabChanged(int index);
@@ -56,8 +56,8 @@ private slots:
     void open();
 
 private:
-    Ui::LinkWidget *ui;
-    Model *m_model;
+    Ui::LinkWidget *ui = nullptr;
+    Model *m_model = nullptr;
 
     void setup(CheckableTableView *view);
     void resizeSection(CheckableTableView *view, int logicalIndex, int newSize);

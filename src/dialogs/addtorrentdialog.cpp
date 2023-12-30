@@ -17,7 +17,7 @@
 #include "addtorrentdialog.h"
 #include "ui_addtorrentdialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
 #include <Core/DownloadTorrentItem>
@@ -35,8 +35,10 @@
 #include <QtGui/QCloseEvent>
 
 
-AddTorrentDialog::AddTorrentDialog(const QUrl &url, DownloadManager *downloadManager,
-                                   Settings *settings, QWidget *parent)
+AddTorrentDialog::AddTorrentDialog(
+    const QUrl &url,
+    DownloadManager *downloadManager,
+    Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddTorrentDialog)
     , m_downloadManager(downloadManager)

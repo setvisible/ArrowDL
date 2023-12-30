@@ -33,11 +33,11 @@ class BatchRenameDialog : public QDialog
     Q_OBJECT
 public:
     explicit BatchRenameDialog(const QList<IDownloadItem*> &items, QWidget *parent);
-    ~BatchRenameDialog() Q_DECL_OVERRIDE;
+    ~BatchRenameDialog() override;
 
 public slots:
-    void closeEvent(QCloseEvent *) Q_DECL_OVERRIDE;
-    void accept() Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *) override;
+    void accept() override;
 
 private slots:
     void onComboboxChanged(int index);
@@ -63,7 +63,7 @@ class PopupItemDelegate: public QStyledItemDelegate
 public:
     using QStyledItemDelegate::QStyledItemDelegate;
 
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
 #endif // DIALOGS_BATCH_RENAME_DIALOG_H

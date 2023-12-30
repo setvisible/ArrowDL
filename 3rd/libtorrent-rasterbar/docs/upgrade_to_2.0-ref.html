@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
@@ -32,35 +32,35 @@
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#c-11-no-longer-supported" id="id73">C++11 no longer supported</a></li>
-<li><a class="reference internal" href="#boost-version" id="id74">boost version</a></li>
-<li><a class="reference internal" href="#bittorrent-v2-support" id="id75">BitTorrent v2 support</a><ul>
-<li><a class="reference internal" href="#example-torrents" id="id76">Example torrents</a></li>
-<li><a class="reference internal" href="#info-hashes" id="id77">info-hashes</a></li>
-<li><a class="reference internal" href="#announce-entry-tracker-changes" id="id78">announce_entry/tracker changes</a></li>
-<li><a class="reference internal" href="#merkle-tree-support-removed" id="id79">Merkle tree support removed</a></li>
-<li><a class="reference internal" href="#create-torrent-changes" id="id80">create_torrent changes</a></li>
-<li><a class="reference internal" href="#on-unknown-torrent-plugin-api" id="id81">on_unknown_torrent() plugin API</a></li>
-<li><a class="reference internal" href="#socket-type-t" id="id82">socket_type_t</a></li>
+<li><a class="reference internal" href="#c-11-no-longer-supported" id="toc-entry-1">C++11 no longer supported</a></li>
+<li><a class="reference internal" href="#boost-version" id="toc-entry-2">boost version</a></li>
+<li><a class="reference internal" href="#bittorrent-v2-support" id="toc-entry-3">BitTorrent v2 support</a><ul>
+<li><a class="reference internal" href="#example-torrents" id="toc-entry-4">Example torrents</a></li>
+<li><a class="reference internal" href="#info-hashes" id="toc-entry-5">info-hashes</a></li>
+<li><a class="reference internal" href="#announce-entry-tracker-changes" id="toc-entry-6">announce_entry/tracker changes</a></li>
+<li><a class="reference internal" href="#merkle-tree-support-removed" id="toc-entry-7">Merkle tree support removed</a></li>
+<li><a class="reference internal" href="#create-torrent-changes" id="toc-entry-8">create_torrent changes</a></li>
+<li><a class="reference internal" href="#on-unknown-torrent-plugin-api" id="toc-entry-9">on_unknown_torrent() plugin API</a></li>
+<li><a class="reference internal" href="#socket-type-t" id="toc-entry-10">socket_type_t</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#dht-settings" id="id83">DHT settings</a></li>
-<li><a class="reference internal" href="#stats-alert" id="id84">stats_alert</a></li>
-<li><a class="reference internal" href="#saving-and-restoring-session-state" id="id85">saving and restoring session state</a></li>
-<li><a class="reference internal" href="#userdata-is-no-longer-a-void" id="id86">userdata is no longer a void*</a></li>
-<li><a class="reference internal" href="#adding-torrents-by-url-no-longer-supported" id="id87">Adding torrents by URL no longer supported</a><ul>
-<li><a class="reference internal" href="#downloading-over-http" id="id88">downloading over HTTP</a></li>
-<li><a class="reference internal" href="#magnet-links" id="id89">magnet links</a></li>
-<li><a class="reference internal" href="#async-loading-of-torrent-files" id="id90">async loading of .torrent files</a></li>
+<li><a class="reference internal" href="#dht-settings" id="toc-entry-11">DHT settings</a></li>
+<li><a class="reference internal" href="#stats-alert" id="toc-entry-12">stats_alert</a></li>
+<li><a class="reference internal" href="#saving-and-restoring-session-state" id="toc-entry-13">saving and restoring session state</a></li>
+<li><a class="reference internal" href="#userdata-is-no-longer-a-void" id="toc-entry-14">userdata is no longer a void*</a></li>
+<li><a class="reference internal" href="#adding-torrents-by-url-no-longer-supported" id="toc-entry-15">Adding torrents by URL no longer supported</a><ul>
+<li><a class="reference internal" href="#downloading-over-http" id="toc-entry-16">downloading over HTTP</a></li>
+<li><a class="reference internal" href="#magnet-links" id="toc-entry-17">magnet links</a></li>
+<li><a class="reference internal" href="#async-loading-of-torrent-files" id="toc-entry-18">async loading of .torrent files</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#disk-i-o-overhaul" id="id91">Disk I/O overhaul</a><ul>
-<li><a class="reference internal" href="#aio-threads-and-hashing-threads" id="id92"><tt class="docutils literal">aio_threads</tt> and <tt class="docutils literal">hashing_threads</tt></a></li>
-<li><a class="reference internal" href="#cache-size" id="id93">cache_size</a></li>
-<li><a class="reference internal" href="#get-cache-info-get-cache-status" id="id94">get_cache_info() get_cache_status()</a></li>
+<li><a class="reference internal" href="#disk-i-o-overhaul" id="toc-entry-19">Disk I/O overhaul</a><ul>
+<li><a class="reference internal" href="#aio-threads-and-hashing-threads" id="toc-entry-20"><tt class="docutils literal">aio_threads</tt> and <tt class="docutils literal">hashing_threads</tt></a></li>
+<li><a class="reference internal" href="#cache-size" id="toc-entry-21">cache_size</a></li>
+<li><a class="reference internal" href="#get-cache-info-get-cache-status" id="toc-entry-22">get_cache_info() get_cache_status()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#last-remnants-of-rss-support-removed" id="id95">last remnants of RSS support removed</a></li>
+<li><a class="reference internal" href="#last-remnants-of-rss-support-removed" id="toc-entry-23">last remnants of RSS support removed</a></li>
 </ul>
 </div>
 <p>In libtorrent 2.0, some parts of the API has changed and some deprecated parts

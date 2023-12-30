@@ -51,7 +51,7 @@ public:
 
 private:
     /* Device */
-    QIODevice *m_device{Q_NULLPTR};
+    QIODevice *m_device{nullptr};
     IFileHandlerPtr m_handler;
 
     bool canWriteHelper();

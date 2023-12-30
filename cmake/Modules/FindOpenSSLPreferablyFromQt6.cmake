@@ -10,19 +10,19 @@ if(NOT OpenSSL_ROOT_DIR)
     if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
 
         # Warning: Qt6_DIR is not always the same:
-        # On remote 'Github Actions' runner : Qt6_DIR: D:\a\project\my-qt\Qt\6.3.1\mingw_64
-        # On local it points to             : Qt6_DIR: D:\a\project\my-qt\6.3.1\mingw_64\lib\cmake\Qt6
+        # On remote 'Github Actions' runner : Qt6_DIR: D:\a\project\my-qt\Qt\X.Y.Z\mingw_64
+        # On local it points to             : Qt6_DIR: D:\a\project\my-qt\X.Y.Z\mingw_64\lib\cmake\Qt6
 
         if(Qt6Core_DIR)
 
-            # Qt6Core_DIR: D:\a\project\my-qt\6.3.1\mingw_64\lib\cmake\Qt6Core
+            # Qt6Core_DIR: D:\a\project\my-qt\X.Y.Z\mingw_64\lib\cmake\Qt6Core
             # TODO use cmake_path?
             get_filename_component(Qt6_OPENSSL_DIR ${Qt6Core_DIR} DIRECTORY)
             get_filename_component(Qt6_OPENSSL_DIR ${Qt6_OPENSSL_DIR} DIRECTORY) # like "cd ..". Move to parent directory.
             get_filename_component(Qt6_OPENSSL_DIR ${Qt6_OPENSSL_DIR} DIRECTORY)
             get_filename_component(Qt6_OPENSSL_DIR ${Qt6_OPENSSL_DIR} DIRECTORY)
             get_filename_component(Qt6_OPENSSL_DIR ${Qt6_OPENSSL_DIR} DIRECTORY)
-            set(OpenSSL_ROOT_DIR "${Qt6_OPENSSL_DIR}/Tools/OpenSSL/Win_x64/")
+            set(OpenSSL_ROOT_DIR "${Qt6_OPENSSL_DIR}/Tools/OpenSSLv3/Win_x64/")
 
         endif()
 
@@ -39,16 +39,26 @@ if(EXISTS "${OpenSSL_ROOT_DIR}/include/openssl/ssl.h")
         set(OPENSSL_CRYPTO_LIBRARY "${OpenSSL_ROOT_DIR}/lib/libcrypto.lib" CACHE PATH "Location of the OpenSSL Crypto Lib")
         set(OPENSSL_SSL_LIBRARY "${OpenSSL_ROOT_DIR}/lib/libssl.lib" CACHE PATH "Location of the OpenSSL SSL Lib")
         set(OPENSSL_INCLUDE_DIRS "${OpenSSL_ROOT_DIR}/include" CACHE PATH "Location of the OpenSSL include files")
-        set(OPENSSL_CRYPTO_BIN "${OpenSSL_ROOT_DIR}/bin/libcrypto-1_1-x64.dll" CACHE PATH "Location of the OpenSSL Crypto DLL")
-        set(OPENSSL_SSL_BIN "${OpenSSL_ROOT_DIR}/bin/libssl-1_1-x64.dll" CACHE PATH "Location of the OpenSSL SSL DLL")
+        set(OPENSSL_CRYPTO_BIN "${OpenSSL_ROOT_DIR}/bin/libcrypto-3-x64.dll" CACHE PATH "Location of the OpenSSL Crypto DLL")
+        set(OPENSSL_SSL_BIN "${OpenSSL_ROOT_DIR}/bin/libssl-3-x64.dll" CACHE PATH "Location of the OpenSSL SSL DLL")
 
     else() # MacOS or Unix Compilers
 
-        set(OPENSSL_CRYPTO_LIBRARY "${OpenSSL_ROOT_DIR}/lib/libcrypto.so" CACHE PATH "Location of the OpenSSL Crypto Lib")
-        set(OPENSSL_SSL_LIBRARY "${OpenSSL_ROOT_DIR}/lib/libssl.so" CACHE PATH "Location of the OpenSSL SSL Lib")
+        # To use preinstalled libssl-dev in Ubuntu:
+        # OpenSSL_ROOT_DIR = '/usr'
+        set(OPENSSL_CRYPTO_LIBRARY "${OpenSSL_ROOT_DIR}/lib/x86_64-linux-gnu/libcrypto.so" CACHE PATH "Location of the OpenSSL Crypto Lib")
+        set(OPENSSL_SSL_LIBRARY "${OpenSSL_ROOT_DIR}/lib/x86_64-linux-gnu/libssl.so" CACHE PATH "Location of the OpenSSL SSL Lib")
         set(OPENSSL_INCLUDE_DIRS "${OpenSSL_ROOT_DIR}/include" CACHE PATH "Location of the OpenSSL include files")
-        set(OPENSSL_CRYPTO_BIN "${OpenSSL_ROOT_DIR}/lib/libcrypto.so.1.1" CACHE PATH "Location of the OpenSSL Crypto DLL")
-        set(OPENSSL_SSL_BIN "${OpenSSL_ROOT_DIR}/lib/libssl.so.1.1" CACHE PATH "Location of the OpenSSL SSL DLL")
+        set(OPENSSL_CRYPTO_BIN "${OpenSSL_ROOT_DIR}/lib/x86_64-linux-gnu/libcrypto.so.3" CACHE PATH "Location of the OpenSSL Crypto DLL")
+        set(OPENSSL_SSL_BIN "${OpenSSL_ROOT_DIR}/lib/x86_64-linux-gnu/libssl.so.3" CACHE PATH "Location of the OpenSSL SSL DLL")
+
+        # ...or to build it from Qt:
+        # OpenSSL_ROOT_DIR = '~/work/DownZemAll/qt/Qt/Tools/OpenSSLv3/src'
+        # set(OPENSSL_CRYPTO_LIBRARY "${OpenSSL_ROOT_DIR}/lib/libcrypto.so" CACHE PATH "Location of the OpenSSL Crypto Lib")
+        # set(OPENSSL_SSL_LIBRARY "${OpenSSL_ROOT_DIR}/lib/libssl.so" CACHE PATH "Location of the OpenSSL SSL Lib")
+        # set(OPENSSL_INCLUDE_DIRS "${OpenSSL_ROOT_DIR}/include" CACHE PATH "Location of the OpenSSL include files")
+        # set(OPENSSL_CRYPTO_BIN "${OpenSSL_ROOT_DIR}/lib/libcrypto.so.3" CACHE PATH "Location of the OpenSSL Crypto DLL")
+        # set(OPENSSL_SSL_BIN "${OpenSSL_ROOT_DIR}/lib/libssl.so.3" CACHE PATH "Location of the OpenSSL SSL DLL")
 
     endif()
 

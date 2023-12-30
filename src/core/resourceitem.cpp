@@ -16,6 +16,8 @@
 
 #include "resourceitem.h"
 
+#include <Constants>
+
 #include <Core/FileUtils>
 #include <Core/Mask>
 #include <Core/Stream>
@@ -25,29 +27,7 @@
 #include <QtCore/QRegularExpression>
 #include <QtCore/QUrl>
 
-static const QString s_regular = QLatin1String("regular");
-static const QString s_stream  = QLatin1String("stream");
-static const QString s_torrent = QLatin1String("torrent");
 
-
-ResourceItem::ResourceItem()
-    : m_type(Type::Regular)
-    , m_url(QString())
-    , m_destination(QString())
-    , m_mask(QString())
-    , m_customFileName(QString())
-    , m_referringPage(QString())
-    , m_description(QString())
-    , m_checkSum(QString())
-    , m_streamFileName(QString())
-    , m_streamFormatId(QString())
-    , m_streamFileSize(0)
-    , m_torrentPreferredFilePriorities(QString())
-{
-}
-
-/******************************************************************************
- ******************************************************************************/
 ResourceItem::Type ResourceItem::type() const
 {
     return m_type;
@@ -61,17 +41,17 @@ void ResourceItem::setType(Type type)
 QString ResourceItem::toString(Type type)
 {
     switch (type) {
-    case Type::Stream:  return s_stream;
-    case Type::Torrent: return s_torrent;
+    case Type::Stream:  return S_KEY_STREAM;
+    case Type::Torrent: return S_KEY_TORRENT;
     default:
-        return s_regular;
+        return S_KEY_REGULAR;
     }
 }
 
 ResourceItem::Type ResourceItem::fromString(const QString &str)
 {
-    if (str.toLower() == s_stream)  return Type::Stream;
-    if (str.toLower() == s_torrent) return Type::Torrent;
+    if (str.toLower() == S_KEY_STREAM)  { return Type::Stream; }
+    if (str.toLower() == S_KEY_TORRENT) { return Type::Torrent; }
     return Type::Regular;
 }
 
@@ -80,6 +60,11 @@ ResourceItem::Type ResourceItem::fromString(const QString &str)
 QString ResourceItem::url() const
 {
     return m_url;
+}
+
+QUrl ResourceItem::url_TODO() const
+{
+    return QUrl(m_url);
 }
 
 void ResourceItem::setUrl(const QString &url)
@@ -132,17 +117,17 @@ void ResourceItem::setCustomFileName(const QString &customFileName)
  ******************************************************************************/
 QUrl ResourceItem::localFileUrl() const
 {
-    const QString path = localFilePath(m_customFileName);
+    auto path = localFilePath(m_customFileName);
     return QUrl::fromLocalFile(path);
 }
 
 QString ResourceItem::fileName() const
 {
-    const QUrl url = localFileUrl();
+    auto url = localFileUrl();
     if (!url.isEmpty() && url.isValid()) {
         return url.fileName();
     }
-    return QString();
+    return {};
 }
 
 QString ResourceItem::localFileFullPath(const QString &customFileName) const
@@ -280,16 +265,16 @@ inline QString ResourceItem::localFilePath(const QString &customFileName) const
 
 inline QString ResourceItem::localStreamFile(const QString &customFileName) const
 {
-    QString url = QUrl(m_url).host() + "/" + m_streamFileName;
-    QString fileName = Mask::interpret(url, customFileName, m_mask);
+    QString url = QUrl(m_url).host() % "/" % m_streamFileName;
+    auto fileName = Mask::interpret(url, customFileName, m_mask);
     fileName = FileUtils::validateFileName(fileName, true);
     return QDir(m_destination).filePath(fileName);
 }
 
 inline QString ResourceItem::localMagnetFile(const QString &customFileName) const
 {
-    QString displayName = parseMagnetUrl(m_url);
-    QString fileName = customFileName.isEmpty() ? displayName : customFileName;
+    auto displayName = parseMagnetUrl(m_url);
+    auto fileName = customFileName.isEmpty() ? displayName : customFileName;
     fileName += ".torrent";
 
     // Remark: No mask for magnets
@@ -302,21 +287,22 @@ inline QString ResourceItem::localMagnetFile(const QString &customFileName) cons
 inline QString ResourceItem::parseMagnetUrl(const QString &url) const
 {
     /// todo move to Mask::interpretMagnet ?
-    QRegularExpression regex("^"
-                  + QRegularExpression::escape("magnet:?")
-                  + ".*"+ QRegularExpression::escape("&") + "?"
-                  + QRegularExpression::escape("dn=")
-                  // *********************
-                  // captured group #1
-                  // rem: [^A] means anything not A
-                  + "([^" + QRegularExpression::escape("&") + "]*)"
-                  // *********************
-                  + "(" + QRegularExpression::escape("&") + ".*)?"
-                  + "$"
-                  );
-    QRegularExpressionMatch match = regex.match(url);
+    static QRegularExpression regex(
+        "^"
+        % QRegularExpression::escape("magnet:?")
+        % ".*"% QRegularExpression::escape("&") % "?"
+        % QRegularExpression::escape("dn=")
+        // *********************
+        // captured group #1
+        // rem: [^A] means anything not A
+        % "([^" % QRegularExpression::escape("&") % "]*)"
+        // *********************
+        % "(" % QRegularExpression::escape("&") % ".*)?"
+        % "$");
+
+    auto match = regex.match(url);
     if (match.hasMatch()) {
-        QString displayName = match.captured(1);
+        auto displayName = match.captured(1);
         displayName = Mask::decodeMagnetEncoding(displayName);
         return displayName;
     }
@@ -328,7 +314,7 @@ inline QString ResourceItem::parseMagnetUrl(const QString &url) const
 inline QString ResourceItem::localFile(const QString &destination, const QUrl &url,
                                        const QString &customFileName, const QString &mask)
 {
-    QString fileName = Mask::interpret(url, customFileName, mask);
+    auto fileName = Mask::interpret(url, customFileName, mask);
     fileName = FileUtils::validateFileName(fileName, true);
     return QDir(destination).filePath(fileName);
 }

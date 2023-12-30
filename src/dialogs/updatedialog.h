@@ -20,14 +20,14 @@ class UpdateDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit UpdateDialog(UpdateChecker *updateChecker, QWidget *parent = Q_NULLPTR);
-    ~UpdateDialog() Q_DECL_OVERRIDE;
+    explicit UpdateDialog(UpdateChecker *updateChecker, QWidget *parent = nullptr);
+    ~UpdateDialog() override;
 
 private slots:
     void check();
     void install();
 
-    void onUpdateAvailable(const UpdateChecker::ChangeLog &changelog);
+    void onUpdateAvailableForGui(const UpdateChecker::ChangeLog &changelog);
     void onDownloadProgress(qsizetype bytesReceived, qsizetype bytesTotal);
     void onUpdateDownloadFinished();
     void onUpdateError(const QString &errorMessage);

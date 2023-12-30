@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="author" content="Arvid Norberg, arvid&#64;libtorrent.org" />
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
@@ -44,23 +44,23 @@ libtorrent version 1.2.12 and version 2.0.2.</p>
 <div class="contents topic" id="issues-brought-up-in-the-report">
 <p class="topic-title">issues brought up in the report</p>
 <ul class="simple">
-<li><a class="reference internal" href="#f1-server-side-request-forgery-ssrf" id="id29">F1: Server-Side Request Forgery (SSRF)</a><ul>
-<li><a class="reference internal" href="#tracker-and-web-seed-protocols" id="id30">tracker and web seed protocols</a></li>
-<li><a class="reference internal" href="#cloud-server-meta-data" id="id31">Cloud server meta-data</a></li>
-<li><a class="reference internal" href="#database-http-interfaces" id="id32">Database HTTP interfaces</a></li>
-<li><a class="reference internal" href="#internal-rest-interfaces" id="id33">Internal REST interfaces</a></li>
-<li><a class="reference internal" href="#files" id="id34">Files</a></li>
+<li><a class="reference internal" href="#f1-server-side-request-forgery-ssrf" id="toc-entry-1">F1: Server-Side Request Forgery (SSRF)</a><ul>
+<li><a class="reference internal" href="#tracker-and-web-seed-protocols" id="toc-entry-2">tracker and web seed protocols</a></li>
+<li><a class="reference internal" href="#cloud-server-meta-data" id="toc-entry-3">Cloud server meta-data</a></li>
+<li><a class="reference internal" href="#database-http-interfaces" id="toc-entry-4">Database HTTP interfaces</a></li>
+<li><a class="reference internal" href="#internal-rest-interfaces" id="toc-entry-5">Internal REST interfaces</a></li>
+<li><a class="reference internal" href="#files" id="toc-entry-6">Files</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#f2-compile-options-can-remove-assert-security-validation" id="id35">F2: Compile Options Can Remove Assert Security Validation</a></li>
-<li><a class="reference internal" href="#f3-confidential-and-security-relevant-information-stored-in-logs" id="id36">F3: Confidential and Security Relevant Information Stored in Logs</a></li>
-<li><a class="reference internal" href="#f4-pseudo-random-number-generator-is-vulnerable-to-prediction-attack" id="id37">F4: Pseudo Random Number Generator Is Vulnerable to Prediction Attack</a></li>
-<li><a class="reference internal" href="#f5-potential-null-pointer-dereference-issues" id="id38">F5: Potential Null Pointer Dereference Issues</a></li>
-<li><a class="reference internal" href="#f6-integer-overflow" id="id39">F6: Integer Overflow</a></li>
-<li><a class="reference internal" href="#f7-magnet-uris-allow-idna-domain-names" id="id40">F7: Magnet URIs Allow IDNA Domain Names</a></li>
-<li><a class="reference internal" href="#i1-additional-documentation-and-automation" id="id41">I1: Additional Documentation and Automation</a></li>
-<li><a class="reference internal" href="#i2-automated-fuzzer-generation" id="id42">I2: Automated Fuzzer Generation</a></li>
-<li><a class="reference internal" href="#i3-type-confusion-and-integer-overflow-improvements" id="id43">I3: Type Confusion and Integer Overflow Improvements</a></li>
+<li><a class="reference internal" href="#f2-compile-options-can-remove-assert-security-validation" id="toc-entry-7">F2: Compile Options Can Remove Assert Security Validation</a></li>
+<li><a class="reference internal" href="#f3-confidential-and-security-relevant-information-stored-in-logs" id="toc-entry-8">F3: Confidential and Security Relevant Information Stored in Logs</a></li>
+<li><a class="reference internal" href="#f4-pseudo-random-number-generator-is-vulnerable-to-prediction-attack" id="toc-entry-9">F4: Pseudo Random Number Generator Is Vulnerable to Prediction Attack</a></li>
+<li><a class="reference internal" href="#f5-potential-null-pointer-dereference-issues" id="toc-entry-10">F5: Potential Null Pointer Dereference Issues</a></li>
+<li><a class="reference internal" href="#f6-integer-overflow" id="toc-entry-11">F6: Integer Overflow</a></li>
+<li><a class="reference internal" href="#f7-magnet-uris-allow-idna-domain-names" id="toc-entry-12">F7: Magnet URIs Allow IDNA Domain Names</a></li>
+<li><a class="reference internal" href="#i1-additional-documentation-and-automation" id="toc-entry-13">I1: Additional Documentation and Automation</a></li>
+<li><a class="reference internal" href="#i2-automated-fuzzer-generation" id="toc-entry-14">I2: Automated Fuzzer Generation</a></li>
+<li><a class="reference internal" href="#i3-type-confusion-and-integer-overflow-improvements" id="toc-entry-15">I3: Type Confusion and Integer Overflow Improvements</a></li>
 </ul>
 </div>
 <div class="section" id="f1-server-side-request-forgery-ssrf">
@@ -180,7 +180,7 @@ keys for debugging, so they don't have much value in the log anyway.</p>
 <p>These are the places <tt class="docutils literal">random_bytes()</tt>, <tt class="docutils literal">random()</tt> and <tt class="docutils literal">random_shuffle()</tt>
 are used in libtorrent. The &quot;crypto&quot; column indicates whether the random number
 is sensitive and must be hard to predict, i.e. have high entropy.</p>
-<table border="1" class="colwidths-auto docutils">
+<table border="1" class="docutils">
 <thead valign="bottom">
 <tr><th class="head">crypto</th>
 <th class="head">Use</th>

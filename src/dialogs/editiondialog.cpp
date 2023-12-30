@@ -17,7 +17,7 @@
 #include "editiondialog.h"
 #include "ui_editiondialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/DownloadItem>
 #include <Core/IDownloadItem>
 #include <Core/ResourceItem>
@@ -51,7 +51,7 @@ EditionDialog::EditionDialog(const QList<IDownloadItem*> &items, QWidget *parent
     ui->warningLabel->setVisible(false);
 
     ui->editor->clear();
-    foreach (auto item, items) {
+    for (auto item : items) {
         auto downloadItem = dynamic_cast<const DownloadItem*>(item);
         if (downloadItem) {
             auto resource = downloadItem->resource();
@@ -79,8 +79,8 @@ void EditionDialog::accept()
 {
     writeSettings();
     if (ui->editor->isModified()) {
-        const int itemCount = m_items.count();
-        const int lineCount = ui->editor->count();
+        auto itemCount = m_items.count();
+        auto lineCount = ui->editor->count();
         if (itemCount != lineCount) {
             return; // Cancel action
         }
@@ -108,10 +108,10 @@ void EditionDialog::onTextChanged()
  ******************************************************************************/
 void EditionDialog::applyChanges()
 {
-    const int itemCount = m_items.count();
-    const int lineCount = ui->editor->count();
+    auto itemCount = m_items.count();
+    auto lineCount = ui->editor->count();
     Q_ASSERT(itemCount == lineCount);
-    for (int index = 0; index < itemCount; ++index) {
+    for (auto index = 0; index < itemCount; ++index) {
 
         auto item = m_items.at(index);
         auto downloadItem = dynamic_cast<DownloadItem*>(item);

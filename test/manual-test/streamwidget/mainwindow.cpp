@@ -132,7 +132,7 @@ void MainWindow::onPlaylistButtonClicked()
     list << DummyStreamFactory::createDummyStreamObject_Dailymotion();
     list << DummyStreamFactory::createDummyStreamObject_unavailable();
     list << DummyStreamFactory::createDummyStreamObject_Other();
-    for (int i = 0; i < list.count(); ++i) {
+    for (auto i = 0; i < list.count(); ++i) {
         auto item = list.at(i);
         item.data().playlist = QLatin1String("Playlist of favorite streams");
         item.data().playlist_index = QString::number(i + 1);

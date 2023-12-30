@@ -25,8 +25,8 @@ class Locale
 public:
     static QStringList availableLanguages();
 
-    static QString toLanguage(int index);
-    static int fromLanguage(QString language);
+    static QString toLanguage(qsizetype index);
+    static qsizetype fromLanguage(QString language);
 
     static void applyLanguage(const QString &language);
 };

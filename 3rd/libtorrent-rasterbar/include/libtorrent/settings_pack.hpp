@@ -363,7 +363,10 @@ namespace aux {
 			proxy_password,
 
 			// sets the i2p_ SAM bridge to connect to. set the port with the
-			// ``i2p_port`` setting.
+			// ``i2p_port`` setting. Unless this is set, i2p torrents are not
+			// supported. This setting is separate from the other proxy settings
+			// since i2p torrents and their peers are orthogonal. You can have
+			// i2p peers as well as regular peers via a proxy.
 			//
 			// .. _i2p: http://www.i2p2.de
 			i2p_hostname,
@@ -1435,6 +1438,11 @@ namespace aux {
 			// default (i.e. don't change the buffer sizes).
 			// The socket buffer sizes are changed using setsockopt() with
 			// SOL_SOCKET/SO_RCVBUF and SO_SNDBUFFER.
+			//
+			// Note that uTP peers share a single UDP socket buffer for each of the
+			// ``listen_interfaces``, along with DHT and UDP tracker traffic.
+			// If the buffer size is too small for the combined traffic through the
+			// socket, packets may be dropped.
 			recv_socket_buffer_size,
 			send_socket_buffer_size,
 
@@ -2048,6 +2056,18 @@ namespace aux {
 			// operations. This file size limit is specified in 16 kiB blocks.
 			mmap_file_size_cutoff,
 
+			// Configures the SAM session
+			// quantity of I2P inbound and outbound tunnels [1..16].
+			// number of hops for I2P inbound and outbound tunnels [0..7]
+			// Changing these will not trigger a reconnect to the SAM bridge,
+			// they will take effect the next time the SAM connection is
+			// re-established (by restarting or changing i2p_hostname or
+			// i2p_port).
+			i2p_inbound_quantity,
+			i2p_outbound_quantity,
+			i2p_inbound_length,
+			i2p_outbound_length,
+
 			max_int_setting_internal
 		};
 
@@ -2206,8 +2226,13 @@ namespace aux {
 			// authorization. The username and password will be sent to the proxy.
 			http_pw,
 
-			// route through a i2p SAM proxy
+#if TORRENT_USE_I2P
+			// internal
+			// This is used internally to communicate with the
+			// http_tracker_connection. To configure an i2p SAM bridge, set
+			// i2p_hostname and i2p_port.
 			i2p_proxy
+#endif
 		};
 	private:
 

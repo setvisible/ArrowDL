@@ -16,6 +16,7 @@
 
 #include "stream.h"
 
+#include <Constants>
 #include <Core/FileUtils>
 #include <Core/Format>
 
@@ -37,34 +38,13 @@
 
 #include <algorithm> /* std::sort */
 
-#if defined Q_OS_WIN
-static const QString C_PROGRAM_NAME  = QLatin1String("yt-dlp.exe");
-#else
-static const QString C_PROGRAM_NAME  = QLatin1String("yt-dlp");
-#endif
-
-static const QString C_WEBSITE_URL   = QLatin1String("https://github.com/yt-dlp/yt-dlp");
-static const int     C_EXIT_SUCCESS  = 0;
-
-static const QString C_NONE          = QLatin1String("none");
-
-static const QString C_WARNING_msg_header_01 = QLatin1String("WARNING:");
-static const QString C_WARNING_msg_header_02 = QLatin1String("\\033[0;33mWARNING:\\033[0m");
-static const QString C_ERROR_msg_header_01 = QLatin1String("ERROR:");
-static const QString C_ERROR_msg_header_02 = QLatin1String("\\033[0;31mERROR:\\033[0m");
-
-static const QString C_WARNING_merge_output_format = QLatin1String(
-            "Requested formats are incompatible for merge and will be merged into mkv.");
-
-static const QString C_DOWNLOAD_msg_header = QLatin1String("[download]");
-static const QString C_DOWNLOAD_next_section = QLatin1String("Destination:");
-static const QString C_MERGER_msg_header = QLatin1String("[Merger]");
+using namespace Qt::Literals::StringLiterals;
 
 
-static QString s_youtubedl_version = QString();
+static QString s_youtubedl_version = {};
 static int s_youtubedl_concurrent_fragments = 0;
 static bool s_youtubedl_last_modified_time_enabled = true;
-static QString s_youtubedl_user_agent = QString();
+static QString s_youtubedl_user_agent = {};
 static int s_youtubedl_socket_type = 0;
 static int s_youtubedl_socket_timeout = 0;
 
@@ -89,10 +69,8 @@ Stream::Stream(QObject *parent) : QObject(parent)
   , m_process(new QProcess(this))
 {
     connect(m_process, SIGNAL(started()), this, SLOT(onStarted()));
-#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
     connect(m_process, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onError(QProcess::ProcessError)));
-#endif
-    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinished(int, QProcess::ExitStatus)));
+    connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinished(int,QProcess::ExitStatus)));
     connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onStandardOutputReady()));
     connect(m_process, SIGNAL(readyReadStandardError()), this, SLOT(onStandardErrorReady()));
 
@@ -111,8 +89,8 @@ QString Stream::version()
 {
     if (s_youtubedl_version.isEmpty()) {
         auto arguments = QStringList()
-                << QLatin1String("--no-colors")
-                << QLatin1String("--version");
+                << "--no-colors"_L1
+                << "--version"_L1;
         QProcess process;
         process.setWorkingDirectory(qApp->applicationDirPath());
         process.start(C_PROGRAM_NAME, arguments);
@@ -192,9 +170,9 @@ static inline bool matches(const QString &host, const QString &regexHost)
     auto domains = host.split('.', Qt::SkipEmptyParts);
     auto mandatoryDomains = regexHost.split(delimiters, Qt::SkipEmptyParts);
 
-    foreach (auto mandatory, mandatoryDomains) {
+    for (auto mandatory : mandatoryDomains) {
         bool found = false;
-        foreach (auto domain, domains) {
+        for (auto domain : domains) {
             if (QString::compare(domain, mandatory, Qt::CaseInsensitive) == 0) {
                 found = true;
                 break;
@@ -209,7 +187,7 @@ static inline bool matches(const QString &host, const QString &regexHost)
 
 bool Stream::matchesHost(const QString &host, const QStringList &regexHosts)
 {
-    foreach (auto regexHost, regexHosts) {
+    for (auto regexHost : regexHosts) {
         if (matches(host, regexHost)) {
             return true;
         }
@@ -223,7 +201,7 @@ void Stream::clear()
 {
     m_url.clear();
     m_outputPath.clear();
-    m_selectedFormatId = StreamFormatId();
+    m_selectedFormatId = {};
     m_bytesReceived = 0;
     m_bytesReceivedCurrentSection = 0;
     m_bytesTotal = 0;
@@ -385,7 +363,7 @@ QStringList Stream::arguments() const
         /// \todo implement chapters writing
     }
     if (m_config.thumbnail.writeDefaultThumbnail) {
-        arguments << QLatin1String("--write-thumbnail");
+        arguments << "--write-thumbnail"_L1;
     }
     if (m_config.comment.writeComment) {
         arguments << QLatin1String("--write-comments");
@@ -424,7 +402,7 @@ QStringList Stream::arguments() const
         break;
     }
     if (!m_referringPage.isEmpty()) {
-        arguments << QLatin1String("--referer") << m_referringPage;
+        arguments << "--referer"_L1 << m_referringPage;
     }
     if (isMergeFormat(m_fileExtension)) {
         arguments << QLatin1String("--merge-output-format") << m_fileExtension;
@@ -440,7 +418,7 @@ QString Stream::command(int indent) const
 
     // Inline command
     QString cmd = C_PROGRAM_NAME + " ";
-    foreach (auto argument, args) {
+    for (auto argument : args) {
         auto quote = argument.contains(' ') ? QString('\"') : QString();
         cmd += quote + argument + quote + " ";
     }
@@ -449,7 +427,7 @@ QString Stream::command(int indent) const
 
     // Smartly wrapped arguments
     cmd += C_PROGRAM_NAME + " ";
-    foreach (auto argument, args) {
+    for (auto argument : args) {
         if (argument.startsWith("--")) {
             cmd += "\\\n" + QString().fill(' ', indent);
         }
@@ -535,12 +513,12 @@ void Stream::onStandardErrorReady()
 QStringList Stream::splitMultiThreadMessages(const QString &raw) const
 {
     QStringList messages;
-    QRegularExpression re(R"(\[download\]|\[Merger\])", QRegularExpression::CaseInsensitiveOption);
-    QString raw2 = raw;
-    qsizetype pos = raw2.lastIndexOf(re);
+    static QRegularExpression re(R"(\[download\]|\[Merger\])", QRegularExpression::CaseInsensitiveOption);
+    auto raw2 = raw;
+    auto pos = raw2.lastIndexOf(re);
     if (0 <= pos && pos <= raw2.size()) {
         while (pos != -1) {
-            QString message = raw2.last(raw2.size() - pos);
+            auto message = raw2.last(raw2.size() - pos);
             messages.prepend(message);
             raw2.truncate(pos);
             pos = raw2.lastIndexOf(re);
@@ -553,8 +531,8 @@ QStringList Stream::splitMultiThreadMessages(const QString &raw) const
 
 void Stream::parseStandardOutput(const QString &msg)
 {
-    QStringList messages = splitMultiThreadMessages(msg);
-    foreach (auto message, messages) {
+    auto messages = splitMultiThreadMessages(msg);
+    for (auto message : messages) {
         parseSingleStandardOutput(message);
     }
 }
@@ -570,8 +548,8 @@ void Stream::parseSingleStandardOutput(const QString &msg)
     }
     if (areEqual(tokens.at(0), C_MERGER_msg_header)) {
         // During merger, the progress is arbitrarily at 99%, not 100%.
-        qsizetype bytesTotal = _q_bytesTotal();
-        qsizetype almostFinished = static_cast<qsizetype>(0.99 * qreal(bytesTotal));
+        auto bytesTotal = _q_bytesTotal();
+        auto almostFinished = static_cast<qsizetype>(0.99 * qreal(bytesTotal));
         emit downloadProgress(almostFinished, bytesTotal);
         return;
     }
@@ -593,7 +571,7 @@ void Stream::parseSingleStandardOutput(const QString &msg)
                     ? tokens.at(3)
                     : tokens.at(4);
 
-            qreal percent = Format::parsePercentDecimal(percentToken);
+            auto percent = Format::parsePercentDecimal(percentToken);
             if (percent < 0) {
                 qWarning("Can't parse '%s'.", percentToken.toLatin1().data());
                 return;
@@ -604,10 +582,10 @@ void Stream::parseSingleStandardOutput(const QString &msg)
                 qWarning("Can't parse '%s'.", sizeToken.toLatin1().data());
                 return;
             }
-            m_bytesReceivedCurrentSection = static_cast<qsizetype>(qreal(percent * m_bytesTotalCurrentSection) / 100);
+            m_bytesReceivedCurrentSection = static_cast<qsizetype>(percent * static_cast<qreal>(m_bytesTotalCurrentSection) / 100);
         }
 
-        qsizetype received = m_bytesReceived + m_bytesReceivedCurrentSection;
+        auto received = m_bytesReceived + m_bytesReceivedCurrentSection;
         emit downloadProgress(received, _q_bytesTotal());
     }
 }
@@ -655,13 +633,10 @@ bool Stream::isMergeFormat(const QString &suffix) const
  ******************************************************************************/
 StreamCleanCache::StreamCleanCache(QObject *parent) : QObject(parent)
   , m_process(new QProcess(this))
-  , m_isCleaned(false)
 {
     connect(m_process, SIGNAL(started()), this, SLOT(onStarted()));
-#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
     connect(m_process, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onError(QProcess::ProcessError)));
-#endif
-    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinished(int, QProcess::ExitStatus)));
+    connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinished(int,QProcess::ExitStatus)));
 }
 
 StreamCleanCache::~StreamCleanCache()
@@ -674,8 +649,8 @@ void StreamCleanCache::runAsync()
 {
     if (m_process->state() == QProcess::NotRunning) {
         auto arguments = QStringList()
-                << QLatin1String("--no-colors")
-                << QLatin1String("--rm-cache-dir");
+                << "--no-colors"_L1
+                << "--rm-cache-dir"_L1;
         m_process->setWorkingDirectory(qApp->applicationDirPath());
         m_process->start(C_PROGRAM_NAME, arguments);
         debugPrintProcessCommand(m_process);
@@ -686,9 +661,9 @@ QUrl StreamCleanCache::cacheDir()
 {
     // Try to get the .cache from $XDG_CACHE_HOME, if it's not set,
     // it has to be in ~/.cache as per XDG standard
-    QString dir = QString::fromUtf8(getenv("XDG_CACHE_HOME"));
+    auto dir = QString::fromUtf8(getenv("XDG_CACHE_HOME"));
     if (dir.isEmpty()) {
-        dir = QDir::cleanPath(QDir::homePath() + QLatin1String("/.cache"));
+        dir = QDir::cleanPath(QDir::homePath() + "/.cache"_L1);
     }
     return QUrl::fromLocalFile(dir);
 }
@@ -735,12 +710,10 @@ StreamAssetDownloader::StreamAssetDownloader(QObject *parent) : QObject(parent)
 {
     connect(m_processDumpJson, SIGNAL(started()), this, SLOT(onStarted()));
     connect(m_processFlatList, SIGNAL(started()), this, SLOT(onStarted()));
-#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
     connect(m_processDumpJson, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onError(QProcess::ProcessError)));
     connect(m_processFlatList, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onError(QProcess::ProcessError)));
-#endif
-    connect(m_processDumpJson, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinishedDumpJson(int, QProcess::ExitStatus)));
-    connect(m_processFlatList, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinishedFlatList(int, QProcess::ExitStatus)));
+    connect(m_processDumpJson, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinishedDumpJson(int,QProcess::ExitStatus)));
+    connect(m_processFlatList, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinishedFlatList(int,QProcess::ExitStatus)));
 
     // Cache cleaner
     connect(m_streamCleanCache, SIGNAL(done()), this, SLOT(onCacheCleaned()));
@@ -927,7 +900,7 @@ StreamAssetDownloader::StreamDumpMap StreamAssetDownloader::parseDumpMap(
 {
     StreamDumpMap map;
     QList<QByteArray> stdoutLines = stdoutBytes.split(QChar('\n').toLatin1());
-    foreach (auto stdoutLine, stdoutLines) {
+    for (auto stdoutLine : stdoutLines) {
         if (!stdoutLine.isEmpty()) {
             StreamObject streamObject = parseDumpItemStdOut(stdoutLine);
             map.insert(streamObject.id(), streamObject);
@@ -935,7 +908,7 @@ StreamAssetDownloader::StreamDumpMap StreamAssetDownloader::parseDumpMap(
         }
     }
     QList<QByteArray> stderrLines = stderrBytes.split(QChar('\n').toLatin1());
-    foreach (auto stderrLine, stderrLines) {
+    for (auto stderrLine : stderrLines) {
         if (!stderrLine.isEmpty()) {
             StreamObject streamObject = parseDumpItemStdErr(stderrLine);
             map.insert(streamObject.id(), streamObject);
@@ -950,10 +923,10 @@ static void parseSubtitles(
         StreamObject::Data *data = nullptr)
 {
     Q_ASSERT(data);
-    foreach (const QString &languageCode, jsonSubtitles.keys()) {
+    for (const auto &languageCode : jsonSubtitles.keys()) {
         QJsonValue jsonLanguage = jsonSubtitles.value(languageCode);
         QJsonArray jsonExtensions = jsonLanguage.toArray();
-        foreach (auto jsonExtension, jsonExtensions) {
+        for (auto jsonExtension : jsonExtensions) {
             QJsonObject jsonSub = jsonExtension.toObject();
             StreamSubtitle subtitle;
             subtitle.languageCode = languageCode;
@@ -1005,7 +978,7 @@ StreamObject StreamAssetDownloader::parseDumpItemStdOut(const QByteArray &bytes)
     data.title = title;
 
     QJsonArray jsonFormats  = json[QLatin1String("formats")].toArray();
-    foreach (auto jsonFormat, jsonFormats) {
+    for (auto jsonFormat : jsonFormats) {
         QJsonObject jsonFmt = jsonFormat.toObject();
         StreamFormat format;
 
@@ -1124,7 +1097,7 @@ StreamAssetDownloader::StreamFlatList StreamAssetDownloader::parseFlatList(
 {
     QList<StreamFlatListItem> list;
     QList<QByteArray> stdoutLines = stdoutBytes.split(QChar('\n').toLatin1());
-    foreach (auto stdoutLine, stdoutLines) {
+    for (auto stdoutLine : stdoutLines) {
         if (!stdoutLine.isEmpty()) {
             StreamFlatListItem item = parseFlatItem(stdoutLine);
             if (!item.id.isEmpty()) {
@@ -1133,7 +1106,7 @@ StreamAssetDownloader::StreamFlatList StreamAssetDownloader::parseFlatList(
         }
     }
     QList<QByteArray> stderrLines = stderrBytes.split(QChar('\n').toLatin1());
-    foreach (auto stderrLine, stderrLines) {
+    for (auto stderrLine : stderrLines) {
         if (!stderrLine.isEmpty()) {
             qWarning("Stream error: '%s'.", stderrLine.data());
         }
@@ -1167,7 +1140,7 @@ void StreamAssetDownloader::onFinished()
     if (!m_dumpMap.isEmpty() && !m_flatList.isEmpty()) {
         QList<StreamObject> streamObjects;
         int playlist_index = 0;
-        foreach (auto flatItem, m_flatList) {
+        for (auto flatItem : m_flatList) {
             playlist_index++;
             StreamObject si = createStreamObject(flatItem);
             si.data().playlist_index = QString::number(playlist_index);
@@ -1207,10 +1180,8 @@ StreamUpgrader::StreamUpgrader(QObject *parent) : QObject(parent)
   , m_process(new QProcess(this))
 {
     connect(m_process, SIGNAL(started()), this, SLOT(onStarted()));
-#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
     connect(m_process, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onError(QProcess::ProcessError)));
-#endif
-    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinished(int, QProcess::ExitStatus)));
+    connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinished(int,QProcess::ExitStatus)));
     connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onStandardOutputReady()));
     connect(m_process, SIGNAL(readyReadStandardError()), this, SLOT(onStandardErrorReady()));
 }
@@ -1274,12 +1245,10 @@ StreamExtractorListCollector::StreamExtractorListCollector(QObject *parent) : QO
 {
     connect(m_processExtractors, SIGNAL(started()), this, SLOT(onStarted()));
     connect(m_processDescriptions, SIGNAL(started()), this, SLOT(onStarted()));
-#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
     connect(m_processExtractors, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onError(QProcess::ProcessError)));
     connect(m_processDescriptions, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onError(QProcess::ProcessError)));
-#endif
-    connect(m_processExtractors, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinishedExtractors(int, QProcess::ExitStatus)));
-    connect(m_processDescriptions, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(onFinishedDescriptions(int, QProcess::ExitStatus)));
+    connect(m_processExtractors, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinishedExtractors(int,QProcess::ExitStatus)));
+    connect(m_processDescriptions, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinishedDescriptions(int,QProcess::ExitStatus)));
 }
 
 StreamExtractorListCollector::~StreamExtractorListCollector()
@@ -1390,7 +1359,7 @@ void StreamFormatId::fromString(const QString &format_id)
 QList<StreamFormatId> StreamFormatId::compoundIds() const
 {
     QList<StreamFormatId> ret;
-    foreach (auto identifier, m_identifiers) {
+    for (auto identifier : m_identifiers) {
         ret << StreamFormatId(identifier);
     }
     return ret;
@@ -1488,7 +1457,7 @@ QString StreamObject::Data::Format::toString() const
                 .arg(abr)
                 .arg(acodec);
     }
-    return QString();
+    return {};
 }
 
 QString StreamObject::Data::Format::debug_description() const
@@ -1664,8 +1633,8 @@ QString StreamObject::suffix(const StreamFormatId &formatId) const
         return m_data.defaultSuffix;
     }
     auto suffix = m_data.defaultSuffix;
-    foreach (auto id, formatId.compoundIds()) {
-        foreach (auto format, m_data.formats) {
+    for (auto id : formatId.compoundIds()) {
+        for (auto format : m_data.formats) {
             if (id == format.formatId) {
                 if (format.hasVideo()) {
                     return format.ext;
@@ -1689,14 +1658,14 @@ StreamFormatId StreamObject::formatId() const
 
 void StreamObject::setFormatId(const StreamFormatId &formatId)
 {
-    m_userSuffix = QString();
+    m_userSuffix = {};
     m_userFormatId = (formatId == m_data.defaultFormatId) ? StreamFormatId() : formatId;
 }
 
 QString StreamObject::formatToString() const
 {
     QString ret;
-    foreach (auto id, formatId().compoundIds()) {
+    for (auto id : formatId().compoundIds()) {
         for (auto format : m_data.formats) {
             if (id == format.formatId) {
                 if (!ret.isEmpty()) {
@@ -1713,7 +1682,7 @@ QList<StreamObject::Data::Format> StreamObject::Data::defaultFormats() const
 {
     // Map avoids duplicate entries
     QMap<QString, StreamFormat> map;
-    foreach (auto format, formats) {
+    for (auto format : formats) {
         if (format.hasVideo() && format.hasMusic()) {
 
             // The output list should be sorted in ascending order of
@@ -1732,7 +1701,7 @@ QList<StreamObject::Data::Format> StreamObject::Data::defaultFormats() const
 QList<StreamObject::Data::Format> StreamObject::Data::audioFormats() const
 {
     QList<StreamFormat> list;
-    foreach (auto format, formats) {
+    for (auto format : formats) {
         if (!format.hasVideo() && format.hasMusic()) {
             list.append(format);
         }
@@ -1743,7 +1712,7 @@ QList<StreamObject::Data::Format> StreamObject::Data::audioFormats() const
 QList<StreamObject::Data::Format> StreamObject::Data::videoFormats() const
 {
     QList<StreamFormat> list;
-    foreach (auto format, formats) {
+    for (auto format : formats) {
         if (format.hasVideo() && !format.hasMusic()) {
             list.append(format);
         }
@@ -1759,7 +1728,7 @@ QList<StreamObject::Data::Format> StreamObject::Data::videoFormats() const
 QList<StreamObject::Data::Subtitle> StreamObject::Data::subtitleLanguages() const
 {
     QMap<QString, StreamObject::Data::Subtitle> map;
-    foreach (auto subtitle, subtitles) {
+    for (auto subtitle : subtitles) {
         QString key =
                 subtitle.languageCode + " " +
                 subtitle.languageName + " " +
@@ -1774,7 +1743,7 @@ QList<QString> StreamObject::Data::subtitleExtensions() const
 {
     // QSet avoids duplicate entries
     QSet<QString> set;
-    foreach (auto subtitle, subtitles) {
+    for (auto subtitle : subtitles) {
         set.insert(subtitle.ext);
     }
     return set.values();  // unsorted
@@ -1806,7 +1775,7 @@ QString StreamObject::Data::debug_description() const
                          defaultFormatId.toString(),
                          playlist,
                          playlist_index)));
-    foreach (auto format, formats) {
+    for (auto format : formats) {
         descr.append("\n");
         descr.append(format.debug_description());
     }
@@ -1848,7 +1817,7 @@ static QString generateErrorMessage(QProcess::ProcessError error)
     default:
         Q_UNREACHABLE();
     }
-    return QString();
+    return {};
 }
 
 static QString toString(QProcess *process)
@@ -1927,7 +1896,7 @@ void debugPrintProcessCommand(QProcess *process)
     QString text = "";
     text +=  process->program();
     text +=  " ";
-    foreach (auto arg, process->arguments()) {
+    for (auto arg : process->arguments()) {
         text +=  arg;
         text +=  " ";
     }

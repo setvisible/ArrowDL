@@ -12,7 +12,7 @@ import cast ;
 
 # we need version numbers in the form X.Y.Z in order to trigger the built-in
 # support for generating symlinks to the installed library
-VERSION = 2.0.8 ;
+VERSION = 2.0.9 ;
 
 BOOST_ROOT = [ modules.peek : BOOST_ROOT ] ;
 CXXFLAGS = [ modules.peek : CXXFLAGS ] ;
@@ -204,6 +204,13 @@ rule linking ( properties * )
 	else
 	{
 		result += <library>boost_system ;
+	}
+
+	if ! <target-os>windows in $(properties)
+	{
+		# MingW defines a macro called "stat" if this is set, which causes build
+		# failures
+		result += <define>_FILE_OFFSET_BITS=64 ;
 	}
 
 	result += <define>BOOST_ALL_NO_LIB
@@ -405,6 +412,7 @@ rule openssl-lib-path ( properties * )
 		local address_model = [ feature.get-values <address-model> : $(properties) ] ;
 		OPENSSL_LIB += "C:/Program Files/OpenSSL-Win$(address_model)/lib" ;
 		OPENSSL_LIB += "C:/Program Files (x86)/OpenSSL-Win$(address_model)/lib" ;
+		OPENSSL_LIB += "C:/Program Files/OpenSSL/lib" ;
 	}
 
 	local result ;
@@ -432,6 +440,7 @@ rule openssl-include-path ( properties * )
 		local address_model = [ feature.get-values <address-model> : $(properties) ] ;
 		OPENSSL_INCLUDE += "C:/Program Files/OpenSSL-Win$(address_model)/include" ;
 		OPENSSL_INCLUDE += "C:/Program Files (x86)/OpenSSL-Win$(address_model)/include" ;
+		OPENSSL_INCLUDE += "C:/Program Files/OpenSSL/include" ;
 	}
 
 	local result ;
@@ -547,7 +556,7 @@ feature.compose <asserts>on : <define>TORRENT_USE_ASSERTS=1 ;
 feature.compose <asserts>production : <define>TORRENT_USE_ASSERTS=1 <define>TORRENT_PRODUCTION_ASSERTS=1 ;
 feature.compose <asserts>system : <define>TORRENT_USE_ASSERTS=1 <define>TORRENT_USE_SYSTEM_ASSERTS=1 ;
 
-feature windows-version : vista win7 win10 xp : composite propagated ;
+feature windows-version : win7 win10 vista xp : composite propagated ;
 feature.compose <windows-version>vista : <define>_WIN32_WINNT=0x0600 ;
 feature.compose <windows-version>win7 : <define>_WIN32_WINNT=0x0601 ;
 feature.compose <windows-version>win10 : <define>_WIN32_WINNT=0x0A00 ;
@@ -883,7 +892,6 @@ local usage-requirements =
 	<include>./include
 	<include>./include/libtorrent
 	<variant>release:<define>NDEBUG
-	<define>_FILE_OFFSET_BITS=64
 # enable cancel support in asio
 	<define>BOOST_ASIO_ENABLE_CANCELIO
 # make sure asio uses std::chrono

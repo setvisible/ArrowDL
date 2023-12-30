@@ -468,6 +468,10 @@ namespace aux {
 
 			void close_connection(peer_connection* p) noexcept override;
 
+#if !defined TORRENT_DISABLE_LOGGING || TORRENT_USE_ASSERTS
+			void validate_setting(int const int_name, int const min, int const max);
+			void validate_settings();
+#endif
 			void apply_settings_pack(std::shared_ptr<settings_pack> pack) override;
 			void apply_settings_pack_impl(settings_pack const& pack);
 			session_settings const& settings() const override { return m_settings; }
@@ -729,7 +733,7 @@ namespace aux {
 
 #if TORRENT_USE_I2P
 			char const* i2p_session() const override { return m_i2p_conn.session_id(); }
-			proxy_settings i2p_proxy() const override;
+			std::string const& local_i2p_endpoint() const override { return m_i2p_conn.local_endpoint(); }
 
 			void on_i2p_open(error_code const& ec);
 			void open_new_incoming_i2p_connection();

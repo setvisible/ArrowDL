@@ -18,9 +18,8 @@
 #include "ui_mainwindow.h"
 
 #include "about.h"
-#include "version.h"
-#include "globals.h"
 
+#include <Constants>
 #include <Core/IDownloadItem>
 #include <Core/DownloadManager>
 #include <Core/DownloadTorrentItem>
@@ -86,10 +85,6 @@
 #  include <QtWinExtras/QWinTaskbarProgress>
 #endif
 
-constexpr int default_width = 1000;
-constexpr int default_height = 700;
-constexpr int default_x = 100;
-constexpr int default_y = 100;
 
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
@@ -108,7 +103,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     m_streamManager->setSettings(m_settings);
 
-    TorrentContext& torrentContext =  TorrentContext::getInstance();
+    TorrentContext& torrentContext = TorrentContext::getInstance();
     torrentContext.setSettings(m_settings);
     torrentContext.setNetworkManager(m_downloadManager->networkManager());
 
@@ -146,23 +141,14 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     /* Connect the SceneManager to the MainWindow. */
     /* The SceneManager centralizes the changes. */
-    connect(m_downloadManager, SIGNAL(jobAppended(DownloadRange)),
-            this, SLOT(onJobAddedOrRemoved(DownloadRange)));
-    connect(m_downloadManager, SIGNAL(jobRemoved(DownloadRange)),
-            this, SLOT(onJobAddedOrRemoved(DownloadRange)));
-    connect(m_downloadManager, SIGNAL(jobStateChanged(IDownloadItem*)),
-            this, SLOT(onJobStateChanged(IDownloadItem*)));
-    connect(m_downloadManager, SIGNAL(jobFinished(IDownloadItem*)),
-            this, SLOT(onJobFinished(IDownloadItem*)));
-    connect(m_downloadManager, SIGNAL(jobRenamed(QString, QString, bool)),
-            this, SLOT(onJobRenamed(QString, QString, bool)), Qt::QueuedConnection);
-    connect(m_downloadManager, SIGNAL(selectionChanged()),
-            this, SLOT(onSelectionChanged()));
+    connect(m_downloadManager, SIGNAL(jobAppended(DownloadRange)), this, SLOT(onJobAddedOrRemoved(DownloadRange)));
+    connect(m_downloadManager, SIGNAL(jobRemoved(DownloadRange)), this, SLOT(onJobAddedOrRemoved(DownloadRange)));
+    connect(m_downloadManager, SIGNAL(jobStateChanged(IDownloadItem*)), this, SLOT(onJobStateChanged(IDownloadItem*)));
+    connect(m_downloadManager, SIGNAL(jobFinished(IDownloadItem*)), this, SLOT(onJobFinished(IDownloadItem*)));
+    connect(m_downloadManager, SIGNAL(jobRenamed(QString,QString,bool)), this, SLOT(onJobRenamed(QString,QString,bool)), Qt::QueuedConnection);
+    connect(m_downloadManager, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 
-
-    connect(ui->downloadQueueView, SIGNAL(doubleClicked(IDownloadItem*)),
-            this, SLOT(openFile(IDownloadItem*)));
-
+    connect(ui->downloadQueueView, SIGNAL(doubleClicked(IDownloadItem*)), this, SLOT(openFile(IDownloadItem*)));
 
     /* Torrent Context Manager */
     connect(&torrentContext, &TorrentContext::changed, this, &MainWindow::onTorrentContextChanged);
@@ -188,11 +174,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     ui->splitter->setStretchFactor(1, 0);
 
     if (!m_settings->isDontShowTutorialEnabled()) {
-        QTimer::singleShot(250, this, SLOT(showTutorial()));
+        QTimer::singleShot(TIMEOUT_TUTORIAL, this, SLOT(showTutorial()));
     }
 
     /* Update Checker */
-    connect(m_updateChecker, SIGNAL(updateAvailable()), this, SLOT(onUpdateAvailable()));
+    connect(m_updateChecker, SIGNAL(updateAvailableForConsole()), this, SLOT(onUpdateAvailableForConsole()));
     m_updateChecker->checkForUpdates(m_settings);
 }
 
@@ -364,10 +350,10 @@ void MainWindow::createContextMenu()
 {
     // delete previous menu if any
     QMenu *contextMenu = ui->downloadQueueView->contextMenu();
-    ui->downloadQueueView->setContextMenu(Q_NULLPTR);
+    ui->downloadQueueView->setContextMenu(nullptr);
     if (contextMenu) {
         delete contextMenu;
-        contextMenu = Q_NULLPTR;
+        contextMenu = nullptr;
     }
 
     contextMenu = new QMenu(this);
@@ -441,7 +427,7 @@ void MainWindow::propagateToolTips()
 {
     // Propagate tooltip to whatsThis and statusTip
     QList<QAction*> actions = this->findChildren<QAction*>();
-    foreach (QAction *action, actions) {
+    for (auto *action : actions) {
         if (!action->isSeparator()) {
             auto str = action->toolTip();
             action->setWhatsThis(str);
@@ -452,7 +438,7 @@ void MainWindow::propagateToolTips()
 
 void MainWindow::propagateIcons()
 {
-    const QMap<QAction*, QString> map = {
+    const QHash<QAction*, QString> hash = {
 
         //! [0] File
         {ui->actionHome                   , "home"},
@@ -530,7 +516,7 @@ void MainWindow::propagateIcons()
         // {ui->actionAboutYTDLP             , ""}
         //! [5]
     };
-    Theme::setIcons(this, map);
+    Theme::setIcons(this, hash);
 }
 
 /******************************************************************************
@@ -566,7 +552,7 @@ void MainWindow::selectNone()
 void MainWindow::invertSelection()
 {
     QList<IDownloadItem *> inverted;
-    foreach (auto item, m_downloadManager->downloadItems()) {
+    for (auto item : m_downloadManager->downloadItems()) {
         if (!m_downloadManager->isSelected(item)) {
             inverted.append(item);
         }
@@ -867,7 +853,7 @@ void MainWindow::addContent()
     dialog.setInputMethodHints(Qt::ImhUrlCharactersOnly);
     dialog.setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     dialog.adjustSize();
-    dialog.resize(600, dialog.height());
+    dialog.resize(DIALOG_WIDTH, dialog.height());
 
     const int ret = dialog.exec();
     const QUrl url = QUrl(dialog.textValue());
@@ -963,21 +949,21 @@ void MainWindow::addUrls(const QString &text)
  ******************************************************************************/
 void MainWindow::resume()
 {
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         m_downloadManager->resume(item);
     }
 }
 
 void MainWindow::cancel()
 {
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         m_downloadManager->cancel(item);
     }
 }
 
 void MainWindow::pause()
 {
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         m_downloadManager->pause(item);
     }
 }
@@ -1014,7 +1000,7 @@ void MainWindow::addDomainSpecificLimit()
 
 void MainWindow::forceStart()
 {
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         /// todo Maybe run the item instantly (in a higher priority queue?)
         m_downloadManager->cancel(item);
         m_downloadManager->resume(item);
@@ -1037,14 +1023,14 @@ void MainWindow::showTutorial()
     dialog.exec();
 }
 
-void MainWindow::onUpdateAvailable()
+void MainWindow::onUpdateAvailableForConsole()
 {
     checkForUpdates();
 }
 
 void MainWindow::checkForUpdates()
 {
-    disconnect(m_updateChecker, SIGNAL(updateAvailable()), this, SLOT(onUpdateAvailable()));
+    disconnect(m_updateChecker, SIGNAL(updateAvailableForConsole()), this, SLOT(onUpdateAvailableForConsole()));
     UpdateDialog dialog(m_updateChecker, this);
     dialog.exec();
 }
@@ -1120,18 +1106,18 @@ void MainWindow::onTorrentContextChanged()
 
 void MainWindow::refreshTitleAndStatus()
 {
-    qreal speed = m_downloadManager->totalSpeed();
-    QString totalSpeed = speed > 0
-            ? QString("~%0").arg(Format::currentSpeedToString(speed))
-            : QString();
+    auto speed = m_downloadManager->totalSpeed();
+    QString totalSpeed;
+    if (speed > 0) {
+        totalSpeed = QString("~%0").arg(Format::currentSpeedToString(speed));
+    }
+    auto completedCount = m_downloadManager->completedJobs().count();
+    auto runningCount = m_downloadManager->runningJobs().count();
+    auto failedCount = m_downloadManager->failedJobs().count();
+    auto count = m_downloadManager->count();
+    auto doneCount = completedCount + failedCount;
 
-    const int completedCount = m_downloadManager->completedJobs().count();
-    const int runningCount = m_downloadManager->runningJobs().count();
-    const int failedCount = m_downloadManager->failedJobs().count();
-    const int count = m_downloadManager->count();
-    const int doneCount = completedCount + failedCount;
-
-    const bool torrent = TorrentContext::getInstance().isEnabled();
+    auto torrent = TorrentContext::getInstance().isEnabled();
 
     auto windowTitle = QString("%0 %1/%2 - %3 v%4").arg(
                 totalSpeed,
@@ -1185,14 +1171,14 @@ void MainWindow::refreshMenus()
     const bool hasSelection = !m_downloadManager->selection().isEmpty();
     const bool hasOnlyOneSelected = m_downloadManager->selection().count() == 1;
     bool hasOnlyCompletedSelected = hasSelection;
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         if (item->state() != IDownloadItem::Completed) {
             hasOnlyCompletedSelected = false;
             continue;
         }
     }
     bool hasAtLeastOneUncompletedSelected = false;
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         if (item->state() != IDownloadItem::Completed) {
             hasAtLeastOneUncompletedSelected = true;
             continue;
@@ -1201,7 +1187,7 @@ void MainWindow::refreshMenus()
     bool hasResumableSelection = false;
     bool hasPausableSelection = false;
     bool hasCancelableSelection = false;
-    foreach (auto item, m_downloadManager->selection()) {
+    for (auto item : m_downloadManager->selection()) {
         if (item->isResumable()) {
             hasResumableSelection = true;
         }
@@ -1285,9 +1271,9 @@ void MainWindow::refreshSplitter()
     if (m_downloadManager->selection().count() == 1) {
         auto item = m_downloadManager->selection().first();
         DownloadTorrentItem *torrentItem = dynamic_cast<DownloadTorrentItem*>(item);
-        ui->torrentWidget->setTorrent(torrentItem ? torrentItem->torrent() : Q_NULLPTR);
+        ui->torrentWidget->setTorrent(torrentItem ? torrentItem->torrent() : nullptr);
     } else {
-        ui->torrentWidget->setTorrent(Q_NULLPTR);
+        ui->torrentWidget->setTorrent(nullptr);
     }
     if (!ui->torrentWidget->isEmpty() /*&& option.showable */) {
         ui->torrentWidget->show();
@@ -1318,13 +1304,13 @@ void MainWindow::readSettings()
 {
     QSettings settings;
     if ( !isMaximized() ) {
-        const QPoint defaultPosition(default_x, default_y);
-        const QSize defaultSize(default_width, default_height);
+        const QPoint defaultPosition(DEFAULT_X, DEFAULT_Y);
+        const QSize defaultSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         QPoint position = settings.value("Position", defaultPosition).toPoint();
         QSize size = settings.value("Size", defaultSize).toSize();
 
         QRect availableGeometry(0, 0, 0, 0);
-        foreach (auto screen, QApplication::screens()) {
+        for (auto screen : QApplication::screens()) {
             availableGeometry = availableGeometry.united(screen->availableGeometry());
         }
 
@@ -1335,11 +1321,7 @@ void MainWindow::readSettings()
         this->move(position);
         this->resize(size);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
     setWindowState(settings.value("WindowState", 0).value<Qt::WindowStates>());
-#else
-    setWindowState((Qt::WindowStates)settings.value("WindowState", 0).toInt() );
-#endif
     setWorkingDirectory(settings.value("WorkingDirectory").toString());
 
     restoreState(settings.value("WindowToolbarState").toByteArray());
@@ -1387,14 +1369,14 @@ inline QUrl MainWindow::droppedUrl(const QMimeData* mimeData) const
         auto supposedFilePath = mimeData->text();
         return QUrl(supposedFilePath);
     }
-    return QUrl();
+    return {};
 }
 
 inline QString MainWindow::fromClipboard() const
 {
     const QClipboard *clipboard = QApplication::clipboard();
     const QMimeData *mimeData = clipboard->mimeData();
-    return mimeData->hasText() ? mimeData->text() : QString();
+    return mimeData->hasText() ? mimeData->text() : ""_L1;
 }
 
 inline QUrl MainWindow::urlFromClipboard() const
@@ -1429,7 +1411,7 @@ bool MainWindow::saveFile(const QString &path)
     }
     this->refreshTitleAndStatus();
     this->refreshMenus();
-    this->statusBar()->showMessage(tr("File saved"), 2000);
+    this->statusBar()->showMessage(tr("File saved"), TIMEOUT_STATUSBAR.count());
     return true;
 }
 
@@ -1448,6 +1430,6 @@ bool MainWindow::loadFile(const QString &path)
     }
     this->refreshTitleAndStatus();
     this->refreshMenus();
-    this->statusBar()->showMessage(tr("File loaded"), 5000);
+    this->statusBar()->showMessage(tr("File loaded"), TIMEOUT_STATUSBAR_LONG.count());
     return true;
 }

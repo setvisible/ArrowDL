@@ -29,9 +29,9 @@
 
 static uint encode(const QList<QCheckBox*> &checkboxes)
 {
-    uint code = 0;
-    for (int i = 0; i < checkboxes.count(); ++i) {
-        const QCheckBox *checkBox = checkboxes.at(i);
+    auto code = 0;
+    for (auto i = 0; i < checkboxes.count(); ++i) {
+        auto checkBox = checkboxes.at(i);
         if (checkBox->isChecked()) {
             code |= (1 << i);
         }
@@ -41,8 +41,8 @@ static uint encode(const QList<QCheckBox*> &checkboxes)
 
 static void decode(const uint code, const QList<QCheckBox*> &checkboxes)
 {
-    for (int i = 0; i < checkboxes.count(); ++i) {
-        QCheckBox *checkBox = checkboxes.at(i);
+    for (auto i = 0; i < checkboxes.count(); ++i) {
+        auto checkBox = checkboxes.at(i);
         checkBox->setChecked(code & (1 << i));
     }
 }
@@ -62,12 +62,9 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
 
     clearFilters();
 
-    connect(ui->fastFilteringOnlyCheckBox, SIGNAL(stateChanged(int)),
-            this, SLOT(onFilterChanged(int)));
-    connect(ui->fastFilteringComboBox, SIGNAL(currentTextChanged(QString)),
-            this, SLOT(onFilterChanged(QString)));
-    connect(ui->fastFilteringTipToolButton, SIGNAL(released()),
-            this, SLOT(onFilterTipToolReleased()));
+    connect(ui->fastFilteringOnlyCheckBox, SIGNAL(stateChanged(int)), this, SLOT(onFilterChanged(int)));
+    connect(ui->fastFilteringComboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(onFilterChanged(QString)));
+    connect(ui->fastFilteringTipToolButton, SIGNAL(released()), this, SLOT(onFilterTipToolReleased()));
 }
 
 FilterWidget::~FilterWidget()
@@ -102,7 +99,7 @@ void FilterWidget::setState(uint code)
 
 inline QList<QCheckBox*> FilterWidget::allCheckBoxes() const
 {
-    QList<QCheckBox*> checkboxes = ui->checkBoxGroup->findChildren<QCheckBox*>();
+    auto checkboxes = ui->checkBoxGroup->findChildren<QCheckBox*>();
     checkboxes.prepend(ui->fastFilteringOnlyCheckBox);
     return checkboxes;
 }
@@ -135,13 +132,15 @@ void FilterWidget::setFilterHistory(const QStringList &filters)
 
 /******************************************************************************
  ******************************************************************************/
-void FilterWidget::onFilterChanged(int)
+void FilterWidget::onFilterChanged(int state)
 {
+    Q_UNUSED(state)
     emit regexChanged(regex());
 }
 
-void FilterWidget::onFilterChanged(const QString &)
+void FilterWidget::onFilterChanged(const QString &text)
 {
+    Q_UNUSED(text)
     emit regexChanged(regex());
 }
 
@@ -151,8 +150,7 @@ void FilterWidget::onFilterTipToolReleased()
 {
     auto tip = new FilterTip(this);
 
-    connect(tip, SIGNAL(linkActivated(QString)),
-            this, SLOT(onFilterTipToolLinkActivated(QString)));
+    connect(tip, SIGNAL(linkActivated(QString)), this, SLOT(onFilterTipToolLinkActivated(QString)));
 
     AutoCloseDialog dialog(tip, ui->fastFilteringTipToolButton);
     dialog.exec();
@@ -167,21 +165,21 @@ void FilterWidget::onFilterTipToolLinkActivated(const QString& link)
  ******************************************************************************/
 void FilterWidget::clearFilters()
 {
-    const QList<QCheckBox*> checkboxes = ui->checkBoxGroup->findChildren<QCheckBox*>();
-    foreach (auto checkbox, checkboxes) {
+    auto checkboxes = ui->checkBoxGroup->findChildren<QCheckBox*>();
+    for (auto checkbox : checkboxes) {
         ui->checkBoxGroup->layout()->removeWidget(checkbox);
-        checkbox->setParent(Q_NULLPTR);
+        checkbox->setParent(nullptr);
         delete checkbox;
     }
 }
 
 void FilterWidget::addFilter(const QString &name, const QString &regexp)
 {
-    const QList<QCheckBox*> checkboxes = ui->checkBoxGroup->findChildren<QCheckBox*>();
-    const int count = checkboxes.count();
-    const std::div_t dv = std::div(count, 3);
-    const int row = dv.quot;
-    const int column = dv.rem;
+    auto checkboxes = ui->checkBoxGroup->findChildren<QCheckBox*>();
+    auto count = static_cast<int>(checkboxes.count());
+    auto division = std::div(count, 3);
+    auto row = division.quot;
+    auto column = division.rem;
 
     auto checkbox = new QCheckBox(name, ui->checkBoxGroup);
     checkbox->setToolTip(QString("%0\n%1").arg(name, regexp));
@@ -199,15 +197,15 @@ QRegularExpression FilterWidget::regex() const
 {
     QString filter;
 
-    const QString text = ui->fastFilteringComboBox->currentText();
+    auto text = ui->fastFilteringComboBox->currentText();
     if (!text.isEmpty()) {
         filter += "(" + text + ")";
     }
 
     if (!ui->fastFilteringOnlyCheckBox->isChecked()) {
         QStringList parts;
-        const QList<QCheckBox*> checkboxes = ui->checkBoxGroup->findChildren<QCheckBox*>();
-        foreach (auto checkbox, checkboxes) {
+        auto checkboxes = ui->checkBoxGroup->findChildren<QCheckBox*>();
+        for (auto checkbox : checkboxes) {
             if (checkbox->isChecked()) {
                 parts << checkbox->property("regexp").toString();
             }
@@ -216,7 +214,7 @@ QRegularExpression FilterWidget::regex() const
             if (!filter.isEmpty()) {
                 filter += "|";
             }
-            foreach (auto part, parts) {
+            for (auto part : parts) {
                 filter += "(";
                 filter += part;
                 filter += ")|";

@@ -106,6 +106,8 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
             # debug
             # dbghelp
 
+            bcrypt  # required by libtorrent-rasterbar >= 2.0.9
+
             version.dll # might be "C:/Windows/System32/version.dll" or "C:/Windows/SysWOW64/version.dll"
 
             crypt32  # required by openssl
@@ -285,23 +287,23 @@ else() # MacOS or Unix Compilers
             # Rem: ${QT_SHARED_LIB_DIR}/libQt6Core.so is not a file but a namelink (symbolic link)
             ${QT_SHARED_LIB_DIR}/libQt6Core.so # required by libQt6Gui
             ${QT_SHARED_LIB_DIR}/libQt6Core.so.6
-            ${QT_SHARED_LIB_DIR}/libQt6Core.so.6.3.1
+            ${QT_SHARED_LIB_DIR}/libQt6Core.so.6.5.3
 
             ${QT_SHARED_LIB_DIR}/libQt6Gui.so # required by libQt6Widgets
             ${QT_SHARED_LIB_DIR}/libQt6Gui.so.6
-            ${QT_SHARED_LIB_DIR}/libQt6Gui.so.6.3.1
+            ${QT_SHARED_LIB_DIR}/libQt6Gui.so.6.5.3
 
             ${QT_SHARED_LIB_DIR}/libQt6Widgets.so
             ${QT_SHARED_LIB_DIR}/libQt6Widgets.so.6
-            ${QT_SHARED_LIB_DIR}/libQt6Widgets.so.6.3.1
+            ${QT_SHARED_LIB_DIR}/libQt6Widgets.so.6.5.3
 
             ${QT_SHARED_LIB_DIR}/libQt6Network.so
             ${QT_SHARED_LIB_DIR}/libQt6Network.so.6
-            ${QT_SHARED_LIB_DIR}/libQt6Network.so.6.3.1
+            ${QT_SHARED_LIB_DIR}/libQt6Network.so.6.5.3
 
             ${QT_SHARED_LIB_DIR}/libQt6DBus.so # required by libQt6Gui
             ${QT_SHARED_LIB_DIR}/libQt6DBus.so.6
-            ${QT_SHARED_LIB_DIR}/libQt6DBus.so.6.3.1
+            ${QT_SHARED_LIB_DIR}/libQt6DBus.so.6.5.3
 
             ${QT_SHARED_LIB_DIR}/libicudata.so # required by libQt6Core
             ${QT_SHARED_LIB_DIR}/libicudata.so.56
@@ -337,23 +339,23 @@ else() # MacOS or Unix Compilers
 
             ${QT_SHARED_LIB_DIR}/libQt6XcbQpa.so # required by libqxcb
             ${QT_SHARED_LIB_DIR}/libQt6XcbQpa.so.6 
-            ${QT_SHARED_LIB_DIR}/libQt6XcbQpa.so.6.3.1
+            ${QT_SHARED_LIB_DIR}/libQt6XcbQpa.so.6.5.3
 
             ${QT_SHARED_LIB_DIR}/libQt6OpenGL.so # required by libqxcb
             ${QT_SHARED_LIB_DIR}/libQt6OpenGL.so.6 
-            ${QT_SHARED_LIB_DIR}/libQt6OpenGL.so.6.3.1
+            ${QT_SHARED_LIB_DIR}/libQt6OpenGL.so.6.5.3
 
             ${QT_SHARED_LIB_DIR}/libQt6OpenGLWidgets.so # in case?
             ${QT_SHARED_LIB_DIR}/libQt6OpenGLWidgets.so.6 
-            ${QT_SHARED_LIB_DIR}/libQt6OpenGLWidgets.so.6.3.1
+            ${QT_SHARED_LIB_DIR}/libQt6OpenGLWidgets.so.6.5.3
 
             ${QT_SHARED_LIB_DIR}/libQt6WaylandClient.so # required by libqwayland-generic and libqwayland-egl
             ${QT_SHARED_LIB_DIR}/libQt6WaylandClient.so.6
-            ${QT_SHARED_LIB_DIR}/libQt6WaylandClient.so.6.3.1
+            ${QT_SHARED_LIB_DIR}/libQt6WaylandClient.so.6.5.3
 
             ${QT_SHARED_LIB_DIR}/libQt6WaylandEglClientHwIntegration.so # required by libqwayland-egl
             ${QT_SHARED_LIB_DIR}/libQt6WaylandEglClientHwIntegration.so.6
-            ${QT_SHARED_LIB_DIR}/libQt6WaylandEglClientHwIntegration.so.6.3.1
+            ${QT_SHARED_LIB_DIR}/libQt6WaylandEglClientHwIntegration.so.6.5.3
         DESTINATION
             ${CMAKE_INSTALL_PREFIX}
     )

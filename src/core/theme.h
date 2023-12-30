@@ -29,15 +29,15 @@ class QWidget;
 class Theme
 {
 public:
-    static const QLatin1String PlatformStyle;
-    static const QLatin1String IconTheme;
-    static const QLatin1String ColorScheme;
+    static const QLatin1StringView PlatformStyle;
+    static const QLatin1StringView IconTheme;
+    static const QLatin1StringView ColorScheme;
 
     Theme();
 
     static QStringList availablePlatformStyles();
-    static QString toPlatformStyle(int index);
-    static int fromPlatformStyle(const QString &platformStyle);
+    static QString toPlatformStyle(qsizetype index);
+    static qsizetype fromPlatformStyle(const QString &platformStyle);
 
     static QStringList availableIconThemes();
     static QString toIconTheme(int index);
@@ -50,9 +50,9 @@ public:
     static void applyTheme(const QMap<QString, QVariant> &map);
 
     /* Utils */
-    static void setIcons(const QWidget *widget, const QMap<QAbstractButton*, QString> &map);
-    static void setIcons(const QWidget *widget, const QMap<QAction*, QString> &map);
-    static void setIcons(const QWidget *widget, const QMap<QLabel*, QString> &map, int extent = 48);
+    static void setIcons(const QWidget *widget, const QHash<QAbstractButton *, QString> &hash);
+    static void setIcons(const QWidget *widget, const QHash<QAction *, QString> &hash);
+    static void setIcons(const QWidget *widget, const QHash<QLabel *, QString> &hash, int extent = 48);
 };
 
 #endif // WIDGETS_THEME_H

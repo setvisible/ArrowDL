@@ -98,8 +98,7 @@ StreamFormatPicker::StreamFormatPicker(QWidget *parent) : QWidget(parent)
     connect(ui->buttonVideo, SIGNAL(released()), this, SLOT(onButtonBarClicked()));
     connect(ui->buttonOther, SIGNAL(released()), this, SLOT(onButtonBarClicked()));
 
-    connect(ui->listView->selectionModel(), SIGNAL(currentChanged(QModelIndex, QModelIndex)),
-            this, SLOT(onCurrentChanged(QModelIndex, QModelIndex)));
+    connect(ui->listView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(onCurrentChanged(QModelIndex,QModelIndex)));
     connect(ui->audioComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
     connect(ui->videoComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
 
@@ -142,7 +141,7 @@ void StreamFormatPicker::select(const StreamFormatId &formatId)
 {
     if (!formatId.isEmpty()) {
         const QSignalBlocker blocker(this);
-        foreach (auto compoundId, formatId.compoundIds()) {
+        for (auto compoundId : formatId.compoundIds()) {
             setCurrentSimple(compoundId);
             setCurrentAudio(compoundId);
             setCurrentVideo(compoundId);
@@ -207,13 +206,13 @@ void StreamFormatPicker::onButtonBarClicked()
  ******************************************************************************/
 void StreamFormatPicker::propagateIcons()
 {
-    const QMap<QAbstractButton*, QString> map = {
+    const QHash<QAbstractButton *, QString> hash = {
         {ui->buttonSimple, "add-stream"},
         {ui->buttonAudio, "stream-audio"},
         {ui->buttonVideo, "stream-video"},
         {ui->buttonOther, "stream-subtitle"}
     };
-    Theme::setIcons(this, map);
+    Theme::setIcons(this, hash);
 }
 
 /******************************************************************************
@@ -286,7 +285,7 @@ void StreamFormatPicker::updateButtonBar()
 void StreamFormatPicker::populateSimple(const QList<StreamFormat> &formats)
 {
     bool checked = true;
-    foreach (auto format, formats) {
+    for (auto format : formats) {
         auto item = new QStandardItem(format.toString());
 
         item->setData(checked, StreamFormatPicker::CheckStateRole);
@@ -306,7 +305,7 @@ void StreamFormatPicker::populateSimple(const QList<StreamFormat> &formats)
 void StreamFormatPicker::populateComboBox(const QList<StreamFormat> &formats, QComboBox *comboBox)
 {
     comboBox->clear();
-    foreach (auto format, formats) {
+    for (auto format : formats) {
         QVariant variant;
         variant.setValue(format.formatId);
         comboBox->addItem(format.toString(), variant);
@@ -382,7 +381,7 @@ StreamFormatId StreamFormatPicker::currentSimple() const
             return index.data(StreamFormatPicker::FormatIdRole).value<StreamFormatId>();
         }
     }
-    return StreamFormatId();
+    return {};
 }
 
 StreamFormatId StreamFormatPicker::currentAudio() const

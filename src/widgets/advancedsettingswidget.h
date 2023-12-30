@@ -38,8 +38,8 @@ public:
         KeyType
     };
 
-    explicit AdvancedSettingsWidget(QWidget *parent = Q_NULLPTR);
-    ~AdvancedSettingsWidget() Q_DECL_OVERRIDE;
+    explicit AdvancedSettingsWidget(QWidget *parent = nullptr);
+    ~AdvancedSettingsWidget() override;
 
     QMap<QString, QVariant> torrentSettings() const;
     void setTorrentSettings(const QMap<QString, QVariant> &map);
@@ -51,7 +51,7 @@ signals:
     void changed();
 
 protected:
-    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent *event) override;
 
 private slots:
     void setPresetDefault();
@@ -68,7 +68,7 @@ private slots:
     void format(QTreeWidgetItem *item, int column);
 
 private:
-    Ui::AdvancedSettingsWidget *ui;
+    Ui::AdvancedSettingsWidget *ui = nullptr;
 
     void restylizeUi();
 

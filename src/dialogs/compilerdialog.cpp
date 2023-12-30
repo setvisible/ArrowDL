@@ -17,7 +17,8 @@
 #include "compilerdialog.h"
 #include "ui_compilerdialog.h"
 
-#include <Globals>
+#include "../version_3rd.h"
+#include <Constants>
 #include <Core/Stream>
 
 #include <QtCore/QDebug>
@@ -146,8 +147,8 @@ void CompilerDialog::populateOpenSSL()
     libCrypto = QLatin1String("libeay32");
 
 #elif defined(Q_OS_WIN32) && defined(Q_OS_WIN64) // 32-bit or 64-bit
-    libSsl = QLatin1String("libssl-1_1-x64");
-    libCrypto = QLatin1String("libcrypto-1_1-x64");
+    libSsl = QLatin1String("libssl-3-x64");
+    libCrypto = QLatin1String("libcrypto-3-x64");
 
 #elif defined(Q_OS_UNIX)
     libSsl = QLatin1String("libssl");
@@ -190,7 +191,7 @@ QString CompilerDialog::getVersionString(const QString &fName)
     }
 
     // VerQueryValue
-    VS_FIXEDFILEINFO *lpBuffer = Q_NULLPTR;
+    VS_FIXEDFILEINFO *lpBuffer = nullptr;
     dwLen = sizeof( VS_FIXEDFILEINFO );
     // UINT uLen;
     if (VerQueryValue(

@@ -59,13 +59,12 @@ namespace aux {
 
 	void merkle_tree::load_verified_bits(std::vector<bool> const& verified)
 	{
-		TORRENT_ASSERT(int(verified.size()) <= m_num_blocks);
 		TORRENT_ASSERT(m_block_verified.size() == m_num_blocks);
 
 		// The verified bitfield may be invalid. If so, correct it to
 		// maintain the invariant of this class
 		int block_index = block_layer_start();
-		for (int i = 0; i < int(verified.size()); ++i)
+		for (int i = 0; i < std::min(int(verified.size()), m_num_blocks); ++i)
 		{
 			if (verified[std::size_t(i)] && has_node(block_index))
 				m_block_verified.set_bit(i);
@@ -486,7 +485,9 @@ namespace {
 	std::tuple<merkle_tree::set_block_result, int, int> merkle_tree::set_block(int const block_index
 		, sha256_hash const& h)
 	{
+#ifdef TORRENT_EXPENSIVE_INVARIANT_CHECKS
 		INVARIANT_CHECK;
+#endif
 		TORRENT_ASSERT(block_index < m_num_blocks);
 
 		auto const num_leafs = merkle_num_leafs(m_num_blocks);
@@ -527,27 +528,12 @@ namespace {
 
 		if (root != m_tree[root_index])
 		{
-			int const first_piece_idx = piece_layer_start();
 			// hash failure, clear all the internal nodes
-			// not the block hashes though, except for the one we just added
-			if (root_index >= first_piece_idx)
-			{
-				// the whole piece failed the hash check. Clear all block hashes
-				// in this piece and report a hash failure
-				merkle_clear_tree(m_tree, leafs_size, first_leaf + leafs_start);
-				m_tree[root_index] = root;
-				return std::make_tuple(set_block_result::hash_failed, leafs_start, leafs_size);
-			}
-			else
-			{
-				// in this case, the root that we validated these hashes against
-				// were above the piece layer, so we don't really know whether
-				// this piece is invalid, or some other piece. So, just clear
-				// the internal nodes
-				merkle_clear_tree(m_tree, leafs_size / 2, merkle_get_parent(first_leaf + leafs_start));
-				m_tree[root_index] = root;
-				return std::make_tuple(set_block_result::unknown, leafs_start, leafs_size);
-			}
+			// the whole piece failed the hash check. Clear all block hashes
+			// in this piece and report a hash failure
+			merkle_clear_tree(m_tree, leafs_size, first_leaf + leafs_start);
+			m_tree[root_index] = root;
+			return std::make_tuple(set_block_result::hash_failed, leafs_start, leafs_size);
 		}
 
 		// TODO: this could be done more efficiently if bitfield had a function
@@ -861,8 +847,10 @@ namespace {
 
 	void merkle_tree::allocate_full()
 	{
-		INVARIANT_CHECK;
 		if (m_mode == mode_t::full_tree) return;
+
+		INVARIANT_CHECK;
+
 		// if we already have the complete tree, we shouldn't be allocating it
 		// again.
 		TORRENT_ASSERT(m_mode != mode_t::block_layer);

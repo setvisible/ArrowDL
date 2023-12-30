@@ -49,20 +49,20 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = Q_NULLPTR);
-    ~MainWindow() Q_DECL_OVERRIDE;
+    explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow() override;
 
     bool saveFile(const QString &path);
     bool loadFile(const QString &path);
 
 protected:
-    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
-    void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
-    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *event) override;
+    void showEvent(QShowEvent *event) override;
+    void changeEvent(QEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
-    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
-    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
 
 public slots:
 
@@ -125,7 +125,7 @@ public slots:
     void showPreferences();
 
     // Help
-    void onUpdateAvailable();
+    void onUpdateAvailableForConsole();
     void checkForUpdates();
     void showTutorial();
     void about();
@@ -141,18 +141,18 @@ private slots:
     void onTorrentContextChanged();
 
 private:
-    Ui::MainWindow *ui;
-    DownloadManager *m_downloadManager;
-    StreamManager *m_streamManager;
-    FileAccessManager *m_fileAccessManager;
-    Settings *m_settings;
-    QLabel *m_statusBarLabel;
+    Ui::MainWindow *ui = nullptr;
+    DownloadManager *m_downloadManager = nullptr;
+    StreamManager *m_streamManager = nullptr;
+    FileAccessManager *m_fileAccessManager = nullptr;
+    Settings *m_settings = nullptr;
+    QLabel *m_statusBarLabel = nullptr;
 #ifdef USE_QT_WINEXTRAS
-    QWinTaskbarButton *m_winTaskbarButton = Q_NULLPTR;
-    QWinTaskbarProgress *m_winTaskbarProgress = Q_NULLPTR;
+    QWinTaskbarButton *m_winTaskbarButton = nullptr;
+    QWinTaskbarProgress *m_winTaskbarProgress = nullptr;
 #endif
-    UpdateChecker *m_updateChecker;
-    SystemTray *m_systemTray;
+    UpdateChecker *m_updateChecker = nullptr;
+    SystemTray *m_systemTray = nullptr;
 
     void readSettings();
     void writeSettings();

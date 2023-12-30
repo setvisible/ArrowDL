@@ -28,13 +28,13 @@
 #include <QtCore/QDate>
 #include <QtCore/QTime>
 
-static IFileAccessManager *s_fileAccessManager = Q_NULLPTR;
+static IFileAccessManager *s_fileAccessManager = nullptr;
 
 static ExistingFileOption existingFileOption()
 {
-    ExistingFileOption option = ExistingFileOption::Overwrite;
+    auto option = ExistingFileOption::Overwrite;
     if (s_fileAccessManager) {
-        const Settings* settings = s_fileAccessManager->settings();
+        auto settings = s_fileAccessManager->settings();
         if (settings) {
             option = settings->existingFileOption();
         }
@@ -66,10 +66,10 @@ void File::setFileAccessManager(IFileAccessManager *manager)
 File::OpenFlag File::open(ResourceItem *resource)
 {
     Q_ASSERT(resource);
-    const QUrl target = resource->localFileUrl();
-    const QString fileName = target.toLocalFile();
+    auto target = resource->localFileUrl();
+    auto fileName = target.toLocalFile();
 
-    const OpenFlag flag = open(fileName);
+    auto flag = open(fileName);
     resource->setCustomFileName(customFileName());
     return flag;
 }
@@ -78,14 +78,14 @@ File::OpenFlag File::open(const QString &fileName)
 {
     // Check Path
     const QFileInfo fi(fileName);
-    const QString localFilePath = fi.absolutePath();
+    auto localFilePath = fi.absolutePath();
     QDir().mkpath(localFilePath);
 
     // Check Existing File
-    QString safeFileName = fileName;
+    auto safeFileName = fileName;
     if (QFile::exists(safeFileName)) {
 
-        ExistingFileOption option = existingFileOption();
+        auto option = existingFileOption();
 
         while (s_fileAccessManager && option == ExistingFileOption::Ask) {
             option = s_fileAccessManager->aboutToModify(safeFileName);
@@ -144,7 +144,7 @@ bool File::rename(ResourceItem *resource)
             inputFile.close();
         }
         m_file->deleteLater();
-        m_file = Q_NULLPTR;
+        m_file = nullptr;
         QFile::remove(oldFile);
     }
     /* Open a new temporary file and append previous data */
@@ -160,46 +160,30 @@ bool File::rename(ResourceItem *resource)
  ******************************************************************************/
 void File::setCreationFileTime(const QDateTime &newDate)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     if (m_file && m_file->isOpen()) {
         m_file->setFileTime(newDate, QFileDevice::FileBirthTime);
     }
-#else
-    Q_UNUSED(newDate)
-#endif
 }
 
 void File::setLastModifiedFileTime(const QDateTime &newDate)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     if (m_file && m_file->isOpen()) {
         m_file->setFileTime(newDate, QFileDevice::FileModificationTime);
     }
-#else
-    Q_UNUSED(newDate)
-#endif
 }
 
 void File::setAccessFileTime(const QDateTime &newDate)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     if (m_file && m_file->isOpen()) {
         m_file->setFileTime(newDate, QFileDevice::FileAccessTime);
     }
-#else
-    Q_UNUSED(newDate)
-#endif
 }
 
 void File::setMetadataChangeFileTime(const QDateTime &newDate)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     if (m_file && m_file->isOpen()) {
         m_file->setFileTime(newDate, QFileDevice::FileMetadataChangeTime);
     }
-#else
-    Q_UNUSED(newDate)
-#endif
 }
 
 /******************************************************************************
@@ -207,18 +191,13 @@ void File::setMetadataChangeFileTime(const QDateTime &newDate)
 inline QString File::nextAvailableName(const QString &name)
 {
     const QFileInfo fi(name);
-
-    const QString prefix = QString("%0/%1 (")
-            .arg(fi.absolutePath(), fi.baseName());
-
-    const QString suffix = QString(").%0")
-            .arg(fi.completeSuffix());
-
-    QString newFileName = name;
-    int i = 0;
+    auto prefix = QString("%0/%1 (").arg(fi.absolutePath(), fi.baseName());
+    auto suffix = QString(").%0").arg(fi.completeSuffix());
+    auto newFileName = name;
+    int increment = 0;
     do {
-        newFileName = QString("%0%1%2").arg(prefix, QString::number(i), suffix);
-        i++;
+        newFileName = QString("%0%1%2").arg(prefix, QString::number(increment), suffix);
+        increment++;
     } while (QFile::exists(newFileName));
     return newFileName;
 }
@@ -250,9 +229,9 @@ void File::write(const QByteArray &data)
 bool File::commit()
 {
     if (m_file) {
-        const bool commited = m_file->commit();
+        auto commited = m_file->commit();
         m_file->deleteLater();
-        m_file = Q_NULLPTR;
+        m_file = nullptr;
         return commited;
     }
     return false;
@@ -268,7 +247,7 @@ void File::cancel()
     if (m_file) {
         m_file->cancelWriting();
         m_file->deleteLater();
-        m_file = Q_NULLPTR;
+        m_file = nullptr;
     }
 }
 
@@ -280,5 +259,5 @@ QString File::customFileName() const
         QFileInfo fi(m_file->fileName());
         return fi.completeBaseName();
     }
-    return QString();
+    return {};
 }

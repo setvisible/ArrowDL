@@ -16,6 +16,8 @@
 
 #include "abstractdownloaditem.h"
 
+#include <Constants>
+
 #include <QtCore/QDateTime>
 #include <QtCore/QDebug>
 #include <QtCore/QtMath>
@@ -28,25 +30,14 @@
  *
  */
 
-constexpr int timeout_update_msec = 150; // in milliseconds
 
 /*!
  * \brief Constructor
  */
 AbstractDownloadItem::AbstractDownloadItem(QObject *parent) : QObject(parent)
-  , m_log(QString())
 {
     connect(&m_updateInfoTimer, SIGNAL(timeout()), this, SLOT(updateInfo()));
     connect(&m_updateCountDownTimer, SIGNAL(timeout()), this, SLOT(updateInfo()));
-
-    m_state = State::Idle;
-
-    m_speed = -1;
-    m_bytesReceived = 0;
-    m_bytesTotal = 0;
-
-    m_maxConnectionSegments = 4;
-    m_maxConnections = 1;
 }
 
 /******************************************************************************
@@ -139,7 +130,7 @@ qreal AbstractDownloadItem::speed() const
 int AbstractDownloadItem::progress() const
 {
     if (m_bytesTotal > 0) {
-        return qBound(0, qFloor(qreal(100 * m_bytesReceived) / m_bytesTotal), 100);
+        return qBound(0, qFloor(100 * static_cast<qreal>(m_bytesReceived) / static_cast<qreal>(m_bytesTotal)), 100);
     }
     if (m_state == Idle) {
         return 0;
@@ -174,7 +165,7 @@ int AbstractDownloadItem::maxConnectionSegments() const
 
 void AbstractDownloadItem::setMaxConnectionSegments(int connectionSegments)
 {
-    if (connectionSegments > 0 && connectionSegments <= 10) {
+    if (connectionSegments > 0 && connectionSegments <= MAX_CONNECTION_SEGMENTS) {
         m_maxConnectionSegments = connectionSegments;
     }
 }
@@ -321,13 +312,13 @@ void AbstractDownloadItem::tearDownResume()
     /*
      * This timer ticks each second, in order to update the remaining time information (countdown)
      */
-    m_updateCountDownTimer.start(1000);
+    m_updateCountDownTimer.start(TIMEOUT_COUNT_DOWN);
 
     /*
      * This timer updates the speed/progress info.
      * It can be quicker than the countdown timer.
      */
-    m_updateInfoTimer.start(timeout_update_msec);
+    m_updateInfoTimer.start(TIMEOUT_INFO);
 
     /* Start downloading now. */
     m_state = Downloading;
@@ -369,9 +360,9 @@ void AbstractDownloadItem::updateInfo(qsizetype bytesReceived, qsizetype bytesTo
 {
     m_bytesReceived = bytesReceived;
     m_bytesTotal = bytesTotal;
-    const int elapsed = m_downloadElapsedTimer.elapsed();
+    auto elapsed = m_downloadElapsedTimer.elapsed();
     if (elapsed > 0) {
-        m_speed = qreal(1000 * bytesReceived) / m_downloadElapsedTimer.elapsed();
+        m_speed = 1000 * static_cast<qreal>(bytesReceived) / static_cast<qreal>(m_downloadElapsedTimer.elapsed());
     } else {
         m_speed = qreal(-1);
     }
@@ -388,12 +379,12 @@ void AbstractDownloadItem::updateInfo(qsizetype bytesReceived, qsizetype bytesTo
 void AbstractDownloadItem::updateInfo()
 {
     if (m_speed > 0 && m_bytesReceived > 0 && m_bytesTotal > 0) {
-        const int estimatedTime = qCeil(qreal(m_bytesTotal - m_bytesReceived) / m_speed);
+        auto estimatedTime = qCeil(static_cast<qreal>(m_bytesTotal - m_bytesReceived) / m_speed);
         QTime time(0, 0, 0);
-        time = time.addSecs(estimatedTime);
+        time = time.addSecs(static_cast<int>(estimatedTime));
         m_remainingTime = time;
     } else {
-        m_remainingTime = QTime();
+        m_remainingTime = {};
     }
     emit changed();
 }

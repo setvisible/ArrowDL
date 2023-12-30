@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,35 +25,35 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.8</td></tr>
+<td>2.0.9</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#settings-pack" id="id63">settings_pack</a><ul>
-<li><a class="reference internal" href="#set-str-set-bool-set-int" id="id64">set_str() set_bool() set_int()</a></li>
-<li><a class="reference internal" href="#has-val" id="id65">has_val()</a></li>
-<li><a class="reference internal" href="#clear" id="id66">clear()</a></li>
-<li><a class="reference internal" href="#id41" id="id67">clear()</a></li>
-<li><a class="reference internal" href="#get-bool-get-str-get-int" id="id68">get_bool() get_str() get_int()</a></li>
-<li><a class="reference internal" href="#enum-type-bases" id="id69">enum type_bases</a></li>
-<li><a class="reference internal" href="#enum-mmap-write-mode-t" id="id70">enum mmap_write_mode_t</a></li>
-<li><a class="reference internal" href="#enum-suggest-mode-t" id="id71">enum suggest_mode_t</a></li>
-<li><a class="reference internal" href="#enum-choking-algorithm-t" id="id72">enum choking_algorithm_t</a></li>
-<li><a class="reference internal" href="#enum-seed-choking-algorithm-t" id="id73">enum seed_choking_algorithm_t</a></li>
-<li><a class="reference internal" href="#enum-io-buffer-mode-t" id="id74">enum io_buffer_mode_t</a></li>
-<li><a class="reference internal" href="#enum-bandwidth-mixed-algo-t" id="id75">enum bandwidth_mixed_algo_t</a></li>
-<li><a class="reference internal" href="#enum-enc-policy" id="id76">enum enc_policy</a></li>
-<li><a class="reference internal" href="#enum-enc-level" id="id77">enum enc_level</a></li>
-<li><a class="reference internal" href="#enum-proxy-type-t" id="id78">enum proxy_type_t</a></li>
+<li><a class="reference internal" href="#settings-pack" id="toc-entry-1">settings_pack</a><ul>
+<li><a class="reference internal" href="#set-bool-set-int-set-str" id="toc-entry-2">set_bool() set_int() set_str()</a></li>
+<li><a class="reference internal" href="#has-val" id="toc-entry-3">has_val()</a></li>
+<li><a class="reference internal" href="#clear" id="toc-entry-4">clear()</a></li>
+<li><a class="reference internal" href="#clear-1" id="toc-entry-5">clear()</a></li>
+<li><a class="reference internal" href="#get-int-get-str-get-bool" id="toc-entry-6">get_int() get_str() get_bool()</a></li>
+<li><a class="reference internal" href="#enum-type-bases" id="toc-entry-7">enum type_bases</a></li>
+<li><a class="reference internal" href="#enum-mmap-write-mode-t" id="toc-entry-8">enum mmap_write_mode_t</a></li>
+<li><a class="reference internal" href="#enum-suggest-mode-t" id="toc-entry-9">enum suggest_mode_t</a></li>
+<li><a class="reference internal" href="#enum-choking-algorithm-t" id="toc-entry-10">enum choking_algorithm_t</a></li>
+<li><a class="reference internal" href="#enum-seed-choking-algorithm-t" id="toc-entry-11">enum seed_choking_algorithm_t</a></li>
+<li><a class="reference internal" href="#enum-io-buffer-mode-t" id="toc-entry-12">enum io_buffer_mode_t</a></li>
+<li><a class="reference internal" href="#enum-bandwidth-mixed-algo-t" id="toc-entry-13">enum bandwidth_mixed_algo_t</a></li>
+<li><a class="reference internal" href="#enum-enc-policy" id="toc-entry-14">enum enc_policy</a></li>
+<li><a class="reference internal" href="#enum-enc-level" id="toc-entry-15">enum enc_level</a></li>
+<li><a class="reference internal" href="#enum-proxy-type-t" id="toc-entry-16">enum proxy_type_t</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#name-for-setting-setting-by-name" id="id79">name_for_setting() setting_by_name()</a></li>
-<li><a class="reference internal" href="#default-settings" id="id80">default_settings()</a></li>
-<li><a class="reference internal" href="#high-performance-seed-min-memory-usage" id="id81">high_performance_seed() min_memory_usage()</a></li>
-<li><a class="reference internal" href="#generate-fingerprint" id="id82">generate_fingerprint()</a></li>
+<li><a class="reference internal" href="#name-for-setting-setting-by-name" id="toc-entry-17">name_for_setting() setting_by_name()</a></li>
+<li><a class="reference internal" href="#default-settings" id="toc-entry-18">default_settings()</a></li>
+<li><a class="reference internal" href="#min-memory-usage-high-performance-seed" id="toc-entry-19">min_memory_usage() high_performance_seed()</a></li>
+<li><a class="reference internal" href="#generate-fingerprint" id="toc-entry-20">generate_fingerprint()</a></li>
 </ul>
 </div>
 <p>You have some control over <a class="reference external" href="reference-Session.html#session">session</a> configuration through the session::apply_settings()
@@ -344,7 +344,10 @@ connecting to it. see proxy_type</p>
 </tbody>
 </table>
 <p>sets the <a class="reference external" href="http://www.i2p2.de">i2p</a> SAM bridge to connect to. set the port with the
-<tt class="docutils literal">i2p_port</tt> setting.</p>
+<tt class="docutils literal">i2p_port</tt> setting. Unless this is set, i2p torrents are not
+supported. This setting is separate from the other proxy settings
+since i2p torrents and their peers are orthogonal. You can have
+i2p peers as well as regular peers via a proxy.</p>
 <a name="peer_fingerprint"></a><table border="1" class="docutils">
 <colgroup>
 <col width="50%" />
@@ -360,7 +363,7 @@ connecting to it. see proxy_type</p>
 <tbody valign="top">
 <tr><td>peer_fingerprint</td>
 <td>string</td>
-<td>-LT2080-</td>
+<td>-LT2090-</td>
 </tr>
 </tbody>
 </table>
@@ -2910,6 +2913,10 @@ and is disconnected.</p>
 default (i.e. don't change the buffer sizes).
 The socket buffer sizes are changed using setsockopt() with
 SOL_SOCKET/SO_RCVBUF and SO_SNDBUFFER.</p>
+<p>Note that uTP peers share a single UDP socket buffer for each of the
+<tt class="docutils literal">listen_interfaces</tt>, along with DHT and UDP tracker traffic.
+If the buffer size is too small for the combined traffic through the
+socket, packets may be dropped.</p>
 <a name="max_peer_recv_buffer_size"></a><table border="1" class="docutils">
 <colgroup>
 <col width="54%" />
@@ -4512,6 +4519,47 @@ The values for this setting are specified as <a class="reference external" href=
 <p>when using mmap_disk_io, files smaller than this number of blocks
 will not be memory mapped, but will use normal pread/pwrite
 operations. This file size limit is specified in 16 kiB blocks.</p>
+<a name="i2p_inbound_quantity"></a>
+<a name="i2p_outbound_quantity"></a>
+<a name="i2p_inbound_length"></a>
+<a name="i2p_outbound_length"></a><table border="1" class="docutils">
+<colgroup>
+<col width="61%" />
+<col width="16%" />
+<col width="24%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">type</th>
+<th class="head">default</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>i2p_inbound_quantity</td>
+<td>int</td>
+<td>3</td>
+</tr>
+<tr><td>i2p_outbound_quantity</td>
+<td>int</td>
+<td>3</td>
+</tr>
+<tr><td>i2p_inbound_length</td>
+<td>int</td>
+<td>3</td>
+</tr>
+<tr><td>i2p_outbound_length</td>
+<td>int</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>Configures the SAM <a class="reference external" href="reference-Session.html#session">session</a>
+quantity of I2P inbound and outbound tunnels [1..16].
+number of hops for I2P inbound and outbound tunnels [0..7]
+Changing these will not trigger a reconnect to the SAM bridge,
+they will take effect the next time the SAM connection is
+re-established (by restarting or changing i2p_hostname or
+i2p_port).</p>
 <pre class="literal-block">
 struct settings_pack final : settings_interface
 {
@@ -4520,14 +4568,14 @@ struct settings_pack final : settings_interface
       , std::vector&lt;void(aux::session_impl::*)()&gt;*);
    void <strong>set_str</strong> (int name, std::string val) override;
    void <strong>set_int</strong> (int name, flags::bitfield_flag&lt;Type, Tag&gt; const val);
-   void <strong>set_int</strong> (int name, int val) override;
    void <strong>set_bool</strong> (int name, bool val) override;
+   void <strong>set_int</strong> (int name, int val) override;
    bool <strong>has_val</strong> (int name) const override;
    void <strong>clear</strong> ();
    void <strong>clear</strong> (int name);
+   int <strong>get_int</strong> (int name) const override;
    bool <strong>get_bool</strong> (int name) const override;
    std::string const&amp; <strong>get_str</strong> (int name) const override;
-   int <strong>get_int</strong> (int name) const override;
    void <strong>for_each</strong> (Fun&amp;&amp; f) const;
 
    enum type_bases
@@ -4602,19 +4650,18 @@ struct settings_pack final : settings_interface
       socks5_pw,
       http,
       http_pw,
-      i2p_proxy,
    };
 };
 </pre>
-<a name="set_str()"></a>
 <a name="set_bool()"></a>
-<a name="set_int()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:settings_pack%3A%3A%5Bset_str%28%29+set_bool%28%29+set_int%28%29%5D&labels=documentation&body=Documentation+under+heading+%22settings_pack%3A%3A%5Bset_str%28%29+set_bool%28%29+set_int%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="set-str-set-bool-set-int">
-<h2>set_str() set_bool() set_int()</h2>
+<a name="set_int()"></a>
+<a name="set_str()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:settings_pack%3A%3A%5Bset_bool%28%29+set_int%28%29+set_str%28%29%5D&labels=documentation&body=Documentation+under+heading+%22settings_pack%3A%3A%5Bset_bool%28%29+set_int%28%29+set_str%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="set-bool-set-int-set-str">
+<h2>set_bool() set_int() set_str()</h2>
 <pre class="literal-block">
 void <strong>set_str</strong> (int name, std::string val) override;
 void <strong>set_int</strong> (int name, flags::bitfield_flag&lt;Type, Tag&gt; const val);
-void <strong>set_int</strong> (int name, int val) override;
 void <strong>set_bool</strong> (int name, bool val) override;
+void <strong>set_int</strong> (int name, int val) override;
 </pre>
 <p>set a configuration option in the <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a>. <tt class="docutils literal">name</tt> is one of
 the enum values from string_types, int_types or bool_types. They must
@@ -4636,21 +4683,21 @@ void <strong>clear</strong> ();
 </pre>
 <p>clear the settings pack from all settings</p>
 <a name="clear()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:settings_pack%3A%3A%5Bclear%28%29%5D&labels=documentation&body=Documentation+under+heading+%22settings_pack%3A%3A%5Bclear%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="id41">
+<div class="section" id="clear-1">
 <h2>clear()</h2>
 <pre class="literal-block">
 void <strong>clear</strong> (int name);
 </pre>
 <p>clear a specific setting from the pack</p>
-<a name="get_bool()"></a>
+<a name="get_int()"></a>
 <a name="get_str()"></a>
-<a name="get_int()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:settings_pack%3A%3A%5Bget_bool%28%29+get_str%28%29+get_int%28%29%5D&labels=documentation&body=Documentation+under+heading+%22settings_pack%3A%3A%5Bget_bool%28%29+get_str%28%29+get_int%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="get-bool-get-str-get-int">
-<h2>get_bool() get_str() get_int()</h2>
+<a name="get_bool()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:settings_pack%3A%3A%5Bget_int%28%29+get_str%28%29+get_bool%28%29%5D&labels=documentation&body=Documentation+under+heading+%22settings_pack%3A%3A%5Bget_int%28%29+get_str%28%29+get_bool%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="get-int-get-str-get-bool">
+<h2>get_int() get_str() get_bool()</h2>
 <pre class="literal-block">
+int <strong>get_int</strong> (int name) const override;
 bool <strong>get_bool</strong> (int name) const override;
 std::string const&amp; <strong>get_str</strong> (int name) const override;
-int <strong>get_int</strong> (int name) const override;
 </pre>
 <p>queries the current configuration option from the <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a>.
 <tt class="docutils literal">name</tt> is one of the enumeration values from string_types, int_types
@@ -5015,10 +5062,6 @@ authorization. The username and password will not be used.</td>
 <td>The server is assumed to be an HTTP proxy that requires user
 authorization. The username and password will be sent to the proxy.</td>
 </tr>
-<tr><td>i2p_proxy</td>
-<td>6</td>
-<td>route through a i2p SAM proxy</td>
-</tr>
 </tbody>
 </table>
 <a name="name_for_setting()"></a>
@@ -5028,8 +5071,8 @@ authorization. The username and password will be sent to the proxy.</td>
 <h1>name_for_setting() setting_by_name()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/settings_pack.hpp">libtorrent/settings_pack.hpp</a>&quot;</p>
 <pre class="literal-block">
-char const* <strong>name_for_setting</strong> (int s);
 int <strong>setting_by_name</strong> (string_view name);
+char const* <strong>name_for_setting</strong> (int s);
 </pre>
 <p>converts a setting integer (from the enums string_types, int_types or
 bool_types) to a string, and vice versa.</p>
@@ -5041,10 +5084,10 @@ bool_types) to a string, and vice versa.</p>
 settings_pack <strong>default_settings</strong> ();
 </pre>
 <p>returns a <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a> with every setting set to its default value</p>
-<a name="high_performance_seed()"></a>
-<a name="min_memory_usage()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:high_performance_seed%28%29+min_memory_usage%28%29&labels=documentation&body=Documentation+under+heading+%22high_performance_seed%28%29+min_memory_usage%28%29%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="high-performance-seed-min-memory-usage">
-<h1>high_performance_seed() min_memory_usage()</h1>
+<a name="min_memory_usage()"></a>
+<a name="high_performance_seed()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:min_memory_usage%28%29+high_performance_seed%28%29&labels=documentation&body=Documentation+under+heading+%22min_memory_usage%28%29+high_performance_seed%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="min-memory-usage-high-performance-seed">
+<h1>min_memory_usage() high_performance_seed()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/session.hpp">libtorrent/session.hpp</a>&quot;</p>
 <pre class="literal-block">
 settings_pack <strong>min_memory_usage</strong> ();

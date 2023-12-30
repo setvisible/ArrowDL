@@ -16,26 +16,19 @@
 
 #include "abstractsettings.h"
 
+#include <Constants>
+
 #include <QtCore/QBuffer>
 #include <QtCore/QDataStream>
 #include <QtCore/QSettings>
 #include <QtCore/QString>
 #include <QtCore/QDebug>
 
-/*
- * Remark:
- * Characters '<' and '>' are unlikely to be used as value for data or directory path.
- * If a collision appears, the only risk is to reset the faulty parameter
- * to its default value.
- */
-static const QLatin1String UNDEFINED ("<UNDEFINED>");
-static const QLatin1String VALUE_TRUE ("<TRUE>");
-static const QLatin1String VALUE_FALSE ("<FALSE>");
 
 /*
  * Helper methods
  */
-static QString boolToString(bool b) { return b ? VALUE_TRUE : VALUE_FALSE; }
+static QString boolToString(bool value) { return value ? VALUE_TRUE : VALUE_FALSE; }
 static bool stringToBool(const QString &str) { return str == VALUE_TRUE; }
 
 static QString intToString(int value) { return QString::number(value); }
@@ -77,9 +70,9 @@ void AbstractSettings::endRestoreDefault()
 void AbstractSettings::readSettings()
 {
     QSettings settings;
-    settings.beginGroup(QLatin1String("Preference"));
-    foreach (auto item, m_items) {
-        const QString value = settings.value(uniqueRegisterKey(item), UNDEFINED).toString();
+    settings.beginGroup(SETTING_GROUP_PREFERENCE);
+    for (auto item : m_items) {
+        auto value = settings.value(uniqueRegisterKey(item), UNDEFINED).toString();
         item->value = (value != UNDEFINED) ? value : item->defaultValue;
     }
     settings.endGroup();
@@ -89,9 +82,9 @@ void AbstractSettings::readSettings()
 void AbstractSettings::writeSettings()
 {
     QSettings settings;
-    settings.beginGroup(QLatin1String("Preference"));
-    foreach (auto item, m_items) {
-        const QString name = uniqueRegisterKey(item);
+    settings.beginGroup(SETTING_GROUP_PREFERENCE);
+    for (auto item : m_items) {
+        auto name = uniqueRegisterKey(item);
         if (item->value != item->defaultValue || settings.contains(name)) {
             settings.setValue(name, item->value);
         }
@@ -103,7 +96,7 @@ void AbstractSettings::writeSettings()
  ******************************************************************************/
 QString AbstractSettings::uniqueRegisterKey(const SettingsItem *item) const
 {
-    Q_ASSERT(item != Q_NULLPTR);
+    Q_ASSERT(item != nullptr);
     switch (item->keyType) {
     case BOOL:
         return  QString("%0_bool").arg(item->key);
@@ -174,9 +167,9 @@ void AbstractSettings::setSettingString(const QString &key, const QString &value
 QStringList AbstractSettings::getSettingStringList(const QString &key) const
 {
     QStringList ret;
-    for (int i = 0; i < m_items.count(); ++i) {
-        const QString subkey = QString("%0%1").arg(key, QString::number(i));
-        foreach (auto item, m_items) {
+    for (auto i = 0; i < m_items.count(); ++i) {
+        auto subkey = QString("%0%1").arg(key, QString::number(i));
+        for (auto item : m_items) {
             if (item->key == subkey) {
                 ret << (m_default ? item->defaultValue : item->value);
             }
@@ -187,18 +180,18 @@ QStringList AbstractSettings::getSettingStringList(const QString &key) const
 
 void AbstractSettings::addDefaultSettingStringList(const QString &key, const QStringList &defaultValue)
 {
-    for (int i = 0; i < defaultValue.count(); ++i) {
-        const QString subkey = QString("%0%1").arg(key, QString::number(i));
-        const QString& subvalue = defaultValue.at(i);
+    for (auto i = 0; i < defaultValue.count(); ++i) {
+        auto subkey = QString("%0%1").arg(key, QString::number(i));
+        auto subvalue = defaultValue.at(i);
         addDefaultSettingString(subkey, subvalue);
     }
 }
 
 void AbstractSettings::setSettingStringList(const QString &key, const QStringList &value)
 {
-    for (int i = 0; i < value.count(); ++i) {
-        const QString subkey = QString("%0%1").arg(key, QString::number(i));
-        const QString& subvalue = value.at(i);
+    for (auto i = 0; i < value.count(); ++i) {
+        auto subkey = QString("%0%1").arg(key, QString::number(i));
+        auto subvalue = value.at(i);
         setSettingString(subkey, subvalue);
     }
 }
@@ -255,7 +248,7 @@ void AbstractSettings::_q_addDefaultSetting(const QString &key,
     if (defaultValue.isNull() || defaultValue == UNDEFINED) {
         throw IllegalValueException();
     }
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         if (item->keyType == keyType && item->key == key) {
             item->defaultValue = defaultValue;
             return;
@@ -273,7 +266,7 @@ QString AbstractSettings::_q_getSetting(const QString &key, KeyType keyType) con
     if (key.isEmpty() || key == UNDEFINED) {
         throw IllegalKeyException();
     }
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         if (item->key == key) {
             if (item->keyType != keyType) {
                 throw WrongTypeException();
@@ -294,7 +287,7 @@ void AbstractSettings::_q_setSetting(const QString &key,
     if (value.isNull() || value == UNDEFINED) {
         throw IllegalValueException();
     }
-    foreach (auto item, m_items) {
+    for (auto item : m_items) {
         if (item->key == key) {
             if (item->keyType != keyType) {
                 throw WrongTypeException();

@@ -37,7 +37,7 @@ struct FileFormat {
         if (tr_text == "Text Files") {    return QObject::tr("Text Files"); }
         if (tr_text == "Json Files") {    return QObject::tr("Json Files"); }
         if (tr_text == "Torrent Files") { return QObject::tr("Torrent Files"); }
-        return QString();
+        return {};
     }
 };
 
@@ -45,7 +45,7 @@ static const FileFormat formats[] = {
     { "txt", "Text Files", IFileHandlerPtr(new TextHandler()) },
     { "json", "Json Files", IFileHandlerPtr(new JsonHandler()) },
     { "torrent", "Torrent Files", IFileHandlerPtr(new TorrentHandler()) },
-    { Q_NULLPTR, Q_NULLPTR, IFileHandlerPtr() }
+    { nullptr, nullptr, IFileHandlerPtr() }
 };
 
 static IFileHandlerPtr findHandlerFromSuffix(const QString &suffix)

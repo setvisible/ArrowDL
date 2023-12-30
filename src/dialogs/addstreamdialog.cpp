@@ -17,7 +17,7 @@
 #include "addstreamdialog.h"
 #include "ui_addstreamdialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/DownloadItem>
 #include <Core/DownloadManager>
 #include <Core/DownloadStreamItem>
@@ -30,8 +30,10 @@
 #include <QtCore/QSettings>
 
 
-AddStreamDialog::AddStreamDialog(const QUrl &url, DownloadManager *downloadManager,
-                                 Settings *settings, QWidget *parent)
+AddStreamDialog::AddStreamDialog(
+    const QUrl &url,
+    DownloadManager *downloadManager,
+    Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddStreamDialog)
     , m_downloadManager(downloadManager)
@@ -152,7 +154,7 @@ void AddStreamDialog::onCollected(const QList<StreamObject> &streamObjects)
 {
     setGuiEnabled(true);
     QList<StreamObject> copy;
-    foreach (auto streamObject, streamObjects) {
+    for (auto streamObject : streamObjects) {
         auto config = streamObject.config();
         config.overview.markWatched = m_settings->isStreamMarkWatchedEnabled();      
         config.subtitle.writeSubtitle = m_settings->isStreamSubtitleEnabled();
@@ -195,7 +197,7 @@ void AddStreamDialog::doAccept(bool started)
 QList<IDownloadItem*> AddStreamDialog::createItems() const
 {
     QList<IDownloadItem*> items;
-    foreach (auto item, ui->streamListWidget->selection()) {
+    for (auto item : ui->streamListWidget->selection()) {
         items << createItem(item);
     }
     return items;

@@ -38,7 +38,7 @@ QList<int> CheckableTableModel::checkedRows() const
 {
     QSet<int> rows;
     auto indexes = m_checkedIndexes.values();
-    foreach (auto index, indexes) {
+    for (auto index : indexes) {
         rows.insert(index.row());
     }
     auto list = rows.values();
@@ -57,12 +57,12 @@ QList<int> CheckableTableModel::checkedRows() const
 QVariant CheckableTableModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
     if (role == CheckStateRole) {
         return m_checkedIndexes.contains(index);
     }
-    return QVariant();
+    return {};
 }
 
 bool CheckableTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -71,7 +71,7 @@ bool CheckableTableModel::setData(const QModelIndex &index, const QVariant &valu
         return false;
     }
     if (index.column() == 0 && role == CheckStateRole) {
-        const bool checked = value.toBool();
+        auto checked = value.toBool();
         if (m_checkedIndexes.contains(index) == checked) {
             return true; // Successful
         }
@@ -82,8 +82,8 @@ bool CheckableTableModel::setData(const QModelIndex &index, const QVariant &valu
         }
         emit checkStateChanged(index, checked);
 
-        QModelIndex topLeft = index;
-        QModelIndex bottomRight = this->index(index.row(), columnCount());
+        auto topLeft = index;
+        auto bottomRight = this->index(index.row(), columnCount());
         emit dataChanged(topLeft, bottomRight);
         return true;
     }

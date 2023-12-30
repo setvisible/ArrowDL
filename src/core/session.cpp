@@ -231,7 +231,7 @@ static inline void writeJob(const DownloadItem *item, QJsonObject &json)
 static inline void readList(QList<DownloadItem *> &downloadItems, const QJsonObject &json, DownloadManager *downloadManager)
 {
     QJsonArray jobs = json["jobs"].toArray();
-    foreach (auto job, jobs) {
+    for (auto job : jobs) {
         QJsonObject jobObject = job.toObject();
         auto item = readJob(jobObject, downloadManager);
         downloadItems.append(item);
@@ -241,7 +241,7 @@ static inline void readList(QList<DownloadItem *> &downloadItems, const QJsonObj
 static inline void writeList(const QList<DownloadItem *> &downloadItems, QJsonObject &json)
 {
     QJsonArray jobs;
-    foreach (auto item, downloadItems) {
+    for (auto item : downloadItems) {
         QJsonObject jobObject;
         writeJob(item, jobObject);
         jobs.append(jobObject);

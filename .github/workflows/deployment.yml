@@ -21,7 +21,7 @@ env:
   BOOST_VERSION: 1.77.0
   BOOST_PATH: ${{github.workspace}}/../install/boost/
   #rem qt_standard_project_setup()  was introduced in Qt 6.3.
-  Qt6_VERSION: 6.3.1
+  Qt6_VERSION: 6.5.3
   LibtorrentRasterbar_SOURCE_DIR: ${{github.workspace}}/3rd/libtorrent-rasterbar
   LibtorrentRasterbar_BUILD_DIR: ${{github.workspace}}/00/build/libtorrent-rasterbar
   LibtorrentRasterbar_INSTALL_DIR: ${{github.workspace}}/00/install/libtorrent-rasterbar
@@ -92,7 +92,7 @@ jobs:
             qt_host: 'linux'
             qt_target: 'desktop'
             qt_arch: 'gcc_64'
-            qt_tools: 'tools_openssl_x64'
+            qt_tools: ''  # To build OpenSSLv3: 'tools_opensslv3_src'
             Qt6_CUSTOM_INSTALL_PATH: "/home/runner/work/DownZemAll/qt/"
             DIRECTIVE_CMAKE_GENERATOR: ''
             INSTALL_BOOST_PLATFORM_VERSION: '18.04'  # 18.04, 20.04 Rem: Ubuntu 20.04 doesn't have Boost 1.77.0
@@ -102,7 +102,7 @@ jobs:
             qt_host: 'windows'
             qt_target: 'desktop'
             qt_arch: 'win64_mingw'
-            qt_tools: 'tools_openssl_x64'
+            qt_tools: 'tools_opensslv3_x64'
             Qt6_CUSTOM_INSTALL_PATH: "D:\\a\\DownZemAll\\qt\\"
             DIRECTIVE_CMAKE_GENERATOR: '-G "MinGW Makefiles"'
             INSTALL_BOOST_PLATFORM_VERSION: '2019' # 2019, 2022
@@ -246,7 +246,8 @@ jobs:
         arch: ${{matrix.INSTALL_BOOST_ARCH}}
         cache: true
 
-    - name: List files in Boost
+    - name: List files in Boost (if Debug Logging is enabled)
+      if:  runner.debug == '1'
       shell: bash
       env:
         Installed_Boost_VER: ${{ steps.install-boost.outputs.Boost_VER }}
@@ -261,8 +262,9 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       # Rem: Once installed, ${{env.Qt6_DIR}} is set.
+      # https://ddalcino.github.io/aqt-list-server/
       with:
-        aqtversion: '==2.1.*'
+        aqtversion: '==3.1.*'
         version: ${{env.Qt6_VERSION}}
         dir: ${{matrix.Qt6_CUSTOM_INSTALL_PATH}}
         host: ${{matrix.qt_host}}
@@ -271,7 +273,8 @@ jobs:
         tools: ${{matrix.qt_tools}}
         cache: true
 
-    - name: List files in Qt
+    - name: List files in Qt (if Debug Logging is enabled)
+      if:  runner.debug == '1'
       shell: bash
       run: cd "${{env.Qt6_DIR}}/../../" && ls -alR
       # env.Qt6_DIR
@@ -282,6 +285,24 @@ jobs:
       # The thing is that "env.Qt6_DIR" is defined only at runtime, *after* install-qt-action has run.
       id: qt6openssl
       shell: python
+      # 2 versions present in Ubuntu:
+      # * Default version (3.0.2-0ubuntu1.12)
+      #    in /usr/ (see "apt list libssl-dev")
+      #    => openssl_dir = os.path.normpath("/usr")
+      #
+      # * Qt6 version (3.0.12)
+      #    To build it:
+      #    openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSLv3", "src"))
+      #        cd "${{openssl_dir}}"
+      #        ./config
+      #        make
+      #        make test
+      #        sudo make install_sw 
+      #    Then:
+      #    openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSLv3", "src"))
+      #    openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libcrypto.a"))
+      #    openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libssl.a"))
+      #
       run: |
            import os
            
@@ -290,14 +311,14 @@ jobs:
            # ssleay32 -> libssl
            
            if "${{ matrix.os }}" == "windows-latest":
-               openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSL", "Win_x64"))
+               openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSLv3", "Win_x64"))
                openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libcrypto.lib"))
                openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libssl.lib"))
            
            if "${{ matrix.os }}" == "ubuntu-latest":
-               openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSL", "binary"))
-               openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libcrypto.a"))
-               openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libssl.a"))
+               openssl_dir = os.path.normpath("/usr")
+               openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "x86_64-linux-gnu", "libcrypto.a"))
+               openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "x86_64-linux-gnu", "libssl.a"))
            
            if "GITHUB_OUTPUT" in os.environ:
                with open(os.environ["GITHUB_OUTPUT"], "a") as f:
@@ -305,7 +326,8 @@ jobs:
                    print(f"OpenSSL_LIB_EAY={ openssl_lib_eay }", file=f)
                    print(f"OpenSSL_SSL_EAY={ openssl_ssl_eay }", file=f)
 
-    - name: List files in OpenSSL
+    - name: List files in OpenSSL (if Debug Logging is enabled)
+      if:  runner.debug == '1'
       shell: bash
       env:
         OpenSSL_ROOT_DIR: ${{ steps.qt6openssl.outputs.OpenSSL_ROOT_DIR }}
@@ -357,7 +379,8 @@ jobs:
       working-directory: "${{env.LibtorrentRasterbar_BUILD_DIR}}"
       run: cmake --build . --target install
 
-    - name: List files in Libtorrent
+    - name: List files in Libtorrent (if Debug Logging is enabled)
+      if:  runner.debug == '1'
       shell: bash
       run: cd "${{env.LibtorrentRasterbar_INSTALL_DIR}}" && ls -alR
 
@@ -517,30 +540,35 @@ jobs:
                os.makedirs(directory)
 
     - name: Download Chromium Addon
+      continue-on-error: true
       uses: actions/download-artifact@v3
       with:
         name: artifact_chromium
         path: "${{env.Project_RELEASE_DIR}}"
 
     - name: Download Firefox Addon
+      continue-on-error: true
       uses: actions/download-artifact@v3
       with:
         name: artifact_firefox
         path: "${{env.Project_RELEASE_DIR}}"
 
     - name: Download Linux Portable
+      continue-on-error: true
       uses: actions/download-artifact@v3
       with:
         name: artifact_linux_portable
         path: "${{env.Project_RELEASE_DIR}}"
 
     - name: Download Windows MinGW 64 Portable
+      continue-on-error: true
       uses: actions/download-artifact@v3
       with:
         name: artifact_windows_mingw_64_portable
         path: "${{env.Project_RELEASE_DIR}}"
 
     - name: Download Windows 64 Installer
+      continue-on-error: true
       uses: actions/download-artifact@v3
       with:
         name: artifact_windows_64_installer

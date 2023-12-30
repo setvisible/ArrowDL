@@ -28,8 +28,8 @@ class StreamDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit StreamDialog(QWidget *parent = Q_NULLPTR);
-    ~StreamDialog() Q_DECL_OVERRIDE;
+    explicit StreamDialog(QWidget *parent = nullptr);
+    ~StreamDialog() override;
 
 private slots:
     void onOkButtonReleased();

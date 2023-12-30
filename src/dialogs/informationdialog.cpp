@@ -17,7 +17,7 @@
 #include "informationdialog.h"
 #include "ui_informationdialog.h"
 
-#include <Globals>
+#include <Constants>
 #include <Core/DownloadItem>
 #include <Core/Format>
 #include <Core/IDownloadItem>

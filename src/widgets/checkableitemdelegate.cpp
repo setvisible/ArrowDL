@@ -16,6 +16,7 @@
 
 #include "checkableitemdelegate.h"
 
+#include <Constants>
 #include <Core/CheckableTableModel>
 #include <Widgets/Globals>
 
@@ -25,18 +26,11 @@
 #include <QtGui/QPixmap>
 #include <QtWidgets/QApplication>
 
-constexpr int checkbox_size   = 12;
-constexpr int checkbox_width  = 16;
-constexpr int thumbnail_width = 16;
 
 
 static QModelIndex getSiblingAtColumn(const QModelIndex &index, int acolumn)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
     return index.siblingAtColumn(acolumn);
-#else
-    return index.sibling(index.row(), acolumn);
-#endif
 }
 
 /*!
@@ -86,7 +80,7 @@ void CheckableItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
         QStyleOptionButton button;
         button.rect = myOption.rect;
         button.palette = myOption.palette;
-        button.iconSize = QSize(checkbox_size, checkbox_size);
+        button.iconSize = QSize(CHECKBOX_SIZE, CHECKBOX_SIZE);
         button.icon = m_checkIcon;
         button.features |= QStyleOptionButton::Flat;
         button.state |= checked ? QStyle::State_Enabled : QStyle::State_None; // hack
@@ -105,12 +99,12 @@ QSize CheckableItemDelegate::sizeHint(const QStyleOptionViewItem &option, const 
 
 int CheckableItemDelegate::widthHint()
 {
-    return checkbox_width;
+    return CHECKBOX_WIDTH;
 }
 
 int CheckableItemDelegate::thumbnailHint()
 {
-    return thumbnail_width;
+    return THUMBNAIL_WIDTH;
 }
 
 /******************************************************************************

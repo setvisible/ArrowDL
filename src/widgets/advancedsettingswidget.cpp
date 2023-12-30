@@ -46,13 +46,11 @@ AdvancedSettingsWidget::AdvancedSettingsWidget(QWidget *parent) : QWidget(parent
     connect(ui->searchLineEdit, &QLineEdit::textChanged, this, &AdvancedSettingsWidget::setFilter);
     connect(ui->searchClearToolButton, &QToolButton::released, ui->searchLineEdit, &QLineEdit::clear);
 
-    connect(ui->modifiedOnlyCheckBox, &QCheckBox::stateChanged,
-            this, &AdvancedSettingsWidget::showModifiedOnly);
+    connect(ui->modifiedOnlyCheckBox, &QCheckBox::stateChanged, this, &AdvancedSettingsWidget::showModifiedOnly);
 
     /* Context menu */
     ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->treeWidget, &QTreeWidget::customContextMenuRequested,
-            this, &AdvancedSettingsWidget::showContextMenu);
+    connect(ui->treeWidget, &QTreeWidget::customContextMenuRequested, this, &AdvancedSettingsWidget::showContextMenu);
 
     /*
      * Workaround to make column 1 only editable:
@@ -61,10 +59,8 @@ AdvancedSettingsWidget::AdvancedSettingsWidget(QWidget *parent) : QWidget(parent
      * 3) Connect QTreeWidget's "doubleClicked" signal to conditional edit slot
      */
     ui->treeWidget->setEditTriggers(QTreeWidget::NoEditTriggers);
-    connect(ui->treeWidget, &QTreeWidget::doubleClicked,
-            this, &AdvancedSettingsWidget::edit);
-    connect(ui->treeWidget, &QTreeWidget::itemChanged,
-            this, &AdvancedSettingsWidget::format);
+    connect(ui->treeWidget, &QTreeWidget::doubleClicked, this, &AdvancedSettingsWidget::edit);
+    connect(ui->treeWidget, &QTreeWidget::itemChanged, this, &AdvancedSettingsWidget::format);
 
     populate();
     setupPresetToolTip();
@@ -96,11 +92,11 @@ void AdvancedSettingsWidget::changeEvent(QEvent *event)
 QMap<QString, QVariant> AdvancedSettingsWidget::torrentSettings() const
 {
     QMap<QString, QVariant> map;
-    for (int i = 0, total = ui->treeWidget->topLevelItemCount(); i < total; ++i) {
-        QTreeWidgetItem* item = ui->treeWidget->topLevelItem(i);
+    for (auto i = 0; i < ui->treeWidget->topLevelItemCount(); ++i) {
+        auto item = ui->treeWidget->topLevelItem(i);
         if (isModified(item)) {
-            QString key = getKey(item);
-            QVariant value = getValue(item);
+            auto key = getKey(item);
+            auto value = getValue(item);
             map.insert(key, value);
         }
     }
@@ -167,11 +163,7 @@ void AdvancedSettingsWidget::showContextMenu(const QPoint &/*pos*/)
 void AdvancedSettingsWidget::edit(const QModelIndex &index)
 {
     QModelIndex sibling;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
     sibling = index.siblingAtColumn(1);
-#else
-    sibling = index.sibling(index.row(), 1);
-#endif
     ui->treeWidget->edit(sibling);
 }
 
@@ -184,13 +176,13 @@ void AdvancedSettingsWidget::editCurrent()
  ******************************************************************************/
 void AdvancedSettingsWidget::format(QTreeWidgetItem *item, int /*column*/)
 {
-    QBrush brush = palette().text();
-    QFont fnt = font();
+    auto brush = palette().text();
+    auto fnt = font();
     if (isModified(item)) {
         brush.setColor(Qt::red);
         fnt.setBold(true);
     }
-    for (int col : {0, 1}) {
+    for (auto col : {0, 1}) {
         item->setForeground(col, brush);
         item->setFont(col, fnt);
     }
@@ -200,7 +192,7 @@ void AdvancedSettingsWidget::format(QTreeWidgetItem *item, int /*column*/)
  ******************************************************************************/
 void AdvancedSettingsWidget::resetSelected()
 {
-    foreach (auto item, ui->treeWidget->selectedItems()) {
+    for (auto item : ui->treeWidget->selectedItems()) {
         resetToDefaultValue(item);
     }
 }
@@ -226,18 +218,18 @@ void AdvancedSettingsWidget::showModifiedOnly(int /*state*/)
 
 void AdvancedSettingsWidget::filter()
 {
-    const QString &searchText   = ui->searchLineEdit->text();
-    const bool mustBeFound      = !searchText.isEmpty();
-    const bool mustBeModified   = ui->modifiedOnlyCheckBox->isChecked();
+    auto searchText = ui->searchLineEdit->text();
+    auto mustBeFound = !searchText.isEmpty();
+    auto mustBeModified = ui->modifiedOnlyCheckBox->isChecked();
 
-    for (int i = 0, total = ui->treeWidget->topLevelItemCount(); i < total; ++i) {
-        QTreeWidgetItem* item = ui->treeWidget->topLevelItem(i);
-        const QString text = item->data(0, Qt::DisplayRole).toString();
-        const bool isFound = text.contains(searchText, Qt::CaseInsensitive);
+    for (auto i = 0; i < ui->treeWidget->topLevelItemCount(); ++i) {
+        auto item = ui->treeWidget->topLevelItem(i);
+        auto text = item->data(0, Qt::DisplayRole).toString();
+        auto isFound = text.contains(searchText, Qt::CaseInsensitive);
 
-        const bool found    = !mustBeFound || isFound;
-        const bool modified = !mustBeModified || isModified(item);
-        const bool visible  = found && modified;
+        auto found    = !mustBeFound || isFound;
+        auto modified = !mustBeModified || isModified(item);
+        auto visible  = found && modified;
         item->setHidden(!visible);
     }
 }
@@ -261,8 +253,8 @@ void AdvancedSettingsWidget::setPresetHighPerf()
 
 void AdvancedSettingsWidget::setPreset(const QList<TorrentSettingItem> &params)
 {
-    foreach (auto param, params) {
-        QTreeWidgetItem* item = findItem(param.key);
+    for (auto param : params) {
+        auto item = findItem(param.key);
         if (item) {
             setValue(item, param.value);
         }
@@ -277,9 +269,8 @@ void AdvancedSettingsWidget::populate()
     QSignalBlocker blocker(this);
     ui->treeWidget->clear();
 
-    const QList<TorrentSettingItem> &params
-            = TorrentContext::getInstance().allSettingsKeysAndValues();
-    foreach (auto param, params) {
+    auto params = TorrentContext::getInstance().allSettingsKeysAndValues();
+    for (auto param : params) {
         auto item = new QTreeWidgetItem(ui->treeWidget);
         setKey(item, param.key, param.displayKey);
         setValue(item, param.value);
@@ -317,7 +308,7 @@ inline QVariant AdvancedSettingsWidget::getValue(const QTreeWidgetItem *item) co
 inline void AdvancedSettingsWidget::setValue(QTreeWidgetItem *item, const QVariant &value)
 {
     if (item) {
-        const QVariant oldValue = getValue(item);
+        auto oldValue = getValue(item);
         if (oldValue.isNull() || !oldValue.isValid() || oldValue != value) {
             item->setData(1, Qt::DisplayRole, value);
             emit changed();
@@ -344,14 +335,14 @@ inline void AdvancedSettingsWidget::resetToDefaultValue(QTreeWidgetItem *item)
  ******************************************************************************/
 inline QTreeWidgetItem* AdvancedSettingsWidget::findItem(const QString &key) const
 {
-    for (int i = 0, total = ui->treeWidget->topLevelItemCount(); i < total; ++i) {
-        QTreeWidgetItem* item = ui->treeWidget->topLevelItem(i);
+    for (auto i = 0; i < ui->treeWidget->topLevelItemCount(); ++i) {
+        auto item = ui->treeWidget->topLevelItem(i);
         if (key == getKey(item)) {
             return item;
         }
     }
     qWarning("Can't find setting key '%s'.", key.toLatin1().data());
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 /******************************************************************************
@@ -365,7 +356,7 @@ void AdvancedSettingsWidget::setupPresetToolTip()
     };
     QString tooltip;
     tooltip += "<html><head/><body>";
-    foreach (auto preset, presets) {
+    for (auto preset : presets) {
         tooltip +=
                 "<p>"
                 "<span style=\" font-weight:600;\">- "

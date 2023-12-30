@@ -33,14 +33,13 @@ class AddUrlsDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit AddUrlsDialog(const QString &text, DownloadManager *downloadManager,
-                           Settings *settings, QWidget *parent = Q_NULLPTR);
-    ~AddUrlsDialog() Q_DECL_OVERRIDE;
+    explicit AddUrlsDialog(const QString &text, DownloadManager *downloadManager, Settings *settings, QWidget *parent = nullptr);
+    ~AddUrlsDialog() override;
 
 public slots:
-    void accept() Q_DECL_OVERRIDE;
+    void accept() override;
     virtual void acceptPaused();
-    void reject() Q_DECL_OVERRIDE;
+    void reject() override;
 
 private slots:
     void onChanged(QString);

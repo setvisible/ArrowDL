@@ -17,12 +17,12 @@
 #ifndef CORE_MIME_DATABASE_H
 #define CORE_MIME_DATABASE_H
 
+#include <Constants>
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
+#include <QtCore/QUrl>
 #include <QtGui/QPixmap>
-
-constexpr int default_icon_size = 32;
 
 
 /*!
@@ -32,7 +32,7 @@ constexpr int default_icon_size = 32;
 class MimeDatabase
 {
 public:
-    static QPixmap fileIcon(const QUrl &url, int extend = default_icon_size);
+    static QPixmap fileIcon(const QUrl &url, int extend = DEFAULT_ICON_SIZE);
 
 };
 
