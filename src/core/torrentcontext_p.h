@@ -161,9 +161,6 @@ public:
 
     TorrentInitialMetaInfo dump(const QString &filename) const;
 
-    static UniqueId toUniqueId(const lt::sha1_hash &hash);
-    static lt::sha1_hash fromUniqueId(const UniqueId &uuid);
-
 signals:
     void metadataUpdated(TorrentData data);
     void dataUpdated(TorrentData data);
@@ -186,21 +183,49 @@ private:
 
     inline void signalizeDataUpdated(const lt::torrent_handle &handle, const lt::add_torrent_params &params);
     inline void signalizeStatusUpdated(const lt::torrent_status &status);
-
-    inline TorrentInitialMetaInfo toTorrentInitialMetaInfo(std::shared_ptr<lt::torrent_info const> ti) const;
-    inline TorrentMetaInfo toTorrentMetaInfo(const lt::add_torrent_params &params) const;
-    inline TorrentHandleInfo toTorrentHandleInfo(const lt::torrent_handle &handle) const;
-
-    inline QString toString(const std::string &str) const;
-    inline QString toString(const lt::string_view &s) const;
-    inline QString toString(const lt::sha1_hash &hash) const;
-    inline QDateTime toDateTime(const std::time_t &time) const;
-
+    
     inline void log(lt::alert *s);
+};
 
-protected:
-    QBitArray toBitArray(const lt::typed_bitfield<lt::piece_index_t> &pieces) const;
-    QBitArray toBitArray(const std::map<lt::piece_index_t, lt::bitfield> &map) const;
+#include "libtorrent/socket.hpp" // lt::tcp::endpoint
+#include "libtorrent/units.hpp" // lt::download_priority_t
+#include "libtorrent/torrent_status.hpp" // lt::torrent_status::state_t
+
+/*! Helper methods to convert std, boost and libtorrent objects to Qt */
+class TorrentUtils
+{
+public:
+    /// \todo move to torrentutils.h
+    static UniqueId toUniqueId(const lt::sha1_hash &hash);
+    static lt::sha1_hash fromUniqueId(const UniqueId &uuid);
+
+    static TorrentInitialMetaInfo toTorrentInitialMetaInfo(std::shared_ptr<lt::torrent_info const> ti);
+    static TorrentMetaInfo toTorrentMetaInfo(const lt::add_torrent_params &params);
+    static TorrentHandleInfo toTorrentHandleInfo(const lt::torrent_handle &handle);
+
+    static QString toString(const std::string &str);
+    static QString toString(const lt::string_view &s);
+    static QString toString(const lt::sha1_hash &hash);
+    static QDateTime toDateTime(const std::time_t &time);
+
+    static QBitArray toBitArray(const lt::typed_bitfield<lt::piece_index_t> &pieces);
+    static QBitArray toBitArray(const std::map<lt::piece_index_t, lt::bitfield> &map);
+
+    static EndPoint toEndPoint(const lt::tcp::endpoint &endpoint);
+    static lt::tcp::endpoint fromEndPoint(const EndPoint &endpoint);
+
+    static TorrentTrackerInfo::Source toTrackerSource(const lt::announce_entry::tracker_source &s);
+
+    static TorrentError toTorrentError(const lt::error_code &errc, const lt::file_index_t &error_file);
+
+    static TorrentTrackerInfo toTorrentTrackerInfo(const lt::announce_entry &tracker);
+    static lt::announce_entry fromTorrentTrackerInfo(const TorrentTrackerInfo &tracker);
+
+    static TorrentFileInfo::Priority toPriority(const lt::download_priority_t &p);
+    static lt::download_priority_t fromPriority(const TorrentFileInfo::Priority &p);
+
+    static TorrentInfo::TorrentState toState(const lt::torrent_status::state_t &s);
+    static lt::torrent_status::state_t fromState(const TorrentInfo::TorrentState &s);
 
 };
 

@@ -31,12 +31,6 @@ private slots:
     void toBitArray();
 };
 
-class FriendlyWorkerThread : public WorkerThread
-{
-    friend class tst_TorrentContext;
-public:
-    explicit FriendlyWorkerThread(QObject *parent) : WorkerThread(parent) {}
-};
 
 /******************************************************************************
 ******************************************************************************/
@@ -95,8 +89,7 @@ void tst_TorrentContext::toBitArray()
     QBitArray expected = input;
 
     // When
-    FriendlyWorkerThread target(this);
-    QBitArray actual = target.toBitArray(pieces);
+    QBitArray actual = TorrentUtils::toBitArray(pieces);
 
     // Then
     QCOMPARE(actual, expected);
