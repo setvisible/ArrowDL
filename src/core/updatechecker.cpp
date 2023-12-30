@@ -163,11 +163,11 @@ void UpdateChecker::onMetadataFinished()
     if (!changelog.empty()) {
         // for no-gui check
         m_latestUpdateUrl = changelog.front().assetUrl;
-        emit updateAvailable();
+        emit updateAvailableForConsole();
     }
 
     storeDateTime();
-    emit updateAvailable(changelog);
+    emit updateAvailableForGui(changelog);
 }
 
 /******************************************************************************

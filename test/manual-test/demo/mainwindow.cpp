@@ -166,7 +166,7 @@ void MainWindow::createContextMenu()
 
 void MainWindow::propagateIcons()
 {
-    const QMap<QAction*, QString> map = {
+    const QHash<QAction*, QString> hash = {
 
         //! [0] File
         //        {ui->actionHome                   , "home"},
@@ -245,7 +245,7 @@ void MainWindow::propagateIcons()
         // {ui->actionAboutYoutubeDL         , ""}
         //! [5]
     };
-    Theme::setIcons(this, map);
+    Theme::setIcons(this, hash);
 }
 
 /******************************************************************************

@@ -178,7 +178,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     }
 
     /* Update Checker */
-    connect(m_updateChecker, SIGNAL(updateAvailable()), this, SLOT(onUpdateAvailable()));
+    connect(m_updateChecker, SIGNAL(updateAvailableForConsole()), this, SLOT(onUpdateAvailableForConsole()));
     m_updateChecker->checkForUpdates(m_settings);
 }
 
@@ -438,7 +438,7 @@ void MainWindow::propagateToolTips()
 
 void MainWindow::propagateIcons()
 {
-    const QMap<QAction*, QString> map = {
+    const QHash<QAction*, QString> hash = {
 
         //! [0] File
         {ui->actionHome                   , "home"},
@@ -516,7 +516,7 @@ void MainWindow::propagateIcons()
         // {ui->actionAboutYTDLP             , ""}
         //! [5]
     };
-    Theme::setIcons(this, map);
+    Theme::setIcons(this, hash);
 }
 
 /******************************************************************************
@@ -1023,14 +1023,14 @@ void MainWindow::showTutorial()
     dialog.exec();
 }
 
-void MainWindow::onUpdateAvailable()
+void MainWindow::onUpdateAvailableForConsole()
 {
     checkForUpdates();
 }
 
 void MainWindow::checkForUpdates()
 {
-    disconnect(m_updateChecker, SIGNAL(updateAvailable()), this, SLOT(onUpdateAvailable()));
+    disconnect(m_updateChecker, SIGNAL(updateAvailableForConsole()), this, SLOT(onUpdateAvailableForConsole()));
     UpdateDialog dialog(m_updateChecker, this);
     dialog.exec();
 }

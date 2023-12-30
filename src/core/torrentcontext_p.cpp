@@ -506,7 +506,7 @@ void TorrentContextPrivate::downloadTorrentFile(Torrent *torrent)
 
 void TorrentContextPrivate::abortNetworkReply(Torrent *torrent)
 {
-    QMapIterator<QNetworkReply*, Torrent*> it(m_currentDownloads);
+    QHashIterator<QNetworkReply *, Torrent *> it(m_currentDownloads);
     while (it.hasNext()) {
         it.next();
         auto currentReply = it.key();
@@ -612,7 +612,7 @@ void TorrentContextPrivate::writeTorrentFileFromMagnet(
     lt::create_torrent ct(*ti);
     auto te = ct.generate();
     std::vector<char> buffer;
-    bencode(std::back_inserter(buffer), te);
+    lt::bencode(std::back_inserter(buffer), te);
 
     // Write
     QByteArray data(&buffer[0], static_cast<int>(buffer.size()));

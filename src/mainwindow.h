@@ -125,7 +125,7 @@ public slots:
     void showPreferences();
 
     // Help
-    void onUpdateAvailable();
+    void onUpdateAvailableForConsole();
     void checkForUpdates();
     void showTutorial();
     void about();
