@@ -151,54 +151,89 @@ void TorrentContext::setEnabled(bool enabled)
  ******************************************************************************/
 void TorrentContext::prepareTorrent(Torrent *torrent)
 {
-    d->prepareTorrent(torrent);
+    try {
+        d->prepareTorrent(torrent);
+    } catch (std::exception const& e) {
+        qWarning() << "Caught exception in " << Q_FUNC_INFO << ": " << QString::fromUtf8(e.what());
+    }
 }
 
 void TorrentContext::stopPrepare(Torrent *torrent)
-{
-    d->stopPrepare(torrent);
+{    
+    try {
+        d->stopPrepare(torrent);
+    } catch (std::exception const& e) {
+        qWarning() << "Caught exception in " << Q_FUNC_INFO << ": " << QString::fromUtf8(e.what());
+    }
 }
 
 /******************************************************************************
  ******************************************************************************/
 bool TorrentContext::hasTorrent(Torrent *torrent)
 {
-    return d->hasTorrent(torrent);
+    try {
+        return d->hasTorrent(torrent);
+    } catch (std::exception const& e) {
+        qWarning() << "Caught exception in " << Q_FUNC_INFO << ": " << QString::fromUtf8(e.what());
+    }
+    return false;
 }
 
 /******************************************************************************
  ******************************************************************************/
 bool TorrentContext::addTorrent(Torrent *torrent)
 {
-    if (!d->addTorrent(torrent)) {
-        torrent->setError(TorrentError::FailedToAddError,
-                          tr("Bad .torrent format: Can't download it."));
-        return false;
+    try {
+        if (!d->addTorrent(torrent)) {
+            torrent->setError(
+                TorrentError::FailedToAddError,
+                tr("Bad .torrent format: Can't download it."));
+            return false;
+        }
+        return true;
+    } catch (std::exception const& e) {
+        qWarning() << "Caught exception in " << Q_FUNC_INFO << ": " << QString::fromUtf8(e.what());
     }
-    return true;
+    return false;
 }
 
 void TorrentContext::removeTorrent(Torrent *torrent)
 {
-    d->removeTorrent(torrent);
+    try {
+        d->removeTorrent(torrent);
+    } catch (std::exception const& e) {
+        qWarning() << "Caught exception in " << Q_FUNC_INFO << ": " << QString::fromUtf8(e.what());
+    }
 }
 
 /******************************************************************************
  ******************************************************************************/
 void TorrentContext::resumeTorrent(Torrent *torrent)
 {
-    d->resumeTorrent(torrent);
+    try {
+        d->resumeTorrent(torrent);
+    } catch (std::exception const& e) {
+        qWarning() << "Caught exception in " << Q_FUNC_INFO << ": " << QString::fromUtf8(e.what());
+    }
 }
 
 void TorrentContext::pauseTorrent(Torrent *torrent)
 {
-    d->pauseTorrent(torrent);
+    try {
+        d->pauseTorrent(torrent);
+    } catch (std::exception const& e) {
+        qWarning() << "Caught exception in " << Q_FUNC_INFO << ": " << QString::fromUtf8(e.what());
+    }
 }
 
 /******************************************************************************
  ******************************************************************************/
 void TorrentContext::setPriority(Torrent *torrent, int index, TorrentFileInfo::Priority p)
 {
-    TorrentBaseContext::setPriority(torrent, index, p);
-    d->changeFilePriority(torrent, index, p);
+    try {
+        TorrentBaseContext::setPriority(torrent, index, p);
+        d->changeFilePriority(torrent, index, p);
+    } catch (std::exception const& e) {
+        qWarning() << "Caught exception in " << Q_FUNC_INFO << ": " << QString::fromUtf8(e.what());
+    }
 }

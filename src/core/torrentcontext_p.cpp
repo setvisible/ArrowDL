@@ -278,21 +278,58 @@ void TorrentContextPrivate::onMetadataUpdated(TorrentData data)
         auto handle = workerThread->findTorrent(data.unique_id);
         if (handle.is_valid()) {
             auto ti = handle.torrent_file();
-            if (ti) {
-                auto torrentFile = torrent->localFullFileName();  // destination
-                ensureDestinationPathExists(torrent);
 
-                writeTorrentFileFromMagnet(torrentFile, ti);
+            try {
+                /*
+                 * Try to save the torrent file on disk.
+                 *
+                 * Note:
+                 * Torrent files in BitTorrent v2 throw exception
+                 * because Bencode cannot write a file with missing piece hashes.
+                 */
+
+                if (ti) {
+                    auto torrentFile = torrent->localFullFileName();  // destination
+                    ensureDestinationPathExists(torrent);
+
+                    writeTorrentFileFromMagnet(torrentFile, ti);
+
+                    /*
+                     * The .torrent file is immediately loaded after being written,
+                     * so that the program ensures the file is correctly written
+                     * (compliant with the bittorrent format specification).
+                     */
+                    readTorrentFile(torrentFile, torrent);
+                }
+                /*
+                 * `removeTorrent` aborts the torrent download,
+                 * but contrary to the name, it keeps the file on disk.
+                 *
+                 * This is temporarly disabled.
+                 */
+                // removeTorrent(torrent);
+
+            } catch (const std::exception &exception) {
+
+                qWarning() << "Caught exception" << QString::fromUtf8(exception.what());
 
                 /*
-                 * The .torrent file is immediately loaded after being written,
-                 * so that the program ensures the file is correctly written
-                 * (compliant with the bittorrent format specification).
+                 * Safe mode: .torrent file is not saved on disk.
                  */
-                readTorrentFile(torrentFile, torrent);
+                if (ti) {
+                    auto metaInfo = torrent->metaInfo();
 
+                    TorrentInitialMetaInfo initialMetaInfo = TorrentUtils::toTorrentInitialMetaInfo(ti);
+                    metaInfo.initialMetaInfo = initialMetaInfo;
+
+                    auto info = torrent->info();
+                    info.state = TorrentInfo::stopped;
+                    torrent->setInfo(info, true);
+                    torrent->setMetaInfo(metaInfo); // setMetaInfo will emit the GUI update signal
+
+                    resetPriorities(torrent);
+                }
             }
-            removeTorrent(torrent);
         }
     }
 }
@@ -563,14 +600,13 @@ void TorrentContextPrivate::archiveExistingFile(const QString &filename)
 {
     if (QFileInfo::exists(filename)) {
         auto archive = QString("%0.0.old").arg(filename);
-        auto i = 0;
+        int i = 0;
         while (QFileInfo::exists(archive)) {
             i++;
             archive = QString("%0.%1.old").arg(filename, QString::number(i));
         }
-        archive.append(QString::number(i));
         if (!QFile::rename(filename, archive)) {
-            qDebug_1 << "Cannot archive file" << filename << "to" << archive;
+            qWarning() << "Couldn't rename file '" << filename << "' into '" << archive << "'.'";
         }
     }
 }
@@ -587,13 +623,26 @@ void TorrentContextPrivate::writeTorrentFile(const QString &filename, QIODevice 
 
 void TorrentContextPrivate::writeTorrentFileFromMagnet(const QString &filename, std::shared_ptr<lt::torrent_info const> ti)
 {
+    /*
+     * BUGFIX Libtorrent v2.0.9
+     * This method is temporarly deprecated
+     * due to bug with generate() when writing v2-mode torrents to disk.
+     */
+    return;
+
     archiveExistingFile(filename);
 
     // Bittorrent Encoding
     lt::create_torrent ct(*ti);
-    auto te = ct.generate();
+
+    // BUG
+    // Torrent in v2-mode are currently not supported,
+    // because the mode doesn't generate piece hash.
+    /// \todo add piece layers manually before generate() it
+    auto entry = ct.generate(); // this method throws exception
+
     std::vector<char> buffer;
-    lt::bencode(std::back_inserter(buffer), te);
+    lt::bencode(std::back_inserter(buffer), entry);
 
     // Write
     QByteArray data(&buffer[0], static_cast<int>(buffer.size()));
@@ -602,14 +651,6 @@ void TorrentContextPrivate::writeTorrentFileFromMagnet(const QString &filename, 
         file.write(data);
         file.close();
     }
-    // Alternative:
-    // QByteArray ba = another.toLocal8Bit();
-    // const char* filename = ba.constData();
-    // FILE* f = fopen(filename, "wb+");
-    // if (f) {
-    //     fwrite(&buffer[0], 1, buffer.size(), f);
-    //     fclose(f);
-    // }
 }
 
 /******************************************************************************
@@ -633,7 +674,7 @@ void TorrentContextPrivate::readTorrentFile(const QString &filename, Torrent *to
     metaInfo.initialMetaInfo = initialMetaInfo;
     torrent->setMetaInfo(metaInfo); // setMetaInfo will emit the GUI update signal
 
-    resetPriorities(Torrent *torrent);
+    resetPriorities(torrent);
 }
 
 /******************************************************************************
@@ -780,6 +821,8 @@ bool TorrentContextPrivate::addTorrent(Torrent *torrent) // resumeTorrent
  ******************************************************************************/
 void TorrentContextPrivate::removeTorrent(Torrent *torrent)
 {
+    /// \todo rename method?
+
     qDebug_1 << Q_FUNC_INFO;
     auto handle = find(torrent);
     if (handle.is_valid()) {
@@ -1124,34 +1167,15 @@ void WorkerThread::setSettings(lt::settings_pack &pack)
 
 /******************************************************************************
  ******************************************************************************/
-static std::vector<char> load_file(std::string const& filename)
-{
-    std::fstream in;
-    in.exceptions(std::ifstream::failbit);
-    in.open(filename.c_str(), std::ios_base::in | std::ios_base::binary);
-    in.seekg(0, std::ios_base::end);
-    auto size = static_cast<qsizetype>(in.tellg());
-    in.seekg(0, std::ios_base::beg);
-    std::vector<char> ret(size);
-    in.read(ret.data(), static_cast<std::streamsize>(size));
-    return ret;
-}
-
 TorrentInitialMetaInfo WorkerThread::dump(const QString &filename) const
 {
-    auto buf = load_file(filename.toStdString());
-    lt::error_code ec;
-    int pos = -1;
-    lt::load_torrent_limits cfg;
-    //lt::bdecode_node const e = lt::bdecode(
-    auto e = lt::bdecode(
-        buf, ec, &pos,
-        cfg.max_decode_depth,
-        cfg.max_decode_tokens);
-    if (ec) {
-        qDebug_2 << "failed to decode: '"
-                 << QString::fromStdString(ec.message())
-                 << "' at character: " << pos;
+    lt::error_code error_code;
+    const lt::torrent_info torrent_info(filename.toStdString(), error_code);
+    if (error_code) {
+        qWarning() << "failed to decode file '"
+                   << filename
+                   << "' due to"
+                   << QString::fromStdString(error_code.message());
         return {};
     }
     auto ptr_torrent_info= std::make_shared<lt::torrent_info>(torrent_info);
@@ -1636,7 +1660,7 @@ void WorkerThread::signalizeAlert(lt::alert* a)
 
     else {
         // if we didn't handle the alert, print it to the log
-        qDebug_2 << Q_FUNC_INFO << "didn't handle the alert (unkown/uncatched alert).";
+        qWarning() << Q_FUNC_INFO << "didn't handle the alert (unkown/uncatched alert).";
     }
 }
 

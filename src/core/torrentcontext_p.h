@@ -125,10 +125,11 @@ private:
     void abortNetworkReply(Torrent *torrent);
 
     void archiveExistingFile(const QString &filename);
-    void writeTorrentFile(const QString &filename, QIODevice *data);    
-    void writeTorrentFileFromMagnet(
-            const QString &filename, std::shared_ptr<lt::torrent_info const> ti);
+    void writeTorrentFile(const QString &filename, QIODevice *data);
+    void writeTorrentFileFromMagnet(const QString &filename, std::shared_ptr<lt::torrent_info const> ti);
     void readTorrentFile(const QString &filename, Torrent *torrent);
+
+    void resetPriorities(Torrent *torrent);
 
     QList<TorrentSettingItem> _toPreset(const lt::settings_pack all) const;
     static QVariant _get_str(const lt::settings_pack &pack, int index);
