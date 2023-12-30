@@ -65,6 +65,8 @@ public:
     TorrentError() = default;
     explicit TorrentError(Type _type, int _fileIndex = -1);
 
+    auto operator<=>(const TorrentError&) const = default;
+
     Type type = NoError;
     int fileIndex = -1;
     QString message = {};
@@ -79,6 +81,8 @@ public:
     EndPoint(const QString &address, int port);
     EndPoint(const QString &addressAndPort);
 
+    auto operator<=>(const EndPoint&) const = default;
+
     QHostAddress ip() const;
     QString ipToString() const;
     int port() const;
@@ -92,11 +96,6 @@ private:
     QHostAddress m_ip = {};
     int m_port{0};
 };
-
-inline bool operator==(const EndPoint &e1, const EndPoint &e2)
-{
-    return e1.ip() == e2.ip() && e1.port() == e2.port();
-}
 
 inline size_t qHash(const EndPoint &key, size_t seed)
 {
@@ -116,6 +115,8 @@ public:
         Symlink = 0x4
     };
     Q_DECLARE_FLAGS(Flags, Flag)
+
+    auto operator<=>(const TorrentFileMetaInfo&) const = default;
 
     QString hash; // unique identifier
 
@@ -151,6 +152,8 @@ public:
         Normal,
         High
     };
+
+    auto operator<=>(const TorrentFileInfo&) const = default;
 
     QString priorityString() const;
 
@@ -202,6 +205,8 @@ public:
     TorrentPeerInfo() = default;
     TorrentPeerInfo(const EndPoint &_endpoint, const QString &_userAgent);
 
+    auto operator<=>(const TorrentPeerInfo&) const = default;
+
     static QString flagUnicodeSymbol(Flag flag);
     static QString sourceFlagUnicodeSymbol(SourceFlag flag);
     static QString flagComment(Flag flag);
@@ -250,6 +255,8 @@ public:
 
     TorrentTrackerInfo(const QString &_url);
 
+    auto operator<=>(const TorrentTrackerInfo&) const = default;
+
     QString sourceString() const;
 
     QString url = {};
@@ -268,6 +275,8 @@ public:
 class TorrentHandleInfo // Torrent
 {
 public:
+    auto operator<=>(const TorrentHandleInfo&) const = default;
+
     int uploadBandwidthLimit = -1; // bytes per second
     int downloadBandwidthLimit = -1;
 
@@ -299,6 +308,8 @@ public:
         seeding                ,
         checking_resume_data
     };
+
+    auto operator<=>(const TorrentInfo&) const = default;
 
     QString torrentStateString() const;
     const char* torrentState_c_str() const;
@@ -404,6 +415,8 @@ public:
     TorrentNodeInfo() = default;
     explicit TorrentNodeInfo(const QString &_host, int _port);
 
+    auto operator<=>(const TorrentNodeInfo&) const = default;
+
     QString host = {};
     int port = 0;
 };
@@ -419,6 +432,8 @@ public:
         HttpSeed
     };
 
+    auto operator<=>(const TorrentWebSeedMetaInfo&) const = default;
+
     QString url = {};
     QString auth = {};
     QList<QPair<QString, QString> > extraHeaders = {};
@@ -430,6 +445,8 @@ public:
 class TorrentInitialMetaInfo
 {
 public:
+    auto operator<=>(const TorrentInitialMetaInfo&) const = default;
+
     QString name = {};
     QDateTime creationDate = {};
     QString creator = {};
@@ -465,6 +482,8 @@ public:
 class TorrentMetaInfo
 {
 public:
+    auto operator<=>(const TorrentMetaInfo&) const = default;
+
     TorrentError error = {};
 
     QString status = {};
@@ -527,6 +546,8 @@ using UniqueId = QString;
 
 struct TorrentData
 {
+    auto operator<=>(const TorrentData&) const = default;
+
     UniqueId unique_id = {};
     TorrentMetaInfo metaInfo = {};
     TorrentHandleInfo detail = {};
@@ -534,6 +555,8 @@ struct TorrentData
 
 struct TorrentStatus
 {
+    auto operator<=>(const TorrentStatus&) const = default;
+
     UniqueId unique_id = {};
     TorrentInfo info = {};
     TorrentHandleInfo detail = {};

@@ -1370,20 +1370,6 @@ bool StreamFormatId::isEmpty() const
     return m_identifiers.isEmpty();
 }
 
-bool StreamFormatId::operator==(const StreamFormatId &other) const
-{
-    return toString() == other.toString();
-}
-
-bool StreamFormatId::operator!=(const StreamFormatId &other) const
-{
-    return !(*this == other);
-}
-
-bool StreamFormatId::operator<(const StreamFormatId &other) const
-{
-    return toString() < other.toString();
-}
 
 /******************************************************************************
  ******************************************************************************/
@@ -1412,16 +1398,6 @@ StreamObject::Data::Format::Format(const QString &format_id,
     this->height       = height;
     this->fps          = fps;
     this->tbr          = tbr;
-}
-
-bool StreamObject::Data::Format::operator!=(const StreamFormat &other) const
-{
-    return !(*this == other);
-}
-
-bool StreamObject::Data::Subtitle::operator!=(const Subtitle &other) const
-{
-    return !(*this == other);
 }
 
 bool StreamObject::Data::Format::hasVideo() const {
@@ -1482,64 +1458,6 @@ QString StreamObject::Data::Format::debug_description() const
 
 /******************************************************************************
  ******************************************************************************/
-/// \todo C++11 relational operations must be explicit. Since C++14 they can be defaulted
-bool StreamObject::Data::operator!=(const Data &other) const
-{
-    return !(*this == other);
-}
-
-bool StreamObject::Config::Overview::operator!=(const Overview &other) const
-{
-    return !(*this == other);
-}
-
-bool StreamObject::Config::Subtitle::operator!=(const Subtitle &other) const
-{
-    return !(*this == other);
-}
-
-bool StreamObject::Config::Chapter::operator!=(const Chapter &other) const
-{
-    return !(*this == other);
-}
-
-bool StreamObject::Config::Thumbnail::operator!=(const Thumbnail &other) const
-{
-    return !(*this == other);
-}
-
-bool StreamObject::Config::Comment::operator!=(const Comment &other) const
-{
-    return !(*this == other);
-}
-
-bool StreamObject::Config::Metadata::operator!=(const Metadata &other) const
-{
-    return !(*this == other);
-}
-
-bool StreamObject::Config::Processing::operator!=(const Processing &other) const
-{
-    return !(*this == other);
-}
-
-bool StreamObject::Config::SponsorBlock::operator!=(const SponsorBlock &other) const
-{
-    return !(*this == other);
-}
-
-bool StreamObject::Config::operator!=(const Config &other) const
-{
-    return !(*this == other);
-}
-
-bool StreamObject::operator!=(const StreamObject &other) const
-{
-    return !(*this == other);
-}
-
-/******************************************************************************
- ******************************************************************************/
 StreamObject::Data StreamObject::data() const
 {
     return m_data;
@@ -1560,6 +1478,13 @@ StreamObject::Config StreamObject::config() const
 void StreamObject::setConfig(const Config &config)
 {
     m_config = config;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+StreamObjectId StreamObject::id() const
+{
+    return m_data.id;
 }
 
 /******************************************************************************
