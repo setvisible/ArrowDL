@@ -118,13 +118,13 @@ public:
 
     auto operator<=>(const TorrentFileMetaInfo&) const = default;
 
-    QString hash; // unique identifier
+    QString hash = {}; // unique identifier
 
-    QDateTime modifiedTime;
+    QDateTime modifiedTime = {};
 
-    QString symlink;
-    QString fileName;
-    QString filePath;
+    QString symlink = {};
+    QString fileName = {};
+    QString filePath = {};
 
     QString shortFilePath() const;
 

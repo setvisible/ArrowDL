@@ -24,8 +24,6 @@
 
 
 DownloadEngine::DownloadEngine(QObject *parent) : QObject(parent)
-  , m_maxSimultaneousDownloads(4)
-  , m_selectionAboutToChange(false)
 {
     connect(this, SIGNAL(jobFinished(IDownloadItem*)),
             this, SLOT(startNext(IDownloadItem*)));

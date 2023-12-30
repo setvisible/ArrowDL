@@ -47,7 +47,7 @@ private slots:
     void onBlockModeToggled(bool checked);
 
 private:
-    Ui::TextEditorWidget *ui;
+    Ui::TextEditorWidget *ui = nullptr;
     void propagateIcons();
 };
 

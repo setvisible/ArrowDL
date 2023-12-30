@@ -77,7 +77,7 @@ public:
     }
 
 private:
-    QStringList m_identifiers;
+    QStringList m_identifiers = {};
 };
 
 /* Enable the type to be used with QVariant. */
@@ -143,23 +143,23 @@ public:
 
             QString debug_description() const;
 
-            StreamFormatId formatId;    // (string): Format code specified by --format
-            QString url;
-            QString ext;                // (string): Video filename extension
-            QString format;
-            QString formatNote;         // (string): Additional info about the format
-            qsizetype filesize{};       // (numeric): The number of bytes, if known in advance
-            QString acodec;             // (string): Name of the audio codec in use
-            qreal abr;                  // (numeric): Average audio bitrate in KBit/s
-            int asr{};                  // (numeric): Audio sampling rate in Hertz
-            int vbr{};
-            QString vcodec;             // (string): Name of the video codec in use
-            int width{};                // (numeric): Width of the video
-            int height{};               // (numeric): Height of the video
-            QString resolution;
-            QString dynamicRange;
-            int fps{};                  // (numeric): Frame rate
-            qreal tbr;                  // (numeric): Average bitrate of audio and video in KBit/s
+            StreamFormatId formatId = {};   // (string): Format code specified by --format
+            QString url = {};
+            QString ext = {};               // (string): Video filename extension
+            QString format = {};
+            QString formatNote = {};        // (string): Additional info about the format
+            qsizetype filesize = {};        // (numeric): The number of bytes, if known in advance
+            QString acodec = {};            // (string): Name of the audio codec in use
+            qreal abr = 0;                  // (numeric): Average audio bitrate in KBit/s
+            int asr = 0;                    // (numeric): Audio sampling rate in Hertz
+            int vbr = 0;
+            QString vcodec = {};            // (string): Name of the video codec in use
+            int width = 0;                  // (numeric): Width of the video
+            int height = 0;                 // (numeric): Height of the video
+            QString resolution = {};
+            QString dynamicRange = {};
+            int fps = 0;                    // (numeric): Frame rate
+            qreal tbr = 0;                  // (numeric): Average bitrate of audio and video in KBit/s
         };
 
         class Subtitle
@@ -167,12 +167,12 @@ public:
         public:
             auto operator<=>(const Subtitle&) const = default;
 
-            QString languageCode;
-            QString ext;
-            QString url;
-            QString data;
-            QString languageName;
-            bool isAutomatic{false};  // auto-generated (automatic caption)
+            QString languageCode = {};
+            QString ext = {};
+            QString url = {};
+            QString data = {};
+            QString languageName = {};
+            bool isAutomatic = false;  // auto-generated (automatic caption)
         };
 
         auto operator<=>(const Data&) const = default;
@@ -186,25 +186,25 @@ public:
 
         QString debug_description() const;
 
-        StreamObjectId id;              // (string): Video identifier
-        QString originalFilename;
+        StreamObjectId id = {};              // (string): Video identifier
+        QString originalFilename = {};
 
-        QList<Subtitle> subtitles;
+        QList<Subtitle> subtitles = {};
 
-        QString webpage_url;            // (string): URL to the video webpage
-        QString title;                  // (string): Video title
-        QString defaultSuffix;          // (string): Video filename suffix (complete extension)
-        QString description;            // (string): Video description
-        QString artist;                 // (string): Artist(s) of the track
-        QString album;                  // (string): Title of the album the track belongs to
-        QString release_year;           // (numeric): Year (YYYY) when the album was released
-        QString thumbnail;              // (string): thumbnail URL
-        QString extractor;              // (string): Name of the extractor
-        QString extractor_key;          // (string): Key name of the extractor
-        StreamFormatId defaultFormatId; // (string): Format code specified by --format
-        QList<Format> formats;          // List of available formats, ordered from worst to best quality
-        QString playlist;               // (string): Name or id of the playlist that contains the video
-        QString playlist_index;         // (numeric): Index of the video in the playlist padded with leading zeros according to the total length of the playlist
+        QString webpage_url = {};            // (string): URL to the video webpage
+        QString title = {};                  // (string): Video title
+        QString defaultSuffix = {};          // (string): Video filename suffix (complete extension)
+        QString description = {};            // (string): Video description
+        QString artist = {};                 // (string): Artist(s) of the track
+        QString album = {};                  // (string): Title of the album the track belongs to
+        QString release_year = {};           // (numeric): Year (YYYY) when the album was released
+        QString thumbnail = {};              // (string): thumbnail URL
+        QString extractor = {};              // (string): Name of the extractor
+        QString extractor_key = {};          // (string): Key name of the extractor
+        StreamFormatId defaultFormatId = {}; // (string): Format code specified by --format
+        QList<Format> formats = {};          // List of available formats, ordered from worst to best quality
+        QString playlist = {};               // (string): Name or id of the playlist that contains the video
+        QString playlist_index = {};         // (numeric): Index of the video in the playlist padded with leading zeros according to the total length of the playlist
     };
 
     /*!
@@ -224,11 +224,11 @@ public:
         {
             auto operator<=>(const Subtitle&) const = default;
 
-            QString extensions;
-            QString languages;
-            QString convert;
-            bool writeSubtitle{false};
-            bool isAutoGenerated{false};
+            QString extensions = {};
+            QString languages = {};
+            QString convert = {};
+            bool writeSubtitle = false;
+            bool isAutoGenerated = false;
         };
         struct Chapter
         {
@@ -267,14 +267,14 @@ public:
 
         auto operator<=>(const Config&) const = default;
 
-        Overview overview;
-        Subtitle subtitle;
-        Chapter chapter;
-        Thumbnail thumbnail;
-        Comment comment;
-        Metadata metadata;
-        Processing processing;
-        SponsorBlock sponsorBlock;
+        Overview overview = {};
+        Subtitle subtitle = {};
+        Chapter chapter = {};
+        Thumbnail thumbnail = {};
+        Comment comment = {};
+        Metadata metadata = {};
+        Processing processing = {};
+        SponsorBlock sponsorBlock = {};
     };
 
     StreamObject() = default;
@@ -322,16 +322,16 @@ public:
     bool isAvailable() const;
 
 private:
-    Data m_data;
-    Config m_config;
+    Data m_data = {};
+    Config m_config = {};
 
     /* Error */
-    Error m_error{NoError};
+    Error m_error = NoError;
 
     /* Mutable data, modifiable by the user */
-    QString m_userTitle;
-    QString m_userSuffix;
-    StreamFormatId m_userFormatId;
+    QString m_userTitle = {};
+    QString m_userSuffix = {};
+    StreamFormatId m_userFormatId = {};
 };
 
 using StreamFormat = StreamObject::Data::Format;
@@ -410,22 +410,22 @@ private slots:
     void onStandardErrorReady();
 
 private:
-    QProcess *m_process;
+    QProcess *m_process = nullptr;
 
-    QString m_url;
-    QString m_outputPath;
-    QString m_referringPage;
-    StreamFormatId m_selectedFormatId;
+    QString m_url = {};
+    QString m_outputPath = {};
+    QString m_referringPage = {};
+    StreamFormatId m_selectedFormatId = {};
 
-    qsizetype m_bytesReceived;
-    qsizetype m_bytesReceivedCurrentSection;
-    qsizetype m_bytesTotal;
-    qsizetype m_bytesTotalCurrentSection;
+    qsizetype m_bytesReceived = 0;
+    qsizetype m_bytesReceivedCurrentSection = 0;
+    qsizetype m_bytesTotal = 0;
+    qsizetype m_bytesTotalCurrentSection = 0;
 
-    QString m_fileBaseName;
-    QString m_fileExtension;
+    QString m_fileBaseName = {};
+    QString m_fileExtension = {};
 
-    StreamObject::Config m_config;
+    StreamObject::Config m_config = {};
 
     qsizetype _q_bytesTotal() const;
     bool isMergeFormat(const QString &suffix) const;
@@ -472,10 +472,10 @@ public:
         auto operator<=>(const StreamFlatListItem&) const = default;
 
         QString _type = {};
-        StreamObjectId id;
-        QString ie_key;
-        QString title;
-        QString url;
+        StreamObjectId id = {};
+        QString ie_key = {};
+        QString title = {};
+        QString url = {};
     };
 
     using StreamFlatList = QList<StreamFlatListItem>;
@@ -505,14 +505,14 @@ private slots:
     void onFinishedFlatList(int exitCode, QProcess::ExitStatus exitStatus);
 
 private:
-    QProcess *m_processDumpJson;
-    QProcess *m_processFlatList;
-    StreamCleanCache *m_streamCleanCache;
-    QString m_url;
-    bool m_cancelled;
+    QProcess *m_processDumpJson = nullptr;
+    QProcess *m_processFlatList = nullptr;
+    StreamCleanCache *m_streamCleanCache = nullptr;
+    QString m_url = {};
+    bool m_cancelled = false;
 
-    StreamDumpMap m_dumpMap;
-    StreamFlatList m_flatList;
+    StreamDumpMap m_dumpMap = {};
+    StreamFlatList m_flatList = {};
 
     void runAsyncDumpJson();
     void runAsyncFlatList();
@@ -561,7 +561,7 @@ private slots:
     void onFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
 private:
-    QProcess *m_process;
+    QProcess *m_process = nullptr;
 };
 
 class StreamExtractorListCollector : public QObject
@@ -586,10 +586,10 @@ private slots:
     void onFinishedDescriptions(int exitCode, QProcess::ExitStatus exitStatus);
 
 private:
-    QProcess *m_processExtractors;
-    QProcess *m_processDescriptions;
-    QStringList m_extractors;
-    QStringList m_descriptions;
+    QProcess *m_processExtractors = nullptr;
+    QProcess *m_processDescriptions = nullptr;
+    QStringList m_extractors = {};
+    QStringList m_descriptions = {};
 
     void onFinished();
 };

@@ -33,8 +33,8 @@ private slots:
     void onUpdateError(const QString &errorMessage);
 
 private:
-    Ui::UpdateDialog *ui;
-    UpdateChecker *m_updateChecker;
+    Ui::UpdateDialog *ui = nullptr;
+    UpdateChecker *m_updateChecker = nullptr;
 };
 
 #endif // DIALOGS_UPDATE_DIALOG_H

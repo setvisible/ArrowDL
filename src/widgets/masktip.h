@@ -41,7 +41,7 @@ private slots:
     void onLinkActivated(const QString& link);
 
 private:
-    Ui::MaskTip *ui;
+    Ui::MaskTip *ui = nullptr;
 };
 
 #endif // WIDGETS_MASK_TIP_H

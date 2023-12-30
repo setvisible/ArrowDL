@@ -705,8 +705,6 @@ StreamAssetDownloader::StreamAssetDownloader(QObject *parent) : QObject(parent)
   , m_processDumpJson(new QProcess(this))
   , m_processFlatList(new QProcess(this))
   , m_streamCleanCache(new StreamCleanCache(this))
-  , m_url(QString())
-  , m_cancelled(false)
 {
     connect(m_processDumpJson, SIGNAL(started()), this, SLOT(onStarted()));
     connect(m_processFlatList, SIGNAL(started()), this, SLOT(onStarted()));

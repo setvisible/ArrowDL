@@ -57,8 +57,8 @@ private slots:
     void onResourceChanged();
 
 private:
-    QStringList m_headers;
-    QList<ResourceItem*> m_items;
+    QStringList m_headers = {};
+    QList<ResourceItem*> m_items = {};
 };
 
 #endif // CORE_RESOURCE_MODEL_H

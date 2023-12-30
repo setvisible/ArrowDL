@@ -74,8 +74,8 @@ private slots:
     void cleaned();
 
 private:
-    Ui::PreferenceDialog *ui;
-    Settings *m_settings;
+    Ui::PreferenceDialog *ui = nullptr;
+    Settings *m_settings = nullptr;
 
     void connectUi();
     void initializeUi();

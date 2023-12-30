@@ -37,8 +37,8 @@ public slots:
     void closeEvent(QCloseEvent *) override;
 
 private:
-    Ui::TutorialDialog *ui;
-    Settings *m_settings;
+    Ui::TutorialDialog *ui = nullptr;
+    Settings *m_settings = nullptr;
 
     void readSettings();
     void writeSettings();

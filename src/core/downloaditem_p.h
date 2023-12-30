@@ -30,12 +30,12 @@ class DownloadItemPrivate
 public:
     DownloadItemPrivate(DownloadItem *qq);
 
-    DownloadManager *downloadManager{nullptr};
-    ResourceItem *resource{nullptr};
-    QNetworkReply *reply{nullptr};
-    File *file;
+    DownloadManager *downloadManager = nullptr;
+    ResourceItem *resource = nullptr;
+    QNetworkReply *reply = nullptr;
+    File *file = nullptr;
 
-    DownloadItem *q;
+    DownloadItem *q = nullptr;
 };
 
 #endif // CORE_DOWNLOAD_ITEM_P_H

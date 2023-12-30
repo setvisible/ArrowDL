@@ -46,9 +46,9 @@ private slots:
     void onChanged(QString);
 
 private:
-    Ui::AddTorrentDialog *ui;
-    DownloadManager *m_downloadManager;
-    Settings *m_settings;
+    Ui::AddTorrentDialog *ui = nullptr;
+    DownloadManager *m_downloadManager = nullptr;
+    Settings *m_settings = nullptr;
 
     void doAccept(bool started);
 

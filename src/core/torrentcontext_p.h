@@ -110,7 +110,7 @@ public:
     WorkerThread *workerThread = nullptr;
     Settings *settings = nullptr;
     NetworkManager *networkManager = nullptr;
-    QHash<UniqueId, Torrent*> hashMap;
+    QHash<UniqueId, Torrent*> hashMap = {};
 
     inline Torrent *find(const UniqueId &uuid);
     inline lt::torrent_handle find(Torrent *torrent);
@@ -119,7 +119,7 @@ private slots:
     void onNetworkReplyFinished();
 
 private:
-    QHash<QNetworkReply *, Torrent *> m_currentDownloads;
+    QHash<QNetworkReply *, Torrent *> m_currentDownloads = {};
     void downloadMagnetLink(Torrent *torrent);
     void downloadTorrentFile(Torrent *torrent);
     void abortNetworkReply(Torrent *torrent);

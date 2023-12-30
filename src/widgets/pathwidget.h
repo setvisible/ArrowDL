@@ -58,10 +58,10 @@ private slots:
     void onCurrentIndexChanged(int index);
 
 private:
-    Ui::PathWidget *ui;
+    Ui::PathWidget *ui = nullptr;
     PathType m_pathType = File;
-    QString m_suffix;
-    QString m_suffixName;
+    QString m_suffix = {};
+    QString m_suffixName = {};
 };
 
 #endif // WIDGETS_PATH_WIDGET_H

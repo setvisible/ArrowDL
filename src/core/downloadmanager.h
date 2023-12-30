@@ -60,7 +60,7 @@ private slots:
 
 private:
     /* Network parameters (SSL, Proxy, UserAgent...) */
-    NetworkManager *m_networkManager;
+    NetworkManager *m_networkManager = nullptr;
     Settings *m_settings = nullptr;
 
     /* Crash Recovery */

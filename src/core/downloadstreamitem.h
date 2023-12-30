@@ -44,7 +44,7 @@ private slots:
     void onError(const QString &errorMessage);
 
 private:
-    Stream *m_stream;
+    Stream *m_stream = nullptr;
 };
 
 #endif // CORE_DOWNLOAD_STREAM_ITEM_H

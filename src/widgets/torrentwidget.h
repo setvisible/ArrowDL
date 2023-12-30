@@ -81,7 +81,7 @@ private slots:
     void copyTrackerList();
 
 private:
-    Ui::TorrentWidget *ui;
+    Ui::TorrentWidget *ui = nullptr;
     TorrentBaseContext *m_torrentContext = nullptr;
     Torrent *m_torrent = nullptr;
 

@@ -45,7 +45,7 @@ private slots:
     void acceptUrls();
 
 private:
-    Ui::HomeDialog *ui;
+    Ui::HomeDialog *ui = nullptr;
 
     void propagateIcons();
 };

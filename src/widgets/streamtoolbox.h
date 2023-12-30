@@ -60,7 +60,7 @@ private slots:
     void setAutoSubtitleHidden(bool hidden);
 
 private:
-    Ui::StreamToolBox *ui;
+    Ui::StreamToolBox *ui = nullptr;
 
     void initializeSubtitles();
     void propagateIcons();
@@ -73,7 +73,7 @@ private slots:
     void _q_onToolButtonReleased();
     void _q_onToolButtonClosed();
 private:
-    QList<QAbstractButton *> m_buttons;
+    QList<QAbstractButton *> m_buttons = {};
 #endif
 };
 

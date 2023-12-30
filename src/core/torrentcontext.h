@@ -100,7 +100,7 @@ signals:
 public slots:
 
 private:
-    TorrentContextPrivate *d;
+    TorrentContextPrivate *d = nullptr;
     friend class TorrentContextPrivate;
 };
 

@@ -51,8 +51,8 @@ public slots:
     void select(const QRegularExpression &regex);
 
 private:
-    ResourceModel *m_linkModel;
-    ResourceModel *m_contentModel;
+    ResourceModel *m_linkModel = nullptr;
+    ResourceModel *m_contentModel = nullptr;
     Tab m_currentTab = LINK;
 };
 

@@ -107,8 +107,8 @@ private:
 
     QString m_log = {};
 
-    QElapsedTimer m_downloadElapsedTimer;
-    QTime m_remainingTime;
+    QElapsedTimer m_downloadElapsedTimer = {};
+    QTime m_remainingTime = {};
     QTimer m_updateInfoTimer;
     QTimer m_updateCountDownTimer;
 };

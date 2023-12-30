@@ -40,8 +40,8 @@ private slots:
     void wrapLog(bool enabled);
 
 private:
-    Ui::InformationDialog *ui;
-    QList<IDownloadItem *> m_items;
+    Ui::InformationDialog *ui = nullptr;
+    QList<IDownloadItem *> m_items = {};
 
     void initialize(const QList<IDownloadItem*> &items);
 
