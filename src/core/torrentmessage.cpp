@@ -116,6 +116,19 @@ QString EndPoint::sortableIp() const
 
 /******************************************************************************
  ******************************************************************************/
+TorrentFileMetaInfo::TorrentFileMetaInfo(qsizetype _bytesTotal,
+                                         qsizetype _bytesOffset,
+                                         quint32 _crc32FilePathHash,
+                                         const QString &_fileName,
+                                         const QString &_filePath)
+    : bytesTotal(_bytesTotal)
+    , bytesOffset(_bytesOffset)
+    , crc32FilePathHash(_crc32FilePathHash)
+    , fileName(_fileName)
+    , filePath(_filePath)
+{
+}
+
 void TorrentFileMetaInfo::setFlag(Flag flag, bool on)
 {
     _q_set_flag<TorrentFileMetaInfo::Flag>(&flags, flag, on);
@@ -293,11 +306,15 @@ void TorrentPeerInfo::setSourceFlag(SourceFlag flag, bool on)
 
 /******************************************************************************
  ******************************************************************************/
-TorrentTrackerInfo::TorrentTrackerInfo(const QString &_url)
+TorrentTrackerInfo::TorrentTrackerInfo(
+    const QString &_url,
+    int _tier,
+    TorrentTrackerInfo::Source _source)
     : url(_url)
+    , tier(_tier)
+    , source(_source)
 {
 }
-
 
 QString TorrentTrackerInfo::sourceString() const
 {

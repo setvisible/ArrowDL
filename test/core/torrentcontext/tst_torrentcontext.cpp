@@ -22,6 +22,8 @@
 #include <QtCore/QDebug>
 #include <QtTest/QtTest>
 
+using namespace Qt::Literals::StringLiterals;
+
 class tst_TorrentContext : public QObject
 {
     Q_OBJECT
@@ -29,11 +31,18 @@ class tst_TorrentContext : public QObject
 private slots:
     void toBitArray_data();
     void toBitArray();
+    void dump_invalid();
 };
 
+class FriendlyWorkerThread : public WorkerThread
+{
+    friend class tst_TorrentContext;
+public:
+    explicit FriendlyWorkerThread(QObject *parent) : WorkerThread(parent) {}
+};
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 /**
  * Helper function to initialize a bitarray from a string
  */
@@ -96,7 +105,25 @@ void tst_TorrentContext::toBitArray()
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
+void tst_TorrentContext::dump_invalid()
+{
+    // Given
+    auto torrentFile("./data/ill-formed.torrent"_L1);
+    QVERIFY(QFileInfo::exists(torrentFile));
+
+    TorrentInitialMetaInfo expected;
+
+    // When
+    FriendlyWorkerThread target(this);
+    TorrentInitialMetaInfo actual = target.dump(torrentFile);
+
+    // Then
+    QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 QTEST_APPLESS_MAIN(tst_TorrentContext)
 
 #include "tst_torrentcontext.moc"

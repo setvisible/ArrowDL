@@ -116,6 +116,13 @@ public:
     };
     Q_DECLARE_FLAGS(Flags, Flag)
 
+    TorrentFileMetaInfo() = default;
+    explicit TorrentFileMetaInfo(qsizetype _bytesTotal,
+                                 qsizetype _bytesOffset,
+                                 quint32 _crc32FilePathHash,
+                                 const QString &_fileName,
+                                 const QString &_filePath);
+
     auto operator<=>(const TorrentFileMetaInfo&) const = default;
 
     QString hash = {}; // unique identifier
@@ -253,7 +260,9 @@ public:
         TrackerExchange = 8
     };
 
-    TorrentTrackerInfo(const QString &_url);
+    TorrentTrackerInfo(const QString &_url,
+                       int _tier = 0,
+                       TorrentTrackerInfo::Source _source = TorrentTrackerInfo::NoSource);
 
     auto operator<=>(const TorrentTrackerInfo&) const = default;
 
