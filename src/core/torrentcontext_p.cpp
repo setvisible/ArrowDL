@@ -428,29 +428,28 @@ void TorrentContextPrivate::prepareTorrent(Torrent *torrent)
     if (QFileInfo::exists(torrentFile)) {
         readTorrentFile(torrentFile, torrent);
         return;
+    }
 
-    } else {
-        ensureDestinationPathExists(torrent);
-        auto source = torrent->url();
+    ensureDestinationPathExists(torrent);
+    auto source = torrent->url();
 
-        if (isMagnetSource(source)) {
-            downloadMagnetLink(torrent);
+    if (isMagnetSource(source)) {
+        downloadMagnetLink(torrent);
 
-        } else if (isDistantSource(source)) {
-            downloadTorrentFile(torrent);
+    } else if (isDistantSource(source)) {
+        downloadTorrentFile(torrent);
 
-        } else if (isLocalSource(source)) { // Trivial: just move and read
-            if (copyFile(source, torrentFile)) {
-                readTorrentFile(torrentFile, torrent);
-            } else {
-                qDebug_1 << Q_FUNC_INFO << "FILE COPY ERROR";
-            }
-
-        } else if (isInfoHashSource(source)) {
-            // TODO
+    } else if (isLocalSource(source)) { // Trivial: just move and read
+        if (copyFile(source, torrentFile)) {
+            readTorrentFile(torrentFile, torrent);
         } else {
-            qDebug_1 << Q_FUNC_INFO << "error: can't prepare, invalid format";
+            qDebug_1 << Q_FUNC_INFO << "FILE COPY ERROR";
         }
+
+    } else if (isInfoHashSource(source)) {
+        // TODO
+    } else {
+        qDebug_1 << Q_FUNC_INFO << "error: can't prepare, invalid format";
     }
 }
 
@@ -602,9 +601,7 @@ void TorrentContextPrivate::writeTorrentFile(const QString &filename, QIODevice 
     }
 }
 
-void TorrentContextPrivate::writeTorrentFileFromMagnet(
-    const QString &filename,
-    std::shared_ptr<lt::torrent_info const> ti)
+void TorrentContextPrivate::writeTorrentFileFromMagnet(const QString &filename, std::shared_ptr<lt::torrent_info const> ti)
 {
     archiveExistingFile(filename);
 
