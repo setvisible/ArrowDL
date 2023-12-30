@@ -22,7 +22,8 @@
 #include <QtCore/QObject>
 #include <QtCore/QList>
 #include <QtCore/QString>
-#include <QtCore/QTimer>
+
+class QTimer;
 
 using DownloadRange = QList<IDownloadItem *>;
 
@@ -116,7 +117,7 @@ private:
     QList<IDownloadItem *> m_items = {};
 
     qreal m_previouSpeed = 0;
-    QTimer m_speedTimer;
+    QTimer* m_speedTimer = nullptr;
 
     // Pool
     int m_maxSimultaneousDownloads = 4;

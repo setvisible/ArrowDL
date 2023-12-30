@@ -21,6 +21,7 @@
 #include <QtCore/QDateTime>
 #include <QtCore/QDebug>
 #include <QtCore/QtMath>
+#include <QtCore/QTimer>
 
 /*!
  * \class AbstractDownloadItem
@@ -35,9 +36,11 @@
  * \brief Constructor
  */
 AbstractDownloadItem::AbstractDownloadItem(QObject *parent) : QObject(parent)
+    , m_updateInfoTimer(new QTimer(this))
+    , m_updateCountDownTimer(new QTimer(this))
 {
-    connect(&m_updateInfoTimer, SIGNAL(timeout()), this, SLOT(updateInfo()));
-    connect(&m_updateCountDownTimer, SIGNAL(timeout()), this, SLOT(updateInfo()));
+    connect(m_updateInfoTimer, SIGNAL(timeout()), this, SLOT(updateInfo()));
+    connect(m_updateCountDownTimer, SIGNAL(timeout()), this, SLOT(updateInfo()));
 }
 
 /******************************************************************************
@@ -312,13 +315,13 @@ void AbstractDownloadItem::tearDownResume()
     /*
      * This timer ticks each second, in order to update the remaining time information (countdown)
      */
-    m_updateCountDownTimer.start(TIMEOUT_COUNT_DOWN);
+    m_updateCountDownTimer->start(TIMEOUT_COUNT_DOWN);
 
     /*
      * This timer updates the speed/progress info.
      * It can be quicker than the countdown timer.
      */
-    m_updateInfoTimer.start(TIMEOUT_INFO);
+    m_updateInfoTimer->start(TIMEOUT_INFO);
 
     /* Start downloading now. */
     m_state = Downloading;
@@ -342,8 +345,8 @@ void AbstractDownloadItem::preFinish(bool commited)
  ******************************************************************************/
 void AbstractDownloadItem::finish()
 {
-    m_updateCountDownTimer.stop();
-    m_updateInfoTimer.stop();
+    m_updateCountDownTimer->stop();
+    m_updateInfoTimer->stop();
     emit finished();
 }
 
