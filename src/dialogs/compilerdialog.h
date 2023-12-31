@@ -22,7 +22,7 @@ private slots:
     void onOkButtonReleased();
 
 private:
-    Ui::CompilerDialog *ui;
+    Ui::CompilerDialog *ui = nullptr;
 
     inline void populateOpenSSL();
     inline QString getLibraryInfo(const QString &libraryName);

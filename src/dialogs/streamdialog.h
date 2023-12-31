@@ -38,7 +38,7 @@ private slots:
     void onCollected(const QStringList &extractors, const QStringList &descriptions);
 
 private:
-    Ui::StreamDialog *ui;
+    Ui::StreamDialog *ui = nullptr;
 
     inline void askStreamVersionAsync();
     inline void askStreamExtractorsAsync();

@@ -42,7 +42,7 @@ private slots:
     void onTipButtonLinkActivated(const QString& link);
 
 private:
-    Ui::MaskWidget *ui;
+    Ui::MaskWidget *ui = nullptr;
 };
 
 #endif // WIDGETS_MASK_WIDGET_H

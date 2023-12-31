@@ -50,7 +50,7 @@ public:
 
 private:
     /* Device */
-    QIODevice *m_device{nullptr};
+    QIODevice *m_device = nullptr;
     IFileHandlerPtr m_handler;
 
     bool initHandler();
@@ -58,7 +58,7 @@ private:
 
     /* Error */
     FileReader::FileReaderError m_fileReaderError = UnknownError;
-    QString m_errorString;
+    QString m_errorString = {};
 
     Q_DISABLE_COPY(FileReader)
 };

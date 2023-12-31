@@ -60,8 +60,8 @@ private slots:
     void onButtonBarClicked();
 
 private:
-    Ui::StreamFormatPicker *ui;
-    QStandardItemModel *m_model;
+    Ui::StreamFormatPicker *ui = nullptr;
+    QStandardItemModel *m_model = nullptr;
 
     void propagateIcons();
     void updateButtonBar();

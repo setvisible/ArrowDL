@@ -53,9 +53,9 @@ private slots:
     void onChanged(QString);
 
 private:
-    Ui::AddBatchDialog *ui;
-    DownloadManager *m_downloadManager;
-    Settings *m_settings;
+    Ui::AddBatchDialog *ui = nullptr;
+    DownloadManager *m_downloadManager = nullptr;
+    Settings *m_settings = nullptr;
 
     void doAccept(bool started);
     QMessageBox::StandardButton askBatchDownloading(QList<IDownloadItem*> items);

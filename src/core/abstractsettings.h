@@ -90,7 +90,7 @@ protected:
     QMap<QString, QVariant> deserialize(const QString &str) const;
 
 private:
-    QList<SettingsItem*> m_items;
+    QList<SettingsItem*> m_items = {};
     bool m_default = false;
 
     void _q_addDefaultSetting(const QString &key, const QString &defaultValue, KeyType keyType);

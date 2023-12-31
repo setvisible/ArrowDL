@@ -22,7 +22,8 @@
 #include <QtCore/QObject>
 #include <QtCore/QList>
 #include <QtCore/QString>
-#include <QtCore/QTimer>
+
+class QTimer;
 
 using DownloadRange = QList<IDownloadItem *>;
 
@@ -113,17 +114,17 @@ private slots:
     void onSpeedTimerTimeout();
 
 private:
-    QList<IDownloadItem *> m_items;
+    QList<IDownloadItem *> m_items = {};
 
     qreal m_previouSpeed = 0;
-    QTimer m_speedTimer;
+    QTimer* m_speedTimer = nullptr;
 
     // Pool
-    int m_maxSimultaneousDownloads;
+    int m_maxSimultaneousDownloads = 4;
     qsizetype downloadingCount() const;
 
-    QList<IDownloadItem *> m_selectedItems;
-    bool m_selectionAboutToChange;
+    QList<IDownloadItem *> m_selectedItems = {};
+    bool m_selectionAboutToChange = false;
 
     void sortSelectionByIndex();
     void moveUpTo(qsizetype targetIndex);

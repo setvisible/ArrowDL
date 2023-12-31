@@ -41,7 +41,7 @@ private slots:
     void onLinkActivated(const QString& link);
 
 private:
-    Ui::FilterTip *ui;
+    Ui::FilterTip *ui = nullptr;
 
 };
 

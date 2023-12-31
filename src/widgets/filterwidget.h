@@ -57,7 +57,7 @@ private slots:
     void onFilterTipToolLinkActivated(const QString& link);
 
 private:
-    Ui::FilterWidget *ui;
+    Ui::FilterWidget *ui = nullptr;
 
     inline QList<QCheckBox*> allCheckBoxes() const;
 };

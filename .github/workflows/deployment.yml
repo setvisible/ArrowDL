@@ -420,7 +420,21 @@ jobs:
       working-directory: "${{env.Project_BUILD_DIR}}"
       run: cmake --build . --target install
 
-    - name: Strip
+    - name: Strip (Windows Only)
+      if: ${{ matrix.os == 'windows-latest' }}
+      continue-on-error: true
+      working-directory: "${{env.Project_INSTALL_DIR}}"
+      shell: bash
+      run: |
+           echo "Before:"
+           ls -al
+           strip "launcher.exe"
+           strip "DownZemAll.exe"
+           echo ""
+           echo "After:"
+           ls -al
+
+    - name: Strip (Linux Only)
       if: ${{ matrix.os == 'ubuntu-latest' }}
       continue-on-error: true
       working-directory: "${{env.Project_INSTALL_DIR}}"

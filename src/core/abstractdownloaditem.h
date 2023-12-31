@@ -24,7 +24,8 @@
 #include <QtCore/QString>
 #include <QtCore/QUrl>
 #include <QtCore/QTime>
-#include <QtCore/QTimer>
+
+class QTimer;
 
 class AbstractDownloadItem : public QObject, public IDownloadItem
 {
@@ -107,10 +108,10 @@ private:
 
     QString m_log = {};
 
-    QElapsedTimer m_downloadElapsedTimer;
-    QTime m_remainingTime;
-    QTimer m_updateInfoTimer;
-    QTimer m_updateCountDownTimer;
+    QElapsedTimer m_downloadElapsedTimer = {};
+    QTime m_remainingTime = {};
+    QTimer* m_updateInfoTimer = nullptr;
+    QTimer* m_updateCountDownTimer = nullptr;
 };
 
 #endif // CORE_ABSTRACT_DOWNLOAD_ITEM_H

@@ -26,8 +26,6 @@
 
 PathWidget::PathWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::PathWidget)
-  , m_suffix(QString())
-  , m_suffixName(QString())
 {
     ui->setupUi(this);
 

@@ -72,7 +72,7 @@ private slots:
     void handleResults(const TorrentPieceData &pieceData);
 
 private:
-    Ui::TorrentPieceMap *ui;
+    Ui::TorrentPieceMap *ui = nullptr;
     Torrent *m_torrent = nullptr;
     QGraphicsScene *m_scene = nullptr;
     QGraphicsRectItem *m_rootItem = nullptr;

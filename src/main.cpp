@@ -23,6 +23,8 @@
 
 #include <QtCore/QCommandLineParser>
 
+#include <boost/stacktrace.hpp>
+
 /* Enable the type to be used with QVariant. */
 Q_DECLARE_METATYPE(QList<int>)
 
@@ -123,5 +125,14 @@ int main(int argc, char *argv[])
 
     QObject::connect(&application, SIGNAL(messageReceived(QString)), &window, SLOT(handleMessage(QString)));
 
-    return QtSingleApplication::exec();
+    try {
+        return QtSingleApplication::exec();
+
+    } catch (const std::exception &exception) {
+        /// \todo use future C++23 <stacktrace> instead
+        std::string bt = boost::stacktrace::to_string(boost::stacktrace::stacktrace());
+        qWarning() << "Caught Fatal exception: " << QString::fromUtf8(exception.what());
+        qWarning() << QString::fromUtf8(bt);
+        return EXIT_FAILURE;
+    }
 }

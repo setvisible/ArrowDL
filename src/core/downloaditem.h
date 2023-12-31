@@ -68,7 +68,7 @@ protected:
     File* file() const;
 
 private:
-    DownloadItemPrivate *d;
+    DownloadItemPrivate *d = nullptr;
     friend class DownloadItemPrivate;
 
     QString statusToHttp(QNetworkReply::NetworkError error);

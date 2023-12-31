@@ -44,7 +44,7 @@ private slots:
     void comboboxChanged(int value);
 
 private:
-    Ui::ThemeWidget *ui;
+    Ui::ThemeWidget *ui = nullptr;
     void retranslateComboBox();
 };
 

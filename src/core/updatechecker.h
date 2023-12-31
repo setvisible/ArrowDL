@@ -74,9 +74,9 @@ private slots:
     void onBinaryFinished();
 
 private:
-    StreamUpgrader *m_streamUpgrader;
-    QString m_latestUpdateUrl;
-    QFile m_temporaryBinaryFile;
+    StreamUpgrader *m_streamUpgrader = nullptr;
+    QString m_latestUpdateUrl = {};
+    QFile m_temporaryBinaryFile = {};
 
     void downloadMetadata();
 

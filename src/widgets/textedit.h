@@ -51,14 +51,14 @@ public:
     bool hasSelection() const { return (anchorColumn != cursorColumn); }
 
 private:
-    TextEdit *m_editor;
-    bool m_isActive;
+    TextEdit *m_editor = nullptr;
+    bool m_isActive = false;
 
 public:
-    int anchorLine; // public for easy access
-    int anchorColumn;
-    int cursorLine;
-    int cursorColumn;
+    int anchorLine = 0; // public for easy access
+    int anchorColumn = 0;
+    int cursorLine = 0;
+    int cursorColumn = 0;
 };
 
 

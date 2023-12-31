@@ -136,7 +136,7 @@ static void searchForLinks(GumboNode* node, Model *model, const QUrl &url)
     }
 
     auto children = &node->v.element.children;
-    for (auto i = 0; i < children->length; ++i) {
+    for (unsigned int i = 0; i < children->length; ++i) {
         auto childNode = static_cast<GumboNode*>(children->data[i]);
         searchForLinks(childNode, model, url);
     }

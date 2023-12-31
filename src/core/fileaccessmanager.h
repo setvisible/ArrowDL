@@ -36,8 +36,8 @@ public:
     ExistingFileOption aboutToModify(const QString &filename) override;
 
 private:
-    QWidget *m_parent;
-    Settings *m_settings= nullptr;
+    QWidget *m_parent = nullptr;
+    Settings *m_settings = nullptr;
 };
 
 #endif // CORE_FILE_ACCESS_MANAGER_H

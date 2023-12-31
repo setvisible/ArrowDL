@@ -41,7 +41,7 @@ public slots:
     void updateItem();
 
 private:
-    AbstractDownloadItem *m_downloadItem;
+    AbstractDownloadItem *m_downloadItem = nullptr;
 };
 
 /******************************************************************************
@@ -65,7 +65,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
 
 private:
-    QPoint dragStartPosition;
+    QPoint dragStartPosition = {};
 
     QList<QueueItem*> toQueueItem(const QList<QTreeWidgetItem*> &items) const;
     QUrl urlFrom(const QueueItem *queueItem) const;

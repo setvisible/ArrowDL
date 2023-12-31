@@ -31,11 +31,6 @@
 
 BlockSelector::BlockSelector(TextEdit *parent)
     : m_editor(parent)
-    , m_isActive(false)
-    , anchorLine(0)
-    , anchorColumn(0)
-    , cursorLine(0)
-    , cursorColumn(0)
 {
 }
 

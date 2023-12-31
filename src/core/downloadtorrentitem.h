@@ -48,7 +48,7 @@ private slots:
     void onTorrentChanged();
 
 private:
-    Torrent *m_torrent;
+    Torrent *m_torrent = nullptr;
 
     bool isPreparing() const;
     bool isSeeding() const;

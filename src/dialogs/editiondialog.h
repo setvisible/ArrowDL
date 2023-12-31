@@ -42,8 +42,8 @@ private slots:
     void onTextChanged();
 
 private:
-    Ui::EditionDialog *ui;
-    QList<IDownloadItem *> m_items;
+    Ui::EditionDialog *ui = nullptr;
+    QList<IDownloadItem *> m_items = {};
 
     void applyChanges();
 

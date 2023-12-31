@@ -47,6 +47,13 @@ public:
 
     StreamFormatId(const QString &format_id);
 
+    auto operator<=>(const StreamFormatId&) const = default; /* required by QHash, QMap */
+
+    bool operator<(const StreamFormatId &other) const
+    {
+        return toString() < other.toString();
+    }
+
     /*!
      * \remark The first format must contain the video.
      * If the video is 299 and the audio is 251,
@@ -58,10 +65,6 @@ public:
     QList<StreamFormatId> compoundIds() const;
 
     bool isEmpty() const;
-    bool operator==(const StreamFormatId &other) const; /* required by QHash */
-    bool operator!=(const StreamFormatId &other) const;
-
-    bool operator<(const StreamFormatId &other) const; /* required by QMap */
 
     friend StreamFormatId operator+(StreamFormatId lhs, const StreamFormatId& rhs)
     {
@@ -72,8 +75,9 @@ public:
         // - "const X& rhs" : otherwise, both parameters may be const references
         return StreamFormatId(lhs.toString() + QChar('+') + rhs.toString());
     }
+
 private:
-    QStringList m_identifiers;
+    QStringList m_identifiers = {};
 };
 
 /* Enable the type to be used with QVariant. */
@@ -118,41 +122,20 @@ public:
             Format(const Format &) = default;
             Format &operator=(const Format &) = default;
 
-            Format(
-                    const QString &format_id,
-                    const QString &ext,
-                    const QString &formatNote,
-                    qsizetype filesize,
-                    const QString &acodec,
-                    int abr,
-                    int asr,
-                    const QString &vcodec,
-                    int width,
-                    int height,
-                    int fps,
-                    int tbr);
+            Format(const QString &format_id,
+                   const QString &ext,
+                   const QString &formatNote,
+                   qsizetype filesize,
+                   const QString &acodec,
+                   int abr,
+                   int asr,
+                   const QString &vcodec,
+                   int width,
+                   int height,
+                   int fps,
+                   int tbr);
 
-            bool operator!=(const Format &other) const;
-            bool operator==(const Format &other) const
-            {
-                return format   == other.format
-                        && formatId     == other.formatId
-                        && url          == other.url
-                        && ext          == other.ext
-                        && formatNote   == other.formatNote
-                        && filesize     == other.filesize
-                        && acodec       == other.acodec
-                        && abr          == other.abr
-                        && asr          == other.asr
-                        && vbr          == other.vbr
-                        && vcodec       == other.vcodec
-                        && width        == other.width
-                        && height       == other.height
-                        && resolution   == other.resolution
-                        && dynamicRange == other.dynamicRange
-                        && fps          == other.fps
-                        && tbr          == other.tbr;
-            }
+            auto operator<=>(const Format&) const = default;
 
             bool hasVideo() const;
             bool hasMusic() const;
@@ -160,69 +143,39 @@ public:
 
             QString debug_description() const;
 
-            StreamFormatId formatId;    // (string): Format code specified by --format
-            QString url;
-            QString ext;                // (string): Video filename extension
-            QString format;
-            QString formatNote;         // (string): Additional info about the format
-            qsizetype filesize{};       // (numeric): The number of bytes, if known in advance
-            QString acodec;             // (string): Name of the audio codec in use
-            qreal abr;                  // (numeric): Average audio bitrate in KBit/s
-            int asr{};                  // (numeric): Audio sampling rate in Hertz
-            int vbr{};
-            QString vcodec;             // (string): Name of the video codec in use
-            int width{};                // (numeric): Width of the video
-            int height{};               // (numeric): Height of the video
-            QString resolution;
-            QString dynamicRange;
-            int fps{};                  // (numeric): Frame rate
-            qreal tbr;                  // (numeric): Average bitrate of audio and video in KBit/s
+            StreamFormatId formatId = {};   // (string): Format code specified by --format
+            QString url = {};
+            QString ext = {};               // (string): Video filename extension
+            QString format = {};
+            QString formatNote = {};        // (string): Additional info about the format
+            qsizetype filesize = {};        // (numeric): The number of bytes, if known in advance
+            QString acodec = {};            // (string): Name of the audio codec in use
+            qreal abr = 0;                  // (numeric): Average audio bitrate in KBit/s
+            int asr = 0;                    // (numeric): Audio sampling rate in Hertz
+            int vbr = 0;
+            QString vcodec = {};            // (string): Name of the video codec in use
+            int width = 0;                  // (numeric): Width of the video
+            int height = 0;                 // (numeric): Height of the video
+            QString resolution = {};
+            QString dynamicRange = {};
+            int fps = 0;                    // (numeric): Frame rate
+            qreal tbr = 0;                  // (numeric): Average bitrate of audio and video in KBit/s
         };
 
         class Subtitle
         {
         public:
-            bool operator!=(const Subtitle &other) const;
-            bool operator==(const Subtitle &other) const
-            {
-                return languageCode == other.languageCode
-                        && ext == other.ext
-                        && url == other.url
-                        && data == other.data
-                        && languageName == other.languageName
-                        && isAutomatic == other.isAutomatic;
-            }
+            auto operator<=>(const Subtitle&) const = default;
 
-            QString languageCode;
-            QString ext;
-            QString url;
-            QString data;
-            QString languageName;
-            bool isAutomatic{false};  // auto-generated (automatic caption)
+            QString languageCode = {};
+            QString ext = {};
+            QString url = {};
+            QString data = {};
+            QString languageName = {};
+            bool isAutomatic = false;  // auto-generated (automatic caption)
         };
 
-        bool operator!=(const Data &other) const;
-        bool operator==(const Data &other) const
-        {
-            return id                   == other.id
-                    && originalFilename == other.originalFilename
-                    && subtitles        == other.subtitles
-                    && webpage_url      == other.webpage_url
-                    && title            == other.title
-                    && defaultSuffix    == other.defaultSuffix
-                    && description      == other.description
-                    && artist           == other.artist
-                    && album            == other.album
-                    && release_year     == other.release_year
-                    && thumbnail        == other.thumbnail
-                    && extractor        == other.extractor
-                    && extractor_key    == other.extractor_key
-                    && defaultFormatId  == other.defaultFormatId
-                    && formats          == other.formats
-                    && playlist         == other.playlist
-                    && playlist_index   == other.playlist_index
-                    ;
-        }
+        auto operator<=>(const Data&) const = default;
 
         QList<Format> defaultFormats() const;
         QList<Format> audioFormats() const;
@@ -233,25 +186,25 @@ public:
 
         QString debug_description() const;
 
-        StreamObjectId id;              // (string): Video identifier
-        QString originalFilename;
+        StreamObjectId id = {};              // (string): Video identifier
+        QString originalFilename = {};
 
-        QList<Subtitle> subtitles;
+        QList<Subtitle> subtitles = {};
 
-        QString webpage_url;            // (string): URL to the video webpage
-        QString title;                  // (string): Video title
-        QString defaultSuffix;          // (string): Video filename suffix (complete extension)
-        QString description;            // (string): Video description
-        QString artist;                 // (string): Artist(s) of the track
-        QString album;                  // (string): Title of the album the track belongs to
-        QString release_year;           // (numeric): Year (YYYY) when the album was released
-        QString thumbnail;              // (string): thumbnail URL
-        QString extractor;              // (string): Name of the extractor
-        QString extractor_key;          // (string): Key name of the extractor
-        StreamFormatId defaultFormatId; // (string): Format code specified by --format
-        QList<Format> formats;          // List of available formats, ordered from worst to best quality
-        QString playlist;               // (string): Name or id of the playlist that contains the video
-        QString playlist_index;         // (numeric): Index of the video in the playlist padded with leading zeros according to the total length of the playlist
+        QString webpage_url = {};            // (string): URL to the video webpage
+        QString title = {};                  // (string): Video title
+        QString defaultSuffix = {};          // (string): Video filename suffix (complete extension)
+        QString description = {};            // (string): Video description
+        QString artist = {};                 // (string): Artist(s) of the track
+        QString album = {};                  // (string): Title of the album the track belongs to
+        QString release_year = {};           // (numeric): Year (YYYY) when the album was released
+        QString thumbnail = {};              // (string): thumbnail URL
+        QString extractor = {};              // (string): Name of the extractor
+        QString extractor_key = {};          // (string): Key name of the extractor
+        StreamFormatId defaultFormatId = {}; // (string): Format code specified by --format
+        QList<Format> formats = {};          // List of available formats, ordered from worst to best quality
+        QString playlist = {};               // (string): Name or id of the playlist that contains the video
+        QString playlist_index = {};         // (numeric): Index of the video in the playlist padded with leading zeros according to the total length of the playlist
     };
 
     /*!
@@ -262,113 +215,66 @@ public:
     public:
         struct Overview
         {
-            /// \todo since C++20: auto operator<=>(const Overview&) const = default;
-            bool operator!=(const Overview &other) const;
-            bool operator==(const Overview &other) const
-            {
-                return skipVideo == other.skipVideo
-                        && markWatched == other.markWatched;
-            }
+            auto operator<=>(const Overview&) const = default;
+
             bool skipVideo{false};
             bool markWatched{false};
         };
         struct Subtitle
         {
-            bool operator!=(const Subtitle &other) const;
-            bool operator==(const Subtitle &other) const
-            {
-                return writeSubtitle == other.writeSubtitle
-                        && isAutoGenerated == other.isAutoGenerated
-                        && extensions == other.extensions
-                        && languages == other.languages
-                        && convert == other.convert;
-            }
-            QString extensions;
-            QString languages;
-            QString convert;
-            bool writeSubtitle{false};
-            bool isAutoGenerated{false};
+            auto operator<=>(const Subtitle&) const = default;
+
+            QString extensions = {};
+            QString languages = {};
+            QString convert = {};
+            bool writeSubtitle = false;
+            bool isAutoGenerated = false;
         };
         struct Chapter
         {
-            bool operator!=(const Chapter &other) const;
-            bool operator==(const Chapter &other) const
-            {
-                return writeChapters == other.writeChapters;
-            }
+            auto operator<=>(const Chapter&) const = default;
+
             bool writeChapters{false};
         };
         struct Thumbnail
         {
-            bool operator!=(const Thumbnail &other) const;
-            bool operator==(const Thumbnail &other) const
-            {
-                return writeDefaultThumbnail == other.writeDefaultThumbnail;
-            }
+            auto operator<=>(const Thumbnail&) const = default;
+
             bool writeDefaultThumbnail{false};
         };
         struct Comment
         {
-            bool operator!=(const Comment &other) const;
-            bool operator==(const Comment &other) const
-            {
-                return writeComment == other.writeComment;
-            }
+            auto operator<=>(const Comment&) const = default;
+
             bool writeComment{false};
         };
         struct Metadata
         {
-            bool operator!=(const Metadata &other) const;
-            bool operator==(const Metadata &other) const
-            {
-                return writeDescription == other.writeDescription
-                        && writeMetadata == other.writeMetadata
-                        && writeInternetShortcut == other.writeInternetShortcut;
-            }
+            auto operator<=>(const Metadata&) const = default;
+
             bool writeDescription{false};
             bool writeMetadata{false};
             bool writeInternetShortcut{false};
         };
         struct Processing
         {
-            bool operator!=(const Processing &other) const;
-            bool operator==(const Processing &other) const
-            {
-                Q_UNUSED(other)
-                return true;
-            }
+            auto operator<=>(const Processing&) const = default;
         };
         struct SponsorBlock
         {
-            bool operator!=(const SponsorBlock &other) const;
-            bool operator==(const SponsorBlock &other) const
-            {
-                Q_UNUSED(other)
-                return true;
-            }
+            auto operator<=>(const SponsorBlock&) const = default;
         };
 
-        bool operator!=(const Config &other) const;
-        bool operator==(const Config &other) const
-        {
-            return overview == other.overview
-                    && subtitle == other.subtitle
-                    && chapter == other.chapter
-                    && thumbnail == other.thumbnail
-                    && comment == other.comment
-                    && metadata == other.metadata
-                    && processing == other.processing
-                    && sponsorBlock == other.sponsorBlock;
-        }
+        auto operator<=>(const Config&) const = default;
 
-        Overview overview;
-        Subtitle subtitle;
-        Chapter chapter;
-        Thumbnail thumbnail;
-        Comment comment;
-        Metadata metadata;
-        Processing processing;
-        SponsorBlock sponsorBlock;
+        Overview overview = {};
+        Subtitle subtitle = {};
+        Chapter chapter = {};
+        Thumbnail thumbnail = {};
+        Comment comment = {};
+        Metadata metadata = {};
+        Processing processing = {};
+        SponsorBlock sponsorBlock = {};
     };
 
     StreamObject() = default;
@@ -376,16 +282,7 @@ public:
     StreamObject(const StreamObject &) = default;
     StreamObject &operator=(const StreamObject &) = default;
 
-    bool operator!=(const StreamObject &other) const;
-    bool operator==(const StreamObject &other) const
-    {
-        return m_data == other.m_data
-                && m_config == other.m_config
-                && m_error          == other.m_error
-                && m_userTitle      == other.m_userTitle
-                && m_userSuffix     == other.m_userSuffix
-                && m_userFormatId   == other.m_userFormatId;
-    }
+    auto operator<=>(const StreamObject&) const = default;
 
     enum Error{
         NoError = 0,
@@ -401,7 +298,7 @@ public:
     Config config() const;
     void setConfig(const Config &config);
 
-    StreamObjectId id() const { return m_data.id; }
+    StreamObjectId id() const;
 
     qsizetype guestimateFullSize() const;
     qsizetype guestimateFullSize(const StreamFormatId &formatId) const;
@@ -425,16 +322,16 @@ public:
     bool isAvailable() const;
 
 private:
-    Data m_data;
-    Config m_config;
+    Data m_data = {};
+    Config m_config = {};
 
     /* Error */
-    Error m_error{NoError};
+    Error m_error = NoError;
 
     /* Mutable data, modifiable by the user */
-    QString m_userTitle;
-    QString m_userSuffix;
-    StreamFormatId m_userFormatId;
+    QString m_userTitle = {};
+    QString m_userSuffix = {};
+    StreamFormatId m_userFormatId = {};
 };
 
 using StreamFormat = StreamObject::Data::Format;
@@ -513,22 +410,22 @@ private slots:
     void onStandardErrorReady();
 
 private:
-    QProcess *m_process;
+    QProcess *m_process = nullptr;
 
-    QString m_url;
-    QString m_outputPath;
-    QString m_referringPage;
-    StreamFormatId m_selectedFormatId;
+    QString m_url = {};
+    QString m_outputPath = {};
+    QString m_referringPage = {};
+    StreamFormatId m_selectedFormatId = {};
 
-    qsizetype m_bytesReceived;
-    qsizetype m_bytesReceivedCurrentSection;
-    qsizetype m_bytesTotal;
-    qsizetype m_bytesTotalCurrentSection;
+    qsizetype m_bytesReceived = 0;
+    qsizetype m_bytesReceivedCurrentSection = 0;
+    qsizetype m_bytesTotal = 0;
+    qsizetype m_bytesTotalCurrentSection = 0;
 
-    QString m_fileBaseName;
-    QString m_fileExtension;
+    QString m_fileBaseName = {};
+    QString m_fileExtension = {};
 
-    StreamObject::Config m_config;
+    StreamObject::Config m_config = {};
 
     qsizetype _q_bytesTotal() const;
     bool isMergeFormat(const QString &suffix) const;
@@ -572,11 +469,13 @@ class StreamAssetDownloader : public QObject
 public:
     struct StreamFlatListItem
     {
+        auto operator<=>(const StreamFlatListItem&) const = default;
+
         QString _type = {};
-        StreamObjectId id;
-        QString ie_key;
-        QString title;
-        QString url;
+        StreamObjectId id = {};
+        QString ie_key = {};
+        QString title = {};
+        QString url = {};
     };
 
     using StreamFlatList = QList<StreamFlatListItem>;
@@ -606,14 +505,14 @@ private slots:
     void onFinishedFlatList(int exitCode, QProcess::ExitStatus exitStatus);
 
 private:
-    QProcess *m_processDumpJson;
-    QProcess *m_processFlatList;
-    StreamCleanCache *m_streamCleanCache;
-    QString m_url;
-    bool m_cancelled;
+    QProcess *m_processDumpJson = nullptr;
+    QProcess *m_processFlatList = nullptr;
+    StreamCleanCache *m_streamCleanCache = nullptr;
+    QString m_url = {};
+    bool m_cancelled = false;
 
-    StreamDumpMap m_dumpMap;
-    StreamFlatList m_flatList;
+    StreamDumpMap m_dumpMap = {};
+    StreamFlatList m_flatList = {};
 
     void runAsyncDumpJson();
     void runAsyncFlatList();
@@ -662,7 +561,7 @@ private slots:
     void onFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
 private:
-    QProcess *m_process;
+    QProcess *m_process = nullptr;
 };
 
 class StreamExtractorListCollector : public QObject
@@ -687,10 +586,10 @@ private slots:
     void onFinishedDescriptions(int exitCode, QProcess::ExitStatus exitStatus);
 
 private:
-    QProcess *m_processExtractors;
-    QProcess *m_processDescriptions;
-    QStringList m_extractors;
-    QStringList m_descriptions;
+    QProcess *m_processExtractors = nullptr;
+    QProcess *m_processDescriptions = nullptr;
+    QStringList m_extractors = {};
+    QStringList m_descriptions = {};
 
     void onFinished();
 };

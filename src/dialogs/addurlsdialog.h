@@ -46,10 +46,10 @@ private slots:
     void onTextChanged();
 
 private:
-    Ui::AddUrlsDialog *ui;
-    QLineEdit *m_fakeUrlLineEdit;
-    DownloadManager *m_downloadManager;
-    Settings *m_settings;
+    Ui::AddUrlsDialog *ui = nullptr;
+    QLineEdit *m_fakeUrlLineEdit = nullptr;
+    DownloadManager *m_downloadManager = nullptr;
+    Settings *m_settings = nullptr;
 
     void doAccept(bool started);
 

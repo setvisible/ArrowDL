@@ -93,3 +93,14 @@ else() # MacOS or Unix Compilers
 endif()
 
 add_test(NAME ${MY_TEST_TARGET} COMMAND ${MY_TEST_TARGET})
+
+# copy test files after build
+add_custom_command(
+    TARGET
+        ${MY_TEST_TARGET}
+    POST_BUILD
+    COMMAND
+        ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/data
+        ${CMAKE_CURRENT_BINARY_DIR}/data
+)
