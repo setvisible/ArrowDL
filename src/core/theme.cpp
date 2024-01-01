@@ -76,12 +76,21 @@ Theme::Theme()
  ******************************************************************************/
 QStringList Theme::availablePlatformStyles()
 {
-    return QStyleFactory::keys();
+    auto keys = QStyleFactory::keys();
+    auto availables = QStringList();
+    auto style_fusion = QLatin1String("Fusion");
+    foreach (auto key, keys) {
+        if (key.contains(style_fusion, Qt::CaseInsensitive)) {
+            availables << key;
+            return availables;
+        }
+    }
+    return keys;
 }
 
 QString Theme::toPlatformStyle(qsizetype index)
 {
-    auto keys = QStyleFactory::keys();
+    auto keys = Theme::availablePlatformStyles();
     if (index >= 0 && index < keys.count()) {
         return keys.at(index);
     }
@@ -90,7 +99,7 @@ QString Theme::toPlatformStyle(qsizetype index)
 
 qsizetype Theme::fromPlatformStyle(const QString &platformStyle)
 {
-    auto index = QStyleFactory::keys().indexOf(platformStyle);
+    auto index = Theme::availablePlatformStyles().indexOf(platformStyle);
     return index == -1 ? 0 : index;
 }
 
