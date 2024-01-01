@@ -1,35 +1,46 @@
-<img align="left" src="./src/resources/logo/icon64.png">
+<div align="center">
+     
+[![ArrowDL](./src/resources/logo/icon64.png)](#readme)
 
-# ArrowDL
+# ArrowDL (Arrow Downloader)
 
-[![GitHub release](https://img.shields.io/github/v/release/setvisible/arrowdl.svg)](../../releases/latest)
-[![GitHub license](https://img.shields.io/github/license/setvisible/arrowdl.svg)](LICENSE) 
-[![Chrome Web Store](https://img.shields.io/chrome-web-store/users/modofbhnhlagjmejdbalnijgncppjeio?label=users&logo=google)](https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio "Google Chrome Add-on")
-[![Mozilla Add-on](https://img.shields.io/amo/users/down-right-now?label=users&logo=mozilla)](https://addons.mozilla.org/firefox/addon/down-right-now/ "Mozilla Firefox Add-on")
-![GitHub All Releases](https://img.shields.io/github/downloads/setvisible/ArrowDL/total)
-[![Chocolatey package](https://img.shields.io/chocolatey/dt/arrowdl?color=blue&label=chocolatey%20package)](https://community.chocolatey.org/packages/arrowdl)
-[![Twitter Follow](https://img.shields.io/twitter/follow/ArrowDLApp?label=Follow)](https://twitter.com/ArrowDLApp)
+[![Release version](https://img.shields.io/github/v/release/setvisible/arrowdl?style=for-the-badge)](../../releases/latest)
+[![License](https://img.shields.io/github/license/setvisible/arrowdl.svg?style=for-the-badge)](LICENSE) 
+![GitHub All Releases](https://img.shields.io/github/downloads/setvisible/ArrowDL/total?style=for-the-badge)
 
+![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/modofbhnhlagjmejdbalnijgncppjeio?style=for-the-badge&label=users&logo=google&logoColor=white)
+[![Mozilla Add-on](https://img.shields.io/amo/users/down-right-now?style=for-the-badge&label=users&logo=mozilla&logoColor=white)](https://addons.mozilla.org/firefox/addon/down-right-now/ "Mozilla Firefox Add-on")
+[![Chocolatey](https://img.shields.io/chocolatey/dt/downzemall?style=for-the-badge&label=chocolatey%20package)](https://community.chocolatey.org/packages/downzemall)
 
-| master | develop |
-|---------|-----------|
-| [![Built with GitHub Actions](https://github.com/setvisible/ArrowDL/actions/workflows/deployment.yml/badge.svg?branch=master)](https://github.com/setvisible/ArrowDL/actions "Go to GitHub Actions") | [![Built with GitHub Actions](https://github.com/setvisible/arrowdl/actions/workflows/deployment.yml/badge.svg?branch=develop)](https://github.com/setvisible/ArrowDL/actions "Go to GitHub Actions") |
+![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/ArrowDLApp?style=for-the-badge&logo=x&label=Follow&logoColor=white)
 
+</div>
 
-*ArrowDL* is a rewrite of the legacy software [DownThemAll!](https://en.wikipedia.org/wiki/DownThemAll! "https://en.wikipedia.org/wiki/DownThemAll!") which was an extension for Mozilla Firefox, but whose development stopped around 2016, when Mozilla Firefox migrated to WebExtensions.
+## Overview
 
 *ArrowDL* is a standalone download manager for Windows, MacOS and Linux. 
 
 It aims to work with latest versions of Mozilla Firefox (powered by *WebExtensions*), and other web browsers (Chrome, Edge, Safari...). 
 
+
+## Development
+
 *ArrowDL* is written in C++ and based on the [Qt](https://www.qt.io/ "https://www.qt.io/") framework.
 
-[![Built with Qt](./screenshots/built_with_qt.png)](https://www.qt.io/ "Go to Qt official site - www.qt.io")
+| master | develop |
+|---------|-----------|
+| [![Built with GitHub Actions](https://github.com/setvisible/ArrowDL/actions/workflows/deployment.yml/badge.svg?style=for-the-badge&branch=master)](https://github.com/setvisible/ArrowDL/actions "Go to GitHub Actions") | [![Built with GitHub Actions](https://github.com/setvisible/arrowdl/actions/workflows/deployment.yml/badge.svg?style=for-the-badge&branch=develop)](https://github.com/setvisible/ArrowDL/actions "Go to GitHub Actions") |
 
 
 ## Screenshots
 
-<details open="">
+<details>
+<summary>Overview</summary>
+
+![ArrowDL](./screenshots/screenshot.png)
+
+</details>
+<details>
 <summary>Video Streams</summary>
 
 ![Video Download](./screenshots/anim_youtube.gif)
