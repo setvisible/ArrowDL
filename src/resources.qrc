@@ -7,8 +7,6 @@
         <file>resources/logo/icon48.png</file>
         <file>resources/logo/icon64.png</file>
         <file>resources/logo/icon128.png</file>
-        <file>resources/sounds/done.ogg</file>
-        <file>resources/sounds/error.ogg</file>
         <file>resources/animations/spinner.gif</file>
         <file>resources/icons/default/index.theme</file>
         <file>resources/icons/default/16x16/actions/about.png</file>
