@@ -57,7 +57,7 @@ QGroupBox {
          </font>
         </property>
         <property name="text">
-         <string notr="true">Welcome to DownZemAll</string>
+         <string notr="true">Welcome to ArrowDL</string>
         </property>
        </widget>
       </item>

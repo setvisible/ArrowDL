@@ -16,8 +16,8 @@ title: Download
     
     <div class="simple-instruction" style="display: none;">
         <a href="xxx" id="application-url">
-            <img src="/DownZemAll/assets/images/installer.png" />
-            DownZemAll for <b><span id="application-platform-arch">xxxxxx</span></b>
+            <img src="/ArrowDL/assets/images/installer.png" />
+            ArrowDL for <b><span id="application-platform-arch">xxxxxx</span></b>
         </a>
         <div>
             Version: 
@@ -44,16 +44,16 @@ title: Download
                     <tr>
                         <td align="center">
                             <a href="https://addons.mozilla.org/en-US/firefox/addon/down-right-now/">
-                                <img src="/DownZemAll/assets/images/firefox.png" alt="firefox logo">
+                                <img src="/ArrowDL/assets/images/firefox.png" alt="firefox logo">
                             </a>
                         </td>
                         <td align="center">
                             <a href="https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio">
-                                <img src="/DownZemAll/assets/images/chrome.png" alt="chrome logo">
+                                <img src="/ArrowDL/assets/images/chrome.png" alt="chrome logo">
                             </a>
                         </td>
                         <td align="center">
-                            <img src="/DownZemAll/assets/images/iexplorer.png" alt="internet explorer logo">
+                            <img src="/ArrowDL/assets/images/iexplorer.png" alt="internet explorer logo">
                         </td>
                     </tr>
                     <tr>
@@ -158,7 +158,7 @@ CPU architecture, browser, or release version, have a look at
   }
 
   window.addEventListener("DOMContentLoaded", (event) => {
-    doHttpGetAsync("https://api.github.com/repos/setvisible/DownZemAll/releases/latest", onGithubResponse);
+    doHttpGetAsync("https://api.github.com/repos/setvisible/ArrowDL/releases/latest", onGithubResponse);
   });
 
   /* Show specific instructions */
@@ -174,16 +174,16 @@ CPU architecture, browser, or release version, have a look at
   }
 
   /* Build the names */
-  const githubUrl = "https://github.com/setvisible/DownZemAll/releases/latest/";
+  const githubUrl = "https://github.com/setvisible/ArrowDL/releases/latest/";
 
   var applicationUrl = "";
   var userSystemName = "";
   if (platform === "Windows") {
     if (arch === "x64") {
-      applicationUrl = githubUrl + "download/DownZemAll_x64_Setup.exe";
+      applicationUrl = githubUrl + "download/ArrowDL_x64_Setup.exe";
       userSystemName += "Windows 64-bit";
     } else {
-      applicationUrl = githubUrl + "download/DownZemAll_x86_Setup.exe";
+      applicationUrl = githubUrl + "download/ArrowDL_x86_Setup.exe";
       userSystemName += "Windows 32-bit";
     }
 
@@ -214,13 +214,13 @@ CPU architecture, browser, or release version, have a look at
   if (browserType === "Chrome") {
     webExtensionBrowserName = "Google Chrome";
     webExtensionUrl="https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio";
-    webExtensionImageSrc = "/DownZemAll/assets/images/chrome.png";
+    webExtensionImageSrc = "/ArrowDL/assets/images/chrome.png";
     showSpecificInstructions(true);
   
   } else if (browserType === "Firefox") {
     webExtensionBrowserName = "Mozilla Firefox";
     webExtensionUrl="https://addons.mozilla.org/en-US/firefox/addon/down-right-now/";
-    webExtensionImageSrc = "/DownZemAll/assets/images/firefox.png";
+    webExtensionImageSrc = "/ArrowDL/assets/images/firefox.png";
     showSpecificInstructions(true);
 
   } else {

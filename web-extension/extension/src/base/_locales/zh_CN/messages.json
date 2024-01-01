@@ -68,8 +68,8 @@
     "description": "Title of the context menu for Download content (paused)"
   },
   "popupOpen": {
-    "message": "打开 DZA!",
-    "description": "Title of the context menu for Open DZA!"
+    "message": "打开 ArrowDL",
+    "description": "Title of the context menu for Open ArrowDL"
   },
   "popupPreferences": {
     "message": "首选项...",
@@ -80,8 +80,8 @@
     "description": "Title of the context menu for Options..."
   },
   "popupVisitWebsite": {
-    "message": "访问 DZA 网站",
-    "description": "Title of the context menu for Visit DZA website"
+    "message": "访问 ArrowDL 网站",
+    "description": "Title of the context menu for Visit ArrowDL website"
   },
 
   "popupError": {
@@ -151,7 +151,7 @@
     "description": "Tells the user how to install the application."
   },
   "optionsInstallMessageLink": {
-    "message": "访问 DZA 网站",
+    "message": "访问 ArrowDL 网站",
     "description": "Link to the application URL."
   },
   "optionsRefresh": {

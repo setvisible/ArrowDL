@@ -237,7 +237,7 @@
      <normaloff>:/resources/icons/default/16x16/actions/about.png</normaloff>:/resources/icons/default/16x16/actions/about.png</iconset>
    </property>
    <property name="text">
-    <string>About DownZemAll...</string>
+    <string>About ArrowDL...</string>
    </property>
   </action>
   <action name="actionPreferences">

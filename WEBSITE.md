@@ -27,7 +27,7 @@ Add a *.md file under `<path/to/project>/docs/_posts`
 
         > bundle exec jekyll serve
 
-The site is available at [localhost:4000/DownZemAll](http://localhost:4000/DownZemAll/)
+The site is available at [localhost:4000/ArrowDL](http://localhost:4000/ArrowDL/)
 
 
 ## How to upgrade Jekyll

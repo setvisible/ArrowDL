@@ -8,8 +8,8 @@ It contains some dummy data to run the application.
 
 ## Get Started
 
-1. Open *DownZemAll*
-    - *Start Menu* > *DownZemAll*
+1. Open *ArrowDL*
+    - *Start Menu* > *ArrowDL*
     > Or alternatively, open *DownRightNow* from your web browser (-> toolbar menu, or right-click context menu)
 
 2. Open the wizard

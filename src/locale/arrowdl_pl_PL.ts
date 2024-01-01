@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ja_JP">
+<TS version="2.1" language="pl_PL">
 <context>
     <name>AbstractDownloadItem</name>
     <message>
@@ -11,7 +11,7 @@
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="71"/>
         <source>Paused</source>
-        <translation type="unfinished"></translation>
+        <translation>Wstrzymane</translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="72"/>
@@ -1247,22 +1247,22 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../core/format.cpp" line="139"/>
         <source>%0 KB/s</source>
-        <translation>%0 KB/s</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="143"/>
         <source>%0 MB/s</source>
-        <translation>%0 MB/s</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="147"/>
         <source>%0 GB/s</source>
-        <translation>%0 GB/s</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/format.cpp" line="150"/>
         <source>%0 TB/s</source>
-        <translation>%0 TB/s</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1490,7 +1490,7 @@ Some examples are given below.  Click to paste the example.</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="240"/>
-        <source>About DownZemAll...</source>
+        <source>About ArrowDL...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3597,7 +3597,7 @@ Help: if you get an error, follow these instructions:
         <location filename="../widgets/texteditorwidget.ui" line="28"/>
         <location filename="../widgets/texteditorwidget.ui" line="31"/>
         <source>Undo</source>
-        <translation>元に戻す</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/texteditorwidget.ui" line="51"/>
@@ -3605,7 +3605,7 @@ Help: if you get an error, follow these instructions:
         <location filename="../widgets/texteditorwidget.ui" line="57"/>
         <location filename="../widgets/texteditorwidget.ui" line="60"/>
         <source>Redo</source>
-        <translation>やり直し</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/texteditorwidget.ui" line="87"/>

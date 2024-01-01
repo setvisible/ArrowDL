@@ -53,7 +53,7 @@ if(EXISTS "${OpenSSL_ROOT_DIR}/include/openssl/ssl.h")
         set(OPENSSL_SSL_BIN "${OpenSSL_ROOT_DIR}/lib/x86_64-linux-gnu/libssl.so.3" CACHE PATH "Location of the OpenSSL SSL DLL")
 
         # ...or to build it from Qt:
-        # OpenSSL_ROOT_DIR = '~/work/DownZemAll/qt/Qt/Tools/OpenSSLv3/src'
+        # OpenSSL_ROOT_DIR = '~/work/ArrowDL/qt/Qt/Tools/OpenSSLv3/src'
         # set(OPENSSL_CRYPTO_LIBRARY "${OpenSSL_ROOT_DIR}/lib/libcrypto.so" CACHE PATH "Location of the OpenSSL Crypto Lib")
         # set(OPENSSL_SSL_LIBRARY "${OpenSSL_ROOT_DIR}/lib/libssl.so" CACHE PATH "Location of the OpenSSL SSL Lib")
         # set(OPENSSL_INCLUDE_DIRS "${OpenSSL_ROOT_DIR}/include" CACHE PATH "Location of the OpenSSL include files")

@@ -1,8 +1,8 @@
 string( TOUPPER "${CMAKE_BUILD_TYPE}" BuildTypeUpperCase )
 if(BuildTypeUpperCase STREQUAL "DEBUG")
-    set(TARGET_NAME "DownZemAlld")
+    set(TARGET_NAME "ArrowDLd")
 else()
-    set(TARGET_NAME "DownZemAll")
+    set(TARGET_NAME "ArrowDL")
 endif()
 
 find_package(GoogleGumboParser REQUIRED)
@@ -74,22 +74,22 @@ target_compile_definitions(${TARGET_NAME}
 
 qt_add_translations(${TARGET_NAME}
     TS_FILES
-        ${CMAKE_SOURCE_DIR}/src/locale/dza_ar_EG.ts  # Arabic
-        ${CMAKE_SOURCE_DIR}/src/locale/dza_de_DE.ts  # German
-        ${CMAKE_SOURCE_DIR}/src/locale/dza_en_US.ts  # English (default)
-        ${CMAKE_SOURCE_DIR}/src/locale/dza_es_ES.ts  # Spanish
-        ${CMAKE_SOURCE_DIR}/src/locale/dza_fr_FR.ts  # French
-        ${CMAKE_SOURCE_DIR}/src/locale/dza_hu_HU.ts  # Hungarian
-        ${CMAKE_SOURCE_DIR}/src/locale/dza_it_IT.ts  # Italian
-        ${CMAKE_SOURCE_DIR}/src/locale/dza_ja_JP.ts  # Japanese
-        ${CMAKE_SOURCE_DIR}/src/locale/dza_ko_KR.ts  # Korean
-        ${CMAKE_SOURCE_DIR}/src/locale/dza_nl_NL.ts  # Dutch
-        ${CMAKE_SOURCE_DIR}/src/locale/dza_pl_PL.ts  # Polish
-        ${CMAKE_SOURCE_DIR}/src/locale/dza_pt_BR.ts  # Portuguese (Brazil)
-        ${CMAKE_SOURCE_DIR}/src/locale/dza_pt_PT.ts  # Portuguese (Portugal)
-        ${CMAKE_SOURCE_DIR}/src/locale/dza_ru_RU.ts  # Russian
-        ${CMAKE_SOURCE_DIR}/src/locale/dza_vi_VN.ts  # Vietnamese
-        ${CMAKE_SOURCE_DIR}/src/locale/dza_zh_CN.ts  # Chinese (Simplified & Traditional)
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_ar_EG.ts  # Arabic
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_de_DE.ts  # German
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_en_US.ts  # English (default)
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_es_ES.ts  # Spanish
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_fr_FR.ts  # French
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_hu_HU.ts  # Hungarian
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_it_IT.ts  # Italian
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_ja_JP.ts  # Japanese
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_ko_KR.ts  # Korean
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_nl_NL.ts  # Dutch
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_pl_PL.ts  # Polish
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_pt_BR.ts  # Portuguese (Brazil)
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_pt_PT.ts  # Portuguese (Portugal)
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_ru_RU.ts  # Russian
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_vi_VN.ts  # Vietnamese
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_zh_CN.ts  # Chinese (Simplified & Traditional)
     QM_FILES_OUTPUT_VARIABLE
         qm_files
 )
@@ -481,8 +481,8 @@ else() # MacOS or Unix Compilers
 
         install (
             FILES
-                ${CMAKE_SOURCE_DIR}/installer/unix/portable/DownZemAll.desktop
-                ${CMAKE_SOURCE_DIR}/installer/unix/portable/DownZemAll_64x64.png
+                ${CMAKE_SOURCE_DIR}/installer/unix/portable/ArrowDL.desktop
+                ${CMAKE_SOURCE_DIR}/installer/unix/portable/ArrowDL_64x64.png
                 ${CMAKE_SOURCE_DIR}/installer/unix/portable/install_shortcut_desktop.sh
                 ${CMAKE_SOURCE_DIR}/installer/unix/portable/uninstall_shortcut_desktop.sh
                 ${CMAKE_SOURCE_DIR}/installer/unix/portable/README

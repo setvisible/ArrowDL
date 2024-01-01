@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ko_KR">
+<TS version="2.1" language="ru_RU">
 <context>
     <name>AbstractDownloadItem</name>
     <message>
@@ -139,7 +139,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="303"/>
         <source>Cancel</source>
-        <translation>취소</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="51"/>
@@ -228,7 +228,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addcontentdialog.ui" line="265"/>
         <source>Cancel</source>
-        <translation>취소</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.ui" line="311"/>
@@ -331,7 +331,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="198"/>
         <source>Cancel</source>
-        <translation>취소</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.cpp" line="43"/>
@@ -384,7 +384,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="210"/>
         <source>Cancel</source>
-        <translation>취소</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.cpp" line="47"/>
@@ -422,7 +422,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="163"/>
         <source>Cancel</source>
-        <translation type="unfinished">취소</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../dialogs/addurlsdialog.cpp" line="46"/>
@@ -640,7 +640,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="35"/>
         <source>&amp;Ok</source>
-        <translation>확인</translation>
+        <translation>&amp;Ок</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="64"/>
@@ -717,7 +717,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="42"/>
         <source>Info</source>
-        <translation type="unfinished">정보</translation>
+        <translation type="unfinished">Информация</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="49"/>
@@ -936,12 +936,12 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="614"/>
         <source>Download/Name</source>
-        <translation>파일 이름</translation>
+        <translation>Имя файла</translation>
     </message>
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="615"/>
         <source>Domain</source>
-        <translation>도메인 이름</translation>
+        <translation>Домен</translation>
     </message>
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="616"/>
@@ -1066,7 +1066,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="52"/>
         <source>Rename</source>
-        <translation type="unfinished">이름 바꾸기</translation>
+        <translation type="unfinished">Переименовать</translation>
     </message>
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="53"/>
@@ -1425,7 +1425,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="37"/>
         <source>Queue</source>
-        <translation>관리자</translation>
+        <translation>Менеджер</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="42"/>
@@ -1461,7 +1461,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="129"/>
         <source>&amp;Queue</source>
-        <translation>관리자</translation>
+        <translation>Менеджер</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="142"/>
@@ -1490,7 +1490,7 @@ Some examples are given below.  Click to paste the example.</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="240"/>
-        <source>About DownZemAll...</source>
+        <source>About ArrowDL...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1572,7 +1572,7 @@ Some examples are given below.  Click to paste the example.</source>
         <location filename="../mainwindow.ui" line="336"/>
         <location filename="../mainwindow.cpp" line="864"/>
         <source>Cancel</source>
-        <translation>취소</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="345"/>
@@ -1728,7 +1728,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="543"/>
         <source>Export &amp;Selected To File...</source>
-        <translation>파일로 내보내기</translation>
+        <translation>Экспортировать в файл</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="546"/>
@@ -2165,7 +2165,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="108"/>
         <source>Rename</source>
-        <translation>이름 바꾸기</translation>
+        <translation>Переименовать</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="115"/>
@@ -2185,7 +2185,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="173"/>
         <source>Interface</source>
-        <translation>사용자 인터페이스</translation>
+        <translation>Интерфейс пользователя</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="181"/>
@@ -2681,12 +2681,12 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1642"/>
         <source>OK</source>
-        <translation>확인</translation>
+        <translation>Ок</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1658"/>
         <source>Cancel</source>
-        <translation>취소</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="212"/>
@@ -3064,7 +3064,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/streamdialog.ui" line="88"/>
         <source>&amp;Ok</source>
-        <translation>확인</translation>
+        <translation>&amp;Ок</translation>
     </message>
     <message>
         <location filename="../dialogs/streamdialog.cpp" line="32"/>
@@ -3888,7 +3888,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/torrentwidget.ui" line="135"/>
         <source>Info</source>
-        <translation>정보</translation>
+        <translation>Информация</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="143"/>

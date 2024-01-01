@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="pl_PL">
+<TS version="2.1" language="pt_PT">
 <context>
     <name>AbstractDownloadItem</name>
     <message>
@@ -11,7 +11,7 @@
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="71"/>
         <source>Paused</source>
-        <translation>Wstrzymane</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/abstractdownloaditem.cpp" line="72"/>
@@ -139,7 +139,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="303"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="51"/>
@@ -228,7 +228,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addcontentdialog.ui" line="265"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.ui" line="311"/>
@@ -331,7 +331,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="198"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.cpp" line="43"/>
@@ -384,7 +384,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="210"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.cpp" line="47"/>
@@ -422,7 +422,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="163"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cancelar</translation>
     </message>
     <message>
         <location filename="../dialogs/addurlsdialog.cpp" line="46"/>
@@ -640,7 +640,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="35"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="64"/>
@@ -717,7 +717,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="42"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Informação</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.cpp" line="49"/>
@@ -936,12 +936,12 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="614"/>
         <source>Download/Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome do Arquivo</translation>
     </message>
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="615"/>
         <source>Domain</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome do Domínio</translation>
     </message>
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="616"/>
@@ -1066,7 +1066,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="52"/>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Renomear</translation>
     </message>
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="53"/>
@@ -1425,7 +1425,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="37"/>
         <source>Queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerenciador</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="42"/>
@@ -1461,7 +1461,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="129"/>
         <source>&amp;Queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerenciador</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="142"/>
@@ -1490,7 +1490,7 @@ Some examples are given below.  Click to paste the example.</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="240"/>
-        <source>About DownZemAll...</source>
+        <source>About ArrowDL...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1572,7 +1572,7 @@ Some examples are given below.  Click to paste the example.</source>
         <location filename="../mainwindow.ui" line="336"/>
         <location filename="../mainwindow.cpp" line="864"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="345"/>
@@ -1728,7 +1728,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="543"/>
         <source>Export &amp;Selected To File...</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportar para Arquivo...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="546"/>
@@ -2165,7 +2165,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="108"/>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Renomear</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="115"/>
@@ -2185,7 +2185,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="173"/>
         <source>Interface</source>
-        <translation type="unfinished"></translation>
+        <translation>Interface de usuário</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="181"/>
@@ -2681,12 +2681,12 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1642"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1658"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="212"/>
@@ -3064,7 +3064,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/streamdialog.ui" line="88"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../dialogs/streamdialog.cpp" line="32"/>
@@ -3888,7 +3888,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/torrentwidget.ui" line="135"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informação</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="143"/>

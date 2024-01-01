@@ -4,7 +4,7 @@
 
 ## Localization
 
-[Current Status](http://htmlpreview.github.io/?https://github.com/setvisible/DownZemAll/blob/master/.tx/status.html)
+[Current Status](http://htmlpreview.github.io/?https://github.com/setvisible/ArrowDL/blob/master/.tx/status.html)
 
 
 ## Add a new translation
@@ -17,21 +17,21 @@ To add the language 'xx' in country 'XX':
 
 3. Add following line to `qt_add_translations(...)` in `./src/CMakeLists.txt`:
         
-        ${CMAKE_SOURCE_DIR}/src/locale/dza_xx_XX.ts
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_xx_XX.ts
         
 4. Add following line to `lang_map` in the Transifex config file `./.tx/config`:
 
-        [downzemall.main-application]
+        [arrowdl.main-application]
         ...
         lang_map = ... xx_XX: xx_XX
         ...
 
-        [downzemall.web-extension]
+        [arrowdl.web-extension]
         ...
         lang_map = ... xx_XX: xx         < Note 'xx', not 'xx_XX'
         ...
 
-        [downzemall.windows-installer]
+        [arrowdl.windows-installer]
         ...
         lang_map = ... xx_XX: xx
         ...
@@ -44,8 +44,8 @@ To add the language 'xx' in country 'XX':
 
     The first time, there should be warnings like:
 
-        tx INFO: Pulling new translations for resource downzemall.main-application
-        tx WARNING:  -> <xx_XX>: src\locale\dza_<xx_XX>.ts
+        tx INFO: Pulling new translations for resource arrowdl.main-application
+        tx WARNING:  -> <xx_XX>: src\locale\arrowdl_<xx_XX>.ts
         tx INFO: New translations found for the following languages:<xx_XX>
 
 6. Translate (eventually)
@@ -89,7 +89,7 @@ you can use the **Transifex** translation service, or the tool **Qt Linguist**.
 
 This method requires a **Transifex** user account.
 
-1. Log on your account and go to the [project's page](https://www.transifex.com/downzemall)
+1. Log on your account and go to the [project's page](https://www.transifex.com/arrowdl)
 
 2. Edit the translations
 
@@ -109,10 +109,10 @@ This method requires:
 
 These files are the translations source (*.ts):
 
-    <REPO>/src/locale/dza_en_US.ts
-    <REPO>/src/locale/dza_fr_Fr.ts
+    <REPO>/src/locale/arrowdl_en_US.ts
+    <REPO>/src/locale/arrowdl_fr_Fr.ts
     ...
-    <REPO>/src/locale/dza_zn_CN.ts
+    <REPO>/src/locale/arrowdl_zn_CN.ts
 
 
 Use **Qt Linguist** to edit them.
@@ -154,9 +154,9 @@ The `-s` flag pushes source files, while the `-t` flag pushes translation files:
 
     $ tx push -st
     Pushing translations for resource i18n.enjson:
-    Pushing source file (src/locale/dza_en_US.ts)
-    Pushing 'de_DE' translations (file: src/locale/dza_de_DE.ts)
-    Pushing 'es_ES' translations (file: src/locale/dza_es_ES.ts)
+    Pushing source file (src/locale/arrowdl_en_US.ts)
+    Pushing 'de_DE' translations (file: src/locale/arrowdl_de_DE.ts)
+    Pushing 'es_ES' translations (file: src/locale/arrowdl_es_ES.ts)
     Done.
 
 
@@ -166,9 +166,9 @@ To pull changes into your local project folder, use `tx pull`:
 
     $ tx pull -a
     New translations found for the following languages: de, es
-    Pulling new translations for resource i18n.enjson (source: src/locale/dza_en_US.ts)
-     -> de_DE: src/locale/dza_de_DE.ts
-     -> es_ES: src/locale/dza_es_ES.ts
+    Pulling new translations for resource i18n.enjson (source: src/locale/arrowdl_en_US.ts)
+     -> de_DE: src/locale/arrowdl_de_DE.ts
+     -> es_ES: src/locale/arrowdl_es_ES.ts
     Done.
 
 At this point, *.ts files are synchronized with Transifex.

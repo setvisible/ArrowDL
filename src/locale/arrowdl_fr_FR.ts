@@ -1493,8 +1493,8 @@ Des exemples sont donnés ci-dessous. Cliquer pour coller l&apos;exemple.</trans
     </message>
     <message>
         <location filename="../mainwindow.ui" line="240"/>
-        <source>About DownZemAll...</source>
-        <translation>À propos de DownZemAll...</translation>
+        <source>About ArrowDL...</source>
+        <translation>À propos de ArrowDL...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="249"/>

@@ -87,7 +87,7 @@ Use **CMake** or **QMake** (with *QtCreator*).
 
 Setup the project:
 
-    unzip . downzemall-src.zip
+    unzip . arrowdl-src.zip
     mkdir "build"
     cd ./build/
 
@@ -109,8 +109,8 @@ Build the application:
 
     make -j8
     $ ...
-    $ [ 99%] Linking CXX executable DownZemAll.exe
-    $ [100%] Built target DownZemAll
+    $ [ 99%] Linking CXX executable ArrowDL.exe
+    $ [100%] Built target ArrowDL
 
 
 Run the tests:
@@ -131,7 +131,7 @@ Use **CMake**.
 
 Setup the project:
 
-    unzip . downzemall-src.zip
+    unzip . arrowdl-src.zip
     mkdir "build"
     cd ./build/
 
@@ -140,8 +140,8 @@ Build the application:
 
     cmake --build . --parallel 8 --config Release
     $ ...
-    $ [ 99%] Linking CXX executable DownZemAll.exe
-    $ [100%] Built target DownZemAll
+    $ [ 99%] Linking CXX executable ArrowDL.exe
+    $ [100%] Built target ArrowDL
 
 
 Run the tests:
@@ -158,23 +158,23 @@ Finally install the binary and clean:
 
 ## Run
 
-Launch *DownZemAll*:
+Launch *ArrowDL*:
 
-    DownZemAll
+    ArrowDL
 
 Show help and version:
 
-    DownZemAll -h (or --help)
-    DownZemAll -v (or --version)
+    ArrowDL -h (or --help)
+    ArrowDL -v (or --version)
 
 Launch and download links from an URL:
 
-    DownZemAll "https://www.example.com/docs/2019/10/index.htm"
+    ArrowDL "https://www.example.com/docs/2019/10/index.htm"
 
 
 Launch in Interactive mode (reserved for WebExtension communication):
 
-    DownZemAll -i (or --interactive) <urls>
+    ArrowDL -i (or --interactive) <urls>
 
 
 ## Troubleshooting

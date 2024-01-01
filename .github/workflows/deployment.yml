@@ -93,7 +93,7 @@ jobs:
             qt_target: 'desktop'
             qt_arch: 'gcc_64'
             qt_tools: ''  # To build OpenSSLv3: 'tools_opensslv3_src'
-            Qt6_CUSTOM_INSTALL_PATH: "/home/runner/work/DownZemAll/qt/"
+            Qt6_CUSTOM_INSTALL_PATH: "/home/runner/work/ArrowDL/qt/"
             DIRECTIVE_CMAKE_GENERATOR: ''
             INSTALL_BOOST_PLATFORM_VERSION: '18.04'  # 18.04, 20.04 Rem: Ubuntu 20.04 doesn't have Boost 1.77.0
             INSTALL_BOOST_TOOLSET: '' # gcc Rem: Setting the toolset with boost version < 1.78.0 may cause issues
@@ -103,7 +103,7 @@ jobs:
             qt_target: 'desktop'
             qt_arch: 'win64_mingw'
             qt_tools: 'tools_opensslv3_x64'
-            Qt6_CUSTOM_INSTALL_PATH: "D:\\a\\DownZemAll\\qt\\"
+            Qt6_CUSTOM_INSTALL_PATH: "D:\\a\\ArrowDL\\qt\\"
             DIRECTIVE_CMAKE_GENERATOR: '-G "MinGW Makefiles"'
             INSTALL_BOOST_PLATFORM_VERSION: '2019' # 2019, 2022
             INSTALL_BOOST_TOOLSET: '' # mingw, msvc Rem: Setting the toolset with boost version < 1.78.0 may cause issues
@@ -202,8 +202,8 @@ jobs:
            output_pairs = {
                'Application_VERSION': version,
                'LibtorrentRasterbar_VERSION': libtorrent_version,
-               'Application_Linux_NAME': f"DownZemAll_v{version}_x86_64",
-               'Application_Windows_MinGW_x64_NAME': f"DownZemAll_v{version}_windows-mingw-x64",
+               'Application_Linux_NAME': f"ArrowDL_v{version}_x86_64",
+               'Application_Windows_MinGW_x64_NAME': f"ArrowDL_v{version}_windows-mingw-x64",
            }
            
            if "GITHUB_OUTPUT" in os.environ:
@@ -278,8 +278,8 @@ jobs:
       shell: bash
       run: cd "${{env.Qt6_DIR}}/../../" && ls -alR
       # env.Qt6_DIR
-      #   "/home/runner/work/DownZemAll/qt/Qt/6.3.1/gcc_64"
-      #   "D:\a\DownZemAll\qt\Qt\6.3.1\mingw_64"
+      #   "/home/runner/work/ArrowDL/qt/Qt/6.3.1/gcc_64"
+      #   "D:\a\ArrowDL\qt\Qt\6.3.1\mingw_64"
 
     - name: Find OpenSSL in Qt6
       # The thing is that "env.Qt6_DIR" is defined only at runtime, *after* install-qt-action has run.
@@ -429,7 +429,7 @@ jobs:
            echo "Before:"
            ls -al
            strip "launcher.exe"
-           strip "DownZemAll.exe"
+           strip "ArrowDL.exe"
            echo ""
            echo "After:"
            ls -al
@@ -443,7 +443,7 @@ jobs:
            echo "Before:"
            ls -al
            strip "launcher"
-           strip "DownZemAll"
+           strip "ArrowDL"
            echo ""
            echo "After:"
            ls -al
@@ -457,7 +457,7 @@ jobs:
            echo "Run 'ldd' to find missing Qt libraries or missing plugins."
            echo "Tips: If missing, add directive install(FILE [..]) in 'src/CMakeLists.txt'."
            ldd --verbose ./launcher
-           ldd --verbose ./DownZemAll
+           ldd --verbose ./ArrowDL
            ls -R
 
     - name: Zip (Linux Portable)
@@ -528,8 +528,8 @@ jobs:
       run: |
            import os
            os.rename(
-               r"${{env.Project_RELEASE_DIR}}/DownZemAllSetup.exe",
-               r"${{env.Project_RELEASE_DIR}}/DownZemAll_x64_Setup.exe"
+               r"${{env.Project_RELEASE_DIR}}/ArrowDLSetup.exe",
+               r"${{env.Project_RELEASE_DIR}}/ArrowDL_x64_Setup.exe"
            )
 
     - name: Upload Windows 64 Installer
@@ -537,7 +537,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: artifact_windows_64_installer
-        path: "${{env.Project_RELEASE_DIR}}/DownZemAll_x64_Setup.exe"
+        path: "${{env.Project_RELEASE_DIR}}/ArrowDL_x64_Setup.exe"
 
   job-deploy:
     needs: [job-web-addons, job-build-project]
@@ -620,7 +620,7 @@ jobs:
         BRANCH_OR_TAG_NAME: ${{ github.head_ref || github.ref_name }}
       with:
         tag_name: ${{env.BRANCH_OR_TAG_NAME}}
-        name: DownZemAll ${{env.BRANCH_OR_TAG_NAME}}
+        name: ArrowDL ${{env.BRANCH_OR_TAG_NAME}}
         body_path: ${{env.Changelog_FILE_NAME}}
         append_body: true
         generate_release_notes: true

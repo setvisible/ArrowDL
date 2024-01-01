@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en_US">
+<TS version="2.1" language="vi_VN">
 <context>
     <name>AbstractDownloadItem</name>
     <message>
@@ -1490,7 +1490,7 @@ Some examples are given below.  Click to paste the example.</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="240"/>
-        <source>About DownZemAll...</source>
+        <source>About ArrowDL...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3597,7 +3597,7 @@ Help: if you get an error, follow these instructions:
         <location filename="../widgets/texteditorwidget.ui" line="28"/>
         <location filename="../widgets/texteditorwidget.ui" line="31"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoàn tác</translation>
     </message>
     <message>
         <location filename="../widgets/texteditorwidget.ui" line="51"/>
@@ -3605,7 +3605,7 @@ Help: if you get an error, follow these instructions:
         <location filename="../widgets/texteditorwidget.ui" line="57"/>
         <location filename="../widgets/texteditorwidget.ui" line="60"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>Làm lại </translation>
     </message>
     <message>
         <location filename="../widgets/texteditorwidget.ui" line="87"/>

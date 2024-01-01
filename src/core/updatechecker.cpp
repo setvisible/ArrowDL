@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -138,9 +138,9 @@ void UpdateChecker::onMetadataFinished()
             QString targetAssetName;
 #if defined _WIN32
             if (IS_HOST_64BIT) {
-                targetAssetName = QLatin1String("DownZemAll_x64_Setup.exe");
+                targetAssetName = QLatin1String("ArrowDL_x64_Setup.exe");
             } else {
-                targetAssetName = QLatin1String("DownZemAll_x86_Setup.exe");
+                targetAssetName = QLatin1String("ArrowDL_x86_Setup.exe");
             }
 #elif defined __APPLE__
             targetAssetName = QLatin1String("<UNDEFINED>");

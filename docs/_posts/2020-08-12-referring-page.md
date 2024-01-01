@@ -11,7 +11,7 @@ tags:
 excerpt_separator:  <!--more-->
 ---
 
-**DownZemAll!** offers a new feature: *Referring Page*.
+**ArrowDL** offers a new feature: *Referring Page*.
 
 *Wikipedia says:*
 
@@ -28,7 +28,7 @@ excerpt_separator:  <!--more-->
 
 Go to **Options** > **Preferences** > **Privacy**, and type the  default referring page address:
 
-![Referring Page](/DownZemAll/assets/images/2.0/referring_page.png)
+![Referring Page](/ArrowDL/assets/images/2.0/referring_page.png)
 
 
 Note that you can change or remove this default page for each download. Look at the bottom group box of the Wizard dialogs.
