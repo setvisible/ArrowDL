@@ -2,7 +2,7 @@
 
 A WebExtension is an add-on for web browsers(*).
 
-This add-on permits the web browser to communicate with DZA.
+This add-on permits the web browser to communicate with ArrowDL.
 
 
 __Organisation__

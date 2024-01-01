@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=ArrowDL
+Comment=The Right Mass Downloader
+Comment[en]=The Right Mass Downloader
+Comment[fr]=Le parfait téléchargeur de masse
+Categories=Utility;
+StartupNotify=false
+Terminal=false
+Exec=ArrowDL %U
+Icon=ArrowDL

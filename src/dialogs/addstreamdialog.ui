@@ -120,7 +120,7 @@
         <string notr="true"/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../resources.qrc">:/resources/icons/default/48x48/actions/add-stream.png</pixmap>
+        <pixmap resource="../resources.qrc">:/resources/icons/default/scalable/actions/add-stream.svg</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>

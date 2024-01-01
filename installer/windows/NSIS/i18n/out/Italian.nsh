@@ -2,7 +2,7 @@ LangString DESC_SectionMainApplication ${LANG_ITALIAN} "L'applicazione principal
 LangString DESC_SectionLauncher ${LANG_ITALIAN} "Il launcher, usato per i messaggi con il browser web."
 LangString DESC_SectionStartMenuShortcut ${LANG_ITALIAN} "Crea gruppo programmi nel menu Start."
 LangString DESC_SectionDesktopShortcut ${LANG_ITALIAN} "Crea collegamento programma sul desktop."
-LangString DESC_UninstallIconDescription ${LANG_ITALIAN} "Disinstalla DownZemAll"
+LangString DESC_UninstallIconDescription ${LANG_ITALIAN} "Disinstalla ArrowDL"
 LangString DESC_ApplicationSession ${LANG_ITALIAN} "Applicazione (richiesta)"
 LangString DESC_LauncherSession ${LANG_ITALIAN} "Launcher (richiesto)"
 LangString DESC_StartMenuGroupSession ${LANG_ITALIAN} "Gruppo menu Start"

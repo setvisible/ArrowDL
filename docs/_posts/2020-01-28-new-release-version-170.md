@@ -13,4 +13,4 @@ Version 1.7.0 is available.
 
 #### Screenshots:
 
-![Stream download](/DownZemAll/assets/images/1.7/anim_youtube_v1.7.0.gif)
+![Stream download](/ArrowDL/assets/images/1.7/anim_youtube_v1.7.0.gif)

@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -66,9 +66,9 @@ void log(const QString &label, const std::string &message);
 
 // Constants: Launcher <-> Browser
 #ifdef Q_OS_WIN
-std::string C_PROCESS              {"./DownZemAll.exe"};
+std::string C_PROCESS              {"./ArrowDL.exe"};
 #elif defined(Q_OS_UNIX)
-std::string C_PROCESS              {"./DownZemAll"};
+std::string C_PROCESS              {"./ArrowDL"};
 #else
 #endif
 std::string C_HAND_SHAKE_QUESTION  {"\"areyouthere"};

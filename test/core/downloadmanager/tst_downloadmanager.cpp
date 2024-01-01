@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -84,7 +84,7 @@ void tst_DownloadManager::appendJobPaused()
     QSignalSpy spyJobFinished(target.data(), SIGNAL(jobFinished(IDownloadItem*)));
 
     /* The most permanent url in the whole universe */
-    // QString address = "https://setvisible.github.io/styles.css"; // css not png
+    // QString address = "https://www.arrow-dl.com/styles.css"; // css not png
 
     /// \todo fix IDownloadItem::NetworkError with "3xx Unknown redirect error" with SSL url
 

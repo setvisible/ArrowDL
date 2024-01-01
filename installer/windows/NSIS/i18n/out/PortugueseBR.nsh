@@ -2,7 +2,7 @@ LangString DESC_SectionMainApplication ${LANG_PORTUGUESEBR} "O aplicativo princi
 LangString DESC_SectionLauncher ${LANG_PORTUGUESEBR} "O iniciador, usado para mensagens com o navegador da web."
 LangString DESC_SectionStartMenuShortcut ${LANG_PORTUGUESEBR} "Crie um atalho do menu Iniciar."
 LangString DESC_SectionDesktopShortcut ${LANG_PORTUGUESEBR} "Crie um atalho na área de trabalho."
-LangString DESC_UninstallIconDescription ${LANG_PORTUGUESEBR} "Desinstalar DownZemAll"
+LangString DESC_UninstallIconDescription ${LANG_PORTUGUESEBR} "Desinstalar ArrowDL"
 LangString DESC_ApplicationSession ${LANG_PORTUGUESEBR} "Aplicação (obrigatório)"
 LangString DESC_LauncherSession ${LANG_PORTUGUESEBR} "Launcher (obrigatório)"
 LangString DESC_StartMenuGroupSession ${LANG_PORTUGUESEBR} "Atalho do menu Iniciar"

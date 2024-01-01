@@ -24,7 +24,7 @@ Table of Content:
 
 1. First, install the application:
 
-    1. Download **DownZemAll** portable or installer [here](#download-application)
+    1. Download **ArrowDL** portable or installer [here](#download-application)
 
     2. Unzip
 
@@ -32,7 +32,7 @@ Table of Content:
 
     1. Install **DownRightNow** add-on on the [web browser](#install-webextension)
 
-    2. Go to the install directory of the Application (*DownZemAll!*), and follow the instructions in `ReadMe.txt`
+    2. Go to the install directory of the Application (*ArrowDL*), and follow the instructions in `ReadMe.txt`
 
     3. Then, to verify the install, go to "*Options*" in the WebExtension interface in your Web Browser. It should tell you if it's correctly connected with the Application. 
 
@@ -42,24 +42,24 @@ Table of Content:
 
 Choose the browser:
 
-| ![logo](/DownZemAll/assets/images/firefox.png) | ![logo](/DownZemAll/assets/images/chrome.png) | ![logo](/DownZemAll/assets/images/iexplorer.png) |
+| ![logo](/ArrowDL/assets/images/firefox.png) | ![logo](/ArrowDL/assets/images/chrome.png) | ![logo](/ArrowDL/assets/images/iexplorer.png) |
 |-----------------------------------|----------------------------------|----------------------------------|
 | Click here to intall [DownRightNow for Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/down-right-now/ ) | Click here to intall [DownRightNow for Google Chrome](https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio "https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio") | Click here to intall... Just kidding |
 
 
 #### Portable Archives
 
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_chromium">Addon for Chrome (Portable)</a>
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_firefox">Addon for Firefox (Portable)</a>
+- <a href="https://github.com/setvisible/ArrowDL/releases/latest/" id="id_chromium">Addon for Chrome (Portable)</a>
+- <a href="https://github.com/setvisible/ArrowDL/releases/latest/" id="id_firefox">Addon for Firefox (Portable)</a>
 
 
 <br/>
 
 ## Download the latest release<a name="download-application"></a>
 
-The latest release is available [here](https://github.com/setvisible/DownZemAll/releases/latest)
+The latest release is available [here](https://github.com/setvisible/ArrowDL/releases/latest)
 
-[![GitHub release](https://img.shields.io/github/v/release/setvisible/downzemall.svg)](https://github.com/setvisible/DownZemAll/releases/latest)
+[![GitHub release](https://img.shields.io/github/v/release/setvisible/arrowdl.svg)](https://github.com/setvisible/ArrowDL/releases/latest)
 
 
 ### Choose your plateform<a name="download-plateform"></a>
@@ -70,13 +70,13 @@ The next table explains the differences between the packages.
 
 #### Windows<a name="download-plateform-win32"></a>[^1]
 
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_windows_setup_x64">DownZemAll <span class="version-text">v0.0.0</span> for Windows (Installer, 64 bit)</a>
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_windows_mingw_x64">DownZemAll <span class="version-text">v0.0.0</span> for Windows (Portable, MinGW, 64 bit)</a>
+- <a href="https://github.com/setvisible/ArrowDL/releases/latest/" id="id_windows_setup_x64">ArrowDL <span class="version-text">v0.0.0</span> for Windows (Installer, 64 bit)</a>
+- <a href="https://github.com/setvisible/ArrowDL/releases/latest/" id="id_windows_mingw_x64">ArrowDL <span class="version-text">v0.0.0</span> for Windows (Portable, MinGW, 64 bit)</a>
 {% comment %}
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_windows_setup_x86">DownZemAll <span class="version-text">v0.0.0</span> for Windows (Installer, 32 bit)</a>
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_windows_mingw_x86">DownZemAll <span class="version-text">v0.0.0</span> for Windows (Portable, MinGW, 32 bit)</a>
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_windows_msvc_x64" >DownZemAll <span class="version-text">v0.0.0</span> for Windows (Portable, MSVC, 64 bit)</a>
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_windows_msvc_x86" >DownZemAll <span class="version-text">v0.0.0</span> for Windows (Portable, MSVC, 32 bit)</a>
+- <a href="https://github.com/setvisible/ArrowDL/releases/latest/" id="id_windows_setup_x86">ArrowDL <span class="version-text">v0.0.0</span> for Windows (Installer, 32 bit)</a>
+- <a href="https://github.com/setvisible/ArrowDL/releases/latest/" id="id_windows_mingw_x86">ArrowDL <span class="version-text">v0.0.0</span> for Windows (Portable, MinGW, 32 bit)</a>
+- <a href="https://github.com/setvisible/ArrowDL/releases/latest/" id="id_windows_msvc_x64" >ArrowDL <span class="version-text">v0.0.0</span> for Windows (Portable, MSVC, 64 bit)</a>
+- <a href="https://github.com/setvisible/ArrowDL/releases/latest/" id="id_windows_msvc_x86" >ArrowDL <span class="version-text">v0.0.0</span> for Windows (Portable, MSVC, 32 bit)</a>
 {% endcomment %}
 
 [^1]: Prefer the MSVC version if you are on Windows.
@@ -86,12 +86,12 @@ The next table explains the differences between the packages.
 
 #### Linux<a name="download-plateform-unix"></a>[^2]
 {% comment %}
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_linux_x64_app"     >DownZemAll <span class="version-text">v0.0.0</span> for Linux (AppImage, 64 bit)</a>
+- <a href="https://github.com/setvisible/ArrowDL/releases/latest/" id="id_linux_x64_app"     >ArrowDL <span class="version-text">v0.0.0</span> for Linux (AppImage, 64 bit)</a>
 {% endcomment %}
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_linux_x64_zip"     >DownZemAll <span class="version-text">v0.0.0</span> for Linux (Portable, GCC, 64 bit)</a>
+- <a href="https://github.com/setvisible/ArrowDL/releases/latest/" id="id_linux_x64_zip"     >ArrowDL <span class="version-text">v0.0.0</span> for Linux (Portable, GCC, 64 bit)</a>
 
 [^2]: Prefer the Tarball if you are on Linux.
-      The AppImage can only run DownZemAll, unfortunately the launcher can't be used here.
+      The AppImage can only run ArrowDL, unfortunately the launcher can't be used here.
       That's why the filename is suffixed with '_no_launcher'.
       In other words, your web browser can't launch the application.   
 
@@ -100,15 +100,15 @@ The next table explains the differences between the packages.
 
 - Not available yet
 {% comment %}
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_mac_x64_zip">DownZemAll <span class="version-text">v0.0.0</span> for Mac (Portable, 64 bit)</a>
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_mac_x64_dmg">DownZemAll <span class="version-text">v0.0.0</span> for Mac (64 bit)</a>
+- <a href="https://github.com/setvisible/ArrowDL/releases/latest/" id="id_mac_x64_zip">ArrowDL <span class="version-text">v0.0.0</span> for Mac (Portable, 64 bit)</a>
+- <a href="https://github.com/setvisible/ArrowDL/releases/latest/" id="id_mac_x64_dmg">ArrowDL <span class="version-text">v0.0.0</span> for Mac (64 bit)</a>
 {% endcomment %}
 
 
 #### Source Code<a name="download-source"></a>
 
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_tarball">DownZemAll <span class="version-text">v0.0.0</span> Source Code</a> (Tarball)
-- <a href="https://github.com/setvisible/DownZemAll/releases/latest/" id="id_zipball">DownZemAll <span class="version-text">v0.0.0</span> Source Code</a> (Zip)
+- <a href="https://github.com/setvisible/ArrowDL/releases/latest/" id="id_tarball">ArrowDL <span class="version-text">v0.0.0</span> Source Code</a> (Tarball)
+- <a href="https://github.com/setvisible/ArrowDL/releases/latest/" id="id_zipball">ArrowDL <span class="version-text">v0.0.0</span> Source Code</a> (Zip)
 
 <br/>
 
@@ -116,13 +116,13 @@ The next table explains the differences between the packages.
 
 | Platform                | Status   |
 |-------------------------|----------|
-| Windows/Linux/MacOS     | [![Built with GitHub Actions](https://github.com/setvisible/downzemall/actions/workflows/deployment.yml/badge.svg?branch=master)](https://github.com/setvisible/DownZemAll/actions "Go to GitHub Actions") |
+| Windows/Linux/MacOS     | [![Built with GitHub Actions](https://github.com/setvisible/ArrowDL/actions/workflows/deployment.yml/badge.svg?branch=master)](https://github.com/setvisible/ArrowDL/actions "Go to GitHub Actions") |
 
 <br/>
 
 ## Older releases<a name="older-releases"></a>
 
-Click [here](https://github.com/setvisible/DownZemAll/releases) to see the previous releases
+Click [here](https://github.com/setvisible/ArrowDL/releases) to see the previous releases
 
 
 ---
@@ -154,19 +154,19 @@ Footnotes:
     const artifact_id_to_filenames = {
       'id_chromium':            "DownRightNow_chromium_" + tag_name + ".zip",
       'id_firefox':             "DownRightNow_firefox_" + tag_name + ".xpi",
-      'id_linux_x64_app':       "DownZemAll_" + tag_name + "_x86_64_no_launcher.AppImage",
-      'id_linux_x64_zip':       "DownZemAll_" + tag_name + "_x86_64.tar.gz",
-      'id_mac_x64_dmg':         "DownZemAll_" + tag_name + "_x86_64.dmg",
-      'id_mac_x64_zip':         "DownZemAll_" + tag_name + "_x86_64_macos.zip",
-      'id_windows_mingw_x64':   "DownZemAll_" + tag_name + "_windows_mingw_x64.zip",
-      'id_windows_mingw_x86':   "DownZemAll_" + tag_name + "_windows_mingw_x86.zip",
-      'id_windows_msvc_x64':    "DownZemAll_" + tag_name + "_windows_msvc_x64.zip",
-      'id_windows_msvc_x86':    "DownZemAll_" + tag_name + "_windows_msvc_x86.zip",
-      'id_windows_setup_x64':   "DownZemAll_x64_Setup.exe",
-      'id_windows_setup_x86':   "DownZemAll_x86_Setup.exe",
+      'id_linux_x64_app':       "ArrowDL_" + tag_name + "_x86_64_no_launcher.AppImage",
+      'id_linux_x64_zip':       "ArrowDL_" + tag_name + "_x86_64.tar.gz",
+      'id_mac_x64_dmg':         "ArrowDL_" + tag_name + "_x86_64.dmg",
+      'id_mac_x64_zip':         "ArrowDL_" + tag_name + "_x86_64_macos.zip",
+      'id_windows_mingw_x64':   "ArrowDL_" + tag_name + "_windows_mingw_x64.zip",
+      'id_windows_mingw_x86':   "ArrowDL_" + tag_name + "_windows_mingw_x86.zip",
+      'id_windows_msvc_x64':    "ArrowDL_" + tag_name + "_windows_msvc_x64.zip",
+      'id_windows_msvc_x86':    "ArrowDL_" + tag_name + "_windows_msvc_x86.zip",
+      'id_windows_setup_x64':   "ArrowDL_x64_Setup.exe",
+      'id_windows_setup_x86':   "ArrowDL_x86_Setup.exe",
     };
 
-    const url_root = "https://github.com/setvisible/DownZemAll/releases/latest/download/";
+    const url_root = "https://github.com/setvisible/ArrowDL/releases/latest/download/";
     for (let id in artifact_id_to_filenames) {
       const artifact = document.getElementById(id);
       if (artifact) {
@@ -186,7 +186,7 @@ Footnotes:
   }
 
   window.addEventListener("DOMContentLoaded", (event) => {
-    doHttpGetAsync("https://api.github.com/repos/setvisible/DownZemAll/releases/latest", onGithubResponse);
+    doHttpGetAsync("https://api.github.com/repos/setvisible/ArrowDL/releases/latest", onGithubResponse);
   });
 
 </script>

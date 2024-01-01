@@ -1,7 +1,7 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; NSIS installer script for DZA ;
-; (http://nsis.sourceforge.net) ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; NSIS installer script for ArrowDL ;
+; (http://nsis.sourceforge.net)     ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 !define PROJECT_PATH "..\..\.."
@@ -25,22 +25,22 @@
     !define PLATFORM ""
 !endif
 
-!define PRODUCT_NAME "DownZemAll"
+!define PRODUCT_NAME "ArrowDL"
 !define PRODUCT_VERSION ${VERSION}
 !define PRODUCT_GROUP "Sebastien Vavassori"
 !define PRODUCT_PUBLISHER "Sebastien Vavassori"
-!define PRODUCT_WEB_SITE "https://setvisible.github.io/DownZemAll"
+!define PRODUCT_WEB_SITE "https://www.arrow-dl.com/ArrowDL"
 
 ; Adds info to the installer
 VIProductVersion "${PRODUCT_VERSION}.000"
 VIFileVersion "${VERSION}.000"
 VIAddVersionKey "FileDescription" "Installation for ${PRODUCT_NAME}"
 VIAddVersionKey "FileVersion" "${VERSION}"
-VIAddVersionKey "ProductName" "DownZemAll"
+VIAddVersionKey "ProductName" "ArrowDL"
 VIAddVersionKey "ProductVersion" "${PRODUCT_VERSION}"
 VIAddVersionKey "LegalCopyright" "(C) Sebastien Vavassori. All Rights Reserved."
 
-!define REGISTRY_INSTALLER_FOLDER_NAME "DownZemAll"
+!define REGISTRY_INSTALLER_FOLDER_NAME "ArrowDL"
 
 ManifestDPIAware true
 Unicode true
@@ -60,7 +60,7 @@ Unicode true
 
     ;Name and output file
     Name "${PRODUCT_NAME} ${VERSION}"
-    OutFile "${PATH_OUT}\DownZemAllSetup.exe"
+    OutFile "${PATH_OUT}\ArrowDLSetup.exe"
 
     ;Default installation folder
     InstallDir "$LOCALAPPDATA\${PRODUCT_NAME}" ; todo local user (otherwise config files and auto-update might not work)
@@ -118,7 +118,7 @@ Unicode true
     ;Instfiles page
         !insertmacro MUI_PAGE_INSTFILES
     ;Finish page
-        !define MUI_FINISHPAGE_RUN DownZemAll.exe
+        !define MUI_FINISHPAGE_RUN ArrowDL.exe
         ;!define MUI_FINISHPAGE_LINK "${DESC_VisitWebSite} ${PRODUCT_WEB_SITE}" ; todo Doesn't work
         !define MUI_FINISHPAGE_LINK "${PRODUCT_WEB_SITE}"
         !define MUI_FINISHPAGE_LINK_LOCATION "${PRODUCT_WEB_SITE}"
@@ -195,9 +195,9 @@ SectionEnd
 Section "$(DESC_StartMenuGroupSession)" SectionStartMenuShortcut
     
     ;Create shortcuts in the start menu programs directory
-    CreateDirectory "$SMPROGRAMS\DownZemAll"
-    CreateShortCut "$SMPROGRAMS\DownZemAll\DownZemAll.lnk" "$INSTDIR\DownZemAll.exe"
-    CreateShortCut "$SMPROGRAMS\DownZemAll\$(DESC_UninstallIconDescription).lnk" "$INSTDIR\Uninstall.exe"
+    CreateDirectory "$SMPROGRAMS\ArrowDL"
+    CreateShortCut "$SMPROGRAMS\ArrowDL\ArrowDL.lnk" "$INSTDIR\ArrowDL.exe"
+    CreateShortCut "$SMPROGRAMS\ArrowDL\$(DESC_UninstallIconDescription).lnk" "$INSTDIR\Uninstall.exe"
 
 SectionEnd
 
@@ -205,7 +205,7 @@ Section "$(DESC_DesktopShortcutSession)" SectionDesktopShortcut
     
     ;Create shortcuts in the start menu programs directory
     ;SetShellVarContext current
-    CreateShortCut "$DESKTOP\DownZemAll.lnk" "$INSTDIR\DownZemAll.exe"
+    CreateShortCut "$DESKTOP\ArrowDL.lnk" "$INSTDIR\ArrowDL.exe"
 
 SectionEnd
 
@@ -229,10 +229,10 @@ Section "Uninstall"
     RMDir /r "$INSTDIR"
 
     ;Third, remove the link from the start menu
-    RMDir /r "$SMPROGRAMS\DownZemAll"
+    RMDir /r "$SMPROGRAMS\ArrowDL"
 
     ;and the link from the desktop
-    Delete "$DESKTOP\DownZemAll.lnk"
+    Delete "$DESKTOP\ArrowDL.lnk"
 
 SectionEnd
 

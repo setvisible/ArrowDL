@@ -13,17 +13,17 @@ excerpt_separator:  <!--more-->
 
 ## A Smart Editor for massive Urls edition!
 
-*DownZemAll!* version 1.7.4 provides a tool to modify the URL for a list of downloads.
+*ArrowDL* version 1.7.4 provides a tool to modify the URL for a list of downloads.
 
 To do it, select the downloads in the queue.
 
 Click "Download Information..." (from the Right-Click's context menu, or Alt+I).
 
-![Batch editing](/DownZemAll/assets/images/1.7/batch_editing_01.png)
+![Batch editing](/ArrowDL/assets/images/1.7/batch_editing_01.png)
 
 An text editor appears, containing the selected Urls:
 
-![Batch editing](/DownZemAll/assets/images/1.7/batch_editing_02.png)
+![Batch editing](/ArrowDL/assets/images/1.7/batch_editing_02.png)
 
 After click on OK, the download items have new Urls.
 
@@ -32,4 +32,4 @@ After click on OK, the download items have new Urls.
 
 Try it out with dummy items on this page:
 
-Go to [Tutorial](https://setvisible.github.io/DownZemAll/category/tutorial.html)
+Go to [Tutorial](https://www.arrow-dl.com/ArrowDL/category/tutorial.html)

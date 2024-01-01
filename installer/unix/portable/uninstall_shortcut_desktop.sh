@@ -24,7 +24,7 @@ fi
 
 mkdir -p $LAUNCHER_DESTINATION
 
-TARGET=$LAUNCHER_DESTINATION/DownZemAll.desktop
+TARGET=$LAUNCHER_DESTINATION/ArrowDL.desktop
 
 remove_shortcut $TARGET
 
@@ -33,6 +33,6 @@ remove_shortcut $TARGET
 echo "Removing desktop shortcut..."
 
 DESTINATION=$(xdg-user-dir DESKTOP)
-TARGET=$DESTINATION/DownZemAll.desktop
+TARGET=$DESTINATION/ArrowDL.desktop
 
 remove_shortcut $TARGET

@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -76,7 +76,6 @@ public slots:
     void invertSelection();
     void selectCompleted();
     void copy();
-    void manageMirrors();
     void oneMoreSegment();
     void oneFewerSegment();
 
@@ -87,14 +86,13 @@ public slots:
     void renameFile();
     void deleteFile();
     void openDirectory();
-    void removeAll();
-    void removeSelected();
-    void removeDuplicates();
     void removeCompleted();
-    void removeWaiting();
+    void removeSelected();
+    void removeAll();
     void removeFailed();
-    void removePaused();
     void removeRunning();
+    void removePaused();
+    void removeWaiting();
 
     // Download
     void handleMessage(const QString &message);
@@ -120,7 +118,6 @@ public slots:
 
     // Options
     void speedLimit();
-    void addDomainSpecificLimit();
     void forceStart();
     void showPreferences();
 

@@ -1,7 +1,7 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; NSIS installer script for DZA ;
-; (http://nsis.sourceforge.net) ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; NSIS installer script for ArrowDL ;
+; (http://nsis.sourceforge.net)     ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;---------------
 ; FIND WINDOWS 
@@ -21,18 +21,18 @@ Var STR_RETURN_VAR
 ;-------------------------------------------------------------------------
 
     Function ${un}quitIfRunning
-        ;Use 'Microsoft Spy++' to find DZA's window
+        ;Use 'Microsoft Spy++' to find ArrowDL's window
         ;Visual Studio > Tools > Microsoft Spy++ 
         ; * class name = "Qt5QWindowIcon" 
-        ; * title name = "0/0 - DownZemAll! v1.7.1"
+        ; * title name = "0/0 - ArrowDL v1.7.1"
         Push  0   # the starting offset of the push below
-        Push  "- DownZemAll! v"   # the known part of the title name
+        Push  "- ArrowDL v"   # the known part of the title name
         Call  ${un}enhancedFindWindow
         Pop  $0   # will contain the full wcn
         Pop  $1   # will contain the window's handle
                   # both will contain "failed", if no matching below name was found
         StrCmp $0 "failed" gotoLabelNotRunning
-            MessageBox MB_OK|MB_ICONEXCLAMATION "DownZemAll is running. Please close it first" /SD IDOK
+            MessageBox MB_OK|MB_ICONEXCLAMATION "ArrowDL is running. Please close it first" /SD IDOK
             Abort
         gotoLabelNotRunning:
     FunctionEnd

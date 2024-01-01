@@ -60,7 +60,7 @@ if(EXISTS ${LibtorrentRasterbar_ROOT})
         message(FATAL_ERROR "File doesn't exist: ${LibtorrentRasterbar_LIBRARIES}")
     endif()
 
-    # Hack: to build DZA, the same precompiler definitions must be used as for building Libtorrent
+    # Hack: to build ArrowDL, the same precompiler definitions must be used as for building Libtorrent
     add_compile_definitions(NDEBUG) # Libtorrent is a release build
     # add_compile_definitions(TORRENT_DISABLE_LOGGING)
     # add_compile_definitions(TORRENT_DISABLE_ALERT_MSG)

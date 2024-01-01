@@ -9,4 +9,4 @@ tags:
   - bug
 ---
 
-Want to see something else added? <a href="https://github.com/setvisible/DownZemAll/issues/new">Open an issue.</a>
+Want to see something else added? <a href="https://github.com/setvisible/ArrowDL/issues/new">Open an issue.</a>

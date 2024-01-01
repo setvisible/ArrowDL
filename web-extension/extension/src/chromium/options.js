@@ -1,7 +1,7 @@
 "use strict";
 
 const application = "com.setvisible.downrightnow";
-const website_download_link = "https://setvisible.github.io/DownZemAll/category/download.html";
+const website_download_link = "https://www.arrow-dl.com/ArrowDL/category/download.html";
 
 /* ***************************** */
 /* Options                       */
