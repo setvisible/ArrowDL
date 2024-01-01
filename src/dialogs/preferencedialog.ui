@@ -74,7 +74,7 @@ QTabBar::tab:hover:!selected {
      <widget class="QWidget" name="general">
       <attribute name="icon">
        <iconset resource="../resources.qrc">
-        <normaloff>:/resources/icons/default/32x32/actions/preference-general.png</normaloff>:/resources/icons/default/32x32/actions/preference-general.png</iconset>
+        <normaloff>:/resources/icons/default/scalable/actions/preference-general.svg</normaloff>:/resources/icons/default/scalable/actions/preference-general.svg</iconset>
       </attribute>
       <attribute name="title">
        <string>General</string>
@@ -167,7 +167,7 @@ QTabBar::tab:hover:!selected {
      <widget class="QWidget" name="gui">
       <attribute name="icon">
        <iconset resource="../resources.qrc">
-        <normaloff>:/resources/icons/default/32x32/actions/preference-interface.png</normaloff>:/resources/icons/default/32x32/actions/preference-interface.png</iconset>
+        <normaloff>:/resources/icons/default/scalable/actions/preference-interface.svg</normaloff>:/resources/icons/default/scalable/actions/preference-interface.svg</iconset>
       </attribute>
       <attribute name="title">
        <string>Interface</string>
@@ -371,7 +371,7 @@ QTabBar::tab:hover:!selected {
                <string notr="true"/>
               </property>
               <property name="pixmap">
-               <pixmap resource="../resources.qrc">:/resources/icons/default/16x16/actions/help.png</pixmap>
+               <pixmap resource="../resources.qrc">:/resources/icons/default/scalable/actions/help.svg</pixmap>
               </property>
               <property name="scaledContents">
                <bool>true</bool>
@@ -407,7 +407,7 @@ QTabBar::tab:hover:!selected {
      <widget class="QWidget" name="network">
       <attribute name="icon">
        <iconset resource="../resources.qrc">
-        <normaloff>:/resources/icons/default/32x32/actions/preference-network.png</normaloff>:/resources/icons/default/32x32/actions/preference-network.png</iconset>
+        <normaloff>:/resources/icons/default/scalable/actions/preference-network.svg</normaloff>:/resources/icons/default/scalable/actions/preference-network.svg</iconset>
       </attribute>
       <attribute name="title">
        <string>Network</string>
@@ -482,7 +482,7 @@ QTabBar::tab:hover:!selected {
                <string notr="true"/>
               </property>
               <property name="pixmap">
-               <pixmap resource="../resources.qrc">:/resources/icons/default/16x16/actions/help.png</pixmap>
+               <pixmap resource="../resources.qrc">:/resources/icons/default/scalable/actions/help.svg</pixmap>
               </property>
               <property name="scaledContents">
                <bool>true</bool>
@@ -979,7 +979,7 @@ QTabBar::tab:hover:!selected {
      <widget class="QWidget" name="privacy">
       <attribute name="icon">
        <iconset resource="../resources.qrc">
-        <normaloff>:/resources/icons/default/32x32/actions/preference-privacy.png</normaloff>:/resources/icons/default/32x32/actions/preference-privacy.png</iconset>
+        <normaloff>:/resources/icons/default/scalable/actions/preference-privacy.svg</normaloff>:/resources/icons/default/scalable/actions/preference-privacy.svg</iconset>
       </attribute>
       <attribute name="title">
        <string>Privacy</string>
@@ -1115,7 +1115,7 @@ QTabBar::tab:hover:!selected {
               <item>
                <widget class="QLabel" name="streamCleanCacheLabel">
                 <property name="text">
-                 <string notr="true">Located in &lt;a href=&quot;https://www.example.org/tutorial.html&quot;&gt;path/to/cache/dir/&lt;/a&gt;</string>
+                 <string notr="true">Located in &lt;a href=&quot;https:/www.example.org/tutorial.html&quot;&gt;path/to/cache/dir/&lt;/a&gt;</string>
                 </property>
                </widget>
               </item>
@@ -1155,7 +1155,7 @@ QTabBar::tab:hover:!selected {
                <string notr="true"/>
               </property>
               <property name="pixmap">
-               <pixmap resource="../resources.qrc">:/resources/icons/default/16x16/actions/help.png</pixmap>
+               <pixmap resource="../resources.qrc">:/resources/icons/default/scalable/actions/help.svg</pixmap>
               </property>
               <property name="scaledContents">
                <bool>true</bool>
@@ -1186,7 +1186,7 @@ QTabBar::tab:hover:!selected {
                <string notr="true"/>
               </property>
               <property name="pixmap">
-               <pixmap resource="../resources.qrc">:/resources/icons/default/16x16/actions/help.png</pixmap>
+               <pixmap resource="../resources.qrc">:/resources/icons/default/scalable/actions/help.svg</pixmap>
               </property>
               <property name="scaledContents">
                <bool>true</bool>
@@ -1247,7 +1247,7 @@ QTabBar::tab:hover:!selected {
      <widget class="QWidget" name="filters">
       <attribute name="icon">
        <iconset resource="../resources.qrc">
-        <normaloff>:/resources/icons/default/32x32/actions/preference-filters.png</normaloff>:/resources/icons/default/32x32/actions/preference-filters.png</iconset>
+        <normaloff>:/resources/icons/default/scalable/actions/preference-filters.svg</normaloff>:/resources/icons/default/scalable/actions/preference-filters.svg</iconset>
       </attribute>
       <attribute name="title">
        <string>Filters</string>
@@ -1368,7 +1368,7 @@ QTabBar::tab:hover:!selected {
      <widget class="QWidget" name="torrent">
       <attribute name="icon">
        <iconset resource="../resources.qrc">
-        <normaloff>:/resources/icons/default/32x32/actions/preference-torrent.png</normaloff>:/resources/icons/default/32x32/actions/preference-torrent.png</iconset>
+        <normaloff>:/resources/icons/default/scalable/actions/preference-torrent.svg</normaloff>:/resources/icons/default/scalable/actions/preference-torrent.svg</iconset>
       </attribute>
       <attribute name="title">
        <string>Torrent</string>
@@ -1562,7 +1562,7 @@ QTabBar::tab:hover:!selected {
      <widget class="QWidget" name="advanced">
       <attribute name="icon">
        <iconset resource="../resources.qrc">
-        <normaloff>:/resources/icons/default/32x32/actions/preference-advanced.png</normaloff>:/resources/icons/default/32x32/actions/preference-advanced.png</iconset>
+        <normaloff>:/resources/icons/default/scalable/actions/preference-advanced.svg</normaloff>:/resources/icons/default/scalable/actions/preference-advanced.svg</iconset>
       </attribute>
       <attribute name="title">
        <string>Advanced</string>

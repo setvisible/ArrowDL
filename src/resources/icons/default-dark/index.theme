@@ -1,0 +1,12 @@
+[Icon Theme]
+Name=default-dark
+Comment=Bootstrap Icons, theme with classic look (dark mode)
+
+Directories=scalable/actions
+
+[scalable/actions]
+Size=48
+Context=Actions
+Type=Scalable
+MinSize=1
+MaxSize=256

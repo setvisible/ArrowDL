@@ -79,7 +79,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/resources/icons/default/48x48/actions/add-content.png</normaloff>:/resources/icons/default/48x48/actions/add-content.png</iconset>
+         <normaloff>:/resources/icons/default/scalable/actions/add-content.svg</normaloff>:/resources/icons/default/scalable/actions/add-content.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -102,7 +102,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/resources/icons/default/48x48/actions/add-batch.png</normaloff>:/resources/icons/default/48x48/actions/add-batch.png</iconset>
+         <normaloff>:/resources/icons/default/scalable/actions/add-batch.svg</normaloff>:/resources/icons/default/scalable/actions/add-batch.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -125,7 +125,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/resources/icons/default/48x48/actions/add-stream.png</normaloff>:/resources/icons/default/48x48/actions/add-stream.png</iconset>
+         <normaloff>:/resources/icons/default/scalable/actions/add-stream.svg</normaloff>:/resources/icons/default/scalable/actions/add-stream.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -148,7 +148,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/resources/icons/default/48x48/actions/add-torrent.png</normaloff>:/resources/icons/default/48x48/actions/add-torrent.png</iconset>
+         <normaloff>:/resources/icons/default/scalable/actions/add-torrent.svg</normaloff>:/resources/icons/default/scalable/actions/add-torrent.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -174,7 +174,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/resources/icons/default/48x48/actions/add-urls.png</normaloff>:/resources/icons/default/48x48/actions/add-urls.png</iconset>
+         <normaloff>:/resources/icons/default/scalable/actions/add-urls.svg</normaloff>:/resources/icons/default/scalable/actions/add-urls.svg</iconset>
        </property>
        <property name="iconSize">
         <size>

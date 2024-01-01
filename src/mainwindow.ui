@@ -226,7 +226,7 @@
   <action name="actionAbout">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/about.png</normaloff>:/resources/icons/default/16x16/actions/about.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/about.svg</normaloff>:/resources/icons/default/scalable/actions/about.svg</iconset>
    </property>
    <property name="text">
     <string>About ArrowDL...</string>
@@ -235,7 +235,7 @@
   <action name="actionPreferences">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/preference.png</normaloff>:/resources/icons/default/16x16/actions/preference.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/preference.svg</normaloff>:/resources/icons/default/scalable/actions/preference.svg</iconset>
    </property>
    <property name="text">
     <string>Preferences...</string>
@@ -247,7 +247,7 @@
   <action name="actionHome">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/26x26/actions/home.png</normaloff>:/resources/icons/default/26x26/actions/home.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/home.svg</normaloff>:/resources/icons/default/scalable/actions/home.svg</iconset>
    </property>
    <property name="text">
     <string>Getting Started...</string>
@@ -255,8 +255,8 @@
   </action>
   <action name="actionAddContent">
    <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/48x48/actions/add-content.png</normaloff>:/resources/icons/default/48x48/actions/add-content.png</iconset>
+    <iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/add-content.svg</normaloff>:/resources/icons/default/scalable/actions/add-content.svg</iconset>
    </property>
    <property name="text">
     <string>Download Content...</string>
@@ -270,8 +270,8 @@
   </action>
   <action name="actionAddBatch">
    <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/48x48/actions/add-batch.png</normaloff>:/resources/icons/default/48x48/actions/add-batch.png</iconset>
+    <iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/add-batch.svg</normaloff>:/resources/icons/default/scalable/actions/add-batch.svg</iconset>
    </property>
    <property name="text">
     <string>Download Batch...</string>
@@ -285,8 +285,8 @@
   </action>
   <action name="actionAddStream">
    <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/48x48/actions/add-stream.png</normaloff>:/resources/icons/default/48x48/actions/add-stream.png</iconset>
+    <iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/add-stream.svg</normaloff>:/resources/icons/default/scalable/actions/add-stream.svg</iconset>
    </property>
    <property name="text">
     <string>Download Stream...</string>
@@ -297,8 +297,8 @@
   </action>
   <action name="actionAddTorrent">
    <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/48x48/actions/add-torrent.png</normaloff>:/resources/icons/default/48x48/actions/add-torrent.png</iconset>
+    <iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/add-torrent.svg</normaloff>:/resources/icons/default/scalable/actions/add-torrent.svg</iconset>
    </property>
    <property name="text">
     <string>Download Torrent...</string>
@@ -309,8 +309,8 @@
   </action>
   <action name="actionAddUrls">
    <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/48x48/actions/add-urls.png</normaloff>:/resources/icons/default/48x48/actions/add-urls.png</iconset>
+    <iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/add-urls.svg</normaloff>:/resources/icons/default/scalable/actions/add-urls.svg</iconset>
    </property>
    <property name="text">
     <string>Download Urls...</string>
@@ -322,7 +322,7 @@
   <action name="actionCancel">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/play-stop.png</normaloff>:/resources/icons/default/16x16/actions/play-stop.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/play-stop.svg</normaloff>:/resources/icons/default/scalable/actions/play-stop.svg</iconset>
    </property>
    <property name="text">
     <string>Cancel</string>
@@ -331,7 +331,7 @@
   <action name="actionPause">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/play-pause.png</normaloff>:/resources/icons/default/16x16/actions/play-pause.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/play-pause.svg</normaloff>:/resources/icons/default/scalable/actions/play-pause.svg</iconset>
    </property>
    <property name="text">
     <string>Pause</string>
@@ -343,7 +343,7 @@
   <action name="actionUp">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/move-up.png</normaloff>:/resources/icons/default/16x16/actions/move-up.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/move-up.svg</normaloff>:/resources/icons/default/scalable/actions/move-up.svg</iconset>
    </property>
    <property name="text">
     <string>Up</string>
@@ -355,7 +355,7 @@
   <action name="actionTop">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/move-top.png</normaloff>:/resources/icons/default/16x16/actions/move-top.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/move-top.svg</normaloff>:/resources/icons/default/scalable/actions/move-top.svg</iconset>
    </property>
    <property name="text">
     <string>Top</string>
@@ -367,7 +367,7 @@
   <action name="actionDown">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/move-down.png</normaloff>:/resources/icons/default/16x16/actions/move-down.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/move-down.svg</normaloff>:/resources/icons/default/scalable/actions/move-down.svg</iconset>
    </property>
    <property name="text">
     <string>Down</string>
@@ -379,7 +379,7 @@
   <action name="actionBottom">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/move-bottom.png</normaloff>:/resources/icons/default/16x16/actions/move-bottom.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/move-bottom.svg</normaloff>:/resources/icons/default/scalable/actions/move-bottom.svg</iconset>
    </property>
    <property name="text">
     <string>Bottom</string>
@@ -391,7 +391,7 @@
   <action name="actionResume">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/play-resume.png</normaloff>:/resources/icons/default/16x16/actions/play-resume.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/play-resume.svg</normaloff>:/resources/icons/default/scalable/actions/play-resume.svg</iconset>
    </property>
    <property name="text">
     <string>Resume</string>
@@ -400,7 +400,7 @@
   <action name="actionInformation">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/info.png</normaloff>:/resources/icons/default/16x16/actions/info.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/info.svg</normaloff>:/resources/icons/default/scalable/actions/info.svg</iconset>
    </property>
    <property name="text">
     <string>Download Information</string>
@@ -412,7 +412,7 @@
   <action name="actionOpenFile">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/file-open.png</normaloff>:/resources/icons/default/16x16/actions/file-open.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/file-open.svg</normaloff>:/resources/icons/default/scalable/actions/file-open.svg</iconset>
    </property>
    <property name="text">
     <string>Open File</string>
@@ -421,7 +421,7 @@
   <action name="actionRenameFile">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/rename.png</normaloff>:/resources/icons/default/16x16/actions/rename.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/rename.svg</normaloff>:/resources/icons/default/scalable/actions/rename.svg</iconset>
    </property>
    <property name="text">
     <string>Rename File</string>
@@ -433,7 +433,7 @@
   <action name="actionDeleteFile">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/file-delete.png</normaloff>:/resources/icons/default/16x16/actions/file-delete.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/file-delete.svg</normaloff>:/resources/icons/default/scalable/actions/file-delete.svg</iconset>
    </property>
    <property name="text">
     <string>Delete File(s)</string>
@@ -445,7 +445,7 @@
   <action name="actionOpenDirectory">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/directory-open.png</normaloff>:/resources/icons/default/16x16/actions/directory-open.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/directory-open.svg</normaloff>:/resources/icons/default/scalable/actions/directory-open.svg</iconset>
    </property>
    <property name="text">
     <string>Open Directory</string>
@@ -454,7 +454,7 @@
   <action name="actionSelectAll">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/32x32/actions/select-all.png</normaloff>:/resources/icons/default/32x32/actions/select-all.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/select-all.svg</normaloff>:/resources/icons/default/scalable/actions/select-all.svg</iconset>
    </property>
    <property name="text">
     <string>Select All</string>
@@ -466,7 +466,7 @@
   <action name="actionInvertSelection">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/32x32/actions/select-invert.png</normaloff>:/resources/icons/default/32x32/actions/select-invert.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/select-invert.svg</normaloff>:/resources/icons/default/scalable/actions/select-invert.svg</iconset>
    </property>
    <property name="text">
     <string>Invert Selection</string>
@@ -478,7 +478,7 @@
   <action name="actionOneMoreSegment">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/segment-add.png</normaloff>:/resources/icons/default/16x16/actions/segment-add.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/segment-add.svg</normaloff>:/resources/icons/default/scalable/actions/segment-add.svg</iconset>
    </property>
    <property name="text">
     <string>One More Segment</string>
@@ -487,7 +487,7 @@
   <action name="actionOneFewerSegment">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/segment-remove.png</normaloff>:/resources/icons/default/16x16/actions/segment-remove.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/segment-remove.svg</normaloff>:/resources/icons/default/scalable/actions/segment-remove.svg</iconset>
    </property>
    <property name="text">
     <string>One Fewer Segment</string>
@@ -496,7 +496,7 @@
   <action name="actionForceStart">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/play-resume-force.png</normaloff>:/resources/icons/default/16x16/actions/play-resume-force.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/play-resume-force.svg</normaloff>:/resources/icons/default/scalable/actions/play-resume-force.svg</iconset>
    </property>
    <property name="text">
     <string>Force Start</string>
@@ -508,7 +508,7 @@
   <action name="actionImportFromFile">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/file-import.png</normaloff>:/resources/icons/default/16x16/actions/file-import.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/file-import.svg</normaloff>:/resources/icons/default/scalable/actions/file-import.svg</iconset>
    </property>
    <property name="text">
     <string>Import From File...</string>
@@ -520,7 +520,7 @@
   <action name="actionExportSelectedToFile">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/file-export.png</normaloff>:/resources/icons/default/16x16/actions/file-export.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/file-export.svg</normaloff>:/resources/icons/default/scalable/actions/file-export.svg</iconset>
    </property>
    <property name="text">
     <string>Export &amp;Selected To File...</string>
@@ -532,7 +532,7 @@
   <action name="actionRemoveCompleted">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/remove-completed.png</normaloff>:/resources/icons/default/16x16/actions/remove-completed.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/remove-completed.svg</normaloff>:/resources/icons/default/scalable/actions/remove-completed.svg</iconset>
    </property>
    <property name="text">
     <string>Remove Completed</string>
@@ -544,7 +544,7 @@
   <action name="actionRemoveSelected">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/remove-downloaded.png</normaloff>:/resources/icons/default/16x16/actions/remove-downloaded.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/remove-downloaded.svg</normaloff>:/resources/icons/default/scalable/actions/remove-downloaded.svg</iconset>
    </property>
    <property name="text">
     <string>Remove Selected</string>
@@ -556,7 +556,7 @@
   <action name="actionRemoveAll">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/remove-all.png</normaloff>:/resources/icons/default/16x16/actions/remove-all.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/remove-all.svg</normaloff>:/resources/icons/default/scalable/actions/remove-all.svg</iconset>
    </property>
    <property name="text">
     <string>Remove All</string>
@@ -568,7 +568,7 @@
   <action name="actionRemoveWaiting">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/remove-waiting.png</normaloff>:/resources/icons/default/16x16/actions/remove-waiting.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/remove-waiting.svg</normaloff>:/resources/icons/default/scalable/actions/remove-waiting.svg</iconset>
    </property>
    <property name="text">
     <string>Remove Waiting</string>
@@ -577,7 +577,7 @@
   <action name="actionRemoveRunning">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/play-resume.png</normaloff>:/resources/icons/default/16x16/actions/play-resume.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/remove-resumed.svg</normaloff>:/resources/icons/default/scalable/actions/remove-resumed.svg</iconset>
    </property>
    <property name="text">
     <string>Remove Running</string>
@@ -586,7 +586,7 @@
   <action name="actionRemovePaused">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/play-pause.png</normaloff>:/resources/icons/default/16x16/actions/play-pause.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/remove-paused.svg</normaloff>:/resources/icons/default/scalable/actions/remove-paused.svg</iconset>
    </property>
    <property name="text">
     <string>Remove Paused</string>
@@ -595,7 +595,7 @@
   <action name="actionRemoveFailed">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/remove-stopped.png</normaloff>:/resources/icons/default/16x16/actions/remove-stopped.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/remove-stopped.svg</normaloff>:/resources/icons/default/scalable/actions/remove-stopped.svg</iconset>
    </property>
    <property name="text">
     <string>Remove Failed</string>
@@ -604,7 +604,7 @@
   <action name="actionSpeedLimit">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/limit-speed.png</normaloff>:/resources/icons/default/16x16/actions/limit-speed.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/limit-speed.svg</normaloff>:/resources/icons/default/scalable/actions/limit-speed.svg</iconset>
    </property>
    <property name="text">
     <string>Speed Limit...</string>
@@ -613,7 +613,7 @@
   <action name="actionSelectNone">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/32x32/actions/select-none.png</normaloff>:/resources/icons/default/32x32/actions/select-none.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/select-none.svg</normaloff>:/resources/icons/default/scalable/actions/select-none.svg</iconset>
    </property>
    <property name="text">
     <string>Select None</string>
@@ -622,7 +622,7 @@
   <action name="actionSelectCompleted">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/32x32/actions/select-completed.png</normaloff>:/resources/icons/default/32x32/actions/select-completed.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/select-completed.svg</normaloff>:/resources/icons/default/scalable/actions/select-completed.svg</iconset>
    </property>
    <property name="text">
     <string>Select Completed</string>

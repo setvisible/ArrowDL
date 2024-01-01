@@ -138,7 +138,7 @@
   <action name="actionAdd">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/48x48/actions/add-batch.png</normaloff>:/resources/icons/default/48x48/actions/add-batch.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions//add-batch.svg</normaloff>:/resources/icons/default/scalable/actions//add-batch.svg</iconset>
    </property>
    <property name="text">
     <string>Add...</string>
@@ -150,7 +150,7 @@
   <action name="actionCancel">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/play-stop.png</normaloff>:/resources/icons/default/16x16/actions/play-stop.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/play-stop.svg</normaloff>:/resources/icons/default/scalable/actions/play-stop.svg</iconset>
    </property>
    <property name="text">
     <string>Cancel</string>
@@ -162,7 +162,7 @@
   <action name="actionPause">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/play-pause.png</normaloff>:/resources/icons/default/16x16/actions/play-pause.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/play-pause.svg</normaloff>:/resources/icons/default/scalable/actions/play-pause.svg</iconset>
    </property>
    <property name="text">
     <string>Pause</string>
@@ -174,7 +174,7 @@
   <action name="actionUp">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/move-up.png</normaloff>:/resources/icons/default/16x16/actions/move-up.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/move-up.svg</normaloff>:/resources/icons/default/scalable/actions/move-up.svg</iconset>
    </property>
    <property name="text">
     <string>Up</string>
@@ -186,7 +186,7 @@
   <action name="actionTop">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/move-top.png</normaloff>:/resources/icons/default/16x16/actions/move-top.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/move-top.svg</normaloff>:/resources/icons/default/scalable/actions/move-top.svg</iconset>
    </property>
    <property name="text">
     <string>Top</string>
@@ -198,7 +198,7 @@
   <action name="actionDown">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/move-down.png</normaloff>:/resources/icons/default/16x16/actions/move-down.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/move-down.svg</normaloff>:/resources/icons/default/scalable/actions/move-down.svg</iconset>
    </property>
    <property name="text">
     <string>Down</string>
@@ -210,7 +210,7 @@
   <action name="actionBottom">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/move-bottom.png</normaloff>:/resources/icons/default/16x16/actions/move-bottom.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/move-bottom.svg</normaloff>:/resources/icons/default/scalable/actions/move-bottom.svg</iconset>
    </property>
    <property name="text">
     <string>Bottom</string>
@@ -222,7 +222,7 @@
   <action name="actionResume">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/play-resume.png</normaloff>:/resources/icons/default/16x16/actions/play-resume.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/play-resume.svg</normaloff>:/resources/icons/default/scalable/actions/play-resume.svg</iconset>
    </property>
    <property name="text">
     <string>Resume</string>
@@ -234,7 +234,7 @@
   <action name="actionSelectAll">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/32x32/actions/select-all.png</normaloff>:/resources/icons/default/32x32/actions/select-all.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/select-all.svg</normaloff>:/resources/icons/default/scalable/actions/select-all.svg</iconset>
    </property>
    <property name="text">
     <string>Select All</string>
@@ -246,7 +246,7 @@
   <action name="actionInvertSelection">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/32x32/actions/select-invert.png</normaloff>:/resources/icons/default/32x32/actions/select-invert.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/select-invert.svg</normaloff>:/resources/icons/default/scalable/actions/select-invert.svg</iconset>
    </property>
    <property name="text">
     <string>Invert Selection</string>
@@ -258,7 +258,7 @@
   <action name="actionOneMoreSegment">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/segment-add.png</normaloff>:/resources/icons/default/16x16/actions/segment-add.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/segment-add.svg</normaloff>:/resources/icons/default/scalable/actions/segment-add.svg</iconset>
    </property>
    <property name="text">
     <string>One More Segment</string>
@@ -267,7 +267,7 @@
   <action name="actionOneFewerSegment">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/segment-remove.png</normaloff>:/resources/icons/default/16x16/actions/segment-remove.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/segment-remove.svg</normaloff>:/resources/icons/default/scalable/actions/segment-remove.svg</iconset>
    </property>
    <property name="text">
     <string>One Fewer Segment</string>
@@ -276,7 +276,7 @@
   <action name="actionForceStart">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/play-resume-force.png</normaloff>:/resources/icons/default/16x16/actions/play-resume-force.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/play-resume-force.svg</normaloff>:/resources/icons/default/scalable/actions/play-resume-force.svg</iconset>
    </property>
    <property name="text">
     <string>Force Start</string>
@@ -288,7 +288,7 @@
   <action name="actionRemoveCompleted">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/remove-completed.png</normaloff>:/resources/icons/default/16x16/actions/remove-completed.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/remove-completed.svg</normaloff>:/resources/icons/default/scalable/actions/remove-completed.svg</iconset>
    </property>
    <property name="text">
     <string>Remove Completed</string>
@@ -297,7 +297,7 @@
   <action name="actionRemoveWaiting">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/remove-waiting.png</normaloff>:/resources/icons/default/16x16/actions/remove-waiting.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/remove-waiting.svg</normaloff>:/resources/icons/default/scalable/actions/remove-waiting.svg</iconset>
    </property>
    <property name="text">
     <string>Remove Waiting</string>
@@ -312,7 +312,7 @@
   <action name="actionSpeedLimit">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/limit-speed.png</normaloff>:/resources/icons/default/16x16/actions/limit-speed.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/limit-speed.svg</normaloff>:/resources/icons/default/scalable/actions/limit-speed.svg</iconset>
    </property>
    <property name="text">
     <string>Speed Limit...</string>
@@ -324,7 +324,7 @@
   <action name="actionSelectNone">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/32x32/actions/select-none.png</normaloff>:/resources/icons/default/32x32/actions/select-none.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/select-none.svg</normaloff>:/resources/icons/default/scalable/actions/select-none.svg</iconset>
    </property>
    <property name="text">
     <string>Select None</string>
@@ -336,7 +336,7 @@
   <action name="actionSelectCompleted">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/32x32/actions/select-completed.png</normaloff>:/resources/icons/default/32x32/actions/select-completed.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/select-completed.svg</normaloff>:/resources/icons/default/scalable/actions/select-completed.svg</iconset>
    </property>
    <property name="text">
     <string>Select Completed</string>
@@ -345,7 +345,7 @@
   <action name="actionRemoveAll">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/remove-all.png</normaloff>:/resources/icons/default/16x16/actions/remove-all.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/remove-all.svg</normaloff>:/resources/icons/default/scalable/actions/remove-all.svg</iconset>
    </property>
    <property name="text">
     <string>Remove All</string>
@@ -357,7 +357,7 @@
   <action name="actionRemoveSelected">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/remove-downloaded.png</normaloff>:/resources/icons/default/16x16/actions/remove-downloaded.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/remove-downloaded.svg</normaloff>:/resources/icons/default/scalable/actions/remove-downloaded.svg</iconset>
    </property>
    <property name="text">
     <string>Remove Selected</string>
@@ -369,7 +369,7 @@
   <action name="actionRemoveFailed">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/remove-stopped.png</normaloff>:/resources/icons/default/16x16/actions/remove-stopped.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/remove-stopped.svg</normaloff>:/resources/icons/default/scalable/actions/remove-stopped.svg</iconset>
    </property>
    <property name="text">
     <string>Remove Failed</string>
@@ -378,7 +378,7 @@
   <action name="actionRemovePaused">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/play-pause.png</normaloff>:/resources/icons/default/16x16/actions/play-pause.png</iconset>
+     <normaloff>:/resources/icons/default/scalable/actions/play-pause.svg</normaloff>:/resources/icons/default/scalable/actions/play-pause.svg</iconset>
    </property>
    <property name="text">
     <string>Remove Paused</string>
