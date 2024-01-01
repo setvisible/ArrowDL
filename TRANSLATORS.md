@@ -144,6 +144,8 @@ Then the *.ts files are synchronized with the C++ code.
 
 Use the TX Client to push and pull translations to and from Transifex:
 
+[Download the Transifex Client](https://github.com/transifex/cli/releases/latest/)
+
 > You need `tx` (see Transifex documentation to [install](https://docs.transifex.com/client/installing-the-client) it)
 
 
