@@ -180,6 +180,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     /* Update Checker */
     connect(m_updateChecker, SIGNAL(updateAvailableForConsole()), this, SLOT(onUpdateAvailableForConsole()));
     m_updateChecker->checkForUpdates(m_settings);
+
+    // BUGFIX: After Qt6.6.1 the theme doesn't apply at launch time... calling it twice makes it work
+    Theme::applyTheme(m_settings->theme());
 }
 
 MainWindow::~MainWindow()
