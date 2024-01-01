@@ -98,7 +98,10 @@ qsizetype Theme::fromPlatformStyle(const QString &platformStyle)
  ******************************************************************************/
 QStringList Theme::availableIconThemes()
 {
-    return {QObject::tr("Classic (default)"), QObject::tr("Flat Design")};
+    return {
+        QObject::tr("Bootstrap Icons (default)"),
+        QObject::tr("FontAwesome Flat Design")
+    };
 }
 
 QString Theme::toIconTheme(int index)
@@ -125,7 +128,10 @@ int Theme::fromIconTheme(const QString &iconTheme)
  ******************************************************************************/
 QStringList Theme::availableColorSchemes()
 {
-    return {QObject::tr("Light"), QObject::tr("Dark")};
+    return {
+        QObject::tr("Light"),
+        QObject::tr("Dark")
+    };
 }
 
 QString Theme::toColorScheme(int index)
@@ -204,19 +210,25 @@ void Theme::applyTheme(const QMap<QString, QVariant> &map)
         QIcon::setFallbackThemeName(QLatin1String("default"));
     }
 
-    const QString platformStyle = map.value(Theme::PlatformStyle, QString()).toString();
-    const QString iconTheme = map.value(Theme::IconTheme, QString()).toString();
-    const QString colorScheme = map.value(Theme::ColorScheme, QString()).toString();
+    const QString platformStyle = map.value(Theme::PlatformStyle, QLatin1String()).toString();
+    const QString iconTheme = map.value(Theme::IconTheme, QLatin1String()).toString();
+    const QString colorScheme = map.value(Theme::ColorScheme, QLatin1String()).toString();
 
     auto index = Theme::fromIconTheme(iconTheme);
     auto isDarkMode = (Theme::fromColorScheme(colorScheme) == 1);
 
     if (index == 1)  {
-        QIcon::setThemeName(isDarkMode
-                            ? QLatin1String("flat-dark")
-                            : QLatin1String("flat"));
+        QIcon::setThemeName(
+            isDarkMode
+                ? QLatin1String("flat-dark")
+                : QLatin1String("flat")
+            );
     } else {
-        QIcon::setThemeName(QLatin1String("default"));
+        QIcon::setThemeName(
+            isDarkMode
+                ? QLatin1String("default-dark")
+                : QLatin1String("default")
+            );
     }
     auto dark_palette = qApp->style()->standardPalette();
     if (isDarkMode) {
