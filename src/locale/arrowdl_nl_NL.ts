@@ -4,67 +4,67 @@
 <context>
     <name>AbstractDownloadItem</name>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="70"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="64"/>
         <source>Idle</source>
         <translation>Inactief</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="71"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="65"/>
         <source>Paused</source>
         <translation>Onderbroken</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="72"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="66"/>
         <source>Canceled</source>
         <translation>Afgebroken</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="73"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="67"/>
         <source>Preparing</source>
         <translation>Aan het voorbereiden</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="74"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="68"/>
         <source>Connecting</source>
         <translation>Aan het verbinden</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="75"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="69"/>
         <source>Downloading Metadata</source>
         <translation>Bezig met ophalen van metagegevens</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="76"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="70"/>
         <source>Downloading</source>
         <translation>Aan het downloaden</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="77"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="71"/>
         <source>Finishing</source>
         <translation>Bezig met afronden</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="78"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="72"/>
         <source>Complete</source>
         <translation>Voltooid</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="79"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="73"/>
         <source>Seeding</source>
         <translation>Aan het seeden</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="80"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="74"/>
         <source>Skipped</source>
         <translation>Overgeslagen</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="81"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="75"/>
         <source>Server error</source>
         <translation>Serverfout</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="82"/>
+        <location filename="../core/abstractdownloaditem.cpp" line="76"/>
         <source>File error</source>
         <translation>Bestandsfout</translation>
     </message>
@@ -85,25 +85,25 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="87"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="187"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="194"/>
         <source>1 -&gt; 10</source>
         <translation>1 → 10</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="100"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="188"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="195"/>
         <source>1 -&gt; 100</source>
         <translation>1 → 100</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="113"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="189"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="196"/>
         <source>01 -&gt; 10</source>
         <translation>01 → 10</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="126"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="190"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="197"/>
         <source>001 -&gt; 100</source>
         <translation>001 → 100</translation>
     </message>
@@ -118,83 +118,83 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
         <translation>Bestand(en) downloaden</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.ui" line="186"/>
+        <location filename="../dialogs/addbatchdialog.ui" line="185"/>
         <source>Download:</source>
         <translation>Downloaden:</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.ui" line="193"/>
+        <location filename="../dialogs/addbatchdialog.ui" line="192"/>
         <source>Examples:</source>
         <translation>Voorbeelden:</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.ui" line="274"/>
+        <location filename="../dialogs/addbatchdialog.ui" line="273"/>
         <source>&amp;Start!</source>
         <translation>&amp;Starten!</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.ui" line="290"/>
+        <location filename="../dialogs/addbatchdialog.ui" line="289"/>
         <source>Add &amp;paused</source>
         <translation>Toe&amp;voegen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.ui" line="303"/>
+        <location filename="../dialogs/addbatchdialog.ui" line="302"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="51"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="55"/>
         <source>Add Batch and Single File</source>
         <translation>Een of meerdere bestanden toevoegen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="75"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="81"/>
         <source>Batch descriptors:</source>
         <translation>Reeksomschrijvingen:</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="76"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="82"/>
         <source>Must start with &apos;[&apos; or &apos;(&apos;</source>
         <translation>Deze dienen te beginnen met ‘[’ of ‘(’</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="77"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="83"/>
         <source>Must contain two numbers, separated by &apos;:&apos;, &apos;-&apos; or a space character</source>
         <translation>Deze dienen twee getallen te bevatten, gescheiden door ‘:’, ‘-’ of een spatie</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="78"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="84"/>
         <source>Must end with &apos;]&apos; or &apos;)&apos;</source>
         <translation>Deze dienen te eindigen op ‘[’ of ‘(’</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="179"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="186"/>
         <source>Insert</source>
         <translation>Invoegen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="298"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="305"/>
         <source>Do you really want to start %0 downloads?</source>
         <translation>Weet je zeker dat je %0 downloads wilt starten?</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="307"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="314"/>
         <source>Don&apos;t ask again, always download batch</source>
         <translation>Niet meer vragen - altijd reeks downloaden</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="291"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="302"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="298"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="309"/>
         <source>Download Batch</source>
         <translation>Reeks downloaden</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="292"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="299"/>
         <source>It seems that you are using some batch descriptors.</source>
         <translation>Het lijkt er op dat je reeksomschrijvingen gebruikt.</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="303"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="310"/>
         <source>Single Download</source>
         <translation>Losse download</translation>
     </message>
@@ -253,40 +253,40 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
         <translation>Foutmelding: de url is ongeldig:</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="219"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="213"/>
         <source>Connecting...</source>
         <translation>Bezig met verbinden…</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="230"/>
-        <location filename="../dialogs/addcontentdialog.cpp" line="265"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="224"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="259"/>
         <source>Downloading...</source>
         <translation>Bezig met downloaden…</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="287"/>
-        <location filename="../dialogs/addcontentdialog.cpp" line="327"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="281"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="321"/>
         <source>Collecting links...</source>
         <translation>Bezig met verzamelen van links…</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="295"/>
-        <location filename="../dialogs/addcontentdialog.cpp" line="339"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="289"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="333"/>
         <source>Finished</source>
         <translation>Voltooid</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="359"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="353"/>
         <source>The wizard can&apos;t connect to URL:</source>
         <translation>Er kan geen verbinding worden gemaakt met de url:</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="392"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="386"/>
         <source>After selecting links, click on Start!</source>
         <translation>Selecteer links en klik op ‘Starten!’</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="395"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="389"/>
         <source>Selected links: %0 of %1</source>
         <translation>Geselecteerde links: %0 van %1</translation>
     </message>
@@ -310,7 +310,7 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="57"/>
-        <location filename="../dialogs/addstreamdialog.cpp" line="229"/>
+        <location filename="../dialogs/addstreamdialog.cpp" line="231"/>
         <source>Continue</source>
         <translation>Volgende</translation>
     </message>
@@ -335,12 +335,12 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.cpp" line="43"/>
+        <location filename="../dialogs/addstreamdialog.cpp" line="45"/>
         <source>Add Stream</source>
         <translation>Stream toevoegen</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.cpp" line="229"/>
+        <location filename="../dialogs/addstreamdialog.cpp" line="231"/>
         <source>Stop</source>
         <translation>Afbreken</translation>
     </message>
@@ -388,7 +388,7 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../dialogs/addtorrentdialog.cpp" line="47"/>
+        <location filename="../dialogs/addtorrentdialog.cpp" line="49"/>
         <source>Add Magnet Links and Torrent</source>
         <translation>Torrents en magnetlinks toevoegen</translation>
     </message>
@@ -426,7 +426,7 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../dialogs/addurlsdialog.cpp" line="46"/>
+        <location filename="../dialogs/addurlsdialog.cpp" line="48"/>
         <source>Add Urls</source>
         <translation>URL&apos;s toevoegen</translation>
     </message>
@@ -445,19 +445,19 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="30"/>
-        <location filename="../widgets/advancedsettingswidget.cpp" line="362"/>
+        <location filename="../widgets/advancedsettingswidget.cpp" line="353"/>
         <source>Default</source>
         <translation>Standaard</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="37"/>
-        <location filename="../widgets/advancedsettingswidget.cpp" line="363"/>
+        <location filename="../widgets/advancedsettingswidget.cpp" line="354"/>
         <source>Minimize Memory Usage</source>
         <translation>Geheugengebruik beperken</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="44"/>
-        <location filename="../widgets/advancedsettingswidget.cpp" line="364"/>
+        <location filename="../widgets/advancedsettingswidget.cpp" line="355"/>
         <source>High Performance Seed</source>
         <translation>Seeden met hoge prioriteit</translation>
     </message>
@@ -487,27 +487,27 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
         <translation>Alleen aangepaste waarden tonen</translation>
     </message>
     <message>
-        <location filename="../widgets/advancedsettingswidget.cpp" line="151"/>
+        <location filename="../widgets/advancedsettingswidget.cpp" line="147"/>
         <source>Edit</source>
         <translation>Aanpassen</translation>
     </message>
     <message>
-        <location filename="../widgets/advancedsettingswidget.cpp" line="154"/>
+        <location filename="../widgets/advancedsettingswidget.cpp" line="150"/>
         <source>Reset to Default</source>
         <translation>Standaardwaarden herstellen</translation>
     </message>
     <message>
-        <location filename="../widgets/advancedsettingswidget.cpp" line="362"/>
+        <location filename="../widgets/advancedsettingswidget.cpp" line="353"/>
         <source>Settings optimized for a regular bittorrent client running on a desktop system.</source>
         <translation>Instellingen voor het draaien van een reguliere bittorrentclient op een desktop.</translation>
     </message>
     <message>
-        <location filename="../widgets/advancedsettingswidget.cpp" line="363"/>
+        <location filename="../widgets/advancedsettingswidget.cpp" line="354"/>
         <source>Settings intended for embedded devices. It will significantly reduce memory usage.</source>
         <translation>Instellingen voor embedded-apparaten. Het geheugengebruik wordt hierdoor significant beperkt.</translation>
     </message>
     <message>
-        <location filename="../widgets/advancedsettingswidget.cpp" line="364"/>
+        <location filename="../widgets/advancedsettingswidget.cpp" line="355"/>
         <source>Settings optimized for a seed box, serving many peers and that doesn&apos;t do any downloading.</source>
         <translation>Instellingen voor een seed-computer, waardoor vele peers kunnen worden aangesproken zonder dat er iets wordt gedownload.</translation>
     </message>
@@ -598,32 +598,32 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
 <context>
     <name>CheckableTableView</name>
     <message>
-        <location filename="../widgets/checkabletableview.cpp" line="127"/>
+        <location filename="../widgets/checkabletableview.cpp" line="122"/>
         <source>Check Selected Items</source>
         <translation>Selectie aanvinken</translation>
     </message>
     <message>
-        <location filename="../widgets/checkabletableview.cpp" line="131"/>
+        <location filename="../widgets/checkabletableview.cpp" line="126"/>
         <source>Uncheck Selected Items</source>
         <translation>Selectie uitvinken</translation>
     </message>
     <message>
-        <location filename="../widgets/checkabletableview.cpp" line="135"/>
+        <location filename="../widgets/checkabletableview.cpp" line="130"/>
         <source>Toggle Check for Selected Items</source>
         <translation>Selectie controleren aan/uit</translation>
     </message>
     <message>
-        <location filename="../widgets/checkabletableview.cpp" line="139"/>
+        <location filename="../widgets/checkabletableview.cpp" line="134"/>
         <source>Select All</source>
         <translation>Alles selecteren</translation>
     </message>
     <message>
-        <location filename="../widgets/checkabletableview.cpp" line="144"/>
+        <location filename="../widgets/checkabletableview.cpp" line="139"/>
         <source>Select Filtered</source>
         <translation>Gefilterde selecteren</translation>
     </message>
     <message>
-        <location filename="../widgets/checkabletableview.cpp" line="149"/>
+        <location filename="../widgets/checkabletableview.cpp" line="144"/>
         <source>Invert Selection</source>
         <translation>Selectie omkeren</translation>
     </message>
@@ -716,37 +716,37 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
         <translation>Bibliotheken en bouwversie</translation>
     </message>
     <message>
-        <location filename="../dialogs/compilerdialog.cpp" line="42"/>
+        <location filename="../dialogs/compilerdialog.cpp" line="43"/>
         <source>Info</source>
         <translation>Informatie</translation>
     </message>
     <message>
-        <location filename="../dialogs/compilerdialog.cpp" line="49"/>
+        <location filename="../dialogs/compilerdialog.cpp" line="50"/>
         <source>%0 %1 version %2</source>
         <translation>%0 %1 versie %2</translation>
     </message>
     <message>
-        <location filename="../dialogs/compilerdialog.cpp" line="69"/>
+        <location filename="../dialogs/compilerdialog.cpp" line="70"/>
         <source>%0 with Qt WebEngine based on Chromium %1</source>
         <translation>%0 met Qt WebEngine, gebaseerd op Chromium %1</translation>
     </message>
     <message>
-        <location filename="../dialogs/compilerdialog.cpp" line="78"/>
+        <location filename="../dialogs/compilerdialog.cpp" line="79"/>
         <source>Reading...</source>
         <translation>Bezig met uitlezen…</translation>
     </message>
     <message>
-        <location filename="../dialogs/compilerdialog.cpp" line="84"/>
+        <location filename="../dialogs/compilerdialog.cpp" line="85"/>
         <source>This application can&apos;t find SSL or a compatible version (SSL %0), the application will fail to download with secure sockets (HTTPS, FTPS).</source>
         <translation>SSL of een compatibele versie (SSL %0) is niet aangetroffen. Er kan niet worden gedownload via beveiligde sockets (HTTPS, FTPS).</translation>
     </message>
     <message>
-        <location filename="../dialogs/compilerdialog.cpp" line="89"/>
+        <location filename="../dialogs/compilerdialog.cpp" line="90"/>
         <source>not found</source>
         <translation>niet aangetroffen</translation>
     </message>
     <message>
-        <location filename="../dialogs/compilerdialog.cpp" line="99"/>
+        <location filename="../dialogs/compilerdialog.cpp" line="100"/>
         <source>This application supports SSL.</source>
         <translation>Dit programma heeft ondersteuning voor ssl.</translation>
     </message>
@@ -754,7 +754,7 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
 <context>
     <name>DownloadEngine</name>
     <message>
-        <location filename="../core/downloadengine.cpp" line="344"/>
+        <location filename="../core/downloadengine.cpp" line="347"/>
         <source>... (%0 others)</source>
         <translation>… (%0 anderen)</translation>
     </message>
@@ -762,172 +762,172 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
 <context>
     <name>DownloadItem</name>
     <message>
-        <location filename="../core/downloaditem.cpp" line="266"/>
+        <location filename="../core/downloaditem.cpp" line="269"/>
         <source>No Error</source>
         <translation>Geen foutmelding</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="269"/>
+        <location filename="../core/downloaditem.cpp" line="272"/>
         <source>3xx Redirect connection refused</source>
         <translation>3xx: doorverwijzing geweigerd</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="270"/>
+        <location filename="../core/downloaditem.cpp" line="273"/>
         <source>3xx Redirect remote host closed</source>
         <translation>3xx: doorverwijzing externe host gesloten</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="271"/>
+        <location filename="../core/downloaditem.cpp" line="274"/>
         <source>3xx Redirect host not found</source>
         <translation>3xx: doorverwijzingshost niet gevonden</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="272"/>
+        <location filename="../core/downloaditem.cpp" line="275"/>
         <source>3xx Redirect timeout</source>
         <translation>3xx: doorverwijzingstime-out opgetreden</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="273"/>
+        <location filename="../core/downloaditem.cpp" line="276"/>
         <source>3xx Redirect operation canceled</source>
         <translation>3xx: doorverwijzingshandeling afgebroken</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="274"/>
+        <location filename="../core/downloaditem.cpp" line="277"/>
         <source>3xx Redirect SSL handshake failed</source>
         <translation>3xx: doorverwijzing ssl-verbinding mislukt</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="275"/>
+        <location filename="../core/downloaditem.cpp" line="278"/>
         <source>3xx Redirect temporary network failure</source>
         <translation>3xx: tijdelijke netwerkfout tijdens doorverwijzing</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="276"/>
+        <location filename="../core/downloaditem.cpp" line="279"/>
         <source>3xx Redirect network session failed</source>
         <translation>3xx: doorverwijzingsnetwerksessie mislukt</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="277"/>
+        <location filename="../core/downloaditem.cpp" line="280"/>
         <source>3xx Redirect background request not allowed</source>
         <translation>3xx: doorverwijzingsachtergrondverzoek niet toegestaan</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="279"/>
+        <location filename="../core/downloaditem.cpp" line="281"/>
         <source>3xx Too many redirects</source>
         <translation>3xx: te veel doorverwijzingen</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="280"/>
+        <location filename="../core/downloaditem.cpp" line="282"/>
         <source>3xx Insecure redirect</source>
         <translation>3xx: onbeveiligde doorverwijzing</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="282"/>
+        <location filename="../core/downloaditem.cpp" line="283"/>
         <source>3xx Unknown redirect error</source>
         <translation>3xx: onbekende doorverwijzingsfout</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="285"/>
+        <location filename="../core/downloaditem.cpp" line="286"/>
         <source>5xx Proxy connection refused</source>
         <translation>5xx: proxyverbinding geweigerd</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="286"/>
+        <location filename="../core/downloaditem.cpp" line="287"/>
         <source>5xx Proxy connection closed</source>
         <translation>5xx: proxyverbinding gesloten</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="287"/>
+        <location filename="../core/downloaditem.cpp" line="288"/>
         <source>5xx Proxy not found</source>
         <translation>5xx: proxy niet aangetroffen</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="288"/>
+        <location filename="../core/downloaditem.cpp" line="289"/>
         <source>504 Proxy timeout error</source>
         <translation>504: proxy-time-outfout</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="289"/>
+        <location filename="../core/downloaditem.cpp" line="290"/>
         <source>407 Proxy authentication required</source>
         <translation>407: proxy-authenticatie vereist</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="290"/>
+        <location filename="../core/downloaditem.cpp" line="291"/>
         <source>5xx Unknown proxy error</source>
         <translation>5xx: onbekende proxyfout</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="293"/>
+        <location filename="../core/downloaditem.cpp" line="294"/>
         <source>403 Access denied</source>
         <translation>403: toegang geweigerd</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="294"/>
+        <location filename="../core/downloaditem.cpp" line="295"/>
         <source>405 Method not allowed</source>
         <translation>405: methode niet toegestaan</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="295"/>
+        <location filename="../core/downloaditem.cpp" line="296"/>
         <source>404 Not found</source>
         <translation>404: niet gevonden</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="296"/>
+        <location filename="../core/downloaditem.cpp" line="297"/>
         <source>401 Authorization required</source>
         <translation>401: authenticatie vereist</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="297"/>
+        <location filename="../core/downloaditem.cpp" line="298"/>
         <source>4xx Resend error</source>
         <translation>4xx: verstuurfout</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="298"/>
+        <location filename="../core/downloaditem.cpp" line="299"/>
         <source>409 Conflict</source>
         <translation>409: conflict</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="299"/>
+        <location filename="../core/downloaditem.cpp" line="300"/>
         <source>410 Content no longer available</source>
         <translation>410: inhoud niet meer beschikbaar</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="300"/>
+        <location filename="../core/downloaditem.cpp" line="301"/>
         <source>4xx Unknown content error</source>
         <translation>4xx: onbekende inhoudsfout</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="303"/>
+        <location filename="../core/downloaditem.cpp" line="304"/>
         <source>4xx Unknown protocol error</source>
         <translation>4xx: onbekende protocolfout</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="304"/>
+        <location filename="../core/downloaditem.cpp" line="305"/>
         <source>400 Bad request</source>
         <translation>400: onjuist verzoek</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="305"/>
+        <location filename="../core/downloaditem.cpp" line="306"/>
         <source>4xx Protocol failure</source>
         <translation>4xx: protocolfout</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="308"/>
+        <location filename="../core/downloaditem.cpp" line="309"/>
         <source>500 Internal server error</source>
         <translation>500: interne serverfout</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="309"/>
+        <location filename="../core/downloaditem.cpp" line="310"/>
         <source>501 Server does not support this functionality</source>
         <translation>501: de server heeft geen ondersteuning voor deze functie</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="310"/>
+        <location filename="../core/downloaditem.cpp" line="311"/>
         <source>503 Service unavailable</source>
         <translation>503: dienst niet beschikbaar</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="311"/>
+        <location filename="../core/downloaditem.cpp" line="312"/>
         <source>5xx Unknown serveur error</source>
         <translation>5xx: onbekende serverfout</translation>
     </message>
@@ -935,37 +935,37 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
 <context>
     <name>DownloadQueueView</name>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="614"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="587"/>
         <source>Download/Name</source>
         <translation>Download/Naam</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="615"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="588"/>
         <source>Domain</source>
         <translation>Domein</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="616"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="589"/>
         <source>Progress</source>
         <translation>Voortgang</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="617"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="590"/>
         <source>Percent</source>
         <translation>Procent</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="618"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="591"/>
         <source>Size</source>
         <translation>Grootte</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="619"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="592"/>
         <source>Est. time</source>
         <translation>Gesch. tijdsduur</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="620"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="593"/>
         <source>Speed</source>
         <translation>Snelheid</translation>
     </message>
@@ -1197,72 +1197,72 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
 <context>
     <name>Format</name>
     <message>
-        <location filename="../core/format.cpp" line="74"/>
+        <location filename="../core/format.cpp" line="75"/>
         <source>Unknown</source>
         <translation>Onbekend</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="77"/>
+        <location filename="../core/format.cpp" line="78"/>
         <source>0 byte</source>
         <translation>0 bytes</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="80"/>
+        <location filename="../core/format.cpp" line="81"/>
         <source>1 byte</source>
         <translation>1 byte</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="83"/>
+        <location filename="../core/format.cpp" line="84"/>
         <source>%0 bytes</source>
         <translation>%0 bytes</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="87"/>
+        <location filename="../core/format.cpp" line="88"/>
         <source>%0 KB</source>
         <translation>%0 KB</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="91"/>
+        <location filename="../core/format.cpp" line="92"/>
         <source>%0 MB</source>
         <translation>%0 MB</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="95"/>
+        <location filename="../core/format.cpp" line="96"/>
         <source>%0 GB</source>
         <translation>%0 GB</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="98"/>
+        <location filename="../core/format.cpp" line="99"/>
         <source>%0 TB</source>
         <translation>%0 TB</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="124"/>
+        <location filename="../core/format.cpp" line="125"/>
         <source>Yes</source>
         <translation>Ja</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="124"/>
+        <location filename="../core/format.cpp" line="125"/>
         <source>No</source>
         <translation>Nee</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="139"/>
+        <location filename="../core/format.cpp" line="140"/>
         <source>%0 KB/s</source>
         <translation>%0 KB/s</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="143"/>
+        <location filename="../core/format.cpp" line="144"/>
         <source>%0 MB/s</source>
         <translation>%0 MB/s</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="147"/>
+        <location filename="../core/format.cpp" line="148"/>
         <source>%0 GB/s</source>
         <translation>%0 GB/s</translation>
     </message>
     <message>
-        <location filename="../core/format.cpp" line="150"/>
+        <location filename="../core/format.cpp" line="151"/>
         <source>%0 TB/s</source>
         <translation>%0 TB/s</translation>
     </message>
@@ -1392,32 +1392,32 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <translation>Afbeeldingen en media</translation>
     </message>
     <message>
-        <location filename="../widgets/linkwidget.cpp" line="226"/>
+        <location filename="../widgets/linkwidget.cpp" line="225"/>
         <source>Links (%0)</source>
         <translation>Links (%0)</translation>
     </message>
     <message>
-        <location filename="../widgets/linkwidget.cpp" line="227"/>
+        <location filename="../widgets/linkwidget.cpp" line="226"/>
         <source>Pictures and Media (%0)</source>
         <translation>Afbeeldingen en media (%0)</translation>
     </message>
     <message>
-        <location filename="../widgets/linkwidget.cpp" line="237"/>
+        <location filename="../widgets/linkwidget.cpp" line="236"/>
         <source>Mask...</source>
         <translation>Masker…</translation>
     </message>
     <message>
-        <location filename="../widgets/linkwidget.cpp" line="241"/>
+        <location filename="../widgets/linkwidget.cpp" line="240"/>
         <source>Copy Links</source>
         <translation>Links kopiëren</translation>
     </message>
     <message>
-        <location filename="../widgets/linkwidget.cpp" line="309"/>
+        <location filename="../widgets/linkwidget.cpp" line="307"/>
         <source>Open %0</source>
         <translation>%0 openen</translation>
     </message>
     <message>
-        <location filename="../widgets/linkwidget.cpp" line="311"/>
+        <location filename="../widgets/linkwidget.cpp" line="309"/>
         <source>Open %0 Links</source>
         <translation>Open %0 links</translation>
     </message>
@@ -1450,591 +1450,570 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <translation>&amp;Hulpmiddelen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="102"/>
+        <location filename="../mainwindow.ui" line="101"/>
         <source>&amp;View</source>
         <translation>&amp;Beeld</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="106"/>
-        <location filename="../mainwindow.cpp" line="392"/>
-        <source>Other</source>
-        <translation>Overig</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="129"/>
+        <location filename="../mainwindow.ui" line="122"/>
         <source>&amp;Queue</source>
         <translation>&amp;Wachtrij</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="142"/>
+        <location filename="../mainwindow.ui" line="135"/>
         <source>&amp;Edit</source>
         <translation>B&amp;ewerken</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="165"/>
+        <location filename="../mainwindow.ui" line="157"/>
         <source>File toolbar</source>
         <translation>Bestandswerkbalk</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="193"/>
+        <location filename="../mainwindow.ui" line="185"/>
         <source>View toolbar</source>
         <translation>Weergavewerkbalk</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="226"/>
+        <location filename="../mainwindow.ui" line="218"/>
         <source>&amp;Quit</source>
         <translation>&amp;Afsluiten</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="231"/>
+        <location filename="../mainwindow.ui" line="223"/>
         <source>About Qt...</source>
         <translation>Over Qt…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="240"/>
+        <location filename="../mainwindow.ui" line="232"/>
         <source>About ArrowDL...</source>
         <translation>Over ArrowDL…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="249"/>
+        <location filename="../mainwindow.ui" line="241"/>
         <source>Preferences...</source>
         <translation>Instellingen…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="252"/>
+        <location filename="../mainwindow.ui" line="244"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="261"/>
+        <location filename="../mainwindow.ui" line="253"/>
         <source>Getting Started...</source>
         <translation>Aan de slag…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="270"/>
+        <location filename="../mainwindow.ui" line="262"/>
         <source>Download Content...</source>
         <translation>Inhoud downloaden…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="273"/>
+        <location filename="../mainwindow.ui" line="265"/>
         <source>Download Web Page Content</source>
         <translation>Download website-inhoud</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="276"/>
+        <location filename="../mainwindow.ui" line="268"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="285"/>
+        <location filename="../mainwindow.ui" line="277"/>
         <source>Download Batch...</source>
         <translation>Reeks downloaden…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="288"/>
+        <location filename="../mainwindow.ui" line="280"/>
         <source>Download Single File, Batch of Files with Regular Expression</source>
         <translation>Download één of meerdere bestanden, incl. reguliere uitdrukkingen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="291"/>
+        <location filename="../mainwindow.ui" line="283"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="300"/>
+        <location filename="../mainwindow.ui" line="292"/>
         <source>Download Stream...</source>
         <translation>Stream downloaden…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="303"/>
+        <location filename="../mainwindow.ui" line="295"/>
         <source>Download Video/Audio Stream</source>
         <translation>Download video-/audiostreams</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="312"/>
+        <location filename="../mainwindow.ui" line="304"/>
         <source>Download Torrent...</source>
         <translation>Torrent downloaden…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="315"/>
+        <location filename="../mainwindow.ui" line="307"/>
         <source>Download Magnet Links and Torrent</source>
         <translation>Download torrents en magnetlinks</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="324"/>
+        <location filename="../mainwindow.ui" line="316"/>
         <source>Download Urls...</source>
         <translation>URL&apos;s downloaden…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="327"/>
+        <location filename="../mainwindow.ui" line="319"/>
         <source>Download a copy-pasted list of Urls</source>
         <translation>Download een lijst met url&apos;s</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="336"/>
-        <location filename="../mainwindow.cpp" line="864"/>
+        <location filename="../mainwindow.ui" line="328"/>
+        <location filename="../mainwindow.cpp" line="833"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="345"/>
+        <location filename="../mainwindow.ui" line="337"/>
         <source>Pause</source>
         <translation>Onderbreken</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="348"/>
+        <location filename="../mainwindow.ui" line="340"/>
         <source>Pause (completed torrent: stop seeding)</source>
         <translation>Onderbreken (afgeronde torrent: stoppen met seeden)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="357"/>
+        <location filename="../mainwindow.ui" line="349"/>
         <source>Up</source>
         <translation>Omhoog</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="360"/>
+        <location filename="../mainwindow.ui" line="352"/>
         <source>Alt+PgUp</source>
         <translation>Alt+PgUp</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="369"/>
+        <location filename="../mainwindow.ui" line="361"/>
         <source>Top</source>
         <translation>Omlaag</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="372"/>
+        <location filename="../mainwindow.ui" line="364"/>
         <source>Alt+Home</source>
         <translation>Alt+Home</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="381"/>
+        <location filename="../mainwindow.ui" line="373"/>
         <source>Down</source>
         <translation>Omlaag</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="384"/>
+        <location filename="../mainwindow.ui" line="376"/>
         <source>Alt+PgDown</source>
         <translation>Alt+PgDown</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="393"/>
+        <location filename="../mainwindow.ui" line="385"/>
         <source>Bottom</source>
         <translation>Naar onderkant</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="396"/>
+        <location filename="../mainwindow.ui" line="388"/>
         <source>Alt+End</source>
         <translation>Alt+End</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="405"/>
+        <location filename="../mainwindow.ui" line="397"/>
         <source>Resume</source>
         <translation>Hervatten</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="414"/>
+        <location filename="../mainwindow.ui" line="406"/>
         <source>Download Information</source>
         <translation>Downloadinformatie</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="417"/>
+        <location filename="../mainwindow.ui" line="409"/>
         <source>Alt+I</source>
         <translation>Alt+I</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="426"/>
+        <location filename="../mainwindow.ui" line="418"/>
         <source>Open File</source>
         <translation>Bestand openen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="435"/>
+        <location filename="../mainwindow.ui" line="427"/>
         <source>Rename File</source>
         <translation>Bestandsnaam wijzigen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="438"/>
+        <location filename="../mainwindow.ui" line="430"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="447"/>
+        <location filename="../mainwindow.ui" line="439"/>
         <source>Delete File(s)</source>
         <translation>Bestand(en) verwijderen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="450"/>
-        <location filename="../mainwindow.ui" line="558"/>
+        <location filename="../mainwindow.ui" line="442"/>
+        <location filename="../mainwindow.ui" line="541"/>
         <source>Ctrl+Del</source>
         <translation>Ctrl+Del</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="459"/>
+        <location filename="../mainwindow.ui" line="451"/>
         <source>Open Directory</source>
         <translation>Map openen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="468"/>
+        <location filename="../mainwindow.ui" line="460"/>
         <source>Select All</source>
         <translation>Alles selecteren</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="471"/>
+        <location filename="../mainwindow.ui" line="463"/>
         <source>Ctrl+A</source>
         <translation>Ctrl+A</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="480"/>
+        <location filename="../mainwindow.ui" line="472"/>
         <source>Invert Selection</source>
         <translation>Selectie omkeren</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="483"/>
+        <location filename="../mainwindow.ui" line="475"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="492"/>
-        <source>Manage Download Mirror Locations...</source>
-        <translation>Downloadserverlocaties beheren…</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="501"/>
+        <location filename="../mainwindow.ui" line="484"/>
         <source>One More Segment</source>
         <translation>Eén extra onderdeel</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="510"/>
+        <location filename="../mainwindow.ui" line="493"/>
         <source>One Fewer Segment</source>
         <translation>Eén onderdeel minder</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="519"/>
+        <location filename="../mainwindow.ui" line="502"/>
         <source>Force Start</source>
         <translation>Gedwongen starten</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="522"/>
+        <location filename="../mainwindow.ui" line="505"/>
         <source>Ctrl+Shift+R</source>
         <translation>Ctrl+Shift+R</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="531"/>
+        <location filename="../mainwindow.ui" line="514"/>
         <source>Import From File...</source>
         <translation>Importeren uit bestand…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="534"/>
+        <location filename="../mainwindow.ui" line="517"/>
         <source>Ctrl+Shift+O</source>
         <translation>Ctrl+Shift+O</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="543"/>
+        <location filename="../mainwindow.ui" line="526"/>
         <source>Export &amp;Selected To File...</source>
         <translation>&amp;Selectie exporteren naar bestand…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="546"/>
+        <location filename="../mainwindow.ui" line="529"/>
         <source>Ctrl+Shift+S, Ctrl+S</source>
         <translation>Ctrl+Shift+S, Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="555"/>
+        <location filename="../mainwindow.ui" line="538"/>
         <source>Remove Completed</source>
         <translation>Voltooide downloads wissen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="567"/>
+        <location filename="../mainwindow.ui" line="550"/>
         <source>Remove Selected</source>
         <translation>Selectie wissen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="570"/>
+        <location filename="../mainwindow.ui" line="553"/>
         <source>Del</source>
         <translation>Del</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="579"/>
+        <location filename="../mainwindow.ui" line="562"/>
         <source>Remove All</source>
         <translation>Alles wissen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="582"/>
+        <location filename="../mainwindow.ui" line="565"/>
         <source>Ctrl+Shift+Del</source>
         <translation>Ctrl+Shift+Del</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="591"/>
+        <location filename="../mainwindow.ui" line="574"/>
         <source>Remove Waiting</source>
         <translation>Downloads in wachtrij wissen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="600"/>
-        <source>Remove Duplicates</source>
-        <translation>Duplicaten wissen</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="609"/>
+        <location filename="../mainwindow.ui" line="583"/>
         <source>Remove Running</source>
         <translation>Actieve downloads wissen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="618"/>
+        <location filename="../mainwindow.ui" line="592"/>
         <source>Remove Paused</source>
         <translation>Onderbroken downloads wissen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="627"/>
+        <location filename="../mainwindow.ui" line="601"/>
         <source>Remove Failed</source>
         <translation>Mislukte downloads wissen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="636"/>
-        <source>Add Domain Specific Limit...</source>
-        <translation>Domein-specifieke beperking instellen…</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="645"/>
+        <location filename="../mainwindow.ui" line="610"/>
         <source>Speed Limit...</source>
         <translation>Snelheidsbeperking…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="654"/>
+        <location filename="../mainwindow.ui" line="619"/>
         <source>Select None</source>
         <translation>Niets selecteren</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="663"/>
+        <location filename="../mainwindow.ui" line="628"/>
         <source>Select Completed</source>
         <translation>Voltooide selecteren</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="668"/>
+        <location filename="../mainwindow.ui" line="633"/>
         <source>Copy</source>
         <translation>Kopiëren</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="671"/>
+        <location filename="../mainwindow.ui" line="636"/>
         <source>Copy Selection to Clipboard</source>
         <translation>Selectie kopiëren naar klembord</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="674"/>
+        <location filename="../mainwindow.ui" line="639"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="679"/>
+        <location filename="../mainwindow.ui" line="644"/>
         <source>Compiler Info...</source>
         <translation>Compilatie-informatie…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="684"/>
+        <location filename="../mainwindow.ui" line="649"/>
         <source>Check for updates...</source>
         <translation>Controleren op updates…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="689"/>
+        <location filename="../mainwindow.ui" line="654"/>
         <source>Tutorial</source>
         <translation>Rondleiding</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="694"/>
+        <location filename="../mainwindow.ui" line="659"/>
         <source>About YT-DLP...</source>
         <translation>Over YT-DLP…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="348"/>
-        <location filename="../mainwindow.cpp" line="1054"/>
+        <location filename="../mainwindow.cpp" line="335"/>
+        <location filename="../mainwindow.cpp" line="1018"/>
         <source>About %0</source>
         <translation>Over %0</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="352"/>
+        <location filename="../mainwindow.cpp" line="339"/>
         <source>About Qt</source>
         <translation>Over Qt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="411"/>
+        <location filename="../mainwindow.cpp" line="396"/>
         <source>Advanced</source>
         <translation>Geavanceerd</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="637"/>
-        <location filename="../mainwindow.cpp" line="684"/>
-        <location filename="../mainwindow.cpp" line="1424"/>
-        <location filename="../mainwindow.cpp" line="1443"/>
+        <location filename="../mainwindow.cpp" line="612"/>
+        <location filename="../mainwindow.cpp" line="659"/>
+        <location filename="../mainwindow.cpp" line="1382"/>
+        <location filename="../mainwindow.cpp" line="1401"/>
         <source>Error</source>
         <translation>Foutmelding</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="663"/>
-        <location filename="../mainwindow.cpp" line="698"/>
+        <location filename="../mainwindow.cpp" line="638"/>
+        <location filename="../mainwindow.cpp" line="673"/>
         <source>Remove Downloads</source>
         <translation>Downloads wissen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="664"/>
-        <location filename="../mainwindow.cpp" line="699"/>
+        <location filename="../mainwindow.cpp" line="639"/>
+        <location filename="../mainwindow.cpp" line="674"/>
         <source>Are you sure to remove %0 downloads?</source>
         <translation>Weet je zeker dat je %0 downloads wilt wissen?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="666"/>
+        <location filename="../mainwindow.cpp" line="641"/>
         <source>Delete</source>
         <translation>Wissen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="639"/>
+        <location filename="../mainwindow.cpp" line="614"/>
         <source>File not found</source>
         <translation>Het bestand is niet aangetroffen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="686"/>
+        <location filename="../mainwindow.cpp" line="661"/>
         <source>Destination directory not found:</source>
         <translation>De bestemming is niet aangetroffen:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="705"/>
+        <location filename="../mainwindow.cpp" line="680"/>
         <source>Don&apos;t ask again</source>
         <translation>Niet meer vragen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="721"/>
+        <location filename="../mainwindow.cpp" line="703"/>
         <source>ALL</source>
         <translation>ALLES</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="728"/>
+        <location filename="../mainwindow.cpp" line="710"/>
         <source>selected</source>
         <translation>selectie</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="740"/>
+        <location filename="../mainwindow.cpp" line="696"/>
         <source>completed</source>
         <translation>voltooid</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="747"/>
+        <location filename="../mainwindow.cpp" line="738"/>
         <source>waiting</source>
         <translation>wachtend</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="754"/>
+        <location filename="../mainwindow.cpp" line="731"/>
         <source>paused</source>
         <translation>onderbroken</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="761"/>
+        <location filename="../mainwindow.cpp" line="717"/>
         <source>failed</source>
         <translation>mislukt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="769"/>
+        <location filename="../mainwindow.cpp" line="724"/>
         <source>running</source>
         <translation>actief</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="857"/>
+        <location filename="../mainwindow.cpp" line="826"/>
         <source>Website URL</source>
         <translation>Website-url</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="859"/>
+        <location filename="../mainwindow.cpp" line="828"/>
         <source>URL of the HTML page:</source>
         <translation>Url van de html-pagina:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="860"/>
+        <location filename="../mainwindow.cpp" line="829"/>
         <source>(ex: %0)</source>
         <translation>(bijv.: %0)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1101"/>
+        <location filename="../mainwindow.cpp" line="1065"/>
         <source>The new name is already used or invalid.</source>
         <translation>De nieuwe naam is al in gebruik of bevat ongeldige tekens.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1104"/>
+        <location filename="../mainwindow.cpp" line="1068"/>
         <source>Can&apos;t rename &quot;%0&quot; as its initial name.</source>
         <translation>Naamswijziging mislukt: ‘%0’ is de oorspronkelijke naam.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1111"/>
+        <location filename="../mainwindow.cpp" line="1075"/>
         <source>Can&apos;t rename</source>
         <translation>Naamswijziging mislukt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1111"/>
+        <location filename="../mainwindow.cpp" line="1075"/>
         <source>as</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1423"/>
+        <location filename="../mainwindow.cpp" line="1381"/>
         <source>Can&apos;t save file.</source>
         <translation>Het bestand kan niet worden opgeslagen.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1426"/>
+        <location filename="../mainwindow.cpp" line="1384"/>
         <source>Can&apos;t save file %0:</source>
         <translation>%0 kan niet worden opgeslagen:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1442"/>
+        <location filename="../mainwindow.cpp" line="1400"/>
         <source>Can&apos;t load file.</source>
         <translation>Het bestand kan niet worden geladen.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1445"/>
+        <location filename="../mainwindow.cpp" line="1403"/>
         <source>Can&apos;t load file %0:</source>
         <translation>%0 kan niet worden geladen:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="863"/>
+        <location filename="../mainwindow.cpp" line="832"/>
         <source>Start!</source>
         <translation>Starten!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1112"/>
+        <location filename="../mainwindow.cpp" line="1076"/>
         <source>File Error</source>
         <translation>Bestandsfout</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1145"/>
+        <location filename="../mainwindow.cpp" line="1109"/>
         <source>Done: %0 Running: %1 Total: %2</source>
         <translation>Voltooid: %0 Actief: %1 Totaal: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1153"/>
+        <location filename="../mainwindow.cpp" line="1117"/>
         <source>%0 of %1 (%2), %3 running  %4 | Torrent: %5</source>
         <translation>%0 van %1 (%2), %3 actief  %4 | Torrent: %5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1159"/>
+        <location filename="../mainwindow.cpp" line="1123"/>
         <source>active</source>
         <translation>actief</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1159"/>
+        <location filename="../mainwindow.cpp" line="1123"/>
         <source>inactive</source>
         <translation>inactief</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1432"/>
+        <location filename="../mainwindow.cpp" line="1390"/>
         <source>File saved</source>
         <translation>Het bestand is opgeslagen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1451"/>
+        <location filename="../mainwindow.cpp" line="1409"/>
         <source>File loaded</source>
         <translation>Het bestand is geladen</translation>
     </message>
     <message>
-        <location filename="../mainwindow.h" line="179"/>
+        <location filename="../mainwindow.h" line="176"/>
         <source>Save As</source>
         <translation>Opslaan als</translation>
     </message>
     <message>
-        <location filename="../mainwindow.h" line="180"/>
+        <location filename="../mainwindow.h" line="177"/>
         <source>Open</source>
         <translation>Openen</translation>
     </message>
@@ -2042,42 +2021,42 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
 <context>
     <name>Mask</name>
     <message>
-        <location filename="../core/mask.cpp" line="272"/>
+        <location filename="../core/mask.cpp" line="264"/>
         <source>File name</source>
         <translation>Bestandsnaam</translation>
     </message>
     <message>
-        <location filename="../core/mask.cpp" line="273"/>
+        <location filename="../core/mask.cpp" line="265"/>
         <source>Extension</source>
         <translation>Extensie</translation>
     </message>
     <message>
-        <location filename="../core/mask.cpp" line="274"/>
+        <location filename="../core/mask.cpp" line="266"/>
         <source>Base URL</source>
         <translation>Basis-url</translation>
     </message>
     <message>
-        <location filename="../core/mask.cpp" line="275"/>
+        <location filename="../core/mask.cpp" line="267"/>
         <source>Full URL</source>
         <translation>Volledige url</translation>
     </message>
     <message>
-        <location filename="../core/mask.cpp" line="276"/>
+        <location filename="../core/mask.cpp" line="268"/>
         <source>Flat full URL</source>
         <translation>Volledige url (platte tekst)</translation>
     </message>
     <message>
-        <location filename="../core/mask.cpp" line="277"/>
+        <location filename="../core/mask.cpp" line="269"/>
         <source>URL subdirectories</source>
         <translation>Onderliggende url-mappen</translation>
     </message>
     <message>
-        <location filename="../core/mask.cpp" line="278"/>
+        <location filename="../core/mask.cpp" line="270"/>
         <source>Flat URL subdirectories</source>
         <translation>Onderliggende url-mappen (platte tekst)</translation>
     </message>
     <message>
-        <location filename="../core/mask.cpp" line="279"/>
+        <location filename="../core/mask.cpp" line="271"/>
         <source>Query string</source>
         <translation>Opvraagtekenreeks</translation>
     </message>
@@ -2102,17 +2081,17 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
 <context>
     <name>NetworkManager</name>
     <message>
-        <location filename="../core/networkmanager.cpp" line="64"/>
+        <location filename="../core/networkmanager.cpp" line="63"/>
         <source>(none)</source>
         <translation>(geen)</translation>
     </message>
     <message>
-        <location filename="../core/networkmanager.cpp" line="65"/>
+        <location filename="../core/networkmanager.cpp" line="64"/>
         <source>SOCKS5</source>
         <translation>SOCKS5</translation>
     </message>
     <message>
-        <location filename="../core/networkmanager.cpp" line="66"/>
+        <location filename="../core/networkmanager.cpp" line="65"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
@@ -2126,17 +2105,17 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <translation>Bladeren…</translation>
     </message>
     <message>
-        <location filename="../widgets/pathwidget.cpp" line="141"/>
+        <location filename="../widgets/pathwidget.cpp" line="139"/>
         <source>All Files (*);;%0 (*%1)</source>
         <translation>Alle bestanden (*);;%0 (*%1)</translation>
     </message>
     <message>
-        <location filename="../widgets/pathwidget.cpp" line="142"/>
+        <location filename="../widgets/pathwidget.cpp" line="140"/>
         <source>Please select a file</source>
         <translation>Kies een bestand</translation>
     </message>
     <message>
-        <location filename="../widgets/pathwidget.cpp" line="147"/>
+        <location filename="../widgets/pathwidget.cpp" line="145"/>
         <source>Please select a directory</source>
         <translation>Kies een map</translation>
     </message>
@@ -2770,97 +2749,97 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <translation>%0 kan niet worden geladen</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1469"/>
+        <location filename="../core/stream.cpp" line="1412"/>
         <source>Video %0 x %1%2%3</source>
         <translation>Video %0 x %1%2%3</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1476"/>
+        <location filename="../core/stream.cpp" line="1419"/>
         <source>[%0] %1 x %2 (%3 fps) @ %4 KBit/s, codec: %5</source>
         <translation>[%0] %1 x %2 (%3 fps) @ %4 KBit/s - codec: %5</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1485"/>
+        <location filename="../core/stream.cpp" line="1428"/>
         <source>[%0] %1 Hz @ %2 KBit/s, codec: %3</source>
         <translation>[%0] %1 Hz @ %2 KBit/s - codec: %3</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="235"/>
+        <location filename="../core/torrentmessage.cpp" line="155"/>
         <source>ignore</source>
         <translation>Negeren</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="236"/>
+        <location filename="../core/torrentmessage.cpp" line="156"/>
         <source>low</source>
         <translation>Laag</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="237"/>
+        <location filename="../core/torrentmessage.cpp" line="157"/>
         <source>high</source>
         <translation>Hoog</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="238"/>
+        <location filename="../core/torrentmessage.cpp" line="158"/>
         <source>normal</source>
         <translation>Normaal</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="451"/>
+        <location filename="../core/torrentmessage.cpp" line="322"/>
         <source>.torrent file</source>
         <translation>.torrent-bestand</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="452"/>
+        <location filename="../core/torrentmessage.cpp" line="323"/>
         <source>program settings</source>
         <translation>Programma-instellingen</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="453"/>
+        <location filename="../core/torrentmessage.cpp" line="324"/>
         <source>magnet link</source>
         <translation>Magnetlink</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="454"/>
+        <location filename="../core/torrentmessage.cpp" line="325"/>
         <source>tracker exchange</source>
         <translation>Trackeruitwisseling</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="455"/>
+        <location filename="../core/torrentmessage.cpp" line="326"/>
         <source>no source</source>
         <translation>Geen bron</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="512"/>
+        <location filename="../core/torrentmessage.cpp" line="336"/>
         <source>Stopped</source>
         <translation>Afgebroken</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="513"/>
+        <location filename="../core/torrentmessage.cpp" line="337"/>
         <source>Checking Files...</source>
         <translation>Bezig met controleren…</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="514"/>
+        <location filename="../core/torrentmessage.cpp" line="338"/>
         <source>Downloading Metadata...</source>
         <translation>Bezig met ophalen van metagegevens…</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="515"/>
+        <location filename="../core/torrentmessage.cpp" line="339"/>
         <source>Downloading...</source>
         <translation>Bezig met downloaden…</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="516"/>
+        <location filename="../core/torrentmessage.cpp" line="340"/>
         <source>Finished</source>
         <translation>Voltooid</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="517"/>
+        <location filename="../core/torrentmessage.cpp" line="341"/>
         <source>Seeding...</source>
         <translation>Bezig met seeden…</translation>
     </message>
     <message>
-        <location filename="../core/torrentmessage.h" line="518"/>
+        <location filename="../core/torrentmessage.cpp" line="342"/>
         <source>Checking Resume Data...</source>
         <translation>Bezig met controleren van herstelgegevens…</translation>
     </message>
@@ -2880,57 +2859,57 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <translation>Torrentbestanden</translation>
     </message>
     <message>
-        <location filename="../core/theme.cpp" line="107"/>
-        <source>Classic (default)</source>
-        <translation>Klassiek (standaard)</translation>
+        <location filename="../core/theme.cpp" line="111"/>
+        <source>Bootstrap Icons (default)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/theme.cpp" line="107"/>
-        <source>Flat Design</source>
-        <translation>Plat ontwerp</translation>
+        <location filename="../core/theme.cpp" line="112"/>
+        <source>FontAwesome Flat Design</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/theme.cpp" line="134"/>
+        <location filename="../core/theme.cpp" line="141"/>
         <source>Light</source>
         <translation>Licht</translation>
     </message>
     <message>
-        <location filename="../core/theme.cpp" line="134"/>
+        <location filename="../core/theme.cpp" line="142"/>
         <source>Dark</source>
         <translation>Donker</translation>
     </message>
     <message>
-        <location filename="../about.h" line="29"/>
+        <location filename="../about.h" line="28"/>
         <source>%0 - %1 - version %2 - build %3</source>
         <translation>%0 - %1 - versie %2 - bouwversie %3</translation>
     </message>
     <message>
-        <location filename="../about.h" line="33"/>
+        <location filename="../about.h" line="32"/>
         <source>Copyright (C) %0 %1. All rights reserved.</source>
         <translation>Copyright (C) %0 %1. Alle rechten voorbehouden.</translation>
     </message>
     <message>
-        <location filename="../about.h" line="37"/>
+        <location filename="../about.h" line="36"/>
         <source>GNU LGPL License</source>
         <translation>GNU LGPL-licentie</translation>
     </message>
     <message>
-        <location filename="../about.h" line="39"/>
+        <location filename="../about.h" line="38"/>
         <source>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </source>
         <translation>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </translation>
     </message>
     <message>
-        <location filename="../about.h" line="47"/>
+        <location filename="../about.h" line="46"/>
         <source>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </source>
         <translation>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </translation>
     </message>
     <message>
-        <location filename="../about.h" line="51"/>
+        <location filename="../about.h" line="50"/>
         <source>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </source>
         <translation>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </translation>
     </message>
     <message>
-        <location filename="../about.h" line="76"/>
+        <location filename="../about.h" line="75"/>
         <source>About %0</source>
         <translation>Over %0</translation>
     </message>
@@ -2938,12 +2917,12 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
 <context>
     <name>QueueItem</name>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="395"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="373"/>
         <source>%0 of %1</source>
         <translation>%0 van %1</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="399"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="377"/>
         <source>Unknown</source>
         <translation>Onbekend</translation>
     </message>
@@ -2974,47 +2953,47 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../core/settings.cpp" line="747"/>
+        <location filename="../core/settings.cpp" line="675"/>
         <source>All Files</source>
         <translation>Alle bestanden</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="748"/>
+        <location filename="../core/settings.cpp" line="676"/>
         <source>Archives (zip, rar...)</source>
         <translation>Archieven (zip, rar…)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="749"/>
+        <location filename="../core/settings.cpp" line="677"/>
         <source>Application (exe, xpi...)</source>
         <translation>Programma (exe, xpi…)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="750"/>
+        <location filename="../core/settings.cpp" line="678"/>
         <source>Audio (mp3, wav...)</source>
         <translation>Audio (mp3, wav…)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="751"/>
+        <location filename="../core/settings.cpp" line="679"/>
         <source>Documents (pdf, odf...)</source>
         <translation>Documenten (pdf, odf…)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="752"/>
+        <location filename="../core/settings.cpp" line="680"/>
         <source>Images (jpg, png...)</source>
         <translation>Afbeeldingen (jpg, png…)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="753"/>
+        <location filename="../core/settings.cpp" line="681"/>
         <source>Images JPEG</source>
         <translation>Afbeeldingen (jpeg)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="754"/>
+        <location filename="../core/settings.cpp" line="682"/>
         <source>Images PNG</source>
         <translation>Afbeeldingen (png)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="755"/>
+        <location filename="../core/settings.cpp" line="683"/>
         <source>Video (mpeg, avi...)</source>
         <translation>Video (mpeg, avi…)</translation>
     </message>
@@ -3022,7 +3001,7 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
 <context>
     <name>Stream</name>
     <message>
-        <location filename="../core/stream.cpp" line="508"/>
+        <location filename="../core/stream.cpp" line="486"/>
         <source>The process crashed.</source>
         <translation>Het proces is gecrasht.</translation>
     </message>
@@ -3030,28 +3009,28 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
 <context>
     <name>StreamAssetDownloader</name>
     <message>
-        <location filename="../core/stream.cpp" line="894"/>
+        <location filename="../core/stream.cpp" line="865"/>
         <source>Couldn&apos;t parse JSON file.</source>
         <translation>Het json-bestand kan niet worden verwerkt.</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="897"/>
-        <location filename="../core/stream.cpp" line="920"/>
+        <location filename="../core/stream.cpp" line="868"/>
+        <location filename="../core/stream.cpp" line="891"/>
         <source>The process crashed.</source>
         <translation>Het proces is gecrasht.</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="914"/>
+        <location filename="../core/stream.cpp" line="885"/>
         <source>Couldn&apos;t parse playlist (no data received).</source>
         <translation>De afspeellijst kan niet worden verwerkt (geen gegevens ontvangen).</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="917"/>
+        <location filename="../core/stream.cpp" line="888"/>
         <source>Couldn&apos;t parse playlist (ill-formed JSON file).</source>
         <translation>De afspeellijst kan niet worden verwerkt (beschadigd json-bestand).</translation>
     </message>
     <message>
-        <location filename="../core/stream.cpp" line="1164"/>
+        <location filename="../core/stream.cpp" line="1135"/>
         <source>Cancelled.</source>
         <translation>Afgebroken.</translation>
     </message>
@@ -3107,8 +3086,8 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
 <context>
     <name>StreamExtractorListCollector</name>
     <message>
-        <location filename="../core/stream.cpp" line="1339"/>
-        <location filename="../core/stream.cpp" line="1358"/>
+        <location filename="../core/stream.cpp" line="1306"/>
+        <location filename="../core/stream.cpp" line="1325"/>
         <source>The process crashed.</source>
         <translation>Het proces is gecrasht.</translation>
     </message>
@@ -3230,32 +3209,32 @@ Hulp: als je een foutmelding krijgt, volg dan deze instructies:
 <context>
     <name>StreamTableModel</name>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="333"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="326"/>
         <source>#</source>
         <translation>#</translation>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="334"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="327"/>
         <source>File Name</source>
         <translation>Bestandsnaam</translation>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="335"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="328"/>
         <source>Title</source>
         <translation>Naam</translation>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="336"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="329"/>
         <source>Size</source>
         <translation>Grootte</translation>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="337"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="330"/>
         <source>Format</source>
         <translation>Formaat</translation>
     </message>
     <message>
-        <location filename="../widgets/streamlistwidget.cpp" line="466"/>
+        <location filename="../widgets/streamlistwidget.cpp" line="459"/>
         <source>Video unavailable</source>
         <translation>Deze video is niet beschikbaar</translation>
     </message>
@@ -3519,17 +3498,17 @@ Hulp: als je een foutmelding krijgt, volg dan deze instructies:
         <translation>Onderbreking/Intro-animatie</translation>
     </message>
     <message>
-        <location filename="../widgets/streamtoolbox.cpp" line="174"/>
+        <location filename="../widgets/streamtoolbox.cpp" line="173"/>
         <source>(default language)</source>
         <translation>(standaardtaal)</translation>
     </message>
     <message>
-        <location filename="../widgets/streamtoolbox.cpp" line="176"/>
+        <location filename="../widgets/streamtoolbox.cpp" line="175"/>
         <source>All languages</source>
         <translation>Alle talen</translation>
     </message>
     <message>
-        <location filename="../widgets/streamtoolbox.cpp" line="196"/>
+        <location filename="../widgets/streamtoolbox.cpp" line="195"/>
         <source>(default)</source>
         <translation>(standaard)</translation>
     </message>
@@ -3557,37 +3536,37 @@ Hulp: als je een foutmelding krijgt, volg dan deze instructies:
         <translation>Geschatte omvang:</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.cpp" line="117"/>
+        <location filename="../widgets/streamwidget.cpp" line="113"/>
         <source> (no video)</source>
         <translation> (geen video)</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.cpp" line="122"/>
+        <location filename="../widgets/streamwidget.cpp" line="118"/>
         <source> + subtitles</source>
         <translation> + ondertiteling</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.cpp" line="125"/>
+        <location filename="../widgets/streamwidget.cpp" line="121"/>
         <source> + chapters</source>
         <translation> + hoofdstukken</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.cpp" line="128"/>
+        <location filename="../widgets/streamwidget.cpp" line="124"/>
         <source> + thumbnails</source>
         <translation> + miniaturen</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.cpp" line="131"/>
+        <location filename="../widgets/streamwidget.cpp" line="127"/>
         <source> + .description</source>
         <translation> + omschrijving</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.cpp" line="134"/>
+        <location filename="../widgets/streamwidget.cpp" line="130"/>
         <source> + .info.json</source>
         <translation> + .info.json</translation>
     </message>
     <message>
-        <location filename="../widgets/streamwidget.cpp" line="137"/>
+        <location filename="../widgets/streamwidget.cpp" line="133"/>
         <source> + shortcut</source>
         <translation> + snelkoppeling</translation>
     </message>
@@ -3595,12 +3574,12 @@ Hulp: als je een foutmelding krijgt, volg dan deze instructies:
 <context>
     <name>SystemTray</name>
     <message>
-        <location filename="../widgets/systemtray.cpp" line="198"/>
+        <location filename="../widgets/systemtray.cpp" line="194"/>
         <source>&amp;Restore</source>
         <translation>He&amp;rstellen</translation>
     </message>
     <message>
-        <location filename="../widgets/systemtray.cpp" line="199"/>
+        <location filename="../widgets/systemtray.cpp" line="195"/>
         <source>&amp;Hide when Minimized</source>
         <translation>Verber&amp;gen indien geminimaliseerd</translation>
     </message>
@@ -3664,7 +3643,7 @@ Hulp: als je een foutmelding krijgt, volg dan deze instructies:
 <context>
     <name>TorrentContext</name>
     <message>
-        <location filename="../core/torrentcontext.cpp" line="174"/>
+        <location filename="../core/torrentcontext.cpp" line="190"/>
         <source>Bad .torrent format: Can&apos;t download it.</source>
         <translation>Het torrentbestand is beschadigd en kan niet worden gedownload.</translation>
     </message>
@@ -3672,17 +3651,17 @@ Hulp: als je een foutmelding krijgt, volg dan deze instructies:
 <context>
     <name>TorrentContextPrivate</name>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="495"/>
+        <location filename="../core/torrentcontext_p.cpp" line="516"/>
         <source>Network request rejected.</source>
         <translation>Het netwerkverzoek is afgewezen.</translation>
     </message>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="546"/>
+        <location filename="../core/torrentcontext_p.cpp" line="567"/>
         <source>Can&apos;t download metadata.</source>
         <translation>De metagegevens kunnen niet worden opgehaald.</translation>
     </message>
     <message>
-        <location filename="../core/torrentcontext_p.cpp" line="557"/>
+        <location filename="../core/torrentcontext_p.cpp" line="578"/>
         <source>No metadata downloaded.</source>
         <translation>Er zijn geen metagegevens opgehaald.</translation>
     </message>
@@ -3690,72 +3669,72 @@ Hulp: als je een foutmelding krijgt, volg dan deze instructies:
 <context>
     <name>TorrentFileTableModel</name>
     <message>
-        <location filename="../core/torrent.cpp" line="362"/>
+        <location filename="../core/torrent.cpp" line="360"/>
         <source>#</source>
         <translation>#</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="363"/>
+        <location filename="../core/torrent.cpp" line="361"/>
         <source>Name</source>
         <translation>Naam</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="364"/>
+        <location filename="../core/torrent.cpp" line="362"/>
         <source>Path</source>
         <translation>Locatie</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="365"/>
+        <location filename="../core/torrent.cpp" line="363"/>
         <source>Size</source>
         <translation>Grootte</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="366"/>
+        <location filename="../core/torrent.cpp" line="364"/>
         <source>Done</source>
         <translation>Voltooid</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="367"/>
+        <location filename="../core/torrent.cpp" line="365"/>
         <source>Percent</source>
         <translation>Procent</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="368"/>
+        <location filename="../core/torrent.cpp" line="366"/>
         <source>First Piece</source>
         <translation>Eerste deel</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="369"/>
+        <location filename="../core/torrent.cpp" line="367"/>
         <source># Pieces</source>
         <translation>Aantal delen</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="370"/>
+        <location filename="../core/torrent.cpp" line="368"/>
         <source>Pieces</source>
         <translation>Delen</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="371"/>
+        <location filename="../core/torrent.cpp" line="369"/>
         <source>Priority</source>
         <translation>Prioriteit</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="372"/>
+        <location filename="../core/torrent.cpp" line="370"/>
         <source>Modification date</source>
         <translation>Bewerkdatum</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="373"/>
+        <location filename="../core/torrent.cpp" line="371"/>
         <source>SHA-1</source>
         <translation>SHA-1</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="374"/>
+        <location filename="../core/torrent.cpp" line="372"/>
         <source>CRC-32</source>
         <translation>CRC-32</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="532"/>
+        <location filename="../core/torrent.cpp" line="528"/>
         <source>%0% of %1 pieces</source>
         <translation>%0% van %1 delen</translation>
     </message>
@@ -3763,62 +3742,62 @@ Hulp: als je een foutmelding krijgt, volg dan deze instructies:
 <context>
     <name>TorrentPeerTableModel</name>
     <message>
-        <location filename="../core/torrent.cpp" line="581"/>
+        <location filename="../core/torrent.cpp" line="577"/>
         <source>IP</source>
         <translation>IP-adres</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="582"/>
+        <location filename="../core/torrent.cpp" line="578"/>
         <source>Port</source>
         <translation>Poort</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="583"/>
+        <location filename="../core/torrent.cpp" line="579"/>
         <source>Client</source>
         <translation>Client</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="584"/>
+        <location filename="../core/torrent.cpp" line="580"/>
         <source>Downloaded</source>
         <translation>Gedownload</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="585"/>
+        <location filename="../core/torrent.cpp" line="581"/>
         <source>Uploaded</source>
         <translation>Geüpload</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="586"/>
+        <location filename="../core/torrent.cpp" line="582"/>
         <source>Pieces</source>
         <translation>Delen</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="587"/>
+        <location filename="../core/torrent.cpp" line="583"/>
         <source>Request Time</source>
         <translation>Verzoektijdstip</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="588"/>
+        <location filename="../core/torrent.cpp" line="584"/>
         <source>Active Time</source>
         <translation>Actieve tijdsduur</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="589"/>
+        <location filename="../core/torrent.cpp" line="585"/>
         <source>Queue Time</source>
         <translation>Wachtrijtijdsduur</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="590"/>
+        <location filename="../core/torrent.cpp" line="586"/>
         <source>Flags</source>
         <translation>Opties</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="591"/>
+        <location filename="../core/torrent.cpp" line="587"/>
         <source>Source Flags</source>
         <translation>Bronopties</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="683"/>
+        <location filename="../core/torrent.cpp" line="679"/>
         <source>%0 of %1 pieces</source>
         <translation>%0 van %1 delen</translation>
     </message>
@@ -3831,7 +3810,7 @@ Hulp: als je een foutmelding krijgt, volg dan deze instructies:
         <translation>Waarde: # van peers met dit deel</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentpiecemap.cpp" line="81"/>
+        <location filename="../widgets/torrentpiecemap.cpp" line="83"/>
         <source>Priority: %0=high %1=normal %2=low %3=ignore</source>
         <translation>Prioriteit: %0=hoog %1=normaal %2=laag %3=negeren</translation>
     </message>
@@ -3839,47 +3818,47 @@ Hulp: als je een foutmelding krijgt, volg dan deze instructies:
 <context>
     <name>TorrentTrackerTableModel</name>
     <message>
-        <location filename="../core/torrent.cpp" line="782"/>
+        <location filename="../core/torrent.cpp" line="780"/>
         <source>Url</source>
         <translation>URL</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="783"/>
+        <location filename="../core/torrent.cpp" line="781"/>
         <source>Id</source>
         <translation>ID</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="784"/>
+        <location filename="../core/torrent.cpp" line="782"/>
         <source>Number of listened sockets (endpoints)</source>
         <translation>Aantal meeluisterende sockets (endpoints)</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="785"/>
+        <location filename="../core/torrent.cpp" line="783"/>
         <source>Tier this tracker belongs to</source>
         <translation>Waartoe deze tracker behoort</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="786"/>
+        <location filename="../core/torrent.cpp" line="784"/>
         <source>Max number of failures</source>
         <translation>Max. aantal mislukkingen</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="787"/>
+        <location filename="../core/torrent.cpp" line="785"/>
         <source>Source</source>
         <translation>Bron</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="788"/>
+        <location filename="../core/torrent.cpp" line="786"/>
         <source>Verified?</source>
         <translation>Geverifieerd?</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="829"/>
+        <location filename="../core/torrent.cpp" line="827"/>
         <source>verified</source>
         <translation>geverifieerd</translation>
     </message>
     <message>
-        <location filename="../core/torrent.cpp" line="829"/>
+        <location filename="../core/torrent.cpp" line="827"/>
         <source>not verified</source>
         <translation>niet-geverifieerd</translation>
     </message>
@@ -4048,77 +4027,77 @@ Hulp: als je een foutmelding krijgt, volg dan deze instructies:
         <translation>Gedeeltenkaart</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="502"/>
+        <location filename="../widgets/torrentwidget.cpp" line="497"/>
         <source>Copy</source>
         <translation>Kopiëren</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="549"/>
+        <location filename="../widgets/torrentwidget.cpp" line="541"/>
         <source>Open</source>
         <translation>Openen</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="550"/>
+        <location filename="../widgets/torrentwidget.cpp" line="542"/>
         <source>Open Containing Folder</source>
         <translation>Bijbehorende map openen</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="551"/>
+        <location filename="../widgets/torrentwidget.cpp" line="543"/>
         <source>Scan for viruses</source>
         <translation>Controleren op virussen</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="552"/>
+        <location filename="../widgets/torrentwidget.cpp" line="544"/>
         <source>Priorize by File order</source>
         <translation>Prioriteit instellen op bestandsvolgorde</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="553"/>
+        <location filename="../widgets/torrentwidget.cpp" line="545"/>
         <source>Priorize: High</source>
         <translation>Prioriteit: hoog</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="554"/>
+        <location filename="../widgets/torrentwidget.cpp" line="546"/>
         <source>Priorize: Normal</source>
         <translation>Prioriteit: normaal</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="555"/>
+        <location filename="../widgets/torrentwidget.cpp" line="547"/>
         <source>Priorize: Low</source>
         <translation>Prioriteit: laag</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="556"/>
+        <location filename="../widgets/torrentwidget.cpp" line="548"/>
         <source>Don&apos;t download</source>
         <translation>Niet downloaden</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="557"/>
+        <location filename="../widgets/torrentwidget.cpp" line="549"/>
         <source>Relocate...</source>
         <translation>Andere locatie kiezen…</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="646"/>
+        <location filename="../widgets/torrentwidget.cpp" line="639"/>
         <source>Add Peer...</source>
         <translation>Peer toevoegen…</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="647"/>
+        <location filename="../widgets/torrentwidget.cpp" line="640"/>
         <source>Copy Peer List</source>
         <translation>Peerslijst kopiëren</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="648"/>
+        <location filename="../widgets/torrentwidget.cpp" line="641"/>
         <source>Remove Unconnected</source>
         <translation>Niet-verbonden verwijderen</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="668"/>
+        <location filename="../widgets/torrentwidget.cpp" line="662"/>
         <source>Add Peer</source>
         <translation>Peer toevoegen</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="669"/>
+        <location filename="../widgets/torrentwidget.cpp" line="663"/>
         <source>Enter the IP address and port number of the peer to add.
 Ex:
  - for IPv4, type &apos;x.x.x.x:p&apos;
@@ -4131,49 +4110,49 @@ Voorbeelden:
 </translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="705"/>
+        <location filename="../widgets/torrentwidget.cpp" line="699"/>
         <source>Add Tracker...</source>
         <translation>Tracker toevoegen…</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="706"/>
+        <location filename="../widgets/torrentwidget.cpp" line="700"/>
         <source>Remove Tracker</source>
         <translation>Tracker verwijderen</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="707"/>
+        <location filename="../widgets/torrentwidget.cpp" line="701"/>
         <source>Copy Tracker List</source>
         <translation>Trackerlijst kopiëren</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="730"/>
+        <location filename="../widgets/torrentwidget.cpp" line="725"/>
         <source>Add Tracker</source>
         <translation>Tracker toevoegen</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="731"/>
+        <location filename="../widgets/torrentwidget.cpp" line="726"/>
         <source>Enter the URL of the tracker to add:</source>
         <translation>Voer de url in van de toe te voegen tracker:</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="856"/>
+        <location filename="../widgets/torrentwidget.cpp" line="850"/>
         <source>%0 (%1 hashfails)</source>
         <translation>%0 (%1 hash-mislukkingen)</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="860"/>
-        <location filename="../widgets/torrentwidget.cpp" line="864"/>
+        <location filename="../widgets/torrentwidget.cpp" line="854"/>
+        <location filename="../widgets/torrentwidget.cpp" line="858"/>
         <source>%0 (total %1)</source>
         <translation>%0 (totaal %1)</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="868"/>
-        <location filename="../widgets/torrentwidget.cpp" line="873"/>
+        <location filename="../widgets/torrentwidget.cpp" line="862"/>
+        <location filename="../widgets/torrentwidget.cpp" line="867"/>
         <source>%0 of %1 connected (%2 in swarm)</source>
         <translation>%0 van %1 verbonden (%2 in groep)</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="881"/>
+        <location filename="../widgets/torrentwidget.cpp" line="875"/>
         <source>%0 x %1</source>
         <translation>%0 x %1</translation>
     </message>
@@ -4237,7 +4216,7 @@ Voorbeelden:
         <location filename="../core/updatechecker.cpp" line="92"/>
         <location filename="../core/updatechecker.cpp" line="104"/>
         <location filename="../core/updatechecker.cpp" line="197"/>
-        <location filename="../core/updatechecker.cpp" line="217"/>
+        <location filename="../core/updatechecker.cpp" line="216"/>
         <source>Network request rejected.</source>
         <translation>Het netwerkverzoek is afgewezen.</translation>
     </message>
@@ -4305,43 +4284,43 @@ Voorbeelden:
         <translation>Nieuwe versie installeren</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="88"/>
+        <location filename="../dialogs/updatedialog.cpp" line="84"/>
         <source>Checking the updates...</source>
         <translation>Bezig met controleren…</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="102"/>
+        <location filename="../dialogs/updatedialog.cpp" line="98"/>
         <source>Downloading the update...</source>
         <translation>Bezig met downloaden…</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="110"/>
-        <location filename="../dialogs/updatedialog.cpp" line="113"/>
+        <location filename="../dialogs/updatedialog.cpp" line="106"/>
+        <location filename="../dialogs/updatedialog.cpp" line="109"/>
         <source>Manual update required</source>
         <translation>Handmatige update vereist</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="114"/>
+        <location filename="../dialogs/updatedialog.cpp" line="110"/>
         <source>Automatic update is not supported on this operating system. Do you want to download and install the update manually?</source>
         <translation>Je systeem heeft geen ondersteuning voor automatische updates. Wil je de update handmatig downloaden en installeren?</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="133"/>
+        <location filename="../dialogs/updatedialog.cpp" line="129"/>
         <source>Current version:</source>
         <translation>Huidige versie:</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="188"/>
+        <location filename="../dialogs/updatedialog.cpp" line="184"/>
         <source>Close the application</source>
         <translation>Programma afsluiten</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="190"/>
+        <location filename="../dialogs/updatedialog.cpp" line="186"/>
         <source>The application needs to close to continue the update.</source>
         <translation>Herstart het programma om de update te installeren.</translation>
     </message>
     <message>
-        <location filename="../dialogs/updatedialog.cpp" line="191"/>
+        <location filename="../dialogs/updatedialog.cpp" line="187"/>
         <source>Do you want to close now?</source>
         <translation>Wil je nu herstarten?</translation>
     </message>
@@ -4405,12 +4384,12 @@ Voorbeelden:
 <context>
     <name>main</name>
     <message>
-        <location filename="../main.cpp" line="69"/>
+        <location filename="../main.cpp" line="68"/>
         <source>Another Download Manager</source>
         <translation>De zoveelste downloadbeheerder</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="79"/>
+        <location filename="../main.cpp" line="78"/>
         <source>target URL to proceed</source>
         <translation>doel-url om door te gaan</translation>
     </message>

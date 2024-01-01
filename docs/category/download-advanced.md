@@ -59,7 +59,7 @@ Choose the browser:
 
 The latest release is available [here](https://github.com/setvisible/ArrowDL/releases/latest)
 
-[![GitHub release](https://img.shields.io/github/v/release/setvisible/arrowdl.svg)](https://github.com/setvisible/ArrowDL/releases/latest)
+[![GitHub release](https://img.shields.io/github/v/release/setvisible/arrowdl.svg?style=for-the-badge)](https://github.com/setvisible/ArrowDL/releases/latest)
 
 
 ### Choose your plateform<a name="download-plateform"></a>
@@ -79,9 +79,10 @@ The next table explains the differences between the packages.
 - <a href="https://github.com/setvisible/ArrowDL/releases/latest/" id="id_windows_msvc_x86" >ArrowDL <span class="version-text">v0.0.0</span> for Windows (Portable, MSVC, 32 bit)</a>
 {% endcomment %}
 
-[^1]: Prefer the MSVC version if you are on Windows.
-      It uses the *Chromium* engine that parses HTML *and* Javascript.
+[^1]: The MSVC version uses the *Chromium* engine that parses HTML *and* Javascript.
       The MinGW version is more basic, it uses *Google Gumbo*, that parses HTML only, not Javascript.
+      Note: The MSVC version has been decommissioned on Windows, only GCC (aka MinGW) remains.
+      Maintaining 2 builds was really time-consuming.
 
 
 #### Linux<a name="download-plateform-unix"></a>[^2]
