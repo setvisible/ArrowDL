@@ -119,7 +119,7 @@
         <string notr="true"/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../resources.qrc">:/resources/icons/default/48x48/actions/add-torrent.png</pixmap>
+        <pixmap resource="../resources.qrc">:/resources/icons/default/scalable/actions/add-torrent.svg</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>

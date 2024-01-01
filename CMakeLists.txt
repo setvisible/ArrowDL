@@ -41,12 +41,12 @@ function(parse_version filename)
     if (NOT versionFile)
         message(FATAL_ERROR "Unable to determine version. Version file is missing.")
     endif()
-    string(STRIP "${versionFile}" DOWNZEMALL_VERSION)
+    string(STRIP "${versionFile}" ARROWDL_VERSION)
     # add a dependency on the version file
     set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS version)
 
     # split version string into components, note CMAKE_MATCH_0 is the entire regexp match
-    string(REGEX MATCH "([0-9]+)\\.([0-9]+)\\.([0-9]+)" output_variable ${DOWNZEMALL_VERSION} )
+    string(REGEX MATCH "([0-9]+)\\.([0-9]+)\\.([0-9]+)" output_variable ${ARROWDL_VERSION} )
 
     set(APP_VERSION ${output_variable} PARENT_SCOPE)
     set(APP_VERSION_MAJOR ${CMAKE_MATCH_1} PARENT_SCOPE)
@@ -65,9 +65,9 @@ message(" - APP_VERSION_PATCH = ${APP_VERSION_PATCH}")
 message("------------------------------------------------------------------------")
 message("")
 
-project("DownZemAll"
+project("ArrowDL"
     DESCRIPTION
-        "DownZemAll - Download Manager"
+        "ArrowDL - Download Manager"
     LANGUAGES CXX
     VERSION
         ${APP_VERSION_MAJOR}.${APP_VERSION_MINOR}.${APP_VERSION_PATCH}

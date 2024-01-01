@@ -2,7 +2,7 @@ LangString DESC_SectionMainApplication ${LANG_KOREAN} "주요 응용 프로그�
 LangString DESC_SectionLauncher ${LANG_KOREAN} "웹 브라우저와의 메시징에 사용되는 런처."
 LangString DESC_SectionStartMenuShortcut ${LANG_KOREAN} "시작 메뉴 바로 가기를 만듭니다."
 LangString DESC_SectionDesktopShortcut ${LANG_KOREAN} "바탕 화면 바로 가기를 만듭니다."
-LangString DESC_UninstallIconDescription ${LANG_KOREAN} "DownZemAll 제거"
+LangString DESC_UninstallIconDescription ${LANG_KOREAN} "ArrowDL 제거"
 LangString DESC_ApplicationSession ${LANG_KOREAN} "신청 (필수)"
 LangString DESC_LauncherSession ${LANG_KOREAN} "런처 (필수)"
 LangString DESC_StartMenuGroupSession ${LANG_KOREAN} "시작 메뉴 바로 가기"

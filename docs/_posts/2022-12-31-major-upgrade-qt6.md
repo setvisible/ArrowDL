@@ -16,12 +16,12 @@ During 2022, a lot of refactoring has been done.
 
 The final phase of this refactoring was the move of the deployment process to the Github Actions. This was done yesterday!
 
-Thus, the *DownZemAll!* of 2023 will be better than 2022. It deserves a "version 3.x" to introduces this new era.
+Thus, the *ArrowDL* of 2023 will be better than 2022. It deserves a "version 3.x" to introduces this new era.
 
 
 ### Introducing Qt6
 
-*DownZemAll!* now uses **Qt6** instead of Qt5. This change required many refactoring, to use the new Qt API and remove obsolete parts.
+*ArrowDL* now uses **Qt6** instead of Qt5. This change required many refactoring, to use the new Qt API and remove obsolete parts.
 
 It permits to use the last C++ standard: **C++20**, instead of C++11.
 
@@ -56,7 +56,7 @@ Today, QtCreator is able to compile from *CMakeList.txt* directly, so the .pro/.
 
 Thanks to these upgrades in 2022, 2023 looks brighter!
 
-C++20 offers more simplification and abstraction, Qt6 offers better widgets, and LibTorrent-Rasterbar offers better functions. *DownZemAll!* will be improved a lot, for sure :)
+C++20 offers more simplification and abstraction, Qt6 offers better widgets, and LibTorrent-Rasterbar offers better functions. *ArrowDL* will be improved a lot, for sure :)
 
 Happy New Year 2023! :)
 

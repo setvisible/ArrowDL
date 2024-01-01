@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -53,9 +53,9 @@ private slots:
     void onChanged(QString);
 
 private:
-    Ui::AddBatchDialog *ui;
-    DownloadManager *m_downloadManager;
-    Settings *m_settings;
+    Ui::AddBatchDialog *ui = nullptr;
+    DownloadManager *m_downloadManager = nullptr;
+    Settings *m_settings = nullptr;
 
     void doAccept(bool started);
     QMessageBox::StandardButton askBatchDownloading(QList<IDownloadItem*> items);

@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -44,7 +44,7 @@ private slots:
     void onError(const QString &errorMessage);
 
 private:
-    Stream *m_stream;
+    Stream *m_stream = nullptr;
 };
 
 #endif // CORE_DOWNLOAD_STREAM_ITEM_H

@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  */
 
 #ifndef DIALOGS_UPDATE_DIALOG_H
@@ -33,8 +33,8 @@ private slots:
     void onUpdateError(const QString &errorMessage);
 
 private:
-    Ui::UpdateDialog *ui;
-    UpdateChecker *m_updateChecker;
+    Ui::UpdateDialog *ui = nullptr;
+    UpdateChecker *m_updateChecker = nullptr;
 };
 
 #endif // DIALOGS_UPDATE_DIALOG_H

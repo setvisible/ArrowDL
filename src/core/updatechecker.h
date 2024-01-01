@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -74,9 +74,9 @@ private slots:
     void onBinaryFinished();
 
 private:
-    StreamUpgrader *m_streamUpgrader;
-    QString m_latestUpdateUrl;
-    QFile m_temporaryBinaryFile;
+    StreamUpgrader *m_streamUpgrader = nullptr;
+    QString m_latestUpdateUrl = {};
+    QFile m_temporaryBinaryFile = {};
 
     void downloadMetadata();
 

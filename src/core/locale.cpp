@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -33,7 +33,7 @@ static QString languageDirectory()
 
 static QString translationFileName(const QString &localeName)
 {
-    return QString("%0/dza_%1.qm").arg(languageDirectory(), localeName);
+    return QString("%0/arrowdl_%1.qm").arg(languageDirectory(), localeName);
 }
 
 static void populateLocales()
@@ -46,7 +46,7 @@ static void populateLocales()
     QList<QLocale> locales;
     for (const auto &dotQM : allDotQMs) {
         auto code = dotQM;
-        code.replace("dza_", "");
+        code.replace("arrowdl_", "");
         code.replace(".qm", "");
         locales << QLocale(code); // Ex: "en_US"
     }

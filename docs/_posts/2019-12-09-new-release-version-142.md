@@ -13,9 +13,9 @@ Version 1.4.2 is available.
 
 #### Screenshots:
 
-![Download All (Chrome)](/DownZemAll/assets/images/1.4/anim_chrome_save_all_v1.4.2.gif)
+![Download All (Chrome)](/ArrowDL/assets/images/1.4/anim_chrome_save_all_v1.4.2.gif)
 
-![Save link (Chrome)](/DownZemAll/assets/images/1.4/anim_chrome_save_link_v1.4.2.gif)
+![Save link (Chrome)](/ArrowDL/assets/images/1.4/anim_chrome_save_link_v1.4.2.gif)
 
-![Preferences (Chrome)](/DownZemAll/assets/images/1.4/anim_chrome_preference_1.4.2.gif)
+![Preferences (Chrome)](/ArrowDL/assets/images/1.4/anim_chrome_preference_1.4.2.gif)
 

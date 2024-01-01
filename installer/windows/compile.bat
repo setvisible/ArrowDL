@@ -10,7 +10,7 @@
 :: Ex: 
 ::      /DBIN_PATH="<INSTALL_PATH>" 
 :: becomes 
-::      /DBIN_PATH="C:\Program Files\DZA"
+::      /DBIN_PATH="C:\Program Files\ArrowDL"
 ::
 
 makensis  ^
@@ -20,6 +20,6 @@ makensis  ^
     /DBIN_PATH="<INSTALL_PATH>"  ^
     .\NSIS\setup.nsi
 
-rename "DownZemAllSetup.exe" "DownZemAll_x64_Setup.exe"
+rename "ArrowDLSetup.exe" "ArrowDL_x64_Setup.exe"
 
 pause

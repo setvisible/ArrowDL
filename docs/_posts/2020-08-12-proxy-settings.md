@@ -10,21 +10,21 @@ tags:
 excerpt_separator:  <!--more-->
 ---
 
-**DownZemAll!** can use a proxy server now.
+**ArrowDL** can use a proxy server now.
 
-A **proxy server** sits between your computer and the internet. Acting as a bridge between **DownZemAll!** or your web browser and internet services like websites and software-as-a-service (SaaS) platforms, a proxy server can potentially make your internet more private and secure. Here's how to set up **DownZemAll!** so you can use a proxy server to your advantage. 
+A **proxy server** sits between your computer and the internet. Acting as a bridge between **ArrowDL** or your web browser and internet services like websites and software-as-a-service (SaaS) platforms, a proxy server can potentially make your internet more private and secure. Here's how to set up **ArrowDL** so you can use a proxy server to your advantage. 
 
 
 ## What is a proxy server 
 
-A proxy server is a gateway between you and the internet. When you visit a website, the proxy server communicates with it on behalf of DZA. Then, when the website answers, the proxy forwards the data to you. 
+A proxy server is a gateway between you and the internet. When you visit a website, the proxy server communicates with it on behalf of ArrowDL. Then, when the website answers, the proxy forwards the data to you. 
 
 Proxy servers can do many jobs. These include scanning for viruses, acting as a firewall, speeding up your connection by caching, and hiding your public IP address. 
 
 
 ## How to set up your proxy server
 
-Here's how to set up your DZA! to use a proxy server :
+Here's how to set up your ArrowDL to use a proxy server :
 
 ### Network Proxy
 
@@ -32,7 +32,7 @@ Here's how to set up your DZA! to use a proxy server :
 
 2. Enable proxying by changing the *Type* to **SOCKS5** or **HTTP**
 
-3. Fill the proxy address, port, and user authentification. Note that DZA stores the password in clear text
+3. Fill the proxy address, port, and user authentification. Note that ArrowDL stores the password in clear text
 
 
 | Type   | Description                   |
@@ -42,7 +42,7 @@ Here's how to set up your DZA! to use a proxy server :
 | HTTP   | A HTTP transparent proxying is used. Implemented using the "CONNECT" command, supports only outgoing TCP connections; supports authentication. |
 
 
-![Network Proxy](/DownZemAll/assets/images/2.0/proxy_settings_01.png)
+![Network Proxy](/ArrowDL/assets/images/2.0/proxy_settings_01.png)
 
 
 
@@ -56,7 +56,7 @@ LibTorrent uses a separate settings storage, then to enable proxying with torren
 
 3. Fill the proxy address, port, and user authentification 
 
-![Torrent Proxy](/DownZemAll/assets/images/2.0/proxy_settings_02.png)
+![Torrent Proxy](/ArrowDL/assets/images/2.0/proxy_settings_02.png)
 
 
 ### Further reading

@@ -26,13 +26,13 @@ The tab keeps the former connections in *italic*, you can filter them through th
 
 The *Piece Map* tab now shows the **piece map** of the torrent. 
 
-![Torrent Improved](/DownZemAll/assets/images/2.1/torrent_01.png)
+![Torrent Improved](/ArrowDL/assets/images/2.1/torrent_01.png)
 
 - Funkier **Peer Flags** and **available pieces**:
 
-![Peer Flags](/DownZemAll/assets/images/2.1/torrent_02.png)
+![Peer Flags](/ArrowDL/assets/images/2.1/torrent_02.png)
 
 - New **Piece Map**:
 
-![Piece Map](/DownZemAll/assets/images/2.1/torrent_03.png)
+![Piece Map](/ArrowDL/assets/images/2.1/torrent_03.png)
 

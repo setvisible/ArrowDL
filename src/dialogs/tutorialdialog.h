@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -37,8 +37,8 @@ public slots:
     void closeEvent(QCloseEvent *) override;
 
 private:
-    Ui::TutorialDialog *ui;
-    Settings *m_settings;
+    Ui::TutorialDialog *ui = nullptr;
+    Settings *m_settings = nullptr;
 
     void readSettings();
     void writeSettings();

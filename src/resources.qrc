@@ -7,76 +7,135 @@
         <file>resources/logo/icon48.png</file>
         <file>resources/logo/icon64.png</file>
         <file>resources/logo/icon128.png</file>
-        <file>resources/sounds/done.ogg</file>
-        <file>resources/sounds/error.ogg</file>
         <file>resources/animations/spinner.gif</file>
         <file>resources/icons/default/index.theme</file>
-        <file>resources/icons/default/16x16/actions/about.png</file>
-        <file>resources/icons/default/16x16/actions/browse.png</file>
-        <file>resources/icons/default/16x16/actions/check-nok.png</file>
-        <file>resources/icons/default/16x16/actions/check-ok.png</file>
-        <file>resources/icons/default/16x16/actions/check-progress.png</file>
-        <file>resources/icons/default/16x16/actions/directory-open.png</file>
-        <file>resources/icons/default/24x24/actions/edit-block-mode.png</file>
-        <file>resources/icons/default/24x24/actions/edit-copy.png</file>
-        <file>resources/icons/default/24x24/actions/edit-cut.png</file>
-        <file>resources/icons/default/24x24/actions/edit-paste.png</file>
-        <file>resources/icons/default/24x24/actions/edit-redo.png</file>
-        <file>resources/icons/default/24x24/actions/edit-undo.png</file>
-        <file>resources/icons/default/16x16/actions/file-export.png</file>
-        <file>resources/icons/default/16x16/actions/file-delete.png</file>
-        <file>resources/icons/default/16x16/actions/file-import.png</file>
-        <file>resources/icons/default/16x16/actions/file-open.png</file>
-        <file>resources/icons/default/16x16/actions/help.png</file>
-        <file>resources/icons/default/26x26/actions/home.png</file>
-        <file>resources/icons/default/16x16/actions/info.png</file>
-        <file>resources/icons/default/16x16/actions/limit-domain.png</file>
-        <file>resources/icons/default/16x16/actions/limit-speed.png</file>
-        <file>resources/icons/default/16x16/actions/mirror-server.png</file>
-        <file>resources/icons/default/16x16/actions/mask.png</file>
-        <file>resources/icons/default/16x16/actions/move-down.png</file>
-        <file>resources/icons/default/16x16/actions/move-bottom.png</file>
-        <file>resources/icons/default/16x16/actions/move-top.png</file>
-        <file>resources/icons/default/16x16/actions/move-up.png</file>
-        <file>resources/icons/default/16x16/actions/play-idle.png</file> 
-        <file>resources/icons/default/16x16/actions/play-pause.png</file>
-        <file>resources/icons/default/16x16/actions/play-resume.png</file>
-        <file>resources/icons/default/16x16/actions/play-resume-force.png</file>
-        <file>resources/icons/default/16x16/actions/play-stop.png</file>
-        <file>resources/icons/default/16x16/actions/preference.png</file>
-        <file>resources/icons/default/16x16/actions/remove-all.png</file>
-        <file>resources/icons/default/16x16/actions/remove-completed.png</file>
-        <file>resources/icons/default/16x16/actions/remove-downloaded.png</file>
-        <file>resources/icons/default/16x16/actions/remove-duplicates.png</file>
-        <file>resources/icons/default/16x16/actions/remove-paused.png</file>
-        <file>resources/icons/default/16x16/actions/remove-resumed.png</file>
-        <file>resources/icons/default/16x16/actions/remove-stopped.png</file>
-        <file>resources/icons/default/16x16/actions/remove-waiting.png</file>
-        <file>resources/icons/default/16x16/actions/rename.png</file>
-        <file>resources/icons/default/32x32/actions/preference-advanced.png</file>
-        <file>resources/icons/default/32x32/actions/preference-filters.png</file>
-        <file>resources/icons/default/32x32/actions/preference-general.png</file>
-        <file>resources/icons/default/32x32/actions/preference-interface.png</file>
-        <file>resources/icons/default/32x32/actions/preference-language.png</file>
-        <file>resources/icons/default/32x32/actions/preference-network.png</file>
-        <file>resources/icons/default/32x32/actions/preference-privacy.png</file>
-        <file>resources/icons/default/32x32/actions/preference-schedule.png</file>
-        <file>resources/icons/default/32x32/actions/preference-security.png</file>
-        <file>resources/icons/default/32x32/actions/preference-torrent.png</file>
-        <file>resources/icons/default/16x16/actions/segment-add.png</file>
-        <file>resources/icons/default/16x16/actions/segment-remove.png</file>
-        <file>resources/icons/default/32x32/actions/select-all.png</file>
-        <file>resources/icons/default/32x32/actions/select-completed.png</file>
-        <file>resources/icons/default/32x32/actions/select-invert.png</file>
-        <file>resources/icons/default/32x32/actions/select-none.png</file>
-        <file>resources/icons/default/16x16/actions/stream-audio.png</file>
-        <file>resources/icons/default/16x16/actions/stream-subtitle.png</file>
-        <file>resources/icons/default/16x16/actions/stream-video.png</file>
-        <file>resources/icons/default/48x48/actions/add-batch.png</file>
-        <file>resources/icons/default/48x48/actions/add-content.png</file>
-        <file>resources/icons/default/48x48/actions/add-stream.png</file>
-        <file>resources/icons/default/48x48/actions/add-torrent.png</file>
-        <file>resources/icons/default/48x48/actions/add-urls.png</file>
+        <file>resources/icons/default/scalable/actions/about.svg</file>
+        <file>resources/icons/default/scalable/actions/browse.svg</file>
+        <file>resources/icons/default/scalable/actions/check-nok.svg</file>
+        <file>resources/icons/default/scalable/actions/check-ok.svg</file>
+        <file>resources/icons/default/scalable/actions/check-progress.svg</file>
+        <file>resources/icons/default/scalable/actions/add-batch.svg</file>
+        <file>resources/icons/default/scalable/actions/add-content.svg</file>
+        <file>resources/icons/default/scalable/actions/add-stream.svg</file>
+        <file>resources/icons/default/scalable/actions/add-torrent.svg</file>
+        <file>resources/icons/default/scalable/actions/add-urls.svg</file>
+        <file>resources/icons/default/scalable/actions/directory-open.svg</file>
+        <file>resources/icons/default/scalable/actions/edit-block-mode.svg</file>
+        <file>resources/icons/default/scalable/actions/edit-copy.svg</file>
+        <file>resources/icons/default/scalable/actions/edit-cut.svg</file>
+        <file>resources/icons/default/scalable/actions/edit-paste.svg</file>
+        <file>resources/icons/default/scalable/actions/edit-redo.svg</file>
+        <file>resources/icons/default/scalable/actions/edit-undo.svg</file>
+        <file>resources/icons/default/scalable/actions/file-export.svg</file>
+        <file>resources/icons/default/scalable/actions/file-delete.svg</file>
+        <file>resources/icons/default/scalable/actions/file-import.svg</file>
+        <file>resources/icons/default/scalable/actions/file-open.svg</file>
+        <file>resources/icons/default/scalable/actions/help.svg</file>
+        <file>resources/icons/default/scalable/actions/home.svg</file>
+        <file>resources/icons/default/scalable/actions/info.svg</file>
+        <file>resources/icons/default/scalable/actions/limit-speed.svg</file>
+        <file>resources/icons/default/scalable/actions/mask.svg</file>
+        <file>resources/icons/default/scalable/actions/move-down.svg</file>
+        <file>resources/icons/default/scalable/actions/move-bottom.svg</file>
+        <file>resources/icons/default/scalable/actions/move-top.svg</file>
+        <file>resources/icons/default/scalable/actions/move-up.svg</file>
+        <file>resources/icons/default/scalable/actions/play-idle.svg</file>
+        <file>resources/icons/default/scalable/actions/play-pause.svg</file>
+        <file>resources/icons/default/scalable/actions/play-resume.svg</file>
+        <file>resources/icons/default/scalable/actions/play-resume-force.svg</file>
+        <file>resources/icons/default/scalable/actions/play-stop.svg</file>
+        <file>resources/icons/default/scalable/actions/preference.svg</file>
+        <file>resources/icons/default/scalable/actions/preference-advanced.svg</file>
+        <file>resources/icons/default/scalable/actions/preference-filters.svg</file>
+        <file>resources/icons/default/scalable/actions/preference-general.svg</file>
+        <file>resources/icons/default/scalable/actions/preference-interface.svg</file>
+        <file>resources/icons/default/scalable/actions/preference-language.svg</file>
+        <file>resources/icons/default/scalable/actions/preference-network.svg</file>
+        <file>resources/icons/default/scalable/actions/preference-privacy.svg</file>
+        <file>resources/icons/default/scalable/actions/preference-schedule.svg</file>
+        <file>resources/icons/default/scalable/actions/preference-security.svg</file>
+        <file>resources/icons/default/scalable/actions/preference-torrent.svg</file>
+        <file>resources/icons/default/scalable/actions/remove-all.svg</file>
+        <file>resources/icons/default/scalable/actions/remove-completed.svg</file>
+        <file>resources/icons/default/scalable/actions/remove-downloaded.svg</file>
+        <file>resources/icons/default/scalable/actions/remove-paused.svg</file>
+        <file>resources/icons/default/scalable/actions/remove-resumed.svg</file>
+        <file>resources/icons/default/scalable/actions/remove-stopped.svg</file>
+        <file>resources/icons/default/scalable/actions/remove-waiting.svg</file>
+        <file>resources/icons/default/scalable/actions/rename.svg</file>
+        <file>resources/icons/default/scalable/actions/segment-add.svg</file>
+        <file>resources/icons/default/scalable/actions/segment-remove.svg</file>
+        <file>resources/icons/default/scalable/actions/select-all.svg</file>
+        <file>resources/icons/default/scalable/actions/select-completed.svg</file>
+        <file>resources/icons/default/scalable/actions/select-invert.svg</file>
+        <file>resources/icons/default/scalable/actions/select-none.svg</file>
+        <file>resources/icons/default/scalable/actions/stream-audio.svg</file>
+        <file>resources/icons/default/scalable/actions/stream-subtitle.svg</file>
+        <file>resources/icons/default/scalable/actions/stream-video.svg</file>        
+        <file>resources/icons/default-dark/index.theme</file>
+        <file>resources/icons/default-dark/scalable/actions/about.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/browse.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/check-nok.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/check-ok.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/check-progress.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/add-batch.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/add-content.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/add-stream.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/add-torrent.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/add-urls.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/directory-open.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/edit-block-mode.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/edit-copy.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/edit-cut.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/edit-paste.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/edit-redo.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/edit-undo.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/file-export.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/file-delete.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/file-import.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/file-open.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/help.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/home.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/info.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/limit-speed.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/mask.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/move-down.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/move-bottom.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/move-top.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/move-up.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/play-idle.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/play-pause.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/play-resume.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/play-resume-force.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/play-stop.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/preference.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/preference-advanced.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/preference-filters.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/preference-general.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/preference-interface.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/preference-language.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/preference-network.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/preference-privacy.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/preference-schedule.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/preference-security.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/preference-torrent.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/remove-all.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/remove-completed.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/remove-downloaded.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/remove-paused.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/remove-resumed.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/remove-stopped.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/remove-waiting.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/rename.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/segment-add.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/segment-remove.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/select-all.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/select-completed.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/select-invert.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/select-none.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/stream-audio.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/stream-subtitle.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/stream-video.svg</file>
         <file>resources/icons/flat/index.theme</file>
         <file>resources/icons/flat/scalable/actions/about.svg</file>
         <file>resources/icons/flat/scalable/actions/browse.svg</file>
@@ -102,10 +161,8 @@
         <file>resources/icons/flat/scalable/actions/help.svg</file>
         <file>resources/icons/flat/scalable/actions/home.svg</file>
         <file>resources/icons/flat/scalable/actions/info.svg</file>
-        <file>resources/icons/flat/scalable/actions/limit-domain.svg</file>
         <file>resources/icons/flat/scalable/actions/limit-speed.svg</file>
         <file>resources/icons/flat/scalable/actions/mask.svg</file>
-        <file>resources/icons/flat/scalable/actions/mirror-server.svg</file>
         <file>resources/icons/flat/scalable/actions/move-down.svg</file>
         <file>resources/icons/flat/scalable/actions/move-bottom.svg</file>
         <file>resources/icons/flat/scalable/actions/move-top.svg</file>
@@ -129,7 +186,6 @@
         <file>resources/icons/flat/scalable/actions/remove-all.svg</file>
         <file>resources/icons/flat/scalable/actions/remove-completed.svg</file>
         <file>resources/icons/flat/scalable/actions/remove-downloaded.svg</file>
-        <file>resources/icons/flat/scalable/actions/remove-duplicates.svg</file>
         <file>resources/icons/flat/scalable/actions/remove-paused.svg</file>
         <file>resources/icons/flat/scalable/actions/remove-resumed.svg</file>
         <file>resources/icons/flat/scalable/actions/remove-stopped.svg</file>
@@ -169,10 +225,8 @@
         <file>resources/icons/flat-dark/scalable/actions/help.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/home.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/info.svg</file>
-        <file>resources/icons/flat-dark/scalable/actions/limit-domain.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/limit-speed.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/mask.svg</file>
-        <file>resources/icons/flat-dark/scalable/actions/mirror-server.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/move-down.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/move-bottom.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/move-top.svg</file>
@@ -196,7 +250,6 @@
         <file>resources/icons/flat-dark/scalable/actions/remove-all.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/remove-completed.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/remove-downloaded.svg</file>
-        <file>resources/icons/flat-dark/scalable/actions/remove-duplicates.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/remove-paused.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/remove-resumed.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/remove-stopped.svg</file>

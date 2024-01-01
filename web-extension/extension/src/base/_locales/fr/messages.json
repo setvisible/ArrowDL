@@ -68,8 +68,8 @@
     "description": "Title of the context menu for Download content (paused)"
   },
   "popupOpen": {
-    "message": "Ouvrir DZA!",
-    "description": "Title of the context menu for Open DZA!"
+    "message": "Ouvrir ArrowDL",
+    "description": "Title of the context menu for Open ArrowDL"
   },
   "popupPreferences": {
     "message": "Préférences...",
@@ -80,8 +80,8 @@
     "description": "Title of the context menu for Options..."
   },
   "popupVisitWebsite": {
-    "message": "Visiter le site web DZA",
-    "description": "Title of the context menu for Visit DZA website"
+    "message": "Visiter le site web ArrowDL",
+    "description": "Title of the context menu for Visit ArrowDL website"
   },
 
   "popupError": {
@@ -151,7 +151,7 @@
     "description": "Tells the user how to install the application."
   },
   "optionsInstallMessageLink": {
-    "message": "Visiter le site web DZA",
+    "message": "Visiter le site web ArrowDL",
     "description": "Link to the application URL."
   },
   "optionsRefresh": {

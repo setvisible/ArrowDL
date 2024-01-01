@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -50,7 +50,7 @@ public:
 
 private:
     /* Device */
-    QIODevice *m_device{nullptr};
+    QIODevice *m_device = nullptr;
     IFileHandlerPtr m_handler;
 
     bool initHandler();
@@ -58,7 +58,7 @@ private:
 
     /* Error */
     FileReader::FileReaderError m_fileReaderError = UnknownError;
-    QString m_errorString;
+    QString m_errorString = {};
 
     Q_DISABLE_COPY(FileReader)
 };

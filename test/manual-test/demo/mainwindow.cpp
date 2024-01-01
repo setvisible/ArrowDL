@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -84,7 +84,6 @@ void MainWindow::createActions()
     connect(ui->actionInvertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
     connect(ui->actionSelectCompleted, SIGNAL(triggered()), this, SLOT(selectCompleted()));
     // --
-    connect(ui->actionManageMirrors, SIGNAL(triggered()), this, SLOT(manageMirrors()));
     connect(ui->actionOneMoreSegment, SIGNAL(triggered()), this, SLOT(oneMoreSegment()));
     connect(ui->actionOneFewerSegment, SIGNAL(triggered()), this, SLOT(oneFewerSegment()));
     //! [1]
@@ -95,7 +94,6 @@ void MainWindow::createActions()
     connect(ui->actionRemoveWaiting, SIGNAL(triggered()), this, SLOT(removeWaiting()));
     // --
     connect(ui->actionRemoveSelected, SIGNAL(triggered()), this, SLOT(removeSelected()));
-    connect(ui->actionRemoveDuplicates, SIGNAL(triggered()), this, SLOT(removeDuplicates()));
     connect(ui->actionRemoveFailed, SIGNAL(triggered()), this, SLOT(removeFailed()));
     connect(ui->actionRemovePaused, SIGNAL(triggered()), this, SLOT(removePaused()));
     //! [2]
@@ -115,7 +113,6 @@ void MainWindow::createActions()
 
     //! [4]  Options
     connect(ui->actionSpeedLimit, SIGNAL(triggered()), this, SLOT(speedLimit()));
-    connect(ui->actionAddDomainSpecificLimit, SIGNAL(triggered()), this, SLOT(addDomainSpecificLimit()));
     //--
     connect(ui->actionForceStart, SIGNAL(triggered()), this, SLOT(forceStart()));
     //! [4]
@@ -135,7 +132,6 @@ void MainWindow::createContextMenu()
 
     QMenu *remove = contextMenu->addMenu(tr("Other"));
     remove->addAction(ui->actionRemoveWaiting);
-    remove->addAction(ui->actionRemoveDuplicates);
     remove->addSeparator();
     remove->addAction(ui->actionRemovePaused);
     remove->addAction(ui->actionRemoveFailed);
@@ -155,11 +151,7 @@ void MainWindow::createContextMenu()
     advanced->addAction(ui->actionOneMoreSegment);
     advanced->addAction(ui->actionOneFewerSegment);
     advanced->addSeparator();
-    advanced->addAction(ui->actionManageMirrors);
-    advanced->addSeparator();
     advanced->addAction(ui->actionForceStart);
-    advanced->addSeparator();
-    advanced->addAction(ui->actionAddDomainSpecificLimit);
 
     ui->downloadQueueView->setContextMenu(contextMenu);
 }
@@ -192,7 +184,6 @@ void MainWindow::propagateIcons()
         // --
         // {ui->actionCopy   , ""},
         // --
-        {ui->actionManageMirrors          , "mirror-server"},
         {ui->actionOneMoreSegment         , "segment-add"},
         {ui->actionOneFewerSegment        , "segment-remove"},
         //! [1]
@@ -210,7 +201,6 @@ void MainWindow::propagateIcons()
         {ui->actionRemoveAll              , "remove-all"},
         // --
         {ui->actionRemoveWaiting          , "remove-waiting"},
-        {ui->actionRemoveDuplicates       , "remove-duplicates"},
         //        {ui->actionRemoveRunning          , "remove-resumed"},
         {ui->actionRemovePaused           , "remove-paused"},
         {ui->actionRemoveFailed           , "remove-stopped"},
@@ -229,7 +219,6 @@ void MainWindow::propagateIcons()
 
         //! [4]  Options
         {ui->actionSpeedLimit             , "limit-speed"},
-        {ui->actionAddDomainSpecificLimit , "limit-domain"},
         //--
         {ui->actionForceStart             , "play-resume-force"},
         //--
@@ -276,11 +265,6 @@ void MainWindow::selectCompleted()
     m_downloadManager->setSelection(m_downloadManager->completedJobs());
 }
 
-void MainWindow::manageMirrors()
-{    
-    qDebug() << Q_FUNC_INFO << "TODO";
-}
-
 void MainWindow::oneMoreSegment()
 {
     m_downloadManager->oneMoreSegment();
@@ -309,11 +293,6 @@ void MainWindow::removeCompleted()
 void MainWindow::removeSelected()
 {
     m_downloadManager->remove(m_downloadManager->selection());
-}
-
-void MainWindow::removeDuplicates()
-{
-    qDebug() << Q_FUNC_INFO << "TODO remove Duplicates";
 }
 
 void MainWindow::removeFailed()
@@ -374,11 +353,6 @@ void MainWindow::bottom()
 
 void MainWindow::speedLimit()
 {    
-    qDebug() << Q_FUNC_INFO << "TODO";
-}
-
-void MainWindow::addDomainSpecificLimit()
-{
     qDebug() << Q_FUNC_INFO << "TODO";
 }
 
@@ -478,7 +452,6 @@ void MainWindow::refreshMenus()
     //ui->actionInvertSelection->setEnabled(hasSelection);
     //ui->actionSelectCompleted->setEnabled(hasSelection);
     // --
-    ui->actionManageMirrors->setEnabled(hasAtLeastOneUncompletedSelected);
     ui->actionOneMoreSegment->setEnabled(hasAtLeastOneUncompletedSelected);
     ui->actionOneFewerSegment->setEnabled(hasAtLeastOneUncompletedSelected);
     //! [1]
@@ -496,7 +469,6 @@ void MainWindow::refreshMenus()
     ui->actionRemoveWaiting->setEnabled(hasJobs);
     // --
     ui->actionRemoveSelected->setEnabled(hasJobs);
-    ui->actionRemoveDuplicates->setEnabled(hasJobs);
     ui->actionRemoveFailed->setEnabled(hasJobs);
     ui->actionRemovePaused->setEnabled(hasJobs);
     //! [2]
@@ -516,7 +488,6 @@ void MainWindow::refreshMenus()
 
     //! [4]  Options
     ui->actionSpeedLimit->setEnabled(hasSelection);
-    ui->actionAddDomainSpecificLimit->setEnabled(hasSelection);
     //--
     ui->actionForceStart->setEnabled(hasSelection);
     //--

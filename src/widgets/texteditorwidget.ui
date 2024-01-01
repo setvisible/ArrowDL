@@ -32,7 +32,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/resources/icons/default/24x24/actions/edit-undo.png</normaloff>:/resources/icons/default/24x24/actions/edit-undo.png</iconset>
+         <normaloff>:/resources/icons/default/scalable/actions/edit-undo.svg</normaloff>:/resources/icons/default/scalable/actions/edit-undo.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -61,7 +61,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/resources/icons/default/24x24/actions/edit-redo.png</normaloff>:/resources/icons/default/24x24/actions/edit-redo.png</iconset>
+         <normaloff>:/resources/icons/default/scalable/actions/edit-redo.svg</normaloff>:/resources/icons/default/scalable/actions/edit-redo.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -97,7 +97,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/resources/icons/default/24x24/actions/edit-cut.png</normaloff>:/resources/icons/default/24x24/actions/edit-cut.png</iconset>
+         <normaloff>:/resources/icons/default/scalable/actions/edit-cut.svg</normaloff>:/resources/icons/default/scalable/actions/edit-cut.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -126,7 +126,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/resources/icons/default/24x24/actions/edit-copy.png</normaloff>:/resources/icons/default/24x24/actions/edit-copy.png</iconset>
+         <normaloff>:/resources/icons/default/scalable/actions/edit-copy.svg</normaloff>:/resources/icons/default/scalable/actions/edit-copy.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -155,7 +155,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/resources/icons/default/24x24/actions/edit-paste.png</normaloff>:/resources/icons/default/24x24/actions/edit-paste.png</iconset>
+         <normaloff>:/resources/icons/default/scalable/actions/edit-paste.svg</normaloff>:/resources/icons/default/scalable/actions/edit-paste.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -191,7 +191,7 @@
        </property>
        <property name="icon">
         <iconset resource="../resources.qrc">
-         <normaloff>:/resources/icons/default/24x24/actions/edit-block-mode.png</normaloff>:/resources/icons/default/24x24/actions/edit-block-mode.png</iconset>
+         <normaloff>:/resources/icons/default/scalable/actions/edit-block-mode.svg</normaloff>:/resources/icons/default/scalable/actions/edit-block-mode.svg</iconset>
        </property>
        <property name="iconSize">
         <size>

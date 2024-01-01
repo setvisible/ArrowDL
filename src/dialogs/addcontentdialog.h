@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -74,14 +74,14 @@ private slots:
     void refreshFilters();
 
 private:
-    Ui::AddContentDialog *ui;
-    DownloadManager *m_downloadManager;
-    Model *m_model;
+    Ui::AddContentDialog *ui = nullptr;
+    DownloadManager *m_downloadManager = nullptr;
+    Model *m_model = nullptr;
 #ifdef USE_QT_WEBENGINE
-    QWebEngineView *m_webEngineView;
+    QWebEngineView *m_webEngineView = nullptr;
 #endif
-    Settings *m_settings;
-    QUrl m_url;
+    Settings *m_settings = nullptr;
+    QUrl m_url = {};
     Bypass m_bypass = None;
 
     void parseResources(const QString &message);

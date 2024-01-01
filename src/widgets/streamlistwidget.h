@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -65,8 +65,8 @@ private slots:
     void onTrackNumberChecked(int state);
 
 private:
-    Ui::StreamListWidget *ui;
-    StreamTableModel *m_playlistModel;
+    Ui::StreamListWidget *ui = nullptr;
+    StreamTableModel *m_playlistModel = nullptr;
 
     enum State {
         Empty,
@@ -110,8 +110,8 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
 private:
-    QStringList m_headers;
-    QList<StreamObject> m_items;
+    QStringList m_headers = {};
+    QList<StreamObject> m_items = {};
     QString filenameOrErrorMessage(const StreamObject &streamObject) const;
 };
 

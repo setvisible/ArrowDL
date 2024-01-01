@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -47,7 +47,7 @@ UpdateDialog::UpdateDialog(UpdateChecker *updateChecker, QWidget *parent)
     connect(ui->checkButton, SIGNAL(released()), this, SLOT(check()));
     connect(ui->installButton, SIGNAL(released()), this, SLOT(install()));
 
-    connect(m_updateChecker, SIGNAL(updateAvailableForGui(UpdateChecker::ChangeLog)), this, SLOT(updateAvailableForGui(UpdateChecker::ChangeLog)));
+    connect(m_updateChecker, SIGNAL(updateAvailableForGui(UpdateChecker::ChangeLog)), this, SLOT(onUpdateAvailableForGui(UpdateChecker::ChangeLog)));
     connect(m_updateChecker, SIGNAL(downloadProgress(qsizetype,qsizetype)), this, SLOT(onDownloadProgress(qsizetype,qsizetype)));
     connect(m_updateChecker, SIGNAL(updateDownloadFinished()), this, SLOT(onUpdateDownloadFinished()));
     connect(m_updateChecker, SIGNAL(updateError(QString)), this, SLOT(onUpdateError(QString)));

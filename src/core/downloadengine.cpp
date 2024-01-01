@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,16 +21,16 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QtMath>
+#include <QtCore/QTimer>
 
 
 DownloadEngine::DownloadEngine(QObject *parent) : QObject(parent)
-  , m_maxSimultaneousDownloads(4)
-  , m_selectionAboutToChange(false)
+    , m_speedTimer(new QTimer(this))
 {
     connect(this, SIGNAL(jobFinished(IDownloadItem*)),
             this, SLOT(startNext(IDownloadItem*)));
 
-    connect(&m_speedTimer, SIGNAL(timeout()), this, SLOT(onSpeedTimerTimeout()));
+    connect(m_speedTimer, SIGNAL(timeout()), this, SLOT(onSpeedTimerTimeout()));
 }
 
 DownloadEngine::~DownloadEngine()
@@ -236,7 +236,7 @@ QList<IDownloadItem*> DownloadEngine::runningJobs() const
  ******************************************************************************/
 void DownloadEngine::onSpeedTimerTimeout()
 {
-    m_speedTimer.stop();
+    m_speedTimer->stop();
     m_previouSpeed = 0;
     emit onChanged();
 }
@@ -249,7 +249,7 @@ qreal DownloadEngine::totalSpeed()
     }
     if (speed > 0) {
         m_previouSpeed = speed;
-        m_speedTimer.start(MSEC_SPEED_DISPLAY_TIME);
+        m_speedTimer->start(MSEC_SPEED_DISPLAY_TIME);
     }
     return m_previouSpeed;
 }

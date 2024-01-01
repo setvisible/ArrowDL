@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -38,7 +38,7 @@ private slots:
     void onCollected(const QStringList &extractors, const QStringList &descriptions);
 
 private:
-    Ui::StreamDialog *ui;
+    Ui::StreamDialog *ui = nullptr;
 
     inline void askStreamVersionAsync();
     inline void askStreamExtractorsAsync();

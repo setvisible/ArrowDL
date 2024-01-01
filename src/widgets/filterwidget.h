@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -57,7 +57,7 @@ private slots:
     void onFilterTipToolLinkActivated(const QString& link);
 
 private:
-    Ui::FilterWidget *ui;
+    Ui::FilterWidget *ui = nullptr;
 
     inline QList<QCheckBox*> allCheckBoxes() const;
 };

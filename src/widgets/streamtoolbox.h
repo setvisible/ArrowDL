@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -60,7 +60,7 @@ private slots:
     void setAutoSubtitleHidden(bool hidden);
 
 private:
-    Ui::StreamToolBox *ui;
+    Ui::StreamToolBox *ui = nullptr;
 
     void initializeSubtitles();
     void propagateIcons();
@@ -73,7 +73,7 @@ private slots:
     void _q_onToolButtonReleased();
     void _q_onToolButtonClosed();
 private:
-    QList<QAbstractButton *> m_buttons;
+    QList<QAbstractButton *> m_buttons = {};
 #endif
 };
 

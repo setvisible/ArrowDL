@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -591,7 +591,7 @@ QStringList Settings::httpUserAgents()
             << QLatin1String("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36")
             << QLatin1String("Mozilla/5.0 (iPhone; CPU iPhone OS 11_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko)")
             << QLatin1String("Version/10.0 Mobile/14E304 Safari/602.1")
-            << QLatin1String("DownZemAll/2.x")
+            << QLatin1String("ArrowDL/3.x")
             << QLatin1String("Java1.1.4")
             << QLatin1String("Lynx/2.8rel.3 libwww-FM/2.14")
             << QLatin1String("HyperBrowser (Cray; I; OrganicOS 9.7.42beta-27)");

@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=ArrowDL
+Comment=The Right Mass Downloader
+Comment[en]=The Right Mass Downloader
+Comment[fr]=Le parfait téléchargeur de masse
+Categories=Utility;
+StartupNotify=false
+Terminal=false
+Icon=/ABSOLUTE/PATH/TO/APP/DIRECTORY/ArrowDL_64x64.png
+# HOTFIX for Ubuntu 22.04 using xcb display: 
+Exec=bash -c "cd '/ABSOLUTE/PATH/TO/APP/DIRECTORY/../' && export QT_QPA_PLATFORM=xcb && export LD_LIBRARY_PATH=. && ./ArrowDL %U"
+# Other:
+#Exec=/ABSOLUTE/PATH/TO/APP/DIRECTORY/../ArrowDL %U

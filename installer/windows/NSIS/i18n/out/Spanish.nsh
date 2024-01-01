@@ -2,7 +2,7 @@ LangString DESC_SectionMainApplication ${LANG_SPANISH} "La aplicación principal
 LangString DESC_SectionLauncher ${LANG_SPANISH} "El lanzador, utilizado para enviar mensajes con el navegador web."
 LangString DESC_SectionStartMenuShortcut ${LANG_SPANISH} "Crear acceso directo al menú Inicio."
 LangString DESC_SectionDesktopShortcut ${LANG_SPANISH} "Crear acceso directo del Escritorio."
-LangString DESC_UninstallIconDescription ${LANG_SPANISH} "Desinstalar DownZemAll"
+LangString DESC_UninstallIconDescription ${LANG_SPANISH} "Desinstalar ArrowDL"
 LangString DESC_ApplicationSession ${LANG_SPANISH} "Solicitud (requerida)"
 LangString DESC_LauncherSession ${LANG_SPANISH} "Lanzador (requerido)"
 LangString DESC_StartMenuGroupSession ${LANG_SPANISH} "Acceso directo del menú Inicio"

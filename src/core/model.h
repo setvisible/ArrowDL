@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -51,8 +51,8 @@ public slots:
     void select(const QRegularExpression &regex);
 
 private:
-    ResourceModel *m_linkModel;
-    ResourceModel *m_contentModel;
+    ResourceModel *m_linkModel = nullptr;
+    ResourceModel *m_contentModel = nullptr;
     Tab m_currentTab = LINK;
 };
 

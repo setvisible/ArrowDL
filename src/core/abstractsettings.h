@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -90,7 +90,7 @@ protected:
     QMap<QString, QVariant> deserialize(const QString &str) const;
 
 private:
-    QList<SettingsItem*> m_items;
+    QList<SettingsItem*> m_items = {};
     bool m_default = false;
 
     void _q_addDefaultSetting(const QString &key, const QString &defaultValue, KeyType keyType);

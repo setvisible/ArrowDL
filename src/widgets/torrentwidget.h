@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -81,7 +81,7 @@ private slots:
     void copyTrackerList();
 
 private:
-    Ui::TorrentWidget *ui;
+    Ui::TorrentWidget *ui = nullptr;
     TorrentBaseContext *m_torrentContext = nullptr;
     Torrent *m_torrent = nullptr;
 

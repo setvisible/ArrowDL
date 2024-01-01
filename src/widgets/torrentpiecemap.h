@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -72,7 +72,7 @@ private slots:
     void handleResults(const TorrentPieceData &pieceData);
 
 private:
-    Ui::TorrentPieceMap *ui;
+    Ui::TorrentPieceMap *ui = nullptr;
     Torrent *m_torrent = nullptr;
     QGraphicsScene *m_scene = nullptr;
     QGraphicsRectItem *m_rootItem = nullptr;

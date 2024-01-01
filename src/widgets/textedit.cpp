@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31,11 +31,6 @@
 
 BlockSelector::BlockSelector(TextEdit *parent)
     : m_editor(parent)
-    , m_isActive(false)
-    , anchorLine(0)
-    , anchorColumn(0)
-    , cursorLine(0)
-    , cursorColumn(0)
 {
 }
 

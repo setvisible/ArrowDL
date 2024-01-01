@@ -1,6 +1,6 @@
 # GENERAL
-PROJECT_NAME           = "DownZemAll"
-OUTPUT_DIRECTORY       = "../../doxy-DownZemAll/"
+PROJECT_NAME           = "ArrowDL"
+OUTPUT_DIRECTORY       = "../../doxy-ArrowDL/"
 OUTPUT_LANGUAGE        = English
 GENERATE_HTML          = YES
 GENERATE_LATEX         = NO

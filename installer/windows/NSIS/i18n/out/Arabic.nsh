@@ -2,7 +2,7 @@ LangString DESC_SectionMainApplication ${LANG_ARABIC} "التطبيق الرئي
 LangString DESC_SectionLauncher ${LANG_ARABIC} "قاذفة ، تستخدم للمراسلة مع متصفح الويب."
 LangString DESC_SectionStartMenuShortcut ${LANG_ARABIC} "إنشاء اختصار قائمة ابدأ."
 LangString DESC_SectionDesktopShortcut ${LANG_ARABIC} "إنشاء اختصار سطح المكتب."
-LangString DESC_UninstallIconDescription ${LANG_ARABIC} "قم بإلغاء تثبيت DownZemAll"
+LangString DESC_UninstallIconDescription ${LANG_ARABIC} "قم بإلغاء تثبيت ArrowDL"
 LangString DESC_ApplicationSession ${LANG_ARABIC} "التطبيق (مطلوب)"
 LangString DESC_LauncherSession ${LANG_ARABIC} "قاذفة (مطلوب)"
 LangString DESC_StartMenuGroupSession ${LANG_ARABIC} "ابدأ اختصار القائمة"

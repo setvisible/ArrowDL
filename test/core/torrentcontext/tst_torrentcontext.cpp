@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,6 +22,8 @@
 #include <QtCore/QDebug>
 #include <QtTest/QtTest>
 
+using namespace Qt::Literals::StringLiterals;
+
 class tst_TorrentContext : public QObject
 {
     Q_OBJECT
@@ -29,6 +31,7 @@ class tst_TorrentContext : public QObject
 private slots:
     void toBitArray_data();
     void toBitArray();
+    void dump_invalid();
 };
 
 class FriendlyWorkerThread : public WorkerThread
@@ -39,7 +42,7 @@ public:
 };
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
 /**
  * Helper function to initialize a bitarray from a string
  */
@@ -95,15 +98,32 @@ void tst_TorrentContext::toBitArray()
     QBitArray expected = input;
 
     // When
-    FriendlyWorkerThread target(this);
-    QBitArray actual = target.toBitArray(pieces);
+    QBitArray actual = TorrentUtils::toBitArray(pieces);
 
     // Then
     QCOMPARE(actual, expected);
 }
 
 /******************************************************************************
-******************************************************************************/
+ ******************************************************************************/
+void tst_TorrentContext::dump_invalid()
+{
+    // Given
+    auto torrentFile("./data/ill-formed.torrent"_L1);
+    QVERIFY(QFileInfo::exists(torrentFile));
+
+    TorrentInitialMetaInfo expected;
+
+    // When
+    FriendlyWorkerThread target(this);
+    TorrentInitialMetaInfo actual = target.dump(torrentFile);
+
+    // Then
+    QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+ ******************************************************************************/
 QTEST_APPLESS_MAIN(tst_TorrentContext)
 
 #include "tst_torrentcontext.moc"

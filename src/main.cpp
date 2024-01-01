@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,6 +22,8 @@
 #include <Ipc/InterProcessCommunication>
 
 #include <QtCore/QCommandLineParser>
+
+#include <boost/stacktrace.hpp>
 
 /* Enable the type to be used with QVariant. */
 Q_DECLARE_METATYPE(QList<int>)
@@ -78,7 +80,7 @@ int main(int argc, char *argv[])
     parser.process(application);
 
     // Fix missing Title Bar icon on KDE Plasma's Wayland session.
-    application.setDesktopFileName("downzemall");
+    application.setDesktopFileName("arrowdl");
 
 #ifndef QT_DEBUG
     if (parser.isSet(verboseOption)) {
@@ -123,5 +125,14 @@ int main(int argc, char *argv[])
 
     QObject::connect(&application, SIGNAL(messageReceived(QString)), &window, SLOT(handleMessage(QString)));
 
-    return QtSingleApplication::exec();
+    try {
+        return QtSingleApplication::exec();
+
+    } catch (const std::exception &exception) {
+        /// \todo use future C++23 <stacktrace> instead
+        std::string bt = boost::stacktrace::to_string(boost::stacktrace::stacktrace());
+        qWarning() << "Caught Fatal exception: " << QString::fromUtf8(exception.what());
+        qWarning() << QString::fromUtf8(bt);
+        return EXIT_FAILURE;
+    }
 }

@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -57,8 +57,8 @@ private slots:
     void onResourceChanged();
 
 private:
-    QStringList m_headers;
-    QList<ResourceItem*> m_items;
+    QStringList m_headers = {};
+    QList<ResourceItem*> m_items = {};
 };
 
 #endif // CORE_RESOURCE_MODEL_H

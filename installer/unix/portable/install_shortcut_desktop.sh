@@ -52,8 +52,8 @@ fi
 
 mkdir -p $LAUNCHER_DESTINATION
 
-SOURCE=./DownZemAll.desktop
-TARGET=$LAUNCHER_DESTINATION/DownZemAll.desktop
+SOURCE=./ArrowDL.desktop
+TARGET=$LAUNCHER_DESTINATION/ArrowDL.desktop
 
 add_shortcut $SOURCE $TARGET
 
@@ -61,8 +61,8 @@ add_shortcut $SOURCE $TARGET
 # #######################################################
 echo "Creating desktop shortcut..."
 
-SOURCE=./DownZemAll.desktop
+SOURCE=./ArrowDL.desktop
 DESTINATION=$(xdg-user-dir DESKTOP)
-TARGET=$DESTINATION/DownZemAll.desktop
+TARGET=$DESTINATION/ArrowDL.desktop
 
 add_shortcut $SOURCE $TARGET

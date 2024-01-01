@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -46,10 +46,10 @@ private slots:
     void onTextChanged();
 
 private:
-    Ui::AddUrlsDialog *ui;
-    QLineEdit *m_fakeUrlLineEdit;
-    DownloadManager *m_downloadManager;
-    Settings *m_settings;
+    Ui::AddUrlsDialog *ui = nullptr;
+    QLineEdit *m_fakeUrlLineEdit = nullptr;
+    DownloadManager *m_downloadManager = nullptr;
+    Settings *m_settings = nullptr;
 
     void doAccept(bool started);
 

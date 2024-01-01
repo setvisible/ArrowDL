@@ -12,7 +12,7 @@ excerpt_separator:  <!--more-->
 
 ## Introducing Magnet Links and Torrents download
 
-*DownZemAll!* version 2.0.0 is now able to download .torrent files.
+*ArrowDL* version 2.0.0 is now able to download .torrent files.
 
 ### Why a torrent manager?
 
@@ -22,12 +22,12 @@ So there is.
 
 Indeed, good torrent downloaders have a problem: they are mostly shareware / closed-source software. History is full of solution providers that use their torrent application to **mine bitcoins** without **user consent**, polluting the UI with **advertising banners**, or simply collect the users data to resell it to marketing agencies, crackers and maybe policing government institutions.
 
-In the FOS (free and open-source) world, there are not tons of choices. So DZA is a new way to **enjoy torrents again**. The technology behind the peer-to-peer concept is very exciting to explore, and open so many opportunities.
+In the FOS (free and open-source) world, there are not tons of choices. So ArrowDL is a new way to **enjoy torrents again**. The technology behind the peer-to-peer concept is very exciting to explore, and open so many opportunities.
 
 
 ### How it 's made
 
-*DownZemAll!* uses the library *libtorrent*, a free and open-source library by Arvid Norberg to download magnet links and .torrent files.
+*ArrowDL* uses the library *libtorrent*, a free and open-source library by Arvid Norberg to download magnet links and .torrent files.
 
 [https://www.libtorrent.org/](https://www.libtorrent.org/)
 
@@ -35,7 +35,7 @@ In the FOS (free and open-source) world, there are not tons of choices. So DZA i
 
 > Remark:
 >
-> Libtorrent has tons of features. Everything is however customizable in DZA from the Preferences dialog.
+> Libtorrent has tons of features. Everything is however customizable in ArrowDL from the Preferences dialog.
 >
 > There are also 2 presets of settings for lazy people.
 > 
@@ -47,11 +47,11 @@ See pictures below to know how to use it:
 
 (yes, this is the icon of transmission)
 
-![Torrent download](/DownZemAll/assets/images/2.0/torrent_01.png)
+![Torrent download](/ArrowDL/assets/images/2.0/torrent_01.png)
 
-![Torrent download](/DownZemAll/assets/images/2.0/torrent_02.png)
+![Torrent download](/ArrowDL/assets/images/2.0/torrent_02.png)
 
 Torrent settings are customizable:
 
-![Download torrents](/DownZemAll/assets/images/2.0/torrent_prefs.png)
+![Download torrents](/ArrowDL/assets/images/2.0/torrent_prefs.png)
 

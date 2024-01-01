@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -136,7 +136,7 @@ static void searchForLinks(GumboNode* node, Model *model, const QUrl &url)
     }
 
     auto children = &node->v.element.children;
-    for (auto i = 0; i < children->length; ++i) {
+    for (unsigned int i = 0; i < children->length; ++i) {
         auto childNode = static_cast<GumboNode*>(children->data[i]);
         searchForLinks(childNode, model, url);
     }

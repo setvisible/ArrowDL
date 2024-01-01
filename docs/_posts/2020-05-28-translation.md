@@ -13,7 +13,7 @@ tags:
 excerpt_separator:  <!--more-->
 ---
 
-**DownZemAll!** is designed to be usable by everyone including drunk people and 10 years old little guys.
+**ArrowDL** is designed to be usable by everyone including drunk people and 10 years old little guys.
 
 It's therefore important to us that it is usable outside the English-speaking world.
 
@@ -21,7 +21,7 @@ Like many other open-source projects, we are crowd-sourcing the translation effo
 so if you want to help people in your community to be able to play with it in your language,
 please consider joining the translation effort.
 
-Look at the [translation project page](https://www.transifex.com/downzemall/downzemall/) on Transifex.
+Look at the [translation project page](https://www.transifex.com/arrowdl/arrowdl/) on Transifex.
 
 
 #### Current translations
@@ -35,7 +35,7 @@ Dunno if it's true. Anyway, it's the beginning.
 
 #### Want a new translation?
 
-If you want a new language, just create an [issue](https://github.com/setvisible/DownZemAll/issues) on Github.
+If you want a new language, just create an [issue](https://github.com/setvisible/ArrowDL/issues) on Github.
 
 
 #### Current status
@@ -47,17 +47,17 @@ At the moment it's a bit desperate because everything is at 0% of progress, but 
 
 _List of supported languages and translation efforts:_
 
-<img alt="Top translations" src="https://www.transifex.com/projects/p/downzemall/resource/main-application/chart/image_png">
+<img alt="Top translations" src="https://www.transifex.com/projects/p/arrowdl/resource/main-application/chart/image_png">
 
-[Translations effort page](https://www.transifex.com/downzemall/downzemall/widgets/)
+[Translations effort page](https://www.transifex.com/arrowdl/arrowdl/widgets/)
 
 
 _Detailed Chart:_
 
 <section>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript" src="https://www.transifex.com/_/charts/js/downzemall/downzemall/inc_js/main-application/"></script>
-<div id="txchart-downzemall-main-application">Loading chart...</div>
+<script type="text/javascript" src="https://www.transifex.com/_/charts/js/arrowdl/arrowdl/inc_js/main-application/"></script>
+<div id="txchart-arrowdl-main-application">Loading chart...</div>
 </section>
 
 

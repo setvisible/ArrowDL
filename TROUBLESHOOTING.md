@@ -4,7 +4,7 @@
 
 ### Binary signature
 
-Since the binary of *DownZemAll!* is **not signed**, *Windows SmartScreen*
+Since the binary of *ArrowDL* is **not signed**, *Windows SmartScreen*
 might scream at runtime. 
 
 Just ignore it.
@@ -20,7 +20,7 @@ in some countries. Then, at runtime, when Qt doesn't find the libraries,
 it generates *SSH Protocol errors* when trying to connect to HTTP**S** servers.
 
 To solve the problem, copy your OpenSSH libraries in the same directory as your
-*DownZemAll!* executable. You can also add the path to your OpenSSH libraries to
+*ArrowDL* executable. You can also add the path to your OpenSSH libraries to
 your system environment path variable (PATH).
 
 - [Qt5 OpenSSL Support](https://doc.qt.io/archives/qt-5.5/opensslsupport.html "https://doc.qt.io/archives/qt-5.5/opensslsupport.html")
@@ -29,9 +29,9 @@ your system environment path variable (PATH).
 
 ### Firewall ports
 
-*DownZemAll!* downloads resources using HTTP and HTTPS protocols.
+*ArrowDL* downloads resources using HTTP and HTTPS protocols.
 
-To do it, configure your Firewall to allow *DownZemAll!* to use the following **TCP ports**:
+To do it, configure your Firewall to allow *ArrowDL* to use the following **TCP ports**:
 
 - TCP/80 (used for HTTP protocol)
 - TCP/443 (used for HTTPS protocol)
@@ -41,9 +41,9 @@ To do it, configure your Firewall to allow *DownZemAll!* to use the following **
 
 __Issue__
 
-DZA built with MSVC 2019 and Qt 5.13 (MSVC version) crashes when opening the web site downloader wizard.
+ArrowDL built with MSVC 2019 and Qt 5.13 (MSVC version) crashes when opening the web site downloader wizard.
 
-Rem: DZA built with MinGW doesn't have this issue.
+Rem: ArrowDL built with MinGW doesn't have this issue.
 
 __Explanation__
 
@@ -72,8 +72,8 @@ https://doc.qt.io/qt-5/qtwebengine-deploying.html
 
 Error occuring:
 
-    ./DownZemAll
-    $ ./DownZemAll: system lookup error: ./DownZemAll undefined symbol _ZN8QSysInfo8buildAbiEv
+    ./ArrowDL
+    $ ./ArrowDL: system lookup error: ./ArrowDL undefined symbol _ZN8QSysInfo8buildAbiEv
 
 The executable can't find some shared libraries, or the shared libraries 
 (used for build) are different than the shared libraries called at runtime.
@@ -83,7 +83,7 @@ but the runtime finds *Qt 5.2.0* (`/usr/lib/i386-linux-gnu/libQt5Core.so.5`).
 
 Look for the Runtime Search Path (RPATH):
 
-    readelf -d ./DownZemAll | grep NEEDED
+    readelf -d ./ArrowDL | grep NEEDED
     $ 0x00000001 (NEEDED)   Shared Library: [libQt5Widgets.so.5]
     $ 0x00000001 (NEEDED)   Shared Library: [libQt5Network.so.5]
     $ 0x00000001 (NEEDED)   Shared Library: [libQt5Gui.so.5]
@@ -93,10 +93,10 @@ Look for the Runtime Search Path (RPATH):
     $ 0x00000001 (NEEDED)   Shared Library: [libgcc_s.so.1]
     $ 0x00000001 (NEEDED)   Shared Library: [libc.so.6]
 
-    readelf -d ./DownZemAll | grep RPATH
+    readelf -d ./ArrowDL | grep RPATH
     $ 0x0000000f (RPATH)    Library rpath: [$ORIGIN]
 
-    ldd ./DownZemAll | grep "not found"
+    ldd ./ArrowDL | grep "not found"
     $ libQt5Widgets.so.5 => not found
 
 
@@ -104,15 +104,15 @@ __Solution 1__
 
 Set the correct runtime path with LD_LIBRARY_PATH:
 
-    LD_LIBRARY_PATH=/opt/Qt5.4.1/5.4/gcc/lib ./DownZemAll
+    LD_LIBRARY_PATH=/opt/Qt5.4.1/5.4/gcc/lib ./ArrowDL
 
-Create a `DownZemAll.launcher` to set the correct path, or a script:
+Create a `ArrowDL.launcher` to set the correct path, or a script:
 
     ```bash
     #!/bin/bash
     LD_LIBRARY_PATH=/opt/Qt5.4.1/5.4/gcc/lib
     export LD_LIBRARY_PATH
-    ./DownZemAll
+    ./ArrowDL
     ```bash
 
    

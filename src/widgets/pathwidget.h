@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -58,10 +58,10 @@ private slots:
     void onCurrentIndexChanged(int index);
 
 private:
-    Ui::PathWidget *ui;
+    Ui::PathWidget *ui = nullptr;
     PathType m_pathType = File;
-    QString m_suffix;
-    QString m_suffixName;
+    QString m_suffix = {};
+    QString m_suffixName = {};
 };
 
 #endif // WIDGETS_PATH_WIDGET_H

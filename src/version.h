@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -33,15 +33,15 @@
  */
 using namespace Qt::Literals::StringLiterals;
 
-const QString STR_APPLICATION_NAME{"DownZemAll!"};
+const QString STR_APPLICATION_NAME{"ArrowDL"};
 const QString STR_APPLICATION_VERSION{APP_VERSION};
 const QString STR_APPLICATION_DATE{"2020"};
 const QString STR_APPLICATION_AUTHOR{"Sébastien Vavassori"};
-const QString STR_APPLICATION_WEBSITE{"https://github.com/setvisible/DownZemAll"};
-const QString STR_TUTORIAL_WEBSITE{"https://setvisible.github.io/DownZemAll/category/tutorial.html"};
+const QString STR_APPLICATION_WEBSITE{"https://github.com/setvisible/ArrowDL"};
+const QString STR_TUTORIAL_WEBSITE{"https://www.arrow-dl.com/ArrowDL/category/tutorial.html"};
 
 const QString STR_GITHUB_OWNER{"setvisible"};
-const QString STR_GITHUB_REPO{"DownZemAll"};
+const QString STR_GITHUB_REPO{"ArrowDL"};
 const QString STR_GITHUB_REPO_ADDRESS{"https://github.com/" % STR_GITHUB_OWNER % "/" % STR_GITHUB_REPO};
 const QString STR_GITHUB_RELEASES_API{"https://api.github.com/repos/" % STR_GITHUB_OWNER % "/" % STR_GITHUB_REPO % "/releases"};
 

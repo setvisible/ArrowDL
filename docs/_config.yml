@@ -3,11 +3,11 @@ markdown:         kramdown
 highlighter:      rouge
 
 # Setup
-title:            DZA!
-tagline:          'DownZemAll!'
-description:      '<a href="https://setvisible.github.io/DownZemAll" target="_blank">DownZemAll!</a> is a download manager for Windows, Mac OS X and Linux.'
-url:              https://setvisible.github.io
-baseurl:          '/DownZemAll'
+title:            ArrowDL
+tagline:          'ArrowDL'
+description:      '<a href="https://www.arrow-dl.com/ArrowDL" target="_blank">ArrowDL</a> is a download manager for Windows, Mac OS X and Linux.'
+url:              https://www.arrow-dl.com
+baseurl:          '/ArrowDL'
                   # the optional subpath of your site, e.g. "/blog"
                   # NB: This applies to all pages in your Jekyll site.
                   # If you want to move just the blog index pages but keep
@@ -16,10 +16,10 @@ baseurl:          '/DownZemAll'
 
 author:
   name:           'SetVisible(0!=1)'
-  url:            https://setvisible.github.io
+  url:            https://www.arrow-dl.com
 
 github:
-  repo:           https://github.com/setvisible/DownZemAll
+  repo:           https://github.com/setvisible/ArrowDL
 
 paginate:         5
                   # paginate means 5 posts max per page

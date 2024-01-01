@@ -1,4 +1,4 @@
-/* - DownZemAll! - Copyright (C) 2019-present Sebastien Vavassori
+/* - ArrowDL - Copyright (C) 2019-present Sebastien Vavassori
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -45,8 +45,8 @@ private slots:
     void onSuffixChanged(QString suffix);
 
 private:
-    Ui::StreamWidget *ui;
-    StreamObject m_streamObject;
+    Ui::StreamWidget *ui = nullptr;
+    StreamObject m_streamObject = {};
 
     void updateEstimatedSize();
 };
