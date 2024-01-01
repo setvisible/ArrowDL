@@ -45,7 +45,6 @@ public slots:
     void selectNone();
     void invertSelection();
     void selectCompleted();
-    void manageMirrors();
     void oneMoreSegment();
     void oneFewerSegment();
 
@@ -60,7 +59,6 @@ public slots:
     void removeAll();
     void removeCompleted();
     void removeSelected();
-    void removeDuplicates();
     void removeFailed();
     void removePaused();
 
@@ -76,7 +74,6 @@ public slots:
 
     // Options
     void speedLimit();
-    void addDomainSpecificLimit();
     void forceStart();
 //    void showPreferences();
 

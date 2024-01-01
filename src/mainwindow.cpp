@@ -285,7 +285,6 @@ void MainWindow::createActions()
     // --
     connect(ui->actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
     // --
-    connect(ui->actionManageMirrors, SIGNAL(triggered()), this, SLOT(manageMirrors()));
     connect(ui->actionOneMoreSegment, SIGNAL(triggered()), this, SLOT(oneMoreSegment()));
     connect(ui->actionOneFewerSegment, SIGNAL(triggered()), this, SLOT(oneFewerSegment()));
     //! [1]
@@ -302,11 +301,11 @@ void MainWindow::createActions()
     connect(ui->actionRemoveSelected, SIGNAL(triggered()), this, SLOT(removeSelected()));
     connect(ui->actionRemoveAll, SIGNAL(triggered()), this, SLOT(removeAll()));
     // --
-    connect(ui->actionRemoveWaiting, SIGNAL(triggered()), this, SLOT(removeWaiting()));
-    connect(ui->actionRemoveDuplicates, SIGNAL(triggered()), this, SLOT(removeDuplicates()));
+    connect(ui->actionRemoveFailed, SIGNAL(triggered()), this, SLOT(removeFailed()));
+    // --
     connect(ui->actionRemoveRunning, SIGNAL(triggered()), this, SLOT(removeRunning()));
     connect(ui->actionRemovePaused, SIGNAL(triggered()), this, SLOT(removePaused()));
-    connect(ui->actionRemoveFailed, SIGNAL(triggered()), this, SLOT(removeFailed()));
+    connect(ui->actionRemoveWaiting, SIGNAL(triggered()), this, SLOT(removeWaiting()));
     //! [2]
 
     //! [3] Download
@@ -322,7 +321,6 @@ void MainWindow::createActions()
 
     //! [4]  Options
     connect(ui->actionSpeedLimit, SIGNAL(triggered()), this, SLOT(speedLimit()));
-    connect(ui->actionAddDomainSpecificLimit, SIGNAL(triggered()), this, SLOT(addDomainSpecificLimit()));
     //--
     connect(ui->actionForceStart, SIGNAL(triggered()), this, SLOT(forceStart()));
     //--
@@ -377,14 +375,12 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionRemoveCompleted);
     contextMenu->addAction(ui->actionRemoveSelected);
     contextMenu->addAction(ui->actionRemoveAll);
-
-    QMenu *remove = contextMenu->addMenu(tr("Other"));
-    remove->addAction(ui->actionRemoveWaiting);
-    remove->addAction(ui->actionRemoveDuplicates);
-    remove->addSeparator();
-    remove->addAction(ui->actionRemoveRunning);
-    remove->addAction(ui->actionRemovePaused);
-    remove->addAction(ui->actionRemoveFailed);
+    contextMenu->addSeparator();
+    contextMenu->addAction(ui->actionRemoveFailed);
+    contextMenu->addSeparator();
+    contextMenu->addAction(ui->actionRemoveRunning);
+    contextMenu->addAction(ui->actionRemovePaused);
+    contextMenu->addAction(ui->actionRemoveWaiting);
 
     contextMenu->addSeparator();
     contextMenu->addAction(ui->actionSelectAll);
@@ -401,13 +397,10 @@ void MainWindow::createContextMenu()
     advanced->addAction(ui->actionOneMoreSegment);
     advanced->addAction(ui->actionOneFewerSegment);
     advanced->addSeparator();
-    advanced->addAction(ui->actionManageMirrors);
-    advanced->addSeparator();
     advanced->addAction(ui->actionForceStart);
     advanced->addSeparator();
     advanced->addAction(ui->actionImportFromFile);
     advanced->addAction(ui->actionExportSelectedToFile);
-    advanced->addAction(ui->actionAddDomainSpecificLimit);
 
     ui->downloadQueueView->setContextMenu(contextMenu);
 }
@@ -466,7 +459,6 @@ void MainWindow::propagateIcons()
         // --
         // {ui->actionCopy   , ""},
         // --
-        {ui->actionManageMirrors          , "mirror-server"},
         {ui->actionOneMoreSegment         , "segment-add"},
         {ui->actionOneFewerSegment        , "segment-remove"},
         //! [1]
@@ -483,11 +475,11 @@ void MainWindow::propagateIcons()
         {ui->actionRemoveSelected         , "remove-downloaded"},
         {ui->actionRemoveAll              , "remove-all"},
         // --
-        {ui->actionRemoveWaiting          , "remove-waiting"},
-        {ui->actionRemoveDuplicates       , "remove-duplicates"},
+        {ui->actionRemoveFailed           , "remove-stopped"},
+        // --
         {ui->actionRemoveRunning          , "remove-resumed"},
         {ui->actionRemovePaused           , "remove-paused"},
-        {ui->actionRemoveFailed           , "remove-stopped"},
+        {ui->actionRemoveWaiting          , "remove-waiting"},
         //! [2]
 
         //! [3] Download
@@ -503,7 +495,6 @@ void MainWindow::propagateIcons()
 
         //! [4]  Options
         {ui->actionSpeedLimit             , "limit-speed"},
-        {ui->actionAddDomainSpecificLimit , "limit-domain"},
         //--
         {ui->actionForceStart             , "play-resume-force"},
         //--
@@ -573,11 +564,6 @@ void MainWindow::copy()
     const QString text = m_downloadManager->selectionToClipboard();
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(text);
-}
-
-void MainWindow::manageMirrors()
-{
-    qWarning("todo: manageMirrors() not implemented yet.");
 }
 
 void MainWindow::oneMoreSegment()
@@ -705,6 +691,13 @@ bool MainWindow::askConfirmation(const QString &text)
     return true;
 }
 
+void MainWindow::removeCompleted()
+{
+    if (askConfirmation(tr("completed"))) {
+        m_downloadManager->remove(m_downloadManager->completedJobs());
+    }
+}
+
 void MainWindow::removeAll()
 {    
     if (askConfirmation(tr("ALL"))) {
@@ -719,22 +712,17 @@ void MainWindow::removeSelected()
     }
 }
 
-void MainWindow::removeDuplicates()
+void MainWindow::removeFailed()
 {
-    qWarning("todo: removeDuplicates() not implemented yet.");
-}
-
-void MainWindow::removeCompleted()
-{
-    if (askConfirmation(tr("completed"))) {
-        m_downloadManager->remove(m_downloadManager->completedJobs());
+    if (askConfirmation(tr("failed"))) {
+        m_downloadManager->remove(m_downloadManager->failedJobs());
     }
 }
 
-void MainWindow::removeWaiting()
+void MainWindow::removeRunning()
 {
-    if (askConfirmation(tr("waiting"))) {
-        m_downloadManager->remove(m_downloadManager->waitingJobs());
+    if (askConfirmation(tr("running"))) {
+        m_downloadManager->remove(m_downloadManager->runningJobs());
     }
 }
 
@@ -745,18 +733,10 @@ void MainWindow::removePaused()
     }
 }
 
-void MainWindow::removeFailed()
+void MainWindow::removeWaiting()
 {
-    if (askConfirmation(tr("failed"))) {
-        m_downloadManager->remove(m_downloadManager->failedJobs());
-    }
-}
-
-
-void MainWindow::removeRunning()
-{
-    if (askConfirmation(tr("running"))) {
-        m_downloadManager->remove(m_downloadManager->runningJobs());
+    if (askConfirmation(tr("waiting"))) {
+        m_downloadManager->remove(m_downloadManager->waitingJobs());
     }
 }
 
@@ -996,11 +976,6 @@ void MainWindow::speedLimit()
     qWarning("todo: speedLimit() not implemented yet.");
 }
 
-void MainWindow::addDomainSpecificLimit()
-{
-    qWarning("todo: addDomainSpecificLimit() not implemented yet.");
-}
-
 void MainWindow::forceStart()
 {
     for (auto item : m_downloadManager->selection()) {
@@ -1217,7 +1192,6 @@ void MainWindow::refreshMenus()
     // --
     ui->actionCopy->setEnabled(hasSelection);
     // --
-    ui->actionManageMirrors->setEnabled(hasAtLeastOneUncompletedSelected);
     ui->actionOneMoreSegment->setEnabled(hasAtLeastOneUncompletedSelected);
     ui->actionOneFewerSegment->setEnabled(hasAtLeastOneUncompletedSelected);
     //! [1]
@@ -1234,11 +1208,11 @@ void MainWindow::refreshMenus()
     ui->actionRemoveSelected->setEnabled(hasSelection);
     ui->actionRemoveAll->setEnabled(hasJobs);
     // --
-    ui->actionRemoveWaiting->setEnabled(hasJobs);
-    ui->actionRemoveDuplicates->setEnabled(hasJobs);
+    ui->actionRemoveFailed->setEnabled(hasJobs);
+    // --
     ui->actionRemoveRunning->setEnabled(hasJobs);
     ui->actionRemovePaused->setEnabled(hasJobs);
-    ui->actionRemoveFailed->setEnabled(hasJobs);
+    ui->actionRemoveWaiting->setEnabled(hasJobs);
     //! [2]
 
     //! [3] Download
@@ -1255,7 +1229,6 @@ void MainWindow::refreshMenus()
 
     //! [4]  Options
     ui->actionSpeedLimit->setEnabled(hasSelection);
-    ui->actionAddDomainSpecificLimit->setEnabled(hasSelection);
     //--
     ui->actionForceStart->setEnabled(hasSelection);
     //--

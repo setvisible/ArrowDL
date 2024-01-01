@@ -91,7 +91,6 @@
      <string>&amp;Option</string>
     </property>
     <addaction name="actionSpeedLimit"/>
-    <addaction name="actionAddDomainSpecificLimit"/>
     <addaction name="separator"/>
     <addaction name="actionForceStart"/>
     <addaction name="separator"/>
@@ -101,17 +100,6 @@
     <property name="title">
      <string>&amp;View</string>
     </property>
-    <widget class="QMenu" name="menuOther">
-     <property name="title">
-      <string>Other</string>
-     </property>
-     <addaction name="actionRemoveWaiting"/>
-     <addaction name="actionRemoveDuplicates"/>
-     <addaction name="separator"/>
-     <addaction name="actionRemoveRunning"/>
-     <addaction name="actionRemovePaused"/>
-     <addaction name="actionRemoveFailed"/>
-    </widget>
     <addaction name="actionInformation"/>
     <addaction name="separator"/>
     <addaction name="actionOpenFile"/>
@@ -122,7 +110,12 @@
     <addaction name="actionRemoveCompleted"/>
     <addaction name="actionRemoveSelected"/>
     <addaction name="actionRemoveAll"/>
-    <addaction name="menuOther"/>
+    <addaction name="separator"/>
+    <addaction name="actionRemoveFailed"/>
+    <addaction name="separator"/>
+    <addaction name="actionRemoveRunning"/>
+    <addaction name="actionRemovePaused"/>
+    <addaction name="actionRemoveWaiting"/>
    </widget>
    <widget class="QMenu" name="menuDownload">
     <property name="title">
@@ -148,7 +141,6 @@
     <addaction name="separator"/>
     <addaction name="actionCopy"/>
     <addaction name="separator"/>
-    <addaction name="actionManageMirrors"/>
     <addaction name="actionOneMoreSegment"/>
     <addaction name="actionOneFewerSegment"/>
    </widget>
@@ -173,13 +165,13 @@
    <addaction name="actionInformation"/>
    <addaction name="separator"/>
    <addaction name="actionOpenFile"/>
+   <addaction name="actionRenameFile"/>
    <addaction name="actionDeleteFile"/>
    <addaction name="actionOpenDirectory"/>
    <addaction name="separator"/>
    <addaction name="actionSelectAll"/>
    <addaction name="actionInvertSelection"/>
    <addaction name="separator"/>
-   <addaction name="actionManageMirrors"/>
    <addaction name="actionOneMoreSegment"/>
    <addaction name="actionOneFewerSegment"/>
    <addaction name="separator"/>
@@ -483,15 +475,6 @@
     <string>Ctrl+I</string>
    </property>
   </action>
-  <action name="actionManageMirrors">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/mirror-server.png</normaloff>:/resources/icons/default/16x16/actions/mirror-server.png</iconset>
-   </property>
-   <property name="text">
-    <string>Manage Download Mirror Locations...</string>
-   </property>
-  </action>
   <action name="actionOneMoreSegment">
    <property name="icon">
     <iconset resource="resources.qrc">
@@ -591,15 +574,6 @@
     <string>Remove Waiting</string>
    </property>
   </action>
-  <action name="actionRemoveDuplicates">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/remove-duplicates.png</normaloff>:/resources/icons/default/16x16/actions/remove-duplicates.png</iconset>
-   </property>
-   <property name="text">
-    <string>Remove Duplicates</string>
-   </property>
-  </action>
   <action name="actionRemoveRunning">
    <property name="icon">
     <iconset resource="resources.qrc">
@@ -625,15 +599,6 @@
    </property>
    <property name="text">
     <string>Remove Failed</string>
-   </property>
-  </action>
-  <action name="actionAddDomainSpecificLimit">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/limit-domain.png</normaloff>:/resources/icons/default/16x16/actions/limit-domain.png</iconset>
-   </property>
-   <property name="text">
-    <string>Add Domain Specific Limit...</string>
    </property>
   </action>
   <action name="actionSpeedLimit">

@@ -30,9 +30,7 @@
         <file>resources/icons/default/16x16/actions/help.png</file>
         <file>resources/icons/default/26x26/actions/home.png</file>
         <file>resources/icons/default/16x16/actions/info.png</file>
-        <file>resources/icons/default/16x16/actions/limit-domain.png</file>
         <file>resources/icons/default/16x16/actions/limit-speed.png</file>
-        <file>resources/icons/default/16x16/actions/mirror-server.png</file>
         <file>resources/icons/default/16x16/actions/mask.png</file>
         <file>resources/icons/default/16x16/actions/move-down.png</file>
         <file>resources/icons/default/16x16/actions/move-bottom.png</file>
@@ -47,7 +45,6 @@
         <file>resources/icons/default/16x16/actions/remove-all.png</file>
         <file>resources/icons/default/16x16/actions/remove-completed.png</file>
         <file>resources/icons/default/16x16/actions/remove-downloaded.png</file>
-        <file>resources/icons/default/16x16/actions/remove-duplicates.png</file>
         <file>resources/icons/default/16x16/actions/remove-paused.png</file>
         <file>resources/icons/default/16x16/actions/remove-resumed.png</file>
         <file>resources/icons/default/16x16/actions/remove-stopped.png</file>
@@ -102,10 +99,8 @@
         <file>resources/icons/flat/scalable/actions/help.svg</file>
         <file>resources/icons/flat/scalable/actions/home.svg</file>
         <file>resources/icons/flat/scalable/actions/info.svg</file>
-        <file>resources/icons/flat/scalable/actions/limit-domain.svg</file>
         <file>resources/icons/flat/scalable/actions/limit-speed.svg</file>
         <file>resources/icons/flat/scalable/actions/mask.svg</file>
-        <file>resources/icons/flat/scalable/actions/mirror-server.svg</file>
         <file>resources/icons/flat/scalable/actions/move-down.svg</file>
         <file>resources/icons/flat/scalable/actions/move-bottom.svg</file>
         <file>resources/icons/flat/scalable/actions/move-top.svg</file>
@@ -129,7 +124,6 @@
         <file>resources/icons/flat/scalable/actions/remove-all.svg</file>
         <file>resources/icons/flat/scalable/actions/remove-completed.svg</file>
         <file>resources/icons/flat/scalable/actions/remove-downloaded.svg</file>
-        <file>resources/icons/flat/scalable/actions/remove-duplicates.svg</file>
         <file>resources/icons/flat/scalable/actions/remove-paused.svg</file>
         <file>resources/icons/flat/scalable/actions/remove-resumed.svg</file>
         <file>resources/icons/flat/scalable/actions/remove-stopped.svg</file>
@@ -169,10 +163,8 @@
         <file>resources/icons/flat-dark/scalable/actions/help.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/home.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/info.svg</file>
-        <file>resources/icons/flat-dark/scalable/actions/limit-domain.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/limit-speed.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/mask.svg</file>
-        <file>resources/icons/flat-dark/scalable/actions/mirror-server.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/move-down.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/move-bottom.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/move-top.svg</file>
@@ -196,7 +188,6 @@
         <file>resources/icons/flat-dark/scalable/actions/remove-all.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/remove-completed.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/remove-downloaded.svg</file>
-        <file>resources/icons/flat-dark/scalable/actions/remove-duplicates.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/remove-paused.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/remove-resumed.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/remove-stopped.svg</file>

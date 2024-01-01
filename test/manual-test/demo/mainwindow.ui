@@ -51,7 +51,6 @@
      <string>Option</string>
     </property>
     <addaction name="actionSpeedLimit"/>
-    <addaction name="actionAddDomainSpecificLimit"/>
     <addaction name="separator"/>
     <addaction name="actionForceStart"/>
    </widget>
@@ -72,9 +71,6 @@
       <string>Other</string>
      </property>
      <addaction name="actionRemoveSelected"/>
-     <addaction name="separator"/>
-     <addaction name="actionRemoveDuplicates"/>
-     <addaction name="separator"/>
      <addaction name="separator"/>
      <addaction name="actionRemoveFailed"/>
      <addaction name="actionRemovePaused"/>
@@ -108,7 +104,6 @@
     <addaction name="actionInvertSelection"/>
     <addaction name="actionSelectCompleted"/>
     <addaction name="separator"/>
-    <addaction name="actionManageMirrors"/>
     <addaction name="actionOneMoreSegment"/>
     <addaction name="actionOneFewerSegment"/>
    </widget>
@@ -260,18 +255,6 @@
     <string>Ctrl+I</string>
    </property>
   </action>
-  <action name="actionManageMirrors">
-   <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/mirror-server.png</normaloff>:/resources/icons/default/16x16/actions/mirror-server.png</iconset>
-   </property>
-   <property name="text">
-    <string>Manage Download Mirror Locations...</string>
-   </property>
-   <property name="toolTip">
-    <string>Manage Download Mirror Locations</string>
-   </property>
-  </action>
   <action name="actionOneMoreSegment">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
@@ -324,24 +307,6 @@
    </property>
    <property name="shortcut">
     <string>Alt+Del</string>
-   </property>
-  </action>
-  <action name="actionRemoveDuplicates">
-   <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/remove-duplicates.png</normaloff>:/resources/icons/default/16x16/actions/remove-duplicates.png</iconset>
-   </property>
-   <property name="text">
-    <string>Remove Duplicates</string>
-   </property>
-  </action>
-  <action name="actionAddDomainSpecificLimit">
-   <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/16x16/actions/limit-domain.png</normaloff>:/resources/icons/default/16x16/actions/limit-domain.png</iconset>
-   </property>
-   <property name="text">
-    <string>Add Domain Specific Limit...</string>
    </property>
   </action>
   <action name="actionSpeedLimit">
