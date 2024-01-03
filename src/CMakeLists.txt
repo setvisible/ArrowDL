@@ -181,6 +181,7 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
             ${QT_DLL_DIR}/Qt6Gui.dll
             ${QT_DLL_DIR}/Qt6Widgets.dll
             ${QT_DLL_DIR}/Qt6Network.dll
+            ${QT_DLL_DIR}/Qt6Svg.dll
         DESTINATION
             ${CMAKE_INSTALL_PREFIX}
     )
@@ -300,6 +301,10 @@ else() # MacOS or Unix Compilers
             ${QT_SHARED_LIB_DIR}/libQt6Network.so
             ${QT_SHARED_LIB_DIR}/libQt6Network.so.6
             ${QT_SHARED_LIB_DIR}/libQt6Network.so.6.5.3
+
+            ${QT_SHARED_LIB_DIR}/libQt6Svg.so
+            ${QT_SHARED_LIB_DIR}/libQt6Svg.so.6
+            ${QT_SHARED_LIB_DIR}/libQt6Svg.so.6.5.3
 
             ${QT_SHARED_LIB_DIR}/libQt6DBus.so # required by libQt6Gui
             ${QT_SHARED_LIB_DIR}/libQt6DBus.so.6
