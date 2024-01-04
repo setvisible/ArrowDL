@@ -20,7 +20,7 @@ excerpt_separator:  <!--more-->
 The *ArrowDL* add-on sends data from your web browser to the *ArrowDL* application.
 
 
-### Install the Web Browser Add-on (WebExtensions)
+### Install the Add-on
 
 | ![logo](/ArrowDL/assets/images/firefox.png) | ![logo](/ArrowDL/assets/images/chrome.png) |
 |-----------------------------------|----------------------------------|

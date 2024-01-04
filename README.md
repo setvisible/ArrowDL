@@ -147,6 +147,6 @@ Click [here](CONTRIBUTING.md "CONTRIBUTING.md") for build instructions and tips.
 
 The code is released under the GNU [Lesser General Public License (LGPL)](LICENSE "LICENSE").
 
-Use it at your own risk. None of the authors, contributors, or anyone else connected with this ArrowDL software and the DownRightNow web-extension, in any way whatsoever, can be responsible for your use of the application. 
+Use it at your own risk. None of the authors, contributors, or anyone else connected with this ArrowDL software and the ArrowDL add-ons, in any way whatsoever, can be responsible for your use of the application. 
 
 Please be aware that this site contains copyrighted material the use of which has not always been specifically authorized by the copyright owner.

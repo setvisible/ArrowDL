@@ -9,9 +9,9 @@ Compiler default is C++11 (eventually C99 for C parts)
 Here's the software you'll need before you start building (mandatory in bold)
 
 - **Standard C++ Library** (>= C++11)
-- **Qt5** (>= 5.5)
-- **Boost** (>= 1.79)
-- CMake (>= 3.1.0) or QMake (>= 5.5)
+- **Qt6** (>= 6.0)
+- **Boost** (>= 1.77)
+- CMake (>= 3.1.0)
 - GNU C++ Compiler (gcc/g++ >= 5.3.0)
   or Microsoft Visual Studio (>= 2017)
 
@@ -35,47 +35,34 @@ Follow official instructions of each tool.
     sudo apt install git
     sudo apt install git-gui
     
-#### Install Qt5
-
-    sudo apt install qt5-default
-    whereis qt5
-    $ qt5: /usr/lib/x86_64-linux-gnu/qt5 /usr/lib/qt5 /usr/share/qt5
-    
-#### Install Qt5 IDE (QtCreator) and SDK
-
-    sudo apt install qtcreator
-    
-Or follow [instructions](https://wiki.qt.io/Install_Qt_5_on_Ubuntu
-"https://wiki.qt.io/Install_Qt_5_on_Ubuntu").
+#### Install Qt and QtCreator
 
     sudo apt install libfontconfig1
     sudo apt install mesa-common-dev
     sudo apt install libglu1-mesa-dev
     
-    wget https://download.qt.io/official_releases/qt/5.14/5.14.2/qt-opensource-linux-x64-5.14.2.run
+    wget https://download.qt.io/official_releases/qt/6.0/6.0.0/qt-opensource-linux-x64-6.0.0.run
 
-    chmod +x qt-opensource-linux-x64-5.14.2.run
-    sudo ./qt-opensource-linux-x64-5.14.2.run
+    chmod +x qt-opensource-linux-x64-6.0.0.run
+    sudo ./qt-opensource-linux-x64-6.0.0.run
 
-Select a dummy proxy, to skip the login page.
-
-It install the tools (QtCreator 4.11.1) and SDK on `/opt/Qt5.14.2/`.
+It install the tools (QtCreator) and SDK on `/opt/Qt/`.
 
 Run it:
 
-    /opt/Qt5.14.2/Tools/QtCreator/bin/qtcreator
+    /opt/Qt/Tools/QtCreator/bin/qtcreator
 
 Create a shortcut (Ubuntu, KDE...):
 
     mkdir ~/.local/share/applications
-    cp /opt/Qt5.14.2/Tools/QtCreator/share/applications/org.qt-project.qtcreator.desktop ~/.local/share/applications
+    cp /opt/Qt/Tools/QtCreator/share/applications/org.qt-project.qtcreator.desktop ~/.local/share/applications
 
 
 
 #### Install Boost C++ Library
 
-    wget https://boostorg.jfrog.io/artifactory/main/release/1.79.0/source/boost_1_79_0.tar.bz2
-    tar -zxvf boost_1_79_0.tar.gz
+    wget https://boostorg.jfrog.io/artifactory/main/release/1.77.0/source/boost_1_77_0.tar.bz2
+    tar -zxvf boost_1_77_0.tar.gz
 
 
 Or download and unzip manually an older version of [Boost](https://www.boost.org/users/history/).
@@ -96,13 +83,6 @@ Setup the *Boost* library:
 - For CMake:
     Add variable `BOOST_ROOT_DIR` (type: PATH) with the path to Boost
     PS: or configure `Boost_INCLUDE_DIR`
-    
-- For QMake:
-    Open `./3rd/boost/boost.pri`
-    and add path manually to variable `BOOST_ROOT_DIR`,
-    that gives the following line: 
-    `BOOST_ROOT_DIR = <here-absolute-path-to-boost>/Boost/boost_1_79_0`
-
 
 
 Build the application:
