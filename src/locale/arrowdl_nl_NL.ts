@@ -2861,12 +2861,12 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
     <message>
         <location filename="../core/theme.cpp" line="111"/>
         <source>Bootstrap Icons (default)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pictogrammen extraheren (standaard)</translation>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="112"/>
         <source>FontAwesome Flat Design</source>
-        <translation type="unfinished"></translation>
+        <translation>FontAwesome - Plat ontwerp</translation>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="141"/>
