@@ -43,12 +43,12 @@ title: Download
                 <tbody>
                     <tr>
                         <td align="center">
-                            <a href="https://addons.mozilla.org/en-US/firefox/addon/down-right-now/">
+                            <a href="https://addons.mozilla.org/en-US/firefox/addon/arrow-dl/">
                                 <img src="/ArrowDL/assets/images/firefox.png" alt="firefox logo">
                             </a>
                         </td>
                         <td align="center">
-                            <a href="https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio">
+                            <a href="https://chrome.google.com/webstore/detail/arrow-dl/modofbhnhlagjmejdbalnijgncppjeio">
                                 <img src="/ArrowDL/assets/images/chrome.png" alt="chrome logo">
                             </a>
                         </td>
@@ -59,14 +59,14 @@ title: Download
                     <tr>
                         <td>
                             Click here to intall 
-                            <a href="https://addons.mozilla.org/en-US/firefox/addon/down-right-now/">
-                                <b>DownRightNow for Mozilla Firefox</b>
+                            <a href="https://addons.mozilla.org/en-US/firefox/addon/arrow-dl/">
+                                <b>ArrowDL for Mozilla Firefox</b>
                             </a>
                         </td>
                         <td>
                             Click here to intall 
-                            <a href="https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio">
-                                <b>DownRightNow for Google Chrome</b>
+                            <a href="https://chrome.google.com/webstore/detail/arrow-dl/modofbhnhlagjmejdbalnijgncppjeio">
+                                <b>ArrowDL for Google Chrome</b>
                             </a>
                         </td>
                         <td>
@@ -213,13 +213,13 @@ CPU architecture, browser, or release version, have a look at
 
   if (browserType === "Chrome") {
     webExtensionBrowserName = "Google Chrome";
-    webExtensionUrl="https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio";
+    webExtensionUrl="https://chrome.google.com/webstore/detail/arrow-dl/modofbhnhlagjmejdbalnijgncppjeio";
     webExtensionImageSrc = "/ArrowDL/assets/images/chrome.png";
     showSpecificInstructions(true);
   
   } else if (browserType === "Firefox") {
     webExtensionBrowserName = "Mozilla Firefox";
-    webExtensionUrl="https://addons.mozilla.org/en-US/firefox/addon/down-right-now/";
+    webExtensionUrl="https://addons.mozilla.org/en-US/firefox/addon/arrow-dl/";
     webExtensionImageSrc = "/ArrowDL/assets/images/firefox.png";
     showSpecificInstructions(true);
 

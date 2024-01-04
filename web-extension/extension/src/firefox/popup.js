@@ -1,6 +1,6 @@
 "use strict";
 
-const application = "DownRightNow";
+const application = "ArrowDL";
 
 /* ***************************** */
 /* Native Message                */

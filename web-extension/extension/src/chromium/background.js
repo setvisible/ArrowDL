@@ -1,6 +1,6 @@
 "use strict";
 
-const application = "com.setvisible.downrightnow";
+const application = "com.setvisible.arrowdl";
 
 /* ***************************** */
 /* Context Menu                  */

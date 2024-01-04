@@ -1,7 +1,7 @@
 "use strict";
 
-const application = "com.setvisible.downrightnow";
-const website_download_link = "https://www.arrow-dl.com/ArrowDL/category/download.html";
+const application = "com.setvisible.arrowdl";
+const website_download_link = "https://www.arrow-dl.com/";
 
 /* ***************************** */
 /* Options                       */

@@ -1,6 +1,6 @@
 {
-  "name": "com.setvisible.downrightnow",
-  "description": "DownRightNow Launcher Host for Native Messaging",
+  "name": "com.setvisible.arrowdl",
+  "description": "ArrowDL Launcher Host for Native Messaging",
   "path": "/ABSOLUTE/PATH/TO/APP/DIRECTORY/launcher",
   "type": "stdio",
   "allowed_origins": [ "chrome-extension://modofbhnhlagjmejdbalnijgncppjeio/" ]

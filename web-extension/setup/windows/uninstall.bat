@@ -15,29 +15,29 @@ IF NOT "%1"=="" (
 )
 
 ECHO *************************************************
-ECHO                  Down Right Now
+ECHO                      ArrowDL
 ECHO *************************************************
 ECHO.
 
 ECHO.
 ECHO Deleting Chrome Registry...
 ECHO ---------------------------------
-REG DELETE "HKCU\Software\Google\Chrome\NativeMessagingHosts\com.setvisible.downrightnow" /f
+REG DELETE "HKCU\Software\Google\Chrome\NativeMessagingHosts\com.setvisible.arrowdl" /f
 
 ECHO.
 ECHO Deleting Firefox Registry...
 ECHO ---------------------------------
-REG DELETE "HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\DownRightNow" /f
+REG DELETE "HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\ArrowDL" /f
 
 ECHO.
 ECHO Deleting Waterfox Registry...
 ECHO ---------------------------------
-REG DELETE "HKCU\SOFTWARE\Waterfox\NativeMessagingHosts\DownRightNow" /f
+REG DELETE "HKCU\SOFTWARE\Waterfox\NativeMessagingHosts\ArrowDL" /f
 
 ECHO.
 ECHO Deleting Thunderbird Registry...
 ECHO ---------------------------------
-REG DELETE "HKCU\SOFTWARE\Thunderbird\NativeMessagingHosts\DownRightNow" /f
+REG DELETE "HKCU\SOFTWARE\Thunderbird\NativeMessagingHosts\ArrowDL" /f
 
 ECHO.
 ECHO ^>^>^> Done! ^<^<^<

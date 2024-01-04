@@ -1,7 +1,7 @@
 "use strict";
 
-const application = "DownRightNow";
-const website_download_link = "https://www.arrow-dl.com/ArrowDL/category/download.html";
+const application = "ArrowDL";
+const website_download_link = "https://www.arrow-dl.com/";
 
 /* ***************************** */
 /* Options                       */

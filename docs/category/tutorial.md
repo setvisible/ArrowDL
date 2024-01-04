@@ -10,11 +10,11 @@ It contains some dummy data to run the application.
 
 1. Open *ArrowDL*
     - *Start Menu* > *ArrowDL*
-    > Or alternatively, open *DownRightNow* from your web browser (-> toolbar menu, or right-click context menu)
+    > Or alternatively, open *ArrowDL* add-on from your web browser (-> toolbar menu, or right-click context menu)
 
 2. Open the wizard
     - copy-paste the URL
-        > Or alternatively, click 'immediate download' from *DownRightNow*
+        > Or alternatively, click 'immediate download' from *ArrowDL* add-on
     
     ![](../assets/images/tutorial/01-wizard.png)
     
