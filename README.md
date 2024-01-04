@@ -10,7 +10,7 @@
 
 ![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/modofbhnhlagjmejdbalnijgncppjeio?style=for-the-badge&label=users&logo=google&logoColor=white)
 [![Mozilla Add-on](https://img.shields.io/amo/users/down-right-now?style=for-the-badge&label=users&logo=mozilla&logoColor=white)](https://addons.mozilla.org/firefox/addon/down-right-now/ "Mozilla Firefox Add-on")
-[![Chocolatey](https://img.shields.io/chocolatey/dt/downzemall?style=for-the-badge&label=chocolatey%20package)](https://community.chocolatey.org/packages/downzemall)
+[![Chocolatey](https://img.shields.io/chocolatey/dt/arrowdl?style=for-the-badge&label=chocolatey%20package)](https://community.chocolatey.org/packages/arrowdl)
 
 ![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/ArrowDLApp?style=for-the-badge&logo=x&label=Follow&logoColor=white)
 
