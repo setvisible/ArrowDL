@@ -26,7 +26,6 @@ browser.contextMenus.removeAll(
     addAction("save-image",     browser.i18n.getMessage("contextMenuSaveImage"),     "image");
     addAction("save-video",     browser.i18n.getMessage("contextMenuSaveVideo"),     "video");
     addAction("save-audio",     browser.i18n.getMessage("contextMenuSaveAudio"),     "audio");
-    addAction("save-launcher",  browser.i18n.getMessage("contextMenuSaveLauncher"),  "launcher");
   }
 );
 
@@ -36,7 +35,6 @@ browser.contextMenus.onClicked.addListener(
     } else if (info.menuItemId === "save-frame"       ) { save_page(info, tab);
     } else if (info.menuItemId === "save-image"       ) { save_image(info, tab);
     } else if (info.menuItemId === "save-audio"       ) { save_image(info, tab);
-    } else if (info.menuItemId === "save-launcher"    ) { save_page(info, tab);
     } else if (info.menuItemId === "save-link"        ) { save_link(info, tab);
     } else if (info.menuItemId === "save-selection"   ) { save_page(info, tab);
     } else if (info.menuItemId === "save-video"       ) { save_image(info, tab);
