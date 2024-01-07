@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "Down Right Now",
+    "message": "ArrowDL",
     "description": "Name of the extension, displayed in the web store. Should not exceed 45 characters."
   },
   "extensionDescription": {

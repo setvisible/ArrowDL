@@ -1,6 +1,6 @@
 {
-  "name": "DownRightNow",
-  "description": "DownRightNow Launcher Host for Native Messaging",
+  "name": "com.arrowdl.extension",
+  "description": "ArrowDL Launcher Host for Native Messaging",
   "path": "launcher.exe",
   "type": "stdio",
   "allowed_extensions": [ "DownRightNow@example.org" ]

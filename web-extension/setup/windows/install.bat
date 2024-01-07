@@ -22,7 +22,7 @@ IF NOT "%1"=="" (
 )
 
 ECHO *************************************************
-ECHO                  Down Right Now
+ECHO                      ArrowDL
 ECHO *************************************************
 ECHO.
 ECHO Install to: %INSTALL_PATH%
@@ -31,26 +31,26 @@ ECHO.
 ECHO.
 ECHO Writting to Chrome Registry...
 ECHO ---------------------------------
-ECHO Key: HKCU\Software\Google\Chrome\NativeMessagingHosts\com.setvisible.downrightnow
-REG ADD "HKCU\Software\Google\Chrome\NativeMessagingHosts\com.setvisible.downrightnow" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher-manifest-chrome.json" /f
+ECHO Key: HKCU\Software\Google\Chrome\NativeMessagingHosts\com.arrowdl.extension
+REG ADD "HKCU\Software\Google\Chrome\NativeMessagingHosts\com.arrowdl.extension" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher-manifest-chrome.json" /f
 
 ECHO. 
 ECHO Writting to Firefox Registry...
 ECHO ---------------------------------
-ECHO Key: HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\DownRightNow
-REG ADD "HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\DownRightNow" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher-manifest-firefox.json" /f
+ECHO Key: HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\com.arrowdl.extension
+REG ADD "HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\com.arrowdl.extension" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher-manifest-firefox.json" /f
 
 ECHO.
 ECHO Writting to Waterfox Registry...
 ECHO ---------------------------------
-ECHO Key: HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\DownRightNow
-REG ADD "HKCU\SOFTWARE\Waterfox\NativeMessagingHosts\DownRightNow" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher-manifest-firefox.json" /f
+ECHO Key: HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\com.arrowdl.extension
+REG ADD "HKCU\SOFTWARE\Waterfox\NativeMessagingHosts\com.arrowdl.extension" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher-manifest-firefox.json" /f
 
 ECHO.
 ECHO Writting to Thunderbird Registry...
 ECHO ---------------------------------
-ECHO Key: HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\DownRightNow
-REG ADD "HKCU\SOFTWARE\Thunderbird\NativeMessagingHosts\DownRightNow" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher-manifest-firefox.json" /f
+ECHO Key: HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\com.arrowdl.extension
+REG ADD "HKCU\SOFTWARE\Thunderbird\NativeMessagingHosts\com.arrowdl.extension" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher-manifest-firefox.json" /f
 
 ECHO.
 ECHO ^>^>^> Done! ^<^<^<

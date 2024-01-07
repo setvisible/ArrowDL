@@ -137,10 +137,11 @@ void FileTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
     QStyleOptionViewItem myOption = option;
     initStyleOption(&myOption, index);
 
-    myOption.palette.setColor(QPalette::All, QPalette::Window, s_white);
-    myOption.palette.setColor(QPalette::All, QPalette::WindowText, s_black);
-    myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
-    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
+    auto palette = qApp->palette();
+    myOption.palette.setColor(QPalette::All, QPalette::Window, palette.color(QPalette::Base));
+    myOption.palette.setColor(QPalette::All, QPalette::WindowText, palette.color(QPalette::WindowText));
+    myOption.palette.setColor(QPalette::All, QPalette::Highlight, palette.color(QPalette::Highlight));
+    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, palette.color(QPalette::HighlightedText));
 
     if (myOption.state & QStyle::State_Selected) {
         myOption.font.setBold(true);
@@ -186,10 +187,11 @@ void PeerTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
     QStyleOptionViewItem myOption = option;
     initStyleOption(&myOption, index);
 
-    myOption.palette.setColor(QPalette::All, QPalette::Window, s_white);
-    myOption.palette.setColor(QPalette::All, QPalette::WindowText, s_black);
-    myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
-    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
+    auto palette = qApp->palette();
+    myOption.palette.setColor(QPalette::All, QPalette::Window, palette.color(QPalette::Base));
+    myOption.palette.setColor(QPalette::All, QPalette::WindowText, palette.color(QPalette::WindowText));
+    myOption.palette.setColor(QPalette::All, QPalette::Highlight, palette.color(QPalette::Highlight));
+    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, palette.color(QPalette::HighlightedText));
 
     if (myOption.state & QStyle::State_Selected) {
         myOption.font.setBold(true);
@@ -246,10 +248,11 @@ void TrackerTableViewItemDelegate::paint(QPainter *painter, const QStyleOptionVi
     QStyleOptionViewItem myOption = option;
     initStyleOption(&myOption, index);
 
-    myOption.palette.setColor(QPalette::All, QPalette::Window, s_white);
-    myOption.palette.setColor(QPalette::All, QPalette::WindowText, s_black);
-    myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
-    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
+    auto palette = qApp->palette();
+    myOption.palette.setColor(QPalette::All, QPalette::Window, palette.color(QPalette::Base));
+    myOption.palette.setColor(QPalette::All, QPalette::WindowText, palette.color(QPalette::WindowText));
+    myOption.palette.setColor(QPalette::All, QPalette::Highlight, palette.color(QPalette::Highlight));
+    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, palette.color(QPalette::HighlightedText));
 
     if (myOption.state & QStyle::State_Selected) {
         myOption.font.setBold(true);

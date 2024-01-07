@@ -9,8 +9,8 @@
 ![GitHub All Releases](https://img.shields.io/github/downloads/setvisible/ArrowDL/total?style=for-the-badge)
 
 ![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/modofbhnhlagjmejdbalnijgncppjeio?style=for-the-badge&label=users&logo=google&logoColor=white)
-[![Mozilla Add-on](https://img.shields.io/amo/users/down-right-now?style=for-the-badge&label=users&logo=mozilla&logoColor=white)](https://addons.mozilla.org/firefox/addon/down-right-now/ "Mozilla Firefox Add-on")
-[![Chocolatey](https://img.shields.io/chocolatey/dt/downzemall?style=for-the-badge&label=chocolatey%20package)](https://community.chocolatey.org/packages/downzemall)
+[![Mozilla Add-on](https://img.shields.io/amo/users/arrow-dl?style=for-the-badge&label=users&logo=mozilla&logoColor=white)](https://addons.mozilla.org/firefox/addon/arrow-dl/ "Mozilla Firefox Add-on")
+[![Chocolatey](https://img.shields.io/chocolatey/dt/arrowdl?style=for-the-badge&label=chocolatey%20package)](https://community.chocolatey.org/packages/arrowdl)
 
 ![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/ArrowDLApp?style=for-the-badge&logo=x&label=Follow&logoColor=white)
 
@@ -66,7 +66,7 @@ More screenshots on the [Gallery](https://www.arrow-dl.com/ArrowDL/category/scre
 
 Go to [Download](https://www.arrow-dl.com/ArrowDL/category/download.html) page to install the application for your operating system.
 
-Rem: *Native-Client* is an alternative to *DownRightNow*. Click [here](NativeClient.md "NativeClient.md") for more information.
+Rem: *Native-Client* is an alternative to *ArrowDL*. Click [here](NativeClient.md "NativeClient.md") for more information.
 
 On Windows, you can also use the [Chocolatey package](https://community.chocolatey.org/packages/arrowdl) to handle the installation/updates:
 ```powershell
@@ -147,6 +147,6 @@ Click [here](CONTRIBUTING.md "CONTRIBUTING.md") for build instructions and tips.
 
 The code is released under the GNU [Lesser General Public License (LGPL)](LICENSE "LICENSE").
 
-Use it at your own risk. None of the authors, contributors, or anyone else connected with this ArrowDL software and the DownRightNow web-extension, in any way whatsoever, can be responsible for your use of the application. 
+Use it at your own risk. None of the authors, contributors, or anyone else connected with this ArrowDL software and the ArrowDL add-ons, in any way whatsoever, can be responsible for your use of the application. 
 
 Please be aware that this site contains copyrighted material the use of which has not always been specifically authorized by the copyright owner.

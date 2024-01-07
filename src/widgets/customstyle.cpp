@@ -78,6 +78,10 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
             p->setBrush(bgColor);
             p->drawRect(pb->rect);
 
+            // 0 (dark) < lightness < 255 (light)
+            auto isDarkMode = bgColor.lightness() < 128;
+            auto barBgColor = isDarkMode ? bgColor.lighter(300) : bgColor.darker(105);
+
             /* Draw the icon */
             if (hasIcon) {
                 auto size = ICON_SIZE;
@@ -102,7 +106,7 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
                 frameRect.setRight(frameRect.right() - marginH);
 
                 p->setPen(QPen(s_darkGrey, 1));
-                p->setBrush(s_lightGrey);
+                p->setBrush(barBgColor);
                 p->drawRect(frameRect);
 
                 /* Draw the progress bar indicator */
@@ -131,11 +135,10 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
                         auto size = segments.size();
 
                         QImage segmentImage(qMax(1, size), 1, QImage::Format_RGB32);
-                        segmentImage.fill(s_lightGrey);
-                        auto rgb = color.rgb();
+                        segmentImage.fill(barBgColor.rgb());
                         for (auto i = 0; i < size; ++i) {
                             if (segments.testBit(i)) {
-                                segmentImage.setPixel(i, 0, rgb);
+                                segmentImage.setPixel(i, 0, color.rgb());
                             }
                         }
                         auto segmentPixmap = QPixmap::fromImage(segmentImage);
@@ -157,10 +160,10 @@ void CustomStyle::drawControl(ControlElement element, const QStyleOption *opt,
                     indicatorRect.setBottom(indicatorRect.bottom() + 1 - margin);
                 }
 
-                if (progress < 0 || (minimum == 0 && maximum == 0)) {
-                    auto rgb = color.rgb();
+                if (progress < 0 || (minimum == 0 && maximum == 0)) {                  
                     auto textureImage = m_textureImage;
-                    textureImage.setColor(1, rgb);
+                    textureImage.setColor(0, barBgColor.rgb());
+                    textureImage.setColor(1, color.rgb());
                     auto pixmap = QPixmap::fromImage(textureImage);
                     brush.setTexture(pixmap);
 

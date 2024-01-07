@@ -1,33 +1,40 @@
 "use strict";
 
-const application = "DownRightNow";
-const website_download_link = "https://www.arrow-dl.com/ArrowDL/category/download.html";
+const application = "com.arrowdl.extension";
+const website_download_link = "https://www.arrow-dl.com/";
 
 /* ***************************** */
 /* Options                       */
 /* ***************************** */
 function restoreOptions() {
   function onOptionResponse(response) {
-    setApplicationRadio( response.radioApplicationId );
-    setMediaRadio( response.radioMediaId );
-    setStartPaused( response.startPaused );
+    if (browser.runtime.lastError) {
+      console.log(browser.runtime.lastError.message);
+      onOptionError(response);
+    }
+    if (response === undefined) {
+      onOptionError(response);
+    } else {
+      setApplicationRadio( response.radioApplicationId );
+      setMediaRadio( response.radioMediaId );
+      setStartPaused( response.startPaused );    
+    }
   }
 
   function onOptionError(error) {
     console.log(`Error: ${error}`);
   }
 
-  var getting = browser.storage.local.get();
-  getting.then(onOptionResponse, onOptionError);
+  browser.storage.local.get(onOptionResponse);
 }
 
 function saveOptions() {
-  var options = getOptions();
+  const options = getOptions();
   browser.storage.local.set(options);
 }
 
 function getOptions() {
-  var options = {};
+  let options = {};
   options["radioApplicationId"] = getApplicationRadio();
   options["radioMediaId"] = getMediaRadio();
   options["startPaused"] = isStartPaused();
@@ -91,7 +98,7 @@ function setStartPaused(value) {
 }
 
 function refreshButtons(){
-  var isChecked = document.getElementById("download_immediately").checked;
+  const isChecked = document.getElementById("download_immediately").checked;
   setDivEnabled("full_menu_label", isChecked);
   setButtonEnabled("get_links", isChecked);
   setButtonEnabled("get_content", isChecked);
@@ -108,10 +115,10 @@ function setDivEnabled(name, enabled) {
 }
 
 function setButtonEnabled(name, enabled) {
-  var inputButton = document.getElementById(name);
+  const inputButton = document.getElementById(name);
   inputButton.disabled = !enabled;
-  for (var i = 0; i < inputButton.labels.length; i++) {
-    var label = inputButton.labels[i];
+  for (let i = 0; i < inputButton.labels.length; i++) {
+    const label = inputButton.labels[i];
     if (enabled) {
       label.classList.remove("disabled");
     } else {
@@ -121,12 +128,12 @@ function setButtonEnabled(name, enabled) {
 }
 
 function showOptions(visible) {
-  var instructions = document.getElementsByClassName("show-instruction");
-  for (var i = 0; i < instructions.length; i ++) {
+  const instructions = document.getElementsByClassName("show-instruction");
+  for (let i = 0; i < instructions.length; i ++) {
     instructions[i].style.display = visible ? "none" : "block";
   }
-  var options = document.getElementsByClassName("options");
-  for (var i = 0; i < options.length; i ++) {
+  const options = document.getElementsByClassName("options");
+  for (let i = 0; i < options.length; i ++) {
     options[i].style.display = visible ? "block" : "none";
   }
 }
@@ -136,32 +143,39 @@ function showOptions(visible) {
 /* ***************************** */
 function checkConnection() {
   function onHelloResponse(response) {
-    console.log(`Message from the launcher:  ${response.text}`);
-    var messageOk = browser.i18n.getMessage("optionsOk");
-    var messageDetectedPath = browser.i18n.getMessage("optionsDetectedPath");
-    var connectionStatus = "✓ " + messageOk;
-    var details = "<br><br>" + messageDetectedPath + "<br><code>" + response.text + "</code>";
-    setConnectionStatus(connectionStatus, details, "MediumSeaGreen");
-    showOptions(true);
+    if (browser.runtime.lastError) {
+      console.log(browser.runtime.lastError.message);
+      onHelloError(response);
+    }
+    if (response === undefined) {
+      onHelloError(response);
+    } else {
+      console.log(`Message from the launcher:  ${response.text}`);
+      const messageOk = browser.i18n.getMessage("optionsOk");
+      const messageDetectedPath = browser.i18n.getMessage("optionsDetectedPath");
+      const connectionStatus = "✓ " + messageOk;
+      const details = "<br><br>" + messageDetectedPath + "<br><code>" + response.text + "</code>";
+      setConnectionStatus(connectionStatus, details, "MediumSeaGreen");
+      showOptions(true);
+    }
   }
 
   function onHelloError(error) {
     console.log(`Launcher didn't send any message. ${error}.`);
-    var messageError = browser.i18n.getMessage("optionsError");
-    var messageInstructions = browser.i18n.getMessage("optionsInstructions");
-    var connectionStatus = "⚠ " + messageError;
-    var details = "<br><br>" + messageInstructions;
+    const messageError = browser.i18n.getMessage("optionsError");
+    const messageInstructions = browser.i18n.getMessage("optionsInstructions");
+    const connectionStatus = "⚠ " + messageError;
+    const details = "<br><br>" + messageInstructions;
     setConnectionStatus(connectionStatus, details, "Tomato");
     showOptions(false);
   }
 
-  var data = "areyouthere";
-  var sending = browser.runtime.sendNativeMessage(application, data);
-  sending.then(onHelloResponse, onHelloError);
+  const data = "areyouthere";
+  browser.runtime.sendNativeMessage(application, { "text": data }, onHelloResponse);
 }
 
 function setConnectionStatus(connectionStatus, details, color) {
-  var messageStatus = browser.i18n.getMessage("optionsStatus");
+  const messageStatus = browser.i18n.getMessage("optionsStatus");
   const statusTag = `<span>${messageStatus}&nbsp;&nbsp;<span style="padding: 5px 10px 5px 10px; solid ${color}; background-color:${color}; color:White;">${connectionStatus}</span>&nbsp;&nbsp;&nbsp;&nbsp;${details}</span>`;
 
   safeInnerHtmlAssignment2("status-message", statusTag);
@@ -196,14 +210,21 @@ function notifyBackgroundPage() {
    * that the options have been updated.
    */
   function onResponse(message) {
-    // console.log(`Message from the background.js:  ${message.response}`);
+    if (browser.runtime.lastError) {
+      console.log(browser.runtime.lastError.message);
+      onError(message);
+    }
+    if (message === undefined) {
+      onError(message);
+    } else {
+      // console.log(`Message from the background.js:  ${message.response}`);
+    }
   }
   function onError(error) {
     console.log(`Error: ${error}`);
   }
-  var options = getOptions();
-  var sending = browser.runtime.sendMessage(options);
-  sending.then(onResponse, onError);
+  const options = getOptions();
+  browser.runtime.sendMessage(options, onResponse);
 }
 
 /* ***************************** */
@@ -213,8 +234,8 @@ function loadPage() {
   restoreOptions();
   checkInstallation();
 
-  var input = document.querySelectorAll("input");
-  for(var i = 0; i < input.length; i++) {
+  const input = document.querySelectorAll("input");
+  for (let i = 0; i < input.length; i++) {
     input[i].addEventListener("change", onInputChanged);
   }
 }

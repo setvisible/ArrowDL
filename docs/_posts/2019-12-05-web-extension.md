@@ -17,20 +17,18 @@ excerpt_separator:  <!--more-->
 
 *ArrowDL* is now compatible with Chrome and Firefox!
 
-The add-on *DownRightNow* sends data from your web browser to the standalone application *ArrowDL*.
+The *ArrowDL* add-on sends data from your web browser to the *ArrowDL* application.
 
 
-### Install the Web Browser Add-on (WebExtensions)
+### Install the Add-on
 
 | ![logo](/ArrowDL/assets/images/firefox.png) | ![logo](/ArrowDL/assets/images/chrome.png) |
 |-----------------------------------|----------------------------------|
-| Click here to intall [DownRightNow for Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/down-right-now/ "https://addons.mozilla.org/en-US/firefox/addon/down-right-now/") | Click here to intall [DownRightNow for Google Chrome](https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio "https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio") |
+| Click here to intall [ArrowDL for Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/arrow-dl/ "https://addons.mozilla.org/en-US/firefox/addon/arrow-dl/") | Click here to intall [ArrowDL for Google Chrome](https://chrome.google.com/webstore/detail/arrow-dl/modofbhnhlagjmejdbalnijgncppjeio "https://chrome.google.com/webstore/detail/arrow-dl/modofbhnhlagjmejdbalnijgncppjeio") |
 
 
-1. Install **DownRightNow** add-on
+1. Install **ArrowDL** add-on
 
-2. Go to the install directory of the Application (*ArrowDL*), and follow the instructions in `ReadMe.txt`
+2. Go to the install directory of the application (*ArrowDL*), and follow the instructions in `ReadMe.txt`
 
-3. Then, go to "*Options*" in the WebExtension interface in your Web Browser. It should tell you if it's correctly connected with the Application. 
-
-
+3. Then, go to "*Options*" in the WebExtensions interface in your web browser. It should tell you if it's correctly connected with the application. 

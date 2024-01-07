@@ -1,30 +1,27 @@
 "use strict";
 
-const application = "com.setvisible.downrightnow";
+const application = "com.arrowdl.extension";
 
 /* ***************************** */
 /* Native Message                */
 /* ***************************** */
 function checkConnection() {
-  function onResponse(response) {
+  // todo  chrome.runtime.sendMessage({'send-to-native-app': "areyouthere"});
+  const message = {"text": "areyouthere"};
+  chrome.runtime.sendNativeMessage(application, message, (response) => {
     if (chrome.runtime.lastError) {
       console.log(chrome.runtime.lastError.message);
-      onError(response);
+      console.log(`Error: ${response}`);
+      showWarningMessage(true);
     }
+
     if (response === undefined) {
-      onError(response);
+      console.log(`Error: ${response}`);
+      showWarningMessage(true);
     } else {
       showWarningMessage(false);
     }
-  }
-
-  function onError(error) {
-    console.log(`Error: ${error}`);
-    showWarningMessage(true);
-  }
-
-  var data = "areyouthere";
-  chrome.runtime.sendNativeMessage(application, { "text": data }, onResponse);
+  });
 }
 
 
@@ -32,7 +29,7 @@ function checkConnection() {
 /* Core                          */
 /* ***************************** */
 function showWarningMessage(hasError) {
-  var x = document.getElementById("warning-area");
+  const x = document.getElementById("warning-area");
   if (hasError) {
     x.style.display = "block";
   } else {
@@ -62,9 +59,9 @@ function setVisible(name, visible) {
   }
 }
 
-function immediateButtonLabel() {
-  var mediaId = getBackgroundPage().getSettingMediaId();
-  var startPaused = getBackgroundPage().isSettingStartPaused();
+function immediateButtonLabel(userSettings) {
+  const mediaId = getSettingMediaId(userSettings);
+  const startPaused = isSettingStartPaused(userSettings);
   if (mediaId === 1) {
     if (startPaused) {
       return chrome.i18n.getMessage("popupDownloadLinksPaused")
@@ -92,127 +89,46 @@ function safeInnerHtmlAssignment(elementId, label) {
 }
 
 /* ***************************** */
-/* FIREFOX BUG #1329304          */
-/* ***************************** */
-function checkIncognitoMode() {
-  showIncognitoWarningMessage(hasIncognitoModeBug());
-}
-
-function hasIncognitoModeBug() {
-  // Remark: 
-  // https://developer.mozilla.org/en/docs/Mozilla/Add-ons/WebExtensions/API/runtime/getBackgroundPage
-  // method 'getBackgroundPage()' cannot be used in a private window in Firefox
-  // it always returns null. 
-  // For more info see related bug at bugzilla.
-  // https://bugzilla.mozilla.org/show_bug.cgi?id=1329304
-  return (chrome.extension.getBackgroundPage() === null);
-}
-
-function showIncognitoWarningMessage(hasError) {
-  var x = document.getElementById("warning-area-incognito");
-  if (hasError) {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-  if (hasError) {
-    setDisabled("button-start", true);
-  }
-}
-
-// This function is a work-around to the Firefox Incognito Context mode Bug.
-function getBackgroundPage() {
-  if (hasIncognitoModeBug()) {
-    return new DummyChromeExtensionForIncognitoMode();
-  }
-  return chrome.extension.getBackgroundPage();
-}
-
-class DummyChromeExtensionForIncognitoMode {
-  constructor() {
-  }
-
-  isSettingAskEnabled() {
-    return true;
-  }
-  getSettingMediaId() {
-    return -1;
-  }  
-  isSettingStartPaused() {
-    return false;
-  }
-  collectDOMandSendDataWithWizard() {
-    // Nothing
-  }
-  collectDOMandSendData() {
-    // Nothing
-  }
-
-  sendData(links) {
-    function onResponse(response) {
-      if (chrome.runtime.lastError) {
-        console.log(chrome.runtime.lastError.message);
-        onError(response);
-      }
-      if (response === undefined) {
-        onError(response);
-      } else {
-        console.log("Message from the launcher:  " + response.text);
-      }
-    }
-  
-    function onError(error) {
-      console.log(`Error: ${error}`);
-    }
-  
-    var data = "launch " + links;
-    console.log("Sending message to launcher:  " + data);
-    chrome.runtime.sendNativeMessage(application, { "text": data }, onResponse);
-  }
-}
-
-/* ***************************** */
 /* Events                        */
 /* ***************************** */
-function onLoaded() {
-  checkConnection();
-  checkIncognitoMode();
+document.addEventListener('DOMContentLoaded', () => {
+    checkConnection();
+  
+    // send a message to the background
+    chrome.runtime.sendMessage('get-user-settings', (userSettings) => {        
+        const enabled = isSettingAskEnabled(userSettings);
+        setVisible("button-immediate-download", !enabled);
+  
+        if (!enabled) {
+          const label = immediateButtonLabel(userSettings);
+          safeInnerHtmlAssignment("button-immediate-download-label", label);
+        }
+    });
+}); 
 
-  var enabled = getBackgroundPage().isSettingAskEnabled();
-  setVisible("button-immediate-download", !enabled);
-
-  if (!enabled) {
-    var label = immediateButtonLabel();
-    safeInnerHtmlAssignment("button-immediate-download-label", label);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', onLoaded); 
 
 document.getElementById("button-start").addEventListener('click', () => {
-    getBackgroundPage().collectDOMandSendDataWithWizard();
+    chrome.runtime.sendMessage('collect-dom-and-send-to-native-app-with-wizard');
     window.close();
 });
 
 document.getElementById("button-immediate-download").addEventListener('click', () => {
-    getBackgroundPage().collectDOMandSendData();
+    chrome.runtime.sendMessage('collect-dom-and-send-to-native-app');
     window.close();
 });
 
-document.getElementById("button-manager").addEventListener('click', () => { 
-    var command = "[MANAGER]";
-    getBackgroundPage().sendData(command);
+document.getElementById("button-manager").addEventListener('click', () => {
+    chrome.runtime.sendMessage({'send-to-native-app': "[MANAGER]"});
     window.close();
 });
 
-document.getElementById("button-preference").addEventListener('click', () => { 
-    var command = "[PREFS]";
-    getBackgroundPage().sendData(command);
+document.getElementById("button-preference").addEventListener('click', () => {
+    chrome.runtime.sendMessage({'send-to-native-app': "[PREFS]"});
     window.close();
 });
 
 document.getElementById("button-options-page").addEventListener('click', () => {
-    var openingPage = chrome.runtime.openOptionsPage();
+    const openingPage = chrome.runtime.openOptionsPage();
     window.close();
 });
 
@@ -220,6 +136,27 @@ document.getElementById("button-website").addEventListener('click', () => {
     window.open(document.getElementById("website-link").getAttribute("href"), "_blank");
     window.close();
 });
+
+/* ***************************** */
+/* Options                       */
+/* ***************************** */
+function isSettingAskEnabled(userSettings) {
+  return userSettings === undefined || userSettings.radioApplicationId === undefined || userSettings.radioApplicationId === 1;
+}
+
+function getSettingMediaId(userSettings) {
+  if (userSettings === undefined) {
+    return -1;
+  }
+  return userSettings.radioMediaId;
+}
+
+function isSettingStartPaused(userSettings) {
+  if (userSettings === undefined) {
+    return false;
+  }
+  return userSettings.startPaused;
+}
 
 /* ***************************** */
 /* Internationalization          */

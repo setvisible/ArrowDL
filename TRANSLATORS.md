@@ -104,7 +104,7 @@ Note that unfinished translations may also be deployed from time to time.
 ### Offline Translation
 
 This method requires:
-- [Qt Framework](https://www.qt.io/) (Qt5.14 at the time of writing these lines)
+- [Qt Framework](https://www.qt.io/)
 - local clone of the repository
 
 These files are the translations source (*.ts):
@@ -189,7 +189,7 @@ It generates *.qm (compiled translation files) to be deployed with the applicati
 
 ## References
 
-- [Internationalization with Qt](https://doc.qt.io/qt-5/internationalization.html)
-- [Qt Linguist Manual](https://doc.qt.io/qt-5/qtlinguist-index.html)
+- [Internationalization with Qt](https://doc.qt.io/qt-6/internationalization.html)
+- [Qt Linguist Manual](https://doc.qt.io/qt-6/qtlinguist-index.html)
 - [Transifex Documentation](https://docs.transifex.com/formats/qt-ts)
 - [Transifex TX Client](https://docs.transifex.com/transifex-github-integrations/github-tx-client)

@@ -20,12 +20,12 @@ uninstall_manifest () {
 TITLE='Mozilla' 
 SOURCE=./launcher-manifest-firefox.json
 DESTINATION=~/.mozilla/native-messaging-hosts
-TARGET_NAME="DownRightNow"
+TARGET_NAME="com.arrowdl.extension"
 uninstall_manifest $TITLE $SOURCE $DESTINATION $TARGET_NAME 
 
 
 TITLE='Chromium' 
 SOURCE=./launcher-manifest-chrome.json
 DESTINATION=~/.config/chromium/NativeMessagingHosts/
-TARGET_NAME="com.setvisible.downrightnow"
+TARGET_NAME="com.arrowdl.extension"
 uninstall_manifest $TITLE $SOURCE $DESTINATION $TARGET_NAME 
