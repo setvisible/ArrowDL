@@ -28,9 +28,9 @@ public:
     CustomStyleOptionProgressBar() = default;
 
     QColor color{Qt::blue};
-    QIcon icon{QIcon()};
-    bool hasSegments{false};
-    QBitArray segments;
+    QIcon icon = {};
+    bool hasSegments = false;
+    QBitArray segments = {};
 };
 
 #endif // WIDGETS_CUSTOM_STYLE_OPTION_PROGRESS_BAR_H

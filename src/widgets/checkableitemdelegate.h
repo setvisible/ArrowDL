@@ -38,7 +38,7 @@ public:
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) override;
 
 private:
-    QIcon m_checkIcon;
+    QIcon m_checkIcon = {};
 };
 
 
