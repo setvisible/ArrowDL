@@ -59,6 +59,7 @@ private slots:
     void languageChanged(int value);
     void resetLanguage();
     void themeChanged();
+    void resetTheme();
 
     void maxSimultaneousDownloadSlided(int value);
     void concurrentFragmentSlided(int value);

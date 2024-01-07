@@ -394,6 +394,11 @@ void PreferenceDialog::themeChanged()
     Theme::applyTheme(ui->themeWidget->theme());
 }
 
+void PreferenceDialog::resetTheme()
+{
+    Theme::applyTheme(m_settings->theme());
+}
+
 /******************************************************************************
  ******************************************************************************/
 void PreferenceDialog::maxSimultaneousDownloadSlided(int value)
@@ -471,6 +476,7 @@ void PreferenceDialog::restoreDefaultSettings()
     m_settings->endRestoreDefault();
 
     resetLanguage();
+    resetTheme();
 }
 
 void PreferenceDialog::read()
@@ -862,6 +868,7 @@ void PreferenceDialog::writeSettings()
     settings.endGroup();
 
     resetLanguage();
+    resetTheme();
 }
 
 /******************************************************************************
