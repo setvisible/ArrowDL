@@ -138,7 +138,7 @@ public:
     explicit QueueViewItemDelegate(QObject *parent = nullptr);
 
     // painting
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const override;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
     // editing
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
@@ -150,11 +150,11 @@ public:
     void restylizeUi();
 
 private:
-    QIcon m_idleIcon;
-    QIcon m_resumeIcon;
-    QIcon m_pauseIcon;
-    QIcon m_stopIcon;
-    QIcon m_completedIcon;
+    QIcon m_idleIcon = {};
+    QIcon m_resumeIcon = {};
+    QIcon m_pauseIcon = {};
+    QIcon m_stopIcon = {};
+    QIcon m_completedIcon = {};
 
     QColor stateColor(IDownloadItem::State state) const;
     QIcon stateIcon(IDownloadItem::State state) const;
@@ -163,11 +163,7 @@ private:
 QueueViewItemDelegate::QueueViewItemDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-    m_idleIcon.addPixmap(QPixmap(":/resources/icons/default/16x16/actions/play-idle.png"), QIcon::Normal, QIcon::On);
-    m_resumeIcon.addPixmap(QPixmap(":/resources/icons/default/16x16/actions/play-resume.png"), QIcon::Normal, QIcon::On);
-    m_pauseIcon.addPixmap(QPixmap(":/resources/icons/default/16x16/actions/play-pause.png"), QIcon::Normal, QIcon::On);
-    m_stopIcon.addPixmap(QPixmap(":/resources/icons/default/16x16/actions/play-stop.png"), QIcon::Normal, QIcon::On);
-    m_completedIcon.addPixmap(QPixmap(":/resources/icons/default/16x16/actions/remove-completed.png"), QIcon::Normal, QIcon::On);
+    restylizeUi();
 }
 
 void QueueViewItemDelegate::restylizeUi()
@@ -178,17 +174,14 @@ void QueueViewItemDelegate::restylizeUi()
     m_stopIcon = {};
     m_completedIcon = {};
 
-    m_idleIcon.addPixmap(QIcon::fromTheme("play-idle").pixmap(16), QIcon::Normal, QIcon::On);
-    m_resumeIcon.addPixmap(QIcon::fromTheme("play-resume").pixmap(16), QIcon::Normal, QIcon::On);
-    m_pauseIcon.addPixmap(QIcon::fromTheme("play-pause").pixmap(16), QIcon::Normal, QIcon::On);
-    m_stopIcon.addPixmap(QIcon::fromTheme("play-stop").pixmap(16), QIcon::Normal, QIcon::On);
-    m_completedIcon.addPixmap(QIcon::fromTheme("remove-completed").pixmap(16), QIcon::Normal, QIcon::On);
+    m_idleIcon.addPixmap(QIcon::fromTheme("queue-idle").pixmap(16), QIcon::Normal, QIcon::On);
+    m_resumeIcon.addPixmap(QIcon::fromTheme("queue-play").pixmap(16), QIcon::Normal, QIcon::On);
+    m_pauseIcon.addPixmap(QIcon::fromTheme("queue-paused").pixmap(16), QIcon::Normal, QIcon::On);
+    m_stopIcon.addPixmap(QIcon::fromTheme("queue-stop").pixmap(16), QIcon::Normal, QIcon::On);
+    m_completedIcon.addPixmap(QIcon::fromTheme("queue-completed").pixmap(16), QIcon::Normal, QIcon::On);
 }
 
-void QueueViewItemDelegate::paint(
-    QPainter *painter,
-    const QStyleOptionViewItem &option,
-    const QModelIndex &index ) const
+void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
     QStyleOptionViewItem myOption = option;
     initStyleOption(&myOption, index);
@@ -197,15 +190,16 @@ void QueueViewItemDelegate::paint(
         myOption.font.setBold(true);
     }
 
-    myOption.palette.setColor(QPalette::All, QPalette::Window, s_white);
-    myOption.palette.setColor(QPalette::All, QPalette::WindowText, s_black);
-    myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
-    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
+    auto palette = qApp->palette();
+    myOption.palette.setColor(QPalette::All, QPalette::Window, palette.color(QPalette::Base));
+    myOption.palette.setColor(QPalette::All, QPalette::WindowText, palette.color(QPalette::WindowText));
+    myOption.palette.setColor(QPalette::All, QPalette::Highlight, palette.color(QPalette::Highlight));
+    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, palette.color(QPalette::HighlightedText));
 
     if (index.column() == COL_0_FILE_NAME) {
 
         const QUrl url(myOption.text);
-        const QPixmap pixmap = MimeDatabase::fileIcon(url, 16);
+        auto pixmap = MimeDatabase::fileIcon(url, 16);
 
         myOption.icon.addPixmap(pixmap);
         myOption.decorationAlignment = Qt::AlignHCenter | Qt::AlignVCenter;

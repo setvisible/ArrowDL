@@ -27,10 +27,10 @@ class CustomStyleOptionProgressBar : public QStyleOptionProgressBar
 public:
     CustomStyleOptionProgressBar() = default;
 
-    QColor color{Qt::blue};
-    QIcon icon{QIcon()};
-    bool hasSegments{false};
-    QBitArray segments;
+    QColor color = {Qt::blue};
+    QIcon icon = {};
+    bool hasSegments = false;
+    QBitArray segments = {};
 };
 
 #endif // WIDGETS_CUSTOM_STYLE_OPTION_PROGRESS_BAR_H

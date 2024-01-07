@@ -55,6 +55,11 @@
         <file>resources/icons/default/scalable/actions/preference-schedule.svg</file>
         <file>resources/icons/default/scalable/actions/preference-security.svg</file>
         <file>resources/icons/default/scalable/actions/preference-torrent.svg</file>
+        <file>resources/icons/default/scalable/actions/queue-completed.svg</file>
+        <file>resources/icons/default/scalable/actions/queue-idle.svg</file>
+        <file>resources/icons/default/scalable/actions/queue-paused.svg</file>
+        <file>resources/icons/default/scalable/actions/queue-play.svg</file>
+        <file>resources/icons/default/scalable/actions/queue-stop.svg</file>
         <file>resources/icons/default/scalable/actions/remove-all.svg</file>
         <file>resources/icons/default/scalable/actions/remove-completed.svg</file>
         <file>resources/icons/default/scalable/actions/remove-downloaded.svg</file>
@@ -119,6 +124,11 @@
         <file>resources/icons/default-dark/scalable/actions/preference-schedule.svg</file>
         <file>resources/icons/default-dark/scalable/actions/preference-security.svg</file>
         <file>resources/icons/default-dark/scalable/actions/preference-torrent.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/queue-completed.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/queue-idle.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/queue-paused.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/queue-play.svg</file>
+        <file>resources/icons/default-dark/scalable/actions/queue-stop.svg</file>
         <file>resources/icons/default-dark/scalable/actions/remove-all.svg</file>
         <file>resources/icons/default-dark/scalable/actions/remove-completed.svg</file>
         <file>resources/icons/default-dark/scalable/actions/remove-downloaded.svg</file>
@@ -183,6 +193,11 @@
         <file>resources/icons/flat/scalable/actions/preference-schedule.svg</file>
         <file>resources/icons/flat/scalable/actions/preference-security.svg</file>
         <file>resources/icons/flat/scalable/actions/preference-torrent.svg</file>
+        <file>resources/icons/flat/scalable/actions/queue-completed.svg</file>
+        <file>resources/icons/flat/scalable/actions/queue-idle.svg</file>
+        <file>resources/icons/flat/scalable/actions/queue-paused.svg</file>
+        <file>resources/icons/flat/scalable/actions/queue-play.svg</file>
+        <file>resources/icons/flat/scalable/actions/queue-stop.svg</file>
         <file>resources/icons/flat/scalable/actions/remove-all.svg</file>
         <file>resources/icons/flat/scalable/actions/remove-completed.svg</file>
         <file>resources/icons/flat/scalable/actions/remove-downloaded.svg</file>
@@ -247,6 +262,11 @@
         <file>resources/icons/flat-dark/scalable/actions/preference-schedule.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/preference-security.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/preference-torrent.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/queue-completed.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/queue-idle.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/queue-paused.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/queue-play.svg</file>
+        <file>resources/icons/flat-dark/scalable/actions/queue-stop.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/remove-all.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/remove-completed.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/remove-downloaded.svg</file>

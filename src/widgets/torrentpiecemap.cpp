@@ -36,11 +36,20 @@
 
 static QColor color(TorrentPieceItem::Status status)
 {
+    auto palette = qApp->palette();
+    auto bgColor = palette.color(QPalette::Active, QPalette::Window);
+    auto isDarkMode = bgColor.lightness() < 128;
+
+    auto color1 = isDarkMode ? s_darkGrey : s_lightGrey;
+    auto color2 = isDarkMode ? s_darkOrange : s_orange;
+    auto color3 = isDarkMode ? s_darkGreen : s_green;
+    auto color4 = isDarkMode ? s_darkPurple : s_purple;
+
     switch (status) {
-    case TorrentPieceItem::Status::NotAvailable:   return s_lightGrey;
-    case TorrentPieceItem::Status::Available:      return s_orange;
-    case TorrentPieceItem::Status::Downloaded:     return s_green;
-    case TorrentPieceItem::Status::Verified:       return s_purple;
+    case TorrentPieceItem::Status::NotAvailable:   return color1;
+    case TorrentPieceItem::Status::Available:      return color2;
+    case TorrentPieceItem::Status::Downloaded:     return color3;
+    case TorrentPieceItem::Status::Verified:       return color4;
     }
     Q_UNREACHABLE();
 }
@@ -52,7 +61,7 @@ static void colorize(QWidget *widget, TorrentPieceItem::Status status)
     pal.setColor(QPalette::Window, _color);
     widget->setAutoFillBackground(true);
     widget->setPalette(pal);
-    widget->setStyleSheet(QString());
+    widget->setStyleSheet({});
 }
 
 static QString decorate(int count, TorrentFileInfo::Priority priority)
