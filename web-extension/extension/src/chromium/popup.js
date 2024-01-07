@@ -23,7 +23,7 @@ function checkConnection() {
     showWarningMessage(true);
   }
 
-  var data = "areyouthere";
+  const data = "areyouthere";
   chrome.runtime.sendNativeMessage(application, { "text": data }, onResponse);
 }
 
@@ -32,7 +32,7 @@ function checkConnection() {
 /* Core                          */
 /* ***************************** */
 function showWarningMessage(hasError) {
-  var x = document.getElementById("warning-area");
+  const x = document.getElementById("warning-area");
   if (hasError) {
     x.style.display = "block";
   } else {
@@ -63,8 +63,8 @@ function setVisible(name, visible) {
 }
 
 function immediateButtonLabel() {
-  var mediaId = getBackgroundPage().getSettingMediaId();
-  var startPaused = getBackgroundPage().isSettingStartPaused();
+  const mediaId = getBackgroundPage().getSettingMediaId();
+  const startPaused = getBackgroundPage().isSettingStartPaused();
   if (mediaId === 1) {
     if (startPaused) {
       return chrome.i18n.getMessage("popupDownloadLinksPaused")
@@ -109,7 +109,7 @@ function hasIncognitoModeBug() {
 }
 
 function showIncognitoWarningMessage(hasError) {
-  var x = document.getElementById("warning-area-incognito");
+  const x = document.getElementById("warning-area-incognito");
   if (hasError) {
     x.style.display = "block";
   } else {
@@ -165,7 +165,7 @@ class DummyChromeExtensionForIncognitoMode {
       console.log(`Error: ${error}`);
     }
   
-    var data = "launch " + links;
+    const data = "launch " + links;
     console.log("Sending message to launcher:  " + data);
     chrome.runtime.sendNativeMessage(application, { "text": data }, onResponse);
   }
@@ -178,11 +178,11 @@ function onLoaded() {
   checkConnection();
   checkIncognitoMode();
 
-  var enabled = getBackgroundPage().isSettingAskEnabled();
+  const enabled = getBackgroundPage().isSettingAskEnabled();
   setVisible("button-immediate-download", !enabled);
 
   if (!enabled) {
-    var label = immediateButtonLabel();
+    const label = immediateButtonLabel();
     safeInnerHtmlAssignment("button-immediate-download-label", label);
   }
 }
@@ -200,19 +200,19 @@ document.getElementById("button-immediate-download").addEventListener('click', (
 });
 
 document.getElementById("button-manager").addEventListener('click', () => { 
-    var command = "[MANAGER]";
+    const command = "[MANAGER]";
     getBackgroundPage().sendData(command);
     window.close();
 });
 
 document.getElementById("button-preference").addEventListener('click', () => { 
-    var command = "[PREFS]";
+    const command = "[PREFS]";
     getBackgroundPage().sendData(command);
     window.close();
 });
 
 document.getElementById("button-options-page").addEventListener('click', () => {
-    var openingPage = chrome.runtime.openOptionsPage();
+    const openingPage = chrome.runtime.openOptionsPage();
     window.close();
 });
 

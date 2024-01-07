@@ -29,12 +29,12 @@ function restoreOptions() {
 }
 
 function saveOptions() {
-  var options = getOptions();
+  const options = getOptions();
   chrome.storage.local.set(options);
 }
 
 function getOptions() {
-  var options = {};
+  const options = {};
   options["radioApplicationId"] = getApplicationRadio();
   options["radioMediaId"] = getMediaRadio();
   options["startPaused"] = isStartPaused();
@@ -98,7 +98,7 @@ function setStartPaused(value) {
 }
 
 function refreshButtons(){
-  var isChecked = document.getElementById("download_immediately").checked;
+  const isChecked = document.getElementById("download_immediately").checked;
   setDivEnabled("full_menu_label", isChecked);
   setButtonEnabled("get_links", isChecked);
   setButtonEnabled("get_content", isChecked);
@@ -115,10 +115,10 @@ function setDivEnabled(name, enabled) {
 }
 
 function setButtonEnabled(name, enabled) {
-  var inputButton = document.getElementById(name);
+  const inputButton = document.getElementById(name);
   inputButton.disabled = !enabled;
-  for (var i = 0; i < inputButton.labels.length; i++) {
-    var label = inputButton.labels[i];
+  for (let i = 0; i < inputButton.labels.length; i++) {
+    const label = inputButton.labels[i];
     if (enabled) {
       label.classList.remove("disabled");
     } else {
@@ -128,12 +128,12 @@ function setButtonEnabled(name, enabled) {
 }
 
 function showOptions(visible) {
-  var instructions = document.getElementsByClassName("show-instruction");
-  for (var i = 0; i < instructions.length; i ++) {
+  const instructions = document.getElementsByClassName("show-instruction");
+  for (let i = 0; i < instructions.length; i ++) {
     instructions[i].style.display = visible ? "none" : "block";
   }
-  var options = document.getElementsByClassName("options");
-  for (var i = 0; i < options.length; i ++) {
+  const options = document.getElementsByClassName("options");
+  for (let i = 0; i < options.length; i ++) {
     options[i].style.display = visible ? "block" : "none";
   }
 }
@@ -151,10 +151,10 @@ function checkConnection() {
       onHelloError(response);
     } else {
       console.log(`Message from the launcher:  ${response.text}`);
-      var messageOk = chrome.i18n.getMessage("optionsOk");
-      var messageDetectedPath = chrome.i18n.getMessage("optionsDetectedPath");
-      var connectionStatus = "✓ " + messageOk;
-      var details = "<br><br>" + messageDetectedPath + "<br><code>" + response.text + "</code>";
+      const messageOk = chrome.i18n.getMessage("optionsOk");
+      const messageDetectedPath = chrome.i18n.getMessage("optionsDetectedPath");
+      const connectionStatus = "✓ " + messageOk;
+      const details = "<br><br>" + messageDetectedPath + "<br><code>" + response.text + "</code>";
       setConnectionStatus(connectionStatus, details, "MediumSeaGreen");
       showOptions(true);
     }
@@ -162,20 +162,20 @@ function checkConnection() {
 
   function onHelloError(error) {
     console.log(`Launcher didn't send any message. ${error}.`);
-    var messageError = chrome.i18n.getMessage("optionsError");
-    var messageInstructions = chrome.i18n.getMessage("optionsInstructions");
-    var connectionStatus = "⚠ " + messageError;
-    var details = "<br><br>" + messageInstructions;
+    const messageError = chrome.i18n.getMessage("optionsError");
+    const messageInstructions = chrome.i18n.getMessage("optionsInstructions");
+    const connectionStatus = "⚠ " + messageError;
+    const details = "<br><br>" + messageInstructions;
     setConnectionStatus(connectionStatus, details, "Tomato");
     showOptions(false);
   }
 
-  var data = "areyouthere";
+  const data = "areyouthere";
   chrome.runtime.sendNativeMessage(application, { "text": data }, onHelloResponse);
 }
 
 function setConnectionStatus(connectionStatus, details, color) {
-  var messageStatus = chrome.i18n.getMessage("optionsStatus");
+  const messageStatus = chrome.i18n.getMessage("optionsStatus");
   const statusTag = `<span>${messageStatus}&nbsp;&nbsp;<span style="padding: 5px 10px 5px 10px; solid ${color}; background-color:${color}; color:White;">${connectionStatus}</span>&nbsp;&nbsp;&nbsp;&nbsp;${details}</span>`;
 
   safeInnerHtmlAssignment2("status-message", statusTag);
@@ -223,7 +223,7 @@ function notifyBackgroundPage() {
   function onError(error) {
     console.log(`Error: ${error}`);
   }
-  var options = getOptions();
+  const options = getOptions();
   chrome.runtime.sendMessage(options, onResponse);
 }
 
@@ -234,8 +234,8 @@ function loadPage() {
   restoreOptions();
   checkInstallation();
 
-  var input = document.querySelectorAll("input");
-  for(var i = 0; i < input.length; i++) {
+  const input = document.querySelectorAll("input");
+  for (let i = 0; i < input.length; i++) {
     input[i].addEventListener("change", onInputChanged);
   }
 }

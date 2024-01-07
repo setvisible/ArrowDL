@@ -64,7 +64,7 @@ function save_image(info, tab) {
 /* ***************************** */
 /* Options                       */
 /* ***************************** */
-var mySettings = undefined;
+let mySettings = undefined;
 
 function getDownloadActionChoice() {
   function onOptionResponse(response) {
@@ -111,10 +111,10 @@ function isSettingStartPaused() {
 function collectDOMandSendData() {
 
   function myFunction(myArgument) {
-    var restoredSettings = myArgument; // not necessary: JSON.parse(myArgument);
-    var hasLinks = true;
-    var hasMedia = true;
-    var array = "";
+    const restoredSettings = myArgument; // not necessary: JSON.parse(myArgument);
+    let hasLinks = true;
+    let hasMedia = true;
+    let array = "";
 
     // Options
     if (restoredSettings.radioApplicationId === 1) {
@@ -148,10 +148,8 @@ function collectDOMandSendData() {
     if (hasLinks) {
       // Get all elements of type <a href="..." ></a>
       array += "[LINKS] ";
-      var links = document.getElementsByTagName("a");
-      var max = links.length;
-      var i = 0;
-      for (; i < max; i++) {
+      const links = document.getElementsByTagName("a");
+      for (let i = 0; i < links.length; i++) {
           array += links[i].href;
           array += " ";
       }
@@ -160,10 +158,8 @@ function collectDOMandSendData() {
     if (hasMedia) {
       // Get all elements of type <img src="..." />
       array += "[MEDIA] ";
-      var pictures = document.getElementsByTagName("img");
-      var max = pictures.length;
-      var i = 0;
-      for (; i < max; i++) {
+      const pictures = document.getElementsByTagName("img");
+      for (let i = 0; i < pictures.length; i++) {
         array += pictures[i].src;
         array += " ";
       }
@@ -172,7 +168,7 @@ function collectDOMandSendData() {
     return array;
   }
 
-  var myArgument = JSON.stringify(mySettings);
+  const myArgument = JSON.stringify(mySettings);
 
   // We have permission to access the activeTab, so we can call chrome.tabs.executeScript.
   /* Remark:
@@ -181,7 +177,7 @@ function collectDOMandSendData() {
    * myFunction is interpreted as a string. 
    * Indeed, "(" + myFunction + ")()" is a string, because function.toString() returns function's code.
    */
-  var codeToExecute = "(" + myFunction + ")(" + myArgument + ");";
+  const codeToExecute = "(" + myFunction + ")(" + myArgument + ");";
 
   chrome.tabs.executeScript({
       "code": codeToExecute
@@ -196,7 +192,7 @@ function collectDOMandSendData() {
 
 function collectDOMandSendDataWithWizard() {
   // We *hack* the settings
-  var previous = mySettings.radioApplicationId;
+  const previous = mySettings.radioApplicationId;
   mySettings.radioApplicationId = 1;
 
   collectDOMandSendData();
@@ -235,7 +231,7 @@ function sendData(links) {
     console.log(`Error: ${error}`);
   }
 
-  var data = "launch " + links;
+  const data = "launch " + links;
   console.log("Sending message to launcher:  " + data);
   chrome.runtime.sendNativeMessage(application, { "text": data }, onResponse);
 }
