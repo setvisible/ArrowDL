@@ -1,9 +1,9 @@
 {
   "author": "SetVisible(0!=1)",
   "background": {
-    "scripts": ["background.js"]
+    "service_worker": "background.js"
   },
-  "browser_action": { 
+  "action": { 
     "default_icon": {
       "16": "icons/icon16.png",
       "24": "icons/icon24.png",
@@ -17,7 +17,7 @@
   },
   "default_locale": "en",
   "description": "__MSG_extensionDescription__",
-  "homepage_url": "https://www.arrow-dl.com/ArrowDL",
+  "homepage_url": "https://www.arrow-dl.com/",
   "icons": {
     "16": "icons/icon16.png",
     "24": "icons/icon24.png",
@@ -26,19 +26,20 @@
     "64": "icons/icon64.png",
     "128": "icons/icon128.png"
   },
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "__MSG_extensionName__",
   "options_ui": {
     "page": "options.html",
-    "chrome_style": false
+    "browser_style": false
   },
   "permissions": [
     "activeTab",
     "contextMenus",
     "nativeMessaging",
+    "scripting",
     "storage",
     "tabs"
   ],
-  "short_name": "DRN!",
+  "short_name": "ArrowDL",
   "version": "0.0.65536"
 }

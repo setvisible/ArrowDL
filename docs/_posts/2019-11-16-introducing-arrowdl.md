@@ -14,7 +14,7 @@ excerpt_separator:  <!--more-->
 
 It aims to work with latest versions of Mozilla Firefox (powered by *WebExtensions*), and other web browsers (Chrome, Edge, Safari...). 
 
-*ArrowDL* is written in C++ and based on the [Qt5](https://www.qt.io/ "https://www.qt.io/") framework.
+*ArrowDL* is written in C++ and based on the [Qt](https://www.qt.io/ "https://www.qt.io/") framework.
 
 
 ## Goals

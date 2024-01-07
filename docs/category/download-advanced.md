@@ -30,7 +30,7 @@ Table of Content:
 
 2. Then, install the web extension:
 
-    1. Install **DownRightNow** add-on on the [web browser](#install-webextension)
+    1. Install **ArrowDL** add-on on the [web browser](#install-webextension)
 
     2. Go to the install directory of the Application (*ArrowDL*), and follow the instructions in `ReadMe.txt`
 
@@ -44,7 +44,7 @@ Choose the browser:
 
 | ![logo](/ArrowDL/assets/images/firefox.png) | ![logo](/ArrowDL/assets/images/chrome.png) | ![logo](/ArrowDL/assets/images/iexplorer.png) |
 |-----------------------------------|----------------------------------|----------------------------------|
-| Click here to intall [DownRightNow for Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/down-right-now/ ) | Click here to intall [DownRightNow for Google Chrome](https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio "https://chrome.google.com/webstore/detail/down-right-now/modofbhnhlagjmejdbalnijgncppjeio") | Click here to intall... Just kidding |
+| Click here to intall [ArrowDL for Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/arrow-dl/ ) | Click here to intall [ArrowDL for Google Chrome](https://chrome.google.com/webstore/detail/arrow-dl/modofbhnhlagjmejdbalnijgncppjeio "https://chrome.google.com/webstore/detail/arrow-dl/modofbhnhlagjmejdbalnijgncppjeio") | Click here to intall... Just kidding |
 
 
 #### Portable Archives
@@ -153,8 +153,8 @@ Footnotes:
 
     /* A-Z sorted Urls */
     const artifact_id_to_filenames = {
-      'id_chromium':            "DownRightNow_chromium_" + tag_name + ".zip",
-      'id_firefox':             "DownRightNow_firefox_" + tag_name + ".xpi",
+      'id_chromium':            "ArrowDL_chromium_" + tag_name + ".zip",
+      'id_firefox':             "ArrowDL_firefox_" + tag_name + ".xpi",
       'id_linux_x64_app':       "ArrowDL_" + tag_name + "_x86_64_no_launcher.AppImage",
       'id_linux_x64_zip':       "ArrowDL_" + tag_name + "_x86_64.tar.gz",
       'id_mac_x64_dmg':         "ArrowDL_" + tag_name + "_x86_64.dmg",

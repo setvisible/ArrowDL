@@ -65,11 +65,11 @@ def make_addons(current_path, output_path):
     apply_version(application_version, os.path.join(output_path, "firefox", "manifest.json"))
 
     print("Archiving...")  
-    base_name = f"DownRightNow_chromium_v{application_version}"
+    base_name = f"ArrowDL_chromium_v{application_version}"
     chromium_full_name = make_archive(base_name=base_name, format="zip", root_dir=os.path.join(output_path, "chromium"), base_dir=".")
     print(f"Created archive: {chromium_full_name}")
 
-    base_name = f"DownRightNow_firefox_v{application_version}"
+    base_name = f"ArrowDL_firefox_v{application_version}"
     name = make_archive(base_name=base_name, format="zip", root_dir=os.path.join(output_path, "firefox"), base_dir=".")
     firefox_full_name = name.replace(".zip", ".xpi")
     if os.path.exists(firefox_full_name):

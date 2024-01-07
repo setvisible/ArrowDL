@@ -2875,12 +2875,12 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
     <message>
         <location filename="../core/theme.cpp" line="111"/>
         <source>Bootstrap Icons (default)</source>
-        <translation type="unfinished"></translation>
+        <translation>Icone bootstrap (predefinite)</translation>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="112"/>
         <source>FontAwesome Flat Design</source>
-        <translation type="unfinished"></translation>
+        <translation>Design piatto FontAwesome</translation>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="141"/>

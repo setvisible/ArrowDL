@@ -1,5 +1,7 @@
 # Troubleshooting
 
+**This page is frozen. Please use Github > Issues instead.**
+
 ## Security Restriction
 
 ### Binary signature

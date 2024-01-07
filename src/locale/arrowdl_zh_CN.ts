@@ -2251,12 +2251,12 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="434"/>
         <source>Concurrent fragments:</source>
-        <translation type="unfinished"></translation>
+        <translation>并发片段：</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="517"/>
         <source>20</source>
-        <translation type="unfinished"></translation>
+        <translation>20</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="597"/>
@@ -2723,7 +2723,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="715"/>
         <source>Servers might split large files into multiple fragments, to optimize downloads. This option enables multi-threaded fragment downloads: Select the number of fragments that should be downloaded concurrently. Note that the concurrency makes download faster (when available), but the progress status and estimated time could be inaccurate (by design). Choose between precision and speed. Recommended value depends on your connection and machine. 20 is a good start. To disable it, set it to 1.</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器可能会将大文件分割成多个片段，以优化下载。 此选项启用多线程片段下载：选择应同时下载的片段数量。 请注意，并发性使下载速度更快（如果可用），但进度状态和估计时间可能不准确（根据设计）。 在精度和速度之间进行选择。 建议值取决于您的连接和机器。 20 是一个好的开始。 要禁用它，请将其设置为 1。</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="736"/>
@@ -2861,12 +2861,12 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../core/theme.cpp" line="111"/>
         <source>Bootstrap Icons (default)</source>
-        <translation type="unfinished"></translation>
+        <translation>Bootstrap 图标（默认）</translation>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="112"/>
         <source>FontAwesome Flat Design</source>
-        <translation type="unfinished"></translation>
+        <translation>FontAwesome 平面设计</translation>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="141"/>

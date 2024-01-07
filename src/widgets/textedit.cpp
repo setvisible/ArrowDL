@@ -633,9 +633,9 @@ void TextEdit::removeBlockSelection(const QString &text)
             cursor.setPosition( block.position() + endPos, QTextCursor::KeepAnchor);
             cursor.removeSelectedText();
         } else {
-            cursor.setPosition( block.position()+block.length()-1, QTextCursor::MoveAnchor);
+            cursor.setPosition( block.position()+block.length() - 1, QTextCursor::MoveAnchor);
             QString str = "";
-            str.fill(' ', leftColumn-block.length()+1 ); // str == "          "
+            str.fill(' ', leftColumn-block.length() + 1 ); // str == "          "
             cursor.insertText( str );
         }
         if (!text.isEmpty()) {

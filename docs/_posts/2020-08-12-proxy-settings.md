@@ -62,7 +62,7 @@ LibTorrent uses a separate settings storage, then to enable proxying with torren
 ### Further reading
 
 - [Proxy server](https://en.wikipedia.org/wiki/Proxy_server) definition on Wikipedia
-- Qt5 [Proxy Documentation](https://doc.qt.io/qt-5/qnetworkproxy.html)
+- Qt6 [Proxy Documentation](https://doc.qt.io/qt-6/qnetworkproxy.html)
 - LibTorrent [Proxy Documentation](https://www.libtorrent.org/features.html)
 
 
