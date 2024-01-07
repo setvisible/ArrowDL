@@ -50,25 +50,29 @@ void CheckableItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
     QStyleOptionViewItem myOption = option;
     initStyleOption(&myOption, index);
 
-    myOption.palette.setColor(QPalette::All, QPalette::Window, s_white);
-    myOption.palette.setColor(QPalette::All, QPalette::WindowText, s_black);
-    myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
-    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
+    auto palette = qApp->palette();
+    myOption.palette.setColor(QPalette::All, QPalette::Window, palette.color(QPalette::Base));
+    myOption.palette.setColor(QPalette::All, QPalette::WindowText, palette.color(QPalette::WindowText));
+    myOption.palette.setColor(QPalette::All, QPalette::Highlight, palette.color(QPalette::Highlight));
+    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, palette.color(QPalette::HighlightedText));
 
     auto sibling = getSiblingAtColumn(index, 0);
     auto checked = index.model()->data(sibling, CheckableTableModel::CheckStateRole).toBool();
     if (checked) {
-        myOption.palette.setColor(QPalette::All, QPalette::Window, s_lightYellow);
-        myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_darkYellow);
-        painter->fillRect(myOption.rect, s_lightYellow); // hack
+        auto bgColor = myOption.palette.color(QPalette::Active, QPalette::Window);
+        auto isDarkMode = bgColor.lightness() < 128;
+
+        auto lightYellow = isDarkMode ? s_dark_lightYellow : s_lightYellow;
+        auto darkYellow = isDarkMode ? s_dark_darkYellow : s_darkYellow;
+
+        myOption.palette.setColor(QPalette::All, QPalette::Window, lightYellow);
+        myOption.palette.setColor(QPalette::All, QPalette::Highlight, darkYellow);
+        painter->fillRect(myOption.rect, lightYellow); // hack
     }
 
     if (myOption.state & QStyle::State_Selected) {
         myOption.font.setBold(true);
     }
-
-    // Otherwise it's another color
-    myOption.palette.setColor(QPalette::Active, QPalette::HighlightedText, myOption.palette.color(QPalette::Active, QPalette::Text));
 
     /* Inactive palette keep same colors as Active */
     myOption.palette.setColor(QPalette::Inactive, QPalette::Base, myOption.palette.color(QPalette::Active, QPalette::Base));

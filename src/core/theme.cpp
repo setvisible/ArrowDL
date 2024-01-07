@@ -168,6 +168,10 @@ int Theme::fromColorScheme(const QString &colorScheme)
 /*!
  * Modify palette to dark.
  *
+ * Recommandation:
+ * Google Material Design Guidelines.
+ * https://design.google/library/material-design-dark-theme
+ *
  * Inspiration:
  * https://github.com/Jorgen-VikingGod/Qt-Frameless-Window-DarkStyle/blob/master/DarkStyle.cpp
  */
@@ -191,7 +195,7 @@ static void polishDark(QPalette &palette)
     palette.setColor(QPalette::Window, QColor(53, 53, 53));
     palette.setColor(QPalette::Shadow, QColor(20, 20, 20));
     // --
-    palette.setColor(QPalette::Highlight, QColor(42, 130, 218));
+    palette.setColor(QPalette::Highlight, QColor(26, 85, 145)); // custom
     palette.setColor(QPalette::Disabled, QPalette::Highlight, QColor(80, 80, 80));
     palette.setColor(QPalette::HighlightedText, Qt::white);
     palette.setColor(QPalette::Disabled, QPalette::HighlightedText, QColor(127, 127, 127));
@@ -239,11 +243,11 @@ void Theme::applyTheme(const QMap<QString, QVariant> &map)
                 : QLatin1String("default")
             );
     }
-    auto dark_palette = qApp->style()->standardPalette();
+    auto palette = qApp->style()->standardPalette();
     if (isDarkMode) {
-        polishDark(dark_palette);
+        polishDark(palette);
     }
-    qApp->setPalette(dark_palette); // emits QEvent::PaletteChange
+    qApp->setPalette(palette); // emits QEvent::PaletteChange
     qApp->setStyle(new CustomStyle(platformStyle)); // emits QEvent::StyleChange
 }
 

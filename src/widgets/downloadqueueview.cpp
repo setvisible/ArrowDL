@@ -138,7 +138,7 @@ public:
     explicit QueueViewItemDelegate(QObject *parent = nullptr);
 
     // painting
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const override;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
     // editing
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
@@ -181,10 +181,7 @@ void QueueViewItemDelegate::restylizeUi()
     m_completedIcon.addPixmap(QIcon::fromTheme("queue-completed").pixmap(16), QIcon::Normal, QIcon::On);
 }
 
-void QueueViewItemDelegate::paint(
-    QPainter *painter,
-    const QStyleOptionViewItem &option,
-    const QModelIndex &index ) const
+void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
     QStyleOptionViewItem myOption = option;
     initStyleOption(&myOption, index);
@@ -193,15 +190,16 @@ void QueueViewItemDelegate::paint(
         myOption.font.setBold(true);
     }
 
-    myOption.palette.setColor(QPalette::All, QPalette::Window, s_white);
-    myOption.palette.setColor(QPalette::All, QPalette::WindowText, s_black);
-    myOption.palette.setColor(QPalette::All, QPalette::Highlight, s_lightBlue);
-    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, s_black);
+    auto palette = qApp->palette();
+    myOption.palette.setColor(QPalette::All, QPalette::Window, palette.color(QPalette::Base));
+    myOption.palette.setColor(QPalette::All, QPalette::WindowText, palette.color(QPalette::WindowText));
+    myOption.palette.setColor(QPalette::All, QPalette::Highlight, palette.color(QPalette::Highlight));
+    myOption.palette.setColor(QPalette::All, QPalette::HighlightedText, palette.color(QPalette::HighlightedText));
 
     if (index.column() == COL_0_FILE_NAME) {
 
         const QUrl url(myOption.text);
-        const QPixmap pixmap = MimeDatabase::fileIcon(url, 16);
+        auto pixmap = MimeDatabase::fileIcon(url, 16);
 
         myOption.icon.addPixmap(pixmap);
         myOption.decorationAlignment = Qt::AlignHCenter | Qt::AlignVCenter;
