@@ -8,17 +8,24 @@ const website_download_link = "https://www.arrow-dl.com/";
 /* ***************************** */
 function restoreOptions() {
   function onOptionResponse(response) {
-    setApplicationRadio( response.radioApplicationId );
-    setMediaRadio( response.radioMediaId );
-    setStartPaused( response.startPaused );
+    if (browser.runtime.lastError) {
+      console.log(browser.runtime.lastError.message);
+      onOptionError(response);
+    }
+    if (response === undefined) {
+      onOptionError(response);
+    } else {
+      setApplicationRadio( response.radioApplicationId );
+      setMediaRadio( response.radioMediaId );
+      setStartPaused( response.startPaused );    
+    }
   }
 
   function onOptionError(error) {
     console.log(`Error: ${error}`);
   }
 
-  const getting = browser.storage.local.get();
-  getting.then(onOptionResponse, onOptionError);
+  browser.storage.local.get(onOptionResponse);
 }
 
 function saveOptions() {
@@ -27,7 +34,7 @@ function saveOptions() {
 }
 
 function getOptions() {
-  const options = {};
+  let options = {};
   options["radioApplicationId"] = getApplicationRadio();
   options["radioMediaId"] = getMediaRadio();
   options["startPaused"] = isStartPaused();
@@ -136,13 +143,21 @@ function showOptions(visible) {
 /* ***************************** */
 function checkConnection() {
   function onHelloResponse(response) {
-    console.log(`Message from the launcher:  ${response.text}`);
-    const messageOk = browser.i18n.getMessage("optionsOk");
-    const messageDetectedPath = browser.i18n.getMessage("optionsDetectedPath");
-    const connectionStatus = "✓ " + messageOk;
-    const details = "<br><br>" + messageDetectedPath + "<br><code>" + response.text + "</code>";
-    setConnectionStatus(connectionStatus, details, "MediumSeaGreen");
-    showOptions(true);
+    if (browser.runtime.lastError) {
+      console.log(browser.runtime.lastError.message);
+      onHelloError(response);
+    }
+    if (response === undefined) {
+      onHelloError(response);
+    } else {
+      console.log(`Message from the launcher:  ${response.text}`);
+      const messageOk = browser.i18n.getMessage("optionsOk");
+      const messageDetectedPath = browser.i18n.getMessage("optionsDetectedPath");
+      const connectionStatus = "✓ " + messageOk;
+      const details = "<br><br>" + messageDetectedPath + "<br><code>" + response.text + "</code>";
+      setConnectionStatus(connectionStatus, details, "MediumSeaGreen");
+      showOptions(true);
+    }
   }
 
   function onHelloError(error) {
@@ -156,8 +171,7 @@ function checkConnection() {
   }
 
   const data = "areyouthere";
-  const sending = browser.runtime.sendNativeMessage(application, data);
-  sending.then(onHelloResponse, onHelloError);
+  browser.runtime.sendNativeMessage(application, { "text": data }, onHelloResponse);
 }
 
 function setConnectionStatus(connectionStatus, details, color) {
@@ -196,14 +210,21 @@ function notifyBackgroundPage() {
    * that the options have been updated.
    */
   function onResponse(message) {
-    // console.log(`Message from the background.js:  ${message.response}`);
+    if (browser.runtime.lastError) {
+      console.log(browser.runtime.lastError.message);
+      onError(message);
+    }
+    if (message === undefined) {
+      onError(message);
+    } else {
+      // console.log(`Message from the background.js:  ${message.response}`);
+    }
   }
   function onError(error) {
     console.log(`Error: ${error}`);
   }
   const options = getOptions();
-  const sending = browser.runtime.sendMessage(options);
-  sending.then(onResponse, onError);
+  browser.runtime.sendMessage(options, onResponse);
 }
 
 /* ***************************** */

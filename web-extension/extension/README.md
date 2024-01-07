@@ -23,4 +23,4 @@ eq. to:
     .\make.bat --output-directory .
 
 
-See `.appveyor` script for packaging to .ZIP and .XPI files.
+See the Github Workflows script for packaging to .ZIP and .XPI files.

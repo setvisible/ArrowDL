@@ -2,21 +2,26 @@
 
 const application = "com.arrowdl.extension";
 
+// let us know we're running
+console.log("Background service worker has loaded via Manifest V3.");
+
 /* ***************************** */
 /* Context Menu                  */
 /* ***************************** */
+function contextMenusCreateCallback() {
+    if (browser.runtime.lastError) {
+        console.log(browser.runtime.lastError.message);
+    }
+};
+
 browser.contextMenus.removeAll(
   function() {
     function addAction(actionId, actionTitle, actionContext) {
       browser.contextMenus.create({
         id: actionId,
         title: actionTitle,
-        icons: {
-            "16": "icons/icon16.png",
-            "32": "icons/icon32.png"
-          },
         contexts: [actionContext]
-      });
+        }, contextMenusCreateCallback);
     }
     addAction("save-page",      browser.i18n.getMessage("contextMenuSavePage"),      "page");
     addAction("save-frame",     browser.i18n.getMessage("contextMenuSaveFrame"),     "frame");
@@ -44,175 +49,187 @@ browser.contextMenus.onClicked.addListener(
 );
 
 function save_page(info, tab) {
-  collectDOMandSendData();
+  browser.storage.local.get((userSettings) => {
+    collectDOMandSendData(userSettings);
+  });
 }
 
 function save_link(info, tab) {
-  const safeUrl = escapeHTML(info.linkUrl);
-  sendData("[DOWNLOAD_LINK] " + safeUrl);
+  let safeUrl = escapeHTML(info.linkUrl);
+  sendDataToArrowDL("[DOWNLOAD_LINK] " + safeUrl);
 }
 
 function save_image(info, tab) {
   const safeUrl = escapeHTML(info.srcUrl);
-  sendData("[DOWNLOAD_LINK] " + safeUrl);
+  sendDataToArrowDL("[DOWNLOAD_LINK] " + safeUrl);
 }
 
-/* ***************************** */
-/* Options                       */
-/* ***************************** */
-let mySettings = undefined;
-
-function getDownloadActionChoice() {
-  function onOptionResponse(response) {
-    mySettings = response;
-    // console.log("Settings changed: " + JSON.stringify(mySettings));
-  }
-  function onOptionError(error) {
-    console.log(`Error: ${error}`);
-  }
-  const getting = browser.storage.local.get();
-  getting.then(onOptionResponse, onOptionError);
-}
-
-getDownloadActionChoice();
-
-function isSettingAskEnabled() {
-  return mySettings === undefined || mySettings.radioApplicationId === undefined || mySettings.radioApplicationId === 1;
-}
-
-function getSettingMediaId() {
-  if (mySettings === undefined) {
-    return -1;
-  }
-  return mySettings.radioMediaId;
-}
-
-function isSettingStartPaused() {
-  if (mySettings === undefined) {
-    return false;
-  }
-  return mySettings.startPaused;
-}
 
 /* ***************************** */
 /* Collect links and media       */
 /* ***************************** */
-function collectDOMandSendData() {
+function collectDOMandSendData(userSettings) {
 
-  function myFunction(myArgument) {
-    const restoredSettings = myArgument; // not necessary: JSON.parse(myArgument);
-    let hasLinks = true;
-    let hasMedia = true;
-    let array = "";
+    browser.tabs.query({"active": true, "lastFocusedWindow": true}, (tabs) => {
 
-    // Options
-    if (restoredSettings.radioApplicationId === 1) {
-      array += "";
-
-    } else if (restoredSettings.radioApplicationId === 2) {
-
-      if (restoredSettings.radioMediaId === 1) {
-        hasMedia = false;
-        array += "[QUICK_LINKS]";
-        array += " ";
-
-      } else if (restoredSettings.radioMediaId === 2) {
-        hasLinks = false;
-        array += "[QUICK_MEDIA]";
-        array += " ";
-      }
-
-      if (restoredSettings.startPaused === true) {
-        array += "[STARTED_PAUSED]";
-        array += " ";
-      }
-    }
-
-    // Get the current URL
-    const url = document.URL;
-    array += "[CURRENT_URL] ";
-    array += url;
-    array += " ";
-
-    if (hasLinks) {
-      // Get all elements of type <a href="..." ></a>
-      array += "[LINKS] ";
-      const links = document.getElementsByTagName("a");
-      for (let i = 0; i < links.length; i++) {
-          array += links[i].href;
+        const tab = tabs[0];
+        const tabId = tab.id;
+        const tabUrl = tab.url;
+       
+        if (tabUrl.startsWith("browser")) {
+            console.log("Nothing to download from 'browser://' or 'browser-extension://'");
+            console.log("ArrowDL is disabled when the current tab is browser settings tab.");
+           return;
+        }
+       
+        function injectableScriptFunction(args) {
+          const restoredSettings = JSON.parse(args); 
+          let hasLinks = true;
+          let hasMedia = true;
+          let array = "";
+       
+          console.log(restoredSettings);
+       
+          // Options
+          if (restoredSettings.radioApplicationId === 1) {
+            array += "";
+       
+          } else if (restoredSettings.radioApplicationId === 2) {
+       
+            if (restoredSettings.radioMediaId === 1) {
+              hasMedia = false;
+              array += "[QUICK_LINKS]";
+              array += " ";
+       
+            } else if (restoredSettings.radioMediaId === 2) {
+              hasLinks = false;
+              array += "[QUICK_MEDIA]";
+              array += " ";
+            }
+       
+            if (restoredSettings.startPaused === true) {
+              array += "[STARTED_PAUSED]";
+              array += " ";
+            }
+          }
+       
+          // Get the current URL
+          const url = document.URL;
+          array += "[CURRENT_URL] ";
+          array += url;
           array += " ";
-      }
-    }
+       
+          if (hasLinks) {
+            // Get all elements of type <a href="..." ></a>
+            array += "[LINKS] ";
+            const links = document.getElementsByTagName("a");
+            for (let i = 0; i < links.length; i++) {
+                array += links[i].href;
+                array += " ";
+            }
+          }
+       
+          if (hasMedia) {
+            // Get all elements of type <img src="..." />
+            array += "[MEDIA] ";
+            const pictures = document.getElementsByTagName("img");
+            for (let i = 0; i < pictures.length; i++) {
+              array += pictures[i].src;
+              array += " ";
+            }
+          }
 
-    if (hasMedia) {
-      // Get all elements of type <img src="..." />
-      array += "[MEDIA] ";
-      const pictures = document.getElementsByTagName("img");
-      for (let i = 0; i < pictures.length; i++) {
-        array += pictures[i].src;
-        array += " ";
-      }
-    }
+          return array;
+        }
 
-    return array;
-  }
+        /* Remark:
+         * code: "<some code here>"
+         * The value of "<some code here>" is actually the function's code of myFunction.
+         * myFunction is interpreted as a string. 
+         * Indeed, "(" + myFunction + ")()" is a string, because function.toString() returns function's code.
+         */
+        // const codeToExecute = "(" + myFunction + ")(" + myArgument + ");";
+        const injectableScriptFunctionArgumentList = [ JSON.stringify(userSettings) ];
 
-  const myArgument = JSON.stringify(mySettings);
-
-  // We have permission to access the activeTab, so we can call browser.tabs.executeScript.
-  /* Remark:
-   * code: "<some code here>"
-   * The value of "<some code here>" is actually the function's code of myFunction.
-   * myFunction is interpreted as a string. 
-   * Indeed, "(" + myFunction + ")()" is a string, because function.toString() returns function's code.
-   */
-  const codeToExecute = "(" + myFunction + ")(" + myArgument + ");";
-
-  browser.tabs.executeScript({
-      "code": codeToExecute
-    }, function(results) {
-      sendData(results[0]);
-    }
-  );
-}
-
-function collectDOMandSendDataWithWizard() {
-  // We *hack* the settings
-  const previous = mySettings.radioApplicationId;
-  mySettings.radioApplicationId = 1;
-
-  collectDOMandSendData();
-
-  mySettings.radioApplicationId = previous;
+        browser.scripting.executeScript({
+            "target": {"tabId": tabId, "allFrames": true},
+            "func": injectableScriptFunction,
+            "args": injectableScriptFunctionArgumentList
+          }).then(results => {       
+            if (browser.runtime.lastError) {
+              console.log(browser.runtime.lastError.message);
+            }
+            if (results.length > 0 && results[0] !== undefined) {
+              const data = results[0].result;
+              sendDataToArrowDL(data);
+            }
+          });
+    });  
 }
 
 /* ***************************** */
-/* Message                       */
+/* Worker Message                */
 /* ***************************** */
-function handleMessage(request, sender, sendResponse) {
-  console.log("Message from the options.js: " + JSON.stringify(request));
-  mySettings = request;
-  sendResponse({response: "ok"});
-}
+browser.runtime.onMessage.addListener((message , sender, sendResponse) => {
+    console.log("Message received!", message);
 
-browser.runtime.onMessage.addListener(handleMessage);
+    if (message === 'get-user-settings') {
+
+        browser.storage.local.get((userSettings) => {
+            if (browser.runtime.lastError) {
+                console.log(browser.runtime.lastError.message);
+                console.log(`Error: ${userSettings}`);
+            }
+
+            if (userSettings === undefined) {
+                console.log(`Error: ${userSettings}`);
+            } else {
+                sendResponse(userSettings);
+                // console.log("Settings changed: " + JSON.stringify(userSettings));  
+            }
+        });
+
+    } else if (message === 'collect-dom-and-send-to-native-app') {
+
+        browser.storage.local.get((userSettings) => {
+            collectDOMandSendData(userSettings);
+        });
+
+    } else if (message === 'collect-dom-and-send-to-native-app-with-wizard') {
+
+        browser.storage.local.get((userSettings) => {
+            userSettings.radioApplicationId = 1; // Force the Wizard to appear
+            collectDOMandSendData(userSettings);
+        });
+
+    } else if ('send-to-native-app' in message) {
+
+        const data = message['send-to-native-app'];
+        console.log("Sending message to native app:  " + data);
+        sendDataToArrowDL(data);
+
+    }
+
+    sendResponse(true);
+});
 
 /* ***************************** */
 /* Native Message                */
 /* ***************************** */
-function sendData(links) {
-  function onResponse(message) {
-    console.log(`Message from the launcher:  ${message.text}`);
-  }
+function sendDataToArrowDL(data) {
+  const message = {"text": "launch " + data};
+  browser.runtime.sendNativeMessage(application, message, (response) => {
+      if (browser.runtime.lastError) {
+        console.log(browser.runtime.lastError.message);
+        console.log(`Error: ${response}`);
+      }
 
-  function onError(error) {
-    console.log(`Error: ${error}`);
-  }
-
-  const data = "launch " + links;
-  console.log("Sending message to launcher:  " + data);
-  const sending = browser.runtime.sendNativeMessage(application, data);
-  sending.then(onResponse, onError);
+      if (response === undefined) {
+        console.log(`Error: ${response}`);
+      } else {
+        console.log("Received response from native app:  " + response.text);    
+      }
+    });
 }
 
 /* ***************************** */

@@ -6,16 +6,22 @@ const application = "com.arrowdl.extension";
 /* Native Message                */
 /* ***************************** */
 function checkConnection() {
-  function onResponse(response) {
-    showWarningMessage(false);
-  }
-  
-  function onError(error) {
-    showWarningMessage(true);
-  }
-  const data = "areyouthere";
-  const sending = browser.runtime.sendNativeMessage(application, data);
-  sending.then(onResponse, onError);
+  // todo  browser.runtime.sendMessage({'send-to-native-app': "areyouthere"});
+  const message = {"text": "areyouthere"};
+  browser.runtime.sendNativeMessage(application, message, (response) => {
+    if (browser.runtime.lastError) {
+      console.log(browser.runtime.lastError.message);
+      console.log(`Error: ${response}`);
+      showWarningMessage(true);
+    }
+
+    if (response === undefined) {
+      console.log(`Error: ${response}`);
+      showWarningMessage(true);
+    } else {
+      showWarningMessage(false);
+    }
+  });
 }
 
 
@@ -53,9 +59,9 @@ function setVisible(name, visible) {
   }
 }
 
-function immediateButtonLabel() {
-  const mediaId = getBackgroundPage().getSettingMediaId();
-  const startPaused = getBackgroundPage().isSettingStartPaused();
+function immediateButtonLabel(userSettings) {
+  const mediaId = getSettingMediaId(userSettings);
+  const startPaused = isSettingStartPaused(userSettings);
   if (mediaId === 1) {
     if (startPaused) {
       return browser.i18n.getMessage("popupDownloadLinksPaused")
@@ -83,113 +89,41 @@ function safeInnerHtmlAssignment(elementId, label) {
 }
 
 /* ***************************** */
-/* FIREFOX BUG #1329304          */
-/* ***************************** */
-function checkIncognitoMode() {
-  showIncognitoWarningMessage(hasIncognitoModeBug());
-}
-
-function hasIncognitoModeBug() {
-  // Remark: 
-  // https://developer.mozilla.org/en/docs/Mozilla/Add-ons/WebExtensions/API/runtime/getBackgroundPage
-  // method 'getBackgroundPage()' cannot be used in a private window in Firefox
-  // it always returns null. 
-  // For more info see related bug at bugzilla.
-  // https://bugzilla.mozilla.org/show_bug.cgi?id=1329304
-  return (chrome.extension.getBackgroundPage() === null);
-}
-
-function showIncognitoWarningMessage(hasError) {
-  const x = document.getElementById("warning-area-incognito");
-  if (hasError) {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-  if (hasError) {
-    setDisabled("button-start", true);
-  }
-}
-
-// This function is a work-around to the Firefox Incognito Context mode Bug.
-function getBackgroundPage() {
-  if (hasIncognitoModeBug()) {
-    return new DummyChromeExtensionForIncognitoMode();
-  }
-  return chrome.extension.getBackgroundPage();
-}
-
-class DummyChromeExtensionForIncognitoMode {
-  constructor() {
-  }
-
-  isSettingAskEnabled() {
-    return true;
-  }
-  getSettingMediaId() {
-    return -1;
-  }  
-  isSettingStartPaused() {
-    return false;
-  }
-  collectDOMandSendDataWithWizard() {
-    // Nothing
-  }
-  collectDOMandSendData() {
-    // Nothing
-  }
-
-  sendData(links) {
-    function onResponse(message) {
-      console.log(`Message from the launcher:  ${message.text}`);
-    }
-    function onError(error) {
-      console.log(`Error: ${error}`);
-    }
-    const data = "launch " + links;
-    console.log("Sending message to launcher:  " + data);
-    const sending = browser.runtime.sendNativeMessage(application, data);
-    sending.then(onResponse, onError);
-  }
-}
-
-/* ***************************** */
 /* Events                        */
 /* ***************************** */
-function onLoaded() {
-  checkConnection();
-  checkIncognitoMode();
+document.addEventListener('DOMContentLoaded', () => {
+    checkConnection();
+  
+    // send a message to the background
+    browser.runtime.sendMessage('get-user-settings', (userSettings) => {        
+        const enabled = isSettingAskEnabled(userSettings);
+        setVisible("button-immediate-download", !enabled);
+  
+        if (!enabled) {
+          const label = immediateButtonLabel(userSettings);
+          safeInnerHtmlAssignment("button-immediate-download-label", label);
+        }
+    });
+}); 
 
-  const enabled = getBackgroundPage().isSettingAskEnabled();
-  setVisible("button-immediate-download", !enabled);
-
-  if (!enabled) {
-    const label = immediateButtonLabel();
-    safeInnerHtmlAssignment("button-immediate-download-label", label);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', onLoaded); 
 
 document.getElementById("button-start").addEventListener('click', () => {
-    getBackgroundPage().collectDOMandSendDataWithWizard();
+    browser.runtime.sendMessage('collect-dom-and-send-to-native-app-with-wizard');
     window.close();
 });
 
 document.getElementById("button-immediate-download").addEventListener('click', () => {
-    getBackgroundPage().collectDOMandSendData();
+    browser.runtime.sendMessage('collect-dom-and-send-to-native-app');
     window.close();
 });
 
-document.getElementById("button-manager").addEventListener('click', () => { 
-    const command = "[MANAGER]";
-    getBackgroundPage().sendData(command);
+document.getElementById("button-manager").addEventListener('click', () => {
+    browser.runtime.sendMessage({'send-to-native-app': "[MANAGER]"});
     window.close();
 });
 
-document.getElementById("button-preference").addEventListener('click', () => { 
-    const command = "[PREFS]";
-    getBackgroundPage().sendData(command);
+document.getElementById("button-preference").addEventListener('click', () => {
+    browser.runtime.sendMessage({'send-to-native-app': "[PREFS]"});
     window.close();
 });
 
@@ -203,10 +137,26 @@ document.getElementById("button-website").addEventListener('click', () => {
     window.close();
 });
 
-document.getElementById("bug-link").addEventListener('click', () => {
-    window.open(document.getElementById("bug-link").getAttribute("href"), "_blank");
-    window.close();
-});
+/* ***************************** */
+/* Options                       */
+/* ***************************** */
+function isSettingAskEnabled(userSettings) {
+  return userSettings === undefined || userSettings.radioApplicationId === undefined || userSettings.radioApplicationId === 1;
+}
+
+function getSettingMediaId(userSettings) {
+  if (userSettings === undefined) {
+    return -1;
+  }
+  return userSettings.radioMediaId;
+}
+
+function isSettingStartPaused(userSettings) {
+  if (userSettings === undefined) {
+    return false;
+  }
+  return userSettings.startPaused;
+}
 
 /* ***************************** */
 /* Internationalization          */

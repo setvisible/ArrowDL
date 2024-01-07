@@ -34,7 +34,7 @@ function saveOptions() {
 }
 
 function getOptions() {
-  const options = {};
+  let options = {};
   options["radioApplicationId"] = getApplicationRadio();
   options["radioMediaId"] = getMediaRadio();
   options["startPaused"] = isStartPaused();
