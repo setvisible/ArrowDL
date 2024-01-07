@@ -17,7 +17,7 @@
   },
   "default_locale": "en",
   "description": "__MSG_extensionDescription__",
-  "homepage_url": "https://www.arrow-dl.com/ArrowDL",
+  "homepage_url": "https://www.arrow-dl.com/",
   "icons": {
     "16": "icons/icon16.png",
     "24": "icons/icon24.png",

@@ -22,22 +22,22 @@ ECHO.
 ECHO.
 ECHO Deleting Chrome Registry...
 ECHO ---------------------------------
-REG DELETE "HKCU\Software\Google\Chrome\NativeMessagingHosts\com.setvisible.arrowdl" /f
+REG DELETE "HKCU\Software\Google\Chrome\NativeMessagingHosts\com.arrowdl.extension" /f
 
 ECHO.
 ECHO Deleting Firefox Registry...
 ECHO ---------------------------------
-REG DELETE "HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\ArrowDL" /f
+REG DELETE "HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\com.arrowdl.extension" /f
 
 ECHO.
 ECHO Deleting Waterfox Registry...
 ECHO ---------------------------------
-REG DELETE "HKCU\SOFTWARE\Waterfox\NativeMessagingHosts\ArrowDL" /f
+REG DELETE "HKCU\SOFTWARE\Waterfox\NativeMessagingHosts\com.arrowdl.extension" /f
 
 ECHO.
 ECHO Deleting Thunderbird Registry...
 ECHO ---------------------------------
-REG DELETE "HKCU\SOFTWARE\Thunderbird\NativeMessagingHosts\ArrowDL" /f
+REG DELETE "HKCU\SOFTWARE\Thunderbird\NativeMessagingHosts\com.arrowdl.extension" /f
 
 ECHO.
 ECHO ^>^>^> Done! ^<^<^<

@@ -1,6 +1,6 @@
 "use strict";
 
-const application = "com.setvisible.arrowdl";
+const application = "com.arrowdl.extension";
 
 /* ***************************** */
 /* Context Menu                  */

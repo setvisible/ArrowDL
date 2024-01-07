@@ -1,5 +1,5 @@
 {
-  "name": "ArrowDL",
+  "name": "com.arrowdl.extension",
   "description": "ArrowDL Launcher Host for Native Messaging",
   "path": "launcher.exe",
   "type": "stdio",

@@ -1,6 +1,6 @@
 "use strict";
 
-const application = "ArrowDL";
+const application = "com.arrowdl.extension";
 const website_download_link = "https://www.arrow-dl.com/";
 
 /* ***************************** */
