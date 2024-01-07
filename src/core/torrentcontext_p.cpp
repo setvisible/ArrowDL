@@ -1311,53 +1311,41 @@ void WorkerThread::signalizeAlert(lt::alert* a)
     if (auto s = lt::alert_cast<lt::torrent_removed_alert>(a)) {
         //QString hash = toString(s->info_hashes.get_best());
         //  emit torrentRemoved(hash);
-        log(s);
     }
     else if (auto s = lt::alert_cast<lt::state_changed_alert>(a)) {
         //        lt::torrent_status::state_t oldStatus = s->prev_state;
         //        lt::torrent_status::state_t newStatus = s->state;
         //  emit torrentStateChanged(oldState, newState); // rem quel torrent ?
-        log(s);
     }
     else if (auto s = lt::alert_cast<lt::hash_failed_alert>(a)) {
         //        int piece_index = (int)s->piece_index;
         //  emit pieceHashCheckFailed(piece_index);
-        log(s);
     }
     else if (auto s = lt::alert_cast<lt::torrent_finished_alert>(a)) {
         //        emit torrentFinished();
-        log(s);
     }
     else if (auto s = lt::alert_cast<lt::torrent_paused_alert>(a)) {
         //        emit torrentPaused();
-        log(s);
     }
     else if (auto s = lt::alert_cast<lt::torrent_resumed_alert>(a)) {
         //        emit torrentResumed();
-        log(s);
     }
     else if (auto s = lt::alert_cast<lt::torrent_checked_alert>(a)) {
         //        emit torrentChecked();
-        log(s);
     }
     else if (auto s = lt::alert_cast<lt::fastresume_rejected_alert>(a)) {
         //        emit torrentFastResumeFailed();
-        log(s);
     }
     else if (auto s = lt::alert_cast<lt::trackerid_alert>(a)) {
         //        emit trackeridReceived();
-        log(s);
     }
     else if (auto s = lt::alert_cast<lt::torrent_error_alert>(a)) {
         //        emit torrentError();
-        log(s);
     }
     else if (auto s = lt::alert_cast<lt::torrent_need_cert_alert>(a)) {
         //        emit torrentSSLError();
-        log(s);
     }
     else if (auto s = lt::alert_cast<lt::add_torrent_alert>(a)) {
-        log(s);
         onTorrentAdded(s->handle, s->params, s->error);
     }
     else if (auto s = lt::alert_cast<lt::state_update_alert>(a)) {
@@ -1369,10 +1357,9 @@ void WorkerThread::signalizeAlert(lt::alert* a)
     // magnet extension
     else if (auto s = lt::alert_cast<lt::metadata_failed_alert>(a)) {
         //        emit metadataFailed();
-        log(s);
+        qWarning() << "metadata that was received was corrupt";
     }
     else if (auto s = lt::alert_cast<lt::metadata_received_alert>(a)) {
-        log(s);
         onMetadataReceived(s->handle);
     }
 
@@ -1489,9 +1476,33 @@ void WorkerThread::signalizeAlert(lt::alert* a)
 
 
     /* storage_notification */
-    //    else if (auto s = lt::alert_cast<lt::read_piece_alert>(a)) {
-    //                 emit fileCompleted(index);
-    //        }
+    else if (auto s = lt::alert_cast<lt::read_piece_alert>(a)) {
+        Q_UNUSED(s) // emit fileCompleted(index);
+    }
+    else if (auto s = lt::alert_cast<lt::file_prio_alert>(a)) {
+        Q_UNUSED(s)
+    }
+    else if (auto s = lt::alert_cast<lt::oversized_file_alert>(a)) {
+        Q_UNUSED(s)
+    }
+    else if (auto s = lt::alert_cast<lt::torrent_conflict_alert>(a)) {
+        Q_UNUSED(s)
+    }
+    else if (auto s = lt::alert_cast<lt::peer_info_alert>(a)) {
+        Q_UNUSED(s)
+    }
+    else if (auto s = lt::alert_cast<lt::file_progress_alert>(a)) {
+        Q_UNUSED(s)
+    }
+    else if (auto s = lt::alert_cast<lt::piece_info_alert>(a)) {
+        Q_UNUSED(s)
+    }
+    else if (auto s = lt::alert_cast<lt::piece_availability_alert>(a)) {
+        Q_UNUSED(s)
+    }
+    else if (auto s = lt::alert_cast<lt::tracker_list_alert>(a)) {
+        Q_UNUSED(s)
+    }
 
     else if (auto s = lt::alert_cast<lt::file_renamed_alert>(a)) {
         //        int index = (int)s->index;
@@ -1653,6 +1664,7 @@ void WorkerThread::signalizeAlert(lt::alert* a)
     /* block_progress_notification */
     else if (auto s = lt::alert_cast<lt::alerts_dropped_alert>(a)) {
         Q_UNUSED(s) //  emit alerts_dropped_alert();
+        qWarning() << "Alert queue grew too big.";
     }
     else if (auto s = lt::alert_cast<lt::socks5_alert>(a)) {
         Q_UNUSED(s) //  emit socks5_alert();
