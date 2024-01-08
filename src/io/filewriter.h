@@ -59,7 +59,7 @@ private:
 
     /* Error */
     FileWriter::FileWriterError m_fileWriterError = UnknownError;
-    QString m_errorString = FileWriter::tr("Unknown error");
+    QString m_errorString = {};
 
     Q_DISABLE_COPY(FileWriter)
 };
