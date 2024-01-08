@@ -935,37 +935,37 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
 <context>
     <name>DownloadQueueView</name>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="587"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="581"/>
         <source>Download/Name</source>
         <translation>Download/Naam</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="588"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="582"/>
         <source>Domain</source>
         <translation>Domein</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="589"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="583"/>
         <source>Progress</source>
         <translation>Voortgang</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="590"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="584"/>
         <source>Percent</source>
         <translation>Procent</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="591"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="585"/>
         <source>Size</source>
         <translation>Grootte</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="592"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="586"/>
         <source>Est. time</source>
         <translation>Gesch. tijdsduur</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="593"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="587"/>
         <source>Speed</source>
         <translation>Snelheid</translation>
     </message>
@@ -1121,37 +1121,38 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
 <context>
     <name>FileWriter</name>
     <message>
-        <location filename="../io/filewriter.cpp" line="49"/>
+        <location filename="../io/filewriter.cpp" line="51"/>
         <source>Device is not set</source>
         <translation>Er is geen apparaat ingesteld</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.cpp" line="55"/>
+        <location filename="../io/filewriter.cpp" line="57"/>
         <source>Cannot open device for writing: %1</source>
         <translation>Het apparaat kan niet worden geopend: %1</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.cpp" line="62"/>
+        <location filename="../io/filewriter.cpp" line="64"/>
         <source>Device not writable</source>
         <translation>Het apparaat is niet beschrijfbaar</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.cpp" line="67"/>
+        <location filename="../io/filewriter.cpp" line="69"/>
         <source>Unsupported format</source>
         <translation>Dit formaat wordt niet ondersteund</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.cpp" line="98"/>
+        <location filename="../io/filewriter.cpp" line="100"/>
         <source>File is empty</source>
         <translation>Dit bestand is blanco</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.cpp" line="169"/>
+        <location filename="../io/filewriter.cpp" line="171"/>
         <source>All files (%0)</source>
         <translation>Alle bestanden (%0)</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.h" line="62"/>
+        <location filename="../io/filewriter.cpp" line="30"/>
+        <location filename="../io/filewriter.cpp" line="36"/>
         <source>Unknown error</source>
         <translation>Onbekende fout</translation>
     </message>
@@ -2404,7 +2405,7 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <translation>Identificatie</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="730"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="736"/>
         <source>Servers might use HTTP identification contained in the HTTP request to log client attributes. Some server even don&apos;t respond to the client if the identification attribute is empty. The fields allow you to send fake information, to protect privacy.</source>
         <translation>Servers kunnen http-identificatie gebruiken uit http-verzoeken om bepaalde attributen te loggen. Sommige servers geven geen terugkoppeling als het identificatie-attribuut blanco is. Met dit veld kun je nepinformatie versturen om je privacy te waarborgen.</translation>
     </message>
@@ -2495,7 +2496,7 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1111"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="759"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="765"/>
         <source>Clean Cache</source>
         <translation>Cache wissen</translation>
     </message>
@@ -2705,33 +2706,33 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
         <translation>Alle filters herstellen</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="684"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="693"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="690"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="699"/>
         <source>The host may be %0, %1 or %2</source>
         <translation>De host kan %0, %1 of %2 zijn.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="689"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="695"/>
         <source>The host may be %0 but not %1</source>
         <translation>De host kan %0 zijn, maar niet %1.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="700"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="706"/>
         <source>Examples:</source>
         <translation>Voorbeelden:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="715"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="721"/>
         <source>Servers might split large files into multiple fragments, to optimize downloads. This option enables multi-threaded fragment downloads: Select the number of fragments that should be downloaded concurrently. Note that the concurrency makes download faster (when available), but the progress status and estimated time could be inaccurate (by design). Choose between precision and speed. Recommended value depends on your connection and machine. 20 is a good start. To disable it, set it to 1.</source>
         <translation>Servers kunnen grote bestanden opsplitsen om het downloaden te optimaliseren. Deze optie schakelt ondersteuning daarvoor in. Geef aan hoeveel fragmenten er tegelijkertijd moeten worden gedownload (meer = snellere downloads). De voortgang en geschatte tijd kunnen hierdoor echter afwijken. Aanbevolen waarden zijn afhankelijk van de verbinding en het gebruikte apparaat, maar 20 is een goede beginwaarde. Stel in op 1 om uit te schakelen.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="736"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="742"/>
         <source>Referring Page (or Referrer) is an HTTP option that communicates to the server the address of the previous web page from which the resource is requested. This typically allows the HTTP server to track a visitor&apos;s browsing, page after page. To protect privacy, enter an empty or fake Referrer address.</source>
         <translation>De doorverwijspagina is een http-optie waarmee het serveradres van de vorige webpagina wordt doorgestuurd en de bron wordt opgevraagd. Hierdoor kan een server mogelijk de surfgeschiedenis inzien. Voer een blanco of nepadres in om je privacy te waarborgen.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="748"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="754"/>
         <source>Cleaning...</source>
         <translation>Bezig met wissen…</translation>
     </message>
@@ -2917,12 +2918,12 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
 <context>
     <name>QueueItem</name>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="373"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="367"/>
         <source>%0 of %1</source>
         <translation>%0 van %1</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="377"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="371"/>
         <source>Unknown</source>
         <translation>Onbekend</translation>
     </message>
@@ -3810,7 +3811,7 @@ Hulp: als je een foutmelding krijgt, volg dan deze instructies:
         <translation>Waarde: # van peers met dit deel</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentpiecemap.cpp" line="83"/>
+        <location filename="../widgets/torrentpiecemap.cpp" line="92"/>
         <source>Priority: %0=high %1=normal %2=low %3=ignore</source>
         <translation>Prioriteit: %0=hoog %1=normaal %2=laag %3=negeren</translation>
     </message>
@@ -4027,77 +4028,77 @@ Hulp: als je een foutmelding krijgt, volg dan deze instructies:
         <translation>Gedeeltenkaart</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="497"/>
+        <location filename="../widgets/torrentwidget.cpp" line="500"/>
         <source>Copy</source>
         <translation>Kopiëren</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="541"/>
+        <location filename="../widgets/torrentwidget.cpp" line="544"/>
         <source>Open</source>
         <translation>Openen</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="542"/>
+        <location filename="../widgets/torrentwidget.cpp" line="545"/>
         <source>Open Containing Folder</source>
         <translation>Bijbehorende map openen</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="543"/>
+        <location filename="../widgets/torrentwidget.cpp" line="546"/>
         <source>Scan for viruses</source>
         <translation>Controleren op virussen</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="544"/>
+        <location filename="../widgets/torrentwidget.cpp" line="547"/>
         <source>Priorize by File order</source>
         <translation>Prioriteit instellen op bestandsvolgorde</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="545"/>
+        <location filename="../widgets/torrentwidget.cpp" line="548"/>
         <source>Priorize: High</source>
         <translation>Prioriteit: hoog</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="546"/>
+        <location filename="../widgets/torrentwidget.cpp" line="549"/>
         <source>Priorize: Normal</source>
         <translation>Prioriteit: normaal</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="547"/>
+        <location filename="../widgets/torrentwidget.cpp" line="550"/>
         <source>Priorize: Low</source>
         <translation>Prioriteit: laag</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="548"/>
+        <location filename="../widgets/torrentwidget.cpp" line="551"/>
         <source>Don&apos;t download</source>
         <translation>Niet downloaden</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="549"/>
+        <location filename="../widgets/torrentwidget.cpp" line="552"/>
         <source>Relocate...</source>
         <translation>Andere locatie kiezen…</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="639"/>
+        <location filename="../widgets/torrentwidget.cpp" line="642"/>
         <source>Add Peer...</source>
         <translation>Peer toevoegen…</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="640"/>
+        <location filename="../widgets/torrentwidget.cpp" line="643"/>
         <source>Copy Peer List</source>
         <translation>Peerslijst kopiëren</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="641"/>
+        <location filename="../widgets/torrentwidget.cpp" line="644"/>
         <source>Remove Unconnected</source>
         <translation>Niet-verbonden verwijderen</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="662"/>
+        <location filename="../widgets/torrentwidget.cpp" line="665"/>
         <source>Add Peer</source>
         <translation>Peer toevoegen</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="663"/>
+        <location filename="../widgets/torrentwidget.cpp" line="666"/>
         <source>Enter the IP address and port number of the peer to add.
 Ex:
  - for IPv4, type &apos;x.x.x.x:p&apos;
@@ -4110,49 +4111,49 @@ Voorbeelden:
 </translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="699"/>
+        <location filename="../widgets/torrentwidget.cpp" line="702"/>
         <source>Add Tracker...</source>
         <translation>Tracker toevoegen…</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="700"/>
+        <location filename="../widgets/torrentwidget.cpp" line="703"/>
         <source>Remove Tracker</source>
         <translation>Tracker verwijderen</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="701"/>
+        <location filename="../widgets/torrentwidget.cpp" line="704"/>
         <source>Copy Tracker List</source>
         <translation>Trackerlijst kopiëren</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="725"/>
+        <location filename="../widgets/torrentwidget.cpp" line="728"/>
         <source>Add Tracker</source>
         <translation>Tracker toevoegen</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="726"/>
+        <location filename="../widgets/torrentwidget.cpp" line="729"/>
         <source>Enter the URL of the tracker to add:</source>
         <translation>Voer de url in van de toe te voegen tracker:</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="850"/>
+        <location filename="../widgets/torrentwidget.cpp" line="853"/>
         <source>%0 (%1 hashfails)</source>
         <translation>%0 (%1 hash-mislukkingen)</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="854"/>
-        <location filename="../widgets/torrentwidget.cpp" line="858"/>
+        <location filename="../widgets/torrentwidget.cpp" line="857"/>
+        <location filename="../widgets/torrentwidget.cpp" line="861"/>
         <source>%0 (total %1)</source>
         <translation>%0 (totaal %1)</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="862"/>
-        <location filename="../widgets/torrentwidget.cpp" line="867"/>
+        <location filename="../widgets/torrentwidget.cpp" line="865"/>
+        <location filename="../widgets/torrentwidget.cpp" line="870"/>
         <source>%0 of %1 connected (%2 in swarm)</source>
         <translation>%0 van %1 verbonden (%2 in groep)</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="875"/>
+        <location filename="../widgets/torrentwidget.cpp" line="878"/>
         <source>%0 x %1</source>
         <translation>%0 x %1</translation>
     </message>

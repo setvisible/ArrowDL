@@ -1,10 +1,10 @@
 {
   "extensionName": {
-    "message": "ArrowDL",
+    "message": "ArrowDL - Arrow Downloader",
     "description": "Name of the extension, displayed in the web store. Should not exceed 45 characters."
   },
   "extensionDescription": {
-    "message": "The Right Download Manager for your browser",
+    "message": "Простой способ загрузки изображений, торрентов, видео и музыки с любого веб-сайта",
     "description": "Description of the extension, displayed in the web store. Should not exceed 132 characters."
   },
 

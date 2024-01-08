@@ -934,37 +934,37 @@ You can also use batch descriptors to download multiple files at one time.</sour
 <context>
     <name>DownloadQueueView</name>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="587"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="581"/>
         <source>Download/Name</source>
         <translation>Dateiname</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="588"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="582"/>
         <source>Domain</source>
         <translation>Domain-Name</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="589"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="583"/>
         <source>Progress</source>
         <translation>Fortschritt</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="590"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="584"/>
         <source>Percent</source>
         <translation>Prozent</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="591"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="585"/>
         <source>Size</source>
         <translation>Größe</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="592"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="586"/>
         <source>Est. time</source>
         <translation>Geschätzte Zeit</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="593"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="587"/>
         <source>Speed</source>
         <translation>Geschwindigkeit</translation>
     </message>
@@ -1120,37 +1120,38 @@ You can also use batch descriptors to download multiple files at one time.</sour
 <context>
     <name>FileWriter</name>
     <message>
-        <location filename="../io/filewriter.cpp" line="49"/>
+        <location filename="../io/filewriter.cpp" line="51"/>
         <source>Device is not set</source>
         <translation>Gerät ist nicht eingestellt</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.cpp" line="55"/>
+        <location filename="../io/filewriter.cpp" line="57"/>
         <source>Cannot open device for writing: %1</source>
         <translation>Unmöglich Gerät zu schreiben: %1</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.cpp" line="62"/>
+        <location filename="../io/filewriter.cpp" line="64"/>
         <source>Device not writable</source>
         <translation>Unmöglich Gerät zu schreiben</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.cpp" line="67"/>
+        <location filename="../io/filewriter.cpp" line="69"/>
         <source>Unsupported format</source>
         <translation>Nicht unterstütztes Format</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.cpp" line="98"/>
+        <location filename="../io/filewriter.cpp" line="100"/>
         <source>File is empty</source>
         <translation>Datei ist leer</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.cpp" line="169"/>
+        <location filename="../io/filewriter.cpp" line="171"/>
         <source>All files (%0)</source>
         <translation>Alle Dateien (%0)</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.h" line="62"/>
+        <location filename="../io/filewriter.cpp" line="30"/>
+        <location filename="../io/filewriter.cpp" line="36"/>
         <source>Unknown error</source>
         <translation>Unbekannter Fehler</translation>
     </message>
@@ -2402,7 +2403,7 @@ Some examples are given below.  Click to paste the example.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="730"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="736"/>
         <source>Servers might use HTTP identification contained in the HTTP request to log client attributes. Some server even don&apos;t respond to the client if the identification attribute is empty. The fields allow you to send fake information, to protect privacy.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2493,7 +2494,7 @@ Some examples are given below.  Click to paste the example.</source>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1111"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="759"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="765"/>
         <source>Clean Cache</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2703,33 +2704,33 @@ Some examples are given below.  Click to paste the example.</source>
         <translation>Alle Filter zurücksetzen</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="684"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="693"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="690"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="699"/>
         <source>The host may be %0, %1 or %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="689"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="695"/>
         <source>The host may be %0 but not %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="700"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="706"/>
         <source>Examples:</source>
         <translation type="unfinished">Beispiele:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="715"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="721"/>
         <source>Servers might split large files into multiple fragments, to optimize downloads. This option enables multi-threaded fragment downloads: Select the number of fragments that should be downloaded concurrently. Note that the concurrency makes download faster (when available), but the progress status and estimated time could be inaccurate (by design). Choose between precision and speed. Recommended value depends on your connection and machine. 20 is a good start. To disable it, set it to 1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="736"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="742"/>
         <source>Referring Page (or Referrer) is an HTTP option that communicates to the server the address of the previous web page from which the resource is requested. This typically allows the HTTP server to track a visitor&apos;s browsing, page after page. To protect privacy, enter an empty or fake Referrer address.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="748"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="754"/>
         <source>Cleaning...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2915,12 +2916,12 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>QueueItem</name>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="373"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="367"/>
         <source>%0 of %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="377"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="371"/>
         <source>Unknown</source>
         <translation type="unfinished">Unbekannt</translation>
     </message>
@@ -3680,7 +3681,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../core/torrent.cpp" line="365"/>
         <source>Percent</source>
-        <translation type="unfinished">Prozent</translation>
+        <translation>%</translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="366"/>
@@ -3794,7 +3795,7 @@ Help: if you get an error, follow these instructions:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentpiecemap.cpp" line="83"/>
+        <location filename="../widgets/torrentpiecemap.cpp" line="92"/>
         <source>Priority: %0=high %1=normal %2=low %3=ignore</source>
         <translation>Priorität: %0=hoch %1=normal %2=niedrig %3=ignorieren</translation>
     </message>
@@ -4011,77 +4012,77 @@ Help: if you get an error, follow these instructions:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="497"/>
+        <location filename="../widgets/torrentwidget.cpp" line="500"/>
         <source>Copy</source>
         <translation>Kopieren</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="541"/>
+        <location filename="../widgets/torrentwidget.cpp" line="544"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="542"/>
+        <location filename="../widgets/torrentwidget.cpp" line="545"/>
         <source>Open Containing Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="543"/>
+        <location filename="../widgets/torrentwidget.cpp" line="546"/>
         <source>Scan for viruses</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="544"/>
+        <location filename="../widgets/torrentwidget.cpp" line="547"/>
         <source>Priorize by File order</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="545"/>
+        <location filename="../widgets/torrentwidget.cpp" line="548"/>
         <source>Priorize: High</source>
         <translation>Priorität: Hoch</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="546"/>
+        <location filename="../widgets/torrentwidget.cpp" line="549"/>
         <source>Priorize: Normal</source>
         <translation>Priorität: Normal</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="547"/>
+        <location filename="../widgets/torrentwidget.cpp" line="550"/>
         <source>Priorize: Low</source>
         <translation>Priorität: Niedrig</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="548"/>
+        <location filename="../widgets/torrentwidget.cpp" line="551"/>
         <source>Don&apos;t download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="549"/>
+        <location filename="../widgets/torrentwidget.cpp" line="552"/>
         <source>Relocate...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="639"/>
+        <location filename="../widgets/torrentwidget.cpp" line="642"/>
         <source>Add Peer...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="640"/>
+        <location filename="../widgets/torrentwidget.cpp" line="643"/>
         <source>Copy Peer List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="641"/>
+        <location filename="../widgets/torrentwidget.cpp" line="644"/>
         <source>Remove Unconnected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="662"/>
+        <location filename="../widgets/torrentwidget.cpp" line="665"/>
         <source>Add Peer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="663"/>
+        <location filename="../widgets/torrentwidget.cpp" line="666"/>
         <source>Enter the IP address and port number of the peer to add.
 Ex:
  - for IPv4, type &apos;x.x.x.x:p&apos;
@@ -4090,49 +4091,49 @@ Ex:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="699"/>
+        <location filename="../widgets/torrentwidget.cpp" line="702"/>
         <source>Add Tracker...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="700"/>
+        <location filename="../widgets/torrentwidget.cpp" line="703"/>
         <source>Remove Tracker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="701"/>
+        <location filename="../widgets/torrentwidget.cpp" line="704"/>
         <source>Copy Tracker List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="725"/>
+        <location filename="../widgets/torrentwidget.cpp" line="728"/>
         <source>Add Tracker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="726"/>
+        <location filename="../widgets/torrentwidget.cpp" line="729"/>
         <source>Enter the URL of the tracker to add:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="850"/>
+        <location filename="../widgets/torrentwidget.cpp" line="853"/>
         <source>%0 (%1 hashfails)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="854"/>
-        <location filename="../widgets/torrentwidget.cpp" line="858"/>
+        <location filename="../widgets/torrentwidget.cpp" line="857"/>
+        <location filename="../widgets/torrentwidget.cpp" line="861"/>
         <source>%0 (total %1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="862"/>
-        <location filename="../widgets/torrentwidget.cpp" line="867"/>
+        <location filename="../widgets/torrentwidget.cpp" line="865"/>
+        <location filename="../widgets/torrentwidget.cpp" line="870"/>
         <source>%0 of %1 connected (%2 in swarm)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="875"/>
+        <location filename="../widgets/torrentwidget.cpp" line="878"/>
         <source>%0 x %1</source>
         <translation type="unfinished"></translation>
     </message>

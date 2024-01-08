@@ -1,10 +1,10 @@
 {
   "extensionName": {
-    "message": "ArrowDL",
+    "message": "ArrowDL - Arrow Downloader",
     "description": "Name of the extension, displayed in the web store. Should not exceed 45 characters."
   },
   "extensionDescription": {
-    "message": "O gerenciador de downloads certo para o seu navegador.",
+    "message": "A maneira fácil de baixar imagens, torrents, vídeos e músicas de qualquer site",
     "description": "Description of the extension, displayed in the web store. Should not exceed 132 characters."
   },
 
@@ -131,7 +131,7 @@
     "description": "Title of Links"
   },
   "optionsChoiceGetContent": {
-    "message": "Conteúdo contido na página",
+    "message": "Conteúdo",
     "description": "Title of Content"
   },
   "optionsChoiceStartPaused": {
@@ -169,7 +169,7 @@
     "description": "Title of Status"
   },
   "optionsOk": {
-    "message": "Ok",
+    "message": "OK",
     "description": "Title of Ok"
   },
   "optionsDetectedPath": {
