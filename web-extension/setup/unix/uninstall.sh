@@ -36,3 +36,10 @@ SOURCE=./launcher-manifest-chrome.json
 DESTINATION=~/.config/google-chrome/NativeMessagingHosts/
 TARGET_NAME="com.arrowdl.extension"
 uninstall_manifest $TITLE $SOURCE $DESTINATION $TARGET_NAME 
+
+
+TITLE='Microsoft (Chromium) Edge' 
+SOURCE=./launcher-manifest-edge.json
+DESTINATION=~/.config/microsoft-edge/NativeMessagingHosts/
+TARGET_NAME="com.arrowdl.extension"
+uninstall_manifest $TITLE $SOURCE $DESTINATION $TARGET_NAME 
