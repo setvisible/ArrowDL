@@ -1,12 +1,12 @@
 {
-    "DESC_SectionMainApplication": "The main application.",
-    "DESC_SectionLauncher": "The launcher, used for messaging with web browser.",
-    "DESC_SectionStartMenuShortcut": "Create Start Menu Shortcut.",
-    "DESC_SectionDesktopShortcut": "Create Desktop Shortcut.",
-    "DESC_UninstallIconDescription": "Uninstall ArrowDL",
-    "DESC_ApplicationSession": "Application (required)",
-    "DESC_LauncherSession": "Launcher (required)",
-    "DESC_StartMenuGroupSession": "Start Menu Shortcut",
-    "DESC_DesktopShortcutSession": "Desktop Shortcut",
-    "DESC_VisitWebSite": "Visit our website:"
+    "DESC_SectionMainApplication": "主要應應用程式。",
+    "DESC_SectionLauncher": "啟動器用於通過 Web 瀏覽器傳遞訊息。",
+    "DESC_SectionStartMenuShortcut": "建立開始選單捷徑。",
+    "DESC_SectionDesktopShortcut": "建立桌面捷徑。",
+    "DESC_UninstallIconDescription": "解除安裝 ArrowDL",
+    "DESC_ApplicationSession": "應用程式（必須）",
+    "DESC_LauncherSession": "啟動器（必須）",
+    "DESC_StartMenuGroupSession": "開始選單捷徑",
+    "DESC_DesktopShortcutSession": "桌面捷徑",
+    "DESC_VisitWebSite": "前往我們的網站："
 }
