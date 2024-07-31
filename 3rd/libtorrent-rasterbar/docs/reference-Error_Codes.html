@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.9</td></tr>
+<td>2.0.10</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
@@ -65,8 +65,8 @@ error happened on</p>
 struct storage_error
 {
    explicit operator <strong>bool</strong> () const;
-   void <strong>file</strong> (file_index_t f);
    file_index_t <strong>file</strong> () const;
+   void <strong>file</strong> (file_index_t f);
 
    error_code ec;
    operation_t operation;
@@ -83,8 +83,8 @@ false if it does not.</p>
 <div class="section" id="file">
 <h2>file()</h2>
 <pre class="literal-block">
-void <strong>file</strong> (file_index_t f);
 file_index_t <strong>file</strong> () const;
+void <strong>file</strong> (file_index_t f);
 </pre>
 <p>set and query the index (in the torrent) of the file this error
 occurred on. This may also have special values defined in

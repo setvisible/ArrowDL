@@ -30,16 +30,16 @@ Originally written by Christophe Dumez, currently maintained by sledgehammer999.
 
 .. _qBittorrent: https://www.qbittorrent.org/
 
-ArrowDL
+DownZemAll
 ----------
 
-`ArrowDL`_ is a mass download manager for Windows, Mac OS X and Linux. It helps
+`DownZemAll!`_ is a mass download manager for Windows, Mac OS X and Linux. It helps
 you to select, organize, prioritize and run your downloads in parallel. Based on
-the Qt5 framework, ArrowDL is written in C/C++. It's a free (as in "free
+the Qt5 framework, DownZemAll! is written in C/C++. It's a free (as in "free
 speech" and also as in "free beer") software. Its use is governed by LGPL
 License.
 
-.. _`ArrowDL`: https://www.arrow-dl.com/ArrowDL/
+.. _`DownZemAll!`: https://setvisible.github.io/DownZemAll/
 
 Tonidoplug
 ----------

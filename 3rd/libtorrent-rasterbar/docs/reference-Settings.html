@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.9</td></tr>
+<td>2.0.10</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
@@ -33,11 +33,11 @@
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
 <li><a class="reference internal" href="#settings-pack" id="toc-entry-1">settings_pack</a><ul>
-<li><a class="reference internal" href="#set-bool-set-int-set-str" id="toc-entry-2">set_bool() set_int() set_str()</a></li>
+<li><a class="reference internal" href="#set-int-set-bool-set-str" id="toc-entry-2">set_int() set_bool() set_str()</a></li>
 <li><a class="reference internal" href="#has-val" id="toc-entry-3">has_val()</a></li>
 <li><a class="reference internal" href="#clear" id="toc-entry-4">clear()</a></li>
 <li><a class="reference internal" href="#clear-1" id="toc-entry-5">clear()</a></li>
-<li><a class="reference internal" href="#get-int-get-str-get-bool" id="toc-entry-6">get_int() get_str() get_bool()</a></li>
+<li><a class="reference internal" href="#get-str-get-int-get-bool" id="toc-entry-6">get_str() get_int() get_bool()</a></li>
 <li><a class="reference internal" href="#enum-type-bases" id="toc-entry-7">enum type_bases</a></li>
 <li><a class="reference internal" href="#enum-mmap-write-mode-t" id="toc-entry-8">enum mmap_write_mode_t</a></li>
 <li><a class="reference internal" href="#enum-suggest-mode-t" id="toc-entry-9">enum suggest_mode_t</a></li>
@@ -50,7 +50,7 @@
 <li><a class="reference internal" href="#enum-proxy-type-t" id="toc-entry-16">enum proxy_type_t</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#name-for-setting-setting-by-name" id="toc-entry-17">name_for_setting() setting_by_name()</a></li>
+<li><a class="reference internal" href="#setting-by-name-name-for-setting" id="toc-entry-17">setting_by_name() name_for_setting()</a></li>
 <li><a class="reference internal" href="#default-settings" id="toc-entry-18">default_settings()</a></li>
 <li><a class="reference internal" href="#min-memory-usage-high-performance-seed" id="toc-entry-19">min_memory_usage() high_performance_seed()</a></li>
 <li><a class="reference internal" href="#generate-fingerprint" id="toc-entry-20">generate_fingerprint()</a></li>
@@ -363,7 +363,7 @@ i2p peers as well as regular peers via a proxy.</p>
 <tbody valign="top">
 <tr><td>peer_fingerprint</td>
 <td>string</td>
-<td>-LT2090-</td>
+<td>-LT20A0-</td>
 </tr>
 </tbody>
 </table>
@@ -4566,16 +4566,16 @@ struct settings_pack final : settings_interface
    friend  void <strong>apply_pack_impl</strong> (settings_pack const*
       , aux::session_settings_single_thread&amp;
       , std::vector&lt;void(aux::session_impl::*)()&gt;*);
-   void <strong>set_str</strong> (int name, std::string val) override;
-   void <strong>set_int</strong> (int name, flags::bitfield_flag&lt;Type, Tag&gt; const val);
-   void <strong>set_bool</strong> (int name, bool val) override;
    void <strong>set_int</strong> (int name, int val) override;
+   void <strong>set_int</strong> (int name, flags::bitfield_flag&lt;Type, Tag&gt; const val);
+   void <strong>set_str</strong> (int name, std::string val) override;
+   void <strong>set_bool</strong> (int name, bool val) override;
    bool <strong>has_val</strong> (int name) const override;
    void <strong>clear</strong> ();
    void <strong>clear</strong> (int name);
-   int <strong>get_int</strong> (int name) const override;
-   bool <strong>get_bool</strong> (int name) const override;
    std::string const&amp; <strong>get_str</strong> (int name) const override;
+   bool <strong>get_bool</strong> (int name) const override;
+   int <strong>get_int</strong> (int name) const override;
    void <strong>for_each</strong> (Fun&amp;&amp; f) const;
 
    enum type_bases
@@ -4653,15 +4653,15 @@ struct settings_pack final : settings_interface
    };
 };
 </pre>
-<a name="set_bool()"></a>
 <a name="set_int()"></a>
-<a name="set_str()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:settings_pack%3A%3A%5Bset_bool%28%29+set_int%28%29+set_str%28%29%5D&labels=documentation&body=Documentation+under+heading+%22settings_pack%3A%3A%5Bset_bool%28%29+set_int%28%29+set_str%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="set-bool-set-int-set-str">
-<h2>set_bool() set_int() set_str()</h2>
+<a name="set_bool()"></a>
+<a name="set_str()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:settings_pack%3A%3A%5Bset_int%28%29+set_bool%28%29+set_str%28%29%5D&labels=documentation&body=Documentation+under+heading+%22settings_pack%3A%3A%5Bset_int%28%29+set_bool%28%29+set_str%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="set-int-set-bool-set-str">
+<h2>set_int() set_bool() set_str()</h2>
 <pre class="literal-block">
-void <strong>set_str</strong> (int name, std::string val) override;
-void <strong>set_int</strong> (int name, flags::bitfield_flag&lt;Type, Tag&gt; const val);
-void <strong>set_bool</strong> (int name, bool val) override;
 void <strong>set_int</strong> (int name, int val) override;
+void <strong>set_int</strong> (int name, flags::bitfield_flag&lt;Type, Tag&gt; const val);
+void <strong>set_str</strong> (int name, std::string val) override;
+void <strong>set_bool</strong> (int name, bool val) override;
 </pre>
 <p>set a configuration option in the <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a>. <tt class="docutils literal">name</tt> is one of
 the enum values from string_types, int_types or bool_types. They must
@@ -4689,15 +4689,15 @@ void <strong>clear</strong> ();
 void <strong>clear</strong> (int name);
 </pre>
 <p>clear a specific setting from the pack</p>
-<a name="get_int()"></a>
 <a name="get_str()"></a>
-<a name="get_bool()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:settings_pack%3A%3A%5Bget_int%28%29+get_str%28%29+get_bool%28%29%5D&labels=documentation&body=Documentation+under+heading+%22settings_pack%3A%3A%5Bget_int%28%29+get_str%28%29+get_bool%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="get-int-get-str-get-bool">
-<h2>get_int() get_str() get_bool()</h2>
+<a name="get_int()"></a>
+<a name="get_bool()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:settings_pack%3A%3A%5Bget_str%28%29+get_int%28%29+get_bool%28%29%5D&labels=documentation&body=Documentation+under+heading+%22settings_pack%3A%3A%5Bget_str%28%29+get_int%28%29+get_bool%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="get-str-get-int-get-bool">
+<h2>get_str() get_int() get_bool()</h2>
 <pre class="literal-block">
-int <strong>get_int</strong> (int name) const override;
-bool <strong>get_bool</strong> (int name) const override;
 std::string const&amp; <strong>get_str</strong> (int name) const override;
+bool <strong>get_bool</strong> (int name) const override;
+int <strong>get_int</strong> (int name) const override;
 </pre>
 <p>queries the current configuration option from the <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a>.
 <tt class="docutils literal">name</tt> is one of the enumeration values from string_types, int_types
@@ -5064,15 +5064,15 @@ authorization. The username and password will be sent to the proxy.</td>
 </tr>
 </tbody>
 </table>
-<a name="name_for_setting()"></a>
-<a name="setting_by_name()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:name_for_setting%28%29+setting_by_name%28%29&labels=documentation&body=Documentation+under+heading+%22name_for_setting%28%29+setting_by_name%28%29%22+could+be+improved">report issue</a>]</span></div>
+<a name="setting_by_name()"></a>
+<a name="name_for_setting()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:setting_by_name%28%29+name_for_setting%28%29&labels=documentation&body=Documentation+under+heading+%22setting_by_name%28%29+name_for_setting%28%29%22+could+be+improved">report issue</a>]</span></div>
 </div>
-<div class="section" id="name-for-setting-setting-by-name">
-<h1>name_for_setting() setting_by_name()</h1>
+<div class="section" id="setting-by-name-name-for-setting">
+<h1>setting_by_name() name_for_setting()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/settings_pack.hpp">libtorrent/settings_pack.hpp</a>&quot;</p>
 <pre class="literal-block">
-int <strong>setting_by_name</strong> (string_view name);
 char const* <strong>name_for_setting</strong> (int s);
+int <strong>setting_by_name</strong> (string_view name);
 </pre>
 <p>converts a setting integer (from the enums string_types, int_types or
 bool_types) to a string, and vice versa.</p>
@@ -5090,8 +5090,8 @@ settings_pack <strong>default_settings</strong> ();
 <h1>min_memory_usage() high_performance_seed()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/session.hpp">libtorrent/session.hpp</a>&quot;</p>
 <pre class="literal-block">
-settings_pack <strong>min_memory_usage</strong> ();
 settings_pack <strong>high_performance_seed</strong> ();
+settings_pack <strong>min_memory_usage</strong> ();
 </pre>
 <p>The default values of the <a class="reference external" href="reference-Session.html#session">session</a> settings are set for a regular
 bittorrent client running on a desktop system. There are functions that

@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.9</td></tr>
+<td>2.0.10</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
@@ -208,7 +208,7 @@
 </li>
 <li><a class="reference internal" href="#session-stats-header-alert" id="toc-entry-123">session_stats_header_alert</a></li>
 <li><a class="reference internal" href="#dht-sample-infohashes-alert" id="toc-entry-124">dht_sample_infohashes_alert</a><ul>
-<li><a class="reference internal" href="#num-samples-samples" id="toc-entry-125">num_samples() samples()</a></li>
+<li><a class="reference internal" href="#samples-num-samples" id="toc-entry-125">samples() num_samples()</a></li>
 <li><a class="reference internal" href="#num-nodes" id="toc-entry-126">num_nodes()</a></li>
 <li><a class="reference internal" href="#nodes" id="toc-entry-127">nodes()</a></li>
 </ul>
@@ -1291,8 +1291,8 @@ storage.</p>
 struct storage_moved_alert final : torrent_alert
 {
    std::string <strong>message</strong> () const override;
-   char const* <strong>old_path</strong> () const;
    char const* <strong>storage_path</strong> () const;
+   char const* <strong>old_path</strong> () const;
 
    static constexpr alert_category_t <strong>static_category</strong>  = alert_category::storage;
 };
@@ -1301,8 +1301,8 @@ struct storage_moved_alert final : torrent_alert
 <a name="storage_path()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:storage_moved_alert%3A%3A%5Bold_path%28%29+storage_path%28%29%5D&labels=documentation&body=Documentation+under+heading+%22storage_moved_alert%3A%3A%5Bold_path%28%29+storage_path%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="old-path-storage-path">
 <h2>old_path() storage_path()</h2>
 <pre class="literal-block">
-char const* <strong>old_path</strong> () const;
 char const* <strong>storage_path</strong> () const;
+char const* <strong>old_path</strong> () const;
 </pre>
 <p>the path the torrent was moved to and from, respectively.</p>
 <a name="storage_moved_failed_alert"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+storage_moved_failed_alert&labels=documentation&body=Documentation+under+heading+%22class+storage_moved_failed_alert%22+could+be+improved">report issue</a>]</span></div>
@@ -2948,8 +2948,8 @@ locally.</p>
 struct dht_live_nodes_alert final : alert
 {
    std::string <strong>message</strong> () const override;
-   int <strong>num_nodes</strong> () const;
    std::vector&lt;std::pair&lt;sha1_hash, udp::endpoint&gt;&gt; <strong>nodes</strong> () const;
+   int <strong>num_nodes</strong> () const;
 
    static constexpr alert_category_t <strong>static_category</strong>  = alert_category::dht;
    sha1_hash node_id;
@@ -2959,8 +2959,8 @@ struct dht_live_nodes_alert final : alert
 <a name="nodes()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:dht_live_nodes_alert%3A%3A%5Bnum_nodes%28%29+nodes%28%29%5D&labels=documentation&body=Documentation+under+heading+%22dht_live_nodes_alert%3A%3A%5Bnum_nodes%28%29+nodes%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="num-nodes-nodes">
 <h2>num_nodes() nodes()</h2>
 <pre class="literal-block">
-int <strong>num_nodes</strong> () const;
 std::vector&lt;std::pair&lt;sha1_hash, udp::endpoint&gt;&gt; <strong>nodes</strong> () const;
+int <strong>num_nodes</strong> () const;
 </pre>
 <p>the number of nodes in the routing table and the actual nodes.</p>
 <a name="node_id"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:dht_live_nodes_alert%3A%3A%5Bnode_id%5D&labels=documentation&body=Documentation+under+heading+%22dht_live_nodes_alert%3A%3A%5Bnode_id%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
@@ -3009,9 +3009,9 @@ struct dht_sample_infohashes_alert final : alert
    int const num_infohashes;
 };
 </pre>
-<a name="num_samples()"></a>
-<a name="samples()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:dht_sample_infohashes_alert%3A%3A%5Bnum_samples%28%29+samples%28%29%5D&labels=documentation&body=Documentation+under+heading+%22dht_sample_infohashes_alert%3A%3A%5Bnum_samples%28%29+samples%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="num-samples-samples">
-<h2>num_samples() samples()</h2>
+<a name="samples()"></a>
+<a name="num_samples()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:dht_sample_infohashes_alert%3A%3A%5Bsamples%28%29+num_samples%28%29%5D&labels=documentation&body=Documentation+under+heading+%22dht_sample_infohashes_alert%3A%3A%5Bsamples%28%29+num_samples%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="samples-num-samples">
+<h2>samples() num_samples()</h2>
 <pre class="literal-block">
 std::vector&lt;sha1_hash&gt; <strong>samples</strong> () const;
 int <strong>num_samples</strong> () const;
@@ -3083,8 +3083,8 @@ queue grew too big (controlled by alert_queue_size).</p>
 <pre class="literal-block">
 struct alerts_dropped_alert final : alert
 {
-   std::string <strong>message</strong> () const override;
    <strong>static_assert</strong> (num_alert_types &lt;= abi_alert_count, &quot;need to increase bitset. This is an ABI break&quot;);
+   std::string <strong>message</strong> () const override;
 
    static constexpr alert_category_t <strong>static_category</strong>  = alert_category::error;
    std::bitset&lt;abi_alert_count&gt; dropped_alerts;
