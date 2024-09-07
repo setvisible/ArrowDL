@@ -65,8 +65,8 @@
 
 
 /* Show the thread, of which the debug message comes from */
-#define qDebug_1 qDebug() << " + | "
-#define qDebug_2 qDebug() << " | + "
+#define qDebug_1 qDebug() << " + | " // from TorrentContextPrivate
+#define qDebug_2 qDebug() << " | + " // from WorkerThread
 
 using namespace Qt::Literals::StringLiterals;
 

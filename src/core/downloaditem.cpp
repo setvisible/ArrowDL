@@ -309,7 +309,7 @@ QString DownloadItem::statusToHttp(QNetworkReply::NetworkError error)
     case QNetworkReply::InternalServerError:          return tr("500 Internal server error");
     case QNetworkReply::OperationNotImplementedError: return tr("501 Server does not support this functionality");
     case QNetworkReply::ServiceUnavailableError:      return tr("503 Service unavailable");
-    case QNetworkReply::UnknownServerError:           return tr("5xx Unknown serveur error");
+    case QNetworkReply::UnknownServerError:           return tr("5xx Unknown server error");
     }
     Q_UNREACHABLE();
 }
