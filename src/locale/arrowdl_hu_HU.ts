@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu_HU">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="hu_HU">
 <context>
     <name>AbstractDownloadItem</name>
     <message>
@@ -562,7 +560,7 @@ A kötegleírók használatával több fájlt is letölthetsz egyszerre.</transl
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="179"/>
         <source>1 ... 123456</source>
-        <translation>1 ... 123456&#xa0;</translation>
+        <translation>1 ... 123456 </translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="189"/>
@@ -2252,12 +2250,12 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="434"/>
         <source>Concurrent fragments:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="517"/>
         <source>20</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="597"/>
@@ -2724,7 +2722,7 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="721"/>
         <source>Servers might split large files into multiple fragments, to optimize downloads. This option enables multi-threaded fragment downloads: Select the number of fragments that should be downloaded concurrently. Note that the concurrency makes download faster (when available), but the progress status and estimated time could be inaccurate (by design). Choose between precision and speed. Recommended value depends on your connection and machine. 20 is a good start. To disable it, set it to 1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="742"/>
@@ -2862,12 +2860,12 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
     <message>
         <location filename="../core/theme.cpp" line="111"/>
         <source>Bootstrap Icons (default)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="112"/>
         <source>FontAwesome Flat Design</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="141"/>
@@ -3179,15 +3177,15 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
 Help: if you get an error, follow these instructions:
 
 1. Verify the URL
-   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after &apos;?&apos; in the URL:
-   Ex: &apos;https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278&apos;
+   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after '?' in the URL:
+   Ex: 'https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278'
          becomes 
-         &apos;https://www.abc.com/watch?video=some_video&apos;
+         'https://www.abc.com/watch?video=some_video'
 
 2. Open the URL in a Web browser, and Play it
     (Rem: the Web browser can force the server to play the video)
 
-3. Click &apos;Continue&apos; button again
+3. Click 'Continue' button again
 
 4. Retry later</source>
         <translation>---
@@ -4101,8 +4099,8 @@ címből legyen csak
         <location filename="../widgets/torrentwidget.cpp" line="666"/>
         <source>Enter the IP address and port number of the peer to add.
 Ex:
- - for IPv4, type &apos;x.x.x.x:p&apos;
- - for IPv6, type &apos;[x:x:x:x:x:x:x:x]:p&apos;
+ - for IPv4, type 'x.x.x.x:p'
+ - for IPv6, type '[x:x:x:x:x:x:x:x]:p'
 </source>
         <translation>A peer IP-címének és portszámának bevitele a hozzáadáshoz.
 Pl:

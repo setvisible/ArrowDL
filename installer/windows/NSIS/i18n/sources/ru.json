@@ -1,12 +1,12 @@
 {
     "DESC_SectionMainApplication": "Основное приложение.",
-    "DESC_SectionLauncher": "Программа запуска, используемая для обмена сообщениями с веб-браузером.",
-    "DESC_SectionStartMenuShortcut": "Создайте ярлык меню Пуск.",
+    "DESC_SectionLauncher": "Дополнительная программа, использующаяся для обмена сообщениями с веб-браузерами. Нужна для работы браузерных расширений.",
+    "DESC_SectionStartMenuShortcut": "Создать ярлыки в меню Пуск.",
     "DESC_SectionDesktopShortcut": "Создать ярлык на рабочем столе.",
     "DESC_UninstallIconDescription": "Удалить ArrowDL",
-    "DESC_ApplicationSession": "Заявление (обязательно)",
-    "DESC_LauncherSession": "Пусковая установка (обязательно)",
-    "DESC_StartMenuGroupSession": "Ярлык меню Пуск",
-    "DESC_DesktopShortcutSession": "Ярлык рабочего стола",
+    "DESC_ApplicationSession": "Программа (обязательно)",
+    "DESC_LauncherSession": "Лаунчер (обязательно)",
+    "DESC_StartMenuGroupSession": "Ярлык в меню Пуск",
+    "DESC_DesktopShortcutSession": "Ярлык на Рабочем столе",
     "DESC_VisitWebSite": "Посетите наш сайт:"
 }

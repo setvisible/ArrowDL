@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="nl_NL">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="nl_NL">
 <context>
     <name>AbstractDownloadItem</name>
     <message>
@@ -3179,15 +3177,15 @@ Hieronder volgen enkele voorbeelden.  Klik om het voorbeeld te plakken.</transla
 Help: if you get an error, follow these instructions:
 
 1. Verify the URL
-   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after &apos;?&apos; in the URL:
-   Ex: &apos;https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278&apos;
+   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after '?' in the URL:
+   Ex: 'https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278'
          becomes 
-         &apos;https://www.abc.com/watch?video=some_video&apos;
+         'https://www.abc.com/watch?video=some_video'
 
 2. Open the URL in a Web browser, and Play it
     (Rem: the Web browser can force the server to play the video)
 
-3. Click &apos;Continue&apos; button again
+3. Click 'Continue' button again
 
 4. Retry later</source>
         <translation>---
@@ -4101,8 +4099,8 @@ Hulp: als je een foutmelding krijgt, volg dan deze instructies:
         <location filename="../widgets/torrentwidget.cpp" line="666"/>
         <source>Enter the IP address and port number of the peer to add.
 Ex:
- - for IPv4, type &apos;x.x.x.x:p&apos;
- - for IPv6, type &apos;[x:x:x:x:x:x:x:x]:p&apos;
+ - for IPv4, type 'x.x.x.x:p'
+ - for IPv6, type '[x:x:x:x:x:x:x:x]:p'
 </source>
         <translation>Voer het ip-adres en poortnummer in van de toe te voegen peer.
 Voorbeelden:
