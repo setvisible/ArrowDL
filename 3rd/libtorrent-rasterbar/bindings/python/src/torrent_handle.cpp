@@ -468,6 +468,8 @@ void bind_torrent_handle()
         .value("always_replace_files", move_flags_t::always_replace_files)
         .value("fail_if_exist", move_flags_t::fail_if_exist)
         .value("dont_replace", move_flags_t::dont_replace)
+        .value("reset_save_path", move_flags_t::reset_save_path)
+        .value("reset_save_path_unchecked", move_flags_t::reset_save_path_unchecked)
     ;
 
 #if TORRENT_ABI_VERSION == 1
@@ -557,6 +559,7 @@ void bind_torrent_handle()
         .def("info_hashes", _(&torrent_handle::info_hashes))
         .def("force_recheck", _(&torrent_handle::force_recheck))
         .def("rename_file", _(rename_file0))
+        .def("set_ssl_certificate_buffer", &torrent_handle::set_ssl_certificate_buffer, (arg("cert"), arg("private_key"), arg("dh_params")))
         .def("set_ssl_certificate", &torrent_handle::set_ssl_certificate, (arg("cert"), arg("private_key"), arg("dh_params"), arg("passphrase")=""))
         .def("flags", _(&torrent_handle::flags))
         .def("set_flags", _(set_flags0))

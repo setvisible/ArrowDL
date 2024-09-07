@@ -500,6 +500,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
 		-Wno-exit-time-destructors
 		-Wno-weak-vtables
 		-Wno-return-std-move-in-c++11
+		-Wno-unsafe-buffer-usage
 		-Wno-unknown-warning-option
 	)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
@@ -595,10 +596,16 @@ target_compile_definitions(torrent-rasterbar
 		BOOST_ASIO_NO_DEPRECATED
 	PRIVATE
 		TORRENT_BUILDING_LIBRARY
-		_FILE_OFFSET_BITS=64
 		BOOST_EXCEPTION_DISABLE
 		BOOST_ASIO_HAS_STD_CHRONO
 )
+
+if (NOT WIN32)
+	target_compile_definitions(torrent-rasterbar
+		PRIVATE
+			_FILE_OFFSET_BITS=64
+	)
+endif()
 
 target_link_libraries(torrent-rasterbar
 	PUBLIC
@@ -627,12 +634,14 @@ if (WIN32)
 		)
 		target_compile_options(torrent-rasterbar
 			PRIVATE
+				# allow larger .obj files (with more sections)
+				/bigobj
+				# https://learn.microsoft.com/en-us/cpp/build/reference/permissive-standards-conformance?view=msvc-170
+				/permissive-
 				# https://docs.microsoft.com/en-us/cpp/build/reference/utf-8-set-source-and-executable-character-sets-to-utf-8?view=msvc-170
 				/utf-8
 				# https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
 				/Zc:__cplusplus
-				/MP # for multi-core compilation
-				/bigobj # increase the number of sections for obj files
 		)
 		set_target_properties(torrent-rasterbar PROPERTIES LINK_FLAGS_RELEASE "/OPT:ICF=5 /OPT:REF")
 	endif()
