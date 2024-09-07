@@ -58,4 +58,6 @@ CMakeLists.txt.user*
 # And reject some specific files
 # =======================================
 /scripts
+*.exe
+*.bat
 
