@@ -26,4 +26,4 @@ __Organisation__
     Contains several scripts and files that install/uninstall the launcher.
 
 
-(*)  for Chrome, Firefox, WaterFox, Thunderbird
+(*)  for Chrome, Edge, Firefox, WaterFox, Thunderbird

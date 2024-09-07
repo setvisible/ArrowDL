@@ -15,6 +15,9 @@ To add the language 'xx' in country 'XX':
 
 2. Go to Transifex > Language > Add the language > Add xx_XX
 
+https://app.transifex.com/arrowdl/arrowdl/languages/
+
+
 3. Add following line to `qt_add_translations(...)` in `./src/CMakeLists.txt`:
         
         ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_xx_XX.ts

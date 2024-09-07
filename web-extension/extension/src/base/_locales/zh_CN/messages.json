@@ -1,10 +1,10 @@
 {
   "extensionName": {
-    "message": "立即下载",
+    "message": "ArrowDL - Arrow Downloader",
     "description": "Name of the extension, displayed in the web store. Should not exceed 45 characters."
   },
   "extensionDescription": {
-    "message": "适合您浏览器的下载管理器",
+    "message": "从任何网站下载图像、种子、视频和音乐的简单方法",
     "description": "Description of the extension, displayed in the web store. Should not exceed 132 characters."
   },
 

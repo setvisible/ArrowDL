@@ -74,10 +74,12 @@ target_compile_definitions(${TARGET_NAME}
 
 qt_add_translations(${TARGET_NAME}
     TS_FILES
-        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_ar_EG.ts  # Arabic
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_ar_EG.ts  # Arabic (Egypt)
         ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_de_DE.ts  # German
         ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_en_US.ts  # English (default)
-        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_es_ES.ts  # Spanish
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_es_BO.ts  # Spanish (Bolivia)
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_es_ES.ts  # Spanish (Spain)
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_es_US.ts  # Spanish (United States)
         ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_fr_FR.ts  # French
         ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_hu_HU.ts  # Hungarian
         ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_it_IT.ts  # Italian
@@ -90,6 +92,7 @@ qt_add_translations(${TARGET_NAME}
         ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_ru_RU.ts  # Russian
         ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_vi_VN.ts  # Vietnamese
         ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_zh_CN.ts  # Chinese (Simplified & Traditional)
+        ${CMAKE_SOURCE_DIR}/src/locale/arrowdl_zh_TW.ts  # Chinese (Taiwan)
     QM_FILES_OUTPUT_VARIABLE
         qm_files
 )

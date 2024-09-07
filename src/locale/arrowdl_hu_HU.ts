@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu_HU">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="hu_HU">
 <context>
     <name>AbstractDownloadItem</name>
     <message>
@@ -562,7 +560,7 @@ A kötegleírók használatával több fájlt is letölthetsz egyszerre.</transl
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="179"/>
         <source>1 ... 123456</source>
-        <translation>1 ... 123456&#xa0;</translation>
+        <translation>1 ... 123456 </translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="189"/>
@@ -935,37 +933,37 @@ A kötegleírók használatával több fájlt is letölthetsz egyszerre.</transl
 <context>
     <name>DownloadQueueView</name>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="587"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="581"/>
         <source>Download/Name</source>
         <translation>Letöltés/Név</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="588"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="582"/>
         <source>Domain</source>
         <translation>Domain</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="589"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="583"/>
         <source>Progress</source>
         <translation>Folyamat</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="590"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="584"/>
         <source>Percent</source>
         <translation>százalék</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="591"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="585"/>
         <source>Size</source>
         <translation>Méret</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="592"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="586"/>
         <source>Est. time</source>
         <translation>Becs.idő</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="593"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="587"/>
         <source>Speed</source>
         <translation>Sebesség</translation>
     </message>
@@ -1121,37 +1119,38 @@ A kötegleírók használatával több fájlt is letölthetsz egyszerre.</transl
 <context>
     <name>FileWriter</name>
     <message>
-        <location filename="../io/filewriter.cpp" line="49"/>
+        <location filename="../io/filewriter.cpp" line="51"/>
         <source>Device is not set</source>
         <translation>Az eszköz nincs beállítva</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.cpp" line="55"/>
+        <location filename="../io/filewriter.cpp" line="57"/>
         <source>Cannot open device for writing: %1</source>
         <translation>Az eszköz nem nyitható meg írásra: %1</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.cpp" line="62"/>
+        <location filename="../io/filewriter.cpp" line="64"/>
         <source>Device not writable</source>
         <translation>Az eszköz nem írható</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.cpp" line="67"/>
+        <location filename="../io/filewriter.cpp" line="69"/>
         <source>Unsupported format</source>
         <translation>Nem támogatott formátum</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.cpp" line="98"/>
+        <location filename="../io/filewriter.cpp" line="100"/>
         <source>File is empty</source>
         <translation>Üres fájl</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.cpp" line="169"/>
+        <location filename="../io/filewriter.cpp" line="171"/>
         <source>All files (%0)</source>
         <translation>Minden fájl (%0)</translation>
     </message>
     <message>
-        <location filename="../io/filewriter.h" line="62"/>
+        <location filename="../io/filewriter.cpp" line="30"/>
+        <location filename="../io/filewriter.cpp" line="36"/>
         <source>Unknown error</source>
         <translation>Ismeretlen hiba</translation>
     </message>
@@ -2251,12 +2250,12 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="434"/>
         <source>Concurrent fragments:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="517"/>
         <source>20</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="597"/>
@@ -2404,7 +2403,7 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
         <translation>Azonosítás</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="730"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="736"/>
         <source>Servers might use HTTP identification contained in the HTTP request to log client attributes. Some server even don&apos;t respond to the client if the identification attribute is empty. The fields allow you to send fake information, to protect privacy.</source>
         <translation>A kiszolgálók használhatják a HTTP-kérésben található HTTP-azonosítót az ügyfélattribútumok naplózásához. Egyes szerverek még akkor sem válaszolnak az ügyfélnek, ha az azonosító attribútum üres. A mezők lehetővé teszik hamis információk küldését a magánélet védelme érdekében.</translation>
     </message>
@@ -2495,7 +2494,7 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1111"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="759"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="765"/>
         <source>Clean Cache</source>
         <translation>Cache tisztítása</translation>
     </message>
@@ -2705,33 +2704,33 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
         <translation>Minden szűrő törlése</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="684"/>
-        <location filename="../dialogs/preferencedialog.cpp" line="693"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="690"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="699"/>
         <source>The host may be %0, %1 or %2</source>
         <translation>A gazdagép %0, %1 vagy %2 lehet</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="689"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="695"/>
         <source>The host may be %0 but not %1</source>
         <translation>A gazdagép %0 lehet, de nem lehet %1</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="700"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="706"/>
         <source>Examples:</source>
         <translation>Példák:</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="715"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="721"/>
         <source>Servers might split large files into multiple fragments, to optimize downloads. This option enables multi-threaded fragment downloads: Select the number of fragments that should be downloaded concurrently. Note that the concurrency makes download faster (when available), but the progress status and estimated time could be inaccurate (by design). Choose between precision and speed. Recommended value depends on your connection and machine. 20 is a good start. To disable it, set it to 1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="736"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="742"/>
         <source>Referring Page (or Referrer) is an HTTP option that communicates to the server the address of the previous web page from which the resource is requested. This typically allows the HTTP server to track a visitor&apos;s browsing, page after page. To protect privacy, enter an empty or fake Referrer address.</source>
         <translation>A hivatkozó oldal (vagy Hivatkozó) egy HTTP-beállítás, amely közli a szerverrel annak az előző weboldalnak a címét, amelyről az erőforrást kérték. Ez általában lehetővé teszi a HTTP-kiszolgáló számára, hogy nyomon kövesse a látogató böngészését, oldalról oldalra. A magánélet védelme érdekében, adj meg egy üres, vagy hamis hivatkozói címet.</translation>
     </message>
     <message>
-        <location filename="../dialogs/preferencedialog.cpp" line="748"/>
+        <location filename="../dialogs/preferencedialog.cpp" line="754"/>
         <source>Cleaning...</source>
         <translation>Tisztítás...</translation>
     </message>
@@ -2861,12 +2860,12 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
     <message>
         <location filename="../core/theme.cpp" line="111"/>
         <source>Bootstrap Icons (default)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="112"/>
         <source>FontAwesome Flat Design</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="141"/>
@@ -2917,12 +2916,12 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
 <context>
     <name>QueueItem</name>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="373"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="367"/>
         <source>%0 of %1</source>
         <translation>%1 a 0% -nak</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="377"/>
+        <location filename="../widgets/downloadqueueview.cpp" line="371"/>
         <source>Unknown</source>
         <translation>Ismeretlen</translation>
     </message>
@@ -3178,15 +3177,15 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
 Help: if you get an error, follow these instructions:
 
 1. Verify the URL
-   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after &apos;?&apos; in the URL:
-   Ex: &apos;https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278&apos;
+   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after '?' in the URL:
+   Ex: 'https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278'
          becomes 
-         &apos;https://www.abc.com/watch?video=some_video&apos;
+         'https://www.abc.com/watch?video=some_video'
 
 2. Open the URL in a Web browser, and Play it
     (Rem: the Web browser can force the server to play the video)
 
-3. Click &apos;Continue&apos; button again
+3. Click 'Continue' button again
 
 4. Retry later</source>
         <translation>---
@@ -3810,7 +3809,7 @@ címből legyen csak
         <translation>Érték: # peerek darabok számával</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentpiecemap.cpp" line="83"/>
+        <location filename="../widgets/torrentpiecemap.cpp" line="92"/>
         <source>Priority: %0=high %1=normal %2=low %3=ignore</source>
         <translation>Priorítás: %0=magas %1=normál %2=alacsony %3=kihagyás</translation>
     </message>
@@ -4027,81 +4026,81 @@ címből legyen csak
         <translation>Darab térkép</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="497"/>
+        <location filename="../widgets/torrentwidget.cpp" line="500"/>
         <source>Copy</source>
         <translation>Másolás</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="541"/>
+        <location filename="../widgets/torrentwidget.cpp" line="544"/>
         <source>Open</source>
         <translation>Megnyitás</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="542"/>
+        <location filename="../widgets/torrentwidget.cpp" line="545"/>
         <source>Open Containing Folder</source>
         <translation>Tartalmazó mappa megnyitása</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="543"/>
+        <location filename="../widgets/torrentwidget.cpp" line="546"/>
         <source>Scan for viruses</source>
         <translation>Vírusok keresése</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="544"/>
+        <location filename="../widgets/torrentwidget.cpp" line="547"/>
         <source>Priorize by File order</source>
         <translation>Priorizálás fájlsorrend szerint</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="545"/>
+        <location filename="../widgets/torrentwidget.cpp" line="548"/>
         <source>Priorize: High</source>
         <translation>Priorizálás: magas</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="546"/>
+        <location filename="../widgets/torrentwidget.cpp" line="549"/>
         <source>Priorize: Normal</source>
         <translation>Priorizálás: normál</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="547"/>
+        <location filename="../widgets/torrentwidget.cpp" line="550"/>
         <source>Priorize: Low</source>
         <translation>Priorizálás: alacsony</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="548"/>
+        <location filename="../widgets/torrentwidget.cpp" line="551"/>
         <source>Don&apos;t download</source>
         <translation>Ne töltse le</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="549"/>
+        <location filename="../widgets/torrentwidget.cpp" line="552"/>
         <source>Relocate...</source>
         <translation>Áthelyezés...</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="639"/>
+        <location filename="../widgets/torrentwidget.cpp" line="642"/>
         <source>Add Peer...</source>
         <translation>Peer hozzáadása...</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="640"/>
+        <location filename="../widgets/torrentwidget.cpp" line="643"/>
         <source>Copy Peer List</source>
         <translation>Peer lista másolása</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="641"/>
+        <location filename="../widgets/torrentwidget.cpp" line="644"/>
         <source>Remove Unconnected</source>
         <translation>Nem csatlakozottak eltávolítása</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="662"/>
+        <location filename="../widgets/torrentwidget.cpp" line="665"/>
         <source>Add Peer</source>
         <translation>Peer hozzáadása</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="663"/>
+        <location filename="../widgets/torrentwidget.cpp" line="666"/>
         <source>Enter the IP address and port number of the peer to add.
 Ex:
- - for IPv4, type &apos;x.x.x.x:p&apos;
- - for IPv6, type &apos;[x:x:x:x:x:x:x:x]:p&apos;
+ - for IPv4, type 'x.x.x.x:p'
+ - for IPv6, type '[x:x:x:x:x:x:x:x]:p'
 </source>
         <translation>A peer IP-címének és portszámának bevitele a hozzáadáshoz.
 Pl:
@@ -4110,49 +4109,49 @@ Pl:
 </translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="699"/>
+        <location filename="../widgets/torrentwidget.cpp" line="702"/>
         <source>Add Tracker...</source>
         <translation>Tracker hozzáadása...</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="700"/>
+        <location filename="../widgets/torrentwidget.cpp" line="703"/>
         <source>Remove Tracker</source>
         <translation>Tracker eltávolítása</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="701"/>
+        <location filename="../widgets/torrentwidget.cpp" line="704"/>
         <source>Copy Tracker List</source>
         <translation>Tracker lista másolása</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="725"/>
+        <location filename="../widgets/torrentwidget.cpp" line="728"/>
         <source>Add Tracker</source>
         <translation>Tracker hozzáadása</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="726"/>
+        <location filename="../widgets/torrentwidget.cpp" line="729"/>
         <source>Enter the URL of the tracker to add:</source>
         <translation>Add meg a hozzáadni kívánt tracker URL-jét:</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="850"/>
+        <location filename="../widgets/torrentwidget.cpp" line="853"/>
         <source>%0 (%1 hashfails)</source>
         <translation>%0 (%1 sikertelen hash)</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="854"/>
-        <location filename="../widgets/torrentwidget.cpp" line="858"/>
+        <location filename="../widgets/torrentwidget.cpp" line="857"/>
+        <location filename="../widgets/torrentwidget.cpp" line="861"/>
         <source>%0 (total %1)</source>
         <translation>%0 (összes %1)</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="862"/>
-        <location filename="../widgets/torrentwidget.cpp" line="867"/>
+        <location filename="../widgets/torrentwidget.cpp" line="865"/>
+        <location filename="../widgets/torrentwidget.cpp" line="870"/>
         <source>%0 of %1 connected (%2 in swarm)</source>
         <translation>%0 csatlakoztatva ennyiből %1 (%2 rajban)</translation>
     </message>
     <message>
-        <location filename="../widgets/torrentwidget.cpp" line="875"/>
+        <location filename="../widgets/torrentwidget.cpp" line="878"/>
         <source>%0 x %1</source>
         <translation>%0 x %1</translation>
     </message>

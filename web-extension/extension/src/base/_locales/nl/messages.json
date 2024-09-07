@@ -1,10 +1,10 @@
 {
   "extensionName": {
-    "message": "ArrowDL",
+    "message": "ArrowDL - Arrow Downloader",
     "description": "Name of the extension, displayed in the web store. Should not exceed 45 characters."
   },
   "extensionDescription": {
-    "message": "The Right Download Manager for your browser",
+    "message": "De gemakkelijke manier om afbeeldingen, torrents, video's en muziek te downloaden vanaf elke website",
     "description": "Description of the extension, displayed in the web store. Should not exceed 132 characters."
   },
 
@@ -48,7 +48,7 @@
 
 
   "popupDownload": {
-    "message": "Download...",
+    "message": "Downloaden...",
     "description": "Title of the context menu for Download..."
   },
   "popupDownloadLinks": {
@@ -56,7 +56,7 @@
     "description": "Title of the context menu for Download links"
   },
   "popupDownloadLinksPaused": {
-    "message": "Download links (paused)",
+    "message": "Download links (onderbroken)",
     "description": "Title of the context menu for Download links (paused)"
   },
   "popupDownloadContent": {

@@ -1,0 +1,187 @@
+{
+  "extensionName": {
+    "message": "ArrowDL - Arrow Downloader",
+    "description": "Name of the extension, displayed in the web store. Should not exceed 45 characters."
+  },
+  "extensionDescription": {
+    "message": "The easy way to download images, torrents, videos and music, from any website",
+    "description": "Description of the extension, displayed in the web store. Should not exceed 132 characters."
+  },
+
+
+  "contextMenuSavePage": {
+    "message": "Save page",
+    "description": "Title of the context menu for Save page"
+  },
+  "contextMenuSaveFrame": {
+    "message": "Save frame",
+    "description": "Title of the context menu for Save frame"
+  },
+  "contextMenuSaveSelection": {
+    "message": "Save selection",
+    "description": "Title of the context menu for Save selection"
+  },
+  "contextMenuSaveLink": {
+    "message": "Save link",
+    "description": "Title of the context menu for Save link"
+  },
+  "contextMenuSaveEditable": {
+    "message": "Save editable",
+    "description": "Title of the context menu for Save editable"
+  },
+  "contextMenuSaveImage": {
+    "message": "Save image",
+    "description": "Title of the context menu for Save image"
+  },
+  "contextMenuSaveVideo": {
+    "message": "Save video",
+    "description": "Title of the context menu for Save video"
+  },
+  "contextMenuSaveAudio": {
+    "message": "Save audio",
+    "description": "Title of the context menu for Save audio"
+  },
+  "contextMenuSaveLauncher": {
+    "message": "Save launcher",
+    "description": "Title of the context menu for Save launcher"
+  },
+
+
+  "popupDownload": {
+    "message": "Download...",
+    "description": "Title of the context menu for Download..."
+  },
+  "popupDownloadLinks": {
+    "message": "Download links",
+    "description": "Title of the context menu for Download links"
+  },
+  "popupDownloadLinksPaused": {
+    "message": "Download links (paused)",
+    "description": "Title of the context menu for Download links (paused)"
+  },
+  "popupDownloadContent": {
+    "message": "Download content",
+    "description": "Title of the context menu for Download content"
+  },
+  "popupDownloadContentPaused": {
+    "message": "Download content (paused)",
+    "description": "Title of the context menu for Download content (paused)"
+  },
+  "popupOpen": {
+    "message": "Open ArrowDL",
+    "description": "Title of the context menu for Open ArrowDL"
+  },
+  "popupPreferences": {
+    "message": "Preferences...",
+    "description": "Title of the context menu for Preferences..."
+  },
+  "popupOptions": {
+    "message": "Options...",
+    "description": "Title of the context menu for Options..."
+  },
+  "popupVisitWebsite": {
+    "message": "Visit ArrowDL website",
+    "description": "Title of the context menu for Visit ArrowDL website"
+  },
+
+  "popupError": {
+    "message": "Error",
+    "description": "Title of Error"
+  },
+  "popupError1": {
+    "message": "Can't find the application",
+    "description": "Error message 1"
+  },
+  "popupError2": {
+    "message": "Open 'Options' to check",
+    "description": "Error message 2"
+  },
+  "popupRemark": {
+    "message": "Remark",
+    "description": "Title of Remark"
+  },
+  "popupRemark1": {
+    "message": "Incognito Mode disables<br />download features",
+    "description": "Remark message 1"
+  },
+
+
+  "optionsMainTitle": {
+    "message": "Options",
+    "description": "Title of Options"
+  },
+  "optionsToolbarMenu": {
+    "message": "Toolbar Menu",
+    "description": "Title of Toolbar Menu"
+  },
+  "optionsShowSimpleMenu": {
+    "message": "Show simple menu (always ask what to do)",
+    "description": "Title of Show simple menu"
+  },
+  "optionsShowFullMenu": {
+    "message": "Show full menu",
+    "description": "Title of Show full menu"
+  },
+  "optionsShowFullMenuDescription": {
+    "message": "Simple download, and immediate download for:",
+    "description": "Description of Show full menu"
+  },
+  "optionsChoiceGetLinks": {
+    "message": "Links",
+    "description": "Title of Links"
+  },
+  "optionsChoiceGetContent": {
+    "message": "Content",
+    "description": "Title of Content"
+  },
+  "optionsChoiceStartPaused": {
+    "message": "Start paused",
+    "description": "Title of Start paused"
+  },
+  "optionsAbout": {
+    "message": "About",
+    "description": "Title of About"
+  },
+  "optionsInstall": {
+    "message": "Installation",
+    "description": "Title of Installation"
+  },
+  "optionsInstallMessage": {
+    "message": "Go to link below to install the application for your operating system.",
+    "description": "Tells the user how to install the application."
+  },
+  "optionsInstallMessageLink": {
+    "message": "Visit ArrowDL website",
+    "description": "Link to the application URL."
+  },
+  "optionsRefresh": {
+    "message": "Refresh information $SYMBOL$",
+    "description": "Title of Refresh information",
+    "placeholders": {
+      "symbol" : {
+        "content" : "$1"
+      }
+    }
+  },
+
+  "optionsStatus": {
+    "message": "Status:",
+    "description": "Title of Status"
+  },
+  "optionsOk": {
+    "message": "Ok",
+    "description": "Title of Ok"
+  },
+  "optionsDetectedPath": {
+    "message": "Detected path:",
+    "description": "Title of Detected path"
+  },
+  "optionsError": {
+    "message": "Error: Can't find the launcher",
+    "description": "Title of Error"
+  },
+  "optionsInstructions": {
+    "message": "Follow the instructions below.",
+    "description": "Title of Instructions"
+  }
+}

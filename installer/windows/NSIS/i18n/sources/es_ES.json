@@ -1,0 +1,12 @@
+{
+    "DESC_SectionMainApplication": "La aplicación principal.",
+    "DESC_SectionLauncher": "El lanzador, utilizado para enviar mensajes con el navegador web.",
+    "DESC_SectionStartMenuShortcut": "Crear acceso directo al menú Inicio.",
+    "DESC_SectionDesktopShortcut": "Crear acceso directo del Escritorio.",
+    "DESC_UninstallIconDescription": "Desinstalar ArrowDL",
+    "DESC_ApplicationSession": "Solicitud (requerida)",
+    "DESC_LauncherSession": "Lanzador (requerido)",
+    "DESC_StartMenuGroupSession": "Acceso directo del menú Inicio",
+    "DESC_DesktopShortcutSession": "Acceso directo del Escritorio",
+    "DESC_VisitWebSite": "Visite nuestro sitio web:"
+}

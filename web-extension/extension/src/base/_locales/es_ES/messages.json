@@ -1,0 +1,187 @@
+{
+  "extensionName": {
+    "message": "ArrowDL - Arrow Downloader",
+    "description": "Name of the extension, displayed in the web store. Should not exceed 45 characters."
+  },
+  "extensionDescription": {
+    "message": "La forma fácil de descargar imágenes, torrents, vídeos y música desde cualquier sitio web",
+    "description": "Description of the extension, displayed in the web store. Should not exceed 132 characters."
+  },
+
+
+  "contextMenuSavePage": {
+    "message": "Guardar página",
+    "description": "Title of the context menu for Save page"
+  },
+  "contextMenuSaveFrame": {
+    "message": "Guardar marco",
+    "description": "Title of the context menu for Save frame"
+  },
+  "contextMenuSaveSelection": {
+    "message": "Guardar selección",
+    "description": "Title of the context menu for Save selection"
+  },
+  "contextMenuSaveLink": {
+    "message": "Guardar enlace",
+    "description": "Title of the context menu for Save link"
+  },
+  "contextMenuSaveEditable": {
+    "message": "Guarda editable",
+    "description": "Title of the context menu for Save editable"
+  },
+  "contextMenuSaveImage": {
+    "message": "Guardar imagen",
+    "description": "Title of the context menu for Save image"
+  },
+  "contextMenuSaveVideo": {
+    "message": "Guardar video",
+    "description": "Title of the context menu for Save video"
+  },
+  "contextMenuSaveAudio": {
+    "message": "Guardar sonido",
+    "description": "Title of the context menu for Save audio"
+  },
+  "contextMenuSaveLauncher": {
+    "message": "Guardar lanzador",
+    "description": "Title of the context menu for Save launcher"
+  },
+
+
+  "popupDownload": {
+    "message": "Descargar...",
+    "description": "Title of the context menu for Download..."
+  },
+  "popupDownloadLinks": {
+    "message": "Descargar enlaces",
+    "description": "Title of the context menu for Download links"
+  },
+  "popupDownloadLinksPaused": {
+    "message": "Descargar enlaces (en pausa)",
+    "description": "Title of the context menu for Download links (paused)"
+  },
+  "popupDownloadContent": {
+    "message": "Descargar contenido",
+    "description": "Title of the context menu for Download content"
+  },
+  "popupDownloadContentPaused": {
+    "message": "Descargar contenido (en pausa)",
+    "description": "Title of the context menu for Download content (paused)"
+  },
+  "popupOpen": {
+    "message": "Abrir ArrowDL",
+    "description": "Title of the context menu for Open ArrowDL"
+  },
+  "popupPreferences": {
+    "message": "Preferencias...",
+    "description": "Title of the context menu for Preferences..."
+  },
+  "popupOptions": {
+    "message": "Opciones...",
+    "description": "Title of the context menu for Options..."
+  },
+  "popupVisitWebsite": {
+    "message": "Visitar ArrowDL sitio",
+    "description": "Title of the context menu for Visit ArrowDL website"
+  },
+
+  "popupError": {
+    "message": "Error",
+    "description": "Title of Error"
+  },
+  "popupError1": {
+    "message": "No se pudo encontrar la aplicación",
+    "description": "Error message 1"
+  },
+  "popupError2": {
+    "message": "Abra 'Opciones' para comprobar",
+    "description": "Error message 2"
+  },
+  "popupRemark": {
+    "message": "Nota",
+    "description": "Title of Remark"
+  },
+  "popupRemark1": {
+    "message": "El modo incógnito desactiva <br />funciones de descarga",
+    "description": "Remark message 1"
+  },
+
+
+  "optionsMainTitle": {
+    "message": "Opciones",
+    "description": "Title of Options"
+  },
+  "optionsToolbarMenu": {
+    "message": "Menú de barra de herramientas",
+    "description": "Title of Toolbar Menu"
+  },
+  "optionsShowSimpleMenu": {
+    "message": "Mostrar menú simple (preguntar siempre qué hacer)",
+    "description": "Title of Show simple menu"
+  },
+  "optionsShowFullMenu": {
+    "message": "Mostrar menú completo",
+    "description": "Title of Show full menu"
+  },
+  "optionsShowFullMenuDescription": {
+    "message": "Descarga simple y descarga inmediata para:",
+    "description": "Description of Show full menu"
+  },
+  "optionsChoiceGetLinks": {
+    "message": "Enlaces",
+    "description": "Title of Links"
+  },
+  "optionsChoiceGetContent": {
+    "message": "Contenido",
+    "description": "Title of Content"
+  },
+  "optionsChoiceStartPaused": {
+    "message": "Inicio en pausa",
+    "description": "Title of Start paused"
+  },
+  "optionsAbout": {
+    "message": "Sobre",
+    "description": "Title of About"
+  },
+  "optionsInstall": {
+    "message": "Instalación",
+    "description": "Title of Installation"
+  },
+  "optionsInstallMessage": {
+    "message": "Vaya al siguiente enlace para instalar la aplicación para su sistema operativo.",
+    "description": "Tells the user how to install the application."
+  },
+  "optionsInstallMessageLink": {
+    "message": "Visite el sitio web de ArrowDL",
+    "description": "Link to the application URL."
+  },
+  "optionsRefresh": {
+    "message": "Refrescar información $SYMBOL$",
+    "description": "Title of Refresh information",
+    "placeholders": {
+      "symbol" : {
+        "content" : "$1"
+      }
+    }
+  },
+
+  "optionsStatus": {
+    "message": "Estatus:",
+    "description": "Title of Status"
+  },
+  "optionsOk": {
+    "message": "Aceptar",
+    "description": "Title of Ok"
+  },
+  "optionsDetectedPath": {
+    "message": "Camino detectado:",
+    "description": "Title of Detected path"
+  },
+  "optionsError": {
+    "message": "Error: no puedo encontrar el lanzador",
+    "description": "Title of Error"
+  },
+  "optionsInstructions": {
+    "message": "Sigue las instrucciones de abajo.",
+    "description": "Title of Instructions"
+  }
+}

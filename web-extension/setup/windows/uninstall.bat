@@ -25,6 +25,11 @@ ECHO ---------------------------------
 REG DELETE "HKCU\Software\Google\Chrome\NativeMessagingHosts\com.arrowdl.extension" /f
 
 ECHO.
+ECHO Deleting Edge Registry...
+ECHO ---------------------------------
+REG DELETE "HKCU\Software\Microsoft\Edge\NativeMessagingHosts\com.arrowdl.extension" /f
+
+ECHO.
 ECHO Deleting Firefox Registry...
 ECHO ---------------------------------
 REG DELETE "HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\com.arrowdl.extension" /f

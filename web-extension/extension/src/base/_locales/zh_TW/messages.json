@@ -1,0 +1,187 @@
+{
+  "extensionName": {
+    "message": "ArrowDL - Arrow 下載器",
+    "description": "Name of the extension, displayed in the web store. Should not exceed 45 characters."
+  },
+  "extensionDescription": {
+    "message": "輕易地從任何網站下載圖片、Torrent、影片以及音樂",
+    "description": "Description of the extension, displayed in the web store. Should not exceed 132 characters."
+  },
+
+
+  "contextMenuSavePage": {
+    "message": "儲存頁面",
+    "description": "Title of the context menu for Save page"
+  },
+  "contextMenuSaveFrame": {
+    "message": "儲存影格",
+    "description": "Title of the context menu for Save frame"
+  },
+  "contextMenuSaveSelection": {
+    "message": "儲存選擇",
+    "description": "Title of the context menu for Save selection"
+  },
+  "contextMenuSaveLink": {
+    "message": "儲存連結",
+    "description": "Title of the context menu for Save link"
+  },
+  "contextMenuSaveEditable": {
+    "message": "儲存可編輯",
+    "description": "Title of the context menu for Save editable"
+  },
+  "contextMenuSaveImage": {
+    "message": "儲存圖片",
+    "description": "Title of the context menu for Save image"
+  },
+  "contextMenuSaveVideo": {
+    "message": "儲存影片",
+    "description": "Title of the context menu for Save video"
+  },
+  "contextMenuSaveAudio": {
+    "message": "儲存音訊",
+    "description": "Title of the context menu for Save audio"
+  },
+  "contextMenuSaveLauncher": {
+    "message": "儲存啟動器",
+    "description": "Title of the context menu for Save launcher"
+  },
+
+
+  "popupDownload": {
+    "message": "下載…",
+    "description": "Title of the context menu for Download..."
+  },
+  "popupDownloadLinks": {
+    "message": "下載連結",
+    "description": "Title of the context menu for Download links"
+  },
+  "popupDownloadLinksPaused": {
+    "message": "下載連結（已暫停）",
+    "description": "Title of the context menu for Download links (paused)"
+  },
+  "popupDownloadContent": {
+    "message": "下載內容",
+    "description": "Title of the context menu for Download content"
+  },
+  "popupDownloadContentPaused": {
+    "message": "下載內容（已暫停）",
+    "description": "Title of the context menu for Download content (paused)"
+  },
+  "popupOpen": {
+    "message": "開啟 ArrowDL",
+    "description": "Title of the context menu for Open ArrowDL"
+  },
+  "popupPreferences": {
+    "message": "偏好設定…",
+    "description": "Title of the context menu for Preferences..."
+  },
+  "popupOptions": {
+    "message": "選項…",
+    "description": "Title of the context menu for Options..."
+  },
+  "popupVisitWebsite": {
+    "message": "前往 ArrowDL 網站",
+    "description": "Title of the context menu for Visit ArrowDL website"
+  },
+
+  "popupError": {
+    "message": "錯誤",
+    "description": "Title of Error"
+  },
+  "popupError1": {
+    "message": "找不到到應用程式",
+    "description": "Error message 1"
+  },
+  "popupError2": {
+    "message": "開啟「選項」以檢查",
+    "description": "Error message 2"
+  },
+  "popupRemark": {
+    "message": "註釋",
+    "description": "Title of Remark"
+  },
+  "popupRemark1": {
+    "message": "隱身模式禁用<br />下載功能",
+    "description": "Remark message 1"
+  },
+
+
+  "optionsMainTitle": {
+    "message": "選項",
+    "description": "Title of Options"
+  },
+  "optionsToolbarMenu": {
+    "message": "工具列選單",
+    "description": "Title of Toolbar Menu"
+  },
+  "optionsShowSimpleMenu": {
+    "message": "顯示簡易選單（總是詢問做什麼）",
+    "description": "Title of Show simple menu"
+  },
+  "optionsShowFullMenu": {
+    "message": "顯示完整選單",
+    "description": "Title of Show full menu"
+  },
+  "optionsShowFullMenuDescription": {
+    "message": "簡易下載，並立即下載：",
+    "description": "Description of Show full menu"
+  },
+  "optionsChoiceGetLinks": {
+    "message": "連結",
+    "description": "Title of Links"
+  },
+  "optionsChoiceGetContent": {
+    "message": "內容",
+    "description": "Title of Content"
+  },
+  "optionsChoiceStartPaused": {
+    "message": "開始已暫停",
+    "description": "Title of Start paused"
+  },
+  "optionsAbout": {
+    "message": "關於",
+    "description": "Title of About"
+  },
+  "optionsInstall": {
+    "message": "安裝",
+    "description": "Title of Installation"
+  },
+  "optionsInstallMessage": {
+    "message": "前往以下連結以為您的作業系統安裝應用程式。",
+    "description": "Tells the user how to install the application."
+  },
+  "optionsInstallMessageLink": {
+    "message": "前往 ArrowDL 網站",
+    "description": "Link to the application URL."
+  },
+  "optionsRefresh": {
+    "message": "重新整理資訊 $SYMBOL$",
+    "description": "Title of Refresh information",
+    "placeholders": {
+      "symbol" : {
+        "content" : "$1"
+      }
+    }
+  },
+
+  "optionsStatus": {
+    "message": "狀態：",
+    "description": "Title of Status"
+  },
+  "optionsOk": {
+    "message": "確認",
+    "description": "Title of Ok"
+  },
+  "optionsDetectedPath": {
+    "message": "檢測到的路徑：",
+    "description": "Title of Detected path"
+  },
+  "optionsError": {
+    "message": "錯誤：找不到啟動器",
+    "description": "Title of Error"
+  },
+  "optionsInstructions": {
+    "message": "請遵從以下說明。",
+    "description": "Title of Instructions"
+  }
+}

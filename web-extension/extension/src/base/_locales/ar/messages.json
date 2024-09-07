@@ -1,24 +1,24 @@
 {
   "extensionName": {
-    "message": "ArrowDL",
+    "message": "ArrowDL - Arrow Downloader",
     "description": "Name of the extension, displayed in the web store. Should not exceed 45 characters."
   },
   "extensionDescription": {
-    "message": "The Right Download Manager for your browser",
+    "message": "الطريقة السهلة لتنزيل الصور والسيول ومقاطع الفيديو والموسيقى من أي موقع ويب",
     "description": "Description of the extension, displayed in the web store. Should not exceed 132 characters."
   },
 
 
   "contextMenuSavePage": {
-    "message": "Save page",
+    "message": "احفظ الصفحة",
     "description": "Title of the context menu for Save page"
   },
   "contextMenuSaveFrame": {
-    "message": "Save frame",
+    "message": "حفظ الإطار",
     "description": "Title of the context menu for Save frame"
   },
   "contextMenuSaveSelection": {
-    "message": "Save selection",
+    "message": "اختيار حفظ",
     "description": "Title of the context menu for Save selection"
   },
   "contextMenuSaveLink": {
@@ -48,15 +48,15 @@
 
 
   "popupDownload": {
-    "message": "Download...",
+    "message": "تحميل...",
     "description": "Title of the context menu for Download..."
   },
   "popupDownloadLinks": {
-    "message": "Download links",
+    "message": "روابط التحميل",
     "description": "Title of the context menu for Download links"
   },
   "popupDownloadLinksPaused": {
-    "message": "Download links (paused)",
+    "message": "روابط التحميل (متوقفة مؤقتا)",
     "description": "Title of the context menu for Download links (paused)"
   },
   "popupDownloadContent": {
@@ -68,19 +68,19 @@
     "description": "Title of the context menu for Download content (paused)"
   },
   "popupOpen": {
-    "message": "Open ArrowDL",
+    "message": "افتح ArrowDL",
     "description": "Title of the context menu for Open ArrowDL"
   },
   "popupPreferences": {
-    "message": "Preferences...",
+    "message": "التفضيلات...",
     "description": "Title of the context menu for Preferences..."
   },
   "popupOptions": {
-    "message": "Options...",
+    "message": "خيارات...",
     "description": "Title of the context menu for Options..."
   },
   "popupVisitWebsite": {
-    "message": "Visit ArrowDL website",
+    "message": "قم بزيارة موقع ArrowDL",
     "description": "Title of the context menu for Visit ArrowDL website"
   },
 
@@ -89,11 +89,11 @@
     "description": "Title of Error"
   },
   "popupError1": {
-    "message": "Can't find the application",
+    "message": "لا يمكن العثور على التطبيق",
     "description": "Error message 1"
   },
   "popupError2": {
-    "message": "Open 'Options' to check",
+    "message": "افتح \"الخيارات\" للتحقق",
     "description": "Error message 2"
   },
   "popupRemark": {
@@ -115,11 +115,11 @@
     "description": "Title of Toolbar Menu"
   },
   "optionsShowSimpleMenu": {
-    "message": "Show simple menu (always ask what to do)",
+    "message": "عرض قائمة بسيطة (اسأل دائمًا عما يجب فعله)",
     "description": "Title of Show simple menu"
   },
   "optionsShowFullMenu": {
-    "message": "Show full menu",
+    "message": "عرض القائمة الكاملة",
     "description": "Title of Show full menu"
   },
   "optionsShowFullMenuDescription": {
@@ -139,7 +139,7 @@
     "description": "Title of Start paused"
   },
   "optionsAbout": {
-    "message": "About",
+    "message": "عن",
     "description": "Title of About"
   },
   "optionsInstall": {
@@ -147,11 +147,11 @@
     "description": "Title of Installation"
   },
   "optionsInstallMessage": {
-    "message": "Go to link below to install the application for your operating system.",
+    "message": "انتقل إلى الرابط أدناه لتثبيت التطبيق لنظام التشغيل الخاص بك.",
     "description": "Tells the user how to install the application."
   },
   "optionsInstallMessageLink": {
-    "message": "Visit ArrowDL website",
+    "message": "قم بزيارة موقع ArrowDL",
     "description": "Link to the application URL."
   },
   "optionsRefresh": {
@@ -169,19 +169,19 @@
     "description": "Title of Status"
   },
   "optionsOk": {
-    "message": "Ok",
+    "message": "نعم",
     "description": "Title of Ok"
   },
   "optionsDetectedPath": {
-    "message": "Detected path:",
+    "message": "المسار المكتشف:",
     "description": "Title of Detected path"
   },
   "optionsError": {
-    "message": "Error: Can't find the launcher",
+    "message": "خطأ: لا يمكن العثور على المشغل",
     "description": "Title of Error"
   },
   "optionsInstructions": {
-    "message": "Follow the instructions below.",
+    "message": "اتبع التعليمات التالية.",
     "description": "Title of Instructions"
   }
 }
