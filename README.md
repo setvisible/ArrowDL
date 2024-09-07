@@ -75,7 +75,7 @@ choco install arrowdl
 
 ## Usage
 
-Go to [Tutorial](https://www.arrow-dl.com/ArrowDL/category/tutorial.html) page.
+Go to [Tutorial](https://www.arrow-dl.com/tutorial) page.
 
 ## Under the hood
 
