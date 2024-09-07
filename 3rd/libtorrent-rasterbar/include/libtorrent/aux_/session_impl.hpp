@@ -6,6 +6,7 @@ Copyright (c) 2015-2020, Alden Torres
 Copyright (c) 2015, Thomas
 Copyright (c) 2016-2017, Pavel Pimenov
 Copyright (c) 2020, Paul-Louis Ageneau
+Copyright (c) 2023, Joris Carrier
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -246,7 +247,7 @@ namespace aux {
 		}
 
 		// 0 is natpmp 1 is upnp
-		// the order of these arrays determines the priorty in
+		// the order of these arrays determines the priority in
 		// which their ports will be announced to peers
 		aux::array<listen_port_mapping, 2, portmap_transport> tcp_port_mapping;
 		aux::array<listen_port_mapping, 2, portmap_transport> udp_port_mapping;
@@ -349,7 +350,8 @@ namespace aux {
 				plugins_all_idx = 0, // to store all plugins
 				plugins_optimistic_unchoke_idx = 1, // optimistic_unchoke_feature
 				plugins_tick_idx = 2, // tick_feature
-				plugins_dht_request_idx = 3 // dht_request_feature
+				plugins_dht_request_idx = 3, // dht_request_feature
+				plugins_unknown_torrent_idx = 4 // unknown_torrent_feature
 			};
 
 			template <typename Fun, typename... Args>
@@ -1330,7 +1332,7 @@ namespace aux {
 
 #ifndef TORRENT_DISABLE_EXTENSIONS
 			// this is a list to allow extensions to potentially remove themselves.
-			std::array<std::vector<std::shared_ptr<plugin>>, 4> m_ses_extensions;
+			std::array<std::vector<std::shared_ptr<plugin>>, 5> m_ses_extensions;
 #endif
 
 #if TORRENT_ABI_VERSION == 1

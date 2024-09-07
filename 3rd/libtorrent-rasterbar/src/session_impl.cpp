@@ -17,6 +17,7 @@ Copyright (c) 2020, Fonic
 Copyright (c) 2020, Paul-Louis Ageneau
 Copyright (c) 2022, Vladimir Golovnev (glassez)
 Copyright (c) 2022, thrnz
+Copyright (c) 2023, Joris Carrier
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -992,6 +993,8 @@ bool ssl_server_name_callback(ssl::stream_handle_type stream_handle, std::string
 			m_ses_extensions[plugins_tick_idx].push_back(ext);
 		if (features & plugin::dht_request_feature)
 			m_ses_extensions[plugins_dht_request_idx].push_back(ext);
+		if (features & plugin::unknown_torrent_feature)
+			m_ses_extensions[plugins_unknown_torrent_idx].push_back(ext);
 		if (features & plugin::alert_feature)
 			m_alerts.add_extension(ext);
 		session_handle h(shared_from_this());
@@ -2613,7 +2616,7 @@ namespace {
 				span<char const> const buf = packet.data;
 				if (!packet.hostname.empty())
 				{
-					// only the tracker manager supports receiveing UDP packets
+					// only the tracker manager supports receiving UDP packets
 					// from hostnames. If it won't handle it, no one else will
 					// either
 					m_tracker_manager.incoming_packet(packet.hostname, buf);
@@ -3084,9 +3087,15 @@ namespace {
 			return;
 		}
 
+		bool want_on_unknown_torrent = false;
+#ifndef TORRENT_DISABLE_EXTENSIONS
+		want_on_unknown_torrent = !m_ses_extensions[plugins_unknown_torrent_idx].empty();
+#endif
+
 		// check if we have any active torrents
+		// or if there is an extension that wants on_unknown_torrent
 		// if we don't reject the connection
-		if (m_torrents.empty())
+		if (m_torrents.empty() && !want_on_unknown_torrent)
 		{
 #ifndef TORRENT_DISABLE_LOGGING
 			session_log("<== INCOMING CONNECTION [ rejected, there are no torrents ]");
@@ -3138,9 +3147,10 @@ namespace {
 		// if we don't have any active torrents, there's no
 		// point in accepting this connection. If, however,
 		// the setting to start up queued torrents when they
-		// get an incoming connection is enabled, we cannot
+		// get an incoming connection is enabled or if there is
+		// an extension that wants on_unknown_torrent, we cannot
 		// perform this check.
-		if (!m_settings.get_bool(settings_pack::incoming_starts_queued_torrents))
+		if (!m_settings.get_bool(settings_pack::incoming_starts_queued_torrents) && !want_on_unknown_torrent)
 		{
 			bool has_active_torrent = std::any_of(m_torrents.begin(), m_torrents.end()
 				, [](std::shared_ptr<torrent> const& i)
@@ -3736,7 +3746,7 @@ namespace {
 					// has reached its local limit
 					for (auto const& t : m_torrents)
 					{
-						// ths disconnect logic is disabled for torrents with
+						// this disconnect logic is disabled for torrents with
 						// too low connection limit
 						int const max = std::min(t->max_connections()
 							, std::numeric_limits<int>::max() / 100);
@@ -5697,8 +5707,11 @@ namespace {
 			listen_socket->external_address.cast_vote(external_ip, source_router, address());
 		}
 
-		if (proto == portmap_protocol::tcp) listen_socket->tcp_port_mapping[transport].port = port;
-		else if (proto == portmap_protocol::udp) listen_socket->udp_port_mapping[transport].port = port;
+		// need to check whether this mapping is for one of session ports (it could also be a user mapping)
+		if ((proto == portmap_protocol::tcp) && (listen_socket->tcp_port_mapping[transport].mapping == mapping))
+			listen_socket->tcp_port_mapping[transport].port = port;
+		else if ((proto == portmap_protocol::udp) && (listen_socket->udp_port_mapping[transport].mapping == mapping))
+			listen_socket->udp_port_mapping[transport].port = port;
 
 		if (!ec && m_alerts.should_post<portmap_alert>())
 		{
@@ -6597,7 +6610,7 @@ namespace {
 		}
 
 		ADD_OUTSTANDING_ASYNC("session_impl::on_dht_announce");
-		int delay = std::max(m_settings.get_int(settings_pack::dht_announce_interval)
+		int delay = std::max(1000 * m_settings.get_int(settings_pack::dht_announce_interval)
 			/ std::max(int(m_torrents.size()), 1), 1);
 
 		if (!m_dht_torrents.empty())
@@ -6605,10 +6618,10 @@ namespace {
 			// we have prioritized torrents that need
 			// an initial DHT announce. Don't wait too long
 			// until we announce those.
-			delay = std::min(4, delay);
+			delay = std::min(4000, delay);
 		}
 
-		m_dht_announce_timer.expires_after(seconds(delay));
+		m_dht_announce_timer.expires_after(milliseconds(delay));
 		m_dht_announce_timer.async_wait([this](error_code const& e) {
 			wrap(&session_impl::on_dht_announce, e); });
 #endif

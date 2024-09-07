@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.9</td></tr>
+<td>2.0.10</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
@@ -41,7 +41,7 @@
 <li><a class="reference internal" href="#disk-interface" id="toc-entry-5">disk_interface</a><ul>
 <li><a class="reference internal" href="#new-torrent" id="toc-entry-6">new_torrent()</a></li>
 <li><a class="reference internal" href="#remove-torrent" id="toc-entry-7">remove_torrent()</a></li>
-<li><a class="reference internal" href="#async-read-async-write" id="toc-entry-8">async_read() async_write()</a></li>
+<li><a class="reference internal" href="#async-write-async-read" id="toc-entry-8">async_write() async_read()</a></li>
 <li><a class="reference internal" href="#async-hash" id="toc-entry-9">async_hash()</a></li>
 <li><a class="reference internal" href="#async-hash2" id="toc-entry-10">async_hash2()</a></li>
 <li><a class="reference internal" href="#async-move-storage" id="toc-entry-11">async_move_storage()</a></li>
@@ -352,13 +352,13 @@ settings.</p>
 <pre class="literal-block">
 struct settings_interface
 {
-   virtual void <strong>set_str</strong> (int name, std::string val) = 0;
-   virtual void <strong>set_bool</strong> (int name, bool val) = 0;
-   virtual void <strong>set_int</strong> (int name, int val) = 0;
    virtual bool <strong>has_val</strong> (int name) const = 0;
-   virtual int <strong>get_int</strong> (int name) const = 0;
+   virtual void <strong>set_str</strong> (int name, std::string val) = 0;
+   virtual void <strong>set_int</strong> (int name, int val) = 0;
+   virtual void <strong>set_bool</strong> (int name, bool val) = 0;
    virtual bool <strong>get_bool</strong> (int name) const = 0;
    virtual std::string const&amp; <strong>get_str</strong> (int name) const = 0;
+   virtual int <strong>get_int</strong> (int name) const = 0;
 };
 </pre>
 <a name="disk_observer"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+disk_observer&labels=documentation&body=Documentation+under+heading+%22class+disk_observer%22+could+be+improved">report issue</a>]</span></div>
@@ -432,12 +432,12 @@ struct disk_interface
    virtual storage_holder <strong>new_torrent</strong> (storage_params const&amp; p
       , std::shared_ptr&lt;void&gt; const&amp; torrent) = 0;
    virtual void <strong>remove_torrent</strong> (storage_index_t) = 0;
-   virtual void <strong>async_read</strong> (storage_index_t storage, peer_request const&amp; r
-      , std::function&lt;void(disk_buffer_holder, storage_error const&amp;)&gt; handler
-      , disk_job_flags_t flags = {}) = 0;
    virtual bool <strong>async_write</strong> (storage_index_t storage, peer_request const&amp; r
       , char const* buf, std::shared_ptr&lt;disk_observer&gt; o
       , std::function&lt;void(storage_error const&amp;)&gt; handler
+      , disk_job_flags_t flags = {}) = 0;
+   virtual void <strong>async_read</strong> (storage_index_t storage, peer_request const&amp; r
+      , std::function&lt;void(disk_buffer_holder, storage_error const&amp;)&gt; handler
       , disk_job_flags_t flags = {}) = 0;
    virtual void <strong>async_hash</strong> (storage_index_t storage, piece_index_t piece, span&lt;sha256_hash&gt; v2
       , disk_job_flags_t flags
@@ -498,17 +498,17 @@ virtual void <strong>remove_torrent</strong> (storage_index_t) = 0;
 <p>remove the storage with the specified index. This is not expected to
 delete any files from disk, just to clean up any resources associated
 with the specified storage.</p>
-<a name="async_read()"></a>
-<a name="async_write()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Basync_read%28%29+async_write%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Basync_read%28%29+async_write%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="async-read-async-write">
-<h2>async_read() async_write()</h2>
+<a name="async_write()"></a>
+<a name="async_read()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_interface%3A%3A%5Basync_write%28%29+async_read%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_interface%3A%3A%5Basync_write%28%29+async_read%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="async-write-async-read">
+<h2>async_write() async_read()</h2>
 <pre class="literal-block">
-virtual void <strong>async_read</strong> (storage_index_t storage, peer_request const&amp; r
-      , std::function&lt;void(disk_buffer_holder, storage_error const&amp;)&gt; handler
-      , disk_job_flags_t flags = {}) = 0;
 virtual bool <strong>async_write</strong> (storage_index_t storage, peer_request const&amp; r
       , char const* buf, std::shared_ptr&lt;disk_observer&gt; o
       , std::function&lt;void(storage_error const&amp;)&gt; handler
+      , disk_job_flags_t flags = {}) = 0;
+virtual void <strong>async_read</strong> (storage_index_t storage, peer_request const&amp; r
+      , std::function&lt;void(disk_buffer_holder, storage_error const&amp;)&gt; handler
       , disk_job_flags_t flags = {}) = 0;
 </pre>
 <p>perform a read or write operation from/to the specified storage
@@ -768,9 +768,9 @@ inform the disk object.</p>
 <pre class="literal-block">
 struct storage_holder
 {
+   <strong>storage_holder</strong> () = default;
    <strong>storage_holder</strong> (storage_index_t idx, disk_interface&amp; disk_io);
    <strong>~storage_holder</strong> ();
-   <strong>storage_holder</strong> () = default;
    explicit operator <strong>bool</strong> () const;
    operator <strong>storage_index_t</strong> () const;
    void <strong>reset</strong> ();
@@ -806,8 +806,8 @@ struct disk_buffer_holder
 {
    <strong>disk_buffer_holder</strong> (disk_buffer_holder&amp;&amp;) noexcept;
    disk_buffer_holder&amp; <strong>operator=</strong> (disk_buffer_holder&amp;&amp;) &amp; noexcept;
-   <strong>disk_buffer_holder</strong> (disk_buffer_holder const&amp;) = delete;
    disk_buffer_holder&amp; <strong>operator=</strong> (disk_buffer_holder const&amp;) = delete;
+   <strong>disk_buffer_holder</strong> (disk_buffer_holder const&amp;) = delete;
    <strong>disk_buffer_holder</strong> (buffer_allocator_interface&amp; alloc
       , char* buf, int sz) noexcept;
    <strong>disk_buffer_holder</strong> () noexcept = default;

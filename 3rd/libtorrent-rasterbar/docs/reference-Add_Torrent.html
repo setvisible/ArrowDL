@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.9</td></tr>
+<td>2.0.10</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
@@ -34,7 +34,7 @@
 <ul class="simple">
 <li><a class="reference internal" href="#client-data-t" id="toc-entry-1">client_data_t</a><ul>
 <li><a class="reference internal" href="#client-data-t-1" id="toc-entry-2">client_data_t()</a></li>
-<li><a class="reference internal" href="#operator-void-const" id="toc-entry-3">operator=() void*() const*()</a></li>
+<li><a class="reference internal" href="#operator-const-void" id="toc-entry-3">operator=() const*() void*()</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#add-torrent-params" id="toc-entry-4">add_torrent_params</a></li>
@@ -54,10 +54,10 @@ struct client_data_t
    client_data_t&amp; <strong>operator=</strong> (T* v);
    T* <strong>get</strong> () const;
    explicit operator <strong>T</strong> () const;
+   client_data_t&amp; <strong>operator=</strong> (void*) = delete;
+   operator void <strong>const*</strong> () const = delete;
    operator <strong>void*</strong> () const = delete;
    client_data_t&amp; <strong>operator=</strong> (void const*) = delete;
-   operator void <strong>const*</strong> () const = delete;
-   client_data_t&amp; <strong>operator=</strong> (void*) = delete;
 
    template &lt;typename T, typename <strong>U</strong>  = typename std::enable_if&lt;std::is_pointer&lt;T&gt;::value&gt;::type&gt;
 };
@@ -69,15 +69,15 @@ struct client_data_t
 </pre>
 <p>construct a nullptr client data</p>
 <a name="operator=()"></a>
-<a name="void*()"></a>
-<a name="const*()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:client_data_t%3A%3A%5Boperator%3D%28%29+void%2A%28%29+const%2A%28%29%5D&labels=documentation&body=Documentation+under+heading+%22client_data_t%3A%3A%5Boperator%3D%28%29+void%2A%28%29+const%2A%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="operator-void-const">
-<h2>operator=() void*() const*()</h2>
+<a name="const*()"></a>
+<a name="void*()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:client_data_t%3A%3A%5Boperator%3D%28%29+const%2A%28%29+void%2A%28%29%5D&labels=documentation&body=Documentation+under+heading+%22client_data_t%3A%3A%5Boperator%3D%28%29+const%2A%28%29+void%2A%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="operator-const-void">
+<h2>operator=() const*() void*()</h2>
 <pre class="literal-block">
+client_data_t&amp; <strong>operator=</strong> (void*) = delete;
+operator void <strong>const*</strong> () const = delete;
 operator <strong>void*</strong> () const = delete;
 client_data_t&amp; <strong>operator=</strong> (void const*) = delete;
-operator void <strong>const*</strong> () const = delete;
-client_data_t&amp; <strong>operator=</strong> (void*) = delete;
 </pre>
 <p>we don't allow type-unsafe operations</p>
 <a name="add_torrent_params"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+add_torrent_params&labels=documentation&body=Documentation+under+heading+%22class+add_torrent_params%22+could+be+improved">report issue</a>]</span></div>

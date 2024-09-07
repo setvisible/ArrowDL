@@ -1,4 +1,4 @@
-VERSION=2.0.9
+VERSION=2.0.10
 
 BUILD_CONFIG=release link=shared crypto=openssl warnings=off address-model=64
 
@@ -1012,6 +1012,7 @@ TEST_TORRENTS = \
   invalid_pieces.torrent \
   invalid_symlink.torrent \
   large.torrent \
+  large_piece_size.torrent \
   long_name.torrent \
   many_pieces.torrent \
   missing_path_list.torrent \
@@ -1049,6 +1050,7 @@ TEST_TORRENTS = \
   url_seed_multi_space_nolist.torrent \
   whitespace_url.torrent \
   v2.torrent \
+  v2_empty_file.torrent \
   v2_multipiece_file.torrent \
   v2_only.torrent \
   v2_invalid_filename.torrent \
@@ -1101,7 +1103,6 @@ TEST_EXTRA = Jamfile \
   root2.xml                          \
   root3.xml                          \
   ssl/regenerate_test_certificate.sh \
-  ssl/cert_request.pem               \
   ssl/dhparams.pem                   \
   ssl/invalid_peer_certificate.pem   \
   ssl/invalid_peer_private_key.pem   \

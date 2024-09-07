@@ -145,6 +145,10 @@ namespace {
 					ret.ti->internal_set_comment(rd.dict_find_string_value("comment", ""));
 				}
 			}
+			else
+			{
+				ec = errors::mismatching_info_hash;
+			}
 		}
 
 #if TORRENT_ABI_VERSION < 3

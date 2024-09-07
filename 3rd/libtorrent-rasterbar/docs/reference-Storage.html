@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.9</td></tr>
+<td>2.0.10</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
@@ -45,11 +45,11 @@
 <li><a class="reference internal" href="#end-file" id="toc-entry-11">end_file()</a></li>
 <li><a class="reference internal" href="#file-range" id="toc-entry-12">file_range()</a></li>
 <li><a class="reference internal" href="#total-size" id="toc-entry-13">total_size()</a></li>
-<li><a class="reference internal" href="#num-pieces-set-num-pieces" id="toc-entry-14">num_pieces() set_num_pieces()</a></li>
+<li><a class="reference internal" href="#set-num-pieces-num-pieces" id="toc-entry-14">set_num_pieces() num_pieces()</a></li>
 <li><a class="reference internal" href="#end-piece" id="toc-entry-15">end_piece()</a></li>
 <li><a class="reference internal" href="#last-piece" id="toc-entry-16">last_piece()</a></li>
 <li><a class="reference internal" href="#piece-range" id="toc-entry-17">piece_range()</a></li>
-<li><a class="reference internal" href="#set-piece-length-piece-length" id="toc-entry-18">set_piece_length() piece_length()</a></li>
+<li><a class="reference internal" href="#piece-length-set-piece-length" id="toc-entry-18">piece_length() set_piece_length()</a></li>
 <li><a class="reference internal" href="#piece-size" id="toc-entry-19">piece_size()</a></li>
 <li><a class="reference internal" href="#piece-size2" id="toc-entry-20">piece_size2()</a></li>
 <li><a class="reference internal" href="#blocks-in-piece2" id="toc-entry-21">blocks_in_piece2()</a></li>
@@ -57,8 +57,8 @@
 <li><a class="reference internal" href="#name-set-name" id="toc-entry-23">name() set_name()</a></li>
 <li><a class="reference internal" href="#swap" id="toc-entry-24">swap()</a></li>
 <li><a class="reference internal" href="#canonicalize" id="toc-entry-25">canonicalize()</a></li>
-<li><a class="reference internal" href="#file-name-pad-file-at-hash-file-path-file-size-root-symlink-mtime-root-ptr-file-offset" id="toc-entry-26">file_name() pad_file_at() hash() file_path() file_size() root() symlink() mtime() root_ptr() file_offset()</a></li>
-<li><a class="reference internal" href="#file-num-blocks-file-num-pieces-file-piece-range" id="toc-entry-27">file_num_blocks() file_num_pieces() file_piece_range()</a></li>
+<li><a class="reference internal" href="#symlink-pad-file-at-file-offset-mtime-file-size-root-ptr-root-file-path-hash-file-name" id="toc-entry-26">symlink() pad_file_at() file_offset() mtime() file_size() root_ptr() root() file_path() hash() file_name()</a></li>
+<li><a class="reference internal" href="#file-num-pieces-file-num-blocks-file-piece-range" id="toc-entry-27">file_num_pieces() file_num_blocks() file_piece_range()</a></li>
 <li><a class="reference internal" href="#file-first-piece-node-file-first-block-node" id="toc-entry-28">file_first_piece_node() file_first_block_node()</a></li>
 <li><a class="reference internal" href="#file-path-hash" id="toc-entry-29">file_path_hash()</a></li>
 <li><a class="reference internal" href="#all-path-hashes" id="toc-entry-30">all_path_hashes()</a></li>
@@ -152,14 +152,14 @@ class file_storage
       , file_flags_t file_flags = {}, char const* filehash = nullptr
       , std::int64_t mtime = 0, string_view symlink_path = string_view()
       , char const* root_hash = nullptr);
-   void <strong>add_file</strong> (std::string const&amp; path, std::int64_t file_size
-      , file_flags_t file_flags = {}
-      , std::time_t mtime = 0, string_view symlink_path = string_view()
-      , char const* root_hash = nullptr);
    void <strong>add_file_borrow</strong> (string_view filename
       , std::string const&amp; path, std::int64_t file_size
       , file_flags_t file_flags = {}, char const* filehash = nullptr
       , std::int64_t mtime = 0, string_view symlink_path = string_view()
+      , char const* root_hash = nullptr);
+   void <strong>add_file</strong> (std::string const&amp; path, std::int64_t file_size
+      , file_flags_t file_flags = {}
+      , std::time_t mtime = 0, string_view symlink_path = string_view()
       , char const* root_hash = nullptr);
    void <strong>rename_file</strong> (file_index_t index, std::string const&amp; new_filename);
    std::vector&lt;file_slice&gt; <strong>map_block</strong> (piece_index_t piece, std::int64_t offset
@@ -184,21 +184,21 @@ class file_storage
    void <strong>set_name</strong> (std::string const&amp; n);
    void <strong>swap</strong> (file_storage&amp; ti) noexcept;
    void <strong>canonicalize</strong> ();
-   char const* <strong>root_ptr</strong> (file_index_t const index) const;
-   string_view <strong>file_name</strong> (file_index_t index) const;
-   std::string <strong>symlink</strong> (file_index_t index) const;
-   std::int64_t <strong>file_size</strong> (file_index_t index) const;
-   sha1_hash <strong>hash</strong> (file_index_t index) const;
-   sha256_hash <strong>root</strong> (file_index_t index) const;
    std::int64_t <strong>file_offset</strong> (file_index_t index) const;
-   std::string <strong>file_path</strong> (file_index_t index, std::string const&amp; save_path = &quot;&quot;) const;
-   std::time_t <strong>mtime</strong> (file_index_t index) const;
+   string_view <strong>file_name</strong> (file_index_t index) const;
+   sha256_hash <strong>root</strong> (file_index_t index) const;
+   std::string <strong>symlink</strong> (file_index_t index) const;
+   sha1_hash <strong>hash</strong> (file_index_t index) const;
+   char const* <strong>root_ptr</strong> (file_index_t const index) const;
    bool <strong>pad_file_at</strong> (file_index_t index) const;
-   int <strong>file_num_blocks</strong> (file_index_t index) const;
+   std::time_t <strong>mtime</strong> (file_index_t index) const;
+   std::string <strong>file_path</strong> (file_index_t index, std::string const&amp; save_path = &quot;&quot;) const;
+   std::int64_t <strong>file_size</strong> (file_index_t index) const;
    int <strong>file_num_pieces</strong> (file_index_t index) const;
+   int <strong>file_num_blocks</strong> (file_index_t index) const;
    index_range&lt;piece_index_t::diff_type&gt; <strong>file_piece_range</strong> (file_index_t) const;
-   int <strong>file_first_piece_node</strong> (file_index_t index) const;
    int <strong>file_first_block_node</strong> (file_index_t index) const;
+   int <strong>file_first_piece_node</strong> (file_index_t index) const;
    std::uint32_t <strong>file_path_hash</strong> (file_index_t index, std::string const&amp; save_path) const;
    void <strong>all_path_hashes</strong> (std::unordered_set&lt;std::uint32_t&gt;&amp; table) const;
    file_flags_t <strong>file_flags</strong> (file_index_t index) const;
@@ -248,14 +248,14 @@ void <strong>add_file_borrow</strong> (error_code&amp; ec, string_view filename
       , file_flags_t file_flags = {}, char const* filehash = nullptr
       , std::int64_t mtime = 0, string_view symlink_path = string_view()
       , char const* root_hash = nullptr);
-void <strong>add_file</strong> (std::string const&amp; path, std::int64_t file_size
-      , file_flags_t file_flags = {}
-      , std::time_t mtime = 0, string_view symlink_path = string_view()
-      , char const* root_hash = nullptr);
 void <strong>add_file_borrow</strong> (string_view filename
       , std::string const&amp; path, std::int64_t file_size
       , file_flags_t file_flags = {}, char const* filehash = nullptr
       , std::int64_t mtime = 0, string_view symlink_path = string_view()
+      , char const* root_hash = nullptr);
+void <strong>add_file</strong> (std::string const&amp; path, std::int64_t file_size
+      , file_flags_t file_flags = {}
+      , std::time_t mtime = 0, string_view symlink_path = string_view()
       , char const* root_hash = nullptr);
 </pre>
 <p>Adds a file to the file storage. The <tt class="docutils literal">add_file_borrow</tt> version
@@ -362,10 +362,10 @@ files in the <a class="reference external" href="reference-Storage.html#file_sto
 std::int64_t <strong>total_size</strong> () const;
 </pre>
 <p>returns the total number of bytes all the files in this torrent spans</p>
-<a name="num_pieces()"></a>
-<a name="set_num_pieces()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bnum_pieces%28%29+set_num_pieces%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bnum_pieces%28%29+set_num_pieces%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="num-pieces-set-num-pieces">
-<h2>num_pieces() set_num_pieces()</h2>
+<a name="set_num_pieces()"></a>
+<a name="num_pieces()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bset_num_pieces%28%29+num_pieces%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bset_num_pieces%28%29+num_pieces%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="set-num-pieces-num-pieces">
+<h2>set_num_pieces() num_pieces()</h2>
 <pre class="literal-block">
 int <strong>num_pieces</strong> () const;
 void <strong>set_num_pieces</strong> (int n);
@@ -396,10 +396,10 @@ index_range&lt;piece_index_t&gt; <strong>piece_range</strong> () const noexcept;
 <p>returns an implementation-defined type that can be used as the
 container in a range-for loop. Where the values are the indices of all
 pieces in the <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a>.</p>
-<a name="set_piece_length()"></a>
-<a name="piece_length()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bset_piece_length%28%29+piece_length%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bset_piece_length%28%29+piece_length%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="set-piece-length-piece-length">
-<h2>set_piece_length() piece_length()</h2>
+<a name="piece_length()"></a>
+<a name="set_piece_length()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bpiece_length%28%29+set_piece_length%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bpiece_length%28%29+set_piece_length%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="piece-length-set-piece-length">
+<h2>piece_length() set_piece_length()</h2>
 <pre class="literal-block">
 int <strong>piece_length</strong> () const;
 void <strong>set_piece_length</strong> (int l);
@@ -464,29 +464,29 @@ void <strong>canonicalize</strong> ();
 </pre>
 <p>arrange files and padding to match the canonical form required
 by BEP 52</p>
-<a name="file_name()"></a>
-<a name="pad_file_at()"></a>
-<a name="hash()"></a>
-<a name="file_path()"></a>
-<a name="file_size()"></a>
-<a name="root()"></a>
 <a name="symlink()"></a>
+<a name="pad_file_at()"></a>
+<a name="file_offset()"></a>
 <a name="mtime()"></a>
+<a name="file_size()"></a>
 <a name="root_ptr()"></a>
-<a name="file_offset()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bfile_name%28%29+pad_file_at%28%29+hash%28%29+file_path%28%29+file_size%28%29+root%28%29+symlink%28%29+mtime%28%29+root_ptr%28%29+file_offset%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bfile_name%28%29+pad_file_at%28%29+hash%28%29+file_path%28%29+file_size%28%29+root%28%29+symlink%28%29+mtime%28%29+root_ptr%28%29+file_offset%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="file-name-pad-file-at-hash-file-path-file-size-root-symlink-mtime-root-ptr-file-offset">
-<h2>file_name() pad_file_at() hash() file_path() file_size() root() symlink() mtime() root_ptr() file_offset()</h2>
+<a name="root()"></a>
+<a name="file_path()"></a>
+<a name="hash()"></a>
+<a name="file_name()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bsymlink%28%29+pad_file_at%28%29+file_offset%28%29+mtime%28%29+file_size%28%29+root_ptr%28%29+root%28%29+file_path%28%29+hash%28%29+file_name%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bsymlink%28%29+pad_file_at%28%29+file_offset%28%29+mtime%28%29+file_size%28%29+root_ptr%28%29+root%28%29+file_path%28%29+hash%28%29+file_name%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="symlink-pad-file-at-file-offset-mtime-file-size-root-ptr-root-file-path-hash-file-name">
+<h2>symlink() pad_file_at() file_offset() mtime() file_size() root_ptr() root() file_path() hash() file_name()</h2>
 <pre class="literal-block">
-char const* <strong>root_ptr</strong> (file_index_t const index) const;
-string_view <strong>file_name</strong> (file_index_t index) const;
-std::string <strong>symlink</strong> (file_index_t index) const;
-std::int64_t <strong>file_size</strong> (file_index_t index) const;
-sha1_hash <strong>hash</strong> (file_index_t index) const;
-sha256_hash <strong>root</strong> (file_index_t index) const;
 std::int64_t <strong>file_offset</strong> (file_index_t index) const;
-std::string <strong>file_path</strong> (file_index_t index, std::string const&amp; save_path = &quot;&quot;) const;
-std::time_t <strong>mtime</strong> (file_index_t index) const;
+string_view <strong>file_name</strong> (file_index_t index) const;
+sha256_hash <strong>root</strong> (file_index_t index) const;
+std::string <strong>symlink</strong> (file_index_t index) const;
+sha1_hash <strong>hash</strong> (file_index_t index) const;
+char const* <strong>root_ptr</strong> (file_index_t const index) const;
 bool <strong>pad_file_at</strong> (file_index_t index) const;
+std::time_t <strong>mtime</strong> (file_index_t index) const;
+std::string <strong>file_path</strong> (file_index_t index, std::string const&amp; save_path = &quot;&quot;) const;
+std::int64_t <strong>file_size</strong> (file_index_t index) const;
 </pre>
 <p>These functions are used to query attributes of files at
 a given index.</p>
@@ -512,14 +512,14 @@ the filename appended.</p>
 <p><tt class="docutils literal">file_offset()</tt> returns the byte offset within the torrent file
 where this file starts. It can be used to map the file to a piece
 index (given the piece size).</p>
-<a name="file_num_blocks()"></a>
 <a name="file_num_pieces()"></a>
-<a name="file_piece_range()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bfile_num_blocks%28%29+file_num_pieces%28%29+file_piece_range%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bfile_num_blocks%28%29+file_num_pieces%28%29+file_piece_range%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="file-num-blocks-file-num-pieces-file-piece-range">
-<h2>file_num_blocks() file_num_pieces() file_piece_range()</h2>
+<a name="file_num_blocks()"></a>
+<a name="file_piece_range()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bfile_num_pieces%28%29+file_num_blocks%28%29+file_piece_range%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bfile_num_pieces%28%29+file_num_blocks%28%29+file_piece_range%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="file-num-pieces-file-num-blocks-file-piece-range">
+<h2>file_num_pieces() file_num_blocks() file_piece_range()</h2>
 <pre class="literal-block">
-int <strong>file_num_blocks</strong> (file_index_t index) const;
 int <strong>file_num_pieces</strong> (file_index_t index) const;
+int <strong>file_num_blocks</strong> (file_index_t index) const;
 index_range&lt;piece_index_t::diff_type&gt; <strong>file_piece_range</strong> (file_index_t) const;
 </pre>
 <p>Returns the number of pieces or blocks the file at <cite>index</cite> spans,
@@ -533,8 +533,8 @@ each file.</p>
 <div class="section" id="file-first-piece-node-file-first-block-node">
 <h2>file_first_piece_node() file_first_block_node()</h2>
 <pre class="literal-block">
-int <strong>file_first_piece_node</strong> (file_index_t index) const;
 int <strong>file_first_block_node</strong> (file_index_t index) const;
+int <strong>file_first_piece_node</strong> (file_index_t index) const;
 </pre>
 <p>index of first piece node in the merkle tree</p>
 <a name="file_path_hash()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_storage%3A%3A%5Bfile_path_hash%28%29%5D&labels=documentation&body=Documentation+under+heading+%22file_storage%3A%3A%5Bfile_path_hash%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
@@ -754,9 +754,9 @@ the <a class="reference external" href="reference-Storage.html#status_t">status_
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/storage_defs.hpp">libtorrent/storage_defs.hpp</a>&quot;</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="25%" />
-<col width="8%" />
-<col width="67%" />
+<col width="29%" />
+<col width="7%" />
+<col width="64%" />
 </colgroup>
 <thead valign="bottom">
 <tr><th class="head">name</th>
@@ -784,6 +784,16 @@ case they are replaced.</td>
 <td>2</td>
 <td>if any file exist in the target, take those files instead
 of the ones we may have in the source.</td>
+</tr>
+<tr><td>reset_save_path</td>
+<td>3</td>
+<td>don't move any source files, just forget about them
+and begin checking files at new save path</td>
+</tr>
+<tr><td>reset_save_path_unchecked</td>
+<td>4</td>
+<td>don't move any source files, just change save path
+and continue working without any checks</td>
 </tr>
 </tbody>
 </table>
