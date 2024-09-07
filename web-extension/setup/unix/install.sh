@@ -27,7 +27,7 @@ install_manifest () {
     echo ""
 }
 
-TITLE='Mozilla' 
+TITLE='Mozilla Firefox' 
 SOURCE=./launcher-manifest-firefox.json
 DESTINATION=~/.mozilla/native-messaging-hosts
 TARGET_NAME="com.arrowdl.extension"
@@ -37,5 +37,19 @@ install_manifest $TITLE $SOURCE $DESTINATION $TARGET_NAME
 TITLE='Chromium' 
 SOURCE=./launcher-manifest-chrome.json
 DESTINATION=~/.config/chromium/NativeMessagingHosts/
+TARGET_NAME="com.arrowdl.extension"
+install_manifest $TITLE $SOURCE $DESTINATION $TARGET_NAME 
+
+
+TITLE='Google (Chromium) Chrome' 
+SOURCE=./launcher-manifest-chrome.json
+DESTINATION=~/.config/google-chrome/NativeMessagingHosts/
+TARGET_NAME="com.arrowdl.extension"
+install_manifest $TITLE $SOURCE $DESTINATION $TARGET_NAME 
+
+
+TITLE='Microsoft (Chromium) Edge' 
+SOURCE=./launcher-manifest-edge.json
+DESTINATION=~/.config/microsoft-edge/NativeMessagingHosts/
 TARGET_NAME="com.arrowdl.extension"
 install_manifest $TITLE $SOURCE $DESTINATION $TARGET_NAME 

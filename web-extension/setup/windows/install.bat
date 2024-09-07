@@ -40,6 +40,12 @@ ECHO ---------------------------------
 ECHO Key: HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\com.arrowdl.extension
 REG ADD "HKCU\SOFTWARE\Mozilla\NativeMessagingHosts\com.arrowdl.extension" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher-manifest-firefox.json" /f
 
+ECHO. 
+ECHO Writting to Edge Registry...
+ECHO ---------------------------------
+ECHO Key: HKCU\Software\Microsoft\Edge\NativeMessagingHosts\com.arrowdl.extension
+REG ADD "HKCU\Software\Microsoft\Edge\NativeMessagingHosts\com.arrowdl.extension" /ve /t REG_SZ /d "%INSTALL_PATH%\launcher-manifest-edge.json" /f
+
 ECHO.
 ECHO Writting to Waterfox Registry...
 ECHO ---------------------------------

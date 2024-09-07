@@ -2440,9 +2440,9 @@ bool is_downloading_state(int const st)
 
 			span<sha256_hash> v2_span(hashes);
 			m_ses.disk_thread().async_hash(m_storage, m_checking_piece, v2_span, flags
-				, [self = shared_from_this(), hashes = std::move(hashes)]
+				, [self = shared_from_this(), hashes1 = std::move(hashes)]
 				(piece_index_t p, sha1_hash const& h, storage_error const& error) mutable
-				{ self->on_piece_hashed(std::move(hashes), p, h, error); });
+				{ self->on_piece_hashed(std::move(hashes1), p, h, error); });
 			++m_checking_piece;
 			if (m_checking_piece >= m_torrent_file->end_piece()) break;
 		}
@@ -7205,7 +7205,7 @@ namespace {
 			ret.verified_leaf_hashes.reserve(num_files);
 			for (auto const& t : m_merkle_trees)
 			{
-				// use stuctured binding in C++17
+				// use structured binding in C++17
 				aux::vector<bool> mask;
 				std::vector<sha256_hash> sparse_tree;
 				std::tie(sparse_tree, mask) = t.build_sparse_vector();
@@ -9088,7 +9088,7 @@ namespace {
 	void torrent::set_max_uploads(int limit, bool const state_update)
 	{
 		TORRENT_ASSERT(is_single_thread());
-		// TODO: perhaps 0 should actially mean 0
+		// TODO: perhaps 0 should actually mean 0
 		if (limit <= 0) limit = (1 << 24) - 1;
 		if (int(m_max_uploads) == limit) return;
 		if (state_update) state_updated();
@@ -9105,7 +9105,7 @@ namespace {
 	void torrent::set_max_connections(int limit, bool const state_update)
 	{
 		TORRENT_ASSERT(is_single_thread());
-		// TODO: perhaps 0 should actially mean 0
+		// TODO: perhaps 0 should actually mean 0
 		if (limit <= 0) limit = (1 << 24) - 1;
 		if (int(m_max_connections) == limit) return;
 		if (state_update) state_updated();
@@ -10366,7 +10366,6 @@ namespace {
 		int num_peers = 0;
 		int num_downloaders = 0;
 		int missing_pieces = 0;
-		int num_interested = 0;
 		for (auto const p : m_connections)
 		{
 			TORRENT_INCREMENT(m_iterating_connections);
@@ -10381,8 +10380,6 @@ namespace {
 
 			if (p->share_mode()) continue;
 			if (p->upload_only()) continue;
-
-			if (p->is_peer_interested()) ++num_interested;
 
 			++num_downloaders;
 			missing_pieces += pieces_in_torrent - p->num_have_pieces();
@@ -11335,9 +11332,9 @@ namespace {
 
 		span<sha256_hash> v2_span(hashes);
 		m_ses.disk_thread().async_hash(m_storage, piece, v2_span, flags
-			, [self = shared_from_this(), hashes = std::move(hashes)]
+			, [self = shared_from_this(), hashes1 = std::move(hashes)]
 			(piece_index_t p, sha1_hash const& h, storage_error const& error) mutable
-			{ self->on_piece_verified(std::move(hashes), p, h, error); });
+			{ self->on_piece_verified(std::move(hashes1), p, h, error); });
 		m_picker->started_hash_job(piece);
 		m_ses.deferred_submit_jobs();
 	}

@@ -155,7 +155,7 @@ Settings::Settings(QObject *parent) : AbstractSettings(parent)
 // Tab General
 ExistingFileOption Settings::existingFileOption() const
 {
-    int value = getSettingInt(REGISTRY_EXISTING_FILE);
+    auto value = getSettingInt(REGISTRY_EXISTING_FILE);
     return (value >= 0 && value < static_cast<int>(ExistingFileOption::LastOption))
             ? static_cast<ExistingFileOption>(value)
             : ExistingFileOption::Skip;
@@ -185,13 +185,13 @@ void Settings::setLanguage(const QString &language)
  */
 QMap<QString, QVariant> Settings::theme() const
 {
-    const QString str = getSettingString(REGISTRY_UI_THEME);
+    auto str = getSettingString(REGISTRY_UI_THEME);
     return deserialize(str);
 }
 
 void Settings::setTheme(const QMap<QString, QVariant> &map)
 {
-    const QString value = serialize(map);
+    auto value = serialize(map);
     setSettingString(REGISTRY_UI_THEME, value);
 }
 
@@ -736,13 +736,13 @@ void Settings::setTorrentPeers(const QString &value)
 /* Other (advanced) settings */
 QMap<QString, QVariant> Settings::torrentSettings() const
 {
-    const QString str = getSettingString(REGISTRY_TORRENT_ADVANCED);
+    auto str = getSettingString(REGISTRY_TORRENT_ADVANCED);
     return deserialize(str);
 }
 
 void Settings::setTorrentSettings(const QMap<QString, QVariant> &map)
 {
-    const QString value = serialize(map);
+    auto value = serialize(map);
     setSettingString(REGISTRY_TORRENT_ADVANCED, value);
 }
 

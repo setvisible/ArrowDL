@@ -27,11 +27,13 @@
 FileWriter::FileWriter(QIODevice *device)
     : m_device(device)
 {
+    m_errorString = FileWriter::tr("Unknown error");
 }
 
 FileWriter::FileWriter(const QString &fileName)
     : m_device(new QFile(fileName))
 {
+    m_errorString = FileWriter::tr("Unknown error");
 }
 
 FileWriter::~FileWriter()

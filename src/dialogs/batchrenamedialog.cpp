@@ -127,8 +127,9 @@ void BatchRenameDialog::renameToEnumeration()
 
 void BatchRenameDialog::rename(DownloadItem *downloadItem, const QString &newName)
 {
-    if (!downloadItem)
+    if (!downloadItem) {
         return;
+    }
 
     if (ui->safeRenameCheckBox->isChecked()) {
         auto resource = downloadItem->resource();

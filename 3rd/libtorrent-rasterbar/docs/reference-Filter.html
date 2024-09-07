@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.9</td></tr>
+<td>2.0.10</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
@@ -60,12 +60,12 @@ IPv6 range).</p>
 <pre class="literal-block">
 struct ip_filter
 {
-   ip_filter&amp; <strong>operator=</strong> (ip_filter&amp;&amp;);
-   <strong>ip_filter</strong> (ip_filter&amp;&amp;);
-   <strong>~ip_filter</strong> ();
-   ip_filter&amp; <strong>operator=</strong> (ip_filter const&amp;);
    <strong>ip_filter</strong> (ip_filter const&amp;);
+   ip_filter&amp; <strong>operator=</strong> (ip_filter const&amp;);
    <strong>ip_filter</strong> ();
+   <strong>ip_filter</strong> (ip_filter&amp;&amp;);
+   ip_filter&amp; <strong>operator=</strong> (ip_filter&amp;&amp;);
+   <strong>~ip_filter</strong> ();
    bool <strong>empty</strong> () const;
    void <strong>add_rule</strong> (address const&amp; first, address const&amp; last, std::uint32_t flags);
    std::uint32_t <strong>access</strong> (address const&amp; addr) const;
@@ -157,12 +157,12 @@ range (0-65535) set to flag 0.</p>
 <pre class="literal-block">
 class port_filter
 {
+   port_filter&amp; <strong>operator=</strong> (port_filter&amp;&amp;);
+   <strong>port_filter</strong> (port_filter const&amp;);
+   <strong>~port_filter</strong> ();
    port_filter&amp; <strong>operator=</strong> (port_filter const&amp;);
    <strong>port_filter</strong> ();
-   <strong>port_filter</strong> (port_filter const&amp;);
    <strong>port_filter</strong> (port_filter&amp;&amp;);
-   port_filter&amp; <strong>operator=</strong> (port_filter&amp;&amp;);
-   <strong>~port_filter</strong> ();
    void <strong>add_rule</strong> (std::uint16_t first, std::uint16_t last, std::uint32_t flags);
    std::uint32_t <strong>access</strong> (std::uint16_t port) const;
 

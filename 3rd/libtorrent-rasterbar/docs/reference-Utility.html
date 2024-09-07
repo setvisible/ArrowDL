@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.9</td></tr>
+<td>2.0.10</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
@@ -49,7 +49,7 @@
 <li><a class="reference internal" href="#bitfield" id="toc-entry-11">bitfield</a><ul>
 <li><a class="reference internal" href="#bitfield-1" id="toc-entry-12">bitfield()</a></li>
 <li><a class="reference internal" href="#assign" id="toc-entry-13">assign()</a></li>
-<li><a class="reference internal" href="#get-bit-operator" id="toc-entry-14">get_bit() operator[]()</a></li>
+<li><a class="reference internal" href="#operator-get-bit" id="toc-entry-14">operator[]() get_bit()</a></li>
 <li><a class="reference internal" href="#set-bit-clear-bit" id="toc-entry-15">set_bit() clear_bit()</a></li>
 <li><a class="reference internal" href="#all-set" id="toc-entry-16">all_set()</a></li>
 <li><a class="reference internal" href="#none-set" id="toc-entry-17">none_set()</a></li>
@@ -86,10 +86,10 @@ For more info, see <tt class="docutils literal">src/sha1.cpp</tt>.</p>
 class hasher
 {
    <strong>hasher</strong> ();
-   <strong>hasher</strong> (char const* data, int len);
+   explicit <strong>hasher</strong> (span&lt;char const&gt; data);
    hasher&amp; <strong>operator=</strong> (hasher const&amp;) &amp;;
    <strong>hasher</strong> (hasher const&amp;);
-   explicit <strong>hasher</strong> (span&lt;char const&gt; data);
+   <strong>hasher</strong> (char const* data, int len);
    hasher&amp; <strong>update</strong> (char const* data, int len);
    hasher&amp; <strong>update</strong> (span&lt;char const&gt; data);
    sha1_hash <strong>final</strong> ();
@@ -100,10 +100,10 @@ class hasher
 <a name="hasher()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:hasher%3A%3A%5Boperator%3D%28%29+hasher%28%29%5D&labels=documentation&body=Documentation+under+heading+%22hasher%3A%3A%5Boperator%3D%28%29+hasher%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="operator-hasher">
 <h2>operator=() hasher()</h2>
 <pre class="literal-block">
-<strong>hasher</strong> (char const* data, int len);
+explicit <strong>hasher</strong> (span&lt;char const&gt; data);
 hasher&amp; <strong>operator=</strong> (hasher const&amp;) &amp;;
 <strong>hasher</strong> (hasher const&amp;);
-explicit <strong>hasher</strong> (span&lt;char const&gt; data);
+<strong>hasher</strong> (char const* data, int len);
 </pre>
 <p>this is the same as default constructing followed by a call to
 <tt class="docutils literal">update(data, len)</tt>.</p>
@@ -140,12 +140,12 @@ default constructed.</p>
 class hasher256
 {
    <strong>hasher256</strong> ();
-   hasher256&amp; <strong>operator=</strong> (hasher256 const&amp;) &amp;;
-   explicit <strong>hasher256</strong> (span&lt;char const&gt; data);
    <strong>hasher256</strong> (char const* data, int len);
+   explicit <strong>hasher256</strong> (span&lt;char const&gt; data);
    <strong>hasher256</strong> (hasher256 const&amp;);
-   hasher256&amp; <strong>update</strong> (span&lt;char const&gt; data);
+   hasher256&amp; <strong>operator=</strong> (hasher256 const&amp;) &amp;;
    hasher256&amp; <strong>update</strong> (char const* data, int len);
+   hasher256&amp; <strong>update</strong> (span&lt;char const&gt; data);
    sha256_hash <strong>final</strong> ();
    void <strong>reset</strong> ();
    <strong>~hasher256</strong> ();
@@ -155,10 +155,10 @@ class hasher256
 <a name="hasher256()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:hasher256%3A%3A%5Boperator%3D%28%29+hasher256%28%29%5D&labels=documentation&body=Documentation+under+heading+%22hasher256%3A%3A%5Boperator%3D%28%29+hasher256%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="operator-hasher256">
 <h2>operator=() hasher256()</h2>
 <pre class="literal-block">
-hasher256&amp; <strong>operator=</strong> (hasher256 const&amp;) &amp;;
-explicit <strong>hasher256</strong> (span&lt;char const&gt; data);
 <strong>hasher256</strong> (char const* data, int len);
+explicit <strong>hasher256</strong> (span&lt;char const&gt; data);
 <strong>hasher256</strong> (hasher256 const&amp;);
+hasher256&amp; <strong>operator=</strong> (hasher256 const&amp;) &amp;;
 </pre>
 <p>this is the same as default constructing followed by a call to
 <tt class="docutils literal">update(data, len)</tt>.</p>
@@ -166,8 +166,8 @@ explicit <strong>hasher256</strong> (span&lt;char const&gt; data);
 <div class="section" id="update-1">
 <h2>update()</h2>
 <pre class="literal-block">
-hasher256&amp; <strong>update</strong> (span&lt;char const&gt; data);
 hasher256&amp; <strong>update</strong> (char const* data, int len);
+hasher256&amp; <strong>update</strong> (span&lt;char const&gt; data);
 </pre>
 <p>append the following bytes to what is being hashed</p>
 <a name="final()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:hasher256%3A%3A%5Bfinal%28%29%5D&labels=documentation&body=Documentation+under+heading+%22hasher256%3A%3A%5Bfinal%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
@@ -196,25 +196,25 @@ in a heap allocated array.</p>
 <pre class="literal-block">
 struct bitfield
 {
-   <strong>bitfield</strong> () noexcept = default;
-   <strong>bitfield</strong> (bitfield const&amp; rhs);
-   <strong>bitfield</strong> (char const* b, int bits);
-   explicit <strong>bitfield</strong> (int bits);
    <strong>bitfield</strong> (int bits, bool val);
+   <strong>bitfield</strong> (bitfield const&amp; rhs);
+   <strong>bitfield</strong> () noexcept = default;
+   explicit <strong>bitfield</strong> (int bits);
    <strong>bitfield</strong> (bitfield&amp;&amp; rhs) noexcept = default;
+   <strong>bitfield</strong> (char const* b, int bits);
    void <strong>assign</strong> (char const* b, int const bits);
-   bool <strong>get_bit</strong> (int index) const noexcept;
    bool <strong>operator[]</strong> (int index) const noexcept;
-   void <strong>set_bit</strong> (int index) noexcept;
+   bool <strong>get_bit</strong> (int index) const noexcept;
    void <strong>clear_bit</strong> (int index) noexcept;
+   void <strong>set_bit</strong> (int index) noexcept;
    bool <strong>all_set</strong> () const noexcept;
    bool <strong>none_set</strong> () const noexcept;
    int <strong>size</strong> () const noexcept;
    int <strong>num_words</strong> () const noexcept;
    int <strong>num_bytes</strong> () const noexcept;
    bool <strong>empty</strong> () const noexcept;
-   char const* <strong>data</strong> () const noexcept;
    char* <strong>data</strong> () noexcept;
+   char const* <strong>data</strong> () const noexcept;
    void <strong>swap</strong> (bitfield&amp; rhs) noexcept;
    int <strong>count</strong> () const noexcept;
    int <strong>find_first_set</strong> () const noexcept;
@@ -225,12 +225,12 @@ struct bitfield
 <a name="bitfield()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Bbitfield%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Bbitfield%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="bitfield-1">
 <h2>bitfield()</h2>
 <pre class="literal-block">
-<strong>bitfield</strong> () noexcept = default;
-<strong>bitfield</strong> (bitfield const&amp; rhs);
-<strong>bitfield</strong> (char const* b, int bits);
-explicit <strong>bitfield</strong> (int bits);
 <strong>bitfield</strong> (int bits, bool val);
+<strong>bitfield</strong> (bitfield const&amp; rhs);
+<strong>bitfield</strong> () noexcept = default;
+explicit <strong>bitfield</strong> (int bits);
 <strong>bitfield</strong> (bitfield&amp;&amp; rhs) noexcept = default;
+<strong>bitfield</strong> (char const* b, int bits);
 </pre>
 <p>constructs a new <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a>. The default constructor creates an empty
 <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a>. <tt class="docutils literal">bits</tt> is the size of the <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a> (specified in bits).
@@ -247,13 +247,13 @@ void <strong>assign</strong> (char const* b, int const bits);
 </pre>
 <p>copy <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a> from buffer <tt class="docutils literal">b</tt> of <tt class="docutils literal">bits</tt> number of bits, rounded up to
 the nearest byte boundary.</p>
-<a name="get_bit()"></a>
-<a name="operator[]()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Bget_bit%28%29+operator%5B%5D%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Bget_bit%28%29+operator%5B%5D%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="get-bit-operator">
-<h2>get_bit() operator[]()</h2>
+<a name="operator[]()"></a>
+<a name="get_bit()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Boperator%5B%5D%28%29+get_bit%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Boperator%5B%5D%28%29+get_bit%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="operator-get-bit">
+<h2>operator[]() get_bit()</h2>
 <pre class="literal-block">
-bool <strong>get_bit</strong> (int index) const noexcept;
 bool <strong>operator[]</strong> (int index) const noexcept;
+bool <strong>get_bit</strong> (int index) const noexcept;
 </pre>
 <p>query bit at <tt class="docutils literal">index</tt>. Returns true if bit is 1, otherwise false.</p>
 <a name="set_bit()"></a>
@@ -261,8 +261,8 @@ bool <strong>operator[]</strong> (int index) const noexcept;
 <div class="section" id="set-bit-clear-bit">
 <h2>set_bit() clear_bit()</h2>
 <pre class="literal-block">
-void <strong>set_bit</strong> (int index) noexcept;
 void <strong>clear_bit</strong> (int index) noexcept;
+void <strong>set_bit</strong> (int index) noexcept;
 </pre>
 <p>set bit at <tt class="docutils literal">index</tt> to 0 (clear_bit) or 1 (set_bit).</p>
 <a name="all_set()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bitfield%3A%3A%5Ball_set%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bitfield%3A%3A%5Ball_set%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
@@ -313,8 +313,8 @@ bool <strong>empty</strong> () const noexcept;
 <div class="section" id="data">
 <h2>data()</h2>
 <pre class="literal-block">
-char const* <strong>data</strong> () const noexcept;
 char* <strong>data</strong> () noexcept;
+char const* <strong>data</strong> () const noexcept;
 </pre>
 <p>returns a pointer to the internal buffer of the <a class="reference external" href="reference-Utility.html#bitfield">bitfield</a>, or
 <tt class="docutils literal">nullptr</tt> if it's empty.</p>

@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.9</td></tr>
+<td>2.0.10</td></tr>
 </tbody>
 </table>
 <div class="contents topic" id="table-of-contents">
@@ -95,7 +95,7 @@ for (auto* a : alerts) {
 <a class="reference external" href="reference-Alerts.html#session_stats_header_alert">session_stats_header_alert</a> that will be posted on startup containing the column names
 for all metrics. Logging this line will greatly simplify interpreting the output,
 and is required for the script to work out-of-the-box.</p>
-<p>The python scrip in <tt class="docutils literal">tools/parse_session_stats.py</tt> can parse the resulting
+<p>The python script in <tt class="docutils literal">tools/parse_session_stats.py</tt> can parse the resulting
 file and produce graphs of relevant stats. It requires <a class="reference external" href="http://www.gnuplot.info">gnuplot</a>.</p>
 </div>
 <div class="section" id="reducing-memory-footprint">
@@ -336,7 +336,7 @@ settings etc. These are relatively rare though.</p>
 <div class="section" id="contributions">
 <h1>contributions</h1>
 <p>If you have added instrumentation for some part of libtorrent that is not
-covered here, or if you have improved any of the parser scrips, please consider
+covered here, or if you have improved any of the parser scripts, please consider
 contributing it back to the project.</p>
 <p>If you have run tests and found that some algorithm or default value in
 libtorrent are suboptimal, please contribute that knowledge back as well, to

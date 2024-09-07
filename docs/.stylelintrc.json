@@ -1,8 +1,0 @@
-{
-  "extends": "stylelint-config-sass-guidelines",
-  "rules": {
-    "selector-max-compound-selectors": 4,
-    "selector-max-id": 1,
-    "selector-no-qualifying-type": null
-  }
-}

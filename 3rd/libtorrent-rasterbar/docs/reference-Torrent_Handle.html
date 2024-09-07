@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.9</td></tr>
+<td>2.0.10</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
@@ -43,16 +43,16 @@
 <li><a class="reference internal" href="#add-piece" id="toc-entry-7">add_piece()</a></li>
 <li><a class="reference internal" href="#read-piece" id="toc-entry-8">read_piece()</a></li>
 <li><a class="reference internal" href="#have-piece" id="toc-entry-9">have_piece()</a></li>
-<li><a class="reference internal" href="#post-peer-info-get-peer-info" id="toc-entry-10">post_peer_info() get_peer_info()</a></li>
+<li><a class="reference internal" href="#get-peer-info-post-peer-info" id="toc-entry-10">get_peer_info() post_peer_info()</a></li>
 <li><a class="reference internal" href="#status-post-status" id="toc-entry-11">status() post_status()</a></li>
 <li><a class="reference internal" href="#post-download-queue-get-download-queue" id="toc-entry-12">post_download_queue() get_download_queue()</a></li>
-<li><a class="reference internal" href="#set-piece-deadline-reset-piece-deadline-clear-piece-deadlines" id="toc-entry-13">set_piece_deadline() reset_piece_deadline() clear_piece_deadlines()</a></li>
-<li><a class="reference internal" href="#post-file-progress-file-progress" id="toc-entry-14">post_file_progress() file_progress()</a></li>
+<li><a class="reference internal" href="#set-piece-deadline-clear-piece-deadlines-reset-piece-deadline" id="toc-entry-13">set_piece_deadline() clear_piece_deadlines() reset_piece_deadline()</a></li>
+<li><a class="reference internal" href="#file-progress-post-file-progress" id="toc-entry-14">file_progress() post_file_progress()</a></li>
 <li><a class="reference internal" href="#file-status" id="toc-entry-15">file_status()</a></li>
 <li><a class="reference internal" href="#clear-error" id="toc-entry-16">clear_error()</a></li>
-<li><a class="reference internal" href="#post-trackers-trackers-replace-trackers-add-tracker" id="toc-entry-17">post_trackers() trackers() replace_trackers() add_tracker()</a></li>
-<li><a class="reference internal" href="#add-url-seed-remove-url-seed-url-seeds" id="toc-entry-18">add_url_seed() remove_url_seed() url_seeds()</a></li>
-<li><a class="reference internal" href="#add-http-seed-http-seeds-remove-http-seed" id="toc-entry-19">add_http_seed() http_seeds() remove_http_seed()</a></li>
+<li><a class="reference internal" href="#replace-trackers-post-trackers-add-tracker-trackers" id="toc-entry-17">replace_trackers() post_trackers() add_tracker() trackers()</a></li>
+<li><a class="reference internal" href="#remove-url-seed-url-seeds-add-url-seed" id="toc-entry-18">remove_url_seed() url_seeds() add_url_seed()</a></li>
+<li><a class="reference internal" href="#http-seeds-remove-http-seed-add-http-seed" id="toc-entry-19">http_seeds() remove_http_seed() add_http_seed()</a></li>
 <li><a class="reference internal" href="#add-extension" id="toc-entry-20">add_extension()</a></li>
 <li><a class="reference internal" href="#set-metadata" id="toc-entry-21">set_metadata()</a></li>
 <li><a class="reference internal" href="#is-valid" id="toc-entry-22">is_valid()</a></li>
@@ -62,25 +62,25 @@
 <li><a class="reference internal" href="#force-recheck" id="toc-entry-26">force_recheck()</a></li>
 <li><a class="reference internal" href="#save-resume-data" id="toc-entry-27">save_resume_data()</a></li>
 <li><a class="reference internal" href="#need-save-resume-data" id="toc-entry-28">need_save_resume_data()</a></li>
-<li><a class="reference internal" href="#queue-position-down-queue-position-top-queue-position-queue-position-up-queue-position-bottom" id="toc-entry-29">queue_position_down() queue_position_top() queue_position() queue_position_up() queue_position_bottom()</a></li>
+<li><a class="reference internal" href="#queue-position-bottom-queue-position-queue-position-down-queue-position-top-queue-position-up" id="toc-entry-29">queue_position_bottom() queue_position() queue_position_down() queue_position_top() queue_position_up()</a></li>
 <li><a class="reference internal" href="#queue-position-set" id="toc-entry-30">queue_position_set()</a></li>
 <li><a class="reference internal" href="#set-ssl-certificate-buffer-set-ssl-certificate" id="toc-entry-31">set_ssl_certificate_buffer() set_ssl_certificate()</a></li>
-<li><a class="reference internal" href="#torrent-file-torrent-file-with-hashes" id="toc-entry-32">torrent_file() torrent_file_with_hashes()</a></li>
+<li><a class="reference internal" href="#torrent-file-with-hashes-torrent-file" id="toc-entry-32">torrent_file_with_hashes() torrent_file()</a></li>
 <li><a class="reference internal" href="#piece-layers" id="toc-entry-33">piece_layers()</a></li>
 <li><a class="reference internal" href="#post-piece-availability-piece-availability" id="toc-entry-34">post_piece_availability() piece_availability()</a></li>
-<li><a class="reference internal" href="#get-piece-priorities-piece-priority-prioritize-pieces" id="toc-entry-35">get_piece_priorities() piece_priority() prioritize_pieces()</a></li>
-<li><a class="reference internal" href="#get-file-priorities-prioritize-files-file-priority" id="toc-entry-36">get_file_priorities() prioritize_files() file_priority()</a></li>
-<li><a class="reference internal" href="#force-lsd-announce-force-reannounce-force-dht-announce" id="toc-entry-37">force_lsd_announce() force_reannounce() force_dht_announce()</a></li>
+<li><a class="reference internal" href="#get-piece-priorities-prioritize-pieces-piece-priority" id="toc-entry-35">get_piece_priorities() prioritize_pieces() piece_priority()</a></li>
+<li><a class="reference internal" href="#prioritize-files-file-priority-get-file-priorities" id="toc-entry-36">prioritize_files() file_priority() get_file_priorities()</a></li>
+<li><a class="reference internal" href="#force-dht-announce-force-reannounce-force-lsd-announce" id="toc-entry-37">force_dht_announce() force_reannounce() force_lsd_announce()</a></li>
 <li><a class="reference internal" href="#scrape-tracker" id="toc-entry-38">scrape_tracker()</a></li>
-<li><a class="reference internal" href="#upload-limit-download-limit-set-upload-limit-set-download-limit" id="toc-entry-39">upload_limit() download_limit() set_upload_limit() set_download_limit()</a></li>
+<li><a class="reference internal" href="#set-download-limit-upload-limit-download-limit-set-upload-limit" id="toc-entry-39">set_download_limit() upload_limit() download_limit() set_upload_limit()</a></li>
 <li><a class="reference internal" href="#connect-peer" id="toc-entry-40">connect_peer()</a></li>
 <li><a class="reference internal" href="#clear-peers" id="toc-entry-41">clear_peers()</a></li>
 <li><a class="reference internal" href="#set-max-uploads-max-uploads" id="toc-entry-42">set_max_uploads() max_uploads()</a></li>
-<li><a class="reference internal" href="#max-connections-set-max-connections" id="toc-entry-43">max_connections() set_max_connections()</a></li>
+<li><a class="reference internal" href="#set-max-connections-max-connections" id="toc-entry-43">set_max_connections() max_connections()</a></li>
 <li><a class="reference internal" href="#move-storage" id="toc-entry-44">move_storage()</a></li>
 <li><a class="reference internal" href="#rename-file" id="toc-entry-45">rename_file()</a></li>
-<li><a class="reference internal" href="#info-hashes-info-hash" id="toc-entry-46">info_hashes() info_hash()</a></li>
-<li><a class="reference internal" href="#operator-operator-operator" id="toc-entry-47">operator!=() operator==() operator&lt;()</a></li>
+<li><a class="reference internal" href="#info-hash-info-hashes" id="toc-entry-46">info_hash() info_hashes()</a></li>
+<li><a class="reference internal" href="#operator-operator-operator" id="toc-entry-47">operator&lt;() operator==() operator!=()</a></li>
 <li><a class="reference internal" href="#id" id="toc-entry-48">id()</a></li>
 <li><a class="reference internal" href="#native-handle" id="toc-entry-49">native_handle()</a></li>
 <li><a class="reference internal" href="#userdata" id="toc-entry-50">userdata()</a></li>
@@ -98,8 +98,8 @@ it from and how far along we are at downloading it.</p>
 <pre class="literal-block">
 struct block_info
 {
-   void <strong>set_peer</strong> (tcp::endpoint const&amp; ep);
    <a class="reference external" href="tcp::endpoint">tcp::endpoint</a> <strong>peer</strong> () const;
+   void <strong>set_peer</strong> (tcp::endpoint const&amp; ep);
 
    enum block_state_t
    {
@@ -119,8 +119,8 @@ struct block_info
 <a name="set_peer()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:block_info%3A%3A%5Bpeer%28%29+set_peer%28%29%5D&labels=documentation&body=Documentation+under+heading+%22block_info%3A%3A%5Bpeer%28%29+set_peer%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="peer-set-peer">
 <h2>peer() set_peer()</h2>
 <pre class="literal-block">
-void <strong>set_peer</strong> (tcp::endpoint const&amp; ep);
 <a class="reference external" href="tcp::endpoint">tcp::endpoint</a> <strong>peer</strong> () const;
+void <strong>set_peer</strong> (tcp::endpoint const&amp; ep);
 </pre>
 <p>The peer is the ip address of the peer this block was downloaded from.</p>
 <a name="block_state_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+block_state_t&labels=documentation&body=Documentation+under+heading+%22enum+block_state_t%22+could+be+improved">report issue</a>]</span></div>
@@ -267,32 +267,32 @@ struct torrent_handle
 {
    friend std::size_t <strong>hash_value</strong> (torrent_handle const&amp; th);
    <strong>torrent_handle</strong> () noexcept = default;
-   void <strong>add_piece</strong> (piece_index_t piece, std::vector&lt;char&gt; data, add_piece_flags_t flags = {}) const;
    void <strong>add_piece</strong> (piece_index_t piece, char const* data, add_piece_flags_t flags = {}) const;
+   void <strong>add_piece</strong> (piece_index_t piece, std::vector&lt;char&gt; data, add_piece_flags_t flags = {}) const;
    void <strong>read_piece</strong> (piece_index_t piece) const;
    bool <strong>have_piece</strong> (piece_index_t piece) const;
-   void <strong>get_peer_info</strong> (std::vector&lt;peer_info&gt;&amp; v) const;
    void <strong>post_peer_info</strong> () const;
-   void <strong>post_status</strong> (status_flags_t flags = status_flags_t::all()) const;
+   void <strong>get_peer_info</strong> (std::vector&lt;peer_info&gt;&amp; v) const;
    torrent_status <strong>status</strong> (status_flags_t flags = status_flags_t::all()) const;
+   void <strong>post_status</strong> (status_flags_t flags = status_flags_t::all()) const;
    std::vector&lt;partial_piece_info&gt; <strong>get_download_queue</strong> () const;
-   void <strong>post_download_queue</strong> () const;
    void <strong>get_download_queue</strong> (std::vector&lt;partial_piece_info&gt;&amp; queue) const;
-   void <strong>reset_piece_deadline</strong> (piece_index_t index) const;
+   void <strong>post_download_queue</strong> () const;
    void <strong>clear_piece_deadlines</strong> () const;
    void <strong>set_piece_deadline</strong> (piece_index_t index, int deadline, deadline_flags_t flags = {}) const;
+   void <strong>reset_piece_deadline</strong> (piece_index_t index) const;
    void <strong>file_progress</strong> (std::vector&lt;std::int64_t&gt;&amp; progress, file_progress_flags_t flags = {}) const;
-   std::vector&lt;std::int64_t&gt; <strong>file_progress</strong> (file_progress_flags_t flags = {}) const;
    void <strong>post_file_progress</strong> (file_progress_flags_t flags) const;
+   std::vector&lt;std::int64_t&gt; <strong>file_progress</strong> (file_progress_flags_t flags = {}) const;
    std::vector&lt;open_file_state&gt; <strong>file_status</strong> () const;
    void <strong>clear_error</strong> () const;
-   void <strong>post_trackers</strong> () const;
-   std::vector&lt;announce_entry&gt; <strong>trackers</strong> () const;
    void <strong>add_tracker</strong> (announce_entry const&amp;) const;
    void <strong>replace_trackers</strong> (std::vector&lt;announce_entry&gt; const&amp;) const;
-   void <strong>remove_url_seed</strong> (std::string const&amp; url) const;
-   void <strong>add_url_seed</strong> (std::string const&amp; url) const;
+   std::vector&lt;announce_entry&gt; <strong>trackers</strong> () const;
+   void <strong>post_trackers</strong> () const;
    std::set&lt;std::string&gt; <strong>url_seeds</strong> () const;
+   void <strong>add_url_seed</strong> (std::string const&amp; url) const;
+   void <strong>remove_url_seed</strong> (std::string const&amp; url) const;
    std::set&lt;std::string&gt; <strong>http_seeds</strong> () const;
    void <strong>remove_http_seed</strong> (std::string const&amp; url) const;
    void <strong>add_http_seed</strong> (std::string const&amp; url) const;
@@ -301,22 +301,22 @@ struct torrent_handle
       , client_data_t userdata = client_data_t{});
    bool <strong>set_metadata</strong> (span&lt;char const&gt; metadata) const;
    bool <strong>is_valid</strong> () const;
-   void <strong>pause</strong> (pause_flags_t flags = {}) const;
    void <strong>resume</strong> () const;
-   torrent_flags_t <strong>flags</strong> () const;
+   void <strong>pause</strong> (pause_flags_t flags = {}) const;
+   void <strong>unset_flags</strong> (torrent_flags_t flags) const;
    void <strong>set_flags</strong> (torrent_flags_t flags, torrent_flags_t mask) const;
    void <strong>set_flags</strong> (torrent_flags_t flags) const;
-   void <strong>unset_flags</strong> (torrent_flags_t flags) const;
+   torrent_flags_t <strong>flags</strong> () const;
    void <strong>flush_cache</strong> () const;
    void <strong>force_recheck</strong> () const;
    void <strong>save_resume_data</strong> (resume_data_flags_t flags = {}) const;
-   bool <strong>need_save_resume_data</strong> (resume_data_flags_t flags) const;
    bool <strong>need_save_resume_data</strong> () const;
-   void <strong>queue_position_down</strong> () const;
-   queue_position_t <strong>queue_position</strong> () const;
+   bool <strong>need_save_resume_data</strong> (resume_data_flags_t flags) const;
    void <strong>queue_position_top</strong> () const;
-   void <strong>queue_position_bottom</strong> () const;
    void <strong>queue_position_up</strong> () const;
+   queue_position_t <strong>queue_position</strong> () const;
+   void <strong>queue_position_bottom</strong> () const;
+   void <strong>queue_position_down</strong> () const;
    void <strong>queue_position_set</strong> (queue_position_t p) const;
    void <strong>set_ssl_certificate_buffer</strong> (std::string const&amp; certificate
       , std::string const&amp; private_key
@@ -328,25 +328,25 @@ struct torrent_handle
    std::shared_ptr&lt;torrent_info&gt; <strong>torrent_file_with_hashes</strong> () const;
    std::shared_ptr&lt;const torrent_info&gt; <strong>torrent_file</strong> () const;
    std::vector&lt;std::vector&lt;sha256_hash&gt;&gt; <strong>piece_layers</strong> () const;
-   void <strong>post_piece_availability</strong> () const;
    void <strong>piece_availability</strong> (std::vector&lt;int&gt;&amp; avail) const;
-   void <strong>prioritize_pieces</strong> (std::vector&lt;download_priority_t&gt; const&amp; pieces) const;
+   void <strong>post_piece_availability</strong> () const;
    download_priority_t <strong>piece_priority</strong> (piece_index_t index) const;
-   std::vector&lt;download_priority_t&gt; <strong>get_piece_priorities</strong> () const;
-   void <strong>piece_priority</strong> (piece_index_t index, download_priority_t priority) const;
    void <strong>prioritize_pieces</strong> (std::vector&lt;std::pair&lt;piece_index_t, download_priority_t&gt;&gt; const&amp; pieces) const;
-   void <strong>prioritize_files</strong> (std::vector&lt;download_priority_t&gt; const&amp; files) const;
-   void <strong>file_priority</strong> (file_index_t index, download_priority_t priority) const;
-   std::vector&lt;download_priority_t&gt; <strong>get_file_priorities</strong> () const;
+   void <strong>piece_priority</strong> (piece_index_t index, download_priority_t priority) const;
+   void <strong>prioritize_pieces</strong> (std::vector&lt;download_priority_t&gt; const&amp; pieces) const;
+   std::vector&lt;download_priority_t&gt; <strong>get_piece_priorities</strong> () const;
    download_priority_t <strong>file_priority</strong> (file_index_t index) const;
-   void <strong>force_lsd_announce</strong> () const;
+   void <strong>file_priority</strong> (file_index_t index, download_priority_t priority) const;
+   void <strong>prioritize_files</strong> (std::vector&lt;download_priority_t&gt; const&amp; files) const;
+   std::vector&lt;download_priority_t&gt; <strong>get_file_priorities</strong> () const;
    void <strong>force_dht_announce</strong> () const;
+   void <strong>force_lsd_announce</strong> () const;
    void <strong>force_reannounce</strong> (int seconds = 0, int idx = -1, reannounce_flags_t = {}) const;
    void <strong>scrape_tracker</strong> (int idx = -1) const;
-   void <strong>set_download_limit</strong> (int limit) const;
+   void <strong>set_upload_limit</strong> (int limit) const;
    int <strong>download_limit</strong> () const;
    int <strong>upload_limit</strong> () const;
-   void <strong>set_upload_limit</strong> (int limit) const;
+   void <strong>set_download_limit</strong> (int limit) const;
    void <strong>connect_peer</strong> (tcp::endpoint const&amp; adr, peer_source_flags_t source = {}
       , pex_flags_t flags = pex_encryption | pex_utp | pex_holepunch) const;
    void <strong>clear_peers</strong> ();
@@ -358,11 +358,11 @@ struct torrent_handle
       , move_flags_t flags = move_flags_t::always_replace_files
       ) const;
    void <strong>rename_file</strong> (file_index_t index, std::string const&amp; new_name) const;
-   info_hash_t <strong>info_hashes</strong> () const;
    sha1_hash <strong>info_hash</strong> () const;
+   info_hash_t <strong>info_hashes</strong> () const;
+   bool <strong>operator!=</strong> (const torrent_handle&amp; h) const;
    bool <strong>operator&lt;</strong> (const torrent_handle&amp; h) const;
    bool <strong>operator==</strong> (const torrent_handle&amp; h) const;
-   bool <strong>operator!=</strong> (const torrent_handle&amp; h) const;
    std::uint32_t <strong>id</strong> () const;
    std::shared_ptr&lt;torrent&gt; <strong>native_handle</strong> () const;
    client_data_t <strong>userdata</strong> () const;
@@ -402,8 +402,8 @@ i.e. <a class="reference external" href="reference-Torrent_Info.html#is_valid()"
 <div class="section" id="add-piece">
 <h2>add_piece()</h2>
 <pre class="literal-block">
-void <strong>add_piece</strong> (piece_index_t piece, std::vector&lt;char&gt; data, add_piece_flags_t flags = {}) const;
 void <strong>add_piece</strong> (piece_index_t piece, char const* data, add_piece_flags_t flags = {}) const;
+void <strong>add_piece</strong> (piece_index_t piece, std::vector&lt;char&gt; data, add_piece_flags_t flags = {}) const;
 </pre>
 <p>This function will write <tt class="docutils literal">data</tt> to the storage as piece <tt class="docutils literal">piece</tt>,
 as if it had been downloaded from a peer.</p>
@@ -448,13 +448,13 @@ bool <strong>have_piece</strong> (piece_index_t piece) const;
 </pre>
 <p>Returns true if this piece has been completely downloaded and written
 to disk, and false otherwise.</p>
-<a name="post_peer_info()"></a>
-<a name="get_peer_info()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bpost_peer_info%28%29+get_peer_info%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bpost_peer_info%28%29+get_peer_info%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="post-peer-info-get-peer-info">
-<h2>post_peer_info() get_peer_info()</h2>
+<a name="get_peer_info()"></a>
+<a name="post_peer_info()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bget_peer_info%28%29+post_peer_info%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bget_peer_info%28%29+post_peer_info%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="get-peer-info-post-peer-info">
+<h2>get_peer_info() post_peer_info()</h2>
 <pre class="literal-block">
-void <strong>get_peer_info</strong> (std::vector&lt;peer_info&gt;&amp; v) const;
 void <strong>post_peer_info</strong> () const;
+void <strong>get_peer_info</strong> (std::vector&lt;peer_info&gt;&amp; v) const;
 </pre>
 <p>Query information about connected peers for this torrent. If the
 <a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a> is invalid, it will throw a system_error exception.</p>
@@ -471,8 +471,8 @@ the vector contains information about that particular peer. See
 <div class="section" id="status-post-status">
 <h2>status() post_status()</h2>
 <pre class="literal-block">
-void <strong>post_status</strong> (status_flags_t flags = status_flags_t::all()) const;
 torrent_status <strong>status</strong> (status_flags_t flags = status_flags_t::all()) const;
+void <strong>post_status</strong> (status_flags_t flags = status_flags_t::all()) const;
 </pre>
 <p><tt class="docutils literal">status()</tt> will return a structure with information about the status
 of this torrent. If the <a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a> is invalid, it will throw
@@ -496,8 +496,8 @@ what to <em>include</em> are defined in this class.</p>
 <h2>post_download_queue() get_download_queue()</h2>
 <pre class="literal-block">
 std::vector&lt;partial_piece_info&gt; <strong>get_download_queue</strong> () const;
-void <strong>post_download_queue</strong> () const;
 void <strong>get_download_queue</strong> (std::vector&lt;partial_piece_info&gt;&amp; queue) const;
+void <strong>post_download_queue</strong> () const;
 </pre>
 <p><tt class="docutils literal">post_download_queue()</tt> triggers a download_queue_alert to be
 posted.
@@ -506,14 +506,14 @@ with information about pieces that are partially downloaded or not
 downloaded but partially requested. See <a class="reference external" href="reference-Torrent_Handle.html#partial_piece_info">partial_piece_info</a> for the
 fields in the returned vector.</p>
 <a name="set_piece_deadline()"></a>
-<a name="reset_piece_deadline()"></a>
-<a name="clear_piece_deadlines()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bset_piece_deadline%28%29+reset_piece_deadline%28%29+clear_piece_deadlines%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bset_piece_deadline%28%29+reset_piece_deadline%28%29+clear_piece_deadlines%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="set-piece-deadline-reset-piece-deadline-clear-piece-deadlines">
-<h2>set_piece_deadline() reset_piece_deadline() clear_piece_deadlines()</h2>
+<a name="clear_piece_deadlines()"></a>
+<a name="reset_piece_deadline()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bset_piece_deadline%28%29+clear_piece_deadlines%28%29+reset_piece_deadline%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bset_piece_deadline%28%29+clear_piece_deadlines%28%29+reset_piece_deadline%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="set-piece-deadline-clear-piece-deadlines-reset-piece-deadline">
+<h2>set_piece_deadline() clear_piece_deadlines() reset_piece_deadline()</h2>
 <pre class="literal-block">
-void <strong>reset_piece_deadline</strong> (piece_index_t index) const;
 void <strong>clear_piece_deadlines</strong> () const;
 void <strong>set_piece_deadline</strong> (piece_index_t index, int deadline, deadline_flags_t flags = {}) const;
+void <strong>reset_piece_deadline</strong> (piece_index_t index) const;
 </pre>
 <p>This function sets or resets the deadline associated with a specific
 piece index (<tt class="docutils literal">index</tt>). libtorrent will attempt to download this
@@ -532,14 +532,14 @@ hasn't already been downloaded, it will no longer be considered a
 priority.</p>
 <p><tt class="docutils literal">clear_piece_deadlines()</tt> removes deadlines on all pieces in
 the torrent. As if <a class="reference external" href="reference-Torrent_Handle.html#reset_piece_deadline()">reset_piece_deadline()</a> was called on all pieces.</p>
-<a name="post_file_progress()"></a>
-<a name="file_progress()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bpost_file_progress%28%29+file_progress%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bpost_file_progress%28%29+file_progress%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="post-file-progress-file-progress">
-<h2>post_file_progress() file_progress()</h2>
+<a name="file_progress()"></a>
+<a name="post_file_progress()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bfile_progress%28%29+post_file_progress%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bfile_progress%28%29+post_file_progress%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="file-progress-post-file-progress">
+<h2>file_progress() post_file_progress()</h2>
 <pre class="literal-block">
 void <strong>file_progress</strong> (std::vector&lt;std::int64_t&gt;&amp; progress, file_progress_flags_t flags = {}) const;
-std::vector&lt;std::int64_t&gt; <strong>file_progress</strong> (file_progress_flags_t flags = {}) const;
 void <strong>post_file_progress</strong> (file_progress_flags_t flags) const;
+std::vector&lt;std::int64_t&gt; <strong>file_progress</strong> (file_progress_flags_t flags = {}) const;
 </pre>
 <p>This function fills in the supplied vector, or returns a vector, with
 the number of bytes downloaded of each file in this torrent. The
@@ -576,17 +576,17 @@ void <strong>clear_error</strong> () const;
 </pre>
 <p>If the torrent is in an error state (i.e. <tt class="docutils literal"><span class="pre">torrent_status::error</span></tt> is
 non-empty), this will clear the error and start the torrent again.</p>
-<a name="post_trackers()"></a>
-<a name="trackers()"></a>
 <a name="replace_trackers()"></a>
-<a name="add_tracker()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bpost_trackers%28%29+trackers%28%29+replace_trackers%28%29+add_tracker%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bpost_trackers%28%29+trackers%28%29+replace_trackers%28%29+add_tracker%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="post-trackers-trackers-replace-trackers-add-tracker">
-<h2>post_trackers() trackers() replace_trackers() add_tracker()</h2>
+<a name="post_trackers()"></a>
+<a name="add_tracker()"></a>
+<a name="trackers()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Breplace_trackers%28%29+post_trackers%28%29+add_tracker%28%29+trackers%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Breplace_trackers%28%29+post_trackers%28%29+add_tracker%28%29+trackers%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="replace-trackers-post-trackers-add-tracker-trackers">
+<h2>replace_trackers() post_trackers() add_tracker() trackers()</h2>
 <pre class="literal-block">
-void <strong>post_trackers</strong> () const;
-std::vector&lt;announce_entry&gt; <strong>trackers</strong> () const;
 void <strong>add_tracker</strong> (announce_entry const&amp;) const;
 void <strong>replace_trackers</strong> (std::vector&lt;announce_entry&gt; const&amp;) const;
+std::vector&lt;announce_entry&gt; <strong>trackers</strong> () const;
+void <strong>post_trackers</strong> () const;
 </pre>
 <p><tt class="docutils literal">trackers()</tt> returns the list of trackers for this torrent. The
 announce <a class="reference external" href="reference-Bencoding.html#entry">entry</a> contains both a string <tt class="docutils literal">url</tt> which specify the
@@ -606,15 +606,15 @@ of trackers, it will insert it in the tier specified in the
 <p>The updated set of trackers will be saved in the resume data, and when
 a torrent is started with resume data, the trackers from the resume
 data will replace the original ones.</p>
-<a name="add_url_seed()"></a>
 <a name="remove_url_seed()"></a>
-<a name="url_seeds()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Badd_url_seed%28%29+remove_url_seed%28%29+url_seeds%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Badd_url_seed%28%29+remove_url_seed%28%29+url_seeds%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="add-url-seed-remove-url-seed-url-seeds">
-<h2>add_url_seed() remove_url_seed() url_seeds()</h2>
+<a name="url_seeds()"></a>
+<a name="add_url_seed()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bremove_url_seed%28%29+url_seeds%28%29+add_url_seed%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bremove_url_seed%28%29+url_seeds%28%29+add_url_seed%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="remove-url-seed-url-seeds-add-url-seed">
+<h2>remove_url_seed() url_seeds() add_url_seed()</h2>
 <pre class="literal-block">
-void <strong>remove_url_seed</strong> (std::string const&amp; url) const;
-void <strong>add_url_seed</strong> (std::string const&amp; url) const;
 std::set&lt;std::string&gt; <strong>url_seeds</strong> () const;
+void <strong>add_url_seed</strong> (std::string const&amp; url) const;
+void <strong>remove_url_seed</strong> (std::string const&amp; url) const;
 </pre>
 <p><tt class="docutils literal">add_url_seed()</tt> adds another url to the torrent's list of url
 seeds. If the given url already exists in that list, the call has no
@@ -625,11 +625,11 @@ pieces from it, unless it's paused, queued, checking or seeding.
 torrent. Note that URLs that fails may be removed automatically from
 the list.</p>
 <p>See <a class="reference external" href="manual-ref.html#http-seeding">http seeding</a> for more information.</p>
-<a name="add_http_seed()"></a>
 <a name="http_seeds()"></a>
-<a name="remove_http_seed()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Badd_http_seed%28%29+http_seeds%28%29+remove_http_seed%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Badd_http_seed%28%29+http_seeds%28%29+remove_http_seed%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="add-http-seed-http-seeds-remove-http-seed">
-<h2>add_http_seed() http_seeds() remove_http_seed()</h2>
+<a name="remove_http_seed()"></a>
+<a name="add_http_seed()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bhttp_seeds%28%29+remove_http_seed%28%29+add_http_seed%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bhttp_seeds%28%29+remove_http_seed%28%29+add_http_seed%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="http-seeds-remove-http-seed-add-http-seed">
+<h2>http_seeds() remove_http_seed() add_http_seed()</h2>
 <pre class="literal-block">
 std::set&lt;std::string&gt; <strong>http_seeds</strong> () const;
 void <strong>remove_http_seed</strong> (std::string const&amp; url) const;
@@ -688,8 +688,8 @@ the system_error exception.</p>
 <div class="section" id="pause-resume">
 <h2>pause() resume()</h2>
 <pre class="literal-block">
-void <strong>pause</strong> (pause_flags_t flags = {}) const;
 void <strong>resume</strong> () const;
+void <strong>pause</strong> (pause_flags_t flags = {}) const;
 </pre>
 <p><tt class="docutils literal">pause()</tt>, and <tt class="docutils literal">resume()</tt> will disconnect all peers and reconnect
 all peers respectively. When a torrent is paused, it will however
@@ -714,10 +714,10 @@ to the <a class="reference external" href="reference-Session.html#session">sessi
 <div class="section" id="flags-unset-flags-set-flags">
 <h2>flags() unset_flags() set_flags()</h2>
 <pre class="literal-block">
-torrent_flags_t <strong>flags</strong> () const;
+void <strong>unset_flags</strong> (torrent_flags_t flags) const;
 void <strong>set_flags</strong> (torrent_flags_t flags, torrent_flags_t mask) const;
 void <strong>set_flags</strong> (torrent_flags_t flags) const;
-void <strong>unset_flags</strong> (torrent_flags_t flags) const;
+torrent_flags_t <strong>flags</strong> () const;
 </pre>
 <p>sets and gets the torrent state flags. See <a class="reference external" href="reference-Core.html#torrent_flags_t">torrent_flags_t</a>.
 The <tt class="docutils literal">set_flags</tt> overload that take a mask will affect all
@@ -862,8 +862,8 @@ the initial loop, and thwart the counter otherwise.</p>
 <div class="section" id="need-save-resume-data">
 <h2>need_save_resume_data()</h2>
 <pre class="literal-block">
-bool <strong>need_save_resume_data</strong> (resume_data_flags_t flags) const;
 bool <strong>need_save_resume_data</strong> () const;
+bool <strong>need_save_resume_data</strong> (resume_data_flags_t flags) const;
 </pre>
 <p>This function returns true if anything that is stored in the resume
 data has changed since the last time resume data was saved.
@@ -881,19 +881,19 @@ which resume data should be saved.</p>
 <a class="reference external" href="reference-Alerts.html#alert">alert</a> is received and handled in order for this function to be
 meaningful.</p>
 </div>
+<a name="queue_position_bottom()"></a>
+<a name="queue_position()"></a>
 <a name="queue_position_down()"></a>
 <a name="queue_position_top()"></a>
-<a name="queue_position()"></a>
-<a name="queue_position_up()"></a>
-<a name="queue_position_bottom()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bqueue_position_down%28%29+queue_position_top%28%29+queue_position%28%29+queue_position_up%28%29+queue_position_bottom%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bqueue_position_down%28%29+queue_position_top%28%29+queue_position%28%29+queue_position_up%28%29+queue_position_bottom%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="queue-position-down-queue-position-top-queue-position-queue-position-up-queue-position-bottom">
-<h2>queue_position_down() queue_position_top() queue_position() queue_position_up() queue_position_bottom()</h2>
+<a name="queue_position_up()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bqueue_position_bottom%28%29+queue_position%28%29+queue_position_down%28%29+queue_position_top%28%29+queue_position_up%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bqueue_position_bottom%28%29+queue_position%28%29+queue_position_down%28%29+queue_position_top%28%29+queue_position_up%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="queue-position-bottom-queue-position-queue-position-down-queue-position-top-queue-position-up">
+<h2>queue_position_bottom() queue_position() queue_position_down() queue_position_top() queue_position_up()</h2>
 <pre class="literal-block">
-void <strong>queue_position_down</strong> () const;
-queue_position_t <strong>queue_position</strong> () const;
 void <strong>queue_position_top</strong> () const;
-void <strong>queue_position_bottom</strong> () const;
 void <strong>queue_position_up</strong> () const;
+queue_position_t <strong>queue_position</strong> () const;
+void <strong>queue_position_bottom</strong> () const;
+void <strong>queue_position_down</strong> () const;
 </pre>
 <p>Every torrent that is added is assigned a queue position exactly one
 greater than the greatest queue position of all existing torrents.
@@ -955,10 +955,10 @@ certificate.</p>
 <p>If you receive a <a class="reference external" href="reference-Alerts.html#torrent_need_cert_alert">torrent_need_cert_alert</a>, you need to call this to
 provide a valid cert. If you don't have a cert you won't be allowed to
 connect to any peers.</p>
-<a name="torrent_file()"></a>
-<a name="torrent_file_with_hashes()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Btorrent_file%28%29+torrent_file_with_hashes%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Btorrent_file%28%29+torrent_file_with_hashes%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="torrent-file-torrent-file-with-hashes">
-<h2>torrent_file() torrent_file_with_hashes()</h2>
+<a name="torrent_file_with_hashes()"></a>
+<a name="torrent_file()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Btorrent_file_with_hashes%28%29+torrent_file%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Btorrent_file_with_hashes%28%29+torrent_file%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="torrent-file-with-hashes-torrent-file">
+<h2>torrent_file_with_hashes() torrent_file()</h2>
 <pre class="literal-block">
 std::shared_ptr&lt;torrent_info&gt; <strong>torrent_file_with_hashes</strong> () const;
 std::shared_ptr&lt;const torrent_info&gt; <strong>torrent_file</strong> () const;
@@ -1006,8 +1006,8 @@ libtorrent network thread.</p>
 <div class="section" id="post-piece-availability-piece-availability">
 <h2>post_piece_availability() piece_availability()</h2>
 <pre class="literal-block">
-void <strong>post_piece_availability</strong> () const;
 void <strong>piece_availability</strong> (std::vector&lt;int&gt;&amp; avail) const;
+void <strong>post_piece_availability</strong> () const;
 </pre>
 <p>The piece availability is the number of peers that we are connected
 that has advertised having a particular piece. This is the information
@@ -1019,16 +1019,16 @@ with the availability for each piece in this torrent. libtorrent does
 not keep track of availability for seeds, so if the torrent is
 seeding the availability for all pieces is reported as 0.</p>
 <a name="get_piece_priorities()"></a>
-<a name="piece_priority()"></a>
-<a name="prioritize_pieces()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bget_piece_priorities%28%29+piece_priority%28%29+prioritize_pieces%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bget_piece_priorities%28%29+piece_priority%28%29+prioritize_pieces%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="get-piece-priorities-piece-priority-prioritize-pieces">
-<h2>get_piece_priorities() piece_priority() prioritize_pieces()</h2>
+<a name="prioritize_pieces()"></a>
+<a name="piece_priority()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bget_piece_priorities%28%29+prioritize_pieces%28%29+piece_priority%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bget_piece_priorities%28%29+prioritize_pieces%28%29+piece_priority%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="get-piece-priorities-prioritize-pieces-piece-priority">
+<h2>get_piece_priorities() prioritize_pieces() piece_priority()</h2>
 <pre class="literal-block">
-void <strong>prioritize_pieces</strong> (std::vector&lt;download_priority_t&gt; const&amp; pieces) const;
 download_priority_t <strong>piece_priority</strong> (piece_index_t index) const;
-std::vector&lt;download_priority_t&gt; <strong>get_piece_priorities</strong> () const;
-void <strong>piece_priority</strong> (piece_index_t index, download_priority_t priority) const;
 void <strong>prioritize_pieces</strong> (std::vector&lt;std::pair&lt;piece_index_t, download_priority_t&gt;&gt; const&amp; pieces) const;
+void <strong>piece_priority</strong> (piece_index_t index, download_priority_t priority) const;
+void <strong>prioritize_pieces</strong> (std::vector&lt;download_priority_t&gt; const&amp; pieces) const;
+std::vector&lt;download_priority_t&gt; <strong>get_piece_priorities</strong> () const;
 </pre>
 <p>These functions are used to set and get the priority of individual
 pieces. By default all pieces have priority 4. That means that the
@@ -1058,16 +1058,16 @@ in the torrent. Each element is the current priority of that piece.</p>
 <p>It's possible to cancel the effect of <em>file</em> priorities by setting the
 priorities for the affected pieces. Care has to be taken when mixing
 usage of file- and piece priorities.</p>
-<a name="get_file_priorities()"></a>
 <a name="prioritize_files()"></a>
-<a name="file_priority()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bget_file_priorities%28%29+prioritize_files%28%29+file_priority%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bget_file_priorities%28%29+prioritize_files%28%29+file_priority%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="get-file-priorities-prioritize-files-file-priority">
-<h2>get_file_priorities() prioritize_files() file_priority()</h2>
+<a name="file_priority()"></a>
+<a name="get_file_priorities()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bprioritize_files%28%29+file_priority%28%29+get_file_priorities%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bprioritize_files%28%29+file_priority%28%29+get_file_priorities%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="prioritize-files-file-priority-get-file-priorities">
+<h2>prioritize_files() file_priority() get_file_priorities()</h2>
 <pre class="literal-block">
-void <strong>prioritize_files</strong> (std::vector&lt;download_priority_t&gt; const&amp; files) const;
-void <strong>file_priority</strong> (file_index_t index, download_priority_t priority) const;
-std::vector&lt;download_priority_t&gt; <strong>get_file_priorities</strong> () const;
 download_priority_t <strong>file_priority</strong> (file_index_t index) const;
+void <strong>file_priority</strong> (file_index_t index, download_priority_t priority) const;
+void <strong>prioritize_files</strong> (std::vector&lt;download_priority_t&gt; const&amp; files) const;
+std::vector&lt;download_priority_t&gt; <strong>get_file_priorities</strong> () const;
 </pre>
 <p><tt class="docutils literal">index</tt> must be in the range [0, number_of_files).</p>
 <p><tt class="docutils literal">file_priority()</tt> queries or sets the priority of file <tt class="docutils literal">index</tt>.</p>
@@ -1098,14 +1098,14 @@ first, then the piece priorities.</p>
 <p>Moving data from a file into the part file is currently not
 supported. If a file has its priority set to 0 <em>after</em> it has already
 been created, it will not be moved into the partfile.</p>
-<a name="force_lsd_announce()"></a>
+<a name="force_dht_announce()"></a>
 <a name="force_reannounce()"></a>
-<a name="force_dht_announce()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bforce_lsd_announce%28%29+force_reannounce%28%29+force_dht_announce%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bforce_lsd_announce%28%29+force_reannounce%28%29+force_dht_announce%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="force-lsd-announce-force-reannounce-force-dht-announce">
-<h2>force_lsd_announce() force_reannounce() force_dht_announce()</h2>
+<a name="force_lsd_announce()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bforce_dht_announce%28%29+force_reannounce%28%29+force_lsd_announce%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bforce_dht_announce%28%29+force_reannounce%28%29+force_lsd_announce%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="force-dht-announce-force-reannounce-force-lsd-announce">
+<h2>force_dht_announce() force_reannounce() force_lsd_announce()</h2>
 <pre class="literal-block">
-void <strong>force_lsd_announce</strong> () const;
 void <strong>force_dht_announce</strong> () const;
+void <strong>force_lsd_announce</strong> () const;
 void <strong>force_reannounce</strong> (int seconds = 0, int idx = -1, reannounce_flags_t = {}) const;
 </pre>
 <p><tt class="docutils literal">force_reannounce()</tt> will force this torrent to do another tracker
@@ -1138,17 +1138,17 @@ number of incomplete peers, complete peers, number of downloads etc.</p>
 <tt class="docutils literal">num_incomplete</tt> fields in the <a class="reference external" href="reference-Torrent_Status.html#torrent_status">torrent_status</a> struct once it
 completes. When it completes, it will generate a <a class="reference external" href="reference-Alerts.html#scrape_reply_alert">scrape_reply_alert</a>.
 If it fails, it will generate a <a class="reference external" href="reference-Alerts.html#scrape_failed_alert">scrape_failed_alert</a>.</p>
+<a name="set_download_limit()"></a>
 <a name="upload_limit()"></a>
 <a name="download_limit()"></a>
-<a name="set_upload_limit()"></a>
-<a name="set_download_limit()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bupload_limit%28%29+download_limit%28%29+set_upload_limit%28%29+set_download_limit%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bupload_limit%28%29+download_limit%28%29+set_upload_limit%28%29+set_download_limit%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="upload-limit-download-limit-set-upload-limit-set-download-limit">
-<h2>upload_limit() download_limit() set_upload_limit() set_download_limit()</h2>
+<a name="set_upload_limit()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bset_download_limit%28%29+upload_limit%28%29+download_limit%28%29+set_upload_limit%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bset_download_limit%28%29+upload_limit%28%29+download_limit%28%29+set_upload_limit%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="set-download-limit-upload-limit-download-limit-set-upload-limit">
+<h2>set_download_limit() upload_limit() download_limit() set_upload_limit()</h2>
 <pre class="literal-block">
-void <strong>set_download_limit</strong> (int limit) const;
+void <strong>set_upload_limit</strong> (int limit) const;
 int <strong>download_limit</strong> () const;
 int <strong>upload_limit</strong> () const;
-void <strong>set_upload_limit</strong> (int limit) const;
+void <strong>set_download_limit</strong> (int limit) const;
 </pre>
 <p><tt class="docutils literal">set_upload_limit</tt> will limit the upload bandwidth used by this
 particular torrent to the limit you set. It is given as the number of
@@ -1202,10 +1202,10 @@ no limit. This defaults to infinite. The primary setting controlling
 this is the global unchoke slots limit, set by unchoke_slots_limit in
 <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a>.</p>
 <p><tt class="docutils literal">max_uploads()</tt> returns the current settings.</p>
-<a name="max_connections()"></a>
-<a name="set_max_connections()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bmax_connections%28%29+set_max_connections%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bmax_connections%28%29+set_max_connections%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="max-connections-set-max-connections">
-<h2>max_connections() set_max_connections()</h2>
+<a name="set_max_connections()"></a>
+<a name="max_connections()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Bset_max_connections%28%29+max_connections%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Bset_max_connections%28%29+max_connections%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="set-max-connections-max-connections">
+<h2>set_max_connections() max_connections()</h2>
 <pre class="literal-block">
 void <strong>set_max_connections</strong> (int max_connections) const;
 int <strong>max_connections</strong> () const;
@@ -1279,13 +1279,13 @@ void <strong>rename_file</strong> (file_index_t index, std::string const&amp; ne
 <p>Renames the file with the given index asynchronously. The rename
 operation is complete when either a <a class="reference external" href="reference-Alerts.html#file_renamed_alert">file_renamed_alert</a> or
 <a class="reference external" href="reference-Alerts.html#file_rename_failed_alert">file_rename_failed_alert</a> is posted.</p>
-<a name="info_hashes()"></a>
-<a name="info_hash()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Binfo_hashes%28%29+info_hash%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Binfo_hashes%28%29+info_hash%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="info-hashes-info-hash">
-<h2>info_hashes() info_hash()</h2>
+<a name="info_hash()"></a>
+<a name="info_hashes()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Binfo_hash%28%29+info_hashes%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Binfo_hash%28%29+info_hashes%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="info-hash-info-hashes">
+<h2>info_hash() info_hashes()</h2>
 <pre class="literal-block">
-info_hash_t <strong>info_hashes</strong> () const;
 sha1_hash <strong>info_hash</strong> () const;
+info_hash_t <strong>info_hashes</strong> () const;
 </pre>
 <p>returns the info-hash(es) of the torrent. If this handle is to a
 torrent that hasn't loaded yet (for instance by being added) by a
@@ -1293,15 +1293,15 @@ URL, the returned value is undefined.
 The <tt class="docutils literal">info_hash()</tt> returns the SHA-1 info-hash for v1 torrents and a
 truncated hash for v2 torrents. For the full v2 info-hash, use
 <tt class="docutils literal">info_hashes()</tt> instead.</p>
-<a name="operator!=()"></a>
+<a name="operator<()"></a>
 <a name="operator==()"></a>
-<a name="operator<()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Boperator%21%3D%28%29+operator%3D%3D%28%29+operator%3C%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Boperator%21%3D%28%29+operator%3D%3D%28%29+operator%3C%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<a name="operator!=()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_handle%3A%3A%5Boperator%3C%28%29+operator%3D%3D%28%29+operator%21%3D%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_handle%3A%3A%5Boperator%3C%28%29+operator%3D%3D%28%29+operator%21%3D%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
 <div class="section" id="operator-operator-operator">
-<h2>operator!=() operator==() operator&lt;()</h2>
+<h2>operator&lt;() operator==() operator!=()</h2>
 <pre class="literal-block">
+bool <strong>operator!=</strong> (const torrent_handle&amp; h) const;
 bool <strong>operator&lt;</strong> (const torrent_handle&amp; h) const;
 bool <strong>operator==</strong> (const torrent_handle&amp; h) const;
-bool <strong>operator!=</strong> (const torrent_handle&amp; h) const;
 </pre>
 <p>comparison operators. The order of the torrents is unspecified
 but stable.</p>

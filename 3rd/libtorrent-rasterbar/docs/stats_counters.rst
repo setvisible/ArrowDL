@@ -2106,7 +2106,7 @@ the number of uTP sockets in each respective state
 the buffer sizes accepted by
 socket send and receive calls respectively.
 The larger the buffers are, the more efficient,
-because it reqire fewer system calls per byte.
+because it require fewer system calls per byte.
 The size is 1 << n, where n is the number
 at the end of the counter name. i.e.
 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192,

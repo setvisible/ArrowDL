@@ -248,7 +248,7 @@ i2p peers as well as regular peers via a proxy.
 +------------------+--------+----------+
 | name             | type   | default  |
 +==================+========+==========+
-| peer_fingerprint | string | -LT2090- |
+| peer_fingerprint | string | -LT20A0- |
 +------------------+--------+----------+
 
 this is the fingerprint for the client. It will be used as the
