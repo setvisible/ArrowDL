@@ -272,14 +272,15 @@ jobs:
         tools: ${{matrix.qt_tools}}
         cache: true
 
-    - name: List files in Qt (if Debug Logging is enabled)
-      if:  runner.debug == '1'
-      shell: bash
-      run: cd "${{env.Qt6_DIR}}/../../" && ls -alR
-      # env.Qt6_DIR
-      #   "/home/runner/work/ArrowDL/qt/Qt/6.3.1/gcc_64"
-      #   "D:\a\ArrowDL\qt\Qt\6.3.1\mingw_64"
-
+    # Rem: this step was commented because it's too expensive:
+    # - name: List files in Qt (if Debug Logging is enabled)
+    #   if:  runner.debug == '1'
+    #   shell: bash
+    #   run: cd "${{env.Qt6_DIR}}/../../" && ls -alR
+    #   # env.Qt6_DIR
+    #   #   "/home/runner/work/ArrowDL/qt/Qt/6.3.1/gcc_64"
+    #   #   "D:\a\ArrowDL\qt\Qt\6.3.1\mingw_64"
+    #
     - name: Find OpenSSL in Qt6
       # The thing is that "env.Qt6_DIR" is defined only at runtime, *after* install-qt-action has run.
       id: qt6openssl
