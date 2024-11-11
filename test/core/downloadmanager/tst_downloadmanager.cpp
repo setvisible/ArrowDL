@@ -64,7 +64,7 @@ DownloadItem *tst_DownloadManager::createDummyJob(
         const QString url, const QString mask)
 {
     Q_ASSERT(m_tempDir.isValid());
-    qDebug() << "Directory for tests: " << m_tempDir.path();
+    // qDebug() << "Directory for tests: " << m_tempDir.path();
     ResourceItem* resource = new ResourceItem();
     resource->setUrl(url);
     resource->setDestination(m_tempDir.path());
