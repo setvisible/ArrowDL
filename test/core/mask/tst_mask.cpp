@@ -35,11 +35,11 @@ private slots:
     void interpret_data();
     void interpret();
 
-    void interpretEscaped();
     void interpretEscaped_data();
+    void interpretEscaped();
 
-    void interpretForbidden();
     void interpretForbidden_data();
+    void interpretForbidden();
 };
 
 

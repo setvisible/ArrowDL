@@ -84,7 +84,7 @@ void tst_DownloadManager::appendJobPaused()
     QSignalSpy spyJobFinished(target.data(), SIGNAL(jobFinished(IDownloadItem*)));
 
     /* The most permanent url in the whole universe */
-    // QString address = "https://www.arrow-dl.com/styles.css"; // css not png
+    // QString address = "https://www.arrow-dl.com/favicon.ico"; // ico, not png
 
     /// \todo fix IDownloadItem::NetworkError with "3xx Unknown redirect error" with SSL url
 
