@@ -26,7 +26,7 @@ env:
   LibtorrentRasterbar_BUILD_DIR: ${{github.workspace}}/00/build/libtorrent-rasterbar
   LibtorrentRasterbar_INSTALL_DIR: ${{github.workspace}}/00/install/libtorrent-rasterbar
   #                                                      ^^
-  # HACK cache@v3: using '/00/' instead of '/../': Relative pathing '.' and '..' is not allowed.
+  # HACK actions/cache@v3: using '/00/' instead of '/../': Relative pathing '.' and '..' is not allowed.
   LibtorrentRasterbar_VERSION_FILE: ${{github.workspace}}/3rd/libtorrent-rasterbar/include/libtorrent/version.hpp
   Application_VERSION_FILE: ${{github.workspace}}/version
   Changelog_FILE_NAME: ${{github.workspace}}/00/GIT-CHANGELOG.txt
@@ -42,7 +42,7 @@ jobs:
     environment: production
     steps:
     - name: Check out repository code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Create WebBrowser Addons
       id: webaddons
@@ -69,13 +69,13 @@ jobs:
                    print(f"Addon_Web_Extension_Firefox={ artifact_firefox }", file=f)
 
     - name: Upload Chromium Addon
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: artifact_chromium
         path: ${{ steps.webaddons.outputs.Addon_Web_Extension_Chromium }}
 
     - name: Upload Firefox Addon
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: artifact_firefox
         path: ${{ steps.webaddons.outputs.Addon_Web_Extension_Firefox }}
@@ -115,7 +115,7 @@ jobs:
 
     steps:
     - name: Check out repository code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
 #    - name: Clean Environment 
 #      shell: python # otherwise Windows uses Powershell, Linux uses bash
@@ -224,7 +224,7 @@ jobs:
            echo "LibtorrentRasterbar_VERSION: '${{env.LibtorrentRasterbar_VERSION}}'"
 
     - name: Cache Libtorrent Static Libraries
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       id: cache-libtorrent
       env:
         LibtorrentRasterbar_VERSION: ${{ steps.getversion.outputs.LibtorrentRasterbar_VERSION }}
@@ -236,7 +236,7 @@ jobs:
           ${{env.LibtorrentRasterbar_INSTALL_DIR}}
 
     - name: Install Boost
-      uses: MarkusJx/install-boost@v2.4.3
+      uses: MarkusJx/install-boost@v2.4.5
       id: install-boost
       with:
         boost_version: ${{env.BOOST_VERSION}}
@@ -260,7 +260,7 @@ jobs:
            ls -al
 
     - name: Install Qt
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v4
       # Rem: Once installed, ${{env.Qt6_DIR}} is set.
       # https://ddalcino.github.io/aqt-list-server/
       with:
@@ -473,7 +473,7 @@ jobs:
 
     - name: Upload Linux Portable
       if: ${{ matrix.os == 'ubuntu-latest' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       env:
         TARBALL_NAME: "${{ steps.getversion.outputs.Application_Linux_NAME }}.tar.gz"
       with:
@@ -501,7 +501,7 @@ jobs:
 
     - name: Upload Windows MingGW x64 Portable
       if: ${{ matrix.os == 'windows-latest' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       env:
         ZIP_NAME: "${{ steps.getversion.outputs.Application_Windows_MinGW_x64_NAME }}.zip"
       with:
@@ -510,7 +510,7 @@ jobs:
 
     - name: Create NSIS installer
       if: ${{ matrix.os == 'windows-latest' }}
-      uses: joncloud/makensis-action@v3.7
+      uses: joncloud/makensis-action@v4.1
       env:
         Application_VERSION: ${{ steps.getversion.outputs.Application_VERSION }}
       with:
@@ -534,7 +534,7 @@ jobs:
 
     - name: Upload Windows 64 Installer
       if: ${{ matrix.os == 'windows-latest' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: artifact_windows_64_installer
         path: "${{env.Project_RELEASE_DIR}}/ArrowDL_x64_Setup.exe"
@@ -555,35 +555,35 @@ jobs:
 
     - name: Download Chromium Addon
       continue-on-error: true
-      uses: actions/download-artifact@v4.1.7
+      uses: actions/download-artifact@v4
       with:
         name: artifact_chromium
         path: "${{env.Project_RELEASE_DIR}}"
 
     - name: Download Firefox Addon
       continue-on-error: true
-      uses: actions/download-artifact@v4.1.7
+      uses: actions/download-artifact@v4
       with:
         name: artifact_firefox
         path: "${{env.Project_RELEASE_DIR}}"
 
     - name: Download Linux Portable
       continue-on-error: true
-      uses: actions/download-artifact@v4.1.7
+      uses: actions/download-artifact@v4
       with:
         name: artifact_linux_portable
         path: "${{env.Project_RELEASE_DIR}}"
 
     - name: Download Windows MinGW 64 Portable
       continue-on-error: true
-      uses: actions/download-artifact@v4.1.7
+      uses: actions/download-artifact@v4
       with:
         name: artifact_windows_mingw_64_portable
         path: "${{env.Project_RELEASE_DIR}}"
 
     - name: Download Windows 64 Installer
       continue-on-error: true
-      uses: actions/download-artifact@v4.1.7
+      uses: actions/download-artifact@v4
       with:
         name: artifact_windows_64_installer
         path: "${{env.Project_RELEASE_DIR}}"
@@ -614,7 +614,7 @@ jobs:
                    my_file.write("\r\n")
 
     - name: Publish
-      uses: softprops/action-gh-release@v0.1.15
+      uses: softprops/action-gh-release@v2
       #if: startsWith(github.ref, 'refs/tags/') # Limit releases to pushes to tags
       env:
         BRANCH_OR_TAG_NAME: ${{ github.head_ref || github.ref_name }}
