@@ -928,8 +928,8 @@ L&apos;applicazione non verrà scaricata con socket protetti (HTTPS, FTPS).</tra
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="312"/>
-        <source>5xx Unknown serveur error</source>
-        <translation>500 errore server sconosciuto</translation>
+        <source>5xx Unknown server error</source>
+        <translation>5xx errore server sconosciuto</translation>
     </message>
 </context>
 <context>

@@ -15,6 +15,10 @@ set(MY_TEST_SOURCES
     ${CMAKE_SOURCE_DIR}/src/widgets/pathwidget.cpp
 )
 
+qt_add_resources(MY_TEST_SOURCES
+    ${CMAKE_SOURCE_DIR}/src/resources.qrc
+)
+
 add_executable(${MY_TEST_TARGET} WIN32
     ${CMAKE_CURRENT_SOURCE_DIR}/tst_pathwidget.cpp
     ${MY_TEST_SOURCES}

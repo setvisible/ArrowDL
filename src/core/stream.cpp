@@ -951,11 +951,11 @@ StreamObject StreamAssetDownloader::parseDumpItemStdOut(const QByteArray &bytes)
     QJsonDocument loadDoc(QJsonDocument::fromJson(bytes, &ok));
     if (ok.error != QJsonParseError::NoError) {
 
-        qDebug() << Q_FUNC_INFO;
-        qDebug() << "! Error JSON:" << QJsonParseError::ParseError(ok.error);
-        qDebug() << "   at position" << ok.offset;
-        qDebug() << bytes.mid(ok.offset - 20, ok.offset + 20);
-        qDebug() << QString("%0^").arg(QString().fill(' ', 20));
+        // qDebug() << Q_FUNC_INFO;
+        // qDebug() << "! Error JSON:" << QJsonParseError::ParseError(ok.error);
+        // qDebug() << "   at position" << ok.offset;
+        // qDebug() << bytes.mid(ok.offset - 20, ok.offset + 20);
+        // qDebug() << QString("%0^").arg(QString().fill(' ', 20));
 
         obj.setError(StreamObject::ErrorJsonFormat);
         return obj;

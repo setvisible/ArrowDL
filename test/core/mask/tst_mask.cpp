@@ -35,11 +35,11 @@ private slots:
     void interpret_data();
     void interpret();
 
-    void interpretEscaped();
     void interpretEscaped_data();
+    void interpretEscaped();
 
-    void interpretForbidden();
     void interpretForbidden_data();
+    void interpretForbidden();
 };
 
 
@@ -72,10 +72,10 @@ void tst_Mask::fromUserInput_data()
 
     /* End of line */
     QUrl expectedEOL("https://www.example.org/image.jpg");
-    QTest::newRow("EOL") << "https://www.example.org/image.jpg\n" << expectedEOL;
-    QTest::newRow("EOL") << "https://www.example.org/image.jpg\r" << expectedEOL;
-    QTest::newRow("EOL") << "https://www.example.org/image.jpg\r\n" << expectedEOL;
-    QTest::newRow("EOL") << "https://www.example.org/image.jpg%0A%0D%0D" << expectedEOL;
+    QTest::newRow("EOL N") << "https://www.example.org/image.jpg\n" << expectedEOL;
+    QTest::newRow("EOL R") << "https://www.example.org/image.jpg\r" << expectedEOL;
+    QTest::newRow("EOL RN") << "https://www.example.org/image.jpg\r\n" << expectedEOL;
+    QTest::newRow("EOL %") << "https://www.example.org/image.jpg%0A%0D%0D" << expectedEOL;
 }
 
 void tst_Mask::fromUserInput()
@@ -142,8 +142,8 @@ void tst_Mask::interpret_data()
 
     /* Composites */
     QTest::newRow("composite") << url << "*name*.*ext*" << "myimage.tar.gz";
-    QTest::newRow("file separator /") << url << "*url*/*subdirs*/*name*.*ext*" << "www.myweb.com/images/01/myimage.tar.gz";
-    QTest::newRow("file separator \\") << url << "*url*\\*subdirs*\\*name*.*ext*" << "www.myweb.com/images/01/myimage.tar.gz";
+    QTest::newRow("file separator slash") << url << "*url*/*subdirs*/*name*.*ext*" << "www.myweb.com/images/01/myimage.tar.gz";
+    QTest::newRow("file separator backslash") << url << "*url*\\*subdirs*\\*name*.*ext*" << "www.myweb.com/images/01/myimage.tar.gz";
 
     /* Limit cases */
     QTest::newRow("no file")   << "https://www.myweb.com/images/" << mask << "www.myweb.com/images";
@@ -155,10 +155,10 @@ void tst_Mask::interpret_data()
     QTest::newRow("no basename") << "https://www.myweb.com/.image" << mask << "www.myweb.com/.image";
 
     /* Bad masks */
-    QTest::newRow("trailing . and /") << url << "///*name*..//./." << "myimage.tar";
-    QTest::newRow("trailing . and /") << url << "///*ext*..//./." << "gz";
-    QTest::newRow("duplicate /") << url << "*url*/////*name*" << "www.myweb.com/myimage.tar";
-    QTest::newRow("duplicate /") << url << "*url*/////*ext*" << "www.myweb.com/gz";
+    QTest::newRow("name with trailing . and slash") << url << "///*name*..//./." << "myimage.tar";
+    QTest::newRow("extension with trailing . and slash") << url << "///*ext*..//./." << "gz";
+    QTest::newRow("name with duplicate slash") << url << "*url*/////*name*" << "www.myweb.com/myimage.tar";
+    QTest::newRow("extension with duplicate slash") << url << "*url*/////*ext*" << "www.myweb.com/gz";
 }
 
 void tst_Mask::interpret()
@@ -217,15 +217,15 @@ void tst_Mask::interpretForbidden_data()
             << "http://www.example.org/%3F/question_mark_%3F.jpg"
             << QString() << mask << "www.example.org/_/question_mark__.jpg";
 
-    QTest::newRow("'?' is a query here")
+    QTest::newRow("'?' is a query here 1")
             << "http://www.example.org/archive.tar.gz?id=1345&lang=eng"
             << QString() << mask << "www.example.org/archive.tar.gz";
 
-    QTest::newRow("'?' is a query here")
+    QTest::newRow("'?' is a query here 2")
             << "http://www.example.org/faq.html?#fragment"
             << QString() << mask << "www.example.org/faq.html";
 
-    QTest::newRow("'?' is a query here")
+    QTest::newRow("'?' is a query here 3")
             << "http://www.example.org/faq.html?"
             << QString() << mask << "www.example.org/faq.html";
 

@@ -64,7 +64,7 @@ DownloadItem *tst_DownloadManager::createDummyJob(
         const QString url, const QString mask)
 {
     Q_ASSERT(m_tempDir.isValid());
-    qDebug() << "Directory for tests: " << m_tempDir.path();
+    // qDebug() << "Directory for tests: " << m_tempDir.path();
     ResourceItem* resource = new ResourceItem();
     resource->setUrl(url);
     resource->setDestination(m_tempDir.path());
@@ -84,7 +84,7 @@ void tst_DownloadManager::appendJobPaused()
     QSignalSpy spyJobFinished(target.data(), SIGNAL(jobFinished(IDownloadItem*)));
 
     /* The most permanent url in the whole universe */
-    // QString address = "https://www.arrow-dl.com/styles.css"; // css not png
+    // QString address = "https://www.arrow-dl.com/favicon.ico"; // ico, not png
 
     /// \todo fix IDownloadItem::NetworkError with "3xx Unknown redirect error" with SSL url
 
