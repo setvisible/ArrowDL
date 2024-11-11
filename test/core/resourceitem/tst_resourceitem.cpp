@@ -47,28 +47,28 @@ void tst_ResourceItem::localFileUrl_data()
             << ""
             << QUrl("file:///home/me/documents/myimage.tar.gz");
 
-    QTest::newRow("windows file system")
+    QTest::newRow("windows file system 1")
             << "https://www.myweb.com/images/01/myimage.tar.gz"
             << "C:/Temp"
             << "*name*.*ext*"
             << ""
             << QUrl("file:///C:/Temp/myimage.tar.gz");
 
-    QTest::newRow("windows file system")
+    QTest::newRow("windows file system 2")
             << "https://www.myweb.com/images/01/myimage.tar.gz"
             << "C:/Temp"
             << "*url*\\*subdirs*\\*name*.*ext*"
             << ""
             << QUrl("file:///C:/Temp/www.myweb.com/images/01/myimage.tar.gz");
 
-    QTest::newRow("windows custom filename")
+    QTest::newRow("windows custom filename 1")
             << "https://www.myweb.com/images/01/myimage.tar.gz"
             << "C:/Temp"
             << "*name*.*ext*"
             << "A NEW FILE NAME"
             << QUrl("file:///C:/Temp/A NEW FILE NAME.gz");
 
-    QTest::newRow("windows custom filename")
+    QTest::newRow("windows custom filename 2")
             << "https://www.myweb.com/images/01/myimage.tar.gz"
             << "C:/Temp"
             << "*url*\\*subdirs*\\*name*.*ext*"

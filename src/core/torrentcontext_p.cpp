@@ -1172,10 +1172,10 @@ TorrentInitialMetaInfo WorkerThread::dump(const QString &filename) const
     lt::error_code error_code;
     const lt::torrent_info torrent_info(filename.toStdString(), error_code);
     if (error_code) {
-        qWarning() << "failed to decode file '"
-                   << filename
-                   << "' due to"
-                   << QString::fromStdString(error_code.message());
+        // qWarning() << "failed to decode file '"
+        //            << filename
+        //            << "' due to"
+        //            << QString::fromStdString(error_code.message());
         return {};
     }
     auto ptr_torrent_info= std::make_shared<lt::torrent_info>(torrent_info);

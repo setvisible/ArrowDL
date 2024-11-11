@@ -38,18 +38,18 @@ void tst_TorrentBaseContext::computePriority_data()
 
     QTest::newRow("unique item") << 0 << 1 << static_cast<int>(TorrentFileInfo::Normal);
 
-    QTest::newRow("2 items") << 0 << 2 << static_cast<int>(TorrentFileInfo::Normal);
-    QTest::newRow("2 items") << 1 << 2 << static_cast<int>(TorrentFileInfo::Normal);
+    QTest::newRow("2 items (item 0)") << 0 << 2 << static_cast<int>(TorrentFileInfo::Normal);
+    QTest::newRow("2 items (item 1)") << 1 << 2 << static_cast<int>(TorrentFileInfo::Normal);
 
-    QTest::newRow("9 items") << 0 << 9 << static_cast<int>(TorrentFileInfo::High);
-    QTest::newRow("9 items") << 1 << 9 << static_cast<int>(TorrentFileInfo::High);
-    QTest::newRow("9 items") << 2 << 9 << static_cast<int>(TorrentFileInfo::High);
-    QTest::newRow("9 items") << 3 << 9 << static_cast<int>(TorrentFileInfo::Normal);
-    QTest::newRow("9 items") << 4 << 9 << static_cast<int>(TorrentFileInfo::Normal);
-    QTest::newRow("9 items") << 5 << 9 << static_cast<int>(TorrentFileInfo::Normal);
-    QTest::newRow("9 items") << 6 << 9 << static_cast<int>(TorrentFileInfo::Low);
-    QTest::newRow("9 items") << 7 << 9 << static_cast<int>(TorrentFileInfo::Low);
-    QTest::newRow("9 items") << 8 << 9 << static_cast<int>(TorrentFileInfo::Low);
+    QTest::newRow("9 items (item 0)") << 0 << 9 << static_cast<int>(TorrentFileInfo::High);
+    QTest::newRow("9 items (item 1)") << 1 << 9 << static_cast<int>(TorrentFileInfo::High);
+    QTest::newRow("9 items (item 2)") << 2 << 9 << static_cast<int>(TorrentFileInfo::High);
+    QTest::newRow("9 items (item 3)") << 3 << 9 << static_cast<int>(TorrentFileInfo::Normal);
+    QTest::newRow("9 items (item 4)") << 4 << 9 << static_cast<int>(TorrentFileInfo::Normal);
+    QTest::newRow("9 items (item 5)") << 5 << 9 << static_cast<int>(TorrentFileInfo::Normal);
+    QTest::newRow("9 items (item 6)") << 6 << 9 << static_cast<int>(TorrentFileInfo::Low);
+    QTest::newRow("9 items (item 7)") << 7 << 9 << static_cast<int>(TorrentFileInfo::Low);
+    QTest::newRow("9 items (item 8)") << 8 << 9 << static_cast<int>(TorrentFileInfo::Low);
 }
 
 void tst_TorrentBaseContext::computePriority()

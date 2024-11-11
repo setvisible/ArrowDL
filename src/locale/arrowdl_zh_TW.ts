@@ -926,7 +926,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="312"/>
-        <source>5xx Unknown serveur error</source>
+        <source>5xx Unknown server error</source>
         <translation>5xx 未知伺服器錯誤</translation>
     </message>
 </context>

@@ -38,23 +38,22 @@ void tst_UpdateChecker::cleanTag_data()
         QTest::addColumn<QString>("expected");
         QTest::addColumn<QString>("input");
 
-        QTest::newRow("null") << QString() << QString();
         QTest::newRow("null") << "" << QString();
-        QTest::newRow("null") << "" << "";
+        QTest::newRow("empty") << "" << "";
 
         QTest::newRow("equal") << "2.5.0" << "2.5.0";
-        QTest::newRow("equal") << "2.5.0" << "  2.5.0  ";
+        QTest::newRow("equal untrimmed") << "2.5.0" << "  2.5.0  ";
 
-        QTest::newRow("dot") << "2.5.0" << "...2.5.0...";
-        QTest::newRow("dot") << "2.5.0" << "...2.,  ,5..Aaa..0";
-        QTest::newRow("dot") << "2.5.0.1254" << "version 2.5.0 build 1254";
+        QTest::newRow("dot before") << "2.5.0" << "...2.5.0...";
+        QTest::newRow("dot inside") << "2.5.0" << "...2.,  ,5..Aaa..0";
+        QTest::newRow("dot verbose") << "2.5.0.1254" << "version 2.5.0 build 1254";
 
-        QTest::newRow("prefix") << "2.5.0" << "v2.5.0";
-        QTest::newRow("prefix") << "2.5.0" << "v_2.5.0";
-        QTest::newRow("prefix") << "2.5.0" << "v.2.5.0";
-        QTest::newRow("prefix") << "2.5.0" << "v 2.5.0";
-        QTest::newRow("prefix") << "2.5.0" << "version 2.5.0";
-        QTest::newRow("prefix") << "2.5.0" << "  version 2.5.0 bis ";
+        QTest::newRow("prefix v") << "2.5.0" << "v2.5.0";
+        QTest::newRow("prefix v_") << "2.5.0" << "v_2.5.0";
+        QTest::newRow("prefix v.") << "2.5.0" << "v.2.5.0";
+        QTest::newRow("prefix v+space") << "2.5.0" << "v 2.5.0";
+        QTest::newRow("prefix version") << "2.5.0" << "version 2.5.0";
+        QTest::newRow("prefix untrimmed") << "2.5.0" << "  version 2.5.0 bis ";
 }
 
 void tst_UpdateChecker::cleanTag()
@@ -73,37 +72,36 @@ void tst_UpdateChecker::isVersionGreaterThan_data()
         QTest::addColumn<QString>("s1");
         QTest::addColumn<QString>("s2");
 
-        QTest::newRow("null") << false << QString() << QString();
         QTest::newRow("null") << false << "" << QString();
-        QTest::newRow("null") << false << "" << "";
+        QTest::newRow("empty") << false << "" << "";
 
         QTest::newRow("equal") << false << "2.5.0" << "2.5.0";
         QTest::newRow("number") << false << "2.5.0" << "2.5.1";
-        QTest::newRow("number") << true << "2.5.1" << "2.5.0";
+        QTest::newRow("number inversed") << true << "2.5.1" << "2.5.0";
 
         // Sort versions with different length:
         // "2" < "2.0" < "2.4" <"2.4.0"
-        QTest::newRow("different length") << true << "2.0" << "2";
-        QTest::newRow("different length") << true << "2.4" << "2.0";
-        QTest::newRow("different length") << true << "2.4.0" << "2.4";
-        QTest::newRow("different length") << true << "2.5" << "2.4.9";
+        QTest::newRow("different length 1 vs 0") << true << "2.0" << "2";
+        QTest::newRow("different length 1 vs 1") << true << "2.4" << "2.0";
+        QTest::newRow("different length 3 vs 2") << true << "2.4.0" << "2.4";
+        QTest::newRow("different length 2 vs 3") << true << "2.5" << "2.4.9";
 
         // Bugfix QCollator when no ICU is available
         QTest::newRow("QCollator 100 > 99") << true << "2.5.100" << "2.5.99";
         QTest::newRow("QCollator 99 > 10 ") << true << "2.5.99" << "2.5.10";
         QTest::newRow("QCollator 099 > 10 ") << true << "2.5.099" << "2.5.10";
 
-        QTest::newRow("prefix") << true << "2.5.1" << "v2.5.0";
-        QTest::newRow("prefix") << true << "2.5.1" << "v_2.5.0";
-        QTest::newRow("prefix") << true << "2.5.1" << "v.2.5.0";
-        QTest::newRow("prefix") << true << "2.5.1" << "v 2.5.0";
-        QTest::newRow("prefix") << true << "2.5.1" << "version 2.5.0";
+        QTest::newRow("prefix v") << true << "2.5.1" << "v2.5.0";
+        QTest::newRow("prefix v_") << true << "2.5.1" << "v_2.5.0";
+        QTest::newRow("prefix v.") << true << "2.5.1" << "v.2.5.0";
+        QTest::newRow("prefix v+space") << true << "2.5.1" << "v 2.5.0";
+        QTest::newRow("prefix version") << true << "2.5.1" << "version 2.5.0";
 
-        QTest::newRow("prefix") << true << "v2.5.1" << "2.5.0";
-        QTest::newRow("prefix") << true << "v_2.5.1" << "2.5.0";
-        QTest::newRow("prefix") << true << "v.2.5.1" << "2.5.0";
-        QTest::newRow("prefix") << true << "v 2.5.1" << "2.5.0";
-        QTest::newRow("prefix") << true << "version 2.5.1" << "2.5.0";
+        QTest::newRow("prefix 2 v") << true << "v2.5.1" << "2.5.0";
+        QTest::newRow("prefix 2 v_") << true << "v_2.5.1" << "2.5.0";
+        QTest::newRow("prefix 2 v.") << true << "v.2.5.1" << "2.5.0";
+        QTest::newRow("prefix 2 v+space") << true << "v 2.5.1" << "2.5.0";
+        QTest::newRow("prefix 2 version") << true << "version 2.5.1" << "2.5.0";
 }
 
 void tst_UpdateChecker::isVersionGreaterThan()

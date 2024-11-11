@@ -35,20 +35,20 @@ void tst_TextEdit::fragmentToPaste_data()
     QTest::addColumn<QString>("input");
     QTest::addColumn<QString>("expected");
 
-    QTest::newRow("simple") << "" << "";
-    QTest::newRow("simple") << "Hello World" << "Hello World";
+    QTest::newRow("empty") << "" << "";
+    QTest::newRow("trivial") << "Hello World" << "Hello World";
 
-    QTest::newRow("multiple line RN") << "\r\nHello World" << "";
-    QTest::newRow("multiple line RN") << "Hello\r\n World" << "Hello";
-    QTest::newRow("multiple line RN") << "Hello World\r\n" << "Hello World";
+    QTest::newRow("multiple line RN 1") << "\r\nHello World" << "";
+    QTest::newRow("multiple line RN 2") << "Hello\r\n World" << "Hello";
+    QTest::newRow("multiple line RN 3") << "Hello World\r\n" << "Hello World";
 
-    QTest::newRow("multiple line R") << "\rHello World" << "";
-    QTest::newRow("multiple line R") << "Hello\r World" << "Hello";
-    QTest::newRow("multiple line R") << "Hello World\r" << "Hello World";
+    QTest::newRow("multiple line R 1") << "\rHello World" << "";
+    QTest::newRow("multiple line R 2") << "Hello\r World" << "Hello";
+    QTest::newRow("multiple line R 3") << "Hello World\r" << "Hello World";
 
-    QTest::newRow("multiple line N") << "\nHello World" << "";
-    QTest::newRow("multiple line N") << "Hello\n World" << "Hello";
-    QTest::newRow("multiple line N") << "Hello World\n" << "Hello World";
+    QTest::newRow("multiple line N 1") << "\nHello World" << "";
+    QTest::newRow("multiple line N 2") << "Hello\n World" << "Hello";
+    QTest::newRow("multiple line N 3") << "Hello World\n" << "Hello World";
 }
 
 void tst_TextEdit::fragmentToPaste()

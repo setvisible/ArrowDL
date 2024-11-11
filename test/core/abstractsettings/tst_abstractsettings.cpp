@@ -55,9 +55,9 @@ void tst_AbstractSettings::addSettingWithString_data()
     QTest::addColumn<QString>("input");
     QTest::addColumn<QString>("expected");
 
-    QTest::newRow("simple") << "Color" << "red" << "blue" << "blue";
-    QTest::newRow("simple") << "-" << "red" << "" << "";
-    QTest::newRow("simple") << "..." << "red" << "10" << "10";
+    QTest::newRow("trivial") << "Color" << "red" << "blue" << "blue";
+    QTest::newRow("key -") << "-" << "red" << "" << "";
+    QTest::newRow("key .") << "..." << "red" << "10" << "10";
     QTest::newRow("simple") << "integer" << "red" << "10" << "10";
 
     QTest::newRow("empty") << "Color" << "red" << "" << "";

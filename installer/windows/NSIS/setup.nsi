@@ -29,7 +29,7 @@
 !define PRODUCT_VERSION ${VERSION}
 !define PRODUCT_GROUP "Sebastien Vavassori"
 !define PRODUCT_PUBLISHER "Sebastien Vavassori"
-!define PRODUCT_WEB_SITE "https://www.arrow-dl.com/ArrowDL"
+!define PRODUCT_WEB_SITE "https://www.arrow-dl.com/"
 
 ; Adds info to the installer
 VIProductVersion "${PRODUCT_VERSION}.000"

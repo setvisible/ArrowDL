@@ -926,7 +926,7 @@ A kötegleírók használatával több fájlt is letölthetsz egyszerre.</transl
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="312"/>
-        <source>5xx Unknown serveur error</source>
+        <source>5xx Unknown server error</source>
         <translation>5xx Ismeretlen szerverhiba</translation>
     </message>
 </context>
@@ -2250,12 +2250,12 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="434"/>
         <source>Concurrent fragments:</source>
-        <translation type="unfinished"/>
+        <translation>Aktuális letöltések</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="517"/>
         <source>20</source>
-        <translation type="unfinished"/>
+        <translation>20</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="597"/>
@@ -2860,12 +2860,12 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
     <message>
         <location filename="../core/theme.cpp" line="111"/>
         <source>Bootstrap Icons (default)</source>
-        <translation type="unfinished"/>
+        <translation>Bootstrap ikonok (alapértelmezett)</translation>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="112"/>
         <source>FontAwesome Flat Design</source>
-        <translation type="unfinished"/>
+        <translation>FontAwesome Flat Design</translation>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="141"/>

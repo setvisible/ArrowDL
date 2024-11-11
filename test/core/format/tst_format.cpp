@@ -66,17 +66,17 @@ void tst_Format::timeToString_data()
     QTest::addColumn<QTime>("time");
     QTest::addColumn<QString>("expected");
 
-    QTest::newRow("invalid time") << QTime() << "--:--";
-    QTest::newRow("invalid time") << QTime(0, 0, 60, 0) << "--:--";
-    QTest::newRow("invalid time") << QTime(1236, 0) << "--:--";
+    QTest::newRow("invalid time 1") << QTime() << "--:--";
+    QTest::newRow("invalid time 2") << QTime(0, 0, 60, 0) << "--:--";
+    QTest::newRow("invalid time 3") << QTime(1236, 0) << "--:--";
 
     QTest::newRow("0 sec") << QTime(0, 0, 0, 0) << "00:01";
-    QTest::newRow("0 sec") << QTime(0, 0, 0, 500) << "00:01";
-    QTest::newRow("0 sec") << QTime(0, 0, 0, 999) << "00:01";
+    QTest::newRow("0.5 sec") << QTime(0, 0, 0, 500) << "00:01";
+    QTest::newRow("0.999 sec") << QTime(0, 0, 0, 999) << "00:01";
     QTest::newRow("1 sec") << QTime(0, 0, 1, 0) << "00:01";
-    QTest::newRow("1 sec") << QTime(0, 0, 1, 500) << "00:01";
-    QTest::newRow("1 sec") << QTime(0, 0, 1, 999) << "00:01";
-    QTest::newRow("60 sec") << QTime(0, 0, 59, 999) << "00:59";
+    QTest::newRow("1.5 sec") << QTime(0, 0, 1, 500) << "00:01";
+    QTest::newRow("1.999 sec") << QTime(0, 0, 1, 999) << "00:01";
+    QTest::newRow("59.99 sec") << QTime(0, 0, 59, 999) << "00:59";
     QTest::newRow("60 sec") << QTime(0, 1, 0, 0) << "01:00";
     QTest::newRow("1 day") << QTime(23, 59, 59, 999) << "23:59:59";
 }
@@ -96,19 +96,19 @@ void tst_Format::timeToString_seconds_data()
     QTest::addColumn<qint64>("seconds");
     QTest::addColumn<QString>("expected");
 
-    QTest::newRow("invalid time") << qint64(-1) << "--:--";
-    QTest::newRow("invalid time") << qint64(0) << "00:01";
-    QTest::newRow("invalid time") << qint64(1) << "00:01";
-    QTest::newRow("invalid time") << qint64(2) << "00:02";
+    QTest::newRow("invalid time 1") << qint64(-1) << "--:--";
+    QTest::newRow("invalid time 2") << qint64(0) << "00:01";
+    QTest::newRow("invalid time 3") << qint64(1) << "00:01";
+    QTest::newRow("invalid time 4") << qint64(2) << "00:02";
 
-    QTest::newRow("60 sec") << qint64(59) << "00:59";
+    QTest::newRow("59 sec") << qint64(59) << "00:59";
     QTest::newRow("60 sec") << qint64(60) << "01:00";
-    QTest::newRow("60 sec") << qint64(3599) << "59:59";
-    QTest::newRow("60 sec") << qint64(3600) << "01:00:00";
+    QTest::newRow("59 min 59 sec") << qint64(3599) << "59:59";
+    QTest::newRow("1 hour") << qint64(3600) << "01:00:00";
 
     QTest::newRow("1 day") << qint64(24*60*60 - 1) << "23:59:59";
-    QTest::newRow("more than 1 day") << qint64(24*60*60) << QString::fromUtf8("\xE2\x88\x9E");
-    QTest::newRow("more than 1 day") << qint64(24*60*60 + 1) << QString::fromUtf8("\xE2\x88\x9E");
+    QTest::newRow("more than 1 day (1)") << qint64(24*60*60) << QString::fromUtf8("\xE2\x88\x9E");
+    QTest::newRow("more than 1 day (2)") << qint64(24*60*60 + 1) << QString::fromUtf8("\xE2\x88\x9E");
 }
 
 void tst_Format::timeToString_seconds()
@@ -146,7 +146,7 @@ void tst_Format::fileSizeToString_data()
     QTest::newRow("1234567890123456 bytes") << BigInteger(1234567890123456) << "1122.833 TB";
 
     QTest::newRow("MAX") << BigInteger(SIZE_MAX) << "Unknown";
-    QTest::newRow("negative") << BigInteger(-1) << "Unknown";
+    QTest::newRow("negative (2)") << BigInteger(-1) << "Unknown";
 
     QTest::newRow("MIN") << BigInteger(-SIZE_MAX) << "1 byte";
 }
@@ -218,8 +218,8 @@ void tst_Format::currentSpeedToString_data()
     QTest::newRow("1234567890123456 bytes") << 1234567890123456.0 << "1122.83 TB/s";
 
     QTest::newRow("INFINITY") << qInf() << "-";
-    QTest::newRow("NaN") << qQNaN() << "-";
-    QTest::newRow("NaN") << qSNaN() << "-";
+    QTest::newRow("NaN quiet") << qQNaN() << "-";
+    QTest::newRow("NaN signalling") << qSNaN() << "-";
 }
 
 void tst_Format::currentSpeedToString()
@@ -238,21 +238,21 @@ void tst_Format::parsePercentDecimal_data()
     QTest::addColumn<qreal>("expected");
 
     /* Invalid */
-    QTest::newRow("invalid") << "" << -1.0;
-    QTest::newRow("invalid") << QString() << -1.0;
+    QTest::newRow("null") << QString() << -1.0;
+    QTest::newRow("empty") << "" << -1.0;
     QTest::newRow("invalid") << "azerty" << -1.0;
-    QTest::newRow("invalid") << "NaN" << -1.0;
+    QTest::newRow("nan") << "NaN" << -1.0;
     QTest::newRow("negative") << "-1.0%" << -1.0;
 
     /* Valid */
-    QTest::newRow("zero") << "0%" << 0.0;
-    QTest::newRow("zero") << "0.0%" << 0.0;
-    QTest::newRow("zero") << "0.0 %" << 0.0;
-    QTest::newRow("zero") << "0.0   %" << 0.0;
+    QTest::newRow("zero 1") << "0%" << 0.0;
+    QTest::newRow("zero 2") << "0.0%" << 0.0;
+    QTest::newRow("zero 3") << "0.0 %" << 0.0;
+    QTest::newRow("zero 4") << "0.0   %" << 0.0;
 
     QTest::newRow("8.2") << "8.2%" << 8.2;
-    QTest::newRow("100.0") << "100.0%" << 100.0;
-    QTest::newRow("100.0") << "1325.6654%" << 1325.6654;
+    QTest::newRow("100%") << "100.0%" << 100.0;
+    QTest::newRow("more than 100%") << "1325.6654%" << 1325.6654;
 }
 
 void tst_Format::parsePercentDecimal()
@@ -271,25 +271,25 @@ void tst_Format::parseBytes_data()
     QTest::addColumn<BigInteger>("expected");
 
     /* Invalid */
-    QTest::newRow("invalid") << ""          << BigInteger(-1);
-    QTest::newRow("invalid") << QString()   << BigInteger(-1);
+    QTest::newRow("null") << QString()   << BigInteger(-1);
+    QTest::newRow("empty") << ""          << BigInteger(-1);
     QTest::newRow("invalid") << "azerty"    << BigInteger(-1);
-    QTest::newRow("invalid") << "NaN"       << BigInteger(-1);
+    QTest::newRow("nan") << "NaN"       << BigInteger(-1);
 
-    QTest::newRow("unitless") << "0"        << BigInteger(-1);
-    QTest::newRow("unitless") << "0.0"      << BigInteger(-1);
+    QTest::newRow("unitless 1") << "0"        << BigInteger(-1);
+    QTest::newRow("unitless 2") << "0.0"      << BigInteger(-1);
 
-    QTest::newRow("unknown") << "-"         << BigInteger(-1);
-    QTest::newRow("unknown") << "-.-"       << BigInteger(-1);
-    QTest::newRow("unknown") << "--.--"     << BigInteger(-1);
-    QTest::newRow("unknown") << "..."       << BigInteger(-1);
-    QTest::newRow("unknown") << "?"         << BigInteger(-1);
+    QTest::newRow("unknown 1") << "-"         << BigInteger(-1);
+    QTest::newRow("unknown 2") << "-.-"       << BigInteger(-1);
+    QTest::newRow("unknown 3") << "--.--"     << BigInteger(-1);
+    QTest::newRow("unknown 4") << "..."       << BigInteger(-1);
+    QTest::newRow("unknown 5") << "?"         << BigInteger(-1);
 
     /* Valid */
-    QTest::newRow("zero") << "0  KiB" << BigInteger(0);
-    QTest::newRow("zero") << "0.0KiB" << BigInteger(0);
+    QTest::newRow("zero 1") << "0  KiB" << BigInteger(0);
+    QTest::newRow("zero 2") << "0.0KiB" << BigInteger(0);
 
-    QTest::newRow("1 byte") << "1 B" << BigInteger(1);
+    QTest::newRow("1 B") << "1 B" << BigInteger(1);
     QTest::newRow("1 byte") << "1 byte" << BigInteger(1);
     QTest::newRow("2 bytes") << "2 bytes" << BigInteger(2);
 
@@ -301,24 +301,24 @@ void tst_Format::parseBytes_data()
     QTest::newRow("1 MiB") << "1 MiB" << BigInteger(1024*1024);
     QTest::newRow("1 GiB") << "1 GiB" << BigInteger(1024*1024*1024);
 
-    QTest::newRow("167.85MiB") << "167.85MiB" << BigInteger(176003481);
-    QTest::newRow("167.85MiB") << "167.85 MiB" << BigInteger(176003481);
-    QTest::newRow("167.85MiB") << "167.85    MiB" << BigInteger(176003481);
-    QTest::newRow("167.85MiB") << "167.85\tMiB" << BigInteger(176003481);
+    QTest::newRow("167.85MiB 1") << "167.85MiB" << BigInteger(176003481);
+    QTest::newRow("167.85MiB 2") << "167.85 MiB" << BigInteger(176003481);
+    QTest::newRow("167.85MiB 3") << "167.85    MiB" << BigInteger(176003481);
+    QTest::newRow("167.85MiB 4") << "167.85\tMiB" << BigInteger(176003481);
 
-    QTest::newRow("2.95GiB") << "2.95GiB" << BigInteger(3167538380);
-    QTest::newRow("2.95GiB") << "2.95 GiB" << BigInteger(3167538380);
-    QTest::newRow("2.95GiB") << "2.95    GiB" << BigInteger(3167538380);
-    QTest::newRow("2.95GiB") << "2.95\tGiB" << BigInteger(3167538380);
+    QTest::newRow("2.95GiB 1") << "2.95GiB" << BigInteger(3167538380);
+    QTest::newRow("2.95GiB 2") << "2.95 GiB" << BigInteger(3167538380);
+    QTest::newRow("2.95GiB 3") << "2.95    GiB" << BigInteger(3167538380);
+    QTest::newRow("2.95GiB 4") << "2.95\tGiB" << BigInteger(3167538380);
 
-    QTest::newRow("1.02TiB") << "1.02TiB" << BigInteger(1121501860331);
-    QTest::newRow("1.02TiB") << "1.02 TiB" << BigInteger(1121501860331);
-    QTest::newRow("1.02TiB") << "1.02    TiB" << BigInteger(1121501860331);
-    QTest::newRow("1.02TiB") << "1.02\tTiB" << BigInteger(1121501860331);
+    QTest::newRow("1.02TiB 1") << "1.02TiB" << BigInteger(1121501860331);
+    QTest::newRow("1.02TiB 2") << "1.02 TiB" << BigInteger(1121501860331);
+    QTest::newRow("1.02TiB 3") << "1.02    TiB" << BigInteger(1121501860331);
+    QTest::newRow("1.02TiB 4") << "1.02\tTiB" << BigInteger(1121501860331);
 
-    QTest::newRow("estim") << "~55.43MiB" << BigInteger(58122567);
-    QTest::newRow("estim") << "~55.43  MiB" << BigInteger(58122567);
-    QTest::newRow("estim") << " ~ 55.43   MiB" << BigInteger(58122567);
+    QTest::newRow("estimated 1") << "~55.43MiB" << BigInteger(58122567);
+    QTest::newRow("estimated 2") << "~55.43  MiB" << BigInteger(58122567);
+    QTest::newRow("estimated 3") << " ~ 55.43   MiB" << BigInteger(58122567);
 
     QTest::newRow("bigger than integer 32-bit range")
             << "999.99GiB" << BigInteger(1073731086581);
@@ -340,10 +340,10 @@ void tst_Format::wrapText_data()
     QTest::addColumn<int>("length");
     QTest::addColumn<QString>("expected");
 
-    QTest::newRow("empty") << QString()  << 0 << QString();
-    QTest::newRow("dots") << "aa.aaaa.a."  << 0 << "aa. aaaa. a.";
-    QTest::newRow("dots") << "magnet:aa.aaaa.a"  << 0 << "magnet: aa. aaaa. a";
-    QTest::newRow("dots") << "ftp://aa/aaaa/a.aa" << 6 <<  "ftp:// aa/aaaa/ a.aa";
+    QTest::newRow("null") << QString() << 0 << QString();
+    QTest::newRow("space") << "aa.aaaa.a."  << 0 << "aa. aaaa. a.";
+    QTest::newRow("space 2") << "magnet:aa.aaaa.a"  << 0 << "magnet: aa. aaaa. a";
+    QTest::newRow("space 3") << "ftp://aa/aaaa/a.aa" << 6 <<  "ftp:// aa/aaaa/ a.aa";
 }
 
 void tst_Format::wrapText()
@@ -362,8 +362,8 @@ void tst_Format::boolToHtml_data()
     QTest::addColumn<bool>("input");
     QTest::addColumn<QString>("expected");
 
-    QTest::newRow("") << false << "False";
-    QTest::newRow("") << true << "True";
+    QTest::newRow("false") << false << "False";
+    QTest::newRow("true") << true << "True";
 }
 
 /*!
@@ -384,8 +384,8 @@ void tst_Format::markDownToHtml_data()
     QTest::addColumn<QString>("input");
     QTest::addColumn<QString>("expected");
 
-    QTest::newRow("") << QString() << QString();
-    QTest::newRow("") << "\n" << "<br>\n";
+    QTest::newRow("null") << QString() << QString();
+    QTest::newRow("newline") << "\n" << "<br>\n";
 }
 
 void tst_Format::markDownToHtml()

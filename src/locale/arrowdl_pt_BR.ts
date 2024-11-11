@@ -926,7 +926,7 @@ Você também pode usar indicadores de lote para baixar vários arquivos de uma 
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="312"/>
-        <source>5xx Unknown serveur error</source>
+        <source>5xx Unknown server error</source>
         <translation>5xx Erro de servidor desconhecido</translation>
     </message>
 </context>

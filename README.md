@@ -59,12 +59,12 @@ It aims to work with latest versions of Mozilla Firefox (powered by *WebExtensio
 
 </details>
 
-More screenshots on the [Gallery](https://www.arrow-dl.com/ArrowDL/category/screenshots.html "Go to Screenshots page") page.
+More screenshots on the [Gallery](https://www.arrow-dl.com/screenshots/ "Go to Screenshots page") page.
 
 
 ## Installation
 
-Go to [Download](https://www.arrow-dl.com/ArrowDL/category/download.html) page to install the application for your operating system.
+Go to [Download](https://www.arrow-dl.com/download/) page to install the application for your operating system.
 
 Rem: *Native-Client* is an alternative to *ArrowDL*. Click [here](NativeClient.md "NativeClient.md") for more information.
 
@@ -75,7 +75,7 @@ choco install arrowdl
 
 ## Usage
 
-Go to [Tutorial](https://www.arrow-dl.com/ArrowDL/category/tutorial.html) page.
+Go to [Tutorial](https://www.arrow-dl.com/tutorial/) page.
 
 ## Under the hood
 

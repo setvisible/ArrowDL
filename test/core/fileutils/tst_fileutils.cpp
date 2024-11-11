@@ -45,11 +45,11 @@ void tst_FileUtils::validateFileName_data()
     QTest::newRow("empty 2") << true << QString() << QString();
     QTest::newRow("empty 4") << true << "" << "";
 
-    QTest::newRow("reserved dir+name 1") << true << "CON" << "file";
-    QTest::newRow("reserved dir+name 2") << true << "/CON" << "/file";
-    QTest::newRow("reserved dir+name 3") << true << "\\CON" << "\\file";
-    QTest::newRow("reserved dir+name 4") << true << "/some/path/CON" << "/some/path/file";
-    QTest::newRow("reserved dir+name 5") << true << "\\some/path\\CON" << "\\some/path\\file";
+    QTest::newRow("reserved dir+name 10") << true << "CON" << "file";
+    QTest::newRow("reserved dir+name 11") << true << "/CON" << "/file";
+    QTest::newRow("reserved dir+name 12") << true << "\\CON" << "\\file";
+    QTest::newRow("reserved dir+name 13") << true << "/some/path/CON" << "/some/path/file";
+    QTest::newRow("reserved dir+name 14") << true << "\\some/path\\CON" << "\\some/path\\file";
 
     QTest::newRow("reserved dir+name+ext 1") << true << "CON.txt" << "file.txt";
     QTest::newRow("reserved dir+name+ext 2") << true << "/CON.txt" << "/file.txt";
@@ -157,8 +157,8 @@ void tst_FileUtils::validateFileName_data()
     QTest::newRow("end char 3") << false << "my file ." << "my file ._";
 
     // Unicode UTF chars
-    QTest::newRow("allowed utf char") << false << "لة الش.txt" << "لة الش.txt";
-    QTest::newRow("allowed utf char") << false << "番剧.txt" << "番剧.txt";
+    QTest::newRow("allowed utf char 1") << false << "لة الش.txt" << "لة الش.txt";
+    QTest::newRow("allowed utf char 2") << false << "番剧.txt" << "番剧.txt";
 }
 
 void tst_FileUtils::validateFileName()
@@ -178,36 +178,36 @@ void tst_FileUtils::cleanFileName_data()
     QTest::addColumn<QString>("expected");
 
     QTest::newRow("empty") << "" << "";
-    QTest::newRow("simple") << "a" << "A";
-    QTest::newRow("simple") << "A" << "A";
+    QTest::newRow("lowercase") << "a" << "A";
+    QTest::newRow("uppercase") << "A" << "A";
 
-    QTest::newRow("") << "A - B" << "A - B";
+    QTest::newRow("-") << "A - B" << "A - B";
     QTest::newRow("dot") << "A • B" << "A - B";
-    QTest::newRow("") << "Rénet Schlüß" << "Rénet Schlüß";
+    QTest::newRow("accent") << "Rénet Schlüß" << "Rénet Schlüß";
 
     QTest::newRow("dash") << "Quikelol #lol" << "Quikelol #lol";
 
-    QTest::newRow("unuseful text") << "Live '01 (Official Video)" << "Live '01";
-    QTest::newRow("unuseful text") << "(Official Video) Live '01" << "Live '01";
-    QTest::newRow("unuseful text") << "Live (Official Video) '01" << "Live '01";
-    QTest::newRow("unuseful text") << "Live (Official Visualizer) '01" << "Live '01";
-    QTest::newRow("unuseful text") << "Live ((Official Visualizer)) '01" << "Live '01";
-    QTest::newRow("unuseful text") << "Live (Radio Edit) '01" << "Live '01";
+    QTest::newRow("useless text 1") << "Live '01 (Official Video)" << "Live '01";
+    QTest::newRow("useless text 2") << "(Official Video) Live '01" << "Live '01";
+    QTest::newRow("useless text 3") << "Live (Official Video) '01" << "Live '01";
+    QTest::newRow("useless text 4") << "Live (Official Visualizer) '01" << "Live '01";
+    QTest::newRow("useless text 5") << "Live ((Official Visualizer)) '01" << "Live '01";
+    QTest::newRow("useless text 6") << "Live (Radio Edit) '01" << "Live '01";
 
     // BUGFIX with "Construction" that becomes "filestruction"
     // https://www.youtube.com/watch?v=lSQ7pWUo3g4
     QTest::newRow("_Con_struction") << "Construction" << "Construction";
 
-    QTest::newRow("capitalized") << "ALICE AND BOB" << "Alice And Bob";
-    QTest::newRow("capitalized") << "ALICE and BOB" << "Alice And Bob";
-    QTest::newRow("capitalized") << "alice and bob" << "Alice And Bob";
-    QTest::newRow("capitalized") << "alice,and-bob" << "Alice,And-Bob";
-    QTest::newRow("capitalized") << "'alice'" << "'Alice'";
-    QTest::newRow("capitalized") << "\"alice\"" << "'Alice'";
+    QTest::newRow("capitalized 1") << "ALICE AND BOB" << "Alice And Bob";
+    QTest::newRow("capitalized 2") << "ALICE and BOB" << "Alice And Bob";
+    QTest::newRow("capitalized 3") << "alice and bob" << "Alice And Bob";
+    QTest::newRow("capitalized 4") << "alice,and-bob" << "Alice,And-Bob";
+    QTest::newRow("capitalized 5") << "'alice'" << "'Alice'";
+    QTest::newRow("capitalized 6") << "\"alice\"" << "'Alice'";
 
     // Unicode UTF chars
-    QTest::newRow("utf") << "لة الش" << "لة الش";
-    QTest::newRow("utf") << "番剧" << "番剧";
+    QTest::newRow("utf 1") << "لة الش" << "لة الش";
+    QTest::newRow("utf 2") << "番剧" << "番剧";
 }
 
 void tst_FileUtils::cleanFileName()

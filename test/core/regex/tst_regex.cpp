@@ -40,25 +40,25 @@ void tst_Regex::getCaptures_data()
 
     QTest::newRow("empty") << "" << QStringList{};
 
-    QTest::newRow("simple") << "[01:03]" << QStringList{"[01:03]"};
-    QTest::newRow("simple") << "(01:03)" << QStringList{"(01:03)"};
-    QTest::newRow("simple") << "[01 03]" << QStringList{"[01 03]"};
-    QTest::newRow("simple") << "(01 03)" << QStringList{"(01 03)"};
-    QTest::newRow("simple") << "[01-03]" << QStringList{"[01-03]"};
-    QTest::newRow("simple") << "(01-03)" << QStringList{"(01-03)"};
+    QTest::newRow("simple [:]") << "[01:03]" << QStringList{"[01:03]"};
+    QTest::newRow("simple (:)") << "(01:03)" << QStringList{"(01:03)"};
+    QTest::newRow("simple [ ]") << "[01 03]" << QStringList{"[01 03]"};
+    QTest::newRow("simple ( )") << "(01 03)" << QStringList{"(01 03)"};
+    QTest::newRow("simple [-]") << "[01-03]" << QStringList{"[01-03]"};
+    QTest::newRow("simple (-)") << "(01-03)" << QStringList{"(01-03)"};
 
-    QTest::newRow("multiple") << "[01:03](10 20)" << QStringList{"[01:03]", "(10 20)"};
-    QTest::newRow("multiple") << "da/[01:03]/da/(10 20)/da" << QStringList{"[01:03]", "(10 20)"};
+    QTest::newRow("multiple 1") << "[01:03](10 20)" << QStringList{"[01:03]", "(10 20)"};
+    QTest::newRow("multiple 2") << "da/[01:03]/da/(10 20)/da" << QStringList{"[01:03]", "(10 20)"};
 
-    QTest::newRow("embedded") << "[[01:03]/(10 20)]" << QStringList{"[01:03]", "(10 20)"};
-    QTest::newRow("embedded") << "([01:03]/(10 20))" << QStringList{"[01:03]", "(10 20)"};
+    QTest::newRow("embedded []") << "[[01:03]/(10 20)]" << QStringList{"[01:03]", "(10 20)"};
+    QTest::newRow("embedded ()") << "([01:03]/(10 20))" << QStringList{"[01:03]", "(10 20)"};
 
     QTest::newRow("invalid") << "01:03" << QStringList{};
-    QTest::newRow("invalid") << "[01:03" << QStringList{};
-    QTest::newRow("invalid") << "[123]" << QStringList{};
-    QTest::newRow("invalid") << "[01:02:03]" << QStringList{};
-    QTest::newRow("invalid") << "[01:02 03]" << QStringList{};
-    QTest::newRow("invalid") << "[01 02 03]" << QStringList{};
+    QTest::newRow("invalid [") << "[01:03" << QStringList{};
+    QTest::newRow("invalid []") << "[123]" << QStringList{};
+    QTest::newRow("invalid [::]") << "[01:02:03]" << QStringList{};
+    QTest::newRow("invalid [: ]") << "[01:02 03]" << QStringList{};
+    QTest::newRow("invalid [  ]") << "[01 02 03]" << QStringList{};
 
     QTest::newRow("weird but valid") << "[01:03)" << QStringList{"[01:03)"};
 }
