@@ -102,7 +102,7 @@ jobs:
             qt_host: 'windows'
             qt_target: 'desktop'
             qt_arch: 'win64_mingw'
-            qt_tools: 'tools_openssl'
+            qt_tools: 'tools_opensslv3_x64'
             qt_modules: ''
             Qt6_CUSTOM_INSTALL_PATH: "D:\\a\\ArrowDL\\qt\\"
             DIRECTIVE_CMAKE_GENERATOR: '-G "MinGW Makefiles"'
