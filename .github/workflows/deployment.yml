@@ -91,7 +91,8 @@ jobs:
             qt_host: 'linux'
             qt_target: 'desktop'
             qt_arch: 'gcc_64'
-            qt_tools: ''  # To build OpenSSLv3: 'tools_opensslv3_src'
+            qt_tools: ''
+            qt_modules: ''
             Qt6_CUSTOM_INSTALL_PATH: "/home/runner/work/ArrowDL/qt/"
             DIRECTIVE_CMAKE_GENERATOR: ''
             INSTALL_BOOST_PLATFORM_VERSION: '18.04'  # 18.04, 20.04 Rem: Ubuntu 20.04 doesn't have Boost 1.77.0
@@ -102,6 +103,7 @@ jobs:
             qt_target: 'desktop'
             qt_arch: 'win64_mingw'
             qt_tools: 'tools_opensslv3_x64'
+            qt_modules: ''
             Qt6_CUSTOM_INSTALL_PATH: "D:\\a\\ArrowDL\\qt\\"
             DIRECTIVE_CMAKE_GENERATOR: '-G "MinGW Makefiles"'
             INSTALL_BOOST_PLATFORM_VERSION: '2019' # 2019, 2022
@@ -260,7 +262,7 @@ jobs:
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
-      # Rem: Once installed, ${{env.Qt6_DIR}} is set.
+      # Rem: Once installed, ${{env.QT_ROOT_DIR}} is set.
       # https://ddalcino.github.io/aqt-list-server/
       with:
         aqtversion: '==3.1.*'
@@ -270,19 +272,21 @@ jobs:
         target: ${{matrix.qt_target}}
         arch: ${{matrix.qt_arch}}
         tools: ${{matrix.qt_tools}}
+        modules: ${{matrix.qt_modules}}
         cache: true
+        add-tools-to-path: false  # WIP migration v3 to v4
 
     # Rem: this step was commented because it's too expensive:
     # - name: List files in Qt (if Debug Logging is enabled)
     #   if:  runner.debug == '1'
     #   shell: bash
-    #   run: cd "${{env.Qt6_DIR}}/../../" && ls -alR
-    #   # env.Qt6_DIR
+    #   run: cd "${{env.QT_ROOT_DIR}}/../../" && ls -alR
+    #   # env.QT_ROOT_DIR
     #   #   "/home/runner/work/ArrowDL/qt/Qt/6.3.1/gcc_64"
     #   #   "D:\a\ArrowDL\qt\Qt\6.3.1\mingw_64"
     #
     - name: Find OpenSSL in Qt6
-      # The thing is that "env.Qt6_DIR" is defined only at runtime, *after* install-qt-action has run.
+      # The thing is that "env.QT_ROOT_DIR" is defined only at runtime, *after* install-qt-action has run.
       id: qt6openssl
       shell: python
       # 2 versions present in Ubuntu:
@@ -292,14 +296,14 @@ jobs:
       #
       # * Qt6 version (3.0.12)
       #    To build it:
-      #    openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSLv3", "src"))
+      #    openssl_dir = os.path.normpath(os.path.join(r"${{env.QT_ROOT_DIR}}", "..", "..", "Tools", "OpenSSLv3", "src"))
       #        cd "${{openssl_dir}}"
       #        ./config
       #        make
       #        make test
       #        sudo make install_sw 
       #    Then:
-      #    openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSLv3", "src"))
+      #    openssl_dir = os.path.normpath(os.path.join(r"${{env.QT_ROOT_DIR}}", "..", "..", "Tools", "OpenSSLv3", "src"))
       #    openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libcrypto.a"))
       #    openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libssl.a"))
       #
@@ -311,7 +315,7 @@ jobs:
            # ssleay32 -> libssl
            
            if "${{ matrix.os }}" == "windows-latest":
-               openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSLv3", "Win_x64"))
+               openssl_dir = os.path.normpath(os.path.join(r"${{env.QT_ROOT_DIR}}", "..", "..", "Tools", "OpenSSLv3", "Win_x64"))
                openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libcrypto.lib"))
                openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libssl.lib"))
            
@@ -338,7 +342,7 @@ jobs:
       if: ${{ steps.cache-libtorrent.outputs.cache-hit != 'true' }}
       env:
         Boost_ROOT: ${{ steps.install-boost.outputs.Boost_ROOT }}
-        Qt6_Dir2: ${{env.Qt6_DIR}}
+        Qt6_Dir2: ${{env.QT_ROOT_DIR}}
         DIRECTIVE_CMAKE_GENERATOR: ${{matrix.DIRECTIVE_CMAKE_GENERATOR}}
         BUILD_TESTS: "OFF" # OFF because they take 10+ minutes to build and 776.74 sec to run tests on Ubuntu
         DEPRECATED_FUNCTIONS: "OFF" # OFF to remove deprecated functions
@@ -387,7 +391,7 @@ jobs:
     - name: Configure Project
       env:
         Boost_ROOT: ${{ steps.install-boost.outputs.Boost_ROOT }}
-        Qt6_Dir2: ${{env.Qt6_DIR}}
+        Qt6_Dir2: ${{env.QT_ROOT_DIR}}
         OpenSSL_ROOT_DIR: ${{ steps.qt6openssl.outputs.OpenSSL_ROOT_DIR }}
         DIRECTIVE_CMAKE_GENERATOR: ${{matrix.DIRECTIVE_CMAKE_GENERATOR}}
       working-directory: "${{env.Project_BUILD_DIR}}"
