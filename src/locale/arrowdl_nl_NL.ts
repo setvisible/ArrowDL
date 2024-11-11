@@ -926,7 +926,7 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="312"/>
-        <source>5xx Unknown serveur error</source>
+        <source>5xx Unknown server error</source>
         <translation>5xx: onbekende serverfout</translation>
     </message>
 </context>

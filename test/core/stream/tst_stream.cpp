@@ -883,15 +883,15 @@ void tst_Stream::fileBaseName_data()
     QTest::newRow("null") << QString() << QString();
     QTest::newRow("empty") << "" << QString();
 
-    QTest::newRow("separator") << "Live 10/02/2018" << "Live 10-02-2018";
-    QTest::newRow("separator") << "here\\we\\come" << "Here-we-come";
+    QTest::newRow("slash") << "Live 10/02/2018" << "Live 10-02-2018";
+    QTest::newRow("backslash") << "here\\we\\come" << "Here-we-come";
 
     QTest::newRow("tab") << "\t here\twe\tcome \t" << "Here We Come";
 
     QTest::newRow("minus") << "- \x2D — \u2212 \u2014" << "- - - - -";
 
     QTest::newRow("brackets") << "Windsor ['98]" << "Windsor ['98]";
-    QTest::newRow("brackets") << "Windsor ('98)" << "Windsor ('98)";
+    QTest::newRow("parenthesis") << "Windsor ('98)" << "Windsor ('98)";
     QTest::newRow("@")        << "Live @ Windsor" << "Live @ Windsor";
     QTest::newRow("extra _") << "_*_Cambridge_*_" << "-Cambridge-";
 
@@ -902,16 +902,12 @@ void tst_Stream::fileBaseName_data()
             << "\"Bohemian Rhapsody\" Steve Vai & Malmsteen & Zakk Wylde & Nuno@Atlantic City (11/30/18)"
             << "'Bohemian Rhapsody' Steve Vai & Malmsteen & Zakk Wylde & Nuno@Atlantic City (11-30-18)" ;
 
-    // BUGFIX with "Construction" that becomes "filestruction"
-    // https://www.youtube.com/watch?v=lSQ7pWUo3g4
-    QTest::newRow("_Con_struction") << "Construction" << "Construction";
-
-    QTest::newRow("unuseful text") << "Live '01 (Official Video)" << "Live '01";
-    QTest::newRow("unuseful text") << "(Official Video) Live '01" << "Live '01";
-    QTest::newRow("unuseful text") << "Live (Official Video) '01" << "Live '01";
-    QTest::newRow("unuseful text") << "Live (Official Visualizer) '01" << "Live '01";
-    QTest::newRow("unuseful text") << "Live ((Official Visualizer)) '01" << "Live '01";
-    QTest::newRow("unuseful text") << "Live (Radio Edit) '01" << "Live '01";
+    QTest::newRow("useless text 1") << "Live '01 (Official Video)" << "Live '01";
+    QTest::newRow("useless text 2") << "(Official Video) Live '01" << "Live '01";
+    QTest::newRow("useless text 3") << "Live (Official Video) '01" << "Live '01";
+    QTest::newRow("useless text 4") << "Live (Official Visualizer) '01" << "Live '01";
+    QTest::newRow("useless text 5") << "Live ((Official Visualizer)) '01" << "Live '01";
+    QTest::newRow("useless text 6") << "Live (Radio Edit) '01" << "Live '01";
 
     // BUGFIX with "Construction" that becomes "filestruction"
     // https://www.youtube.com/watch?v=lSQ7pWUo3g4
@@ -943,20 +939,20 @@ void tst_Stream::guestimateFullSize_data()
     QTest::newRow("empty") << "" << BigInteger(-1);
     QTest::newRow("default") << "244+140" << BigInteger(294311 + 280597);
 
-    QTest::newRow("audio") << "18" << BigInteger(1552999);
-    QTest::newRow("audio") << "43" << BigInteger(2875968);
-    QTest::newRow("audio") << "140" << BigInteger(280597);
+    QTest::newRow("audio 1") << "18" << BigInteger(1552999);
+    QTest::newRow("audio 2") << "43" << BigInteger(2875968);
+    QTest::newRow("audio 3") << "140" << BigInteger(280597);
 
-    QTest::newRow("audio+video") << "160+140" << BigInteger(63901 + 280597);
-    QTest::newRow("audio+video") << "278+140" << BigInteger(53464 + 280597);
+    QTest::newRow("audio+video 1") << "160+140" << BigInteger(63901 + 280597);
+    QTest::newRow("audio+video 2") << "278+140" << BigInteger(53464 + 280597);
 
     /*
      * Invalid formats
      * In yt-dlp, video ID must be the first ID.
      * But we accept them as valid here.
      */
-    QTest::newRow("audio+video") << "140+160" << BigInteger(280597 + 63901);
-    QTest::newRow("audio+video") << "140+278" << BigInteger(280597 + 53464);
+    QTest::newRow("audio+video 3") << "140+160" << BigInteger(280597 + 63901);
+    QTest::newRow("audio+video 4") << "140+278" << BigInteger(280597 + 53464);
 }
 
 void tst_Stream::guestimateFullSize()
@@ -981,20 +977,20 @@ void tst_Stream::fileExtension_data()
     QTest::newRow("empty") << "" << "webm";
     QTest::newRow("default") << "244+140" << "webm";
 
-    QTest::newRow("audio") << "18" << "mp4";
-    QTest::newRow("audio") << "43" << "webm";
-    QTest::newRow("audio") << "140" << "m4a";
+    QTest::newRow("audio 1") << "18" << "mp4";
+    QTest::newRow("audio 2") << "43" << "webm";
+    QTest::newRow("audio 3") << "140" << "m4a";
 
-    QTest::newRow("audio+video") << "160+140" << "mp4";
-    QTest::newRow("audio+video") << "278+140" << "webm";
+    QTest::newRow("audio+video 1") << "160+140" << "mp4";
+    QTest::newRow("audio+video 2") << "278+140" << "webm";
 
     /*
      * Invalid formats
      * In yt-dlp, video ID must be the first ID.
      * But we accept them as valid here.
      */
-    QTest::newRow("audio+video") << "140+160" << "mp4";
-    QTest::newRow("audio+video") << "140+278" << "webm";
+    QTest::newRow("audio+video 3") << "140+160" << "mp4";
+    QTest::newRow("audio+video 4") << "140+278" << "webm";
 }
 
 void tst_Stream::fileExtension()
@@ -1058,23 +1054,23 @@ void tst_Stream::matchesHost_data()
     QTest::newRow("null") << QString() << QStringList() << false;
     QTest::newRow("empty") << "" << QStringList() << false;
 
-    QTest::newRow("simple") << "www.absnews.com" << QStringList( {"absnews:videos"} ) << false;
-    QTest::newRow("simple") << "www.absnews.com" << QStringList( {"absnews.com"} ) << true;
-    QTest::newRow("simple") << "videos.absnews.com" << QStringList( {"absnews:videos"} ) << true;
-    QTest::newRow("simple") << "videos.absnews.com" << QStringList( {"absnews.com:videos"} ) << true;
-    QTest::newRow("simple") << "videos.www.absnews.com" << QStringList( {"absnews:videos"} ) << true;
-    QTest::newRow("simple") << "player.videos.absnews.com" << QStringList( {"absnews:videos:player"} ) << true;
+    QTest::newRow("simple 1") << "www.absnews.com" << QStringList( {"absnews:videos"} ) << false;
+    QTest::newRow("simple 2") << "www.absnews.com" << QStringList( {"absnews.com"} ) << true;
+    QTest::newRow("simple 3") << "videos.absnews.com" << QStringList( {"absnews:videos"} ) << true;
+    QTest::newRow("simple 4") << "videos.absnews.com" << QStringList( {"absnews.com:videos"} ) << true;
+    QTest::newRow("simple 5") << "videos.www.absnews.com" << QStringList( {"absnews:videos"} ) << true;
+    QTest::newRow("simple 6") << "player.videos.absnews.com" << QStringList( {"absnews:videos:player"} ) << true;
 
     QTest::newRow("simple list") << "www.youtube.com" << QStringList( {"youtube", "youtube.com"} ) << true;
     QTest::newRow("case sensitive") << "www.bild.de" << QStringList( {"Bild"} ) << true;
 
-    QTest::newRow("contains") << "www.absnews.com" << QStringList( {"abs"} ) << false;
-    QTest::newRow("contains") << "www.absnews.com" << QStringList( {"news"} ) << false;
-    QTest::newRow("contains") << "www.absnews.com" << QStringList( {"news.com"} ) << false;
+    QTest::newRow("contains 1") << "www.absnews.com" << QStringList( {"abs"} ) << false;
+    QTest::newRow("contains 2") << "www.absnews.com" << QStringList( {"news"} ) << false;
+    QTest::newRow("contains 3") << "www.absnews.com" << QStringList( {"news.com"} ) << false;
 
-    QTest::newRow("no match") << "www.aol-videos.com"  << QStringList( {"aol.com"} ) << false;
-    QTest::newRow("no match") << "www.aol-videos.com" << QStringList( {"aol"} ) << false;
-    QTest::newRow("no match") << "www.bildung.de" << QStringList( {"Bild"} ) << false;
+    QTest::newRow("no match 1") << "www.aol-videos.com"  << QStringList( {"aol.com"} ) << false;
+    QTest::newRow("no match 2") << "www.aol-videos.com" << QStringList( {"aol"} ) << false;
+    QTest::newRow("no match 3") << "www.bildung.de" << QStringList( {"Bild"} ) << false;
     QTest::newRow("no match list") << "www.youtube.de" << QStringList( {"youtu.be", "youtube.com", "youtube:video"} ) << false;
 
     // colon symbol ':' -> With 'abcnews:video', the hostname must contains 'abcnews' and also 'video'

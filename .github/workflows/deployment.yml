@@ -7,7 +7,6 @@ on:
     tags:
       - "v*"
     branches:
-      - "master"
       - "develop"
       - "github-actions"
       - "gha-*"
@@ -26,7 +25,7 @@ env:
   LibtorrentRasterbar_BUILD_DIR: ${{github.workspace}}/00/build/libtorrent-rasterbar
   LibtorrentRasterbar_INSTALL_DIR: ${{github.workspace}}/00/install/libtorrent-rasterbar
   #                                                      ^^
-  # HACK cache@v3: using '/00/' instead of '/../': Relative pathing '.' and '..' is not allowed.
+  # HACK actions/cache@v3: using '/00/' instead of '/../': Relative pathing '.' and '..' is not allowed.
   LibtorrentRasterbar_VERSION_FILE: ${{github.workspace}}/3rd/libtorrent-rasterbar/include/libtorrent/version.hpp
   Application_VERSION_FILE: ${{github.workspace}}/version
   Changelog_FILE_NAME: ${{github.workspace}}/00/GIT-CHANGELOG.txt
@@ -42,7 +41,7 @@ jobs:
     environment: production
     steps:
     - name: Check out repository code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Create WebBrowser Addons
       id: webaddons
@@ -69,13 +68,13 @@ jobs:
                    print(f"Addon_Web_Extension_Firefox={ artifact_firefox }", file=f)
 
     - name: Upload Chromium Addon
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: artifact_chromium
         path: ${{ steps.webaddons.outputs.Addon_Web_Extension_Chromium }}
 
     - name: Upload Firefox Addon
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: artifact_firefox
         path: ${{ steps.webaddons.outputs.Addon_Web_Extension_Firefox }}
@@ -92,7 +91,8 @@ jobs:
             qt_host: 'linux'
             qt_target: 'desktop'
             qt_arch: 'gcc_64'
-            qt_tools: ''  # To build OpenSSLv3: 'tools_opensslv3_src'
+            qt_tools: ''
+            qt_modules: ''
             Qt6_CUSTOM_INSTALL_PATH: "/home/runner/work/ArrowDL/qt/"
             DIRECTIVE_CMAKE_GENERATOR: ''
             INSTALL_BOOST_PLATFORM_VERSION: '18.04'  # 18.04, 20.04 Rem: Ubuntu 20.04 doesn't have Boost 1.77.0
@@ -103,6 +103,7 @@ jobs:
             qt_target: 'desktop'
             qt_arch: 'win64_mingw'
             qt_tools: 'tools_opensslv3_x64'
+            qt_modules: ''
             Qt6_CUSTOM_INSTALL_PATH: "D:\\a\\ArrowDL\\qt\\"
             DIRECTIVE_CMAKE_GENERATOR: '-G "MinGW Makefiles"'
             INSTALL_BOOST_PLATFORM_VERSION: '2019' # 2019, 2022
@@ -115,7 +116,7 @@ jobs:
 
     steps:
     - name: Check out repository code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
 #    - name: Clean Environment 
 #      shell: python # otherwise Windows uses Powershell, Linux uses bash
@@ -224,7 +225,7 @@ jobs:
            echo "LibtorrentRasterbar_VERSION: '${{env.LibtorrentRasterbar_VERSION}}'"
 
     - name: Cache Libtorrent Static Libraries
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       id: cache-libtorrent
       env:
         LibtorrentRasterbar_VERSION: ${{ steps.getversion.outputs.LibtorrentRasterbar_VERSION }}
@@ -236,7 +237,7 @@ jobs:
           ${{env.LibtorrentRasterbar_INSTALL_DIR}}
 
     - name: Install Boost
-      uses: MarkusJx/install-boost@v2.4.3
+      uses: MarkusJx/install-boost@v2.4.5
       id: install-boost
       with:
         boost_version: ${{env.BOOST_VERSION}}
@@ -260,8 +261,8 @@ jobs:
            ls -al
 
     - name: Install Qt
-      uses: jurplel/install-qt-action@v3
-      # Rem: Once installed, ${{env.Qt6_DIR}} is set.
+      uses: jurplel/install-qt-action@v4
+      # Rem: Once installed, ${{env.QT_ROOT_DIR}} is set.
       # https://ddalcino.github.io/aqt-list-server/
       with:
         aqtversion: '==3.1.*'
@@ -271,18 +272,21 @@ jobs:
         target: ${{matrix.qt_target}}
         arch: ${{matrix.qt_arch}}
         tools: ${{matrix.qt_tools}}
+        modules: ${{matrix.qt_modules}}
         cache: true
+        add-tools-to-path: false  # WIP migration v3 to v4
 
-    - name: List files in Qt (if Debug Logging is enabled)
-      if:  runner.debug == '1'
-      shell: bash
-      run: cd "${{env.Qt6_DIR}}/../../" && ls -alR
-      # env.Qt6_DIR
-      #   "/home/runner/work/ArrowDL/qt/Qt/6.3.1/gcc_64"
-      #   "D:\a\ArrowDL\qt\Qt\6.3.1\mingw_64"
-
+    # Rem: this step was commented because it's too expensive:
+    # - name: List files in Qt (if Debug Logging is enabled)
+    #   if:  runner.debug == '1'
+    #   shell: bash
+    #   run: cd "${{env.QT_ROOT_DIR}}/../../" && ls -alR
+    #   # env.QT_ROOT_DIR
+    #   #   "/home/runner/work/ArrowDL/qt/Qt/6.3.1/gcc_64"
+    #   #   "D:\a\ArrowDL\qt\Qt\6.3.1\mingw_64"
+    #
     - name: Find OpenSSL in Qt6
-      # The thing is that "env.Qt6_DIR" is defined only at runtime, *after* install-qt-action has run.
+      # The thing is that "env.QT_ROOT_DIR" is defined only at runtime, *after* install-qt-action has run.
       id: qt6openssl
       shell: python
       # 2 versions present in Ubuntu:
@@ -292,14 +296,14 @@ jobs:
       #
       # * Qt6 version (3.0.12)
       #    To build it:
-      #    openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSLv3", "src"))
+      #    openssl_dir = os.path.normpath(os.path.join(r"${{env.QT_ROOT_DIR}}", "..", "..", "Tools", "OpenSSLv3", "src"))
       #        cd "${{openssl_dir}}"
       #        ./config
       #        make
       #        make test
       #        sudo make install_sw 
       #    Then:
-      #    openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSLv3", "src"))
+      #    openssl_dir = os.path.normpath(os.path.join(r"${{env.QT_ROOT_DIR}}", "..", "..", "Tools", "OpenSSLv3", "src"))
       #    openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libcrypto.a"))
       #    openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libssl.a"))
       #
@@ -311,7 +315,7 @@ jobs:
            # ssleay32 -> libssl
            
            if "${{ matrix.os }}" == "windows-latest":
-               openssl_dir = os.path.normpath(os.path.join(r"${{env.Qt6_DIR}}", "..", "..", "Tools", "OpenSSLv3", "Win_x64"))
+               openssl_dir = os.path.normpath(os.path.join(r"${{env.QT_ROOT_DIR}}", "..", "..", "Tools", "OpenSSLv3", "Win_x64"))
                openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libcrypto.lib"))
                openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libssl.lib"))
            
@@ -338,7 +342,7 @@ jobs:
       if: ${{ steps.cache-libtorrent.outputs.cache-hit != 'true' }}
       env:
         Boost_ROOT: ${{ steps.install-boost.outputs.Boost_ROOT }}
-        Qt6_Dir2: ${{env.Qt6_DIR}}
+        Qt6_Dir2: ${{env.QT_ROOT_DIR}}
         DIRECTIVE_CMAKE_GENERATOR: ${{matrix.DIRECTIVE_CMAKE_GENERATOR}}
         BUILD_TESTS: "OFF" # OFF because they take 10+ minutes to build and 776.74 sec to run tests on Ubuntu
         DEPRECATED_FUNCTIONS: "OFF" # OFF to remove deprecated functions
@@ -387,7 +391,7 @@ jobs:
     - name: Configure Project
       env:
         Boost_ROOT: ${{ steps.install-boost.outputs.Boost_ROOT }}
-        Qt6_Dir2: ${{env.Qt6_DIR}}
+        Qt6_Dir2: ${{env.QT_ROOT_DIR}}
         OpenSSL_ROOT_DIR: ${{ steps.qt6openssl.outputs.OpenSSL_ROOT_DIR }}
         DIRECTIVE_CMAKE_GENERATOR: ${{matrix.DIRECTIVE_CMAKE_GENERATOR}}
       working-directory: "${{env.Project_BUILD_DIR}}"
@@ -473,7 +477,7 @@ jobs:
 
     - name: Upload Linux Portable
       if: ${{ matrix.os == 'ubuntu-latest' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       env:
         TARBALL_NAME: "${{ steps.getversion.outputs.Application_Linux_NAME }}.tar.gz"
       with:
@@ -501,7 +505,7 @@ jobs:
 
     - name: Upload Windows MingGW x64 Portable
       if: ${{ matrix.os == 'windows-latest' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       env:
         ZIP_NAME: "${{ steps.getversion.outputs.Application_Windows_MinGW_x64_NAME }}.zip"
       with:
@@ -510,7 +514,7 @@ jobs:
 
     - name: Create NSIS installer
       if: ${{ matrix.os == 'windows-latest' }}
-      uses: joncloud/makensis-action@v3.7
+      uses: joncloud/makensis-action@v4.1
       env:
         Application_VERSION: ${{ steps.getversion.outputs.Application_VERSION }}
       with:
@@ -534,7 +538,7 @@ jobs:
 
     - name: Upload Windows 64 Installer
       if: ${{ matrix.os == 'windows-latest' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: artifact_windows_64_installer
         path: "${{env.Project_RELEASE_DIR}}/ArrowDL_x64_Setup.exe"
@@ -555,35 +559,35 @@ jobs:
 
     - name: Download Chromium Addon
       continue-on-error: true
-      uses: actions/download-artifact@v4.1.7
+      uses: actions/download-artifact@v4
       with:
         name: artifact_chromium
         path: "${{env.Project_RELEASE_DIR}}"
 
     - name: Download Firefox Addon
       continue-on-error: true
-      uses: actions/download-artifact@v4.1.7
+      uses: actions/download-artifact@v4
       with:
         name: artifact_firefox
         path: "${{env.Project_RELEASE_DIR}}"
 
     - name: Download Linux Portable
       continue-on-error: true
-      uses: actions/download-artifact@v4.1.7
+      uses: actions/download-artifact@v4
       with:
         name: artifact_linux_portable
         path: "${{env.Project_RELEASE_DIR}}"
 
     - name: Download Windows MinGW 64 Portable
       continue-on-error: true
-      uses: actions/download-artifact@v4.1.7
+      uses: actions/download-artifact@v4
       with:
         name: artifact_windows_mingw_64_portable
         path: "${{env.Project_RELEASE_DIR}}"
 
     - name: Download Windows 64 Installer
       continue-on-error: true
-      uses: actions/download-artifact@v4.1.7
+      uses: actions/download-artifact@v4
       with:
         name: artifact_windows_64_installer
         path: "${{env.Project_RELEASE_DIR}}"
@@ -614,7 +618,7 @@ jobs:
                    my_file.write("\r\n")
 
     - name: Publish
-      uses: softprops/action-gh-release@v0.1.15
+      uses: softprops/action-gh-release@v2
       #if: startsWith(github.ref, 'refs/tags/') # Limit releases to pushes to tags
       env:
         BRANCH_OR_TAG_NAME: ${{ github.head_ref || github.ref_name }}
