@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pt_BR">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="pt_BR">
 <context>
     <name>AbstractDownloadItem</name>
     <message>
@@ -396,12 +398,12 @@ Você também pode usar indicadores de lote para baixar vários arquivos de uma 
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="43"/>
         <source>Copy-paste a list of Urls to download</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="27"/>
         <source>List of Urls</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="59"/>
@@ -426,7 +428,7 @@ Você também pode usar indicadores de lote para baixar vários arquivos de uma 
     <message>
         <location filename="../dialogs/addurlsdialog.cpp" line="48"/>
         <source>Add Urls</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1322,12 +1324,12 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     <message>
         <location filename="../dialogs/homedialog.ui" line="173"/>
         <source>List of Urls</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="189"/>
         <source>Paste a list of Urls</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/homedialog.ui" line="226"/>
@@ -1370,12 +1372,12 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     <message>
         <location filename="../dialogs/informationdialog.ui" line="170"/>
         <source>Messages</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="176"/>
         <source>Wrap line</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1556,12 +1558,12 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     <message>
         <location filename="../mainwindow.ui" line="316"/>
         <source>Download Urls...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="319"/>
         <source>Download a copy-pasted list of Urls</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="328"/>
@@ -1818,7 +1820,7 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     <message>
         <location filename="../mainwindow.ui" line="659"/>
         <source>About YT-DLP...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="335"/>
@@ -2220,7 +2222,7 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="307"/>
         <source>Style and Icons</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="341"/>
@@ -2250,12 +2252,12 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="434"/>
         <source>Concurrent fragments:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="517"/>
         <source>20</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="597"/>
@@ -2295,107 +2297,107 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="766"/>
         <source>Socket</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="775"/>
         <source>Tolerant (IPv4 or IPv6)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="780"/>
         <source>Use IPv4 only</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="785"/>
         <source>Use IPv6 only</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="793"/>
         <source> seconds</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="809"/>
         <source>Connection Protocol:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="816"/>
         <source>Timeout to establish a connection:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="846"/>
         <source>Downloaded Files</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="852"/>
         <source>Get time from server for the file&apos;s...:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="859"/>
         <source>Last modified time</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="866"/>
         <source>Creation time (may not be not supported on UNIX)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="873"/>
         <source>Most recent access (e.g. read or written to)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="880"/>
         <source>Metadata change time</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="890"/>
         <source>Downloaded Audio/Video</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="898"/>
         <source>Download subtitle</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="905"/>
         <source>Download description</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="912"/>
         <source>Mark watched (only for Youtube)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="919"/>
         <source>Download thumbnail</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="926"/>
         <source>Download metadata</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="933"/>
         <source>Download comments </source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="940"/>
         <source>Create internet shortcut</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1132"/>
@@ -2722,7 +2724,7 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="721"/>
         <source>Servers might split large files into multiple fragments, to optimize downloads. This option enables multi-threaded fragment downloads: Select the number of fragments that should be downloaded concurrently. Note that the concurrency makes download faster (when available), but the progress status and estimated time could be inaccurate (by design). Choose between precision and speed. Recommended value depends on your connection and machine. 20 is a good start. To disable it, set it to 1.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="742"/>
@@ -2860,22 +2862,22 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     <message>
         <location filename="../core/theme.cpp" line="111"/>
         <source>Bootstrap Icons (default)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="112"/>
         <source>FontAwesome Flat Design</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="141"/>
         <source>Light</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/theme.cpp" line="142"/>
         <source>Dark</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../about.h" line="28"/>
@@ -2952,47 +2954,47 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../core/settings.cpp" line="675"/>
+        <location filename="../core/settings.cpp" line="689"/>
         <source>All Files</source>
         <translation>Todos os arquivos</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="676"/>
+        <location filename="../core/settings.cpp" line="690"/>
         <source>Archives (zip, rar...)</source>
         <translation>Arquivos (zip, rar...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="677"/>
+        <location filename="../core/settings.cpp" line="691"/>
         <source>Application (exe, xpi...)</source>
         <translation>Aplicativos (exe, xpi...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="678"/>
+        <location filename="../core/settings.cpp" line="692"/>
         <source>Audio (mp3, wav...)</source>
         <translation>Áudio (mp3, wav..)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="679"/>
+        <location filename="../core/settings.cpp" line="693"/>
         <source>Documents (pdf, odf...)</source>
         <translation>Documentos (pdf, odf...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="680"/>
+        <location filename="../core/settings.cpp" line="694"/>
         <source>Images (jpg, png...)</source>
         <translation>Imagens (jpg, png...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="681"/>
+        <location filename="../core/settings.cpp" line="695"/>
         <source>Images JPEG</source>
         <translation>Imagens JPEG</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="682"/>
+        <location filename="../core/settings.cpp" line="696"/>
         <source>Images PNG</source>
         <translation>Imagens PNG</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="683"/>
+        <location filename="../core/settings.cpp" line="697"/>
         <source>Video (mpeg, avi...)</source>
         <translation>Vídeo (mpeg, avi...)</translation>
     </message>
@@ -3177,17 +3179,19 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
 Help: if you get an error, follow these instructions:
 
 1. Verify the URL
-   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after '?' in the URL:
-   Ex: 'https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278'
+   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after &apos;?&apos; in the URL:
+   Ex: &apos;https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278&apos;
          becomes 
-         'https://www.abc.com/watch?video=some_video'
+         &apos;https://www.abc.com/watch?video=some_video&apos;
 
 2. Open the URL in a Web browser, and Play it
     (Rem: the Web browser can force the server to play the video)
 
-3. Click 'Continue' button again
+3. Click &apos;Continue&apos; button again
 
-4. Retry later</source>
+4. Try to use another HTTP User Agent. Sometimes obsolete User Agent can be denied by the stream server. Go to Options &gt; Preferences &gt; Privacy and remove or choose another HTTP User Agent.
+
+5. Retry later</source>
         <translation>---
 Dica: se você se deparar com um erro, siga essas instruções:
 
@@ -3202,7 +3206,9 @@ Dica: se você se deparar com um erro, siga essas instruções:
 
 3.Clique novamente em &apos;Continuar&apos;
 
-4. Tente novamente mais tarde</translation>
+4. Tente usar outro HTTP User Agent. Às vezes, o obsoleto User Agent pode ser negado pelo servidor de fluxo. Vá para Opções &gt; Preferências &gt; Privacidade e remova ou escolha outro HTTP User Agent.
+
+5. Tente novamente mais tarde</translation>
     </message>
 </context>
 <context>
@@ -3243,82 +3249,82 @@ Dica: se você se deparar com um erro, siga essas instruções:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="32"/>
         <source>Overview</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="38"/>
         <source>Do not download the video, but write all other related files</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="45"/>
         <source>Mark watched (only for Youtube)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="67"/>
         <source>Subtitles</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="75"/>
         <source>Convert to format:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="82"/>
         <source>Preferred format:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="92"/>
         <source>Download subtitles:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="118"/>
         <source>Hide auto-generated subtitles</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="142"/>
         <source>Chapters</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="161"/>
         <source>Split video into multiple files based on internal chapters</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="171"/>
         <source>Remove chapters whose title matches the given regular expression:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="181"/>
         <source>Ex: &quot;*10:15-15:00&quot;, or &quot;intro&quot;</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="203"/>
         <source>Thumbnails</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="219"/>
         <source>Download thumbnail (default image)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="229"/>
         <source>Download all formats of the thumbnail image</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="241"/>
         <source>Convert the thumbnails to format:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="295"/>
@@ -3328,188 +3334,188 @@ Dica: se você se deparar com um erro, siga essas instruções:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="311"/>
         <source>Download comments (in the .info.json)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="320"/>
         <source>Sort by:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="331"/>
         <source>Newest first</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="336"/>
         <source>Top comments</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="347"/>
         <source>Limit number of comments:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="378"/>
         <source>Other Media</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="384"/>
         <source>Download description as a .description file</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="391"/>
         <source>Download metadata as a .info.json file</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="398"/>
         <source>Create internet shortcut</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="420"/>
         <source>Pre/Post-Processing</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="436"/>
         <source>Command</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="442"/>
         <source>Execute the command before the actual download:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="452"/>
         <source>Execute the command on the file after downloading and post-processing:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="468"/>
         <source>Post-Processing</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="474"/>
         <source>Remux the video into another container if necessary :</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="481"/>
         <location filename="../widgets/streamtoolbox.ui" line="505"/>
         <source>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot;</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="488"/>
         <source>Ex: &quot;aac&gt;m4a/mov&gt;mp4/mkv&quot; will remux aac to m4a, mov to mp4 and anything else to mkv.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="498"/>
         <source>Re-encode the video into another format if re-encoding is necessary:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="512"/>
         <source>Rem: The syntax and supported formats are the same as &quot;Remux&quot;</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="522"/>
         <source>Keep the intermediate video file on disk after post-processing</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="529"/>
         <source>Embed subtitles in the video (only for mp4, webm and mkv videos)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="536"/>
         <source>Embed thumbnail in the video as cover art</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="543"/>
         <source>Embed metadata in the video file</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="550"/>
         <source>Embed chapter markers in the video file</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="557"/>
         <source>Write metadata to the video file&apos;s xattrs (using dublin core and xdg standards)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="582"/>
         <source>SponsorBlock</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="601"/>
         <source>Remove segments in SponsorBlock categories from the video file:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="616"/>
         <source>Unpaid/Self Promotion</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="626"/>
         <source>Interaction Reminder</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="636"/>
         <source>Sponsor</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="646"/>
         <source>Preview/Recap</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="656"/>
         <source>Non-Music Section</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="666"/>
         <source>Endcards/Credits</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="676"/>
         <source>Intermission/Intro Animation</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.cpp" line="173"/>
         <source>(default language)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.cpp" line="175"/>
         <source>All languages</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.cpp" line="195"/>
         <source>(default)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3537,37 +3543,37 @@ Dica: se você se deparar com um erro, siga essas instruções:
     <message>
         <location filename="../widgets/streamwidget.cpp" line="113"/>
         <source> (no video)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="118"/>
         <source> + subtitles</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="121"/>
         <source> + chapters</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="124"/>
         <source> + thumbnails</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="127"/>
         <source> + .description</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="130"/>
         <source> + .info.json</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="133"/>
         <source> + shortcut</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4099,8 +4105,8 @@ Dica: se você se deparar com um erro, siga essas instruções:
         <location filename="../widgets/torrentwidget.cpp" line="666"/>
         <source>Enter the IP address and port number of the peer to add.
 Ex:
- - for IPv4, type 'x.x.x.x:p'
- - for IPv6, type '[x:x:x:x:x:x:x:x]:p'
+ - for IPv4, type &apos;x.x.x.x:p&apos;
+ - for IPv6, type &apos;[x:x:x:x:x:x:x:x]:p&apos;
 </source>
         <translation>Insira o endereço IP e o número da porta do par que deseja adicionar.
 Exemplo:
@@ -4222,12 +4228,12 @@ Exemplo:
     <message>
         <location filename="../core/updatechecker.cpp" line="181"/>
         <source>File &apos;%0&apos; currently opened. Close the file and retry.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/updatechecker.cpp" line="189"/>
         <source>Failed to open temporary file &apos;%0&apos;.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

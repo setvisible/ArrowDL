@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="hu_HU">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="hu_HU">
 <context>
     <name>AbstractDownloadItem</name>
     <message>
@@ -560,7 +562,7 @@ A kötegleírók használatával több fájlt is letölthetsz egyszerre.</transl
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="179"/>
         <source>1 ... 123456</source>
-        <translation>1 ... 123456 </translation>
+        <translation>1 ... 123456&#xa0;</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="189"/>
@@ -2722,7 +2724,7 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="721"/>
         <source>Servers might split large files into multiple fragments, to optimize downloads. This option enables multi-threaded fragment downloads: Select the number of fragments that should be downloaded concurrently. Note that the concurrency makes download faster (when available), but the progress status and estimated time could be inaccurate (by design). Choose between precision and speed. Recommended value depends on your connection and machine. 20 is a good start. To disable it, set it to 1.</source>
-        <translation type="unfinished"/>
+        <translation>A kiszolgálók a nagy fájlokat több részre oszthatják a letöltések optimalizálása érdekében. Ez az opció lehetővé teszi a többszálú töredékletöltést: Válassza ki az egyidejűleg letöltendő töredékek számát. Vegye figyelembe, hogy a párhuzamosság gyorsabbá teszi a letöltést (ha elérhető), de az előrehaladás állapota és a becsült idő pontatlan lehet (a tervezés miatt). Válasszon a pontosság és a sebesség között. A javasolt érték a csatlakozástól és a géptől függ. 20 jó kezdés. A letiltásához állítsa 1-re.</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="742"/>
@@ -2952,47 +2954,47 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../core/settings.cpp" line="675"/>
+        <location filename="../core/settings.cpp" line="689"/>
         <source>All Files</source>
         <translation>Minden fájl</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="676"/>
+        <location filename="../core/settings.cpp" line="690"/>
         <source>Archives (zip, rar...)</source>
         <translation>Archívumok (zip, rar...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="677"/>
+        <location filename="../core/settings.cpp" line="691"/>
         <source>Application (exe, xpi...)</source>
         <translation>Alkalmazás (exe, xpl...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="678"/>
+        <location filename="../core/settings.cpp" line="692"/>
         <source>Audio (mp3, wav...)</source>
         <translation>Audio (mp3, wav...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="679"/>
+        <location filename="../core/settings.cpp" line="693"/>
         <source>Documents (pdf, odf...)</source>
         <translation>Dokumentumok (pdf, odf...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="680"/>
+        <location filename="../core/settings.cpp" line="694"/>
         <source>Images (jpg, png...)</source>
         <translation>Képek (jpg, png...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="681"/>
+        <location filename="../core/settings.cpp" line="695"/>
         <source>Images JPEG</source>
         <translation>Képek JPEG</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="682"/>
+        <location filename="../core/settings.cpp" line="696"/>
         <source>Images PNG</source>
         <translation>Képek PNG</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="683"/>
+        <location filename="../core/settings.cpp" line="697"/>
         <source>Video (mpeg, avi...)</source>
         <translation>Video (mpeg, avi...)</translation>
     </message>
@@ -3177,17 +3179,19 @@ Néhány példa az alábbiakban látható. Kattints a példa beillesztéséhez.<
 Help: if you get an error, follow these instructions:
 
 1. Verify the URL
-   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after '?' in the URL:
-   Ex: 'https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278'
+   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after &apos;?&apos; in the URL:
+   Ex: &apos;https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278&apos;
          becomes 
-         'https://www.abc.com/watch?video=some_video'
+         &apos;https://www.abc.com/watch?video=some_video&apos;
 
 2. Open the URL in a Web browser, and Play it
     (Rem: the Web browser can force the server to play the video)
 
-3. Click 'Continue' button again
+3. Click &apos;Continue&apos; button again
 
-4. Retry later</source>
+4. Try to use another HTTP User Agent. Sometimes obsolete User Agent can be denied by the stream server. Go to Options &gt; Preferences &gt; Privacy and remove or choose another HTTP User Agent.
+
+5. Retry later</source>
         <translation>---
 Segítség: ha hibaüzenetet kapsz, kövesd az alábbi utasításokat:
 
@@ -3202,7 +3206,9 @@ címből legyen csak
 
 3. Kattints ismét a „Folytatás” gombra
 
-4. Próbáld újra később</translation>
+4. Próbáljon meg másik HTTP User Agentet használni. Néha az elavult felhasználói ügynököt a streamszerver megtagadhatja. Nyissa meg a Beállítások &gt; Beállítások &gt; Adatvédelem menüpontot, és távolítsa el, vagy válasszon másik HTTP felhasználói ügynököt.
+
+5. Próbáld újra később</translation>
     </message>
 </context>
 <context>
@@ -4099,8 +4105,8 @@ címből legyen csak
         <location filename="../widgets/torrentwidget.cpp" line="666"/>
         <source>Enter the IP address and port number of the peer to add.
 Ex:
- - for IPv4, type 'x.x.x.x:p'
- - for IPv6, type '[x:x:x:x:x:x:x:x]:p'
+ - for IPv4, type &apos;x.x.x.x:p&apos;
+ - for IPv6, type &apos;[x:x:x:x:x:x:x:x]:p&apos;
 </source>
         <translation>A peer IP-címének és portszámának bevitele a hozzáadáshoz.
 Pl:
