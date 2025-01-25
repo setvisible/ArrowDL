@@ -586,10 +586,24 @@ void Settings::setHttpUserAgent(const QString &value)
 QStringList Settings::httpUserAgents()
 {
     return QStringList()
-            << QLatin1String("Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/43.4")
-            << QLatin1String("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.3")
-            << QLatin1String("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36")
-            << QLatin1String("Mozilla/5.0 (iPhone; CPU iPhone OS 11_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko)")
+           // Last update: January 2025
+
+           // Chrome on Windows
+           << QLatin1String("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36")
+
+           // Edge on Windows
+           << QLatin1String("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 Edg/131.0.2903.86")
+
+           // Firefox on Windows
+            << QLatin1String("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0")
+
+           // Firefox on Linux
+            << QLatin1String("Mozilla/5.0 (X11; Linux i686; rv:134.0) Gecko/20100101 Firefox/134.0")
+
+           // Firefox on Android
+           << QLatin1String("Mozilla/5.0 (Android 15; Mobile; rv:68.0) Gecko/68.0 Firefox/134.0")
+
+           // Other
             << QLatin1String("Version/10.0 Mobile/14E304 Safari/602.1")
             << QLatin1String("ArrowDL/3.x")
             << QLatin1String("Java1.1.4")
