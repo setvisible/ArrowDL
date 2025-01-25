@@ -237,7 +237,9 @@ Help: if you get an error, follow these instructions:
 
 3. Click 'Continue' button again
 
-4. Retry later</string>
+4. Try to use another HTTP User Agent. Sometimes obsolete User Agent can be denied by the stream server. Go to Options &gt; Preferences &gt; Privacy and remove or choose another HTTP User Agent.
+
+5. Retry later</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>

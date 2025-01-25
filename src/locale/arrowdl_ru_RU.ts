@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ru_RU">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ru_RU">
 <context>
     <name>AbstractDownloadItem</name>
     <message>
@@ -107,7 +109,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="139"/>
         <source>Custom</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="167"/>
@@ -415,7 +417,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="150"/>
         <source>Add &amp;paused</source>
-        <translation>Добавить &amp;приостановлено </translation>
+        <translation>Добавить &amp;приостановлено&#xa0;</translation>
     </message>
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="163"/>
@@ -926,7 +928,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../core/downloaditem.cpp" line="312"/>
         <source>5xx Unknown server error</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1540,7 +1542,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="295"/>
         <source>Download Video/Audio Stream</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="304"/>
@@ -1550,7 +1552,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="307"/>
         <source>Download Magnet Links and Torrent</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="316"/>
@@ -1560,7 +1562,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="319"/>
         <source>Download a copy-pasted list of Urls</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="328"/>
@@ -1576,7 +1578,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="340"/>
         <source>Pause (completed torrent: stop seeding)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="349"/>
@@ -1687,12 +1689,12 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="484"/>
         <source>One More Segment</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="493"/>
         <source>One Fewer Segment</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="502"/>
@@ -1752,22 +1754,22 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="574"/>
         <source>Remove Waiting</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="583"/>
         <source>Remove Running</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="592"/>
         <source>Remove Paused</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="601"/>
         <source>Remove Failed</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="610"/>
@@ -1792,7 +1794,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="636"/>
         <source>Copy Selection to Clipboard</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="639"/>
@@ -1812,7 +1814,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="654"/>
         <source>Tutorial</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="659"/>
@@ -1918,7 +1920,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.cpp" line="828"/>
         <source>URL of the HTML page:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="829"/>
@@ -1928,12 +1930,12 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1065"/>
         <source>The new name is already used or invalid.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1068"/>
         <source>Can&apos;t rename &quot;%0&quot; as its initial name.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1075"/>
@@ -1988,12 +1990,12 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.cpp" line="1123"/>
         <source>active</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1123"/>
         <source>inactive</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1390"/>
@@ -2031,32 +2033,32 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../core/mask.cpp" line="266"/>
         <source>Base URL</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/mask.cpp" line="267"/>
         <source>Full URL</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/mask.cpp" line="268"/>
         <source>Flat full URL</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/mask.cpp" line="269"/>
         <source>URL subdirectories</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/mask.cpp" line="270"/>
         <source>Flat URL subdirectories</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/mask.cpp" line="271"/>
         <source>Query string</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2064,7 +2066,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../widgets/masktip.ui" line="16"/>
         <source>Renaming Tags</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2073,7 +2075,7 @@ Some examples are given below.  Click to paste the example.</source>
         <location filename="../widgets/maskwidget.ui" line="68"/>
         <location filename="../widgets/maskwidget.ui" line="71"/>
         <source>Renaming tags reference table</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2134,12 +2136,12 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="92"/>
         <source>The download directory, renaming mask and filters can be configured in the regular selection dialog.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="102"/>
         <source>When a file with the same name already exists:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="108"/>
@@ -2174,12 +2176,12 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="193"/>
         <source>Manager Window</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="199"/>
         <source>Don&apos;t show &quot;Get Started&quot; tutorial when start the application</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="208"/>
@@ -2229,7 +2231,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="349"/>
         <source>Use stream downloader if the URL host is:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="413"/>
@@ -2324,7 +2326,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="816"/>
         <source>Timeout to establish a connection:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="846"/>
@@ -2334,7 +2336,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="852"/>
         <source>Get time from server for the file&apos;s...:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="859"/>
@@ -2349,7 +2351,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="873"/>
         <source>Most recent access (e.g. read or written to)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="880"/>
@@ -2394,7 +2396,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="940"/>
         <source>Create internet shortcut</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1132"/>
@@ -2404,7 +2406,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="736"/>
         <source>Servers might use HTTP identification contained in the HTTP request to log client attributes. Some server even don&apos;t respond to the client if the identification attribute is empty. The fields allow you to send fake information, to protect privacy.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1202"/>
@@ -2419,7 +2421,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="542"/>
         <source>Enable Custom Batch Button in &quot;Add download&quot; Dialog</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="554"/>
@@ -2429,7 +2431,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="561"/>
         <source>Custom button label:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="568"/>
@@ -2444,7 +2446,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="587"/>
         <source>Rem: must describe a range of numbers &quot;[x:y]&quot; with x &lt; y</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="691"/>
@@ -2459,7 +2461,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="993"/>
         <source>When Manager window is closed</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="999"/>
@@ -2585,7 +2587,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1393"/>
         <source>If enabled, this software becomes a torrent client. It shares DHT (distributed hash table) with peers, .torrents files you share (those in your torrent share folder actually) and .torrents files currently downloading in the download queue.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1406"/>
@@ -2595,7 +2597,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1412"/>
         <source>Share folder:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1427"/>
@@ -2670,7 +2672,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="212"/>
         <source>Queue Database</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="218"/>
@@ -2721,12 +2723,12 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="721"/>
         <source>Servers might split large files into multiple fragments, to optimize downloads. This option enables multi-threaded fragment downloads: Select the number of fragments that should be downloaded concurrently. Note that the concurrency makes download faster (when available), but the progress status and estimated time could be inaccurate (by design). Choose between precision and speed. Recommended value depends on your connection and machine. 20 is a good start. To disable it, set it to 1.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="742"/>
         <source>Referring Page (or Referrer) is an HTTP option that communicates to the server the address of the previous web page from which the resource is requested. This typically allows the HTTP server to track a visitor&apos;s browsing, page after page. To protect privacy, enter an empty or fake Referrer address.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="754"/>
@@ -2764,7 +2766,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../core/torrentmessage.cpp" line="155"/>
         <source>ignore</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/torrentmessage.cpp" line="156"/>
@@ -2951,47 +2953,47 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../core/settings.cpp" line="675"/>
+        <location filename="../core/settings.cpp" line="689"/>
         <source>All Files</source>
         <translation>Все файлы</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="676"/>
+        <location filename="../core/settings.cpp" line="690"/>
         <source>Archives (zip, rar...)</source>
         <translation>Архивы (zip, rar…)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="677"/>
+        <location filename="../core/settings.cpp" line="691"/>
         <source>Application (exe, xpi...)</source>
         <translation>Программы (exe, xpi…)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="678"/>
+        <location filename="../core/settings.cpp" line="692"/>
         <source>Audio (mp3, wav...)</source>
         <translation>Аудио (mp3, wav…)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="679"/>
+        <location filename="../core/settings.cpp" line="693"/>
         <source>Documents (pdf, odf...)</source>
         <translation>Документы (pdf, odf…)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="680"/>
+        <location filename="../core/settings.cpp" line="694"/>
         <source>Images (jpg, png...)</source>
         <translation>Изображения (jpg, png…)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="681"/>
+        <location filename="../core/settings.cpp" line="695"/>
         <source>Images JPEG</source>
         <translation>Изображения JPEG</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="682"/>
+        <location filename="../core/settings.cpp" line="696"/>
         <source>Images PNG</source>
         <translation>Изображения PNG</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="683"/>
+        <location filename="../core/settings.cpp" line="697"/>
         <source>Video (mpeg, avi...)</source>
         <translation>Видео (mpeg, avi…)</translation>
     </message>
@@ -3048,7 +3050,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../dialogs/streamdialog.cpp" line="32"/>
         <source>Stream Download Info</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/streamdialog.cpp" line="39"/>
@@ -3120,7 +3122,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../widgets/streamformatpicker.ui" line="197"/>
         <source>Detected media:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamformatpicker.ui" line="220"/>
@@ -3135,7 +3137,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../widgets/streamformatpicker.ui" line="255"/>
         <source>audio/video information is not available</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3143,7 +3145,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../widgets/streamlistwidget.ui" line="63"/>
         <source>Detected Media:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamlistwidget.ui" line="80"/>
@@ -3168,7 +3170,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../widgets/streamlistwidget.ui" line="219"/>
         <source>Can&apos;t find the URL stream</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamlistwidget.ui" line="226"/>
@@ -3176,18 +3178,20 @@ Some examples are given below.  Click to paste the example.</source>
 Help: if you get an error, follow these instructions:
 
 1. Verify the URL
-   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after '?' in the URL:
-   Ex: 'https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278'
+   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after &apos;?&apos; in the URL:
+   Ex: &apos;https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278&apos;
          becomes 
-         'https://www.abc.com/watch?video=some_video'
+         &apos;https://www.abc.com/watch?video=some_video&apos;
 
 2. Open the URL in a Web browser, and Play it
     (Rem: the Web browser can force the server to play the video)
 
-3. Click 'Continue' button again
+3. Click &apos;Continue&apos; button again
 
-4. Retry later</source>
-        <translation type="unfinished"/>
+4. Try to use another HTTP User Agent. Sometimes obsolete User Agent can be denied by the stream server. Go to Options &gt; Preferences &gt; Privacy and remove or choose another HTTP User Agent.
+
+5. Retry later</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3278,7 +3282,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="171"/>
         <source>Remove chapters whose title matches the given regular expression:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="181"/>
@@ -3338,7 +3342,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="378"/>
         <source>Other Media</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="384"/>
@@ -3353,7 +3357,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="398"/>
         <source>Create internet shortcut</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="420"/>
@@ -3399,17 +3403,17 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="498"/>
         <source>Re-encode the video into another format if re-encoding is necessary:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="512"/>
         <source>Rem: The syntax and supported formats are the same as &quot;Remux&quot;</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="522"/>
         <source>Keep the intermediate video file on disk after post-processing</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="529"/>
@@ -3464,12 +3468,12 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="646"/>
         <source>Preview/Recap</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="656"/>
         <source>Non-Music Section</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="666"/>
@@ -3512,7 +3516,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/streamwidget.ui" line="137"/>
         <source>Simplified name:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.ui" line="171"/>
@@ -3616,12 +3620,12 @@ Help: if you get an error, follow these instructions:
         <location filename="../widgets/texteditorwidget.ui" line="187"/>
         <location filename="../widgets/texteditorwidget.ui" line="190"/>
         <source>Block Edit Mode</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/texteditorwidget.ui" line="210"/>
         <source>Tip: &apos;Alt&apos;+&apos;Mouse&apos; or &apos;Alt&apos;+&apos;Shift&apos;+Arrow for block selection</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3629,7 +3633,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../core/torrentcontext.cpp" line="190"/>
         <source>Bad .torrent format: Can&apos;t download it.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3758,17 +3762,17 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../core/torrent.cpp" line="583"/>
         <source>Request Time</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="584"/>
         <source>Active Time</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="585"/>
         <source>Queue Time</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="586"/>
@@ -3778,7 +3782,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../core/torrent.cpp" line="587"/>
         <source>Source Flags</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="679"/>
@@ -3814,12 +3818,12 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../core/torrent.cpp" line="782"/>
         <source>Number of listened sockets (endpoints)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="783"/>
         <source>Tier this tracker belongs to</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="784"/>
@@ -3834,17 +3838,17 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../core/torrent.cpp" line="786"/>
         <source>Verified?</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="827"/>
         <source>verified</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="827"/>
         <source>not verified</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3878,7 +3882,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/torrentwidget.ui" line="180"/>
         <source>Transfer</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="188"/>
@@ -4033,22 +4037,22 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/torrentwidget.cpp" line="547"/>
         <source>Priorize by File order</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.cpp" line="548"/>
         <source>Priorize: High</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.cpp" line="549"/>
         <source>Priorize: Normal</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.cpp" line="550"/>
         <source>Priorize: Low</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.cpp" line="551"/>
@@ -4058,7 +4062,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/torrentwidget.cpp" line="552"/>
         <source>Relocate...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.cpp" line="642"/>
@@ -4073,7 +4077,7 @@ Help: if you get an error, follow these instructions:
     <message>
         <location filename="../widgets/torrentwidget.cpp" line="644"/>
         <source>Remove Unconnected</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.cpp" line="665"/>
@@ -4084,8 +4088,8 @@ Help: if you get an error, follow these instructions:
         <location filename="../widgets/torrentwidget.cpp" line="666"/>
         <source>Enter the IP address and port number of the peer to add.
 Ex:
- - for IPv4, type 'x.x.x.x:p'
- - for IPv6, type '[x:x:x:x:x:x:x:x]:p'
+ - for IPv4, type &apos;x.x.x.x:p&apos;
+ - for IPv6, type &apos;[x:x:x:x:x:x:x:x]:p&apos;
 </source>
         <translation>Укажите IP-адрес и порт пира. Примеры:
 - IPv4: &quot;x.x.x.x:p&quot;
@@ -4119,7 +4123,7 @@ Ex:
     <message>
         <location filename="../widgets/torrentwidget.cpp" line="853"/>
         <source>%0 (%1 hashfails)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.cpp" line="857"/>
@@ -4154,7 +4158,7 @@ Ex:
     <message>
         <location filename="../dialogs/tutorialdialog.cpp" line="35"/>
         <source>Tutorial</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/tutorialdialog.cpp" line="37"/>
@@ -4164,32 +4168,32 @@ Ex:
     <message>
         <location filename="../dialogs/tutorialdialog.cpp" line="40"/>
         <source>This brief tutorial will help you use the application for the first time.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/tutorialdialog.cpp" line="48"/>
         <source>Quick tutorial</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/tutorialdialog.cpp" line="52"/>
         <source>Go to the Quick Sample page on the website:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/tutorialdialog.cpp" line="64"/>
         <source>Read the tutorial. The page contains quick sample files:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/tutorialdialog.cpp" line="65"/>
         <source>You can mass-download them</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/tutorialdialog.cpp" line="66"/>
         <source>Try the powerful batch-download mode too!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4248,7 +4252,7 @@ Ex:
     <message>
         <location filename="../dialogs/updatedialog.ui" line="260"/>
         <source>Privacy policy: No data will be submitted to the server. This software will download the latest release tag file from Github.com, and compare it with your local version. If it doesn&apos;t match and if you accept to install the new version, the software will download the latest release to your local Temp directory. The software doesn&apos;t send any personal data, including your version of the software, your operating system or your CPU architecture.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../dialogs/updatedialog.ui" line="294"/>
@@ -4312,7 +4316,7 @@ Ex:
     <message>
         <location filename="../widgets/urlformwidget.ui" line="125"/>
         <source>Referring page:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/urlformwidget.ui" line="163"/>
@@ -4322,7 +4326,7 @@ Ex:
     <message>
         <location filename="../widgets/urlformwidget.ui" line="71"/>
         <source>Enter referrer URI</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/urlformwidget.ui" line="42"/>
@@ -4332,7 +4336,7 @@ Ex:
     <message>
         <location filename="../widgets/urlformwidget.ui" line="182"/>
         <source>Custom filename:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/urlformwidget.ui" line="109"/>
@@ -4373,7 +4377,7 @@ Ex:
     <message>
         <location filename="../main.cpp" line="78"/>
         <source>target URL to proceed</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

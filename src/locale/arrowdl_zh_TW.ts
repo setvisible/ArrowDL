@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="zh_TW">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_TW">
 <context>
     <name>AbstractDownloadItem</name>
     <message>
@@ -2952,47 +2954,47 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../core/settings.cpp" line="675"/>
+        <location filename="../core/settings.cpp" line="689"/>
         <source>All Files</source>
         <translation>所有檔案</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="676"/>
+        <location filename="../core/settings.cpp" line="690"/>
         <source>Archives (zip, rar...)</source>
         <translation>壓縮檔 (zip, rar...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="677"/>
+        <location filename="../core/settings.cpp" line="691"/>
         <source>Application (exe, xpi...)</source>
         <translation>應用程式 (exe, xpi...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="678"/>
+        <location filename="../core/settings.cpp" line="692"/>
         <source>Audio (mp3, wav...)</source>
         <translation>音訊 (mp3, wav...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="679"/>
+        <location filename="../core/settings.cpp" line="693"/>
         <source>Documents (pdf, odf...)</source>
         <translation>文件 (pdf, odf...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="680"/>
+        <location filename="../core/settings.cpp" line="694"/>
         <source>Images (jpg, png...)</source>
         <translation>圖片 (jpg, png...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="681"/>
+        <location filename="../core/settings.cpp" line="695"/>
         <source>Images JPEG</source>
         <translation>JPEG 圖片</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="682"/>
+        <location filename="../core/settings.cpp" line="696"/>
         <source>Images PNG</source>
         <translation>PNG 圖片</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="683"/>
+        <location filename="../core/settings.cpp" line="697"/>
         <source>Video (mpeg, avi...)</source>
         <translation>影片 (mpeg, avi...)</translation>
     </message>
@@ -3177,32 +3179,35 @@ Some examples are given below.  Click to paste the example.</source>
 Help: if you get an error, follow these instructions:
 
 1. Verify the URL
-   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after '?' in the URL:
-   Ex: 'https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278'
+   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after &apos;?&apos; in the URL:
+   Ex: &apos;https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278&apos;
          becomes 
-         'https://www.abc.com/watch?video=some_video'
+         &apos;https://www.abc.com/watch?video=some_video&apos;
 
 2. Open the URL in a Web browser, and Play it
     (Rem: the Web browser can force the server to play the video)
 
-3. Click 'Continue' button again
+3. Click &apos;Continue&apos; button again
 
-4. Retry later</source>
+4. Try to use another HTTP User Agent. Sometimes obsolete User Agent can be denied by the stream server. Go to Options &gt; Preferences &gt; Privacy and remove or choose another HTTP User Agent.
+
+5. Retry later</source>
         <translation>---
-說明：假如您遇到了錯誤，遵循這些 follow these 指示：
+帮助：如果出现错误，请按照以下说明操作：
 
-1. 驗證 URL
-   最終，簡化網址：在查詢中移除可選的 PHP 參數，在 &apos;?&apos; 之後的 URL：
-   例如：&apos;https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278&apos;
-         變成
+1. 验证网址
+   最后，简化 URL：删除查询中的可选 PHP 参数，在 &apos;?&apos; 之后 在网址中：
+例如：&apos;https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278&apos;
+         变成 
          &apos;https://www.abc.com/watch?video=some_video&apos;
 
-2. 在網頁瀏覽器中開啟 URL，並且播放它
-    （注意：Web 瀏覽器可以強制伺服器播放影片）
+2. 在网络浏览器中打开 URL，并播放它
+    (注意：Web 浏览器可以强制服务器播放视频)
+3. 再次点击“继续”按钮
 
-3. 再次點擊「繼續」按鈕
+4. 尝试使用其他 HTTP 用户代理。有时，过时的用户代理可能会被流服务器拒绝。转到“选项”&gt;“首选项”&gt;“隐私”，然后删除或选择其他 HTTP 用户代理。
 
-4. 稍後重試</translation>
+5. 稍后重试</translation>
     </message>
 </context>
 <context>
@@ -4099,8 +4104,8 @@ Help: if you get an error, follow these instructions:
         <location filename="../widgets/torrentwidget.cpp" line="666"/>
         <source>Enter the IP address and port number of the peer to add.
 Ex:
- - for IPv4, type 'x.x.x.x:p'
- - for IPv6, type '[x:x:x:x:x:x:x:x]:p'
+ - for IPv4, type &apos;x.x.x.x:p&apos;
+ - for IPv6, type &apos;[x:x:x:x:x:x:x:x]:p&apos;
 </source>
         <translation>輸入 IP 位址與 Peer 的通訊埠號碼以新增。
 例如：
