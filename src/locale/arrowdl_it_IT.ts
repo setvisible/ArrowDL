@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="it_IT">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="it_IT">
 <context>
     <name>AbstractDownloadItem</name>
     <message>
@@ -2966,47 +2968,47 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../core/settings.cpp" line="675"/>
+        <location filename="../core/settings.cpp" line="689"/>
         <source>All Files</source>
         <translation>Tutti i file</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="676"/>
+        <location filename="../core/settings.cpp" line="690"/>
         <source>Archives (zip, rar...)</source>
         <translation>Archivi (zip, rar...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="677"/>
+        <location filename="../core/settings.cpp" line="691"/>
         <source>Application (exe, xpi...)</source>
         <translation>Applicazioni (exe, xpi...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="678"/>
+        <location filename="../core/settings.cpp" line="692"/>
         <source>Audio (mp3, wav...)</source>
         <translation>Audio (mp3, wav...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="679"/>
+        <location filename="../core/settings.cpp" line="693"/>
         <source>Documents (pdf, odf...)</source>
         <translation>Documenti (pdf, odf...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="680"/>
+        <location filename="../core/settings.cpp" line="694"/>
         <source>Images (jpg, png...)</source>
         <translation>Immagini (jpg, png...)</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="681"/>
+        <location filename="../core/settings.cpp" line="695"/>
         <source>Images JPEG</source>
         <translation>Immagini JPEG</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="682"/>
+        <location filename="../core/settings.cpp" line="696"/>
         <source>Images PNG</source>
         <translation>Immagini PNG</translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="683"/>
+        <location filename="../core/settings.cpp" line="697"/>
         <source>Video (mpeg, avi...)</source>
         <translation>Video (mpeg, avi...)</translation>
     </message>
@@ -3191,17 +3193,19 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
 Help: if you get an error, follow these instructions:
 
 1. Verify the URL
-   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after '?' in the URL:
-   Ex: 'https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278'
+   Eventually, simplify the URL: remove the optional PHP arguments, in the query, after &apos;?&apos; in the URL:
+   Ex: &apos;https://www.abc.com/watch?video=some_video&amp;t=154&amp;h=144&amp;w=278&apos;
          becomes 
-         'https://www.abc.com/watch?video=some_video'
+         &apos;https://www.abc.com/watch?video=some_video&apos;
 
 2. Open the URL in a Web browser, and Play it
     (Rem: the Web browser can force the server to play the video)
 
-3. Click 'Continue' button again
+3. Click &apos;Continue&apos; button again
 
-4. Retry later</source>
+4. Try to use another HTTP User Agent. Sometimes obsolete User Agent can be denied by the stream server. Go to Options &gt; Preferences &gt; Privacy and remove or choose another HTTP User Agent.
+
+5. Retry later</source>
         <translation>---
 Guida: se ricevi un errore, segui queste istruzioni:
 
@@ -3216,7 +3220,9 @@ Guida: se ricevi un errore, segui queste istruzioni:
 
 3. Fare nuovamente clic sul pulsante &quot;Continua&quot;
 
-4. Riprova più tardi</translation>
+4. Prova a usare un altro HTTP User Agent. A volte, un User Agent obsoleto può essere negato dal server di streaming. Vai su Opzioni &gt; Preferenze &gt; Privacy e rimuovi o scegli un altro HTTP User Agent.
+
+5. Riprova più tardi</translation>
     </message>
 </context>
 <context>
@@ -4113,8 +4119,8 @@ Guida: se ricevi un errore, segui queste istruzioni:
         <location filename="../widgets/torrentwidget.cpp" line="666"/>
         <source>Enter the IP address and port number of the peer to add.
 Ex:
- - for IPv4, type 'x.x.x.x:p'
- - for IPv6, type '[x:x:x:x:x:x:x:x]:p'
+ - for IPv4, type &apos;x.x.x.x:p&apos;
+ - for IPv6, type &apos;[x:x:x:x:x:x:x:x]:p&apos;
 </source>
         <translation>Inserisci l&apos;indirizzo IP e il numero di porta del peer da aggiungere.
 Es.:

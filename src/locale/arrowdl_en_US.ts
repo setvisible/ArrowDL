@@ -2952,47 +2952,47 @@ Some examples are given below.  Click to paste the example.</source>
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../core/settings.cpp" line="675"/>
+        <location filename="../core/settings.cpp" line="689"/>
         <source>All Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="676"/>
+        <location filename="../core/settings.cpp" line="690"/>
         <source>Archives (zip, rar...)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="677"/>
+        <location filename="../core/settings.cpp" line="691"/>
         <source>Application (exe, xpi...)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="678"/>
+        <location filename="../core/settings.cpp" line="692"/>
         <source>Audio (mp3, wav...)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="679"/>
+        <location filename="../core/settings.cpp" line="693"/>
         <source>Documents (pdf, odf...)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="680"/>
+        <location filename="../core/settings.cpp" line="694"/>
         <source>Images (jpg, png...)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="681"/>
+        <location filename="../core/settings.cpp" line="695"/>
         <source>Images JPEG</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="682"/>
+        <location filename="../core/settings.cpp" line="696"/>
         <source>Images PNG</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/settings.cpp" line="683"/>
+        <location filename="../core/settings.cpp" line="697"/>
         <source>Video (mpeg, avi...)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3187,7 +3187,9 @@ Help: if you get an error, follow these instructions:
 
 3. Click &apos;Continue&apos; button again
 
-4. Retry later</source>
+4. Try to use another HTTP User Agent. Sometimes obsolete User Agent can be denied by the stream server. Go to Options &gt; Preferences &gt; Privacy and remove or choose another HTTP User Agent.
+
+5. Retry later</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
