@@ -964,7 +964,7 @@ L&apos;applicazione non verrà scaricata con socket protetti (HTTPS, FTPS).</tra
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="586"/>
         <source>Est. time</source>
-        <translation>Tenpo stimato</translation>
+        <translation>Tempo stimato</translation>
     </message>
     <message>
         <location filename="../widgets/downloadqueueview.cpp" line="587"/>
