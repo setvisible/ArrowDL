@@ -180,7 +180,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="314"/>
         <source>Don&apos;t ask again, always download batch</source>
-        <translation>Non chidere più, scarica sempre in batch</translation>
+        <translation>Non chiedere più, scarica sempre in batch</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.cpp" line="298"/>
@@ -283,7 +283,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="386"/>
         <source>After selecting links, click on Start!</source>
-        <translation>Dopo aver seelzionato i collegamenti, fai clic su Avvia!</translation>
+        <translation>Dopo aver selezionato i collegamenti, fai clic su Avvia!</translation>
     </message>
     <message>
         <location filename="../dialogs/addcontentdialog.cpp" line="389"/>
@@ -366,7 +366,7 @@ Se viene fornito un collegamento magnet, l&apos;applicazione scarica il .torrent
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="71"/>
         <source>Enter the .torrent file (or magnet link) to download</source>
-        <translation>Inserisci file .torrent ( o colelgamento magnet) da scaricare</translation>
+        <translation>Inserisci file .torrent ( o collegamento magnet) da scaricare</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="100"/>
@@ -391,7 +391,7 @@ Se viene fornito un collegamento magnet, l&apos;applicazione scarica il .torrent
     <message>
         <location filename="../dialogs/addtorrentdialog.cpp" line="49"/>
         <source>Add Magnet Links and Torrent</source>
-        <translation>Aggiungi collgemanti magnet e torrent</translation>
+        <translation>Aggiungi collegamenti magnet e torrent</translation>
     </message>
 </context>
 <context>
@@ -399,7 +399,7 @@ Se viene fornito un collegamento magnet, l&apos;applicazione scarica il .torrent
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="43"/>
         <source>Copy-paste a list of Urls to download</source>
-        <translation>Copia/incolla elenco URL da downloadare</translation>
+        <translation>Copia/incolla elenco URL da scaricare</translation>
     </message>
     <message>
         <location filename="../dialogs/addurlsdialog.ui" line="27"/>
@@ -583,7 +583,7 @@ Se viene fornito un collegamento magnet, l&apos;applicazione scarica il .torrent
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="288"/>
         <source>Safe Rename*</source>
-        <translation>Rinominazione sicura*</translation>
+        <translation>Rinomina sicura*</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.ui" line="298"/>
@@ -593,7 +593,7 @@ Se viene fornito un collegamento magnet, l&apos;applicazione scarica il .torrent
     <message>
         <location filename="../dialogs/batchrenamedialog.cpp" line="56"/>
         <source>%0 selected files to rename</source>
-        <translation>%0 file selzionati per la rinomina</translation>
+        <translation>%0 file selezionati per la rinomina</translation>
     </message>
 </context>
 <context>
@@ -694,7 +694,7 @@ Se viene fornito un collegamento magnet, l&apos;applicazione scarica il .torrent
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="321"/>
         <source>SSL Library Build Version:</source>
-        <translation>Vresione build libreria SSL:</translation>
+        <translation>Versione build libreria SSL:</translation>
     </message>
     <message>
         <location filename="../dialogs/compilerdialog.ui" line="347"/>
@@ -901,7 +901,7 @@ L&apos;applicazione non verrà scaricata con socket protetti (HTTPS, FTPS).</tra
     <message>
         <location filename="../core/downloaditem.cpp" line="304"/>
         <source>4xx Unknown protocol error</source>
-        <translation>4xx Errore protocollo sconsociuto</translation>
+        <translation>4xx Errore protocollo sconosciuto</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="305"/>
@@ -1070,7 +1070,7 @@ Nota he i numeri di linea non devono essere modificati.</translation>
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="52"/>
         <source>Rename</source>
-        <translation>Rinoma</translation>
+        <translation>Rinomina</translation>
     </message>
     <message>
         <location filename="../core/fileaccessmanager.cpp" line="53"/>
@@ -1361,7 +1361,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="55"/>
         <source>Unkown</source>
-        <translation>Sconsciuto</translation>
+        <translation>Sconosciuto</translation>
     </message>
     <message>
         <location filename="../dialogs/informationdialog.ui" line="138"/>
@@ -1527,7 +1527,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="277"/>
         <source>Download Batch...</source>
-        <translation>Downlaod batch...</translation>
+        <translation>Download batch...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="280"/>
@@ -1557,7 +1557,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="307"/>
         <source>Download Magnet Links and Torrent</source>
-        <translation>Downlaod collegamento magnet e torrent</translation>
+        <translation>Download collegamento magnet e torrent</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="316"/>
@@ -1709,7 +1709,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="505"/>
         <source>Ctrl+Shift+R</source>
-        <translation>Ctrl+Shift+R</translation>
+        <translation>Ctrl+Maiusc+R</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="514"/>
@@ -1719,7 +1719,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="517"/>
         <source>Ctrl+Shift+O</source>
-        <translation>Ctrl+Shift+O</translation>
+        <translation>Ctrl+Maiusc+O</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="526"/>
@@ -1729,7 +1729,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="529"/>
         <source>Ctrl+Shift+S, Ctrl+S</source>
-        <translation>Ctrl+Shift+S, Ctrl+S</translation>
+        <translation>Ctrl+Maiusc+S, Ctrl+S</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="538"/>
@@ -1754,7 +1754,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="565"/>
         <source>Ctrl+Shift+Del</source>
-        <translation>Ctrl+Shift+Canc</translation>
+        <translation>Ctrl+Maiusc+Canc</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="574"/>
@@ -1875,7 +1875,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="661"/>
         <source>Destination directory not found:</source>
-        <translation>Cartella destinazionione non trovata:</translation>
+        <translation>Cartella destinazione non trovata:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="680"/>
@@ -2107,7 +2107,7 @@ Fai clic per incollare l&apos;esempio.</translation>
         <location filename="../widgets/pathwidget.ui" line="42"/>
         <location filename="../widgets/pathwidget.ui" line="45"/>
         <source>Browse...</source>
-        <translation>Sgfoglia...</translation>
+        <translation>Sfoglia...</translation>
     </message>
     <message>
         <location filename="../widgets/pathwidget.cpp" line="139"/>
@@ -2321,7 +2321,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="793"/>
         <source> seconds</source>
-        <translation>secondi</translation>
+        <translation> secondi</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="809"/>
@@ -2381,7 +2381,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="912"/>
         <source>Mark watched (only for Youtube)</source>
-        <translation>Segna già visto (solo per Youtube)</translation>
+        <translation>Segna già visto (solo per YouTube)</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="919"/>
@@ -2396,7 +2396,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="933"/>
         <source>Download comments </source>
-        <translation>Scarica commenti</translation>
+        <translation>Scarica commenti </translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="940"/>
@@ -2700,7 +2700,7 @@ Condivide DHT (tabella hash distribuita) con i peer, i file .torrents che condiv
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="260"/>
         <source>Warning: The system tray doesn&apos;t support balloon messages.</source>
-        <translation>Attenzioen: l&apos;icona nella barra sistema non supporta i messaggi di notifica.</translation>
+        <translation>Attenzione: l&apos;icona nella barra sistema non supporta i messaggi di notifica.</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.cpp" line="265"/>
@@ -2733,7 +2733,7 @@ Condivide DHT (tabella hash distribuita) con i peer, i file .torrents che condiv
         <source>Servers might split large files into multiple fragments, to optimize downloads. This option enables multi-threaded fragment downloads: Select the number of fragments that should be downloaded concurrently. Note that the concurrency makes download faster (when available), but the progress status and estimated time could be inaccurate (by design). Choose between precision and speed. Recommended value depends on your connection and machine. 20 is a good start. To disable it, set it to 1.</source>
         <translation>Per ottimizzare i download i server potrebbero suddividere file di grandi dimensioni in più frammenti. 
 Questa opzione abilita i download di frammenti multi-thread: selezionare il numero di frammenti che devono essere scaricati contemporaneamente.
-Tenere presente che il downlaod di più segmenti in contemporanea (se disponibile) rende il download più veloce, ma lo stato di avanzamento e il tempo stimato potrebbero essere non precisi (in base alla progettazione). Scegli tra precisione e velocità. 
+Tenere presente che il download di più segmenti in contemporanea (se disponibile) rende il download più veloce, ma lo stato di avanzamento e il tempo stimato potrebbero essere non precisi (in base alla progettazione). Scegli tra precisione e velocità. 
 Il valore consigliato dipende dalla tipologia di connessione e dalla caratersiche del  computer. 
 20 è un buon inizio. 
 Per disabilitarlo, impostalo su 1.</translation>
@@ -2906,22 +2906,22 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
     <message>
         <location filename="../about.h" line="36"/>
         <source>GNU LGPL License</source>
-        <translation>GNU LGPL License</translation>
+        <translation>Licenza GNU LGPL</translation>
     </message>
     <message>
         <location filename="../about.h" line="38"/>
         <source>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </source>
-        <translation>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: </translation>
+        <translation>L&apos;autorizzazione è concessa, gratuitamente, a qualsiasi persona che ottenga una copia di questo software e file di documentazione associati (il &quot;software&quot;), per gestire il software senza restrizioni, incluso senza limiti i diritti di utilizzo, copiare, modificare, unire , pubblicare, distribuire, sublicenziare e/o vendere copie del software e per consentire alle persone a cui viene fornito il software per farlo, soggetto alle seguenti condizioni: </translation>
     </message>
     <message>
         <location filename="../about.h" line="46"/>
         <source>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </source>
-        <translation>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. </translation>
+        <translation>L&apos;avviso sul copyright di cui sopra e il presente avviso di autorizzazione saranno inclusi in tutte le copie o parti sostanziali del Software. </translation>
     </message>
     <message>
         <location filename="../about.h" line="50"/>
         <source>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </source>
-        <translation>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </translation>
+        <translation>IL SOFTWARE VIENE FORNITO &quot;COSÌ COME È&quot;, SENZA GARANZIA DI ALCUN TIPO, ESPLICITA O IMPLICITA, INCLUSE MA NON LIMITATE ALLE GARANZIE DI COMMERCIABILITÀ, IDONEITÀ PER UNO SCOPO PARTICOLARE E NON VIOLAZIONE. IN NESSUN CASO GLI AUTORI O I TITOLARI DEL COPYRIGHT SARANNO RESPONSABILI PER QUALSIASI PREVENZIONE, DANNI O ALTRA RESPONSABILITÀ, SIA IN UN&apos;AZIONE CONTRATTO, ILLECITO O ALTRIMENTI, DERIVANTE DA, DA O IN CONNESSIONE CON IL SOFTWARE O L&apos;USO O ALTRI RAPPORTI DEL SOFTWARE. </translation>
     </message>
     <message>
         <location filename="../about.h" line="75"/>
@@ -3273,7 +3273,7 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="45"/>
         <source>Mark watched (only for Youtube)</source>
-        <translation>Segna conme visto (solo per Youtube)</translation>
+        <translation>Segna come visto (solo per YouTube)</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="67"/>
@@ -3484,7 +3484,7 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="616"/>
         <source>Unpaid/Self Promotion</source>
-        <translation>Non pagato/autopromozione</translation>
+        <translation>Non pagato/auto promozione</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="626"/>
@@ -3557,7 +3557,7 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../widgets/streamwidget.cpp" line="113"/>
         <source> (no video)</source>
-        <translation>(no video)</translation>
+        <translation> (no video)</translation>
     </message>
     <message>
         <location filename="../widgets/streamwidget.cpp" line="118"/>
@@ -3595,7 +3595,7 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../widgets/systemtray.cpp" line="194"/>
         <source>&amp;Restore</source>
-        <translation>&amp;Riipristina</translation>
+        <translation>&amp;Ripristina</translation>
     </message>
     <message>
         <location filename="../widgets/systemtray.cpp" line="195"/>
@@ -3656,7 +3656,7 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../widgets/texteditorwidget.ui" line="210"/>
         <source>Tip: &apos;Alt&apos;+&apos;Mouse&apos; or &apos;Alt&apos;+&apos;Shift&apos;+Arrow for block selection</source>
-        <translation>Suggerimento: &apos;Alt&apos; + &apos;Mouse&apos; o &apos;Al&apos;&quot; + &quot;Maiusc&quot; + Freccia per la selezione del blocco</translation>
+        <translation>Suggerimento: &apos;Alt&apos; + &apos;Mouse&apos; o &apos;Alt&apos; + &apos;Maiusc&apos; + Freccia per la selezione del blocco</translation>
     </message>
 </context>
 <context>
@@ -3677,7 +3677,7 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../core/torrentcontext_p.cpp" line="567"/>
         <source>Can&apos;t download metadata.</source>
-        <translation>Impossibile scaricare i metdadati.</translation>
+        <translation>Impossibile scaricare i metadati.</translation>
     </message>
     <message>
         <location filename="../core/torrentcontext_p.cpp" line="578"/>
@@ -3849,7 +3849,7 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../core/torrent.cpp" line="782"/>
         <source>Number of listened sockets (endpoints)</source>
-        <translation>Numero di socket ascoltati (punti finali)</translation>
+        <translation>Numero socket ascoltati (punti finali)</translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="783"/>
@@ -4401,7 +4401,7 @@ Vuoi scaricare e installare l&apos;aggiornamento manualmente?</translation>
     <message>
         <location filename="../widgets/urllineedit.cpp" line="23"/>
         <source>Enter URL to download</source>
-        <translation>Inserisci URL da downloadare</translation>
+        <translation>Inserisci URL file da scaricare</translation>
     </message>
 </context>
 <context>
