@@ -37,7 +37,7 @@ const QString STR_APPLICATION_NAME{"ArrowDL"};
 const QString STR_APPLICATION_VERSION{APP_VERSION};
 const QString STR_APPLICATION_DATE{"2020"};
 const QString STR_APPLICATION_AUTHOR{"Sébastien Vavassori"};
-const QString STR_APPLICATION_WEBSITE{"https://github.com/setvisible/ArrowDL"};
+const QString STR_APPLICATION_WEBSITE{"https://www.arrow-dl.com/"};
 const QString STR_TUTORIAL_WEBSITE{"https://www.arrow-dl.com/tutorial/"};
 
 const QString STR_GITHUB_OWNER{"setvisible"};

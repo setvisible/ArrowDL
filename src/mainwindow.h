@@ -124,6 +124,7 @@ public slots:
     void about();
     void aboutCompiler();
     void aboutStream();
+    void aboutWebsite();
 
 private slots:
     void onJobAddedOrRemoved(const DownloadRange &range);

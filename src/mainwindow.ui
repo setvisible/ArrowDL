@@ -68,6 +68,8 @@
     <addaction name="actionAboutYTDLP"/>
     <addaction name="separator"/>
     <addaction name="actionAboutCompiler"/>
+    <addaction name="separator"/>
+    <addaction name="actionWebsite"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -606,6 +608,11 @@
   <action name="actionAboutYTDLP">
    <property name="text">
     <string>About YT-DLP...</string>
+   </property>
+  </action>
+  <action name="actionWebsite">
+   <property name="text">
+    <string>Website</string>
    </property>
   </action>
  </widget>

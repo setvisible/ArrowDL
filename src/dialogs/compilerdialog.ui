@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>565</width>
-    <height>447</height>
+    <height>449</height>
    </rect>
   </property>
   <property name="modal">
@@ -421,16 +421,36 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="version">
-       <property name="text">
-        <string notr="true">version</string>
-       </property>
-      </widget>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="version">
+         <property name="text">
+          <string notr="true">version</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="link">
+         <property name="text">
+          <string notr="true">Link</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
-      <widget class="QLabel" name="link">
+      <widget class="QLabel" name="link_github">
        <property name="text">
-        <string notr="true">Link</string>
+        <string notr="true">Link Github</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <property name="openExternalLinks">
         <bool>true</bool>

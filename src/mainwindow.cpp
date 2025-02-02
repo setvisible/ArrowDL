@@ -334,6 +334,11 @@ void MainWindow::createActions()
 
     connect(ui->actionAboutCompiler, SIGNAL(triggered()), this, SLOT(aboutCompiler()));
     connect(ui->actionAboutYTDLP, SIGNAL(triggered()), this, SLOT(aboutStream()));
+
+    ui->actionWebsite->setText(
+        QString("%0").arg(STR_APPLICATION_WEBSITE).remove("https://").removeLast());
+    ui->actionWebsite->setToolTip(tr("Go to website"));
+    connect(ui->actionWebsite, SIGNAL(triggered()), this, SLOT(aboutWebsite()));
     //! [5]
 
     propagateToolTips();
@@ -984,6 +989,12 @@ void MainWindow::aboutStream()
 {
     StreamDialog dialog(this);
     dialog.exec();
+}
+
+void MainWindow::aboutWebsite()
+{
+    auto url = QUrl(STR_APPLICATION_WEBSITE);
+    QDesktopServices::openUrl(url);
 }
 
 /******************************************************************************
