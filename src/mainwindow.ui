@@ -90,8 +90,6 @@
     <property name="title">
      <string>&amp;Option</string>
     </property>
-    <addaction name="actionSpeedLimit"/>
-    <addaction name="separator"/>
     <addaction name="actionPreferences"/>
    </widget>
    <widget class="QMenu" name="menuView">
@@ -583,15 +581,6 @@
    </property>
    <property name="text">
     <string>Remove Failed</string>
-   </property>
-  </action>
-  <action name="actionSpeedLimit">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/limit-speed.svg</normaloff>:/resources/icons/default/scalable/actions/limit-speed.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Speed Limit...</string>
    </property>
   </action>
   <action name="actionSelectNone">

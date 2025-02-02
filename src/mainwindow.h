@@ -117,7 +117,6 @@ public slots:
     void bottom();
 
     // Options
-    void speedLimit();
     void showPreferences();
 
     // Help

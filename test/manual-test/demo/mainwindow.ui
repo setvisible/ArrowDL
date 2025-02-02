@@ -50,7 +50,6 @@
     <property name="title">
      <string>Option</string>
     </property>
-    <addaction name="actionSpeedLimit"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -293,18 +292,6 @@
    </property>
    <property name="shortcut">
     <string>Alt+Del</string>
-   </property>
-  </action>
-  <action name="actionSpeedLimit">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/resources/icons/default/scalable/actions/limit-speed.svg</normaloff>:/resources/icons/default/scalable/actions/limit-speed.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Speed Limit...</string>
-   </property>
-   <property name="toolTip">
-    <string>Speed Limit...</string>
    </property>
   </action>
   <action name="actionSelectNone">

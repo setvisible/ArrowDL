@@ -320,8 +320,6 @@ void MainWindow::createActions()
     //! [3]
 
     //! [4]  Options
-    connect(ui->actionSpeedLimit, SIGNAL(triggered()), this, SLOT(speedLimit()));
-    //--
     connect(ui->actionPreferences, SIGNAL(triggered()), this, SLOT(showPreferences()));
     //! [4]
 
@@ -388,8 +386,6 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionUp);
     contextMenu->addAction(ui->actionDown);
     contextMenu->addAction(ui->actionBottom);
-    contextMenu->addSeparator();
-    contextMenu->addAction(ui->actionSpeedLimit);
 
     QMenu *advanced = contextMenu->addMenu(tr("Advanced"));
     advanced->addAction(ui->actionOneMoreSegment);
@@ -490,8 +486,6 @@ void MainWindow::propagateIcons()
         //! [3]
 
         //! [4]  Options
-        {ui->actionSpeedLimit             , "limit-speed"},
-        //--
         {ui->actionPreferences            , "preference"},
         //! [4]
 
@@ -965,11 +959,6 @@ void MainWindow::bottom()
     m_downloadManager->moveCurrentBottom();
 }
 
-void MainWindow::speedLimit()
-{    
-    qWarning("todo: speedLimit() not implemented yet.");
-}
-
 void MainWindow::showPreferences()
 {
     if (!this->isVisible()) {
@@ -1213,8 +1202,6 @@ void MainWindow::refreshMenus()
     //! [3]
 
     //! [4]  Options
-    ui->actionSpeedLimit->setEnabled(hasSelection);
-    //--
     //ui->actionPreferences->setEnabled(hasSelection);
     //! [4]
 

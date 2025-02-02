@@ -33,7 +33,6 @@
         <file>resources/icons/default/scalable/actions/help.svg</file>
         <file>resources/icons/default/scalable/actions/home.svg</file>
         <file>resources/icons/default/scalable/actions/info.svg</file>
-        <file>resources/icons/default/scalable/actions/limit-speed.svg</file>
         <file>resources/icons/default/scalable/actions/mask.svg</file>
         <file>resources/icons/default/scalable/actions/move-down.svg</file>
         <file>resources/icons/default/scalable/actions/move-bottom.svg</file>
@@ -101,7 +100,6 @@
         <file>resources/icons/default-dark/scalable/actions/help.svg</file>
         <file>resources/icons/default-dark/scalable/actions/home.svg</file>
         <file>resources/icons/default-dark/scalable/actions/info.svg</file>
-        <file>resources/icons/default-dark/scalable/actions/limit-speed.svg</file>
         <file>resources/icons/default-dark/scalable/actions/mask.svg</file>
         <file>resources/icons/default-dark/scalable/actions/move-down.svg</file>
         <file>resources/icons/default-dark/scalable/actions/move-bottom.svg</file>
@@ -169,7 +167,6 @@
         <file>resources/icons/flat/scalable/actions/help.svg</file>
         <file>resources/icons/flat/scalable/actions/home.svg</file>
         <file>resources/icons/flat/scalable/actions/info.svg</file>
-        <file>resources/icons/flat/scalable/actions/limit-speed.svg</file>
         <file>resources/icons/flat/scalable/actions/mask.svg</file>
         <file>resources/icons/flat/scalable/actions/move-down.svg</file>
         <file>resources/icons/flat/scalable/actions/move-bottom.svg</file>
@@ -237,7 +234,6 @@
         <file>resources/icons/flat-dark/scalable/actions/help.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/home.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/info.svg</file>
-        <file>resources/icons/flat-dark/scalable/actions/limit-speed.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/mask.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/move-down.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/move-bottom.svg</file>

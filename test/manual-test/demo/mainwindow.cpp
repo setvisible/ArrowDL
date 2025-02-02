@@ -112,7 +112,6 @@ void MainWindow::createActions()
     //! [3]
 
     //! [4]  Options
-    connect(ui->actionSpeedLimit, SIGNAL(triggered()), this, SLOT(speedLimit()));
     //! [4]
 }
 
@@ -142,8 +141,6 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionUp);
     contextMenu->addAction(ui->actionDown);
     contextMenu->addAction(ui->actionBottom);
-    contextMenu->addSeparator();
-    contextMenu->addAction(ui->actionSpeedLimit);
 
     ui->downloadQueueView->setContextMenu(contextMenu);
 }
@@ -210,7 +207,6 @@ void MainWindow::propagateIcons()
         //! [3]
 
         //! [4]  Options
-        {ui->actionSpeedLimit             , "limit-speed"},
         //        {ui->actionPreferences            , "preference"},
         //! [4]
 
@@ -340,11 +336,6 @@ void MainWindow::bottom()
     m_downloadManager->moveCurrentBottom();
 }
 
-void MainWindow::speedLimit()
-{    
-    qDebug() << Q_FUNC_INFO << "TODO";
-}
-
 /******************************************************************************
  ******************************************************************************/
 void MainWindow::onJobAddedOrRemoved(DownloadRange /*range*/)
@@ -467,8 +458,6 @@ void MainWindow::refreshMenus()
     //! [3]
 
     //! [4]  Options
-    ui->actionSpeedLimit->setEnabled(hasSelection);
-    //--
     //ui->actionPreferences->setEnabled(hasSelection);
     //! [4]
 
