@@ -52,7 +52,7 @@
      <x>0</x>
      <y>0</y>
      <width>700</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
@@ -91,8 +91,6 @@
      <string>&amp;Option</string>
     </property>
     <addaction name="actionSpeedLimit"/>
-    <addaction name="separator"/>
-    <addaction name="actionForceStart"/>
     <addaction name="separator"/>
     <addaction name="actionPreferences"/>
    </widget>
@@ -174,8 +172,6 @@
    <addaction name="separator"/>
    <addaction name="actionOneMoreSegment"/>
    <addaction name="actionOneFewerSegment"/>
-   <addaction name="separator"/>
-   <addaction name="actionForceStart"/>
    <addaction name="separator"/>
    <addaction name="actionImportFromFile"/>
    <addaction name="actionExportSelectedToFile"/>
@@ -491,18 +487,6 @@
    </property>
    <property name="text">
     <string>One Fewer Segment</string>
-   </property>
-  </action>
-  <action name="actionForceStart">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/play-resume-force.svg</normaloff>:/resources/icons/default/scalable/actions/play-resume-force.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Force Start</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+R</string>
    </property>
   </action>
   <action name="actionImportFromFile">

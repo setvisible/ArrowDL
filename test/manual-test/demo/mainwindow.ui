@@ -51,8 +51,6 @@
      <string>Option</string>
     </property>
     <addaction name="actionSpeedLimit"/>
-    <addaction name="separator"/>
-    <addaction name="actionForceStart"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -271,18 +269,6 @@
    </property>
    <property name="text">
     <string>One Fewer Segment</string>
-   </property>
-  </action>
-  <action name="actionForceStart">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/resources/icons/default/scalable/actions/play-resume-force.svg</normaloff>:/resources/icons/default/scalable/actions/play-resume-force.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Force Start</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+R</string>
    </property>
   </action>
   <action name="actionRemoveCompleted">

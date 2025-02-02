@@ -113,8 +113,6 @@ void MainWindow::createActions()
 
     //! [4]  Options
     connect(ui->actionSpeedLimit, SIGNAL(triggered()), this, SLOT(speedLimit()));
-    //--
-    connect(ui->actionForceStart, SIGNAL(triggered()), this, SLOT(forceStart()));
     //! [4]
 }
 
@@ -146,12 +144,6 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionBottom);
     contextMenu->addSeparator();
     contextMenu->addAction(ui->actionSpeedLimit);
-
-    QMenu *advanced = contextMenu->addMenu(tr("Advanced"));
-    advanced->addAction(ui->actionOneMoreSegment);
-    advanced->addAction(ui->actionOneFewerSegment);
-    advanced->addSeparator();
-    advanced->addAction(ui->actionForceStart);
 
     ui->downloadQueueView->setContextMenu(contextMenu);
 }
@@ -219,9 +211,6 @@ void MainWindow::propagateIcons()
 
         //! [4]  Options
         {ui->actionSpeedLimit             , "limit-speed"},
-        //--
-        {ui->actionForceStart             , "play-resume-force"},
-        //--
         //        {ui->actionPreferences            , "preference"},
         //! [4]
 
@@ -356,15 +345,6 @@ void MainWindow::speedLimit()
     qDebug() << Q_FUNC_INFO << "TODO";
 }
 
-void MainWindow::forceStart()
-{
-    for (auto item : m_downloadManager->selection()) {
-        /// todo Maybe run the item instantly (in a higher priority queue?)
-        m_downloadManager->cancel(item);
-        m_downloadManager->resume(item);
-    }
-}
-
 /******************************************************************************
  ******************************************************************************/
 void MainWindow::onJobAddedOrRemoved(DownloadRange /*range*/)
@@ -488,8 +468,6 @@ void MainWindow::refreshMenus()
 
     //! [4]  Options
     ui->actionSpeedLimit->setEnabled(hasSelection);
-    //--
-    ui->actionForceStart->setEnabled(hasSelection);
     //--
     //ui->actionPreferences->setEnabled(hasSelection);
     //! [4]

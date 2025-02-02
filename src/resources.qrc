@@ -42,7 +42,6 @@
         <file>resources/icons/default/scalable/actions/play-idle.svg</file>
         <file>resources/icons/default/scalable/actions/play-pause.svg</file>
         <file>resources/icons/default/scalable/actions/play-resume.svg</file>
-        <file>resources/icons/default/scalable/actions/play-resume-force.svg</file>
         <file>resources/icons/default/scalable/actions/play-stop.svg</file>
         <file>resources/icons/default/scalable/actions/preference.svg</file>
         <file>resources/icons/default/scalable/actions/preference-advanced.svg</file>
@@ -111,7 +110,6 @@
         <file>resources/icons/default-dark/scalable/actions/play-idle.svg</file>
         <file>resources/icons/default-dark/scalable/actions/play-pause.svg</file>
         <file>resources/icons/default-dark/scalable/actions/play-resume.svg</file>
-        <file>resources/icons/default-dark/scalable/actions/play-resume-force.svg</file>
         <file>resources/icons/default-dark/scalable/actions/play-stop.svg</file>
         <file>resources/icons/default-dark/scalable/actions/preference.svg</file>
         <file>resources/icons/default-dark/scalable/actions/preference-advanced.svg</file>
@@ -180,7 +178,6 @@
         <file>resources/icons/flat/scalable/actions/play-idle.svg</file>
         <file>resources/icons/flat/scalable/actions/play-pause.svg</file>
         <file>resources/icons/flat/scalable/actions/play-resume.svg</file>
-        <file>resources/icons/flat/scalable/actions/play-resume-force.svg</file>
         <file>resources/icons/flat/scalable/actions/play-stop.svg</file>
         <file>resources/icons/flat/scalable/actions/preference.svg</file>
         <file>resources/icons/flat/scalable/actions/preference-advanced.svg</file>
@@ -249,7 +246,6 @@
         <file>resources/icons/flat-dark/scalable/actions/play-idle.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/play-pause.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/play-resume.svg</file>
-        <file>resources/icons/flat-dark/scalable/actions/play-resume-force.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/play-stop.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/preference.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/preference-advanced.svg</file>

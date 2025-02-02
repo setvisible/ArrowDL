@@ -118,7 +118,6 @@ public slots:
 
     // Options
     void speedLimit();
-    void forceStart();
     void showPreferences();
 
     // Help

@@ -322,8 +322,6 @@ void MainWindow::createActions()
     //! [4]  Options
     connect(ui->actionSpeedLimit, SIGNAL(triggered()), this, SLOT(speedLimit()));
     //--
-    connect(ui->actionForceStart, SIGNAL(triggered()), this, SLOT(forceStart()));
-    //--
     connect(ui->actionPreferences, SIGNAL(triggered()), this, SLOT(showPreferences()));
     //! [4]
 
@@ -396,8 +394,6 @@ void MainWindow::createContextMenu()
     QMenu *advanced = contextMenu->addMenu(tr("Advanced"));
     advanced->addAction(ui->actionOneMoreSegment);
     advanced->addAction(ui->actionOneFewerSegment);
-    advanced->addSeparator();
-    advanced->addAction(ui->actionForceStart);
     advanced->addSeparator();
     advanced->addAction(ui->actionImportFromFile);
     advanced->addAction(ui->actionExportSelectedToFile);
@@ -495,8 +491,6 @@ void MainWindow::propagateIcons()
 
         //! [4]  Options
         {ui->actionSpeedLimit             , "limit-speed"},
-        //--
-        {ui->actionForceStart             , "play-resume-force"},
         //--
         {ui->actionPreferences            , "preference"},
         //! [4]
@@ -976,15 +970,6 @@ void MainWindow::speedLimit()
     qWarning("todo: speedLimit() not implemented yet.");
 }
 
-void MainWindow::forceStart()
-{
-    for (auto item : m_downloadManager->selection()) {
-        /// todo Maybe run the item instantly (in a higher priority queue?)
-        m_downloadManager->cancel(item);
-        m_downloadManager->resume(item);
-    }
-}
-
 void MainWindow::showPreferences()
 {
     if (!this->isVisible()) {
@@ -1229,8 +1214,6 @@ void MainWindow::refreshMenus()
 
     //! [4]  Options
     ui->actionSpeedLimit->setEnabled(hasSelection);
-    //--
-    ui->actionForceStart->setEnabled(hasSelection);
     //--
     //ui->actionPreferences->setEnabled(hasSelection);
     //! [4]
