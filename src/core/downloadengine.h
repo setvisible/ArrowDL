@@ -84,10 +84,6 @@ public:
     void moveCurrentDown();
     void moveCurrentBottom();
 
-    /* Segments */
-    void oneMoreSegment();
-    void oneFewerSegment();
-
     /* Utility */
     virtual IDownloadItem* createItem(const QUrl &url);
     virtual IDownloadItem* createTorrentItem(const QUrl &url);

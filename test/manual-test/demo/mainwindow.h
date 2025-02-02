@@ -45,8 +45,6 @@ public slots:
     void selectNone();
     void invertSelection();
     void selectCompleted();
-    void oneMoreSegment();
-    void oneFewerSegment();
 
     // View
 //    void showInformation();

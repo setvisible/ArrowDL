@@ -161,20 +161,6 @@ void AbstractDownloadItem::setErrorMessage(const QString &message)
 
 /******************************************************************************
  ******************************************************************************/
-int AbstractDownloadItem::maxConnectionSegments() const
-{
-    return m_maxConnectionSegments;
-}
-
-void AbstractDownloadItem::setMaxConnectionSegments(int connectionSegments)
-{
-    if (connectionSegments > 0 && connectionSegments <= MAX_CONNECTION_SEGMENTS) {
-        m_maxConnectionSegments = connectionSegments;
-    }
-}
-
-/******************************************************************************
- ******************************************************************************/
 int AbstractDownloadItem::maxConnections() const
 {
     return m_maxConnections;

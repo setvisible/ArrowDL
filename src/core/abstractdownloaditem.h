@@ -52,9 +52,6 @@ public:
     QString errorMessage() const;
     void setErrorMessage(const QString &message);
 
-    int maxConnectionSegments() const override;
-    void setMaxConnectionSegments(int connectionSegments);
-
     int maxConnections() const override;
     void setMaxConnections(int connections);
 

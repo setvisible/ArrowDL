@@ -35,8 +35,6 @@ const int DIALOG_WIDTH = 600;
 
 const int DEFAULT_TIMEOUT_SECS = 30; // ref.: QNetworkConfigurationPrivate::DefaultTimeout
 
-const int MAX_CONNECTION_SEGMENTS = 10;
-
 const std::chrono::milliseconds TIMEOUT_COUNT_DOWN(1000);
 const std::chrono::milliseconds TIMEOUT_INFO(150);
 

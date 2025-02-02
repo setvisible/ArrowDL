@@ -76,8 +76,6 @@ public slots:
     void invertSelection();
     void selectCompleted();
     void copy();
-    void oneMoreSegment();
-    void oneFewerSegment();
 
     // View
     void showInformation();

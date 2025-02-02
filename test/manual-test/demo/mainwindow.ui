@@ -100,9 +100,6 @@
     <addaction name="actionSelectNone"/>
     <addaction name="actionInvertSelection"/>
     <addaction name="actionSelectCompleted"/>
-    <addaction name="separator"/>
-    <addaction name="actionOneMoreSegment"/>
-    <addaction name="actionOneFewerSegment"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -250,24 +247,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+I</string>
-   </property>
-  </action>
-  <action name="actionOneMoreSegment">
-   <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/segment-add.svg</normaloff>:/resources/icons/default/scalable/actions/segment-add.svg</iconset>
-   </property>
-   <property name="text">
-    <string>One More Segment</string>
-   </property>
-  </action>
-  <action name="actionOneFewerSegment">
-   <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/segment-remove.svg</normaloff>:/resources/icons/default/scalable/actions/segment-remove.svg</iconset>
-   </property>
-   <property name="text">
-    <string>One Fewer Segment</string>
    </property>
   </action>
   <action name="actionRemoveCompleted">

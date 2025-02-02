@@ -284,9 +284,6 @@ void MainWindow::createActions()
     connect(ui->actionSelectCompleted, SIGNAL(triggered()), this, SLOT(selectCompleted()));
     // --
     connect(ui->actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
-    // --
-    connect(ui->actionOneMoreSegment, SIGNAL(triggered()), this, SLOT(oneMoreSegment()));
-    connect(ui->actionOneFewerSegment, SIGNAL(triggered()), this, SLOT(oneFewerSegment()));
     //! [1]
 
     //! [2] View
@@ -388,9 +385,6 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionBottom);
 
     QMenu *advanced = contextMenu->addMenu(tr("Advanced"));
-    advanced->addAction(ui->actionOneMoreSegment);
-    advanced->addAction(ui->actionOneFewerSegment);
-    advanced->addSeparator();
     advanced->addAction(ui->actionImportFromFile);
     advanced->addAction(ui->actionExportSelectedToFile);
 
@@ -450,9 +444,6 @@ void MainWindow::propagateIcons()
         {ui->actionSelectCompleted        , "select-completed"},
         // --
         // {ui->actionCopy   , ""},
-        // --
-        {ui->actionOneMoreSegment         , "segment-add"},
-        {ui->actionOneFewerSegment        , "segment-remove"},
         //! [1]
 
         //! [2] View
@@ -552,16 +543,6 @@ void MainWindow::copy()
     const QString text = m_downloadManager->selectionToClipboard();
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(text);
-}
-
-void MainWindow::oneMoreSegment()
-{
-    m_downloadManager->oneMoreSegment();
-}
-
-void MainWindow::oneFewerSegment()
-{
-    m_downloadManager->oneFewerSegment();
 }
 
 void MainWindow::showInformation()
@@ -1129,13 +1110,6 @@ void MainWindow::refreshMenus()
             continue;
         }
     }
-    bool hasAtLeastOneUncompletedSelected = false;
-    for (auto item : m_downloadManager->selection()) {
-        if (item->state() != IDownloadItem::Completed) {
-            hasAtLeastOneUncompletedSelected = true;
-            continue;
-        }
-    }
     bool hasResumableSelection = false;
     bool hasPausableSelection = false;
     bool hasCancelableSelection = false;
@@ -1165,9 +1139,6 @@ void MainWindow::refreshMenus()
     //ui->actionSelectCompleted->setEnabled(hasSelection);
     // --
     ui->actionCopy->setEnabled(hasSelection);
-    // --
-    ui->actionOneMoreSegment->setEnabled(hasAtLeastOneUncompletedSelected);
-    ui->actionOneFewerSegment->setEnabled(hasAtLeastOneUncompletedSelected);
     //! [1]
 
     //! [2] View

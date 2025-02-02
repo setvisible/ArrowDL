@@ -83,9 +83,6 @@ void MainWindow::createActions()
     connect(ui->actionSelectNone, SIGNAL(triggered()), this, SLOT(selectNone()));
     connect(ui->actionInvertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
     connect(ui->actionSelectCompleted, SIGNAL(triggered()), this, SLOT(selectCompleted()));
-    // --
-    connect(ui->actionOneMoreSegment, SIGNAL(triggered()), this, SLOT(oneMoreSegment()));
-    connect(ui->actionOneFewerSegment, SIGNAL(triggered()), this, SLOT(oneFewerSegment()));
     //! [1]
 
     //! [2] View
@@ -172,9 +169,6 @@ void MainWindow::propagateIcons()
         {ui->actionSelectCompleted        , "select-completed"},
         // --
         // {ui->actionCopy   , ""},
-        // --
-        {ui->actionOneMoreSegment         , "segment-add"},
-        {ui->actionOneFewerSegment        , "segment-remove"},
         //! [1]
 
         //! [2] View
@@ -248,16 +242,6 @@ void MainWindow::invertSelection()
 void MainWindow::selectCompleted()
 {
     m_downloadManager->setSelection(m_downloadManager->completedJobs());
-}
-
-void MainWindow::oneMoreSegment()
-{
-    m_downloadManager->oneMoreSegment();
-}
-
-void MainWindow::oneFewerSegment()
-{
-    m_downloadManager->oneFewerSegment();
 }
 
 void MainWindow::removeWaiting()
@@ -422,9 +406,6 @@ void MainWindow::refreshMenus()
     ui->actionSelectNone->setEnabled(hasSelection);
     //ui->actionInvertSelection->setEnabled(hasSelection);
     //ui->actionSelectCompleted->setEnabled(hasSelection);
-    // --
-    ui->actionOneMoreSegment->setEnabled(hasAtLeastOneUncompletedSelected);
-    ui->actionOneFewerSegment->setEnabled(hasAtLeastOneUncompletedSelected);
     //! [1]
 
     //! [2] View

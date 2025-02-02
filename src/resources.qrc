@@ -66,8 +66,6 @@
         <file>resources/icons/default/scalable/actions/remove-stopped.svg</file>
         <file>resources/icons/default/scalable/actions/remove-waiting.svg</file>
         <file>resources/icons/default/scalable/actions/rename.svg</file>
-        <file>resources/icons/default/scalable/actions/segment-add.svg</file>
-        <file>resources/icons/default/scalable/actions/segment-remove.svg</file>
         <file>resources/icons/default/scalable/actions/select-all.svg</file>
         <file>resources/icons/default/scalable/actions/select-completed.svg</file>
         <file>resources/icons/default/scalable/actions/select-invert.svg</file>
@@ -133,8 +131,6 @@
         <file>resources/icons/default-dark/scalable/actions/remove-stopped.svg</file>
         <file>resources/icons/default-dark/scalable/actions/remove-waiting.svg</file>
         <file>resources/icons/default-dark/scalable/actions/rename.svg</file>
-        <file>resources/icons/default-dark/scalable/actions/segment-add.svg</file>
-        <file>resources/icons/default-dark/scalable/actions/segment-remove.svg</file>
         <file>resources/icons/default-dark/scalable/actions/select-all.svg</file>
         <file>resources/icons/default-dark/scalable/actions/select-completed.svg</file>
         <file>resources/icons/default-dark/scalable/actions/select-invert.svg</file>
@@ -200,8 +196,6 @@
         <file>resources/icons/flat/scalable/actions/remove-stopped.svg</file>
         <file>resources/icons/flat/scalable/actions/remove-waiting.svg</file>
         <file>resources/icons/flat/scalable/actions/rename.svg</file>
-        <file>resources/icons/flat/scalable/actions/segment-add.svg</file>
-        <file>resources/icons/flat/scalable/actions/segment-remove.svg</file>
         <file>resources/icons/flat/scalable/actions/select-all.svg</file>
         <file>resources/icons/flat/scalable/actions/select-completed.svg</file>
         <file>resources/icons/flat/scalable/actions/select-invert.svg</file>
@@ -267,8 +261,6 @@
         <file>resources/icons/flat-dark/scalable/actions/remove-stopped.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/remove-waiting.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/rename.svg</file>
-        <file>resources/icons/flat-dark/scalable/actions/segment-add.svg</file>
-        <file>resources/icons/flat-dark/scalable/actions/segment-remove.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/select-all.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/select-completed.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/select-invert.svg</file>

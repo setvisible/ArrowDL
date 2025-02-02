@@ -454,28 +454,6 @@ void DownloadEngine::moveCurrentBottom()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadEngine::oneMoreSegment()
-{
-    for (auto item : selection()) {
-        auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
-        auto segments = downloadItem->maxConnectionSegments();
-        segments++;
-        downloadItem->setMaxConnectionSegments(segments);
-    }
-}
-
-void DownloadEngine::oneFewerSegment()
-{
-    for (auto item : selection()) {
-        auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
-        auto segments = downloadItem->maxConnectionSegments();
-        segments--;
-        downloadItem->setMaxConnectionSegments(segments);
-    }
-}
-
-/******************************************************************************
- ******************************************************************************/
 /*!
  * \brief Reimplement this method allows the Engine to make Items; like a factory.
  * That makes the unit tests of this class easier, allowing dummy items.
