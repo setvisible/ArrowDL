@@ -255,7 +255,7 @@
   </action>
   <action name="actionAddContent">
    <property name="icon">
-    <iconset>
+    <iconset resource="resources.qrc">
      <normaloff>:/resources/icons/default/scalable/actions/add-content.svg</normaloff>:/resources/icons/default/scalable/actions/add-content.svg</iconset>
    </property>
    <property name="text">
@@ -270,7 +270,7 @@
   </action>
   <action name="actionAddBatch">
    <property name="icon">
-    <iconset>
+    <iconset resource="resources.qrc">
      <normaloff>:/resources/icons/default/scalable/actions/add-batch.svg</normaloff>:/resources/icons/default/scalable/actions/add-batch.svg</iconset>
    </property>
    <property name="text">
@@ -285,7 +285,7 @@
   </action>
   <action name="actionAddStream">
    <property name="icon">
-    <iconset>
+    <iconset resource="resources.qrc">
      <normaloff>:/resources/icons/default/scalable/actions/add-stream.svg</normaloff>:/resources/icons/default/scalable/actions/add-stream.svg</iconset>
    </property>
    <property name="text">
@@ -297,7 +297,7 @@
   </action>
   <action name="actionAddTorrent">
    <property name="icon">
-    <iconset>
+    <iconset resource="resources.qrc">
      <normaloff>:/resources/icons/default/scalable/actions/add-torrent.svg</normaloff>:/resources/icons/default/scalable/actions/add-torrent.svg</iconset>
    </property>
    <property name="text">
@@ -309,7 +309,7 @@
   </action>
   <action name="actionAddUrls">
    <property name="icon">
-    <iconset>
+    <iconset resource="resources.qrc">
      <normaloff>:/resources/icons/default/scalable/actions/add-urls.svg</normaloff>:/resources/icons/default/scalable/actions/add-urls.svg</iconset>
    </property>
    <property name="text">

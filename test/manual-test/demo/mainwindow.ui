@@ -137,7 +137,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionAdd">
    <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
+    <iconset>
      <normaloff>:/resources/icons/default/scalable/actions//add-batch.svg</normaloff>:/resources/icons/default/scalable/actions//add-batch.svg</iconset>
    </property>
    <property name="text">
@@ -275,7 +275,7 @@
   </action>
   <action name="actionForceStart">
    <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
+    <iconset>
      <normaloff>:/resources/icons/default/scalable/actions/play-resume-force.svg</normaloff>:/resources/icons/default/scalable/actions/play-resume-force.svg</iconset>
    </property>
    <property name="text">
@@ -311,7 +311,7 @@
   </action>
   <action name="actionSpeedLimit">
    <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
+    <iconset>
      <normaloff>:/resources/icons/default/scalable/actions/limit-speed.svg</normaloff>:/resources/icons/default/scalable/actions/limit-speed.svg</iconset>
    </property>
    <property name="text">
