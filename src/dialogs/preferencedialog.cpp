@@ -117,7 +117,6 @@ void PreferenceDialog::connectUi()
 
     // Tab Network
     connect(ui->maxSimultaneousDownloadSlider, SIGNAL(valueChanged(int)), this, SLOT(maxSimultaneousDownloadSlided(int)));
-    connect(ui->concurrentFragmentSlider, SIGNAL(valueChanged(int)), this, SLOT(concurrentFragmentSlided(int)));
 
     connect(ui->proxyTypeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(proxyTypeChanged(int)));
     connect(ui->proxyAuthCheckBox, SIGNAL(toggled(bool)), this, SLOT(proxyAuthToggled(bool)));
@@ -281,7 +280,6 @@ void PreferenceDialog::restylizeUi()
     // Restylize icons
     const QHash<QLabel *, QString> hash = {
         {ui->streamHelp,                "help"},
-        {ui->concurrentFragmentHelp,    "help"},
         {ui->httpUserAgentHelp,         "help"},
         {ui->httpReferringPageHelp,     "help"}
     };
@@ -406,11 +404,6 @@ void PreferenceDialog::maxSimultaneousDownloadSlided(int value)
     ui->maxSimultaneousDownloadValue->setText(QString::number(value));
 }
 
-void PreferenceDialog::concurrentFragmentSlided(int value)
-{
-    ui->concurrentFragmentValue->setText(QString::number(value));
-}
-
 void PreferenceDialog::proxyTypeChanged(int index)
 {
     auto enabled = index != 0;
@@ -500,7 +493,6 @@ void PreferenceDialog::read()
 
     // Tab Network
     ui->maxSimultaneousDownloadSlider->setValue(m_settings->maxSimultaneousDownloads());
-    ui->concurrentFragmentSlider->setValue(m_settings->concurrentFragments());
 
     ui->customBatchGroupBox->setChecked(m_settings->isCustomBatchEnabled());
     ui->customBatchButtonLabelLineEdit->setText(m_settings->customBatchButtonLabel());
@@ -581,7 +573,6 @@ void PreferenceDialog::write()
 
     // Tab Network
     m_settings->setMaxSimultaneousDownloads(ui->maxSimultaneousDownloadSlider->value());
-    m_settings->setConcurrentFragments(ui->concurrentFragmentSlider->value());
 
     m_settings->setCustomBatchEnabled(ui->customBatchGroupBox->isChecked());
     m_settings->setCustomBatchButtonLabel(ui->customBatchButtonLabelLineEdit->text());
@@ -715,18 +706,6 @@ void PreferenceDialog::setupStreamToolTip()
     }
     tooltip += "</body></html>";
     ui->streamHelp->setToolTip(tooltip);
-
-    ui->concurrentFragmentHelp->setToolTip(
-                QString("<html><head/><body><p>%0</p></body></html>").arg(
-                    tr("Servers might split large files into multiple fragments, "
-                       "to optimize downloads. "
-                       "This option enables multi-threaded fragment downloads: "
-                       "Select the number of fragments that should be downloaded concurrently. "
-                       "Note that the concurrency makes download faster (when available), "
-                       "but the progress status and estimated time could be inaccurate (by design). "
-                       "Choose between precision and speed. "
-                       "Recommended value depends on your connection and machine. "
-                       "20 is a good start. To disable it, set it to 1.")));
 }
 
 void PreferenceDialog::setupHttpToolTips()
