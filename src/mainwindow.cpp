@@ -618,7 +618,7 @@ void MainWindow::deleteFile()
 
         msgbox.exec();
         if (msgbox.clickedButton() == deleteButton) {
-            qWarning("todo: MoveToTrash() not implemented yet.");
+            m_downloadManager->movetoTrash(m_downloadManager->selection());
         }
     }
 }
@@ -1006,9 +1006,7 @@ void MainWindow::onJobAddedOrRemoved(const DownloadRange &/*range*/)
 
 void MainWindow::onJobStateChanged(IDownloadItem * /*downloadItem*/)
 {
-    // if (m_downloadManager->isSelected(downloadItem)) {
     refreshMenus();
-    // }
     refreshTitleAndStatus();
 }
 

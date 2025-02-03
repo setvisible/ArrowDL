@@ -158,6 +158,23 @@ void DownloadEngine::updateItems(const QList<IDownloadItem *> &items)
     }
 }
 
+void DownloadEngine::movetoTrash(const QList<IDownloadItem*> &items)
+{
+    if (items.isEmpty()) {
+        return;
+    }
+    /* Then, move to trash */
+    for (auto item : items) {
+        cancel(item); // stop the reply first
+        m_items.removeAll(item);
+        auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
+        if (downloadItem) {
+            downloadItem->moveToTrash();
+        }
+    }
+    removeItems(items);
+}
+
 /******************************************************************************
  ******************************************************************************/
 const IDownloadItem* DownloadEngine::clientForRow(qsizetype row) const

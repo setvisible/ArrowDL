@@ -84,6 +84,9 @@ public:
     void moveCurrentDown();
     void moveCurrentBottom();
 
+    /* Misc */
+    void movetoTrash(const QList<IDownloadItem *> &items);
+
     /* Utility */
     virtual IDownloadItem* createItem(const QUrl &url);
     virtual IDownloadItem* createTorrentItem(const QUrl &url);

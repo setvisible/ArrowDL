@@ -150,6 +150,19 @@ void DownloadItem::rename(const QString &newName)
     emit renamed(oldFileName, newFileName, success);
 }
 
+void DownloadItem::moveToTrash()
+{
+    stop();
+    auto fileName = localFullFileName();
+    if (!QFile::exists(fileName)) {
+        return;
+    }
+    if (!QFile::moveToTrash(fileName)) {
+        /// \todo if not moved, do something else, like rename 'myfile' to '~myfile'?
+    }
+    emit changed();
+}
+
 /******************************************************************************
  ******************************************************************************/
 void DownloadItem::onMetaDataChanged()

@@ -343,6 +343,11 @@ void AbstractDownloadItem::rename(const QString &newName)
     Q_UNUSED(newName)
 }
 
+void AbstractDownloadItem::moveToTrash()
+{
+    // do nothing
+}
+
 /******************************************************************************
  ******************************************************************************/
 void AbstractDownloadItem::updateInfo(qsizetype bytesReceived, qsizetype bytesTotal)

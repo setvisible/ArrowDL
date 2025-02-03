@@ -79,6 +79,7 @@ public:
     void finish();
 
     virtual void rename(const QString &newName);
+    virtual void moveToTrash();
 
 signals:
     void changed();
