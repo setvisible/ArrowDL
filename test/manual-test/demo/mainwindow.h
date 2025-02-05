@@ -45,8 +45,6 @@ public slots:
     void selectNone();
     void invertSelection();
     void selectCompleted();
-    void oneMoreSegment();
-    void oneFewerSegment();
 
     // View
 //    void showInformation();
@@ -55,12 +53,9 @@ public slots:
 //    void renameFile();
 //    void deleteFile();
 //    void openDirectory();
-    void removeWaiting();
-    void removeAll();
     void removeCompleted();
     void removeSelected();
-    void removeFailed();
-    void removePaused();
+    void removeAll();
 
     // Download
     void add();
@@ -73,8 +68,6 @@ public slots:
     void bottom();
 
     // Options
-    void speedLimit();
-    void forceStart();
 //    void showPreferences();
 
     // Help

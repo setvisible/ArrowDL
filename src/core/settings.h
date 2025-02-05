@@ -105,9 +105,6 @@ public:
     int maxSimultaneousDownloads() const;
     void setMaxSimultaneousDownloads(int number);
 
-    int concurrentFragments() const;
-    void setConcurrentFragments(int fragments);
-
     bool isCustomBatchEnabled() const;
     void setCustomBatchEnabled(bool enabled);
 

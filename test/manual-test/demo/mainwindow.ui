@@ -50,9 +50,6 @@
     <property name="title">
      <string>Option</string>
     </property>
-    <addaction name="actionSpeedLimit"/>
-    <addaction name="separator"/>
-    <addaction name="actionForceStart"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -103,9 +100,6 @@
     <addaction name="actionSelectNone"/>
     <addaction name="actionInvertSelection"/>
     <addaction name="actionSelectCompleted"/>
-    <addaction name="separator"/>
-    <addaction name="actionOneMoreSegment"/>
-    <addaction name="actionOneFewerSegment"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -137,7 +131,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionAdd">
    <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
+    <iconset>
      <normaloff>:/resources/icons/default/scalable/actions//add-batch.svg</normaloff>:/resources/icons/default/scalable/actions//add-batch.svg</iconset>
    </property>
    <property name="text">
@@ -255,36 +249,6 @@
     <string>Ctrl+I</string>
    </property>
   </action>
-  <action name="actionOneMoreSegment">
-   <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/segment-add.svg</normaloff>:/resources/icons/default/scalable/actions/segment-add.svg</iconset>
-   </property>
-   <property name="text">
-    <string>One More Segment</string>
-   </property>
-  </action>
-  <action name="actionOneFewerSegment">
-   <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/segment-remove.svg</normaloff>:/resources/icons/default/scalable/actions/segment-remove.svg</iconset>
-   </property>
-   <property name="text">
-    <string>One Fewer Segment</string>
-   </property>
-  </action>
-  <action name="actionForceStart">
-   <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/play-resume-force.svg</normaloff>:/resources/icons/default/scalable/actions/play-resume-force.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Force Start</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+R</string>
-   </property>
-  </action>
   <action name="actionRemoveCompleted">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
@@ -307,18 +271,6 @@
    </property>
    <property name="shortcut">
     <string>Alt+Del</string>
-   </property>
-  </action>
-  <action name="actionSpeedLimit">
-   <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/limit-speed.svg</normaloff>:/resources/icons/default/scalable/actions/limit-speed.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Speed Limit...</string>
-   </property>
-   <property name="toolTip">
-    <string>Speed Limit...</string>
    </property>
   </action>
   <action name="actionSelectNone">

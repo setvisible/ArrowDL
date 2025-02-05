@@ -183,11 +183,9 @@ QString Mask::interpret(const QUrl &url, const QString &customFileName, const QS
     if (!url.isValid()) {
         return {};
     }
-    auto decodedMask = QString("%0.%1").arg(NAME, EXT);
-    if (mask.isEmpty()) {
+    auto decodedMask = mask; //.trimmed();
+    if (decodedMask.isEmpty()) {
         decodedMask = QString("%0/%1/%2.%3").arg(URL, SUBDIRS, NAME, EXT);
-    } else {
-        decodedMask = mask;
     }
 
     auto host = url.host();
@@ -198,10 +196,6 @@ QString Mask::interpret(const QUrl &url, const QString &customFileName, const QS
     QFileInfo fi(filename);
     auto basename = fi.completeBaseName();
     auto suffix = fi.suffix();
-
-    if (!customFileName.isEmpty()) {
-        basename = customFileName;
-    }
 
     auto subdirs = path;
     subdirs.chop(filename.count());
@@ -223,6 +217,25 @@ QString Mask::interpret(const QUrl &url, const QString &customFileName, const QS
     // Renaming Tags
     decodedMask.replace(QChar('\\'), QChar('/'));
 
+    // BUGFIX
+    if (!customFileName.isEmpty()) {
+        QString temp = "";
+        auto parts = decodedMask.split(QChar('/'));
+        for (QString part : parts) {
+            if (part.contains(NAME)) {
+                if (part.contains(EXT)) {
+                    part = customFileName;
+                    part.append(".").append(suffix);
+                } else {
+                    part = customFileName;
+                }
+            }
+            temp.append(part).append(QChar('/'));
+        }
+        temp.removeLast();
+        decodedMask = temp;
+    }
+
     decodedMask.replace( NAME         , basename      );
     decodedMask.replace( EXT          , suffix        );
     decodedMask.replace( URL          , host          );
@@ -233,9 +246,12 @@ QString Mask::interpret(const QUrl &url, const QString &customFileName, const QS
     decodedMask.replace( QSTRING      , query         );
 
     /* Remove the trailing '.' and duplicated '/' */
-    decodedMask.replace(QRegularExpression("/+"), "/");
-    decodedMask.replace(QRegularExpression("^/"), "");
-    decodedMask.replace(QRegularExpression("[/\\.]*$"), "");
+    static QRegularExpression reDuplicateSlash("/+");
+    static QRegularExpression reLeadingSlash("^/");
+    static QRegularExpression reTrailingSlashAndDot("[/\\.]*$");
+    decodedMask.replace(reDuplicateSlash, "/");
+    decodedMask.replace(reLeadingSlash, "");
+    decodedMask.replace(reTrailingSlashAndDot, "");
 
     /* Replace reserved characters */
     cleanNameForWindows(decodedMask);

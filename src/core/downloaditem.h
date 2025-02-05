@@ -54,6 +54,7 @@ public:
     void stop() override;
 
     void rename(const QString &newName) override;
+    void moveToTrash() override;
 
 private slots:
     void onMetaDataChanged();

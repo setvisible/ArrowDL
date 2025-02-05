@@ -52,9 +52,7 @@ public:
 
     /* Statistics */
     QList<IDownloadItem *> downloadItems() const;
-    QList<IDownloadItem *> waitingJobs() const;
     QList<IDownloadItem *> completedJobs() const;
-    QList<IDownloadItem *> pausedJobs() const;
     QList<IDownloadItem *> failedJobs() const;
     QList<IDownloadItem *> runningJobs() const;
 
@@ -84,9 +82,8 @@ public:
     void moveCurrentDown();
     void moveCurrentBottom();
 
-    /* Segments */
-    void oneMoreSegment();
-    void oneFewerSegment();
+    /* Misc */
+    void movetoTrash(const QList<IDownloadItem *> &items);
 
     /* Utility */
     virtual IDownloadItem* createItem(const QUrl &url);

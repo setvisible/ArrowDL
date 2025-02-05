@@ -57,6 +57,11 @@ CompilerDialog::CompilerDialog(QWidget *parent)
     ui->link->setTextInteractionFlags(Qt::TextBrowserInteraction);
     ui->link->setOpenExternalLinks(true);
 
+    ui->link_github->setText(QString("<a href=\"%0\">%0</a>").arg(STR_GITHUB_REPO_ADDRESS));
+    ui->link_github->setTextFormat(Qt::RichText);
+    ui->link_github->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    ui->link_github->setOpenExternalLinks(true);
+
     ui->compilerName->setText(STR_COMPILER_NAME);
     ui->compilerVersion->setText(STR_COMPILER_BUILD_ABI);
     ui->compilerCpuArchitecture->setText(STR_COMPILER_BUILD_CPU);

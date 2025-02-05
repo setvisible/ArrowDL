@@ -52,7 +52,7 @@
      <x>0</x>
      <y>0</y>
      <width>700</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
@@ -68,6 +68,8 @@
     <addaction name="actionAboutYTDLP"/>
     <addaction name="separator"/>
     <addaction name="actionAboutCompiler"/>
+    <addaction name="separator"/>
+    <addaction name="actionWebsite"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -90,10 +92,6 @@
     <property name="title">
      <string>&amp;Option</string>
     </property>
-    <addaction name="actionSpeedLimit"/>
-    <addaction name="separator"/>
-    <addaction name="actionForceStart"/>
-    <addaction name="separator"/>
     <addaction name="actionPreferences"/>
    </widget>
    <widget class="QMenu" name="menuView">
@@ -110,12 +108,6 @@
     <addaction name="actionRemoveCompleted"/>
     <addaction name="actionRemoveSelected"/>
     <addaction name="actionRemoveAll"/>
-    <addaction name="separator"/>
-    <addaction name="actionRemoveFailed"/>
-    <addaction name="separator"/>
-    <addaction name="actionRemoveRunning"/>
-    <addaction name="actionRemovePaused"/>
-    <addaction name="actionRemoveWaiting"/>
    </widget>
    <widget class="QMenu" name="menuDownload">
     <property name="title">
@@ -140,9 +132,6 @@
     <addaction name="actionSelectCompleted"/>
     <addaction name="separator"/>
     <addaction name="actionCopy"/>
-    <addaction name="separator"/>
-    <addaction name="actionOneMoreSegment"/>
-    <addaction name="actionOneFewerSegment"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -171,11 +160,6 @@
    <addaction name="separator"/>
    <addaction name="actionSelectAll"/>
    <addaction name="actionInvertSelection"/>
-   <addaction name="separator"/>
-   <addaction name="actionOneMoreSegment"/>
-   <addaction name="actionOneFewerSegment"/>
-   <addaction name="separator"/>
-   <addaction name="actionForceStart"/>
    <addaction name="separator"/>
    <addaction name="actionImportFromFile"/>
    <addaction name="actionExportSelectedToFile"/>
@@ -255,7 +239,7 @@
   </action>
   <action name="actionAddContent">
    <property name="icon">
-    <iconset>
+    <iconset resource="resources.qrc">
      <normaloff>:/resources/icons/default/scalable/actions/add-content.svg</normaloff>:/resources/icons/default/scalable/actions/add-content.svg</iconset>
    </property>
    <property name="text">
@@ -270,7 +254,7 @@
   </action>
   <action name="actionAddBatch">
    <property name="icon">
-    <iconset>
+    <iconset resource="resources.qrc">
      <normaloff>:/resources/icons/default/scalable/actions/add-batch.svg</normaloff>:/resources/icons/default/scalable/actions/add-batch.svg</iconset>
    </property>
    <property name="text">
@@ -285,7 +269,7 @@
   </action>
   <action name="actionAddStream">
    <property name="icon">
-    <iconset>
+    <iconset resource="resources.qrc">
      <normaloff>:/resources/icons/default/scalable/actions/add-stream.svg</normaloff>:/resources/icons/default/scalable/actions/add-stream.svg</iconset>
    </property>
    <property name="text">
@@ -297,7 +281,7 @@
   </action>
   <action name="actionAddTorrent">
    <property name="icon">
-    <iconset>
+    <iconset resource="resources.qrc">
      <normaloff>:/resources/icons/default/scalable/actions/add-torrent.svg</normaloff>:/resources/icons/default/scalable/actions/add-torrent.svg</iconset>
    </property>
    <property name="text">
@@ -309,7 +293,7 @@
   </action>
   <action name="actionAddUrls">
    <property name="icon">
-    <iconset>
+    <iconset resource="resources.qrc">
      <normaloff>:/resources/icons/default/scalable/actions/add-urls.svg</normaloff>:/resources/icons/default/scalable/actions/add-urls.svg</iconset>
    </property>
    <property name="text">
@@ -475,36 +459,6 @@
     <string>Ctrl+I</string>
    </property>
   </action>
-  <action name="actionOneMoreSegment">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/segment-add.svg</normaloff>:/resources/icons/default/scalable/actions/segment-add.svg</iconset>
-   </property>
-   <property name="text">
-    <string>One More Segment</string>
-   </property>
-  </action>
-  <action name="actionOneFewerSegment">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/segment-remove.svg</normaloff>:/resources/icons/default/scalable/actions/segment-remove.svg</iconset>
-   </property>
-   <property name="text">
-    <string>One Fewer Segment</string>
-   </property>
-  </action>
-  <action name="actionForceStart">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/play-resume-force.svg</normaloff>:/resources/icons/default/scalable/actions/play-resume-force.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Force Start</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+R</string>
-   </property>
-  </action>
   <action name="actionImportFromFile">
    <property name="icon">
     <iconset resource="resources.qrc">
@@ -565,51 +519,6 @@
     <string>Ctrl+Shift+Del</string>
    </property>
   </action>
-  <action name="actionRemoveWaiting">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/remove-waiting.svg</normaloff>:/resources/icons/default/scalable/actions/remove-waiting.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Remove Waiting</string>
-   </property>
-  </action>
-  <action name="actionRemoveRunning">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/remove-resumed.svg</normaloff>:/resources/icons/default/scalable/actions/remove-resumed.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Remove Running</string>
-   </property>
-  </action>
-  <action name="actionRemovePaused">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/remove-paused.svg</normaloff>:/resources/icons/default/scalable/actions/remove-paused.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Remove Paused</string>
-   </property>
-  </action>
-  <action name="actionRemoveFailed">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/remove-stopped.svg</normaloff>:/resources/icons/default/scalable/actions/remove-stopped.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Remove Failed</string>
-   </property>
-  </action>
-  <action name="actionSpeedLimit">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/limit-speed.svg</normaloff>:/resources/icons/default/scalable/actions/limit-speed.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Speed Limit...</string>
-   </property>
-  </action>
   <action name="actionSelectNone">
    <property name="icon">
     <iconset resource="resources.qrc">
@@ -657,6 +566,11 @@
   <action name="actionAboutYTDLP">
    <property name="text">
     <string>About YT-DLP...</string>
+   </property>
+  </action>
+  <action name="actionWebsite">
+   <property name="text">
+    <string>Website</string>
    </property>
   </action>
  </widget>

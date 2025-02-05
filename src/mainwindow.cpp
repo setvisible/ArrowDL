@@ -284,9 +284,6 @@ void MainWindow::createActions()
     connect(ui->actionSelectCompleted, SIGNAL(triggered()), this, SLOT(selectCompleted()));
     // --
     connect(ui->actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
-    // --
-    connect(ui->actionOneMoreSegment, SIGNAL(triggered()), this, SLOT(oneMoreSegment()));
-    connect(ui->actionOneFewerSegment, SIGNAL(triggered()), this, SLOT(oneFewerSegment()));
     //! [1]
 
     //! [2] View
@@ -300,12 +297,6 @@ void MainWindow::createActions()
     connect(ui->actionRemoveCompleted, SIGNAL(triggered()), this, SLOT(removeCompleted()));
     connect(ui->actionRemoveSelected, SIGNAL(triggered()), this, SLOT(removeSelected()));
     connect(ui->actionRemoveAll, SIGNAL(triggered()), this, SLOT(removeAll()));
-    // --
-    connect(ui->actionRemoveFailed, SIGNAL(triggered()), this, SLOT(removeFailed()));
-    // --
-    connect(ui->actionRemoveRunning, SIGNAL(triggered()), this, SLOT(removeRunning()));
-    connect(ui->actionRemovePaused, SIGNAL(triggered()), this, SLOT(removePaused()));
-    connect(ui->actionRemoveWaiting, SIGNAL(triggered()), this, SLOT(removeWaiting()));
     //! [2]
 
     //! [3] Download
@@ -320,10 +311,6 @@ void MainWindow::createActions()
     //! [3]
 
     //! [4]  Options
-    connect(ui->actionSpeedLimit, SIGNAL(triggered()), this, SLOT(speedLimit()));
-    //--
-    connect(ui->actionForceStart, SIGNAL(triggered()), this, SLOT(forceStart()));
-    //--
     connect(ui->actionPreferences, SIGNAL(triggered()), this, SLOT(showPreferences()));
     //! [4]
 
@@ -341,6 +328,11 @@ void MainWindow::createActions()
 
     connect(ui->actionAboutCompiler, SIGNAL(triggered()), this, SLOT(aboutCompiler()));
     connect(ui->actionAboutYTDLP, SIGNAL(triggered()), this, SLOT(aboutStream()));
+
+    ui->actionWebsite->setText(
+        QString("%0").arg(STR_APPLICATION_WEBSITE).remove("https://").removeLast());
+    ui->actionWebsite->setToolTip(tr("Go to website"));
+    connect(ui->actionWebsite, SIGNAL(triggered()), this, SLOT(aboutWebsite()));
     //! [5]
 
     propagateToolTips();
@@ -376,13 +368,6 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionRemoveSelected);
     contextMenu->addAction(ui->actionRemoveAll);
     contextMenu->addSeparator();
-    contextMenu->addAction(ui->actionRemoveFailed);
-    contextMenu->addSeparator();
-    contextMenu->addAction(ui->actionRemoveRunning);
-    contextMenu->addAction(ui->actionRemovePaused);
-    contextMenu->addAction(ui->actionRemoveWaiting);
-
-    contextMenu->addSeparator();
     contextMenu->addAction(ui->actionSelectAll);
     contextMenu->addAction(ui->actionInvertSelection);
     contextMenu->addSeparator();
@@ -390,15 +375,8 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionUp);
     contextMenu->addAction(ui->actionDown);
     contextMenu->addAction(ui->actionBottom);
-    contextMenu->addSeparator();
-    contextMenu->addAction(ui->actionSpeedLimit);
 
     QMenu *advanced = contextMenu->addMenu(tr("Advanced"));
-    advanced->addAction(ui->actionOneMoreSegment);
-    advanced->addAction(ui->actionOneFewerSegment);
-    advanced->addSeparator();
-    advanced->addAction(ui->actionForceStart);
-    advanced->addSeparator();
     advanced->addAction(ui->actionImportFromFile);
     advanced->addAction(ui->actionExportSelectedToFile);
 
@@ -458,9 +436,6 @@ void MainWindow::propagateIcons()
         {ui->actionSelectCompleted        , "select-completed"},
         // --
         // {ui->actionCopy   , ""},
-        // --
-        {ui->actionOneMoreSegment         , "segment-add"},
-        {ui->actionOneFewerSegment        , "segment-remove"},
         //! [1]
 
         //! [2] View
@@ -474,12 +449,6 @@ void MainWindow::propagateIcons()
         {ui->actionRemoveCompleted        , "remove-completed"},
         {ui->actionRemoveSelected         , "remove-downloaded"},
         {ui->actionRemoveAll              , "remove-all"},
-        // --
-        {ui->actionRemoveFailed           , "remove-stopped"},
-        // --
-        {ui->actionRemoveRunning          , "remove-resumed"},
-        {ui->actionRemovePaused           , "remove-paused"},
-        {ui->actionRemoveWaiting          , "remove-waiting"},
         //! [2]
 
         //! [3] Download
@@ -494,10 +463,6 @@ void MainWindow::propagateIcons()
         //! [3]
 
         //! [4]  Options
-        {ui->actionSpeedLimit             , "limit-speed"},
-        //--
-        {ui->actionForceStart             , "play-resume-force"},
-        //--
         {ui->actionPreferences            , "preference"},
         //! [4]
 
@@ -564,16 +529,6 @@ void MainWindow::copy()
     const QString text = m_downloadManager->selectionToClipboard();
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(text);
-}
-
-void MainWindow::oneMoreSegment()
-{
-    m_downloadManager->oneMoreSegment();
-}
-
-void MainWindow::oneFewerSegment()
-{
-    m_downloadManager->oneFewerSegment();
 }
 
 void MainWindow::showInformation()
@@ -644,7 +599,7 @@ void MainWindow::deleteFile()
 
         msgbox.exec();
         if (msgbox.clickedButton() == deleteButton) {
-            qWarning("todo: MoveToTrash() not implemented yet.");
+            m_downloadManager->movetoTrash(m_downloadManager->selection());
         }
     }
 }
@@ -698,13 +653,6 @@ void MainWindow::removeCompleted()
     }
 }
 
-void MainWindow::removeAll()
-{    
-    if (askConfirmation(tr("ALL"))) {
-        m_downloadManager->remove(m_downloadManager->downloadItems());
-    }
-}
-
 void MainWindow::removeSelected()
 {
     if (askConfirmation(tr("selected"))) {
@@ -712,31 +660,10 @@ void MainWindow::removeSelected()
     }
 }
 
-void MainWindow::removeFailed()
-{
-    if (askConfirmation(tr("failed"))) {
-        m_downloadManager->remove(m_downloadManager->failedJobs());
-    }
-}
-
-void MainWindow::removeRunning()
-{
-    if (askConfirmation(tr("running"))) {
-        m_downloadManager->remove(m_downloadManager->runningJobs());
-    }
-}
-
-void MainWindow::removePaused()
-{
-    if (askConfirmation(tr("paused"))) {
-        m_downloadManager->remove(m_downloadManager->pausedJobs());
-    }
-}
-
-void MainWindow::removeWaiting()
-{
-    if (askConfirmation(tr("waiting"))) {
-        m_downloadManager->remove(m_downloadManager->waitingJobs());
+void MainWindow::removeAll()
+{    
+    if (askConfirmation(tr("ALL"))) {
+        m_downloadManager->remove(m_downloadManager->downloadItems());
     }
 }
 
@@ -971,20 +898,6 @@ void MainWindow::bottom()
     m_downloadManager->moveCurrentBottom();
 }
 
-void MainWindow::speedLimit()
-{    
-    qWarning("todo: speedLimit() not implemented yet.");
-}
-
-void MainWindow::forceStart()
-{
-    for (auto item : m_downloadManager->selection()) {
-        /// todo Maybe run the item instantly (in a higher priority queue?)
-        m_downloadManager->cancel(item);
-        m_downloadManager->resume(item);
-    }
-}
-
 void MainWindow::showPreferences()
 {
     if (!this->isVisible()) {
@@ -1031,6 +944,12 @@ void MainWindow::aboutStream()
     dialog.exec();
 }
 
+void MainWindow::aboutWebsite()
+{
+    auto url = QUrl(STR_APPLICATION_WEBSITE);
+    QDesktopServices::openUrl(url);
+}
+
 /******************************************************************************
  ******************************************************************************/
 void MainWindow::onJobAddedOrRemoved(const DownloadRange &/*range*/)
@@ -1040,9 +959,7 @@ void MainWindow::onJobAddedOrRemoved(const DownloadRange &/*range*/)
 
 void MainWindow::onJobStateChanged(IDownloadItem * /*downloadItem*/)
 {
-    // if (m_downloadManager->isSelected(downloadItem)) {
     refreshMenus();
-    // }
     refreshTitleAndStatus();
 }
 
@@ -1155,13 +1072,6 @@ void MainWindow::refreshMenus()
             continue;
         }
     }
-    bool hasAtLeastOneUncompletedSelected = false;
-    for (auto item : m_downloadManager->selection()) {
-        if (item->state() != IDownloadItem::Completed) {
-            hasAtLeastOneUncompletedSelected = true;
-            continue;
-        }
-    }
     bool hasResumableSelection = false;
     bool hasPausableSelection = false;
     bool hasCancelableSelection = false;
@@ -1191,9 +1101,6 @@ void MainWindow::refreshMenus()
     //ui->actionSelectCompleted->setEnabled(hasSelection);
     // --
     ui->actionCopy->setEnabled(hasSelection);
-    // --
-    ui->actionOneMoreSegment->setEnabled(hasAtLeastOneUncompletedSelected);
-    ui->actionOneFewerSegment->setEnabled(hasAtLeastOneUncompletedSelected);
     //! [1]
 
     //! [2] View
@@ -1206,13 +1113,7 @@ void MainWindow::refreshMenus()
     // --
     ui->actionRemoveCompleted->setEnabled(hasJobs);
     ui->actionRemoveSelected->setEnabled(hasSelection);
-    ui->actionRemoveAll->setEnabled(hasJobs);
-    // --
-    ui->actionRemoveFailed->setEnabled(hasJobs);
-    // --
-    ui->actionRemoveRunning->setEnabled(hasJobs);
-    ui->actionRemovePaused->setEnabled(hasJobs);
-    ui->actionRemoveWaiting->setEnabled(hasJobs);
+    // ui->actionRemoveAll->setEnabled(hasJobs); // always enabled
     //! [2]
 
     //! [3] Download
@@ -1228,10 +1129,6 @@ void MainWindow::refreshMenus()
     //! [3]
 
     //! [4]  Options
-    ui->actionSpeedLimit->setEnabled(hasSelection);
-    //--
-    ui->actionForceStart->setEnabled(hasSelection);
-    //--
     //ui->actionPreferences->setEnabled(hasSelection);
     //! [4]
 
