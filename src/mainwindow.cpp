@@ -297,12 +297,6 @@ void MainWindow::createActions()
     connect(ui->actionRemoveCompleted, SIGNAL(triggered()), this, SLOT(removeCompleted()));
     connect(ui->actionRemoveSelected, SIGNAL(triggered()), this, SLOT(removeSelected()));
     connect(ui->actionRemoveAll, SIGNAL(triggered()), this, SLOT(removeAll()));
-    // --
-    connect(ui->actionRemoveFailed, SIGNAL(triggered()), this, SLOT(removeFailed()));
-    // --
-    connect(ui->actionRemoveRunning, SIGNAL(triggered()), this, SLOT(removeRunning()));
-    connect(ui->actionRemovePaused, SIGNAL(triggered()), this, SLOT(removePaused()));
-    connect(ui->actionRemoveWaiting, SIGNAL(triggered()), this, SLOT(removeWaiting()));
     //! [2]
 
     //! [3] Download
@@ -373,13 +367,6 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionRemoveCompleted);
     contextMenu->addAction(ui->actionRemoveSelected);
     contextMenu->addAction(ui->actionRemoveAll);
-    contextMenu->addSeparator();
-    contextMenu->addAction(ui->actionRemoveFailed);
-    contextMenu->addSeparator();
-    contextMenu->addAction(ui->actionRemoveRunning);
-    contextMenu->addAction(ui->actionRemovePaused);
-    contextMenu->addAction(ui->actionRemoveWaiting);
-
     contextMenu->addSeparator();
     contextMenu->addAction(ui->actionSelectAll);
     contextMenu->addAction(ui->actionInvertSelection);
@@ -462,12 +449,6 @@ void MainWindow::propagateIcons()
         {ui->actionRemoveCompleted        , "remove-completed"},
         {ui->actionRemoveSelected         , "remove-downloaded"},
         {ui->actionRemoveAll              , "remove-all"},
-        // --
-        {ui->actionRemoveFailed           , "remove-stopped"},
-        // --
-        {ui->actionRemoveRunning          , "remove-resumed"},
-        {ui->actionRemovePaused           , "remove-paused"},
-        {ui->actionRemoveWaiting          , "remove-waiting"},
         //! [2]
 
         //! [3] Download
@@ -672,13 +653,6 @@ void MainWindow::removeCompleted()
     }
 }
 
-void MainWindow::removeAll()
-{    
-    if (askConfirmation(tr("ALL"))) {
-        m_downloadManager->remove(m_downloadManager->downloadItems());
-    }
-}
-
 void MainWindow::removeSelected()
 {
     if (askConfirmation(tr("selected"))) {
@@ -686,31 +660,10 @@ void MainWindow::removeSelected()
     }
 }
 
-void MainWindow::removeFailed()
-{
-    if (askConfirmation(tr("failed"))) {
-        m_downloadManager->remove(m_downloadManager->failedJobs());
-    }
-}
-
-void MainWindow::removeRunning()
-{
-    if (askConfirmation(tr("running"))) {
-        m_downloadManager->remove(m_downloadManager->runningJobs());
-    }
-}
-
-void MainWindow::removePaused()
-{
-    if (askConfirmation(tr("paused"))) {
-        m_downloadManager->remove(m_downloadManager->pausedJobs());
-    }
-}
-
-void MainWindow::removeWaiting()
-{
-    if (askConfirmation(tr("waiting"))) {
-        m_downloadManager->remove(m_downloadManager->waitingJobs());
+void MainWindow::removeAll()
+{    
+    if (askConfirmation(tr("ALL"))) {
+        m_downloadManager->remove(m_downloadManager->downloadItems());
     }
 }
 
@@ -1160,13 +1113,7 @@ void MainWindow::refreshMenus()
     // --
     ui->actionRemoveCompleted->setEnabled(hasJobs);
     ui->actionRemoveSelected->setEnabled(hasSelection);
-    ui->actionRemoveAll->setEnabled(hasJobs);
-    // --
-    ui->actionRemoveFailed->setEnabled(hasJobs);
-    // --
-    ui->actionRemoveRunning->setEnabled(hasJobs);
-    ui->actionRemovePaused->setEnabled(hasJobs);
-    ui->actionRemoveWaiting->setEnabled(hasJobs);
+    // ui->actionRemoveAll->setEnabled(hasJobs); // always enabled
     //! [2]
 
     //! [3] Download

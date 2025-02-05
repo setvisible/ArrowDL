@@ -87,10 +87,6 @@ public slots:
     void removeCompleted();
     void removeSelected();
     void removeAll();
-    void removeFailed();
-    void removeRunning();
-    void removePaused();
-    void removeWaiting();
 
     // Download
     void handleMessage(const QString &message);

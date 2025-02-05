@@ -52,9 +52,7 @@ public:
 
     /* Statistics */
     QList<IDownloadItem *> downloadItems() const;
-    QList<IDownloadItem *> waitingJobs() const;
     QList<IDownloadItem *> completedJobs() const;
-    QList<IDownloadItem *> pausedJobs() const;
     QList<IDownloadItem *> failedJobs() const;
     QList<IDownloadItem *> runningJobs() const;
 

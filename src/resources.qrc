@@ -61,10 +61,6 @@
         <file>resources/icons/default/scalable/actions/remove-all.svg</file>
         <file>resources/icons/default/scalable/actions/remove-completed.svg</file>
         <file>resources/icons/default/scalable/actions/remove-downloaded.svg</file>
-        <file>resources/icons/default/scalable/actions/remove-paused.svg</file>
-        <file>resources/icons/default/scalable/actions/remove-resumed.svg</file>
-        <file>resources/icons/default/scalable/actions/remove-stopped.svg</file>
-        <file>resources/icons/default/scalable/actions/remove-waiting.svg</file>
         <file>resources/icons/default/scalable/actions/rename.svg</file>
         <file>resources/icons/default/scalable/actions/select-all.svg</file>
         <file>resources/icons/default/scalable/actions/select-completed.svg</file>
@@ -126,10 +122,6 @@
         <file>resources/icons/default-dark/scalable/actions/remove-all.svg</file>
         <file>resources/icons/default-dark/scalable/actions/remove-completed.svg</file>
         <file>resources/icons/default-dark/scalable/actions/remove-downloaded.svg</file>
-        <file>resources/icons/default-dark/scalable/actions/remove-paused.svg</file>
-        <file>resources/icons/default-dark/scalable/actions/remove-resumed.svg</file>
-        <file>resources/icons/default-dark/scalable/actions/remove-stopped.svg</file>
-        <file>resources/icons/default-dark/scalable/actions/remove-waiting.svg</file>
         <file>resources/icons/default-dark/scalable/actions/rename.svg</file>
         <file>resources/icons/default-dark/scalable/actions/select-all.svg</file>
         <file>resources/icons/default-dark/scalable/actions/select-completed.svg</file>
@@ -191,10 +183,6 @@
         <file>resources/icons/flat/scalable/actions/remove-all.svg</file>
         <file>resources/icons/flat/scalable/actions/remove-completed.svg</file>
         <file>resources/icons/flat/scalable/actions/remove-downloaded.svg</file>
-        <file>resources/icons/flat/scalable/actions/remove-paused.svg</file>
-        <file>resources/icons/flat/scalable/actions/remove-resumed.svg</file>
-        <file>resources/icons/flat/scalable/actions/remove-stopped.svg</file>
-        <file>resources/icons/flat/scalable/actions/remove-waiting.svg</file>
         <file>resources/icons/flat/scalable/actions/rename.svg</file>
         <file>resources/icons/flat/scalable/actions/select-all.svg</file>
         <file>resources/icons/flat/scalable/actions/select-completed.svg</file>
@@ -256,10 +244,6 @@
         <file>resources/icons/flat-dark/scalable/actions/remove-all.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/remove-completed.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/remove-downloaded.svg</file>
-        <file>resources/icons/flat-dark/scalable/actions/remove-paused.svg</file>
-        <file>resources/icons/flat-dark/scalable/actions/remove-resumed.svg</file>
-        <file>resources/icons/flat-dark/scalable/actions/remove-stopped.svg</file>
-        <file>resources/icons/flat-dark/scalable/actions/remove-waiting.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/rename.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/select-all.svg</file>
         <file>resources/icons/flat-dark/scalable/actions/select-completed.svg</file>

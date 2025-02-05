@@ -108,12 +108,6 @@
     <addaction name="actionRemoveCompleted"/>
     <addaction name="actionRemoveSelected"/>
     <addaction name="actionRemoveAll"/>
-    <addaction name="separator"/>
-    <addaction name="actionRemoveFailed"/>
-    <addaction name="separator"/>
-    <addaction name="actionRemoveRunning"/>
-    <addaction name="actionRemovePaused"/>
-    <addaction name="actionRemoveWaiting"/>
    </widget>
    <widget class="QMenu" name="menuDownload">
     <property name="title">
@@ -523,42 +517,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+Del</string>
-   </property>
-  </action>
-  <action name="actionRemoveWaiting">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/remove-waiting.svg</normaloff>:/resources/icons/default/scalable/actions/remove-waiting.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Remove Waiting</string>
-   </property>
-  </action>
-  <action name="actionRemoveRunning">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/remove-resumed.svg</normaloff>:/resources/icons/default/scalable/actions/remove-resumed.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Remove Running</string>
-   </property>
-  </action>
-  <action name="actionRemovePaused">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/remove-paused.svg</normaloff>:/resources/icons/default/scalable/actions/remove-paused.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Remove Paused</string>
-   </property>
-  </action>
-  <action name="actionRemoveFailed">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/remove-stopped.svg</normaloff>:/resources/icons/default/scalable/actions/remove-stopped.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Remove Failed</string>
    </property>
   </action>
   <action name="actionSelectNone">

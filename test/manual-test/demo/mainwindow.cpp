@@ -87,12 +87,8 @@ void MainWindow::createActions()
 
     //! [2] View
     connect(ui->actionRemoveCompleted, SIGNAL(triggered()), this, SLOT(removeCompleted()));
-    connect(ui->actionRemoveAll, SIGNAL(triggered()), this, SLOT(removeAll()));
-    connect(ui->actionRemoveWaiting, SIGNAL(triggered()), this, SLOT(removeWaiting()));
-    // --
     connect(ui->actionRemoveSelected, SIGNAL(triggered()), this, SLOT(removeSelected()));
-    connect(ui->actionRemoveFailed, SIGNAL(triggered()), this, SLOT(removeFailed()));
-    connect(ui->actionRemovePaused, SIGNAL(triggered()), this, SLOT(removePaused()));
+    connect(ui->actionRemoveAll, SIGNAL(triggered()), this, SLOT(removeAll()));
     //! [2]
 
     //! [3] Download
@@ -123,13 +119,6 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionRemoveCompleted);
     contextMenu->addAction(ui->actionRemoveSelected);
     contextMenu->addAction(ui->actionRemoveAll);
-
-    QMenu *remove = contextMenu->addMenu(tr("Other"));
-    remove->addAction(ui->actionRemoveWaiting);
-    remove->addSeparator();
-    remove->addAction(ui->actionRemovePaused);
-    remove->addAction(ui->actionRemoveFailed);
-
     contextMenu->addSeparator();
     contextMenu->addAction(ui->actionSelectAll);
     contextMenu->addAction(ui->actionInvertSelection);
@@ -182,11 +171,6 @@ void MainWindow::propagateIcons()
         {ui->actionRemoveCompleted        , "remove-completed"},
         {ui->actionRemoveSelected         , "remove-downloaded"},
         {ui->actionRemoveAll              , "remove-all"},
-        // --
-        {ui->actionRemoveWaiting          , "remove-waiting"},
-        //        {ui->actionRemoveRunning          , "remove-resumed"},
-        {ui->actionRemovePaused           , "remove-paused"},
-        {ui->actionRemoveFailed           , "remove-stopped"},
         //! [2]
 
         //! [3] Download
@@ -244,16 +228,6 @@ void MainWindow::selectCompleted()
     m_downloadManager->setSelection(m_downloadManager->completedJobs());
 }
 
-void MainWindow::removeWaiting()
-{
-    m_downloadManager->remove(m_downloadManager->waitingJobs());
-}
-
-void MainWindow::removeAll()
-{
-    m_downloadManager->remove(m_downloadManager->downloadItems());
-}
-
 void MainWindow::removeCompleted()
 {
     m_downloadManager->remove(m_downloadManager->completedJobs());
@@ -264,14 +238,9 @@ void MainWindow::removeSelected()
     m_downloadManager->remove(m_downloadManager->selection());
 }
 
-void MainWindow::removeFailed()
+void MainWindow::removeAll()
 {
-    m_downloadManager->remove(m_downloadManager->failedJobs());
-}
-
-void MainWindow::removePaused()
-{
-    m_downloadManager->remove(m_downloadManager->pausedJobs());
+    m_downloadManager->remove(m_downloadManager->downloadItems());
 }
 
 void MainWindow::add()
@@ -417,12 +386,8 @@ void MainWindow::refreshMenus()
     //ui->actionOpenDirectory->setEnabled(hasOnlyOneSelected);
     // --
     ui->actionRemoveCompleted->setEnabled(hasJobs);
-    ui->actionRemoveAll->setEnabled(hasJobs);
-    ui->actionRemoveWaiting->setEnabled(hasJobs);
-    // --
     ui->actionRemoveSelected->setEnabled(hasJobs);
-    ui->actionRemoveFailed->setEnabled(hasJobs);
-    ui->actionRemovePaused->setEnabled(hasJobs);
+    // ui->actionRemoveAll->setEnabled(hasJobs); // always enabled
     //! [2]
 
     //! [3] Download

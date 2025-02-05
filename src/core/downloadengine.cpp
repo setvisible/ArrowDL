@@ -216,20 +216,10 @@ static inline QList<IDownloadItem*> filter(const QList<IDownloadItem*> &items,
     return list;
 }
 
-QList<IDownloadItem*> DownloadEngine::waitingJobs() const
-{
-    return filter(m_items, {IDownloadItem::Idle});
-}
-
 QList<IDownloadItem*> DownloadEngine::completedJobs() const
 {
     return filter(m_items, {IDownloadItem::Completed,
                             IDownloadItem::Seeding});
-}
-
-QList<IDownloadItem*> DownloadEngine::pausedJobs() const
-{
-    return filter(m_items, {IDownloadItem::Paused});
 }
 
 QList<IDownloadItem*> DownloadEngine::failedJobs() const
