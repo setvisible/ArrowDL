@@ -40,6 +40,9 @@ private slots:
 
     void interpretForbidden_data();
     void interpretForbidden();
+
+    void interpretWeirdMask_data();
+    void interpretWeirdMask();
 };
 
 
@@ -48,11 +51,8 @@ private slots:
 void tst_Mask::defaultMask()
 {
     const QString url = "https://www.myweb.com/images/01/myimage.tar.gz?id=1345&lang=eng";
-    const QString mask = QString();
     const QString expected = "www.myweb.com/images/01/myimage.tar.gz";
-
     const QString actual = Mask::interpret(url, QString(), QString());
-
     QCOMPARE(actual, expected);
 }
 
@@ -63,7 +63,7 @@ void tst_Mask::fromUserInput_data()
     QTest::addColumn<QString>("input");
     QTest::addColumn<QUrl>("expected");
 
-    QTest::newRow("empty") << "" << QUrl();
+    QTest::newRow("empty") << QString() << QUrl();
     QTest::newRow("trimmed") << "  \n  \t  \r \f  " << QUrl();
     QTest::newRow("trimmed hex encoding") << "%0A %0D %0A%0D %20%20" << QUrl();
 
@@ -104,6 +104,8 @@ void tst_Mask::customFileName_data()
     QTest::newRow("simple") << url << "new_Name" << mask << "www.myweb.com/images/01/new_Name.gz";
 
     QTest::newRow("no *name*") << url << "new_Name" << "*url*/*subdirs*/*ext*" << "www.myweb.com/images/01/gz";
+
+    QTest::newRow("suffix") << "http://www.example.org/a.jpg" << "a_b" << "*name*_b.*ext*" << "a_b.jpg";
 
 }
 
@@ -183,10 +185,7 @@ void tst_Mask::interpretEscaped_data()
 
     const QString mask = "*name*.*ext*";
 
-    QTest::newRow("escaped bracket")
-            << "http://www.example.org/%28brackets%29.txt"
-            << QString() << mask << "(brackets).txt";
-
+    QTest::newRow("escaped bracket") << "example.org/%28brackets%29.txt" << QString() << mask << "(brackets).txt";
 }
 
 void tst_Mask::interpretEscaped()
@@ -214,12 +213,12 @@ void tst_Mask::interpretForbidden_data()
     const QString nameMask = "*name*.*ext*";
 
     QTest::newRow("question mark (%3F) encoded")
-            << "http://www.example.org/%3F/question_mark_%3F.jpg"
-            << QString() << mask << "www.example.org/_/question_mark__.jpg";
+        << "http://www.example.org/%3F/question_mark_%3F.jpg"
+        << QString() << mask << "www.example.org/_/question_mark__.jpg";
 
     QTest::newRow("'?' is a query here 1")
-            << "http://www.example.org/archive.tar.gz?id=1345&lang=eng"
-            << QString() << mask << "www.example.org/archive.tar.gz";
+        << "http://www.example.org/archive.tar.gz?id=1345&lang=eng"
+        << QString() << mask << "www.example.org/archive.tar.gz";
 
     QTest::newRow("'?' is a query here 2")
             << "http://www.example.org/faq.html?#fragment"
@@ -254,6 +253,49 @@ void tst_Mask::interpretForbidden_data()
 }
 
 void tst_Mask::interpretForbidden()
+{
+    QFETCH(QString, url);
+    QFETCH(QString, customFileName);
+    QFETCH(QString, mask);
+    QFETCH(QString, expected);
+
+    const QString actual = Mask::interpret(url, customFileName, mask);
+
+    QCOMPARE(actual, expected);
+}
+
+/******************************************************************************
+******************************************************************************/
+void tst_Mask::interpretWeirdMask_data()
+{
+    QTest::addColumn<QString>("url");
+    QTest::addColumn<QString>("customFileName");
+    QTest::addColumn<QString>("mask");
+    QTest::addColumn<QString>("expected");
+
+    QTest::newRow("1") << "example.org/file.jpg" << QString() << QString() << "example.org/file.jpg";
+    QTest::newRow("2") << "example.org/file.jpg" << QString() << "*name*.*ext*" << "file.jpg";
+
+    /* BUGFIX */
+    QTest::newRow("3") << "example.org/file.jpg" << QString() << "*name*_33.*ext*" << "file_33.jpg";
+    QTest::newRow("4") << "example.org/file.jpg" << "file" << "*name*_33.*ext*" << "file.jpg"; // instead of "file_33.jpg"
+    QTest::newRow("5") << "example.org/file.jpg" << "file_33" << "*name*_33.*ext*" << "file_33.jpg"; // instead of "file_33_33.jpg"
+
+    QTest::newRow("6")
+        << "example.org/file.jpg"
+        << "file_33"
+        << "*url*/*subdirs*/*name*_33.*ext*"
+        << "example.org/file_33.jpg"; // instead of "example.org/file_33_33.jpg"
+
+    // Weird but possible
+    QTest::newRow("7")
+        << "example.org/folder/file.jpg"
+        << "file_33"
+        << "*url*/*name*_33.*ext*/*subdirs*"
+        << "example.org/file_33.jpg/folder"; // instead of "example.org/file_33_33.jpg/folder"
+}
+
+void tst_Mask::interpretWeirdMask()
 {
     QFETCH(QString, url);
     QFETCH(QString, customFileName);

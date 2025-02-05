@@ -34,9 +34,6 @@ const std::chrono::milliseconds TIMEOUT_STATUSBAR_LONG(5000);
 const int DIALOG_WIDTH = 600;
 
 const int DEFAULT_TIMEOUT_SECS = 30; // ref.: QNetworkConfigurationPrivate::DefaultTimeout
-const int DEFAULT_CONCURRENT_FRAGMENTS = 20;
-
-const int MAX_CONNECTION_SEGMENTS = 10;
 
 const std::chrono::milliseconds TIMEOUT_COUNT_DOWN(1000);
 const std::chrono::milliseconds TIMEOUT_INFO(150);
@@ -192,7 +189,6 @@ const QLatin1StringView REGISTRY_STREAM_SHORTCUT  ("StreamShortcutEnabled");
 
 // Tab Network
 const QLatin1StringView REGISTRY_MAX_SIMULTANEOUS ("MaxSimultaneous");
-const QLatin1StringView REGISTRY_CONCURRENT_FRAG  ("ConcurrentFragments");
 const QLatin1StringView REGISTRY_CUSTOM_BATCH     ("CustomBatchEnabled");
 const QLatin1StringView REGISTRY_CUSTOM_BATCH_BL  ("CustomBatchButtonLabel");
 const QLatin1StringView REGISTRY_CUSTOM_BATCH_RGE ("CustomBatchRange");

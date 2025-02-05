@@ -158,6 +158,23 @@ void DownloadEngine::updateItems(const QList<IDownloadItem *> &items)
     }
 }
 
+void DownloadEngine::movetoTrash(const QList<IDownloadItem*> &items)
+{
+    if (items.isEmpty()) {
+        return;
+    }
+    /* Then, move to trash */
+    for (auto item : items) {
+        cancel(item); // stop the reply first
+        m_items.removeAll(item);
+        auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
+        if (downloadItem) {
+            downloadItem->moveToTrash();
+        }
+    }
+    removeItems(items);
+}
+
 /******************************************************************************
  ******************************************************************************/
 const IDownloadItem* DownloadEngine::clientForRow(qsizetype row) const
@@ -199,20 +216,10 @@ static inline QList<IDownloadItem*> filter(const QList<IDownloadItem*> &items,
     return list;
 }
 
-QList<IDownloadItem*> DownloadEngine::waitingJobs() const
-{
-    return filter(m_items, {IDownloadItem::Idle});
-}
-
 QList<IDownloadItem*> DownloadEngine::completedJobs() const
 {
     return filter(m_items, {IDownloadItem::Completed,
                             IDownloadItem::Seeding});
-}
-
-QList<IDownloadItem*> DownloadEngine::pausedJobs() const
-{
-    return filter(m_items, {IDownloadItem::Paused});
 }
 
 QList<IDownloadItem*> DownloadEngine::failedJobs() const
@@ -450,28 +457,6 @@ void DownloadEngine::moveCurrentBottom()
     sortSelectionByIndex();
     auto targetIndex = m_items.size() - 1;
     moveDownTo(targetIndex);
-}
-
-/******************************************************************************
- ******************************************************************************/
-void DownloadEngine::oneMoreSegment()
-{
-    for (auto item : selection()) {
-        auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
-        auto segments = downloadItem->maxConnectionSegments();
-        segments++;
-        downloadItem->setMaxConnectionSegments(segments);
-    }
-}
-
-void DownloadEngine::oneFewerSegment()
-{
-    for (auto item : selection()) {
-        auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
-        auto segments = downloadItem->maxConnectionSegments();
-        segments--;
-        downloadItem->setMaxConnectionSegments(segments);
-    }
 }
 
 /******************************************************************************

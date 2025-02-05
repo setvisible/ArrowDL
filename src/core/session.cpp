@@ -191,7 +191,6 @@ static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *do
     item->setState(intToState(json["state"].toInt()));
     item->setBytesReceived(static_cast<qsizetype>(json["bytesReceived"].toInteger()));
     item->setBytesTotal(static_cast<qsizetype>(json["bytesTotal"].toInteger()));
-    item->setMaxConnectionSegments(json["maxConnectionSegments"].toInt());
     item->setMaxConnections(json["maxConnections"].toInt());
     item->setLog(json["log"].toString());
 
@@ -221,7 +220,6 @@ static inline void writeJob(const DownloadItem *item, QJsonObject &json)
     json["state"] = stateToInt(item->state());
     json["bytesReceived"] = static_cast<qsizetype>(item->bytesReceived());
     json["bytesTotal"] = static_cast<qsizetype>(item->bytesTotal());
-    json["maxConnectionSegments"] = item->maxConnectionSegments();
     json["maxConnections"] = item->maxConnections();
     json["log"] = item->log();
 }

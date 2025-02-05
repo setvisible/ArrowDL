@@ -50,7 +50,6 @@ public:
     virtual qreal speed() const = 0; /*!< Returns the speed in byte per second */
     virtual int progress() const = 0; /*!< Return a value between 0 and 100, or -1 if undefined */
 
-    virtual int maxConnectionSegments() const = 0;
     virtual int maxConnections() const = 0;
     virtual QString log() const = 0;
 

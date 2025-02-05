@@ -79,7 +79,7 @@ QStringList Theme::availablePlatformStyles()
     auto keys = QStyleFactory::keys();
     auto availables = QStringList();
     auto style_fusion = QLatin1String("Fusion");
-    foreach (auto key, keys) {
+    for (auto key : keys) {
         if (key.contains(style_fusion, Qt::CaseInsensitive)) {
             availables << key;
             return availables;

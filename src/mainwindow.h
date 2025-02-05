@@ -76,8 +76,6 @@ public slots:
     void invertSelection();
     void selectCompleted();
     void copy();
-    void oneMoreSegment();
-    void oneFewerSegment();
 
     // View
     void showInformation();
@@ -89,10 +87,6 @@ public slots:
     void removeCompleted();
     void removeSelected();
     void removeAll();
-    void removeFailed();
-    void removeRunning();
-    void removePaused();
-    void removeWaiting();
 
     // Download
     void handleMessage(const QString &message);
@@ -117,8 +111,6 @@ public slots:
     void bottom();
 
     // Options
-    void speedLimit();
-    void forceStart();
     void showPreferences();
 
     // Help
@@ -128,6 +120,7 @@ public slots:
     void about();
     void aboutCompiler();
     void aboutStream();
+    void aboutWebsite();
 
 private slots:
     void onJobAddedOrRemoved(const DownloadRange &range);

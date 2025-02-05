@@ -83,19 +83,12 @@ void MainWindow::createActions()
     connect(ui->actionSelectNone, SIGNAL(triggered()), this, SLOT(selectNone()));
     connect(ui->actionInvertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
     connect(ui->actionSelectCompleted, SIGNAL(triggered()), this, SLOT(selectCompleted()));
-    // --
-    connect(ui->actionOneMoreSegment, SIGNAL(triggered()), this, SLOT(oneMoreSegment()));
-    connect(ui->actionOneFewerSegment, SIGNAL(triggered()), this, SLOT(oneFewerSegment()));
     //! [1]
 
     //! [2] View
     connect(ui->actionRemoveCompleted, SIGNAL(triggered()), this, SLOT(removeCompleted()));
-    connect(ui->actionRemoveAll, SIGNAL(triggered()), this, SLOT(removeAll()));
-    connect(ui->actionRemoveWaiting, SIGNAL(triggered()), this, SLOT(removeWaiting()));
-    // --
     connect(ui->actionRemoveSelected, SIGNAL(triggered()), this, SLOT(removeSelected()));
-    connect(ui->actionRemoveFailed, SIGNAL(triggered()), this, SLOT(removeFailed()));
-    connect(ui->actionRemovePaused, SIGNAL(triggered()), this, SLOT(removePaused()));
+    connect(ui->actionRemoveAll, SIGNAL(triggered()), this, SLOT(removeAll()));
     //! [2]
 
     //! [3] Download
@@ -112,9 +105,6 @@ void MainWindow::createActions()
     //! [3]
 
     //! [4]  Options
-    connect(ui->actionSpeedLimit, SIGNAL(triggered()), this, SLOT(speedLimit()));
-    //--
-    connect(ui->actionForceStart, SIGNAL(triggered()), this, SLOT(forceStart()));
     //! [4]
 }
 
@@ -129,13 +119,6 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionRemoveCompleted);
     contextMenu->addAction(ui->actionRemoveSelected);
     contextMenu->addAction(ui->actionRemoveAll);
-
-    QMenu *remove = contextMenu->addMenu(tr("Other"));
-    remove->addAction(ui->actionRemoveWaiting);
-    remove->addSeparator();
-    remove->addAction(ui->actionRemovePaused);
-    remove->addAction(ui->actionRemoveFailed);
-
     contextMenu->addSeparator();
     contextMenu->addAction(ui->actionSelectAll);
     contextMenu->addAction(ui->actionInvertSelection);
@@ -144,14 +127,6 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionUp);
     contextMenu->addAction(ui->actionDown);
     contextMenu->addAction(ui->actionBottom);
-    contextMenu->addSeparator();
-    contextMenu->addAction(ui->actionSpeedLimit);
-
-    QMenu *advanced = contextMenu->addMenu(tr("Advanced"));
-    advanced->addAction(ui->actionOneMoreSegment);
-    advanced->addAction(ui->actionOneFewerSegment);
-    advanced->addSeparator();
-    advanced->addAction(ui->actionForceStart);
 
     ui->downloadQueueView->setContextMenu(contextMenu);
 }
@@ -183,9 +158,6 @@ void MainWindow::propagateIcons()
         {ui->actionSelectCompleted        , "select-completed"},
         // --
         // {ui->actionCopy   , ""},
-        // --
-        {ui->actionOneMoreSegment         , "segment-add"},
-        {ui->actionOneFewerSegment        , "segment-remove"},
         //! [1]
 
         //! [2] View
@@ -199,11 +171,6 @@ void MainWindow::propagateIcons()
         {ui->actionRemoveCompleted        , "remove-completed"},
         {ui->actionRemoveSelected         , "remove-downloaded"},
         {ui->actionRemoveAll              , "remove-all"},
-        // --
-        {ui->actionRemoveWaiting          , "remove-waiting"},
-        //        {ui->actionRemoveRunning          , "remove-resumed"},
-        {ui->actionRemovePaused           , "remove-paused"},
-        {ui->actionRemoveFailed           , "remove-stopped"},
         //! [2]
 
         //! [3] Download
@@ -218,10 +185,6 @@ void MainWindow::propagateIcons()
         //! [3]
 
         //! [4]  Options
-        {ui->actionSpeedLimit             , "limit-speed"},
-        //--
-        {ui->actionForceStart             , "play-resume-force"},
-        //--
         //        {ui->actionPreferences            , "preference"},
         //! [4]
 
@@ -265,26 +228,6 @@ void MainWindow::selectCompleted()
     m_downloadManager->setSelection(m_downloadManager->completedJobs());
 }
 
-void MainWindow::oneMoreSegment()
-{
-    m_downloadManager->oneMoreSegment();
-}
-
-void MainWindow::oneFewerSegment()
-{
-    m_downloadManager->oneFewerSegment();
-}
-
-void MainWindow::removeWaiting()
-{
-    m_downloadManager->remove(m_downloadManager->waitingJobs());
-}
-
-void MainWindow::removeAll()
-{
-    m_downloadManager->remove(m_downloadManager->downloadItems());
-}
-
 void MainWindow::removeCompleted()
 {
     m_downloadManager->remove(m_downloadManager->completedJobs());
@@ -295,14 +238,9 @@ void MainWindow::removeSelected()
     m_downloadManager->remove(m_downloadManager->selection());
 }
 
-void MainWindow::removeFailed()
+void MainWindow::removeAll()
 {
-    m_downloadManager->remove(m_downloadManager->failedJobs());
-}
-
-void MainWindow::removePaused()
-{
-    m_downloadManager->remove(m_downloadManager->pausedJobs());
+    m_downloadManager->remove(m_downloadManager->downloadItems());
 }
 
 void MainWindow::add()
@@ -349,20 +287,6 @@ void MainWindow::down()
 void MainWindow::bottom()
 {
     m_downloadManager->moveCurrentBottom();
-}
-
-void MainWindow::speedLimit()
-{    
-    qDebug() << Q_FUNC_INFO << "TODO";
-}
-
-void MainWindow::forceStart()
-{
-    for (auto item : m_downloadManager->selection()) {
-        /// todo Maybe run the item instantly (in a higher priority queue?)
-        m_downloadManager->cancel(item);
-        m_downloadManager->resume(item);
-    }
 }
 
 /******************************************************************************
@@ -451,9 +375,6 @@ void MainWindow::refreshMenus()
     ui->actionSelectNone->setEnabled(hasSelection);
     //ui->actionInvertSelection->setEnabled(hasSelection);
     //ui->actionSelectCompleted->setEnabled(hasSelection);
-    // --
-    ui->actionOneMoreSegment->setEnabled(hasAtLeastOneUncompletedSelected);
-    ui->actionOneFewerSegment->setEnabled(hasAtLeastOneUncompletedSelected);
     //! [1]
 
     //! [2] View
@@ -465,12 +386,8 @@ void MainWindow::refreshMenus()
     //ui->actionOpenDirectory->setEnabled(hasOnlyOneSelected);
     // --
     ui->actionRemoveCompleted->setEnabled(hasJobs);
-    ui->actionRemoveAll->setEnabled(hasJobs);
-    ui->actionRemoveWaiting->setEnabled(hasJobs);
-    // --
     ui->actionRemoveSelected->setEnabled(hasJobs);
-    ui->actionRemoveFailed->setEnabled(hasJobs);
-    ui->actionRemovePaused->setEnabled(hasJobs);
+    // ui->actionRemoveAll->setEnabled(hasJobs); // always enabled
     //! [2]
 
     //! [3] Download
@@ -487,10 +404,6 @@ void MainWindow::refreshMenus()
     //! [3]
 
     //! [4]  Options
-    ui->actionSpeedLimit->setEnabled(hasSelection);
-    //--
-    ui->actionForceStart->setEnabled(hasSelection);
-    //--
     //ui->actionPreferences->setEnabled(hasSelection);
     //! [4]
 
