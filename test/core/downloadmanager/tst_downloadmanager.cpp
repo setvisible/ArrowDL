@@ -48,7 +48,7 @@ private slots:
         qInstallMessageHandler(hideQDebugMessage);
     }
 
-    void appendJobPaused();
+    // void appendJobPaused();
 
 private:
     QTemporaryDir m_tempDir;
@@ -76,44 +76,46 @@ DownloadItem *tst_DownloadManager::createDummyJob(
 
 /******************************************************************************
  ******************************************************************************/
-void tst_DownloadManager::appendJobPaused()
-{
-    // Given
-    QSharedPointer<DownloadManager> target(new DownloadManager(this));
-
-    QSignalSpy spyJobFinished(target.data(), SIGNAL(jobFinished(IDownloadItem*)));
-
-    /* The most permanent url in the whole universe */
-    // QString address = "https://www.arrow-dl.com/favicon.ico"; // ico, not png
-
-    /// \todo fix IDownloadItem::NetworkError with "3xx Unknown redirect error" with SSL url
-
-    /* Non SSL url */
-    QString address = "http://www.example.com/index.html"; // 'http' instead of 'https'
-
-    QList<IDownloadItem*> items;
-    DownloadItem *item = createDummyJob(target, address, "*name*.png");
-    items.append(item);
-
-    // When
-    target->append(items, false);
-    target->resume(item);
-
-    // Then
-    QVERIFY2(spyJobFinished.wait(5000),
-             QString("\n\nConnection Timeout\nCan't reach:\n%0\n\n")
-             .arg(address).toStdString().c_str()); // wait for 5 seconds max
-
-    QCOMPARE(spyJobFinished.count(), 1);
-
-    QCOMPARE(item->state(), DownloadItem::Completed);
-    QCOMPARE(item->bytesReceived(), qsizetype(1256));
-    QCOMPARE(item->bytesTotal(), qsizetype(1256));
-
-    QFile localFile(item->localFullFileName());
-    QVERIFY(localFile.exists());
-    QCOMPARE(localFile.size(), qsizetype(1256));
-}
+/// \todo this is a test for sending a real http(s) connection:
+/// hard to setup, thus has been commented out for now.
+// void tst_DownloadManager::appendJobPaused()
+// {
+//     // Given
+//     QSharedPointer<DownloadManager> target(new DownloadManager(this));
+//
+//     QSignalSpy spyJobFinished(target.data(), SIGNAL(jobFinished(IDownloadItem*)));
+//
+//     /* The most permanent url in the whole universe */
+//     // QString address = "https://www.arrow-dl.com/favicon.ico"; // ico, not png
+//
+//     /// \todo fix IDownloadItem::NetworkError with "3xx Unknown redirect error" with SSL url
+//
+//     /* Non SSL url */
+//     QString address = "http://www.example.com/index.html"; // 'http' instead of 'https'
+//
+//     QList<IDownloadItem*> items;
+//     DownloadItem *item = createDummyJob(target, address, "*name*.png");
+//     items.append(item);
+//
+//     // When
+//     target->append(items, false);
+//     target->resume(item);
+//
+//     // Then
+//     QVERIFY2(spyJobFinished.wait(5000),
+//              QString("\n\nConnection Timeout\nCan't reach:\n%0\n\n")
+//              .arg(address).toStdString().c_str()); // wait for 5 seconds max
+//
+//     QCOMPARE(spyJobFinished.count(), 1);
+//
+//     QCOMPARE(item->state(), DownloadItem::Completed);
+//     QCOMPARE(item->bytesReceived(), qsizetype(1256));
+//     QCOMPARE(item->bytesTotal(), qsizetype(1256));
+//
+//     QFile localFile(item->localFullFileName());
+//     QVERIFY(localFile.exists());
+//     QCOMPARE(localFile.size(), qsizetype(1256));
+// }
 
 /******************************************************************************
  ******************************************************************************/
