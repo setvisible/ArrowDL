@@ -454,7 +454,7 @@ Se viene fornito un collegamento magnet, l&apos;applicazione scarica il .torrent
         <location filename="../widgets/advancedsettingswidget.ui" line="37"/>
         <location filename="../widgets/advancedsettingswidget.cpp" line="354"/>
         <source>Minimize Memory Usage</source>
-        <translation>Minimizza suo memoria</translation>
+        <translation>Minimizza uso memoria</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="44"/>
@@ -1583,12 +1583,12 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="324"/>
         <source>Pause (completed torrent: stop seeding)</source>
-        <translation>Pusa (stop seeed torrent completati)</translation>
+        <translation>Pausa (stop seeed torrent completati)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="333"/>
         <source>Up</source>
-        <translation>Su</translation>
+        <translation>Sposta su</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="336"/>
@@ -1598,7 +1598,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="345"/>
         <source>Top</source>
-        <translation>In alto</translation>
+        <translation>Sposta in alto</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="348"/>
@@ -1608,7 +1608,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="357"/>
         <source>Down</source>
-        <translation>Giù</translation>
+        <translation>Sposta giù</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="360"/>
@@ -1618,7 +1618,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="369"/>
         <source>Bottom</source>
-        <translation>In basso</translation>
+        <translation>Sposta in basso</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="372"/>
@@ -1709,7 +1709,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="480"/>
         <source>Export &amp;Selected To File...</source>
-        <translation>Esporta &amp;selezionati in un file...</translation>
+        <translation>Esporta elementi &amp;selezionati in un file...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="483"/>
@@ -2166,7 +2166,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="297"/>
         <source>Confirm download batch</source>
-        <translation>Conferma batch download</translation>
+        <translation>Conferma download batch</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="307"/>
@@ -2241,7 +2241,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="711"/>
         <source>Tolerant (IPv4 or IPv6)</source>
-        <translation>Tollerante (IPv4 o IPv6)</translation>
+        <translation>IPv4 o IPv6</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="716"/>
@@ -2306,12 +2306,12 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="834"/>
         <source>Download subtitle</source>
-        <translation>Scarica sottotitoli</translation>
+        <translation>Download sottotitoli</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="841"/>
         <source>Download description</source>
-        <translation>Scarica descrizione</translation>
+        <translation>Download descrizione</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="848"/>
@@ -2321,17 +2321,17 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="855"/>
         <source>Download thumbnail</source>
-        <translation>Scarica miniatura</translation>
+        <translation>Download miniatura</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="862"/>
         <source>Download metadata</source>
-        <translation>Scarica metadati</translation>
+        <translation>Download metadati</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="869"/>
         <source>Download comments </source>
-        <translation>Scarica commenti </translation>
+        <translation>Download commenti </translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="876"/>
@@ -2363,7 +2363,7 @@ I campi consentono di inviare informazioni false, per proteggere la privacy.</tr
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="478"/>
         <source>Enable Custom Batch Button in &quot;Add download&quot; Dialog</source>
-        <translation>Abilita pulsante &quot;Batch personalizzato&quot; in finestra dalogo&quot;Aggiungi download&quot;</translation>
+        <translation>Abilita pulsante &quot;Batch personalizzato&quot; nella finestra di dialogo &quot;Aggiungi download&quot;</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="490"/>
@@ -2388,7 +2388,7 @@ I campi consentono di inviare informazioni false, per proteggere la privacy.</tr
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="523"/>
         <source>Rem: must describe a range of numbers &quot;[x:y]&quot; with x &lt; y</source>
-        <translation>Nota: devi indicare un intervallo di numeri &quot;[x: y]&quot; con x &lt;y</translation>
+        <translation>Indica un intervallo numerico &quot;[x: y]&quot; con x &lt;y</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="627"/>
@@ -3218,7 +3218,7 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="92"/>
         <source>Download subtitles:</source>
-        <translation>Scarica sottotitoli:</translation>
+        <translation>Download sottotitoli:</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="118"/>
@@ -3253,7 +3253,7 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="219"/>
         <source>Download thumbnail (default image)</source>
-        <translation>Scarica miniatura (immagine predefinita)</translation>
+        <translation>Download miniatura (immagine predefinita)</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="229"/>
@@ -3273,7 +3273,7 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="311"/>
         <source>Download comments (in the .info.json)</source>
-        <translation>Scarica commenti (nel .info.json)</translation>
+        <translation>Download commenti (nel .info.json)</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="320"/>
@@ -3303,12 +3303,12 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="384"/>
         <source>Download description as a .description file</source>
-        <translation>Scarica descrizione come file .description</translation>
+        <translation>Download descrizione come file .description</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="391"/>
         <source>Download metadata as a .info.json file</source>
-        <translation>Scarica metadati come file .info.json</translation>
+        <translation>Download metadati come file .info.json</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="398"/>
