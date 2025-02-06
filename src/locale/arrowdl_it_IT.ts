@@ -355,7 +355,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="48"/>
         <source>Download:</source>
-        <translation>Downlaad:</translation>
+        <translation>Download:</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="55"/>
@@ -454,7 +454,7 @@ Se viene fornito un collegamento magnet, l&apos;applicazione scarica il .torrent
         <location filename="../widgets/advancedsettingswidget.ui" line="37"/>
         <location filename="../widgets/advancedsettingswidget.cpp" line="354"/>
         <source>Minimize Memory Usage</source>
-        <translation>Minimizza suo memoria</translation>
+        <translation>Minimizza uso memoria</translation>
     </message>
     <message>
         <location filename="../widgets/advancedsettingswidget.ui" line="44"/>
@@ -771,62 +771,62 @@ L&apos;applicazione non verrà scaricata con socket protetti (HTTPS, FTPS).</tra
     <message>
         <location filename="../core/downloaditem.cpp" line="285"/>
         <source>3xx Redirect connection refused</source>
-        <translation>3xx connessione di reindirizzamento rifiutata</translation>
+        <translation>3xx connessione di re-indirizzamento rifiutata</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="286"/>
         <source>3xx Redirect remote host closed</source>
-        <translation>3xx reindirizzamento host remoto chiuso</translation>
+        <translation>3xx re-indirizzamento host remoto chiuso</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="287"/>
         <source>3xx Redirect host not found</source>
-        <translation>3xx reindirizzamento host non trovato</translation>
+        <translation>3xx re-indirizzamento host non trovato</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="288"/>
         <source>3xx Redirect timeout</source>
-        <translation>3xx timeout reindirizzamento</translation>
+        <translation>3xx timeout re-indirizzamento</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="289"/>
         <source>3xx Redirect operation canceled</source>
-        <translation>3xx operazione reindirizzamento annullata</translation>
+        <translation>3xx operazione re-indirizzamento annullata</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="290"/>
         <source>3xx Redirect SSL handshake failed</source>
-        <translation>3xx handshake reindirizzamento SSL fallito</translation>
+        <translation>3xx handshake re-indirizzamento SSL fallito</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="291"/>
         <source>3xx Redirect temporary network failure</source>
-        <translation>3xx reindirizzamento rete temporanea fallito</translation>
+        <translation>3xx re-indirizzamento rete temporanea fallito</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="292"/>
         <source>3xx Redirect network session failed</source>
-        <translation>3xx reindirizzamento sessione rete fallito</translation>
+        <translation>3xx re-indirizzamento sessione rete fallito</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="293"/>
         <source>3xx Redirect background request not allowed</source>
-        <translation>3xx richiesta in background reindirizzamento non consentita</translation>
+        <translation>3xx richiesta in background re-indirizzamento non consentita</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="294"/>
         <source>3xx Too many redirects</source>
-        <translation>3xx troppi reindirizzamenti</translation>
+        <translation>3xx troppi re-indirizzamenti</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="295"/>
         <source>3xx Insecure redirect</source>
-        <translation>3xx reindirizzamento non sicuro</translation>
+        <translation>3xx re-indirizzamento non sicuro</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="296"/>
         <source>3xx Unknown redirect error</source>
-        <translation>3xx errore reindirizzamento sconosciuto</translation>
+        <translation>3xx errore re-indirizzamento sconosciuto</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="299"/>
@@ -1583,12 +1583,12 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="324"/>
         <source>Pause (completed torrent: stop seeding)</source>
-        <translation>Pusa (stop seeed torrent completati)</translation>
+        <translation>Pausa (stop seeed torrent completati)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="333"/>
         <source>Up</source>
-        <translation>Su</translation>
+        <translation>Sposta su</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="336"/>
@@ -1598,7 +1598,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="345"/>
         <source>Top</source>
-        <translation>In alto</translation>
+        <translation>Sposta in alto</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="348"/>
@@ -1608,7 +1608,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="357"/>
         <source>Down</source>
-        <translation>Giù</translation>
+        <translation>Sposta giù</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="360"/>
@@ -1618,7 +1618,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="369"/>
         <source>Bottom</source>
-        <translation>In basso</translation>
+        <translation>Sposta in basso</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="372"/>
@@ -1694,7 +1694,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="573"/>
         <source>Website</source>
-        <translation type="unfinished"></translation>
+        <translation>Sito web</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="468"/>
@@ -1709,7 +1709,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="480"/>
         <source>Export &amp;Selected To File...</source>
-        <translation>Esporta &amp;selezionati in un file...</translation>
+        <translation>Esporta elementi &amp;selezionati in un file...</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="483"/>
@@ -1795,7 +1795,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="326"/>
         <source>About Qt</source>
-        <translation>Inf su Qt</translation>
+        <translation>Info su Qt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="379"/>
@@ -1920,7 +1920,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="334"/>
         <source>Go to website</source>
-        <translation type="unfinished"></translation>
+        <translation>Vai al sito web</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="993"/>
@@ -2086,7 +2086,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="92"/>
         <source>The download directory, renaming mask and filters can be configured in the regular selection dialog.</source>
-        <translation>La cartella download, la maschera di ridenominazione e i filtri possono essere configurati nella normale finestra di dialogo di selezione.</translation>
+        <translation>La cartella download, la maschera di rinomina e i filtri possono essere configurati nella normale finestra di dialogo di selezione.</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="102"/>
@@ -2166,7 +2166,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="297"/>
         <source>Confirm download batch</source>
-        <translation>Conferma batch download</translation>
+        <translation>Conferma download batch</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="307"/>
@@ -2241,7 +2241,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="711"/>
         <source>Tolerant (IPv4 or IPv6)</source>
-        <translation>Tollerante (IPv4 o IPv6)</translation>
+        <translation>IPv4 o IPv6</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="716"/>
@@ -2306,12 +2306,12 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="834"/>
         <source>Download subtitle</source>
-        <translation>Scarica sottotitoli</translation>
+        <translation>Download sottotitoli</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="841"/>
         <source>Download description</source>
-        <translation>Scarica descrizione</translation>
+        <translation>Download descrizione</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="848"/>
@@ -2321,17 +2321,17 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="855"/>
         <source>Download thumbnail</source>
-        <translation>Scarica miniatura</translation>
+        <translation>Download miniatura</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="862"/>
         <source>Download metadata</source>
-        <translation>Scarica metadati</translation>
+        <translation>Download metadati</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="869"/>
         <source>Download comments </source>
-        <translation>Scarica commenti </translation>
+        <translation>Download commenti </translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="876"/>
@@ -2363,7 +2363,7 @@ I campi consentono di inviare informazioni false, per proteggere la privacy.</tr
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="478"/>
         <source>Enable Custom Batch Button in &quot;Add download&quot; Dialog</source>
-        <translation>Abilita pulsante &quot;Batch personalizzato&quot; in finestra dalogo&quot;Aggiungi download&quot;</translation>
+        <translation>Abilita pulsante &quot;Batch personalizzato&quot; nella finestra di dialogo &quot;Aggiungi download&quot;</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="490"/>
@@ -2388,7 +2388,7 @@ I campi consentono di inviare informazioni false, per proteggere la privacy.</tr
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="523"/>
         <source>Rem: must describe a range of numbers &quot;[x:y]&quot; with x &lt; y</source>
-        <translation>Nota: devi indicare un intervallo di numeri &quot;[x: y]&quot; con x &lt;y</translation>
+        <translation>Indica un intervallo numerico &quot;[x: y]&quot; con x &lt;y</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="627"/>
@@ -2529,8 +2529,8 @@ I campi consentono di inviare informazioni false, per proteggere la privacy.</tr
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1329"/>
         <source>If enabled, this software becomes a torrent client. It shares DHT (distributed hash table) with peers, .torrents files you share (those in your torrent share folder actually) and .torrents files currently downloading in the download queue.</source>
-        <translation>Se abiliti i torrent questo software diventa un client torrent. 
-Condivide DHT (tabella hash distribuita) con i peer, i file .torrents che condividi (quelli nella cartella di condivisione torrent in realtà) e i file .torrents attualmente in download nella coda download.</translation>
+        <translation>Se abilitato, questo software diventa un client torrent. 
+Il software condivide DHT (tabella hash distribuita) con i peer, i file .torrent che condividi (quelli nella cartella di condivisione torrent in realtà) e i file .torrent attualmente in download nella coda download.</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1342"/>
@@ -2943,7 +2943,7 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
     <message>
         <location filename="../core/stream.cpp" line="476"/>
         <source>The process crashed.</source>
-        <translation>Il processo è crashato.</translation>
+        <translation>Il processo si è bloccato.</translation>
     </message>
 </context>
 <context>
@@ -3029,7 +3029,7 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
         <location filename="../core/stream.cpp" line="1296"/>
         <location filename="../core/stream.cpp" line="1315"/>
         <source>The process crashed.</source>
-        <translation>Il processo è crashato.</translation>
+        <translation>Il processo si è bloccato.</translation>
     </message>
 </context>
 <context>
@@ -3218,7 +3218,7 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="92"/>
         <source>Download subtitles:</source>
-        <translation>Scarica sottotitoli:</translation>
+        <translation>Download sottotitoli:</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="118"/>
@@ -3253,7 +3253,7 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="219"/>
         <source>Download thumbnail (default image)</source>
-        <translation>Scarica miniatura (immagine predefinita)</translation>
+        <translation>Download miniatura (immagine predefinita)</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="229"/>
@@ -3273,7 +3273,7 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="311"/>
         <source>Download comments (in the .info.json)</source>
-        <translation>Scarica commenti (nel .info.json)</translation>
+        <translation>Download commenti (nel .info.json)</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="320"/>
@@ -3303,12 +3303,12 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="384"/>
         <source>Download description as a .description file</source>
-        <translation>Scarica descrizione come file .description</translation>
+        <translation>Download descrizione come file .description</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="391"/>
         <source>Download metadata as a .info.json file</source>
-        <translation>Scarica metadati come file .info.json</translation>
+        <translation>Download metadati come file .info.json</translation>
     </message>
     <message>
         <location filename="../widgets/streamtoolbox.ui" line="398"/>
@@ -3703,12 +3703,12 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../core/torrent.cpp" line="580"/>
         <source>Downloaded</source>
-        <translation>Downloadati</translation>
+        <translation>Scaricati</translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="581"/>
         <source>Uploaded</source>
-        <translation>Uploadati</translation>
+        <translation>Caricati</translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="582"/>
@@ -3833,7 +3833,7 @@ Guida: se ricevi un errore, segui queste istruzioni:
         <location filename="../widgets/torrentwidget.ui" line="143"/>
         <location filename="../widgets/torrentwidget.ui" line="230"/>
         <source>Downloaded:</source>
-        <translation>Downloadati:</translation>
+        <translation>Scaricati:</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="180"/>
