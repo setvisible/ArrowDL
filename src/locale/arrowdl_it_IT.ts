@@ -355,7 +355,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="48"/>
         <source>Download:</source>
-        <translation>Downlaad:</translation>
+        <translation>Download:</translation>
     </message>
     <message>
         <location filename="../dialogs/addtorrentdialog.ui" line="55"/>
@@ -771,62 +771,62 @@ L&apos;applicazione non verrà scaricata con socket protetti (HTTPS, FTPS).</tra
     <message>
         <location filename="../core/downloaditem.cpp" line="285"/>
         <source>3xx Redirect connection refused</source>
-        <translation>3xx connessione di reindirizzamento rifiutata</translation>
+        <translation>3xx connessione di re-indirizzamento rifiutata</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="286"/>
         <source>3xx Redirect remote host closed</source>
-        <translation>3xx reindirizzamento host remoto chiuso</translation>
+        <translation>3xx re-indirizzamento host remoto chiuso</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="287"/>
         <source>3xx Redirect host not found</source>
-        <translation>3xx reindirizzamento host non trovato</translation>
+        <translation>3xx re-indirizzamento host non trovato</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="288"/>
         <source>3xx Redirect timeout</source>
-        <translation>3xx timeout reindirizzamento</translation>
+        <translation>3xx timeout re-indirizzamento</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="289"/>
         <source>3xx Redirect operation canceled</source>
-        <translation>3xx operazione reindirizzamento annullata</translation>
+        <translation>3xx operazione re-indirizzamento annullata</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="290"/>
         <source>3xx Redirect SSL handshake failed</source>
-        <translation>3xx handshake reindirizzamento SSL fallito</translation>
+        <translation>3xx handshake re-indirizzamento SSL fallito</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="291"/>
         <source>3xx Redirect temporary network failure</source>
-        <translation>3xx reindirizzamento rete temporanea fallito</translation>
+        <translation>3xx re-indirizzamento rete temporanea fallito</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="292"/>
         <source>3xx Redirect network session failed</source>
-        <translation>3xx reindirizzamento sessione rete fallito</translation>
+        <translation>3xx re-indirizzamento sessione rete fallito</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="293"/>
         <source>3xx Redirect background request not allowed</source>
-        <translation>3xx richiesta in background reindirizzamento non consentita</translation>
+        <translation>3xx richiesta in background re-indirizzamento non consentita</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="294"/>
         <source>3xx Too many redirects</source>
-        <translation>3xx troppi reindirizzamenti</translation>
+        <translation>3xx troppi re-indirizzamenti</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="295"/>
         <source>3xx Insecure redirect</source>
-        <translation>3xx reindirizzamento non sicuro</translation>
+        <translation>3xx re-indirizzamento non sicuro</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="296"/>
         <source>3xx Unknown redirect error</source>
-        <translation>3xx errore reindirizzamento sconosciuto</translation>
+        <translation>3xx errore re-indirizzamento sconosciuto</translation>
     </message>
     <message>
         <location filename="../core/downloaditem.cpp" line="299"/>
@@ -1694,7 +1694,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.ui" line="573"/>
         <source>Website</source>
-        <translation type="unfinished"></translation>
+        <translation>Sito web</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="468"/>
@@ -1795,7 +1795,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="326"/>
         <source>About Qt</source>
-        <translation>Inf su Qt</translation>
+        <translation>Info su Qt</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="379"/>
@@ -1920,7 +1920,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../mainwindow.cpp" line="334"/>
         <source>Go to website</source>
-        <translation type="unfinished"></translation>
+        <translation>Vai al sito web</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="993"/>
@@ -2086,7 +2086,7 @@ Fai clic per incollare l&apos;esempio.</translation>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="92"/>
         <source>The download directory, renaming mask and filters can be configured in the regular selection dialog.</source>
-        <translation>La cartella download, la maschera di ridenominazione e i filtri possono essere configurati nella normale finestra di dialogo di selezione.</translation>
+        <translation>La cartella download, la maschera di rinomina e i filtri possono essere configurati nella normale finestra di dialogo di selezione.</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="102"/>
@@ -2529,8 +2529,8 @@ I campi consentono di inviare informazioni false, per proteggere la privacy.</tr
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1329"/>
         <source>If enabled, this software becomes a torrent client. It shares DHT (distributed hash table) with peers, .torrents files you share (those in your torrent share folder actually) and .torrents files currently downloading in the download queue.</source>
-        <translation>Se abiliti i torrent questo software diventa un client torrent. 
-Condivide DHT (tabella hash distribuita) con i peer, i file .torrents che condividi (quelli nella cartella di condivisione torrent in realtà) e i file .torrents attualmente in download nella coda download.</translation>
+        <translation>Se abilitato, questo software diventa un client torrent. 
+Il software condivide DHT (tabella hash distribuita) con i peer, i file .torrent che condividi (quelli nella cartella di condivisione torrent in realtà) e i file .torrent attualmente in download nella coda download.</translation>
     </message>
     <message>
         <location filename="../dialogs/preferencedialog.ui" line="1342"/>
@@ -2943,7 +2943,7 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
     <message>
         <location filename="../core/stream.cpp" line="476"/>
         <source>The process crashed.</source>
-        <translation>Il processo è crashato.</translation>
+        <translation>Il processo si è bloccato.</translation>
     </message>
 </context>
 <context>
@@ -3029,7 +3029,7 @@ Per proteggere la privacy, inserisci un indirizzo Riferimento vuoto o falso.</tr
         <location filename="../core/stream.cpp" line="1296"/>
         <location filename="../core/stream.cpp" line="1315"/>
         <source>The process crashed.</source>
-        <translation>Il processo è crashato.</translation>
+        <translation>Il processo si è bloccato.</translation>
     </message>
 </context>
 <context>
@@ -3703,12 +3703,12 @@ Guida: se ricevi un errore, segui queste istruzioni:
     <message>
         <location filename="../core/torrent.cpp" line="580"/>
         <source>Downloaded</source>
-        <translation>Downloadati</translation>
+        <translation>Scaricati</translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="581"/>
         <source>Uploaded</source>
-        <translation>Uploadati</translation>
+        <translation>Caricati</translation>
     </message>
     <message>
         <location filename="../core/torrent.cpp" line="582"/>
@@ -3833,7 +3833,7 @@ Guida: se ricevi un errore, segui queste istruzioni:
         <location filename="../widgets/torrentwidget.ui" line="143"/>
         <location filename="../widgets/torrentwidget.ui" line="230"/>
         <source>Downloaded:</source>
-        <translation>Downloadati:</translation>
+        <translation>Scaricati:</translation>
     </message>
     <message>
         <location filename="../widgets/torrentwidget.ui" line="180"/>
