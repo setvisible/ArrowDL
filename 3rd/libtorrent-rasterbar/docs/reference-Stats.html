@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,24 +25,49 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.10</td></tr>
+<td>2.0.11</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#stats-metric" id="toc-entry-1">stats_metric</a></li>
-<li><a class="reference internal" href="#counters" id="toc-entry-2">counters</a><ul>
-<li><a class="reference internal" href="#operator-inc-stats-counter" id="toc-entry-3">operator[]() inc_stats_counter()</a></li>
+<li><a class="reference internal" href="#counters" id="toc-entry-1">counters</a><ul>
+<li><a class="reference internal" href="#operator-inc-stats-counter" id="toc-entry-2">operator[]() inc_stats_counter()</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#stats-metric" id="toc-entry-3">stats_metric</a></li>
 <li><a class="reference internal" href="#session-stats-metrics" id="toc-entry-4">session_stats_metrics()</a></li>
 <li><a class="reference internal" href="#find-metric-idx" id="toc-entry-5">find_metric_idx()</a></li>
 <li><a class="reference internal" href="#enum-metric-type-t" id="toc-entry-6">enum metric_type_t</a></li>
 </ul>
 </div>
-<a name="stats_metric"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+stats_metric&labels=documentation&body=Documentation+under+heading+%22class+stats_metric%22+could+be+improved">report issue</a>]</span><div class="section" id="stats-metric">
+<a name="counters"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+counters&labels=documentation&body=Documentation+under+heading+%22class+counters%22+could+be+improved">report issue</a>]</span><div class="section" id="counters">
+<h1>counters</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/performance_counters.hpp">libtorrent/performance_counters.hpp</a>&quot;</p>
+<pre class="literal-block">
+struct counters
+{
+   <strong>counters</strong> () ;
+   counters&amp; <strong>operator=</strong> (counters const&amp;) &amp; ;
+   <strong>counters</strong> (counters const&amp;) ;
+   std::int64_t <strong>operator[]</strong> (int i) const ;
+   std::int64_t <strong>inc_stats_counter</strong> (int c, std::int64_t value = 1) ;
+   void <strong>set_value</strong> (int c, std::int64_t value) ;
+   void <strong>blend_stats_counter</strong> (int c, std::int64_t value, int ratio) ;
+};
+</pre>
+<a name="operator[]()"></a>
+<a name="inc_stats_counter()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:counters%3A%3A%5Boperator%5B%5D%28%29+inc_stats_counter%28%29%5D&labels=documentation&body=Documentation+under+heading+%22counters%3A%3A%5Boperator%5B%5D%28%29+inc_stats_counter%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="operator-inc-stats-counter">
+<h2>operator[]() inc_stats_counter()</h2>
+<pre class="literal-block">
+std::int64_t <strong>operator[]</strong> (int i) const ;
+std::int64_t <strong>inc_stats_counter</strong> (int c, std::int64_t value = 1) ;
+</pre>
+<p>returns the new value</p>
+<a name="stats_metric"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+stats_metric&labels=documentation&body=Documentation+under+heading+%22class+stats_metric%22+could+be+improved">report issue</a>]</span></div>
+</div>
+<div class="section" id="stats-metric">
 <h1>stats_metric</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/session_stats.hpp">libtorrent/session_stats.hpp</a>&quot;</p>
 <p>describes one statistics metric from the <a class="reference external" href="reference-Session.html#session">session</a>. For more information,
@@ -66,32 +91,7 @@ struct stats_metric
 this counter or gauge is found. The <a class="reference external" href="reference-Session.html#session">session</a> stats array is part of the
 <a class="reference external" href="reference-Alerts.html#session_stats_alert">session_stats_alert</a> object.</dd>
 </dl>
-<a name="counters"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+counters&labels=documentation&body=Documentation+under+heading+%22class+counters%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="counters">
-<h1>counters</h1>
-<p>Declared in &quot;<a class="reference external" href="include/libtorrent/performance_counters.hpp">libtorrent/performance_counters.hpp</a>&quot;</p>
-<pre class="literal-block">
-struct counters
-{
-   <strong>counters</strong> () ;
-   <strong>counters</strong> (counters const&amp;) ;
-   counters&amp; <strong>operator=</strong> (counters const&amp;) &amp; ;
-   std::int64_t <strong>inc_stats_counter</strong> (int c, std::int64_t value = 1) ;
-   std::int64_t <strong>operator[]</strong> (int i) const ;
-   void <strong>blend_stats_counter</strong> (int c, std::int64_t value, int ratio) ;
-   void <strong>set_value</strong> (int c, std::int64_t value) ;
-};
-</pre>
-<a name="operator[]()"></a>
-<a name="inc_stats_counter()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:counters%3A%3A%5Boperator%5B%5D%28%29+inc_stats_counter%28%29%5D&labels=documentation&body=Documentation+under+heading+%22counters%3A%3A%5Boperator%5B%5D%28%29+inc_stats_counter%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="operator-inc-stats-counter">
-<h2>operator[]() inc_stats_counter()</h2>
-<pre class="literal-block">
-std::int64_t <strong>inc_stats_counter</strong> (int c, std::int64_t value = 1) ;
-std::int64_t <strong>operator[]</strong> (int i) const ;
-</pre>
-<p>returns the new value</p>
 <a name="session_stats_metrics()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:session_stats_metrics%28%29&labels=documentation&body=Documentation+under+heading+%22session_stats_metrics%28%29%22+could+be+improved">report issue</a>]</span></div>
-</div>
 <div class="section" id="session-stats-metrics">
 <h1>session_stats_metrics()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/session_stats.hpp">libtorrent/session_stats.hpp</a>&quot;</p>

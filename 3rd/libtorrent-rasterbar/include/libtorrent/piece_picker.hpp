@@ -88,6 +88,20 @@ namespace libtorrent {
 		bool last_piece;
 	};
 
+	// the piece picker tracks:
+	// 1. The blocks in which pieces we have sent requests for
+	// 2. Which peers we sent the requests to
+	// 3. The availability of each piece
+	// 4. The priority of each piece
+	// 5. Which blocks and pieces have been written to disk (versus being in the cache)
+	// 6. Which pieces have passed the hash check (i.e. we have them)
+	// 7. Cursors for sequential download
+	// 8. The number of pad-bytes in each piece
+	// All this in a data structure to make it cheap to pick the next piece to
+	// request from a peer.
+	// If we "have" a piece, it means it has passed the hash check. If a piece
+	// has been "flushed", it means it's been stored to disk.
+	// When saving resume data, we only care about "flushed" pieces.
 	struct TORRENT_EXTRA_EXPORT piece_picker
 	{
 		// only defined when TORRENT_PICKER_LOG is defined, used for debugging
@@ -247,8 +261,10 @@ namespace libtorrent {
 		// seed
 		void we_have_all();
 
-		// This indicates that we just received this piece
-		// it means that the refcounter will indicate that
+		// A piece completes when it has passed the hash check *and* been
+		// completely written to disk. The piece picker no longer need to track
+		// the state of individual blocks
+		// The refcounter will indicate that
 		// we are not interested in this piece anymore
 		// (i.e. we don't have to maintain a refcount)
 		void we_have(piece_index_t);
@@ -471,7 +487,7 @@ namespace libtorrent {
 			// finished. Note that any piece we *have* implies it's both passed the
 			// hash check *and* been written to disk.
 			// num_pieces() - m_num_filtered - m_num_have_filtered
-			//   <= (num_passed() - m_num_have_filtered)
+			//   <= (m_num_have - m_num_have_filtered)
 			// this can be simplified. Note how m_num_have_filtered appears on both
 			// side of the equation.
 			//
@@ -890,7 +906,7 @@ namespace libtorrent {
 		// all the subsequent pieces
 		piece_index_t m_reverse_cursor{0};
 
-		// the number of pieces we have (i.e. passed + flushed).
+		// the number of pieces we have (i.e. passed hash check).
 		// This includes pieces that we have filtered but still have
 		int m_num_have = 0;
 

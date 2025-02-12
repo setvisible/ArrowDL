@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,53 +25,53 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.10</td></tr>
+<td>2.0.11</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#settings-interface" id="toc-entry-1">settings_interface</a></li>
-<li><a class="reference internal" href="#disk-observer" id="toc-entry-2">disk_observer</a><ul>
-<li><a class="reference internal" href="#on-disk" id="toc-entry-3">on_disk()</a></li>
+<li><a class="reference internal" href="#disk-observer" id="toc-entry-1">disk_observer</a><ul>
+<li><a class="reference internal" href="#on-disk" id="toc-entry-2">on_disk()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#open-file-state" id="toc-entry-4">open_file_state</a></li>
-<li><a class="reference internal" href="#disk-interface" id="toc-entry-5">disk_interface</a><ul>
-<li><a class="reference internal" href="#new-torrent" id="toc-entry-6">new_torrent()</a></li>
-<li><a class="reference internal" href="#remove-torrent" id="toc-entry-7">remove_torrent()</a></li>
-<li><a class="reference internal" href="#async-write-async-read" id="toc-entry-8">async_write() async_read()</a></li>
-<li><a class="reference internal" href="#async-hash" id="toc-entry-9">async_hash()</a></li>
-<li><a class="reference internal" href="#async-hash2" id="toc-entry-10">async_hash2()</a></li>
-<li><a class="reference internal" href="#async-move-storage" id="toc-entry-11">async_move_storage()</a></li>
-<li><a class="reference internal" href="#async-release-files" id="toc-entry-12">async_release_files()</a></li>
-<li><a class="reference internal" href="#async-check-files" id="toc-entry-13">async_check_files()</a></li>
-<li><a class="reference internal" href="#async-stop-torrent" id="toc-entry-14">async_stop_torrent()</a></li>
-<li><a class="reference internal" href="#async-rename-file" id="toc-entry-15">async_rename_file()</a></li>
-<li><a class="reference internal" href="#async-delete-files" id="toc-entry-16">async_delete_files()</a></li>
-<li><a class="reference internal" href="#async-set-file-priority" id="toc-entry-17">async_set_file_priority()</a></li>
-<li><a class="reference internal" href="#async-clear-piece" id="toc-entry-18">async_clear_piece()</a></li>
-<li><a class="reference internal" href="#update-stats-counters" id="toc-entry-19">update_stats_counters()</a></li>
-<li><a class="reference internal" href="#get-status" id="toc-entry-20">get_status()</a></li>
-<li><a class="reference internal" href="#abort" id="toc-entry-21">abort()</a></li>
-<li><a class="reference internal" href="#submit-jobs" id="toc-entry-22">submit_jobs()</a></li>
-<li><a class="reference internal" href="#settings-updated" id="toc-entry-23">settings_updated()</a></li>
+<li><a class="reference internal" href="#buffer-allocator-interface" id="toc-entry-3">buffer_allocator_interface</a></li>
+<li><a class="reference internal" href="#disk-buffer-holder" id="toc-entry-4">disk_buffer_holder</a><ul>
+<li><a class="reference internal" href="#disk-buffer-holder-1" id="toc-entry-5">disk_buffer_holder()</a></li>
+<li><a class="reference internal" href="#disk-buffer-holder-2" id="toc-entry-6">disk_buffer_holder()</a></li>
+<li><a class="reference internal" href="#disk-buffer-holder-3" id="toc-entry-7">~disk_buffer_holder()</a></li>
+<li><a class="reference internal" href="#data" id="toc-entry-8">data()</a></li>
+<li><a class="reference internal" href="#reset" id="toc-entry-9">reset()</a></li>
+<li><a class="reference internal" href="#swap" id="toc-entry-10">swap()</a></li>
+<li><a class="reference internal" href="#is-mutable" id="toc-entry-11">is_mutable()</a></li>
+<li><a class="reference internal" href="#bool" id="toc-entry-12">bool()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#storage-holder" id="toc-entry-24">storage_holder</a></li>
-<li><a class="reference internal" href="#buffer-allocator-interface" id="toc-entry-25">buffer_allocator_interface</a></li>
-<li><a class="reference internal" href="#disk-buffer-holder" id="toc-entry-26">disk_buffer_holder</a><ul>
-<li><a class="reference internal" href="#disk-buffer-holder-1" id="toc-entry-27">disk_buffer_holder()</a></li>
-<li><a class="reference internal" href="#disk-buffer-holder-2" id="toc-entry-28">disk_buffer_holder()</a></li>
-<li><a class="reference internal" href="#disk-buffer-holder-3" id="toc-entry-29">~disk_buffer_holder()</a></li>
-<li><a class="reference internal" href="#data" id="toc-entry-30">data()</a></li>
-<li><a class="reference internal" href="#reset" id="toc-entry-31">reset()</a></li>
-<li><a class="reference internal" href="#swap" id="toc-entry-32">swap()</a></li>
-<li><a class="reference internal" href="#is-mutable" id="toc-entry-33">is_mutable()</a></li>
-<li><a class="reference internal" href="#bool" id="toc-entry-34">bool()</a></li>
+<li><a class="reference internal" href="#settings-interface" id="toc-entry-13">settings_interface</a></li>
+<li><a class="reference internal" href="#open-file-state" id="toc-entry-14">open_file_state</a></li>
+<li><a class="reference internal" href="#disk-interface" id="toc-entry-15">disk_interface</a><ul>
+<li><a class="reference internal" href="#new-torrent" id="toc-entry-16">new_torrent()</a></li>
+<li><a class="reference internal" href="#remove-torrent" id="toc-entry-17">remove_torrent()</a></li>
+<li><a class="reference internal" href="#async-write-async-read" id="toc-entry-18">async_write() async_read()</a></li>
+<li><a class="reference internal" href="#async-hash" id="toc-entry-19">async_hash()</a></li>
+<li><a class="reference internal" href="#async-hash2" id="toc-entry-20">async_hash2()</a></li>
+<li><a class="reference internal" href="#async-move-storage" id="toc-entry-21">async_move_storage()</a></li>
+<li><a class="reference internal" href="#async-release-files" id="toc-entry-22">async_release_files()</a></li>
+<li><a class="reference internal" href="#async-check-files" id="toc-entry-23">async_check_files()</a></li>
+<li><a class="reference internal" href="#async-stop-torrent" id="toc-entry-24">async_stop_torrent()</a></li>
+<li><a class="reference internal" href="#async-rename-file" id="toc-entry-25">async_rename_file()</a></li>
+<li><a class="reference internal" href="#async-delete-files" id="toc-entry-26">async_delete_files()</a></li>
+<li><a class="reference internal" href="#async-set-file-priority" id="toc-entry-27">async_set_file_priority()</a></li>
+<li><a class="reference internal" href="#async-clear-piece" id="toc-entry-28">async_clear_piece()</a></li>
+<li><a class="reference internal" href="#update-stats-counters" id="toc-entry-29">update_stats_counters()</a></li>
+<li><a class="reference internal" href="#get-status" id="toc-entry-30">get_status()</a></li>
+<li><a class="reference internal" href="#abort" id="toc-entry-31">abort()</a></li>
+<li><a class="reference internal" href="#submit-jobs" id="toc-entry-32">submit_jobs()</a></li>
+<li><a class="reference internal" href="#settings-updated" id="toc-entry-33">settings_updated()</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#storage-holder" id="toc-entry-34">storage_holder</a></li>
 <li><a class="reference internal" href="#file-open-mode-t" id="toc-entry-35">file_open_mode_t</a></li>
 </ul>
 </div>
@@ -344,25 +344,7 @@ factory function to the <a class="reference external" href="reference-Session.ht
   </span><span class="keyword">return</span><span class="whitespace"> </span><span class="name">std</span><span class="operator">::</span><span class="name">make_unique</span><span class="operator">&lt;</span><span class="name">temp_disk_io</span><span class="operator">&gt;</span><span class="punctuation">(</span><span class="name">ioc</span><span class="punctuation">);</span><span class="whitespace">
 </span><span class="punctuation">}</span>
 </pre>
-<a name="settings_interface"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+settings_interface&labels=documentation&body=Documentation+under+heading+%22class+settings_interface%22+could+be+improved">report issue</a>]</span><div class="section" id="settings-interface">
-<h1>settings_interface</h1>
-<p>Declared in &quot;<a class="reference external" href="include/libtorrent/settings_pack.hpp">libtorrent/settings_pack.hpp</a>&quot;</p>
-<p>the common interface to <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a> and the internal representation of
-settings.</p>
-<pre class="literal-block">
-struct settings_interface
-{
-   virtual bool <strong>has_val</strong> (int name) const = 0;
-   virtual void <strong>set_str</strong> (int name, std::string val) = 0;
-   virtual void <strong>set_int</strong> (int name, int val) = 0;
-   virtual void <strong>set_bool</strong> (int name, bool val) = 0;
-   virtual bool <strong>get_bool</strong> (int name) const = 0;
-   virtual std::string const&amp; <strong>get_str</strong> (int name) const = 0;
-   virtual int <strong>get_int</strong> (int name) const = 0;
-};
-</pre>
-<a name="disk_observer"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+disk_observer&labels=documentation&body=Documentation+under+heading+%22class+disk_observer%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="disk-observer">
+<a name="disk_observer"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+disk_observer&labels=documentation&body=Documentation+under+heading+%22class+disk_observer%22+could+be+improved">report issue</a>]</span><div class="section" id="disk-observer">
 <h1>disk_observer</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/disk_observer.hpp">libtorrent/disk_observer.hpp</a>&quot;</p>
 <pre class="literal-block">
@@ -379,8 +361,127 @@ virtual void <strong>on_disk</strong> () = 0;
 <p>called when the disk cache size has dropped
 below the low watermark again and we can
 resume downloading from peers</p>
-<a name="open_file_state"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+open_file_state&labels=documentation&body=Documentation+under+heading+%22class+open_file_state%22+could+be+improved">report issue</a>]</span></div>
+<a name="buffer_allocator_interface"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+buffer_allocator_interface&labels=documentation&body=Documentation+under+heading+%22class+buffer_allocator_interface%22+could+be+improved">report issue</a>]</span></div>
 </div>
+<div class="section" id="buffer-allocator-interface">
+<h1>buffer_allocator_interface</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/disk_buffer_holder.hpp">libtorrent/disk_buffer_holder.hpp</a>&quot;</p>
+<p>the interface for freeing disk buffers, used by the <a class="reference external" href="reference-Custom_Storage.html#disk_buffer_holder">disk_buffer_holder</a>.
+when implementing <a class="reference external" href="reference-Custom_Storage.html#disk_interface">disk_interface</a>, this must also be implemented in order
+to return disk buffers back to libtorrent</p>
+<pre class="literal-block">
+struct buffer_allocator_interface
+{
+   virtual void <strong>free_disk_buffer</strong> (char* b) = 0;
+};
+</pre>
+<a name="disk_buffer_holder"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+disk_buffer_holder&labels=documentation&body=Documentation+under+heading+%22class+disk_buffer_holder%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="disk-buffer-holder">
+<h1>disk_buffer_holder</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/disk_buffer_holder.hpp">libtorrent/disk_buffer_holder.hpp</a>&quot;</p>
+<p>The disk buffer holder acts like a <tt class="docutils literal">unique_ptr</tt> that frees a disk buffer
+when it's destructed</p>
+<p>If this buffer holder is moved-from, default constructed or reset,
+<tt class="docutils literal">data()</tt> will return nullptr.</p>
+<pre class="literal-block">
+struct disk_buffer_holder
+{
+   disk_buffer_holder&amp; <strong>operator=</strong> (disk_buffer_holder&amp;&amp;) &amp; noexcept;
+   <strong>disk_buffer_holder</strong> (disk_buffer_holder&amp;&amp;) noexcept;
+   <strong>disk_buffer_holder</strong> (disk_buffer_holder const&amp;) = delete;
+   disk_buffer_holder&amp; <strong>operator=</strong> (disk_buffer_holder const&amp;) = delete;
+   <strong>disk_buffer_holder</strong> (buffer_allocator_interface&amp; alloc
+      , char* buf, int sz) noexcept;
+   <strong>disk_buffer_holder</strong> () noexcept = default;
+   <strong>~disk_buffer_holder</strong> ();
+   char* <strong>data</strong> () const noexcept;
+   void <strong>reset</strong> ();
+   void <strong>swap</strong> (disk_buffer_holder&amp; h) noexcept;
+   bool <strong>is_mutable</strong> () const noexcept;
+   explicit operator <strong>bool</strong> () const noexcept;
+   std::ptrdiff_t <strong>size</strong> () const;
+};
+</pre>
+<a name="disk_buffer_holder()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bdisk_buffer_holder%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bdisk_buffer_holder%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="disk-buffer-holder-1">
+<h2>disk_buffer_holder()</h2>
+<pre class="literal-block">
+<strong>disk_buffer_holder</strong> (buffer_allocator_interface&amp; alloc
+      , char* buf, int sz) noexcept;
+</pre>
+<p>construct a buffer holder that will free the held buffer
+using a disk buffer pool directly (there's only one
+disk_buffer_pool per <a class="reference external" href="reference-Session.html#session">session</a>)</p>
+<a name="disk_buffer_holder()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bdisk_buffer_holder%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bdisk_buffer_holder%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="disk-buffer-holder-2">
+<h2>disk_buffer_holder()</h2>
+<pre class="literal-block">
+<strong>disk_buffer_holder</strong> () noexcept = default;
+</pre>
+<p>default construct a holder that does not own any buffer</p>
+<a name="~disk_buffer_holder()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5B~disk_buffer_holder%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5B~disk_buffer_holder%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="disk-buffer-holder-3">
+<h2>~disk_buffer_holder()</h2>
+<pre class="literal-block">
+<strong>~disk_buffer_holder</strong> ();
+</pre>
+<p>frees disk buffer held by this object</p>
+<a name="data()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bdata%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bdata%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="data">
+<h2>data()</h2>
+<pre class="literal-block">
+char* <strong>data</strong> () const noexcept;
+</pre>
+<p>return a pointer to the held buffer, if any. Otherwise returns nullptr.</p>
+<a name="reset()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Breset%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Breset%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="reset">
+<h2>reset()</h2>
+<pre class="literal-block">
+void <strong>reset</strong> ();
+</pre>
+<p>free the held disk buffer, if any, and clear the holder. This sets the
+holder object to a default-constructed state</p>
+<a name="swap()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bswap%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bswap%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="swap">
+<h2>swap()</h2>
+<pre class="literal-block">
+void <strong>swap</strong> (disk_buffer_holder&amp; h) noexcept;
+</pre>
+<p>swap pointers of two disk buffer holders.</p>
+<a name="is_mutable()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bis_mutable%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bis_mutable%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="is-mutable">
+<h2>is_mutable()</h2>
+<pre class="literal-block">
+bool <strong>is_mutable</strong> () const noexcept;
+</pre>
+<p>if this returns true, the buffer may not be modified in place</p>
+<a name="bool()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bbool%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bbool%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="bool">
+<h2>bool()</h2>
+<pre class="literal-block">
+explicit operator <strong>bool</strong> () const noexcept;
+</pre>
+<p>implicitly convertible to true if the object is currently holding a
+buffer</p>
+<a name="settings_interface"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+settings_interface&labels=documentation&body=Documentation+under+heading+%22class+settings_interface%22+could+be+improved">report issue</a>]</span></div>
+</div>
+<div class="section" id="settings-interface">
+<h1>settings_interface</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/settings_pack.hpp">libtorrent/settings_pack.hpp</a>&quot;</p>
+<p>the common interface to <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a> and the internal representation of
+settings.</p>
+<pre class="literal-block">
+struct settings_interface
+{
+   virtual bool <strong>has_val</strong> (int name) const = 0;
+   virtual void <strong>set_bool</strong> (int name, bool val) = 0;
+   virtual void <strong>set_str</strong> (int name, std::string val) = 0;
+   virtual void <strong>set_int</strong> (int name, int val) = 0;
+   virtual int <strong>get_int</strong> (int name) const = 0;
+   virtual bool <strong>get_bool</strong> (int name) const = 0;
+   virtual std::string const&amp; <strong>get_str</strong> (int name) const = 0;
+};
+</pre>
+<a name="open_file_state"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+open_file_state&labels=documentation&body=Documentation+under+heading+%22class+open_file_state%22+could+be+improved">report issue</a>]</span></div>
 <div class="section" id="open-file-state">
 <h1>open_file_state</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/disk_interface.hpp">libtorrent/disk_interface.hpp</a>&quot;</p>
@@ -769,8 +870,8 @@ inform the disk object.</p>
 struct storage_holder
 {
    <strong>storage_holder</strong> () = default;
-   <strong>storage_holder</strong> (storage_index_t idx, disk_interface&amp; disk_io);
    <strong>~storage_holder</strong> ();
+   <strong>storage_holder</strong> (storage_index_t idx, disk_interface&amp; disk_io);
    explicit operator <strong>bool</strong> () const;
    operator <strong>storage_index_t</strong> () const;
    void <strong>reset</strong> ();
@@ -780,108 +881,7 @@ struct storage_holder
    storage_holder&amp; <strong>operator=</strong> (storage_holder&amp;&amp; rhs) noexcept;
 };
 </pre>
-<a name="buffer_allocator_interface"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+buffer_allocator_interface&labels=documentation&body=Documentation+under+heading+%22class+buffer_allocator_interface%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="buffer-allocator-interface">
-<h1>buffer_allocator_interface</h1>
-<p>Declared in &quot;<a class="reference external" href="include/libtorrent/disk_buffer_holder.hpp">libtorrent/disk_buffer_holder.hpp</a>&quot;</p>
-<p>the interface for freeing disk buffers, used by the <a class="reference external" href="reference-Custom_Storage.html#disk_buffer_holder">disk_buffer_holder</a>.
-when implementing <a class="reference external" href="reference-Custom_Storage.html#disk_interface">disk_interface</a>, this must also be implemented in order
-to return disk buffers back to libtorrent</p>
-<pre class="literal-block">
-struct buffer_allocator_interface
-{
-   virtual void <strong>free_disk_buffer</strong> (char* b) = 0;
-};
-</pre>
-<a name="disk_buffer_holder"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+disk_buffer_holder&labels=documentation&body=Documentation+under+heading+%22class+disk_buffer_holder%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="disk-buffer-holder">
-<h1>disk_buffer_holder</h1>
-<p>Declared in &quot;<a class="reference external" href="include/libtorrent/disk_buffer_holder.hpp">libtorrent/disk_buffer_holder.hpp</a>&quot;</p>
-<p>The disk buffer holder acts like a <tt class="docutils literal">unique_ptr</tt> that frees a disk buffer
-when it's destructed</p>
-<p>If this buffer holder is moved-from, default constructed or reset,
-<tt class="docutils literal">data()</tt> will return nullptr.</p>
-<pre class="literal-block">
-struct disk_buffer_holder
-{
-   <strong>disk_buffer_holder</strong> (disk_buffer_holder&amp;&amp;) noexcept;
-   disk_buffer_holder&amp; <strong>operator=</strong> (disk_buffer_holder&amp;&amp;) &amp; noexcept;
-   disk_buffer_holder&amp; <strong>operator=</strong> (disk_buffer_holder const&amp;) = delete;
-   <strong>disk_buffer_holder</strong> (disk_buffer_holder const&amp;) = delete;
-   <strong>disk_buffer_holder</strong> (buffer_allocator_interface&amp; alloc
-      , char* buf, int sz) noexcept;
-   <strong>disk_buffer_holder</strong> () noexcept = default;
-   <strong>~disk_buffer_holder</strong> ();
-   char* <strong>data</strong> () const noexcept;
-   void <strong>reset</strong> ();
-   void <strong>swap</strong> (disk_buffer_holder&amp; h) noexcept;
-   bool <strong>is_mutable</strong> () const noexcept;
-   explicit operator <strong>bool</strong> () const noexcept;
-   std::ptrdiff_t <strong>size</strong> () const;
-};
-</pre>
-<a name="disk_buffer_holder()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bdisk_buffer_holder%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bdisk_buffer_holder%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="disk-buffer-holder-1">
-<h2>disk_buffer_holder()</h2>
-<pre class="literal-block">
-<strong>disk_buffer_holder</strong> (buffer_allocator_interface&amp; alloc
-      , char* buf, int sz) noexcept;
-</pre>
-<p>construct a buffer holder that will free the held buffer
-using a disk buffer pool directly (there's only one
-disk_buffer_pool per <a class="reference external" href="reference-Session.html#session">session</a>)</p>
-<a name="disk_buffer_holder()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bdisk_buffer_holder%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bdisk_buffer_holder%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="disk-buffer-holder-2">
-<h2>disk_buffer_holder()</h2>
-<pre class="literal-block">
-<strong>disk_buffer_holder</strong> () noexcept = default;
-</pre>
-<p>default construct a holder that does not own any buffer</p>
-<a name="~disk_buffer_holder()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5B~disk_buffer_holder%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5B~disk_buffer_holder%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="disk-buffer-holder-3">
-<h2>~disk_buffer_holder()</h2>
-<pre class="literal-block">
-<strong>~disk_buffer_holder</strong> ();
-</pre>
-<p>frees disk buffer held by this object</p>
-<a name="data()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bdata%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bdata%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="data">
-<h2>data()</h2>
-<pre class="literal-block">
-char* <strong>data</strong> () const noexcept;
-</pre>
-<p>return a pointer to the held buffer, if any. Otherwise returns nullptr.</p>
-<a name="reset()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Breset%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Breset%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="reset">
-<h2>reset()</h2>
-<pre class="literal-block">
-void <strong>reset</strong> ();
-</pre>
-<p>free the held disk buffer, if any, and clear the holder. This sets the
-holder object to a default-constructed state</p>
-<a name="swap()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bswap%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bswap%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="swap">
-<h2>swap()</h2>
-<pre class="literal-block">
-void <strong>swap</strong> (disk_buffer_holder&amp; h) noexcept;
-</pre>
-<p>swap pointers of two disk buffer holders.</p>
-<a name="is_mutable()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bis_mutable%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bis_mutable%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="is-mutable">
-<h2>is_mutable()</h2>
-<pre class="literal-block">
-bool <strong>is_mutable</strong> () const noexcept;
-</pre>
-<p>if this returns true, the buffer may not be modified in place</p>
-<a name="bool()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:disk_buffer_holder%3A%3A%5Bbool%28%29%5D&labels=documentation&body=Documentation+under+heading+%22disk_buffer_holder%3A%3A%5Bbool%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="bool">
-<h2>bool()</h2>
-<pre class="literal-block">
-explicit operator <strong>bool</strong> () const noexcept;
-</pre>
-<p>implicitly convertible to true if the object is currently holding a
-buffer</p>
 <a name="file_open_mode_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:file_open_mode_t&labels=documentation&body=Documentation+under+heading+%22file_open_mode_t%22+could+be+improved">report issue</a>]</span></div>
-</div>
 <div class="section" id="file-open-mode-t">
 <h1>file_open_mode_t</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/disk_interface.hpp">libtorrent/disk_interface.hpp</a>&quot;</p>
@@ -914,8 +914,8 @@ this generally improves disk performance.</dd>
 </dl>
 <a name="file_open_mode_t::random_access"></a><dl class="docutils">
 <dt>random_access</dt>
-<dd>open the file for random access. This disables read-ahead
-logic</dd>
+<dd>When this is not set, the kernel is hinted that access to this file will
+be made sequentially.</dd>
 </dl>
 <a name="file_open_mode_t::mmapped"></a><dl class="docutils">
 <dt>mmapped</dt>

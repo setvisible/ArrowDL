@@ -174,7 +174,7 @@ namespace libtorrent { namespace aux {
 
 			// there's an edge case where two threads are racing to insert a newly
 			// opened file, one thread is opening a file for writing and the other
-			// fore reading. If the reading thread wins, it's important that the
+			// for reading. If the reading thread wins, it's important that the
 			// thread opening for writing still overwrites the file in the pool,
 			// since a file opened for reading and writing can be used for both.
 			// So, we can't move e in here, because we may need it again of the

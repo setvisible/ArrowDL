@@ -64,16 +64,16 @@ namespace libtorrent {
 	// 4. if IPs are not in the same /16, mask the IPs by 0xffff5555, hash them
 	//    ordered, lowest first.
 	//
-	// * for IPv6 peers, just use the first 64 bits and widen the masks.
-	//   like this: 0xffff5555 -> 0xffffffff55555555
-	//   the lower 64 bits are always unmasked
+	// * for IPv6 addresses, the lower 48 bits are always unmasked
 	//
-	// * for IPv6 addresses, compare /32 and /48 instead of /16 and /24
+	// * for IPv6 addresses, compare /48, /56, /64, /72 and so on.
 	//
 	// * the two IP addresses that are used to calculate the rank must
 	//   always be of the same address family
 	//
 	// * all IP addresses are in network byte order when hashed
+	// The full specification is here:
+	// https://www.bittorrent.org/beps/bep_0040.html
 	std::uint32_t peer_priority(tcp::endpoint e1, tcp::endpoint e2)
 	{
 		TORRENT_ASSERT(aux::is_v4(e1) == aux::is_v4(e2));

@@ -2794,8 +2794,9 @@ bool is_downloading_state(int const st)
 		// If this is an SSL torrent the announce needs to specify an SSL
 		// listen port. DHT nodes only operate on non-SSL ports so SSL
 		// torrents cannot use implied_port.
-		// if we allow incoming uTP connections, set the implied_port
-		// argument in the announce, this will make the DHT node use
+		// if we allow incoming uTP connections and don't overwrite
+		// the announced port, set the implied_port argument
+		// in the announce, this will make the DHT node use
 		// our source port in the packet as our listen port, which is
 		// likely more accurate when behind a NAT
 		if (is_ssl_torrent())

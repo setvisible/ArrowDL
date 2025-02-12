@@ -856,6 +856,7 @@ namespace libtorrent {
 #endif
 
 		// returns true if we have downloaded the given piece
+		// but not necessarily flushed it to disk
 		bool have_piece(piece_index_t index) const
 		{
 			if (!valid_metadata()) return false;
@@ -903,6 +904,9 @@ namespace libtorrent {
 
 	public:
 
+		// the number of pieces that have passed
+		// hash check, but aren't necessarily
+		// flushed to disk yet
 		int num_have() const
 		{
 			// pretend we have every piece when in seed mode

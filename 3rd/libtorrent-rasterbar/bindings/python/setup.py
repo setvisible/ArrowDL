@@ -102,7 +102,9 @@ def b2_escape(value: str) -> str:
 
 
 def write_b2_python_config(
-    include_dirs: Sequence[str], library_dirs: Sequence[str], config: IO[str]
+    include_dirs: Sequence[str],
+    library_dirs: Sequence[str],
+    config: IO[str],
 ) -> None:
     write = config.write
     # b2 keys python environments by X.Y version, breaking ties by matching
@@ -161,7 +163,7 @@ def write_b2_python_config(
     ext_suffix = str(ext_suffix or "")
 
     # python.jam appends the platform-specific final suffix on its own. I can't
-    # find a consistent value from sysconfig or distutils.sysconfig for this.
+    # find a consistent value from sysconfig for this.
     for plat_suffix in (".pyd", ".dll", ".so", ".sl"):
         if ext_suffix.endswith(plat_suffix):
             ext_suffix = ext_suffix[: -len(plat_suffix)]
@@ -435,7 +437,9 @@ class LibtorrentBuildExt(build_ext_lib.build_ext):
             if self._maybe_add_arg(f"python={sysconfig.get_python_version()}"):
                 config_writers.append(
                     functools.partial(
-                        write_b2_python_config, self.include_dirs, self.library_dirs
+                        write_b2_python_config,
+                        self.include_dirs,
+                        self.library_dirs,
                     )
                 )
 

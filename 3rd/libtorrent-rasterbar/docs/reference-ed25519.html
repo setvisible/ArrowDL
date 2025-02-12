@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.10</td></tr>
+<td>2.0.11</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
@@ -88,9 +88,9 @@ bool <strong>ed25519_verify</strong> (signature const&amp; sig
 <h1>ed25519_add_scalar()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/kademlia/ed25519.hpp">libtorrent/kademlia/ed25519.hpp</a>&quot;</p>
 <pre class="literal-block">
-public_key <strong>ed25519_add_scalar</strong> (public_key const&amp; pk
-   , std::array&lt;char, 32&gt; const&amp; scalar);
 secret_key <strong>ed25519_add_scalar</strong> (secret_key const&amp; sk
+   , std::array&lt;char, 32&gt; const&amp; scalar);
+public_key <strong>ed25519_add_scalar</strong> (public_key const&amp; pk
    , std::array&lt;char, 32&gt; const&amp; scalar);
 </pre>
 <p>Adds a scalar to the given key pair where scalar is a 32 byte buffer

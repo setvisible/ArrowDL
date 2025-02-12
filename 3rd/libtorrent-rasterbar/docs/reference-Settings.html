@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.10</td></tr>
+<td>2.0.11</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
@@ -50,9 +50,9 @@
 <li><a class="reference internal" href="#enum-proxy-type-t" id="toc-entry-16">enum proxy_type_t</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#setting-by-name-name-for-setting" id="toc-entry-17">setting_by_name() name_for_setting()</a></li>
-<li><a class="reference internal" href="#default-settings" id="toc-entry-18">default_settings()</a></li>
-<li><a class="reference internal" href="#min-memory-usage-high-performance-seed" id="toc-entry-19">min_memory_usage() high_performance_seed()</a></li>
+<li><a class="reference internal" href="#min-memory-usage-high-performance-seed" id="toc-entry-17">min_memory_usage() high_performance_seed()</a></li>
+<li><a class="reference internal" href="#name-for-setting-setting-by-name" id="toc-entry-18">name_for_setting() setting_by_name()</a></li>
+<li><a class="reference internal" href="#default-settings" id="toc-entry-19">default_settings()</a></li>
 <li><a class="reference internal" href="#generate-fingerprint" id="toc-entry-20">generate_fingerprint()</a></li>
 </ul>
 </div>
@@ -363,7 +363,7 @@ i2p peers as well as regular peers via a proxy.</p>
 <tbody valign="top">
 <tr><td>peer_fingerprint</td>
 <td>string</td>
-<td>-LT20A0-</td>
+<td>-LT20B0-</td>
 </tr>
 </tbody>
 </table>
@@ -395,7 +395,11 @@ to generate a standard client peer ID fingerprint prefix.</p>
 to the DHT node (if it's enabled) as back-up nodes in case we don't
 know of any.</p>
 <p>Changing these after the DHT has been started may not have any
-effect until the DHT is restarted.</p>
+effect until the DHT is restarted.
+Here are some other bootstrap nodes that may work:
+<tt class="docutils literal">router.bittorrent.com:6881</tt>,
+<tt class="docutils literal">dht.transmissionbt.com:6881</tt>
+<tt class="docutils literal">router.bt.ouinet.work:6881</tt>,</p>
 <a name="allow_multiple_connections_per_ip"></a><table border="1" class="docutils">
 <colgroup>
 <col width="70%" />
@@ -4560,22 +4564,54 @@ Changing these will not trigger a reconnect to the SAM bridge,
 they will take effect the next time the SAM connection is
 re-established (by restarting or changing i2p_hostname or
 i2p_port).</p>
+<a name="announce_port"></a><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="20%" />
+<col width="30%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">type</th>
+<th class="head">default</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>announce_port</td>
+<td>int</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><tt class="docutils literal">announce_port</tt> is the port passed along as the <tt class="docutils literal">port</tt> parameter
+to remote trackers such as HTTP or DHT. This setting does not affect
+the effective listening port nor local service discovery announcements.
+If left as zero (default), the listening port value is used.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This setting is only meant for very special cases where a
+seed's listening port differs from the external port. As an
+example, if a local proxy is used and that the proxy supports
+reverse tunnels through NAT-PMP, the tracker must connect to
+the external NAT-PMP port (configured using <tt class="docutils literal">announce_port</tt>)
+instead of the actual local listening port.</p>
+</div>
 <pre class="literal-block">
 struct settings_pack final : settings_interface
 {
    friend  void <strong>apply_pack_impl</strong> (settings_pack const*
       , aux::session_settings_single_thread&amp;
       , std::vector&lt;void(aux::session_impl::*)()&gt;*);
-   void <strong>set_int</strong> (int name, int val) override;
-   void <strong>set_int</strong> (int name, flags::bitfield_flag&lt;Type, Tag&gt; const val);
-   void <strong>set_str</strong> (int name, std::string val) override;
    void <strong>set_bool</strong> (int name, bool val) override;
+   void <strong>set_int</strong> (int name, int val) override;
+   void <strong>set_str</strong> (int name, std::string val) override;
+   void <strong>set_int</strong> (int name, flags::bitfield_flag&lt;Type, Tag&gt; const val);
    bool <strong>has_val</strong> (int name) const override;
    void <strong>clear</strong> ();
    void <strong>clear</strong> (int name);
-   std::string const&amp; <strong>get_str</strong> (int name) const override;
-   bool <strong>get_bool</strong> (int name) const override;
    int <strong>get_int</strong> (int name) const override;
+   bool <strong>get_bool</strong> (int name) const override;
+   std::string const&amp; <strong>get_str</strong> (int name) const override;
    void <strong>for_each</strong> (Fun&amp;&amp; f) const;
 
    enum type_bases
@@ -4658,10 +4694,10 @@ struct settings_pack final : settings_interface
 <a name="set_str()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:settings_pack%3A%3A%5Bset_int%28%29+set_bool%28%29+set_str%28%29%5D&labels=documentation&body=Documentation+under+heading+%22settings_pack%3A%3A%5Bset_int%28%29+set_bool%28%29+set_str%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="set-int-set-bool-set-str">
 <h2>set_int() set_bool() set_str()</h2>
 <pre class="literal-block">
-void <strong>set_int</strong> (int name, int val) override;
-void <strong>set_int</strong> (int name, flags::bitfield_flag&lt;Type, Tag&gt; const val);
-void <strong>set_str</strong> (int name, std::string val) override;
 void <strong>set_bool</strong> (int name, bool val) override;
+void <strong>set_int</strong> (int name, int val) override;
+void <strong>set_str</strong> (int name, std::string val) override;
+void <strong>set_int</strong> (int name, flags::bitfield_flag&lt;Type, Tag&gt; const val);
 </pre>
 <p>set a configuration option in the <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a>. <tt class="docutils literal">name</tt> is one of
 the enum values from string_types, int_types or bool_types. They must
@@ -4695,9 +4731,9 @@ void <strong>clear</strong> (int name);
 <div class="section" id="get-str-get-int-get-bool">
 <h2>get_str() get_int() get_bool()</h2>
 <pre class="literal-block">
-std::string const&amp; <strong>get_str</strong> (int name) const override;
-bool <strong>get_bool</strong> (int name) const override;
 int <strong>get_int</strong> (int name) const override;
+bool <strong>get_bool</strong> (int name) const override;
+std::string const&amp; <strong>get_str</strong> (int name) const override;
 </pre>
 <p>queries the current configuration option from the <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a>.
 <tt class="docutils literal">name</tt> is one of the enumeration values from string_types, int_types
@@ -5064,34 +5100,15 @@ authorization. The username and password will be sent to the proxy.</td>
 </tr>
 </tbody>
 </table>
-<a name="setting_by_name()"></a>
-<a name="name_for_setting()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:setting_by_name%28%29+name_for_setting%28%29&labels=documentation&body=Documentation+under+heading+%22setting_by_name%28%29+name_for_setting%28%29%22+could+be+improved">report issue</a>]</span></div>
-</div>
-<div class="section" id="setting-by-name-name-for-setting">
-<h1>setting_by_name() name_for_setting()</h1>
-<p>Declared in &quot;<a class="reference external" href="include/libtorrent/settings_pack.hpp">libtorrent/settings_pack.hpp</a>&quot;</p>
-<pre class="literal-block">
-char const* <strong>name_for_setting</strong> (int s);
-int <strong>setting_by_name</strong> (string_view name);
-</pre>
-<p>converts a setting integer (from the enums string_types, int_types or
-bool_types) to a string, and vice versa.</p>
-<a name="default_settings()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:default_settings%28%29&labels=documentation&body=Documentation+under+heading+%22default_settings%28%29%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="default-settings">
-<h1>default_settings()</h1>
-<p>Declared in &quot;<a class="reference external" href="include/libtorrent/settings_pack.hpp">libtorrent/settings_pack.hpp</a>&quot;</p>
-<pre class="literal-block">
-settings_pack <strong>default_settings</strong> ();
-</pre>
-<p>returns a <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a> with every setting set to its default value</p>
 <a name="min_memory_usage()"></a>
 <a name="high_performance_seed()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:min_memory_usage%28%29+high_performance_seed%28%29&labels=documentation&body=Documentation+under+heading+%22min_memory_usage%28%29+high_performance_seed%28%29%22+could+be+improved">report issue</a>]</span></div>
+</div>
 <div class="section" id="min-memory-usage-high-performance-seed">
 <h1>min_memory_usage() high_performance_seed()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/session.hpp">libtorrent/session.hpp</a>&quot;</p>
 <pre class="literal-block">
-settings_pack <strong>high_performance_seed</strong> ();
 settings_pack <strong>min_memory_usage</strong> ();
+settings_pack <strong>high_performance_seed</strong> ();
 </pre>
 <p>The default values of the <a class="reference external" href="reference-Session.html#session">session</a> settings are set for a regular
 bittorrent client running on a desktop system. There are functions that
@@ -5113,6 +5130,25 @@ devices. It will significantly reduce memory usage.</p>
 serving many peers and that doesn't do any downloading. It has a 128 MB
 disk cache and has a limit of 400 files in its file pool. It support fast
 upload rates by allowing large send buffers.</p>
+<a name="name_for_setting()"></a>
+<a name="setting_by_name()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:name_for_setting%28%29+setting_by_name%28%29&labels=documentation&body=Documentation+under+heading+%22name_for_setting%28%29+setting_by_name%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="name-for-setting-setting-by-name">
+<h1>name_for_setting() setting_by_name()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/settings_pack.hpp">libtorrent/settings_pack.hpp</a>&quot;</p>
+<pre class="literal-block">
+char const* <strong>name_for_setting</strong> (int s);
+int <strong>setting_by_name</strong> (string_view name);
+</pre>
+<p>converts a setting integer (from the enums string_types, int_types or
+bool_types) to a string, and vice versa.</p>
+<a name="default_settings()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:default_settings%28%29&labels=documentation&body=Documentation+under+heading+%22default_settings%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="default-settings">
+<h1>default_settings()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/settings_pack.hpp">libtorrent/settings_pack.hpp</a>&quot;</p>
+<pre class="literal-block">
+settings_pack <strong>default_settings</strong> ();
+</pre>
+<p>returns a <a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a> with every setting set to its default value</p>
 <a name="generate_fingerprint()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:generate_fingerprint%28%29&labels=documentation&body=Documentation+under+heading+%22generate_fingerprint%28%29%22+could+be+improved">report issue</a>]</span></div>
 <div class="section" id="generate-fingerprint">
 <h1>generate_fingerprint()</h1>
