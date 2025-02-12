@@ -115,7 +115,10 @@ namespace sim
 			std::fprintf(stderr, "WARNING: timer scheduled for current time!\n");
 		}
 		std::lock_guard<std::mutex> l(m_timer_queue_mutex);
-		m_timer_queue.insert(t);
+		// make sure we get a deterministic ordering of timers with the same
+		// expiration time
+		auto it = std::upper_bound(m_timer_queue.begin(), m_timer_queue.end(), t, timer_compare());
+		m_timer_queue.insert(it, t);
 	}
 
 	void simulation::remove_timer(asio::high_resolution_timer* t)
@@ -124,7 +127,7 @@ namespace sim
 		if (m_timer_queue.empty()) return;
 		timer_queue_t::iterator begin;
 		timer_queue_t::iterator end;
-		std::tie(begin, end) = m_timer_queue.equal_range(t);
+		std::tie(begin, end) = std::equal_range(m_timer_queue.begin(), m_timer_queue.end(), t, timer_compare());
 		if (begin == end) return;
 		begin = std::find(begin, end, t);
 		if (begin == end) return;

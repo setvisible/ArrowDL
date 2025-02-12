@@ -95,19 +95,30 @@ namespace libtorrent {
 		}
 		else if (aux::is_v6(e1))
 		{
-			static const std::uint8_t v6mask[][8] = {
-				{ 0xff, 0xff, 0xff, 0xff, 0x55, 0x55, 0x55, 0x55 },
-				{ 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x55, 0x55 },
-				{ 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }
-			};
-
 			if (e1 > e2) swap(e1, e2);
 			address_v6::bytes_type b1 = e1.address().to_v6().to_bytes();
 			address_v6::bytes_type b2 = e2.address().to_v6().to_bytes();
-			int const mask = std::memcmp(b1.data(), b2.data(), 4) ? 0
-				: std::memcmp(b1.data(), b2.data(), 6) ? 1 : 2;
-			apply_mask(b1.data(), v6mask[mask], 8);
-			apply_mask(b2.data(), v6mask[mask], 8);
+			size_t offset = 0xff;
+			for (size_t i = 0; i < b1.size(); ++i)
+			{
+				// we never mask the first 6 bytes, index 6 (the 7th byte)
+				// is the earliest we start masking at. But if the prefix is
+				// identical, we keep pushing out where we start masking
+				if (offset == 0xff && b1[i] != b2[i])
+					offset = std::max(i + 1, size_t(5));
+				else if (i > offset)
+				{
+#if defined __GNUC__ && __GNUC__ >= 7
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstringop-overflow"
+#endif
+					b1[i] &= 0x55;
+					b2[i] &= 0x55;
+#if defined __GNUC__ && __GNUC__ >= 7
+#pragma GCC diagnostic pop
+#endif
+				}
+			}
 			std::uint64_t addrbuf[4];
 			memcpy(&addrbuf[0], b1.data(), 16);
 			memcpy(&addrbuf[2], b2.data(), 16);

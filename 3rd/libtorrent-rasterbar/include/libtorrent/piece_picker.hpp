@@ -83,7 +83,7 @@ namespace libtorrent {
 		int num_pieces;
 		// the number of bytes, out of those pieces, that are pad
 		// files
-		int pad_bytes;
+		std::int64_t pad_bytes;
 		// true if the last piece is part of the set
 		bool last_piece;
 	};
@@ -267,7 +267,7 @@ namespace libtorrent {
 		// The refcounter will indicate that
 		// we are not interested in this piece anymore
 		// (i.e. we don't have to maintain a refcount)
-		void we_have(piece_index_t);
+		void piece_flushed(piece_index_t);
 		void we_dont_have(piece_index_t);
 
 		// the lowest piece index we do not have
@@ -280,7 +280,13 @@ namespace libtorrent {
 		void resize(std::int64_t total_size, int piece_size);
 		int num_pieces() const { return int(m_piece_map.size()); }
 
+		// returns true if we have the piece or if the piece
+		// has passed the hash check
 		bool have_piece(piece_index_t) const;
+
+		// returns true if the piece has been completely downloaded and
+		// successfully flushed to disk (i.e. "finished").
+		bool is_piece_flushed(piece_index_t) const;
 
 		bool is_downloading(piece_index_t const index) const
 		{
@@ -419,10 +425,6 @@ namespace libtorrent {
 		// only valid for v2 torrents
 		bool is_hashing(piece_index_t piece) const;
 
-		// returns true if we have the piece or if the piece
-		// has passed the hash check
-		bool has_piece_passed(piece_index_t) const;
-
 		// returns the number of blocks there is in the given piece
 		int blocks_in_piece(piece_index_t) const;
 
@@ -473,7 +475,7 @@ namespace libtorrent {
 
 		// number of pieces whose hash has passed (but haven't necessarily
 		// been flushed to disk yet)
-		int num_passed() const { return m_num_passed; }
+		int num_have() const { return m_num_have; }
 
 		// return true if all the pieces we want have passed the hash check (but
 		// may not have been written to disk yet)
@@ -491,7 +493,7 @@ namespace libtorrent {
 			// this can be simplified. Note how m_num_have_filtered appears on both
 			// side of the equation.
 			//
-			return num_pieces() - m_num_filtered <= num_passed();
+			return num_pieces() - m_num_filtered <= m_num_have;
 		}
 
 		bool is_seeding() const { return m_num_have == num_pieces(); }
@@ -551,12 +553,15 @@ namespace libtorrent {
 		int blocks_per_piece() const;
 		int piece_size(piece_index_t p) const;
 
+		void account_have(piece_index_t);
+		void account_lost(piece_index_t);
+
 		piece_extent_t extent_for(piece_index_t) const;
 		index_range<piece_index_t> extent_for(piece_extent_t) const;
 
 		void record_downloading_piece(piece_index_t const p);
 
-		int num_pad_bytes() const { return m_num_pad_bytes; }
+		std::int64_t num_pad_bytes() const { return m_num_pad_bytes; }
 
 		span<block_info> mutable_blocks_for_piece(downloading_piece const& dp);
 
@@ -831,23 +836,20 @@ namespace libtorrent {
 		mutable std::vector<piece_extent_t> m_recent_extents;
 
 		// the number of bytes of pad file set in this piece picker
-		int m_num_pad_bytes = 0;
+		std::int64_t m_num_pad_bytes = 0;
 
 		// the number of pad blocks that we already have
-		int m_have_pad_bytes = 0;
+		std::int64_t m_have_pad_bytes = 0;
 
 		// the number of pad blocks part of filtered pieces we don't have
-		int m_filtered_pad_bytes = 0;
+		std::int64_t m_filtered_pad_bytes = 0;
 
 		// the number of pad blocks we have that are also filtered
-		int m_have_filtered_pad_bytes = 0;
+		std::int64_t m_have_filtered_pad_bytes = 0;
 
 		// the number of seeds. These are not added to
 		// the availability counters of the pieces
 		int m_seeds = 0;
-
-		// the number of pieces that have passed the hash check
-		int m_num_passed = 0;
 
 		// this vector contains all piece indices that are pickable
 		// sorted by priority. Pieces are in random random order
