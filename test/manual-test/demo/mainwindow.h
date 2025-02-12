@@ -47,12 +47,6 @@ public slots:
     void selectCompleted();
 
     // View
-//    void showInformation();
-//    void openFile();
-//    void openFile(FakeDownloadItem *downloadItem);
-//    void renameFile();
-//    void deleteFile();
-//    void openDirectory();
     void removeCompleted();
     void removeSelected();
     void removeAll();
@@ -68,10 +62,8 @@ public slots:
     void bottom();
 
     // Options
-//    void showPreferences();
 
     // Help
-//    void about();
 
 private slots:
     void onJobAddedOrRemoved(DownloadRange downloadItem);

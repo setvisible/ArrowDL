@@ -136,19 +136,7 @@ void MainWindow::propagateIcons()
     const QHash<QAction*, QString> hash = {
 
         //! [0] File
-        //        {ui->actionHome                   , "home"},
-        //        //--
-        {ui->actionAdd              , "add-batch"},
-        //        {ui->actionAddContent             , "add-content"},
-        //        {ui->actionAddBatch               , "add-batch"},
-        //        {ui->actionAddStream              , "add-stream"},
-        //        {ui->actionAddTorrent             , "add-torrent"},
-        //        {ui->actionAddUrls                , "add-urls"},
-        //        // --
-        //        {ui->actionImportFromFile         , "file-import"},
-        //        {ui->actionExportSelectedToFile   , "file-export"},
-        // --
-        // {ui->actionQuit   , ""},
+        {ui->actionAdd                    , "add-batch"},
         //! [0]
 
         //! [1] Edit
@@ -156,18 +144,9 @@ void MainWindow::propagateIcons()
         {ui->actionSelectNone             , "select-none"},
         {ui->actionInvertSelection        , "select-invert"},
         {ui->actionSelectCompleted        , "select-completed"},
-        // --
-        // {ui->actionCopy   , ""},
         //! [1]
 
         //! [2] View
-        //        {ui->actionInformation            , "info"},
-        //        // --
-        //        {ui->actionOpenFile               , "file-open"},
-        //        {ui->actionRenameFile             , "rename"},
-        //        {ui->actionDeleteFile             , "file-delete"},
-        //        {ui->actionOpenDirectory          , "directory-open"},
-        //        // --
         {ui->actionRemoveCompleted        , "remove-completed"},
         {ui->actionRemoveSelected         , "remove-downloaded"},
         {ui->actionRemoveAll              , "remove-all"},
@@ -185,16 +164,9 @@ void MainWindow::propagateIcons()
         //! [3]
 
         //! [4]  Options
-        //        {ui->actionPreferences            , "preference"},
         //! [4]
 
         //! [5] Help
-        // {ui->actionCheckForUpdates        , ""},
-        // {ui->actionTutorial               , ""},
-        //        {ui->actionAbout                  , "about"}
-        // {ui->actionAboutQt                , ""},
-        // {ui->actionAboutCompiler          , ""},
-        // {ui->actionAboutYoutubeDL         , ""}
         //! [5]
     };
     Theme::setIcons(this, hash);
@@ -315,7 +287,6 @@ void MainWindow::refreshTitleAndStatus()
             : QString();
 
     auto completedCount = m_downloadManager->completedJobs().count();
-    // auto runningCount = m_downloadManager->runningJobs().count();
     auto failedCount = m_downloadManager->failedJobs().count();
     auto count = m_downloadManager->count();
     auto doneCount = completedCount + failedCount;
@@ -331,14 +302,6 @@ void MainWindow::refreshMenus()
 {
     auto hasJobs = !m_downloadManager->downloadItems().isEmpty();
     auto hasSelection = !m_downloadManager->selection().isEmpty();
-    //auto hasOnlyOneSelected = m_downloadManager->selection().count() == 1;
-    //auto hasOnlyCompletedSelected = hasSelection;
-    //for (auto item : m_downloadManager->selection()) {
-    //    if (item->state() != IDownloadItem::Completed) {
-    //        hasOnlyCompletedSelected = false;
-    //        continue;
-    //    }
-    //}
     bool hasAtLeastOneUncompletedSelected = false;
     for (auto item : m_downloadManager->selection()) {
         if (item->state() != IDownloadItem::Completed) {
@@ -362,37 +325,19 @@ void MainWindow::refreshMenus()
     }
 
     //! [0] File
-    //ui->actionImportWizard->setEnabled(hasSelection);
-    // --
-    //ui->actionImportFromFile->setEnabled(hasSelection);
-    //ui->actionExportSelectedToFile->setEnabled(hasSelection);
-    // --
-    //ui->actionExit->setEnabled(hasSelection);
     //! [0]
 
     //! [1] Edit
-    //ui->actionSelectAll->setEnabled(hasSelection);
     ui->actionSelectNone->setEnabled(hasSelection);
-    //ui->actionInvertSelection->setEnabled(hasSelection);
-    //ui->actionSelectCompleted->setEnabled(hasSelection);
     //! [1]
 
     //! [2] View
-    //ui->actionInformation->setEnabled(hasOnlyOneSelected);
-    // --
-    //ui->actionOpenFile->setEnabled(hasOnlyCompletedSelected);
-    //ui->actionRenameFile->setEnabled(hasOnlyOneSelected);
-    //ui->actionDeleteFile->setEnabled(hasOnlyCompletedSelected);
-    //ui->actionOpenDirectory->setEnabled(hasOnlyOneSelected);
-    // --
     ui->actionRemoveCompleted->setEnabled(hasJobs);
     ui->actionRemoveSelected->setEnabled(hasJobs);
     // ui->actionRemoveAll->setEnabled(hasJobs); // always enabled
     //! [2]
 
     //! [3] Download
-    //ui->actionAdd->setEnabled(hasSelection);
-    //--
     ui->actionResume->setEnabled(hasResumableSelection);
     ui->actionPause->setEnabled(hasPausableSelection);
     ui->actionCancel->setEnabled(hasCancelableSelection);
@@ -404,11 +349,8 @@ void MainWindow::refreshMenus()
     //! [3]
 
     //! [4]  Options
-    //ui->actionPreferences->setEnabled(hasSelection);
     //! [4]
 
     //! [5] Help
-    //ui->actionAbout->setEnabled(hasSelection);
-    //ui->actionAboutQt->setEnabled(hasSelection);
     //! [5]
 }

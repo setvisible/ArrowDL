@@ -55,27 +55,9 @@
     <property name="title">
      <string>&amp;View</string>
     </property>
-    <widget class="QMenu" name="menuOther1">
-     <property name="title">
-      <string>Other</string>
-     </property>
-     <addaction name="actionRemoveAll"/>
-     <addaction name="separator"/>
-     <addaction name="actionRemoveWaiting"/>
-    </widget>
-    <widget class="QMenu" name="menuOther2">
-     <property name="title">
-      <string>Other</string>
-     </property>
-     <addaction name="actionRemoveSelected"/>
-     <addaction name="separator"/>
-     <addaction name="actionRemoveFailed"/>
-     <addaction name="actionRemovePaused"/>
-    </widget>
     <addaction name="actionRemoveCompleted"/>
-    <addaction name="menuOther1"/>
-    <addaction name="separator"/>
-    <addaction name="menuOther2"/>
+    <addaction name="actionRemoveSelected"/>
+    <addaction name="actionRemoveAll"/>
    </widget>
    <widget class="QMenu" name="menuDownload">
     <property name="title">
@@ -258,21 +240,6 @@
     <string>Remove Completed</string>
    </property>
   </action>
-  <action name="actionRemoveWaiting">
-   <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/remove-waiting.svg</normaloff>:/resources/icons/default/scalable/actions/remove-waiting.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Remove Waiting</string>
-   </property>
-   <property name="toolTip">
-    <string>Remove Waiting</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+Del</string>
-   </property>
-  </action>
   <action name="actionSelectNone">
    <property name="icon">
     <iconset resource="../../../src/resources.qrc">
@@ -316,24 +283,6 @@
    </property>
    <property name="shortcut">
     <string>Del</string>
-   </property>
-  </action>
-  <action name="actionRemoveFailed">
-   <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/remove-stopped.svg</normaloff>:/resources/icons/default/scalable/actions/remove-stopped.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Remove Failed</string>
-   </property>
-  </action>
-  <action name="actionRemovePaused">
-   <property name="icon">
-    <iconset resource="../../../src/resources.qrc">
-     <normaloff>:/resources/icons/default/scalable/actions/play-pause.svg</normaloff>:/resources/icons/default/scalable/actions/play-pause.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Remove Paused</string>
    </property>
   </action>
  </widget>
