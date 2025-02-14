@@ -26,7 +26,7 @@ FakeDownloadManager::~FakeDownloadManager()
 {
 }
 
-AbstractDownloadItem* FakeDownloadManager::createItem(const QUrl &url)
+AbstractDownloadItem* FakeDownloadManager::createFileItem(const QUrl &url)
 {
     FakeDownloadItem *item = new FakeDownloadItem(this);
     item->setSourceUrl(url);
@@ -45,7 +45,7 @@ void FakeDownloadManager::createFakeJobs(int count)
 
 void FakeDownloadManager::appendFakeJob(const QUrl &url)
 {
-    AbstractDownloadItem *item = createItem(url);
+    AbstractDownloadItem *item = createFileItem(url);
 
     QList<AbstractDownloadItem*> items;
     items.append(item);

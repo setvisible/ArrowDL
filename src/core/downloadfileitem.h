@@ -14,8 +14,8 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_DOWNLOAD_ITEM_H
-#define CORE_DOWNLOAD_ITEM_H
+#ifndef CORE_DOWNLOAD_FILE_ITEM_H
+#define CORE_DOWNLOAD_FILE_ITEM_H
 
 #include <Core/AbstractDownloadItem>
 
@@ -30,13 +30,13 @@ class ResourceItem;
 
 // class QNetworkReply;
 
-class DownloadItem : public AbstractDownloadItem
+class DownloadFileItem : public AbstractDownloadItem
 {
     Q_OBJECT
 
 public:
-    DownloadItem(DownloadManager *downloadManager);
-    ~DownloadItem() override;
+    DownloadFileItem(DownloadManager *downloadManager);
+    ~DownloadFileItem() override;
 
     /* Resource to download */
     ResourceItem* resource() const;
@@ -78,4 +78,4 @@ private:
     QString statusToHttp(QNetworkReply::NetworkError error);
 };
 
-#endif // CORE_DOWNLOAD_ITEM_H
+#endif // CORE_DOWNLOAD_FILE_ITEM_H

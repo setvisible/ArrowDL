@@ -18,7 +18,7 @@
 #include "ui_addurlsdialog.h"
 
 #include <Constants>
-#include <Core/DownloadItem>
+#include <Core/DownloadFileItem>
 #include <Core/DownloadManager>
 #include <Core/ResourceItem>
 #include <Core/Settings>
@@ -142,7 +142,7 @@ void AddUrlsDialog::doAccept(bool started)
         if (!simplified.isEmpty()) {
             m_fakeUrlLineEdit->setText(simplified);
             const QString url = ui->urlFormWidget->url();
-            m_downloadManager->append(toList(createItem(url)), started);
+            m_downloadManager->append(toList(createFileItem(url)), started);
         }
     }
     QDialog::accept();
@@ -150,11 +150,11 @@ void AddUrlsDialog::doAccept(bool started)
 
 /******************************************************************************
  ******************************************************************************/
-AbstractDownloadItem* AddUrlsDialog::createItem(const QString &url) const
+AbstractDownloadItem* AddUrlsDialog::createFileItem(const QString &url) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
-    auto item = new DownloadItem(m_downloadManager);
+    auto item = new DownloadFileItem(m_downloadManager);
     item->setResource(resource);
     return item;
 }

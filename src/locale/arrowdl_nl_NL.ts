@@ -760,174 +760,174 @@ Je kunt evt. de reeksomschrijvingen gebruiken om meerdere bestanden tegelijk te 
     </message>
 </context>
 <context>
-    <name>DownloadItem</name>
+    <name>DownloadFileItem</name>
     <message>
-        <location filename="../core/downloaditem.cpp" line="282"/>
+        <location filename="../core/downloadfileitem.cpp" line="282"/>
         <source>No Error</source>
         <translation>Geen foutmelding</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="285"/>
+        <location filename="../core/downloadfileitem.cpp" line="285"/>
         <source>3xx Redirect connection refused</source>
         <translation>3xx: doorverwijzing geweigerd</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="286"/>
+        <location filename="../core/downloadfileitem.cpp" line="286"/>
         <source>3xx Redirect remote host closed</source>
         <translation>3xx: doorverwijzing externe host gesloten</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="287"/>
+        <location filename="../core/downloadfileitem.cpp" line="287"/>
         <source>3xx Redirect host not found</source>
         <translation>3xx: doorverwijzingshost niet gevonden</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="288"/>
+        <location filename="../core/downloadfileitem.cpp" line="288"/>
         <source>3xx Redirect timeout</source>
         <translation>3xx: doorverwijzingstime-out opgetreden</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="289"/>
+        <location filename="../core/downloadfileitem.cpp" line="289"/>
         <source>3xx Redirect operation canceled</source>
         <translation>3xx: doorverwijzingshandeling afgebroken</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="290"/>
+        <location filename="../core/downloadfileitem.cpp" line="290"/>
         <source>3xx Redirect SSL handshake failed</source>
         <translation>3xx: doorverwijzing ssl-verbinding mislukt</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="291"/>
+        <location filename="../core/downloadfileitem.cpp" line="291"/>
         <source>3xx Redirect temporary network failure</source>
         <translation>3xx: tijdelijke netwerkfout tijdens doorverwijzing</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="292"/>
+        <location filename="../core/downloadfileitem.cpp" line="292"/>
         <source>3xx Redirect network session failed</source>
         <translation>3xx: doorverwijzingsnetwerksessie mislukt</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="293"/>
+        <location filename="../core/downloadfileitem.cpp" line="293"/>
         <source>3xx Redirect background request not allowed</source>
         <translation>3xx: doorverwijzingsachtergrondverzoek niet toegestaan</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="294"/>
+        <location filename="../core/downloadfileitem.cpp" line="294"/>
         <source>3xx Too many redirects</source>
         <translation>3xx: te veel doorverwijzingen</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="295"/>
+        <location filename="../core/downloadfileitem.cpp" line="295"/>
         <source>3xx Insecure redirect</source>
         <translation>3xx: onbeveiligde doorverwijzing</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="296"/>
+        <location filename="../core/downloadfileitem.cpp" line="296"/>
         <source>3xx Unknown redirect error</source>
         <translation>3xx: onbekende doorverwijzingsfout</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="299"/>
+        <location filename="../core/downloadfileitem.cpp" line="299"/>
         <source>5xx Proxy connection refused</source>
         <translation>5xx: proxyverbinding geweigerd</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="300"/>
+        <location filename="../core/downloadfileitem.cpp" line="300"/>
         <source>5xx Proxy connection closed</source>
         <translation>5xx: proxyverbinding gesloten</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="301"/>
+        <location filename="../core/downloadfileitem.cpp" line="301"/>
         <source>5xx Proxy not found</source>
         <translation>5xx: proxy niet aangetroffen</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="302"/>
+        <location filename="../core/downloadfileitem.cpp" line="302"/>
         <source>504 Proxy timeout error</source>
         <translation>504: proxy-time-outfout</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="303"/>
+        <location filename="../core/downloadfileitem.cpp" line="303"/>
         <source>407 Proxy authentication required</source>
         <translation>407: proxy-authenticatie vereist</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="304"/>
+        <location filename="../core/downloadfileitem.cpp" line="304"/>
         <source>5xx Unknown proxy error</source>
         <translation>5xx: onbekende proxyfout</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="307"/>
+        <location filename="../core/downloadfileitem.cpp" line="307"/>
         <source>403 Access denied</source>
         <translation>403: toegang geweigerd</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="308"/>
+        <location filename="../core/downloadfileitem.cpp" line="308"/>
         <source>405 Method not allowed</source>
         <translation>405: methode niet toegestaan</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="309"/>
+        <location filename="../core/downloadfileitem.cpp" line="309"/>
         <source>404 Not found</source>
         <translation>404: niet gevonden</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="310"/>
+        <location filename="../core/downloadfileitem.cpp" line="310"/>
         <source>401 Authorization required</source>
         <translation>401: authenticatie vereist</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="311"/>
+        <location filename="../core/downloadfileitem.cpp" line="311"/>
         <source>4xx Resend error</source>
         <translation>4xx: verstuurfout</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="312"/>
+        <location filename="../core/downloadfileitem.cpp" line="312"/>
         <source>409 Conflict</source>
         <translation>409: conflict</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="313"/>
+        <location filename="../core/downloadfileitem.cpp" line="313"/>
         <source>410 Content no longer available</source>
         <translation>410: inhoud niet meer beschikbaar</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="314"/>
+        <location filename="../core/downloadfileitem.cpp" line="314"/>
         <source>4xx Unknown content error</source>
         <translation>4xx: onbekende inhoudsfout</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="317"/>
+        <location filename="../core/downloadfileitem.cpp" line="317"/>
         <source>4xx Unknown protocol error</source>
         <translation>4xx: onbekende protocolfout</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="318"/>
+        <location filename="../core/downloadfileitem.cpp" line="318"/>
         <source>400 Bad request</source>
         <translation>400: onjuist verzoek</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="319"/>
+        <location filename="../core/downloadfileitem.cpp" line="319"/>
         <source>4xx Protocol failure</source>
         <translation>4xx: protocolfout</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="322"/>
+        <location filename="../core/downloadfileitem.cpp" line="322"/>
         <source>500 Internal server error</source>
         <translation>500: interne serverfout</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="323"/>
+        <location filename="../core/downloadfileitem.cpp" line="323"/>
         <source>501 Server does not support this functionality</source>
         <translation>501: de server heeft geen ondersteuning voor deze functie</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="324"/>
+        <location filename="../core/downloadfileitem.cpp" line="324"/>
         <source>503 Service unavailable</source>
         <translation>503: dienst niet beschikbaar</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="325"/>
+        <location filename="../core/downloadfileitem.cpp" line="325"/>
         <source>5xx Unknown server error</source>
         <translation>5xx: onbekende serverfout</translation>
     </message>

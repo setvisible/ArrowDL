@@ -52,7 +52,7 @@ private:
 
     void doAccept(bool started);
 
-    AbstractDownloadItem* createItem(const QString &url) const;
+    AbstractDownloadItem* createTorrentItem(const QString &url) const;
     static inline QList<AbstractDownloadItem*> toList(AbstractDownloadItem *item);
 
     void readUiSettings();

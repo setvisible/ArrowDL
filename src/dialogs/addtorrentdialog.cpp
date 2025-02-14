@@ -18,7 +18,7 @@
 #include "ui_addtorrentdialog.h"
 
 #include <Constants>
-#include <Core/DownloadItem>
+#include <Core/DownloadFileItem>
 #include <Core/DownloadManager>
 #include <Core/DownloadTorrentItem>
 #include <Core/ResourceItem>
@@ -142,13 +142,13 @@ void AddTorrentDialog::onChanged(QString)
 void AddTorrentDialog::doAccept(bool started)
 {
     const QString url = ui->urlFormWidget->url();
-    m_downloadManager->append(toList(createItem(url)), started);
+    m_downloadManager->append(toList(createTorrentItem(url)), started);
     QDialog::accept();
 }
 
 /******************************************************************************
  ******************************************************************************/
-AbstractDownloadItem* AddTorrentDialog::createItem(const QString &url) const
+AbstractDownloadItem* AddTorrentDialog::createTorrentItem(const QString &url) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);

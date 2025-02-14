@@ -20,7 +20,7 @@
 #include <QtCore/QList>
 #include <QtCore/QString>
 
-class DownloadItem;
+class DownloadFileItem;
 class DownloadManager;
 
 class Session
@@ -28,8 +28,8 @@ class Session
 public:
     Session() = default;
 
-    static void read(QList<DownloadItem *> &downloadItems, const QString &filename, DownloadManager *downloadManager);
-    static void write(const QList<DownloadItem *> &downloadItems, const QString &filename);
+    static void read(QList<DownloadFileItem *> &downloadItems, const QString &filename, DownloadManager *downloadManager);
+    static void write(const QList<DownloadFileItem *> &downloadItems, const QString &filename);
 
 };
 

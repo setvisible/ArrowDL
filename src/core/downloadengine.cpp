@@ -467,13 +467,11 @@ void DownloadEngine::moveCurrentBottom()
  * That makes the unit tests of this class easier, allowing dummy items.
  * \remark Optional
  */
-AbstractDownloadItem* DownloadEngine::createItem(const QUrl &/*url*/)
+AbstractDownloadItem* DownloadEngine::createFileItem(const QUrl &/*url*/)
 {
     return nullptr;
 }
-/*!
- * \sa DownloadEngine::createItem()
- */
+
 AbstractDownloadItem* DownloadEngine::createTorrentItem(const QUrl &/*url*/)
 {
     return nullptr;

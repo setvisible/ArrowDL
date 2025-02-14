@@ -18,7 +18,7 @@
 #include "ui_editiondialog.h"
 
 #include <Constants>
-#include <Core/DownloadItem>
+#include <Core/DownloadFileItem>
 #include <Core/AbstractDownloadItem>
 #include <Core/ResourceItem>
 #include <Core/Theme>
@@ -52,7 +52,7 @@ EditionDialog::EditionDialog(const QList<AbstractDownloadItem*> &items, QWidget 
 
     ui->editor->clear();
     for (auto item : items) {
-        auto downloadItem = dynamic_cast<const DownloadItem*>(item);
+        auto downloadItem = dynamic_cast<const DownloadFileItem*>(item);
         if (downloadItem) {
             auto resource = downloadItem->resource();
             ui->editor->append(resource->url());
@@ -114,7 +114,7 @@ void EditionDialog::applyChanges()
     for (auto index = 0; index < itemCount; ++index) {
 
         auto item = m_items.at(index);
-        auto downloadItem = dynamic_cast<DownloadItem*>(item);
+        auto downloadItem = dynamic_cast<DownloadFileItem*>(item);
         auto resource = downloadItem->resource();
         auto oldUrl = resource->url();
 

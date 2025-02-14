@@ -60,8 +60,8 @@ private:
     void doAccept(bool started);
     QMessageBox::StandardButton askBatchDownloading(QList<AbstractDownloadItem*> items);
 
-    QList<AbstractDownloadItem*> createItems(const QUrl &inputUrl) const;
-    AbstractDownloadItem* createItem(const QString &url) const;
+    QList<AbstractDownloadItem*> createFileItems(const QUrl &inputUrl) const;
+    AbstractDownloadItem* createFileItem(const QString &url) const;
     static inline QList<AbstractDownloadItem*> toList(AbstractDownloadItem *item);
 
     inline QString insertName(const QString &name) const;

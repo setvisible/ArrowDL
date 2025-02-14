@@ -15,7 +15,7 @@
  */
 
 #include <Core/DownloadManager>
-#include <Core/DownloadItem>
+#include <Core/DownloadFileItem>
 #include <Core/Mask>
 #include <Core/ResourceItem>
 
@@ -53,13 +53,14 @@ private slots:
 private:
     QTemporaryDir m_tempDir;
 
-    inline DownloadItem *createDummyJob(QSharedPointer<DownloadManager> downloadManager,
-                                        const QString url, const QString mask);
+    inline DownloadFileItem *createDummyJob(
+        QSharedPointer<DownloadManager> downloadManager,
+        const QString url, const QString mask);
 };
 
 /******************************************************************************
  ******************************************************************************/
-DownloadItem *tst_DownloadManager::createDummyJob(
+DownloadFileItem *tst_DownloadManager::createDummyJob(
         QSharedPointer<DownloadManager> downloadManager,
         const QString url, const QString mask)
 {
@@ -69,7 +70,7 @@ DownloadItem *tst_DownloadManager::createDummyJob(
     resource->setUrl(url);
     resource->setDestination(m_tempDir.path());
     resource->setMask(mask);
-    DownloadItem *item = new DownloadItem(downloadManager.data());
+    DownloadFileItem *item = new DownloadFileItem(downloadManager.data());
     item->setResource(resource);
     return item;
 }
@@ -94,7 +95,7 @@ DownloadItem *tst_DownloadManager::createDummyJob(
 //     QString address = "http://www.example.com/index.html"; // 'http' instead of 'https'
 //
 //     QList<AbstractDownloadItem*> items;
-//     DownloadItem *item = createDummyJob(target, address, "*name*.png");
+//     DownloadFileItem *item = createDummyJob(target, address, "*name*.png");
 //     items.append(item);
 //
 //     // When
@@ -108,7 +109,7 @@ DownloadItem *tst_DownloadManager::createDummyJob(
 //
 //     QCOMPARE(spyJobFinished.count(), 1);
 //
-//     QCOMPARE(item->state(), DownloadItem::Completed);
+//     QCOMPARE(item->state(), DownloadFileItem::Completed);
 //     QCOMPARE(item->bytesReceived(), qsizetype(1256));
 //     QCOMPARE(item->bytesTotal(), qsizetype(1256));
 //

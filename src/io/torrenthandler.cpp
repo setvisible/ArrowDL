@@ -58,7 +58,7 @@ bool TorrentHandler::read(DownloadEngine *engine)
     }
     AbstractDownloadItem *item = engine->createTorrentItem(url);
     if (!item) {
-        qWarning("DownloadEngine::createItem() not overridden."
+        qWarning("DownloadEngine::createFileItem() not overridden."
                  " It still returns null pointer!");
         return false;
     }

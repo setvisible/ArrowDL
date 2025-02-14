@@ -17,7 +17,7 @@
 #ifndef CORE_DOWNLOAD_STREAM_ITEM_H
 #define CORE_DOWNLOAD_STREAM_ITEM_H
 
-#include <Core/DownloadItem>
+#include <Core/DownloadFileItem>
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
@@ -25,7 +25,7 @@
 class DownloadManager;
 class Stream;
 
-class DownloadStreamItem : public DownloadItem
+class DownloadStreamItem : public DownloadFileItem
 {
     Q_OBJECT
 

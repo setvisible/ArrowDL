@@ -60,9 +60,9 @@ bool TextHandler::read(DownloadEngine *engine)
             continue;
         }
         const QUrl url(line);
-        AbstractDownloadItem *item = engine->createItem(url);
+        AbstractDownloadItem *item = engine->createFileItem(url);
         if (!item) {
-            qWarning("DownloadEngine::createItem() not overridden. It still returns null pointer!");
+            qWarning("DownloadEngine::createFileItem() not overridden. It still returns null pointer!");
             return false;
         }
         items.append(item);

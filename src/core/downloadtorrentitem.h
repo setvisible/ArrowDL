@@ -17,7 +17,7 @@
 #ifndef CORE_DOWNLOAD_TORRENT_ITEM_H
 #define CORE_DOWNLOAD_TORRENT_ITEM_H
 
-#include <Core/DownloadItem>
+#include <Core/DownloadFileItem>
 #include <Core/Torrent>
 
 #include <QtCore/QObject>
@@ -26,7 +26,7 @@
 
 class DownloadManager;
 
-class DownloadTorrentItem : public DownloadItem
+class DownloadTorrentItem : public DownloadFileItem
 {
     Q_OBJECT
 

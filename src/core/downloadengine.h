@@ -85,7 +85,7 @@ public:
     void movetoTrash(const QList<AbstractDownloadItem *> &items);
 
     /* Utility */
-    virtual AbstractDownloadItem* createItem(const QUrl &url);
+    virtual AbstractDownloadItem* createFileItem(const QUrl &url);
     virtual AbstractDownloadItem* createTorrentItem(const QUrl &url);
 
 signals:

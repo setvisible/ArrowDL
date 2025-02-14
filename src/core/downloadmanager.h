@@ -46,7 +46,7 @@ public:
     NetworkManager* networkManager() const;
 
     /* Utility */
-    AbstractDownloadItem* createItem(const QUrl &url) override;
+    AbstractDownloadItem* createFileItem(const QUrl &url) override;
     AbstractDownloadItem* createTorrentItem(const QUrl &url) override;
 
 private slots:

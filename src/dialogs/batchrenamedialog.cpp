@@ -18,7 +18,7 @@
 #include "ui_batchrenamedialog.h"
 
 #include <Constants>
-#include <Core/DownloadItem>
+#include <Core/DownloadFileItem>
 #include <Core/AbstractDownloadItem>
 #include <Core/ResourceItem>
 #include <Core/Theme>
@@ -96,7 +96,7 @@ void BatchRenameDialog::accept()
 void BatchRenameDialog::renameToDefault()
 {
     for (auto item : m_items) {
-        auto downloadItem = dynamic_cast<DownloadItem*>(item);
+        auto downloadItem = dynamic_cast<DownloadFileItem*>(item);
         rename(downloadItem, QString());
     }
 }
@@ -118,14 +118,14 @@ void BatchRenameDialog::renameToEnumeration()
 
     auto i = from;
     for (auto item : m_items) {
-        auto downloadItem = dynamic_cast<DownloadItem*>(item);
+        auto downloadItem = dynamic_cast<DownloadFileItem*>(item);
         auto newName = QString("%0").arg(QString::number(i), digits, QLatin1Char('0'));
         rename(downloadItem, newName);
         i += by;
     }
 }
 
-void BatchRenameDialog::rename(DownloadItem *downloadItem, const QString &newName)
+void BatchRenameDialog::rename(DownloadFileItem *downloadItem, const QString &newName)
 {
     if (!downloadItem) {
         return;

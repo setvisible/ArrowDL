@@ -15,7 +15,7 @@ set(MY_TEST_SOURCES
     ${CMAKE_SOURCE_DIR}/src/core/abstractdownloaditem.cpp
     ${CMAKE_SOURCE_DIR}/src/core/abstractsettings.cpp
     ${CMAKE_SOURCE_DIR}/src/core/downloadengine.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/downloaditem.cpp
+    ${CMAKE_SOURCE_DIR}/src/core/downloadfileitem.cpp
     ${CMAKE_SOURCE_DIR}/src/core/downloadmanager.cpp
     ${CMAKE_SOURCE_DIR}/src/core/downloadstreamitem.cpp
     ${CMAKE_SOURCE_DIR}/src/core/downloadtorrentitem.cpp
@@ -40,7 +40,7 @@ set(MY_TEST_HEADERS
     ${CMAKE_SOURCE_DIR}/src/core/abstractdownloaditem.h
     ${CMAKE_SOURCE_DIR}/src/core/abstractsettings.h
     ${CMAKE_SOURCE_DIR}/src/core/downloadengine.h
-    ${CMAKE_SOURCE_DIR}/src/core/downloaditem.h
+    ${CMAKE_SOURCE_DIR}/src/core/downloadfileitem.h
     ${CMAKE_SOURCE_DIR}/src/core/downloadmanager.h
     ${CMAKE_SOURCE_DIR}/src/core/downloadstreamitem.h
     ${CMAKE_SOURCE_DIR}/src/core/downloadtorrentitem.h

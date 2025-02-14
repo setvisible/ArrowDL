@@ -64,7 +64,7 @@ bool JsonHandler::read(DownloadEngine *engine)
         QJsonObject jobObject = jobsArray[i].toObject();
 
         QUrl url = QUrl(jobObject["url"].toString());
-        AbstractDownloadItem *item = engine->createItem(url);
+        AbstractDownloadItem *item = engine->createFileItem(url);
         items.append(item);
     }
 

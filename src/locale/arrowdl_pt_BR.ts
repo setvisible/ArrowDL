@@ -760,174 +760,174 @@ Você também pode usar indicadores de lote para baixar vários arquivos de uma 
     </message>
 </context>
 <context>
-    <name>DownloadItem</name>
+    <name>DownloadFileItem</name>
     <message>
-        <location filename="../core/downloaditem.cpp" line="282"/>
+        <location filename="../core/downloadfileitem.cpp" line="282"/>
         <source>No Error</source>
         <translation>Sem erro</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="285"/>
+        <location filename="../core/downloadfileitem.cpp" line="285"/>
         <source>3xx Redirect connection refused</source>
         <translation>3xx Conexão de redirecionamento recusada</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="286"/>
+        <location filename="../core/downloadfileitem.cpp" line="286"/>
         <source>3xx Redirect remote host closed</source>
         <translation>3xx Conexão ao servidor de redireciomanento fechada</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="287"/>
+        <location filename="../core/downloadfileitem.cpp" line="287"/>
         <source>3xx Redirect host not found</source>
         <translation>3xx Servidor de redirecionamento não encontrado</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="288"/>
+        <location filename="../core/downloadfileitem.cpp" line="288"/>
         <source>3xx Redirect timeout</source>
         <translation>3xx Tempo de redirecionamento expirado</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="289"/>
+        <location filename="../core/downloadfileitem.cpp" line="289"/>
         <source>3xx Redirect operation canceled</source>
         <translation>3xx Operação de redirecionamento cancelada</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="290"/>
+        <location filename="../core/downloadfileitem.cpp" line="290"/>
         <source>3xx Redirect SSL handshake failed</source>
         <translation>3xx Falha de comunicação handshake SSL com o servidor de redirecionamento</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="291"/>
+        <location filename="../core/downloadfileitem.cpp" line="291"/>
         <source>3xx Redirect temporary network failure</source>
         <translation>3xx Servidor de redirecionamento temporariamente indisponível</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="292"/>
+        <location filename="../core/downloadfileitem.cpp" line="292"/>
         <source>3xx Redirect network session failed</source>
         <translation>3xx Falha ao redirecionar sessão de rede</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="293"/>
+        <location filename="../core/downloadfileitem.cpp" line="293"/>
         <source>3xx Redirect background request not allowed</source>
         <translation>3xx Solicitação de redirecionamento em segundo plano não permitida</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="294"/>
+        <location filename="../core/downloadfileitem.cpp" line="294"/>
         <source>3xx Too many redirects</source>
         <translation>3xx Muitos redirecionamentos</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="295"/>
+        <location filename="../core/downloadfileitem.cpp" line="295"/>
         <source>3xx Insecure redirect</source>
         <translation>3xx Redirecionamento inseguro</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="296"/>
+        <location filename="../core/downloadfileitem.cpp" line="296"/>
         <source>3xx Unknown redirect error</source>
         <translation>3xx Erro de redirecionamento desconhecido</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="299"/>
+        <location filename="../core/downloadfileitem.cpp" line="299"/>
         <source>5xx Proxy connection refused</source>
         <translation>5xx Conexão proxy recusada</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="300"/>
+        <location filename="../core/downloadfileitem.cpp" line="300"/>
         <source>5xx Proxy connection closed</source>
         <translation>5xx Conexão proxy fechada</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="301"/>
+        <location filename="../core/downloadfileitem.cpp" line="301"/>
         <source>5xx Proxy not found</source>
         <translation>5xx Proxy não encontrado</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="302"/>
+        <location filename="../core/downloadfileitem.cpp" line="302"/>
         <source>504 Proxy timeout error</source>
         <translation>504 O tempo de conexão do proxy expirou</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="303"/>
+        <location filename="../core/downloadfileitem.cpp" line="303"/>
         <source>407 Proxy authentication required</source>
         <translation>407 Proxy requer autenticação</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="304"/>
+        <location filename="../core/downloadfileitem.cpp" line="304"/>
         <source>5xx Unknown proxy error</source>
         <translation>5xx Erro de proxy desconhecido</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="307"/>
+        <location filename="../core/downloadfileitem.cpp" line="307"/>
         <source>403 Access denied</source>
         <translation>403 Acesso ao servidor negado</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="308"/>
+        <location filename="../core/downloadfileitem.cpp" line="308"/>
         <source>405 Method not allowed</source>
         <translation>405 Método de solicitação não permitida</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="309"/>
+        <location filename="../core/downloadfileitem.cpp" line="309"/>
         <source>404 Not found</source>
         <translation>404 Conteúdo não encontrado</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="310"/>
+        <location filename="../core/downloadfileitem.cpp" line="310"/>
         <source>401 Authorization required</source>
         <translation>401 Autenticação necessária</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="311"/>
+        <location filename="../core/downloadfileitem.cpp" line="311"/>
         <source>4xx Resend error</source>
         <translation>4xx Erro ao retornar solicitação</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="312"/>
+        <location filename="../core/downloadfileitem.cpp" line="312"/>
         <source>409 Conflict</source>
         <translation>409 Conflito</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="313"/>
+        <location filename="../core/downloadfileitem.cpp" line="313"/>
         <source>410 Content no longer available</source>
         <translation>410 O conteúdo não está mais disponível</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="314"/>
+        <location filename="../core/downloadfileitem.cpp" line="314"/>
         <source>4xx Unknown content error</source>
         <translation>4xx Erro de recurso desconhecido</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="317"/>
+        <location filename="../core/downloadfileitem.cpp" line="317"/>
         <source>4xx Unknown protocol error</source>
         <translation>4xx Erro de protocolo desconhecido</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="318"/>
+        <location filename="../core/downloadfileitem.cpp" line="318"/>
         <source>400 Bad request</source>
         <translation>400x Sintaxe de requisição incorreta</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="319"/>
+        <location filename="../core/downloadfileitem.cpp" line="319"/>
         <source>4xx Protocol failure</source>
         <translation>4xx Falha de protocolo</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="322"/>
+        <location filename="../core/downloadfileitem.cpp" line="322"/>
         <source>500 Internal server error</source>
         <translation>500 Erro interno do servidor</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="323"/>
+        <location filename="../core/downloadfileitem.cpp" line="323"/>
         <source>501 Server does not support this functionality</source>
         <translation>501 Recurso solicitado não suportado pelo servidor</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="324"/>
+        <location filename="../core/downloadfileitem.cpp" line="324"/>
         <source>503 Service unavailable</source>
         <translation>503 Serviço indisponível</translation>
     </message>
     <message>
-        <location filename="../core/downloaditem.cpp" line="325"/>
+        <location filename="../core/downloadfileitem.cpp" line="325"/>
         <source>5xx Unknown server error</source>
         <translation>5xx Erro de servidor desconhecido</translation>
     </message>

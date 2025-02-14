@@ -59,8 +59,8 @@ private:
 
     void doAccept(bool started);
 
-    QList<AbstractDownloadItem*> createItems() const;
-    AbstractDownloadItem* createItem(const StreamObject &streamObject) const;
+    QList<AbstractDownloadItem*> createStreamItems() const;
+    AbstractDownloadItem* createStreamItem(const StreamObject &streamObject) const;
 
     void setGuiEnabled(bool enabled);
 

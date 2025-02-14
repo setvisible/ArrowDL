@@ -18,7 +18,7 @@
 #include "ui_addbatchdialog.h"
 
 #include <Constants>
-#include <Core/DownloadItem>
+#include <Core/DownloadFileItem>
 #include <Core/DownloadManager>
 #include <Core/Mask>
 #include <Core/Regex>
@@ -156,7 +156,7 @@ void AddBatchDialog::quickDownload(const QUrl &url, DownloadManager *downloadMan
     resource->setMask(mask);
     resource->setCheckSum(QString());
 
-    auto item = new DownloadItem(downloadManager);
+    auto item = new DownloadFileItem(downloadManager);
     item->setResource(resource);
 
     downloadManager->append(toList(item), true);
@@ -261,7 +261,7 @@ void AddBatchDialog::doAccept(bool started)
     const QString adjusted = url.adjusted(QUrl::StripTrailingSlash).toString();
 
     if (Regex::hasBatchDescriptors(adjusted)) {
-        QList<AbstractDownloadItem*> items = createItems(url);
+        QList<AbstractDownloadItem*> items = createFileItems(url);
 
         QMessageBox::StandardButton answer = askBatchDownloading(items);
 
@@ -270,7 +270,7 @@ void AddBatchDialog::doAccept(bool started)
             QDialog::accept();
 
         } else if (answer == QMessageBox::Apply) {
-            m_downloadManager->append(toList(createItem(adjusted)), started);
+            m_downloadManager->append(toList(createFileItem(adjusted)), started);
             QDialog::accept();
 
         } else {
@@ -278,7 +278,7 @@ void AddBatchDialog::doAccept(bool started)
         }
 
     } else {
-        m_downloadManager->append(toList(createItem(adjusted)), started);
+        m_downloadManager->append(toList(createFileItem(adjusted)), started);
         QDialog::accept();
     }
 }
@@ -289,8 +289,8 @@ QMessageBox::StandardButton AddBatchDialog::askBatchDownloading(QList<AbstractDo
 {
     if (!m_settings || m_settings->isConfirmBatchDownloadEnabled()) {
 
-        auto firstItem = dynamic_cast<DownloadItem*>(items.first());
-        auto lastItem = dynamic_cast<DownloadItem*>(items.last());
+        auto firstItem = dynamic_cast<DownloadFileItem*>(items.first());
+        auto lastItem = dynamic_cast<DownloadFileItem*>(items.last());
 
         QMessageBox msgBox(this);
         msgBox.setModal(true);
@@ -336,22 +336,22 @@ QMessageBox::StandardButton AddBatchDialog::askBatchDownloading(QList<AbstractDo
 
 /******************************************************************************
  ******************************************************************************/
-QList<AbstractDownloadItem*> AddBatchDialog::createItems(const QUrl &inputUrl) const
+QList<AbstractDownloadItem*> AddBatchDialog::createFileItems(const QUrl &inputUrl) const
 {
     QList<AbstractDownloadItem*> items;
     const QStringList urls = Regex::interpret(inputUrl);
     for (auto url : urls) {
-        items << createItem(url);
+        items << createFileItem(url);
     }
     return items;
 }
 
-AbstractDownloadItem* AddBatchDialog::createItem(const QString &url) const
+AbstractDownloadItem* AddBatchDialog::createFileItem(const QString &url) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
 
-    auto item = new DownloadItem(m_downloadManager);
+    auto item = new DownloadFileItem(m_downloadManager);
     item->setResource(resource);
     return item;
 }

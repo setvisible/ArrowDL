@@ -24,7 +24,7 @@
 /******************************************************************************
  ******************************************************************************/
 DownloadStreamItem::DownloadStreamItem(DownloadManager *downloadManager)
-    : DownloadItem(downloadManager)
+    : DownloadFileItem(downloadManager)
     , m_stream(nullptr)
 {
 }

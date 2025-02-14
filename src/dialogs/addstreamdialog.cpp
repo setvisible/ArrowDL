@@ -18,7 +18,7 @@
 #include "ui_addstreamdialog.h"
 
 #include <Constants>
-#include <Core/DownloadItem>
+#include <Core/DownloadFileItem>
 #include <Core/DownloadManager>
 #include <Core/DownloadStreamItem>
 #include <Core/ResourceItem>
@@ -188,22 +188,22 @@ void AddStreamDialog::onChanged(QString)
  ******************************************************************************/
 void AddStreamDialog::doAccept(bool started)
 {
-    m_downloadManager->append(createItems(), started);
+    m_downloadManager->append(createStreamItems(), started);
     QDialog::accept();
 }
 
 /******************************************************************************
  ******************************************************************************/
-QList<AbstractDownloadItem*> AddStreamDialog::createItems() const
+QList<AbstractDownloadItem*> AddStreamDialog::createStreamItems() const
 {
     QList<AbstractDownloadItem*> items;
     for (auto item : ui->streamListWidget->selection()) {
-        items << createItem(item);
+        items << createStreamItem(item);
     }
     return items;
 }
 
-AbstractDownloadItem* AddStreamDialog::createItem(const StreamObject &streamObject) const
+AbstractDownloadItem* AddStreamDialog::createStreamItem(const StreamObject &streamObject) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
 

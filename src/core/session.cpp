@@ -136,7 +136,7 @@ static inline QJsonObject writeStreamConfig(const StreamObject::Config &config)
     return json;
 }
 
-static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *downloadManager)
+static inline DownloadFileItem* readJob(const QJsonObject &json, DownloadManager *downloadManager)
 {
     auto resourceItem = new ResourceItem();
 
@@ -174,7 +174,7 @@ static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *do
 
     resourceItem->setTorrentPreferredFilePriorities(json["torrentPreferredFilePriorities"].toString());
 
-    DownloadItem *item;
+    DownloadFileItem *item;
     switch (resourceItem->type()) {
     case ResourceItem::Type::Stream:
         item = new DownloadStreamItem(downloadManager);
@@ -183,7 +183,7 @@ static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *do
         item = new DownloadTorrentItem(downloadManager);
         break;
     default:
-        item = new DownloadItem(downloadManager);
+        item = new DownloadFileItem(downloadManager);
         break;
     }
     item->setResource(resourceItem);
@@ -197,7 +197,7 @@ static inline DownloadItem* readJob(const QJsonObject &json, DownloadManager *do
     return item;
 }
 
-static inline void writeJob(const DownloadItem *item, QJsonObject &json)
+static inline void writeJob(const DownloadFileItem *item, QJsonObject &json)
 {
     json["type"] = ResourceItem::toString(item->resource()->type());
     json["url"] = item->resource()->url();
@@ -226,7 +226,7 @@ static inline void writeJob(const DownloadItem *item, QJsonObject &json)
 
 /******************************************************************************
  ******************************************************************************/
-static inline void readList(QList<DownloadItem *> &downloadItems, const QJsonObject &json, DownloadManager *downloadManager)
+static inline void readList(QList<DownloadFileItem *> &downloadItems, const QJsonObject &json, DownloadManager *downloadManager)
 {
     QJsonArray jobs = json["jobs"].toArray();
     for (auto job : jobs) {
@@ -236,7 +236,7 @@ static inline void readList(QList<DownloadItem *> &downloadItems, const QJsonObj
     }
 }
 
-static inline void writeList(const QList<DownloadItem *> &downloadItems, QJsonObject &json)
+static inline void writeList(const QList<DownloadFileItem *> &downloadItems, QJsonObject &json)
 {
     QJsonArray jobs;
     for (auto item : downloadItems) {
@@ -250,7 +250,7 @@ static inline void writeList(const QList<DownloadItem *> &downloadItems, QJsonOb
 
 /******************************************************************************
  ******************************************************************************/
-void Session::read(QList<DownloadItem *> &downloadItems, const QString &filename, DownloadManager *downloadManager)
+void Session::read(QList<DownloadFileItem *> &downloadItems, const QString &filename, DownloadManager *downloadManager)
 {
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -269,7 +269,7 @@ void Session::read(QList<DownloadItem *> &downloadItems, const QString &filename
     readList(downloadItems, loadDoc.object(), downloadManager);
 }
 
-void Session::write(const QList<DownloadItem *> &downloadItems, const QString &filename)
+void Session::write(const QList<DownloadFileItem *> &downloadItems, const QString &filename)
 {
     QFile file(filename);
 

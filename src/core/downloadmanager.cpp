@@ -17,7 +17,7 @@
 #include "downloadmanager.h"
 
 #include <Constants>
-#include <Core/DownloadItem>
+#include <Core/DownloadFileItem>
 #include <Core/DownloadTorrentItem>
 #include <Core/NetworkManager>
 #include <Core/ResourceItem>
@@ -100,7 +100,7 @@ void DownloadManager::onSettingsChanged()
 void DownloadManager::loadQueue()
 {
     if (!m_queueFile.isEmpty()) {
-        QList<DownloadItem*> downloadItems;
+        QList<DownloadFileItem*> downloadItems;
         Session::read(downloadItems, m_queueFile, this);
 
         QList<AbstractDownloadItem*> abstractItems;
@@ -116,7 +116,7 @@ void DownloadManager::loadQueue()
 void DownloadManager::saveQueue()
 {
     if (!m_queueFile.isEmpty()) {
-        QList<DownloadItem *> items;
+        QList<DownloadFileItem *> items;
 
         auto skipCompleted = m_settings->isRemoveCompletedEnabled();
         auto skipCanceled = m_settings->isRemoveCanceledEnabled();
@@ -124,7 +124,7 @@ void DownloadManager::saveQueue()
 
         auto abstractItems = downloadItems();
         for (auto abstractItem : abstractItems) {
-            auto item = dynamic_cast<DownloadItem*>(abstractItem);
+            auto item = dynamic_cast<DownloadFileItem*>(abstractItem);
             if (item) {
                 switch (item->state()) {
                 case AbstractDownloadItem::Idle:
@@ -188,10 +188,10 @@ NetworkManager* DownloadManager::networkManager() const
 
 /******************************************************************************
  ******************************************************************************/
-AbstractDownloadItem* DownloadManager::createItem(const QUrl &url)
+AbstractDownloadItem* DownloadManager::createFileItem(const QUrl &url)
 {
     ResourceItem* resource = createResourceItem(url);
-    auto item = new DownloadItem(this);
+    auto item = new DownloadFileItem(this);
     item->setResource(resource);
     return item;
 }

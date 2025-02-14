@@ -25,7 +25,7 @@
 
 
 DownloadTorrentItem::DownloadTorrentItem(DownloadManager *downloadManager)
-    : DownloadItem(downloadManager)
+    : DownloadFileItem(downloadManager)
     , m_torrent(new Torrent(this))
 {
     connect(m_torrent, &Torrent::changed, this, &DownloadTorrentItem::onTorrentChanged);
@@ -51,7 +51,7 @@ void DownloadTorrentItem::setResource(ResourceItem *resource)
      */
     resource->setMask(QLatin1String("*name*.*ext*"));
 
-    DownloadItem::setResource(resource);
+    DownloadFileItem::setResource(resource);
 
     m_torrent->setLocalFullFileName(this->localFullFileName());
     m_torrent->setLocalFilePath(this->localFilePath());

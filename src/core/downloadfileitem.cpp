@@ -14,7 +14,7 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "downloaditem.h"
+#include "downloadfileitem.h"
 
 #include <Core/DownloadManager>
 #include <Core/File>
@@ -30,13 +30,13 @@
 using namespace Qt::Literals::StringLiterals;
 
 
-DownloadItem::DownloadItem(DownloadManager *downloadManager) : AbstractDownloadItem(downloadManager)
+DownloadFileItem::DownloadFileItem(DownloadManager *downloadManager) : AbstractDownloadItem(downloadManager)
 {
     m_downloadManager = downloadManager;
     m_file = new File(this);
 }
 
-DownloadItem::~DownloadItem()
+DownloadFileItem::~DownloadFileItem()
 {
     if (m_file) {
         m_file->deleteLater();
@@ -52,7 +52,7 @@ DownloadItem::~DownloadItem()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadItem::resume()
+void DownloadFileItem::resume()
 {
     logInfo(QString("Resume '%0' (destination: '%1').").arg(m_resource->url(), localFullFileName()));
 
@@ -91,14 +91,14 @@ void DownloadItem::resume()
     }
 }
 
-void DownloadItem::pause()
+void DownloadFileItem::pause()
 {
     /// \todo implement?
     logInfo(QString("Pause '%0'.").arg(m_resource->url()));
     AbstractDownloadItem::pause();
 }
 
-void DownloadItem::stop()
+void DownloadFileItem::stop()
 {
     logInfo(QString("Stop '%0'.").arg(m_resource->url()));
     m_file->cancel();
@@ -112,7 +112,7 @@ void DownloadItem::stop()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadItem::rename(const QString &newName)
+void DownloadFileItem::rename(const QString &newName)
 {
     QString newCustomFileName;
     if (!newName.trimmed().isEmpty()) {
@@ -143,7 +143,7 @@ void DownloadItem::rename(const QString &newName)
     emit renamed(oldFileName, newFileName, success);
 }
 
-void DownloadItem::moveToTrash()
+void DownloadFileItem::moveToTrash()
 {
     stop();
     auto fileName = localFullFileName();
@@ -158,7 +158,7 @@ void DownloadItem::moveToTrash()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadItem::onMetaDataChanged()
+void DownloadFileItem::onMetaDataChanged()
 {
     if (m_reply) {
         auto rawNewUrl = m_reply->header(QNetworkRequest::LocationHeader);
@@ -190,7 +190,7 @@ void DownloadItem::onMetaDataChanged()
     }
 }
 
-void DownloadItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
+void DownloadFileItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     if (m_reply && bytesReceived > 0 && bytesTotal > 0) {
         logInfo(QString("Downloaded '%0' (%1 of %2 bytes).")
@@ -202,7 +202,7 @@ void DownloadItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
                static_cast<qsizetype>(bytesTotal));
 }
 
-void DownloadItem::onRedirected(const QUrl &url)
+void DownloadFileItem::onRedirected(const QUrl &url)
 {
     if (m_reply) {
         logInfo(QString("HTTP redirect: redirected '%0' to '%1'.")
@@ -210,7 +210,7 @@ void DownloadItem::onRedirected(const QUrl &url)
     }
 }
 
-void DownloadItem::onFinished()
+void DownloadFileItem::onFinished()
 {
     logInfo(QString("Finished (%0) '%1'.").arg(state_c_str(), localFullFileName()));
     switch (state()) {
@@ -261,7 +261,7 @@ void DownloadItem::onFinished()
     this->finish();
 }
 
-QString DownloadItem::statusToHttp(QNetworkReply::NetworkError error)
+QString DownloadFileItem::statusToHttp(QNetworkReply::NetworkError error)
 {
     /*
      * See QNetworkReply::NetworkError Documentation for conversion
@@ -320,7 +320,7 @@ QString DownloadItem::statusToHttp(QNetworkReply::NetworkError error)
     Q_UNREACHABLE();
 }
 
-void DownloadItem::onErrorOccurred(QNetworkReply::NetworkError error)
+void DownloadFileItem::onErrorOccurred(QNetworkReply::NetworkError error)
 {
     /// \todo Use instead: auto reply = qobject_cast<QNetworkReply*>(sender());
     if (m_reply) {
@@ -332,7 +332,7 @@ void DownloadItem::onErrorOccurred(QNetworkReply::NetworkError error)
     setState(NetworkError);
 }
 
-void DownloadItem::onReadyRead()
+void DownloadFileItem::onReadyRead()
 {
     if (!m_reply || !m_file) {
         return;
@@ -341,26 +341,26 @@ void DownloadItem::onReadyRead()
     m_file->write(data);
 }
 
-void DownloadItem::onAboutToClose()
+void DownloadFileItem::onAboutToClose()
 {
     logInfo(QString("Finished (%0) '%1'.").arg(state_c_str(), localFullFileName()));
 }
 
 /******************************************************************************
  ******************************************************************************/
-ResourceItem* DownloadItem::resource() const
+ResourceItem* DownloadFileItem::resource() const
 {
     return m_resource;
 }
 
-void DownloadItem::setResource(ResourceItem *resource)
+void DownloadFileItem::setResource(ResourceItem *resource)
 {
     m_resource = resource;
 }
 
 /******************************************************************************
  ******************************************************************************/
-File* DownloadItem::file() const
+File* DownloadFileItem::file() const
 {
     return m_file;
 }
@@ -370,7 +370,7 @@ File* DownloadItem::file() const
 /**
  * The source Url
  */
-QUrl DownloadItem::sourceUrl() const
+QUrl DownloadFileItem::sourceUrl() const
 {
     return QUrl(m_resource->url());
 }
@@ -378,7 +378,7 @@ QUrl DownloadItem::sourceUrl() const
 /**
  * The destination's full file name
  */
-QString DownloadItem::localFullFileName() const
+QString DownloadFileItem::localFullFileName() const
 {
     auto target = m_resource->localFileUrl();
     return target.toLocalFile();
@@ -387,7 +387,7 @@ QString DownloadItem::localFullFileName() const
 /**
  * The destination's file name
  */
-QString DownloadItem::localFileName() const
+QString DownloadFileItem::localFileName() const
 {
     auto target = m_resource->localFileUrl();
     const QFileInfo fi(target.toLocalFile());
@@ -397,19 +397,19 @@ QString DownloadItem::localFileName() const
 /**
  * The destination's absolute path
  */
-QString DownloadItem::localFilePath() const
+QString DownloadFileItem::localFilePath() const
 {
     auto target = m_resource->localFileUrl();
     const QFileInfo fi(target.toLocalFile());
     return fi.absolutePath();
 }
 
-QUrl DownloadItem::localFileUrl() const
+QUrl DownloadFileItem::localFileUrl() const
 {
     return m_resource->localFileUrl();
 }
 
-QUrl DownloadItem::localDirUrl() const
+QUrl DownloadFileItem::localDirUrl() const
 {
     return QUrl::fromLocalFile(localFilePath());
 }
