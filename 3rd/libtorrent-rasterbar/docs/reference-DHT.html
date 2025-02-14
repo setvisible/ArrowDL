@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.10</td></tr>
+<td>2.0.11</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
@@ -51,8 +51,8 @@
 <li><a class="reference internal" href="#counters" id="toc-entry-15">counters()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#sign-mutable-item" id="toc-entry-16">sign_mutable_item()</a></li>
-<li><a class="reference internal" href="#dht-default-storage-constructor" id="toc-entry-17">dht_default_storage_constructor()</a></li>
+<li><a class="reference internal" href="#dht-default-storage-constructor" id="toc-entry-16">dht_default_storage_constructor()</a></li>
+<li><a class="reference internal" href="#sign-mutable-item" id="toc-entry-17">sign_mutable_item()</a></li>
 <li><a class="reference internal" href="#announce-flags-t" id="toc-entry-18">announce_flags_t</a></li>
 </ul>
 </div>
@@ -312,8 +312,19 @@ storage cleanup.</p>
 virtual dht_storage_counters <strong>counters</strong> () const = 0;
 </pre>
 <p>return stats <a class="reference external" href="reference-Stats.html#counters">counters</a> for the store</p>
-<a name="sign_mutable_item()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:sign_mutable_item%28%29&labels=documentation&body=Documentation+under+heading+%22sign_mutable_item%28%29%22+could+be+improved">report issue</a>]</span></div>
+<a name="dht_default_storage_constructor()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:dht_default_storage_constructor%28%29&labels=documentation&body=Documentation+under+heading+%22dht_default_storage_constructor%28%29%22+could+be+improved">report issue</a>]</span></div>
 </div>
+<div class="section" id="dht-default-storage-constructor">
+<h1>dht_default_storage_constructor()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/kademlia/dht_storage.hpp">libtorrent/kademlia/dht_storage.hpp</a>&quot;</p>
+<pre class="literal-block">
+std::unique_ptr&lt;dht_storage_interface&gt; <strong>dht_default_storage_constructor</strong> (
+   settings_interface const&amp; settings);
+</pre>
+<p>constructor for the default DHT storage. The DHT storage is responsible
+for maintaining peers and mutable and immutable items announced and
+stored/put to the DHT node.</p>
+<a name="sign_mutable_item()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:sign_mutable_item%28%29&labels=documentation&body=Documentation+under+heading+%22sign_mutable_item%28%29%22+could+be+improved">report issue</a>]</span></div>
 <div class="section" id="sign-mutable-item">
 <h1>sign_mutable_item()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/kademlia/item.hpp">libtorrent/kademlia/item.hpp</a>&quot;</p>
@@ -331,17 +342,6 @@ sequence number, public key <tt class="docutils literal">pk</tt> (must be 32 byt
 is written into a 64 byte buffer pointed to by <tt class="docutils literal">sig</tt>. The caller
 is responsible for allocating the destination buffer that's passed in
 as the <tt class="docutils literal">sig</tt> argument. Typically it would be allocated on the stack.</p>
-<a name="dht_default_storage_constructor()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:dht_default_storage_constructor%28%29&labels=documentation&body=Documentation+under+heading+%22dht_default_storage_constructor%28%29%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="dht-default-storage-constructor">
-<h1>dht_default_storage_constructor()</h1>
-<p>Declared in &quot;<a class="reference external" href="include/libtorrent/kademlia/dht_storage.hpp">libtorrent/kademlia/dht_storage.hpp</a>&quot;</p>
-<pre class="literal-block">
-std::unique_ptr&lt;dht_storage_interface&gt; <strong>dht_default_storage_constructor</strong> (
-   settings_interface const&amp; settings);
-</pre>
-<p>constructor for the default DHT storage. The DHT storage is responsible
-for maintaining peers and mutable and immutable items announced and
-stored/put to the DHT node.</p>
 <a name="announce_flags_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:announce_flags_t&labels=documentation&body=Documentation+under+heading+%22announce_flags_t%22+could+be+improved">report issue</a>]</span></div>
 <div class="section" id="announce-flags-t">
 <h1>announce_flags_t</h1>

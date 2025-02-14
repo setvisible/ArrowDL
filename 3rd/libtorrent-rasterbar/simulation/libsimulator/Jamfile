@@ -20,19 +20,14 @@ if $(BOOST_ROOT)
 }
 else
 {
-
 	local boost-lib-search-path =
-		<search>/opt/local/lib
-		<search>/usr/lib
-		<search>/usr/local/lib
-		<search>/sw/lib
-		<search>/usr/g++/lib
+		<search>/usr/local/opt/boost/lib
+		<search>/opt/homebrew/lib
 		;
 
 	local boost-include-path =
-		<include>/opt/local/include
-		<include>/usr/local/include
-		<include>/usr/sfw/include
+		<include>/usr/local/opt/boost/include
+		<include>/opt/homebrew/include
 	;
 
 	lib boost_system : : <name>boost_system $(boost-lib-search-path)

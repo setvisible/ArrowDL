@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -23,28 +23,53 @@
 
 <p><a class="reference external" href="single-page-ref.html">single-page version</a></p>
 <div class="main-toc docutils container">
+<p class="rubric">Torrent Handle</p>
+<div class="line-block">
+<div class="line"><a class="reference external" href="reference-Torrent_Handle.html#block_info">block_info</a></div>
+<div class="line"><a class="reference external" href="reference-Torrent_Handle.html#partial_piece_info">partial_piece_info</a></div>
+<div class="line"><a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a></div>
+<div class="line"><a class="reference external" href="reference-Torrent_Handle.html#hash_value()">hash_value()</a></div>
+</div>
+<p class="rubric">Session</p>
+<div class="line-block">
+<div class="line"><a class="reference external" href="reference-Session.html#session_proxy">session_proxy</a></div>
+<div class="line"><a class="reference external" href="reference-Session.html#session">session</a></div>
+<div class="line"><a class="reference external" href="reference-Session.html#session_params">session_params</a></div>
+<div class="line"><a class="reference external" href="reference-Session.html#session_handle">session_handle</a></div>
+<div class="line"><a class="reference external" href="reference-Session.html#write_session_params()">write_session_params()</a></div>
+<div class="line"><a class="reference external" href="reference-Session.html#read_session_params()">read_session_params()</a></div>
+<div class="line"><a class="reference external" href="reference-Session.html#write_session_params_buf()">write_session_params_buf()</a></div>
+</div>
+<p class="rubric">Stats</p>
+<div class="line-block">
+<div class="line"><a class="reference external" href="reference-Stats.html#counters">counters</a></div>
+<div class="line"><a class="reference external" href="reference-Stats.html#stats_metric">stats_metric</a></div>
+<div class="line"><a class="reference external" href="reference-Stats.html#session_stats_metrics()">session_stats_metrics()</a></div>
+<div class="line"><a class="reference external" href="reference-Stats.html#find_metric_idx()">find_metric_idx()</a></div>
+<div class="line"><a class="reference external" href="reference-Stats.html#metric_type_t">metric_type_t</a></div>
+</div>
 <p class="rubric">Core</p>
 <div class="line-block">
 <div class="line"><a class="reference external" href="reference-Core.html#peer_request">peer_request</a></div>
-<div class="line"><a class="reference external" href="reference-Core.html#info_hash_t">info_hash_t</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#peer_info">peer_info</a></div>
+<div class="line"><a class="reference external" href="reference-Core.html#info_hash_t">info_hash_t</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#piece_block">piece_block</a></div>
-<div class="line"><a class="reference external" href="reference-Core.html#version()">version()</a></div>
-<div class="line"><a class="reference external" href="reference-Core.html#load_torrent_parsed()">load_torrent_parsed()</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#load_torrent_file()">load_torrent_file()</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#load_torrent_buffer()">load_torrent_buffer()</a></div>
+<div class="line"><a class="reference external" href="reference-Core.html#load_torrent_parsed()">load_torrent_parsed()</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#torrent_peer_equal()">torrent_peer_equal()</a></div>
-<div class="line"><a class="reference external" href="reference-Core.html#truncate_files()">truncate_files()</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#make_magnet_uri()">make_magnet_uri()</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#parse_magnet_uri()">parse_magnet_uri()</a></div>
-<div class="line"><a class="reference external" href="reference-Core.html#protocol_version">protocol_version</a></div>
+<div class="line"><a class="reference external" href="reference-Core.html#version()">version()</a></div>
+<div class="line"><a class="reference external" href="reference-Core.html#truncate_files()">truncate_files()</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#event_t">event_t</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#socket_type_t">socket_type_t</a></div>
+<div class="line"><a class="reference external" href="reference-Core.html#connection_type">connection_type</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#portmap_transport">portmap_transport</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#portmap_protocol">portmap_protocol</a></div>
-<div class="line"><a class="reference external" href="reference-Core.html#connection_type">connection_type</a></div>
+<div class="line"><a class="reference external" href="reference-Core.html#protocol_version">protocol_version</a></div>
+<div class="line"><a class="reference external" href="reference-Core.html#int">int</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#download_priority_t">download_priority_t</a></div>
-<div class="line"><a class="reference external" href="reference-Alerts.html#int">int</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#charconst*">char const*</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#std::uint64_t">std::uint64_t</a></div>
 <div class="line"><a class="reference external" href="reference-Core.html#pex_flags_t">pex_flags_t</a></div>
@@ -55,51 +80,26 @@
 <div class="line"><a class="reference external" href="reference-Add_Torrent.html#client_data_t">client_data_t</a></div>
 <div class="line"><a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a></div>
 </div>
-<p class="rubric">Trackers</p>
-<div class="line-block">
-<div class="line"><a class="reference external" href="reference-Trackers.html#announce_infohash">announce_infohash</a></div>
-<div class="line"><a class="reference external" href="reference-Trackers.html#announce_endpoint">announce_endpoint</a></div>
-<div class="line"><a class="reference external" href="reference-Trackers.html#announce_entry">announce_entry</a></div>
-</div>
 <p class="rubric">Settings</p>
 <div class="line-block">
 <div class="line"><a class="reference external" href="reference-Settings.html#overview">overview</a></div>
 <div class="line"><a class="reference external" href="reference-Settings.html#settings_pack">settings_pack</a></div>
-<div class="line"><a class="reference external" href="reference-Settings.html#setting_by_name()">setting_by_name()</a></div>
-<div class="line"><a class="reference external" href="reference-Settings.html#name_for_setting()">name_for_setting()</a></div>
-<div class="line"><a class="reference external" href="reference-Settings.html#default_settings()">default_settings()</a></div>
 <div class="line"><a class="reference external" href="reference-Settings.html#min_memory_usage()">min_memory_usage()</a></div>
 <div class="line"><a class="reference external" href="reference-Settings.html#high_performance_seed()">high_performance_seed()</a></div>
+<div class="line"><a class="reference external" href="reference-Settings.html#name_for_setting()">name_for_setting()</a></div>
+<div class="line"><a class="reference external" href="reference-Settings.html#setting_by_name()">setting_by_name()</a></div>
+<div class="line"><a class="reference external" href="reference-Settings.html#default_settings()">default_settings()</a></div>
 <div class="line"><a class="reference external" href="reference-Settings.html#generate_fingerprint()">generate_fingerprint()</a></div>
-</div>
-<p class="rubric">Session</p>
-<div class="line-block">
-<div class="line"><a class="reference external" href="reference-Session.html#session_handle">session_handle</a></div>
-<div class="line"><a class="reference external" href="reference-Session.html#session_proxy">session_proxy</a></div>
-<div class="line"><a class="reference external" href="reference-Session.html#session">session</a></div>
-<div class="line"><a class="reference external" href="reference-Session.html#session_params">session_params</a></div>
-<div class="line"><a class="reference external" href="reference-Session.html#read_session_params()">read_session_params()</a></div>
-<div class="line"><a class="reference external" href="reference-Session.html#write_session_params_buf()">write_session_params_buf()</a></div>
-<div class="line"><a class="reference external" href="reference-Session.html#write_session_params()">write_session_params()</a></div>
-</div>
-<p class="rubric">Stats</p>
-<div class="line-block">
-<div class="line"><a class="reference external" href="reference-Stats.html#stats_metric">stats_metric</a></div>
-<div class="line"><a class="reference external" href="reference-Stats.html#counters">counters</a></div>
-<div class="line"><a class="reference external" href="reference-Stats.html#session_stats_metrics()">session_stats_metrics()</a></div>
-<div class="line"><a class="reference external" href="reference-Stats.html#find_metric_idx()">find_metric_idx()</a></div>
-<div class="line"><a class="reference external" href="reference-Stats.html#metric_type_t">metric_type_t</a></div>
 </div>
 <p class="rubric">Torrent Status</p>
 <div class="line-block">
 <div class="line"><a class="reference external" href="reference-Torrent_Status.html#torrent_status">torrent_status</a></div>
 </div>
-<p class="rubric">Torrent Handle</p>
+<p class="rubric">Trackers</p>
 <div class="line-block">
-<div class="line"><a class="reference external" href="reference-Torrent_Handle.html#block_info">block_info</a></div>
-<div class="line"><a class="reference external" href="reference-Torrent_Handle.html#partial_piece_info">partial_piece_info</a></div>
-<div class="line"><a class="reference external" href="reference-Torrent_Handle.html#torrent_handle">torrent_handle</a></div>
-<div class="line"><a class="reference external" href="reference-Torrent_Handle.html#hash_value()">hash_value()</a></div>
+<div class="line"><a class="reference external" href="reference-Trackers.html#announce_infohash">announce_infohash</a></div>
+<div class="line"><a class="reference external" href="reference-Trackers.html#announce_endpoint">announce_endpoint</a></div>
+<div class="line"><a class="reference external" href="reference-Trackers.html#announce_entry">announce_entry</a></div>
 </div>
 <p class="rubric">Torrent Info</p>
 <div class="line-block">
@@ -112,54 +112,21 @@
 <div class="line"><a class="reference external" href="reference-DHT.html#dht_state">dht_state</a></div>
 <div class="line"><a class="reference external" href="reference-DHT.html#dht_storage_counters">dht_storage_counters</a></div>
 <div class="line"><a class="reference external" href="reference-DHT.html#dht_storage_interface">dht_storage_interface</a></div>
-<div class="line"><a class="reference external" href="reference-DHT.html#sign_mutable_item()">sign_mutable_item()</a></div>
 <div class="line"><a class="reference external" href="reference-DHT.html#dht_default_storage_constructor()">dht_default_storage_constructor()</a></div>
+<div class="line"><a class="reference external" href="reference-DHT.html#sign_mutable_item()">sign_mutable_item()</a></div>
 <div class="line"><a class="reference external" href="reference-DHT.html#announce_flags_t">announce_flags_t</a></div>
 </div>
 <p class="rubric">Resume Data</p>
 <div class="line-block">
 <div class="line"><a class="reference external" href="reference-Resume_Data.html#read_resume_data()">read_resume_data()</a></div>
-<div class="line"><a class="reference external" href="reference-Resume_Data.html#write_resume_data_buf()">write_resume_data_buf()</a></div>
 <div class="line"><a class="reference external" href="reference-Resume_Data.html#write_resume_data()">write_resume_data()</a></div>
+<div class="line"><a class="reference external" href="reference-Resume_Data.html#write_resume_data_buf()">write_resume_data_buf()</a></div>
 <div class="line"><a class="reference external" href="reference-Resume_Data.html#write_torrent_file_buf()">write_torrent_file_buf()</a></div>
 <div class="line"><a class="reference external" href="reference-Resume_Data.html#write_torrent_file()">write_torrent_file()</a></div>
 <div class="line"><a class="reference external" href="reference-Resume_Data.html#write_torrent_flags_t">write_torrent_flags_t</a></div>
 </div>
 </div>
 <div class="main-toc docutils container">
-<p class="rubric">Bdecoding</p>
-<div class="line-block">
-<div class="line"><a class="reference external" href="reference-Bdecoding.html#bdecode_node">bdecode_node</a></div>
-<div class="line"><a class="reference external" href="reference-Bdecoding.html#print_entry()">print_entry()</a></div>
-<div class="line"><a class="reference external" href="reference-Bdecoding.html#bdecode()">bdecode()</a></div>
-</div>
-<p class="rubric">Create Torrents</p>
-<div class="line-block">
-<div class="line"><a class="reference external" href="reference-Create_Torrents.html#overview">overview</a></div>
-<div class="line"><a class="reference external" href="reference-Create_Torrents.html#create_torrent">create_torrent</a></div>
-<div class="line"><a class="reference external" href="reference-Create_Torrents.html#add_files()">add_files()</a></div>
-<div class="line"><a class="reference external" href="reference-Create_Torrents.html#set_piece_hashes()">set_piece_hashes()</a></div>
-</div>
-<p class="rubric">Error Codes</p>
-<div class="line-block">
-<div class="line"><a class="reference external" href="reference-Error_Codes.html#storage_error">storage_error</a></div>
-<div class="line"><a class="reference external" href="reference-Error_Codes.html#gzip_category()">gzip_category()</a></div>
-<div class="line"><a class="reference external" href="reference-Error_Codes.html#i2p_category()">i2p_category()</a></div>
-<div class="line"><a class="reference external" href="reference-Error_Codes.html#bdecode_category()">bdecode_category()</a></div>
-<div class="line"><a class="reference external" href="reference-Error_Codes.html#upnp_category()">upnp_category()</a></div>
-<div class="line"><a class="reference external" href="reference-Error_Codes.html#libtorrent_category()">libtorrent_category()</a></div>
-<div class="line"><a class="reference external" href="reference-Error_Codes.html#http_category()">http_category()</a></div>
-<div class="line"><a class="reference external" href="reference-Error_Codes.html#socks_category()">socks_category()</a></div>
-<div class="line"><a class="reference external" href="reference-Error_Codes.html#pcp_category()">pcp_category()</a></div>
-<div class="line"><a class="reference external" href="reference-Error_Codes.html#error_code_enum">error_code_enum</a></div>
-<div class="line"><a class="reference external" href="reference-Error_Codes.html#i2p_error_code">i2p_error_code</a></div>
-<div class="line"><a class="reference external" href="reference-Error_Codes.html#error_code_enum">error_code_enum</a></div>
-<div class="line"><a class="reference external" href="reference-Error_Codes.html#error_code_enum">error_code_enum</a></div>
-<div class="line"><a class="reference external" href="reference-Error_Codes.html#error_code_enum">error_code_enum</a></div>
-<div class="line"><a class="reference external" href="reference-Error_Codes.html#http_errors">http_errors</a></div>
-<div class="line"><a class="reference external" href="reference-Error_Codes.html#socks_error_code">socks_error_code</a></div>
-<div class="line"><a class="reference external" href="reference-Error_Codes.html#pcp_errors">pcp_errors</a></div>
-</div>
 <p class="rubric">Bencoding</p>
 <div class="line-block">
 <div class="line"><a class="reference external" href="reference-Bencoding.html#overview">overview</a></div>
@@ -172,12 +139,58 @@
 <div class="line"><a class="reference external" href="reference-Filter.html#ip_filter">ip_filter</a></div>
 <div class="line"><a class="reference external" href="reference-Filter.html#port_filter">port_filter</a></div>
 </div>
+<p class="rubric">Create Torrents</p>
+<div class="line-block">
+<div class="line"><a class="reference external" href="reference-Create_Torrents.html#overview">overview</a></div>
+<div class="line"><a class="reference external" href="reference-Create_Torrents.html#create_torrent">create_torrent</a></div>
+<div class="line"><a class="reference external" href="reference-Create_Torrents.html#add_files()">add_files()</a></div>
+<div class="line"><a class="reference external" href="reference-Create_Torrents.html#set_piece_hashes()">set_piece_hashes()</a></div>
+</div>
+<p class="rubric">Bdecoding</p>
+<div class="line-block">
+<div class="line"><a class="reference external" href="reference-Bdecoding.html#bdecode_node">bdecode_node</a></div>
+<div class="line"><a class="reference external" href="reference-Bdecoding.html#print_entry()">print_entry()</a></div>
+<div class="line"><a class="reference external" href="reference-Bdecoding.html#bdecode()">bdecode()</a></div>
+</div>
+<p class="rubric">Error Codes</p>
+<div class="line-block">
+<div class="line"><a class="reference external" href="reference-Error_Codes.html#storage_error">storage_error</a></div>
+<div class="line"><a class="reference external" href="reference-Error_Codes.html#gzip_category()">gzip_category()</a></div>
+<div class="line"><a class="reference external" href="reference-Error_Codes.html#pcp_category()">pcp_category()</a></div>
+<div class="line"><a class="reference external" href="reference-Error_Codes.html#bdecode_category()">bdecode_category()</a></div>
+<div class="line"><a class="reference external" href="reference-Error_Codes.html#libtorrent_category()">libtorrent_category()</a></div>
+<div class="line"><a class="reference external" href="reference-Error_Codes.html#http_category()">http_category()</a></div>
+<div class="line"><a class="reference external" href="reference-Error_Codes.html#i2p_category()">i2p_category()</a></div>
+<div class="line"><a class="reference external" href="reference-Error_Codes.html#socks_category()">socks_category()</a></div>
+<div class="line"><a class="reference external" href="reference-Error_Codes.html#upnp_category()">upnp_category()</a></div>
+<div class="line"><a class="reference external" href="reference-Error_Codes.html#error_code_enum">error_code_enum</a></div>
+<div class="line"><a class="reference external" href="reference-Error_Codes.html#pcp_errors">pcp_errors</a></div>
+<div class="line"><a class="reference external" href="reference-Error_Codes.html#error_code_enum">error_code_enum</a></div>
+<div class="line"><a class="reference external" href="reference-Error_Codes.html#error_code_enum">error_code_enum</a></div>
+<div class="line"><a class="reference external" href="reference-Error_Codes.html#http_errors">http_errors</a></div>
+<div class="line"><a class="reference external" href="reference-Error_Codes.html#i2p_error_code">i2p_error_code</a></div>
+<div class="line"><a class="reference external" href="reference-Error_Codes.html#socks_error_code">socks_error_code</a></div>
+<div class="line"><a class="reference external" href="reference-Error_Codes.html#error_code_enum">error_code_enum</a></div>
+</div>
 </div>
 <div class="main-toc docutils container">
-<p class="rubric">PeerClass</p>
+<p class="rubric">Custom Storage</p>
 <div class="line-block">
-<div class="line"><a class="reference external" href="reference-PeerClass.html#peer_class_info">peer_class_info</a></div>
-<div class="line"><a class="reference external" href="reference-PeerClass.html#peer_class_type_filter">peer_class_type_filter</a></div>
+<div class="line"><a class="reference external" href="reference-Custom_Storage.html#overview">overview</a></div>
+<div class="line"><a class="reference external" href="reference-Custom_Storage.html#disk_observer">disk_observer</a></div>
+<div class="line"><a class="reference external" href="reference-Custom_Storage.html#buffer_allocator_interface">buffer_allocator_interface</a></div>
+<div class="line"><a class="reference external" href="reference-Custom_Storage.html#disk_buffer_holder">disk_buffer_holder</a></div>
+<div class="line"><a class="reference external" href="reference-Custom_Storage.html#settings_interface">settings_interface</a></div>
+<div class="line"><a class="reference external" href="reference-Custom_Storage.html#open_file_state">open_file_state</a></div>
+<div class="line"><a class="reference external" href="reference-Custom_Storage.html#disk_interface">disk_interface</a></div>
+<div class="line"><a class="reference external" href="reference-Custom_Storage.html#storage_holder">storage_holder</a></div>
+<div class="line"><a class="reference external" href="reference-Custom_Storage.html#file_open_mode_t">file_open_mode_t</a></div>
+</div>
+<p class="rubric">Utility</p>
+<div class="line-block">
+<div class="line"><a class="reference external" href="reference-Utility.html#hasher">hasher</a></div>
+<div class="line"><a class="reference external" href="reference-Utility.html#hasher256">hasher256</a></div>
+<div class="line"><a class="reference external" href="reference-Utility.html#bitfield">bitfield</a></div>
 </div>
 <p class="rubric">Plugins</p>
 <div class="line-block">
@@ -188,40 +201,27 @@
 <div class="line"><a class="reference external" href="reference-Plugins.html#torrent_plugin">torrent_plugin</a></div>
 <div class="line"><a class="reference external" href="reference-Plugins.html#peer_plugin">peer_plugin</a></div>
 <div class="line"><a class="reference external" href="reference-Plugins.html#crypto_plugin">crypto_plugin</a></div>
-<div class="line"><a class="reference external" href="reference-Plugins.html#create_ut_metadata_plugin()">create_ut_metadata_plugin()</a></div>
 <div class="line"><a class="reference external" href="reference-Plugins.html#create_smart_ban_plugin()">create_smart_ban_plugin()</a></div>
 <div class="line"><a class="reference external" href="reference-Plugins.html#create_ut_pex_plugin()">create_ut_pex_plugin()</a></div>
-</div>
-<p class="rubric">Custom Storage</p>
-<div class="line-block">
-<div class="line"><a class="reference external" href="reference-Custom_Storage.html#overview">overview</a></div>
-<div class="line"><a class="reference external" href="reference-Custom_Storage.html#settings_interface">settings_interface</a></div>
-<div class="line"><a class="reference external" href="reference-Custom_Storage.html#disk_observer">disk_observer</a></div>
-<div class="line"><a class="reference external" href="reference-Custom_Storage.html#open_file_state">open_file_state</a></div>
-<div class="line"><a class="reference external" href="reference-Custom_Storage.html#disk_interface">disk_interface</a></div>
-<div class="line"><a class="reference external" href="reference-Custom_Storage.html#storage_holder">storage_holder</a></div>
-<div class="line"><a class="reference external" href="reference-Custom_Storage.html#buffer_allocator_interface">buffer_allocator_interface</a></div>
-<div class="line"><a class="reference external" href="reference-Custom_Storage.html#disk_buffer_holder">disk_buffer_holder</a></div>
-<div class="line"><a class="reference external" href="reference-Custom_Storage.html#file_open_mode_t">file_open_mode_t</a></div>
+<div class="line"><a class="reference external" href="reference-Plugins.html#create_ut_metadata_plugin()">create_ut_metadata_plugin()</a></div>
 </div>
 <p class="rubric">Storage</p>
 <div class="line-block">
 <div class="line"><a class="reference external" href="reference-Storage.html#storage_params">storage_params</a></div>
 <div class="line"><a class="reference external" href="reference-Storage.html#file_slice">file_slice</a></div>
 <div class="line"><a class="reference external" href="reference-Storage.html#file_storage">file_storage</a></div>
-<div class="line"><a class="reference external" href="reference-Storage.html#default_disk_io_constructor()">default_disk_io_constructor()</a></div>
 <div class="line"><a class="reference external" href="reference-Storage.html#mmap_disk_io_constructor()">mmap_disk_io_constructor()</a></div>
-<div class="line"><a class="reference external" href="reference-Storage.html#posix_disk_io_constructor()">posix_disk_io_constructor()</a></div>
+<div class="line"><a class="reference external" href="reference-Storage.html#default_disk_io_constructor()">default_disk_io_constructor()</a></div>
 <div class="line"><a class="reference external" href="reference-Storage.html#disabled_disk_io_constructor()">disabled_disk_io_constructor()</a></div>
+<div class="line"><a class="reference external" href="reference-Storage.html#posix_disk_io_constructor()">posix_disk_io_constructor()</a></div>
 <div class="line"><a class="reference external" href="reference-Storage.html#storage_mode_t">storage_mode_t</a></div>
 <div class="line"><a class="reference external" href="reference-Storage.html#status_t">status_t</a></div>
 <div class="line"><a class="reference external" href="reference-Storage.html#move_flags_t">move_flags_t</a></div>
 </div>
-<p class="rubric">Utility</p>
+<p class="rubric">PeerClass</p>
 <div class="line-block">
-<div class="line"><a class="reference external" href="reference-Utility.html#hasher">hasher</a></div>
-<div class="line"><a class="reference external" href="reference-Utility.html#hasher256">hasher256</a></div>
-<div class="line"><a class="reference external" href="reference-Utility.html#bitfield">bitfield</a></div>
+<div class="line"><a class="reference external" href="reference-PeerClass.html#peer_class_info">peer_class_info</a></div>
+<div class="line"><a class="reference external" href="reference-PeerClass.html#peer_class_type_filter">peer_class_type_filter</a></div>
 </div>
 <p class="rubric">ed25519</p>
 <div class="line-block">
@@ -237,7 +237,6 @@
 <p class="rubric">Alerts</p>
 <div class="line-block">
 <div class="line"><a class="reference external" href="reference-Alerts.html#overview">overview</a></div>
-<div class="line"><a class="reference external" href="reference-Alerts.html#alert">alert</a></div>
 <div class="line"><a class="reference external" href="reference-Alerts.html#dht_routing_bucket">dht_routing_bucket</a></div>
 <div class="line"><a class="reference external" href="reference-Alerts.html#torrent_alert">torrent_alert</a></div>
 <div class="line"><a class="reference external" href="reference-Alerts.html#peer_alert">peer_alert</a></div>
@@ -338,10 +337,11 @@
 <div class="line"><a class="reference external" href="reference-Alerts.html#piece_info_alert">piece_info_alert</a></div>
 <div class="line"><a class="reference external" href="reference-Alerts.html#piece_availability_alert">piece_availability_alert</a></div>
 <div class="line"><a class="reference external" href="reference-Alerts.html#tracker_list_alert">tracker_list_alert</a></div>
+<div class="line"><a class="reference external" href="reference-Alerts.html#alert">alert</a></div>
 <div class="line"><a class="reference external" href="reference-Alerts.html#alert_cast()">alert_cast()</a></div>
 <div class="line"><a class="reference external" href="reference-Alerts.html#operation_name()">operation_name()</a></div>
 <div class="line"><a class="reference external" href="reference-Alerts.html#operation_t">operation_t</a></div>
-<div class="line"><a class="reference external" href="reference-Alerts.html#int">int</a></div>
+<div class="line"><a class="reference external" href="reference-Core.html#int">int</a></div>
 <div class="line"><a class="reference external" href="reference-Alerts.html#alert_category_t">alert_category_t</a></div>
 </div>
 </div>

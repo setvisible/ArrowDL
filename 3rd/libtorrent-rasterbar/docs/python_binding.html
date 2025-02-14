@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.9</td></tr>
+<td>2.0.11</td></tr>
 </tbody>
 </table>
 <div class="contents topic" id="table-of-contents">
@@ -263,9 +263,9 @@ is what <tt class="docutils literal">fileno()</tt> returns on a socket.</p>
 directory.</p>
 <p>A very simple example usage of the module would be something like this:</p>
 <pre class="code python literal-block">
-<span class="keyword namespace">import</span> <span class="name namespace">libtorrent</span> <span class="keyword">as</span> <span class="name namespace">lt</span><span class="whitespace">
-</span><span class="keyword namespace">import</span> <span class="name namespace">time</span><span class="whitespace">
-</span><span class="keyword namespace">import</span> <span class="name namespace">sys</span><span class="whitespace">
+<span class="keyword namespace">import</span><span class="whitespace"> </span><span class="name namespace">libtorrent</span><span class="whitespace"> </span><span class="keyword">as</span><span class="whitespace"> </span><span class="name namespace">lt</span><span class="whitespace">
+</span><span class="keyword namespace">import</span><span class="whitespace"> </span><span class="name namespace">time</span><span class="whitespace">
+</span><span class="keyword namespace">import</span><span class="whitespace"> </span><span class="name namespace">sys</span><span class="whitespace">
 
 </span><span class="name">ses</span> <span class="operator">=</span> <span class="name">lt</span><span class="operator">.</span><span class="name">session</span><span class="punctuation">({</span><span class="literal string single">'listen_interfaces'</span><span class="punctuation">:</span> <span class="literal string single">'0.0.0.0:6881'</span><span class="punctuation">})</span><span class="whitespace">
 

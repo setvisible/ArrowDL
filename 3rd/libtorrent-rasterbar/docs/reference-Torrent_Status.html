@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.10</td></tr>
+<td>2.0.11</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
@@ -460,7 +460,9 @@ this is 0, it means we don't know of any more peers that we can try.</dd>
 <dd>the number of pieces that has been downloaded. It is equivalent to:
 <tt class="docutils literal"><span class="pre">std::accumulate(pieces-&gt;begin(),</span> <span class="pre">pieces-&gt;end())</span></tt>. So you don't have
 to count yourself. This can be used to see if anything has updated
-since last time if you want to keep a graph of the pieces up to date.</dd>
+since last time if you want to keep a graph of the pieces up to date.
+Note that these pieces have not necessarily been written to disk yet,
+and there is a risk the write to disk will fail.</dd>
 </dl>
 <a name="distributed_full_copies"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_status%3A%3A%5Bdistributed_full_copies%5D&labels=documentation&body=Documentation+under+heading+%22torrent_status%3A%3A%5Bdistributed_full_copies%5D%22+could+be+improved">report issue</a>]</span><dl class="docutils">
 <dt>distributed_full_copies</dt>

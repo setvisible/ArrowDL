@@ -148,7 +148,7 @@ constexpr int DISK_WRITE_MODE = settings_pack::enable_os_cache;
 		SET(proxy_username, "", &session_impl::update_proxy),
 		SET(proxy_password, "", &session_impl::update_proxy),
 		SET(i2p_hostname, "", &session_impl::update_i2p_bridge),
-		SET(peer_fingerprint, "-LT20A0-", nullptr),
+		SET(peer_fingerprint, "-LT20B0-", nullptr),
 		SET(dht_bootstrap_nodes, "dht.libtorrent.org:25401", &session_impl::update_dht_bootstrap_nodes)
 	}});
 
@@ -401,7 +401,8 @@ constexpr int DISK_WRITE_MODE = settings_pack::enable_os_cache;
 		SET(i2p_inbound_quantity, 3, nullptr),
 		SET(i2p_outbound_quantity, 3, nullptr),
 		SET(i2p_inbound_length, 3, nullptr),
-		SET(i2p_outbound_length, 3, nullptr)
+		SET(i2p_outbound_length, 3, nullptr),
+		SET(announce_port, 0, nullptr)
 	}});
 
 #undef SET

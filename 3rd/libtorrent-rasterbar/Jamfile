@@ -12,7 +12,7 @@ import cast ;
 
 # we need version numbers in the form X.Y.Z in order to trigger the built-in
 # support for generating symlinks to the installed library
-VERSION = 2.0.10 ;
+VERSION = 2.0.11 ;
 
 BOOST_ROOT = [ modules.peek : BOOST_ROOT ] ;
 CXXFLAGS = [ modules.peek : CXXFLAGS ] ;
@@ -43,11 +43,7 @@ else
 		<include>/opt/homebrew/include
 	;
 
-	# the names are decorated in MacPorts.
-	lib boost_system : : <target-os>darwin <name>boost_system-mt $(boost-lib-search-path)
-		: : $(boost-include-path) ;
-
-	lib boost_system : : <name>boost_system ;
+	lib boost_system : : <name>boost_system $(boost-lib-search-path) : : $(boost-include-path) ;
 }
 
 use-project /try_signal : ./deps/try_signal ;
@@ -66,6 +62,17 @@ rule linking ( properties * )
 			|| <asio-debugging>on in $(properties) )
 	{
 		result += <library>dbghelp ;
+	}
+
+	if <target-os>windows in $(properties)
+	{
+		switch [ feature.get-values <windows-version> : $(properties) ]
+		{
+			case xp : result += <define>_WIN32_WINNT=0x0501 ;
+			case vista : result += <define>_WIN32_WINNT=0x0600 ;
+			case win7 : result += <define>_WIN32_WINNT=0x0601 ;
+			case win10 : result += <define>_WIN32_WINNT=0x0A00 ;
+		}
 	}
 
 	# gcrypt libraries, if enabled
@@ -176,7 +183,7 @@ rule linking ( properties * )
 	else if [ version.version-less $(jam-version) : 1990 0 ]
 	{
 		# the visibility feature was introduced in boost-1.69. This was close to
-		# when the verisoning scheme changed from year to (low) version numbers.
+		# when the versioning scheme changed from year to (low) version numbers.
 		# in boost-1.70
 		result += <visibility>hidden ;
 	}
@@ -345,7 +352,6 @@ rule building ( properties * )
 			result += <cxxflags>/permissive- ;
 		}
 	}
-
 
 	if <toolset>gcc in $(properties) && <target-os>windows in $(properties)
 	{
@@ -578,11 +584,7 @@ feature.compose <asserts>on : <define>TORRENT_USE_ASSERTS=1 ;
 feature.compose <asserts>production : <define>TORRENT_USE_ASSERTS=1 <define>TORRENT_PRODUCTION_ASSERTS=1 ;
 feature.compose <asserts>system : <define>TORRENT_USE_ASSERTS=1 <define>TORRENT_USE_SYSTEM_ASSERTS=1 ;
 
-feature windows-version : win7 win10 vista xp : composite propagated ;
-feature.compose <windows-version>vista : <define>_WIN32_WINNT=0x0600 ;
-feature.compose <windows-version>win7 : <define>_WIN32_WINNT=0x0601 ;
-feature.compose <windows-version>win10 : <define>_WIN32_WINNT=0x0A00 ;
-feature.compose <windows-version>xp : <define>_WIN32_WINNT=0x0501 ;
+feature windows-version : win10 vista xp win7 : composite propagated ;
 
 feature extensions : on off : composite propagated link-incompatible ;
 feature.compose <extensions>off : <define>TORRENT_DISABLE_EXTENSIONS ;
@@ -678,6 +680,10 @@ feature export-extra : off on : composite propagated ;
 # this is off by default to keep the export
 # symbol table reasonably small
 feature.compose <export-extra>on : <define>TORRENT_EXPORT_EXTRA ;
+
+feature msvc-version-macro : off on : composite propagated link-incompatible ;
+# ask the compiler to correctly set __cplusplus version
+feature.compose <msvc-version-macro>on : <cxxflags>/Zc\:__cplusplus ;
 
 lib advapi32 : : <name>advapi32 ;
 lib user32 : : <name>user32 ;

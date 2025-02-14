@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.10</td></tr>
+<td>2.0.11</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
@@ -38,7 +38,7 @@
 <li><a class="reference internal" href="#entry-2" id="toc-entry-4">entry()</a></li>
 <li><a class="reference internal" href="#entry-3" id="toc-entry-5">entry()</a></li>
 <li><a class="reference internal" href="#operator" id="toc-entry-6">operator=()</a></li>
-<li><a class="reference internal" href="#dict-list-preformatted-string-integer" id="toc-entry-7">dict() list() preformatted() string() integer()</a></li>
+<li><a class="reference internal" href="#string-integer-dict-list-preformatted" id="toc-entry-7">string() integer() dict() list() preformatted()</a></li>
 <li><a class="reference internal" href="#swap" id="toc-entry-8">swap()</a></li>
 <li><a class="reference internal" href="#operator-1" id="toc-entry-9">operator[]()</a></li>
 <li><a class="reference internal" href="#find-key" id="toc-entry-10">find_key()</a></li>
@@ -51,7 +51,7 @@
 </ul>
 </div>
 <p>Bencoding is a common representation in bittorrent used for dictionary,
-list, <a class="reference external" href="reference-Alerts.html#int">int</a> and string hierarchies. It's used to encode .torrent files and
+list, <a class="reference external" href="reference-Core.html#int">int</a> and string hierarchies. It's used to encode .torrent files and
 some messages in the network protocol. libtorrent also uses it to store
 settings, resume data and other <a class="reference external" href="reference-Session.html#session">session</a> state.</p>
 <p>Strings in bencoded structures do not necessarily represent text.
@@ -73,33 +73,33 @@ or a string.</p>
 class entry
 {
    data_type <strong>type</strong> () const;
-   <strong>entry</strong> (dictionary_type);
+   <strong>entry</strong> (list_type);
    <strong>entry</strong> (preformatted_type);
    <strong>entry</strong> (integer_type);
-   <strong>entry</strong> (list_type);
+   <strong>entry</strong> (dictionary_type);
    <strong>entry</strong> (span&lt;char const&gt;);
    <strong>entry</strong> (U v);
    <strong>entry</strong> (data_type t);
    <strong>entry</strong> (bdecode_node const&amp; n);
-   entry&amp; <strong>operator=</strong> (span&lt;char const&gt;) &amp;;
+   entry&amp; <strong>operator=</strong> (dictionary_type) &amp;;
    entry&amp; <strong>operator=</strong> (entry const&amp;) &amp;;
-   entry&amp; <strong>operator=</strong> (list_type) &amp;;
    entry&amp; <strong>operator=</strong> (bdecode_node const&amp;) &amp;;
+   entry&amp; <strong>operator=</strong> (integer_type) &amp;;
    entry&amp; <strong>operator=</strong> (preformatted_type) &amp;;
    entry&amp; <strong>operator=</strong> (entry&amp;&amp;) &amp; noexcept;
-   entry&amp; <strong>operator=</strong> (integer_type) &amp;;
-   entry&amp; <strong>operator=</strong> (dictionary_type) &amp;;
+   entry&amp; <strong>operator=</strong> (list_type) &amp;;
+   entry&amp; <strong>operator=</strong> (span&lt;char const&gt;) &amp;;
    entry&amp; <strong>operator=</strong> (U v) &amp;;
+   integer_type&amp; <strong>integer</strong> ();
+   list_type const&amp; <strong>list</strong> () const;
    list_type&amp; <strong>list</strong> ();
    string_type const&amp; <strong>string</strong> () const;
-   string_type&amp; <strong>string</strong> ();
-   list_type const&amp; <strong>list</strong> () const;
-   integer_type&amp; <strong>integer</strong> ();
-   preformatted_type&amp; <strong>preformatted</strong> ();
    integer_type const&amp; <strong>integer</strong> () const;
+   string_type&amp; <strong>string</strong> ();
    dictionary_type&amp; <strong>dict</strong> ();
    preformatted_type const&amp; <strong>preformatted</strong> () const;
    dictionary_type const&amp; <strong>dict</strong> () const;
+   preformatted_type&amp; <strong>preformatted</strong> ();
    void <strong>swap</strong> (entry&amp; e);
    entry const&amp; <strong>operator[]</strong> (string_view key) const;
    entry&amp; <strong>operator[]</strong> (string_view key);
@@ -128,10 +128,10 @@ data_type <strong>type</strong> () const;
 <div class="section" id="entry-1">
 <h2>entry()</h2>
 <pre class="literal-block">
-<strong>entry</strong> (dictionary_type);
+<strong>entry</strong> (list_type);
 <strong>entry</strong> (preformatted_type);
 <strong>entry</strong> (integer_type);
-<strong>entry</strong> (list_type);
+<strong>entry</strong> (dictionary_type);
 <strong>entry</strong> (span&lt;char const&gt;);
 </pre>
 <p>constructors directly from a specific type.
@@ -156,35 +156,35 @@ see <a class="reference external" href="reference-Bencoding.html#data_type">data
 <div class="section" id="operator">
 <h2>operator=()</h2>
 <pre class="literal-block">
-entry&amp; <strong>operator=</strong> (span&lt;char const&gt;) &amp;;
+entry&amp; <strong>operator=</strong> (dictionary_type) &amp;;
 entry&amp; <strong>operator=</strong> (entry const&amp;) &amp;;
-entry&amp; <strong>operator=</strong> (list_type) &amp;;
 entry&amp; <strong>operator=</strong> (bdecode_node const&amp;) &amp;;
+entry&amp; <strong>operator=</strong> (integer_type) &amp;;
 entry&amp; <strong>operator=</strong> (preformatted_type) &amp;;
 entry&amp; <strong>operator=</strong> (entry&amp;&amp;) &amp; noexcept;
-entry&amp; <strong>operator=</strong> (integer_type) &amp;;
-entry&amp; <strong>operator=</strong> (dictionary_type) &amp;;
+entry&amp; <strong>operator=</strong> (list_type) &amp;;
+entry&amp; <strong>operator=</strong> (span&lt;char const&gt;) &amp;;
 </pre>
 <p>copies the structure of the right hand side into this
 <a class="reference external" href="reference-Bencoding.html#entry">entry</a>.</p>
+<a name="string()"></a>
+<a name="integer()"></a>
 <a name="dict()"></a>
 <a name="list()"></a>
-<a name="preformatted()"></a>
-<a name="string()"></a>
-<a name="integer()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Bdict%28%29+list%28%29+preformatted%28%29+string%28%29+integer%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Bdict%28%29+list%28%29+preformatted%28%29+string%28%29+integer%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="dict-list-preformatted-string-integer">
-<h2>dict() list() preformatted() string() integer()</h2>
+<a name="preformatted()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:entry%3A%3A%5Bstring%28%29+integer%28%29+dict%28%29+list%28%29+preformatted%28%29%5D&labels=documentation&body=Documentation+under+heading+%22entry%3A%3A%5Bstring%28%29+integer%28%29+dict%28%29+list%28%29+preformatted%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="string-integer-dict-list-preformatted">
+<h2>string() integer() dict() list() preformatted()</h2>
 <pre class="literal-block">
+integer_type&amp; <strong>integer</strong> ();
+list_type const&amp; <strong>list</strong> () const;
 list_type&amp; <strong>list</strong> ();
 string_type const&amp; <strong>string</strong> () const;
-string_type&amp; <strong>string</strong> ();
-list_type const&amp; <strong>list</strong> () const;
-integer_type&amp; <strong>integer</strong> ();
-preformatted_type&amp; <strong>preformatted</strong> ();
 integer_type const&amp; <strong>integer</strong> () const;
+string_type&amp; <strong>string</strong> ();
 dictionary_type&amp; <strong>dict</strong> ();
 preformatted_type const&amp; <strong>preformatted</strong> () const;
 dictionary_type const&amp; <strong>dict</strong> () const;
+preformatted_type&amp; <strong>preformatted</strong> ();
 </pre>
 <p>The <tt class="docutils literal">integer()</tt>, <tt class="docutils literal">string()</tt>, <tt class="docutils literal">list()</tt> and <tt class="docutils literal">dict()</tt> functions
 are accessors that return the respective type. If the <tt class="docutils literal">entry</tt> object
