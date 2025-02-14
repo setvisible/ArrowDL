@@ -85,7 +85,7 @@ void DownloadTorrentItem::onTorrentChanged()
     // info.bytesTotal is > 0 for state 'downloading' only,
     // otherwise info.bytesTotal == 0, even when 'completed'.
     // After completion, we want to see the bytesTotal.
-    IDownloadItem::State downloadItemState = IDownloadItem::Paused;
+    AbstractDownloadItem::State downloadItemState = AbstractDownloadItem::Paused;
 
     if (m_torrent->info().error.type != TorrentError::NoError) {
 
@@ -105,7 +105,7 @@ void DownloadTorrentItem::onTorrentChanged()
         case TorrentError::MetadataDownloadError:
         case TorrentError::FailedToAddError:
         case TorrentError::NoInfoYetError:
-            downloadItemState = IDownloadItem::NetworkError;
+            downloadItemState = AbstractDownloadItem::NetworkError;
             break;
 
             /* Errors when downloading */
@@ -115,7 +115,7 @@ void DownloadTorrentItem::onTorrentChanged()
         case TorrentError::FileExceptionError:
         case TorrentError::PartFileError:
         case TorrentError::UnknownError:
-            downloadItemState = IDownloadItem::FileError;
+            downloadItemState = AbstractDownloadItem::FileError;
             break;
 
         default:
@@ -161,38 +161,38 @@ void DownloadTorrentItem::onTorrentChanged()
 
         switch (static_cast<int>(m_torrent->info().state)) {
         case TorrentInfo::stopped:
-            downloadItemState = IDownloadItem::Paused;
+            downloadItemState = AbstractDownloadItem::Paused;
 
             break;
         case TorrentInfo::checking_files:
-            downloadItemState = IDownloadItem::Preparing;
+            downloadItemState = AbstractDownloadItem::Preparing;
             break;
 
         case TorrentInfo::downloading_metadata:
-            downloadItemState = IDownloadItem::DownloadingMetadata;
+            downloadItemState = AbstractDownloadItem::DownloadingMetadata;
 
             break;
         case TorrentInfo::downloading:
-            downloadItemState = IDownloadItem::Downloading;
+            downloadItemState = AbstractDownloadItem::Downloading;
             updateInfo(m_torrent->info().bytesReceived, m_torrent->info().bytesTotal);
 
             break;
         case TorrentInfo::finished:
-            downloadItemState = IDownloadItem::Completed;
+            downloadItemState = AbstractDownloadItem::Completed;
             // here, info.bytesTotal == 0
             updateInfo(m_torrent->metaInfo().initialMetaInfo.bytesTotal,
                        m_torrent->metaInfo().initialMetaInfo.bytesTotal);
 
             break;
         case TorrentInfo::seeding:
-            downloadItemState = IDownloadItem::Seeding;
+            downloadItemState = AbstractDownloadItem::Seeding;
             // here, info.bytesTotal == 0
             updateInfo(m_torrent->metaInfo().initialMetaInfo.bytesTotal,
                        m_torrent->metaInfo().initialMetaInfo.bytesTotal);
 
             break;
         case TorrentInfo::checking_resume_data:
-            downloadItemState = IDownloadItem::Endgame;
+            downloadItemState = AbstractDownloadItem::Endgame;
 
             break;
         default:

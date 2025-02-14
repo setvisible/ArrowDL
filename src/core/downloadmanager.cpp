@@ -51,7 +51,7 @@ DownloadManager::DownloadManager(QObject *parent) : DownloadEngine(parent)
     /* Auto save of the queue */
     connect(this, SIGNAL(jobAppended(DownloadRange)), this, SLOT(onQueueChanged(DownloadRange)));
     connect(this, SIGNAL(jobRemoved(DownloadRange)), this, SLOT(onQueueChanged(DownloadRange)));
-    connect(this, SIGNAL(jobStateChanged(IDownloadItem*)), this, SLOT(onQueueChanged(IDownloadItem*)));
+    connect(this, SIGNAL(jobStateChanged(AbstractDownloadItem*)), this, SLOT(onQueueChanged(AbstractDownloadItem*)));
 }
 
 DownloadManager::~DownloadManager()
@@ -62,7 +62,7 @@ DownloadManager::~DownloadManager()
 /******************************************************************************
  ******************************************************************************/
 /**
- * \fn void DownloadManager::jobStateChanged(IDownloadItem *downloadItem)
+ * \fn void DownloadManager::jobStateChanged(AbstractDownloadItem *downloadItem)
  * This signal is emited whenever the download data or its progress or its state has changed
  */
 
@@ -103,10 +103,10 @@ void DownloadManager::loadQueue()
         QList<DownloadItem*> downloadItems;
         Session::read(downloadItems, m_queueFile, this);
 
-        QList<IDownloadItem*> abstractItems;
+        QList<AbstractDownloadItem*> abstractItems;
         for (auto item : downloadItems) {
             // Cast items of the list
-            abstractItems.append(static_cast<IDownloadItem*>(item));
+            abstractItems.append(static_cast<AbstractDownloadItem*>(item));
         }
         clear();
         append(abstractItems, false);
@@ -127,25 +127,25 @@ void DownloadManager::saveQueue()
             auto item = dynamic_cast<DownloadItem*>(abstractItem);
             if (item) {
                 switch (item->state()) {
-                case IDownloadItem::Idle:
-                case IDownloadItem::Paused:
-                case IDownloadItem::Preparing:
-                case IDownloadItem::Connecting:
-                case IDownloadItem::DownloadingMetadata:
-                case IDownloadItem::Downloading:
-                case IDownloadItem::Endgame:
+                case AbstractDownloadItem::Idle:
+                case AbstractDownloadItem::Paused:
+                case AbstractDownloadItem::Preparing:
+                case AbstractDownloadItem::Connecting:
+                case AbstractDownloadItem::DownloadingMetadata:
+                case AbstractDownloadItem::Downloading:
+                case AbstractDownloadItem::Endgame:
                     if (skipPaused) continue;
                     break;
 
-                case IDownloadItem::Completed:
-                case IDownloadItem::Seeding:
+                case AbstractDownloadItem::Completed:
+                case AbstractDownloadItem::Seeding:
                     if (skipCompleted) continue;
                     break;
 
-                case IDownloadItem::Stopped:
-                case IDownloadItem::Skipped:
-                case IDownloadItem::NetworkError:
-                case IDownloadItem::FileError:
+                case AbstractDownloadItem::Stopped:
+                case AbstractDownloadItem::Skipped:
+                case AbstractDownloadItem::NetworkError:
+                case AbstractDownloadItem::FileError:
                     if (skipCanceled) continue;
                     break;
                 }
@@ -162,7 +162,7 @@ void DownloadManager::onQueueChanged(const DownloadRange &/*range*/)
     onQueueChanged();
 }
 
-void DownloadManager::onQueueChanged(IDownloadItem* /*item*/)
+void DownloadManager::onQueueChanged(AbstractDownloadItem* /*item*/)
 {
     onQueueChanged();
 }
@@ -188,7 +188,7 @@ NetworkManager* DownloadManager::networkManager() const
 
 /******************************************************************************
  ******************************************************************************/
-IDownloadItem* DownloadManager::createItem(const QUrl &url)
+AbstractDownloadItem* DownloadManager::createItem(const QUrl &url)
 {
     ResourceItem* resource = createResourceItem(url);
     auto item = new DownloadItem(this);
@@ -196,7 +196,7 @@ IDownloadItem* DownloadManager::createItem(const QUrl &url)
     return item;
 }
 
-IDownloadItem* DownloadManager::createTorrentItem(const QUrl &url)
+AbstractDownloadItem* DownloadManager::createTorrentItem(const QUrl &url)
 {
     ResourceItem* resource = createResourceItem(url);
     resource->setType(ResourceItem::Type::Torrent);

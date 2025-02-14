@@ -19,7 +19,7 @@
 
 #include <Constants>
 #include <Core/DownloadItem>
-#include <Core/IDownloadItem>
+#include <Core/AbstractDownloadItem>
 #include <Core/ResourceItem>
 #include <Core/Theme>
 #include <Widgets/TextEditorWidget>
@@ -34,7 +34,7 @@ constexpr int default_width = 700;
 constexpr int default_height = 500;
 
 
-EditionDialog::EditionDialog(const QList<IDownloadItem*> &items, QWidget *parent)
+EditionDialog::EditionDialog(const QList<AbstractDownloadItem*> &items, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::EditionDialog)
     , m_items(items)

@@ -17,7 +17,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <Core/IDownloadItem>
+#include <Core/AbstractDownloadItem>
 
 #include <QtWidgets/QMainWindow>
 
@@ -28,7 +28,7 @@ class Settings;
 class UpdateChecker;
 class SystemTray;
 
-using DownloadRange = QList<IDownloadItem *>;
+using DownloadRange = QList<AbstractDownloadItem *>;
 
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -80,7 +80,7 @@ public slots:
     // View
     void showInformation();
     void openFile();
-    void openFile(IDownloadItem *downloadItem);
+    void openFile(AbstractDownloadItem *downloadItem);
     void renameFile();
     void deleteFile();
     void openDirectory();
@@ -124,8 +124,8 @@ public slots:
 
 private slots:
     void onJobAddedOrRemoved(const DownloadRange &range);
-    void onJobStateChanged(IDownloadItem *downloadItem);
-    void onJobFinished(IDownloadItem *downloadItem);
+    void onJobStateChanged(AbstractDownloadItem *downloadItem);
+    void onJobFinished(AbstractDownloadItem *downloadItem);
     void onJobRenamed(const QString &oldName, const QString &newName, bool success);
     void onSelectionChanged();
     void onTorrentContextChanged();

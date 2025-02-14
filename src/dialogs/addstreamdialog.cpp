@@ -194,16 +194,16 @@ void AddStreamDialog::doAccept(bool started)
 
 /******************************************************************************
  ******************************************************************************/
-QList<IDownloadItem*> AddStreamDialog::createItems() const
+QList<AbstractDownloadItem*> AddStreamDialog::createItems() const
 {
-    QList<IDownloadItem*> items;
+    QList<AbstractDownloadItem*> items;
     for (auto item : ui->streamListWidget->selection()) {
         items << createItem(item);
     }
     return items;
 }
 
-IDownloadItem* AddStreamDialog::createItem(const StreamObject &streamObject) const
+AbstractDownloadItem* AddStreamDialog::createItem(const StreamObject &streamObject) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
 

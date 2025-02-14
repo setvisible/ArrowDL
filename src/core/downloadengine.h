@@ -17,15 +17,14 @@
 #ifndef CORE_DOWNLOAD_ENGINE_H
 #define CORE_DOWNLOAD_ENGINE_H
 
-#include <Core/IDownloadItem>
-
 #include <QtCore/QObject>
 #include <QtCore/QList>
 #include <QtCore/QString>
 
+class AbstractDownloadItem;
 class QTimer;
 
-using DownloadRange = QList<IDownloadItem *>;
+using DownloadRange = QList<AbstractDownloadItem *>;
 
 class DownloadEngine : public QObject
 {
@@ -39,37 +38,37 @@ public:
     qsizetype count() const;
     void clear();
 
-    virtual void append(const QList<IDownloadItem *> &items, bool started = false);
-    virtual void remove(const QList<IDownloadItem *> &items);
+    virtual void append(const QList<AbstractDownloadItem *> &items, bool started = false);
+    virtual void remove(const QList<AbstractDownloadItem *> &items);
 
-    void removeItems(const QList<IDownloadItem *> &items);
-    void updateItems(const QList<IDownloadItem *> &items);
+    void removeItems(const QList<AbstractDownloadItem *> &items);
+    void updateItems(const QList<AbstractDownloadItem *> &items);
 
-    const IDownloadItem* clientForRow(qsizetype row) const;
+    const AbstractDownloadItem* clientForRow(qsizetype row) const;
 
     int maxSimultaneousDownloads() const;
     void setMaxSimultaneousDownloads(int number);
 
     /* Statistics */
-    QList<IDownloadItem *> downloadItems() const;
-    QList<IDownloadItem *> completedJobs() const;
-    QList<IDownloadItem *> failedJobs() const;
-    QList<IDownloadItem *> runningJobs() const;
+    QList<AbstractDownloadItem *> downloadItems() const;
+    QList<AbstractDownloadItem *> completedJobs() const;
+    QList<AbstractDownloadItem *> failedJobs() const;
+    QList<AbstractDownloadItem *> runningJobs() const;
 
     qreal totalSpeed();
 
     /* Actions */
-    void resume(IDownloadItem *item);
-    void pause(IDownloadItem *item);
-    void cancel(IDownloadItem *item);
+    void resume(AbstractDownloadItem *item);
+    void pause(AbstractDownloadItem *item);
+    void cancel(AbstractDownloadItem *item);
 
     /* Selection */
     void clearSelection();
-    QList<IDownloadItem *> selection() const;
-    void setSelection(const QList<IDownloadItem *> &selection);
+    QList<AbstractDownloadItem *> selection() const;
+    void setSelection(const QList<AbstractDownloadItem *> &selection);
 
-    bool isSelected(IDownloadItem *item) const;
-    void setSelected(IDownloadItem *item, bool isSelected);
+    bool isSelected(AbstractDownloadItem *item) const;
+    void setSelected(AbstractDownloadItem *item, bool isSelected);
 
     QString selectionToString() const;
     QString selectionToClipboard() const;
@@ -83,17 +82,17 @@ public:
     void moveCurrentBottom();
 
     /* Misc */
-    void movetoTrash(const QList<IDownloadItem *> &items);
+    void movetoTrash(const QList<AbstractDownloadItem *> &items);
 
     /* Utility */
-    virtual IDownloadItem* createItem(const QUrl &url);
-    virtual IDownloadItem* createTorrentItem(const QUrl &url);
+    virtual AbstractDownloadItem* createItem(const QUrl &url);
+    virtual AbstractDownloadItem* createTorrentItem(const QUrl &url);
 
 signals:
     void jobAppended(DownloadRange range);
     void jobRemoved(DownloadRange range);
-    void jobStateChanged(IDownloadItem *item);
-    void jobFinished(IDownloadItem *item);
+    void jobStateChanged(AbstractDownloadItem *item);
+    void jobFinished(AbstractDownloadItem *item);
     void jobRenamed(QString oldName, QString newName, bool success);
 
     void selectionChanged();
@@ -105,13 +104,13 @@ private slots:
     void onChanged();
     void onFinished();
     void onRenamed(const QString &oldName, const QString &newName, bool success);
-    void startNext(IDownloadItem *item);
+    void startNext(AbstractDownloadItem *item);
 
 private slots:
     void onSpeedTimerTimeout();
 
 private:
-    QList<IDownloadItem *> m_items = {};
+    QList<AbstractDownloadItem *> m_items = {};
 
     qreal m_previouSpeed = 0;
     QTimer* m_speedTimer = nullptr;
@@ -120,7 +119,7 @@ private:
     int m_maxSimultaneousDownloads = 4;
     qsizetype downloadingCount() const;
 
-    QList<IDownloadItem *> m_selectedItems = {};
+    QList<AbstractDownloadItem *> m_selectedItems = {};
     bool m_selectionAboutToChange = false;
 
     void sortSelectionByIndex();

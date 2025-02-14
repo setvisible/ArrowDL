@@ -52,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     /* The SceneManager centralizes the changes. */
     QObject::connect(m_downloadManager, SIGNAL(jobAppended(DownloadRange)), this, SLOT(onJobAddedOrRemoved(DownloadRange)));
     QObject::connect(m_downloadManager, SIGNAL(jobRemoved(DownloadRange)), this, SLOT(onJobAddedOrRemoved(DownloadRange)));
-    QObject::connect(m_downloadManager, SIGNAL(jobStateChanged(IDownloadItem*)), this, SLOT(onJobStateChanged(IDownloadItem*)));
+    QObject::connect(m_downloadManager, SIGNAL(jobStateChanged(AbstractDownloadItem*)), this, SLOT(onJobStateChanged(AbstractDownloadItem*)));
     QObject::connect(m_downloadManager, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 
     /* Connect the rest of the GUI widgets together (selection, focus, etc.) */
@@ -186,7 +186,7 @@ void MainWindow::selectNone()
 
 void MainWindow::invertSelection()
 {
-    QList<IDownloadItem*> inverted;
+    QList<AbstractDownloadItem*> inverted;
     for (auto item : m_downloadManager->downloadItems()) {
         if (!m_downloadManager->isSelected(item)) {
             inverted.append(item);
@@ -268,7 +268,7 @@ void MainWindow::onJobAddedOrRemoved(DownloadRange /*range*/)
     refreshTitleAndStatus();
 }
 
-void MainWindow::onJobStateChanged(IDownloadItem * /*downloadItem*/)
+void MainWindow::onJobStateChanged(AbstractDownloadItem * /*downloadItem*/)
 {
     refreshMenus();
     refreshTitleAndStatus();
@@ -304,7 +304,7 @@ void MainWindow::refreshMenus()
     auto hasSelection = !m_downloadManager->selection().isEmpty();
     bool hasAtLeastOneUncompletedSelected = false;
     for (auto item : m_downloadManager->selection()) {
-        if (item->state() != IDownloadItem::Completed) {
+        if (item->state() != AbstractDownloadItem::Completed) {
             hasAtLeastOneUncompletedSelected = true;
             continue;
         }

@@ -150,7 +150,7 @@ void AddUrlsDialog::doAccept(bool started)
 
 /******************************************************************************
  ******************************************************************************/
-IDownloadItem* AddUrlsDialog::createItem(const QString &url) const
+AbstractDownloadItem* AddUrlsDialog::createItem(const QString &url) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
@@ -159,7 +159,7 @@ IDownloadItem* AddUrlsDialog::createItem(const QString &url) const
     return item;
 }
 
-inline QList<IDownloadItem*> AddUrlsDialog::toList(IDownloadItem *item)
+inline QList<AbstractDownloadItem*> AddUrlsDialog::toList(AbstractDownloadItem *item)
 {
-    return QList<IDownloadItem*>() << item;
+    return QList<AbstractDownloadItem*>() << item;
 }

@@ -16,7 +16,7 @@
 
 #include "../../utils/fakedownloaditem.h"
 
-#include <Core/IDownloadItem>
+#include <Core/AbstractDownloadItem>
 #include <Core/DownloadEngine>
 
 #include <QtCore/QDebug>
@@ -25,7 +25,7 @@
 #include <QtTest/QSignalSpy>
 #include <QtTest/QtTest>
 
-Q_DECLARE_OPAQUE_POINTER(IDownloadItem*)
+Q_DECLARE_OPAQUE_POINTER(AbstractDownloadItem*)
 Q_DECLARE_METATYPE(DownloadRange)
 
 class tst_DownloadEngine : public QObject
@@ -46,7 +46,7 @@ private slots:
 
 void tst_DownloadEngine::initTestCase()
 {
-    qRegisterMetaType<IDownloadItem*>("IDownloadItem*");
+    qRegisterMetaType<AbstractDownloadItem*>("AbstractDownloadItem*");
     qRegisterMetaType<DownloadRange>("DownloadRange");
 }
 
@@ -70,7 +70,7 @@ void tst_DownloadEngine::append()
                 QUrl("http://www.example.com/favicon.png"), QLatin1String("favicon.png"),
                 bytesTotal, timeIncrement, duration);
 
-    QList<IDownloadItem*> items;
+    QList<AbstractDownloadItem*> items;
     items.append(item);
 
     // When
@@ -92,7 +92,7 @@ void tst_DownloadEngine::append()
     QCOMPARE(spyJobRemoved.count(), 0);
     QCOMPARE(spyJobFinished.count(), 1);
 
-    QCOMPARE(item->state(), IDownloadItem::Completed);
+    QCOMPARE(item->state(), AbstractDownloadItem::Completed);
     QCOMPARE(item->bytesReceived(), bytesTotal);
     QCOMPARE(item->bytesTotal(), bytesTotal);
 }
@@ -117,9 +117,9 @@ static void VERIFY_ORDER(const QScopedPointer<DownloadEngine> &engine, QList<int
     QVERIFY(true);
 }
 
-static QList<IDownloadItem*> createDummyList()
+static QList<AbstractDownloadItem*> createDummyList()
 {
-    QList<IDownloadItem*> items;
+    QList<AbstractDownloadItem*> items;
     for (int i = 0; i < 10; ++i) {
         auto item = new FakeDownloadItem(QString("item %0").arg(i));
         items.append(item);
@@ -130,7 +130,7 @@ static QList<IDownloadItem*> createDummyList()
 static void select(const QScopedPointer<DownloadEngine> &engine, QList<int> indexes)
 {
     Q_ASSERT(!engine.isNull());
-    QList<IDownloadItem*> selection;
+    QList<AbstractDownloadItem*> selection;
     for (auto i = 0; i < indexes.size(); ++i) {
         auto index = indexes.at(i);
         selection.append(engine->downloadItems().at(index));

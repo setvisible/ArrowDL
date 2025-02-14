@@ -17,7 +17,7 @@
 #include "customstyle.h"
 
 #include <Constants>
-#include <Core/IDownloadItem>
+#include <Core/AbstractDownloadItem>
 #include <Widgets/CustomStyleOptionProgressBar>
 #include <Widgets/Globals>
 

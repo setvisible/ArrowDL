@@ -27,7 +27,7 @@
  * \class AbstractDownloadItem
  *
  * The class AbstractDownloadItem implements the most common methods of
- * IDownloadItem and the Signal/Slot mechanism.
+ * AbstractDownloadItem and the Signal/Slot mechanism.
  *
  */
 
@@ -43,9 +43,13 @@ AbstractDownloadItem::AbstractDownloadItem(QObject *parent) : QObject(parent)
     connect(m_updateCountDownTimer, SIGNAL(timeout()), this, SLOT(updateInfo()));
 }
 
+AbstractDownloadItem::~AbstractDownloadItem()
+{
+}
+
 /******************************************************************************
  ******************************************************************************/
-IDownloadItem::State AbstractDownloadItem::state() const
+AbstractDownloadItem::State AbstractDownloadItem::state() const
 {
     return m_state;
 }
@@ -61,19 +65,19 @@ void AbstractDownloadItem::setState(State state)
 QString AbstractDownloadItem::stateToString() const
 {
     switch (m_state) {
-    case IDownloadItem::Idle:                return tr("Idle");
-    case IDownloadItem::Paused:              return tr("Paused");
-    case IDownloadItem::Stopped:             return tr("Canceled");
-    case IDownloadItem::Preparing:           return tr("Preparing");
-    case IDownloadItem::Connecting:          return tr("Connecting");
-    case IDownloadItem::DownloadingMetadata: return tr("Downloading Metadata");
-    case IDownloadItem::Downloading:         return tr("Downloading");
-    case IDownloadItem::Endgame:             return tr("Finishing");
-    case IDownloadItem::Completed:           return tr("Complete");
-    case IDownloadItem::Seeding:             return tr("Seeding");
-    case IDownloadItem::Skipped:             return tr("Skipped");
-    case IDownloadItem::NetworkError:        return tr("Server error");
-    case IDownloadItem::FileError:           return tr("File error");
+    case AbstractDownloadItem::Idle:                return tr("Idle");
+    case AbstractDownloadItem::Paused:              return tr("Paused");
+    case AbstractDownloadItem::Stopped:             return tr("Canceled");
+    case AbstractDownloadItem::Preparing:           return tr("Preparing");
+    case AbstractDownloadItem::Connecting:          return tr("Connecting");
+    case AbstractDownloadItem::DownloadingMetadata: return tr("Downloading Metadata");
+    case AbstractDownloadItem::Downloading:         return tr("Downloading");
+    case AbstractDownloadItem::Endgame:             return tr("Finishing");
+    case AbstractDownloadItem::Completed:           return tr("Complete");
+    case AbstractDownloadItem::Seeding:             return tr("Seeding");
+    case AbstractDownloadItem::Skipped:             return tr("Skipped");
+    case AbstractDownloadItem::NetworkError:        return tr("Server error");
+    case AbstractDownloadItem::FileError:           return tr("File error");
     }
     Q_UNREACHABLE();
 }
@@ -82,19 +86,19 @@ QString AbstractDownloadItem::stateToString() const
 const char* AbstractDownloadItem::state_c_str() const
 {
     switch (m_state) {
-    case IDownloadItem::Idle:                return QLatin1String("idle").data();
-    case IDownloadItem::Paused:              return QLatin1String("paused").data();
-    case IDownloadItem::Stopped:             return QLatin1String("canceled").data();
-    case IDownloadItem::Preparing:           return QLatin1String("preparing").data();
-    case IDownloadItem::Connecting:          return QLatin1String("connecting").data();
-    case IDownloadItem::DownloadingMetadata: return QLatin1String("downloading metadata").data();
-    case IDownloadItem::Downloading:         return QLatin1String("downloading").data();
-    case IDownloadItem::Endgame:             return QLatin1String("finishing").data();
-    case IDownloadItem::Completed:           return QLatin1String("complete").data();
-    case IDownloadItem::Seeding:             return QLatin1String("seeding").data();
-    case IDownloadItem::Skipped:             return QLatin1String("skipped").data();
-    case IDownloadItem::NetworkError:        return QLatin1String("server error").data();
-    case IDownloadItem::FileError:           return QLatin1String("file error").data();
+    case AbstractDownloadItem::Idle:                return QLatin1String("idle").data();
+    case AbstractDownloadItem::Paused:              return QLatin1String("paused").data();
+    case AbstractDownloadItem::Stopped:             return QLatin1String("canceled").data();
+    case AbstractDownloadItem::Preparing:           return QLatin1String("preparing").data();
+    case AbstractDownloadItem::Connecting:          return QLatin1String("connecting").data();
+    case AbstractDownloadItem::DownloadingMetadata: return QLatin1String("downloading metadata").data();
+    case AbstractDownloadItem::Downloading:         return QLatin1String("downloading").data();
+    case AbstractDownloadItem::Endgame:             return QLatin1String("finishing").data();
+    case AbstractDownloadItem::Completed:           return QLatin1String("complete").data();
+    case AbstractDownloadItem::Seeding:             return QLatin1String("seeding").data();
+    case AbstractDownloadItem::Skipped:             return QLatin1String("skipped").data();
+    case AbstractDownloadItem::NetworkError:        return QLatin1String("server error").data();
+    case AbstractDownloadItem::FileError:           return QLatin1String("file error").data();
     }
     Q_UNREACHABLE();
 }
@@ -196,6 +200,54 @@ void AbstractDownloadItem::logInfo(const QString &message)
 
 /******************************************************************************
  ******************************************************************************/
+/**
+ * The source Url
+ */
+QUrl AbstractDownloadItem::sourceUrl() const
+{
+    return QUrl();
+}
+
+void AbstractDownloadItem::setSourceUrl(const QUrl &url)
+{
+}
+
+/**
+ * The destination's full file name
+ */
+QString AbstractDownloadItem::localFullFileName() const
+{
+    return QString("");
+}
+
+/**
+ * The destination's file name
+ */
+QString AbstractDownloadItem::localFileName() const
+{
+    return QString("");
+}
+
+/**
+ * The destination's absolute path
+ */
+QString AbstractDownloadItem::localFilePath() const
+{
+    return QString("");
+}
+
+QUrl AbstractDownloadItem::localFileUrl() const
+{
+    return QUrl();
+}
+
+QUrl AbstractDownloadItem::localDirUrl() const
+{
+    return QUrl();
+}
+
+/******************************************************************************
+ ******************************************************************************/
 bool AbstractDownloadItem::isResumable() const
 {
     return m_state == Idle
@@ -244,6 +296,10 @@ void AbstractDownloadItem::setReadyToResume()
 {
     m_state = Idle;
     emit changed();
+}
+
+void AbstractDownloadItem::resume()
+{
 }
 
 void AbstractDownloadItem::pause()

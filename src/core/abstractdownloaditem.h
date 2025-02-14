@@ -17,8 +17,6 @@
 #ifndef CORE_ABSTRACT_DOWNLOAD_ITEM_H
 #define CORE_ABSTRACT_DOWNLOAD_ITEM_H
 
-#include <Core/IDownloadItem>
-
 #include <QtCore/QElapsedTimer>
 #include <QtCore/QObject>
 #include <QtCore/QString>
@@ -27,49 +25,74 @@
 
 class QTimer;
 
-class AbstractDownloadItem : public QObject, public IDownloadItem
+class AbstractDownloadItem : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit AbstractDownloadItem(QObject *parent = nullptr);
-    ~AbstractDownloadItem() noexcept override = default; // IMPORTANT: virtual destructor
+    enum State {
+        Idle,
+        Paused,
+        Stopped,
+        Preparing,
+        Connecting,
+        DownloadingMetadata,
+        Downloading,
+        Endgame,
+        Completed,
+        Seeding,
+        Skipped,
+        NetworkError,
+        FileError
+    };
 
-    State state() const override;
+    explicit AbstractDownloadItem(QObject *parent = nullptr);
+    ~AbstractDownloadItem();
+
+    virtual State state() const;
     void setState(State state);
     QString stateToString() const;
     const char* state_c_str() const;
 
-    qsizetype bytesReceived() const override;
+    virtual qsizetype bytesReceived() const; /*!< in bytes */
     void setBytesReceived(qsizetype bytesReceived);
 
-    qsizetype bytesTotal() const override;
+    virtual qsizetype bytesTotal() const;  /*!< in bytes */
     void setBytesTotal(qsizetype bytesTotal);
 
-    qreal speed() const override;
-    int progress() const override;
+    virtual qreal speed() const; /*!< Returns the speed in byte per second */
+    virtual int progress() const; /*!< Return a value between 0 and 100, or -1 if undefined */
 
     QString errorMessage() const;
     void setErrorMessage(const QString &message);
 
-    int maxConnections() const override;
+    virtual int maxConnections() const;
     void setMaxConnections(int connections);
 
-    QString log() const override;
+    virtual QString log() const;
     void setLog(const QString &log);
-    void logInfo(const QString &message);
+    void logInfo(const QString &message);       
 
-    bool isResumable() const override;
-    bool isPausable() const override;
-    bool isCancelable() const override;
-    bool isDownloading() const override;
+    virtual QUrl sourceUrl() const;
+    void setSourceUrl(const QUrl &url);
+
+    virtual QString localFullFileName() const;
+    virtual QString localFileName() const;
+    virtual QString localFilePath() const;
+    virtual QUrl localFileUrl() const;
+    virtual QUrl localDirUrl() const;
+
+    virtual bool isResumable() const;
+    virtual bool isPausable() const;
+    virtual bool isCancelable() const;
+    virtual bool isDownloading() const;
 
     QTime remainingTime();
 
-    void setReadyToResume() override;
-
-    void pause() override;
-    void stop() override;
+    virtual void setReadyToResume();
+    virtual void resume();
+    virtual void pause();
+    virtual void stop();
 
     void beginResume();
     bool checkResume(bool connected);

@@ -20,7 +20,7 @@
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QMessageBox>
 
-class IDownloadItem;
+class AbstractDownloadItem;
 class DownloadManager;
 class Settings;
 
@@ -58,11 +58,11 @@ private:
     Settings *m_settings = nullptr;
 
     void doAccept(bool started);
-    QMessageBox::StandardButton askBatchDownloading(QList<IDownloadItem*> items);
+    QMessageBox::StandardButton askBatchDownloading(QList<AbstractDownloadItem*> items);
 
-    QList<IDownloadItem*> createItems(const QUrl &inputUrl) const;
-    IDownloadItem* createItem(const QString &url) const;
-    static inline QList<IDownloadItem*> toList(IDownloadItem *item);
+    QList<AbstractDownloadItem*> createItems(const QUrl &inputUrl) const;
+    AbstractDownloadItem* createItem(const QString &url) const;
+    static inline QList<AbstractDownloadItem*> toList(AbstractDownloadItem *item);
 
     inline QString insertName(const QString &name) const;
 

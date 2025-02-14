@@ -148,7 +148,7 @@ void AddTorrentDialog::doAccept(bool started)
 
 /******************************************************************************
  ******************************************************************************/
-IDownloadItem* AddTorrentDialog::createItem(const QString &url) const
+AbstractDownloadItem* AddTorrentDialog::createItem(const QString &url) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
@@ -158,7 +158,7 @@ IDownloadItem* AddTorrentDialog::createItem(const QString &url) const
     return item;
 }
 
-inline QList<IDownloadItem*> AddTorrentDialog::toList(IDownloadItem *item)
+inline QList<AbstractDownloadItem*> AddTorrentDialog::toList(AbstractDownloadItem *item)
 {
-    return QList<IDownloadItem*>() << item;
+    return QList<AbstractDownloadItem*>() << item;
 }

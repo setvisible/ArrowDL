@@ -27,7 +27,7 @@
 #include <QtTest/QSignalSpy>
 #include <QtTest/QtTest>
 
-Q_DECLARE_OPAQUE_POINTER(IDownloadItem*)
+Q_DECLARE_OPAQUE_POINTER(AbstractDownloadItem*)
 
 
 void hideQDebugMessage(QtMsgType, const QMessageLogContext &, const QString &)
@@ -44,7 +44,7 @@ class tst_DownloadManager : public QObject
 
 private slots:
     void initTestCase() {
-        qRegisterMetaType<IDownloadItem*>("IDownloadItem*");
+        qRegisterMetaType<AbstractDownloadItem*>("AbstractDownloadItem*");
         qInstallMessageHandler(hideQDebugMessage);
     }
 
@@ -83,17 +83,17 @@ DownloadItem *tst_DownloadManager::createDummyJob(
 //     // Given
 //     QSharedPointer<DownloadManager> target(new DownloadManager(this));
 //
-//     QSignalSpy spyJobFinished(target.data(), SIGNAL(jobFinished(IDownloadItem*)));
+//     QSignalSpy spyJobFinished(target.data(), SIGNAL(jobFinished(AbstractDownloadItem*)));
 //
 //     /* The most permanent url in the whole universe */
 //     // QString address = "https://www.arrow-dl.com/favicon.ico"; // ico, not png
 //
-//     /// \todo fix IDownloadItem::NetworkError with "3xx Unknown redirect error" with SSL url
+//     /// \todo fix AbstractDownloadItem::NetworkError with "3xx Unknown redirect error" with SSL url
 //
 //     /* Non SSL url */
 //     QString address = "http://www.example.com/index.html"; // 'http' instead of 'https'
 //
-//     QList<IDownloadItem*> items;
+//     QList<AbstractDownloadItem*> items;
 //     DownloadItem *item = createDummyJob(target, address, "*name*.png");
 //     items.append(item);
 //

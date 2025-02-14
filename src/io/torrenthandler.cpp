@@ -16,7 +16,7 @@
 
 #include "torrenthandler.h"
 
-#include <Core/IDownloadItem>
+#include <Core/AbstractDownloadItem>
 #include <Core/TorrentMessage>
 
 #include <QtCore/QDebug>
@@ -56,13 +56,13 @@ bool TorrentHandler::read(DownloadEngine *engine)
         auto filename = f->fileName();
         url = QUrl(filename);
     }
-    IDownloadItem *item = engine->createTorrentItem(url);
+    AbstractDownloadItem *item = engine->createTorrentItem(url);
     if (!item) {
         qWarning("DownloadEngine::createItem() not overridden."
                  " It still returns null pointer!");
         return false;
     }
-    QList<IDownloadItem*> items;
+    QList<AbstractDownloadItem*> items;
     items.append(item);
     engine->append(items, false);
     return true;

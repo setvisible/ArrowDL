@@ -16,7 +16,7 @@
 
 #include "texthandler.h"
 
-#include <Core/IDownloadItem>
+#include <Core/AbstractDownloadItem>
 
 #include <QtCore/QDebug>
 #include <QtCore/QIODevice>
@@ -52,7 +52,7 @@ bool TextHandler::read(DownloadEngine *engine)
     if (!d->isReadable()) {
         return false;
     }
-    QList<IDownloadItem*> items;
+    QList<AbstractDownloadItem*> items;
     QString line;
     while (readLineInto(in, &line)) {
         line = line.simplified();
@@ -60,7 +60,7 @@ bool TextHandler::read(DownloadEngine *engine)
             continue;
         }
         const QUrl url(line);
-        IDownloadItem *item = engine->createItem(url);
+        AbstractDownloadItem *item = engine->createItem(url);
         if (!item) {
             qWarning("DownloadEngine::createItem() not overridden. It still returns null pointer!");
             return false;

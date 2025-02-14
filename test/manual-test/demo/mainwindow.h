@@ -17,12 +17,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <Core/IDownloadItem>
+#include <Core/AbstractDownloadItem>
 
 #include <QtWidgets/QMainWindow>
 
 class FakeDownloadManager;
-typedef QList<IDownloadItem*> DownloadRange;
+typedef QList<AbstractDownloadItem*> DownloadRange;
 
 namespace Ui {
 class MainWindow;
@@ -67,7 +67,7 @@ public slots:
 
 private slots:
     void onJobAddedOrRemoved(DownloadRange downloadItem);
-    void onJobStateChanged(IDownloadItem *downloadItem);
+    void onJobStateChanged(AbstractDownloadItem *downloadItem);
     void onSelectionChanged();
 
 private:

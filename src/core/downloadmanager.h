@@ -22,6 +22,7 @@
 #include <QtCore/QList>
 #include <QtCore/QString>
 
+class AbstractDownloadItem;
 class ResourceItem;
 class Settings;
 
@@ -45,14 +46,14 @@ public:
     NetworkManager* networkManager() const;
 
     /* Utility */
-    IDownloadItem* createItem(const QUrl &url) override;
-    IDownloadItem* createTorrentItem(const QUrl &url) override;
+    AbstractDownloadItem* createItem(const QUrl &url) override;
+    AbstractDownloadItem* createTorrentItem(const QUrl &url) override;
 
 private slots:
     void onSettingsChanged();
 
     void onQueueChanged(const DownloadRange &range);
-    void onQueueChanged(IDownloadItem* item);
+    void onQueueChanged(AbstractDownloadItem* item);
     void onQueueChanged();
 
     void loadQueue();

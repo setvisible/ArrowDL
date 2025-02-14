@@ -27,8 +27,8 @@
 DownloadEngine::DownloadEngine(QObject *parent) : QObject(parent)
     , m_speedTimer(new QTimer(this))
 {
-    connect(this, SIGNAL(jobFinished(IDownloadItem*)),
-            this, SLOT(startNext(IDownloadItem*)));
+    connect(this, SIGNAL(jobFinished(AbstractDownloadItem*)),
+            this, SLOT(startNext(AbstractDownloadItem*)));
 
     connect(m_speedTimer, SIGNAL(timeout()), this, SLOT(onSpeedTimerTimeout()));
 }
@@ -41,7 +41,7 @@ DownloadEngine::~DownloadEngine()
 /******************************************************************************
  ******************************************************************************/
 /**
- * \fn void DownloadEngine::jobStateChanged(IDownloadItem *item)
+ * \fn void DownloadEngine::jobStateChanged(AbstractDownloadItem *item)
  * This signal is emited whenever the download data or its progress or its state has changed
  */
 
@@ -58,11 +58,11 @@ qsizetype DownloadEngine::downloadingCount() const
     return count;
 }
 
-void DownloadEngine::startNext(IDownloadItem * /*item*/)
+void DownloadEngine::startNext(AbstractDownloadItem * /*item*/)
 {
     if (downloadingCount() < m_maxSimultaneousDownloads) {
         for (auto item : m_items) {
-            if (item->state() == IDownloadItem::Idle) {
+            if (item->state() == AbstractDownloadItem::Idle) {
                 item->resume();
                 startNext(nullptr);
                 break;
@@ -88,7 +88,7 @@ void DownloadEngine::clear()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadEngine::append(const QList<IDownloadItem*> &items, bool started)
+void DownloadEngine::append(const QList<AbstractDownloadItem*> &items, bool started)
 {    
     if (items.isEmpty()) {
         return;
@@ -105,11 +105,11 @@ void DownloadEngine::append(const QList<IDownloadItem*> &items, bool started)
 
         if (started) {
             if (downloadItem->isResumable()) {
-                downloadItem->setState(IDownloadItem::Idle);
+                downloadItem->setState(AbstractDownloadItem::Idle);
             }
         } else {
             if (downloadItem->isPausable()) {
-                downloadItem->setState(IDownloadItem::Paused);
+                downloadItem->setState(AbstractDownloadItem::Paused);
             }
         }
         m_items.append(downloadItem);
@@ -122,12 +122,12 @@ void DownloadEngine::append(const QList<IDownloadItem*> &items, bool started)
     }
 }
 
-void DownloadEngine::remove(const QList<IDownloadItem*> &items)
+void DownloadEngine::remove(const QList<AbstractDownloadItem*> &items)
 {
     removeItems(items);
 }
 
-void DownloadEngine::removeItems(const QList<IDownloadItem*> &items)
+void DownloadEngine::removeItems(const QList<AbstractDownloadItem*> &items)
 {
     if (items.isEmpty()) {
         return;
@@ -151,14 +151,14 @@ void DownloadEngine::removeItems(const QList<IDownloadItem*> &items)
     emit jobRemoved(items);
 }
 
-void DownloadEngine::updateItems(const QList<IDownloadItem *> &items)
+void DownloadEngine::updateItems(const QList<AbstractDownloadItem *> &items)
 {
     for (auto item : items) {
         emit jobStateChanged(item);
     }
 }
 
-void DownloadEngine::movetoTrash(const QList<IDownloadItem*> &items)
+void DownloadEngine::movetoTrash(const QList<AbstractDownloadItem*> &items)
 {
     if (items.isEmpty()) {
         return;
@@ -177,7 +177,7 @@ void DownloadEngine::movetoTrash(const QList<IDownloadItem*> &items)
 
 /******************************************************************************
  ******************************************************************************/
-const IDownloadItem* DownloadEngine::clientForRow(qsizetype row) const
+const AbstractDownloadItem* DownloadEngine::clientForRow(qsizetype row) const
 {
     Q_ASSERT(row >=0 && row < m_items.count());
     return m_items.at(row);
@@ -197,15 +197,16 @@ void DownloadEngine::setMaxSimultaneousDownloads(int number)
 
 /******************************************************************************
  ******************************************************************************/
-QList<IDownloadItem *> DownloadEngine::downloadItems() const
+QList<AbstractDownloadItem *> DownloadEngine::downloadItems() const
 {
     return m_items;
 }
 
-static inline QList<IDownloadItem*> filter(const QList<IDownloadItem*> &items,
-                                           const QList<IDownloadItem::State> &states)
+static inline QList<AbstractDownloadItem*> filter(
+    const QList<AbstractDownloadItem*> &items,
+    const QList<AbstractDownloadItem::State> &states)
 {
-    QList<IDownloadItem*> list;
+    QList<AbstractDownloadItem*> list;
     for (auto item : items) {
         for (auto state : states) {
             if (item->state() == state) {
@@ -216,27 +217,27 @@ static inline QList<IDownloadItem*> filter(const QList<IDownloadItem*> &items,
     return list;
 }
 
-QList<IDownloadItem*> DownloadEngine::completedJobs() const
+QList<AbstractDownloadItem*> DownloadEngine::completedJobs() const
 {
-    return filter(m_items, {IDownloadItem::Completed,
-                            IDownloadItem::Seeding});
+    return filter(m_items, {AbstractDownloadItem::Completed,
+                            AbstractDownloadItem::Seeding});
 }
 
-QList<IDownloadItem*> DownloadEngine::failedJobs() const
+QList<AbstractDownloadItem*> DownloadEngine::failedJobs() const
 {
-    return filter(m_items, {IDownloadItem::Stopped,
-                            IDownloadItem::Skipped,
-                            IDownloadItem::NetworkError,
-                            IDownloadItem::FileError});
+    return filter(m_items, {AbstractDownloadItem::Stopped,
+                            AbstractDownloadItem::Skipped,
+                            AbstractDownloadItem::NetworkError,
+                            AbstractDownloadItem::FileError});
 }
 
-QList<IDownloadItem*> DownloadEngine::runningJobs() const
+QList<AbstractDownloadItem*> DownloadEngine::runningJobs() const
 {
-    return filter(m_items, {IDownloadItem::Preparing,
-                            IDownloadItem::Connecting,
-                            IDownloadItem::DownloadingMetadata,
-                            IDownloadItem::Downloading,
-                            IDownloadItem::Endgame});
+    return filter(m_items, {AbstractDownloadItem::Preparing,
+                            AbstractDownloadItem::Connecting,
+                            AbstractDownloadItem::DownloadingMetadata,
+                            AbstractDownloadItem::Downloading,
+                            AbstractDownloadItem::Endgame});
 }
 
 /******************************************************************************
@@ -263,7 +264,7 @@ qreal DownloadEngine::totalSpeed()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadEngine::resume(IDownloadItem *item)
+void DownloadEngine::resume(AbstractDownloadItem *item)
 {
     if (item->isResumable()) {
         item->setReadyToResume();
@@ -271,14 +272,14 @@ void DownloadEngine::resume(IDownloadItem *item)
     }
 }
 
-void DownloadEngine::pause(IDownloadItem *item)
+void DownloadEngine::pause(AbstractDownloadItem *item)
 {
     if (item->isPausable()) {
         item->pause();
     }
 }
 
-void DownloadEngine::cancel(IDownloadItem *item)
+void DownloadEngine::cancel(AbstractDownloadItem *item)
 {
     if (item->isCancelable()) {
         item->stop();
@@ -312,12 +313,12 @@ void DownloadEngine::clearSelection()
     emit selectionChanged();
 }
 
-QList<IDownloadItem *> DownloadEngine::selection() const
+QList<AbstractDownloadItem *> DownloadEngine::selection() const
 {
     return m_selectedItems;
 }
 
-void DownloadEngine::setSelection(const QList<IDownloadItem*> &selection)
+void DownloadEngine::setSelection(const QList<AbstractDownloadItem*> &selection)
 {
     m_selectedItems.clear();
     m_selectedItems.append(selection);
@@ -326,12 +327,12 @@ void DownloadEngine::setSelection(const QList<IDownloadItem*> &selection)
     }
 }
 
-bool DownloadEngine::isSelected(IDownloadItem *item) const
+bool DownloadEngine::isSelected(AbstractDownloadItem *item) const
 {
     return m_selectedItems.contains(item);
 }
 
-void DownloadEngine::setSelected(IDownloadItem* item, bool isSelected)
+void DownloadEngine::setSelected(AbstractDownloadItem* item, bool isSelected)
 {
     m_selectedItems.removeAll(item);
     if (isSelected) {
@@ -388,7 +389,7 @@ void DownloadEngine::sortSelectionByIndex()
     if (m_selectedItems.isEmpty()) {
         return;
     }
-    QMap<qsizetype, IDownloadItem*> map;
+    QMap<qsizetype, AbstractDownloadItem*> map;
     for (auto selectedItem : m_selectedItems) {
         auto index = m_items.indexOf(selectedItem);
         map.insert(index, selectedItem);
@@ -466,14 +467,14 @@ void DownloadEngine::moveCurrentBottom()
  * That makes the unit tests of this class easier, allowing dummy items.
  * \remark Optional
  */
-IDownloadItem* DownloadEngine::createItem(const QUrl &/*url*/)
+AbstractDownloadItem* DownloadEngine::createItem(const QUrl &/*url*/)
 {
     return nullptr;
 }
 /*!
  * \sa DownloadEngine::createItem()
  */
-IDownloadItem* DownloadEngine::createTorrentItem(const QUrl &/*url*/)
+AbstractDownloadItem* DownloadEngine::createTorrentItem(const QUrl &/*url*/)
 {
     return nullptr;
 }

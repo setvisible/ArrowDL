@@ -16,7 +16,7 @@
 
 #include "session.h"
 
-#include <Core/DownloadItem>
+#include <Core/AbstractDownloadItem>
 #include <Core/DownloadManager>
 #include <Core/DownloadStreamItem>
 #include <Core/DownloadTorrentItem>
@@ -29,24 +29,24 @@
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
 
-static inline IDownloadItem::State intToState(int value)
+static inline AbstractDownloadItem::State intToState(int value)
 {
-    return static_cast<IDownloadItem::State>(value);
+    return static_cast<AbstractDownloadItem::State>(value);
 }
 
-static inline int stateToInt(IDownloadItem::State state)
+static inline int stateToInt(AbstractDownloadItem::State state)
 {
     /* Do not store error states and intermediary states. */
     switch (state) {
-    case IDownloadItem::Stopped:
-        return static_cast<int>(IDownloadItem::Stopped);
+    case AbstractDownloadItem::Stopped:
+        return static_cast<int>(AbstractDownloadItem::Stopped);
 
-    case IDownloadItem::Completed:
-    case IDownloadItem::Seeding:
-        return static_cast<int>(IDownloadItem::Completed);
+    case AbstractDownloadItem::Completed:
+    case AbstractDownloadItem::Seeding:
+        return static_cast<int>(AbstractDownloadItem::Completed);
 
     default:
-        return static_cast<int>(IDownloadItem::Paused);
+        return static_cast<int>(AbstractDownloadItem::Paused);
     }
 }
 

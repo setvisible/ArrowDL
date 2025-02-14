@@ -23,7 +23,6 @@ set(MY_TEST_HEADERS
     ${CMAKE_SOURCE_DIR}/src/core/abstractdownloaditem.h
     ${CMAKE_SOURCE_DIR}/src/core/downloadengine.h
     ${CMAKE_SOURCE_DIR}/src/core/format.h
-    ${CMAKE_SOURCE_DIR}/src/core/idownloaditem.h
     ${CMAKE_SOURCE_DIR}/src/core/mimedatabase.h
     ${CMAKE_SOURCE_DIR}/src/core/theme.h
     ${CMAKE_SOURCE_DIR}/src/widgets/customstyle.h

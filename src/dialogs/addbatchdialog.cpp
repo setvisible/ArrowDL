@@ -261,7 +261,7 @@ void AddBatchDialog::doAccept(bool started)
     const QString adjusted = url.adjusted(QUrl::StripTrailingSlash).toString();
 
     if (Regex::hasBatchDescriptors(adjusted)) {
-        QList<IDownloadItem*> items = createItems(url);
+        QList<AbstractDownloadItem*> items = createItems(url);
 
         QMessageBox::StandardButton answer = askBatchDownloading(items);
 
@@ -285,7 +285,7 @@ void AddBatchDialog::doAccept(bool started)
 
 /******************************************************************************
  ******************************************************************************/
-QMessageBox::StandardButton AddBatchDialog::askBatchDownloading(QList<IDownloadItem*> items)
+QMessageBox::StandardButton AddBatchDialog::askBatchDownloading(QList<AbstractDownloadItem*> items)
 {
     if (!m_settings || m_settings->isConfirmBatchDownloadEnabled()) {
 
@@ -336,9 +336,9 @@ QMessageBox::StandardButton AddBatchDialog::askBatchDownloading(QList<IDownloadI
 
 /******************************************************************************
  ******************************************************************************/
-QList<IDownloadItem*> AddBatchDialog::createItems(const QUrl &inputUrl) const
+QList<AbstractDownloadItem*> AddBatchDialog::createItems(const QUrl &inputUrl) const
 {
-    QList<IDownloadItem*> items;
+    QList<AbstractDownloadItem*> items;
     const QStringList urls = Regex::interpret(inputUrl);
     for (auto url : urls) {
         items << createItem(url);
@@ -346,7 +346,7 @@ QList<IDownloadItem*> AddBatchDialog::createItems(const QUrl &inputUrl) const
     return items;
 }
 
-IDownloadItem* AddBatchDialog::createItem(const QString &url) const
+AbstractDownloadItem* AddBatchDialog::createItem(const QString &url) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
@@ -356,8 +356,8 @@ IDownloadItem* AddBatchDialog::createItem(const QString &url) const
     return item;
 }
 
-inline QList<IDownloadItem*> AddBatchDialog::toList(IDownloadItem *item)
+inline QList<AbstractDownloadItem*> AddBatchDialog::toList(AbstractDownloadItem *item)
 {
-    return QList<IDownloadItem*>() << item;
+    return QList<AbstractDownloadItem*>() << item;
 }
 

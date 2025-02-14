@@ -52,12 +52,12 @@ constexpr int column_download_width = 400;
 constexpr int column_mask_width = 200;
 
 
-static QList<IDownloadItem*> createItems(
+static QList<AbstractDownloadItem*> createItems(
     const QList<ResourceItem*> &resources,
     DownloadManager *downloadManager,
     const Settings *settings)
 {
-    QList<IDownloadItem*> items;
+    QList<AbstractDownloadItem*> items;
     for (auto resource : resources) {
         if (settings && settings->isHttpReferringPageEnabled()) {
             resource->setReferringPage(settings->httpReferringPage());

@@ -20,7 +20,7 @@
 #include "about.h"
 
 #include <Constants>
-#include <Core/IDownloadItem>
+#include <Core/AbstractDownloadItem>
 #include <Core/DownloadManager>
 #include <Core/DownloadTorrentItem>
 #include <Core/FileAccessManager>
@@ -143,12 +143,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     /* The SceneManager centralizes the changes. */
     connect(m_downloadManager, SIGNAL(jobAppended(DownloadRange)), this, SLOT(onJobAddedOrRemoved(DownloadRange)));
     connect(m_downloadManager, SIGNAL(jobRemoved(DownloadRange)), this, SLOT(onJobAddedOrRemoved(DownloadRange)));
-    connect(m_downloadManager, SIGNAL(jobStateChanged(IDownloadItem*)), this, SLOT(onJobStateChanged(IDownloadItem*)));
-    connect(m_downloadManager, SIGNAL(jobFinished(IDownloadItem*)), this, SLOT(onJobFinished(IDownloadItem*)));
+    connect(m_downloadManager, SIGNAL(jobStateChanged(AbstractDownloadItem*)), this, SLOT(onJobStateChanged(AbstractDownloadItem*)));
+    connect(m_downloadManager, SIGNAL(jobFinished(AbstractDownloadItem*)), this, SLOT(onJobFinished(AbstractDownloadItem*)));
     connect(m_downloadManager, SIGNAL(jobRenamed(QString,QString,bool)), this, SLOT(onJobRenamed(QString,QString,bool)), Qt::QueuedConnection);
     connect(m_downloadManager, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 
-    connect(ui->downloadQueueView, SIGNAL(doubleClicked(IDownloadItem*)), this, SLOT(openFile(IDownloadItem*)));
+    connect(ui->downloadQueueView, SIGNAL(doubleClicked(AbstractDownloadItem*)), this, SLOT(openFile(AbstractDownloadItem*)));
 
     /* Torrent Context Manager */
     connect(&torrentContext, &TorrentContext::changed, this, &MainWindow::onTorrentContextChanged);
@@ -510,7 +510,7 @@ void MainWindow::selectNone()
 
 void MainWindow::invertSelection()
 {
-    QList<IDownloadItem *> inverted;
+    QList<AbstractDownloadItem *> inverted;
     for (auto item : m_downloadManager->downloadItems()) {
         if (!m_downloadManager->isSelected(item)) {
             inverted.append(item);
@@ -552,14 +552,14 @@ void MainWindow::openFile()
 {
     if (!m_downloadManager->selection().isEmpty()) {
         auto item = m_downloadManager->selection().first();
-        if (item->state() == IDownloadItem::Completed) {
+        if (item->state() == AbstractDownloadItem::Completed) {
             openFile(item);
             return;
         }
     }
 }
 
-void MainWindow::openFile(IDownloadItem *downloadItem)
+void MainWindow::openFile(AbstractDownloadItem *downloadItem)
 {
     auto url = downloadItem->localFileUrl();
     if (!QDesktopServices::openUrl(url)) {
@@ -957,13 +957,13 @@ void MainWindow::onJobAddedOrRemoved(const DownloadRange &/*range*/)
     refreshTitleAndStatus();
 }
 
-void MainWindow::onJobStateChanged(IDownloadItem * /*downloadItem*/)
+void MainWindow::onJobStateChanged(AbstractDownloadItem * /*downloadItem*/)
 {
     refreshMenus();
     refreshTitleAndStatus();
 }
 
-void MainWindow::onJobFinished(IDownloadItem * downloadItem)
+void MainWindow::onJobFinished(AbstractDownloadItem * downloadItem)
 {
     refreshMenus();
     refreshTitleAndStatus();
@@ -1067,7 +1067,7 @@ void MainWindow::refreshMenus()
     const bool hasOnlyOneSelected = m_downloadManager->selection().count() == 1;
     bool hasOnlyCompletedSelected = hasSelection;
     for (auto item : m_downloadManager->selection()) {
-        if (item->state() != IDownloadItem::Completed) {
+        if (item->state() != AbstractDownloadItem::Completed) {
             hasOnlyCompletedSelected = false;
             continue;
         }

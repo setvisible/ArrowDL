@@ -19,7 +19,7 @@
 
 #include <Constants>
 #include <Core/DownloadItem>
-#include <Core/IDownloadItem>
+#include <Core/AbstractDownloadItem>
 #include <Core/ResourceItem>
 #include <Core/Theme>
 
@@ -41,7 +41,7 @@ QSize PopupItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QMod
 
 /******************************************************************************
  ******************************************************************************/
-BatchRenameDialog::BatchRenameDialog(const QList<IDownloadItem*> &items, QWidget *parent)
+BatchRenameDialog::BatchRenameDialog(const QList<AbstractDownloadItem*> &items, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::BatchRenameDialog)
     , m_items(items)

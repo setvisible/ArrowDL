@@ -20,7 +20,7 @@
 #include <QtCore/QList>
 #include <QtWidgets/QDialog>
 
-class IDownloadItem;
+class AbstractDownloadItem;
 class DownloadItem;
 
 namespace Ui {
@@ -31,7 +31,7 @@ class EditionDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit EditionDialog(const QList<IDownloadItem*> &items, QWidget *parent);
+    explicit EditionDialog(const QList<AbstractDownloadItem*> &items, QWidget *parent);
     ~EditionDialog() override;
 
 public slots:
@@ -43,7 +43,7 @@ private slots:
 
 private:
     Ui::EditionDialog *ui = nullptr;
-    QList<IDownloadItem *> m_items = {};
+    QList<AbstractDownloadItem *> m_items = {};
 
     void applyChanges();
 

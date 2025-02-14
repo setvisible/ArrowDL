@@ -156,8 +156,8 @@ private:
     QIcon m_stopIcon = {};
     QIcon m_completedIcon = {};
 
-    QColor stateColor(IDownloadItem::State state) const;
-    QIcon stateIcon(IDownloadItem::State state) const;
+    QColor stateColor(AbstractDownloadItem::State state) const;
+    QIcon stateIcon(AbstractDownloadItem::State state) const;
 };
 
 QueueViewItemDelegate::QueueViewItemDelegate(QObject *parent)
@@ -211,7 +211,7 @@ void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
     } else if (index.column() == COL_2_PROGRESS_BAR) {
 
         auto progress = index.data(QueueItem::ProgressRole).toInt();
-        auto state = static_cast<IDownloadItem::State>(index.data(QueueItem::StateRole).toInt());
+        auto state = static_cast<AbstractDownloadItem::State>(index.data(QueueItem::StateRole).toInt());
 
         CustomStyleOptionProgressBar progressBarOption;
         progressBarOption.state = myOption.state;
@@ -266,30 +266,30 @@ void QueueViewItemDelegate::updateEditorGeometry(
     editor->setGeometry(option.rect);
 }
 
-QColor QueueViewItemDelegate::stateColor(IDownloadItem::State state) const
+QColor QueueViewItemDelegate::stateColor(AbstractDownloadItem::State state) const
 {
     switch (state) {
-    case IDownloadItem::Idle:
+    case AbstractDownloadItem::Idle:
         return s_darkGrey;
 
-    case IDownloadItem::Paused:
+    case AbstractDownloadItem::Paused:
         return s_orange;
 
-    case IDownloadItem::Preparing:
-    case IDownloadItem::Connecting:
-    case IDownloadItem::DownloadingMetadata:
-    case IDownloadItem::Downloading:
-    case IDownloadItem::Endgame:
+    case AbstractDownloadItem::Preparing:
+    case AbstractDownloadItem::Connecting:
+    case AbstractDownloadItem::DownloadingMetadata:
+    case AbstractDownloadItem::Downloading:
+    case AbstractDownloadItem::Endgame:
         return s_green;
 
-    case IDownloadItem::Completed:
-    case IDownloadItem::Seeding:
+    case AbstractDownloadItem::Completed:
+    case AbstractDownloadItem::Seeding:
         return s_darkGreen;
 
-    case IDownloadItem::Stopped:
-    case IDownloadItem::Skipped:
-    case IDownloadItem::NetworkError:
-    case IDownloadItem::FileError:
+    case AbstractDownloadItem::Stopped:
+    case AbstractDownloadItem::Skipped:
+    case AbstractDownloadItem::NetworkError:
+    case AbstractDownloadItem::FileError:
         return s_darkRed;
 
     default:
@@ -299,30 +299,30 @@ QColor QueueViewItemDelegate::stateColor(IDownloadItem::State state) const
     return Qt::black;
 }
 
-QIcon QueueViewItemDelegate::stateIcon(IDownloadItem::State state) const
+QIcon QueueViewItemDelegate::stateIcon(AbstractDownloadItem::State state) const
 {
     switch (state) {
-    case IDownloadItem::Idle:
+    case AbstractDownloadItem::Idle:
         return m_idleIcon;
 
-    case IDownloadItem::Paused:
+    case AbstractDownloadItem::Paused:
         return m_pauseIcon;
 
-    case IDownloadItem::Preparing:
-    case IDownloadItem::Connecting:
-    case IDownloadItem::DownloadingMetadata:
-    case IDownloadItem::Downloading:
-    case IDownloadItem::Endgame:
+    case AbstractDownloadItem::Preparing:
+    case AbstractDownloadItem::Connecting:
+    case AbstractDownloadItem::DownloadingMetadata:
+    case AbstractDownloadItem::Downloading:
+    case AbstractDownloadItem::Endgame:
         return m_resumeIcon;
 
-    case IDownloadItem::Completed:
-    case IDownloadItem::Seeding:
+    case AbstractDownloadItem::Completed:
+    case AbstractDownloadItem::Seeding:
         return m_completedIcon;
 
-    case IDownloadItem::Stopped:
-    case IDownloadItem::Skipped:
-    case IDownloadItem::NetworkError:
-    case IDownloadItem::FileError:
+    case AbstractDownloadItem::Stopped:
+    case AbstractDownloadItem::Skipped:
+    case AbstractDownloadItem::NetworkError:
+    case AbstractDownloadItem::FileError:
         return m_stopIcon;
 
     default:
@@ -350,10 +350,10 @@ QueueItem::QueueItem(AbstractDownloadItem *downloadItem, QTreeWidget *view)
 static QString estimatedTime(AbstractDownloadItem *downloadItem)
 {
     switch (downloadItem->state()) {
-    case IDownloadItem::Downloading:
+    case AbstractDownloadItem::Downloading:
         return Format::timeToString(downloadItem->remainingTime());
-    case IDownloadItem::NetworkError:
-    case IDownloadItem::FileError:
+    case AbstractDownloadItem::NetworkError:
+    case AbstractDownloadItem::FileError:
         return downloadItem->errorMessage();
     default:
         return downloadItem->stateToString();
@@ -534,8 +534,8 @@ void DownloadQueueView::setEngine(DownloadEngine *downloadEngine)
           SLOT(onJobAdded(DownloadRange)) },
         { SIGNAL(jobRemoved(DownloadRange)),
           SLOT(onJobRemoved(DownloadRange)) },
-        { SIGNAL(jobStateChanged(IDownloadItem*)),
-          SLOT(onJobStateChanged(IDownloadItem*)) },
+        { SIGNAL(jobStateChanged(AbstractDownloadItem*)),
+          SLOT(onJobStateChanged(AbstractDownloadItem*)) },
         { SIGNAL(selectionChanged()),
           SLOT(onSelectionChanged()) },
         { SIGNAL(sortChanged()),
@@ -632,7 +632,7 @@ void DownloadQueueView::onJobRemoved(const DownloadRange &range)
     }
 }
 
-void DownloadQueueView::onJobStateChanged(IDownloadItem *item)
+void DownloadQueueView::onJobStateChanged(AbstractDownloadItem *item)
 {
     auto queueItem = getQueueItem(item);
     if (queueItem) {
@@ -683,7 +683,7 @@ void DownloadQueueView::onSortChanged()
 
 /******************************************************************************
  ******************************************************************************/
-int DownloadQueueView::getIndex(IDownloadItem *downloadItem) const
+int DownloadQueueView::getIndex(AbstractDownloadItem *downloadItem) const
 {
     for (auto index = 0; index < m_queueView->topLevelItemCount(); ++index) {
         auto treeItem = m_queueView->topLevelItem(index);
@@ -697,7 +697,7 @@ int DownloadQueueView::getIndex(IDownloadItem *downloadItem) const
     return -1;
 }
 
-QueueItem* DownloadQueueView::getQueueItem(IDownloadItem *downloadItem)
+QueueItem* DownloadQueueView::getQueueItem(AbstractDownloadItem *downloadItem)
 {
     auto index = getIndex(downloadItem);
     if (index >= 0) {
@@ -726,7 +726,7 @@ void DownloadQueueView::onQueueViewDoubleClicked(const QModelIndex &index)
  */
 void DownloadQueueView::onQueueViewItemSelectionChanged()
 {
-    QList<IDownloadItem *> selection;
+    QList<AbstractDownloadItem *> selection;
     for (auto treeItem : m_queueView->selectedItems()) {
         auto queueItem = dynamic_cast<const QueueItem *>(treeItem);
         selection << queueItem->downloadItem();
@@ -761,7 +761,7 @@ void DownloadQueueView::onQueueItemCommitData(QWidget *editor)
 void DownloadQueueView::onQueueItemDropped(QueueItem *queueItem)
 {
     if (queueItem) {
-        QList<IDownloadItem*> items;
+        QList<AbstractDownloadItem*> items;
         items << queueItem->downloadItem();
         m_downloadEngine->remove(items);
     }

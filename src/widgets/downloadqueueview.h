@@ -17,12 +17,12 @@
 #ifndef WIDGETS_DOWNLOAD_QUEUE_VIEW_H
 #define WIDGETS_DOWNLOAD_QUEUE_VIEW_H
 
-#include <Core/IDownloadItem>
+#include <Core/AbstractDownloadItem>
 
 #include <QtWidgets/QWidget>
 #include <QtCore/QModelIndex>
 
-using DownloadRange = QList<IDownloadItem *>;
+using DownloadRange = QList<AbstractDownloadItem *>;
 class DownloadEngine;
 class QueueItem;
 class QueueView;
@@ -50,7 +50,7 @@ public slots:
     void rename();
 
 signals:
-    void doubleClicked(IDownloadItem *item);
+    void doubleClicked(AbstractDownloadItem *item);
     void selectionChanged();
 
 protected slots:
@@ -59,7 +59,7 @@ protected slots:
 private slots:
     void onJobAdded(const DownloadRange &range);
     void onJobRemoved(const DownloadRange &range);
-    void onJobStateChanged(IDownloadItem *item);
+    void onJobStateChanged(AbstractDownloadItem *item);
     void onSelectionChanged();
     void onSortChanged();
 
@@ -81,8 +81,8 @@ private:
     QList<int> columnWidths() const;
     void setColumnWidths(const QList<int> &widths);
 
-    int getIndex(IDownloadItem *downloadItem) const;
-    QueueItem* getQueueItem(IDownloadItem *downloadItem);
+    int getIndex(AbstractDownloadItem *downloadItem) const;
+    QueueItem* getQueueItem(AbstractDownloadItem *downloadItem);
 };
 
 #endif // WIDGETS_DOWNLOAD_QUEUE_VIEW_H

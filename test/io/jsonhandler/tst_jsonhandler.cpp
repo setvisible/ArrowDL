@@ -33,7 +33,7 @@ private slots:
 
 private:
     inline QByteArray simplify(QByteArray &str);
-    inline QString toString(IDownloadItem *item) const;
+    inline QString toString(AbstractDownloadItem *item) const;
 };
 
 
@@ -48,7 +48,7 @@ inline QByteArray tst_JsonHandler::simplify(QByteArray &str)
     return result.toUtf8();
 }
 
-inline QString tst_JsonHandler::toString(IDownloadItem *item) const {
+inline QString tst_JsonHandler::toString(AbstractDownloadItem *item) const {
     return item->sourceUrl().toString();
 }
 
