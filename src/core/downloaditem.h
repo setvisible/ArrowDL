@@ -25,9 +25,10 @@
 #include <QtNetwork/QNetworkReply>
 
 class File;
-class DownloadItemPrivate;
 class DownloadManager;
 class ResourceItem;
+
+// class QNetworkReply;
 
 class DownloadItem : public AbstractDownloadItem
 {
@@ -68,9 +69,11 @@ private slots:
 protected:
     File* file() const;
 
-private:
-    DownloadItemPrivate *d = nullptr;
-    friend class DownloadItemPrivate;
+private:    
+    DownloadManager *m_downloadManager = nullptr;
+    ResourceItem *m_resource = nullptr;
+    QNetworkReply *m_reply = nullptr;
+    File *m_file = nullptr;
 
     QString statusToHttp(QNetworkReply::NetworkError error);
 };
