@@ -29,6 +29,10 @@ FileAccessManager::FileAccessManager(QWidget *parent) : QObject(parent)
     File::setFileAccessManager(this);
 }
 
+FileAccessManager::~FileAccessManager()
+{
+}
+
 Settings *FileAccessManager::settings() const
 {
     return m_settings;

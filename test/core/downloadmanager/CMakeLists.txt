@@ -4,8 +4,9 @@ set(APP_VERSION "0.0.0")
 
 find_package(Qt6 REQUIRED COMPONENTS
     Core
-    Test
+    Widgets
     Network
+    Test
 )
 
 qt_standard_project_setup()
@@ -20,6 +21,7 @@ set(MY_TEST_SOURCES
     ${CMAKE_SOURCE_DIR}/src/core/downloadtorrentitem.cpp
     ${CMAKE_SOURCE_DIR}/src/core/format.cpp
     ${CMAKE_SOURCE_DIR}/src/core/file.cpp
+    ${CMAKE_SOURCE_DIR}/src/core/fileaccessmanager.cpp
     ${CMAKE_SOURCE_DIR}/src/core/fileutils.cpp
     ${CMAKE_SOURCE_DIR}/src/core/mask.cpp
     ${CMAKE_SOURCE_DIR}/src/core/networkmanager.cpp
@@ -44,6 +46,7 @@ set(MY_TEST_HEADERS
     ${CMAKE_SOURCE_DIR}/src/core/downloadtorrentitem.h
     ${CMAKE_SOURCE_DIR}/src/core/format.h
     ${CMAKE_SOURCE_DIR}/src/core/file.h
+    ${CMAKE_SOURCE_DIR}/src/core/fileaccessmanager.h
     ${CMAKE_SOURCE_DIR}/src/core/fileutils.h
     ${CMAKE_SOURCE_DIR}/src/core/mask.h
     ${CMAKE_SOURCE_DIR}/src/core/networkmanager.h
@@ -93,8 +96,9 @@ if(MSVC OR MSYS OR MINGW) # for detecting Windows compilers
             ${OPENSSL_SSL_LIBRARY}
 
             Qt::Core
-            Qt::Test
+            Qt::Widgets
             Qt::Network
+            Qt::Test
     )
 
 else() # MacOS or Unix Compilers
@@ -108,8 +112,9 @@ else() # MacOS or Unix Compilers
             ${OPENSSL_SSL_LIBRARY}
 
             Qt::Core
-            Qt::Test
+            Qt::Widgets
             Qt::Network
+            Qt::Test
     )
 
 endif()
