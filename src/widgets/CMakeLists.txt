@@ -13,6 +13,9 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_SOURCE_DIR}/src/widgets/masktip.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/maskwidget.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/pathwidget.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidget.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidgetitem.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidgetitemdelegate.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/streamformatpicker.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/streamlistwidget.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/streamtoolbox.cpp
@@ -42,6 +45,9 @@ set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_SOURCE_DIR}/src/widgets/masktip.h
     ${CMAKE_SOURCE_DIR}/src/widgets/maskwidget.h
     ${CMAKE_SOURCE_DIR}/src/widgets/pathwidget.h
+    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidget.h
+    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidgetitem.h
+    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidgetitemdelegate.h
     ${CMAKE_SOURCE_DIR}/src/widgets/streamformatpicker.h
     ${CMAKE_SOURCE_DIR}/src/widgets/streamlistwidget.h
     ${CMAKE_SOURCE_DIR}/src/widgets/streamtoolbox.h

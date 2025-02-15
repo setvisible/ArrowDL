@@ -17,6 +17,9 @@ set(MY_TEST_SOURCES
     ${CMAKE_SOURCE_DIR}/src/widgets/customstyle.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/customstyleoptionprogressbar.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/downloadqueueview.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidget.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidgetitem.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidgetitemdelegate.cpp
 )
 
 set(MY_TEST_HEADERS
@@ -28,7 +31,9 @@ set(MY_TEST_HEADERS
     ${CMAKE_SOURCE_DIR}/src/widgets/customstyle.h
     ${CMAKE_SOURCE_DIR}/src/widgets/customstyleoptionprogressbar.h
     ${CMAKE_SOURCE_DIR}/src/widgets/downloadqueueview.h
-    ${CMAKE_SOURCE_DIR}/src/widgets/downloadqueueview_p.h
+    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidget.h
+    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidgetitem.h
+    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidgetitemdelegate.h
     ${CMAKE_SOURCE_DIR}/src/widgets/globals.h
 )
 

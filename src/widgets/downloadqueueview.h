@@ -22,12 +22,13 @@
 #include <QtWidgets/QWidget>
 #include <QtCore/QModelIndex>
 
-class DownloadManager;
 using DownloadRange = QList<AbstractDownloadItem *>;
-class QueueItem;
-class QueueView;
+class DownloadManager;
+class QueueWidgetItem;
+class QueueWidget;
 
 class QMenu;
+
 class DownloadQueueView : public QWidget
 {
     Q_OBJECT
@@ -66,13 +67,13 @@ private slots:
     void onQueueViewDoubleClicked(const QModelIndex &index);
     void onQueueViewItemSelectionChanged();
     void onQueueItemCommitData(QWidget *editor);
-    void onQueueItemDropped(QueueItem *queueItem);
+    void onQueueItemDropped(QueueWidgetItem *queueItem);
 
     void showContextMenu(const QPoint &pos) ;
 
 private:
     DownloadManager *m_downloadManager = nullptr;
-    QueueView *m_queueView = nullptr;
+    QueueWidget *m_queueWidget = nullptr;
     QMenu *m_contextMenu = nullptr;
 
     void retranslateUi();
@@ -82,7 +83,7 @@ private:
     void setColumnWidths(const QList<int> &widths);
 
     int getIndex(AbstractDownloadItem *downloadItem) const;
-    QueueItem* getQueueItem(AbstractDownloadItem *downloadItem);
+    QueueWidgetItem* getQueueItem(AbstractDownloadItem *downloadItem);
 };
 
 #endif // WIDGETS_DOWNLOAD_QUEUE_VIEW_H
