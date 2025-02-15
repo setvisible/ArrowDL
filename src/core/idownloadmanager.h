@@ -14,24 +14,27 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef IO_JSON_HANDLER_H
-#define IO_JSON_HANDLER_H
+#ifndef CORE_I_DOWNLOAD_MANAGER_H
+#define CORE_I_DOWNLOAD_MANAGER_H
 
-#include <Core/IDownloadManager>
-#include <Io/IFileHandler>
+#include <QtCore/QList>
+#include <QtCore/QUrl>
 
-class JsonHandler : public IFileHandler
+class AbstractDownloadItem;
+
+class IDownloadManager
 {
 public:
-    explicit JsonHandler() = default;
+    IDownloadManager() = default;
+    virtual ~IDownloadManager() noexcept = default; // IMPORTANT: virtual destructor
 
-    bool canRead() const override;
-    bool canWrite() const override;
+    virtual void append(const QList<AbstractDownloadItem *> &items, bool started = false) = 0;
+    virtual void remove(const QList<AbstractDownloadItem *> &items) = 0;
 
-    bool read(IDownloadManager *downloadManager) override;
-    bool write(const IDownloadManager &downloadManager) override;
+    virtual QList<AbstractDownloadItem *> downloadItems() const = 0;
 
-private:
+    virtual AbstractDownloadItem* createFileItem(const QUrl &url) = 0;
+    virtual AbstractDownloadItem* createTorrentItem(const QUrl &url) = 0;
 };
 
-#endif // IO_JSON_HANDLER_H
+#endif // CORE_I_DOWNLOAD_MANAGER_H

@@ -17,6 +17,7 @@
 #ifndef IO_TEXT_HANDLER_H
 #define IO_TEXT_HANDLER_H
 
+#include <Core/IDownloadManager>
 #include <Io/IFileHandler>
 
 class TextHandler : public IFileHandler
@@ -27,8 +28,8 @@ public:
     bool canRead() const override;
     bool canWrite() const override;
 
-    bool read(DownloadEngine *engine) override;
-    bool write(const DownloadEngine &engine) override;
+    bool read(IDownloadManager *downloadManager) override;
+    bool write(const IDownloadManager &downloadManager) override;
 
 private:
 };

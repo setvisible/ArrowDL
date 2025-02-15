@@ -14,10 +14,10 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <Core/AbstractDownloadItem>
 #include <Io/TextHandler>
 
-#include "../../utils/fakedownloaditem.h"
-#include "../../utils/fakedownloadmanager.h"
+#include "../utils/dummydownloadmanager.h"
 
 #include <QtCore/QDebug>
 #include <QtTest/QtTest>
@@ -58,7 +58,7 @@ inline QString tst_TextHandler::toString(AbstractDownloadItem *item) const {
 void tst_TextHandler::write()
 {
     // Given
-    FakeDownloadManager manager;
+    DummyDownloadManager manager;
     manager.appendFakeJob(QUrl("https://www.example.com/2019/10/DSC_8045.jpg"));
     manager.appendFakeJob(QUrl("https://www.example.com/2019/10/DSC_8046.jpg"));
     manager.appendFakeJob(QUrl("https://www.example.com/2019/10/DSC_8047.jpg"));
@@ -94,7 +94,7 @@ void tst_TextHandler::write()
 void tst_TextHandler::writeUTF8()
 {
     // Given
-    FakeDownloadManager manager;
+    DummyDownloadManager manager;
     manager.appendFakeJob(QUrl("http://www.exemple.fr/Capture-d’écran-2017-06-20-à-10.22.38.png"));
     manager.appendFakeJob(QUrl("http://www.exemple.fr/Capture-d%E2%80%99e%CC%81cran-2017-06-20-a%CC%80-10.22.38.png"));
 
@@ -124,7 +124,7 @@ void tst_TextHandler::writeUTF8()
 void tst_TextHandler::read()
 {
     // Given
-    FakeDownloadManager manager;
+    DummyDownloadManager manager;
 
     QByteArray byteArray =
             "https://www.example.com/2019/10/DSC_8045.jpg\n"
@@ -161,7 +161,7 @@ void tst_TextHandler::read()
 void tst_TextHandler::readUTF8()
 {
     // Given
-    FakeDownloadManager manager;
+    DummyDownloadManager manager;
 
     QByteArray byteArray =
             "http://www.exemple.fr/Capture-d’écran-2017-06-20-à-10.22.38.png\n";

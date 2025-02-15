@@ -14,24 +14,32 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef IO_JSON_HANDLER_H
-#define IO_JSON_HANDLER_H
+#ifndef DUMMY_DOWNLOAD_ITEM_H
+#define DUMMY_DOWNLOAD_ITEM_H
 
-#include <Core/IDownloadManager>
-#include <Io/IFileHandler>
+#include <Core/AbstractDownloadItem>
 
-class JsonHandler : public IFileHandler
+class DummyDownloadItem : public AbstractDownloadItem
 {
+    Q_OBJECT
+
 public:
-    explicit JsonHandler() = default;
+    explicit DummyDownloadItem(QObject *parent = nullptr);
 
-    bool canRead() const override;
-    bool canWrite() const override;
+    virtual QUrl sourceUrl() const override;
+    virtual void setSourceUrl(const QUrl &resourceUrl) override;
 
-    bool read(IDownloadManager *downloadManager) override;
-    bool write(const IDownloadManager &downloadManager) override;
+    virtual QString localFileName() const override;
+
+    virtual QString localFullFileName() const override;
+    virtual QString localFilePath() const override;
+
+    virtual QUrl localFileUrl() const override;
+    virtual QUrl localDirUrl() const override;
 
 private:
+    QUrl m_resourceUrl;
+    QString m_resourceLocalFileName;
 };
 
-#endif // IO_JSON_HANDLER_H
+#endif // DUMMY_DOWNLOAD_ITEM_H

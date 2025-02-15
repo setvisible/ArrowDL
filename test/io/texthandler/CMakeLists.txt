@@ -9,11 +9,10 @@ qt_standard_project_setup()
 
 set(MY_TEST_SOURCES
     ${CMAKE_SOURCE_DIR}/src/core/abstractdownloaditem.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/downloadengine.cpp
     ${CMAKE_SOURCE_DIR}/src/io/ifilehandler.cpp
     ${CMAKE_SOURCE_DIR}/src/io/texthandler.cpp
-    ${CMAKE_SOURCE_DIR}/test/utils/fakedownloaditem.cpp
-    ${CMAKE_SOURCE_DIR}/test/utils/fakedownloadmanager.cpp
+    ${CMAKE_SOURCE_DIR}/test/io/utils/dummydownloaditem.cpp
+    ${CMAKE_SOURCE_DIR}/test/io/utils/dummydownloadmanager.cpp
 )
 
 add_executable(${MY_TEST_TARGET} WIN32

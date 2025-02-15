@@ -210,6 +210,7 @@ QUrl AbstractDownloadItem::sourceUrl() const
 
 void AbstractDownloadItem::setSourceUrl(const QUrl &url)
 {
+    Q_UNUSED(url);
 }
 
 /**

@@ -1,6 +1,5 @@
 add_subdirectory(abstractsettings)
 add_subdirectory(downloadmanager)
-add_subdirectory(downloadengine)
 add_subdirectory(fileutils)
 add_subdirectory(format)
 add_subdirectory(mask)

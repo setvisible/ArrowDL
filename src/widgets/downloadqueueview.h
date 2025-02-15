@@ -22,8 +22,8 @@
 #include <QtWidgets/QWidget>
 #include <QtCore/QModelIndex>
 
+class DownloadManager;
 using DownloadRange = QList<AbstractDownloadItem *>;
-class DownloadEngine;
 class QueueItem;
 class QueueView;
 
@@ -35,8 +35,8 @@ public:
     explicit DownloadQueueView(QWidget *parent);
     ~DownloadQueueView() override = default;
 
-    DownloadEngine* engine() const;
-    void setEngine(DownloadEngine *downloadEngine);
+    DownloadManager* engine() const;
+    void setEngine(DownloadManager *downloadManager);
 
     QMenu* contextMenu() const;
     void setContextMenu(QMenu *contextMenu);
@@ -71,7 +71,7 @@ private slots:
     void showContextMenu(const QPoint &pos) ;
 
 private:
-    DownloadEngine *m_downloadEngine = nullptr;
+    DownloadManager *m_downloadManager = nullptr;
     QueueView *m_queueView = nullptr;
     QMenu *m_contextMenu = nullptr;
 

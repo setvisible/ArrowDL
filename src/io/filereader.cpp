@@ -18,6 +18,8 @@
 
 #include "format.h"
 
+#include <Core/IDownloadManager>
+
 #include <QtCore/QDebug>
 #include <QtCore/QByteArray>
 #include <QtCore/QFile>
@@ -76,9 +78,9 @@ bool FileReader::initHandler()
 
 /******************************************************************************
  ******************************************************************************/
-bool FileReader::read(DownloadEngine *engine)
+bool FileReader::read(IDownloadManager *downloadManager)
 {
-    if (!engine) {
+    if (!downloadManager) {
         qWarning("FileReader::read: cannot read into null pointer");
         return false;
     }
@@ -86,7 +88,7 @@ bool FileReader::read(DownloadEngine *engine)
         return false;
     }
     try {
-        const bool result = m_handler->read(engine);
+        const bool result = m_handler->read(downloadManager);
         if (!result) {
             m_fileReaderError = InvalidDataError;
             m_errorString = FileReader::tr("Unable to read data");

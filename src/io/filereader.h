@@ -21,6 +21,8 @@
 
 #include <QtCore/QCoreApplication>
 
+class IDownloadManager;
+
 class QIODevice;
 
 class FileReader
@@ -41,7 +43,7 @@ public:
     explicit FileReader(const QString &fileName);
     ~FileReader();
 
-    bool read(DownloadEngine *engine);
+    bool read(IDownloadManager *downloadManager);
 
     FileReaderError error() const;
     QString errorString() const;

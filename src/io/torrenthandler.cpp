@@ -33,9 +33,9 @@ bool TorrentHandler::canWrite() const
     return false;
 }
 
-bool TorrentHandler::read(DownloadEngine *engine)
+bool TorrentHandler::read(IDownloadManager *downloadManager)
 {
-    if (!engine) {
+    if (!downloadManager) {
         qWarning("TorrentHandler::read() cannot read into null pointer");
         return false;
     }
@@ -56,19 +56,19 @@ bool TorrentHandler::read(DownloadEngine *engine)
         auto filename = f->fileName();
         url = QUrl(filename);
     }
-    AbstractDownloadItem *item = engine->createTorrentItem(url);
+    AbstractDownloadItem *item = downloadManager->createTorrentItem(url);
     if (!item) {
-        qWarning("DownloadEngine::createFileItem() not overridden."
+        qWarning("DownloadManager::createFileItem() not overridden."
                  " It still returns null pointer!");
         return false;
     }
     QList<AbstractDownloadItem*> items;
     items.append(item);
-    engine->append(items, false);
+    downloadManager->append(items, false);
     return true;
 }
 
-bool TorrentHandler::write(const DownloadEngine &/*engine*/)
+bool TorrentHandler::write(const IDownloadManager &/*downloadManager*/)
 {
     return false;
 }

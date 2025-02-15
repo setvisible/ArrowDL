@@ -14,40 +14,61 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "fakedownloadmanager.h"
+#include "dummydownloaditem.h"
+#include "dummydownloadmanager.h"
 
-#include "fakedownloaditem.h"
+#include <Core/AbstractDownloadItem>
 
-FakeDownloadManager::FakeDownloadManager(QObject *parent) : DownloadManager(parent)
+DummyDownloadManager::DummyDownloadManager(QObject *parent) : QObject(parent)
 {
 }
 
-FakeDownloadManager::~FakeDownloadManager()
+void DummyDownloadManager::append(const QList<AbstractDownloadItem *> &items, bool started)
 {
+    m_items.append(items);
 }
 
-AbstractDownloadItem* FakeDownloadManager::createFileItem(const QUrl &url)
+void DummyDownloadManager::remove(const QList<AbstractDownloadItem *> &items)
 {
-    FakeDownloadItem *item = new FakeDownloadItem(this);
+    for (auto item : items) {
+        m_items.removeAll(item);
+    }
+}
+
+QList<AbstractDownloadItem *> DummyDownloadManager::downloadItems() const
+{
+    return m_items;
+}
+
+AbstractDownloadItem* DummyDownloadManager::createFileItem(const QUrl &url)
+{
+    auto item = new DummyDownloadItem(this);
     item->setSourceUrl(url);
     return item;
 }
 
-void FakeDownloadManager::createFakeJobs(int count)
+AbstractDownloadItem* DummyDownloadManager::createTorrentItem(const QUrl &url)
+{
+    Q_UNUSED(url);
+    return nullptr;
+}
+
+
+void DummyDownloadManager::createFakeJobs(int count)
 {
     QList<AbstractDownloadItem*> items;
     for (auto i = 0; i < count; ++i) {
-        auto item = new FakeDownloadItem(this);
+        auto item = new DummyDownloadItem(this);
         items.append(item);
     }
-    DownloadManager::append(items, false);
+    append(items, false);
 }
 
-void FakeDownloadManager::appendFakeJob(const QUrl &url)
+void DummyDownloadManager::appendFakeJob(const QUrl &url)
 {
     AbstractDownloadItem *item = createFileItem(url);
 
     QList<AbstractDownloadItem*> items;
     items.append(item);
-    DownloadManager::append(items, false);
+    append(items, false);
 }

@@ -2,7 +2,6 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_SOURCE_DIR}/src/core/abstractdownloaditem.cpp
     ${CMAKE_SOURCE_DIR}/src/core/abstractsettings.cpp
     ${CMAKE_SOURCE_DIR}/src/core/checkabletablemodel.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/downloadengine.cpp
     ${CMAKE_SOURCE_DIR}/src/core/downloadfileitem.cpp
     ${CMAKE_SOURCE_DIR}/src/core/downloadmanager.cpp
     ${CMAKE_SOURCE_DIR}/src/core/downloadstreamitem.cpp

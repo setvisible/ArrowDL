@@ -27,6 +27,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QSettings>
 #include <QtCore/QTimer>
+#include <QtCore/QtMath>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
@@ -45,9 +46,15 @@ using namespace Qt::Literals::StringLiterals;
  *
  */
 
-DownloadManager::DownloadManager(QObject *parent) : DownloadEngine(parent)
-  , m_networkManager(new NetworkManager(this))
+DownloadManager::DownloadManager(QObject *parent) : QObject(parent)
+    , m_networkManager(new NetworkManager(this))
+    , m_speedTimer(new QTimer(this))
 {
+    connect(this, SIGNAL(jobFinished(AbstractDownloadItem*)),
+            this, SLOT(startNext(AbstractDownloadItem*)));
+
+    connect(m_speedTimer, SIGNAL(timeout()), this, SLOT(onSpeedTimerTimeout()));
+
     /* Auto save of the queue */
     connect(this, SIGNAL(jobAppended(DownloadRange)), this, SLOT(onQueueChanged(DownloadRange)));
     connect(this, SIGNAL(jobRemoved(DownloadRange)), this, SLOT(onQueueChanged(DownloadRange)));
@@ -57,10 +64,16 @@ DownloadManager::DownloadManager(QObject *parent) : DownloadEngine(parent)
 DownloadManager::~DownloadManager()
 {
     saveQueue();
+    clear();
 }
 
 /******************************************************************************
  ******************************************************************************/
+/**
+ * \fn void DownloadManager::jobStateChanged(AbstractDownloadItem *item)
+ * This signal is emited whenever the download data or its progress or its state has changed
+ */
+
 /**
  * \fn void DownloadManager::jobStateChanged(AbstractDownloadItem *downloadItem)
  * This signal is emited whenever the download data or its progress or its state has changed
@@ -188,6 +201,11 @@ NetworkManager* DownloadManager::networkManager() const
 
 /******************************************************************************
  ******************************************************************************/
+/*!
+ * \brief Reimplement this method allows the Engine to make Items; like a factory.
+ * That makes the unit tests of this class easier, allowing dummy items.
+ * \remark Optional
+ */
 AbstractDownloadItem* DownloadManager::createFileItem(const QUrl &url)
 {
     ResourceItem* resource = createResourceItem(url);
@@ -224,4 +242,419 @@ inline ResourceItem* DownloadManager::createResourceItem(const QUrl &url)
     resource->setMask(mask);
     resource->setCheckSum({});
     return resource;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+qsizetype DownloadManager::downloadingCount() const
+{
+    auto count = 0;
+    for (auto item : m_items) {
+        if (item->isDownloading()) {
+            count++;
+        }
+    }
+    return count;
+}
+
+void DownloadManager::startNext(AbstractDownloadItem * /*item*/)
+{
+    if (downloadingCount() < m_maxSimultaneousDownloads) {
+        for (auto item : m_items) {
+            if (item->state() == AbstractDownloadItem::Idle) {
+                item->resume();
+                startNext(nullptr);
+                break;
+            }
+        }
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+qsizetype DownloadManager::count() const
+{
+    return m_items.count();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void DownloadManager::clear()
+{
+    clearSelection();
+    removeItems(m_items);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void DownloadManager::append(const QList<AbstractDownloadItem*> &items, bool started)
+{
+    if (items.isEmpty()) {
+        return;
+    }
+    for (auto item : items) {
+        auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
+        if (!downloadItem) {
+            return;
+        }
+
+        connect(downloadItem, SIGNAL(changed()), this, SLOT(onChanged()));
+        connect(downloadItem, SIGNAL(finished()), this, SLOT(onFinished()));
+        connect(downloadItem, SIGNAL(renamed(QString,QString,bool)), this, SLOT(onRenamed(QString,QString,bool)));
+
+        if (started) {
+            if (downloadItem->isResumable()) {
+                downloadItem->setState(AbstractDownloadItem::Idle);
+            }
+        } else {
+            if (downloadItem->isPausable()) {
+                downloadItem->setState(AbstractDownloadItem::Paused);
+            }
+        }
+        m_items.append(downloadItem);
+    }
+
+    emit jobAppended(items);
+
+    if (started) {
+        startNext(nullptr);
+    }
+}
+
+void DownloadManager::remove(const QList<AbstractDownloadItem*> &items)
+{
+    removeItems(items);
+}
+
+void DownloadManager::removeItems(const QList<AbstractDownloadItem*> &items)
+{
+    if (items.isEmpty()) {
+        return;
+    }
+    /* First, deselect */
+    beginSelectionChange();
+    for (auto item : items) {
+        setSelected(item, false);
+    }
+    endSelectionChange();
+
+    /* Then, remove */
+    for (auto item : items) {
+        cancel(item); // stop the reply first
+        m_items.removeAll(item);
+        auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
+        if (downloadItem) {
+            downloadItem->deleteLater();
+        }
+    }
+    emit jobRemoved(items);
+}
+
+void DownloadManager::updateItems(const QList<AbstractDownloadItem *> &items)
+{
+    for (auto item : items) {
+        emit jobStateChanged(item);
+    }
+}
+
+void DownloadManager::movetoTrash(const QList<AbstractDownloadItem*> &items)
+{
+    if (items.isEmpty()) {
+        return;
+    }
+    /* Then, move to trash */
+    for (auto item : items) {
+        cancel(item); // stop the reply first
+        m_items.removeAll(item);
+        auto downloadItem = dynamic_cast<AbstractDownloadItem*>(item);
+        if (downloadItem) {
+            downloadItem->moveToTrash();
+        }
+    }
+    removeItems(items);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+const AbstractDownloadItem* DownloadManager::clientForRow(qsizetype row) const
+{
+    Q_ASSERT(row >=0 && row < m_items.count());
+    return m_items.at(row);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+int DownloadManager::maxSimultaneousDownloads() const
+{
+    return m_maxSimultaneousDownloads;
+}
+
+void DownloadManager::setMaxSimultaneousDownloads(int number)
+{
+    m_maxSimultaneousDownloads = number;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+QList<AbstractDownloadItem *> DownloadManager::downloadItems() const
+{
+    return m_items;
+}
+
+static inline QList<AbstractDownloadItem*> filter(
+    const QList<AbstractDownloadItem*> &items,
+    const QList<AbstractDownloadItem::State> &states)
+{
+    QList<AbstractDownloadItem*> list;
+    for (auto item : items) {
+        for (auto state : states) {
+            if (item->state() == state) {
+                list.append(item);
+            }
+        }
+    }
+    return list;
+}
+
+QList<AbstractDownloadItem*> DownloadManager::completedJobs() const
+{
+    return filter(m_items, {AbstractDownloadItem::Completed,
+                            AbstractDownloadItem::Seeding});
+}
+
+QList<AbstractDownloadItem*> DownloadManager::failedJobs() const
+{
+    return filter(m_items, {AbstractDownloadItem::Stopped,
+                            AbstractDownloadItem::Skipped,
+                            AbstractDownloadItem::NetworkError,
+                            AbstractDownloadItem::FileError});
+}
+
+QList<AbstractDownloadItem*> DownloadManager::runningJobs() const
+{
+    return filter(m_items, {AbstractDownloadItem::Preparing,
+                            AbstractDownloadItem::Connecting,
+                            AbstractDownloadItem::DownloadingMetadata,
+                            AbstractDownloadItem::Downloading,
+                            AbstractDownloadItem::Endgame});
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void DownloadManager::onSpeedTimerTimeout()
+{
+    m_speedTimer->stop();
+    m_previouSpeed = 0;
+    emit onChanged();
+}
+
+qreal DownloadManager::totalSpeed()
+{
+    qreal speed = 0;
+    for (auto item : m_items) {
+        speed += qMax(item->speed(), qreal(0));
+    }
+    if (speed > 0) {
+        m_previouSpeed = speed;
+        m_speedTimer->start(MSEC_SPEED_DISPLAY_TIME);
+    }
+    return m_previouSpeed;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void DownloadManager::resume(AbstractDownloadItem *item)
+{
+    if (item->isResumable()) {
+        item->setReadyToResume();
+        startNext(item);
+    }
+}
+
+void DownloadManager::pause(AbstractDownloadItem *item)
+{
+    if (item->isPausable()) {
+        item->pause();
+    }
+}
+
+void DownloadManager::cancel(AbstractDownloadItem *item)
+{
+    if (item->isCancelable()) {
+        item->stop();
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void DownloadManager::onChanged()
+{
+    auto downloadItem = qobject_cast<AbstractDownloadItem *>(sender());
+    emit jobStateChanged(downloadItem);
+}
+
+void DownloadManager::onFinished()
+{
+    auto downloadItem = qobject_cast<AbstractDownloadItem *>(sender());
+    emit jobFinished(downloadItem);
+}
+
+void DownloadManager::onRenamed(const QString &oldName, const QString &newName, bool success)
+{
+    emit jobRenamed(oldName, newName, success);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void DownloadManager::clearSelection()
+{
+    m_selectedItems.clear();
+    emit selectionChanged();
+}
+
+QList<AbstractDownloadItem *> DownloadManager::selection() const
+{
+    return m_selectedItems;
+}
+
+void DownloadManager::setSelection(const QList<AbstractDownloadItem*> &selection)
+{
+    m_selectedItems.clear();
+    m_selectedItems.append(selection);
+    if (!m_selectionAboutToChange) {
+        emit selectionChanged();
+    }
+}
+
+bool DownloadManager::isSelected(AbstractDownloadItem *item) const
+{
+    return m_selectedItems.contains(item);
+}
+
+void DownloadManager::setSelected(AbstractDownloadItem* item, bool isSelected)
+{
+    m_selectedItems.removeAll(item);
+    if (isSelected) {
+        m_selectedItems.append(item);
+    }
+    if (!m_selectionAboutToChange) {
+        emit selectionChanged();
+    }
+}
+
+QString DownloadManager::selectionToString() const
+{
+    QString ret;
+    int count = 0;
+    for (auto item : m_selectedItems) {
+        ret += item->localFileName();
+        ret += "\n";
+        count++;
+        if (count > SELECTION_DISPLAY_LIMIT) {
+            ret += tr("... (%0 others)").arg(m_selectedItems.count() - SELECTION_DISPLAY_LIMIT);
+            break;
+        }
+    }
+    return ret;
+}
+
+QString DownloadManager::selectionToClipboard() const
+{
+    QString ret;
+    for (auto item : m_selectedItems) {
+        ret += item->sourceUrl().toString();
+        ret += "\n";
+    }
+    return ret;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void DownloadManager::beginSelectionChange()
+{
+    m_selectionAboutToChange = true;
+}
+
+void DownloadManager::endSelectionChange()
+{
+    m_selectionAboutToChange = false;
+    emit selectionChanged();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void DownloadManager::sortSelectionByIndex()
+{
+    if (m_selectedItems.isEmpty()) {
+        return;
+    }
+    QMap<qsizetype, AbstractDownloadItem*> map;
+    for (auto selectedItem : m_selectedItems) {
+        auto index = m_items.indexOf(selectedItem);
+        map.insert(index, selectedItem);
+    }
+    m_selectedItems = map.values();
+}
+
+void DownloadManager::moveUpTo(qsizetype targetIndex)
+{
+    for (auto i = 0; i < m_selectedItems.size(); ++i) {
+        auto indexToMove = m_items.indexOf(m_selectedItems.at(i));
+        for (auto j = indexToMove; j > targetIndex + i; --j) {
+            m_items.swapItemsAt(j, j - 1);
+        }
+    }
+    emit sortChanged();
+}
+
+void DownloadManager::moveDownTo(qsizetype targetIndex)
+{
+    auto count = m_selectedItems.size() - 1;
+    for (auto i = count; i >= 0; --i) {
+        auto k = count - i;
+        auto indexToMove = m_items.indexOf(m_selectedItems.at(i));
+        for (auto j = indexToMove; j < targetIndex - k; ++j) {
+            m_items.swapItemsAt(j, j + 1);
+        }
+    }
+    emit sortChanged();
+}
+
+void DownloadManager::moveCurrentTop()
+{
+    if (m_selectedItems.isEmpty()) {
+        return;
+    }
+    sortSelectionByIndex();
+    moveUpTo(0);
+}
+
+void DownloadManager::moveCurrentUp()
+{
+    if (m_selectedItems.isEmpty()) {
+        return;
+    }
+    sortSelectionByIndex();
+    auto targetIndex = qMax(0, m_items.indexOf(m_selectedItems.first()) - 1);
+    moveUpTo(targetIndex);
+}
+
+void DownloadManager::moveCurrentDown()
+{
+    if (m_selectedItems.isEmpty()) {
+        return;
+    }
+    sortSelectionByIndex();
+    auto targetIndex = qMin(m_items.size() - 1, m_items.indexOf(m_selectedItems.last()) + 1);
+    moveDownTo(targetIndex);
+}
+
+void DownloadManager::moveCurrentBottom()
+{
+    if (m_selectedItems.isEmpty()) {
+        return;
+    }
+    sortSelectionByIndex();
+    auto targetIndex = m_items.size() - 1;
+    moveDownTo(targetIndex);
 }

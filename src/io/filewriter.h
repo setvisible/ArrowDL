@@ -42,7 +42,7 @@ public:
 
 
     bool canWrite();
-    bool write(DownloadEngine *engine);
+    bool write(IDownloadManager *downloadManager);
 
     FileWriterError error() const;
     QString errorString() const;

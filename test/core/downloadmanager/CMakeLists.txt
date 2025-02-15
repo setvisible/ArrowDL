@@ -14,7 +14,6 @@ qt_standard_project_setup()
 set(MY_TEST_SOURCES
     ${CMAKE_SOURCE_DIR}/src/core/abstractdownloaditem.cpp
     ${CMAKE_SOURCE_DIR}/src/core/abstractsettings.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/downloadengine.cpp
     ${CMAKE_SOURCE_DIR}/src/core/downloadfileitem.cpp
     ${CMAKE_SOURCE_DIR}/src/core/downloadmanager.cpp
     ${CMAKE_SOURCE_DIR}/src/core/downloadstreamitem.cpp
@@ -34,12 +33,13 @@ set(MY_TEST_SOURCES
     ${CMAKE_SOURCE_DIR}/src/core/torrentcontext.cpp
     ${CMAKE_SOURCE_DIR}/src/core/torrentcontext_p.cpp
     ${CMAKE_SOURCE_DIR}/src/core/torrentmessage.cpp
+
+    ${CMAKE_SOURCE_DIR}/test/utils/fakedownloaditem.cpp
 )
 
 set(MY_TEST_HEADERS
     ${CMAKE_SOURCE_DIR}/src/core/abstractdownloaditem.h
     ${CMAKE_SOURCE_DIR}/src/core/abstractsettings.h
-    ${CMAKE_SOURCE_DIR}/src/core/downloadengine.h
     ${CMAKE_SOURCE_DIR}/src/core/downloadfileitem.h
     ${CMAKE_SOURCE_DIR}/src/core/downloadmanager.h
     ${CMAKE_SOURCE_DIR}/src/core/downloadstreamitem.h

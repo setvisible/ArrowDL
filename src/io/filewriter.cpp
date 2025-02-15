@@ -92,10 +92,10 @@ bool FileWriter::canWrite()
 
 /******************************************************************************
  ******************************************************************************/
-bool FileWriter::write(DownloadEngine *engine)
+bool FileWriter::write(IDownloadManager *downloadManager)
 {
     // Do this before canWrite, so it doesn't create a file if this fails.
-    if (Q_UNLIKELY(!engine)) {
+    if (Q_UNLIKELY(!downloadManager)) {
         m_fileWriterError = FileWriter::InvalidFileError;
         m_errorString = FileWriter::tr("File is empty");
         return false;
@@ -103,7 +103,7 @@ bool FileWriter::write(DownloadEngine *engine)
     if (!canWrite()) {
         return false;
     }
-    if (!m_handler->write(*engine)) {
+    if (!m_handler->write(*downloadManager)) {
         return false;
     }
     if (auto file = qobject_cast<QFile *>(m_device)) {

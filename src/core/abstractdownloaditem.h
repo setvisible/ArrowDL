@@ -74,7 +74,7 @@ public:
     void logInfo(const QString &message);       
 
     virtual QUrl sourceUrl() const;
-    void setSourceUrl(const QUrl &url);
+    virtual void setSourceUrl(const QUrl &url);
 
     virtual QString localFullFileName() const;
     virtual QString localFileName() const;

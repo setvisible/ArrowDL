@@ -18,7 +18,7 @@
 
 #include <Constants>
 #include <Core/AbstractDownloadItem>
-#include <Core/DownloadEngine>
+#include <Core/DownloadManager>
 #include <Core/Format>
 #include <Core/MimeDatabase>
 #include <Widgets/CustomStyle>
@@ -518,12 +518,12 @@ void DownloadQueueView::rename()
 
 /******************************************************************************
  ******************************************************************************/
-DownloadEngine *DownloadQueueView::engine() const
+DownloadManager *DownloadQueueView::engine() const
 {
-    return m_downloadEngine;
+    return m_downloadManager;
 }
 
-void DownloadQueueView::setEngine(DownloadEngine *downloadEngine)
+void DownloadQueueView::setEngine(DownloadManager *downloadManager)
 {
     struct Cx {
         const char *signal;
@@ -543,19 +543,19 @@ void DownloadQueueView::setEngine(DownloadEngine *downloadEngine)
         { 0, 0 }
     };
 
-    if (m_downloadEngine == downloadEngine) {
+    if (m_downloadManager == downloadManager) {
         return;
     }
 
-    if (m_downloadEngine) {
+    if (m_downloadManager) {
         for (auto cx = &connections[0]; cx->signal; cx++) {
-            QObject::disconnect(m_downloadEngine, cx->signal, this, cx->slot);
+            QObject::disconnect(m_downloadManager, cx->signal, this, cx->slot);
         }
     }
-    m_downloadEngine = downloadEngine;
-    if (m_downloadEngine) {
+    m_downloadManager = downloadManager;
+    if (m_downloadManager) {
         for (auto cx = &connections[0]; cx->signal; cx++) {
-            QObject::connect(m_downloadEngine, cx->signal, this, cx->slot);
+            QObject::connect(m_downloadManager, cx->signal, this, cx->slot);
         }
     }
 }
@@ -644,10 +644,10 @@ void DownloadQueueView::onJobStateChanged(AbstractDownloadItem *item)
  ******************************************************************************/
 void DownloadQueueView::onSelectionChanged()
 {
-    const QSignalBlocker blocker(m_downloadEngine);
-    m_downloadEngine->beginSelectionChange();
+    const QSignalBlocker blocker(m_downloadManager);
+    m_downloadManager->beginSelectionChange();
 
-    auto selection = m_downloadEngine->selection();
+    auto selection = m_downloadManager->selection();
     for (auto index = 0; index < m_queueView->topLevelItemCount(); ++index) {
         auto treeItem = m_queueView->topLevelItem(index);
         auto queueItem = dynamic_cast<const QueueItem *>(treeItem);
@@ -655,16 +655,16 @@ void DownloadQueueView::onSelectionChanged()
         treeItem->setSelected(isSelected);
     }
 
-    m_downloadEngine->endSelectionChange();
+    m_downloadManager->endSelectionChange();
 }
 
 void DownloadQueueView::onSortChanged()
 {
     // Save selection and current item
     auto currentItem = m_queueView->currentItem();
-    auto selection = m_downloadEngine->selection();
+    auto selection = m_downloadManager->selection();
 
-    auto items = m_downloadEngine->downloadItems();
+    auto items = m_downloadManager->downloadItems();
     for (auto i = 0; i < items.size(); ++i) {
         auto downloadItem = items.at(i);
         auto index = getIndex(downloadItem);
@@ -678,7 +678,7 @@ void DownloadQueueView::onSortChanged()
     }
     // Restore selection and current item
     m_queueView->setCurrentItem(currentItem);
-    m_downloadEngine->setSelection(selection);
+    m_downloadManager->setSelection(selection);
 }
 
 /******************************************************************************
@@ -731,7 +731,7 @@ void DownloadQueueView::onQueueViewItemSelectionChanged()
         auto queueItem = dynamic_cast<const QueueItem *>(treeItem);
         selection << queueItem->downloadItem();
     }
-    m_downloadEngine->setSelection(selection);
+    m_downloadManager->setSelection(selection);
 }
 
 /*!
@@ -763,7 +763,7 @@ void DownloadQueueView::onQueueItemDropped(QueueItem *queueItem)
     if (queueItem) {
         QList<AbstractDownloadItem*> items;
         items << queueItem->downloadItem();
-        m_downloadEngine->remove(items);
+        m_downloadManager->remove(items);
     }
 }
 

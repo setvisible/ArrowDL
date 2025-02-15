@@ -40,9 +40,9 @@ static bool readLineInto(QTextStream &in, QString *line) // for Qt 5.4.1
     return !line->isNull();
 }
 
-bool TextHandler::read(DownloadEngine *engine)
+bool TextHandler::read(IDownloadManager *downloadManager)
 {
-    if (!engine) {
+    if (!downloadManager) {
         qWarning("TextHandler::read() cannot read into null pointer");
         return false;
     }
@@ -60,18 +60,18 @@ bool TextHandler::read(DownloadEngine *engine)
             continue;
         }
         const QUrl url(line);
-        AbstractDownloadItem *item = engine->createFileItem(url);
+        AbstractDownloadItem *item = downloadManager->createFileItem(url);
         if (!item) {
-            qWarning("DownloadEngine::createFileItem() not overridden. It still returns null pointer!");
+            qWarning("DownloadManager::createFileItem() not overridden. It still returns null pointer!");
             return false;
         }
         items.append(item);
     }
-    engine->append(items, false);
+    downloadManager->append(items, false);
     return true;
 }
 
-bool TextHandler::write(const DownloadEngine &engine)
+bool TextHandler::write(const IDownloadManager &downloadManager)
 {
     QIODevice *d = device();
     QTextStream out(d);
@@ -79,7 +79,7 @@ bool TextHandler::write(const DownloadEngine &engine)
     if (!d->isWritable()) {
         return false;
     }
-    for (auto item : engine.downloadItems()) {
+    for (auto item : downloadManager.downloadItems()) {
         QUrl url = item->sourceUrl();
         QByteArray data = url.toString().toUtf8();
         out << data << '\n';

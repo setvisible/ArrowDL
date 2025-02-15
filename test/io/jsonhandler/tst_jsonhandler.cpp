@@ -14,10 +14,10 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <Core/AbstractDownloadItem>
 #include <Io/JsonHandler>
 
-#include "../../utils/fakedownloaditem.h"
-#include "../../utils/fakedownloadmanager.h"
+#include "../utils/dummydownloadmanager.h"
 
 #include <QtCore/QDebug>
 #include <QtTest/QtTest>
@@ -57,7 +57,7 @@ inline QString tst_JsonHandler::toString(AbstractDownloadItem *item) const {
 void tst_JsonHandler::write()
 {
     // Given
-    FakeDownloadManager manager;
+    DummyDownloadManager manager;
     manager.appendFakeJob(QUrl("https://www.example.com/2019/10/DSC_8045.jpg"));
     manager.appendFakeJob(QUrl("https://www.example.com/2019/10/DSC_8046.jpg"));
     manager.appendFakeJob(QUrl("https://www.example.com/2019/10/DSC_8047.jpg"));
@@ -98,7 +98,7 @@ void tst_JsonHandler::write()
 void tst_JsonHandler::read()
 {
     // Given
-    FakeDownloadManager manager;
+    DummyDownloadManager manager;
 
     QByteArray byteArray =
             "  \t  \n"
