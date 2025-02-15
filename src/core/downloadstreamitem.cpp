@@ -16,28 +16,33 @@
 
 #include "downloadstreamitem.h"
 
-#include <Core/DownloadManager>
 #include <Core/File>
-#include <Core/ResourceItem>
 #include <Core/Stream>
+#include <Core/ResourceItem>
 
-/******************************************************************************
- ******************************************************************************/
-DownloadStreamItem::DownloadStreamItem(DownloadManager *downloadManager)
-    : DownloadFileItem(downloadManager)
+DownloadStreamItem::DownloadStreamItem(QObject *parent, ResourceItem *resource)
+    : AbstractDownloadItem(parent, resource)
     , m_stream(nullptr)
 {
+}
+
+DownloadStreamItem::~DownloadStreamItem()
+{
+    // if (m_stream) {
+    //     m_stream->deleteLater();
+    //     m_stream = nullptr;
+    // }
 }
 
 /******************************************************************************
  ******************************************************************************/
 void DownloadStreamItem::resume()
 {
-    logInfo(QString("Resume '%0' (destination: '%1').").arg(resource()->url(), localFullFileName()));
+    logInfo(QString("Resume '%0' (destination: '%1').").arg(m_resource->url(), localFullFileName()));
 
     this->beginResume();
 
-    File::OpenFlag flag = file()->open(resource());
+    File::OpenFlag flag = m_file->open(m_resource);
 
     if (flag == File::Skip) {
         setState(Skipped);
@@ -59,12 +64,12 @@ void DownloadStreamItem::resume()
         auto outputPath = localFullFileName();
         m_stream->setLocalFullOutputPath(outputPath);
 
-        m_stream->setUrl(resource()->url());
-        m_stream->setReferringPage(resource()->referringPage());
-        m_stream->setSelectedFormatId(StreamFormatId(resource()->streamFormatId()));
-        m_stream->setFileSizeInBytes(resource()->streamFileSize());
+        m_stream->setUrl(m_resource->url());
+        m_stream->setReferringPage(m_resource->referringPage());
+        m_stream->setSelectedFormatId(StreamFormatId(m_resource->streamFormatId()));
+        m_stream->setFileSizeInBytes(m_resource->streamFileSize());
 
-        m_stream->setConfig(resource()->streamConfig());
+        m_stream->setConfig(m_resource->streamConfig());
 
         connect(m_stream, SIGNAL(downloadMetadataChanged()), this, SLOT(onMetaDataChanged()));
         connect(m_stream, SIGNAL(downloadProgress(qsizetype,qsizetype)), this, SLOT(onDownloadProgress(qsizetype,qsizetype)));
@@ -81,15 +86,13 @@ void DownloadStreamItem::resume()
 
 void DownloadStreamItem::pause()
 {
-    /// \todo implement?
-    logInfo(QString("Pause '%0'.").arg(resource()->url()));
     AbstractDownloadItem::pause();
 }
 
 void DownloadStreamItem::stop()
 {
-    logInfo(QString("Stop '%0'.").arg(resource()->url()));
-    file()->cancel();
+    // logInfo(QString("Stop '%0'.").arg(m_resource->url()));
+    // m_file->cancel();
     if (m_stream) {
         m_stream->abort();
         m_stream->deleteLater();
@@ -102,11 +105,11 @@ void DownloadStreamItem::stop()
  ******************************************************************************/
 void DownloadStreamItem::onMetaDataChanged()
 {
-    auto oldFileName = resource()->streamFileName();
+    auto oldFileName = m_resource->streamFileName();
     auto newFileName = m_stream->fileName();
     if (oldFileName != newFileName) {
         logInfo(QString("HTTP redirect: '%0' to '%1'.").arg(oldFileName, newFileName));
-        resource()->setStreamFileName(newFileName);
+        m_resource->setStreamFileName(newFileName);
     }
 }
 
@@ -114,7 +117,7 @@ void DownloadStreamItem::onDownloadProgress(qsizetype bytesReceived, qsizetype b
 {
     if (bytesReceived > 0 && bytesTotal > 0) {
         logInfo(QString("Downloaded '%0' (%1 of %2 bytes).")
-                .arg(resource()->url(),
+                .arg(m_resource->url(),
                      QString::number(bytesReceived),
                      QString::number(bytesTotal)));
     }
@@ -144,14 +147,14 @@ void DownloadStreamItem::onFinished()
             setState(NetworkError);
             setBytesReceived(0);
             // setBytesTotal(0);
-            file()->cancel();
+            m_file->cancel();
             emit changed();
         } else {
             /* Here, finish the operation if downloading. */
             /* If network error or file error, just ignore */
 
             // bool commited = file()->commit();
-            file()->cancel();       /* HACK */
+            m_file->cancel();       /* HACK */
             bool commited = true;   /* HACK */
             preFinish(commited);
         }
@@ -164,7 +167,7 @@ void DownloadStreamItem::onFinished()
     case FileError:
         setBytesReceived(0);
         setBytesTotal(0);
-        file()->cancel();
+        m_file->cancel();
         emit changed();
         break;
     }
@@ -173,8 +176,8 @@ void DownloadStreamItem::onFinished()
 
 void DownloadStreamItem::onError(const QString &errorMessage)
 {
-    logInfo(QString("Error '%0': '%1'.").arg(resource()->url(), errorMessage));
-    file()->cancel();
+    logInfo(QString("Error '%0': '%1'.").arg(m_resource->url(), errorMessage));
+    m_file->cancel();
     setErrorMessage(errorMessage);
     setState(NetworkError);
 }

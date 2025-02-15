@@ -17,24 +17,22 @@
 #ifndef CORE_DOWNLOAD_TORRENT_ITEM_H
 #define CORE_DOWNLOAD_TORRENT_ITEM_H
 
-#include <Core/DownloadFileItem>
+#include <Core/AbstractDownloadItem>
 #include <Core/Torrent>
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
 
-class DownloadManager;
-
-class DownloadTorrentItem : public DownloadFileItem
+class DownloadTorrentItem : public AbstractDownloadItem
 {
     Q_OBJECT
 
 public:
-    DownloadTorrentItem(DownloadManager *downloadManager);
-    ~DownloadTorrentItem() override = default;
+    DownloadTorrentItem(QObject *parent, ResourceItem *resource);
+    ~DownloadTorrentItem();
 
-    void setResource(ResourceItem *resource) override;
+    void initWithResource(ResourceItem *resource);
 
     void resume() override;
     void pause() override;

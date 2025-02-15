@@ -16,7 +16,6 @@
 
 #include "downloadtorrentitem.h"
 
-#include <Core/DownloadManager>
 #include <Core/File>
 #include <Core/Format>
 #include <Core/ResourceItem>
@@ -24,23 +23,27 @@
 #include <Core/TorrentContext>
 
 
-DownloadTorrentItem::DownloadTorrentItem(DownloadManager *downloadManager)
-    : DownloadFileItem(downloadManager)
+DownloadTorrentItem::DownloadTorrentItem(QObject *parent, ResourceItem *resource)
+    : AbstractDownloadItem(parent, resource)
     , m_torrent(new Torrent(this))
 {
-    connect(m_torrent, &Torrent::changed, this, &DownloadTorrentItem::onTorrentChanged);
+    initWithResource(resource);
 
+    connect(m_torrent, &Torrent::changed, this, &DownloadTorrentItem::onTorrentChanged);
 }
 
-/******************************************************************************
- ******************************************************************************/
+DownloadTorrentItem::~DownloadTorrentItem()
+{
+    // delete m_torrent;
+}
+
 /*!
  * \reimp
  * Reimplement this method to detect when the URL of the resource is
  * available, so that TorrentContext can (down-)load the metadata as soon
  * as possible.
  */
-void DownloadTorrentItem::setResource(ResourceItem *resource)
+void DownloadTorrentItem::initWithResource(ResourceItem *resource)
 {
     if (!resource) {
         return;
@@ -51,13 +54,13 @@ void DownloadTorrentItem::setResource(ResourceItem *resource)
      */
     resource->setMask(QLatin1String("*name*.*ext*"));
 
-    DownloadFileItem::setResource(resource);
+    // DownloadFileItem::setResource(resource);
 
     m_torrent->setLocalFullFileName(this->localFullFileName());
     m_torrent->setLocalFilePath(this->localFilePath());
-    m_torrent->setUrl(this->resource()->url());
+    m_torrent->setUrl(m_resource->url());
 
-    QString fileStates = this->resource()->torrentPreferredFilePriorities();
+    QString fileStates = m_resource->torrentPreferredFilePriorities();
     // Download the metadata (the .torrent file) if not already downloaded
     TorrentContext::getInstance().prepareTorrent(m_torrent);
 
@@ -65,7 +68,7 @@ void DownloadTorrentItem::setResource(ResourceItem *resource)
 
     // Restore the previous session's data.
     m_torrent->setPreferredFilePriorities(fileStates);
-    emit changed();
+    //emit changed();
 }
 
 /******************************************************************************
@@ -80,7 +83,7 @@ Torrent* DownloadTorrentItem::torrent() const
 void DownloadTorrentItem::onTorrentChanged()
 {
     // save file priorities and states
-    this->resource()->setTorrentPreferredFilePriorities(m_torrent->preferredFilePriorities());
+    m_resource->setTorrentPreferredFilePriorities(m_torrent->preferredFilePriorities());
 
     // info.bytesTotal is > 0 for state 'downloading' only,
     // otherwise info.bytesTotal == 0, even when 'completed'.
@@ -212,7 +215,7 @@ void DownloadTorrentItem::resume()
         return;
     }
     logInfo(QString("Resume '%0' (destination: '%1').")
-            .arg(resource()->url(), // remote/origine/t.torrent
+            .arg(m_resource->url(), // remote/origine/t.torrent
                  localFullFileName())); // localdrive/destination/t.torrent
 
     this->beginResume();
@@ -222,10 +225,10 @@ void DownloadTorrentItem::resume()
      * we don't check if the torrent already exists.
      */
 
-    m_torrent->setLocalFullFileName(this->localFullFileName());
-    m_torrent->setLocalFilePath(this->localFilePath());
-    m_torrent->setUrl(resource()->url());
-    m_torrent->setPreferredFilePriorities(this->resource()->torrentPreferredFilePriorities());
+    m_torrent->setLocalFullFileName(localFullFileName());
+    m_torrent->setLocalFilePath(localFilePath());
+    m_torrent->setUrl(m_resource->url());
+    m_torrent->setPreferredFilePriorities(m_resource->torrentPreferredFilePriorities());
 
     if (!TorrentContext::getInstance().hasTorrent(m_torrent)) {
         bool ok = TorrentContext::getInstance().addTorrent(m_torrent);
@@ -241,7 +244,7 @@ void DownloadTorrentItem::resume()
 
 void DownloadTorrentItem::pause()
 {
-    logInfo(QString("Pause '%0'.").arg(resource()->url()));
+    logInfo(QString("Pause '%0'.").arg(m_resource->url()));
     if (isSeeding()) {
         if (TorrentContext::getInstance().hasTorrent(m_torrent)) {
             TorrentContext::getInstance().removeTorrent(m_torrent);
@@ -264,8 +267,8 @@ void DownloadTorrentItem::pause()
 
 void DownloadTorrentItem::stop()
 {
-    logInfo(QString("Stop '%0'.").arg(resource()->url()));
-    file()->cancel();
+    // logInfo(QString("Stop '%0'.").arg(m_resource->url()));
+    // m_file->cancel();
 
     if (isPreparing()) {
         TorrentContext::getInstance().stopPrepare(m_torrent);

@@ -35,27 +35,12 @@ class DownloadFileItem : public AbstractDownloadItem
     Q_OBJECT
 
 public:
-    DownloadFileItem(DownloadManager *downloadManager);
+    DownloadFileItem(QObject *parent, ResourceItem *resource);
     ~DownloadFileItem() override;
-
-    /* Resource to download */
-    ResourceItem* resource() const;
-    virtual void setResource(ResourceItem *resource);
-
-    /* Convenient */
-    QUrl sourceUrl() const override;
-    QString localFileName() const override;
-    QString localFullFileName() const override;
-    QString localFilePath() const override;
-    QUrl localFileUrl() const override;
-    QUrl localDirUrl() const override;
 
     void resume() override;
     void pause() override;
     void stop() override;
-
-    void rename(const QString &newName) override;
-    void moveToTrash() override;
 
 private slots:
     void onMetaDataChanged();
@@ -66,14 +51,9 @@ private slots:
     void onReadyRead();
     void onAboutToClose();
 
-protected:
-    File* file() const;
-
-private:    
+private:
     DownloadManager *m_downloadManager = nullptr;
-    ResourceItem *m_resource = nullptr;
     QNetworkReply *m_reply = nullptr;
-    File *m_file = nullptr;
 
     QString statusToHttp(QNetworkReply::NetworkError error);
 };

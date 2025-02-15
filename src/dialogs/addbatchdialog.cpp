@@ -156,9 +156,7 @@ void AddBatchDialog::quickDownload(const QUrl &url, DownloadManager *downloadMan
     resource->setMask(mask);
     resource->setCheckSum(QString());
 
-    auto item = new DownloadFileItem(downloadManager);
-    item->setResource(resource);
-
+    auto item = new DownloadFileItem(downloadManager, resource);
     downloadManager->append(toList(item), true);
 }
 
@@ -351,8 +349,7 @@ AbstractDownloadItem* AddBatchDialog::createFileItem(const QString &url) const
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
 
-    auto item = new DownloadFileItem(m_downloadManager);
-    item->setResource(resource);
+    auto item = new DownloadFileItem(m_downloadManager, resource);
     return item;
 }
 

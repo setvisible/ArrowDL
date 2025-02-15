@@ -23,8 +23,18 @@
 #include <QtCore/QUrl>
 #include <QtCore/QTime>
 
+class File;
+class ResourceItem;
+
 class QTimer;
 
+/*!
+ * \class AbstractDownloadItem
+ *
+ * The class AbstractDownloadItem implements the most common methods of
+ * AbstractDownloadItem and the Signal/Slot mechanism.
+ *
+ */
 class AbstractDownloadItem : public QObject
 {
     Q_OBJECT
@@ -46,7 +56,7 @@ public:
         FileError
     };
 
-    explicit AbstractDownloadItem(QObject *parent = nullptr);
+    explicit AbstractDownloadItem(QObject *parent, ResourceItem *resource);
     ~AbstractDownloadItem();
 
     virtual State state() const;
@@ -72,6 +82,10 @@ public:
     virtual QString log() const;
     void setLog(const QString &log);
     void logInfo(const QString &message);       
+
+    /* Resource to download */
+    ResourceItem* resource() const;
+   // virtual void setResource(ResourceItem *resource);
 
     virtual QUrl sourceUrl() const;
     virtual void setSourceUrl(const QUrl &url);
@@ -115,6 +129,10 @@ public slots:
 private slots:
     void updateInfo();
 
+protected:
+    ResourceItem *m_resource = nullptr;
+    File *m_file = nullptr;
+
 private:
     State m_state = State::Idle;
 
@@ -124,7 +142,6 @@ private:
 
     QString m_errorMessage = {};
 
-    int m_maxConnectionSegments = 4;
     int m_maxConnections = 1;
 
     QString m_log = {};

@@ -17,6 +17,7 @@
 #include "downloadmanager.h"
 
 #include <Constants>
+#include <Core/AbstractDownloadItem>
 #include <Core/DownloadFileItem>
 #include <Core/DownloadTorrentItem>
 #include <Core/NetworkManager>
@@ -113,31 +114,23 @@ void DownloadManager::onSettingsChanged()
 void DownloadManager::loadQueue()
 {
     if (!m_queueFile.isEmpty()) {
-        QList<DownloadFileItem*> downloadItems;
-        Session::read(downloadItems, m_queueFile, this);
-
-        QList<AbstractDownloadItem*> abstractItems;
-        for (auto item : downloadItems) {
-            // Cast items of the list
-            abstractItems.append(static_cast<AbstractDownloadItem*>(item));
-        }
+        QList<AbstractDownloadItem*> items;
+        Session::read(items, m_queueFile, this);
         clear();
-        append(abstractItems, false);
+        append(items, false);
     }
 }
 
 void DownloadManager::saveQueue()
 {
     if (!m_queueFile.isEmpty()) {
-        QList<DownloadFileItem *> items;
+        QList<AbstractDownloadItem *> items;
 
         auto skipCompleted = m_settings->isRemoveCompletedEnabled();
         auto skipCanceled = m_settings->isRemoveCanceledEnabled();
         auto skipPaused = m_settings->isRemovePausedEnabled();
 
-        auto abstractItems = downloadItems();
-        for (auto abstractItem : abstractItems) {
-            auto item = dynamic_cast<DownloadFileItem*>(abstractItem);
+        for (auto item : downloadItems()) {
             if (item) {
                 switch (item->state()) {
                 case AbstractDownloadItem::Idle:
@@ -209,8 +202,7 @@ NetworkManager* DownloadManager::networkManager() const
 AbstractDownloadItem* DownloadManager::createFileItem(const QUrl &url)
 {
     ResourceItem* resource = createResourceItem(url);
-    auto item = new DownloadFileItem(this);
-    item->setResource(resource);
+    auto item = new DownloadFileItem(this, resource);
     return item;
 }
 
@@ -218,8 +210,7 @@ AbstractDownloadItem* DownloadManager::createTorrentItem(const QUrl &url)
 {
     ResourceItem* resource = createResourceItem(url);
     resource->setType(ResourceItem::Type::Torrent);
-    auto item = new DownloadTorrentItem(this);
-    item->setResource(resource);
+    auto item = new DownloadTorrentItem(this, resource);
     return item;
 }
 

@@ -219,8 +219,7 @@ AbstractDownloadItem* AddStreamDialog::createStreamItem(const StreamObject &stre
 
     resource->setStreamConfig(streamObject.config());
 
-    auto item = new DownloadStreamItem(m_downloadManager);
-    item->setResource(resource);
+    auto item = new DownloadStreamItem(m_downloadManager, resource);
     return item;
 }
 

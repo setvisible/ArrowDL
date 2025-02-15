@@ -154,8 +154,7 @@ AbstractDownloadItem* AddUrlsDialog::createFileItem(const QString &url) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
-    auto item = new DownloadFileItem(m_downloadManager);
-    item->setResource(resource);
+    auto item = new DownloadFileItem(m_downloadManager, resource);
     return item;
 }
 

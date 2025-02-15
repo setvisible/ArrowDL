@@ -17,25 +17,25 @@
 #include "abstractdownloaditem.h"
 
 #include <Constants>
+#include <Core/File>
+#include <Core/ResourceItem>
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDebug>
+#include <QtCore/QFile>
+#include <QtCore/QFileInfo>
+#include <QtCore/QDir>
 #include <QtCore/QtMath>
 #include <QtCore/QTimer>
-
-/*!
- * \class AbstractDownloadItem
- *
- * The class AbstractDownloadItem implements the most common methods of
- * AbstractDownloadItem and the Signal/Slot mechanism.
- *
- */
 
 
 /*!
  * \brief Constructor
  */
-AbstractDownloadItem::AbstractDownloadItem(QObject *parent) : QObject(parent)
+AbstractDownloadItem::AbstractDownloadItem(QObject *parent, ResourceItem *resource)
+    : QObject(parent)
+    , m_resource(resource)
+    , m_file(new File(this))
     , m_updateInfoTimer(new QTimer(this))
     , m_updateCountDownTimer(new QTimer(this))
 {
@@ -45,6 +45,11 @@ AbstractDownloadItem::AbstractDownloadItem(QObject *parent) : QObject(parent)
 
 AbstractDownloadItem::~AbstractDownloadItem()
 {
+    // delete m_resource;
+    // if (m_file) {
+    //     m_file->deleteLater();
+    //     m_file = nullptr;
+    // }
 }
 
 /******************************************************************************
@@ -205,7 +210,7 @@ void AbstractDownloadItem::logInfo(const QString &message)
  */
 QUrl AbstractDownloadItem::sourceUrl() const
 {
-    return QUrl();
+    return QUrl(m_resource->url());
 }
 
 void AbstractDownloadItem::setSourceUrl(const QUrl &url)
@@ -218,7 +223,8 @@ void AbstractDownloadItem::setSourceUrl(const QUrl &url)
  */
 QString AbstractDownloadItem::localFullFileName() const
 {
-    return QString("");
+    auto target = m_resource->localFileUrl();
+    return target.toLocalFile();
 }
 
 /**
@@ -226,7 +232,9 @@ QString AbstractDownloadItem::localFullFileName() const
  */
 QString AbstractDownloadItem::localFileName() const
 {
-    return QString("");
+    auto target = m_resource->localFileUrl();
+    const QFileInfo fi(target.toLocalFile());
+    return fi.fileName();
 }
 
 /**
@@ -234,17 +242,19 @@ QString AbstractDownloadItem::localFileName() const
  */
 QString AbstractDownloadItem::localFilePath() const
 {
-    return QString("");
+    auto target = m_resource->localFileUrl();
+    const QFileInfo fi(target.toLocalFile());
+    return fi.absolutePath();
 }
 
 QUrl AbstractDownloadItem::localFileUrl() const
 {
-    return QUrl();
+    return m_resource->localFileUrl();
 }
 
 QUrl AbstractDownloadItem::localDirUrl() const
 {
-    return QUrl();
+    return QUrl::fromLocalFile(localFilePath());
 }
 
 /******************************************************************************
@@ -305,8 +315,9 @@ void AbstractDownloadItem::resume()
 
 void AbstractDownloadItem::pause()
 {
-    // TO DO
-    // https://kunalmaemo.blogspot.com/2011/07/simple-download-manager-with-pause.html
+    /// \todo implement?
+    /// https://kunalmaemo.blogspot.com/2011/07/simple-download-manager-with-pause.html
+    logInfo(QString("Pause '%0'.").arg(m_resource->url()));
 
     stop();
 
@@ -317,6 +328,9 @@ void AbstractDownloadItem::pause()
 // cancel?
 void AbstractDownloadItem::stop()
 {
+    logInfo(QString("Stop '%0'.").arg(m_resource->url()));
+    m_file->cancel();
+
     m_state = Stopped;
     m_speed = -1;
     m_bytesReceived = 0;
@@ -325,6 +339,7 @@ void AbstractDownloadItem::stop()
     emit changed();
     finish();
 }
+
 
 /******************************************************************************
  ******************************************************************************/
@@ -397,13 +412,59 @@ void AbstractDownloadItem::finish()
  ******************************************************************************/
 void AbstractDownloadItem::rename(const QString &newName)
 {
-    Q_UNUSED(newName)
+    QString newCustomFileName;
+    if (!newName.trimmed().isEmpty()) {
+        newCustomFileName = newName;
+    }
+    auto oldPath = m_resource->localFileFullPath(m_resource->customFileName());
+    auto newPath = m_resource->localFileFullPath(newCustomFileName);
+
+    auto oldFileName = m_resource->fileName();
+
+    if (oldPath == newPath) {
+        return;
+    }
+    bool success = true;
+    if (QFile::exists(newPath)) {
+        success = false; /* File error */
+    }
+    if (QFile::exists(oldPath) && !QFile::rename(oldPath, newPath)) {
+        success = false; /* File error */
+    }
+    if (success) {
+        m_resource->setCustomFileName(newCustomFileName);
+        if (m_file->isOpen()) {
+            m_file->rename(m_resource);
+        }
+    }
+    auto newFileName = success ? m_resource->fileName() : newName;
+    emit renamed(oldFileName, newFileName, success);
 }
 
 void AbstractDownloadItem::moveToTrash()
 {
-    // do nothing
+    stop();
+    auto fileName = localFullFileName();
+    if (!QFile::exists(fileName)) {
+        return;
+    }
+    if (!QFile::moveToTrash(fileName)) {
+        /// \todo if not moved, do something else, like rename 'myfile' to '~myfile'?
+    }
+    emit changed();
 }
+
+/******************************************************************************
+ ******************************************************************************/
+ResourceItem* AbstractDownloadItem::resource() const
+{
+    return m_resource;
+}
+
+// void AbstractDownloadItem::setResource(ResourceItem *resource)
+// {
+//     m_resource = resource;
+// }
 
 /******************************************************************************
  ******************************************************************************/

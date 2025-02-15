@@ -22,27 +22,20 @@
 #include <Core/ResourceItem>
 #include <Core/Settings>
 
-#include <QtCore/QFile>
-#include <QtCore/QFileInfo>
-#include <QtCore/QDir>
 #include <QtNetwork/QNetworkReply>
 
 using namespace Qt::Literals::StringLiterals;
 
 
-DownloadFileItem::DownloadFileItem(DownloadManager *downloadManager) : AbstractDownloadItem(downloadManager)
+DownloadFileItem::DownloadFileItem(QObject *parent, ResourceItem *resource)
+    : AbstractDownloadItem(parent, resource)
+    , m_downloadManager((DownloadManager*)parent)
+    , m_reply(nullptr)
 {
-    m_downloadManager = downloadManager;
-    m_file = new File(this);
 }
 
 DownloadFileItem::~DownloadFileItem()
 {
-    if (m_file) {
-        m_file->deleteLater();
-        m_file = nullptr;
-    }
-
     if (m_reply) {
         m_reply->abort();
         m_reply->deleteLater();
@@ -93,67 +86,17 @@ void DownloadFileItem::resume()
 
 void DownloadFileItem::pause()
 {
-    /// \todo implement?
-    logInfo(QString("Pause '%0'.").arg(m_resource->url()));
     AbstractDownloadItem::pause();
 }
 
 void DownloadFileItem::stop()
 {
-    logInfo(QString("Stop '%0'.").arg(m_resource->url()));
-    m_file->cancel();
     if (m_reply) {
         m_reply->abort();
         m_reply->deleteLater();
         m_reply = nullptr;
     }
     AbstractDownloadItem::stop();
-}
-
-/******************************************************************************
- ******************************************************************************/
-void DownloadFileItem::rename(const QString &newName)
-{
-    QString newCustomFileName;
-    if (!newName.trimmed().isEmpty()) {
-        newCustomFileName = newName;
-    }
-    auto oldPath = m_resource->localFileFullPath(m_resource->customFileName());
-    auto newPath = m_resource->localFileFullPath(newCustomFileName);
-
-    auto oldFileName = m_resource->fileName();
-
-    if (oldPath == newPath) {
-        return;
-    }
-    bool success = true;
-    if (QFile::exists(newPath)) {
-        success = false; /* File error */
-    }
-    if (QFile::exists(oldPath) && !QFile::rename(oldPath, newPath)) {
-        success = false; /* File error */
-    }
-    if (success) {
-        m_resource->setCustomFileName(newCustomFileName);
-        if (m_file->isOpen()) {
-            m_file->rename(m_resource);
-        }
-    }
-    auto newFileName = success ? m_resource->fileName() : newName;
-    emit renamed(oldFileName, newFileName, success);
-}
-
-void DownloadFileItem::moveToTrash()
-{
-    stop();
-    auto fileName = localFullFileName();
-    if (!QFile::exists(fileName)) {
-        return;
-    }
-    if (!QFile::moveToTrash(fileName)) {
-        /// \todo if not moved, do something else, like rename 'myfile' to '~myfile'?
-    }
-    emit changed();
 }
 
 /******************************************************************************
@@ -344,72 +287,4 @@ void DownloadFileItem::onReadyRead()
 void DownloadFileItem::onAboutToClose()
 {
     logInfo(QString("Finished (%0) '%1'.").arg(state_c_str(), localFullFileName()));
-}
-
-/******************************************************************************
- ******************************************************************************/
-ResourceItem* DownloadFileItem::resource() const
-{
-    return m_resource;
-}
-
-void DownloadFileItem::setResource(ResourceItem *resource)
-{
-    m_resource = resource;
-}
-
-/******************************************************************************
- ******************************************************************************/
-File* DownloadFileItem::file() const
-{
-    return m_file;
-}
-
-/******************************************************************************
- ******************************************************************************/
-/**
- * The source Url
- */
-QUrl DownloadFileItem::sourceUrl() const
-{
-    return QUrl(m_resource->url());
-}
-
-/**
- * The destination's full file name
- */
-QString DownloadFileItem::localFullFileName() const
-{
-    auto target = m_resource->localFileUrl();
-    return target.toLocalFile();
-}
-
-/**
- * The destination's file name
- */
-QString DownloadFileItem::localFileName() const
-{
-    auto target = m_resource->localFileUrl();
-    const QFileInfo fi(target.toLocalFile());
-    return fi.fileName();
-}
-
-/**
- * The destination's absolute path
- */
-QString DownloadFileItem::localFilePath() const
-{
-    auto target = m_resource->localFileUrl();
-    const QFileInfo fi(target.toLocalFile());
-    return fi.absolutePath();
-}
-
-QUrl DownloadFileItem::localFileUrl() const
-{
-    return m_resource->localFileUrl();
-}
-
-QUrl DownloadFileItem::localDirUrl() const
-{
-    return QUrl::fromLocalFile(localFilePath());
 }

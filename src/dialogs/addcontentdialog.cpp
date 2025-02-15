@@ -62,8 +62,7 @@ static QList<AbstractDownloadItem*> createItems(
         if (settings && settings->isHttpReferringPageEnabled()) {
             resource->setReferringPage(settings->httpReferringPage());
         }
-        auto item = new DownloadFileItem(downloadManager);
-        item->setResource(resource);
+        auto item = new DownloadFileItem(downloadManager, resource);
         items << item;
     }
     return items;

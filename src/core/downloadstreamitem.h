@@ -17,21 +17,22 @@
 #ifndef CORE_DOWNLOAD_STREAM_ITEM_H
 #define CORE_DOWNLOAD_STREAM_ITEM_H
 
-#include <Core/DownloadFileItem>
+#include <Core/AbstractDownloadItem>
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
 class DownloadManager;
+// class ResourceItem;
 class Stream;
 
-class DownloadStreamItem : public DownloadFileItem
+class DownloadStreamItem : public AbstractDownloadItem
 {
     Q_OBJECT
 
 public:
-    DownloadStreamItem(DownloadManager *downloadManager);
-    ~DownloadStreamItem() override = default;
+    DownloadStreamItem(QObject *parent, ResourceItem *resource);
+    ~DownloadStreamItem();
 
     void resume() override;
     void pause() override;
