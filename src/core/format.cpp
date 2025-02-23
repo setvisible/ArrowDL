@@ -37,7 +37,7 @@ QString Format::infinity()
 /*!
  * \brief Returns a string formatting the given time.
  */
-QString Format::timeToString(QTime time)
+QString Format::timeToString(const QTime time)
 {
     if (!time.isValid()) {
         return "--:--"_L1;
@@ -51,7 +51,7 @@ QString Format::timeToString(QTime time)
     return time.toString("hh:mm:ss"_L1);
 }
 
-QString Format::timeToString(qint64 seconds)
+QString Format::timeToString(const qint64 seconds)
 {
     if (seconds < 0) {
         return "--:--"_L1;

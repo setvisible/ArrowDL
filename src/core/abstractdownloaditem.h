@@ -101,7 +101,7 @@ public:
     virtual bool isCancelable() const;
     virtual bool isDownloading() const;
 
-    QTime remainingTime();
+    QTime remainingTime() const;
 
     virtual void setReadyToResume();
     virtual void resume();

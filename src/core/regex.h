@@ -29,7 +29,6 @@ public:
     static QStringList interpret(const QUrl &url);
     static QStringList interpret(const QString &str);
 
-
     static QStringList getCaptures(const QString &str);
 };
 

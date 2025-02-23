@@ -131,13 +131,14 @@ const int COLUMN_NAME_WIDTH = 200;
 
 const int ELIDE_CHAR_COUNT = 30;
 
-const int COL_0_FILE_NAME = 0;
-const int COL_1_WEBSITE_DOMAIN = 1;
-const int COL_2_PROGRESS_BAR = 2;
-const int COL_3_PERCENT = 3;
-const int COL_4_SIZE = 4;
-const int COL_5_ESTIMATED_TIME = 5;
-const int COL_6_SPEED = 6;
+const int COL_0_FILE_NAME       = 0;
+const int COL_1_WEBSITE_DOMAIN  = 1;
+const int COL_2_PROGRESS_BAR    = 2;
+const int COL_3_PERCENT         = 3;
+const int COL_4_FILE_SIZE       = 4;
+const int COL_4_SIZE            = 4; // to remove
+const int COL_5_ESTIMATED_TIME  = 5;
+const int COL_6_SPEED           = 6;
 // const int COL_7_SEGMENTS          =  7; /* hidden */
 // const int COL_8_MASK              =  8; /* hidden */
 // const int COL_9_SAVE_PATH         =  9; /* hidden */

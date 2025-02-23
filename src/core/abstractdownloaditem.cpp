@@ -296,7 +296,7 @@ bool AbstractDownloadItem::isDownloading() const
 
 /******************************************************************************
  ******************************************************************************/
-QTime AbstractDownloadItem::remainingTime()
+QTime AbstractDownloadItem::remainingTime() const
 {
     return m_remainingTime;
 }
