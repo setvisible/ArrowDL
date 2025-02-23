@@ -152,4 +152,7 @@ private:
     QTimer* m_updateCountDownTimer = nullptr;
 };
 
+/* Enable the type to be used with QVariant. */
+Q_DECLARE_METATYPE(AbstractDownloadItem*)
+
 #endif // CORE_ABSTRACT_DOWNLOAD_ITEM_H

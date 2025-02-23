@@ -29,7 +29,6 @@ public:
     virtual ~IDownloadManager() noexcept = default; // IMPORTANT: virtual destructor
 
     virtual void append(const QList<AbstractDownloadItem *> &items, bool started = false) = 0;
-    virtual void remove(const QList<AbstractDownloadItem *> &items) = 0;
 
     virtual QList<AbstractDownloadItem *> downloadItems() const = 0;
 

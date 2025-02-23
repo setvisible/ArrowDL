@@ -142,6 +142,7 @@ const int COL_6_SPEED = 6;
 // const int COL_8_MASK              =  8; /* hidden */
 // const int COL_9_SAVE_PATH         =  9; /* hidden */
 // const int COL_10_CHECKSUM         = 10; /* hidden */
+const int COL_COUNT             = COL_6_SPEED + 1;
 
 const int MAX_HISTORY_COUNT = 10;
 

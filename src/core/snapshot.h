@@ -14,33 +14,44 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef WIDGETS_QUEUE_WIDGET_ITEM_H
-#define WIDGETS_QUEUE_WIDGET_ITEM_H
+#ifndef CORE_SNAPSHOT_H
+#define CORE_SNAPSHOT_H
 
-#include <QtWidgets/QTreeWidgetItem>
+#include <QtCore/QObject>
+#include <QtCore/QString>
+#include <QtCore/QTime>
 
-class AbstractDownloadItem;
-class QTreeWidget;
+class DownloadManager;
+class Settings;
 
-class QueueWidgetItem : public QObject, public QTreeWidgetItem
+class QTimer;
+
+class Snapshot : public QObject
 {
     Q_OBJECT
 
 public:
-    enum ProgressBar {
-        StateRole = Qt::UserRole + 1,
-        ProgressRole
-    };
+    explicit Snapshot(QObject *parent = nullptr);
+    ~Snapshot();
 
-    explicit QueueWidgetItem(AbstractDownloadItem *downloadItem, QTreeWidget *view);
+    Settings* settings() const;
+    void setSettings(Settings *settings);
 
-    AbstractDownloadItem *downloadItem() const { return m_downloadItem; }
+    void shot();
 
-public slots:
-    void updateItem();
+private slots:
+    void onSettingsChanged();
 
 private:
-    AbstractDownloadItem *m_downloadItem = nullptr;
+    DownloadManager *m_downloadManager = nullptr;
+    Settings *m_settings = nullptr;
+
+    // Crash Recovery
+    QTimer* m_dirtyQueueTimer = nullptr;
+    QString m_queueFile = {};
+
+    void loadQueue();
+    void saveQueue();
 };
 
-#endif // WIDGETS_QUEUE_WIDGET_ITEM_H
+#endif // CORE_SNAPSHOT_H

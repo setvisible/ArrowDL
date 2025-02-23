@@ -71,10 +71,6 @@ public slots:
     void exportSelectedToFile();
 
     // Edit
-    void selectAll();
-    void selectNone();
-    void invertSelection();
-    void selectCompleted();
     void copy();
 
     // View
@@ -105,10 +101,6 @@ public slots:
     void resume();
     void cancel();
     void pause();
-    void up();
-    void top();
-    void down();
-    void bottom();
 
     // Options
     void showPreferences();
@@ -123,8 +115,7 @@ public slots:
     void aboutWebsite();
 
 private slots:
-    void onJobAddedOrRemoved(const DownloadRange &range);
-    void onJobStateChanged(AbstractDownloadItem *downloadItem);
+    void onDataChanged();
     void onJobFinished(AbstractDownloadItem *downloadItem);
     void onJobRenamed(const QString &oldName, const QString &newName, bool success);
     void onSelectionChanged();

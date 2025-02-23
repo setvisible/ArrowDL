@@ -405,6 +405,7 @@ void AbstractDownloadItem::finish()
 {
     m_updateCountDownTimer->stop();
     m_updateInfoTimer->stop();
+    emit changed();
     emit finished();
 }
 
@@ -439,6 +440,7 @@ void AbstractDownloadItem::rename(const QString &newName)
     }
     auto newFileName = success ? m_resource->fileName() : newName;
     emit renamed(oldFileName, newFileName, success);
+    emit changed();
 }
 
 void AbstractDownloadItem::moveToTrash()

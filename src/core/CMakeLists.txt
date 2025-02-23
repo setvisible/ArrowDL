@@ -16,11 +16,13 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_SOURCE_DIR}/src/core/mimedatabase.cpp
     ${CMAKE_SOURCE_DIR}/src/core/model.cpp
     ${CMAKE_SOURCE_DIR}/src/core/networkmanager.cpp
+    ${CMAKE_SOURCE_DIR}/src/core/queuemodel.cpp
     ${CMAKE_SOURCE_DIR}/src/core/regex.cpp
     ${CMAKE_SOURCE_DIR}/src/core/resourceitem.cpp
     ${CMAKE_SOURCE_DIR}/src/core/resourcemodel.cpp
     ${CMAKE_SOURCE_DIR}/src/core/session.cpp
     ${CMAKE_SOURCE_DIR}/src/core/settings.cpp
+    ${CMAKE_SOURCE_DIR}/src/core/snapshot.cpp
     ${CMAKE_SOURCE_DIR}/src/core/stream.cpp
     ${CMAKE_SOURCE_DIR}/src/core/streammanager.cpp
     ${CMAKE_SOURCE_DIR}/src/core/theme.cpp
@@ -43,6 +45,7 @@ set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_SOURCE_DIR}/src/core/model.h
     ${CMAKE_SOURCE_DIR}/src/core/resourcemodel.h
     ${CMAKE_SOURCE_DIR}/src/core/settings.h
+    ${CMAKE_SOURCE_DIR}/src/core/snapshot.h
     ${CMAKE_SOURCE_DIR}/src/core/updatechecker.h
     ${CMAKE_SOURCE_DIR}/src/core/updatechecker_p.h
     ${CMAKE_SOURCE_DIR}/src/core/updateinstaller.h

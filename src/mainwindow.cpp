@@ -50,7 +50,7 @@
 #include <Ipc/InterProcessCommunication>
 #include <Io/FileReader>
 #include <Io/FileWriter>
-#include <Widgets/DownloadQueueView>
+#include <Widgets/QueueView>
 #include <Widgets/SystemTray>
 #include <Widgets/TorrentWidget>
 
@@ -134,21 +134,19 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 #endif
 
     /* Connect the GUI to the DownloadManager. */
-    ui->downloadQueueView->setEngine(m_downloadManager);
+    ui->queueView->setModel(m_downloadManager->model());
 
     /* Connect the GUI to the TorrentContext. */
     ui->torrentWidget->setTorrentContext(&torrentContext);
 
     /* Connect the SceneManager to the MainWindow. */
     /* The SceneManager centralizes the changes. */
-    connect(m_downloadManager, SIGNAL(jobAppended(DownloadRange)), this, SLOT(onJobAddedOrRemoved(DownloadRange)));
-    connect(m_downloadManager, SIGNAL(jobRemoved(DownloadRange)), this, SLOT(onJobAddedOrRemoved(DownloadRange)));
-    connect(m_downloadManager, SIGNAL(jobStateChanged(AbstractDownloadItem*)), this, SLOT(onJobStateChanged(AbstractDownloadItem*)));
     connect(m_downloadManager, SIGNAL(jobFinished(AbstractDownloadItem*)), this, SLOT(onJobFinished(AbstractDownloadItem*)));
     connect(m_downloadManager, SIGNAL(jobRenamed(QString,QString,bool)), this, SLOT(onJobRenamed(QString,QString,bool)), Qt::QueuedConnection);
-    connect(m_downloadManager, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 
-    connect(ui->downloadQueueView, SIGNAL(doubleClicked(AbstractDownloadItem*)), this, SLOT(openFile(AbstractDownloadItem*)));
+    connect(ui->queueView, SIGNAL(dataChanged()), this, SLOT(onDataChanged()));
+    connect(ui->queueView, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
+    connect(ui->queueView, SIGNAL(doubleClicked(AbstractDownloadItem*)), this, SLOT(openFile(AbstractDownloadItem*)));            
 
     /* Torrent Context Manager */
     connect(&torrentContext, &TorrentContext::changed, this, &MainWindow::onTorrentContextChanged);
@@ -278,10 +276,10 @@ void MainWindow::createActions()
     //! [0]
 
     //! [1] Edit
-    connect(ui->actionSelectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
-    connect(ui->actionSelectNone, SIGNAL(triggered()), this, SLOT(selectNone()));
-    connect(ui->actionInvertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
-    connect(ui->actionSelectCompleted, SIGNAL(triggered()), this, SLOT(selectCompleted()));
+    connect(ui->actionSelectAll, SIGNAL(triggered()), ui->queueView, SLOT(selectAll()));
+    connect(ui->actionSelectNone, SIGNAL(triggered()), ui->queueView, SLOT(selectNone()));
+    connect(ui->actionInvertSelection, SIGNAL(triggered()), ui->queueView, SLOT(invertSelection()));
+    connect(ui->actionSelectCompleted, SIGNAL(triggered()), ui->queueView, SLOT(selectCompleted()));
     // --
     connect(ui->actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
     //! [1]
@@ -304,10 +302,10 @@ void MainWindow::createActions()
     connect(ui->actionPause, SIGNAL(triggered()), this, SLOT(pause()));
     connect(ui->actionCancel, SIGNAL(triggered()), this, SLOT(cancel()));
     //--
-    connect(ui->actionUp, SIGNAL(triggered()), this, SLOT(up()));
-    connect(ui->actionTop, SIGNAL(triggered()), this, SLOT(top()));
-    connect(ui->actionDown, SIGNAL(triggered()), this, SLOT(down()));
-    connect(ui->actionBottom, SIGNAL(triggered()), this, SLOT(bottom()));
+    connect(ui->actionUp, SIGNAL(triggered()), ui->queueView, SLOT(moveUp()));
+    connect(ui->actionTop, SIGNAL(triggered()), ui->queueView, SLOT(moveTop()));
+    connect(ui->actionDown, SIGNAL(triggered()), ui->queueView, SLOT(moveDown()));
+    connect(ui->actionBottom, SIGNAL(triggered()), ui->queueView, SLOT(moveBottom()));
     //! [3]
 
     //! [4]  Options
@@ -329,8 +327,7 @@ void MainWindow::createActions()
     connect(ui->actionAboutCompiler, SIGNAL(triggered()), this, SLOT(aboutCompiler()));
     connect(ui->actionAboutYTDLP, SIGNAL(triggered()), this, SLOT(aboutStream()));
 
-    ui->actionWebsite->setText(
-        QString("%0").arg(STR_APPLICATION_WEBSITE).remove("https://").removeLast());
+    ui->actionWebsite->setText(QString("%0").arg(STR_APPLICATION_WEBSITE).remove("https://").removeLast());
     ui->actionWebsite->setToolTip(tr("Go to website"));
     connect(ui->actionWebsite, SIGNAL(triggered()), this, SLOT(aboutWebsite()));
     //! [5]
@@ -342,8 +339,8 @@ void MainWindow::createActions()
 void MainWindow::createContextMenu()
 {
     // delete previous menu if any
-    QMenu *contextMenu = ui->downloadQueueView->contextMenu();
-    ui->downloadQueueView->setContextMenu(nullptr);
+    QMenu *contextMenu = ui->queueView->contextMenu();
+    ui->queueView->setContextMenu(nullptr);
     if (contextMenu) {
         delete contextMenu;
         contextMenu = nullptr;
@@ -380,7 +377,7 @@ void MainWindow::createContextMenu()
     advanced->addAction(ui->actionImportFromFile);
     advanced->addAction(ui->actionExportSelectedToFile);
 
-    ui->downloadQueueView->setContextMenu(contextMenu);
+    ui->queueView->setContextMenu(contextMenu);
 }
 
 void MainWindow::createStatusbar()
@@ -498,60 +495,40 @@ void MainWindow::exportSelectedToFile()
     }
 }
 
-void MainWindow::selectAll()
-{
-    m_downloadManager->setSelection(m_downloadManager->downloadItems());
-}
-
-void MainWindow::selectNone()
-{
-    m_downloadManager->clearSelection();
-}
-
-void MainWindow::invertSelection()
-{
-    QList<AbstractDownloadItem *> inverted;
-    for (auto item : m_downloadManager->downloadItems()) {
-        if (!m_downloadManager->isSelected(item)) {
-            inverted.append(item);
-        }
-    }
-    m_downloadManager->setSelection(inverted);
-}
-
-void MainWindow::selectCompleted()
-{
-    m_downloadManager->setSelection(m_downloadManager->completedJobs());
-}
-
 void MainWindow::copy()
 {
-    const QString text = m_downloadManager->selectionToClipboard();
+    const QString text = ui->queueView->selectionToClipboard();
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(text);
 }
 
 void MainWindow::showInformation()
 {
-    if (m_downloadManager->selection().count() == 1) {
-        InformationDialog dialog(m_downloadManager->selection(), this);
+    auto items = ui->queueView->selectedItems();
+    if (items.count() == 1) {
+        InformationDialog dialog(items, this);
         int answer = dialog.exec();
         if (answer == QDialog::Accepted) {
-            m_downloadManager->updateItems(m_downloadManager->selection());
+            m_downloadManager->activateSnapshot();
+            refreshMenus();
+            refreshTitleAndStatus();
         }
-    } else if (m_downloadManager->selection().count() > 1) {
-        EditionDialog dialog(m_downloadManager->selection(), this);
+    } else if (items.count() > 1) {
+        EditionDialog dialog(items, this);
         int answer = dialog.exec();
         if (answer == QDialog::Accepted) {
-            m_downloadManager->updateItems(m_downloadManager->selection());
+            m_downloadManager->activateSnapshot();
+            refreshMenus();
+            refreshTitleAndStatus();
         }
     }
 }
 
 void MainWindow::openFile()
 {
-    if (!m_downloadManager->selection().isEmpty()) {
-        auto item = m_downloadManager->selection().first();
+    auto items = ui->queueView->selectedItems();
+    if (!items.isEmpty()) {
+        auto item = items.first();
         if (item->state() == AbstractDownloadItem::Completed) {
             openFile(item);
             return;
@@ -573,49 +550,56 @@ void MainWindow::openFile(AbstractDownloadItem *downloadItem)
 
 void MainWindow::renameFile()
 {
-    if (m_downloadManager->selection().count() == 1) {
-        ui->downloadQueueView->rename();
-    } else if (m_downloadManager->selection().count() > 1) {
-        BatchRenameDialog dialog(m_downloadManager->selection(), this);
+    auto items = ui->queueView->selectedItems();
+    if (items.count() == 1) {
+        ui->queueView->rename();
+    } else if (items.count() > 1) {
+        BatchRenameDialog dialog(items, this);
         int answer = dialog.exec();
         if (answer == QDialog::Accepted) {
-            m_downloadManager->updateItems(m_downloadManager->selection());
+            m_downloadManager->activateSnapshot();
+            refreshMenus();
+            refreshTitleAndStatus();
         }
     }
 }
 
 void MainWindow::deleteFile()
 {
-    if (!m_downloadManager->selection().isEmpty()) {
-        QString text = m_downloadManager->selectionToString();
+    auto items = ui->queueView->selectedItems();
+    if (items.isEmpty()) {
+        return;
+    }
+    QString text = ui->queueView->selectionToString();
 
-        QMessageBox msgbox(this);
-        msgbox.setWindowTitle(tr("Remove Downloads"));
-        msgbox.setText(tr("Are you sure to remove %0 downloads?").arg(text));
-        msgbox.setIcon(QMessageBox::Icon::Question);
-        QAbstractButton *deleteButton = msgbox.addButton(tr("Delete"), QMessageBox::ActionRole);
-        msgbox.addButton(QMessageBox::Cancel);
-        msgbox.setDefaultButton(QMessageBox::Cancel);
+    QMessageBox msgbox(this);
+    msgbox.setWindowTitle(tr("Remove Downloads"));
+    msgbox.setText(tr("Are you sure to remove %0 downloads?").arg(text));
+    msgbox.setIcon(QMessageBox::Icon::Question);
+    QAbstractButton *deleteButton = msgbox.addButton(tr("Delete"), QMessageBox::ActionRole);
+    msgbox.addButton(QMessageBox::Cancel);
+    msgbox.setDefaultButton(QMessageBox::Cancel);
 
-        msgbox.exec();
-        if (msgbox.clickedButton() == deleteButton) {
-            m_downloadManager->movetoTrash(m_downloadManager->selection());
-        }
+    msgbox.exec();
+    if (msgbox.clickedButton() == deleteButton) {
+        ui->queueView->moveSelectionToTrash();
     }
 }
 
 void MainWindow::openDirectory()
 {
-    if (!m_downloadManager->selection().isEmpty()) {
-        auto item = m_downloadManager->selection().first();
-        auto url = item->localDirUrl();
-        if (!QDesktopServices::openUrl(url)) {
-            QMessageBox::information(
-                        this, tr("Error"),
-                        QString("%0\n\n%1").arg(
-                            tr("Destination directory not found:"),
-                            url.toLocalFile()));
-        }
+    auto items = ui->queueView->selectedItems();
+    if (items.isEmpty()) {
+        return;
+    }
+    auto item = items.first();
+    auto url = item->localDirUrl();
+    if (!QDesktopServices::openUrl(url)) {
+        QMessageBox::information(
+                    this, tr("Error"),
+                    QString("%0\n\n%1").arg(
+                        tr("Destination directory not found:"),
+                        url.toLocalFile()));
     }
 }
 
@@ -649,21 +633,21 @@ bool MainWindow::askConfirmation(const QString &text)
 void MainWindow::removeCompleted()
 {
     if (askConfirmation(tr("completed"))) {
-        m_downloadManager->remove(m_downloadManager->completedJobs());
+        ui->queueView->removeCompleted();
     }
 }
 
 void MainWindow::removeSelected()
 {
     if (askConfirmation(tr("selected"))) {
-        m_downloadManager->remove(m_downloadManager->selection());
+        ui->queueView->removeSelected();
     }
 }
 
 void MainWindow::removeAll()
 {    
     if (askConfirmation(tr("ALL"))) {
-        m_downloadManager->remove(m_downloadManager->downloadItems());
+        ui->queueView->removeAll();
     }
 }
 
@@ -859,43 +843,23 @@ void MainWindow::addUrls(const QString &text)
  ******************************************************************************/
 void MainWindow::resume()
 {
-    for (auto item : m_downloadManager->selection()) {
+    for (auto item : ui->queueView->selectedItems()) {
         m_downloadManager->resume(item);
     }
 }
 
 void MainWindow::cancel()
 {
-    for (auto item : m_downloadManager->selection()) {
+    for (auto item : ui->queueView->selectedItems()) {
         m_downloadManager->cancel(item);
     }
 }
 
 void MainWindow::pause()
 {
-    for (auto item : m_downloadManager->selection()) {
+    for (auto item : ui->queueView->selectedItems()) {
         m_downloadManager->pause(item);
     }
-}
-
-void MainWindow::up()
-{
-    m_downloadManager->moveCurrentUp();
-}
-
-void MainWindow::top()
-{
-    m_downloadManager->moveCurrentTop();
-}
-
-void MainWindow::down()
-{
-    m_downloadManager->moveCurrentDown();
-}
-
-void MainWindow::bottom()
-{
-    m_downloadManager->moveCurrentBottom();
 }
 
 void MainWindow::showPreferences()
@@ -952,12 +916,7 @@ void MainWindow::aboutWebsite()
 
 /******************************************************************************
  ******************************************************************************/
-void MainWindow::onJobAddedOrRemoved(const DownloadRange &/*range*/)
-{
-    refreshTitleAndStatus();
-}
-
-void MainWindow::onJobStateChanged(AbstractDownloadItem * /*downloadItem*/)
+void MainWindow::onDataChanged()
 {
     refreshMenus();
     refreshTitleAndStatus();
@@ -1062,20 +1021,25 @@ void MainWindow::refreshTitleAndStatus()
 
 void MainWindow::refreshMenus()
 {
-    const bool hasJobs = !m_downloadManager->downloadItems().isEmpty();
-    const bool hasSelection = !m_downloadManager->selection().isEmpty();
-    const bool hasOnlyOneSelected = m_downloadManager->selection().count() == 1;
+    auto items = m_downloadManager->downloadItems();
+    auto selectedItems = ui->queueView->selectedItems();
+
+    const bool hasJobs = !items.isEmpty();
+    const bool hasSelection = !selectedItems.isEmpty();
+    const bool hasOnlyOneSelected = selectedItems.count() == 1;
+
     bool hasOnlyCompletedSelected = hasSelection;
-    for (auto item : m_downloadManager->selection()) {
+    for (auto item : selectedItems) {
         if (item->state() != AbstractDownloadItem::Completed) {
             hasOnlyCompletedSelected = false;
-            continue;
+            break;
         }
     }
+
     bool hasResumableSelection = false;
     bool hasPausableSelection = false;
     bool hasCancelableSelection = false;
-    for (auto item : m_downloadManager->selection()) {
+    for (auto item : selectedItems) {
         if (item->isResumable()) {
             hasResumableSelection = true;
         }
@@ -1141,8 +1105,9 @@ void MainWindow::refreshMenus()
 
 void MainWindow::refreshSplitter()
 {
-    if (m_downloadManager->selection().count() == 1) {
-        auto item = m_downloadManager->selection().first();
+    auto items = ui->queueView->selectedItems();
+    if (items.count() == 1) {
+        auto item = items.first();
         DownloadTorrentItem *torrentItem = dynamic_cast<DownloadTorrentItem*>(item);
         ui->torrentWidget->setTorrent(torrentItem ? torrentItem->torrent() : nullptr);
     } else {
@@ -1199,7 +1164,7 @@ void MainWindow::readSettings()
 
     restoreState(settings.value("WindowToolbarState").toByteArray());
     ui->splitter->restoreState(settings.value("SplitterSizes").toByteArray());
-    ui->downloadQueueView->restoreState(settings.value("DownloadQueueState").toByteArray());
+    ui->queueView->restoreState(settings.value("DownloadQueueState").toByteArray());
     ui->torrentWidget->restoreState(settings.value("TorrentState").toByteArray());
 
     m_settings->readSettings();
@@ -1217,7 +1182,7 @@ void MainWindow::writeSettings()
 
     settings.setValue("WindowToolbarState", saveState());
     settings.setValue("SplitterSizes", ui->splitter->saveState());
-    settings.setValue("DownloadQueueState", ui->downloadQueueView->saveState());
+    settings.setValue("DownloadQueueState", ui->queueView->saveState());
     settings.setValue("TorrentState", ui->torrentWidget->saveState());
 
     // --------------------------------------------------------------

@@ -6,16 +6,14 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_SOURCE_DIR}/src/widgets/combobox.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/customstyle.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/customstyleoptionprogressbar.cpp
-    ${CMAKE_SOURCE_DIR}/src/widgets/downloadqueueview.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/filtertip.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/filterwidget.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/linkwidget.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/masktip.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/maskwidget.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/pathwidget.cpp
-    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidget.cpp
-    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidgetitem.cpp
-    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidgetitemdelegate.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/queueview.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/queueviewitemdelegate.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/streamformatpicker.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/streamlistwidget.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/streamtoolbox.cpp
@@ -38,16 +36,13 @@ set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_SOURCE_DIR}/src/widgets/checkableitemdelegate.h
     ${CMAKE_SOURCE_DIR}/src/widgets/checkabletableview.h
     ${CMAKE_SOURCE_DIR}/src/widgets/combobox.h
-    ${CMAKE_SOURCE_DIR}/src/widgets/downloadqueueview.h
     ${CMAKE_SOURCE_DIR}/src/widgets/filtertip.h
     ${CMAKE_SOURCE_DIR}/src/widgets/filterwidget.h
     ${CMAKE_SOURCE_DIR}/src/widgets/linkwidget.h
     ${CMAKE_SOURCE_DIR}/src/widgets/masktip.h
     ${CMAKE_SOURCE_DIR}/src/widgets/maskwidget.h
     ${CMAKE_SOURCE_DIR}/src/widgets/pathwidget.h
-    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidget.h
-    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidgetitem.h
-    ${CMAKE_SOURCE_DIR}/src/widgets/queuewidgetitemdelegate.h
+    ${CMAKE_SOURCE_DIR}/src/widgets/queueviewitemdelegate.h
     ${CMAKE_SOURCE_DIR}/src/widgets/streamformatpicker.h
     ${CMAKE_SOURCE_DIR}/src/widgets/streamlistwidget.h
     ${CMAKE_SOURCE_DIR}/src/widgets/streamtoolbox.h
