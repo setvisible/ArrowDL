@@ -31,6 +31,7 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_SOURCE_DIR}/src/core/torrentmessage.cpp
     ${CMAKE_SOURCE_DIR}/src/core/updatechecker.cpp
     ${CMAKE_SOURCE_DIR}/src/core/updateinstaller.cpp
+    ${CMAKE_SOURCE_DIR}/src/core/utils.cpp
 )
 
 # Rem: set here the headers related to the Qt MOC (i.e., with associated *.ui)
