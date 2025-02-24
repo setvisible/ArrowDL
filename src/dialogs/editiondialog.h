@@ -31,7 +31,7 @@ class EditionDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit EditionDialog(const QList<AbstractJob*> &items, QWidget *parent);
+    explicit EditionDialog(const QList<AbstractJob *> &jobs, QWidget *parent);
     ~EditionDialog() override;
 
 public slots:
@@ -43,7 +43,7 @@ private slots:
 
 private:
     Ui::EditionDialog *ui = nullptr;
-    QList<AbstractJob *> m_items = {};
+    QList<AbstractJob *> m_jobs = {};
 
     void applyChanges();
 

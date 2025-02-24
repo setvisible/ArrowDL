@@ -32,7 +32,7 @@ class BatchRenameDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit BatchRenameDialog(const QList<AbstractJob*> &items, QWidget *parent);
+    explicit BatchRenameDialog(const QList<AbstractJob*> &jobs, QWidget *parent);
     ~BatchRenameDialog() override;
 
 public slots:
@@ -44,11 +44,11 @@ private slots:
 
 private:
     Ui::BatchRenameDialog *ui = nullptr;
-    QList<AbstractJob *> m_items = {};
+    QList<AbstractJob *> m_jobs = {};
 
     void renameToDefault();
     void renameToEnumeration();
-    void rename(JobFile *downloadItem, const QString &newName);
+    void rename(JobFile *job, const QString &newName);
 
     int currentRadio() const;
     void setCurrentRadio(int index);

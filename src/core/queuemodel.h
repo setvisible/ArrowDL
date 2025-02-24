@@ -35,7 +35,7 @@ public:
         StateRole = Qt::UserRole + 1,
         ProgressRole,
         CopyToClipboardRole,
-        DownloadItemRole
+        JobRole
     };
 
     explicit QueueModel(QObject *parent = nullptr);
@@ -55,25 +55,21 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
-    // API to add/remove items
-    QList<AbstractJob *> items() const;
-    void append(const QList<AbstractJob*> &items);
+    // API to add/remove jobs
+    QList<AbstractJob *> jobs() const;
+    void append(const QList<AbstractJob *> &jobs);
 
 protected slots:
-    void onItemChanged();
+    void onJobChanged();
 
 private:
-    QList<AbstractJob *> m_items = {};
+    QList<AbstractJob *> m_jobs = {};
 
-    QList<AbstractJob *> m_selectedItems = {};
-    bool m_selectionAboutToChange = false;
+    inline QString fileSize(const AbstractJob *job) const;
+    inline QString estimatedTime(const AbstractJob *job) const;
 
-    inline QString fileSize(const AbstractJob *item) const;
-    inline QString estimatedTime(const AbstractJob *item) const;
-
-    void connectItem(const AbstractJob *item);
-    void disconnectItem(const AbstractJob *item);
+    void connectJob(const AbstractJob *job);
+    void disconnectJob(const AbstractJob *job);
 };
-
 
 #endif // CORE_QUEUE_MODEL_H

@@ -504,17 +504,17 @@ void MainWindow::copy()
 
 void MainWindow::showInformation()
 {
-    auto items = ui->queueView->selectedItems();
-    if (items.count() == 1) {
-        InformationDialog dialog(items, this);
+    auto jobs = ui->queueView->selectedJobs();
+    if (jobs.count() == 1) {
+        InformationDialog dialog(jobs, this);
         int answer = dialog.exec();
         if (answer == QDialog::Accepted) {
             m_downloadManager->activateSnapshot();
             refreshMenus();
             refreshTitleAndStatus();
         }
-    } else if (items.count() > 1) {
-        EditionDialog dialog(items, this);
+    } else if (jobs.count() > 1) {
+        EditionDialog dialog(jobs, this);
         int answer = dialog.exec();
         if (answer == QDialog::Accepted) {
             m_downloadManager->activateSnapshot();
@@ -526,19 +526,19 @@ void MainWindow::showInformation()
 
 void MainWindow::openFile()
 {
-    auto items = ui->queueView->selectedItems();
-    if (!items.isEmpty()) {
-        auto item = items.first();
-        if (item->state() == AbstractJob::Completed) {
-            openFile(item);
+    auto jobs = ui->queueView->selectedJobs();
+    if (!jobs.isEmpty()) {
+        auto job = jobs.first();
+        if (job->state() == AbstractJob::Completed) {
+            openFile(job);
             return;
         }
     }
 }
 
-void MainWindow::openFile(AbstractJob *downloadItem)
+void MainWindow::openFile(AbstractJob *job)
 {
-    auto url = downloadItem->localFileUrl();
+    auto url = job->localFileUrl();
     if (!QDesktopServices::openUrl(url)) {
         QMessageBox::information(
                     this, tr("Error"),
@@ -550,11 +550,11 @@ void MainWindow::openFile(AbstractJob *downloadItem)
 
 void MainWindow::renameFile()
 {
-    auto items = ui->queueView->selectedItems();
-    if (items.count() == 1) {
+    auto jobs = ui->queueView->selectedJobs();
+    if (jobs.count() == 1) {
         ui->queueView->rename();
-    } else if (items.count() > 1) {
-        BatchRenameDialog dialog(items, this);
+    } else if (jobs.count() > 1) {
+        BatchRenameDialog dialog(jobs, this);
         int answer = dialog.exec();
         if (answer == QDialog::Accepted) {
             m_downloadManager->activateSnapshot();
@@ -566,8 +566,8 @@ void MainWindow::renameFile()
 
 void MainWindow::deleteFile()
 {
-    auto items = ui->queueView->selectedItems();
-    if (items.isEmpty()) {
+    auto jobs = ui->queueView->selectedJobs();
+    if (jobs.isEmpty()) {
         return;
     }
     QString text = ui->queueView->selectionToString();
@@ -588,12 +588,12 @@ void MainWindow::deleteFile()
 
 void MainWindow::openDirectory()
 {
-    auto items = ui->queueView->selectedItems();
-    if (items.isEmpty()) {
+    auto jobs = ui->queueView->selectedJobs();
+    if (jobs.isEmpty()) {
         return;
     }
-    auto item = items.first();
-    auto url = item->localDirUrl();
+    auto job = jobs.first();
+    auto url = job->localDirUrl();
     if (!QDesktopServices::openUrl(url)) {
         QMessageBox::information(
                     this, tr("Error"),
@@ -843,22 +843,22 @@ void MainWindow::addUrls(const QString &text)
  ******************************************************************************/
 void MainWindow::resume()
 {
-    for (auto item : ui->queueView->selectedItems()) {
-        m_downloadManager->resume(item);
+    for (auto job : ui->queueView->selectedJobs()) {
+        m_downloadManager->resume(job);
     }
 }
 
 void MainWindow::cancel()
 {
-    for (auto item : ui->queueView->selectedItems()) {
-        m_downloadManager->cancel(item);
+    for (auto job : ui->queueView->selectedJobs()) {
+        m_downloadManager->cancel(job);
     }
 }
 
 void MainWindow::pause()
 {
-    for (auto item : ui->queueView->selectedItems()) {
-        m_downloadManager->pause(item);
+    for (auto job : ui->queueView->selectedJobs()) {
+        m_downloadManager->pause(job);
     }
 }
 
@@ -922,11 +922,11 @@ void MainWindow::onDataChanged()
     refreshTitleAndStatus();
 }
 
-void MainWindow::onJobFinished(AbstractJob * downloadItem)
+void MainWindow::onJobFinished(AbstractJob *job)
 {
     refreshMenus();
     refreshTitleAndStatus();
-    m_systemTray->showBalloon(downloadItem->localFileName(), downloadItem->localFullFileName());
+    m_systemTray->showBalloon(job->localFileName(), job->localFullFileName());
 }
 
 void MainWindow::onSelectionChanged()
@@ -1021,16 +1021,16 @@ void MainWindow::refreshTitleAndStatus()
 
 void MainWindow::refreshMenus()
 {
-    auto items = m_downloadManager->downloadItems();
-    auto selectedItems = ui->queueView->selectedItems();
+    auto jobs = m_downloadManager->jobs();
+    auto selectedJobs = ui->queueView->selectedJobs();
 
-    const bool hasJobs = !items.isEmpty();
-    const bool hasSelection = !selectedItems.isEmpty();
-    const bool hasOnlyOneSelected = selectedItems.count() == 1;
+    const bool hasJobs = !jobs.isEmpty();
+    const bool hasSelection = !selectedJobs.isEmpty();
+    const bool hasOnlyOneSelected = selectedJobs.count() == 1;
 
     bool hasOnlyCompletedSelected = hasSelection;
-    for (auto item : selectedItems) {
-        if (item->state() != AbstractJob::Completed) {
+    for (auto job : selectedJobs) {
+        if (job->state() != AbstractJob::Completed) {
             hasOnlyCompletedSelected = false;
             break;
         }
@@ -1039,14 +1039,14 @@ void MainWindow::refreshMenus()
     bool hasResumableSelection = false;
     bool hasPausableSelection = false;
     bool hasCancelableSelection = false;
-    for (auto item : selectedItems) {
-        if (item->isResumable()) {
+    for (auto job : selectedJobs) {
+        if (job->isResumable()) {
             hasResumableSelection = true;
         }
-        if (item->isPausable()) {
+        if (job->isPausable()) {
             hasPausableSelection = true;
         }
-        if (item->isCancelable()) {
+        if (job->isCancelable()) {
             hasCancelableSelection = true;
         }
     }
@@ -1105,11 +1105,11 @@ void MainWindow::refreshMenus()
 
 void MainWindow::refreshSplitter()
 {
-    auto items = ui->queueView->selectedItems();
-    if (items.count() == 1) {
-        auto item = items.first();
-        JobTorrent *torrentItem = dynamic_cast<JobTorrent*>(item);
-        ui->torrentWidget->setTorrent(torrentItem ? torrentItem->torrent() : nullptr);
+    auto jobs = ui->queueView->selectedJobs();
+    if (jobs.count() == 1) {
+        auto job = jobs.first();
+        JobTorrent *jobTorrent = dynamic_cast<JobTorrent*>(job);
+        ui->torrentWidget->setTorrent(jobTorrent ? jobTorrent->torrent() : nullptr);
     } else {
         ui->torrentWidget->setTorrent(nullptr);
     }

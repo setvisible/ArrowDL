@@ -52,7 +52,7 @@ bool TextHandler::read(IDownloadManager *downloadManager)
     if (!d->isReadable()) {
         return false;
     }
-    QList<AbstractJob*> items;
+    QList<AbstractJob*> jobs;
     QString line;
     while (readLineInto(in, &line)) {
         line = line.simplified();
@@ -60,14 +60,14 @@ bool TextHandler::read(IDownloadManager *downloadManager)
             continue;
         }
         const QUrl url(line);
-        AbstractJob *item = downloadManager->createFileItem(url);
-        if (!item) {
-            qWarning("DownloadManager::createFileItem() not overridden. It still returns null pointer!");
+        AbstractJob *jobFile = downloadManager->createJobFile(url);
+        if (!jobFile) {
+            qWarning("DownloadManager::createJobFile() not overridden. It still returns null pointer!");
             return false;
         }
-        items.append(item);
+        jobs.append(jobFile);
     }
-    downloadManager->append(items, false);
+    downloadManager->append(jobs, false);
     return true;
 }
 
@@ -79,8 +79,8 @@ bool TextHandler::write(const IDownloadManager &downloadManager)
     if (!d->isWritable()) {
         return false;
     }
-    for (auto item : downloadManager.downloadItems()) {
-        QUrl url = item->sourceUrl();
+    for (auto job : downloadManager.jobs()) {
+        QUrl url = job->sourceUrl();
         QByteArray data = url.toString().toUtf8();
         out << data << '\n';
     }

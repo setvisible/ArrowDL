@@ -175,81 +175,83 @@ static inline AbstractJob* readJob(const QJsonObject &json, DownloadManager *dow
 
     resourceItem->setTorrentPreferredFilePriorities(json["torrentPreferredFilePriorities"].toString());
 
-    AbstractJob *item;
+    AbstractJob *job;
     switch (resourceItem->type()) {
     case ResourceItem::Type::Stream:
-        item = new JobStream(downloadManager, resourceItem);
+        job = new JobStream(downloadManager, resourceItem);
         break;
     case ResourceItem::Type::Torrent:
-        item = new JobTorrent(downloadManager, resourceItem);
+        job = new JobTorrent(downloadManager, resourceItem);
         break;
     default:
-        item = new JobFile(downloadManager, resourceItem);
+        job = new JobFile(downloadManager, resourceItem);
         break;
     }
-    item->setState(intToState(json["state"].toInt()));
-    item->setBytesReceived(static_cast<qsizetype>(json["bytesReceived"].toInteger()));
-    item->setBytesTotal(static_cast<qsizetype>(json["bytesTotal"].toInteger()));
-    item->setMaxConnections(json["maxConnections"].toInt());
-    item->setLog(json["log"].toString());
+    job->setState(intToState(json["state"].toInt()));
+    job->setBytesReceived(static_cast<qsizetype>(json["bytesReceived"].toInteger()));
+    job->setBytesTotal(static_cast<qsizetype>(json["bytesTotal"].toInteger()));
+    job->setMaxConnections(json["maxConnections"].toInt());
+    job->setLog(json["log"].toString());
 
-    return item;
+    return job;
 }
 
-static inline void writeJob(const AbstractJob *item, QJsonObject &json)
+static inline void writeJob(const AbstractJob *job, QJsonObject &json)
 {
-    json["type"] = ResourceItem::toString(item->resource()->type());
-    json["url"] = item->resource()->url();
-    json["destination"] = item->resource()->destination();
-    json["mask"] = item->resource()->mask();
-    json["customFileName"] = item->resource()->customFileName();
-    json["referringPage"] = item->resource()->referringPage();
-    json["description"] = item->resource()->description();
-    json["checkSum"] = item->resource()->checkSum();
+    json["type"] = ResourceItem::toString(job->resource()->type());
+    json["url"] = job->resource()->url();
+    json["destination"] = job->resource()->destination();
+    json["mask"] = job->resource()->mask();
+    json["customFileName"] = job->resource()->customFileName();
+    json["referringPage"] = job->resource()->referringPage();
+    json["description"] = job->resource()->description();
+    json["checkSum"] = job->resource()->checkSum();
 
-    json["streamFileName"] = item->resource()->streamFileName();
-    json["streamFormatId"] = item->resource()->streamFormatId();
-    json["streamFileSize"] = static_cast<qsizetype>(item->resource()->streamFileSize());
+    json["streamFileName"] = job->resource()->streamFileName();
+    json["streamFormatId"] = job->resource()->streamFormatId();
+    json["streamFileSize"] = static_cast<qsizetype>(job->resource()->streamFileSize());
 
-    auto config = item->resource()->streamConfig();
+    auto config = job->resource()->streamConfig();
     json["streamConfig"] = writeStreamConfig(config);
 
-    json["torrentPreferredFilePriorities"] = item->resource()->torrentPreferredFilePriorities();
+    json["torrentPreferredFilePriorities"] = job->resource()->torrentPreferredFilePriorities();
 
-    json["state"] = stateToInt(item->state());
-    json["bytesReceived"] = static_cast<qsizetype>(item->bytesReceived());
-    json["bytesTotal"] = static_cast<qsizetype>(item->bytesTotal());
-    json["maxConnections"] = item->maxConnections();
-    json["log"] = item->log();
+    json["state"] = stateToInt(job->state());
+    json["bytesReceived"] = static_cast<qsizetype>(job->bytesReceived());
+    json["bytesTotal"] = static_cast<qsizetype>(job->bytesTotal());
+    json["maxConnections"] = job->maxConnections();
+    json["log"] = job->log();
 }
 
 /******************************************************************************
  ******************************************************************************/
-static inline void readList(QList<AbstractJob *> &downloadItems, const QJsonObject &json, DownloadManager *downloadManager)
+static inline void readList(QList<AbstractJob *> &jobs, const QJsonObject &json, DownloadManager *downloadManager)
 {
-    QJsonArray jobs = json["jobs"].toArray();
+    QJsonArray jsonArray = json["jobs"].toArray();
+    for (auto json : jsonArray) {
+        QJsonObject jsonObject = json.toObject();
+        auto job = readJob(jsonObject, downloadManager);
+        jobs.append(job);
+    }
+}
+
+static inline void writeList(const QList<AbstractJob *> &jobs, QJsonObject &json)
+{
+    QJsonArray jsonArray;
     for (auto job : jobs) {
-        QJsonObject jobObject = job.toObject();
-        auto item = readJob(jobObject, downloadManager);
-        downloadItems.append(item);
+        QJsonObject jsonObject;
+        writeJob(job, jsonObject);
+        jsonArray.append(jsonObject);
     }
-}
-
-static inline void writeList(const QList<AbstractJob *> &downloadItems, QJsonObject &json)
-{
-    QJsonArray jobs;
-    for (auto item : downloadItems) {
-        QJsonObject jobObject;
-        writeJob(item, jobObject);
-        jobs.append(jobObject);
-    }
-    json["jobs"] = jobs;
+    json["jobs"] = jsonArray;
 }
 
 
 /******************************************************************************
  ******************************************************************************/
-void Session::read(QList<AbstractJob *> &downloadItems, const QString &filename, DownloadManager *downloadManager)
+void Session::read(QList<AbstractJob *> &jobs,
+                   const QString &filename,
+                   DownloadManager *downloadManager)
 {
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -265,10 +267,10 @@ void Session::read(QList<AbstractJob *> &downloadItems, const QString &filename,
         return;
     }
 
-    readList(downloadItems, loadDoc.object(), downloadManager);
+    readList(jobs, loadDoc.object(), downloadManager);
 }
 
-void Session::write(const QList<AbstractJob *> &downloadItems, const QString &filename)
+void Session::write(const QList<AbstractJob *> &jobs, const QString &filename)
 {
     QFile file(filename);
 
@@ -278,7 +280,7 @@ void Session::write(const QList<AbstractJob *> &downloadItems, const QString &fi
     }
 
     QJsonObject json;
-    writeList(downloadItems, json);
+    writeList(jobs, json);
     QJsonDocument saveDoc(json);
     file.write( saveDoc.toJson() );
 }

@@ -52,8 +52,8 @@ private:
 
     void doAccept(bool started);
 
-    AbstractJob* createTorrentItem(const QString &url) const;
-    static inline QList<AbstractJob*> toList(AbstractJob *item);
+    AbstractJob* createJobTorrent(const QString &url) const;
+    static inline QList<AbstractJob*> toList(AbstractJob *job);
 
     void readUiSettings();
     void writeUiSettings();

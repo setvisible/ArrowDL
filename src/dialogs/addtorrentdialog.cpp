@@ -142,22 +142,22 @@ void AddTorrentDialog::onChanged(QString)
 void AddTorrentDialog::doAccept(bool started)
 {
     const QString url = ui->urlFormWidget->url();
-    m_downloadManager->append(toList(createTorrentItem(url)), started);
+    m_downloadManager->append(toList(createJobTorrent(url)), started);
     QDialog::accept();
 }
 
 /******************************************************************************
  ******************************************************************************/
-AbstractJob* AddTorrentDialog::createTorrentItem(const QString &url) const
+AbstractJob* AddTorrentDialog::createJobTorrent(const QString &url) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
     resource->setType(ResourceItem::Type::Torrent);
-    auto item = new JobTorrent(m_downloadManager, resource);
-    return item;
+    auto jobTorrent = new JobTorrent(m_downloadManager, resource);
+    return jobTorrent;
 }
 
-inline QList<AbstractJob*> AddTorrentDialog::toList(AbstractJob *item)
+inline QList<AbstractJob *> AddTorrentDialog::toList(AbstractJob *job)
 {
-    return QList<AbstractJob*>() << item;
+    return QList<AbstractJob *>() << job;
 }

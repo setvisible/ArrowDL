@@ -41,9 +41,9 @@ private slots:
 
 private:
     Ui::InformationDialog *ui = nullptr;
-    QList<AbstractJob *> m_items = {};
+    QList<AbstractJob *> m_jobs = {};
 
-    void initialize(const QList<AbstractJob*> &items);
+    void initialize(const QList<AbstractJob*> &jobs);
 
     void readUiSettings();
     void writeUiSettings();

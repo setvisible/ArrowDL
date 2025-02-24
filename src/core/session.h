@@ -28,11 +28,11 @@ class Session
 public:
     Session() = default;
 
-    static void read(QList<AbstractJob *> &downloadItems,
+    static void read(QList<AbstractJob *> &jobs,
                      const QString &filename,
                      DownloadManager *downloadManager);
 
-    static void write(const QList<AbstractJob *> &downloadItems,
+    static void write(const QList<AbstractJob *> &jobs,
                       const QString &filename);
 };
 

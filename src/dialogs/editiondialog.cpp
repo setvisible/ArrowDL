@@ -34,10 +34,10 @@ constexpr int default_width = 700;
 constexpr int default_height = 500;
 
 
-EditionDialog::EditionDialog(const QList<AbstractJob*> &items, QWidget *parent)
+EditionDialog::EditionDialog(const QList<AbstractJob*> &jobs, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::EditionDialog)
-    , m_items(items)
+    , m_jobs(jobs)
 {
     ui->setupUi(this);
 
@@ -47,14 +47,14 @@ EditionDialog::EditionDialog(const QList<AbstractJob*> &items, QWidget *parent)
 
     connect(ui->editor, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
 
-    ui->subtitleLabel->setText(tr("%0 selected files to edit").arg(m_items.count()));
+    ui->subtitleLabel->setText(tr("%0 selected files to edit").arg(m_jobs.count()));
     ui->warningLabel->setVisible(false);
 
     ui->editor->clear();
-    for (auto item : items) {
-        auto downloadItem = dynamic_cast<const JobFile*>(item);
-        if (downloadItem) {
-            auto resource = downloadItem->resource();
+    for (auto job : jobs) {
+        auto jobFile = dynamic_cast<const JobFile*>(job);
+        if (jobFile) {
+            auto resource = jobFile->resource();
             ui->editor->append(resource->url());
         }
     }
@@ -79,9 +79,9 @@ void EditionDialog::accept()
 {
     writeSettings();
     if (ui->editor->isModified()) {
-        auto itemCount = m_items.count();
+        auto jobCount = m_jobs.count();
         auto lineCount = ui->editor->count();
-        if (itemCount != lineCount) {
+        if (jobCount != lineCount) {
             return; // Cancel action
         }
         applyChanges();
@@ -93,29 +93,29 @@ void EditionDialog::accept()
  ******************************************************************************/
 void EditionDialog::onTextChanged()
 {
-    const int itemCount = m_items.count();
+    const int jobCount = m_jobs.count();
     const int lineCount = ui->editor->count();
 
-    ui->buttonBox->setEnabled(lineCount == itemCount);
-    ui->warningLabel->setVisible(lineCount != itemCount);
+    ui->buttonBox->setEnabled(lineCount == jobCount);
+    ui->warningLabel->setVisible(lineCount != jobCount);
     ui->warningLabel->setText(
                 tr("Warning: number of lines is <%0> but should be <%1>!").arg(
                     QString::number(lineCount),
-                    QString::number(itemCount)));
+                    QString::number(jobCount)));
 }
 
 /******************************************************************************
  ******************************************************************************/
 void EditionDialog::applyChanges()
 {
-    auto itemCount = m_items.count();
+    auto jobCount = m_jobs.count();
     auto lineCount = ui->editor->count();
-    Q_ASSERT(itemCount == lineCount);
-    for (auto index = 0; index < itemCount; ++index) {
+    Q_ASSERT(jobCount == lineCount);
+    for (auto index = 0; index < jobCount; ++index) {
 
-        auto item = m_items.at(index);
-        auto downloadItem = dynamic_cast<JobFile*>(item);
-        auto resource = downloadItem->resource();
+        auto job = m_jobs.at(index);
+        auto jobFile = dynamic_cast<JobFile*>(job);
+        auto resource = jobFile->resource();
         auto oldUrl = resource->url();
 
         auto text = ui->editor->at(index);
@@ -123,8 +123,8 @@ void EditionDialog::applyChanges()
 
         if (newUrl != oldUrl) {
             resource->setUrl(newUrl);
-            downloadItem->stop();
-            downloadItem->pause();
+            jobFile->stop();
+            jobFile->pause();
         }
     }
 }

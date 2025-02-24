@@ -43,7 +43,7 @@ public:
     QByteArray saveState(int version = 0) const;
     bool restoreState(const QByteArray &state, int version = 0);
 
-    QList<AbstractJob *> selectedItems() const;
+    QList<AbstractJob *> selectedJobs() const;
     QString selectionToString() const;
     QString selectionToClipboard() const;
 
@@ -68,7 +68,7 @@ public slots:
 signals:
     void dataChanged();
     void selectionChanged();
-    void doubleClicked(AbstractJob *item);
+    void doubleClicked(AbstractJob *job);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -100,14 +100,14 @@ private:
     void retranslateUi();
     void restylizeUi();
 
-    QUrl urlFrom(const AbstractJob *item) const;
+    QUrl urlFrom(const AbstractJob *job) const;
 
     QList<int> columnWidths() const;
     void setColumnWidths(const QList<int> &widths);
 
     enum Direction { Up, Top, Down, Bottom };
     void move(Direction direction);
-    AbstractJob *getItemAtRow(const int row) const;
+    AbstractJob *getJobAtRow(const int row) const;
 };
 
 #endif // WIDGETS_QUEUE_VIEW_H

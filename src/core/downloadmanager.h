@@ -50,16 +50,16 @@ public:
 
     // Queue
     void clear();
-    void append(const QList<AbstractJob *> &items, bool started = false);
+    void append(const QList<AbstractJob *> &jobs, bool started = false);
     qsizetype count() const;
 
     // Run
-    void resume(AbstractJob *item);
-    void pause(AbstractJob *item);
-    void cancel(AbstractJob *item);
+    void resume(AbstractJob *job);
+    void pause(AbstractJob *job);
+    void cancel(AbstractJob *job);
 
     // Statistics
-    QList<AbstractJob *> downloadItems() const;
+    QList<AbstractJob *> jobs() const;
     QList<AbstractJob *> completedJobs() const;
     QList<AbstractJob *> failedJobs() const;
     QList<AbstractJob *> runningJobs() const;
@@ -74,23 +74,23 @@ public:
     NetworkManager* networkManager() const; // move somewhere else
 
     // Utility
-    AbstractJob* createFileItem(const QUrl &url);
-    AbstractJob* createTorrentItem(const QUrl &url);
+    AbstractJob* createJobFile(const QUrl &url);
+    AbstractJob* createJobTorrent(const QUrl &url);
 
     QAbstractItemModel *model() const;
 
 signals:
-    void jobFinished(AbstractJob *item);
+    void jobFinished(AbstractJob *job);
     void jobRenamed(QString oldName, QString newName, bool success);
 
 public slots:
     void activateSnapshot();
 
 private slots:
-    void onItemChanged();
-    void onItemFinished();
-    void onItemRenamed(const QString &oldName, const QString &newName, bool success);
-    void startNext(AbstractJob *item);
+    void onJobChanged();
+    void onJobFinished();
+    void onJobRenamed(const QString &oldName, const QString &newName, bool success);
+    void startNext(AbstractJob *job);
 
     void onSettingsChanged();
 
@@ -98,7 +98,7 @@ private slots:
 
 private:
     QueueModel *m_queueModel = nullptr;
-    Snapshot *m_snapshot = nullptr; // Crash Recovery
+    Snapshot *m_snapshot = nullptr;
 
     // Network parameters (SSL, Proxy, UserAgent...)
     NetworkManager *m_networkManager = nullptr;

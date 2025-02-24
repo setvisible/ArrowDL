@@ -142,14 +142,14 @@ void QueueView::restylizeUi()
 
 /******************************************************************************
  ******************************************************************************/
-QList<AbstractJob *> QueueView::selectedItems() const
+QList<AbstractJob *> QueueView::selectedJobs() const
 {
-    QList<AbstractJob *> items;
+    QList<AbstractJob *> jobs;
     for (auto index : selectionModel()->selectedRows()) {
-        auto item = getItemAtRow(index.row());
-        items.append(item);
+        auto job = getJobAtRow(index.row());
+        jobs.append(job);
     }
-    return items;
+    return jobs;
 }
 
 /******************************************************************************
@@ -171,12 +171,12 @@ void QueueView::mouseMoveEvent(QMouseEvent *event)
         < QApplication::startDragDistance()) {
         return;
     }
-    auto items = selectedItems();
+    auto jobs = selectedJobs();
 
     QPixmap pixmap;
     QList<QUrl> urls;
-    for (auto item : items) {
-        auto url = urlFrom(item);
+    for (auto job : jobs) {
+        auto url = urlFrom(job);
         if (!url.isEmpty()) {
             if (pixmap.isNull()) {
                 pixmap = MimeDatabase::fileIcon(url);
@@ -201,16 +201,16 @@ void QueueView::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
-QUrl QueueView::urlFrom(const AbstractJob *item) const
+QUrl QueueView::urlFrom(const AbstractJob *job) const
 {
-    if (!item)
+    if (!job)
         return {};
 
-    const QFileInfo fi(item->localFullFileName());
+    const QFileInfo fi(job->localFullFileName());
     if (!fi.exists())
         return {};
 
-    return QUrl::fromLocalFile(item->localFullFileName());
+    return QUrl::fromLocalFile(job->localFullFileName());
 }
 
 /******************************************************************************
@@ -334,8 +334,8 @@ void QueueView::selectCompleted()
     selectNone();
     for (int row = 0, count = model()->rowCount(); row < count; ++row) {
         auto index = model()->index(row, 0);
-        auto item = getItemAtRow(row);
-        if (item->state() == AbstractJob::Completed) {
+        auto job = getJobAtRow(row);
+        if (job->state() == AbstractJob::Completed) {
             selectionModel()->select(index, QItemSelectionModel::Select | QItemSelectionModel::Rows);
         }
     }
@@ -344,14 +344,14 @@ void QueueView::selectCompleted()
 QString QueueView::selectionToString() const
 {
     QString ret;
-    auto items = selectedItems();
+    auto jobs = selectedJobs();
     int count = 0;
-    for (auto item : items) {
-        ret += item->localFileName();
+    for (auto job : jobs) {
+        ret += job->localFileName();
         ret += "\n";
         count++;
         if (count > SELECTION_DISPLAY_LIMIT) {
-            ret += tr("... (%0 others)").arg(items.count() - SELECTION_DISPLAY_LIMIT);
+            ret += tr("... (%0 others)").arg(jobs.count() - SELECTION_DISPLAY_LIMIT);
             break;
         }
     }
@@ -420,9 +420,9 @@ void QueueView::removeAll()
 
 void QueueView::moveSelectionToTrash()
 {
-    auto items = selectedItems();
-    for (auto item : items) {
-        item->moveToTrash();
+    auto jobs = selectedJobs();
+    for (auto job : jobs) {
+        job->moveToTrash();
     }
     removeSelected();
 }
@@ -575,19 +575,19 @@ void QueueView::onCurrentChanged(const QModelIndex &current, const QModelIndex &
 
 /******************************************************************************
  ******************************************************************************/
-AbstractJob* QueueView::getItemAtRow(const int row) const
+AbstractJob* QueueView::getJobAtRow(const int row) const
 {
     auto index = model()->index(row, 0);
-    AbstractJob* item = model()->data(index, QueueModel::DownloadItemRole).value<AbstractJob*>();
-    return item;
+    AbstractJob* job = model()->data(index, QueueModel::JobRole).value<AbstractJob*>();
+    return job;
 }
 
 /******************************************************************************
  ******************************************************************************/
 void QueueView::onDoubleClicked(const QModelIndex &index)
 {
-    auto item = getItemAtRow(index.row());
-    emit doubleClicked(item);
+    auto job = getJobAtRow(index.row());
+    emit doubleClicked(job);
 }
 
 void QueueView::onCommitData(QWidget *editor)
@@ -604,8 +604,8 @@ void QueueView::onCommitData(QWidget *editor)
         newName = newName.left(pos);
     }
     auto index = selectionModel()->currentIndex();
-    auto item = getItemAtRow(index.row());
-    item->rename(newName);
+    auto job = getJobAtRow(index.row());
+    job->rename(newName);
 }
 
 /******************************************************************************

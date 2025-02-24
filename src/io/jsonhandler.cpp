@@ -57,18 +57,18 @@ bool JsonHandler::read(IDownloadManager *downloadManager)
 
     QJsonObject json = loadDoc.object();
 
-    QList<AbstractJob *> items;
+    QList<AbstractJob *> jobs;
 
     QJsonArray jobsArray = json["links"].toArray();
     for (int i = 0; i < jobsArray.size(); ++i) {
         QJsonObject jobObject = jobsArray[i].toObject();
 
         QUrl url = QUrl(jobObject["url"].toString());
-        AbstractJob *item = downloadManager->createFileItem(url);
-        items.append(item);
+        AbstractJob *job = downloadManager->createJobFile(url);
+        jobs.append(job);
     }
 
-    downloadManager->append(items, false);
+    downloadManager->append(jobs, false);
     return true;
 }
 
@@ -81,8 +81,8 @@ bool JsonHandler::write(const IDownloadManager &downloadManager)
     }
     QJsonObject json;
     QJsonArray jobsArray;
-    for (auto item : downloadManager.downloadItems()) {
-        QUrl url = item->sourceUrl();
+    for (auto job : downloadManager.jobs()) {
+        QUrl url = job->sourceUrl();
 
         QJsonObject jobObject;
         jobObject["url"] = url.toString();

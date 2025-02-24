@@ -53,8 +53,8 @@ private:
 
     void doAccept(bool started);
 
-    AbstractJob* createFileItem(const QString &url) const;
-    static inline QList<AbstractJob*> toList(AbstractJob *item);
+    AbstractJob* createJobFile(const QString &url) const;
+    static inline QList<AbstractJob*> toList(AbstractJob *job);
 
     void readUiSettings();
     void writeUiSettings();

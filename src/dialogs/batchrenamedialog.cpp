@@ -41,10 +41,10 @@ QSize PopupItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QMod
 
 /******************************************************************************
  ******************************************************************************/
-BatchRenameDialog::BatchRenameDialog(const QList<AbstractJob*> &items, QWidget *parent)
+BatchRenameDialog::BatchRenameDialog(const QList<AbstractJob *> &jobs, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::BatchRenameDialog)
-    , m_items(items)
+    , m_jobs(jobs)
 {
     ui->setupUi(this);
 
@@ -53,7 +53,7 @@ BatchRenameDialog::BatchRenameDialog(const QList<AbstractJob*> &items, QWidget *
     adjustSize();
     Theme::setIcons(this, { {ui->logo, "rename"} });
 
-    ui->subtitleLabel->setText(tr("%0 selected files to rename").arg(m_items.count()));
+    ui->subtitleLabel->setText(tr("%0 selected files to rename").arg(m_jobs.count()));
 
     ui->comboBox->view()->setItemDelegate(new PopupItemDelegate(ui->comboBox));
 
@@ -95,15 +95,15 @@ void BatchRenameDialog::accept()
  ******************************************************************************/
 void BatchRenameDialog::renameToDefault()
 {
-    for (auto item : m_items) {
-        auto downloadItem = dynamic_cast<JobFile*>(item);
-        rename(downloadItem, QString());
+    for (auto job : m_jobs) {
+        auto jobFile = dynamic_cast<JobFile*>(job);
+        rename(jobFile, QString());
     }
 }
 
 void BatchRenameDialog::renameToEnumeration()
 {
-    auto count = m_items.count();
+    auto count = m_jobs.count();
     auto from = ui->startSpinBox->value();
     auto by = ui->incrementSpinBox->value();
 
@@ -117,20 +117,20 @@ void BatchRenameDialog::renameToEnumeration()
     }
 
     auto i = from;
-    for (auto item : m_items) {
-        auto downloadItem = dynamic_cast<JobFile*>(item);
+    for (auto job : m_jobs) {
+        auto jobFile = dynamic_cast<JobFile*>(job);
         auto newName = QString("%0").arg(QString::number(i), digits, QLatin1Char('0'));
-        rename(downloadItem, newName);
+        rename(jobFile, newName);
         i += by;
     }
 }
 
-void BatchRenameDialog::rename(JobFile *downloadItem, const QString &newName)
+void BatchRenameDialog::rename(JobFile *job, const QString &newName)
 {
-    if (!downloadItem) {
+    if (!job) {
         return;
     }
-    downloadItem->rename(newName);
+    job->rename(newName);
 }
 
 /******************************************************************************

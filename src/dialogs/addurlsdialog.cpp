@@ -142,7 +142,7 @@ void AddUrlsDialog::doAccept(bool started)
         if (!simplified.isEmpty()) {
             m_fakeUrlLineEdit->setText(simplified);
             const QString url = ui->urlFormWidget->url();
-            m_downloadManager->append(toList(createFileItem(url)), started);
+            m_downloadManager->append(toList(createJobFile(url)), started);
         }
     }
     QDialog::accept();
@@ -150,15 +150,15 @@ void AddUrlsDialog::doAccept(bool started)
 
 /******************************************************************************
  ******************************************************************************/
-AbstractJob* AddUrlsDialog::createFileItem(const QString &url) const
+AbstractJob* AddUrlsDialog::createJobFile(const QString &url) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
-    auto item = new JobFile(m_downloadManager, resource);
-    return item;
+    auto jobFile = new JobFile(m_downloadManager, resource);
+    return jobFile;
 }
 
-inline QList<AbstractJob*> AddUrlsDialog::toList(AbstractJob *item)
+inline QList<AbstractJob *> AddUrlsDialog::toList(AbstractJob *job)
 {
-    return QList<AbstractJob*>() << item;
+    return QList<AbstractJob *>() << job;
 }

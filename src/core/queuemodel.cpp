@@ -33,7 +33,7 @@ QueueModel::QueueModel(QObject *parent) : QAbstractTableModel(parent)
  ******************************************************************************/
 int QueueModel::rowCount(const QModelIndex &parent) const
 {
-    return m_items.count();
+    return m_jobs.count();
 }
 
 int QueueModel::columnCount(const QModelIndex &parent) const
@@ -50,25 +50,25 @@ QVariant QueueModel::data(const QModelIndex &index, int role) const
         return {};
     }
 
-    const AbstractJob* item = m_items.at(index.row());
+    const AbstractJob *job = m_jobs.at(index.row());
 
-    if (role == DownloadItemRole) {
+    if (role == JobRole) {
         QVariant variant;
-        variant.setValue(item);
+        variant.setValue(job);
         return variant;
 
     } else if (role == CopyToClipboardRole) {
-        return item->sourceUrl().toString();
+        return job->sourceUrl().toString();
 
     } else if (role == Qt::DisplayRole) {
         switch (index.column()) {
-        case COL_0_FILE_NAME:      return item->localFileName();
-        case COL_1_WEBSITE_DOMAIN: return item->sourceUrl().host(); /// \todo domain only
+        case COL_0_FILE_NAME:      return job->localFileName();
+        case COL_1_WEBSITE_DOMAIN: return job->sourceUrl().host(); /// \todo domain only
         case COL_2_PROGRESS_BAR:   return {};
-        case COL_3_PERCENT:        return QString("%0%").arg(qMax(0, item->progress()));
-        case COL_4_FILE_SIZE:      return fileSize(item);
-        case COL_5_ESTIMATED_TIME: return estimatedTime(item);
-        case COL_6_SPEED:          return Format::currentSpeedToString(item->speed());
+        case COL_3_PERCENT:        return QString("%0%").arg(qMax(0, job->progress()));
+        case COL_4_FILE_SIZE:      return fileSize(job);
+        case COL_5_ESTIMATED_TIME: return estimatedTime(job);
+        case COL_6_SPEED:          return Format::currentSpeedToString(job->speed());
         // case C_COL_7_SEGMENTS:     return "Unknown";
         // todo etc...
         default:
@@ -77,7 +77,7 @@ QVariant QueueModel::data(const QModelIndex &index, int role) const
 
     } else if (role == Qt::EditRole) {
         if (index.column() == COL_0_FILE_NAME) {
-            return item->localFileName();
+            return job->localFileName();
         }
 
     } else if (role == Qt::TextAlignmentRole) {
@@ -85,12 +85,12 @@ QVariant QueueModel::data(const QModelIndex &index, int role) const
 
     } else if (role == StateRole) {
         if (index.column() == COL_2_PROGRESS_BAR) {
-            return item->state();
+            return job->state();
         }
 
     } else if (role == ProgressRole) {
         if (index.column() == COL_2_PROGRESS_BAR) {
-            return item->progress();
+            return job->progress();
         }
     }
     return {};
@@ -145,9 +145,9 @@ bool QueueModel::insertRows(int row, int count, const QModelIndex &)
         return false;
     }
     beginInsertRows(QModelIndex(), row, row + count - 1);
-    AbstractJob *item = nullptr;
+    AbstractJob *job = nullptr;
     for (int r = row; r < row + count; ++r) {
-        m_items.insert(r, item);
+        m_jobs.insert(r, job);
     }
     endInsertRows();
     return true;
@@ -159,12 +159,12 @@ bool QueueModel::removeRows(int row, int count, const QModelIndex &)
         return false;
     }
     beginRemoveRows(QModelIndex(), row, row + count - 1);
-    AbstractJob *item = nullptr;
+    AbstractJob *job = nullptr;
     for (int r = row; r < row + count; ++r) {
-        item = m_items.takeAt(row);
-        if (item) {
-            disconnectItem(item);
-            delete item;
+        job = m_jobs.takeAt(row);
+        if (job) {
+            disconnectJob(job);
+            delete job;
         }
     }
     endRemoveRows();
@@ -194,7 +194,7 @@ bool QueueModel::moveRows(const QModelIndex &, int sourceRow, int count,
         destinationChild--;
     }
     while (count--) {
-        m_items.move(fromRow, destinationChild);
+        m_jobs.move(fromRow, destinationChild);
     }
     endMoveRows();
     return true;
@@ -215,70 +215,70 @@ Qt::ItemFlags QueueModel::flags(const QModelIndex &index) const
 
 /******************************************************************************
  ******************************************************************************/
-inline QString QueueModel::fileSize(const AbstractJob *item) const
+inline QString QueueModel::fileSize(const AbstractJob *job) const
 {
-    if (item->bytesTotal() > 0) {
+    if (job->bytesTotal() > 0) {
         return tr("%0 of %1")
-            .arg(Format::fileSizeToString(item->bytesReceived()),
-                 Format::fileSizeToString(item->bytesTotal()));
+            .arg(Format::fileSizeToString(job->bytesReceived()),
+                 Format::fileSizeToString(job->bytesTotal()));
     }
     return tr("Unknown");
 }
 
-inline QString QueueModel::estimatedTime(const AbstractJob *item) const
+inline QString QueueModel::estimatedTime(const AbstractJob *job) const
 {
-    switch (item->state()) {
+    switch (job->state()) {
     case AbstractJob::Downloading:
-        return Format::timeToString(item->remainingTime());
+        return Format::timeToString(job->remainingTime());
         break;
     case AbstractJob::NetworkError:
     case AbstractJob::FileError:
-        return item->errorMessage();
+        return job->errorMessage();
         break;
     default:
-        return item->stateToString();
+        return job->stateToString();
         break;
     }
 }
 
 /******************************************************************************
  ******************************************************************************/
-QList<AbstractJob *> QueueModel::items() const
+QList<AbstractJob *> QueueModel::jobs() const
 {
-    return m_items;
+    return m_jobs;
 }
 
-void QueueModel::append(const QList<AbstractJob*> &items)
+void QueueModel::append(const QList<AbstractJob*> &jobs)
 {
-    if (items.isEmpty()) {
+    if (jobs.isEmpty()) {
         return;
     }
     const int first = rowCount();
-    const int last = first + items.count();
+    const int last = first + jobs.count();
     emit beginInsertRows(QModelIndex(), first, last);
-    for (auto item : items) {
-        connectItem(item);
+    for (auto job : jobs) {
+        connectJob(job);
     }
-    m_items.append(items);
+    m_jobs.append(jobs);
     emit endInsertRows();
 }
 
 /******************************************************************************
  ******************************************************************************/
-void QueueModel::connectItem(const AbstractJob *item)
+void QueueModel::connectJob(const AbstractJob *job)
 {
-    connect(item, SIGNAL(changed()), this, SLOT(onItemChanged()));
+    connect(job, SIGNAL(changed()), this, SLOT(onJobChanged()));
 }
 
-void QueueModel::disconnectItem(const AbstractJob *item)
+void QueueModel::disconnectJob(const AbstractJob *job)
 {
-    disconnect(item, SIGNAL(changed()), this, SLOT(onItemChanged()));
+    disconnect(job, SIGNAL(changed()), this, SLOT(onJobChanged()));
 }
 
-void QueueModel::onItemChanged()
+void QueueModel::onJobChanged()
 {
-    auto item = qobject_cast<AbstractJob *>(sender());
-    auto row = m_items.indexOf(item);
+    auto job = qobject_cast<AbstractJob *>(sender());
+    auto row = m_jobs.indexOf(job);
     auto topLeft = index(row, 0);
     auto bottomRight = index(row, COL_COUNT - 1);
     auto roles = QList<int>(); // All roles

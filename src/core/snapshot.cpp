@@ -98,10 +98,10 @@ void Snapshot::loadQueue()
     if (m_queueFile.isEmpty()) {
         return;
     }
-    QList<AbstractJob*> items;
-    Session::read(items, m_queueFile, m_downloadManager);
+    QList<AbstractJob*> jobs;
+    Session::read(jobs, m_queueFile, m_downloadManager);
     m_downloadManager->clear();
-    m_downloadManager->append(items, false);
+    m_downloadManager->append(jobs, false);
 }
 
 void Snapshot::saveQueue()
@@ -109,15 +109,15 @@ void Snapshot::saveQueue()
     if (m_queueFile.isEmpty()) {
         return;
     }
-    QList<AbstractJob *> items;
+    QList<AbstractJob *> jobs;
 
     auto skipCompleted = m_settings->isRemoveCompletedEnabled();
     auto skipCanceled = m_settings->isRemoveCanceledEnabled();
     auto skipPaused = m_settings->isRemovePausedEnabled();
 
-    for (auto item : m_downloadManager->downloadItems()) {
-        if (item) {
-            switch (item->state()) {
+    for (auto job : m_downloadManager->jobs()) {
+        if (job) {
+            switch (job->state()) {
             case AbstractJob::Idle:
             case AbstractJob::Paused:
             case AbstractJob::Preparing:
@@ -140,8 +140,8 @@ void Snapshot::saveQueue()
                 if (skipCanceled) continue;
                 break;
             }
-            items.append(item);
+            jobs.append(job);
         }
     }
-    Session::write(items, m_queueFile);
+    Session::write(jobs, m_queueFile);
 }

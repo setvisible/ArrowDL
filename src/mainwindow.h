@@ -76,7 +76,7 @@ public slots:
     // View
     void showInformation();
     void openFile();
-    void openFile(AbstractJob *downloadItem);
+    void openFile(AbstractJob *job);
     void renameFile();
     void deleteFile();
     void openDirectory();
@@ -116,7 +116,7 @@ public slots:
 
 private slots:
     void onDataChanged();
-    void onJobFinished(AbstractJob *downloadItem);
+    void onJobFinished(AbstractJob *job);
     void onJobRenamed(const QString &oldName, const QString &newName, bool success);
     void onSelectionChanged();
     void onTorrentContextChanged();

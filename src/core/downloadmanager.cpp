@@ -109,23 +109,23 @@ NetworkManager* DownloadManager::networkManager() const
 /******************************************************************************
  ******************************************************************************/
 /*!
- * \brief Reimplement this method allows the Engine to make Items; like a factory.
+ * \brief Reimplement this method allows it to make jobs like a factory.
  * That makes the unit tests of this class easier, allowing dummy items.
  * \remark Optional
  */
-AbstractJob* DownloadManager::createFileItem(const QUrl &url)
+AbstractJob* DownloadManager::createJobFile(const QUrl &url)
 {
     ResourceItem* resource = createResourceItem(url);
-    auto item = new JobFile(this, resource);
-    return item;
+    auto job = new JobFile(this, resource);
+    return job;
 }
 
-AbstractJob* DownloadManager::createTorrentItem(const QUrl &url)
+AbstractJob* DownloadManager::createJobTorrent(const QUrl &url)
 {
     ResourceItem* resource = createResourceItem(url);
     resource->setType(ResourceItem::Type::Torrent);
-    auto item = new JobTorrent(this, resource);
-    return item;
+    auto job = new JobTorrent(this, resource);
+    return job;
 }
 
 /******************************************************************************
@@ -154,24 +154,23 @@ inline ResourceItem* DownloadManager::createResourceItem(const QUrl &url)
 qsizetype DownloadManager::downloadingCount() const
 {
     auto count = 0;
-    for (auto item : m_queueModel->items()) {
-       if (item->isDownloading()) {
+    for (auto job : m_queueModel->jobs()) {
+       if (job->isDownloading()) {
            count++;
        }
     }
     return count;
 }
 
-void DownloadManager::startNext(AbstractJob * /*item*/)
+void DownloadManager::startNext(AbstractJob */*job*/)
 {
     if (downloadingCount() < m_maxSimultaneousDownloads) {
        auto rows = m_queueModel->rowCount();
        for (int i = 0; i < rows; ++i) {
            auto index = m_queueModel->index(i, 0);
-           AbstractJob* item = model()->data(index, QueueModel::DownloadItemRole).value<AbstractJob*>();
-           // for (auto item : m_queueModel->items()) {
-           if (item->state() == AbstractJob::Idle) {
-               item->resume();
+           AbstractJob* job = model()->data(index, QueueModel::JobRole).value<AbstractJob*>();
+           if (job->state() == AbstractJob::Idle) {
+               job->resume();
                startNext(nullptr);
                break;
            }
@@ -195,32 +194,33 @@ void DownloadManager::clear()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadManager::append(const QList<AbstractJob*> &items, bool started)
+void DownloadManager::append(const QList<AbstractJob *> &jobs, bool started)
 {
-    if (items.isEmpty()) {
+    if (jobs.isEmpty()) {
         return;
     }
-    for (auto item : items) {
-        if (!item) {
+    for (auto job : jobs) {
+        if (!job) {
             return;
         }
 
-        connect(item, SIGNAL(changed()), this, SLOT(onItemChanged()));
-        connect(item, SIGNAL(finished()), this, SLOT(onItemFinished()));
-        connect(item, SIGNAL(renamed(QString,QString,bool)), this, SLOT(onItemRenamed(QString,QString,bool)));
+        connect(job, SIGNAL(changed()), this, SLOT(onJobChanged()));
+        connect(job, SIGNAL(finished()), this, SLOT(onJobFinished()));
+        connect(job, SIGNAL(renamed(QString,QString,bool)), this, SLOT(onJobRenamed(QString,QString,bool)));
 
         if (started) {
-            if (item->isResumable()) {
-                item->setState(AbstractJob::Idle);
+            if (job->isResumable()) {
+                job->setState(AbstractJob::Idle);
             }
         } else {
-            if (item->isPausable()) {
-                item->setState(AbstractJob::Paused);
+            if (job->isPausable()) {
+                job->setState(AbstractJob::Paused);
             }
         }
     }
 
-    m_queueModel->append(items); // inserset row ?
+    /// \todo Replace append(...) with insertRow()
+    m_queueModel->append(jobs);
     activateSnapshot();
 
     if (started) {
@@ -242,20 +242,20 @@ void DownloadManager::setMaxSimultaneousDownloads(int number)
 
 /******************************************************************************
  ******************************************************************************/
-QList<AbstractJob *> DownloadManager::downloadItems() const
+QList<AbstractJob *> DownloadManager::jobs() const
 {
-    return  m_queueModel->items();
+    return  m_queueModel->jobs();
 }
 
 static inline QList<AbstractJob*> filter(
-    const QList<AbstractJob*> &items,
+    const QList<AbstractJob*> &jobs,
     const QList<AbstractJob::State> &states)
 {
     QList<AbstractJob*> list;
-    for (auto item : items) {
+    for (auto job : jobs) {
         for (auto state : states) {
-            if (item->state() == state) {
-                list.append(item);
+            if (job->state() == state) {
+                list.append(job);
             }
         }
     }
@@ -265,7 +265,7 @@ static inline QList<AbstractJob*> filter(
 QList<AbstractJob*> DownloadManager::completedJobs() const
 {
     return filter(
-        downloadItems(),
+        jobs(),
         {AbstractJob::Completed,
          AbstractJob::Seeding});
 }
@@ -273,7 +273,7 @@ QList<AbstractJob*> DownloadManager::completedJobs() const
 QList<AbstractJob *> DownloadManager::failedJobs() const
 {
     return filter(
-        downloadItems(),
+        jobs(),
         {AbstractJob::Stopped,
          AbstractJob::Skipped,
          AbstractJob::NetworkError,
@@ -283,7 +283,7 @@ QList<AbstractJob *> DownloadManager::failedJobs() const
 QList<AbstractJob*> DownloadManager::runningJobs() const
 {
     return filter(
-        downloadItems(),
+        jobs(),
         {AbstractJob::Preparing,
          AbstractJob::Connecting,
          AbstractJob::DownloadingMetadata,
@@ -297,14 +297,14 @@ void DownloadManager::onSpeedTimerTimeout()
 {
     m_speedTimer->stop();
     m_previouSpeed = 0;
-    emit onItemChanged();
+    emit onJobChanged();
 }
 
 qreal DownloadManager::totalSpeed()
 {
     qreal speed = 0;
-    for (auto item : downloadItems()) {
-        speed += qMax(item->speed(), qreal(0));
+    for (auto job : jobs()) {
+        speed += qMax(job->speed(), qreal(0));
     }
     if (speed > 0) {
         m_previouSpeed = speed;
@@ -315,42 +315,42 @@ qreal DownloadManager::totalSpeed()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadManager::resume(AbstractJob *item)
+void DownloadManager::resume(AbstractJob *job)
 {
-    if (item->isResumable()) {
-        item->setReadyToResume();
-        startNext(item);
+    if (job->isResumable()) {
+        job->setReadyToResume();
+        startNext(job);
     }
 }
 
-void DownloadManager::pause(AbstractJob *item)
+void DownloadManager::pause(AbstractJob *job)
 {
-    if (item->isPausable()) {
-        item->pause();
+    if (job->isPausable()) {
+        job->pause();
     }
 }
 
-void DownloadManager::cancel(AbstractJob *item)
+void DownloadManager::cancel(AbstractJob *job)
 {
-    if (item->isCancelable()) {
-        item->stop();
+    if (job->isCancelable()) {
+        job->stop();
     }
 }
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadManager::onItemChanged()
+void DownloadManager::onJobChanged()
 {
     activateSnapshot();
 }
 
-void DownloadManager::onItemFinished()
+void DownloadManager::onJobFinished()
 {
-    auto downloadItem = qobject_cast<AbstractJob *>(sender());
-    emit jobFinished(downloadItem);
+    auto job = qobject_cast<AbstractJob *>(sender());
+    emit jobFinished(job);
 }
 
-void DownloadManager::onItemRenamed(const QString &oldName, const QString &newName, bool success)
+void DownloadManager::onJobRenamed(const QString &oldName, const QString &newName, bool success)
 {
     emit jobRenamed(oldName, newName, success);
 }

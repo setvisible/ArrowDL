@@ -28,12 +28,12 @@ public:
     IDownloadManager() = default;
     virtual ~IDownloadManager() noexcept = default; // IMPORTANT: virtual destructor
 
-    virtual void append(const QList<AbstractJob *> &items, bool started = false) = 0;
+    virtual void append(const QList<AbstractJob *> &jobs, bool started = false) = 0;
 
-    virtual QList<AbstractJob *> downloadItems() const = 0;
+    virtual QList<AbstractJob *> jobs() const = 0;
 
-    virtual AbstractJob* createFileItem(const QUrl &url) = 0;
-    virtual AbstractJob* createTorrentItem(const QUrl &url) = 0;
+    virtual AbstractJob* createJobFile(const QUrl &url) = 0;
+    virtual AbstractJob* createJobTorrent(const QUrl &url) = 0;
 };
 
 #endif // CORE_I_DOWNLOAD_MANAGER_H
