@@ -130,15 +130,7 @@ void BatchRenameDialog::rename(DownloadFileItem *downloadItem, const QString &ne
     if (!downloadItem) {
         return;
     }
-
-    if (ui->safeRenameCheckBox->isChecked()) {
-        auto resource = downloadItem->resource();
-        resource->setCustomFileName(newName);
-        downloadItem->stop();
-        downloadItem->pause();
-    } else {
-        downloadItem->rename(newName);
-    }
+    downloadItem->rename(newName);
 }
 
 /******************************************************************************
@@ -185,7 +177,6 @@ void BatchRenameDialog::readSettings()
     ui->startSpinBox->setValue( settings.value("StartFrom", 1).toInt());
     ui->incrementSpinBox->setValue(settings.value("IncrementBy", 1).toInt());
     ui->digitSpinBox->setValue(settings.value("NumberOfDigits", 3).toInt());
-    ui->safeRenameCheckBox->setChecked(settings.value("SafeRename", true).toBool());
     settings.endGroup();
 }
 
@@ -198,6 +189,5 @@ void BatchRenameDialog::writeSettings()
     settings.setValue("StartFrom", ui->startSpinBox->value());
     settings.setValue("IncrementBy", ui->incrementSpinBox->value());
     settings.setValue("NumberOfDigits", ui->digitSpinBox->value());
-    settings.setValue("SafeRename", ui->safeRenameCheckBox->isChecked());
     settings.endGroup();
 }
