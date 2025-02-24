@@ -21,7 +21,7 @@
 #include <QtCore/QString>
 #include <QtCore/QTime>
 
-class DownloadManager;
+class Scheduler;
 class Settings;
 
 class QTimer;
@@ -43,7 +43,7 @@ private slots:
     void onSettingsChanged();
 
 private:
-    DownloadManager *m_downloadManager = nullptr;
+    Scheduler *m_scheduler = nullptr;
     Settings *m_settings = nullptr;
 
     // Crash Recovery

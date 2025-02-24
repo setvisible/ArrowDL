@@ -16,7 +16,7 @@
 
 #include "jobfile.h"
 
-#include <Core/DownloadManager>
+#include <Core/Scheduler>
 #include <Core/File>
 #include <Core/NetworkManager>
 #include <Core/ResourceItem>
@@ -29,7 +29,7 @@ using namespace Qt::Literals::StringLiterals;
 
 JobFile::JobFile(QObject *parent, ResourceItem *resource)
     : AbstractJob(parent, resource)
-    , m_downloadManager((DownloadManager*)parent)
+    , m_scheduler((Scheduler*)parent)
     , m_reply(nullptr)
 {
 }
@@ -66,7 +66,7 @@ void JobFile::resume()
     if (this->checkResume(connected)) {
 
         auto url = m_resource->url_TODO();
-        m_reply = m_downloadManager->networkManager()->get(url);
+        m_reply = m_scheduler->networkManager()->get(url);
         m_reply->setParent(this);
 
         /* Signals/Slots of QNetworkReply */
@@ -113,7 +113,7 @@ void JobFile::onMetaDataChanged()
                 logInfo(QString("HTTP redirect: '%0' to '%1'.").arg(oldUrl.toString(), newUrl.toString()));
             }
         }
-        auto settings = m_downloadManager->settings();
+        auto settings = m_scheduler->settings();
         auto rawTime = m_reply->header(QNetworkRequest::LastModifiedHeader);
         if (settings && rawTime.isValid()) {
             auto time = rawTime.toDateTime();

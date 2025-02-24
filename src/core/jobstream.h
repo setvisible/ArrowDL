@@ -22,7 +22,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
-class DownloadManager;
+class Scheduler;
 // class ResourceItem;
 class Stream;
 

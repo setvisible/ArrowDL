@@ -36,9 +36,9 @@ bool JsonHandler::canWrite() const
     return true;
 }
 
-bool JsonHandler::read(IDownloadManager *downloadManager)
+bool JsonHandler::read(IScheduler *scheduler)
 {
-    if (!downloadManager) {
+    if (!scheduler) {
         qWarning("JsonHandler::read() Can't read into null pointer");
         return false;
     }
@@ -64,15 +64,15 @@ bool JsonHandler::read(IDownloadManager *downloadManager)
         QJsonObject jobObject = jobsArray[i].toObject();
 
         QUrl url = QUrl(jobObject["url"].toString());
-        AbstractJob *job = downloadManager->createJobFile(url);
+        AbstractJob *job = scheduler->createJobFile(url);
         jobs.append(job);
     }
 
-    downloadManager->append(jobs, false);
+    scheduler->append(jobs, false);
     return true;
 }
 
-bool JsonHandler::write(const IDownloadManager &downloadManager)
+bool JsonHandler::write(const IScheduler &scheduler)
 {
     QIODevice *d = device();
     QTextStream out(d);
@@ -81,7 +81,7 @@ bool JsonHandler::write(const IDownloadManager &downloadManager)
     }
     QJsonObject json;
     QJsonArray jobsArray;
-    for (auto job : downloadManager.jobs()) {
+    for (auto job : scheduler.jobs()) {
         QUrl url = job->sourceUrl();
 
         QJsonObject jobObject;

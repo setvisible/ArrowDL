@@ -19,7 +19,7 @@
 
 #include <Constants>
 #include <Core/JobFile>
-#include <Core/DownloadManager>
+#include <Core/Scheduler>
 #include <Core/JobTorrent>
 #include <Core/ResourceItem>
 #include <Core/Settings>
@@ -37,11 +37,11 @@
 
 AddTorrentDialog::AddTorrentDialog(
     const QUrl &url,
-    DownloadManager *downloadManager,
+    Scheduler *scheduler,
     Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddTorrentDialog)
-    , m_downloadManager(downloadManager)
+    , m_scheduler(scheduler)
     , m_settings(settings)
 {
     ui->setupUi(this);
@@ -142,7 +142,7 @@ void AddTorrentDialog::onChanged(QString)
 void AddTorrentDialog::doAccept(bool started)
 {
     const QString url = ui->urlFormWidget->url();
-    m_downloadManager->append(toList(createJobTorrent(url)), started);
+    m_scheduler->append(toList(createJobTorrent(url)), started);
     QDialog::accept();
 }
 
@@ -153,7 +153,7 @@ AbstractJob* AddTorrentDialog::createJobTorrent(const QString &url) const
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
     resource->setType(ResourceItem::Type::Torrent);
-    auto jobTorrent = new JobTorrent(m_downloadManager, resource);
+    auto jobTorrent = new JobTorrent(m_scheduler, resource);
     return jobTorrent;
 }
 

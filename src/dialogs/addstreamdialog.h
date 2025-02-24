@@ -23,7 +23,7 @@
 #include <QtWidgets/QMessageBox>
 
 class AbstractJob;
-class DownloadManager;
+class Scheduler;
 class Settings;
 
 namespace Ui {
@@ -34,7 +34,7 @@ class AddStreamDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit AddStreamDialog(const QUrl &url, DownloadManager *downloadManager, Settings *settings, QWidget *parent = nullptr);
+    explicit AddStreamDialog(const QUrl &url, Scheduler *scheduler, Settings *settings, QWidget *parent = nullptr);
     ~AddStreamDialog() override;
 
     static bool isStreamUrl(const QUrl &url, const Settings *settings);
@@ -53,14 +53,14 @@ private slots:
 
 private:
     Ui::AddStreamDialog *ui = nullptr;
-    DownloadManager *m_downloadManager = nullptr;
+    Scheduler *m_scheduler = nullptr;
     StreamAssetDownloader *m_streamObjectDownloader = nullptr;
     Settings *m_settings = nullptr;
 
     void doAccept(bool started);
 
-    QList<AbstractJob*> createStreamItems() const;
-    AbstractJob* createStreamItem(const StreamObject &streamObject) const;
+    QList<AbstractJob*> createJobStreams() const;
+    AbstractJob* createJobStream(const StreamObject &streamObject) const;
 
     void setGuiEnabled(bool enabled);
 

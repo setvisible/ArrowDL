@@ -33,9 +33,9 @@ bool TorrentHandler::canWrite() const
     return false;
 }
 
-bool TorrentHandler::read(IDownloadManager *downloadManager)
+bool TorrentHandler::read(IScheduler *scheduler)
 {
-    if (!downloadManager) {
+    if (!scheduler) {
         qWarning("TorrentHandler::read() cannot read into null pointer");
         return false;
     }
@@ -56,19 +56,19 @@ bool TorrentHandler::read(IDownloadManager *downloadManager)
         auto filename = f->fileName();
         url = QUrl(filename);
     }
-    AbstractJob *job = downloadManager->createJobTorrent(url);
+    AbstractJob *job = scheduler->createJobTorrent(url);
     if (!job) {
-        qWarning("DownloadManager::createJobFile() not overridden."
+        qWarning("Scheduler::createJobFile() not overridden."
                  " It still returns null pointer!");
         return false;
     }
     QList<AbstractJob*> jobs;
     jobs.append(job);
-    downloadManager->append(jobs, false);
+    scheduler->append(jobs, false);
     return true;
 }
 
-bool TorrentHandler::write(const IDownloadManager &/*downloadManager*/)
+bool TorrentHandler::write(const IScheduler &/*scheduler*/)
 {
     return false;
 }

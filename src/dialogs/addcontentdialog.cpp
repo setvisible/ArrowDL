@@ -20,7 +20,7 @@
 #include <Constants>
 #include <Core/HtmlParser>
 #include <Core/JobFile>
-#include <Core/DownloadManager>
+#include <Core/Scheduler>
 #include <Core/Model>
 #include <Core/NetworkManager>
 #include <Core/ResourceItem>
@@ -52,27 +52,27 @@ constexpr int column_download_width = 400;
 constexpr int column_mask_width = 200;
 
 
-static QList<AbstractJob*> createItems(
+static QList<AbstractJob*> createJobs(
     const QList<ResourceItem*> &resources,
-    DownloadManager *downloadManager,
+    Scheduler *scheduler,
     const Settings *settings)
 {
-    QList<AbstractJob*> items;
+    QList<AbstractJob*> jobs;
     for (auto resource : resources) {
         if (settings && settings->isHttpReferringPageEnabled()) {
             resource->setReferringPage(settings->httpReferringPage());
         }
-        auto item = new JobFile(downloadManager, resource);
-        items << item;
+        auto job = new JobFile(scheduler, resource);
+        jobs << job;
     }
-    return items;
+    return jobs;
 }
 
 
-AddContentDialog::AddContentDialog(DownloadManager *downloadManager, Settings *settings, QWidget *parent)
+AddContentDialog::AddContentDialog(Scheduler *scheduler, Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddContentDialog)
-    , m_downloadManager(downloadManager)
+    , m_scheduler(scheduler)
     , m_model(new Model(this))
     #ifdef USE_QT_WEBENGINE
     , m_webEngineView(nullptr)
@@ -159,9 +159,9 @@ void AddContentDialog::reject()
  ******************************************************************************/
 void AddContentDialog::start(bool started)
 {
-    if (m_downloadManager) {
-        auto items = createItems(m_model->selection(), m_downloadManager, m_settings);
-        m_downloadManager->append(items, started);
+    if (m_scheduler) {
+        auto jobs = createJobs(m_model->selection(), m_scheduler, m_settings);
+        m_scheduler->append(jobs, started);
     }
 }
 
@@ -204,7 +204,7 @@ void AddContentDialog::loadUrl(const QUrl &url)
         m_webEngineView->load(m_url);
 #else
         qInfo("Loading URL. HTML parser is Google Gumbo.");
-        NetworkManager *networkManager = m_downloadManager->networkManager();
+        NetworkManager *networkManager = m_scheduler->networkManager();
         QNetworkReply *reply = networkManager->get(m_url);
         connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
         connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));

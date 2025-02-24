@@ -18,7 +18,6 @@
 
 #include <Constants>
 #include <Core/AbstractJob>
-#include <Core/DownloadManager>
 #include <Core/MimeDatabase>
 #include <Core/QueueModel>
 #include <Core/Utils>

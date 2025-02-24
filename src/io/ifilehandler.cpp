@@ -34,8 +34,8 @@ QIODevice *IFileHandler::device() const
     return m_device;
 }
 
-bool IFileHandler::write(const IDownloadManager &downloadManager)
+bool IFileHandler::write(const IScheduler &scheduler)
 {
-    Q_UNUSED(downloadManager)
+    Q_UNUSED(scheduler)
     return false;
 }

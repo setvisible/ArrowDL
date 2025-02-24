@@ -18,7 +18,7 @@
 
 #include "format.h"
 
-#include <Core/IDownloadManager>
+#include <Core/IScheduler>
 
 #include <QtCore/QDebug>
 #include <QtCore/QByteArray>
@@ -78,9 +78,9 @@ bool FileReader::initHandler()
 
 /******************************************************************************
  ******************************************************************************/
-bool FileReader::read(IDownloadManager *downloadManager)
+bool FileReader::read(IScheduler *scheduler)
 {
-    if (!downloadManager) {
+    if (!scheduler) {
         qWarning("FileReader::read: cannot read into null pointer");
         return false;
     }
@@ -88,7 +88,7 @@ bool FileReader::read(IDownloadManager *downloadManager)
         return false;
     }
     try {
-        const bool result = m_handler->read(downloadManager);
+        const bool result = m_handler->read(scheduler);
         if (!result) {
             m_fileReaderError = InvalidDataError;
             m_errorString = FileReader::tr("Unable to read data");

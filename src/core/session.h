@@ -21,7 +21,7 @@
 #include <QtCore/QString>
 
 class AbstractJob;
-class DownloadManager;
+class Scheduler;
 
 class Session
 {
@@ -30,7 +30,7 @@ public:
 
     static void read(QList<AbstractJob *> &jobs,
                      const QString &filename,
-                     DownloadManager *downloadManager);
+                     Scheduler *scheduler);
 
     static void write(const QList<AbstractJob *> &jobs,
                       const QString &filename);

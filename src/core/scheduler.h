@@ -14,10 +14,10 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_DOWNLOAD_MANAGER_H
-#define CORE_DOWNLOAD_MANAGER_H
+#ifndef CORE_SCHEDULER_H
+#define CORE_SCHEDULER_H
 
-#include <Core/IDownloadManager>
+#include <Core/IScheduler>
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
@@ -36,13 +36,13 @@ class QNetworkReply;
 
 using DownloadRange = QList<AbstractJob *>;
 
-class DownloadManager : public QObject, public IDownloadManager
+class Scheduler : public QObject, public IScheduler
 {
     Q_OBJECT
 
 public:
-    explicit DownloadManager(QObject *parent = nullptr);
-    ~DownloadManager();
+    explicit Scheduler(QObject *parent = nullptr);
+    ~Scheduler();
 
     // Settings
     Settings* settings() const;
@@ -114,4 +114,4 @@ private:
     inline ResourceItem* createResourceItem(const QUrl &url);
 };
 
-#endif // CORE_DOWNLOAD_MANAGER_H
+#endif // CORE_SCHEDULER_H

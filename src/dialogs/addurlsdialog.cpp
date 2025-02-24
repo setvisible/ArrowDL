@@ -19,7 +19,7 @@
 
 #include <Constants>
 #include <Core/JobFile>
-#include <Core/DownloadManager>
+#include <Core/Scheduler>
 #include <Core/ResourceItem>
 #include <Core/Settings>
 #include <Core/Theme>
@@ -35,12 +35,12 @@
 
 AddUrlsDialog::AddUrlsDialog(
     const QString &text,
-    DownloadManager *downloadManager,
+    Scheduler *scheduler,
     Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddUrlsDialog)
     , m_fakeUrlLineEdit(new QLineEdit(this))
-    , m_downloadManager(downloadManager)
+    , m_scheduler(scheduler)
     , m_settings(settings)
 {
     ui->setupUi(this);
@@ -142,7 +142,7 @@ void AddUrlsDialog::doAccept(bool started)
         if (!simplified.isEmpty()) {
             m_fakeUrlLineEdit->setText(simplified);
             const QString url = ui->urlFormWidget->url();
-            m_downloadManager->append(toList(createJobFile(url)), started);
+            m_scheduler->append(toList(createJobFile(url)), started);
         }
     }
     QDialog::accept();
@@ -154,8 +154,8 @@ AbstractJob* AddUrlsDialog::createJobFile(const QString &url) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
-    auto jobFile = new JobFile(m_downloadManager, resource);
-    return jobFile;
+    auto job = new JobFile(m_scheduler, resource);
+    return job;
 }
 
 inline QList<AbstractJob *> AddUrlsDialog::toList(AbstractJob *job)

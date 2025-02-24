@@ -22,7 +22,7 @@
 
 
 class Model;
-class DownloadManager;
+class Scheduler;
 class Settings;
 
 #ifdef USE_QT_WEBENGINE
@@ -40,7 +40,7 @@ class AddContentDialog : public QDialog
     enum Bypass { None, Start, StartPaused }; // Dirty hack to NOT show the dialog
 
 public:
-    explicit AddContentDialog(DownloadManager *downloadManager, Settings *settings, QWidget *parent);
+    explicit AddContentDialog(Scheduler *scheduler, Settings *settings, QWidget *parent);
     ~AddContentDialog() override;
 
     bool loadResources(const QString &message);
@@ -75,7 +75,7 @@ private slots:
 
 private:
     Ui::AddContentDialog *ui = nullptr;
-    DownloadManager *m_downloadManager = nullptr;
+    Scheduler *m_scheduler = nullptr;
     Model *m_model = nullptr;
 #ifdef USE_QT_WEBENGINE
     QWebEngineView *m_webEngineView = nullptr;

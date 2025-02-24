@@ -18,7 +18,7 @@
 
 #include <Constants>
 #include <Core/AbstractJob>
-#include <Core/DownloadManager>
+#include <Core/Scheduler>
 #include <Core/Session>
 #include <Core/Settings>
 
@@ -39,7 +39,7 @@ using namespace Qt::Literals::StringLiterals;
  */
 Snapshot::Snapshot(QObject *parent) : QObject(parent)
 {
-    m_downloadManager = static_cast<DownloadManager*>(parent);
+    m_scheduler = static_cast<Scheduler*>(parent);
 }
 
 Snapshot::~Snapshot()
@@ -99,9 +99,9 @@ void Snapshot::loadQueue()
         return;
     }
     QList<AbstractJob*> jobs;
-    Session::read(jobs, m_queueFile, m_downloadManager);
-    m_downloadManager->clear();
-    m_downloadManager->append(jobs, false);
+    Session::read(jobs, m_queueFile, m_scheduler);
+    m_scheduler->clear();
+    m_scheduler->append(jobs, false);
 }
 
 void Snapshot::saveQueue()
@@ -115,7 +115,7 @@ void Snapshot::saveQueue()
     auto skipCanceled = m_settings->isRemoveCanceledEnabled();
     auto skipPaused = m_settings->isRemovePausedEnabled();
 
-    for (auto job : m_downloadManager->jobs()) {
+    for (auto job : m_scheduler->jobs()) {
         if (job) {
             switch (job->state()) {
             case AbstractJob::Idle:

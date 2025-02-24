@@ -25,7 +25,7 @@
 #include <QtNetwork/QNetworkReply>
 
 class File;
-class DownloadManager;
+class Scheduler;
 class ResourceItem;
 
 // class QNetworkReply;
@@ -52,7 +52,7 @@ private slots:
     void onAboutToClose();
 
 private:
-    DownloadManager *m_downloadManager = nullptr;
+    Scheduler *m_scheduler = nullptr;
     QNetworkReply *m_reply = nullptr;
 
     QString statusToHttp(QNetworkReply::NetworkError error);

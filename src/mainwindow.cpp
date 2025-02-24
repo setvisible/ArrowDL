@@ -21,7 +21,7 @@
 
 #include <Constants>
 #include <Core/AbstractJob>
-#include <Core/DownloadManager>
+#include <Core/Scheduler>
 #include <Core/JobTorrent>
 #include <Core/FileAccessManager>
 #include <Core/Format>
@@ -89,7 +89,7 @@
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
-  , m_downloadManager(new DownloadManager(this))
+  , m_scheduler(new Scheduler(this))
   , m_streamManager(new StreamManager(this))
   , m_fileAccessManager(new FileAccessManager(this))
   , m_settings(new Settings(this))
@@ -99,15 +99,15 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 {
     ui->setupUi(this);
 
-    m_downloadManager->setSettings(m_settings);
+    m_scheduler->setSettings(m_settings);
 
     m_streamManager->setSettings(m_settings);
 
     TorrentContext& torrentContext = TorrentContext::getInstance();
     torrentContext.setSettings(m_settings);
-    torrentContext.setNetworkManager(m_downloadManager->networkManager());
+    torrentContext.setNetworkManager(m_scheduler->networkManager());
 
-    m_updateChecker->setNetworkManager(m_downloadManager->networkManager());
+    m_updateChecker->setNetworkManager(m_scheduler->networkManager());
 
     Qt::WindowFlags flags = Qt::Window
             | Qt::WindowTitleHint
@@ -133,16 +133,16 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     m_winTaskbarProgress->setVisible(false);
 #endif
 
-    /* Connect the GUI to the DownloadManager. */
-    ui->queueView->setModel(m_downloadManager->model());
+    /* Connect the GUI to the Scheduler. */
+    ui->queueView->setModel(m_scheduler->model());
 
     /* Connect the GUI to the TorrentContext. */
     ui->torrentWidget->setTorrentContext(&torrentContext);
 
     /* Connect the SceneManager to the MainWindow. */
     /* The SceneManager centralizes the changes. */
-    connect(m_downloadManager, SIGNAL(jobFinished(AbstractJob*)), this, SLOT(onJobFinished(AbstractJob*)));
-    connect(m_downloadManager, SIGNAL(jobRenamed(QString,QString,bool)), this, SLOT(onJobRenamed(QString,QString,bool)), Qt::QueuedConnection);
+    connect(m_scheduler, SIGNAL(jobFinished(AbstractJob*)), this, SLOT(onJobFinished(AbstractJob*)));
+    connect(m_scheduler, SIGNAL(jobRenamed(QString,QString,bool)), this, SLOT(onJobRenamed(QString,QString,bool)), Qt::QueuedConnection);
 
     connect(ui->queueView, SIGNAL(dataChanged()), this, SLOT(onDataChanged()));
     connect(ui->queueView, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
@@ -509,7 +509,7 @@ void MainWindow::showInformation()
         InformationDialog dialog(jobs, this);
         int answer = dialog.exec();
         if (answer == QDialog::Accepted) {
-            m_downloadManager->activateSnapshot();
+            m_scheduler->activateSnapshot();
             refreshMenus();
             refreshTitleAndStatus();
         }
@@ -517,7 +517,7 @@ void MainWindow::showInformation()
         EditionDialog dialog(jobs, this);
         int answer = dialog.exec();
         if (answer == QDialog::Accepted) {
-            m_downloadManager->activateSnapshot();
+            m_scheduler->activateSnapshot();
             refreshMenus();
             refreshTitleAndStatus();
         }
@@ -557,7 +557,7 @@ void MainWindow::renameFile()
         BatchRenameDialog dialog(jobs, this);
         int answer = dialog.exec();
         if (answer == QDialog::Accepted) {
-            m_downloadManager->activateSnapshot();
+            m_scheduler->activateSnapshot();
             refreshMenus();
             refreshTitleAndStatus();
         }
@@ -689,7 +689,7 @@ void MainWindow::handleMessage(const QString &message)
                 addStream(url);
 
             } else {
-                AddBatchDialog::quickDownload(url, m_downloadManager);
+                AddBatchDialog::quickDownload(url, m_scheduler);
             }
 
         } else if(InterProcessCommunication::isCommandOpenManager(cleaned)) {
@@ -758,7 +758,7 @@ void MainWindow::addContent()
 
 void MainWindow::addContent(const QUrl &url)
 {
-    AddContentDialog dialog(m_downloadManager, m_settings, this);
+    AddContentDialog dialog(m_scheduler, m_settings, this);
     dialog.loadUrl(url);
     dialog.exec();
 }
@@ -773,7 +773,7 @@ void MainWindow::addContent(const QString &message)
     /// \todo decouple the dialog and the dialog's model,
     /// in order to not call "dialog.exec()" when it's a silent download
 
-    AddContentDialog dialog(m_downloadManager, m_settings, this);
+    AddContentDialog dialog(m_scheduler, m_settings, this);
     bool willShowDialog = dialog.loadResources(message);
 
     if (willShowDialog && wasHidden) {
@@ -796,7 +796,7 @@ void MainWindow::addBatch()
 
 void MainWindow::addBatch(const QUrl &url)
 {
-    AddBatchDialog dialog(url, m_downloadManager, m_settings, this);
+    AddBatchDialog dialog(url, m_scheduler, m_settings, this);
     dialog.exec();
 }
 
@@ -809,7 +809,7 @@ void MainWindow::addStream()
 
 void MainWindow::addStream(const QUrl &url)
 {
-    AddStreamDialog dialog(url, m_downloadManager, m_settings, this);
+    AddStreamDialog dialog(url, m_scheduler, m_settings, this);
     dialog.exec();
 }
 
@@ -822,7 +822,7 @@ void MainWindow::addTorrent()
 
 void MainWindow::addTorrent(const QUrl &url)
 {
-    AddTorrentDialog dialog(url, m_downloadManager, m_settings, this);
+    AddTorrentDialog dialog(url, m_scheduler, m_settings, this);
     dialog.exec();
 }
 
@@ -835,7 +835,7 @@ void MainWindow::addUrls()
 
 void MainWindow::addUrls(const QString &text)
 {
-    AddUrlsDialog dialog(text, m_downloadManager, m_settings, this);
+    AddUrlsDialog dialog(text, m_scheduler, m_settings, this);
     dialog.exec();
 }
 
@@ -844,21 +844,21 @@ void MainWindow::addUrls(const QString &text)
 void MainWindow::resume()
 {
     for (auto job : ui->queueView->selectedJobs()) {
-        m_downloadManager->resume(job);
+        m_scheduler->resume(job);
     }
 }
 
 void MainWindow::cancel()
 {
     for (auto job : ui->queueView->selectedJobs()) {
-        m_downloadManager->cancel(job);
+        m_scheduler->cancel(job);
     }
 }
 
 void MainWindow::pause()
 {
     for (auto job : ui->queueView->selectedJobs()) {
-        m_downloadManager->pause(job);
+        m_scheduler->pause(job);
     }
 }
 
@@ -960,15 +960,15 @@ void MainWindow::onTorrentContextChanged()
 
 void MainWindow::refreshTitleAndStatus()
 {
-    auto speed = m_downloadManager->totalSpeed();
+    auto speed = m_scheduler->totalSpeed();
     QString totalSpeed;
     if (speed > 0) {
         totalSpeed = QString("~%0").arg(Format::currentSpeedToString(speed));
     }
-    auto completedCount = m_downloadManager->completedJobs().count();
-    auto runningCount = m_downloadManager->runningJobs().count();
-    auto failedCount = m_downloadManager->failedJobs().count();
-    auto count = m_downloadManager->count();
+    auto completedCount = m_scheduler->completedJobs().count();
+    auto runningCount = m_scheduler->runningJobs().count();
+    auto failedCount = m_scheduler->failedJobs().count();
+    auto count = m_scheduler->count();
     auto doneCount = completedCount + failedCount;
 
     auto torrent = TorrentContext::getInstance().isEnabled();
@@ -1021,7 +1021,7 @@ void MainWindow::refreshTitleAndStatus()
 
 void MainWindow::refreshMenus()
 {
-    auto jobs = m_downloadManager->jobs();
+    auto jobs = m_scheduler->jobs();
     auto selectedJobs = ui->queueView->selectedJobs();
 
     const bool hasJobs = !jobs.isEmpty();
@@ -1239,7 +1239,7 @@ QString MainWindow::askSaveFileName(const QString &fileFilter, const QString &ti
 bool MainWindow::saveFile(const QString &path)
 {
     FileWriter writer(path);
-    if (!writer.write(m_downloadManager)) {
+    if (!writer.write(m_scheduler)) {
         qWarning() << tr("Can't save file.");
         QMessageBox::warning(this, tr("Error"),
                              QString("%0\n%1").arg(
@@ -1258,7 +1258,7 @@ bool MainWindow::saveFile(const QString &path)
 bool MainWindow::loadFile(const QString &path)
 {
     FileReader reader(path);
-    if (!reader.read(m_downloadManager)) {
+    if (!reader.read(m_scheduler)) {
         qWarning() << tr("Can't load file.");
         QMessageBox::warning(this, tr("Error"),
                              QString("%0\n%1").arg(

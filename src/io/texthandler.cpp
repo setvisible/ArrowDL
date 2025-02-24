@@ -40,9 +40,9 @@ static bool readLineInto(QTextStream &in, QString *line) // for Qt 5.4.1
     return !line->isNull();
 }
 
-bool TextHandler::read(IDownloadManager *downloadManager)
+bool TextHandler::read(IScheduler *scheduler)
 {
-    if (!downloadManager) {
+    if (!scheduler) {
         qWarning("TextHandler::read() cannot read into null pointer");
         return false;
     }
@@ -60,18 +60,18 @@ bool TextHandler::read(IDownloadManager *downloadManager)
             continue;
         }
         const QUrl url(line);
-        AbstractJob *jobFile = downloadManager->createJobFile(url);
+        AbstractJob *jobFile = scheduler->createJobFile(url);
         if (!jobFile) {
-            qWarning("DownloadManager::createJobFile() not overridden. It still returns null pointer!");
+            qWarning("Scheduler::createJobFile() not overridden. It still returns null pointer!");
             return false;
         }
         jobs.append(jobFile);
     }
-    downloadManager->append(jobs, false);
+    scheduler->append(jobs, false);
     return true;
 }
 
-bool TextHandler::write(const IDownloadManager &downloadManager)
+bool TextHandler::write(const IScheduler &scheduler)
 {
     QIODevice *d = device();
     QTextStream out(d);
@@ -79,7 +79,7 @@ bool TextHandler::write(const IDownloadManager &downloadManager)
     if (!d->isWritable()) {
         return false;
     }
-    for (auto job : downloadManager.jobs()) {
+    for (auto job : scheduler.jobs()) {
         QUrl url = job->sourceUrl();
         QByteArray data = url.toString().toUtf8();
         out << data << '\n';

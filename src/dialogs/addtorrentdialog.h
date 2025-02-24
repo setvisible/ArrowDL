@@ -21,7 +21,7 @@
 #include <QtWidgets/QMessageBox>
 
 class AbstractJob;
-class DownloadManager;
+class Scheduler;
 class Settings;
 
 namespace Ui {
@@ -32,7 +32,7 @@ class AddTorrentDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit AddTorrentDialog(const QUrl &url, DownloadManager *downloadManager, Settings *settings, QWidget *parent = nullptr);
+    explicit AddTorrentDialog(const QUrl &url, Scheduler *scheduler, Settings *settings, QWidget *parent = nullptr);
     ~AddTorrentDialog() override;
 
     static bool isTorrentUrl(const QUrl &url);
@@ -47,7 +47,7 @@ private slots:
 
 private:
     Ui::AddTorrentDialog *ui = nullptr;
-    DownloadManager *m_downloadManager = nullptr;
+    Scheduler *m_scheduler = nullptr;
     Settings *m_settings = nullptr;
 
     void doAccept(bool started);

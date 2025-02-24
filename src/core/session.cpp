@@ -17,7 +17,7 @@
 #include "session.h"
 
 #include <Core/AbstractJob>
-#include <Core/DownloadManager>
+#include <Core/Scheduler>
 #include <Core/JobFile>
 #include <Core/JobStream>
 #include <Core/JobTorrent>
@@ -137,7 +137,7 @@ static inline QJsonObject writeStreamConfig(const StreamObject::Config &config)
     return json;
 }
 
-static inline AbstractJob* readJob(const QJsonObject &json, DownloadManager *downloadManager)
+static inline AbstractJob* readJob(const QJsonObject &json, Scheduler *scheduler)
 {
     auto resourceItem = new ResourceItem();
 
@@ -178,13 +178,13 @@ static inline AbstractJob* readJob(const QJsonObject &json, DownloadManager *dow
     AbstractJob *job;
     switch (resourceItem->type()) {
     case ResourceItem::Type::Stream:
-        job = new JobStream(downloadManager, resourceItem);
+        job = new JobStream(scheduler, resourceItem);
         break;
     case ResourceItem::Type::Torrent:
-        job = new JobTorrent(downloadManager, resourceItem);
+        job = new JobTorrent(scheduler, resourceItem);
         break;
     default:
-        job = new JobFile(downloadManager, resourceItem);
+        job = new JobFile(scheduler, resourceItem);
         break;
     }
     job->setState(intToState(json["state"].toInt()));
@@ -225,12 +225,12 @@ static inline void writeJob(const AbstractJob *job, QJsonObject &json)
 
 /******************************************************************************
  ******************************************************************************/
-static inline void readList(QList<AbstractJob *> &jobs, const QJsonObject &json, DownloadManager *downloadManager)
+static inline void readList(QList<AbstractJob *> &jobs, const QJsonObject &json, Scheduler *scheduler)
 {
     QJsonArray jsonArray = json["jobs"].toArray();
     for (auto json : jsonArray) {
         QJsonObject jsonObject = json.toObject();
-        auto job = readJob(jsonObject, downloadManager);
+        auto job = readJob(jsonObject, scheduler);
         jobs.append(job);
     }
 }
@@ -251,7 +251,7 @@ static inline void writeList(const QList<AbstractJob *> &jobs, QJsonObject &json
  ******************************************************************************/
 void Session::read(QList<AbstractJob *> &jobs,
                    const QString &filename,
-                   DownloadManager *downloadManager)
+                   Scheduler *scheduler)
 {
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -267,7 +267,7 @@ void Session::read(QList<AbstractJob *> &jobs,
         return;
     }
 
-    readList(jobs, loadDoc.object(), downloadManager);
+    readList(jobs, loadDoc.object(), scheduler);
 }
 
 void Session::write(const QList<AbstractJob *> &jobs, const QString &filename)

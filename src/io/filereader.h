@@ -21,7 +21,7 @@
 
 #include <QtCore/QCoreApplication>
 
-class IDownloadManager;
+class IScheduler;
 
 class QIODevice;
 
@@ -43,7 +43,7 @@ public:
     explicit FileReader(const QString &fileName);
     ~FileReader();
 
-    bool read(IDownloadManager *downloadManager);
+    bool read(IScheduler *scheduler);
 
     FileReaderError error() const;
     QString errorString() const;

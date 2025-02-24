@@ -21,7 +21,7 @@
 
 #include <QtWidgets/QMainWindow>
 
-class DownloadManager;
+class Scheduler;
 class StreamManager;
 class FileAccessManager;
 class Settings;
@@ -123,7 +123,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui = nullptr;
-    DownloadManager *m_downloadManager = nullptr;
+    Scheduler *m_scheduler = nullptr;
     StreamManager *m_streamManager = nullptr;
     FileAccessManager *m_fileAccessManager = nullptr;
     Settings *m_settings = nullptr;

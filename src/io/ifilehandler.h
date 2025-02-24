@@ -17,7 +17,7 @@
 #ifndef IO_I_FILE_HANDLE_H
 #define IO_I_FILE_HANDLE_H
 
-#include <Core/IDownloadManager>
+#include <Core/IScheduler>
 
 #include <QtCore/QSharedPointer>
 
@@ -40,14 +40,14 @@ public:
      * \param engine
      * \return true is the device was read.
      */
-    virtual bool read(IDownloadManager *downloadManager) = 0;
+    virtual bool read(IScheduler *scheduler) = 0;
 
     /*!
      * \brief Write the engine content to the internal device. (Optional)
      * \param engine
      * \return true is the device was opened.
      */
-    virtual bool write(const IDownloadManager &downloadManager);
+    virtual bool write(const IScheduler &scheduler);
 
 private:
     QIODevice *m_device = nullptr;

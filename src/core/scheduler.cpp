@@ -14,7 +14,7 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "downloadmanager.h"
+#include "scheduler.h"
 
 #include <Constants>
 #include <Core/AbstractJob>
@@ -38,14 +38,14 @@ using namespace Qt::Literals::StringLiterals;
 
 
 /*!
- * \class DownloadManager
+ * \class Scheduler
  *
- * The DownloadManager class manages:
+ * The Scheduler class manages:
  * \li settings persistence
  * \li queue persistence
  * \li network requests (GET, POST, PUT, HEAD...)
  */
-DownloadManager::DownloadManager(QObject *parent) : QObject(parent)
+Scheduler::Scheduler(QObject *parent) : QObject(parent)
     , m_queueModel(new QueueModel(this))
     , m_networkManager(new NetworkManager(this))
     , m_snapshot(new Snapshot(this))
@@ -57,26 +57,26 @@ DownloadManager::DownloadManager(QObject *parent) : QObject(parent)
     connect(m_speedTimer, SIGNAL(timeout()), this, SLOT(onSpeedTimerTimeout()));
 }
 
-DownloadManager::~DownloadManager()
+Scheduler::~Scheduler()
 {
     clear();
 }
 
 /******************************************************************************
  ******************************************************************************/
-QAbstractItemModel *DownloadManager::model() const
+QAbstractItemModel *Scheduler::model() const
 {
     return m_queueModel;
 }
 
 /******************************************************************************
  ******************************************************************************/
-Settings *DownloadManager::settings() const
+Settings *Scheduler::settings() const
 {
     return m_settings;
 }
 
-void DownloadManager::setSettings(Settings *settings)
+void Scheduler::setSettings(Settings *settings)
 {
     if (m_settings) {
         disconnect(m_settings, SIGNAL(changed()), this, SLOT(onSettingsChanged()));
@@ -89,19 +89,19 @@ void DownloadManager::setSettings(Settings *settings)
     m_snapshot->setSettings(m_settings);
 }
 
-void DownloadManager::onSettingsChanged()
+void Scheduler::onSettingsChanged()
 {
     setMaxSimultaneousDownloads(m_settings->maxSimultaneousDownloads());
 }
 
-void DownloadManager::activateSnapshot()
+void Scheduler::activateSnapshot()
 {
     m_snapshot->shot();
 }
 
 /******************************************************************************
  ******************************************************************************/
-NetworkManager* DownloadManager::networkManager() const
+NetworkManager* Scheduler::networkManager() const
 {
     return m_networkManager;
 }
@@ -113,14 +113,14 @@ NetworkManager* DownloadManager::networkManager() const
  * That makes the unit tests of this class easier, allowing dummy items.
  * \remark Optional
  */
-AbstractJob* DownloadManager::createJobFile(const QUrl &url)
+AbstractJob* Scheduler::createJobFile(const QUrl &url)
 {
     ResourceItem* resource = createResourceItem(url);
     auto job = new JobFile(this, resource);
     return job;
 }
 
-AbstractJob* DownloadManager::createJobTorrent(const QUrl &url)
+AbstractJob* Scheduler::createJobTorrent(const QUrl &url)
 {
     ResourceItem* resource = createResourceItem(url);
     resource->setType(ResourceItem::Type::Torrent);
@@ -130,7 +130,7 @@ AbstractJob* DownloadManager::createJobTorrent(const QUrl &url)
 
 /******************************************************************************
  ******************************************************************************/
-inline ResourceItem* DownloadManager::createResourceItem(const QUrl &url)
+inline ResourceItem* Scheduler::createResourceItem(const QUrl &url)
 {
     QSettings settings;
     settings.beginGroup("Wizard");
@@ -151,7 +151,7 @@ inline ResourceItem* DownloadManager::createResourceItem(const QUrl &url)
 
 /******************************************************************************
  ******************************************************************************/
-qsizetype DownloadManager::downloadingCount() const
+qsizetype Scheduler::downloadingCount() const
 {
     auto count = 0;
     for (auto job : m_queueModel->jobs()) {
@@ -162,7 +162,7 @@ qsizetype DownloadManager::downloadingCount() const
     return count;
 }
 
-void DownloadManager::startNext(AbstractJob */*job*/)
+void Scheduler::startNext(AbstractJob */*job*/)
 {
     if (downloadingCount() < m_maxSimultaneousDownloads) {
        auto rows = m_queueModel->rowCount();
@@ -180,21 +180,21 @@ void DownloadManager::startNext(AbstractJob */*job*/)
 
 /******************************************************************************
  ******************************************************************************/
-qsizetype DownloadManager::count() const
+qsizetype Scheduler::count() const
 {
     return m_queueModel->rowCount();
 }
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadManager::clear()
+void Scheduler::clear()
 {
     m_queueModel->removeRows(0, m_queueModel->rowCount());
 }
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadManager::append(const QList<AbstractJob *> &jobs, bool started)
+void Scheduler::append(const QList<AbstractJob *> &jobs, bool started)
 {
     if (jobs.isEmpty()) {
         return;
@@ -230,19 +230,19 @@ void DownloadManager::append(const QList<AbstractJob *> &jobs, bool started)
 
 /******************************************************************************
  ******************************************************************************/
-int DownloadManager::maxSimultaneousDownloads() const
+int Scheduler::maxSimultaneousDownloads() const
 {
     return m_maxSimultaneousDownloads;
 }
 
-void DownloadManager::setMaxSimultaneousDownloads(int number)
+void Scheduler::setMaxSimultaneousDownloads(int number)
 {
     m_maxSimultaneousDownloads = number;
 }
 
 /******************************************************************************
  ******************************************************************************/
-QList<AbstractJob *> DownloadManager::jobs() const
+QList<AbstractJob *> Scheduler::jobs() const
 {
     return  m_queueModel->jobs();
 }
@@ -262,7 +262,7 @@ static inline QList<AbstractJob*> filter(
     return list;
 }
 
-QList<AbstractJob*> DownloadManager::completedJobs() const
+QList<AbstractJob*> Scheduler::completedJobs() const
 {
     return filter(
         jobs(),
@@ -270,7 +270,7 @@ QList<AbstractJob*> DownloadManager::completedJobs() const
          AbstractJob::Seeding});
 }
 
-QList<AbstractJob *> DownloadManager::failedJobs() const
+QList<AbstractJob *> Scheduler::failedJobs() const
 {
     return filter(
         jobs(),
@@ -280,7 +280,7 @@ QList<AbstractJob *> DownloadManager::failedJobs() const
          AbstractJob::FileError});
 }
 
-QList<AbstractJob*> DownloadManager::runningJobs() const
+QList<AbstractJob*> Scheduler::runningJobs() const
 {
     return filter(
         jobs(),
@@ -293,14 +293,14 @@ QList<AbstractJob*> DownloadManager::runningJobs() const
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadManager::onSpeedTimerTimeout()
+void Scheduler::onSpeedTimerTimeout()
 {
     m_speedTimer->stop();
     m_previouSpeed = 0;
     emit onJobChanged();
 }
 
-qreal DownloadManager::totalSpeed()
+qreal Scheduler::totalSpeed()
 {
     qreal speed = 0;
     for (auto job : jobs()) {
@@ -315,7 +315,7 @@ qreal DownloadManager::totalSpeed()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadManager::resume(AbstractJob *job)
+void Scheduler::resume(AbstractJob *job)
 {
     if (job->isResumable()) {
         job->setReadyToResume();
@@ -323,14 +323,14 @@ void DownloadManager::resume(AbstractJob *job)
     }
 }
 
-void DownloadManager::pause(AbstractJob *job)
+void Scheduler::pause(AbstractJob *job)
 {
     if (job->isPausable()) {
         job->pause();
     }
 }
 
-void DownloadManager::cancel(AbstractJob *job)
+void Scheduler::cancel(AbstractJob *job)
 {
     if (job->isCancelable()) {
         job->stop();
@@ -339,18 +339,18 @@ void DownloadManager::cancel(AbstractJob *job)
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadManager::onJobChanged()
+void Scheduler::onJobChanged()
 {
     activateSnapshot();
 }
 
-void DownloadManager::onJobFinished()
+void Scheduler::onJobFinished()
 {
     auto job = qobject_cast<AbstractJob *>(sender());
     emit jobFinished(job);
 }
 
-void DownloadManager::onJobRenamed(const QString &oldName, const QString &newName, bool success)
+void Scheduler::onJobRenamed(const QString &oldName, const QString &newName, bool success)
 {
     emit jobRenamed(oldName, newName, success);
 }

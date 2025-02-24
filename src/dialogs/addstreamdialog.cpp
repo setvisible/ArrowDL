@@ -19,7 +19,7 @@
 
 #include <Constants>
 #include <Core/JobFile>
-#include <Core/DownloadManager>
+#include <Core/Scheduler>
 #include <Core/JobStream>
 #include <Core/ResourceItem>
 #include <Core/Settings>
@@ -32,11 +32,11 @@
 
 AddStreamDialog::AddStreamDialog(
     const QUrl &url,
-    DownloadManager *downloadManager,
+    Scheduler *scheduler,
     Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddStreamDialog)
-    , m_downloadManager(downloadManager)
+    , m_scheduler(scheduler)
     , m_streamObjectDownloader(new StreamAssetDownloader(this))
     , m_settings(settings)
 {
@@ -188,22 +188,22 @@ void AddStreamDialog::onChanged(QString)
  ******************************************************************************/
 void AddStreamDialog::doAccept(bool started)
 {
-    m_downloadManager->append(createStreamItems(), started);
+    m_scheduler->append(createJobStreams(), started);
     QDialog::accept();
 }
 
 /******************************************************************************
  ******************************************************************************/
-QList<AbstractJob*> AddStreamDialog::createStreamItems() const
+QList<AbstractJob*> AddStreamDialog::createJobStreams() const
 {
-    QList<AbstractJob*> items;
+    QList<AbstractJob*> jobs;
     for (auto item : ui->streamListWidget->selection()) {
-        items << createStreamItem(item);
+        jobs << createJobStream(item);
     }
-    return items;
+    return jobs;
 }
 
-AbstractJob* AddStreamDialog::createStreamItem(const StreamObject &streamObject) const
+AbstractJob* AddStreamDialog::createJobStream(const StreamObject &streamObject) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
 
@@ -219,8 +219,8 @@ AbstractJob* AddStreamDialog::createStreamItem(const StreamObject &streamObject)
 
     resource->setStreamConfig(streamObject.config());
 
-    auto item = new JobStream(m_downloadManager, resource);
-    return item;
+    auto job = new JobStream(m_scheduler, resource);
+    return job;
 }
 
 /******************************************************************************

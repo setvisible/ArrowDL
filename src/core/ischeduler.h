@@ -14,19 +14,19 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_I_DOWNLOAD_MANAGER_H
-#define CORE_I_DOWNLOAD_MANAGER_H
+#ifndef CORE_I_SCHEDULER_H
+#define CORE_I_SCHEDULER_H
 
 #include <QtCore/QList>
 #include <QtCore/QUrl>
 
 class AbstractJob;
 
-class IDownloadManager
+class IScheduler
 {
 public:
-    IDownloadManager() = default;
-    virtual ~IDownloadManager() noexcept = default; // IMPORTANT: virtual destructor
+    IScheduler() = default;
+    virtual ~IScheduler() noexcept = default; // IMPORTANT: virtual destructor
 
     virtual void append(const QList<AbstractJob *> &jobs, bool started = false) = 0;
 
@@ -36,4 +36,4 @@ public:
     virtual AbstractJob* createJobTorrent(const QUrl &url) = 0;
 };
 
-#endif // CORE_I_DOWNLOAD_MANAGER_H
+#endif // CORE_I_SCHEDULER_H
