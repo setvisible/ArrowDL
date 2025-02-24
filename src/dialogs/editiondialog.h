@@ -21,7 +21,7 @@
 #include <QtWidgets/QDialog>
 
 class AbstractDownloadItem;
-class DownloadFileItem;
+class JobFile;
 
 namespace Ui {
 class EditionDialog;

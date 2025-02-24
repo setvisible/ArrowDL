@@ -22,7 +22,7 @@
 #include <QtWidgets/QStyledItemDelegate>
 
 class AbstractDownloadItem;
-class DownloadFileItem;
+class JobFile;
 
 namespace Ui {
 class BatchRenameDialog;
@@ -48,7 +48,7 @@ private:
 
     void renameToDefault();
     void renameToEnumeration();
-    void rename(DownloadFileItem *downloadItem, const QString &newName);
+    void rename(JobFile *downloadItem, const QString &newName);
 
     int currentRadio() const;
     void setCurrentRadio(int index);

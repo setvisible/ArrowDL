@@ -18,7 +18,7 @@
 #include "ui_addstreamdialog.h"
 
 #include <Constants>
-#include <Core/DownloadFileItem>
+#include <Core/JobFile>
 #include <Core/DownloadManager>
 #include <Core/JobStream>
 #include <Core/ResourceItem>

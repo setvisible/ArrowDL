@@ -30,13 +30,13 @@ class ResourceItem;
 
 // class QNetworkReply;
 
-class DownloadFileItem : public AbstractDownloadItem
+class JobFile : public AbstractDownloadItem
 {
     Q_OBJECT
 
 public:
-    DownloadFileItem(QObject *parent, ResourceItem *resource);
-    ~DownloadFileItem() override;
+    JobFile(QObject *parent, ResourceItem *resource);
+    ~JobFile() override;
 
     void resume() override;
     void pause() override;

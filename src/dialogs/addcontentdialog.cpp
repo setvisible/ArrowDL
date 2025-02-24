@@ -19,7 +19,7 @@
 
 #include <Constants>
 #include <Core/HtmlParser>
-#include <Core/DownloadFileItem>
+#include <Core/JobFile>
 #include <Core/DownloadManager>
 #include <Core/Model>
 #include <Core/NetworkManager>
@@ -62,7 +62,7 @@ static QList<AbstractDownloadItem*> createItems(
         if (settings && settings->isHttpReferringPageEnabled()) {
             resource->setReferringPage(settings->httpReferringPage());
         }
-        auto item = new DownloadFileItem(downloadManager, resource);
+        auto item = new JobFile(downloadManager, resource);
         items << item;
     }
     return items;

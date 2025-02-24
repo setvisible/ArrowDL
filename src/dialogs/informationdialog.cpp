@@ -19,7 +19,7 @@
 
 #include <Constants>
 #include <Core/AbstractDownloadItem>
-#include <Core/DownloadFileItem>
+#include <Core/JobFile>
 #include <Core/Format>
 #include <Core/MimeDatabase>
 #include <Core/ResourceItem>
@@ -78,7 +78,7 @@ void InformationDialog::accept()
 {
     if (!m_items.isEmpty()) {
         AbstractDownloadItem *item = m_items.first();
-        auto downloadItem = dynamic_cast<DownloadFileItem*>(item);
+        auto downloadItem = dynamic_cast<JobFile*>(item);
         if (downloadItem) {
             auto resource = downloadItem->resource();
             QScopedPointer<ResourceItem> copy(ui->urlFormWidget->createResourceItem());
@@ -105,7 +105,7 @@ void InformationDialog::initialize(const QList<AbstractDownloadItem *> &items)
     }
     m_items = items;
     const AbstractDownloadItem *item = items.first();
-    auto downloadItem = dynamic_cast<const DownloadFileItem*>(item);
+    auto downloadItem = dynamic_cast<const JobFile*>(item);
 
     /* Title and subtitles */
     const QUrl localFileUrl = item->localFileUrl();

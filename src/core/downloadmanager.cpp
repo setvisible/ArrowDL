@@ -18,7 +18,7 @@
 
 #include <Constants>
 #include <Core/AbstractDownloadItem>
-#include <Core/DownloadFileItem>
+#include <Core/JobFile>
 #include <Core/JobTorrent>
 #include <Core/NetworkManager>
 #include <Core/QueueModel>
@@ -116,7 +116,7 @@ NetworkManager* DownloadManager::networkManager() const
 AbstractDownloadItem* DownloadManager::createFileItem(const QUrl &url)
 {
     ResourceItem* resource = createResourceItem(url);
-    auto item = new DownloadFileItem(this, resource);
+    auto item = new JobFile(this, resource);
     return item;
 }
 

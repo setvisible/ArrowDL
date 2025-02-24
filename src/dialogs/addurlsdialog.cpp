@@ -18,7 +18,7 @@
 #include "ui_addurlsdialog.h"
 
 #include <Constants>
-#include <Core/DownloadFileItem>
+#include <Core/JobFile>
 #include <Core/DownloadManager>
 #include <Core/ResourceItem>
 #include <Core/Settings>
@@ -154,7 +154,7 @@ AbstractDownloadItem* AddUrlsDialog::createFileItem(const QString &url) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
-    auto item = new DownloadFileItem(m_downloadManager, resource);
+    auto item = new JobFile(m_downloadManager, resource);
     return item;
 }
 

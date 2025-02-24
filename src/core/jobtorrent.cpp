@@ -54,7 +54,7 @@ void JobTorrent::initWithResource(ResourceItem *resource)
      */
     resource->setMask(QLatin1String("*name*.*ext*"));
 
-    // DownloadFileItem::setResource(resource);
+    // JobFile::setResource(resource);
 
     m_torrent->setLocalFullFileName(this->localFullFileName());
     m_torrent->setLocalFilePath(this->localFilePath());

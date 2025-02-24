@@ -18,7 +18,7 @@
 
 #include <Core/AbstractDownloadItem>
 #include <Core/DownloadManager>
-#include <Core/DownloadFileItem>
+#include <Core/JobFile>
 #include <Core/JobStream>
 #include <Core/JobTorrent>
 #include <Core/ResourceItem>
@@ -184,7 +184,7 @@ static inline AbstractDownloadItem* readJob(const QJsonObject &json, DownloadMan
         item = new JobTorrent(downloadManager, resourceItem);
         break;
     default:
-        item = new DownloadFileItem(downloadManager, resourceItem);
+        item = new JobFile(downloadManager, resourceItem);
         break;
     }
     item->setState(intToState(json["state"].toInt()));

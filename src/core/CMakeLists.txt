@@ -2,13 +2,13 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_SOURCE_DIR}/src/core/abstractdownloaditem.cpp
     ${CMAKE_SOURCE_DIR}/src/core/abstractsettings.cpp
     ${CMAKE_SOURCE_DIR}/src/core/checkabletablemodel.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/downloadfileitem.cpp
     ${CMAKE_SOURCE_DIR}/src/core/downloadmanager.cpp
     ${CMAKE_SOURCE_DIR}/src/core/file.cpp
     ${CMAKE_SOURCE_DIR}/src/core/fileaccessmanager.cpp
     ${CMAKE_SOURCE_DIR}/src/core/fileutils.cpp
     ${CMAKE_SOURCE_DIR}/src/core/format.cpp
     ${CMAKE_SOURCE_DIR}/src/core/htmlparser.cpp
+    ${CMAKE_SOURCE_DIR}/src/core/jobfile.cpp
     ${CMAKE_SOURCE_DIR}/src/core/jobstream.cpp
     ${CMAKE_SOURCE_DIR}/src/core/jobtorrent.cpp
     ${CMAKE_SOURCE_DIR}/src/core/locale.cpp
@@ -38,8 +38,8 @@ set(MY_SOURCES ${MY_SOURCES}
 
 # Rem: set here the headers related to the Qt MOC (i.e., with associated *.ui)
 set(MY_HEADERS ${MY_HEADERS}
-    ${CMAKE_SOURCE_DIR}/src/core/downloadfileitem.h
     ${CMAKE_SOURCE_DIR}/src/core/downloadmanager.h
+    ${CMAKE_SOURCE_DIR}/src/core/jobfile.h
     ${CMAKE_SOURCE_DIR}/src/core/jobstream.h
     ${CMAKE_SOURCE_DIR}/src/core/jobtorrent.h
     ${CMAKE_SOURCE_DIR}/src/core/model.h

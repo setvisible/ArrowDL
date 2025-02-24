@@ -14,7 +14,7 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "downloadfileitem.h"
+#include "jobfile.h"
 
 #include <Core/DownloadManager>
 #include <Core/File>
@@ -27,14 +27,14 @@
 using namespace Qt::Literals::StringLiterals;
 
 
-DownloadFileItem::DownloadFileItem(QObject *parent, ResourceItem *resource)
+JobFile::JobFile(QObject *parent, ResourceItem *resource)
     : AbstractDownloadItem(parent, resource)
     , m_downloadManager((DownloadManager*)parent)
     , m_reply(nullptr)
 {
 }
 
-DownloadFileItem::~DownloadFileItem()
+JobFile::~JobFile()
 {
     if (m_reply) {
         m_reply->abort();
@@ -45,7 +45,7 @@ DownloadFileItem::~DownloadFileItem()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadFileItem::resume()
+void JobFile::resume()
 {
     logInfo(QString("Resume '%0' (destination: '%1').").arg(m_resource->url(), localFullFileName()));
 
@@ -84,12 +84,12 @@ void DownloadFileItem::resume()
     }
 }
 
-void DownloadFileItem::pause()
+void JobFile::pause()
 {
     AbstractDownloadItem::pause();
 }
 
-void DownloadFileItem::stop()
+void JobFile::stop()
 {
     if (m_reply) {
         m_reply->abort();
@@ -101,7 +101,7 @@ void DownloadFileItem::stop()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadFileItem::onMetaDataChanged()
+void JobFile::onMetaDataChanged()
 {
     if (m_reply) {
         auto rawNewUrl = m_reply->header(QNetworkRequest::LocationHeader);
@@ -133,7 +133,7 @@ void DownloadFileItem::onMetaDataChanged()
     }
 }
 
-void DownloadFileItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
+void JobFile::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     if (m_reply && bytesReceived > 0 && bytesTotal > 0) {
         logInfo(QString("Downloaded '%0' (%1 of %2 bytes).")
@@ -145,7 +145,7 @@ void DownloadFileItem::onDownloadProgress(qint64 bytesReceived, qint64 bytesTota
                static_cast<qsizetype>(bytesTotal));
 }
 
-void DownloadFileItem::onRedirected(const QUrl &url)
+void JobFile::onRedirected(const QUrl &url)
 {
     if (m_reply) {
         logInfo(QString("HTTP redirect: redirected '%0' to '%1'.")
@@ -153,7 +153,7 @@ void DownloadFileItem::onRedirected(const QUrl &url)
     }
 }
 
-void DownloadFileItem::onFinished()
+void JobFile::onFinished()
 {
     logInfo(QString("Finished (%0) '%1'.").arg(state_c_str(), localFullFileName()));
     switch (state()) {
@@ -204,7 +204,7 @@ void DownloadFileItem::onFinished()
     this->finish();
 }
 
-QString DownloadFileItem::statusToHttp(QNetworkReply::NetworkError error)
+QString JobFile::statusToHttp(QNetworkReply::NetworkError error)
 {
     /*
      * See QNetworkReply::NetworkError Documentation for conversion
@@ -263,7 +263,7 @@ QString DownloadFileItem::statusToHttp(QNetworkReply::NetworkError error)
     Q_UNREACHABLE();
 }
 
-void DownloadFileItem::onErrorOccurred(QNetworkReply::NetworkError error)
+void JobFile::onErrorOccurred(QNetworkReply::NetworkError error)
 {
     /// \todo Use instead: auto reply = qobject_cast<QNetworkReply*>(sender());
     if (m_reply) {
@@ -275,7 +275,7 @@ void DownloadFileItem::onErrorOccurred(QNetworkReply::NetworkError error)
     setState(NetworkError);
 }
 
-void DownloadFileItem::onReadyRead()
+void JobFile::onReadyRead()
 {
     if (!m_reply || !m_file) {
         return;
@@ -284,7 +284,7 @@ void DownloadFileItem::onReadyRead()
     m_file->write(data);
 }
 
-void DownloadFileItem::onAboutToClose()
+void JobFile::onAboutToClose()
 {
     logInfo(QString("Finished (%0) '%1'.").arg(state_c_str(), localFullFileName()));
 }

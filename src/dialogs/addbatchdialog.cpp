@@ -18,7 +18,7 @@
 #include "ui_addbatchdialog.h"
 
 #include <Constants>
-#include <Core/DownloadFileItem>
+#include <Core/JobFile>
 #include <Core/DownloadManager>
 #include <Core/Mask>
 #include <Core/Regex>
@@ -156,7 +156,7 @@ void AddBatchDialog::quickDownload(const QUrl &url, DownloadManager *downloadMan
     resource->setMask(mask);
     resource->setCheckSum(QString());
 
-    auto item = new DownloadFileItem(downloadManager, resource);
+    auto item = new JobFile(downloadManager, resource);
     downloadManager->append(toList(item), true);
 }
 
@@ -287,8 +287,8 @@ QMessageBox::StandardButton AddBatchDialog::askBatchDownloading(QList<AbstractDo
 {
     if (!m_settings || m_settings->isConfirmBatchDownloadEnabled()) {
 
-        auto firstItem = dynamic_cast<DownloadFileItem*>(items.first());
-        auto lastItem = dynamic_cast<DownloadFileItem*>(items.last());
+        auto firstItem = dynamic_cast<JobFile*>(items.first());
+        auto lastItem = dynamic_cast<JobFile*>(items.last());
 
         QMessageBox msgBox(this);
         msgBox.setModal(true);
@@ -349,7 +349,7 @@ AbstractDownloadItem* AddBatchDialog::createFileItem(const QString &url) const
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
 
-    auto item = new DownloadFileItem(m_downloadManager, resource);
+    auto item = new JobFile(m_downloadManager, resource);
     return item;
 }
 

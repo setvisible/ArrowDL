@@ -18,7 +18,7 @@
 #include "ui_addtorrentdialog.h"
 
 #include <Constants>
-#include <Core/DownloadFileItem>
+#include <Core/JobFile>
 #include <Core/DownloadManager>
 #include <Core/JobTorrent>
 #include <Core/ResourceItem>
