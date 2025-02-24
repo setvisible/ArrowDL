@@ -14,40 +14,43 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "fakedownloadmanager.h"
+#include "fakescheduler.h"
 
-#include "fakedownloaditem.h"
+#include "fakejob.h"
 
-FakeDownloadManager::FakeDownloadManager(QObject *parent) : DownloadManager(parent)
+#include <Core/ResourceItem>
+
+
+FakeScheduler::FakeScheduler(QObject *parent) : Scheduler(parent)
 {
 }
 
-FakeDownloadManager::~FakeDownloadManager()
+FakeScheduler::~FakeScheduler()
 {
 }
 
-AbstractDownloadItem* FakeDownloadManager::createFileItem(const QUrl &url)
+AbstractJob* FakeScheduler::createJobFile(const QUrl &url)
 {
-    FakeDownloadItem *item = new FakeDownloadItem(this);
-    item->setSourceUrl(url);
-    return item;
+    FakeJob *job = new FakeJob(this, new ResourceItem());
+    job->setSourceUrl(url);
+    return job;
 }
 
-void FakeDownloadManager::createFakeJobs(int count)
+void FakeScheduler::createFakeJobs(int count)
 {
-    QList<AbstractDownloadItem*> items;
+    QList<AbstractJob*> jobs;
     for (auto i = 0; i < count; ++i) {
-        auto item = new FakeDownloadItem(this);
-        items.append(item);
+        auto job = new FakeJob(this, new ResourceItem());
+        jobs.append(job);
     }
-    DownloadManager::append(items, false);
+    Scheduler::append(jobs, false);
 }
 
-void FakeDownloadManager::appendFakeJob(const QUrl &url)
+void FakeScheduler::appendFakeJob(const QUrl &url)
 {
-    AbstractDownloadItem *item = createFileItem(url);
+    AbstractJob *job = createJobFile(url);
 
-    QList<AbstractDownloadItem*> items;
-    items.append(item);
-    DownloadManager::append(items, false);
+    QList<AbstractJob*> jobs;
+    jobs.append(job);
+    Scheduler::append(jobs, false);
 }

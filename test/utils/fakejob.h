@@ -14,32 +14,31 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FAKE_DOWNLOAD_ITEM_H
-#define FAKE_DOWNLOAD_ITEM_H
+#ifndef FAKE_FAKE_JOB_H
+#define FAKE_FAKE_JOB_H
 
-#include <Core/AbstractDownloadItem>
+#include <Core/AbstractJob>
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
 #include <QtCore/QTimer>
 
-class FakeDownloadItem : public AbstractDownloadItem
+class ResourceItem;
+
+class FakeJob : public AbstractJob
 {
     Q_OBJECT
 
 public:
-    explicit FakeDownloadItem(QObject *parent = nullptr);
-    explicit FakeDownloadItem(QString localFileName, QObject *parent = nullptr);
-    explicit FakeDownloadItem(
-            QUrl url,
-            QString filename,
-            qsizetype bytesTotal,
-            qint64 timeIncrement,
-            qint64 duration,
-            QObject *parent= nullptr);
-
-    ~FakeDownloadItem() override;
+    explicit FakeJob(QObject *parent, ResourceItem *resource);
+    explicit FakeJob(QString localFileName, QObject *parent = nullptr);
+    explicit FakeJob(QUrl url,
+                     QString filename,
+                     qsizetype bytesTotal,
+                     qint64 timeIncrement,
+                     qint64 duration,
+                     QObject *parent = nullptr);
 
     virtual QUrl sourceUrl() const override;
     void setSourceUrl(const QUrl &resourceUrl);
@@ -83,4 +82,4 @@ private:
     void init();
 };
 
-#endif // FAKE_DOWNLOAD_ITEM_H
+#endif // FAKE_FAKE_JOB_H

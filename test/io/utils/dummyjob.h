@@ -14,17 +14,17 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DUMMY_DOWNLOAD_ITEM_H
-#define DUMMY_DOWNLOAD_ITEM_H
+#ifndef DUMMY_JOB_H
+#define DUMMY_JOB_H
 
-#include <Core/AbstractDownloadItem>
+#include <Core/AbstractJob>
 
-class DummyDownloadItem : public AbstractDownloadItem
+class DummyJob : public AbstractJob
 {
     Q_OBJECT
 
 public:
-    explicit DummyDownloadItem(QObject *parent = nullptr);
+    explicit DummyJob(QObject *parent, ResourceItem *resource);
 
     virtual QUrl sourceUrl() const override;
     virtual void setSourceUrl(const QUrl &resourceUrl) override;
@@ -42,4 +42,4 @@ private:
     QString m_resourceLocalFileName;
 };
 
-#endif // DUMMY_DOWNLOAD_ITEM_H
+#endif // DUMMY_JOB_H

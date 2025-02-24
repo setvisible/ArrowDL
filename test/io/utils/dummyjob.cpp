@@ -14,52 +14,54 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "dummydownloaditem.h"
+#include "dummyjob.h"
+
+#include <Core/ResourceItem>
 
 #include <QtCore/QDebug>
 #include <QtCore/QFileInfo>
 
-
-DummyDownloadItem::DummyDownloadItem(QObject *parent) : AbstractDownloadItem(parent)
-  , m_resourceUrl(QUrl("https://www.example.com/myfolder/myimage.png"))
-  , m_resourceLocalFileName(QString("myimage.png"))
+DummyJob::DummyJob(QObject *parent, ResourceItem *resource)
+    : AbstractJob(parent, resource)
 {
+    m_resourceUrl = QUrl("https://www.example.com/myfolder/myimage.png");
+    m_resourceLocalFileName = QString("myimage.png");
 }
 
 /******************************************************************************
  ******************************************************************************/
-QUrl DummyDownloadItem::sourceUrl() const
+QUrl DummyJob::sourceUrl() const
 {
     return m_resourceUrl;
 }
 
-void DummyDownloadItem::setSourceUrl(const QUrl &resourceUrl)
+void DummyJob::setSourceUrl(const QUrl &resourceUrl)
 {
     m_resourceUrl = resourceUrl;
 }
 
-QString DummyDownloadItem::localFullFileName() const
+QString DummyJob::localFullFileName() const
 {
     return m_resourceUrl.toLocalFile();
 }
 
-QString DummyDownloadItem::localFileName() const
+QString DummyJob::localFileName() const
 {
     return m_resourceLocalFileName;
 }
 
-QString DummyDownloadItem::localFilePath() const
+QString DummyJob::localFilePath() const
 {
     const QFileInfo fi(m_resourceUrl.toLocalFile());
     return fi.absolutePath();
 }
 
-QUrl DummyDownloadItem::localFileUrl() const
+QUrl DummyJob::localFileUrl() const
 {
     return m_resourceUrl;
 }
 
-QUrl DummyDownloadItem::localDirUrl() const
+QUrl DummyJob::localDirUrl() const
 {
     return m_resourceUrl;
 }

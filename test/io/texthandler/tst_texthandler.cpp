@@ -14,10 +14,10 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <Core/AbstractDownloadItem>
+#include <Core/AbstractJob>
 #include <Io/TextHandler>
 
-#include "../utils/dummydownloadmanager.h"
+#include "../utils/dummyscheduler.h"
 
 #include <QtCore/QDebug>
 #include <QtTest/QtTest>
@@ -35,7 +35,7 @@ private slots:
 
 private:
     inline QByteArray simplify(QByteArray &str);
-    inline QString toString(AbstractDownloadItem *item) const;
+    inline QString toString(AbstractJob *item) const;
 };
 
 
@@ -49,7 +49,7 @@ inline QByteArray tst_TextHandler::simplify(QByteArray &str)
     return result.toUtf8();
 }
 
-inline QString tst_TextHandler::toString(AbstractDownloadItem *item) const {
+inline QString tst_TextHandler::toString(AbstractJob *item) const {
     return item->sourceUrl().toString();
 }
 
@@ -58,12 +58,12 @@ inline QString tst_TextHandler::toString(AbstractDownloadItem *item) const {
 void tst_TextHandler::write()
 {
     // Given
-    DummyDownloadManager manager;
-    manager.appendFakeJob(QUrl("https://www.example.com/2019/10/DSC_8045.jpg"));
-    manager.appendFakeJob(QUrl("https://www.example.com/2019/10/DSC_8046.jpg"));
-    manager.appendFakeJob(QUrl("https://www.example.com/2019/10/DSC_8047.jpg"));
-    manager.appendFakeJob(QUrl("https://www.example.com/2019/10/DSC_8048.jpg"));
-    manager.appendFakeJob(QUrl("https://www.example.com/favicon.ico"));
+    DummyScheduler scheduler;
+    scheduler.appendFakeJob(QUrl("https://www.example.com/2019/10/DSC_8045.jpg"));
+    scheduler.appendFakeJob(QUrl("https://www.example.com/2019/10/DSC_8046.jpg"));
+    scheduler.appendFakeJob(QUrl("https://www.example.com/2019/10/DSC_8047.jpg"));
+    scheduler.appendFakeJob(QUrl("https://www.example.com/2019/10/DSC_8048.jpg"));
+    scheduler.appendFakeJob(QUrl("https://www.example.com/favicon.ico"));
 
     /* QIODevice::Text forces convert to \r\n on Windows */
     QByteArray byteArray;
@@ -81,7 +81,7 @@ void tst_TextHandler::write()
     target.setDevice(&buffer);
 
     // When
-    bool opened = target.write(manager);
+    bool opened = target.write(scheduler);
     QByteArray actual = simplify(byteArray);
 
     // Then
@@ -94,9 +94,9 @@ void tst_TextHandler::write()
 void tst_TextHandler::writeUTF8()
 {
     // Given
-    DummyDownloadManager manager;
-    manager.appendFakeJob(QUrl("http://www.exemple.fr/Capture-d’écran-2017-06-20-à-10.22.38.png"));
-    manager.appendFakeJob(QUrl("http://www.exemple.fr/Capture-d%E2%80%99e%CC%81cran-2017-06-20-a%CC%80-10.22.38.png"));
+    DummyScheduler scheduler;
+    scheduler.appendFakeJob(QUrl("http://www.exemple.fr/Capture-d’écran-2017-06-20-à-10.22.38.png"));
+    scheduler.appendFakeJob(QUrl("http://www.exemple.fr/Capture-d%E2%80%99e%CC%81cran-2017-06-20-a%CC%80-10.22.38.png"));
 
     /* QIODevice::Text forces convert to \r\n on Windows */
     QByteArray byteArray;
@@ -111,7 +111,7 @@ void tst_TextHandler::writeUTF8()
     target.setDevice(&buffer);
 
     // When
-    bool opened = target.write(manager);
+    bool opened = target.write(scheduler);
     QByteArray actual = simplify(byteArray);
 
     // Then
@@ -124,7 +124,7 @@ void tst_TextHandler::writeUTF8()
 void tst_TextHandler::read()
 {
     // Given
-    DummyDownloadManager manager;
+    DummyScheduler scheduler;
 
     QByteArray byteArray =
             "https://www.example.com/2019/10/DSC_8045.jpg\n"
@@ -144,16 +144,16 @@ void tst_TextHandler::read()
     target.setDevice(&buffer);
 
     // When
-    bool opened = target.read(&manager);
+    bool opened = target.read(&scheduler);
 
     // Then
     QVERIFY(opened);
-    QCOMPARE(manager.downloadItems().count(), 5);
-    QVERIFY(toString(manager.downloadItems().at(0)) == "https://www.example.com/2019/10/DSC_8045.jpg");
-    QVERIFY(toString(manager.downloadItems().at(1)) == "https://www.example.com/2019/10/DSC_8046.jpg");
-    QVERIFY(toString(manager.downloadItems().at(2)) == "https://www.example.com/2019/10/DSC_8047.jpg");
-    QVERIFY(toString(manager.downloadItems().at(3)) == "https://www.example.com/2019/10/DSC_8048.jpg");
-    QVERIFY(toString(manager.downloadItems().at(4)) == "https://www.example.com/favicon.ico");
+    QCOMPARE(scheduler.jobs().count(), 5);
+    QVERIFY(toString(scheduler.jobs().at(0)) == "https://www.example.com/2019/10/DSC_8045.jpg");
+    QVERIFY(toString(scheduler.jobs().at(1)) == "https://www.example.com/2019/10/DSC_8046.jpg");
+    QVERIFY(toString(scheduler.jobs().at(2)) == "https://www.example.com/2019/10/DSC_8047.jpg");
+    QVERIFY(toString(scheduler.jobs().at(3)) == "https://www.example.com/2019/10/DSC_8048.jpg");
+    QVERIFY(toString(scheduler.jobs().at(4)) == "https://www.example.com/favicon.ico");
 }
 
 /******************************************************************************
@@ -161,7 +161,7 @@ void tst_TextHandler::read()
 void tst_TextHandler::readUTF8()
 {
     // Given
-    DummyDownloadManager manager;
+    DummyScheduler scheduler;
 
     QByteArray byteArray =
             "http://www.exemple.fr/Capture-d’écran-2017-06-20-à-10.22.38.png\n";
@@ -173,12 +173,12 @@ void tst_TextHandler::readUTF8()
     target.setDevice(&buffer);
 
     // When
-    bool opened = target.read(&manager);
+    bool opened = target.read(&scheduler);
 
     // Then
     QVERIFY(opened);
-    QCOMPARE(manager.downloadItems().count(), 1);
-    QVERIFY(toString(manager.downloadItems().at(0)) == "http://www.exemple.fr/Capture-d’écran-2017-06-20-à-10.22.38.png");
+    QCOMPARE(scheduler.jobs().count(), 1);
+    QVERIFY(toString(scheduler.jobs().at(0)) == "http://www.exemple.fr/Capture-d’écran-2017-06-20-à-10.22.38.png");
 }
 
 /******************************************************************************

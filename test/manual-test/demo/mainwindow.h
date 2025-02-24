@@ -17,12 +17,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <Core/AbstractDownloadItem>
+#include <Core/AbstractJob>
 
 #include <QtWidgets/QMainWindow>
 
-class FakeDownloadManager;
-typedef QList<AbstractDownloadItem*> DownloadRange;
+class FakeScheduler;
 
 namespace Ui {
 class MainWindow;
@@ -39,13 +38,7 @@ public:
 public slots:
 
     // File
-
     // Edit
-    void selectAll();
-    void selectNone();
-    void invertSelection();
-    void selectCompleted();
-
     // View
     void removeCompleted();
     void removeSelected();
@@ -56,23 +49,18 @@ public slots:
     void resume();
     void cancel();
     void pause();
-    void up();
-    void top();
-    void down();
-    void bottom();
 
     // Options
-
     // Help
 
 private slots:
-    void onJobAddedOrRemoved(DownloadRange downloadItem);
-    void onJobStateChanged(AbstractDownloadItem *downloadItem);
+    void onJobFinished(AbstractJob *job);
+    void onDataChanged();
     void onSelectionChanged();
 
 private:
     Ui::MainWindow *ui;
-    FakeDownloadManager *m_downloadManager;
+    FakeScheduler *m_scheduler;
 
     void createActions();
     void createContextMenu();

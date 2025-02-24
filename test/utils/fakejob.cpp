@@ -14,69 +14,67 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "fakedownloaditem.h"
+#include "fakejob.h"
+
+#include <Core/ResourceItem>
 
 #include <QtCore/QDebug>
 #include <QtCore/QFileInfo>
 
-
-FakeDownloadItem::FakeDownloadItem(QObject *parent) : AbstractDownloadItem(parent)
-  , m_resourceUrl(QUrl("https://www.example.com/myfolder/myimage.png"))
-  , m_resourceLocalFileName(QString("myimage.png"))
-  , m_simulationBytesTotal(123*1024*1024) // We 'download' 123 MB of data
-  , m_simulationTimeIncrement(100) // We receives data chunk every 100 milliseconds
-  , m_simulationTimeDuration(5000) // We 'download' in 5 seconds
-  , m_isSimulateFileErrorEnabled(false)
-  , m_isSimulateFileErrorAtTheEndEnabled(false)
-{
-    init();
-}
-
-FakeDownloadItem::FakeDownloadItem(QString localFileName, QObject *parent)
-    : AbstractDownloadItem(parent)
+FakeJob::FakeJob(QObject *parent, ResourceItem *resource)
+    : AbstractJob(parent, resource)
     , m_resourceUrl(QUrl("https://www.example.com/myfolder/myimage.png"))
-    , m_resourceLocalFileName(localFileName)
-    , m_simulationBytesTotal(123*1024*1024) // We 'download' 123 MB of data
-    , m_simulationTimeIncrement(100) // We receives data chunk every 100 milliseconds
-    , m_simulationTimeDuration(5000) // We 'download' in 5 seconds
+    , m_resourceLocalFileName(QString("myimage.png"))
+    , m_simulationBytesTotal(123 * 1024 * 1024) // We 'download' 123 MB of data
+    , m_simulationTimeIncrement(100)            // We receives data chunk every 100 milliseconds
+    , m_simulationTimeDuration(5000)            // We 'download' in 5 seconds
     , m_isSimulateFileErrorEnabled(false)
     , m_isSimulateFileErrorAtTheEndEnabled(false)
 {
     init();
 }
 
-FakeDownloadItem::FakeDownloadItem(
-        QUrl url,
-        QString filename,
-        qsizetype bytesTotal,
-        qint64 timeIncrement,
-        qint64 duration,
-        QObject *parent) : AbstractDownloadItem(parent)
-  , m_resourceUrl(url)
-  , m_resourceLocalFileName(filename)
-  , m_simulationBytesTotal(bytesTotal)
-  , m_simulationTimeIncrement(timeIncrement)
-  , m_simulationTimeDuration(duration)
-  , m_isSimulateFileErrorEnabled(false)
-  , m_isSimulateFileErrorAtTheEndEnabled(false)
+FakeJob::FakeJob(QString localFileName, QObject *parent)
+    : AbstractJob(parent, new ResourceItem())
+    , m_resourceUrl(QUrl("https://www.example.com/myfolder/myimage.png"))
+    , m_resourceLocalFileName(localFileName)
+    , m_simulationBytesTotal(123 * 1024 * 1024) // We 'download' 123 MB of data
+    , m_simulationTimeIncrement(100)            // We receives data chunk every 100 milliseconds
+    , m_simulationTimeDuration(5000)            // We 'download' in 5 seconds
+    , m_isSimulateFileErrorEnabled(false)
+    , m_isSimulateFileErrorAtTheEndEnabled(false)
 {
     init();
 }
 
-FakeDownloadItem::~FakeDownloadItem()
+FakeJob::FakeJob(QUrl url,
+                 QString filename,
+                 qsizetype bytesTotal,
+                 qint64 timeIncrement,
+                 qint64 duration,
+                 QObject *parent)
+    : AbstractJob(parent, new ResourceItem())
+    , m_resourceUrl(url)
+    , m_resourceLocalFileName(filename)
+    , m_simulationBytesTotal(bytesTotal)
+    , m_simulationTimeIncrement(timeIncrement)
+    , m_simulationTimeDuration(duration)
+    , m_isSimulateFileErrorEnabled(false)
+    , m_isSimulateFileErrorAtTheEndEnabled(false)
 {
+    init();
 }
 
 /******************************************************************************
  ******************************************************************************/
-void FakeDownloadItem::init()
+void FakeJob::init()
 {
     connect(&m_fakeStreamTimer, SIGNAL(timeout()), this, SLOT(tickFakeStream()));
 }
 
 /******************************************************************************
  ******************************************************************************/
-void FakeDownloadItem::resume()
+void FakeJob::resume()
 {
     this->beginResume();
 
@@ -89,23 +87,23 @@ void FakeDownloadItem::resume()
     }
 }
 
-void FakeDownloadItem::pause()
+void FakeJob::pause()
 {
     // TO DO
     // https://kunalmaemo.blogspot.com/2011/07/simple-download-manager-with-pause.html
 
-    AbstractDownloadItem::pause();
+    AbstractJob::pause();
 }
 
-void FakeDownloadItem::stop()
+void FakeJob::stop()
 {
     m_fakeStreamTimer.stop(); // or delete ?
-    AbstractDownloadItem::stop();
+    AbstractJob::stop();
 }
 
 /******************************************************************************
  ******************************************************************************/
-void FakeDownloadItem::tickFakeStream()
+void FakeJob::tickFakeStream()
 {
     qsizetype received = bytesReceived();
     if (received < m_simulationBytesTotal) {
@@ -121,7 +119,7 @@ void FakeDownloadItem::tickFakeStream()
     }
 }
 
-void FakeDownloadItem::simulateNetworkError()
+void FakeJob::simulateNetworkError()
 {
     m_simulateHttpErrorNumber = 404;
     setState(NetworkError);
@@ -133,12 +131,12 @@ void FakeDownloadItem::simulateNetworkError()
 /**
  * The source Url
  */
-QUrl FakeDownloadItem::sourceUrl() const
+QUrl FakeJob::sourceUrl() const
 {
     return m_resourceUrl;
 }
 
-void FakeDownloadItem::setSourceUrl(const QUrl &resourceUrl)
+void FakeJob::setSourceUrl(const QUrl &resourceUrl)
 {
     m_resourceUrl = resourceUrl;
 }
@@ -146,7 +144,7 @@ void FakeDownloadItem::setSourceUrl(const QUrl &resourceUrl)
 /**
  * The destination's full file name
  */
-QString FakeDownloadItem::localFullFileName() const
+QString FakeJob::localFullFileName() const
 {
     return m_resourceUrl.toLocalFile();
 }
@@ -154,30 +152,26 @@ QString FakeDownloadItem::localFullFileName() const
 /**
  * The destination's file name
  */
-QString FakeDownloadItem::localFileName() const
+QString FakeJob::localFileName() const
 {
-    //    const QFileInfo fi(m_resourceUrl.toLocalFile());
-    //    return fi.fileName();
     return m_resourceLocalFileName;
 }
 
 /**
  * The destination's absolute path
  */
-QString FakeDownloadItem::localFilePath() const
+QString FakeJob::localFilePath() const
 {
     const QFileInfo fi(m_resourceUrl.toLocalFile());
     return fi.absolutePath();
-    //    return fi.absolutePath();
 }
 
-QUrl FakeDownloadItem::localFileUrl() const
+QUrl FakeJob::localFileUrl() const
 {
     return m_resourceUrl;
 }
 
-QUrl FakeDownloadItem::localDirUrl() const
+QUrl FakeJob::localDirUrl() const
 {
     return m_resourceUrl;
-    //    return QUrl::fromLocalFile(m_resourceUrl);
 }

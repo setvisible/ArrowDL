@@ -14,34 +14,25 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DUMMY_DOWNLOAD_MANAGER_H
-#define DUMMY_DOWNLOAD_MANAGER_H
+#ifndef FAKE_DOWNLOAD_MANAGER_H
+#define FAKE_DOWNLOAD_MANAGER_H
 
-#include <Core/IDownloadManager>
+#include <Core/Scheduler>
 
-#include <QtCore/QObject>
-
-class DummyDownloadManager : public QObject, public IDownloadManager
+class FakeScheduler : public Scheduler
 {
     Q_OBJECT
+
 public:
-    explicit DummyDownloadManager(QObject *parent = nullptr);
-    ~DummyDownloadManager() override = default;
+    explicit FakeScheduler(QObject *parent = nullptr);
+    ~FakeScheduler();
 
-    void append(const QList<AbstractDownloadItem *> &items, bool started = false) override;
-    void remove(const QList<AbstractDownloadItem *> &items) override;
+    AbstractJob* createJobFile(const QUrl &url);
 
-    QList<AbstractDownloadItem *> downloadItems() const override;
-
-    AbstractDownloadItem* createFileItem(const QUrl &url) override;
-    AbstractDownloadItem* createTorrentItem(const QUrl &url) override;
-
-    // Utility
+    /* Utility */
     void createFakeJobs(int count = 100);
     void appendFakeJob(const QUrl &url);
 
-private:
-    QList<AbstractDownloadItem *> m_items;
 };
 
-#endif // DUMMY_DOWNLOAD_MANAGER_H
+#endif // FAKE_DOWNLOAD_MANAGER_H
