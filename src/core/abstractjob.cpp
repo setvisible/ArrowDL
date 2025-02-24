@@ -14,7 +14,7 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "abstractdownloaditem.h"
+#include "abstractjob.h"
 
 #include <Constants>
 #include <Core/File>
@@ -32,7 +32,7 @@
 /*!
  * \brief Constructor
  */
-AbstractDownloadItem::AbstractDownloadItem(QObject *parent, ResourceItem *resource)
+AbstractJob::AbstractJob(QObject *parent, ResourceItem *resource)
     : QObject(parent)
     , m_resource(resource)
     , m_file(new File(this))
@@ -43,7 +43,7 @@ AbstractDownloadItem::AbstractDownloadItem(QObject *parent, ResourceItem *resour
     connect(m_updateCountDownTimer, SIGNAL(timeout()), this, SLOT(updateInfo()));
 }
 
-AbstractDownloadItem::~AbstractDownloadItem()
+AbstractJob::~AbstractJob()
 {
     // delete m_resource;
     // if (m_file) {
@@ -54,12 +54,12 @@ AbstractDownloadItem::~AbstractDownloadItem()
 
 /******************************************************************************
  ******************************************************************************/
-AbstractDownloadItem::State AbstractDownloadItem::state() const
+AbstractJob::State AbstractJob::state() const
 {
     return m_state;
 }
 
-void AbstractDownloadItem::setState(State state)
+void AbstractJob::setState(State state)
 {
     if (m_state != state) {
         m_state = state;
@@ -67,79 +67,79 @@ void AbstractDownloadItem::setState(State state)
     }
 }
 
-QString AbstractDownloadItem::stateToString() const
+QString AbstractJob::stateToString() const
 {
     switch (m_state) {
-    case AbstractDownloadItem::Idle:                return tr("Idle");
-    case AbstractDownloadItem::Paused:              return tr("Paused");
-    case AbstractDownloadItem::Stopped:             return tr("Canceled");
-    case AbstractDownloadItem::Preparing:           return tr("Preparing");
-    case AbstractDownloadItem::Connecting:          return tr("Connecting");
-    case AbstractDownloadItem::DownloadingMetadata: return tr("Downloading Metadata");
-    case AbstractDownloadItem::Downloading:         return tr("Downloading");
-    case AbstractDownloadItem::Endgame:             return tr("Finishing");
-    case AbstractDownloadItem::Completed:           return tr("Complete");
-    case AbstractDownloadItem::Seeding:             return tr("Seeding");
-    case AbstractDownloadItem::Skipped:             return tr("Skipped");
-    case AbstractDownloadItem::NetworkError:        return tr("Server error");
-    case AbstractDownloadItem::FileError:           return tr("File error");
+    case AbstractJob::Idle:                return tr("Idle");
+    case AbstractJob::Paused:              return tr("Paused");
+    case AbstractJob::Stopped:             return tr("Canceled");
+    case AbstractJob::Preparing:           return tr("Preparing");
+    case AbstractJob::Connecting:          return tr("Connecting");
+    case AbstractJob::DownloadingMetadata: return tr("Downloading Metadata");
+    case AbstractJob::Downloading:         return tr("Downloading");
+    case AbstractJob::Endgame:             return tr("Finishing");
+    case AbstractJob::Completed:           return tr("Complete");
+    case AbstractJob::Seeding:             return tr("Seeding");
+    case AbstractJob::Skipped:             return tr("Skipped");
+    case AbstractJob::NetworkError:        return tr("Server error");
+    case AbstractJob::FileError:           return tr("File error");
     }
     Q_UNREACHABLE();
 }
 
 /*! C string for printf() */
-const char* AbstractDownloadItem::state_c_str() const
+const char* AbstractJob::state_c_str() const
 {
     switch (m_state) {
-    case AbstractDownloadItem::Idle:                return QLatin1String("idle").data();
-    case AbstractDownloadItem::Paused:              return QLatin1String("paused").data();
-    case AbstractDownloadItem::Stopped:             return QLatin1String("canceled").data();
-    case AbstractDownloadItem::Preparing:           return QLatin1String("preparing").data();
-    case AbstractDownloadItem::Connecting:          return QLatin1String("connecting").data();
-    case AbstractDownloadItem::DownloadingMetadata: return QLatin1String("downloading metadata").data();
-    case AbstractDownloadItem::Downloading:         return QLatin1String("downloading").data();
-    case AbstractDownloadItem::Endgame:             return QLatin1String("finishing").data();
-    case AbstractDownloadItem::Completed:           return QLatin1String("complete").data();
-    case AbstractDownloadItem::Seeding:             return QLatin1String("seeding").data();
-    case AbstractDownloadItem::Skipped:             return QLatin1String("skipped").data();
-    case AbstractDownloadItem::NetworkError:        return QLatin1String("server error").data();
-    case AbstractDownloadItem::FileError:           return QLatin1String("file error").data();
+    case AbstractJob::Idle:                return QLatin1String("idle").data();
+    case AbstractJob::Paused:              return QLatin1String("paused").data();
+    case AbstractJob::Stopped:             return QLatin1String("canceled").data();
+    case AbstractJob::Preparing:           return QLatin1String("preparing").data();
+    case AbstractJob::Connecting:          return QLatin1String("connecting").data();
+    case AbstractJob::DownloadingMetadata: return QLatin1String("downloading metadata").data();
+    case AbstractJob::Downloading:         return QLatin1String("downloading").data();
+    case AbstractJob::Endgame:             return QLatin1String("finishing").data();
+    case AbstractJob::Completed:           return QLatin1String("complete").data();
+    case AbstractJob::Seeding:             return QLatin1String("seeding").data();
+    case AbstractJob::Skipped:             return QLatin1String("skipped").data();
+    case AbstractJob::NetworkError:        return QLatin1String("server error").data();
+    case AbstractJob::FileError:           return QLatin1String("file error").data();
     }
     Q_UNREACHABLE();
 }
 
 /******************************************************************************
  ******************************************************************************/
-qsizetype AbstractDownloadItem::bytesReceived() const
+qsizetype AbstractJob::bytesReceived() const
 {
     return m_bytesReceived;
 }
 
-void AbstractDownloadItem::setBytesReceived(qsizetype bytesReceived)
+void AbstractJob::setBytesReceived(qsizetype bytesReceived)
 {
     m_bytesReceived = bytesReceived;
 }
 
 /******************************************************************************
  ******************************************************************************/
-qsizetype AbstractDownloadItem::bytesTotal() const
+qsizetype AbstractJob::bytesTotal() const
 {
     return m_bytesTotal;
 }
 
-void AbstractDownloadItem::setBytesTotal(qsizetype bytesTotal)
+void AbstractJob::setBytesTotal(qsizetype bytesTotal)
 {
     m_bytesTotal = bytesTotal;
 }
 
 /******************************************************************************
  ******************************************************************************/
-qreal AbstractDownloadItem::speed() const
+qreal AbstractJob::speed() const
 {
     return m_state == Downloading ? m_speed : -1;
 }
 
-int AbstractDownloadItem::progress() const
+int AbstractJob::progress() const
 {
     if (m_bytesTotal > 0) {
         return qBound(0, qFloor(100 * static_cast<qreal>(m_bytesReceived) / static_cast<qreal>(m_bytesTotal)), 100);
@@ -158,36 +158,36 @@ int AbstractDownloadItem::progress() const
 
 /******************************************************************************
  ******************************************************************************/
-QString AbstractDownloadItem::errorMessage() const
+QString AbstractJob::errorMessage() const
 {
     return m_errorMessage;
 }
 
-void AbstractDownloadItem::setErrorMessage(const QString &message)
+void AbstractJob::setErrorMessage(const QString &message)
 {
     m_errorMessage = message;
 }
 
 /******************************************************************************
  ******************************************************************************/
-int AbstractDownloadItem::maxConnections() const
+int AbstractJob::maxConnections() const
 {
     return m_maxConnections;
 }
 
-void AbstractDownloadItem::setMaxConnections(int connections)
+void AbstractJob::setMaxConnections(int connections)
 {
     m_maxConnections = connections;
 }
 
 /******************************************************************************
  ******************************************************************************/
-QString AbstractDownloadItem::log() const
+QString AbstractJob::log() const
 {
     return m_log;
 }
 
-void AbstractDownloadItem::setLog(const QString &log)
+void AbstractJob::setLog(const QString &log)
 {
     m_log = log;
 }
@@ -195,7 +195,7 @@ void AbstractDownloadItem::setLog(const QString &log)
 /*!
  * Apped the given message to the log.
  */
-void AbstractDownloadItem::logInfo(const QString &message)
+void AbstractJob::logInfo(const QString &message)
 {
     QDateTime local(QDateTime::currentDateTime());
     auto timestamp = local.toString(QLatin1String("yyyy-MM-dd HH:mm:ss.zzz"));
@@ -208,12 +208,12 @@ void AbstractDownloadItem::logInfo(const QString &message)
 /**
  * The source Url
  */
-QUrl AbstractDownloadItem::sourceUrl() const
+QUrl AbstractJob::sourceUrl() const
 {
     return QUrl(m_resource->url());
 }
 
-void AbstractDownloadItem::setSourceUrl(const QUrl &url)
+void AbstractJob::setSourceUrl(const QUrl &url)
 {
     Q_UNUSED(url);
 }
@@ -221,7 +221,7 @@ void AbstractDownloadItem::setSourceUrl(const QUrl &url)
 /**
  * The destination's full file name
  */
-QString AbstractDownloadItem::localFullFileName() const
+QString AbstractJob::localFullFileName() const
 {
     auto target = m_resource->localFileUrl();
     return target.toLocalFile();
@@ -230,7 +230,7 @@ QString AbstractDownloadItem::localFullFileName() const
 /**
  * The destination's file name
  */
-QString AbstractDownloadItem::localFileName() const
+QString AbstractJob::localFileName() const
 {
     auto target = m_resource->localFileUrl();
     const QFileInfo fi(target.toLocalFile());
@@ -240,26 +240,26 @@ QString AbstractDownloadItem::localFileName() const
 /**
  * The destination's absolute path
  */
-QString AbstractDownloadItem::localFilePath() const
+QString AbstractJob::localFilePath() const
 {
     auto target = m_resource->localFileUrl();
     const QFileInfo fi(target.toLocalFile());
     return fi.absolutePath();
 }
 
-QUrl AbstractDownloadItem::localFileUrl() const
+QUrl AbstractJob::localFileUrl() const
 {
     return m_resource->localFileUrl();
 }
 
-QUrl AbstractDownloadItem::localDirUrl() const
+QUrl AbstractJob::localDirUrl() const
 {
     return QUrl::fromLocalFile(localFilePath());
 }
 
 /******************************************************************************
  ******************************************************************************/
-bool AbstractDownloadItem::isResumable() const
+bool AbstractJob::isResumable() const
 {
     return m_state == Idle
             || m_state == Paused
@@ -269,14 +269,14 @@ bool AbstractDownloadItem::isResumable() const
             || m_state == FileError;
 }
 
-bool AbstractDownloadItem::isPausable() const
+bool AbstractJob::isPausable() const
 {
     return m_state == Idle
             || isDownloading()
             || m_state == Seeding;
 }
 
-bool AbstractDownloadItem::isCancelable() const
+bool AbstractJob::isCancelable() const
 {
     return m_state == Idle
             || m_state == Paused
@@ -285,7 +285,7 @@ bool AbstractDownloadItem::isCancelable() const
             || m_state == Seeding;
 }
 
-bool AbstractDownloadItem::isDownloading() const
+bool AbstractJob::isDownloading() const
 {
     return m_state == Preparing
             || m_state == Connecting
@@ -296,24 +296,24 @@ bool AbstractDownloadItem::isDownloading() const
 
 /******************************************************************************
  ******************************************************************************/
-QTime AbstractDownloadItem::remainingTime() const
+QTime AbstractJob::remainingTime() const
 {
     return m_remainingTime;
 }
 
 /******************************************************************************
  ******************************************************************************/
-void AbstractDownloadItem::setReadyToResume()
+void AbstractJob::setReadyToResume()
 {
     m_state = Idle;
     emit changed();
 }
 
-void AbstractDownloadItem::resume()
+void AbstractJob::resume()
 {
 }
 
-void AbstractDownloadItem::pause()
+void AbstractJob::pause()
 {
     /// \todo implement?
     /// https://kunalmaemo.blogspot.com/2011/07/simple-download-manager-with-pause.html
@@ -326,7 +326,7 @@ void AbstractDownloadItem::pause()
 }
 
 // cancel?
-void AbstractDownloadItem::stop()
+void AbstractJob::stop()
 {
     logInfo(QString("Stop '%0'.").arg(m_resource->url()));
     m_file->cancel();
@@ -343,7 +343,7 @@ void AbstractDownloadItem::stop()
 
 /******************************************************************************
  ******************************************************************************/
-void AbstractDownloadItem::beginResume()
+void AbstractJob::beginResume()
 {
     m_state = Idle;
     emit changed();
@@ -355,7 +355,7 @@ void AbstractDownloadItem::beginResume()
     emit changed();
 }
 
-bool AbstractDownloadItem::checkResume(bool connected)
+bool AbstractJob::checkResume(bool connected)
 {
     if (connected) {
         m_state = Connecting;
@@ -368,7 +368,7 @@ bool AbstractDownloadItem::checkResume(bool connected)
     return connected;
 }
 
-void AbstractDownloadItem::tearDownResume()
+void AbstractJob::tearDownResume()
 {
     /*
      * This timer ticks each second, in order to update the remaining time information (countdown)
@@ -386,7 +386,7 @@ void AbstractDownloadItem::tearDownResume()
     emit changed();
 }
 
-void AbstractDownloadItem::preFinish(bool commited)
+void AbstractJob::preFinish(bool commited)
 {
     m_state = Endgame;
     emit changed();
@@ -401,7 +401,7 @@ void AbstractDownloadItem::preFinish(bool commited)
 
 /******************************************************************************
  ******************************************************************************/
-void AbstractDownloadItem::finish()
+void AbstractJob::finish()
 {
     m_updateCountDownTimer->stop();
     m_updateInfoTimer->stop();
@@ -411,7 +411,7 @@ void AbstractDownloadItem::finish()
 
 /******************************************************************************
  ******************************************************************************/
-void AbstractDownloadItem::rename(const QString &newName)
+void AbstractJob::rename(const QString &newName)
 {
     QString newCustomFileName;
     if (!newName.trimmed().isEmpty()) {
@@ -443,7 +443,7 @@ void AbstractDownloadItem::rename(const QString &newName)
     emit changed();
 }
 
-void AbstractDownloadItem::moveToTrash()
+void AbstractJob::moveToTrash()
 {
     stop();
     auto fileName = localFullFileName();
@@ -458,19 +458,19 @@ void AbstractDownloadItem::moveToTrash()
 
 /******************************************************************************
  ******************************************************************************/
-ResourceItem* AbstractDownloadItem::resource() const
+ResourceItem* AbstractJob::resource() const
 {
     return m_resource;
 }
 
-// void AbstractDownloadItem::setResource(ResourceItem *resource)
+// void AbstractJob::setResource(ResourceItem *resource)
 // {
 //     m_resource = resource;
 // }
 
 /******************************************************************************
  ******************************************************************************/
-void AbstractDownloadItem::updateInfo(qsizetype bytesReceived, qsizetype bytesTotal)
+void AbstractJob::updateInfo(qsizetype bytesReceived, qsizetype bytesTotal)
 {
     m_bytesReceived = bytesReceived;
     m_bytesTotal = bytesTotal;
@@ -490,7 +490,7 @@ void AbstractDownloadItem::updateInfo(qsizetype bytesReceived, qsizetype bytesTo
      */
 }
 
-void AbstractDownloadItem::updateInfo()
+void AbstractJob::updateInfo()
 {
     if (m_speed > 0 && m_bytesReceived > 0 && m_bytesTotal > 0) {
         auto estimatedTime = qCeil(static_cast<qreal>(m_bytesTotal - m_bytesReceived) / m_speed);

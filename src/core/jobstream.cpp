@@ -21,7 +21,7 @@
 #include <Core/ResourceItem>
 
 JobStream::JobStream(QObject *parent, ResourceItem *resource)
-    : AbstractDownloadItem(parent, resource)
+    : AbstractJob(parent, resource)
     , m_stream(nullptr)
 {
 }
@@ -86,7 +86,7 @@ void JobStream::resume()
 
 void JobStream::pause()
 {
-    AbstractDownloadItem::pause();
+    AbstractJob::pause();
 }
 
 void JobStream::stop()
@@ -98,7 +98,7 @@ void JobStream::stop()
         m_stream->deleteLater();
         m_stream = nullptr;
     }
-    AbstractDownloadItem::stop();
+    AbstractJob::stop();
 }
 
 /******************************************************************************

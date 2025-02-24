@@ -20,7 +20,7 @@
 #include "about.h"
 
 #include <Constants>
-#include <Core/AbstractDownloadItem>
+#include <Core/AbstractJob>
 #include <Core/DownloadManager>
 #include <Core/JobTorrent>
 #include <Core/FileAccessManager>
@@ -141,12 +141,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     /* Connect the SceneManager to the MainWindow. */
     /* The SceneManager centralizes the changes. */
-    connect(m_downloadManager, SIGNAL(jobFinished(AbstractDownloadItem*)), this, SLOT(onJobFinished(AbstractDownloadItem*)));
+    connect(m_downloadManager, SIGNAL(jobFinished(AbstractJob*)), this, SLOT(onJobFinished(AbstractJob*)));
     connect(m_downloadManager, SIGNAL(jobRenamed(QString,QString,bool)), this, SLOT(onJobRenamed(QString,QString,bool)), Qt::QueuedConnection);
 
     connect(ui->queueView, SIGNAL(dataChanged()), this, SLOT(onDataChanged()));
     connect(ui->queueView, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
-    connect(ui->queueView, SIGNAL(doubleClicked(AbstractDownloadItem*)), this, SLOT(openFile(AbstractDownloadItem*)));            
+    connect(ui->queueView, SIGNAL(doubleClicked(AbstractJob*)), this, SLOT(openFile(AbstractJob*)));            
 
     /* Torrent Context Manager */
     connect(&torrentContext, &TorrentContext::changed, this, &MainWindow::onTorrentContextChanged);
@@ -529,14 +529,14 @@ void MainWindow::openFile()
     auto items = ui->queueView->selectedItems();
     if (!items.isEmpty()) {
         auto item = items.first();
-        if (item->state() == AbstractDownloadItem::Completed) {
+        if (item->state() == AbstractJob::Completed) {
             openFile(item);
             return;
         }
     }
 }
 
-void MainWindow::openFile(AbstractDownloadItem *downloadItem)
+void MainWindow::openFile(AbstractJob *downloadItem)
 {
     auto url = downloadItem->localFileUrl();
     if (!QDesktopServices::openUrl(url)) {
@@ -922,7 +922,7 @@ void MainWindow::onDataChanged()
     refreshTitleAndStatus();
 }
 
-void MainWindow::onJobFinished(AbstractDownloadItem * downloadItem)
+void MainWindow::onJobFinished(AbstractJob * downloadItem)
 {
     refreshMenus();
     refreshTitleAndStatus();
@@ -1030,7 +1030,7 @@ void MainWindow::refreshMenus()
 
     bool hasOnlyCompletedSelected = hasSelection;
     for (auto item : selectedItems) {
-        if (item->state() != AbstractDownloadItem::Completed) {
+        if (item->state() != AbstractJob::Completed) {
             hasOnlyCompletedSelected = false;
             break;
         }

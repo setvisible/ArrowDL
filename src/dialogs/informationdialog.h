@@ -20,7 +20,7 @@
 #include <QtCore/QList>
 #include <QtWidgets/QDialog>
 
-class AbstractDownloadItem;
+class AbstractJob;
 
 namespace Ui {
 class InformationDialog;
@@ -30,7 +30,7 @@ class InformationDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit InformationDialog(const QList<AbstractDownloadItem *> &jobs, QWidget *parent);
+    explicit InformationDialog(const QList<AbstractJob *> &jobs, QWidget *parent);
     ~InformationDialog() override;
 
 public slots:
@@ -41,9 +41,9 @@ private slots:
 
 private:
     Ui::InformationDialog *ui = nullptr;
-    QList<AbstractDownloadItem *> m_items = {};
+    QList<AbstractJob *> m_items = {};
 
-    void initialize(const QList<AbstractDownloadItem*> &items);
+    void initialize(const QList<AbstractJob*> &items);
 
     void readUiSettings();
     void writeUiSettings();

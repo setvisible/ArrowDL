@@ -17,7 +17,7 @@
 #ifndef CORE_JOB_STREAM_H
 #define CORE_JOB_STREAM_H
 
-#include <Core/AbstractDownloadItem>
+#include <Core/AbstractJob>
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
@@ -26,7 +26,7 @@ class DownloadManager;
 // class ResourceItem;
 class Stream;
 
-class JobStream : public AbstractDownloadItem
+class JobStream : public AbstractJob
 {
     Q_OBJECT
 

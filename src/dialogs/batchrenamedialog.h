@@ -21,7 +21,7 @@
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QStyledItemDelegate>
 
-class AbstractDownloadItem;
+class AbstractJob;
 class JobFile;
 
 namespace Ui {
@@ -32,7 +32,7 @@ class BatchRenameDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit BatchRenameDialog(const QList<AbstractDownloadItem*> &items, QWidget *parent);
+    explicit BatchRenameDialog(const QList<AbstractJob*> &items, QWidget *parent);
     ~BatchRenameDialog() override;
 
 public slots:
@@ -44,7 +44,7 @@ private slots:
 
 private:
     Ui::BatchRenameDialog *ui = nullptr;
-    QList<AbstractDownloadItem *> m_items = {};
+    QList<AbstractJob *> m_items = {};
 
     void renameToDefault();
     void renameToEnumeration();

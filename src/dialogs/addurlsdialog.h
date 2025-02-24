@@ -19,7 +19,7 @@
 
 #include <QtWidgets/QDialog>
 
-class AbstractDownloadItem;
+class AbstractJob;
 class DownloadManager;
 class Settings;
 
@@ -53,8 +53,8 @@ private:
 
     void doAccept(bool started);
 
-    AbstractDownloadItem* createFileItem(const QString &url) const;
-    static inline QList<AbstractDownloadItem*> toList(AbstractDownloadItem *item);
+    AbstractJob* createFileItem(const QString &url) const;
+    static inline QList<AbstractJob*> toList(AbstractJob *item);
 
     void readUiSettings();
     void writeUiSettings();

@@ -17,7 +17,7 @@
 #include "queueviewitemdelegate.h"
 
 #include <Constants>
-#include <Core/AbstractDownloadItem>
+#include <Core/AbstractJob>
 #include <Core/MimeDatabase>
 #include <Core/QueueModel>
 #include <Widgets/CustomStyle>
@@ -77,7 +77,7 @@ void QueueViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
 
     } else if (index.column() == COL_2_PROGRESS_BAR) {
         auto progress = index.data(QueueModel::ProgressRole).toInt();
-        auto state = static_cast<AbstractDownloadItem::State>(
+        auto state = static_cast<AbstractJob::State>(
             index.data(QueueModel::StateRole).toInt());
 
         CustomStyleOptionProgressBar progressBarOption;
@@ -127,30 +127,30 @@ void QueueViewItemDelegate::updateEditorGeometry(QWidget *editor, const QStyleOp
     editor->setGeometry(option.rect);
 }
 
-QColor QueueViewItemDelegate::stateColor(AbstractDownloadItem::State state) const
+QColor QueueViewItemDelegate::stateColor(AbstractJob::State state) const
 {
     switch (state) {
-    case AbstractDownloadItem::Idle:
+    case AbstractJob::Idle:
         return s_darkGrey;
 
-    case AbstractDownloadItem::Paused:
+    case AbstractJob::Paused:
         return s_orange;
 
-    case AbstractDownloadItem::Preparing:
-    case AbstractDownloadItem::Connecting:
-    case AbstractDownloadItem::DownloadingMetadata:
-    case AbstractDownloadItem::Downloading:
-    case AbstractDownloadItem::Endgame:
+    case AbstractJob::Preparing:
+    case AbstractJob::Connecting:
+    case AbstractJob::DownloadingMetadata:
+    case AbstractJob::Downloading:
+    case AbstractJob::Endgame:
         return s_green;
 
-    case AbstractDownloadItem::Completed:
-    case AbstractDownloadItem::Seeding:
+    case AbstractJob::Completed:
+    case AbstractJob::Seeding:
         return s_darkGreen;
 
-    case AbstractDownloadItem::Stopped:
-    case AbstractDownloadItem::Skipped:
-    case AbstractDownloadItem::NetworkError:
-    case AbstractDownloadItem::FileError:
+    case AbstractJob::Stopped:
+    case AbstractJob::Skipped:
+    case AbstractJob::NetworkError:
+    case AbstractJob::FileError:
         return s_darkRed;
 
     default:
@@ -160,30 +160,30 @@ QColor QueueViewItemDelegate::stateColor(AbstractDownloadItem::State state) cons
     return Qt::black;
 }
 
-QIcon QueueViewItemDelegate::stateIcon(AbstractDownloadItem::State state) const
+QIcon QueueViewItemDelegate::stateIcon(AbstractJob::State state) const
 {
     switch (state) {
-    case AbstractDownloadItem::Idle:
+    case AbstractJob::Idle:
         return m_idleIcon;
 
-    case AbstractDownloadItem::Paused:
+    case AbstractJob::Paused:
         return m_pauseIcon;
 
-    case AbstractDownloadItem::Preparing:
-    case AbstractDownloadItem::Connecting:
-    case AbstractDownloadItem::DownloadingMetadata:
-    case AbstractDownloadItem::Downloading:
-    case AbstractDownloadItem::Endgame:
+    case AbstractJob::Preparing:
+    case AbstractJob::Connecting:
+    case AbstractJob::DownloadingMetadata:
+    case AbstractJob::Downloading:
+    case AbstractJob::Endgame:
         return m_resumeIcon;
 
-    case AbstractDownloadItem::Completed:
-    case AbstractDownloadItem::Seeding:
+    case AbstractJob::Completed:
+    case AbstractJob::Seeding:
         return m_completedIcon;
 
-    case AbstractDownloadItem::Stopped:
-    case AbstractDownloadItem::Skipped:
-    case AbstractDownloadItem::NetworkError:
-    case AbstractDownloadItem::FileError:
+    case AbstractJob::Stopped:
+    case AbstractJob::Skipped:
+    case AbstractJob::NetworkError:
+    case AbstractJob::FileError:
         return m_stopIcon;
 
     default:

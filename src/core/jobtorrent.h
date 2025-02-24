@@ -17,14 +17,14 @@
 #ifndef CORE_DOWNLOAD_TORRENT_ITEM_H
 #define CORE_DOWNLOAD_TORRENT_ITEM_H
 
-#include <Core/AbstractDownloadItem>
+#include <Core/AbstractJob>
 #include <Core/Torrent>
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
 
-class JobTorrent : public AbstractDownloadItem
+class JobTorrent : public AbstractJob
 {
     Q_OBJECT
 

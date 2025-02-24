@@ -17,7 +17,7 @@
 #ifndef WIDGETS_QUEUE_VIEW_ITEM_DELEGATE_H
 #define WIDGETS_QUEUE_VIEW_ITEM_DELEGATE_H
 
-#include <Core/AbstractDownloadItem>
+#include <Core/AbstractJob>
 
 #include <QtWidgets/QStyledItemDelegate>
 
@@ -58,8 +58,8 @@ private:
     QIcon m_stopIcon = {};
     QIcon m_completedIcon = {};
 
-    QColor stateColor(AbstractDownloadItem::State state) const;
-    QIcon stateIcon(AbstractDownloadItem::State state) const;
+    QColor stateColor(AbstractJob::State state) const;
+    QIcon stateIcon(AbstractJob::State state) const;
 };
 
 #endif // WIDGETS_QUEUE_VIEW_ITEM_DELEGATE_H

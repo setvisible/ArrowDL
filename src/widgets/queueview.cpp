@@ -17,7 +17,7 @@
 #include "queueview.h"
 
 #include <Constants>
-#include <Core/AbstractDownloadItem>
+#include <Core/AbstractJob>
 #include <Core/DownloadManager>
 #include <Core/MimeDatabase>
 #include <Core/QueueModel>
@@ -142,9 +142,9 @@ void QueueView::restylizeUi()
 
 /******************************************************************************
  ******************************************************************************/
-QList<AbstractDownloadItem *> QueueView::selectedItems() const
+QList<AbstractJob *> QueueView::selectedItems() const
 {
-    QList<AbstractDownloadItem *> items;
+    QList<AbstractJob *> items;
     for (auto index : selectionModel()->selectedRows()) {
         auto item = getItemAtRow(index.row());
         items.append(item);
@@ -201,7 +201,7 @@ void QueueView::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
-QUrl QueueView::urlFrom(const AbstractDownloadItem *item) const
+QUrl QueueView::urlFrom(const AbstractJob *item) const
 {
     if (!item)
         return {};
@@ -335,7 +335,7 @@ void QueueView::selectCompleted()
     for (int row = 0, count = model()->rowCount(); row < count; ++row) {
         auto index = model()->index(row, 0);
         auto item = getItemAtRow(row);
-        if (item->state() == AbstractDownloadItem::Completed) {
+        if (item->state() == AbstractJob::Completed) {
             selectionModel()->select(index, QItemSelectionModel::Select | QItemSelectionModel::Rows);
         }
     }
@@ -575,10 +575,10 @@ void QueueView::onCurrentChanged(const QModelIndex &current, const QModelIndex &
 
 /******************************************************************************
  ******************************************************************************/
-AbstractDownloadItem* QueueView::getItemAtRow(const int row) const
+AbstractJob* QueueView::getItemAtRow(const int row) const
 {
     auto index = model()->index(row, 0);
-    AbstractDownloadItem* item = model()->data(index, QueueModel::DownloadItemRole).value<AbstractDownloadItem*>();
+    AbstractJob* item = model()->data(index, QueueModel::DownloadItemRole).value<AbstractJob*>();
     return item;
 }
 

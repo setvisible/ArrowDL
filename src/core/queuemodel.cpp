@@ -17,7 +17,7 @@
 #include "queuemodel.h"
 
 #include <Constants>
-#include <Core/AbstractDownloadItem>
+#include <Core/AbstractJob>
 #include <Core/ResourceItem>
 #include <Core/Format>
 
@@ -50,7 +50,7 @@ QVariant QueueModel::data(const QModelIndex &index, int role) const
         return {};
     }
 
-    const AbstractDownloadItem* item = m_items.at(index.row());
+    const AbstractJob* item = m_items.at(index.row());
 
     if (role == DownloadItemRole) {
         QVariant variant;
@@ -145,7 +145,7 @@ bool QueueModel::insertRows(int row, int count, const QModelIndex &)
         return false;
     }
     beginInsertRows(QModelIndex(), row, row + count - 1);
-    AbstractDownloadItem *item = nullptr;
+    AbstractJob *item = nullptr;
     for (int r = row; r < row + count; ++r) {
         m_items.insert(r, item);
     }
@@ -159,7 +159,7 @@ bool QueueModel::removeRows(int row, int count, const QModelIndex &)
         return false;
     }
     beginRemoveRows(QModelIndex(), row, row + count - 1);
-    AbstractDownloadItem *item = nullptr;
+    AbstractJob *item = nullptr;
     for (int r = row; r < row + count; ++r) {
         item = m_items.takeAt(row);
         if (item) {
@@ -215,7 +215,7 @@ Qt::ItemFlags QueueModel::flags(const QModelIndex &index) const
 
 /******************************************************************************
  ******************************************************************************/
-inline QString QueueModel::fileSize(const AbstractDownloadItem *item) const
+inline QString QueueModel::fileSize(const AbstractJob *item) const
 {
     if (item->bytesTotal() > 0) {
         return tr("%0 of %1")
@@ -225,14 +225,14 @@ inline QString QueueModel::fileSize(const AbstractDownloadItem *item) const
     return tr("Unknown");
 }
 
-inline QString QueueModel::estimatedTime(const AbstractDownloadItem *item) const
+inline QString QueueModel::estimatedTime(const AbstractJob *item) const
 {
     switch (item->state()) {
-    case AbstractDownloadItem::Downloading:
+    case AbstractJob::Downloading:
         return Format::timeToString(item->remainingTime());
         break;
-    case AbstractDownloadItem::NetworkError:
-    case AbstractDownloadItem::FileError:
+    case AbstractJob::NetworkError:
+    case AbstractJob::FileError:
         return item->errorMessage();
         break;
     default:
@@ -243,12 +243,12 @@ inline QString QueueModel::estimatedTime(const AbstractDownloadItem *item) const
 
 /******************************************************************************
  ******************************************************************************/
-QList<AbstractDownloadItem *> QueueModel::items() const
+QList<AbstractJob *> QueueModel::items() const
 {
     return m_items;
 }
 
-void QueueModel::append(const QList<AbstractDownloadItem*> &items)
+void QueueModel::append(const QList<AbstractJob*> &items)
 {
     if (items.isEmpty()) {
         return;
@@ -265,19 +265,19 @@ void QueueModel::append(const QList<AbstractDownloadItem*> &items)
 
 /******************************************************************************
  ******************************************************************************/
-void QueueModel::connectItem(const AbstractDownloadItem *item)
+void QueueModel::connectItem(const AbstractJob *item)
 {
     connect(item, SIGNAL(changed()), this, SLOT(onItemChanged()));
 }
 
-void QueueModel::disconnectItem(const AbstractDownloadItem *item)
+void QueueModel::disconnectItem(const AbstractJob *item)
 {
     disconnect(item, SIGNAL(changed()), this, SLOT(onItemChanged()));
 }
 
 void QueueModel::onItemChanged()
 {
-    auto item = qobject_cast<AbstractDownloadItem *>(sender());
+    auto item = qobject_cast<AbstractJob *>(sender());
     auto row = m_items.indexOf(item);
     auto topLeft = index(row, 0);
     auto bottomRight = index(row, COL_COUNT - 1);

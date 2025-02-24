@@ -28,7 +28,7 @@ using namespace Qt::Literals::StringLiterals;
 
 
 JobFile::JobFile(QObject *parent, ResourceItem *resource)
-    : AbstractDownloadItem(parent, resource)
+    : AbstractJob(parent, resource)
     , m_downloadManager((DownloadManager*)parent)
     , m_reply(nullptr)
 {
@@ -86,7 +86,7 @@ void JobFile::resume()
 
 void JobFile::pause()
 {
-    AbstractDownloadItem::pause();
+    AbstractJob::pause();
 }
 
 void JobFile::stop()
@@ -96,7 +96,7 @@ void JobFile::stop()
         m_reply->deleteLater();
         m_reply = nullptr;
     }
-    AbstractDownloadItem::stop();
+    AbstractJob::stop();
 }
 
 /******************************************************************************

@@ -17,7 +17,7 @@
 #include "downloadmanager.h"
 
 #include <Constants>
-#include <Core/AbstractDownloadItem>
+#include <Core/AbstractJob>
 #include <Core/JobFile>
 #include <Core/JobTorrent>
 #include <Core/NetworkManager>
@@ -51,8 +51,8 @@ DownloadManager::DownloadManager(QObject *parent) : QObject(parent)
     , m_snapshot(new Snapshot(this))
     , m_speedTimer(new QTimer(this))
 {
-    connect(this, SIGNAL(jobFinished(AbstractDownloadItem*)),
-            this, SLOT(startNext(AbstractDownloadItem*)));
+    connect(this, SIGNAL(jobFinished(AbstractJob*)),
+            this, SLOT(startNext(AbstractJob*)));
 
     connect(m_speedTimer, SIGNAL(timeout()), this, SLOT(onSpeedTimerTimeout()));
 }
@@ -113,14 +113,14 @@ NetworkManager* DownloadManager::networkManager() const
  * That makes the unit tests of this class easier, allowing dummy items.
  * \remark Optional
  */
-AbstractDownloadItem* DownloadManager::createFileItem(const QUrl &url)
+AbstractJob* DownloadManager::createFileItem(const QUrl &url)
 {
     ResourceItem* resource = createResourceItem(url);
     auto item = new JobFile(this, resource);
     return item;
 }
 
-AbstractDownloadItem* DownloadManager::createTorrentItem(const QUrl &url)
+AbstractJob* DownloadManager::createTorrentItem(const QUrl &url)
 {
     ResourceItem* resource = createResourceItem(url);
     resource->setType(ResourceItem::Type::Torrent);
@@ -162,15 +162,15 @@ qsizetype DownloadManager::downloadingCount() const
     return count;
 }
 
-void DownloadManager::startNext(AbstractDownloadItem * /*item*/)
+void DownloadManager::startNext(AbstractJob * /*item*/)
 {
     if (downloadingCount() < m_maxSimultaneousDownloads) {
        auto rows = m_queueModel->rowCount();
        for (int i = 0; i < rows; ++i) {
            auto index = m_queueModel->index(i, 0);
-           AbstractDownloadItem* item = model()->data(index, QueueModel::DownloadItemRole).value<AbstractDownloadItem*>();
+           AbstractJob* item = model()->data(index, QueueModel::DownloadItemRole).value<AbstractJob*>();
            // for (auto item : m_queueModel->items()) {
-           if (item->state() == AbstractDownloadItem::Idle) {
+           if (item->state() == AbstractJob::Idle) {
                item->resume();
                startNext(nullptr);
                break;
@@ -195,7 +195,7 @@ void DownloadManager::clear()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadManager::append(const QList<AbstractDownloadItem*> &items, bool started)
+void DownloadManager::append(const QList<AbstractJob*> &items, bool started)
 {
     if (items.isEmpty()) {
         return;
@@ -211,11 +211,11 @@ void DownloadManager::append(const QList<AbstractDownloadItem*> &items, bool sta
 
         if (started) {
             if (item->isResumable()) {
-                item->setState(AbstractDownloadItem::Idle);
+                item->setState(AbstractJob::Idle);
             }
         } else {
             if (item->isPausable()) {
-                item->setState(AbstractDownloadItem::Paused);
+                item->setState(AbstractJob::Paused);
             }
         }
     }
@@ -242,16 +242,16 @@ void DownloadManager::setMaxSimultaneousDownloads(int number)
 
 /******************************************************************************
  ******************************************************************************/
-QList<AbstractDownloadItem *> DownloadManager::downloadItems() const
+QList<AbstractJob *> DownloadManager::downloadItems() const
 {
     return  m_queueModel->items();
 }
 
-static inline QList<AbstractDownloadItem*> filter(
-    const QList<AbstractDownloadItem*> &items,
-    const QList<AbstractDownloadItem::State> &states)
+static inline QList<AbstractJob*> filter(
+    const QList<AbstractJob*> &items,
+    const QList<AbstractJob::State> &states)
 {
-    QList<AbstractDownloadItem*> list;
+    QList<AbstractJob*> list;
     for (auto item : items) {
         for (auto state : states) {
             if (item->state() == state) {
@@ -262,33 +262,33 @@ static inline QList<AbstractDownloadItem*> filter(
     return list;
 }
 
-QList<AbstractDownloadItem*> DownloadManager::completedJobs() const
+QList<AbstractJob*> DownloadManager::completedJobs() const
 {
     return filter(
         downloadItems(),
-        {AbstractDownloadItem::Completed,
-         AbstractDownloadItem::Seeding});
+        {AbstractJob::Completed,
+         AbstractJob::Seeding});
 }
 
-QList<AbstractDownloadItem *> DownloadManager::failedJobs() const
+QList<AbstractJob *> DownloadManager::failedJobs() const
 {
     return filter(
         downloadItems(),
-        {AbstractDownloadItem::Stopped,
-         AbstractDownloadItem::Skipped,
-         AbstractDownloadItem::NetworkError,
-         AbstractDownloadItem::FileError});
+        {AbstractJob::Stopped,
+         AbstractJob::Skipped,
+         AbstractJob::NetworkError,
+         AbstractJob::FileError});
 }
 
-QList<AbstractDownloadItem*> DownloadManager::runningJobs() const
+QList<AbstractJob*> DownloadManager::runningJobs() const
 {
     return filter(
         downloadItems(),
-        {AbstractDownloadItem::Preparing,
-         AbstractDownloadItem::Connecting,
-         AbstractDownloadItem::DownloadingMetadata,
-         AbstractDownloadItem::Downloading,
-         AbstractDownloadItem::Endgame});
+        {AbstractJob::Preparing,
+         AbstractJob::Connecting,
+         AbstractJob::DownloadingMetadata,
+         AbstractJob::Downloading,
+         AbstractJob::Endgame});
 }
 
 /******************************************************************************
@@ -315,7 +315,7 @@ qreal DownloadManager::totalSpeed()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadManager::resume(AbstractDownloadItem *item)
+void DownloadManager::resume(AbstractJob *item)
 {
     if (item->isResumable()) {
         item->setReadyToResume();
@@ -323,14 +323,14 @@ void DownloadManager::resume(AbstractDownloadItem *item)
     }
 }
 
-void DownloadManager::pause(AbstractDownloadItem *item)
+void DownloadManager::pause(AbstractJob *item)
 {
     if (item->isPausable()) {
         item->pause();
     }
 }
 
-void DownloadManager::cancel(AbstractDownloadItem *item)
+void DownloadManager::cancel(AbstractJob *item)
 {
     if (item->isCancelable()) {
         item->stop();
@@ -346,7 +346,7 @@ void DownloadManager::onItemChanged()
 
 void DownloadManager::onItemFinished()
 {
-    auto downloadItem = qobject_cast<AbstractDownloadItem *>(sender());
+    auto downloadItem = qobject_cast<AbstractJob *>(sender());
     emit jobFinished(downloadItem);
 }
 

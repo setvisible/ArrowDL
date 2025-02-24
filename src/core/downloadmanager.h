@@ -24,7 +24,7 @@
 #include <QtCore/QString>
 #include <QtCore/QAbstractTableModel>
 
-class AbstractDownloadItem;
+class AbstractJob;
 class QueueModel;
 class ResourceItem;
 class Settings;
@@ -34,7 +34,7 @@ class QTimer;
 class NetworkManager;
 class QNetworkReply;
 
-using DownloadRange = QList<AbstractDownloadItem *>;
+using DownloadRange = QList<AbstractJob *>;
 
 class DownloadManager : public QObject, public IDownloadManager
 {
@@ -50,19 +50,19 @@ public:
 
     // Queue
     void clear();
-    void append(const QList<AbstractDownloadItem *> &items, bool started = false);
+    void append(const QList<AbstractJob *> &items, bool started = false);
     qsizetype count() const;
 
     // Run
-    void resume(AbstractDownloadItem *item);
-    void pause(AbstractDownloadItem *item);
-    void cancel(AbstractDownloadItem *item);
+    void resume(AbstractJob *item);
+    void pause(AbstractJob *item);
+    void cancel(AbstractJob *item);
 
     // Statistics
-    QList<AbstractDownloadItem *> downloadItems() const;
-    QList<AbstractDownloadItem *> completedJobs() const;
-    QList<AbstractDownloadItem *> failedJobs() const;
-    QList<AbstractDownloadItem *> runningJobs() const;
+    QList<AbstractJob *> downloadItems() const;
+    QList<AbstractJob *> completedJobs() const;
+    QList<AbstractJob *> failedJobs() const;
+    QList<AbstractJob *> runningJobs() const;
     qreal totalSpeed();
 
     // Settings
@@ -74,13 +74,13 @@ public:
     NetworkManager* networkManager() const; // move somewhere else
 
     // Utility
-    AbstractDownloadItem* createFileItem(const QUrl &url);
-    AbstractDownloadItem* createTorrentItem(const QUrl &url);
+    AbstractJob* createFileItem(const QUrl &url);
+    AbstractJob* createTorrentItem(const QUrl &url);
 
     QAbstractItemModel *model() const;
 
 signals:
-    void jobFinished(AbstractDownloadItem *item);
+    void jobFinished(AbstractJob *item);
     void jobRenamed(QString oldName, QString newName, bool success);
 
 public slots:
@@ -90,7 +90,7 @@ private slots:
     void onItemChanged();
     void onItemFinished();
     void onItemRenamed(const QString &oldName, const QString &newName, bool success);
-    void startNext(AbstractDownloadItem *item);
+    void startNext(AbstractJob *item);
 
     void onSettingsChanged();
 

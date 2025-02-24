@@ -16,7 +16,7 @@
 
 #include "texthandler.h"
 
-#include <Core/AbstractDownloadItem>
+#include <Core/AbstractJob>
 
 #include <QtCore/QDebug>
 #include <QtCore/QIODevice>
@@ -52,7 +52,7 @@ bool TextHandler::read(IDownloadManager *downloadManager)
     if (!d->isReadable()) {
         return false;
     }
-    QList<AbstractDownloadItem*> items;
+    QList<AbstractJob*> items;
     QString line;
     while (readLineInto(in, &line)) {
         line = line.simplified();
@@ -60,7 +60,7 @@ bool TextHandler::read(IDownloadManager *downloadManager)
             continue;
         }
         const QUrl url(line);
-        AbstractDownloadItem *item = downloadManager->createFileItem(url);
+        AbstractJob *item = downloadManager->createFileItem(url);
         if (!item) {
             qWarning("DownloadManager::createFileItem() not overridden. It still returns null pointer!");
             return false;

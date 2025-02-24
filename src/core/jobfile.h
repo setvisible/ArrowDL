@@ -17,7 +17,7 @@
 #ifndef CORE_DOWNLOAD_FILE_ITEM_H
 #define CORE_DOWNLOAD_FILE_ITEM_H
 
-#include <Core/AbstractDownloadItem>
+#include <Core/AbstractJob>
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
@@ -30,7 +30,7 @@ class ResourceItem;
 
 // class QNetworkReply;
 
-class JobFile : public AbstractDownloadItem
+class JobFile : public AbstractJob
 {
     Q_OBJECT
 

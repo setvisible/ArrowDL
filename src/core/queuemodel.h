@@ -22,7 +22,7 @@
 #include <QtCore/QList>
 #include <QtCore/QString>
 
-class AbstractDownloadItem;
+class AbstractJob;
 class ResourceItem;
 class Settings;
 
@@ -56,23 +56,23 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
     // API to add/remove items
-    QList<AbstractDownloadItem *> items() const;
-    void append(const QList<AbstractDownloadItem*> &items);
+    QList<AbstractJob *> items() const;
+    void append(const QList<AbstractJob*> &items);
 
 protected slots:
     void onItemChanged();
 
 private:
-    QList<AbstractDownloadItem *> m_items = {};
+    QList<AbstractJob *> m_items = {};
 
-    QList<AbstractDownloadItem *> m_selectedItems = {};
+    QList<AbstractJob *> m_selectedItems = {};
     bool m_selectionAboutToChange = false;
 
-    inline QString fileSize(const AbstractDownloadItem *item) const;
-    inline QString estimatedTime(const AbstractDownloadItem *item) const;
+    inline QString fileSize(const AbstractJob *item) const;
+    inline QString estimatedTime(const AbstractJob *item) const;
 
-    void connectItem(const AbstractDownloadItem *item);
-    void disconnectItem(const AbstractDownloadItem *item);
+    void connectItem(const AbstractJob *item);
+    void disconnectItem(const AbstractJob *item);
 };
 
 

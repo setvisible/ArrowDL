@@ -17,7 +17,7 @@
 #include "snapshot.h"
 
 #include <Constants>
-#include <Core/AbstractDownloadItem>
+#include <Core/AbstractJob>
 #include <Core/DownloadManager>
 #include <Core/Session>
 #include <Core/Settings>
@@ -98,7 +98,7 @@ void Snapshot::loadQueue()
     if (m_queueFile.isEmpty()) {
         return;
     }
-    QList<AbstractDownloadItem*> items;
+    QList<AbstractJob*> items;
     Session::read(items, m_queueFile, m_downloadManager);
     m_downloadManager->clear();
     m_downloadManager->append(items, false);
@@ -109,7 +109,7 @@ void Snapshot::saveQueue()
     if (m_queueFile.isEmpty()) {
         return;
     }
-    QList<AbstractDownloadItem *> items;
+    QList<AbstractJob *> items;
 
     auto skipCompleted = m_settings->isRemoveCompletedEnabled();
     auto skipCanceled = m_settings->isRemoveCanceledEnabled();
@@ -118,25 +118,25 @@ void Snapshot::saveQueue()
     for (auto item : m_downloadManager->downloadItems()) {
         if (item) {
             switch (item->state()) {
-            case AbstractDownloadItem::Idle:
-            case AbstractDownloadItem::Paused:
-            case AbstractDownloadItem::Preparing:
-            case AbstractDownloadItem::Connecting:
-            case AbstractDownloadItem::DownloadingMetadata:
-            case AbstractDownloadItem::Downloading:
-            case AbstractDownloadItem::Endgame:
+            case AbstractJob::Idle:
+            case AbstractJob::Paused:
+            case AbstractJob::Preparing:
+            case AbstractJob::Connecting:
+            case AbstractJob::DownloadingMetadata:
+            case AbstractJob::Downloading:
+            case AbstractJob::Endgame:
                 if (skipPaused) continue;
                 break;
 
-            case AbstractDownloadItem::Completed:
-            case AbstractDownloadItem::Seeding:
+            case AbstractJob::Completed:
+            case AbstractJob::Seeding:
                 if (skipCompleted) continue;
                 break;
 
-            case AbstractDownloadItem::Stopped:
-            case AbstractDownloadItem::Skipped:
-            case AbstractDownloadItem::NetworkError:
-            case AbstractDownloadItem::FileError:
+            case AbstractJob::Stopped:
+            case AbstractJob::Skipped:
+            case AbstractJob::NetworkError:
+            case AbstractJob::FileError:
                 if (skipCanceled) continue;
                 break;
             }

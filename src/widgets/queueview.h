@@ -21,7 +21,7 @@
 #include <QtCore/QModelIndex>
 #include <QtWidgets/QTableView>
 
-class AbstractDownloadItem;
+class AbstractJob;
 
 class QMenu;
 
@@ -43,7 +43,7 @@ public:
     QByteArray saveState(int version = 0) const;
     bool restoreState(const QByteArray &state, int version = 0);
 
-    QList<AbstractDownloadItem *> selectedItems() const;
+    QList<AbstractJob *> selectedItems() const;
     QString selectionToString() const;
     QString selectionToClipboard() const;
 
@@ -68,7 +68,7 @@ public slots:
 signals:
     void dataChanged();
     void selectionChanged();
-    void doubleClicked(AbstractDownloadItem *item);
+    void doubleClicked(AbstractJob *item);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -100,14 +100,14 @@ private:
     void retranslateUi();
     void restylizeUi();
 
-    QUrl urlFrom(const AbstractDownloadItem *item) const;
+    QUrl urlFrom(const AbstractJob *item) const;
 
     QList<int> columnWidths() const;
     void setColumnWidths(const QList<int> &widths);
 
     enum Direction { Up, Top, Down, Bottom };
     void move(Direction direction);
-    AbstractDownloadItem *getItemAtRow(const int row) const;
+    AbstractJob *getItemAtRow(const int row) const;
 };
 
 #endif // WIDGETS_QUEUE_VIEW_H

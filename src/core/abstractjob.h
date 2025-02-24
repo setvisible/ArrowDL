@@ -29,13 +29,13 @@ class ResourceItem;
 class QTimer;
 
 /*!
- * \class AbstractDownloadItem
+ * \class AbstractJob
  *
- * The class AbstractDownloadItem implements the most common methods of
- * AbstractDownloadItem and the Signal/Slot mechanism.
+ * The class AbstractJob implements the most common methods of
+ * AbstractJob and the Signal/Slot mechanism.
  *
  */
-class AbstractDownloadItem : public QObject
+class AbstractJob : public QObject
 {
     Q_OBJECT
 
@@ -56,8 +56,8 @@ public:
         FileError
     };
 
-    explicit AbstractDownloadItem(QObject *parent, ResourceItem *resource);
-    ~AbstractDownloadItem();
+    explicit AbstractJob(QObject *parent, ResourceItem *resource);
+    ~AbstractJob();
 
     virtual State state() const;
     void setState(State state);
@@ -153,6 +153,6 @@ private:
 };
 
 /* Enable the type to be used with QVariant. */
-Q_DECLARE_METATYPE(AbstractDownloadItem*)
+Q_DECLARE_METATYPE(AbstractJob*)
 
 #endif // CORE_ABSTRACT_DOWNLOAD_ITEM_H

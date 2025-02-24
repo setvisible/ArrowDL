@@ -18,7 +18,7 @@
 #include "ui_informationdialog.h"
 
 #include <Constants>
-#include <Core/AbstractDownloadItem>
+#include <Core/AbstractJob>
 #include <Core/JobFile>
 #include <Core/Format>
 #include <Core/MimeDatabase>
@@ -30,7 +30,7 @@
 #include <QtCore/QScopedPointer>
 #include <QtCore/QSettings>
 
-InformationDialog::InformationDialog(const QList<AbstractDownloadItem *> &jobs, QWidget *parent)
+InformationDialog::InformationDialog(const QList<AbstractJob *> &jobs, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InformationDialog)
 {
@@ -77,7 +77,7 @@ void InformationDialog::writeUiSettings()
 void InformationDialog::accept()
 {
     if (!m_items.isEmpty()) {
-        AbstractDownloadItem *item = m_items.first();
+        AbstractJob *item = m_items.first();
         auto downloadItem = dynamic_cast<JobFile*>(item);
         if (downloadItem) {
             auto resource = downloadItem->resource();
@@ -98,13 +98,13 @@ void InformationDialog::accept()
     QDialog::accept();
 }
 
-void InformationDialog::initialize(const QList<AbstractDownloadItem *> &items)
+void InformationDialog::initialize(const QList<AbstractJob *> &items)
 {
     if (items.isEmpty()) {
         return;
     }
     m_items = items;
-    const AbstractDownloadItem *item = items.first();
+    const AbstractJob *item = items.first();
     auto downloadItem = dynamic_cast<const JobFile*>(item);
 
     /* Title and subtitles */

@@ -16,7 +16,7 @@
 
 #include "jsonhandler.h"
 
-#include <Core/AbstractDownloadItem>
+#include <Core/AbstractJob>
 
 #include <QtCore/QDebug>
 #include <QtCore/QIODevice>
@@ -57,14 +57,14 @@ bool JsonHandler::read(IDownloadManager *downloadManager)
 
     QJsonObject json = loadDoc.object();
 
-    QList<AbstractDownloadItem *> items;
+    QList<AbstractJob *> items;
 
     QJsonArray jobsArray = json["links"].toArray();
     for (int i = 0; i < jobsArray.size(); ++i) {
         QJsonObject jobObject = jobsArray[i].toObject();
 
         QUrl url = QUrl(jobObject["url"].toString());
-        AbstractDownloadItem *item = downloadManager->createFileItem(url);
+        AbstractJob *item = downloadManager->createFileItem(url);
         items.append(item);
     }
 

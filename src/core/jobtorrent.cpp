@@ -24,7 +24,7 @@
 
 
 JobTorrent::JobTorrent(QObject *parent, ResourceItem *resource)
-    : AbstractDownloadItem(parent, resource)
+    : AbstractJob(parent, resource)
     , m_torrent(new Torrent(this))
 {
     initWithResource(resource);
@@ -88,7 +88,7 @@ void JobTorrent::onTorrentChanged()
     // info.bytesTotal is > 0 for state 'downloading' only,
     // otherwise info.bytesTotal == 0, even when 'completed'.
     // After completion, we want to see the bytesTotal.
-    AbstractDownloadItem::State downloadItemState = AbstractDownloadItem::Paused;
+    AbstractJob::State downloadItemState = AbstractJob::Paused;
 
     if (m_torrent->info().error.type != TorrentError::NoError) {
 
@@ -108,7 +108,7 @@ void JobTorrent::onTorrentChanged()
         case TorrentError::MetadataDownloadError:
         case TorrentError::FailedToAddError:
         case TorrentError::NoInfoYetError:
-            downloadItemState = AbstractDownloadItem::NetworkError;
+            downloadItemState = AbstractJob::NetworkError;
             break;
 
             /* Errors when downloading */
@@ -118,7 +118,7 @@ void JobTorrent::onTorrentChanged()
         case TorrentError::FileExceptionError:
         case TorrentError::PartFileError:
         case TorrentError::UnknownError:
-            downloadItemState = AbstractDownloadItem::FileError;
+            downloadItemState = AbstractJob::FileError;
             break;
 
         default:
@@ -164,38 +164,38 @@ void JobTorrent::onTorrentChanged()
 
         switch (static_cast<int>(m_torrent->info().state)) {
         case TorrentInfo::stopped:
-            downloadItemState = AbstractDownloadItem::Paused;
+            downloadItemState = AbstractJob::Paused;
 
             break;
         case TorrentInfo::checking_files:
-            downloadItemState = AbstractDownloadItem::Preparing;
+            downloadItemState = AbstractJob::Preparing;
             break;
 
         case TorrentInfo::downloading_metadata:
-            downloadItemState = AbstractDownloadItem::DownloadingMetadata;
+            downloadItemState = AbstractJob::DownloadingMetadata;
 
             break;
         case TorrentInfo::downloading:
-            downloadItemState = AbstractDownloadItem::Downloading;
+            downloadItemState = AbstractJob::Downloading;
             updateInfo(m_torrent->info().bytesReceived, m_torrent->info().bytesTotal);
 
             break;
         case TorrentInfo::finished:
-            downloadItemState = AbstractDownloadItem::Completed;
+            downloadItemState = AbstractJob::Completed;
             // here, info.bytesTotal == 0
             updateInfo(m_torrent->metaInfo().initialMetaInfo.bytesTotal,
                        m_torrent->metaInfo().initialMetaInfo.bytesTotal);
 
             break;
         case TorrentInfo::seeding:
-            downloadItemState = AbstractDownloadItem::Seeding;
+            downloadItemState = AbstractJob::Seeding;
             // here, info.bytesTotal == 0
             updateInfo(m_torrent->metaInfo().initialMetaInfo.bytesTotal,
                        m_torrent->metaInfo().initialMetaInfo.bytesTotal);
 
             break;
         case TorrentInfo::checking_resume_data:
-            downloadItemState = AbstractDownloadItem::Endgame;
+            downloadItemState = AbstractJob::Endgame;
 
             break;
         default:
@@ -250,8 +250,8 @@ void JobTorrent::pause()
             TorrentContext::getInstance().removeTorrent(m_torrent);
         }
         // Pausing a seeding item stops the seeding but keep the item completed.
-        AbstractDownloadItem::preFinish(true);
-        AbstractDownloadItem::finish();
+        AbstractJob::preFinish(true);
+        AbstractJob::finish();
         return;
     }
     if (isPreparing()) {
@@ -262,7 +262,7 @@ void JobTorrent::pause()
             TorrentContext::getInstance().pauseTorrent(m_torrent);
         }
     }
-    AbstractDownloadItem::pause();
+    AbstractJob::pause();
 }
 
 void JobTorrent::stop()
@@ -278,7 +278,7 @@ void JobTorrent::stop()
             TorrentContext::getInstance().removeTorrent(m_torrent);
         }
     }
-    AbstractDownloadItem::stop();
+    AbstractJob::stop();
 }
 
 /******************************************************************************

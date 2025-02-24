@@ -20,7 +20,7 @@
 #include <QtCore/QList>
 #include <QtCore/QUrl>
 
-class AbstractDownloadItem;
+class AbstractJob;
 
 class IDownloadManager
 {
@@ -28,12 +28,12 @@ public:
     IDownloadManager() = default;
     virtual ~IDownloadManager() noexcept = default; // IMPORTANT: virtual destructor
 
-    virtual void append(const QList<AbstractDownloadItem *> &items, bool started = false) = 0;
+    virtual void append(const QList<AbstractJob *> &items, bool started = false) = 0;
 
-    virtual QList<AbstractDownloadItem *> downloadItems() const = 0;
+    virtual QList<AbstractJob *> downloadItems() const = 0;
 
-    virtual AbstractDownloadItem* createFileItem(const QUrl &url) = 0;
-    virtual AbstractDownloadItem* createTorrentItem(const QUrl &url) = 0;
+    virtual AbstractJob* createFileItem(const QUrl &url) = 0;
+    virtual AbstractJob* createTorrentItem(const QUrl &url) = 0;
 };
 
 #endif // CORE_I_DOWNLOAD_MANAGER_H

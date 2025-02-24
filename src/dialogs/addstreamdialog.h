@@ -22,7 +22,7 @@
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QMessageBox>
 
-class AbstractDownloadItem;
+class AbstractJob;
 class DownloadManager;
 class Settings;
 
@@ -59,8 +59,8 @@ private:
 
     void doAccept(bool started);
 
-    QList<AbstractDownloadItem*> createStreamItems() const;
-    AbstractDownloadItem* createStreamItem(const StreamObject &streamObject) const;
+    QList<AbstractJob*> createStreamItems() const;
+    AbstractJob* createStreamItem(const StreamObject &streamObject) const;
 
     void setGuiEnabled(bool enabled);
 
