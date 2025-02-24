@@ -4,13 +4,13 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_SOURCE_DIR}/src/core/checkabletablemodel.cpp
     ${CMAKE_SOURCE_DIR}/src/core/downloadfileitem.cpp
     ${CMAKE_SOURCE_DIR}/src/core/downloadmanager.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/downloadstreamitem.cpp
     ${CMAKE_SOURCE_DIR}/src/core/downloadtorrentitem.cpp
     ${CMAKE_SOURCE_DIR}/src/core/file.cpp
     ${CMAKE_SOURCE_DIR}/src/core/fileaccessmanager.cpp
     ${CMAKE_SOURCE_DIR}/src/core/fileutils.cpp
     ${CMAKE_SOURCE_DIR}/src/core/format.cpp
     ${CMAKE_SOURCE_DIR}/src/core/htmlparser.cpp
+    ${CMAKE_SOURCE_DIR}/src/core/jobstream.cpp
     ${CMAKE_SOURCE_DIR}/src/core/locale.cpp
     ${CMAKE_SOURCE_DIR}/src/core/mask.cpp
     ${CMAKE_SOURCE_DIR}/src/core/mimedatabase.cpp
@@ -40,8 +40,8 @@ set(MY_SOURCES ${MY_SOURCES}
 set(MY_HEADERS ${MY_HEADERS}
     ${CMAKE_SOURCE_DIR}/src/core/downloadfileitem.h
     ${CMAKE_SOURCE_DIR}/src/core/downloadmanager.h
-    ${CMAKE_SOURCE_DIR}/src/core/downloadstreamitem.h
     ${CMAKE_SOURCE_DIR}/src/core/downloadtorrentitem.h
+    ${CMAKE_SOURCE_DIR}/src/core/jobstream.h
     ${CMAKE_SOURCE_DIR}/src/core/model.h
     ${CMAKE_SOURCE_DIR}/src/core/resourcemodel.h
     ${CMAKE_SOURCE_DIR}/src/core/settings.h

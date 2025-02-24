@@ -14,8 +14,8 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_DOWNLOAD_STREAM_ITEM_H
-#define CORE_DOWNLOAD_STREAM_ITEM_H
+#ifndef CORE_JOB_STREAM_H
+#define CORE_JOB_STREAM_H
 
 #include <Core/AbstractDownloadItem>
 
@@ -26,13 +26,13 @@ class DownloadManager;
 // class ResourceItem;
 class Stream;
 
-class DownloadStreamItem : public AbstractDownloadItem
+class JobStream : public AbstractDownloadItem
 {
     Q_OBJECT
 
 public:
-    DownloadStreamItem(QObject *parent, ResourceItem *resource);
-    ~DownloadStreamItem();
+    JobStream(QObject *parent, ResourceItem *resource);
+    ~JobStream();
 
     void resume() override;
     void pause() override;
@@ -48,4 +48,4 @@ private:
     Stream *m_stream = nullptr;
 };
 
-#endif // CORE_DOWNLOAD_STREAM_ITEM_H
+#endif // CORE_JOB_STREAM_H

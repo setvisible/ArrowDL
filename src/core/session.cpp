@@ -19,7 +19,7 @@
 #include <Core/AbstractDownloadItem>
 #include <Core/DownloadManager>
 #include <Core/DownloadFileItem>
-#include <Core/DownloadStreamItem>
+#include <Core/JobStream>
 #include <Core/DownloadTorrentItem>
 #include <Core/ResourceItem>
 
@@ -178,7 +178,7 @@ static inline AbstractDownloadItem* readJob(const QJsonObject &json, DownloadMan
     AbstractDownloadItem *item;
     switch (resourceItem->type()) {
     case ResourceItem::Type::Stream:
-        item = new DownloadStreamItem(downloadManager, resourceItem);
+        item = new JobStream(downloadManager, resourceItem);
         break;
     case ResourceItem::Type::Torrent:
         item = new DownloadTorrentItem(downloadManager, resourceItem);

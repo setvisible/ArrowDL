@@ -20,7 +20,7 @@
 #include <Constants>
 #include <Core/DownloadFileItem>
 #include <Core/DownloadManager>
-#include <Core/DownloadStreamItem>
+#include <Core/JobStream>
 #include <Core/ResourceItem>
 #include <Core/Settings>
 #include <Core/Theme>
@@ -219,7 +219,7 @@ AbstractDownloadItem* AddStreamDialog::createStreamItem(const StreamObject &stre
 
     resource->setStreamConfig(streamObject.config());
 
-    auto item = new DownloadStreamItem(m_downloadManager, resource);
+    auto item = new JobStream(m_downloadManager, resource);
     return item;
 }
 

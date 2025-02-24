@@ -14,19 +14,19 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "downloadstreamitem.h"
+#include "jobstream.h"
 
 #include <Core/File>
 #include <Core/Stream>
 #include <Core/ResourceItem>
 
-DownloadStreamItem::DownloadStreamItem(QObject *parent, ResourceItem *resource)
+JobStream::JobStream(QObject *parent, ResourceItem *resource)
     : AbstractDownloadItem(parent, resource)
     , m_stream(nullptr)
 {
 }
 
-DownloadStreamItem::~DownloadStreamItem()
+JobStream::~JobStream()
 {
     // if (m_stream) {
     //     m_stream->deleteLater();
@@ -36,7 +36,7 @@ DownloadStreamItem::~DownloadStreamItem()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadStreamItem::resume()
+void JobStream::resume()
 {
     logInfo(QString("Resume '%0' (destination: '%1').").arg(m_resource->url(), localFullFileName()));
 
@@ -84,12 +84,12 @@ void DownloadStreamItem::resume()
     }
 }
 
-void DownloadStreamItem::pause()
+void JobStream::pause()
 {
     AbstractDownloadItem::pause();
 }
 
-void DownloadStreamItem::stop()
+void JobStream::stop()
 {
     // logInfo(QString("Stop '%0'.").arg(m_resource->url()));
     // m_file->cancel();
@@ -103,7 +103,7 @@ void DownloadStreamItem::stop()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadStreamItem::onMetaDataChanged()
+void JobStream::onMetaDataChanged()
 {
     auto oldFileName = m_resource->streamFileName();
     auto newFileName = m_stream->fileName();
@@ -113,7 +113,7 @@ void DownloadStreamItem::onMetaDataChanged()
     }
 }
 
-void DownloadStreamItem::onDownloadProgress(qsizetype bytesReceived, qsizetype bytesTotal)
+void JobStream::onDownloadProgress(qsizetype bytesReceived, qsizetype bytesTotal)
 {
     if (bytesReceived > 0 && bytesTotal > 0) {
         logInfo(QString("Downloaded '%0' (%1 of %2 bytes).")
@@ -124,7 +124,7 @@ void DownloadStreamItem::onDownloadProgress(qsizetype bytesReceived, qsizetype b
     updateInfo(bytesReceived, bytesTotal);
 }
 
-void DownloadStreamItem::onFinished()
+void JobStream::onFinished()
 {
     logInfo(QString("Finished (%0) '%1'.").arg(state_c_str(), localFullFileName()));
     switch (state()) {
@@ -174,7 +174,7 @@ void DownloadStreamItem::onFinished()
     this->finish();
 }
 
-void DownloadStreamItem::onError(const QString &errorMessage)
+void JobStream::onError(const QString &errorMessage)
 {
     logInfo(QString("Error '%0': '%1'.").arg(m_resource->url(), errorMessage));
     m_file->cancel();
