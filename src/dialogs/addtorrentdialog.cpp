@@ -20,7 +20,7 @@
 #include <Constants>
 #include <Core/DownloadFileItem>
 #include <Core/DownloadManager>
-#include <Core/DownloadTorrentItem>
+#include <Core/JobTorrent>
 #include <Core/ResourceItem>
 #include <Core/Settings>
 #include <Core/Theme>
@@ -153,7 +153,7 @@ AbstractDownloadItem* AddTorrentDialog::createTorrentItem(const QString &url) co
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
     resource->setType(ResourceItem::Type::Torrent);
-    auto item = new DownloadTorrentItem(m_downloadManager, resource);
+    auto item = new JobTorrent(m_downloadManager, resource);
     return item;
 }
 

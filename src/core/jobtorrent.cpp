@@ -14,7 +14,7 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "downloadtorrentitem.h"
+#include "jobtorrent.h"
 
 #include <Core/File>
 #include <Core/Format>
@@ -23,16 +23,16 @@
 #include <Core/TorrentContext>
 
 
-DownloadTorrentItem::DownloadTorrentItem(QObject *parent, ResourceItem *resource)
+JobTorrent::JobTorrent(QObject *parent, ResourceItem *resource)
     : AbstractDownloadItem(parent, resource)
     , m_torrent(new Torrent(this))
 {
     initWithResource(resource);
 
-    connect(m_torrent, &Torrent::changed, this, &DownloadTorrentItem::onTorrentChanged);
+    connect(m_torrent, &Torrent::changed, this, &JobTorrent::onTorrentChanged);
 }
 
-DownloadTorrentItem::~DownloadTorrentItem()
+JobTorrent::~JobTorrent()
 {
     // delete m_torrent;
 }
@@ -43,7 +43,7 @@ DownloadTorrentItem::~DownloadTorrentItem()
  * available, so that TorrentContext can (down-)load the metadata as soon
  * as possible.
  */
-void DownloadTorrentItem::initWithResource(ResourceItem *resource)
+void JobTorrent::initWithResource(ResourceItem *resource)
 {
     if (!resource) {
         return;
@@ -73,14 +73,14 @@ void DownloadTorrentItem::initWithResource(ResourceItem *resource)
 
 /******************************************************************************
  ******************************************************************************/
-Torrent* DownloadTorrentItem::torrent() const
+Torrent* JobTorrent::torrent() const
 {
     return m_torrent;
 }
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadTorrentItem::onTorrentChanged()
+void JobTorrent::onTorrentChanged()
 {
     // save file priorities and states
     m_resource->setTorrentPreferredFilePriorities(m_torrent->preferredFilePriorities());
@@ -209,7 +209,7 @@ void DownloadTorrentItem::onTorrentChanged()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadTorrentItem::resume()
+void JobTorrent::resume()
 {
     if (isPreparing()) {
         return;
@@ -242,7 +242,7 @@ void DownloadTorrentItem::resume()
     this->tearDownResume();
 }
 
-void DownloadTorrentItem::pause()
+void JobTorrent::pause()
 {
     logInfo(QString("Pause '%0'.").arg(m_resource->url()));
     if (isSeeding()) {
@@ -265,7 +265,7 @@ void DownloadTorrentItem::pause()
     AbstractDownloadItem::pause();
 }
 
-void DownloadTorrentItem::stop()
+void JobTorrent::stop()
 {
     // logInfo(QString("Stop '%0'.").arg(m_resource->url()));
     // m_file->cancel();
@@ -283,20 +283,20 @@ void DownloadTorrentItem::stop()
 
 /******************************************************************************
  ******************************************************************************/
-void DownloadTorrentItem::rename(const QString &/*newName*/)
+void JobTorrent::rename(const QString &/*newName*/)
 {
     /// \todo bool success = TorrentContext::getInstance().rename(m_torrent, newName);
 }
 
 /******************************************************************************
  ******************************************************************************/
-bool DownloadTorrentItem::isPreparing() const
+bool JobTorrent::isPreparing() const
 {
     return state() == Preparing
             || state() == DownloadingMetadata;
 }
 
-bool DownloadTorrentItem::isSeeding() const
+bool JobTorrent::isSeeding() const
 {
     return state() == Seeding;
 }

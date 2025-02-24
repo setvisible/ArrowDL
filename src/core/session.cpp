@@ -20,7 +20,7 @@
 #include <Core/DownloadManager>
 #include <Core/DownloadFileItem>
 #include <Core/JobStream>
-#include <Core/DownloadTorrentItem>
+#include <Core/JobTorrent>
 #include <Core/ResourceItem>
 
 #include <QtCore/QDebug>
@@ -181,7 +181,7 @@ static inline AbstractDownloadItem* readJob(const QJsonObject &json, DownloadMan
         item = new JobStream(downloadManager, resourceItem);
         break;
     case ResourceItem::Type::Torrent:
-        item = new DownloadTorrentItem(downloadManager, resourceItem);
+        item = new JobTorrent(downloadManager, resourceItem);
         break;
     default:
         item = new DownloadFileItem(downloadManager, resourceItem);

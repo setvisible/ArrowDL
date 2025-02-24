@@ -22,7 +22,7 @@
 #include <Constants>
 #include <Core/AbstractDownloadItem>
 #include <Core/DownloadManager>
-#include <Core/DownloadTorrentItem>
+#include <Core/JobTorrent>
 #include <Core/FileAccessManager>
 #include <Core/Format>
 #include <Core/Locale>
@@ -1108,7 +1108,7 @@ void MainWindow::refreshSplitter()
     auto items = ui->queueView->selectedItems();
     if (items.count() == 1) {
         auto item = items.first();
-        DownloadTorrentItem *torrentItem = dynamic_cast<DownloadTorrentItem*>(item);
+        JobTorrent *torrentItem = dynamic_cast<JobTorrent*>(item);
         ui->torrentWidget->setTorrent(torrentItem ? torrentItem->torrent() : nullptr);
     } else {
         ui->torrentWidget->setTorrent(nullptr);

@@ -45,8 +45,8 @@ bool TorrentHandler::read(IDownloadManager *downloadManager)
     }
     /*
      * Rem: The .torrent file is not read at this point.
-     * The address is simply passed to the DownloadTorrentItem.
-     * The DownloadTorrentItem is in charge of (down)loading the .torrent file
+     * The address is simply passed to the JobTorrent.
+     * The JobTorrent is in charge of (down)loading the .torrent file
      * (eventually from magnet link), that contains metadata,
      * and finally download the data of the file itself.
      */

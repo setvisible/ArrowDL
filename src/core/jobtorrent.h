@@ -24,13 +24,13 @@
 #include <QtCore/QString>
 
 
-class DownloadTorrentItem : public AbstractDownloadItem
+class JobTorrent : public AbstractDownloadItem
 {
     Q_OBJECT
 
 public:
-    DownloadTorrentItem(QObject *parent, ResourceItem *resource);
-    ~DownloadTorrentItem();
+    JobTorrent(QObject *parent, ResourceItem *resource);
+    ~JobTorrent();
 
     void initWithResource(ResourceItem *resource);
 

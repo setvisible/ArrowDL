@@ -19,7 +19,7 @@
 #include <Constants>
 #include <Core/AbstractDownloadItem>
 #include <Core/DownloadFileItem>
-#include <Core/DownloadTorrentItem>
+#include <Core/JobTorrent>
 #include <Core/NetworkManager>
 #include <Core/QueueModel>
 #include <Core/ResourceItem>
@@ -124,7 +124,7 @@ AbstractDownloadItem* DownloadManager::createTorrentItem(const QUrl &url)
 {
     ResourceItem* resource = createResourceItem(url);
     resource->setType(ResourceItem::Type::Torrent);
-    auto item = new DownloadTorrentItem(this, resource);
+    auto item = new JobTorrent(this, resource);
     return item;
 }
 
