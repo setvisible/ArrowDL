@@ -9,27 +9,27 @@ find_package(Qt6 REQUIRED COMPONENTS
 qt_standard_project_setup()
 
 set(MY_TEST_SOURCES
-    ${CMAKE_SOURCE_DIR}/src/core/abstractdownloaditem.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/downloadengine.cpp
+    ${CMAKE_SOURCE_DIR}/src/core/abstractjob.cpp
     ${CMAKE_SOURCE_DIR}/src/core/format.cpp
     ${CMAKE_SOURCE_DIR}/src/core/mimedatabase.cpp
+    ${CMAKE_SOURCE_DIR}/src/core/scheduler.cpp
     ${CMAKE_SOURCE_DIR}/src/core/theme.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/customstyle.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/customstyleoptionprogressbar.cpp
-    ${CMAKE_SOURCE_DIR}/src/widgets/downloadqueueview.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/queueview.cpp
+    ${CMAKE_SOURCE_DIR}/src/widgets/queueviewitemdelegate.cpp
 )
 
 set(MY_TEST_HEADERS
-    ${CMAKE_SOURCE_DIR}/src/core/abstractdownloaditem.h
-    ${CMAKE_SOURCE_DIR}/src/core/downloadengine.h
+    ${CMAKE_SOURCE_DIR}/src/core/abstractjob.h
     ${CMAKE_SOURCE_DIR}/src/core/format.h
-    ${CMAKE_SOURCE_DIR}/src/core/idownloaditem.h
     ${CMAKE_SOURCE_DIR}/src/core/mimedatabase.h
+    ${CMAKE_SOURCE_DIR}/src/core/scheduler.h
     ${CMAKE_SOURCE_DIR}/src/core/theme.h
     ${CMAKE_SOURCE_DIR}/src/widgets/customstyle.h
     ${CMAKE_SOURCE_DIR}/src/widgets/customstyleoptionprogressbar.h
-    ${CMAKE_SOURCE_DIR}/src/widgets/downloadqueueview.h
-    ${CMAKE_SOURCE_DIR}/src/widgets/downloadqueueview_p.h
+    ${CMAKE_SOURCE_DIR}/src/widgets/queueview.h
+    ${CMAKE_SOURCE_DIR}/src/widgets/queueviewitemdelegate.h
     ${CMAKE_SOURCE_DIR}/src/widgets/globals.h
 )
 
@@ -42,10 +42,10 @@ set(MY_TEST_RC_FILE
 )
 
 add_executable(${MY_TEST_TARGET} WIN32
-    ${CMAKE_SOURCE_DIR}/test/utils/fakedownloaditem.h
-    ${CMAKE_SOURCE_DIR}/test/utils/fakedownloadmanager.h
-    ${CMAKE_SOURCE_DIR}/test/utils/fakedownloaditem.cpp
-    ${CMAKE_SOURCE_DIR}/test/utils/fakedownloadmanager.cpp
+    ${CMAKE_SOURCE_DIR}/test/utils/fakejob.h
+    ${CMAKE_SOURCE_DIR}/test/utils/fakescheduler.h
+    ${CMAKE_SOURCE_DIR}/test/utils/fakejob.cpp
+    ${CMAKE_SOURCE_DIR}/test/utils/fakescheduler.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/mainwindow.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/mainwindow.h
     ${CMAKE_CURRENT_SOURCE_DIR}/mainwindow.cpp

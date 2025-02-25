@@ -16,7 +16,7 @@
 
 #include "texthandler.h"
 
-#include <Core/IDownloadItem>
+#include <Core/AbstractJob>
 
 #include <QtCore/QDebug>
 #include <QtCore/QIODevice>
@@ -40,9 +40,9 @@ static bool readLineInto(QTextStream &in, QString *line) // for Qt 5.4.1
     return !line->isNull();
 }
 
-bool TextHandler::read(DownloadEngine *engine)
+bool TextHandler::read(IScheduler *scheduler)
 {
-    if (!engine) {
+    if (!scheduler) {
         qWarning("TextHandler::read() cannot read into null pointer");
         return false;
     }
@@ -52,7 +52,7 @@ bool TextHandler::read(DownloadEngine *engine)
     if (!d->isReadable()) {
         return false;
     }
-    QList<IDownloadItem*> items;
+    QList<AbstractJob*> jobs;
     QString line;
     while (readLineInto(in, &line)) {
         line = line.simplified();
@@ -60,18 +60,18 @@ bool TextHandler::read(DownloadEngine *engine)
             continue;
         }
         const QUrl url(line);
-        IDownloadItem *item = engine->createItem(url);
-        if (!item) {
-            qWarning("DownloadEngine::createItem() not overridden. It still returns null pointer!");
+        AbstractJob *jobFile = scheduler->createJobFile(url);
+        if (!jobFile) {
+            qWarning("Scheduler::createJobFile() not overridden. It still returns null pointer!");
             return false;
         }
-        items.append(item);
+        jobs.append(jobFile);
     }
-    engine->append(items, false);
+    scheduler->append(jobs, false);
     return true;
 }
 
-bool TextHandler::write(const DownloadEngine &engine)
+bool TextHandler::write(const IScheduler &scheduler)
 {
     QIODevice *d = device();
     QTextStream out(d);
@@ -79,8 +79,8 @@ bool TextHandler::write(const DownloadEngine &engine)
     if (!d->isWritable()) {
         return false;
     }
-    for (auto item : engine.downloadItems()) {
-        QUrl url = item->sourceUrl();
+    for (auto job : scheduler.jobs()) {
+        QUrl url = job->sourceUrl();
         QByteArray data = url.toString().toUtf8();
         out << data << '\n';
     }

@@ -17,12 +17,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "../../utils/fakedownloaditem.h"
-#include "../../utils/fakedownloadmanager.h"
+#include "../../utils/fakejob.h"
+#include "../../utils/fakescheduler.h"
 
 #include <Core/Format>
 #include <Core/Theme>
-#include <Widgets/DownloadQueueView>
+#include <Widgets/QueueView>
 
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
@@ -39,21 +39,23 @@
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
-  , m_downloadManager(new FakeDownloadManager(this))
+  , m_scheduler(new FakeScheduler(this))
 {
     ui->setupUi(this);
 
     Theme::applyTheme({ { Theme::IconTheme, "flat"} });
 
-    /* Connect the GUI to the DownloadManager. */
-    ui->downloadQueueView->setEngine(m_downloadManager);
+    /* Connect the GUI to the Scheduler. */
+    ui->queueView->setModel(m_scheduler->model());
 
     /* Connect the SceneManager to the MainWindow. */
     /* The SceneManager centralizes the changes. */
-    QObject::connect(m_downloadManager, SIGNAL(jobAppended(DownloadRange)), this, SLOT(onJobAddedOrRemoved(DownloadRange)));
-    QObject::connect(m_downloadManager, SIGNAL(jobRemoved(DownloadRange)), this, SLOT(onJobAddedOrRemoved(DownloadRange)));
-    QObject::connect(m_downloadManager, SIGNAL(jobStateChanged(IDownloadItem*)), this, SLOT(onJobStateChanged(IDownloadItem*)));
-    QObject::connect(m_downloadManager, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
+    connect(m_scheduler, SIGNAL(jobFinished(AbstractJob*)), this, SLOT(onJobFinished(AbstractJob*)));
+    // connect(m_scheduler, SIGNAL(jobRenamed(QString,QString,bool)), this, SLOT(onJobRenamed(QString,QString,bool)), Qt::QueuedConnection);
+
+    // QObject::connect(m_scheduler, SIGNAL(jobStateChanged(AbstractJob*)), this, SLOT(onJobStateChanged(AbstractJob*)));
+    connect(ui->queueView, SIGNAL(dataChanged()), this, SLOT(onDataChanged()));
+    connect(ui->queueView, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
 
     /* Connect the rest of the GUI widgets together (selection, focus, etc.) */
     createActions();
@@ -63,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     refreshTitleAndStatus();
     refreshMenus();
 
-    m_downloadManager->createFakeJobs();
+    m_scheduler->createFakeJobs();
 }
 
 MainWindow::~MainWindow()
@@ -79,10 +81,10 @@ void MainWindow::createActions()
     //! [0]
 
     //! [1] Edit
-    connect(ui->actionSelectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
-    connect(ui->actionSelectNone, SIGNAL(triggered()), this, SLOT(selectNone()));
-    connect(ui->actionInvertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
-    connect(ui->actionSelectCompleted, SIGNAL(triggered()), this, SLOT(selectCompleted()));
+    connect(ui->actionSelectAll, SIGNAL(triggered()), ui->queueView, SLOT(selectAll()));
+    connect(ui->actionSelectNone, SIGNAL(triggered()), ui->queueView, SLOT(selectNone()));
+    connect(ui->actionInvertSelection, SIGNAL(triggered()), ui->queueView, SLOT(invertSelection()));
+    connect(ui->actionSelectCompleted, SIGNAL(triggered()), ui->queueView, SLOT(selectCompleted()));
     //! [1]
 
     //! [2] View
@@ -98,10 +100,10 @@ void MainWindow::createActions()
     connect(ui->actionPause, SIGNAL(triggered()), this, SLOT(pause()));
     connect(ui->actionCancel, SIGNAL(triggered()), this, SLOT(cancel()));
     //--
-    connect(ui->actionUp, SIGNAL(triggered()), this, SLOT(up()));
-    connect(ui->actionTop, SIGNAL(triggered()), this, SLOT(top()));
-    connect(ui->actionDown, SIGNAL(triggered()), this, SLOT(down()));
-    connect(ui->actionBottom, SIGNAL(triggered()), this, SLOT(bottom()));
+    connect(ui->actionUp, SIGNAL(triggered()), ui->queueView, SLOT(up()));
+    connect(ui->actionTop, SIGNAL(triggered()), ui->queueView, SLOT(top()));
+    connect(ui->actionDown, SIGNAL(triggered()), ui->queueView, SLOT(down()));
+    connect(ui->actionBottom, SIGNAL(triggered()), ui->queueView, SLOT(bottom()));
     //! [3]
 
     //! [4]  Options
@@ -128,7 +130,7 @@ void MainWindow::createContextMenu()
     contextMenu->addAction(ui->actionDown);
     contextMenu->addAction(ui->actionBottom);
 
-    ui->downloadQueueView->setContextMenu(contextMenu);
+    ui->queueView->setContextMenu(contextMenu);
 }
 
 void MainWindow::propagateIcons()
@@ -136,19 +138,7 @@ void MainWindow::propagateIcons()
     const QHash<QAction*, QString> hash = {
 
         //! [0] File
-        //        {ui->actionHome                   , "home"},
-        //        //--
-        {ui->actionAdd              , "add-batch"},
-        //        {ui->actionAddContent             , "add-content"},
-        //        {ui->actionAddBatch               , "add-batch"},
-        //        {ui->actionAddStream              , "add-stream"},
-        //        {ui->actionAddTorrent             , "add-torrent"},
-        //        {ui->actionAddUrls                , "add-urls"},
-        //        // --
-        //        {ui->actionImportFromFile         , "file-import"},
-        //        {ui->actionExportSelectedToFile   , "file-export"},
-        // --
-        // {ui->actionQuit   , ""},
+        {ui->actionAdd                    , "add-batch"},
         //! [0]
 
         //! [1] Edit
@@ -156,18 +146,9 @@ void MainWindow::propagateIcons()
         {ui->actionSelectNone             , "select-none"},
         {ui->actionInvertSelection        , "select-invert"},
         {ui->actionSelectCompleted        , "select-completed"},
-        // --
-        // {ui->actionCopy   , ""},
         //! [1]
 
         //! [2] View
-        //        {ui->actionInformation            , "info"},
-        //        // --
-        //        {ui->actionOpenFile               , "file-open"},
-        //        {ui->actionRenameFile             , "rename"},
-        //        {ui->actionDeleteFile             , "file-delete"},
-        //        {ui->actionOpenDirectory          , "directory-open"},
-        //        // --
         {ui->actionRemoveCompleted        , "remove-completed"},
         {ui->actionRemoveSelected         , "remove-downloaded"},
         {ui->actionRemoveAll              , "remove-all"},
@@ -185,16 +166,9 @@ void MainWindow::propagateIcons()
         //! [3]
 
         //! [4]  Options
-        //        {ui->actionPreferences            , "preference"},
         //! [4]
 
         //! [5] Help
-        // {ui->actionCheckForUpdates        , ""},
-        // {ui->actionTutorial               , ""},
-        //        {ui->actionAbout                  , "about"}
-        // {ui->actionAboutQt                , ""},
-        // {ui->actionAboutCompiler          , ""},
-        // {ui->actionAboutYoutubeDL         , ""}
         //! [5]
     };
     Theme::setIcons(this, hash);
@@ -202,101 +176,56 @@ void MainWindow::propagateIcons()
 
 /******************************************************************************
  ******************************************************************************/
-void MainWindow::selectAll()
-{
-    m_downloadManager->setSelection(m_downloadManager->downloadItems());
-}
-
-void MainWindow::selectNone()
-{
-    m_downloadManager->clearSelection();
-}
-
-void MainWindow::invertSelection()
-{
-    QList<IDownloadItem*> inverted;
-    for (auto item : m_downloadManager->downloadItems()) {
-        if (!m_downloadManager->isSelected(item)) {
-            inverted.append(item);
-        }
-    }
-    m_downloadManager->setSelection(inverted);
-}
-
-void MainWindow::selectCompleted()
-{
-    m_downloadManager->setSelection(m_downloadManager->completedJobs());
-}
-
 void MainWindow::removeCompleted()
 {
-    m_downloadManager->remove(m_downloadManager->completedJobs());
+    ui->queueView->removeCompleted();
 }
 
 void MainWindow::removeSelected()
 {
-    m_downloadManager->remove(m_downloadManager->selection());
+    ui->queueView->removeSelected();
 }
 
 void MainWindow::removeAll()
-{
-    m_downloadManager->remove(m_downloadManager->downloadItems());
+{    
+    ui->queueView->removeAll();
 }
 
 void MainWindow::add()
 {
-    m_downloadManager->createFakeJobs(100);
+    m_scheduler->createFakeJobs(100);
 }
 
 void MainWindow::resume()
 {
-    for (auto item : m_downloadManager->selection()) {
-        m_downloadManager->resume(item);
+    for (auto job : ui->queueView->selectedJobs()) {
+        m_scheduler->resume(job);
     }
 }
 
 void MainWindow::cancel()
 {
-    for (auto item : m_downloadManager->selection()) {
-        m_downloadManager->cancel(item);
+    for (auto job : ui->queueView->selectedJobs()) {
+        m_scheduler->cancel(job);
     }
 }
 
 void MainWindow::pause()
 {
-    for (auto item : m_downloadManager->selection()) {
-        m_downloadManager->pause(item);
+    for (auto job : ui->queueView->selectedJobs()) {
+        m_scheduler->pause(job);
     }
-}
-
-void MainWindow::up()
-{
-    m_downloadManager->moveCurrentUp();
-}
-
-void MainWindow::top()
-{
-    m_downloadManager->moveCurrentTop();
-}
-
-void MainWindow::down()
-{
-    m_downloadManager->moveCurrentDown();
-}
-
-void MainWindow::bottom()
-{
-    m_downloadManager->moveCurrentBottom();
 }
 
 /******************************************************************************
  ******************************************************************************/
-void MainWindow::onJobAddedOrRemoved(DownloadRange /*range*/)
+void MainWindow::onJobFinished(AbstractJob *job)
 {
-    refreshTitleAndStatus();
+    qDebug() << "Finished" << job;
+    onDataChanged();
 }
 
-void MainWindow::onJobStateChanged(IDownloadItem * /*downloadItem*/)
+void MainWindow::onDataChanged()
 {
     refreshMenus();
     refreshTitleAndStatus();
@@ -309,15 +238,14 @@ void MainWindow::onSelectionChanged()
 
 void MainWindow::refreshTitleAndStatus()
 {
-    auto speed = m_downloadManager->totalSpeed();
+    auto speed = m_scheduler->totalSpeed();
     auto totalSpeed = speed > 0
             ? QString("~%0").arg(Format::currentSpeedToString(speed))
             : QString();
 
-    auto completedCount = m_downloadManager->completedJobs().count();
-    // auto runningCount = m_downloadManager->runningJobs().count();
-    auto failedCount = m_downloadManager->failedJobs().count();
-    auto count = m_downloadManager->count();
+    auto completedCount = m_scheduler->completedJobs().count();
+    auto failedCount = m_scheduler->failedJobs().count();
+    auto count = m_scheduler->count();
     auto doneCount = completedCount + failedCount;
 
     auto windowTitle = QString("%0 %1/%2 - %3")
@@ -329,70 +257,50 @@ void MainWindow::refreshTitleAndStatus()
 
 void MainWindow::refreshMenus()
 {
-    auto hasJobs = !m_downloadManager->downloadItems().isEmpty();
-    auto hasSelection = !m_downloadManager->selection().isEmpty();
-    //auto hasOnlyOneSelected = m_downloadManager->selection().count() == 1;
-    //auto hasOnlyCompletedSelected = hasSelection;
-    //for (auto item : m_downloadManager->selection()) {
-    //    if (item->state() != IDownloadItem::Completed) {
-    //        hasOnlyCompletedSelected = false;
-    //        continue;
-    //    }
-    //}
-    bool hasAtLeastOneUncompletedSelected = false;
-    for (auto item : m_downloadManager->selection()) {
-        if (item->state() != IDownloadItem::Completed) {
-            hasAtLeastOneUncompletedSelected = true;
-            continue;
+    auto jobs = m_scheduler->jobs();
+    auto selectedJobs = ui->queueView->selectedJobs();
+
+    const bool hasJobs = !jobs.isEmpty();
+    const bool hasSelection = !selectedJobs.isEmpty();
+    const bool hasOnlyOneSelected = selectedJobs.count() == 1;
+
+    bool hasOnlyCompletedSelected = hasSelection;
+    for (auto job : selectedJobs) {
+        if (job->state() != AbstractJob::Completed) {
+            hasOnlyCompletedSelected = false;
+            break;
         }
     }
+
     bool hasResumableSelection = false;
     bool hasPausableSelection = false;
     bool hasCancelableSelection = false;
-    for (auto item : m_downloadManager->selection()) {
-        if (item->isResumable()) {
+    for (auto job : selectedJobs) {
+        if (job->isResumable()) {
             hasResumableSelection = true;
         }
-        if (item->isPausable()) {
+        if (job->isPausable()) {
             hasPausableSelection = true;
         }
-        if (item->isCancelable()) {
+        if (job->isCancelable()) {
             hasCancelableSelection = true;
         }
     }
 
     //! [0] File
-    //ui->actionImportWizard->setEnabled(hasSelection);
-    // --
-    //ui->actionImportFromFile->setEnabled(hasSelection);
-    //ui->actionExportSelectedToFile->setEnabled(hasSelection);
-    // --
-    //ui->actionExit->setEnabled(hasSelection);
     //! [0]
 
     //! [1] Edit
-    //ui->actionSelectAll->setEnabled(hasSelection);
     ui->actionSelectNone->setEnabled(hasSelection);
-    //ui->actionInvertSelection->setEnabled(hasSelection);
-    //ui->actionSelectCompleted->setEnabled(hasSelection);
     //! [1]
 
     //! [2] View
-    //ui->actionInformation->setEnabled(hasOnlyOneSelected);
-    // --
-    //ui->actionOpenFile->setEnabled(hasOnlyCompletedSelected);
-    //ui->actionRenameFile->setEnabled(hasOnlyOneSelected);
-    //ui->actionDeleteFile->setEnabled(hasOnlyCompletedSelected);
-    //ui->actionOpenDirectory->setEnabled(hasOnlyOneSelected);
-    // --
     ui->actionRemoveCompleted->setEnabled(hasJobs);
     ui->actionRemoveSelected->setEnabled(hasJobs);
     // ui->actionRemoveAll->setEnabled(hasJobs); // always enabled
     //! [2]
 
     //! [3] Download
-    //ui->actionAdd->setEnabled(hasSelection);
-    //--
     ui->actionResume->setEnabled(hasResumableSelection);
     ui->actionPause->setEnabled(hasPausableSelection);
     ui->actionCancel->setEnabled(hasCancelableSelection);
@@ -404,11 +312,8 @@ void MainWindow::refreshMenus()
     //! [3]
 
     //! [4]  Options
-    //ui->actionPreferences->setEnabled(hasSelection);
     //! [4]
 
     //! [5] Help
-    //ui->actionAbout->setEnabled(hasSelection);
-    //ui->actionAboutQt->setEnabled(hasSelection);
     //! [5]
 }

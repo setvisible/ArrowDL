@@ -856,6 +856,7 @@ namespace libtorrent {
 #endif
 
 		// returns true if we have downloaded the given piece
+		// but not necessarily flushed it to disk
 		bool have_piece(piece_index_t index) const
 		{
 			if (!valid_metadata()) return false;
@@ -870,15 +871,6 @@ namespace libtorrent {
 			if (index < piece_index_t{0} || index >= m_torrent_file->end_piece()) return false;
 			if (!has_picker()) return m_have_all;
 			return m_picker->have_piece(index);
-		}
-
-		// returns true if we have downloaded the given piece
-		bool has_piece_passed(piece_index_t index) const
-		{
-			if (!valid_metadata()) return false;
-			if (index < piece_index_t(0) || index >= torrent_file().end_piece()) return false;
-			if (!has_picker()) return m_have_all;
-			return m_picker->has_piece_passed(index);
 		}
 
 #ifndef TORRENT_DISABLE_PREDICTIVE_PIECES
@@ -903,21 +895,14 @@ namespace libtorrent {
 
 	public:
 
+		// the number of pieces that have passed
+		// hash check, but aren't necessarily
+		// flushed to disk yet
 		int num_have() const
 		{
 			// pretend we have every piece when in seed mode
 			if (m_seed_mode) return m_torrent_file->num_pieces();
 			if (has_picker()) return m_picker->have().num_pieces;
-			if (m_have_all) return m_torrent_file->num_pieces();
-			return 0;
-		}
-
-		// the number of pieces that have passed
-		// hash check, but aren't necessarily
-		// flushed to disk yet
-		int num_passed() const
-		{
-			if (has_picker()) return m_picker->num_passed();
 			if (m_have_all) return m_torrent_file->num_pieces();
 			return 0;
 		}
@@ -1135,8 +1120,8 @@ namespace libtorrent {
 
 		void write_resume_data(resume_data_flags_t const flags, add_torrent_params& ret) const;
 
-		void seen_complete() { m_last_seen_complete = ::time(nullptr); }
-		int time_since_complete() const { return int(::time(nullptr) - m_last_seen_complete); }
+		void seen_complete() { m_last_seen_complete = aux::posix_time(); }
+		int time_since_complete() const { return int(aux::posix_time() - m_last_seen_complete); }
 		time_t last_seen_complete() const { return m_last_seen_complete; }
 
 		template <typename Fun, typename... Args>

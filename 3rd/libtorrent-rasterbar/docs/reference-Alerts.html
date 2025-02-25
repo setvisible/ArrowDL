@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,205 +25,205 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.10</td></tr>
+<td>2.0.11</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
 <div class="contents topic" id="table-of-contents">
 <p class="topic-title">Table of contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#alert" id="toc-entry-1">alert</a><ul>
-<li><a class="reference internal" href="#timestamp" id="toc-entry-2">timestamp()</a></li>
-<li><a class="reference internal" href="#type" id="toc-entry-3">type()</a></li>
-<li><a class="reference internal" href="#what" id="toc-entry-4">what()</a></li>
-<li><a class="reference internal" href="#message" id="toc-entry-5">message()</a></li>
-<li><a class="reference internal" href="#category" id="toc-entry-6">category()</a></li>
+<li><a class="reference internal" href="#dht-routing-bucket" id="toc-entry-1">dht_routing_bucket</a></li>
+<li><a class="reference internal" href="#torrent-alert" id="toc-entry-2">torrent_alert</a><ul>
+<li><a class="reference internal" href="#message" id="toc-entry-3">message()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#dht-routing-bucket" id="toc-entry-7">dht_routing_bucket</a></li>
-<li><a class="reference internal" href="#torrent-alert" id="toc-entry-8">torrent_alert</a><ul>
-<li><a class="reference internal" href="#message-1" id="toc-entry-9">message()</a></li>
+<li><a class="reference internal" href="#peer-alert" id="toc-entry-4">peer_alert</a></li>
+<li><a class="reference internal" href="#tracker-alert" id="toc-entry-5">tracker_alert</a><ul>
+<li><a class="reference internal" href="#tracker-url" id="toc-entry-6">tracker_url()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#peer-alert" id="toc-entry-10">peer_alert</a></li>
-<li><a class="reference internal" href="#tracker-alert" id="toc-entry-11">tracker_alert</a><ul>
-<li><a class="reference internal" href="#tracker-url" id="toc-entry-12">tracker_url()</a></li>
+<li><a class="reference internal" href="#torrent-removed-alert" id="toc-entry-7">torrent_removed_alert</a></li>
+<li><a class="reference internal" href="#read-piece-alert" id="toc-entry-8">read_piece_alert</a></li>
+<li><a class="reference internal" href="#file-completed-alert" id="toc-entry-9">file_completed_alert</a></li>
+<li><a class="reference internal" href="#file-renamed-alert" id="toc-entry-10">file_renamed_alert</a><ul>
+<li><a class="reference internal" href="#new-name-old-name" id="toc-entry-11">new_name() old_name()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#torrent-removed-alert" id="toc-entry-13">torrent_removed_alert</a></li>
-<li><a class="reference internal" href="#read-piece-alert" id="toc-entry-14">read_piece_alert</a></li>
-<li><a class="reference internal" href="#file-completed-alert" id="toc-entry-15">file_completed_alert</a></li>
-<li><a class="reference internal" href="#file-renamed-alert" id="toc-entry-16">file_renamed_alert</a><ul>
-<li><a class="reference internal" href="#new-name-old-name" id="toc-entry-17">new_name() old_name()</a></li>
+<li><a class="reference internal" href="#file-rename-failed-alert" id="toc-entry-12">file_rename_failed_alert</a></li>
+<li><a class="reference internal" href="#performance-alert" id="toc-entry-13">performance_alert</a><ul>
+<li><a class="reference internal" href="#enum-performance-warning-t" id="toc-entry-14">enum performance_warning_t</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#file-rename-failed-alert" id="toc-entry-18">file_rename_failed_alert</a></li>
-<li><a class="reference internal" href="#performance-alert" id="toc-entry-19">performance_alert</a><ul>
-<li><a class="reference internal" href="#enum-performance-warning-t" id="toc-entry-20">enum performance_warning_t</a></li>
+<li><a class="reference internal" href="#state-changed-alert" id="toc-entry-15">state_changed_alert</a></li>
+<li><a class="reference internal" href="#tracker-error-alert" id="toc-entry-16">tracker_error_alert</a><ul>
+<li><a class="reference internal" href="#failure-reason" id="toc-entry-17">failure_reason()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#state-changed-alert" id="toc-entry-21">state_changed_alert</a></li>
-<li><a class="reference internal" href="#tracker-error-alert" id="toc-entry-22">tracker_error_alert</a><ul>
-<li><a class="reference internal" href="#failure-reason" id="toc-entry-23">failure_reason()</a></li>
+<li><a class="reference internal" href="#tracker-warning-alert" id="toc-entry-18">tracker_warning_alert</a><ul>
+<li><a class="reference internal" href="#warning-message" id="toc-entry-19">warning_message()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#tracker-warning-alert" id="toc-entry-24">tracker_warning_alert</a><ul>
-<li><a class="reference internal" href="#warning-message" id="toc-entry-25">warning_message()</a></li>
+<li><a class="reference internal" href="#scrape-reply-alert" id="toc-entry-20">scrape_reply_alert</a></li>
+<li><a class="reference internal" href="#scrape-failed-alert" id="toc-entry-21">scrape_failed_alert</a><ul>
+<li><a class="reference internal" href="#error-message" id="toc-entry-22">error_message()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#scrape-reply-alert" id="toc-entry-26">scrape_reply_alert</a></li>
-<li><a class="reference internal" href="#scrape-failed-alert" id="toc-entry-27">scrape_failed_alert</a><ul>
-<li><a class="reference internal" href="#error-message" id="toc-entry-28">error_message()</a></li>
+<li><a class="reference internal" href="#tracker-reply-alert" id="toc-entry-23">tracker_reply_alert</a></li>
+<li><a class="reference internal" href="#dht-reply-alert" id="toc-entry-24">dht_reply_alert</a></li>
+<li><a class="reference internal" href="#tracker-announce-alert" id="toc-entry-25">tracker_announce_alert</a></li>
+<li><a class="reference internal" href="#hash-failed-alert" id="toc-entry-26">hash_failed_alert</a></li>
+<li><a class="reference internal" href="#peer-ban-alert" id="toc-entry-27">peer_ban_alert</a></li>
+<li><a class="reference internal" href="#peer-unsnubbed-alert" id="toc-entry-28">peer_unsnubbed_alert</a></li>
+<li><a class="reference internal" href="#peer-snubbed-alert" id="toc-entry-29">peer_snubbed_alert</a></li>
+<li><a class="reference internal" href="#peer-error-alert" id="toc-entry-30">peer_error_alert</a></li>
+<li><a class="reference internal" href="#peer-connect-alert" id="toc-entry-31">peer_connect_alert</a><ul>
+<li><a class="reference internal" href="#enum-direction-t" id="toc-entry-32">enum direction_t</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#tracker-reply-alert" id="toc-entry-29">tracker_reply_alert</a></li>
-<li><a class="reference internal" href="#dht-reply-alert" id="toc-entry-30">dht_reply_alert</a></li>
-<li><a class="reference internal" href="#tracker-announce-alert" id="toc-entry-31">tracker_announce_alert</a></li>
-<li><a class="reference internal" href="#hash-failed-alert" id="toc-entry-32">hash_failed_alert</a></li>
-<li><a class="reference internal" href="#peer-ban-alert" id="toc-entry-33">peer_ban_alert</a></li>
-<li><a class="reference internal" href="#peer-unsnubbed-alert" id="toc-entry-34">peer_unsnubbed_alert</a></li>
-<li><a class="reference internal" href="#peer-snubbed-alert" id="toc-entry-35">peer_snubbed_alert</a></li>
-<li><a class="reference internal" href="#peer-error-alert" id="toc-entry-36">peer_error_alert</a></li>
-<li><a class="reference internal" href="#peer-connect-alert" id="toc-entry-37">peer_connect_alert</a><ul>
-<li><a class="reference internal" href="#enum-direction-t" id="toc-entry-38">enum direction_t</a></li>
+<li><a class="reference internal" href="#peer-disconnected-alert" id="toc-entry-33">peer_disconnected_alert</a></li>
+<li><a class="reference internal" href="#invalid-request-alert" id="toc-entry-34">invalid_request_alert</a></li>
+<li><a class="reference internal" href="#torrent-finished-alert" id="toc-entry-35">torrent_finished_alert</a></li>
+<li><a class="reference internal" href="#piece-finished-alert" id="toc-entry-36">piece_finished_alert</a></li>
+<li><a class="reference internal" href="#request-dropped-alert" id="toc-entry-37">request_dropped_alert</a></li>
+<li><a class="reference internal" href="#block-timeout-alert" id="toc-entry-38">block_timeout_alert</a></li>
+<li><a class="reference internal" href="#block-finished-alert" id="toc-entry-39">block_finished_alert</a></li>
+<li><a class="reference internal" href="#block-downloading-alert" id="toc-entry-40">block_downloading_alert</a></li>
+<li><a class="reference internal" href="#unwanted-block-alert" id="toc-entry-41">unwanted_block_alert</a></li>
+<li><a class="reference internal" href="#storage-moved-alert" id="toc-entry-42">storage_moved_alert</a><ul>
+<li><a class="reference internal" href="#storage-path-old-path" id="toc-entry-43">storage_path() old_path()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#peer-disconnected-alert" id="toc-entry-39">peer_disconnected_alert</a></li>
-<li><a class="reference internal" href="#invalid-request-alert" id="toc-entry-40">invalid_request_alert</a></li>
-<li><a class="reference internal" href="#torrent-finished-alert" id="toc-entry-41">torrent_finished_alert</a></li>
-<li><a class="reference internal" href="#piece-finished-alert" id="toc-entry-42">piece_finished_alert</a></li>
-<li><a class="reference internal" href="#request-dropped-alert" id="toc-entry-43">request_dropped_alert</a></li>
-<li><a class="reference internal" href="#block-timeout-alert" id="toc-entry-44">block_timeout_alert</a></li>
-<li><a class="reference internal" href="#block-finished-alert" id="toc-entry-45">block_finished_alert</a></li>
-<li><a class="reference internal" href="#block-downloading-alert" id="toc-entry-46">block_downloading_alert</a></li>
-<li><a class="reference internal" href="#unwanted-block-alert" id="toc-entry-47">unwanted_block_alert</a></li>
-<li><a class="reference internal" href="#storage-moved-alert" id="toc-entry-48">storage_moved_alert</a><ul>
-<li><a class="reference internal" href="#old-path-storage-path" id="toc-entry-49">old_path() storage_path()</a></li>
+<li><a class="reference internal" href="#storage-moved-failed-alert" id="toc-entry-44">storage_moved_failed_alert</a><ul>
+<li><a class="reference internal" href="#file-path" id="toc-entry-45">file_path()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#storage-moved-failed-alert" id="toc-entry-50">storage_moved_failed_alert</a><ul>
-<li><a class="reference internal" href="#file-path" id="toc-entry-51">file_path()</a></li>
+<li><a class="reference internal" href="#torrent-deleted-alert" id="toc-entry-46">torrent_deleted_alert</a></li>
+<li><a class="reference internal" href="#torrent-delete-failed-alert" id="toc-entry-47">torrent_delete_failed_alert</a></li>
+<li><a class="reference internal" href="#save-resume-data-alert" id="toc-entry-48">save_resume_data_alert</a></li>
+<li><a class="reference internal" href="#save-resume-data-failed-alert" id="toc-entry-49">save_resume_data_failed_alert</a></li>
+<li><a class="reference internal" href="#torrent-paused-alert" id="toc-entry-50">torrent_paused_alert</a></li>
+<li><a class="reference internal" href="#torrent-resumed-alert" id="toc-entry-51">torrent_resumed_alert</a></li>
+<li><a class="reference internal" href="#torrent-checked-alert" id="toc-entry-52">torrent_checked_alert</a></li>
+<li><a class="reference internal" href="#url-seed-alert" id="toc-entry-53">url_seed_alert</a><ul>
+<li><a class="reference internal" href="#server-url" id="toc-entry-54">server_url()</a></li>
+<li><a class="reference internal" href="#error-message-1" id="toc-entry-55">error_message()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#torrent-deleted-alert" id="toc-entry-52">torrent_deleted_alert</a></li>
-<li><a class="reference internal" href="#torrent-delete-failed-alert" id="toc-entry-53">torrent_delete_failed_alert</a></li>
-<li><a class="reference internal" href="#save-resume-data-alert" id="toc-entry-54">save_resume_data_alert</a></li>
-<li><a class="reference internal" href="#save-resume-data-failed-alert" id="toc-entry-55">save_resume_data_failed_alert</a></li>
-<li><a class="reference internal" href="#torrent-paused-alert" id="toc-entry-56">torrent_paused_alert</a></li>
-<li><a class="reference internal" href="#torrent-resumed-alert" id="toc-entry-57">torrent_resumed_alert</a></li>
-<li><a class="reference internal" href="#torrent-checked-alert" id="toc-entry-58">torrent_checked_alert</a></li>
-<li><a class="reference internal" href="#url-seed-alert" id="toc-entry-59">url_seed_alert</a><ul>
-<li><a class="reference internal" href="#server-url" id="toc-entry-60">server_url()</a></li>
-<li><a class="reference internal" href="#error-message-1" id="toc-entry-61">error_message()</a></li>
+<li><a class="reference internal" href="#file-error-alert" id="toc-entry-56">file_error_alert</a><ul>
+<li><a class="reference internal" href="#filename" id="toc-entry-57">filename()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#file-error-alert" id="toc-entry-62">file_error_alert</a><ul>
-<li><a class="reference internal" href="#filename" id="toc-entry-63">filename()</a></li>
+<li><a class="reference internal" href="#metadata-failed-alert" id="toc-entry-58">metadata_failed_alert</a></li>
+<li><a class="reference internal" href="#metadata-received-alert" id="toc-entry-59">metadata_received_alert</a></li>
+<li><a class="reference internal" href="#udp-error-alert" id="toc-entry-60">udp_error_alert</a></li>
+<li><a class="reference internal" href="#external-ip-alert" id="toc-entry-61">external_ip_alert</a></li>
+<li><a class="reference internal" href="#listen-failed-alert" id="toc-entry-62">listen_failed_alert</a><ul>
+<li><a class="reference internal" href="#listen-interface" id="toc-entry-63">listen_interface()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#metadata-failed-alert" id="toc-entry-64">metadata_failed_alert</a></li>
-<li><a class="reference internal" href="#metadata-received-alert" id="toc-entry-65">metadata_received_alert</a></li>
-<li><a class="reference internal" href="#udp-error-alert" id="toc-entry-66">udp_error_alert</a></li>
-<li><a class="reference internal" href="#external-ip-alert" id="toc-entry-67">external_ip_alert</a></li>
-<li><a class="reference internal" href="#listen-failed-alert" id="toc-entry-68">listen_failed_alert</a><ul>
-<li><a class="reference internal" href="#listen-interface" id="toc-entry-69">listen_interface()</a></li>
+<li><a class="reference internal" href="#listen-succeeded-alert" id="toc-entry-64">listen_succeeded_alert</a></li>
+<li><a class="reference internal" href="#portmap-error-alert" id="toc-entry-65">portmap_error_alert</a></li>
+<li><a class="reference internal" href="#portmap-alert" id="toc-entry-66">portmap_alert</a></li>
+<li><a class="reference internal" href="#portmap-log-alert" id="toc-entry-67">portmap_log_alert</a><ul>
+<li><a class="reference internal" href="#log-message" id="toc-entry-68">log_message()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#listen-succeeded-alert" id="toc-entry-70">listen_succeeded_alert</a></li>
-<li><a class="reference internal" href="#portmap-error-alert" id="toc-entry-71">portmap_error_alert</a></li>
-<li><a class="reference internal" href="#portmap-alert" id="toc-entry-72">portmap_alert</a></li>
-<li><a class="reference internal" href="#portmap-log-alert" id="toc-entry-73">portmap_log_alert</a><ul>
-<li><a class="reference internal" href="#log-message" id="toc-entry-74">log_message()</a></li>
+<li><a class="reference internal" href="#fastresume-rejected-alert" id="toc-entry-69">fastresume_rejected_alert</a><ul>
+<li><a class="reference internal" href="#file-path-1" id="toc-entry-70">file_path()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#fastresume-rejected-alert" id="toc-entry-75">fastresume_rejected_alert</a><ul>
-<li><a class="reference internal" href="#file-path-1" id="toc-entry-76">file_path()</a></li>
+<li><a class="reference internal" href="#peer-blocked-alert" id="toc-entry-71">peer_blocked_alert</a><ul>
+<li><a class="reference internal" href="#enum-reason-t" id="toc-entry-72">enum reason_t</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#peer-blocked-alert" id="toc-entry-77">peer_blocked_alert</a><ul>
-<li><a class="reference internal" href="#enum-reason-t" id="toc-entry-78">enum reason_t</a></li>
+<li><a class="reference internal" href="#dht-announce-alert" id="toc-entry-73">dht_announce_alert</a></li>
+<li><a class="reference internal" href="#dht-get-peers-alert" id="toc-entry-74">dht_get_peers_alert</a></li>
+<li><a class="reference internal" href="#cache-flushed-alert" id="toc-entry-75">cache_flushed_alert</a></li>
+<li><a class="reference internal" href="#lsd-peer-alert" id="toc-entry-76">lsd_peer_alert</a></li>
+<li><a class="reference internal" href="#trackerid-alert" id="toc-entry-77">trackerid_alert</a><ul>
+<li><a class="reference internal" href="#tracker-id" id="toc-entry-78">tracker_id()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#dht-announce-alert" id="toc-entry-79">dht_announce_alert</a></li>
-<li><a class="reference internal" href="#dht-get-peers-alert" id="toc-entry-80">dht_get_peers_alert</a></li>
-<li><a class="reference internal" href="#cache-flushed-alert" id="toc-entry-81">cache_flushed_alert</a></li>
-<li><a class="reference internal" href="#lsd-peer-alert" id="toc-entry-82">lsd_peer_alert</a></li>
-<li><a class="reference internal" href="#trackerid-alert" id="toc-entry-83">trackerid_alert</a><ul>
-<li><a class="reference internal" href="#tracker-id" id="toc-entry-84">tracker_id()</a></li>
+<li><a class="reference internal" href="#dht-bootstrap-alert" id="toc-entry-79">dht_bootstrap_alert</a></li>
+<li><a class="reference internal" href="#torrent-error-alert" id="toc-entry-80">torrent_error_alert</a><ul>
+<li><a class="reference internal" href="#filename-1" id="toc-entry-81">filename()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#dht-bootstrap-alert" id="toc-entry-85">dht_bootstrap_alert</a></li>
-<li><a class="reference internal" href="#torrent-error-alert" id="toc-entry-86">torrent_error_alert</a><ul>
-<li><a class="reference internal" href="#filename-1" id="toc-entry-87">filename()</a></li>
+<li><a class="reference internal" href="#torrent-need-cert-alert" id="toc-entry-82">torrent_need_cert_alert</a></li>
+<li><a class="reference internal" href="#incoming-connection-alert" id="toc-entry-83">incoming_connection_alert</a></li>
+<li><a class="reference internal" href="#add-torrent-alert" id="toc-entry-84">add_torrent_alert</a></li>
+<li><a class="reference internal" href="#state-update-alert" id="toc-entry-85">state_update_alert</a></li>
+<li><a class="reference internal" href="#session-stats-alert" id="toc-entry-86">session_stats_alert</a><ul>
+<li><a class="reference internal" href="#counters" id="toc-entry-87">counters()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#torrent-need-cert-alert" id="toc-entry-88">torrent_need_cert_alert</a></li>
-<li><a class="reference internal" href="#incoming-connection-alert" id="toc-entry-89">incoming_connection_alert</a></li>
-<li><a class="reference internal" href="#add-torrent-alert" id="toc-entry-90">add_torrent_alert</a></li>
-<li><a class="reference internal" href="#state-update-alert" id="toc-entry-91">state_update_alert</a></li>
-<li><a class="reference internal" href="#session-stats-alert" id="toc-entry-92">session_stats_alert</a><ul>
-<li><a class="reference internal" href="#counters" id="toc-entry-93">counters()</a></li>
+<li><a class="reference internal" href="#dht-error-alert" id="toc-entry-88">dht_error_alert</a></li>
+<li><a class="reference internal" href="#dht-immutable-item-alert" id="toc-entry-89">dht_immutable_item_alert</a></li>
+<li><a class="reference internal" href="#dht-mutable-item-alert" id="toc-entry-90">dht_mutable_item_alert</a></li>
+<li><a class="reference internal" href="#dht-put-alert" id="toc-entry-91">dht_put_alert</a></li>
+<li><a class="reference internal" href="#i2p-alert" id="toc-entry-92">i2p_alert</a></li>
+<li><a class="reference internal" href="#dht-outgoing-get-peers-alert" id="toc-entry-93">dht_outgoing_get_peers_alert</a></li>
+<li><a class="reference internal" href="#log-alert" id="toc-entry-94">log_alert</a><ul>
+<li><a class="reference internal" href="#log-message-1" id="toc-entry-95">log_message()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#dht-error-alert" id="toc-entry-94">dht_error_alert</a></li>
-<li><a class="reference internal" href="#dht-immutable-item-alert" id="toc-entry-95">dht_immutable_item_alert</a></li>
-<li><a class="reference internal" href="#dht-mutable-item-alert" id="toc-entry-96">dht_mutable_item_alert</a></li>
-<li><a class="reference internal" href="#dht-put-alert" id="toc-entry-97">dht_put_alert</a></li>
-<li><a class="reference internal" href="#i2p-alert" id="toc-entry-98">i2p_alert</a></li>
-<li><a class="reference internal" href="#dht-outgoing-get-peers-alert" id="toc-entry-99">dht_outgoing_get_peers_alert</a></li>
-<li><a class="reference internal" href="#log-alert" id="toc-entry-100">log_alert</a><ul>
-<li><a class="reference internal" href="#log-message-1" id="toc-entry-101">log_message()</a></li>
+<li><a class="reference internal" href="#torrent-log-alert" id="toc-entry-96">torrent_log_alert</a><ul>
+<li><a class="reference internal" href="#log-message-2" id="toc-entry-97">log_message()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#torrent-log-alert" id="toc-entry-102">torrent_log_alert</a><ul>
-<li><a class="reference internal" href="#log-message-2" id="toc-entry-103">log_message()</a></li>
+<li><a class="reference internal" href="#peer-log-alert" id="toc-entry-98">peer_log_alert</a><ul>
+<li><a class="reference internal" href="#log-message-3" id="toc-entry-99">log_message()</a></li>
+<li><a class="reference internal" href="#enum-direction-t-1" id="toc-entry-100">enum direction_t</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#peer-log-alert" id="toc-entry-104">peer_log_alert</a><ul>
-<li><a class="reference internal" href="#log-message-3" id="toc-entry-105">log_message()</a></li>
-<li><a class="reference internal" href="#enum-direction-t-1" id="toc-entry-106">enum direction_t</a></li>
+<li><a class="reference internal" href="#lsd-error-alert" id="toc-entry-101">lsd_error_alert</a></li>
+<li><a class="reference internal" href="#dht-lookup" id="toc-entry-102">dht_lookup</a></li>
+<li><a class="reference internal" href="#dht-stats-alert" id="toc-entry-103">dht_stats_alert</a></li>
+<li><a class="reference internal" href="#incoming-request-alert" id="toc-entry-104">incoming_request_alert</a></li>
+<li><a class="reference internal" href="#dht-log-alert" id="toc-entry-105">dht_log_alert</a><ul>
+<li><a class="reference internal" href="#log-message-4" id="toc-entry-106">log_message()</a></li>
+<li><a class="reference internal" href="#enum-dht-module-t" id="toc-entry-107">enum dht_module_t</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#lsd-error-alert" id="toc-entry-107">lsd_error_alert</a></li>
-<li><a class="reference internal" href="#dht-lookup" id="toc-entry-108">dht_lookup</a></li>
-<li><a class="reference internal" href="#dht-stats-alert" id="toc-entry-109">dht_stats_alert</a></li>
-<li><a class="reference internal" href="#incoming-request-alert" id="toc-entry-110">incoming_request_alert</a></li>
-<li><a class="reference internal" href="#dht-log-alert" id="toc-entry-111">dht_log_alert</a><ul>
-<li><a class="reference internal" href="#log-message-4" id="toc-entry-112">log_message()</a></li>
-<li><a class="reference internal" href="#enum-dht-module-t" id="toc-entry-113">enum dht_module_t</a></li>
+<li><a class="reference internal" href="#dht-pkt-alert" id="toc-entry-108">dht_pkt_alert</a><ul>
+<li><a class="reference internal" href="#pkt-buf" id="toc-entry-109">pkt_buf()</a></li>
+<li><a class="reference internal" href="#enum-direction-t-2" id="toc-entry-110">enum direction_t</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#dht-pkt-alert" id="toc-entry-114">dht_pkt_alert</a><ul>
-<li><a class="reference internal" href="#pkt-buf" id="toc-entry-115">pkt_buf()</a></li>
-<li><a class="reference internal" href="#enum-direction-t-2" id="toc-entry-116">enum direction_t</a></li>
+<li><a class="reference internal" href="#dht-get-peers-reply-alert" id="toc-entry-111">dht_get_peers_reply_alert</a></li>
+<li><a class="reference internal" href="#dht-direct-response-alert" id="toc-entry-112">dht_direct_response_alert</a></li>
+<li><a class="reference internal" href="#picker-log-alert" id="toc-entry-113">picker_log_alert</a></li>
+<li><a class="reference internal" href="#session-error-alert" id="toc-entry-114">session_error_alert</a></li>
+<li><a class="reference internal" href="#dht-live-nodes-alert" id="toc-entry-115">dht_live_nodes_alert</a><ul>
+<li><a class="reference internal" href="#num-nodes-nodes" id="toc-entry-116">num_nodes() nodes()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#dht-get-peers-reply-alert" id="toc-entry-117">dht_get_peers_reply_alert</a></li>
-<li><a class="reference internal" href="#dht-direct-response-alert" id="toc-entry-118">dht_direct_response_alert</a></li>
-<li><a class="reference internal" href="#picker-log-alert" id="toc-entry-119">picker_log_alert</a></li>
-<li><a class="reference internal" href="#session-error-alert" id="toc-entry-120">session_error_alert</a></li>
-<li><a class="reference internal" href="#dht-live-nodes-alert" id="toc-entry-121">dht_live_nodes_alert</a><ul>
-<li><a class="reference internal" href="#num-nodes-nodes" id="toc-entry-122">num_nodes() nodes()</a></li>
+<li><a class="reference internal" href="#session-stats-header-alert" id="toc-entry-117">session_stats_header_alert</a></li>
+<li><a class="reference internal" href="#dht-sample-infohashes-alert" id="toc-entry-118">dht_sample_infohashes_alert</a><ul>
+<li><a class="reference internal" href="#num-samples-samples" id="toc-entry-119">num_samples() samples()</a></li>
+<li><a class="reference internal" href="#num-nodes" id="toc-entry-120">num_nodes()</a></li>
+<li><a class="reference internal" href="#nodes" id="toc-entry-121">nodes()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#session-stats-header-alert" id="toc-entry-123">session_stats_header_alert</a></li>
-<li><a class="reference internal" href="#dht-sample-infohashes-alert" id="toc-entry-124">dht_sample_infohashes_alert</a><ul>
-<li><a class="reference internal" href="#samples-num-samples" id="toc-entry-125">samples() num_samples()</a></li>
-<li><a class="reference internal" href="#num-nodes" id="toc-entry-126">num_nodes()</a></li>
-<li><a class="reference internal" href="#nodes" id="toc-entry-127">nodes()</a></li>
+<li><a class="reference internal" href="#block-uploaded-alert" id="toc-entry-122">block_uploaded_alert</a></li>
+<li><a class="reference internal" href="#alerts-dropped-alert" id="toc-entry-123">alerts_dropped_alert</a></li>
+<li><a class="reference internal" href="#socks5-alert" id="toc-entry-124">socks5_alert</a></li>
+<li><a class="reference internal" href="#file-prio-alert" id="toc-entry-125">file_prio_alert</a></li>
+<li><a class="reference internal" href="#oversized-file-alert" id="toc-entry-126">oversized_file_alert</a></li>
+<li><a class="reference internal" href="#torrent-conflict-alert" id="toc-entry-127">torrent_conflict_alert</a></li>
+<li><a class="reference internal" href="#peer-info-alert" id="toc-entry-128">peer_info_alert</a></li>
+<li><a class="reference internal" href="#file-progress-alert" id="toc-entry-129">file_progress_alert</a></li>
+<li><a class="reference internal" href="#piece-info-alert" id="toc-entry-130">piece_info_alert</a></li>
+<li><a class="reference internal" href="#piece-availability-alert" id="toc-entry-131">piece_availability_alert</a></li>
+<li><a class="reference internal" href="#tracker-list-alert" id="toc-entry-132">tracker_list_alert</a></li>
+<li><a class="reference internal" href="#alert" id="toc-entry-133">alert</a><ul>
+<li><a class="reference internal" href="#timestamp" id="toc-entry-134">timestamp()</a></li>
+<li><a class="reference internal" href="#type" id="toc-entry-135">type()</a></li>
+<li><a class="reference internal" href="#what" id="toc-entry-136">what()</a></li>
+<li><a class="reference internal" href="#message-1" id="toc-entry-137">message()</a></li>
+<li><a class="reference internal" href="#category" id="toc-entry-138">category()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#block-uploaded-alert" id="toc-entry-128">block_uploaded_alert</a></li>
-<li><a class="reference internal" href="#alerts-dropped-alert" id="toc-entry-129">alerts_dropped_alert</a></li>
-<li><a class="reference internal" href="#socks5-alert" id="toc-entry-130">socks5_alert</a></li>
-<li><a class="reference internal" href="#file-prio-alert" id="toc-entry-131">file_prio_alert</a></li>
-<li><a class="reference internal" href="#oversized-file-alert" id="toc-entry-132">oversized_file_alert</a></li>
-<li><a class="reference internal" href="#torrent-conflict-alert" id="toc-entry-133">torrent_conflict_alert</a></li>
-<li><a class="reference internal" href="#peer-info-alert" id="toc-entry-134">peer_info_alert</a></li>
-<li><a class="reference internal" href="#file-progress-alert" id="toc-entry-135">file_progress_alert</a></li>
-<li><a class="reference internal" href="#piece-info-alert" id="toc-entry-136">piece_info_alert</a></li>
-<li><a class="reference internal" href="#piece-availability-alert" id="toc-entry-137">piece_availability_alert</a></li>
-<li><a class="reference internal" href="#tracker-list-alert" id="toc-entry-138">tracker_list_alert</a></li>
 <li><a class="reference internal" href="#alert-cast" id="toc-entry-139">alert_cast()</a></li>
 <li><a class="reference internal" href="#operation-name" id="toc-entry-140">operation_name()</a></li>
 <li><a class="reference internal" href="#enum-operation-t" id="toc-entry-141">enum operation_t</a></li>
@@ -250,116 +250,7 @@ alerts that are generated for a specific torrent are derived from
 <a class="reference external" href="reference-Session.html#pop_alerts()">pop_alerts()</a>. You may not copy an <a class="reference external" href="reference-Alerts.html#alert">alert</a> object to access it after the next
 call to <a class="reference external" href="reference-Session.html#pop_alerts()">pop_alerts()</a>. Internal members of alerts also become invalid once
 <a class="reference external" href="reference-Session.html#pop_alerts()">pop_alerts()</a> is called again.</p>
-<a name="alert"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+alert&labels=documentation&body=Documentation+under+heading+%22class+alert%22+could+be+improved">report issue</a>]</span><div class="section" id="alert">
-<h1>alert</h1>
-<p>Declared in &quot;<a class="reference external" href="include/libtorrent/alert.hpp">libtorrent/alert.hpp</a>&quot;</p>
-<p>The <tt class="docutils literal">alert</tt> class is the base class that specific messages are derived from.
-<a class="reference external" href="reference-Alerts.html#alert">alert</a> types are not copyable, and cannot be constructed by the client. The
-pointers returned by libtorrent are short lived (the details are described
-under <a class="reference external" href="reference-Session.html#pop_alerts()">session_handle::pop_alerts()</a>)</p>
-<pre class="literal-block">
-struct alert
-{
-   time_point <strong>timestamp</strong> () const;
-   virtual int <strong>type</strong> () const noexcept = 0;
-   virtual char const* <strong>what</strong> () const noexcept = 0;
-   virtual std::string <strong>message</strong> () const = 0;
-   virtual alert_category_t <strong>category</strong> () const noexcept = 0;
-
-   static constexpr alert_category_t <strong>error_notification</strong>  = 0_bit;
-   static constexpr alert_category_t <strong>peer_notification</strong>  = 1_bit;
-   static constexpr alert_category_t <strong>port_mapping_notification</strong>  = 2_bit;
-   static constexpr alert_category_t <strong>storage_notification</strong>  = 3_bit;
-   static constexpr alert_category_t <strong>tracker_notification</strong>  = 4_bit;
-   static constexpr alert_category_t <strong>connect_notification</strong>  = 5_bit;
-   static constexpr alert_category_t <strong>status_notification</strong>  = 6_bit;
-   static constexpr alert_category_t <strong>ip_block_notification</strong>  = 8_bit;
-   static constexpr alert_category_t <strong>performance_warning</strong>  = 9_bit;
-   static constexpr alert_category_t <strong>dht_notification</strong>  = 10_bit;
-   static constexpr alert_category_t <strong>session_log_notification</strong>  = 13_bit;
-   static constexpr alert_category_t <strong>torrent_log_notification</strong>  = 14_bit;
-   static constexpr alert_category_t <strong>peer_log_notification</strong>  = 15_bit;
-   static constexpr alert_category_t <strong>incoming_request_notification</strong>  = 16_bit;
-   static constexpr alert_category_t <strong>dht_log_notification</strong>  = 17_bit;
-   static constexpr alert_category_t <strong>dht_operation_notification</strong>  = 18_bit;
-   static constexpr alert_category_t <strong>port_mapping_log_notification</strong>  = 19_bit;
-   static constexpr alert_category_t <strong>picker_log_notification</strong>  = 20_bit;
-   static constexpr alert_category_t <strong>file_progress_notification</strong>  = 21_bit;
-   static constexpr alert_category_t <strong>piece_progress_notification</strong>  = 22_bit;
-   static constexpr alert_category_t <strong>upload_notification</strong>  = 23_bit;
-   static constexpr alert_category_t <strong>block_progress_notification</strong>  = 24_bit;
-   static constexpr alert_category_t <strong>all_categories</strong>  = alert_category_t::all();
-};
-</pre>
-<a name="timestamp()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:alert%3A%3A%5Btimestamp%28%29%5D&labels=documentation&body=Documentation+under+heading+%22alert%3A%3A%5Btimestamp%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="timestamp">
-<h2>timestamp()</h2>
-<pre class="literal-block">
-time_point <strong>timestamp</strong> () const;
-</pre>
-<p>a timestamp is automatically created in the constructor</p>
-<a name="type()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:alert%3A%3A%5Btype%28%29%5D&labels=documentation&body=Documentation+under+heading+%22alert%3A%3A%5Btype%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="type">
-<h2>type()</h2>
-<pre class="literal-block">
-virtual int <strong>type</strong> () const noexcept = 0;
-</pre>
-<p>returns an integer that is unique to this <a class="reference external" href="reference-Alerts.html#alert">alert</a> type. It can be
-compared against a specific <a class="reference external" href="reference-Alerts.html#alert">alert</a> by querying a static constant called <tt class="docutils literal">alert_type</tt>
-in the <a class="reference external" href="reference-Alerts.html#alert">alert</a>. It can be used to determine the run-time type of an alert* in
-order to cast to that <a class="reference external" href="reference-Alerts.html#alert">alert</a> type and access specific members.</p>
-<p>e.g:</p>
-<pre class="code c++ literal-block">
-<span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">alert</span><span class="operator">*&gt;</span><span class="whitespace"> </span><span class="name">alerts</span><span class="punctuation">;</span><span class="whitespace">
-</span><span class="name">ses</span><span class="punctuation">.</span><span class="name">pop_alerts</span><span class="punctuation">(</span><span class="operator">&amp;</span><span class="name">alerts</span><span class="punctuation">);</span><span class="whitespace">
-</span><span class="keyword">for</span><span class="whitespace"> </span><span class="punctuation">(</span><span class="name">alert</span><span class="operator">*</span><span class="whitespace"> </span><span class="name">a</span><span class="whitespace"> </span><span class="operator">:</span><span class="whitespace"> </span><span class="name">alerts</span><span class="punctuation">)</span><span class="whitespace"> </span><span class="punctuation">{</span><span class="whitespace">
-        </span><span class="keyword">switch</span><span class="whitespace"> </span><span class="punctuation">(</span><span class="name">a</span><span class="operator">-&gt;</span><span class="name">type</span><span class="punctuation">())</span><span class="whitespace"> </span><span class="punctuation">{</span><span class="whitespace">
-
-                </span><span class="keyword">case</span><span class="whitespace"> </span><span class="name constant">read_piece_alert</span><span class="operator">::</span><span class="name constant">alert_type</span><span class="punctuation">:</span><span class="whitespace">
-                </span><span class="punctuation">{</span><span class="whitespace">
-                        </span><span class="keyword">auto</span><span class="operator">*</span><span class="whitespace"> </span><span class="name">p</span><span class="whitespace"> </span><span class="operator">=</span><span class="whitespace"> </span><span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="name">read_piece_alert</span><span class="operator">*&gt;</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">);</span><span class="whitespace">
-                        </span><span class="keyword">if</span><span class="whitespace"> </span><span class="punctuation">(</span><span class="name">p</span><span class="operator">-&gt;</span><span class="name">ec</span><span class="punctuation">)</span><span class="whitespace"> </span><span class="punctuation">{</span><span class="whitespace">
-                                </span><span class="comment single">// read_piece failed
-</span><span class="whitespace">                                </span><span class="keyword">break</span><span class="punctuation">;</span><span class="whitespace">
-                        </span><span class="punctuation">}</span><span class="whitespace">
-                        </span><span class="comment single">// use p
-</span><span class="whitespace">                        </span><span class="keyword">break</span><span class="punctuation">;</span><span class="whitespace">
-                </span><span class="punctuation">}</span><span class="whitespace">
-                </span><span class="keyword">case</span><span class="whitespace"> </span><span class="name constant">file_renamed_alert</span><span class="operator">::</span><span class="name constant">alert_type</span><span class="punctuation">:</span><span class="whitespace">
-                </span><span class="punctuation">{</span><span class="whitespace">
-                        </span><span class="comment single">// etc...
-</span><span class="whitespace">                </span><span class="punctuation">}</span><span class="whitespace">
-        </span><span class="punctuation">}</span><span class="whitespace">
-</span><span class="punctuation">}</span>
-</pre>
-<a name="what()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:alert%3A%3A%5Bwhat%28%29%5D&labels=documentation&body=Documentation+under+heading+%22alert%3A%3A%5Bwhat%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="what">
-<h2>what()</h2>
-<pre class="literal-block">
-virtual char const* <strong>what</strong> () const noexcept = 0;
-</pre>
-<p>returns a string literal describing the type of the <a class="reference external" href="reference-Alerts.html#alert">alert</a>. It does
-not include any information that might be bundled with the <a class="reference external" href="reference-Alerts.html#alert">alert</a>.</p>
-<a name="message()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:alert%3A%3A%5Bmessage%28%29%5D&labels=documentation&body=Documentation+under+heading+%22alert%3A%3A%5Bmessage%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="message">
-<h2>message()</h2>
-<pre class="literal-block">
-virtual std::string <strong>message</strong> () const = 0;
-</pre>
-<p>generate a string describing the <a class="reference external" href="reference-Alerts.html#alert">alert</a> and the information bundled
-with it. This is mainly intended for debug and development use. It is not suitable
-to use this for applications that may be localized. Instead, handle each <a class="reference external" href="reference-Alerts.html#alert">alert</a>
-type individually and extract and render the information from the <a class="reference external" href="reference-Alerts.html#alert">alert</a> depending
-on the locale.</p>
-<a name="category()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:alert%3A%3A%5Bcategory%28%29%5D&labels=documentation&body=Documentation+under+heading+%22alert%3A%3A%5Bcategory%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="category">
-<h2>category()</h2>
-<pre class="literal-block">
-virtual alert_category_t <strong>category</strong> () const noexcept = 0;
-</pre>
-<p>returns a bitmask specifying which categories this <a class="reference external" href="reference-Alerts.html#alert">alert</a> belong to.</p>
-<a name="dht_routing_bucket"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+dht_routing_bucket&labels=documentation&body=Documentation+under+heading+%22class+dht_routing_bucket%22+could+be+improved">report issue</a>]</span></div>
-</div>
-<div class="section" id="dht-routing-bucket">
+<a name="dht_routing_bucket"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+dht_routing_bucket&labels=documentation&body=Documentation+under+heading+%22class+dht_routing_bucket%22+could+be+improved">report issue</a>]</span><div class="section" id="dht-routing-bucket">
 <h1>dht_routing_bucket</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/alert_types.hpp">libtorrent/alert_types.hpp</a>&quot;</p>
 <p>struct to hold information about a single DHT routing table bucket</p>
@@ -398,7 +289,7 @@ struct torrent_alert : alert
    torrent_handle handle;
 };
 </pre>
-<a name="message()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_alert%3A%3A%5Bmessage%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_alert%3A%3A%5Bmessage%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="message-1">
+<a name="message()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:torrent_alert%3A%3A%5Bmessage%28%29%5D&labels=documentation&body=Documentation+under+heading+%22torrent_alert%3A%3A%5Bmessage%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="message">
 <h2>message()</h2>
 <pre class="literal-block">
 std::string <strong>message</strong> () const override;
@@ -1297,9 +1188,9 @@ struct storage_moved_alert final : torrent_alert
    static constexpr alert_category_t <strong>static_category</strong>  = alert_category::storage;
 };
 </pre>
-<a name="old_path()"></a>
-<a name="storage_path()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:storage_moved_alert%3A%3A%5Bold_path%28%29+storage_path%28%29%5D&labels=documentation&body=Documentation+under+heading+%22storage_moved_alert%3A%3A%5Bold_path%28%29+storage_path%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="old-path-storage-path">
-<h2>old_path() storage_path()</h2>
+<a name="storage_path()"></a>
+<a name="old_path()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:storage_moved_alert%3A%3A%5Bstorage_path%28%29+old_path%28%29%5D&labels=documentation&body=Documentation+under+heading+%22storage_moved_alert%3A%3A%5Bstorage_path%28%29+old_path%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="storage-path-old-path">
+<h2>storage_path() old_path()</h2>
 <pre class="literal-block">
 char const* <strong>storage_path</strong> () const;
 char const* <strong>old_path</strong> () const;
@@ -1575,7 +1466,7 @@ only those that needs to download it from peers (when utilizing the libtorrent e
 to load it back up again when the <a class="reference external" href="reference-Session.html#session">session</a> is restarted. Here's an example snippet of
 code to do that:</p>
 <pre class="code c++ literal-block">
-<span class="name">torrent_handle</span><span class="whitespace"> </span><span class="name">h</span><span class="whitespace"> </span><span class="operator">=</span><span class="whitespace"> </span><span class="name">alert</span><span class="operator">-&gt;</span><span class="name">handle</span><span class="punctuation">();</span><span class="whitespace">
+<span class="name">torrent_handle</span><span class="whitespace"> </span><span class="name">h</span><span class="whitespace"> </span><span class="operator">=</span><span class="whitespace"> </span><span class="name">alert</span><span class="operator">-&gt;</span><span class="name">handle</span><span class="punctuation">;</span><span class="whitespace">
 </span><span class="name">std</span><span class="operator">::</span><span class="name">shared_ptr</span><span class="operator">&lt;</span><span class="name">torrent_info</span><span class="whitespace"> </span><span class="keyword">const</span><span class="operator">&gt;</span><span class="whitespace"> </span><span class="name">ti</span><span class="whitespace"> </span><span class="operator">=</span><span class="whitespace"> </span><span class="name">h</span><span class="punctuation">.</span><span class="name">torrent_file</span><span class="punctuation">();</span><span class="whitespace">
 </span><span class="name">create_torrent</span><span class="whitespace"> </span><span class="name function">ct</span><span class="punctuation">(</span><span class="operator">*</span><span class="name">ti</span><span class="punctuation">);</span><span class="whitespace">
 </span><span class="name">entry</span><span class="whitespace"> </span><span class="name">te</span><span class="whitespace"> </span><span class="operator">=</span><span class="whitespace"> </span><span class="name">ct</span><span class="punctuation">.</span><span class="name">generate</span><span class="punctuation">();</span><span class="whitespace">
@@ -2997,8 +2888,8 @@ the information from the DHT response message.</p>
 struct dht_sample_infohashes_alert final : alert
 {
    std::string <strong>message</strong> () const override;
-   std::vector&lt;sha1_hash&gt; <strong>samples</strong> () const;
    int <strong>num_samples</strong> () const;
+   std::vector&lt;sha1_hash&gt; <strong>samples</strong> () const;
    int <strong>num_nodes</strong> () const;
    std::vector&lt;std::pair&lt;sha1_hash, udp::endpoint&gt;&gt; <strong>nodes</strong> () const;
 
@@ -3009,12 +2900,12 @@ struct dht_sample_infohashes_alert final : alert
    int const num_infohashes;
 };
 </pre>
-<a name="samples()"></a>
-<a name="num_samples()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:dht_sample_infohashes_alert%3A%3A%5Bsamples%28%29+num_samples%28%29%5D&labels=documentation&body=Documentation+under+heading+%22dht_sample_infohashes_alert%3A%3A%5Bsamples%28%29+num_samples%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="samples-num-samples">
-<h2>samples() num_samples()</h2>
+<a name="num_samples()"></a>
+<a name="samples()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:dht_sample_infohashes_alert%3A%3A%5Bnum_samples%28%29+samples%28%29%5D&labels=documentation&body=Documentation+under+heading+%22dht_sample_infohashes_alert%3A%3A%5Bnum_samples%28%29+samples%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="num-samples-samples">
+<h2>num_samples() samples()</h2>
 <pre class="literal-block">
-std::vector&lt;sha1_hash&gt; <strong>samples</strong> () const;
 int <strong>num_samples</strong> () const;
+std::vector&lt;sha1_hash&gt; <strong>samples</strong> () const;
 </pre>
 <p>returns the number of info-hashes returned by the node, as well as the
 actual info-hashes. <tt class="docutils literal">num_samples()</tt> is more efficient than
@@ -3298,13 +3189,122 @@ struct tracker_list_alert final : torrent_alert
 <dt>trackers</dt>
 <dd>list of trackers and their status for the torrent</dd>
 </dl>
+<a name="alert"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+alert&labels=documentation&body=Documentation+under+heading+%22class+alert%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="alert">
+<h1>alert</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/alert.hpp">libtorrent/alert.hpp</a>&quot;</p>
+<p>The <tt class="docutils literal">alert</tt> class is the base class that specific messages are derived from.
+<a class="reference external" href="reference-Alerts.html#alert">alert</a> types are not copyable, and cannot be constructed by the client. The
+pointers returned by libtorrent are short lived (the details are described
+under <a class="reference external" href="reference-Session.html#pop_alerts()">session_handle::pop_alerts()</a>)</p>
+<pre class="literal-block">
+struct alert
+{
+   time_point <strong>timestamp</strong> () const;
+   virtual int <strong>type</strong> () const noexcept = 0;
+   virtual char const* <strong>what</strong> () const noexcept = 0;
+   virtual std::string <strong>message</strong> () const = 0;
+   virtual alert_category_t <strong>category</strong> () const noexcept = 0;
+
+   static constexpr alert_category_t <strong>error_notification</strong>  = 0_bit;
+   static constexpr alert_category_t <strong>peer_notification</strong>  = 1_bit;
+   static constexpr alert_category_t <strong>port_mapping_notification</strong>  = 2_bit;
+   static constexpr alert_category_t <strong>storage_notification</strong>  = 3_bit;
+   static constexpr alert_category_t <strong>tracker_notification</strong>  = 4_bit;
+   static constexpr alert_category_t <strong>connect_notification</strong>  = 5_bit;
+   static constexpr alert_category_t <strong>status_notification</strong>  = 6_bit;
+   static constexpr alert_category_t <strong>ip_block_notification</strong>  = 8_bit;
+   static constexpr alert_category_t <strong>performance_warning</strong>  = 9_bit;
+   static constexpr alert_category_t <strong>dht_notification</strong>  = 10_bit;
+   static constexpr alert_category_t <strong>session_log_notification</strong>  = 13_bit;
+   static constexpr alert_category_t <strong>torrent_log_notification</strong>  = 14_bit;
+   static constexpr alert_category_t <strong>peer_log_notification</strong>  = 15_bit;
+   static constexpr alert_category_t <strong>incoming_request_notification</strong>  = 16_bit;
+   static constexpr alert_category_t <strong>dht_log_notification</strong>  = 17_bit;
+   static constexpr alert_category_t <strong>dht_operation_notification</strong>  = 18_bit;
+   static constexpr alert_category_t <strong>port_mapping_log_notification</strong>  = 19_bit;
+   static constexpr alert_category_t <strong>picker_log_notification</strong>  = 20_bit;
+   static constexpr alert_category_t <strong>file_progress_notification</strong>  = 21_bit;
+   static constexpr alert_category_t <strong>piece_progress_notification</strong>  = 22_bit;
+   static constexpr alert_category_t <strong>upload_notification</strong>  = 23_bit;
+   static constexpr alert_category_t <strong>block_progress_notification</strong>  = 24_bit;
+   static constexpr alert_category_t <strong>all_categories</strong>  = alert_category_t::all();
+};
+</pre>
+<a name="timestamp()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:alert%3A%3A%5Btimestamp%28%29%5D&labels=documentation&body=Documentation+under+heading+%22alert%3A%3A%5Btimestamp%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="timestamp">
+<h2>timestamp()</h2>
+<pre class="literal-block">
+time_point <strong>timestamp</strong> () const;
+</pre>
+<p>a timestamp is automatically created in the constructor</p>
+<a name="type()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:alert%3A%3A%5Btype%28%29%5D&labels=documentation&body=Documentation+under+heading+%22alert%3A%3A%5Btype%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="type">
+<h2>type()</h2>
+<pre class="literal-block">
+virtual int <strong>type</strong> () const noexcept = 0;
+</pre>
+<p>returns an integer that is unique to this <a class="reference external" href="reference-Alerts.html#alert">alert</a> type. It can be
+compared against a specific <a class="reference external" href="reference-Alerts.html#alert">alert</a> by querying a static constant called <tt class="docutils literal">alert_type</tt>
+in the <a class="reference external" href="reference-Alerts.html#alert">alert</a>. It can be used to determine the run-time type of an alert* in
+order to cast to that <a class="reference external" href="reference-Alerts.html#alert">alert</a> type and access specific members.</p>
+<p>e.g:</p>
+<pre class="code c++ literal-block">
+<span class="name">std</span><span class="operator">::</span><span class="name">vector</span><span class="operator">&lt;</span><span class="name">alert</span><span class="operator">*&gt;</span><span class="whitespace"> </span><span class="name">alerts</span><span class="punctuation">;</span><span class="whitespace">
+</span><span class="name">ses</span><span class="punctuation">.</span><span class="name">pop_alerts</span><span class="punctuation">(</span><span class="operator">&amp;</span><span class="name">alerts</span><span class="punctuation">);</span><span class="whitespace">
+</span><span class="keyword">for</span><span class="whitespace"> </span><span class="punctuation">(</span><span class="name">alert</span><span class="operator">*</span><span class="whitespace"> </span><span class="name">a</span><span class="whitespace"> </span><span class="operator">:</span><span class="whitespace"> </span><span class="name">alerts</span><span class="punctuation">)</span><span class="whitespace"> </span><span class="punctuation">{</span><span class="whitespace">
+        </span><span class="keyword">switch</span><span class="whitespace"> </span><span class="punctuation">(</span><span class="name">a</span><span class="operator">-&gt;</span><span class="name">type</span><span class="punctuation">())</span><span class="whitespace"> </span><span class="punctuation">{</span><span class="whitespace">
+
+                </span><span class="keyword">case</span><span class="whitespace"> </span><span class="name constant">read_piece_alert</span><span class="operator">::</span><span class="name constant">alert_type</span><span class="punctuation">:</span><span class="whitespace">
+                </span><span class="punctuation">{</span><span class="whitespace">
+                        </span><span class="keyword">auto</span><span class="operator">*</span><span class="whitespace"> </span><span class="name">p</span><span class="whitespace"> </span><span class="operator">=</span><span class="whitespace"> </span><span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="name">read_piece_alert</span><span class="operator">*&gt;</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">);</span><span class="whitespace">
+                        </span><span class="keyword">if</span><span class="whitespace"> </span><span class="punctuation">(</span><span class="name">p</span><span class="operator">-&gt;</span><span class="name">ec</span><span class="punctuation">)</span><span class="whitespace"> </span><span class="punctuation">{</span><span class="whitespace">
+                                </span><span class="comment single">// read_piece failed
+</span><span class="whitespace">                                </span><span class="keyword">break</span><span class="punctuation">;</span><span class="whitespace">
+                        </span><span class="punctuation">}</span><span class="whitespace">
+                        </span><span class="comment single">// use p
+</span><span class="whitespace">                        </span><span class="keyword">break</span><span class="punctuation">;</span><span class="whitespace">
+                </span><span class="punctuation">}</span><span class="whitespace">
+                </span><span class="keyword">case</span><span class="whitespace"> </span><span class="name constant">file_renamed_alert</span><span class="operator">::</span><span class="name constant">alert_type</span><span class="punctuation">:</span><span class="whitespace">
+                </span><span class="punctuation">{</span><span class="whitespace">
+                        </span><span class="comment single">// etc...
+</span><span class="whitespace">                </span><span class="punctuation">}</span><span class="whitespace">
+        </span><span class="punctuation">}</span><span class="whitespace">
+</span><span class="punctuation">}</span>
+</pre>
+<a name="what()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:alert%3A%3A%5Bwhat%28%29%5D&labels=documentation&body=Documentation+under+heading+%22alert%3A%3A%5Bwhat%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="what">
+<h2>what()</h2>
+<pre class="literal-block">
+virtual char const* <strong>what</strong> () const noexcept = 0;
+</pre>
+<p>returns a string literal describing the type of the <a class="reference external" href="reference-Alerts.html#alert">alert</a>. It does
+not include any information that might be bundled with the <a class="reference external" href="reference-Alerts.html#alert">alert</a>.</p>
+<a name="message()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:alert%3A%3A%5Bmessage%28%29%5D&labels=documentation&body=Documentation+under+heading+%22alert%3A%3A%5Bmessage%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="message-1">
+<h2>message()</h2>
+<pre class="literal-block">
+virtual std::string <strong>message</strong> () const = 0;
+</pre>
+<p>generate a string describing the <a class="reference external" href="reference-Alerts.html#alert">alert</a> and the information bundled
+with it. This is mainly intended for debug and development use. It is not suitable
+to use this for applications that may be localized. Instead, handle each <a class="reference external" href="reference-Alerts.html#alert">alert</a>
+type individually and extract and render the information from the <a class="reference external" href="reference-Alerts.html#alert">alert</a> depending
+on the locale.</p>
+<a name="category()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:alert%3A%3A%5Bcategory%28%29%5D&labels=documentation&body=Documentation+under+heading+%22alert%3A%3A%5Bcategory%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="category">
+<h2>category()</h2>
+<pre class="literal-block">
+virtual alert_category_t <strong>category</strong> () const noexcept = 0;
+</pre>
+<p>returns a bitmask specifying which categories this <a class="reference external" href="reference-Alerts.html#alert">alert</a> belong to.</p>
 <a name="alert_cast()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:alert_cast%28%29&labels=documentation&body=Documentation+under+heading+%22alert_cast%28%29%22+could+be+improved">report issue</a>]</span></div>
+</div>
 <div class="section" id="alert-cast">
 <h1>alert_cast()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/alert.hpp">libtorrent/alert.hpp</a>&quot;</p>
 <pre class="literal-block">
-template &lt;typename T&gt; T const* <strong>alert_cast</strong> (alert const* a);
 template &lt;typename T&gt; T* <strong>alert_cast</strong> (alert* a);
+template &lt;typename T&gt; T const* <strong>alert_cast</strong> (alert const* a);
 </pre>
 <p>When you get an <a class="reference external" href="reference-Alerts.html#alert">alert</a>, you can use <tt class="docutils literal">alert_cast&lt;&gt;</tt> to attempt to cast the
 pointer to a specific <a class="reference external" href="reference-Alerts.html#alert">alert</a> type, in order to query it for more

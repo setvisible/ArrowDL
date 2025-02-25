@@ -18,8 +18,8 @@
 #include "ui_addurlsdialog.h"
 
 #include <Constants>
-#include <Core/DownloadItem>
-#include <Core/DownloadManager>
+#include <Core/JobFile>
+#include <Core/Scheduler>
 #include <Core/ResourceItem>
 #include <Core/Settings>
 #include <Core/Theme>
@@ -35,12 +35,12 @@
 
 AddUrlsDialog::AddUrlsDialog(
     const QString &text,
-    DownloadManager *downloadManager,
+    Scheduler *scheduler,
     Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddUrlsDialog)
     , m_fakeUrlLineEdit(new QLineEdit(this))
-    , m_downloadManager(downloadManager)
+    , m_scheduler(scheduler)
     , m_settings(settings)
 {
     ui->setupUi(this);
@@ -142,7 +142,7 @@ void AddUrlsDialog::doAccept(bool started)
         if (!simplified.isEmpty()) {
             m_fakeUrlLineEdit->setText(simplified);
             const QString url = ui->urlFormWidget->url();
-            m_downloadManager->append(toList(createItem(url)), started);
+            m_scheduler->append(toList(createJobFile(url)), started);
         }
     }
     QDialog::accept();
@@ -150,16 +150,15 @@ void AddUrlsDialog::doAccept(bool started)
 
 /******************************************************************************
  ******************************************************************************/
-IDownloadItem* AddUrlsDialog::createItem(const QString &url) const
+AbstractJob* AddUrlsDialog::createJobFile(const QString &url) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
-    auto item = new DownloadItem(m_downloadManager);
-    item->setResource(resource);
-    return item;
+    auto job = new JobFile(m_scheduler, resource);
+    return job;
 }
 
-inline QList<IDownloadItem*> AddUrlsDialog::toList(IDownloadItem *item)
+inline QList<AbstractJob *> AddUrlsDialog::toList(AbstractJob *job)
 {
-    return QList<IDownloadItem*>() << item;
+    return QList<AbstractJob *>() << job;
 }

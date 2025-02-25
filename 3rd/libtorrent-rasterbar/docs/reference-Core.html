@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.10</td></tr>
+<td>2.0.11</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
@@ -36,33 +36,33 @@
 <li><a class="reference internal" href="#operator" id="toc-entry-2">operator==()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#info-hash-t" id="toc-entry-3">info_hash_t</a><ul>
-<li><a class="reference internal" href="#info-hash-t-1" id="toc-entry-4">info_hash_t()</a></li>
-<li><a class="reference internal" href="#has-has-v2-has-v1" id="toc-entry-5">has() has_v2() has_v1()</a></li>
-<li><a class="reference internal" href="#get" id="toc-entry-6">get()</a></li>
-<li><a class="reference internal" href="#get-best" id="toc-entry-7">get_best()</a></li>
-<li><a class="reference internal" href="#for-each" id="toc-entry-8">for_each()</a></li>
+<li><a class="reference internal" href="#peer-info" id="toc-entry-3">peer_info</a><ul>
+<li><a class="reference internal" href="#i2p-destination" id="toc-entry-4">i2p_destination()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#peer-info" id="toc-entry-9">peer_info</a><ul>
-<li><a class="reference internal" href="#i2p-destination" id="toc-entry-10">i2p_destination()</a></li>
+<li><a class="reference internal" href="#info-hash-t" id="toc-entry-5">info_hash_t</a><ul>
+<li><a class="reference internal" href="#info-hash-t-1" id="toc-entry-6">info_hash_t()</a></li>
+<li><a class="reference internal" href="#has-v1-has-has-v2" id="toc-entry-7">has_v1() has() has_v2()</a></li>
+<li><a class="reference internal" href="#get" id="toc-entry-8">get()</a></li>
+<li><a class="reference internal" href="#get-best" id="toc-entry-9">get_best()</a></li>
+<li><a class="reference internal" href="#for-each" id="toc-entry-10">for_each()</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#piece-block" id="toc-entry-11">piece_block</a></li>
-<li><a class="reference internal" href="#version" id="toc-entry-12">version()</a></li>
-<li><a class="reference internal" href="#load-torrent-parsed-load-torrent-file-load-torrent-buffer" id="toc-entry-13">load_torrent_parsed() load_torrent_file() load_torrent_buffer()</a></li>
-<li><a class="reference internal" href="#torrent-peer-equal" id="toc-entry-14">torrent_peer_equal()</a></li>
-<li><a class="reference internal" href="#truncate-files" id="toc-entry-15">truncate_files()</a></li>
-<li><a class="reference internal" href="#make-magnet-uri" id="toc-entry-16">make_magnet_uri()</a></li>
-<li><a class="reference internal" href="#parse-magnet-uri" id="toc-entry-17">parse_magnet_uri()</a></li>
-<li><a class="reference internal" href="#enum-protocol-version" id="toc-entry-18">enum protocol_version</a></li>
-<li><a class="reference internal" href="#enum-event-t" id="toc-entry-19">enum event_t</a></li>
-<li><a class="reference internal" href="#enum-socket-type-t" id="toc-entry-20">enum socket_type_t</a></li>
+<li><a class="reference internal" href="#load-torrent-file-load-torrent-buffer-load-torrent-parsed" id="toc-entry-12">load_torrent_file() load_torrent_buffer() load_torrent_parsed()</a></li>
+<li><a class="reference internal" href="#torrent-peer-equal" id="toc-entry-13">torrent_peer_equal()</a></li>
+<li><a class="reference internal" href="#make-magnet-uri" id="toc-entry-14">make_magnet_uri()</a></li>
+<li><a class="reference internal" href="#parse-magnet-uri" id="toc-entry-15">parse_magnet_uri()</a></li>
+<li><a class="reference internal" href="#version" id="toc-entry-16">version()</a></li>
+<li><a class="reference internal" href="#truncate-files" id="toc-entry-17">truncate_files()</a></li>
+<li><a class="reference internal" href="#enum-event-t" id="toc-entry-18">enum event_t</a></li>
+<li><a class="reference internal" href="#enum-socket-type-t" id="toc-entry-19">enum socket_type_t</a></li>
+<li><a class="reference internal" href="#enum-connection-type" id="toc-entry-20">enum connection_type</a></li>
 <li><a class="reference internal" href="#enum-portmap-transport" id="toc-entry-21">enum portmap_transport</a></li>
 <li><a class="reference internal" href="#enum-portmap-protocol" id="toc-entry-22">enum portmap_protocol</a></li>
-<li><a class="reference internal" href="#enum-connection-type" id="toc-entry-23">enum connection_type</a></li>
-<li><a class="reference internal" href="#download-priority-t" id="toc-entry-24">download_priority_t</a></li>
-<li><a class="reference internal" href="#int" id="toc-entry-25">int</a></li>
+<li><a class="reference internal" href="#enum-protocol-version" id="toc-entry-23">enum protocol_version</a></li>
+<li><a class="reference internal" href="#int" id="toc-entry-24">int</a></li>
+<li><a class="reference internal" href="#download-priority-t" id="toc-entry-25">download_priority_t</a></li>
 <li><a class="reference internal" href="#char-const" id="toc-entry-26">char const*</a></li>
 <li><a class="reference internal" href="#std-uint64-t" id="toc-entry-27">std::uint64_t</a></li>
 <li><a class="reference internal" href="#pex-flags-t" id="toc-entry-28">pex_flags_t</a></li>
@@ -103,91 +103,6 @@ range as this does.</p>
 <dt>length</dt>
 <dd>The size of the range, in bytes.</dd>
 </dl>
-<a name="info_hash_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+info_hash_t&labels=documentation&body=Documentation+under+heading+%22class+info_hash_t%22+could+be+improved">report issue</a>]</span></div>
-</div>
-<div class="section" id="info-hash-t">
-<h1>info_hash_t</h1>
-<p>Declared in &quot;<a class="reference external" href="include/libtorrent/info_hash.hpp">libtorrent/info_hash.hpp</a>&quot;</p>
-<p>class holding the info-hash of a torrent. It can hold a v1 info-hash
-(SHA-1) or a v2 info-hash (SHA-256) or both.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">If <tt class="docutils literal">has_v2()</tt> is false then the v1 hash might actually be a truncated
-v2 hash</p>
-</div>
-<pre class="literal-block">
-struct info_hash_t
-{
-   explicit <strong>info_hash_t</strong> (sha1_hash h1) noexcept;
-   <strong>info_hash_t</strong> () noexcept = default;
-   explicit <strong>info_hash_t</strong> (sha256_hash h2) noexcept;
-   <strong>info_hash_t</strong> (sha1_hash h1, sha256_hash h2) noexcept;
-   bool <strong>has_v2</strong> () const;
-   bool <strong>has_v1</strong> () const;
-   bool <strong>has</strong> (protocol_version v) const;
-   sha1_hash <strong>get</strong> (protocol_version v) const;
-   sha1_hash <strong>get_best</strong> () const;
-   friend bool <strong>operator!=</strong> (info_hash_t const&amp; lhs, info_hash_t const&amp; rhs);
-   friend bool <strong>operator==</strong> (info_hash_t const&amp; lhs, info_hash_t const&amp; rhs) noexcept;
-   template &lt;typename F&gt; void <strong>for_each</strong> (F f) const;
-   bool <strong>operator&lt;</strong> (info_hash_t const&amp; o) const;
-   friend std::ostream&amp; <strong>operator&lt;&lt;</strong> (std::ostream&amp; os, info_hash_t const&amp; ih);
-
-   sha1_hash v1;
-   sha256_hash v2;
-};
-</pre>
-<a name="info_hash_t()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Binfo_hash_t%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Binfo_hash_t%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="info-hash-t-1">
-<h2>info_hash_t()</h2>
-<pre class="literal-block">
-explicit <strong>info_hash_t</strong> (sha1_hash h1) noexcept;
-<strong>info_hash_t</strong> () noexcept = default;
-explicit <strong>info_hash_t</strong> (sha256_hash h2) noexcept;
-<strong>info_hash_t</strong> (sha1_hash h1, sha256_hash h2) noexcept;
-</pre>
-<p>The default constructor creates an object that has neither a v1 or v2
-hash.</p>
-<p>For backwards compatibility, make it possible to construct directly
-from a v1 hash. This constructor allows <em>implicit</em> conversion from a
-v1 hash, but the implicitness is deprecated.</p>
-<a name="has()"></a>
-<a name="has_v2()"></a>
-<a name="has_v1()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Bhas%28%29+has_v2%28%29+has_v1%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Bhas%28%29+has_v2%28%29+has_v1%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="has-has-v2-has-v1">
-<h2>has() has_v2() has_v1()</h2>
-<pre class="literal-block">
-bool <strong>has_v2</strong> () const;
-bool <strong>has_v1</strong> () const;
-bool <strong>has</strong> (protocol_version v) const;
-</pre>
-<p>returns true if the corresponding info hash is present in this
-object.</p>
-<a name="get()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Bget%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Bget%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="get">
-<h2>get()</h2>
-<pre class="literal-block">
-sha1_hash <strong>get</strong> (protocol_version v) const;
-</pre>
-<p>returns the has for the specified protocol version</p>
-<a name="get_best()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Bget_best%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Bget_best%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="get-best">
-<h2>get_best()</h2>
-<pre class="literal-block">
-sha1_hash <strong>get_best</strong> () const;
-</pre>
-<p>returns the v2 (truncated) info-hash, if there is one, otherwise
-returns the v1 info-hash</p>
-<a name="for_each()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Bfor_each%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Bfor_each%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="for-each">
-<h2>for_each()</h2>
-<pre class="literal-block">
-template &lt;typename F&gt; void <strong>for_each</strong> (F f) const;
-</pre>
-<p>calls the function object <tt class="docutils literal">f</tt> for each hash that is available.
-starting with v1. The signature of <tt class="docutils literal">F</tt> is:</p>
-<pre class="literal-block">
-void(sha1_hash const&amp;, protocol_version);
-</pre>
 <a name="peer_info"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+peer_info&labels=documentation&body=Documentation+under+heading+%22class+peer_info%22+could+be+improved">report issue</a>]</span></div>
 </div>
 <div class="section" id="peer-info">
@@ -675,6 +590,91 @@ is in with regards to sending and receiving data. The states are
 defined as independent flags of type bandwidth_state_flags_t, in this
 class.</dd>
 </dl>
+<a name="info_hash_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+info_hash_t&labels=documentation&body=Documentation+under+heading+%22class+info_hash_t%22+could+be+improved">report issue</a>]</span></div>
+</div>
+<div class="section" id="info-hash-t">
+<h1>info_hash_t</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/info_hash.hpp">libtorrent/info_hash.hpp</a>&quot;</p>
+<p>class holding the info-hash of a torrent. It can hold a v1 info-hash
+(SHA-1) or a v2 info-hash (SHA-256) or both.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If <tt class="docutils literal">has_v2()</tt> is false then the v1 hash might actually be a truncated
+v2 hash</p>
+</div>
+<pre class="literal-block">
+struct info_hash_t
+{
+   <strong>info_hash_t</strong> () noexcept = default;
+   explicit <strong>info_hash_t</strong> (sha256_hash h2) noexcept;
+   explicit <strong>info_hash_t</strong> (sha1_hash h1) noexcept;
+   <strong>info_hash_t</strong> (sha1_hash h1, sha256_hash h2) noexcept;
+   bool <strong>has_v1</strong> () const;
+   bool <strong>has_v2</strong> () const;
+   bool <strong>has</strong> (protocol_version v) const;
+   sha1_hash <strong>get</strong> (protocol_version v) const;
+   sha1_hash <strong>get_best</strong> () const;
+   friend bool <strong>operator!=</strong> (info_hash_t const&amp; lhs, info_hash_t const&amp; rhs);
+   friend bool <strong>operator==</strong> (info_hash_t const&amp; lhs, info_hash_t const&amp; rhs) noexcept;
+   template &lt;typename F&gt; void <strong>for_each</strong> (F f) const;
+   bool <strong>operator&lt;</strong> (info_hash_t const&amp; o) const;
+   friend std::ostream&amp; <strong>operator&lt;&lt;</strong> (std::ostream&amp; os, info_hash_t const&amp; ih);
+
+   sha1_hash v1;
+   sha256_hash v2;
+};
+</pre>
+<a name="info_hash_t()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Binfo_hash_t%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Binfo_hash_t%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="info-hash-t-1">
+<h2>info_hash_t()</h2>
+<pre class="literal-block">
+<strong>info_hash_t</strong> () noexcept = default;
+explicit <strong>info_hash_t</strong> (sha256_hash h2) noexcept;
+explicit <strong>info_hash_t</strong> (sha1_hash h1) noexcept;
+<strong>info_hash_t</strong> (sha1_hash h1, sha256_hash h2) noexcept;
+</pre>
+<p>The default constructor creates an object that has neither a v1 or v2
+hash.</p>
+<p>For backwards compatibility, make it possible to construct directly
+from a v1 hash. This constructor allows <em>implicit</em> conversion from a
+v1 hash, but the implicitness is deprecated.</p>
+<a name="has_v1()"></a>
+<a name="has()"></a>
+<a name="has_v2()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Bhas_v1%28%29+has%28%29+has_v2%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Bhas_v1%28%29+has%28%29+has_v2%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="has-v1-has-has-v2">
+<h2>has_v1() has() has_v2()</h2>
+<pre class="literal-block">
+bool <strong>has_v1</strong> () const;
+bool <strong>has_v2</strong> () const;
+bool <strong>has</strong> (protocol_version v) const;
+</pre>
+<p>returns true if the corresponding info hash is present in this
+object.</p>
+<a name="get()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Bget%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Bget%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="get">
+<h2>get()</h2>
+<pre class="literal-block">
+sha1_hash <strong>get</strong> (protocol_version v) const;
+</pre>
+<p>returns the has for the specified protocol version</p>
+<a name="get_best()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Bget_best%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Bget_best%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="get-best">
+<h2>get_best()</h2>
+<pre class="literal-block">
+sha1_hash <strong>get_best</strong> () const;
+</pre>
+<p>returns the v2 (truncated) info-hash, if there is one, otherwise
+returns the v1 info-hash</p>
+<a name="for_each()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:info_hash_t%3A%3A%5Bfor_each%28%29%5D&labels=documentation&body=Documentation+under+heading+%22info_hash_t%3A%3A%5Bfor_each%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="for-each">
+<h2>for_each()</h2>
+<pre class="literal-block">
+template &lt;typename F&gt; void <strong>for_each</strong> (F f) const;
+</pre>
+<p>calls the function object <tt class="docutils literal">f</tt> for each hash that is available.
+starting with v1. The signature of <tt class="docutils literal">F</tt> is:</p>
+<pre class="literal-block">
+void(sha1_hash const&amp;, protocol_version);
+</pre>
 <a name="piece_block"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:class+piece_block&labels=documentation&body=Documentation+under+heading+%22class+piece_block%22+could+be+improved">report issue</a>]</span></div>
 </div>
 <div class="section" id="piece-block">
@@ -694,34 +694,25 @@ struct piece_block
    int <strong>block_index</strong>  = 0;
 };
 </pre>
-<a name="version()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:version%28%29&labels=documentation&body=Documentation+under+heading+%22version%28%29%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="version">
-<h1>version()</h1>
-<p>Declared in &quot;<a class="reference external" href="include/libtorrent/version.hpp">libtorrent/version.hpp</a>&quot;</p>
-<pre class="literal-block">
-char const* <strong>version</strong> ();
-</pre>
-<p>returns the libtorrent version as string form in this format:
-&quot;&lt;major&gt;.&lt;minor&gt;.&lt;tiny&gt;.&lt;tag&gt;&quot;</p>
-<a name="load_torrent_parsed()"></a>
 <a name="load_torrent_file()"></a>
-<a name="load_torrent_buffer()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:load_torrent_parsed%28%29+load_torrent_file%28%29+load_torrent_buffer%28%29&labels=documentation&body=Documentation+under+heading+%22load_torrent_parsed%28%29+load_torrent_file%28%29+load_torrent_buffer%28%29%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="load-torrent-parsed-load-torrent-file-load-torrent-buffer">
-<h1>load_torrent_parsed() load_torrent_file() load_torrent_buffer()</h1>
+<a name="load_torrent_buffer()"></a>
+<a name="load_torrent_parsed()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:load_torrent_file%28%29+load_torrent_buffer%28%29+load_torrent_parsed%28%29&labels=documentation&body=Documentation+under+heading+%22load_torrent_file%28%29+load_torrent_buffer%28%29+load_torrent_parsed%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="load-torrent-file-load-torrent-buffer-load-torrent-parsed">
+<h1>load_torrent_file() load_torrent_buffer() load_torrent_parsed()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/load_torrent.hpp">libtorrent/load_torrent.hpp</a>&quot;</p>
 <pre class="literal-block">
+add_torrent_params <strong>load_torrent_parsed</strong> (
+   bdecode_node const&amp; torrent_file, load_torrent_limits const&amp; cfg);
+add_torrent_params <strong>load_torrent_buffer</strong> (
+   span&lt;char const&gt; buffer);
 add_torrent_params <strong>load_torrent_buffer</strong> (
    span&lt;char const&gt; buffer, load_torrent_limits const&amp; cfg);
 add_torrent_params <strong>load_torrent_parsed</strong> (
    bdecode_node const&amp; torrent_file);
-add_torrent_params <strong>load_torrent_parsed</strong> (
-   bdecode_node const&amp; torrent_file, load_torrent_limits const&amp; cfg);
-add_torrent_params <strong>load_torrent_file</strong> (
-   std::string const&amp; filename);
 add_torrent_params <strong>load_torrent_file</strong> (
    std::string const&amp; filename, load_torrent_limits const&amp; cfg);
-add_torrent_params <strong>load_torrent_buffer</strong> (
-   span&lt;char const&gt; buffer);
+add_torrent_params <strong>load_torrent_file</strong> (
+   std::string const&amp; filename);
 </pre>
 <p>These functions load the content of a .torrent file into an
 <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object.
@@ -743,23 +734,14 @@ The returned object is suitable to be:</p>
 <pre class="literal-block">
 inline bool <strong>torrent_peer_equal</strong> (torrent_peer const* lhs, torrent_peer const* rhs);
 </pre>
-<a name="truncate_files()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:truncate_files%28%29&labels=documentation&body=Documentation+under+heading+%22truncate_files%28%29%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="truncate-files">
-<h1>truncate_files()</h1>
-<p>Declared in &quot;<a class="reference external" href="include/libtorrent/truncate.hpp">libtorrent/truncate.hpp</a>&quot;</p>
-<pre class="literal-block">
-void <strong>truncate_files</strong> (file_storage const&amp; fs, std::string const&amp; save_path, storage_error&amp; ec);
-</pre>
-<p>Truncates files larger than specified in the <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a>, saved under
-the specified save_path.</p>
 <a name="make_magnet_uri()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:make_magnet_uri%28%29&labels=documentation&body=Documentation+under+heading+%22make_magnet_uri%28%29%22+could+be+improved">report issue</a>]</span></div>
 <div class="section" id="make-magnet-uri">
 <h1>make_magnet_uri()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/magnet_uri.hpp">libtorrent/magnet_uri.hpp</a>&quot;</p>
 <pre class="literal-block">
+std::string <strong>make_magnet_uri</strong> (torrent_handle const&amp; handle);
 std::string <strong>make_magnet_uri</strong> (torrent_info const&amp; info);
 std::string <strong>make_magnet_uri</strong> (add_torrent_params const&amp; atp);
-std::string <strong>make_magnet_uri</strong> (torrent_handle const&amp; handle);
 </pre>
 <p>Generates a magnet URI from the specified torrent.</p>
 <p>Several fields from the <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> objects are recorded in the
@@ -787,46 +769,33 @@ an empty string is returned.</p>
 <h1>parse_magnet_uri()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/magnet_uri.hpp">libtorrent/magnet_uri.hpp</a>&quot;</p>
 <pre class="literal-block">
-add_torrent_params <strong>parse_magnet_uri</strong> (string_view uri);
 void <strong>parse_magnet_uri</strong> (string_view uri, add_torrent_params&amp; p, error_code&amp; ec);
 add_torrent_params <strong>parse_magnet_uri</strong> (string_view uri, error_code&amp; ec);
+add_torrent_params <strong>parse_magnet_uri</strong> (string_view uri);
 </pre>
 <p>This function parses out information from the magnet link and populates the
 <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a> object. The overload that does not take an
 <tt class="docutils literal">error_code</tt> reference will throw a system_error on error
 The overload taking an <tt class="docutils literal">add_torrent_params</tt> reference will fill in the
 fields specified in the magnet URI.</p>
-<a name="protocol_version"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+protocol_version&labels=documentation&body=Documentation+under+heading+%22enum+protocol_version%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="enum-protocol-version">
-<h1>enum protocol_version</h1>
-<p>Declared in &quot;<a class="reference external" href="include/libtorrent/info_hash.hpp">libtorrent/info_hash.hpp</a>&quot;</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="8%" />
-<col width="10%" />
-<col width="82%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">name</th>
-<th class="head">value</th>
-<th class="head">description</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td>V1</td>
-<td>0</td>
-<td>The original BitTorrent version, using SHA-1 hashes</td>
-</tr>
-<tr><td>V2</td>
-<td>1</td>
-<td>Version 2 of the BitTorrent protocol, using SHA-256 hashes</td>
-</tr>
-<tr><td>NUM</td>
-<td>2</td>
-<td>&nbsp;</td>
-</tr>
-</tbody>
-</table>
+<a name="version()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:version%28%29&labels=documentation&body=Documentation+under+heading+%22version%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="version">
+<h1>version()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/version.hpp">libtorrent/version.hpp</a>&quot;</p>
+<pre class="literal-block">
+char const* <strong>version</strong> ();
+</pre>
+<p>returns the libtorrent version as string form in this format:
+&quot;&lt;major&gt;.&lt;minor&gt;.&lt;tiny&gt;.&lt;tag&gt;&quot;</p>
+<a name="truncate_files()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:truncate_files%28%29&labels=documentation&body=Documentation+under+heading+%22truncate_files%28%29%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="truncate-files">
+<h1>truncate_files()</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/truncate.hpp">libtorrent/truncate.hpp</a>&quot;</p>
+<pre class="literal-block">
+void <strong>truncate_files</strong> (file_storage const&amp; fs, std::string const&amp; save_path, storage_error&amp; ec);
+</pre>
+<p>Truncates files larger than specified in the <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a>, saved under
+the specified save_path.</p>
 <a name="event_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+event_t&labels=documentation&body=Documentation+under+heading+%22enum+event_t%22+could+be+improved">report issue</a>]</span></div>
 <div class="section" id="enum-event-t">
 <h1>enum event_t</h1>
@@ -921,6 +890,37 @@ fields specified in the magnet URI.</p>
 </tr>
 </tbody>
 </table>
+<a name="connection_type"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+connection_type&labels=documentation&body=Documentation+under+heading+%22enum+connection_type%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="enum-connection-type">
+<h1>enum connection_type</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/peer_connection.hpp">libtorrent/peer_connection.hpp</a>&quot;</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="22%" />
+<col width="41%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">name</th>
+<th class="head">value</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>bittorrent</td>
+<td>0</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>url_seed</td>
+<td>1</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>http_seed</td>
+<td>2</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
 <a name="portmap_transport"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+portmap_transport&labels=documentation&body=Documentation+under+heading+%22enum+portmap_transport%22+could+be+improved">report issue</a>]</span></div>
 <div class="section" id="enum-portmap-transport">
 <h1>enum portmap_transport</h1>
@@ -979,15 +979,15 @@ fields specified in the magnet URI.</p>
 </tr>
 </tbody>
 </table>
-<a name="connection_type"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+connection_type&labels=documentation&body=Documentation+under+heading+%22enum+connection_type%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="enum-connection-type">
-<h1>enum connection_type</h1>
-<p>Declared in &quot;<a class="reference external" href="include/libtorrent/peer_connection.hpp">libtorrent/peer_connection.hpp</a>&quot;</p>
+<a name="protocol_version"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:enum+protocol_version&labels=documentation&body=Documentation+under+heading+%22enum+protocol_version%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="enum-protocol-version">
+<h1>enum protocol_version</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/info_hash.hpp">libtorrent/info_hash.hpp</a>&quot;</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="38%" />
-<col width="22%" />
-<col width="41%" />
+<col width="8%" />
+<col width="10%" />
+<col width="82%" />
 </colgroup>
 <thead valign="bottom">
 <tr><th class="head">name</th>
@@ -996,20 +996,36 @@ fields specified in the magnet URI.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td>bittorrent</td>
+<tr><td>V1</td>
 <td>0</td>
-<td>&nbsp;</td>
+<td>The original BitTorrent version, using SHA-1 hashes</td>
 </tr>
-<tr><td>url_seed</td>
+<tr><td>V2</td>
 <td>1</td>
-<td>&nbsp;</td>
+<td>Version 2 of the BitTorrent protocol, using SHA-256 hashes</td>
 </tr>
-<tr><td>http_seed</td>
+<tr><td>NUM</td>
 <td>2</td>
 <td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
+<a name="int"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:int&labels=documentation&body=Documentation+under+heading+%22int%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="int">
+<h1>int</h1>
+<p>Declared in &quot;<a class="reference external" href="include/libtorrent/version.hpp">libtorrent/version.hpp</a>&quot;</p>
+<a name="int::version_major"></a><dl class="docutils">
+<dt>version_major</dt>
+<dd>the major, minor and tiny versions of libtorrent</dd>
+</dl>
+<a name="int::version_minor"></a><dl class="docutils">
+<dt>version_minor</dt>
+<dd>the major, minor and tiny versions of libtorrent</dd>
+</dl>
+<a name="int::version_tiny"></a><dl class="docutils">
+<dt>version_tiny</dt>
+<dd>the major, minor and tiny versions of libtorrent</dd>
+</dl>
 <a name="download_priority_t"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:download_priority_t&labels=documentation&body=Documentation+under+heading+%22download_priority_t%22+could+be+improved">report issue</a>]</span></div>
 <div class="section" id="download-priority-t">
 <h1>download_priority_t</h1>
@@ -1030,22 +1046,6 @@ setting file priorities.</dd>
 <a name="download_priority_t::top_priority"></a><dl class="docutils">
 <dt>top_priority</dt>
 <dd>The highest priority for files and pieces.</dd>
-</dl>
-<a name="int"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:int&labels=documentation&body=Documentation+under+heading+%22int%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="int">
-<h1>int</h1>
-<p>Declared in &quot;<a class="reference external" href="include/libtorrent/version.hpp">libtorrent/version.hpp</a>&quot;</p>
-<a name="int::version_major"></a><dl class="docutils">
-<dt>version_major</dt>
-<dd>the major, minor and tiny versions of libtorrent</dd>
-</dl>
-<a name="int::version_minor"></a><dl class="docutils">
-<dt>version_minor</dt>
-<dd>the major, minor and tiny versions of libtorrent</dd>
-</dl>
-<a name="int::version_tiny"></a><dl class="docutils">
-<dt>version_tiny</dt>
-<dd>the major, minor and tiny versions of libtorrent</dd>
 </dl>
 <a name="char const*"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:char+const%2A&labels=documentation&body=Documentation+under+heading+%22char+const%2A%22+could+be+improved">report issue</a>]</span></div>
 <div class="section" id="char-const">
@@ -1226,7 +1226,7 @@ will not be affected, until this flag is set again.</p>
 <p>The behavior is more robust when setting this flag as part of adding
 the torrent. See <a class="reference external" href="reference-Add_Torrent.html#add_torrent_params">add_torrent_params</a>.</p>
 <p>The stop-when-ready flag fixes the inherent race condition of waiting
-for the <a class="reference external" href="reference-Alerts.html#state_changed_alert">state_changed_alert</a> and then call <a class="reference external" href="reference-Torrent_Handle.html#pause()">pause()</a>. The download/seeding
+for the <a class="reference external" href="reference-Alerts.html#state_changed_alert">state_changed_alert</a> and then call <a class="reference external" href="reference-Session.html#pause()">pause()</a>. The download/seeding
 will most likely start in between posting the <a class="reference external" href="reference-Alerts.html#alert">alert</a> and receiving the
 call to pause.</p>
 <p class="last">A downloading state is one where peers are being connected. Which means

@@ -17,8 +17,6 @@
 #ifndef CORE_TORRENT_MESSAGE_H
 #define CORE_TORRENT_MESSAGE_H
 
-#include <Core/IDownloadItem>
-
 #include <QtCore/QBitArray>
 #include <QtCore/QDateTime>
 #include <QtCore/QFlag>

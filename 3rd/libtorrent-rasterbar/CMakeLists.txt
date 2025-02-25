@@ -192,7 +192,6 @@ set(libtorrent_extensions_include_files
 
 set(libtorrent_aux_include_files
 	alert_manager.hpp
-	aligned_storage.hpp
 	aligned_union.hpp
 	alloca.hpp
 	allocating_handler.hpp
@@ -620,7 +619,7 @@ if (WIN32)
 			debug dbghelp crypt32
 	)
 
-	add_definitions(-D_WIN32_WINNT=0x0601) # target Windows 7 or later
+	add_definitions(-D_WIN32_WINNT=0x0A00) # target Windows 10 or later
 
 	target_compile_definitions(torrent-rasterbar
 		PUBLIC WIN32_LEAN_AND_MEAN # prevent winsock1 to be included

@@ -248,7 +248,7 @@ i2p peers as well as regular peers via a proxy.
 +------------------+--------+----------+
 | name             | type   | default  |
 +==================+========+==========+
-| peer_fingerprint | string | -LT20A0- |
+| peer_fingerprint | string | -LT20B0- |
 +------------------+--------+----------+
 
 this is the fingerprint for the client. It will be used as the
@@ -276,6 +276,10 @@ know of any.
 
 Changing these after the DHT has been started may not have any
 effect until the DHT is restarted.
+Here are some other bootstrap nodes that may work:
+``router.bittorrent.com:6881``,
+``dht.transmissionbt.com:6881``
+``router.bt.ouinet.work:6881``,
 
 .. _allow_multiple_connections_per_ip:
 
@@ -3480,4 +3484,29 @@ Changing these will not trigger a reconnect to the SAM bridge,
 they will take effect the next time the SAM connection is
 re-established (by restarting or changing i2p_hostname or
 i2p_port).
+
+.. _announce_port:
+
+.. raw:: html
+
+	<a name="announce_port"></a>
+
++---------------+------+---------+
+| name          | type | default |
++===============+======+=========+
+| announce_port | int  | 0       |
++---------------+------+---------+
+
+``announce_port`` is the port passed along as the ``port`` parameter
+to remote trackers such as HTTP or DHT. This setting does not affect
+the effective listening port nor local service discovery announcements.
+If left as zero (default), the listening port value is used.
+
+.. note::
+   This setting is only meant for very special cases where a
+   seed's listening port differs from the external port. As an
+   example, if a local proxy is used and that the proxy supports
+   reverse tunnels through NAT-PMP, the tracker must connect to
+   the external NAT-PMP port (configured using ``announce_port``)
+   instead of the actual local listening port.
 

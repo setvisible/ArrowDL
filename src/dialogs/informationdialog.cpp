@@ -18,9 +18,9 @@
 #include "ui_informationdialog.h"
 
 #include <Constants>
-#include <Core/DownloadItem>
+#include <Core/AbstractJob>
+#include <Core/JobFile>
 #include <Core/Format>
-#include <Core/IDownloadItem>
 #include <Core/MimeDatabase>
 #include <Core/ResourceItem>
 #include <Core/Theme>
@@ -30,7 +30,7 @@
 #include <QtCore/QScopedPointer>
 #include <QtCore/QSettings>
 
-InformationDialog::InformationDialog(const QList<IDownloadItem *> &jobs, QWidget *parent)
+InformationDialog::InformationDialog(const QList<AbstractJob *> &jobs, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InformationDialog)
 {
@@ -76,11 +76,11 @@ void InformationDialog::writeUiSettings()
 
 void InformationDialog::accept()
 {
-    if (!m_items.isEmpty()) {
-        IDownloadItem *item = m_items.first();
-        auto downloadItem = dynamic_cast<DownloadItem*>(item);
-        if (downloadItem) {
-            auto resource = downloadItem->resource();
+    if (!m_jobs.isEmpty()) {
+        AbstractJob *job = m_jobs.first();
+        auto jobFile = dynamic_cast<JobFile*>(job);
+        if (jobFile) {
+            auto resource = jobFile->resource();
             QScopedPointer<ResourceItem> copy(ui->urlFormWidget->createResourceItem());
 
             resource->setUrl(copy->url());
@@ -91,35 +91,35 @@ void InformationDialog::accept()
             resource->setMask(copy->mask());
             resource->setCheckSum(copy->checkSum());
 
-            downloadItem->stop();
-            downloadItem->pause();
+            jobFile->stop();
+            jobFile->pause();
         }
     }
     QDialog::accept();
 }
 
-void InformationDialog::initialize(const QList<IDownloadItem *> &items)
+void InformationDialog::initialize(const QList<AbstractJob *> &jobs)
 {
-    if (items.isEmpty()) {
+    if (jobs.isEmpty()) {
         return;
     }
-    m_items = items;
-    const IDownloadItem *item = items.first();
-    auto downloadItem = dynamic_cast<const DownloadItem*>(item);
+    m_jobs = jobs;
+    const AbstractJob *job = jobs.first();
+    auto jobFile = dynamic_cast<const JobFile*>(job);
 
     /* Title and subtitles */
-    const QUrl localFileUrl = item->localFileUrl();
+    const QUrl localFileUrl = job->localFileUrl();
     const QString filename = QDir::toNativeSeparators(localFileUrl.toLocalFile());
     ui->fileNameLineEdit->setText(Format::wrapText(filename, 50));
 
-    const QUrl url = item->sourceUrl();
+    const QUrl url = job->sourceUrl();
     const QString urlHtml = Format::toHtmlMark(url, true);
     ui->urlLineEdit->setText(urlHtml);
     ui->urlLineEdit->setTextFormat(Qt::RichText);
     ui->urlLineEdit->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
     ui->urlLineEdit->setOpenExternalLinks(true);
 
-    qsizetype bytes = item->bytesTotal();
+    qsizetype bytes = job->bytesTotal();
     if (bytes > 0) {
         auto text = QString("%0 (%1 bytes)").arg(
                     Format::fileSizeToString(bytes),
@@ -134,13 +134,13 @@ void InformationDialog::initialize(const QList<IDownloadItem *> &items)
     ui->logo->setPixmap(pixmap);
 
     /* Form */
-    if (downloadItem) {
-        ui->urlFormWidget->setResource(downloadItem->resource());
+    if (jobFile) {
+        ui->urlFormWidget->setResource(jobFile->resource());
     }
 
     /* Log */
-    if (downloadItem) {
-        ui->logTextEdit->setPlainText(downloadItem->log());
+    if (jobFile) {
+        ui->logTextEdit->setPlainText(jobFile->log());
 
         // Scroll to last line
         QTextCursor cursor = ui->logTextEdit->textCursor();

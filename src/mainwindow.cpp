@@ -20,9 +20,9 @@
 #include "about.h"
 
 #include <Constants>
-#include <Core/IDownloadItem>
-#include <Core/DownloadManager>
-#include <Core/DownloadTorrentItem>
+#include <Core/AbstractJob>
+#include <Core/Scheduler>
+#include <Core/JobTorrent>
 #include <Core/FileAccessManager>
 #include <Core/Format>
 #include <Core/Locale>
@@ -50,7 +50,7 @@
 #include <Ipc/InterProcessCommunication>
 #include <Io/FileReader>
 #include <Io/FileWriter>
-#include <Widgets/DownloadQueueView>
+#include <Widgets/QueueView>
 #include <Widgets/SystemTray>
 #include <Widgets/TorrentWidget>
 
@@ -89,7 +89,7 @@
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
-  , m_downloadManager(new DownloadManager(this))
+  , m_scheduler(new Scheduler(this))
   , m_streamManager(new StreamManager(this))
   , m_fileAccessManager(new FileAccessManager(this))
   , m_settings(new Settings(this))
@@ -99,15 +99,15 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 {
     ui->setupUi(this);
 
-    m_downloadManager->setSettings(m_settings);
+    m_scheduler->setSettings(m_settings);
 
     m_streamManager->setSettings(m_settings);
 
     TorrentContext& torrentContext = TorrentContext::getInstance();
     torrentContext.setSettings(m_settings);
-    torrentContext.setNetworkManager(m_downloadManager->networkManager());
+    torrentContext.setNetworkManager(m_scheduler->networkManager());
 
-    m_updateChecker->setNetworkManager(m_downloadManager->networkManager());
+    m_updateChecker->setNetworkManager(m_scheduler->networkManager());
 
     Qt::WindowFlags flags = Qt::Window
             | Qt::WindowTitleHint
@@ -133,22 +133,20 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     m_winTaskbarProgress->setVisible(false);
 #endif
 
-    /* Connect the GUI to the DownloadManager. */
-    ui->downloadQueueView->setEngine(m_downloadManager);
+    /* Connect the GUI to the Scheduler. */
+    ui->queueView->setModel(m_scheduler->model());
 
     /* Connect the GUI to the TorrentContext. */
     ui->torrentWidget->setTorrentContext(&torrentContext);
 
     /* Connect the SceneManager to the MainWindow. */
     /* The SceneManager centralizes the changes. */
-    connect(m_downloadManager, SIGNAL(jobAppended(DownloadRange)), this, SLOT(onJobAddedOrRemoved(DownloadRange)));
-    connect(m_downloadManager, SIGNAL(jobRemoved(DownloadRange)), this, SLOT(onJobAddedOrRemoved(DownloadRange)));
-    connect(m_downloadManager, SIGNAL(jobStateChanged(IDownloadItem*)), this, SLOT(onJobStateChanged(IDownloadItem*)));
-    connect(m_downloadManager, SIGNAL(jobFinished(IDownloadItem*)), this, SLOT(onJobFinished(IDownloadItem*)));
-    connect(m_downloadManager, SIGNAL(jobRenamed(QString,QString,bool)), this, SLOT(onJobRenamed(QString,QString,bool)), Qt::QueuedConnection);
-    connect(m_downloadManager, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
+    connect(m_scheduler, SIGNAL(jobFinished(AbstractJob*)), this, SLOT(onJobFinished(AbstractJob*)));
+    connect(m_scheduler, SIGNAL(jobRenamed(QString,QString,bool)), this, SLOT(onJobRenamed(QString,QString,bool)), Qt::QueuedConnection);
 
-    connect(ui->downloadQueueView, SIGNAL(doubleClicked(IDownloadItem*)), this, SLOT(openFile(IDownloadItem*)));
+    connect(ui->queueView, SIGNAL(dataChanged()), this, SLOT(onDataChanged()));
+    connect(ui->queueView, SIGNAL(selectionChanged()), this, SLOT(onSelectionChanged()));
+    connect(ui->queueView, SIGNAL(doubleClicked(AbstractJob*)), this, SLOT(openFile(AbstractJob*)));            
 
     /* Torrent Context Manager */
     connect(&torrentContext, &TorrentContext::changed, this, &MainWindow::onTorrentContextChanged);
@@ -164,8 +162,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     readSettings();
 
-    refreshTitleAndStatus();
     refreshMenus();
+    refreshSplitter();
+    refreshTitleAndStatus();
 
     Locale::applyLanguage(m_settings->language());
     Theme::applyTheme(m_settings->theme());
@@ -278,10 +277,10 @@ void MainWindow::createActions()
     //! [0]
 
     //! [1] Edit
-    connect(ui->actionSelectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
-    connect(ui->actionSelectNone, SIGNAL(triggered()), this, SLOT(selectNone()));
-    connect(ui->actionInvertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
-    connect(ui->actionSelectCompleted, SIGNAL(triggered()), this, SLOT(selectCompleted()));
+    connect(ui->actionSelectAll, SIGNAL(triggered()), ui->queueView, SLOT(selectAll()));
+    connect(ui->actionSelectNone, SIGNAL(triggered()), ui->queueView, SLOT(selectNone()));
+    connect(ui->actionInvertSelection, SIGNAL(triggered()), ui->queueView, SLOT(invertSelection()));
+    connect(ui->actionSelectCompleted, SIGNAL(triggered()), ui->queueView, SLOT(selectCompleted()));
     // --
     connect(ui->actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
     //! [1]
@@ -304,10 +303,10 @@ void MainWindow::createActions()
     connect(ui->actionPause, SIGNAL(triggered()), this, SLOT(pause()));
     connect(ui->actionCancel, SIGNAL(triggered()), this, SLOT(cancel()));
     //--
-    connect(ui->actionUp, SIGNAL(triggered()), this, SLOT(up()));
-    connect(ui->actionTop, SIGNAL(triggered()), this, SLOT(top()));
-    connect(ui->actionDown, SIGNAL(triggered()), this, SLOT(down()));
-    connect(ui->actionBottom, SIGNAL(triggered()), this, SLOT(bottom()));
+    connect(ui->actionUp, SIGNAL(triggered()), ui->queueView, SLOT(moveUp()));
+    connect(ui->actionTop, SIGNAL(triggered()), ui->queueView, SLOT(moveTop()));
+    connect(ui->actionDown, SIGNAL(triggered()), ui->queueView, SLOT(moveDown()));
+    connect(ui->actionBottom, SIGNAL(triggered()), ui->queueView, SLOT(moveBottom()));
     //! [3]
 
     //! [4]  Options
@@ -329,8 +328,7 @@ void MainWindow::createActions()
     connect(ui->actionAboutCompiler, SIGNAL(triggered()), this, SLOT(aboutCompiler()));
     connect(ui->actionAboutYTDLP, SIGNAL(triggered()), this, SLOT(aboutStream()));
 
-    ui->actionWebsite->setText(
-        QString("%0").arg(STR_APPLICATION_WEBSITE).remove("https://").removeLast());
+    ui->actionWebsite->setText(QString("%0").arg(STR_APPLICATION_WEBSITE).remove("https://").removeLast());
     ui->actionWebsite->setToolTip(tr("Go to website"));
     connect(ui->actionWebsite, SIGNAL(triggered()), this, SLOT(aboutWebsite()));
     //! [5]
@@ -342,8 +340,8 @@ void MainWindow::createActions()
 void MainWindow::createContextMenu()
 {
     // delete previous menu if any
-    QMenu *contextMenu = ui->downloadQueueView->contextMenu();
-    ui->downloadQueueView->setContextMenu(nullptr);
+    QMenu *contextMenu = ui->queueView->contextMenu();
+    ui->queueView->setContextMenu(nullptr);
     if (contextMenu) {
         delete contextMenu;
         contextMenu = nullptr;
@@ -380,7 +378,7 @@ void MainWindow::createContextMenu()
     advanced->addAction(ui->actionImportFromFile);
     advanced->addAction(ui->actionExportSelectedToFile);
 
-    ui->downloadQueueView->setContextMenu(contextMenu);
+    ui->queueView->setContextMenu(contextMenu);
 }
 
 void MainWindow::createStatusbar()
@@ -498,70 +496,50 @@ void MainWindow::exportSelectedToFile()
     }
 }
 
-void MainWindow::selectAll()
-{
-    m_downloadManager->setSelection(m_downloadManager->downloadItems());
-}
-
-void MainWindow::selectNone()
-{
-    m_downloadManager->clearSelection();
-}
-
-void MainWindow::invertSelection()
-{
-    QList<IDownloadItem *> inverted;
-    for (auto item : m_downloadManager->downloadItems()) {
-        if (!m_downloadManager->isSelected(item)) {
-            inverted.append(item);
-        }
-    }
-    m_downloadManager->setSelection(inverted);
-}
-
-void MainWindow::selectCompleted()
-{
-    m_downloadManager->setSelection(m_downloadManager->completedJobs());
-}
-
 void MainWindow::copy()
 {
-    const QString text = m_downloadManager->selectionToClipboard();
+    const QString text = ui->queueView->selectionToClipboard();
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(text);
 }
 
 void MainWindow::showInformation()
 {
-    if (m_downloadManager->selection().count() == 1) {
-        InformationDialog dialog(m_downloadManager->selection(), this);
+    auto jobs = ui->queueView->selectedJobs();
+    if (jobs.count() == 1) {
+        InformationDialog dialog(jobs, this);
         int answer = dialog.exec();
         if (answer == QDialog::Accepted) {
-            m_downloadManager->updateItems(m_downloadManager->selection());
+            m_scheduler->activateSnapshot();
+            refreshMenus();
+            refreshTitleAndStatus();
         }
-    } else if (m_downloadManager->selection().count() > 1) {
-        EditionDialog dialog(m_downloadManager->selection(), this);
+    } else if (jobs.count() > 1) {
+        EditionDialog dialog(jobs, this);
         int answer = dialog.exec();
         if (answer == QDialog::Accepted) {
-            m_downloadManager->updateItems(m_downloadManager->selection());
+            m_scheduler->activateSnapshot();
+            refreshMenus();
+            refreshTitleAndStatus();
         }
     }
 }
 
 void MainWindow::openFile()
 {
-    if (!m_downloadManager->selection().isEmpty()) {
-        auto item = m_downloadManager->selection().first();
-        if (item->state() == IDownloadItem::Completed) {
-            openFile(item);
+    auto jobs = ui->queueView->selectedJobs();
+    if (!jobs.isEmpty()) {
+        auto job = jobs.first();
+        if (job->state() == AbstractJob::Completed) {
+            openFile(job);
             return;
         }
     }
 }
 
-void MainWindow::openFile(IDownloadItem *downloadItem)
+void MainWindow::openFile(AbstractJob *job)
 {
-    auto url = downloadItem->localFileUrl();
+    auto url = job->localFileUrl();
     if (!QDesktopServices::openUrl(url)) {
         QMessageBox::information(
                     this, tr("Error"),
@@ -573,49 +551,56 @@ void MainWindow::openFile(IDownloadItem *downloadItem)
 
 void MainWindow::renameFile()
 {
-    if (m_downloadManager->selection().count() == 1) {
-        ui->downloadQueueView->rename();
-    } else if (m_downloadManager->selection().count() > 1) {
-        BatchRenameDialog dialog(m_downloadManager->selection(), this);
+    auto jobs = ui->queueView->selectedJobs();
+    if (jobs.count() == 1) {
+        ui->queueView->rename();
+    } else if (jobs.count() > 1) {
+        BatchRenameDialog dialog(jobs, this);
         int answer = dialog.exec();
         if (answer == QDialog::Accepted) {
-            m_downloadManager->updateItems(m_downloadManager->selection());
+            m_scheduler->activateSnapshot();
+            refreshMenus();
+            refreshTitleAndStatus();
         }
     }
 }
 
 void MainWindow::deleteFile()
 {
-    if (!m_downloadManager->selection().isEmpty()) {
-        QString text = m_downloadManager->selectionToString();
+    auto jobs = ui->queueView->selectedJobs();
+    if (jobs.isEmpty()) {
+        return;
+    }
+    QString text = ui->queueView->selectionToString();
 
-        QMessageBox msgbox(this);
-        msgbox.setWindowTitle(tr("Remove Downloads"));
-        msgbox.setText(tr("Are you sure to remove %0 downloads?").arg(text));
-        msgbox.setIcon(QMessageBox::Icon::Question);
-        QAbstractButton *deleteButton = msgbox.addButton(tr("Delete"), QMessageBox::ActionRole);
-        msgbox.addButton(QMessageBox::Cancel);
-        msgbox.setDefaultButton(QMessageBox::Cancel);
+    QMessageBox msgbox(this);
+    msgbox.setWindowTitle(tr("Remove Downloads"));
+    msgbox.setText(tr("Are you sure to remove %0 downloads?").arg(text));
+    msgbox.setIcon(QMessageBox::Icon::Question);
+    QAbstractButton *deleteButton = msgbox.addButton(tr("Delete"), QMessageBox::ActionRole);
+    msgbox.addButton(QMessageBox::Cancel);
+    msgbox.setDefaultButton(QMessageBox::Cancel);
 
-        msgbox.exec();
-        if (msgbox.clickedButton() == deleteButton) {
-            m_downloadManager->movetoTrash(m_downloadManager->selection());
-        }
+    msgbox.exec();
+    if (msgbox.clickedButton() == deleteButton) {
+        ui->queueView->moveSelectionToTrash();
     }
 }
 
 void MainWindow::openDirectory()
 {
-    if (!m_downloadManager->selection().isEmpty()) {
-        auto item = m_downloadManager->selection().first();
-        auto url = item->localDirUrl();
-        if (!QDesktopServices::openUrl(url)) {
-            QMessageBox::information(
-                        this, tr("Error"),
-                        QString("%0\n\n%1").arg(
-                            tr("Destination directory not found:"),
-                            url.toLocalFile()));
-        }
+    auto jobs = ui->queueView->selectedJobs();
+    if (jobs.isEmpty()) {
+        return;
+    }
+    auto job = jobs.first();
+    auto url = job->localDirUrl();
+    if (!QDesktopServices::openUrl(url)) {
+        QMessageBox::information(
+                    this, tr("Error"),
+                    QString("%0\n\n%1").arg(
+                        tr("Destination directory not found:"),
+                        url.toLocalFile()));
     }
 }
 
@@ -649,21 +634,21 @@ bool MainWindow::askConfirmation(const QString &text)
 void MainWindow::removeCompleted()
 {
     if (askConfirmation(tr("completed"))) {
-        m_downloadManager->remove(m_downloadManager->completedJobs());
+        ui->queueView->removeCompleted();
     }
 }
 
 void MainWindow::removeSelected()
 {
     if (askConfirmation(tr("selected"))) {
-        m_downloadManager->remove(m_downloadManager->selection());
+        ui->queueView->removeSelected();
     }
 }
 
 void MainWindow::removeAll()
 {    
     if (askConfirmation(tr("ALL"))) {
-        m_downloadManager->remove(m_downloadManager->downloadItems());
+        ui->queueView->removeAll();
     }
 }
 
@@ -705,7 +690,7 @@ void MainWindow::handleMessage(const QString &message)
                 addStream(url);
 
             } else {
-                AddBatchDialog::quickDownload(url, m_downloadManager);
+                AddBatchDialog::quickDownload(url, m_scheduler);
             }
 
         } else if(InterProcessCommunication::isCommandOpenManager(cleaned)) {
@@ -774,7 +759,7 @@ void MainWindow::addContent()
 
 void MainWindow::addContent(const QUrl &url)
 {
-    AddContentDialog dialog(m_downloadManager, m_settings, this);
+    AddContentDialog dialog(m_scheduler, m_settings, this);
     dialog.loadUrl(url);
     dialog.exec();
 }
@@ -789,7 +774,7 @@ void MainWindow::addContent(const QString &message)
     /// \todo decouple the dialog and the dialog's model,
     /// in order to not call "dialog.exec()" when it's a silent download
 
-    AddContentDialog dialog(m_downloadManager, m_settings, this);
+    AddContentDialog dialog(m_scheduler, m_settings, this);
     bool willShowDialog = dialog.loadResources(message);
 
     if (willShowDialog && wasHidden) {
@@ -812,7 +797,7 @@ void MainWindow::addBatch()
 
 void MainWindow::addBatch(const QUrl &url)
 {
-    AddBatchDialog dialog(url, m_downloadManager, m_settings, this);
+    AddBatchDialog dialog(url, m_scheduler, m_settings, this);
     dialog.exec();
 }
 
@@ -825,7 +810,7 @@ void MainWindow::addStream()
 
 void MainWindow::addStream(const QUrl &url)
 {
-    AddStreamDialog dialog(url, m_downloadManager, m_settings, this);
+    AddStreamDialog dialog(url, m_scheduler, m_settings, this);
     dialog.exec();
 }
 
@@ -838,7 +823,7 @@ void MainWindow::addTorrent()
 
 void MainWindow::addTorrent(const QUrl &url)
 {
-    AddTorrentDialog dialog(url, m_downloadManager, m_settings, this);
+    AddTorrentDialog dialog(url, m_scheduler, m_settings, this);
     dialog.exec();
 }
 
@@ -851,7 +836,7 @@ void MainWindow::addUrls()
 
 void MainWindow::addUrls(const QString &text)
 {
-    AddUrlsDialog dialog(text, m_downloadManager, m_settings, this);
+    AddUrlsDialog dialog(text, m_scheduler, m_settings, this);
     dialog.exec();
 }
 
@@ -859,43 +844,23 @@ void MainWindow::addUrls(const QString &text)
  ******************************************************************************/
 void MainWindow::resume()
 {
-    for (auto item : m_downloadManager->selection()) {
-        m_downloadManager->resume(item);
+    for (auto job : ui->queueView->selectedJobs()) {
+        m_scheduler->resume(job);
     }
 }
 
 void MainWindow::cancel()
 {
-    for (auto item : m_downloadManager->selection()) {
-        m_downloadManager->cancel(item);
+    for (auto job : ui->queueView->selectedJobs()) {
+        m_scheduler->cancel(job);
     }
 }
 
 void MainWindow::pause()
 {
-    for (auto item : m_downloadManager->selection()) {
-        m_downloadManager->pause(item);
+    for (auto job : ui->queueView->selectedJobs()) {
+        m_scheduler->pause(job);
     }
-}
-
-void MainWindow::up()
-{
-    m_downloadManager->moveCurrentUp();
-}
-
-void MainWindow::top()
-{
-    m_downloadManager->moveCurrentTop();
-}
-
-void MainWindow::down()
-{
-    m_downloadManager->moveCurrentDown();
-}
-
-void MainWindow::bottom()
-{
-    m_downloadManager->moveCurrentBottom();
 }
 
 void MainWindow::showPreferences()
@@ -952,22 +917,18 @@ void MainWindow::aboutWebsite()
 
 /******************************************************************************
  ******************************************************************************/
-void MainWindow::onJobAddedOrRemoved(const DownloadRange &/*range*/)
-{
-    refreshTitleAndStatus();
-}
-
-void MainWindow::onJobStateChanged(IDownloadItem * /*downloadItem*/)
+void MainWindow::onDataChanged()
 {
     refreshMenus();
     refreshTitleAndStatus();
+    m_scheduler->activateSnapshot();
 }
 
-void MainWindow::onJobFinished(IDownloadItem * downloadItem)
+void MainWindow::onJobFinished(AbstractJob *job)
 {
     refreshMenus();
     refreshTitleAndStatus();
-    m_systemTray->showBalloon(downloadItem->localFileName(), downloadItem->localFullFileName());
+    m_systemTray->showBalloon(job->localFileName(), job->localFullFileName());
 }
 
 void MainWindow::onSelectionChanged()
@@ -1001,15 +962,15 @@ void MainWindow::onTorrentContextChanged()
 
 void MainWindow::refreshTitleAndStatus()
 {
-    auto speed = m_downloadManager->totalSpeed();
+    auto speed = m_scheduler->totalSpeed();
     QString totalSpeed;
     if (speed > 0) {
         totalSpeed = QString("~%0").arg(Format::currentSpeedToString(speed));
     }
-    auto completedCount = m_downloadManager->completedJobs().count();
-    auto runningCount = m_downloadManager->runningJobs().count();
-    auto failedCount = m_downloadManager->failedJobs().count();
-    auto count = m_downloadManager->count();
+    auto completedCount = m_scheduler->completedJobs().count();
+    auto runningCount = m_scheduler->runningJobs().count();
+    auto failedCount = m_scheduler->failedJobs().count();
+    auto count = m_scheduler->count();
     auto doneCount = completedCount + failedCount;
 
     auto torrent = TorrentContext::getInstance().isEnabled();
@@ -1062,27 +1023,32 @@ void MainWindow::refreshTitleAndStatus()
 
 void MainWindow::refreshMenus()
 {
-    const bool hasJobs = !m_downloadManager->downloadItems().isEmpty();
-    const bool hasSelection = !m_downloadManager->selection().isEmpty();
-    const bool hasOnlyOneSelected = m_downloadManager->selection().count() == 1;
+    auto jobs = m_scheduler->jobs();
+    auto selectedJobs = ui->queueView->selectedJobs();
+
+    const bool hasJobs = !jobs.isEmpty();
+    const bool hasSelection = !selectedJobs.isEmpty();
+    const bool hasOnlyOneSelected = selectedJobs.count() == 1;
+
     bool hasOnlyCompletedSelected = hasSelection;
-    for (auto item : m_downloadManager->selection()) {
-        if (item->state() != IDownloadItem::Completed) {
+    for (auto job : selectedJobs) {
+        if (job->state() != AbstractJob::Completed) {
             hasOnlyCompletedSelected = false;
-            continue;
+            break;
         }
     }
+
     bool hasResumableSelection = false;
     bool hasPausableSelection = false;
     bool hasCancelableSelection = false;
-    for (auto item : m_downloadManager->selection()) {
-        if (item->isResumable()) {
+    for (auto job : selectedJobs) {
+        if (job->isResumable()) {
             hasResumableSelection = true;
         }
-        if (item->isPausable()) {
+        if (job->isPausable()) {
             hasPausableSelection = true;
         }
-        if (item->isCancelable()) {
+        if (job->isCancelable()) {
             hasCancelableSelection = true;
         }
     }
@@ -1141,10 +1107,11 @@ void MainWindow::refreshMenus()
 
 void MainWindow::refreshSplitter()
 {
-    if (m_downloadManager->selection().count() == 1) {
-        auto item = m_downloadManager->selection().first();
-        DownloadTorrentItem *torrentItem = dynamic_cast<DownloadTorrentItem*>(item);
-        ui->torrentWidget->setTorrent(torrentItem ? torrentItem->torrent() : nullptr);
+    auto jobs = ui->queueView->selectedJobs();
+    if (jobs.count() == 1) {
+        auto job = jobs.first();
+        JobTorrent *jobTorrent = dynamic_cast<JobTorrent*>(job);
+        ui->torrentWidget->setTorrent(jobTorrent ? jobTorrent->torrent() : nullptr);
     } else {
         ui->torrentWidget->setTorrent(nullptr);
     }
@@ -1199,7 +1166,7 @@ void MainWindow::readSettings()
 
     restoreState(settings.value("WindowToolbarState").toByteArray());
     ui->splitter->restoreState(settings.value("SplitterSizes").toByteArray());
-    ui->downloadQueueView->restoreState(settings.value("DownloadQueueState").toByteArray());
+    ui->queueView->restoreState(settings.value("DownloadQueueState").toByteArray());
     ui->torrentWidget->restoreState(settings.value("TorrentState").toByteArray());
 
     m_settings->readSettings();
@@ -1217,7 +1184,7 @@ void MainWindow::writeSettings()
 
     settings.setValue("WindowToolbarState", saveState());
     settings.setValue("SplitterSizes", ui->splitter->saveState());
-    settings.setValue("DownloadQueueState", ui->downloadQueueView->saveState());
+    settings.setValue("DownloadQueueState", ui->queueView->saveState());
     settings.setValue("TorrentState", ui->torrentWidget->saveState());
 
     // --------------------------------------------------------------
@@ -1274,7 +1241,7 @@ QString MainWindow::askSaveFileName(const QString &fileFilter, const QString &ti
 bool MainWindow::saveFile(const QString &path)
 {
     FileWriter writer(path);
-    if (!writer.write(m_downloadManager)) {
+    if (!writer.write(m_scheduler)) {
         qWarning() << tr("Can't save file.");
         QMessageBox::warning(this, tr("Error"),
                              QString("%0\n%1").arg(
@@ -1293,7 +1260,7 @@ bool MainWindow::saveFile(const QString &path)
 bool MainWindow::loadFile(const QString &path)
 {
     FileReader reader(path);
-    if (!reader.read(m_downloadManager)) {
+    if (!reader.read(m_scheduler)) {
         qWarning() << tr("Can't load file.");
         QMessageBox::warning(this, tr("Error"),
                              QString("%0\n%1").arg(

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.10</td></tr>
+<td>2.0.11</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
@@ -34,18 +34,18 @@
 <ul class="simple">
 <li><a class="reference internal" href="#create-torrent" id="toc-entry-1">create_torrent</a><ul>
 <li><a class="reference internal" href="#create-torrent-1" id="toc-entry-2">create_torrent()</a></li>
-<li><a class="reference internal" href="#generate-generate-buf" id="toc-entry-3">generate() generate_buf()</a></li>
+<li><a class="reference internal" href="#generate-buf-generate" id="toc-entry-3">generate_buf() generate()</a></li>
 <li><a class="reference internal" href="#files" id="toc-entry-4">files()</a></li>
 <li><a class="reference internal" href="#set-comment" id="toc-entry-5">set_comment()</a></li>
 <li><a class="reference internal" href="#set-creator" id="toc-entry-6">set_creator()</a></li>
 <li><a class="reference internal" href="#set-creation-date" id="toc-entry-7">set_creation_date()</a></li>
 <li><a class="reference internal" href="#set-hash" id="toc-entry-8">set_hash()</a></li>
 <li><a class="reference internal" href="#set-hash2" id="toc-entry-9">set_hash2()</a></li>
-<li><a class="reference internal" href="#add-url-seed-add-http-seed" id="toc-entry-10">add_url_seed() add_http_seed()</a></li>
+<li><a class="reference internal" href="#add-http-seed-add-url-seed" id="toc-entry-10">add_http_seed() add_url_seed()</a></li>
 <li><a class="reference internal" href="#add-node" id="toc-entry-11">add_node()</a></li>
 <li><a class="reference internal" href="#add-tracker" id="toc-entry-12">add_tracker()</a></li>
 <li><a class="reference internal" href="#set-root-cert" id="toc-entry-13">set_root_cert()</a></li>
-<li><a class="reference internal" href="#set-priv-priv" id="toc-entry-14">set_priv() priv()</a></li>
+<li><a class="reference internal" href="#priv-set-priv" id="toc-entry-14">priv() set_priv()</a></li>
 <li><a class="reference internal" href="#num-pieces" id="toc-entry-15">num_pieces()</a></li>
 <li><a class="reference internal" href="#piece-range" id="toc-entry-16">piece_range()</a></li>
 <li><a class="reference internal" href="#file-range" id="toc-entry-17">file_range()</a></li>
@@ -109,9 +109,9 @@ the torrent. The <a class="reference external" href="reference-Bencoding.html#en
 <pre class="literal-block">
 struct create_torrent
 {
-   explicit <strong>create_torrent</strong> (torrent_info const&amp; ti);
    explicit <strong>create_torrent</strong> (file_storage&amp; fs, int piece_size = 0
       , create_flags_t flags = {});
+   explicit <strong>create_torrent</strong> (torrent_info const&amp; ti);
    entry <strong>generate</strong> () const;
    std::vector&lt;char&gt; <strong>generate_buf</strong> () const;
    file_storage const&amp; <strong>files</strong> () const;
@@ -120,8 +120,8 @@ struct create_torrent
    void <strong>set_creation_date</strong> (std::time_t timestamp);
    void <strong>set_hash</strong> (piece_index_t index, sha1_hash const&amp; h);
    void <strong>set_hash2</strong> (file_index_t file, piece_index_t::diff_type piece, sha256_hash const&amp; h);
-   void <strong>add_http_seed</strong> (string_view url);
    void <strong>add_url_seed</strong> (string_view url);
+   void <strong>add_http_seed</strong> (string_view url);
    void <strong>add_node</strong> (std::pair&lt;std::string, int&gt; node);
    void <strong>add_tracker</strong> (string_view url, int tier = 0);
    void <strong>set_root_cert</strong> (string_view cert);
@@ -136,10 +136,10 @@ struct create_torrent
    index_range&lt;file_index_t&gt; <strong>file_range</strong> () const noexcept;
    index_range&lt;piece_index_t::diff_type&gt; <strong>file_piece_range</strong> (file_index_t f);
    std::int64_t <strong>total_size</strong> () const;
-   int <strong>piece_size</strong> (piece_index_t i) const;
    int <strong>piece_length</strong> () const;
-   void <strong>add_collection</strong> (string_view c);
+   int <strong>piece_size</strong> (piece_index_t i) const;
    void <strong>add_similar_torrent</strong> (sha1_hash ih);
+   void <strong>add_collection</strong> (string_view c);
 
    static constexpr create_flags_t <strong>modification_time</strong>  = 2_bit;
    static constexpr create_flags_t <strong>symlinks</strong>  = 3_bit;
@@ -153,13 +153,15 @@ struct create_torrent
 <a name="create_torrent()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:create_torrent%3A%3A%5Bcreate_torrent%28%29%5D&labels=documentation&body=Documentation+under+heading+%22create_torrent%3A%3A%5Bcreate_torrent%28%29%5D%22+could+be+improved">report issue</a>]</span><div class="section" id="create-torrent-1">
 <h2>create_torrent()</h2>
 <pre class="literal-block">
-explicit <strong>create_torrent</strong> (torrent_info const&amp; ti);
 explicit <strong>create_torrent</strong> (file_storage&amp; fs, int piece_size = 0
       , create_flags_t flags = {});
+explicit <strong>create_torrent</strong> (torrent_info const&amp; ti);
 </pre>
 <p>The <tt class="docutils literal">piece_size</tt> is the size of each piece in bytes. It must be a
 power of 2 and a minimum of 16 kiB. If a piece size of 0 is
-specified, a piece_size will be set automatically.</p>
+specified, a piece_size will be set automatically.
+Piece sizes greater than 128 MiB are considered unreasonable and will
+be rejected (with an lt::system_error exception).</p>
 <p>The <tt class="docutils literal">flags</tt> arguments specifies options for the torrent creation. It can
 be any combination of the flags defined by create_flags_t.</p>
 <p>The <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a> (<tt class="docutils literal">fs</tt>) parameter defines the files, sizes and
@@ -177,10 +179,10 @@ have any affect. Instead of using this overload, consider using
 <p class="last">The <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a> and <a class="reference external" href="reference-Torrent_Info.html#torrent_info">torrent_info</a> objects must stay alive for the
 entire duration of the <a class="reference external" href="reference-Create_Torrents.html#create_torrent">create_torrent</a> object.</p>
 </div>
-<a name="generate()"></a>
-<a name="generate_buf()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:create_torrent%3A%3A%5Bgenerate%28%29+generate_buf%28%29%5D&labels=documentation&body=Documentation+under+heading+%22create_torrent%3A%3A%5Bgenerate%28%29+generate_buf%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="generate-generate-buf">
-<h2>generate() generate_buf()</h2>
+<a name="generate_buf()"></a>
+<a name="generate()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:create_torrent%3A%3A%5Bgenerate_buf%28%29+generate%28%29%5D&labels=documentation&body=Documentation+under+heading+%22create_torrent%3A%3A%5Bgenerate_buf%28%29+generate%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="generate-buf-generate">
+<h2>generate_buf() generate()</h2>
 <pre class="literal-block">
 entry <strong>generate</strong> () const;
 std::vector&lt;char&gt; <strong>generate_buf</strong> () const;
@@ -274,13 +276,13 @@ that has not been set. Setting such hash will not be considered set
 when calling <a class="reference external" href="reference-Create_Torrents.html#generate()">generate()</a>.
 This function will throw <tt class="docutils literal"><span class="pre">std::system_error</span></tt> if it is called on an
 object constructed with the v1_only flag.</p>
-<a name="add_url_seed()"></a>
-<a name="add_http_seed()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:create_torrent%3A%3A%5Badd_url_seed%28%29+add_http_seed%28%29%5D&labels=documentation&body=Documentation+under+heading+%22create_torrent%3A%3A%5Badd_url_seed%28%29+add_http_seed%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="add-url-seed-add-http-seed">
-<h2>add_url_seed() add_http_seed()</h2>
+<a name="add_http_seed()"></a>
+<a name="add_url_seed()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:create_torrent%3A%3A%5Badd_http_seed%28%29+add_url_seed%28%29%5D&labels=documentation&body=Documentation+under+heading+%22create_torrent%3A%3A%5Badd_http_seed%28%29+add_url_seed%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="add-http-seed-add-url-seed">
+<h2>add_http_seed() add_url_seed()</h2>
 <pre class="literal-block">
-void <strong>add_http_seed</strong> (string_view url);
 void <strong>add_url_seed</strong> (string_view url);
+void <strong>add_http_seed</strong> (string_view url);
 </pre>
 <p>This adds a url seed to the torrent. You can have any number of url seeds. For a
 single file torrent, this should be an HTTP url, pointing to a file with identical
@@ -322,10 +324,10 @@ signed by this root certificate. For SSL torrents, all peers are connecting over
 connections. For more information, see the section on <a class="reference external" href="manual-ref.html#ssl-torrents">ssl torrents</a>.</p>
 <p>The string is not the path to the cert, it's the actual content of the
 certificate.</p>
-<a name="set_priv()"></a>
-<a name="priv()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:create_torrent%3A%3A%5Bset_priv%28%29+priv%28%29%5D&labels=documentation&body=Documentation+under+heading+%22create_torrent%3A%3A%5Bset_priv%28%29+priv%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="set-priv-priv">
-<h2>set_priv() priv()</h2>
+<a name="priv()"></a>
+<a name="set_priv()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:create_torrent%3A%3A%5Bpriv%28%29+set_priv%28%29%5D&labels=documentation&body=Documentation+under+heading+%22create_torrent%3A%3A%5Bpriv%28%29+set_priv%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="priv-set-priv">
+<h2>priv() set_priv()</h2>
 <pre class="literal-block">
 bool <strong>priv</strong> () const;
 void <strong>set_priv</strong> (bool p);
@@ -376,8 +378,8 @@ std::int64_t <strong>total_size</strong> () const;
 <div class="section" id="piece-length-piece-size">
 <h2>piece_length() piece_size()</h2>
 <pre class="literal-block">
-int <strong>piece_size</strong> (piece_index_t i) const;
 int <strong>piece_length</strong> () const;
+int <strong>piece_size</strong> (piece_index_t i) const;
 </pre>
 <p><tt class="docutils literal">piece_length()</tt> returns the piece size of all pieces but the
 last one. <tt class="docutils literal">piece_size()</tt> returns the size of the specified piece.
@@ -387,8 +389,8 @@ these functions are just forwarding to the associated <a class="reference extern
 <div class="section" id="add-collection-add-similar-torrent">
 <h2>add_collection() add_similar_torrent()</h2>
 <pre class="literal-block">
-void <strong>add_collection</strong> (string_view c);
 void <strong>add_similar_torrent</strong> (sha1_hash ih);
+void <strong>add_collection</strong> (string_view c);
 </pre>
 <p>Add similar torrents (by info-hash) or collections of similar torrents.
 Similar torrents are expected to share some files with this torrent.
@@ -461,9 +463,9 @@ This flag is here for backwards compatibility.</dd>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/create_torrent.hpp">libtorrent/create_torrent.hpp</a>&quot;</p>
 <pre class="literal-block">
 void <strong>add_files</strong> (file_storage&amp; fs, std::string const&amp; file
-   , std::function&lt;bool(std::string)&gt; p, create_flags_t flags = {});
-void <strong>add_files</strong> (file_storage&amp; fs, std::string const&amp; file
    , create_flags_t flags = {});
+void <strong>add_files</strong> (file_storage&amp; fs, std::string const&amp; file
+   , std::function&lt;bool(std::string)&gt; p, create_flags_t flags = {});
 </pre>
 <p>Adds the file specified by <tt class="docutils literal">path</tt> to the <a class="reference external" href="reference-Storage.html#file_storage">file_storage</a> object. In case <tt class="docutils literal">path</tt>
 refers to a directory, files will be added recursively from the directory.</p>
@@ -484,18 +486,18 @@ constructor.</p>
 <h1>set_piece_hashes()</h1>
 <p>Declared in &quot;<a class="reference external" href="include/libtorrent/create_torrent.hpp">libtorrent/create_torrent.hpp</a>&quot;</p>
 <pre class="literal-block">
-inline void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p, error_code&amp; ec);
 void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p
-   , settings_interface const&amp; settings
    , std::function&lt;void(piece_index_t)&gt; const&amp; f, error_code&amp; ec);
+inline void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p
+   , std::function&lt;void(piece_index_t)&gt; const&amp; f);
 inline void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p
    , settings_interface const&amp; settings
    , std::function&lt;void(piece_index_t)&gt; const&amp; f);
 inline void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p);
-inline void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p
-   , std::function&lt;void(piece_index_t)&gt; const&amp; f);
 void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p
+   , settings_interface const&amp; settings
    , std::function&lt;void(piece_index_t)&gt; const&amp; f, error_code&amp; ec);
+inline void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p, error_code&amp; ec);
 void <strong>set_piece_hashes</strong> (create_torrent&amp; t, std::string const&amp; p
    , settings_interface const&amp; settings, disk_io_constructor_type disk_io
    , std::function&lt;void(piece_index_t)&gt; const&amp; f, error_code&amp; ec);

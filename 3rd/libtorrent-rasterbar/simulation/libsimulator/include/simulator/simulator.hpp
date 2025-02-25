@@ -1080,7 +1080,7 @@ namespace sim
 
 		// all non-expired timers
 		std::mutex m_timer_queue_mutex;
-		using timer_queue_t = std::multiset<asio::high_resolution_timer*, timer_compare, aux::mallocator<asio::high_resolution_timer*>>;
+		using timer_queue_t = std::vector<asio::high_resolution_timer*, aux::mallocator<asio::high_resolution_timer*>>;
 		timer_queue_t m_timer_queue;
 
 		// these are the io services that represent nodes on the network

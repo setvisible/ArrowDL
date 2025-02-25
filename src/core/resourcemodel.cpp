@@ -96,7 +96,7 @@ void ResourceModel::select(const QRegularExpression &regex)
 {
     beginResetModel();
     QSignalBlocker blocker(this);
-    for (int i = 0; i < m_items.count(); ++i) {
+    for (int i = 0, count = m_items.count(); i < count; ++i) {
         auto item = m_items.at(i);
         auto url = item->url();
         auto isChecked = (regex.isValid() && regex.match(url).hasMatch());

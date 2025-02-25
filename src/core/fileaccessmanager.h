@@ -17,23 +17,22 @@
 #ifndef CORE_FILE_ACCESS_MANAGER_H
 #define CORE_FILE_ACCESS_MANAGER_H
 
-#include <Core/IFileAccessManager>
 #include <QtWidgets/QWidget>
 
 #include <Core/Settings>
 
-class FileAccessManager : public QObject, public IFileAccessManager
+class FileAccessManager : public QObject
 {    
     Q_OBJECT
 
 public:
     explicit FileAccessManager(QWidget *parent = nullptr);
-    ~FileAccessManager() override = default;
+    ~FileAccessManager();
 
-    Settings* settings() const override;
+    Settings* settings() const;
     void setSettings(Settings *settings);
 
-    ExistingFileOption aboutToModify(const QString &filename) override;
+    ExistingFileOption aboutToModify(const QString &filename);
 
 private:
     QWidget *m_parent = nullptr;

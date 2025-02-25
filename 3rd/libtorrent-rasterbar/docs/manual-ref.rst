@@ -1231,7 +1231,7 @@ __ reference-Session.html#session
 __ reference-Session.html#read_session_params()
 __ reference-Session.html#session_params
 __ reference-Session.html#session
-__ reference-Torrent_Handle.html#add_extension()
+__ reference-Session.html#add_extension()
 __ reference-Session.html#session
 __ reference-Torrent_Info.html#torrent_info
 __ reference-Session.html#async_add_torrent()

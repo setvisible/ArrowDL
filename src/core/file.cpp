@@ -16,7 +16,7 @@
 
 #include "file.h"
 
-#include <Core/IFileAccessManager>
+#include <Core/FileAccessManager>
 #include <Core/ResourceItem>
 #include <Core/Settings>
 
@@ -28,7 +28,7 @@
 #include <QtCore/QDate>
 #include <QtCore/QTime>
 
-static IFileAccessManager *s_fileAccessManager = nullptr;
+static FileAccessManager *s_fileAccessManager = nullptr;
 
 static ExistingFileOption existingFileOption()
 {
@@ -53,7 +53,7 @@ File::~File()
 
 /******************************************************************************
  ******************************************************************************/
-void File::setFileAccessManager(IFileAccessManager *manager)
+void File::setFileAccessManager(FileAccessManager *manager)
 {
     s_fileAccessManager = manager;
 }

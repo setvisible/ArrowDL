@@ -20,17 +20,20 @@
 #include <QtCore/QList>
 #include <QtCore/QString>
 
-class DownloadItem;
-class DownloadManager;
+class AbstractJob;
+class Scheduler;
 
 class Session
 {
 public:
     Session() = default;
 
-    static void read(QList<DownloadItem *> &downloadItems, const QString &filename, DownloadManager *downloadManager);
-    static void write(const QList<DownloadItem *> &downloadItems, const QString &filename);
+    static void read(QList<AbstractJob *> &jobs,
+                     const QString &filename,
+                     Scheduler *scheduler);
 
+    static void write(const QList<AbstractJob *> &jobs,
+                      const QString &filename);
 };
 
 #endif // CORE_SESSION_H

@@ -18,8 +18,8 @@
 #include "ui_addbatchdialog.h"
 
 #include <Constants>
-#include <Core/DownloadItem>
-#include <Core/DownloadManager>
+#include <Core/JobFile>
+#include <Core/Scheduler>
 #include <Core/Mask>
 #include <Core/Regex>
 #include <Core/ResourceItem>
@@ -41,11 +41,11 @@
 
 AddBatchDialog::AddBatchDialog(
     const QUrl &url,
-    DownloadManager *downloadManager,
+    Scheduler *scheduler,
     Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddBatchDialog)
-    , m_downloadManager(downloadManager)
+    , m_scheduler(scheduler)
     , m_settings(settings)
 {
     ui->setupUi(this);
@@ -133,9 +133,9 @@ void AddBatchDialog::writeUiSettings()
 /*!
  * \brief Immediate download of the url. The Dialog GUI is not displayed.
  */
-void AddBatchDialog::quickDownload(const QUrl &url, DownloadManager *downloadManager)
+void AddBatchDialog::quickDownload(const QUrl &url, Scheduler *scheduler)
 {
-    if (downloadManager == nullptr) {
+    if (scheduler == nullptr) {
         return;
     }
     // Remove trailing / and \ and .
@@ -156,10 +156,8 @@ void AddBatchDialog::quickDownload(const QUrl &url, DownloadManager *downloadMan
     resource->setMask(mask);
     resource->setCheckSum(QString());
 
-    auto item = new DownloadItem(downloadManager);
-    item->setResource(resource);
-
-    downloadManager->append(toList(item), true);
+    auto job = new JobFile(scheduler, resource);
+    scheduler->append(toList(job), true);
 }
 
 /******************************************************************************
@@ -261,16 +259,16 @@ void AddBatchDialog::doAccept(bool started)
     const QString adjusted = url.adjusted(QUrl::StripTrailingSlash).toString();
 
     if (Regex::hasBatchDescriptors(adjusted)) {
-        QList<IDownloadItem*> items = createItems(url);
+        QList<AbstractJob*> jobs = createJobFiles(url);
 
-        QMessageBox::StandardButton answer = askBatchDownloading(items);
+        QMessageBox::StandardButton answer = askBatchDownloading(jobs);
 
         if (answer == QMessageBox::Ok) {
-            m_downloadManager->append(items, started);
+            m_scheduler->append(jobs, started);
             QDialog::accept();
 
         } else if (answer == QMessageBox::Apply) {
-            m_downloadManager->append(toList(createItem(adjusted)), started);
+            m_scheduler->append(toList(createJobFile(adjusted)), started);
             QDialog::accept();
 
         } else {
@@ -278,19 +276,18 @@ void AddBatchDialog::doAccept(bool started)
         }
 
     } else {
-        m_downloadManager->append(toList(createItem(adjusted)), started);
+        m_scheduler->append(toList(createJobFile(adjusted)), started);
         QDialog::accept();
     }
 }
 
 /******************************************************************************
  ******************************************************************************/
-QMessageBox::StandardButton AddBatchDialog::askBatchDownloading(QList<IDownloadItem*> items)
+QMessageBox::StandardButton AddBatchDialog::askBatchDownloading(QList<AbstractJob *> jobs)
 {
     if (!m_settings || m_settings->isConfirmBatchDownloadEnabled()) {
-
-        auto firstItem = dynamic_cast<DownloadItem*>(items.first());
-        auto lastItem = dynamic_cast<DownloadItem*>(items.last());
+        auto firstJob = dynamic_cast<JobFile *>(jobs.first());
+        auto lastJob = dynamic_cast<JobFile *>(jobs.last());
 
         QMessageBox msgBox(this);
         msgBox.setModal(true);
@@ -298,13 +295,13 @@ QMessageBox::StandardButton AddBatchDialog::askBatchDownloading(QList<IDownloadI
         msgBox.setWindowTitle(tr("Download Batch"));
         msgBox.setText(tr("It seems that you are using some batch descriptors."));
         msgBox.setInformativeText(
-                    QString("%0\n\n"
-                            "%1\n"
-                            "...\n"
-                            "%2").arg(
-                        tr("Do you really want to start %0 downloads?").arg(items.count()),
-                        firstItem->resource()->url(),
-                        lastItem->resource()->url()));
+            QString("%0\n\n"
+                    "%1\n"
+                    "...\n"
+                    "%2").arg(
+                    tr("Do you really want to start %0 downloads?").arg(jobs.count()),
+                    firstJob->resource()->url(),
+                    lastJob->resource()->url()));
 
         QPushButton *batchButton = msgBox.addButton(tr("Download Batch"), QMessageBox::ActionRole);
         QPushButton *singleButton = msgBox.addButton(tr("Single Download"), QMessageBox::ActionRole);
@@ -336,28 +333,27 @@ QMessageBox::StandardButton AddBatchDialog::askBatchDownloading(QList<IDownloadI
 
 /******************************************************************************
  ******************************************************************************/
-QList<IDownloadItem*> AddBatchDialog::createItems(const QUrl &inputUrl) const
+QList<AbstractJob*> AddBatchDialog::createJobFiles(const QUrl &inputUrl) const
 {
-    QList<IDownloadItem*> items;
+    QList<AbstractJob*> items;
     const QStringList urls = Regex::interpret(inputUrl);
     for (auto url : urls) {
-        items << createItem(url);
+        items << createJobFiles(url);
     }
     return items;
 }
 
-IDownloadItem* AddBatchDialog::createItem(const QString &url) const
+AbstractJob* AddBatchDialog::createJobFile(const QString &url) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
 
-    auto item = new DownloadItem(m_downloadManager);
-    item->setResource(resource);
-    return item;
+    auto job = new JobFile(m_scheduler, resource);
+    return job;
 }
 
-inline QList<IDownloadItem*> AddBatchDialog::toList(IDownloadItem *item)
+inline QList<AbstractJob*> AddBatchDialog::toList(AbstractJob *job)
 {
-    return QList<IDownloadItem*>() << item;
+    return QList<AbstractJob*>() << job;
 }
 

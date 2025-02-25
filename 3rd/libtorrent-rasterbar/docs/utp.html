@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.10</td></tr>
+<td>2.0.11</td></tr>
 </tbody>
 </table>
 <div class="contents topic" id="table-of-contents">
@@ -144,7 +144,9 @@ is higher than the target, cwnd is decreased proportional to (delay - target_del
 <pre class="literal-block">
 cwnd += gain * (target_delay - delay)
 </pre>
-<a class="reference external image-reference" href="cwnd.png"><img alt="img/cwnd_thumb.png" class="bw align-right" src="img/cwnd_thumb.png" /></a>
+<a class="reference external image-reference" href="cwnd.png">
+<img alt="img/cwnd_thumb.png" class="bw align-right" src="img/cwnd_thumb.png" />
+</a>
 <p>Similarly to TCP, this is scaled so that the increase is evened out over one RTT.</p>
 <p>The linear controller will adjust the cwnd more for delays that are far off the
 target, and less for delays that are close to the target. This makes it converge
@@ -168,7 +170,9 @@ the packet). It does this by always comparing all measurements to a
 baseline measurement, to cancel out any fixed delay. By focusing on the
 variable delay along a link, it will specifically detect points where
 there might be congestion, since those points will have buffers.</p>
-<a class="reference external image-reference" href="delays.png"><img alt="img/delays_thumb.png" class="bw align-right" src="img/delays_thumb.png" /></a>
+<a class="reference external image-reference" href="delays.png">
+<img alt="img/delays_thumb.png" class="bw align-right" src="img/delays_thumb.png" />
+</a>
 <p>Delay on the return link is explicitly not included in the delay measurement.
 This is because in a peer-to-peer application, the other end is likely to also
 be connected via a modem, with the same send buffer restrictions as we assume
@@ -260,7 +264,9 @@ with jumbo frames.</p>
 </div>
 <div class="section" id="clock-drift">
 <h2>clock drift</h2>
-<a class="reference external image-reference" href="our_delay_base.png"><img alt="img/our_delay_base_thumb.png" class="bw align-right" src="img/our_delay_base_thumb.png" /></a>
+<a class="reference external image-reference" href="our_delay_base.png">
+<img alt="img/our_delay_base_thumb.png" class="bw align-right" src="img/our_delay_base_thumb.png" />
+</a>
 <p>Clock drift is clocks progressing at different rates. It's different from clock
 skew which means clocks set to different values (but which may progress at the same
 rate).</p>

@@ -20,8 +20,8 @@
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QMessageBox>
 
-class IDownloadItem;
-class DownloadManager;
+class AbstractJob;
+class Scheduler;
 class Settings;
 
 namespace Ui {
@@ -33,10 +33,10 @@ class AddBatchDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddBatchDialog(const QUrl &url, DownloadManager *downloadManager, Settings *settings, QWidget *parent = nullptr);
+    explicit AddBatchDialog(const QUrl &url, Scheduler *scheduler, Settings *settings, QWidget *parent = nullptr);
     ~AddBatchDialog() override;
 
-    static void quickDownload(const QUrl &url, DownloadManager *downloadManager);
+    static void quickDownload(const QUrl &url, Scheduler *scheduler);
 
 public slots:
     void accept() override;
@@ -54,15 +54,15 @@ private slots:
 
 private:
     Ui::AddBatchDialog *ui = nullptr;
-    DownloadManager *m_downloadManager = nullptr;
+    Scheduler *m_scheduler = nullptr;
     Settings *m_settings = nullptr;
 
     void doAccept(bool started);
-    QMessageBox::StandardButton askBatchDownloading(QList<IDownloadItem*> items);
+    QMessageBox::StandardButton askBatchDownloading(QList<AbstractJob*> jobs);
 
-    QList<IDownloadItem*> createItems(const QUrl &inputUrl) const;
-    IDownloadItem* createItem(const QString &url) const;
-    static inline QList<IDownloadItem*> toList(IDownloadItem *item);
+    QList<AbstractJob*> createJobFiles(const QUrl &inputUrl) const;
+    AbstractJob* createJobFile(const QString &url) const;
+    static inline QList<AbstractJob *> toList(AbstractJob *job);
 
     inline QString insertName(const QString &name) const;
 

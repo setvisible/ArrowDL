@@ -19,8 +19,8 @@
 
 #include <QtWidgets/QDialog>
 
-class IDownloadItem;
-class DownloadManager;
+class AbstractJob;
+class Scheduler;
 class Settings;
 
 class QLineEdit;
@@ -33,7 +33,7 @@ class AddUrlsDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit AddUrlsDialog(const QString &text, DownloadManager *downloadManager, Settings *settings, QWidget *parent = nullptr);
+    explicit AddUrlsDialog(const QString &text, Scheduler *scheduler, Settings *settings, QWidget *parent = nullptr);
     ~AddUrlsDialog() override;
 
 public slots:
@@ -48,13 +48,13 @@ private slots:
 private:
     Ui::AddUrlsDialog *ui = nullptr;
     QLineEdit *m_fakeUrlLineEdit = nullptr;
-    DownloadManager *m_downloadManager = nullptr;
+    Scheduler *m_scheduler = nullptr;
     Settings *m_settings = nullptr;
 
     void doAccept(bool started);
 
-    IDownloadItem* createItem(const QString &url) const;
-    static inline QList<IDownloadItem*> toList(IDownloadItem *item);
+    AbstractJob* createJobFile(const QString &url) const;
+    static inline QList<AbstractJob*> toList(AbstractJob *job);
 
     void readUiSettings();
     void writeUiSettings();

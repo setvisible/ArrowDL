@@ -18,9 +18,9 @@
 #include "ui_addstreamdialog.h"
 
 #include <Constants>
-#include <Core/DownloadItem>
-#include <Core/DownloadManager>
-#include <Core/DownloadStreamItem>
+#include <Core/JobFile>
+#include <Core/Scheduler>
+#include <Core/JobStream>
 #include <Core/ResourceItem>
 #include <Core/Settings>
 #include <Core/Theme>
@@ -32,11 +32,11 @@
 
 AddStreamDialog::AddStreamDialog(
     const QUrl &url,
-    DownloadManager *downloadManager,
+    Scheduler *scheduler,
     Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddStreamDialog)
-    , m_downloadManager(downloadManager)
+    , m_scheduler(scheduler)
     , m_streamObjectDownloader(new StreamAssetDownloader(this))
     , m_settings(settings)
 {
@@ -188,22 +188,22 @@ void AddStreamDialog::onChanged(QString)
  ******************************************************************************/
 void AddStreamDialog::doAccept(bool started)
 {
-    m_downloadManager->append(createItems(), started);
+    m_scheduler->append(createJobStreams(), started);
     QDialog::accept();
 }
 
 /******************************************************************************
  ******************************************************************************/
-QList<IDownloadItem*> AddStreamDialog::createItems() const
+QList<AbstractJob*> AddStreamDialog::createJobStreams() const
 {
-    QList<IDownloadItem*> items;
+    QList<AbstractJob*> jobs;
     for (auto item : ui->streamListWidget->selection()) {
-        items << createItem(item);
+        jobs << createJobStream(item);
     }
-    return items;
+    return jobs;
 }
 
-IDownloadItem* AddStreamDialog::createItem(const StreamObject &streamObject) const
+AbstractJob* AddStreamDialog::createJobStream(const StreamObject &streamObject) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
 
@@ -219,9 +219,8 @@ IDownloadItem* AddStreamDialog::createItem(const StreamObject &streamObject) con
 
     resource->setStreamConfig(streamObject.config());
 
-    auto item = new DownloadStreamItem(m_downloadManager);
-    item->setResource(resource);
-    return item;
+    auto job = new JobStream(m_scheduler, resource);
+    return job;
 }
 
 /******************************************************************************

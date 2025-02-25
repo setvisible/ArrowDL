@@ -1,4 +1,4 @@
-VERSION=2.0.10
+VERSION=2.0.11
 
 BUILD_CONFIG=release link=shared crypto=openssl warnings=off address-model=64
 
@@ -569,7 +569,6 @@ HEADERS = \
   xml_parse.hpp                \
   \
   aux_/alert_manager.hpp            \
-  aux_/aligned_storage.hpp          \
   aux_/aligned_union.hpp            \
   aux_/alloca.hpp                   \
   aux_/allocating_handler.hpp       \

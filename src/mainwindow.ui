@@ -32,7 +32,7 @@
       <property name="childrenCollapsible">
        <bool>false</bool>
       </property>
-      <widget class="DownloadQueueView" name="downloadQueueView" native="true">
+      <widget class="QueueView" name="queueView" native="true">
        <property name="whatsThis">
         <string>Queue</string>
        </property>
@@ -576,9 +576,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>DownloadQueueView</class>
+   <class>QueueView</class>
    <extends>QWidget</extends>
-   <header>Widgets/DownloadQueueView</header>
+   <header>Widgets/QueueView</header>
    <container>1</container>
   </customwidget>
   <customwidget>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <title>libtorrent</title>
 <meta name="description" content="A feature complete BitTorrent protocol implementation as a C++ library">
 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -25,7 +25,7 @@
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0.10</td></tr>
+<td>2.0.11</td></tr>
 </tbody>
 </table>
 <p><a class="reference external" href="reference.html">home</a></p>
@@ -39,10 +39,10 @@
 <li><a class="reference internal" href="#bool" id="toc-entry-5">bool()</a></li>
 <li><a class="reference internal" href="#non-owning" id="toc-entry-6">non_owning()</a></li>
 <li><a class="reference internal" href="#data-section-data-offset" id="toc-entry-7">data_section() data_offset()</a></li>
-<li><a class="reference internal" href="#list-at-list-size-list-string-value-at-list-int-value-at" id="toc-entry-8">list_at() list_size() list_string_value_at() list_int_value_at()</a></li>
-<li><a class="reference internal" href="#dict-at-dict-find-string-dict-find-int-value-dict-find-int-dict-at-node-dict-find-string-value-dict-size-dict-find-list-dict-find-dict-dict-find" id="toc-entry-9">dict_at() dict_find_string() dict_find_int_value() dict_find_int() dict_at_node() dict_find_string_value() dict_size() dict_find_list() dict_find_dict() dict_find()</a></li>
+<li><a class="reference internal" href="#list-string-value-at-list-at-list-size-list-int-value-at" id="toc-entry-8">list_string_value_at() list_at() list_size() list_int_value_at()</a></li>
+<li><a class="reference internal" href="#dict-find-int-value-dict-find-string-dict-find-dict-find-dict-dict-at-dict-size-dict-find-list-dict-find-string-value-dict-at-node-dict-find-int" id="toc-entry-9">dict_find_int_value() dict_find_string() dict_find() dict_find_dict() dict_at() dict_size() dict_find_list() dict_find_string_value() dict_at_node() dict_find_int()</a></li>
 <li><a class="reference internal" href="#int-value" id="toc-entry-10">int_value()</a></li>
-<li><a class="reference internal" href="#string-value-string-length-string-ptr-string-offset" id="toc-entry-11">string_value() string_length() string_ptr() string_offset()</a></li>
+<li><a class="reference internal" href="#string-value-string-offset-string-length-string-ptr" id="toc-entry-11">string_value() string_offset() string_length() string_ptr()</a></li>
 <li><a class="reference internal" href="#clear" id="toc-entry-12">clear()</a></li>
 <li><a class="reference internal" href="#swap" id="toc-entry-13">swap()</a></li>
 <li><a class="reference internal" href="#reserve" id="toc-entry-14">reserve()</a></li>
@@ -67,37 +67,37 @@ struct bdecode_node
 {
    <strong>bdecode_node</strong> () = default;
    <strong>bdecode_node</strong> (bdecode_node&amp;&amp;) noexcept;
+   bdecode_node&amp; <strong>operator=</strong> (bdecode_node const&amp;) &amp;;
    <strong>bdecode_node</strong> (bdecode_node const&amp;);
    bdecode_node&amp; <strong>operator=</strong> (bdecode_node&amp;&amp;) &amp; = default;
-   bdecode_node&amp; <strong>operator=</strong> (bdecode_node const&amp;) &amp;;
    type_t <strong>type</strong> () const noexcept;
    explicit operator <strong>bool</strong> () const noexcept;
    bdecode_node <strong>non_owning</strong> () const;
    span&lt;char const&gt; <strong>data_section</strong> () const noexcept;
    std::ptrdiff_t <strong>data_offset</strong> () const noexcept;
-   string_view <strong>list_string_value_at</strong> (int i
-      , string_view default_val = string_view()) const;
+   bdecode_node <strong>list_at</strong> (int i) const;
    int <strong>list_size</strong> () const;
    std::int64_t <strong>list_int_value_at</strong> (int i
       , std::int64_t default_val = 0) const;
-   bdecode_node <strong>list_at</strong> (int i) const;
+   string_view <strong>list_string_value_at</strong> (int i
+      , string_view default_val = string_view()) const;
+   bdecode_node <strong>dict_find_list</strong> (string_view key) const;
+   int <strong>dict_size</strong> () const;
+   std::pair&lt;string_view, bdecode_node&gt; <strong>dict_at</strong> (int i) const;
+   bdecode_node <strong>dict_find</strong> (string_view key) const;
+   bdecode_node <strong>dict_find_int</strong> (string_view key) const;
    std::int64_t <strong>dict_find_int_value</strong> (string_view key
       , std::int64_t default_val = 0) const;
-   bdecode_node <strong>dict_find_string</strong> (string_view key) const;
-   bdecode_node <strong>dict_find_dict</strong> (string_view key) const;
-   bdecode_node <strong>dict_find</strong> (string_view key) const;
-   std::pair&lt;string_view, bdecode_node&gt; <strong>dict_at</strong> (int i) const;
-   int <strong>dict_size</strong> () const;
-   bdecode_node <strong>dict_find_int</strong> (string_view key) const;
-   bdecode_node <strong>dict_find_list</strong> (string_view key) const;
+   std::pair&lt;bdecode_node, bdecode_node&gt; <strong>dict_at_node</strong> (int i) const;
    string_view <strong>dict_find_string_value</strong> (string_view key
       , string_view default_value = string_view()) const;
-   std::pair&lt;bdecode_node, bdecode_node&gt; <strong>dict_at_node</strong> (int i) const;
+   bdecode_node <strong>dict_find_dict</strong> (string_view key) const;
+   bdecode_node <strong>dict_find_string</strong> (string_view key) const;
    std::int64_t <strong>int_value</strong> () const;
-   int <strong>string_length</strong> () const;
-   std::ptrdiff_t <strong>string_offset</strong> () const;
    char const* <strong>string_ptr</strong> () const;
+   int <strong>string_length</strong> () const;
    string_view <strong>string_value</strong> () const;
+   std::ptrdiff_t <strong>string_offset</strong> () const;
    void <strong>clear</strong> ();
    void <strong>swap</strong> (bdecode_node&amp; n);
    void <strong>reserve</strong> (int tokens);
@@ -126,9 +126,9 @@ struct bdecode_node
 <h2>operator=() bdecode_node()</h2>
 <pre class="literal-block">
 <strong>bdecode_node</strong> (bdecode_node&amp;&amp;) noexcept;
+bdecode_node&amp; <strong>operator=</strong> (bdecode_node const&amp;) &amp;;
 <strong>bdecode_node</strong> (bdecode_node const&amp;);
 bdecode_node&amp; <strong>operator=</strong> (bdecode_node&amp;&amp;) &amp; = default;
-bdecode_node&amp; <strong>operator=</strong> (bdecode_node const&amp;) &amp;;
 </pre>
 <p>For owning nodes, the copy will create a copy of the tree, but the
 underlying buffer remains the same.</p>
@@ -145,7 +145,7 @@ type_t <strong>type</strong> () const noexcept;
 <pre class="literal-block">
 explicit operator <strong>bool</strong> () const noexcept;
 </pre>
-<p>returns true if <a class="reference external" href="reference-Bencoding.html#type()">type()</a> != none_t.</p>
+<p>returns true if <a class="reference external" href="reference-Plugins.html#type()">type()</a> != none_t.</p>
 <a name="non_owning()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Bnon_owning%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Bnon_owning%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
 <div class="section" id="non-owning">
 <h2>non_owning()</h2>
@@ -168,49 +168,49 @@ starts with <tt class="docutils literal">d</tt> and ends with <tt class="docutil
 dictionary in between.
 the <tt class="docutils literal">data_offset()</tt> function returns the byte-offset to this node in,
 starting from the beginning of the buffer that was parsed.</p>
+<a name="list_string_value_at()"></a>
 <a name="list_at()"></a>
 <a name="list_size()"></a>
-<a name="list_string_value_at()"></a>
-<a name="list_int_value_at()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Blist_at%28%29+list_size%28%29+list_string_value_at%28%29+list_int_value_at%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Blist_at%28%29+list_size%28%29+list_string_value_at%28%29+list_int_value_at%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="list-at-list-size-list-string-value-at-list-int-value-at">
-<h2>list_at() list_size() list_string_value_at() list_int_value_at()</h2>
+<a name="list_int_value_at()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Blist_string_value_at%28%29+list_at%28%29+list_size%28%29+list_int_value_at%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Blist_string_value_at%28%29+list_at%28%29+list_size%28%29+list_int_value_at%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="list-string-value-at-list-at-list-size-list-int-value-at">
+<h2>list_string_value_at() list_at() list_size() list_int_value_at()</h2>
 <pre class="literal-block">
-string_view <strong>list_string_value_at</strong> (int i
-      , string_view default_val = string_view()) const;
+bdecode_node <strong>list_at</strong> (int i) const;
 int <strong>list_size</strong> () const;
 std::int64_t <strong>list_int_value_at</strong> (int i
       , std::int64_t default_val = 0) const;
-bdecode_node <strong>list_at</strong> (int i) const;
+string_view <strong>list_string_value_at</strong> (int i
+      , string_view default_val = string_view()) const;
 </pre>
 <p>functions with the <tt class="docutils literal">list_</tt> prefix operate on lists. These functions are
 only valid if <tt class="docutils literal">type()</tt> == <tt class="docutils literal">list_t</tt>. <tt class="docutils literal">list_at()</tt> returns the item
 in the list at index <tt class="docutils literal">i</tt>. <tt class="docutils literal">i</tt> may not be greater than or equal to the
 size of the list. <tt class="docutils literal">size()</tt> returns the size of the list.</p>
-<a name="dict_at()"></a>
-<a name="dict_find_string()"></a>
 <a name="dict_find_int_value()"></a>
-<a name="dict_find_int()"></a>
-<a name="dict_at_node()"></a>
-<a name="dict_find_string_value()"></a>
+<a name="dict_find_string()"></a>
+<a name="dict_find()"></a>
+<a name="dict_find_dict()"></a>
+<a name="dict_at()"></a>
 <a name="dict_size()"></a>
 <a name="dict_find_list()"></a>
-<a name="dict_find_dict()"></a>
-<a name="dict_find()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Bdict_at%28%29+dict_find_string%28%29+dict_find_int_value%28%29+dict_find_int%28%29+dict_at_node%28%29+dict_find_string_value%28%29+dict_size%28%29+dict_find_list%28%29+dict_find_dict%28%29+dict_find%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Bdict_at%28%29+dict_find_string%28%29+dict_find_int_value%28%29+dict_find_int%28%29+dict_at_node%28%29+dict_find_string_value%28%29+dict_size%28%29+dict_find_list%28%29+dict_find_dict%28%29+dict_find%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="dict-at-dict-find-string-dict-find-int-value-dict-find-int-dict-at-node-dict-find-string-value-dict-size-dict-find-list-dict-find-dict-dict-find">
-<h2>dict_at() dict_find_string() dict_find_int_value() dict_find_int() dict_at_node() dict_find_string_value() dict_size() dict_find_list() dict_find_dict() dict_find()</h2>
+<a name="dict_find_string_value()"></a>
+<a name="dict_at_node()"></a>
+<a name="dict_find_int()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Bdict_find_int_value%28%29+dict_find_string%28%29+dict_find%28%29+dict_find_dict%28%29+dict_at%28%29+dict_size%28%29+dict_find_list%28%29+dict_find_string_value%28%29+dict_at_node%28%29+dict_find_int%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Bdict_find_int_value%28%29+dict_find_string%28%29+dict_find%28%29+dict_find_dict%28%29+dict_at%28%29+dict_size%28%29+dict_find_list%28%29+dict_find_string_value%28%29+dict_at_node%28%29+dict_find_int%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="dict-find-int-value-dict-find-string-dict-find-dict-find-dict-dict-at-dict-size-dict-find-list-dict-find-string-value-dict-at-node-dict-find-int">
+<h2>dict_find_int_value() dict_find_string() dict_find() dict_find_dict() dict_at() dict_size() dict_find_list() dict_find_string_value() dict_at_node() dict_find_int()</h2>
 <pre class="literal-block">
+bdecode_node <strong>dict_find_list</strong> (string_view key) const;
+int <strong>dict_size</strong> () const;
+std::pair&lt;string_view, bdecode_node&gt; <strong>dict_at</strong> (int i) const;
+bdecode_node <strong>dict_find</strong> (string_view key) const;
+bdecode_node <strong>dict_find_int</strong> (string_view key) const;
 std::int64_t <strong>dict_find_int_value</strong> (string_view key
       , std::int64_t default_val = 0) const;
-bdecode_node <strong>dict_find_string</strong> (string_view key) const;
-bdecode_node <strong>dict_find_dict</strong> (string_view key) const;
-bdecode_node <strong>dict_find</strong> (string_view key) const;
-std::pair&lt;string_view, bdecode_node&gt; <strong>dict_at</strong> (int i) const;
-int <strong>dict_size</strong> () const;
-bdecode_node <strong>dict_find_int</strong> (string_view key) const;
-bdecode_node <strong>dict_find_list</strong> (string_view key) const;
+std::pair&lt;bdecode_node, bdecode_node&gt; <strong>dict_at_node</strong> (int i) const;
 string_view <strong>dict_find_string_value</strong> (string_view key
       , string_view default_value = string_view()) const;
-std::pair&lt;bdecode_node, bdecode_node&gt; <strong>dict_at_node</strong> (int i) const;
+bdecode_node <strong>dict_find_dict</strong> (string_view key) const;
+bdecode_node <strong>dict_find_string</strong> (string_view key) const;
 </pre>
 <p>Functions with the <tt class="docutils literal">dict_</tt> prefix operates on dictionaries. They are
 only valid if <tt class="docutils literal">type()</tt> == <tt class="docutils literal">dict_t</tt>. In case a key you're looking up
@@ -234,16 +234,16 @@ std::int64_t <strong>int_value</strong> () const;
 <p>this function is only valid if <tt class="docutils literal">type()</tt> == <tt class="docutils literal">int_t</tt>. It returns the
 value of the integer.</p>
 <a name="string_value()"></a>
+<a name="string_offset()"></a>
 <a name="string_length()"></a>
-<a name="string_ptr()"></a>
-<a name="string_offset()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Bstring_value%28%29+string_length%28%29+string_ptr%28%29+string_offset%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Bstring_value%28%29+string_length%28%29+string_ptr%28%29+string_offset%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
-<div class="section" id="string-value-string-length-string-ptr-string-offset">
-<h2>string_value() string_length() string_ptr() string_offset()</h2>
+<a name="string_ptr()"></a><span class="report-issue">[<a href="http://github.com/arvidn/libtorrent/issues/new?title=docs:bdecode_node%3A%3A%5Bstring_value%28%29+string_offset%28%29+string_length%28%29+string_ptr%28%29%5D&labels=documentation&body=Documentation+under+heading+%22bdecode_node%3A%3A%5Bstring_value%28%29+string_offset%28%29+string_length%28%29+string_ptr%28%29%5D%22+could+be+improved">report issue</a>]</span></div>
+<div class="section" id="string-value-string-offset-string-length-string-ptr">
+<h2>string_value() string_offset() string_length() string_ptr()</h2>
 <pre class="literal-block">
-int <strong>string_length</strong> () const;
-std::ptrdiff_t <strong>string_offset</strong> () const;
 char const* <strong>string_ptr</strong> () const;
+int <strong>string_length</strong> () const;
 string_view <strong>string_value</strong> () const;
+std::ptrdiff_t <strong>string_offset</strong> () const;
 </pre>
 <p>these functions are only valid if <tt class="docutils literal">type()</tt> == <tt class="docutils literal">string_t</tt>. They return
 the string values. Note that <tt class="docutils literal">string_ptr()</tt> is <em>not</em> 0-terminated.
@@ -351,10 +351,10 @@ that's returned.</p>
 <pre class="literal-block">
 bdecode_node <strong>bdecode</strong> (span&lt;char const&gt; buffer
    , int depth_limit = 100, int token_limit = 2000000);
-bdecode_node <strong>bdecode</strong> (span&lt;char const&gt; buffer
+int <strong>bdecode</strong> (char const* start, char const* end, bdecode_node&amp; ret
    , error_code&amp; ec, int* error_pos = nullptr, int depth_limit = 100
    , int token_limit = 2000000);
-int <strong>bdecode</strong> (char const* start, char const* end, bdecode_node&amp; ret
+bdecode_node <strong>bdecode</strong> (span&lt;char const&gt; buffer
    , error_code&amp; ec, int* error_pos = nullptr, int depth_limit = 100
    , int token_limit = 2000000);
 </pre>
