@@ -2,69 +2,69 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_TW">
 <context>
-    <name>AbstractDownloadItem</name>
+    <name>AbstractJob</name>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="64"/>
+        <location filename="../core/abstractjob.cpp" line="73"/>
         <source>Idle</source>
         <translation>閒置</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="65"/>
+        <location filename="../core/abstractjob.cpp" line="74"/>
         <source>Paused</source>
         <translation>已暫停</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="66"/>
+        <location filename="../core/abstractjob.cpp" line="75"/>
         <source>Canceled</source>
         <translation>已取消</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="67"/>
+        <location filename="../core/abstractjob.cpp" line="76"/>
         <source>Preparing</source>
         <translation>準備中</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="68"/>
+        <location filename="../core/abstractjob.cpp" line="77"/>
         <source>Connecting</source>
         <translation>正在連接</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="69"/>
+        <location filename="../core/abstractjob.cpp" line="78"/>
         <source>Downloading Metadata</source>
         <translation>下載詮釋資料</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="70"/>
+        <location filename="../core/abstractjob.cpp" line="79"/>
         <source>Downloading</source>
         <translation>正在下載</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="71"/>
+        <location filename="../core/abstractjob.cpp" line="80"/>
         <source>Finishing</source>
         <translation>正在完成</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="72"/>
+        <location filename="../core/abstractjob.cpp" line="81"/>
         <source>Complete</source>
         <translation>完成</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="73"/>
+        <location filename="../core/abstractjob.cpp" line="82"/>
         <source>Seeding</source>
         <translation>正在做種</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="74"/>
+        <location filename="../core/abstractjob.cpp" line="83"/>
         <source>Skipped</source>
         <translation>已略過</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="75"/>
+        <location filename="../core/abstractjob.cpp" line="84"/>
         <source>Server error</source>
         <translation>伺服器錯誤</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="76"/>
+        <location filename="../core/abstractjob.cpp" line="85"/>
         <source>File error</source>
         <translation>檔案錯誤</translation>
     </message>
@@ -85,25 +85,25 @@ You can also use batch descriptors to download multiple files at one time.</sour
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="87"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="194"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="192"/>
         <source>1 -&gt; 10</source>
         <translation>1 -&gt; 10</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="100"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="195"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="193"/>
         <source>1 -&gt; 100</source>
         <translation>1 -&gt; 100</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="113"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="196"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="194"/>
         <source>01 -&gt; 10</source>
         <translation>01 -&gt; 10</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="126"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="197"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="195"/>
         <source>001 -&gt; 100</source>
         <translation>001 -&gt; 100</translation>
     </message>
@@ -168,33 +168,33 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <translation>必須以 &apos;]&apos; 或 &apos;)&apos; 結尾</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="186"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="184"/>
         <source>Insert</source>
         <translation>插入</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="305"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="302"/>
         <source>Do you really want to start %0 downloads?</source>
         <translation>您真的想要開始 %0 下載嗎？</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="314"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="311"/>
         <source>Don&apos;t ask again, always download batch</source>
         <translation>不要再次詢問，總是批次下載</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="298"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="309"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="295"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="306"/>
         <source>Download Batch</source>
         <translation>批次下載</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="299"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="296"/>
         <source>It seems that you are using some batch descriptors.</source>
         <translation>您似乎正在使用一些批次描述。</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="310"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="307"/>
         <source>Single Download</source>
         <translation>單一下載</translation>
     </message>
@@ -238,55 +238,55 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <translation>偏好設定</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="182"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="181"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="85"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="84"/>
         <source>Web Page Content</source>
         <translation>網頁內容</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="184"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="183"/>
         <source>Error: The url is not valid:</source>
         <translation>錯誤：此 URL 無效：</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="213"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="212"/>
         <source>Connecting...</source>
         <translation>正在連接…</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="224"/>
-        <location filename="../dialogs/addcontentdialog.cpp" line="259"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="223"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="258"/>
         <source>Downloading...</source>
         <translation>正在下載…</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="281"/>
-        <location filename="../dialogs/addcontentdialog.cpp" line="321"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="280"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="320"/>
         <source>Collecting links...</source>
         <translation>正在收集連結…</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="289"/>
-        <location filename="../dialogs/addcontentdialog.cpp" line="333"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="288"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="332"/>
         <source>Finished</source>
         <translation>已完成</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="353"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="352"/>
         <source>The wizard can&apos;t connect to URL:</source>
         <translation>精靈無法連接至 URL：</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="386"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="385"/>
         <source>After selecting links, click on Start!</source>
         <translation>選擇連結之後，點擊開始！</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="389"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="388"/>
         <source>Selected links: %0 of %1</source>
         <translation>選取的連結：%1 之 %0 個</translation>
     </message>
@@ -310,7 +310,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="57"/>
-        <location filename="../dialogs/addstreamdialog.cpp" line="231"/>
+        <location filename="../dialogs/addstreamdialog.cpp" line="230"/>
         <source>Continue</source>
         <translation>繼續</translation>
     </message>
@@ -340,7 +340,7 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <translation>新增串流</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.cpp" line="231"/>
+        <location filename="../dialogs/addstreamdialog.cpp" line="230"/>
         <source>Stop</source>
         <translation>停止</translation>
     </message>
@@ -520,74 +520,64 @@ You can also use batch descriptors to download multiple files at one time.</sour
         <translation>工具</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="89"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="94"/>
         <source>Files to rename</source>
         <translation>重新命名檔案</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="32"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="37"/>
         <source>Rename Tool</source>
         <translation>重新命名工具</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="102"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="107"/>
         <source>Batch Rename</source>
         <translation>批次重新命名</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="109"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="114"/>
         <source>Default names</source>
         <translation>預設名稱</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="114"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="119"/>
         <source>Enumerated names</source>
         <translation>列舉名稱</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="130"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="135"/>
         <source>Options</source>
         <translation>選項</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="138"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="143"/>
         <source>Start enumeration from:</source>
         <translation>從以下位置開始列舉：</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="170"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="175"/>
         <source>Style:</source>
         <translation>樣式：</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="179"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="184"/>
         <source>1 ... 123456</source>
         <translation>1 ... 123456</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="189"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="194"/>
         <source>000001 ... 123456</source>
         <translation>000001 ... 123456</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="198"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="203"/>
         <source>Custom number of digits:</source>
         <translation>自訂數字的位數：</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="232"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="237"/>
         <source>Increment by:</source>
         <translation>依此遞增：</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="288"/>
-        <source>Safe Rename*</source>
-        <translation>安全重新命名*</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="298"/>
-        <source>*Rename and pause. Otherwise, could also rename already downloaded files.</source>
-        <translation>*重新命名並暫停。 否則，也可以重新命名已下載的檔案。</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.cpp" line="56"/>
@@ -752,273 +742,6 @@ You can also use batch descriptors to download multiple files at one time.</sour
     </message>
 </context>
 <context>
-    <name>DownloadEngine</name>
-    <message>
-        <location filename="../core/downloadengine.cpp" line="354"/>
-        <source>... (%0 others)</source>
-        <translation>…（%0 其它）</translation>
-    </message>
-</context>
-<context>
-    <name>DownloadFileItem</name>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="282"/>
-        <source>No Error</source>
-        <translation>沒有錯誤</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="285"/>
-        <source>3xx Redirect connection refused</source>
-        <translation>3xx 重定向連接被拒絕</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="286"/>
-        <source>3xx Redirect remote host closed</source>
-        <translation>3xx 重定向遠端主機已關閉</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="287"/>
-        <source>3xx Redirect host not found</source>
-        <translation>3xx 重定向找不到主機</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="288"/>
-        <source>3xx Redirect timeout</source>
-        <translation>3xx 重定向逾時</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="289"/>
-        <source>3xx Redirect operation canceled</source>
-        <translation>3xx 重定向操作已取消</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="290"/>
-        <source>3xx Redirect SSL handshake failed</source>
-        <translation>3xx 重定向 SSL 交握失敗</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="291"/>
-        <source>3xx Redirect temporary network failure</source>
-        <translation>3xx 重定向臨時網路故障</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="292"/>
-        <source>3xx Redirect network session failed</source>
-        <translation>3xx 重定向網路對話失敗</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="293"/>
-        <source>3xx Redirect background request not allowed</source>
-        <translation>3xx 重定向不允許背景請求</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="294"/>
-        <source>3xx Too many redirects</source>
-        <translation>3xx 重新定向太多</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="295"/>
-        <source>3xx Insecure redirect</source>
-        <translation>3xx 不安全重定向</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="296"/>
-        <source>3xx Unknown redirect error</source>
-        <translation>3xx 未知重新定向錯誤</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="299"/>
-        <source>5xx Proxy connection refused</source>
-        <translation>5xx Proxy 連接被拒絕</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="300"/>
-        <source>5xx Proxy connection closed</source>
-        <translation>5xx Proxy 連接已關閉</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="301"/>
-        <source>5xx Proxy not found</source>
-        <translation>5xx 找不到 Proxy</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="302"/>
-        <source>504 Proxy timeout error</source>
-        <translation>504 Proxy 逾時錯誤</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="303"/>
-        <source>407 Proxy authentication required</source>
-        <translation>407 需要代理身分驗證</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="304"/>
-        <source>5xx Unknown proxy error</source>
-        <translation>5xx 未知 Proxy 錯誤</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="307"/>
-        <source>403 Access denied</source>
-        <translation>403 拒絕存取</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="308"/>
-        <source>405 Method not allowed</source>
-        <translation>405 方法不允許</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="309"/>
-        <source>404 Not found</source>
-        <translation>404 找不到</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="310"/>
-        <source>401 Authorization required</source>
-        <translation>401 需要授權</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="311"/>
-        <source>4xx Resend error</source>
-        <translation>4xx 重發錯誤</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="312"/>
-        <source>409 Conflict</source>
-        <translation>409 衝突</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="313"/>
-        <source>410 Content no longer available</source>
-        <translation>410 內容不再可用</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="314"/>
-        <source>4xx Unknown content error</source>
-        <translation>4xx 未知內容錯誤</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="317"/>
-        <source>4xx Unknown protocol error</source>
-        <translation>4xx 未知協定錯誤</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="318"/>
-        <source>400 Bad request</source>
-        <translation>400 錯誤請求</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="319"/>
-        <source>4xx Protocol failure</source>
-        <translation>4xx 協定失敗</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="322"/>
-        <source>500 Internal server error</source>
-        <translation>500 內部伺服器錯誤</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="323"/>
-        <source>501 Server does not support this functionality</source>
-        <translation>501 伺服器不支援此功能</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="324"/>
-        <source>503 Service unavailable</source>
-        <translation>503 服務不可用</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadfileitem.cpp" line="325"/>
-        <source>5xx Unknown server error</source>
-        <translation>5xx 未知伺服器錯誤</translation>
-    </message>
-</context>
-<context>
-    <name>DownloadQueueView</name>
-    <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="581"/>
-        <source>Download/Name</source>
-        <translation>下載/名稱</translation>
-    </message>
-    <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="582"/>
-        <source>Domain</source>
-        <translation>域名</translation>
-    </message>
-    <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="583"/>
-        <source>Progress</source>
-        <translation>進度</translation>
-    </message>
-    <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="584"/>
-        <source>Percent</source>
-        <translation>%</translation>
-    </message>
-    <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="585"/>
-        <source>Size</source>
-        <translation>大小</translation>
-    </message>
-    <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="586"/>
-        <source>Est. time</source>
-        <translation>耗時</translation>
-    </message>
-    <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="587"/>
-        <source>Speed</source>
-        <translation>速度</translation>
-    </message>
-</context>
-<context>
-    <name>DownloadTorrentItem</name>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="136"/>
-        <source>Couldn&apos;t download metadata</source>
-        <translation>無法下載詮釋資料</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="137"/>
-        <source>Couldn&apos;t download, bad .torrent format</source>
-        <translation>無法下載，損壞的 .torrent 格式</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="138"/>
-        <source>Couldn&apos;t resolve metadata</source>
-        <translation>無法解析詮釋資料</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="141"/>
-        <source>Error in file &apos;%0&apos;</source>
-        <translation>檔案「%0」錯誤</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="142"/>
-        <source>Bad SSL context</source>
-        <translation>錯誤 SSL 上下文</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="143"/>
-        <source>Bad .torrent metadata</source>
-        <translation>損壞的 .torrent 詮釋資料</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="144"/>
-        <source>Bad .torrent access permission</source>
-        <translation>.torrent 存取權限錯誤</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="145"/>
-        <source>Bad part-file</source>
-        <translation>部分檔案損壞</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="148"/>
-        <source>Unknown error</source>
-        <translation>未知錯誤</translation>
-    </message>
-</context>
-<context>
     <name>EditionDialog</name>
     <message>
         <location filename="../dialogs/editiondialog.ui" line="102"/>
@@ -1050,32 +773,32 @@ You can also use batch descriptors to download multiple files at one time.</sour
 <context>
     <name>FileAccessManager</name>
     <message>
-        <location filename="../core/fileaccessmanager.cpp" line="45"/>
+        <location filename="../core/fileaccessmanager.cpp" line="49"/>
         <source>Existing File</source>
         <translation>現有檔案</translation>
     </message>
     <message>
-        <location filename="../core/fileaccessmanager.cpp" line="47"/>
+        <location filename="../core/fileaccessmanager.cpp" line="51"/>
         <source>The file already exists:</source>
         <translation>檔案已存在：</translation>
     </message>
     <message>
-        <location filename="../core/fileaccessmanager.cpp" line="49"/>
+        <location filename="../core/fileaccessmanager.cpp" line="53"/>
         <source>Do you want to Rename, Overwrite or Skip this file?</source>
         <translation>您想要重新命名、覆蓋或者略過此檔案？</translation>
     </message>
     <message>
-        <location filename="../core/fileaccessmanager.cpp" line="52"/>
+        <location filename="../core/fileaccessmanager.cpp" line="56"/>
         <source>Rename</source>
         <translation>重新命名</translation>
     </message>
     <message>
-        <location filename="../core/fileaccessmanager.cpp" line="53"/>
+        <location filename="../core/fileaccessmanager.cpp" line="57"/>
         <source>Overwrite</source>
         <translation>覆蓋</translation>
     </message>
     <message>
-        <location filename="../core/fileaccessmanager.cpp" line="54"/>
+        <location filename="../core/fileaccessmanager.cpp" line="58"/>
         <source>Skip</source>
         <translation>略過</translation>
     </message>
@@ -1083,37 +806,37 @@ You can also use batch descriptors to download multiple files at one time.</sour
 <context>
     <name>FileReader</name>
     <message>
-        <location filename="../io/filereader.cpp" line="49"/>
+        <location filename="../io/filereader.cpp" line="51"/>
         <source>Invalid device</source>
         <translation>無效的裝置</translation>
     </message>
     <message>
-        <location filename="../io/filereader.cpp" line="64"/>
+        <location filename="../io/filereader.cpp" line="66"/>
         <source>File not found</source>
         <translation>找不到檔案</translation>
     </message>
     <message>
-        <location filename="../io/filereader.cpp" line="71"/>
+        <location filename="../io/filereader.cpp" line="73"/>
         <source>Unsupported format</source>
         <translation>不支援的格式</translation>
     </message>
     <message>
-        <location filename="../io/filereader.cpp" line="92"/>
+        <location filename="../io/filereader.cpp" line="94"/>
         <source>Unable to read data</source>
         <translation>無法讀取資料</translation>
     </message>
     <message>
-        <location filename="../io/filereader.cpp" line="111"/>
+        <location filename="../io/filereader.cpp" line="113"/>
         <source>Unknown error</source>
         <translation>未知的錯誤</translation>
     </message>
     <message>
-        <location filename="../io/filereader.cpp" line="160"/>
+        <location filename="../io/filereader.cpp" line="162"/>
         <source>Any file (all types) (%0)</source>
         <translation>所有檔案（所有類型）（%0）</translation>
     </message>
     <message>
-        <location filename="../io/filereader.cpp" line="174"/>
+        <location filename="../io/filereader.cpp" line="176"/>
         <source>All files (%0)</source>
         <translation>所有檔案（%0）</translation>
     </message>
@@ -1381,6 +1104,227 @@ Some examples are given below.  Click to paste the example.</source>
     </message>
 </context>
 <context>
+    <name>JobFile</name>
+    <message>
+        <location filename="../core/jobfile.cpp" line="218"/>
+        <source>No Error</source>
+        <translation>沒有錯誤</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="221"/>
+        <source>3xx Redirect connection refused</source>
+        <translation>3xx 重定向連接被拒絕</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="222"/>
+        <source>3xx Redirect remote host closed</source>
+        <translation>3xx 重定向遠端主機已關閉</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="223"/>
+        <source>3xx Redirect host not found</source>
+        <translation>3xx 重定向找不到主機</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="224"/>
+        <source>3xx Redirect timeout</source>
+        <translation>3xx 重定向逾時</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="225"/>
+        <source>3xx Redirect operation canceled</source>
+        <translation>3xx 重定向操作已取消</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="226"/>
+        <source>3xx Redirect SSL handshake failed</source>
+        <translation>3xx 重定向 SSL 交握失敗</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="227"/>
+        <source>3xx Redirect temporary network failure</source>
+        <translation>3xx 重定向臨時網路故障</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="228"/>
+        <source>3xx Redirect network session failed</source>
+        <translation>3xx 重定向網路對話失敗</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="229"/>
+        <source>3xx Redirect background request not allowed</source>
+        <translation>3xx 重定向不允許背景請求</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="230"/>
+        <source>3xx Too many redirects</source>
+        <translation>3xx 重新定向太多</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="231"/>
+        <source>3xx Insecure redirect</source>
+        <translation>3xx 不安全重定向</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="232"/>
+        <source>3xx Unknown redirect error</source>
+        <translation>3xx 未知重新定向錯誤</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="235"/>
+        <source>5xx Proxy connection refused</source>
+        <translation>5xx Proxy 連接被拒絕</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="236"/>
+        <source>5xx Proxy connection closed</source>
+        <translation>5xx Proxy 連接已關閉</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="237"/>
+        <source>5xx Proxy not found</source>
+        <translation>5xx 找不到 Proxy</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="238"/>
+        <source>504 Proxy timeout error</source>
+        <translation>504 Proxy 逾時錯誤</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="239"/>
+        <source>407 Proxy authentication required</source>
+        <translation>407 需要代理身分驗證</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="240"/>
+        <source>5xx Unknown proxy error</source>
+        <translation>5xx 未知 Proxy 錯誤</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="243"/>
+        <source>403 Access denied</source>
+        <translation>403 拒絕存取</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="244"/>
+        <source>405 Method not allowed</source>
+        <translation>405 方法不允許</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="245"/>
+        <source>404 Not found</source>
+        <translation>404 找不到</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="246"/>
+        <source>401 Authorization required</source>
+        <translation>401 需要授權</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="247"/>
+        <source>4xx Resend error</source>
+        <translation>4xx 重發錯誤</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="248"/>
+        <source>409 Conflict</source>
+        <translation>409 衝突</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="249"/>
+        <source>410 Content no longer available</source>
+        <translation>410 內容不再可用</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="250"/>
+        <source>4xx Unknown content error</source>
+        <translation>4xx 未知內容錯誤</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="253"/>
+        <source>4xx Unknown protocol error</source>
+        <translation>4xx 未知協定錯誤</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="254"/>
+        <source>400 Bad request</source>
+        <translation>400 錯誤請求</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="255"/>
+        <source>4xx Protocol failure</source>
+        <translation>4xx 協定失敗</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="258"/>
+        <source>500 Internal server error</source>
+        <translation>500 內部伺服器錯誤</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="259"/>
+        <source>501 Server does not support this functionality</source>
+        <translation>501 伺服器不支援此功能</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="260"/>
+        <source>503 Service unavailable</source>
+        <translation>503 服務不可用</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="261"/>
+        <source>5xx Unknown server error</source>
+        <translation>5xx 未知伺服器錯誤</translation>
+    </message>
+</context>
+<context>
+    <name>JobTorrent</name>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="139"/>
+        <source>Couldn&apos;t download metadata</source>
+        <translation>無法下載詮釋資料</translation>
+    </message>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="140"/>
+        <source>Couldn&apos;t download, bad .torrent format</source>
+        <translation>無法下載，損壞的 .torrent 格式</translation>
+    </message>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="141"/>
+        <source>Couldn&apos;t resolve metadata</source>
+        <translation>無法解析詮釋資料</translation>
+    </message>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="144"/>
+        <source>Error in file &apos;%0&apos;</source>
+        <translation>檔案「%0」錯誤</translation>
+    </message>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="145"/>
+        <source>Bad SSL context</source>
+        <translation>錯誤 SSL 上下文</translation>
+    </message>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="146"/>
+        <source>Bad .torrent metadata</source>
+        <translation>損壞的 .torrent 詮釋資料</translation>
+    </message>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="147"/>
+        <source>Bad .torrent access permission</source>
+        <translation>.torrent 存取權限錯誤</translation>
+    </message>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="148"/>
+        <source>Bad part-file</source>
+        <translation>部分檔案損壞</translation>
+    </message>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="151"/>
+        <source>Unknown error</source>
+        <translation>未知錯誤</translation>
+    </message>
+</context>
+<context>
     <name>LinkWidget</name>
     <message>
         <location filename="../widgets/linkwidget.ui" line="79"/>
@@ -1567,7 +1511,7 @@ Some examples are given below.  Click to paste the example.</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="312"/>
-        <location filename="../mainwindow.cpp" line="760"/>
+        <location filename="../mainwindow.cpp" line="745"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -1690,7 +1634,7 @@ Some examples are given below.  Click to paste the example.</source>
     <message>
         <location filename="../mainwindow.ui" line="573"/>
         <source>Website</source>
-        <translation type="unfinished"></translation>
+        <translation>網站</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="468"/>
@@ -1783,183 +1727,183 @@ Some examples are given below.  Click to paste the example.</source>
         <translation>關於 YT-DLP…</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="322"/>
-        <location filename="../mainwindow.cpp" line="931"/>
+        <location filename="../mainwindow.cpp" line="321"/>
+        <location filename="../mainwindow.cpp" line="896"/>
         <source>About %0</source>
         <translation>關於 %0</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="326"/>
+        <location filename="../mainwindow.cpp" line="325"/>
         <source>About Qt</source>
         <translation>關於 Qt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="379"/>
+        <location filename="../mainwindow.cpp" line="377"/>
         <source>Advanced</source>
         <translation>進階</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="567"/>
-        <location filename="../mainwindow.cpp" line="614"/>
-        <location filename="../mainwindow.cpp" line="1279"/>
-        <location filename="../mainwindow.cpp" line="1298"/>
+        <location filename="../mainwindow.cpp" line="545"/>
+        <location filename="../mainwindow.cpp" line="600"/>
+        <location filename="../mainwindow.cpp" line="1246"/>
+        <location filename="../mainwindow.cpp" line="1265"/>
         <source>Error</source>
         <translation>錯誤</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="593"/>
-        <location filename="../mainwindow.cpp" line="628"/>
+        <location filename="../mainwindow.cpp" line="577"/>
+        <location filename="../mainwindow.cpp" line="613"/>
         <source>Remove Downloads</source>
         <translation>移除下載</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="594"/>
-        <location filename="../mainwindow.cpp" line="629"/>
+        <location filename="../mainwindow.cpp" line="578"/>
+        <location filename="../mainwindow.cpp" line="614"/>
         <source>Are you sure to remove %0 downloads?</source>
         <translation>您確定要移除 %0 下載？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="596"/>
+        <location filename="../mainwindow.cpp" line="580"/>
         <source>Delete</source>
         <translation>刪除</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="569"/>
+        <location filename="../mainwindow.cpp" line="547"/>
         <source>File not found</source>
         <translation>找不到檔案</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="616"/>
+        <location filename="../mainwindow.cpp" line="602"/>
         <source>Destination directory not found:</source>
         <translation>找不到目標目錄：</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="635"/>
+        <location filename="../mainwindow.cpp" line="620"/>
         <source>Don&apos;t ask again</source>
         <translation>不再詢問</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="665"/>
+        <location filename="../mainwindow.cpp" line="650"/>
         <source>ALL</source>
         <translation>所有</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="658"/>
+        <location filename="../mainwindow.cpp" line="643"/>
         <source>selected</source>
         <translation>已選擇</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="651"/>
+        <location filename="../mainwindow.cpp" line="636"/>
         <source>completed</source>
         <translation>已完成</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="753"/>
+        <location filename="../mainwindow.cpp" line="738"/>
         <source>Website URL</source>
         <translation>網站 URL</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="755"/>
+        <location filename="../mainwindow.cpp" line="740"/>
         <source>URL of the HTML page:</source>
         <translation>HTML 網頁的 URL：</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="756"/>
+        <location filename="../mainwindow.cpp" line="741"/>
         <source>(ex: %0)</source>
         <translation>（例如：%0）</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="982"/>
+        <location filename="../mainwindow.cpp" line="943"/>
         <source>The new name is already used or invalid.</source>
         <translation>新名稱已被使用或無效。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="985"/>
+        <location filename="../mainwindow.cpp" line="946"/>
         <source>Can&apos;t rename &quot;%0&quot; as its initial name.</source>
         <translation>無法重新命名「%0」為其初始名稱。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="992"/>
+        <location filename="../mainwindow.cpp" line="953"/>
         <source>Can&apos;t rename</source>
         <translation>無法重新命名</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="992"/>
+        <location filename="../mainwindow.cpp" line="953"/>
         <source>as</source>
         <translation>為</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1278"/>
+        <location filename="../mainwindow.cpp" line="1245"/>
         <source>Can&apos;t save file.</source>
         <translation>無法儲存檔案。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1281"/>
+        <location filename="../mainwindow.cpp" line="1248"/>
         <source>Can&apos;t save file %0:</source>
         <translation>無法儲存檔案 %0：</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1297"/>
+        <location filename="../mainwindow.cpp" line="1264"/>
         <source>Can&apos;t load file.</source>
         <translation>無法載入檔案。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1300"/>
+        <location filename="../mainwindow.cpp" line="1267"/>
         <source>Can&apos;t load file %0:</source>
         <translation>無法載入檔案 %0：</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="759"/>
+        <location filename="../mainwindow.cpp" line="744"/>
         <source>Start!</source>
         <translation>開始！</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="334"/>
+        <location filename="../mainwindow.cpp" line="332"/>
         <source>Go to website</source>
-        <translation type="unfinished"></translation>
+        <translation>前往我們的網站</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="993"/>
+        <location filename="../mainwindow.cpp" line="954"/>
         <source>File Error</source>
         <translation>檔案錯誤</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1026"/>
+        <location filename="../mainwindow.cpp" line="987"/>
         <source>Done: %0 Running: %1 Total: %2</source>
         <translation>完成：%0 正在執行：%1 總共：%2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1034"/>
+        <location filename="../mainwindow.cpp" line="995"/>
         <source>%0 of %1 (%2), %3 running  %4 | Torrent: %5</source>
         <translation>%1 之 %0 個（%2），%3 正在執行 %4 | Torrent：%5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1040"/>
+        <location filename="../mainwindow.cpp" line="1001"/>
         <source>active</source>
         <translation>活躍</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1040"/>
+        <location filename="../mainwindow.cpp" line="1001"/>
         <source>inactive</source>
         <translation>不活躍</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1287"/>
+        <location filename="../mainwindow.cpp" line="1254"/>
         <source>File saved</source>
         <translation>檔案已儲存</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1306"/>
+        <location filename="../mainwindow.cpp" line="1273"/>
         <source>File loaded</source>
         <translation>檔案已載入</translation>
     </message>
     <message>
-        <location filename="../mainwindow.h" line="169"/>
+        <location filename="../mainwindow.h" line="160"/>
         <source>Save As</source>
         <translation>另存為</translation>
     </message>
     <message>
-        <location filename="../mainwindow.h" line="170"/>
+        <location filename="../mainwindow.h" line="161"/>
         <source>Open</source>
         <translation>開啟</translation>
     </message>
@@ -2846,16 +2790,59 @@ Some examples are given below.  Click to paste the example.</source>
     </message>
 </context>
 <context>
-    <name>QueueItem</name>
+    <name>QueueModel</name>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="367"/>
+        <location filename="../core/queuemodel.cpp" line="109"/>
+        <source>Download/Name</source>
+        <translation>下載/名稱</translation>
+    </message>
+    <message>
+        <location filename="../core/queuemodel.cpp" line="110"/>
+        <source>Domain</source>
+        <translation>域名</translation>
+    </message>
+    <message>
+        <location filename="../core/queuemodel.cpp" line="111"/>
+        <source>Progress</source>
+        <translation>進度</translation>
+    </message>
+    <message>
+        <location filename="../core/queuemodel.cpp" line="112"/>
+        <source>Percent</source>
+        <translation>%</translation>
+    </message>
+    <message>
+        <location filename="../core/queuemodel.cpp" line="113"/>
+        <source>Size</source>
+        <translation>大小</translation>
+    </message>
+    <message>
+        <location filename="../core/queuemodel.cpp" line="114"/>
+        <source>Est. time</source>
+        <translation>耗時</translation>
+    </message>
+    <message>
+        <location filename="../core/queuemodel.cpp" line="115"/>
+        <source>Speed</source>
+        <translation>速度</translation>
+    </message>
+    <message>
+        <location filename="../core/queuemodel.cpp" line="221"/>
         <source>%0 of %1</source>
         <translation>%1 之 %0 個</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="371"/>
+        <location filename="../core/queuemodel.cpp" line="225"/>
         <source>Unknown</source>
         <translation>未知</translation>
+    </message>
+</context>
+<context>
+    <name>QueueView</name>
+    <message>
+        <location filename="../widgets/queueview.cpp" line="354"/>
+        <source>... (%0 others)</source>
+        <translation>…（%0 其它）</translation>
     </message>
 </context>
 <context>
