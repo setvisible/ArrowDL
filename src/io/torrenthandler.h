@@ -17,6 +17,7 @@
 #ifndef IO_TORRENT_HANDLER_H
 #define IO_TORRENT_HANDLER_H
 
+#include <Core/IScheduler>
 #include <Io/IFileHandler>
 
 class TorrentHandler : public IFileHandler
@@ -27,8 +28,8 @@ public:
     bool canRead() const override;
     bool canWrite() const override;
 
-    bool read(DownloadEngine *engine) override;
-    bool write(const DownloadEngine &engine) override;
+    bool read(IScheduler *scheduler) override;
+    bool write(const IScheduler &scheduler) override;
 
 private:
 };

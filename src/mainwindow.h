@@ -17,18 +17,18 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <Core/IDownloadItem>
+#include <Core/AbstractJob>
 
 #include <QtWidgets/QMainWindow>
 
-class DownloadManager;
+class Scheduler;
 class StreamManager;
 class FileAccessManager;
 class Settings;
 class UpdateChecker;
 class SystemTray;
 
-using DownloadRange = QList<IDownloadItem *>;
+using DownloadRange = QList<AbstractJob *>;
 
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -71,16 +71,12 @@ public slots:
     void exportSelectedToFile();
 
     // Edit
-    void selectAll();
-    void selectNone();
-    void invertSelection();
-    void selectCompleted();
     void copy();
 
     // View
     void showInformation();
     void openFile();
-    void openFile(IDownloadItem *downloadItem);
+    void openFile(AbstractJob *job);
     void renameFile();
     void deleteFile();
     void openDirectory();
@@ -105,10 +101,6 @@ public slots:
     void resume();
     void cancel();
     void pause();
-    void up();
-    void top();
-    void down();
-    void bottom();
 
     // Options
     void showPreferences();
@@ -123,16 +115,15 @@ public slots:
     void aboutWebsite();
 
 private slots:
-    void onJobAddedOrRemoved(const DownloadRange &range);
-    void onJobStateChanged(IDownloadItem *downloadItem);
-    void onJobFinished(IDownloadItem *downloadItem);
+    void onDataChanged();
+    void onJobFinished(AbstractJob *job);
     void onJobRenamed(const QString &oldName, const QString &newName, bool success);
     void onSelectionChanged();
     void onTorrentContextChanged();
 
 private:
     Ui::MainWindow *ui = nullptr;
-    DownloadManager *m_downloadManager = nullptr;
+    Scheduler *m_scheduler = nullptr;
     StreamManager *m_streamManager = nullptr;
     FileAccessManager *m_fileAccessManager = nullptr;
     Settings *m_settings = nullptr;

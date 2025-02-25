@@ -16,7 +16,7 @@
 
 #include "torrenthandler.h"
 
-#include <Core/IDownloadItem>
+#include <Core/AbstractJob>
 #include <Core/TorrentMessage>
 
 #include <QtCore/QDebug>
@@ -33,9 +33,9 @@ bool TorrentHandler::canWrite() const
     return false;
 }
 
-bool TorrentHandler::read(DownloadEngine *engine)
+bool TorrentHandler::read(IScheduler *scheduler)
 {
-    if (!engine) {
+    if (!scheduler) {
         qWarning("TorrentHandler::read() cannot read into null pointer");
         return false;
     }
@@ -45,8 +45,8 @@ bool TorrentHandler::read(DownloadEngine *engine)
     }
     /*
      * Rem: The .torrent file is not read at this point.
-     * The address is simply passed to the DownloadTorrentItem.
-     * The DownloadTorrentItem is in charge of (down)loading the .torrent file
+     * The address is simply passed to the JobTorrent.
+     * The JobTorrent is in charge of (down)loading the .torrent file
      * (eventually from magnet link), that contains metadata,
      * and finally download the data of the file itself.
      */
@@ -56,19 +56,19 @@ bool TorrentHandler::read(DownloadEngine *engine)
         auto filename = f->fileName();
         url = QUrl(filename);
     }
-    IDownloadItem *item = engine->createTorrentItem(url);
-    if (!item) {
-        qWarning("DownloadEngine::createItem() not overridden."
+    AbstractJob *job = scheduler->createJobTorrent(url);
+    if (!job) {
+        qWarning("Scheduler::createJobFile() not overridden."
                  " It still returns null pointer!");
         return false;
     }
-    QList<IDownloadItem*> items;
-    items.append(item);
-    engine->append(items, false);
+    QList<AbstractJob*> jobs;
+    jobs.append(job);
+    scheduler->append(jobs, false);
     return true;
 }
 
-bool TorrentHandler::write(const DownloadEngine &/*engine*/)
+bool TorrentHandler::write(const IScheduler &/*scheduler*/)
 {
     return false;
 }

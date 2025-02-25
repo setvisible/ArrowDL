@@ -30,8 +30,8 @@ class Format : public QObject
 public:
     static QString infinity();
 
-    static QString timeToString(QTime time);
-    static QString timeToString(qint64 seconds);
+    static QString timeToString(const QTime time);
+    static QString timeToString(const qint64 seconds);
 
     static QString currentSpeedToString(qreal speed, bool showInfiniteSymbol = false);
     static QString fileSizeToString(qsizetype size);

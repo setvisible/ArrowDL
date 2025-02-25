@@ -19,9 +19,9 @@
 
 #include <QtCore/QObject>
 
+class FileAccessManager;
 class ResourceItem;
 class Settings;
-class IFileAccessManager;
 class QSaveFile;
 
 class File : public QObject
@@ -38,7 +38,7 @@ public:
     explicit File(QObject *parent = nullptr);
     ~File() override;
 
-    static void setFileAccessManager(IFileAccessManager *manager);
+    static void setFileAccessManager(FileAccessManager *manager);
 
     OpenFlag open(ResourceItem *resource);
 

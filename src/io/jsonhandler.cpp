@@ -16,7 +16,7 @@
 
 #include "jsonhandler.h"
 
-#include <Core/IDownloadItem>
+#include <Core/AbstractJob>
 
 #include <QtCore/QDebug>
 #include <QtCore/QIODevice>
@@ -36,9 +36,9 @@ bool JsonHandler::canWrite() const
     return true;
 }
 
-bool JsonHandler::read(DownloadEngine *engine)
+bool JsonHandler::read(IScheduler *scheduler)
 {
-    if (!engine) {
+    if (!scheduler) {
         qWarning("JsonHandler::read() Can't read into null pointer");
         return false;
     }
@@ -57,22 +57,22 @@ bool JsonHandler::read(DownloadEngine *engine)
 
     QJsonObject json = loadDoc.object();
 
-    QList<IDownloadItem *> items;
+    QList<AbstractJob *> jobs;
 
     QJsonArray jobsArray = json["links"].toArray();
     for (int i = 0; i < jobsArray.size(); ++i) {
         QJsonObject jobObject = jobsArray[i].toObject();
 
         QUrl url = QUrl(jobObject["url"].toString());
-        IDownloadItem *item = engine->createItem(url);
-        items.append(item);
+        AbstractJob *job = scheduler->createJobFile(url);
+        jobs.append(job);
     }
 
-    engine->append(items, false);
+    scheduler->append(jobs, false);
     return true;
 }
 
-bool JsonHandler::write(const DownloadEngine &engine)
+bool JsonHandler::write(const IScheduler &scheduler)
 {
     QIODevice *d = device();
     QTextStream out(d);
@@ -81,8 +81,8 @@ bool JsonHandler::write(const DownloadEngine &engine)
     }
     QJsonObject json;
     QJsonArray jobsArray;
-    for (auto item : engine.downloadItems()) {
-        QUrl url = item->sourceUrl();
+    for (auto job : scheduler.jobs()) {
+        QUrl url = job->sourceUrl();
 
         QJsonObject jobObject;
         jobObject["url"] = url.toString();

@@ -6,14 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>415</width>
-    <height>446</height>
+    <width>450</width>
+    <height>428</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>450</width>
+    <height>0</height>
+   </size>
   </property>
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,10,0,0,0">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,10,0">
    <item>
     <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,1">
      <item row="0" column="2" colspan="2">
@@ -21,7 +27,6 @@
        <property name="font">
         <font>
          <pointsize>10</pointsize>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -280,23 +285,6 @@
        </item>
       </layout>
      </widget>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="safeRenameCheckBox">
-     <property name="text">
-      <string>Safe Rename*</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="safeRenameLabel">
-     <property name="text">
-      <string>*Rename and pause. Otherwise, could also rename already downloaded files.</string>
-     </property>
     </widget>
    </item>
    <item>

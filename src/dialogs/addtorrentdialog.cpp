@@ -18,9 +18,9 @@
 #include "ui_addtorrentdialog.h"
 
 #include <Constants>
-#include <Core/DownloadItem>
-#include <Core/DownloadManager>
-#include <Core/DownloadTorrentItem>
+#include <Core/JobFile>
+#include <Core/Scheduler>
+#include <Core/JobTorrent>
 #include <Core/ResourceItem>
 #include <Core/Settings>
 #include <Core/Theme>
@@ -37,11 +37,11 @@
 
 AddTorrentDialog::AddTorrentDialog(
     const QUrl &url,
-    DownloadManager *downloadManager,
+    Scheduler *scheduler,
     Settings *settings, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddTorrentDialog)
-    , m_downloadManager(downloadManager)
+    , m_scheduler(scheduler)
     , m_settings(settings)
 {
     ui->setupUi(this);
@@ -142,23 +142,22 @@ void AddTorrentDialog::onChanged(QString)
 void AddTorrentDialog::doAccept(bool started)
 {
     const QString url = ui->urlFormWidget->url();
-    m_downloadManager->append(toList(createItem(url)), started);
+    m_scheduler->append(toList(createJobTorrent(url)), started);
     QDialog::accept();
 }
 
 /******************************************************************************
  ******************************************************************************/
-IDownloadItem* AddTorrentDialog::createItem(const QString &url) const
+AbstractJob* AddTorrentDialog::createJobTorrent(const QString &url) const
 {
     auto resource = ui->urlFormWidget->createResourceItem();
     resource->setUrl(url);
     resource->setType(ResourceItem::Type::Torrent);
-    auto item = new DownloadTorrentItem(m_downloadManager);
-    item->setResource(resource);
-    return item;
+    auto jobTorrent = new JobTorrent(m_scheduler, resource);
+    return jobTorrent;
 }
 
-inline QList<IDownloadItem*> AddTorrentDialog::toList(IDownloadItem *item)
+inline QList<AbstractJob *> AddTorrentDialog::toList(AbstractJob *job)
 {
-    return QList<IDownloadItem*>() << item;
+    return QList<AbstractJob *>() << job;
 }

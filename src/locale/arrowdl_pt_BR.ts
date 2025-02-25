@@ -2,69 +2,69 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="pt_BR">
 <context>
-    <name>AbstractDownloadItem</name>
+    <name>AbstractJob</name>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="64"/>
+        <location filename="../core/abstractjob.cpp" line="73"/>
         <source>Idle</source>
         <translation>Ocioso</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="65"/>
+        <location filename="../core/abstractjob.cpp" line="74"/>
         <source>Paused</source>
         <translation>Pausado</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="66"/>
+        <location filename="../core/abstractjob.cpp" line="75"/>
         <source>Canceled</source>
         <translation>Cancelado</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="67"/>
+        <location filename="../core/abstractjob.cpp" line="76"/>
         <source>Preparing</source>
         <translation>Preparando</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="68"/>
+        <location filename="../core/abstractjob.cpp" line="77"/>
         <source>Connecting</source>
         <translation>Conectando</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="69"/>
+        <location filename="../core/abstractjob.cpp" line="78"/>
         <source>Downloading Metadata</source>
         <translation>Baixando metadados</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="70"/>
+        <location filename="../core/abstractjob.cpp" line="79"/>
         <source>Downloading</source>
         <translation>Baixando</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="71"/>
+        <location filename="../core/abstractjob.cpp" line="80"/>
         <source>Finishing</source>
         <translation>Finalizando</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="72"/>
+        <location filename="../core/abstractjob.cpp" line="81"/>
         <source>Complete</source>
         <translation>Completo</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="73"/>
+        <location filename="../core/abstractjob.cpp" line="82"/>
         <source>Seeding</source>
         <translation>Semeando</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="74"/>
+        <location filename="../core/abstractjob.cpp" line="83"/>
         <source>Skipped</source>
         <translation>Pulado</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="75"/>
+        <location filename="../core/abstractjob.cpp" line="84"/>
         <source>Server error</source>
         <translation>Erro de servidor</translation>
     </message>
     <message>
-        <location filename="../core/abstractdownloaditem.cpp" line="76"/>
+        <location filename="../core/abstractjob.cpp" line="85"/>
         <source>File error</source>
         <translation>Erro de arquivo</translation>
     </message>
@@ -85,25 +85,25 @@ Você também pode usar indicadores de lote para baixar vários arquivos de uma 
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="87"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="194"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="192"/>
         <source>1 -&gt; 10</source>
         <translation>1 -&gt; 10</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="100"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="195"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="193"/>
         <source>1 -&gt; 100</source>
         <translation>1 -&gt; 100</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="113"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="196"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="194"/>
         <source>01 -&gt; 10</source>
         <translation>01 -&gt; 10</translation>
     </message>
     <message>
         <location filename="../dialogs/addbatchdialog.ui" line="126"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="197"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="195"/>
         <source>001 -&gt; 100</source>
         <translation>001 -&gt; 100</translation>
     </message>
@@ -168,33 +168,33 @@ Você também pode usar indicadores de lote para baixar vários arquivos de uma 
         <translation>Deve terminar com &apos;]&apos; ou &apos;)&apos;</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="186"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="184"/>
         <source>Insert</source>
         <translation>Inserir</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="305"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="302"/>
         <source>Do you really want to start %0 downloads?</source>
         <translation>Tem certeza de que deseja começar %0 downloads?</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="314"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="311"/>
         <source>Don&apos;t ask again, always download batch</source>
         <translation>Não perguntar novamente, sempre baixar o lote</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="298"/>
-        <location filename="../dialogs/addbatchdialog.cpp" line="309"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="295"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="306"/>
         <source>Download Batch</source>
         <translation>Baixar lote</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="299"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="296"/>
         <source>It seems that you are using some batch descriptors.</source>
         <translation>Parece que você está usando alguns indicadores de lote.</translation>
     </message>
     <message>
-        <location filename="../dialogs/addbatchdialog.cpp" line="310"/>
+        <location filename="../dialogs/addbatchdialog.cpp" line="307"/>
         <source>Single Download</source>
         <translation>Baixar arquivo único</translation>
     </message>
@@ -238,55 +238,55 @@ Você também pode usar indicadores de lote para baixar vários arquivos de uma 
         <translation>Preferências</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="182"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="181"/>
         <source>Warning</source>
         <translation>Aviso</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="85"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="84"/>
         <source>Web Page Content</source>
         <translation>Conteúdo da página da Web</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="184"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="183"/>
         <source>Error: The url is not valid:</source>
         <translation>Erro: URL inválido:</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="213"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="212"/>
         <source>Connecting...</source>
         <translation>Conectando...</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="224"/>
-        <location filename="../dialogs/addcontentdialog.cpp" line="259"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="223"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="258"/>
         <source>Downloading...</source>
         <translation>Baixando...</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="281"/>
-        <location filename="../dialogs/addcontentdialog.cpp" line="321"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="280"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="320"/>
         <source>Collecting links...</source>
         <translation>Capturando links...</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="289"/>
-        <location filename="../dialogs/addcontentdialog.cpp" line="333"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="288"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="332"/>
         <source>Finished</source>
         <translation>Finalizado</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="353"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="352"/>
         <source>The wizard can&apos;t connect to URL:</source>
         <translation>O assistente não consegue se conectar ao URL:</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="386"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="385"/>
         <source>After selecting links, click on Start!</source>
         <translation>Após selecionar os links, clique em Iniciar!</translation>
     </message>
     <message>
-        <location filename="../dialogs/addcontentdialog.cpp" line="389"/>
+        <location filename="../dialogs/addcontentdialog.cpp" line="388"/>
         <source>Selected links: %0 of %1</source>
         <translation>Links selecionados: %0 of %1</translation>
     </message>
@@ -310,7 +310,7 @@ Você também pode usar indicadores de lote para baixar vários arquivos de uma 
     </message>
     <message>
         <location filename="../dialogs/addstreamdialog.ui" line="57"/>
-        <location filename="../dialogs/addstreamdialog.cpp" line="231"/>
+        <location filename="../dialogs/addstreamdialog.cpp" line="230"/>
         <source>Continue</source>
         <translation>Continuar</translation>
     </message>
@@ -340,7 +340,7 @@ Você também pode usar indicadores de lote para baixar vários arquivos de uma 
         <translation>Adicionar fluxo</translation>
     </message>
     <message>
-        <location filename="../dialogs/addstreamdialog.cpp" line="231"/>
+        <location filename="../dialogs/addstreamdialog.cpp" line="230"/>
         <source>Stop</source>
         <translation>Parar</translation>
     </message>
@@ -520,74 +520,64 @@ Você também pode usar indicadores de lote para baixar vários arquivos de uma 
         <translation>Ferramentas</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="89"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="94"/>
         <source>Files to rename</source>
         <translation>Arquivos para renomear</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="32"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="37"/>
         <source>Rename Tool</source>
         <translation>Renomear</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="102"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="107"/>
         <source>Batch Rename</source>
         <translation>Renomear em lote</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="109"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="114"/>
         <source>Default names</source>
         <translation>Nomes padrão</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="114"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="119"/>
         <source>Enumerated names</source>
         <translation>Enumerar nomes</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="130"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="135"/>
         <source>Options</source>
         <translation>Opções</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="138"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="143"/>
         <source>Start enumeration from:</source>
         <translation>Começar a partir de:</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="170"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="175"/>
         <source>Style:</source>
         <translation>Estilo:</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="179"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="184"/>
         <source>1 ... 123456</source>
         <translation>1 ... 123456</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="189"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="194"/>
         <source>000001 ... 123456</source>
         <translation>000001 ... 123456</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="198"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="203"/>
         <source>Custom number of digits:</source>
         <translation>Número de digitos personalizado:</translation>
     </message>
     <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="232"/>
+        <location filename="../dialogs/batchrenamedialog.ui" line="237"/>
         <source>Increment by:</source>
         <translation>Acrescentado por:</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="288"/>
-        <source>Safe Rename*</source>
-        <translation>Renomear com segurança*</translation>
-    </message>
-    <message>
-        <location filename="../dialogs/batchrenamedialog.ui" line="298"/>
-        <source>*Rename and pause. Otherwise, could also rename already downloaded files.</source>
-        <translation>*Renomeie entre pausas. Caso contrário, isso poderá também renomear arquivos já baixados.</translation>
     </message>
     <message>
         <location filename="../dialogs/batchrenamedialog.cpp" line="56"/>
@@ -752,273 +742,6 @@ Você também pode usar indicadores de lote para baixar vários arquivos de uma 
     </message>
 </context>
 <context>
-    <name>DownloadEngine</name>
-    <message>
-        <location filename="../core/downloadengine.cpp" line="354"/>
-        <source>... (%0 others)</source>
-        <translation>... (%0 outros)</translation>
-    </message>
-</context>
-<context>
-    <name>DownloadItem</name>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="282"/>
-        <source>No Error</source>
-        <translation>Sem erro</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="285"/>
-        <source>3xx Redirect connection refused</source>
-        <translation>3xx Conexão de redirecionamento recusada</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="286"/>
-        <source>3xx Redirect remote host closed</source>
-        <translation>3xx Conexão ao servidor de redireciomanento fechada</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="287"/>
-        <source>3xx Redirect host not found</source>
-        <translation>3xx Servidor de redirecionamento não encontrado</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="288"/>
-        <source>3xx Redirect timeout</source>
-        <translation>3xx Tempo de redirecionamento expirado</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="289"/>
-        <source>3xx Redirect operation canceled</source>
-        <translation>3xx Operação de redirecionamento cancelada</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="290"/>
-        <source>3xx Redirect SSL handshake failed</source>
-        <translation>3xx Falha de comunicação handshake SSL com o servidor de redirecionamento</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="291"/>
-        <source>3xx Redirect temporary network failure</source>
-        <translation>3xx Servidor de redirecionamento temporariamente indisponível</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="292"/>
-        <source>3xx Redirect network session failed</source>
-        <translation>3xx Falha ao redirecionar sessão de rede</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="293"/>
-        <source>3xx Redirect background request not allowed</source>
-        <translation>3xx Solicitação de redirecionamento em segundo plano não permitida</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="294"/>
-        <source>3xx Too many redirects</source>
-        <translation>3xx Muitos redirecionamentos</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="295"/>
-        <source>3xx Insecure redirect</source>
-        <translation>3xx Redirecionamento inseguro</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="296"/>
-        <source>3xx Unknown redirect error</source>
-        <translation>3xx Erro de redirecionamento desconhecido</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="299"/>
-        <source>5xx Proxy connection refused</source>
-        <translation>5xx Conexão proxy recusada</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="300"/>
-        <source>5xx Proxy connection closed</source>
-        <translation>5xx Conexão proxy fechada</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="301"/>
-        <source>5xx Proxy not found</source>
-        <translation>5xx Proxy não encontrado</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="302"/>
-        <source>504 Proxy timeout error</source>
-        <translation>504 O tempo de conexão do proxy expirou</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="303"/>
-        <source>407 Proxy authentication required</source>
-        <translation>407 Proxy requer autenticação</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="304"/>
-        <source>5xx Unknown proxy error</source>
-        <translation>5xx Erro de proxy desconhecido</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="307"/>
-        <source>403 Access denied</source>
-        <translation>403 Acesso ao servidor negado</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="308"/>
-        <source>405 Method not allowed</source>
-        <translation>405 Método de solicitação não permitida</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="309"/>
-        <source>404 Not found</source>
-        <translation>404 Conteúdo não encontrado</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="310"/>
-        <source>401 Authorization required</source>
-        <translation>401 Autenticação necessária</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="311"/>
-        <source>4xx Resend error</source>
-        <translation>4xx Erro ao retornar solicitação</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="312"/>
-        <source>409 Conflict</source>
-        <translation>409 Conflito</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="313"/>
-        <source>410 Content no longer available</source>
-        <translation>410 O conteúdo não está mais disponível</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="314"/>
-        <source>4xx Unknown content error</source>
-        <translation>4xx Erro de recurso desconhecido</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="317"/>
-        <source>4xx Unknown protocol error</source>
-        <translation>4xx Erro de protocolo desconhecido</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="318"/>
-        <source>400 Bad request</source>
-        <translation>400x Sintaxe de requisição incorreta</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="319"/>
-        <source>4xx Protocol failure</source>
-        <translation>4xx Falha de protocolo</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="322"/>
-        <source>500 Internal server error</source>
-        <translation>500 Erro interno do servidor</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="323"/>
-        <source>501 Server does not support this functionality</source>
-        <translation>501 Recurso solicitado não suportado pelo servidor</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="324"/>
-        <source>503 Service unavailable</source>
-        <translation>503 Serviço indisponível</translation>
-    </message>
-    <message>
-        <location filename="../core/downloaditem.cpp" line="325"/>
-        <source>5xx Unknown server error</source>
-        <translation>5xx Erro de servidor desconhecido</translation>
-    </message>
-</context>
-<context>
-    <name>DownloadQueueView</name>
-    <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="581"/>
-        <source>Download/Name</source>
-        <translation>Arquivo</translation>
-    </message>
-    <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="582"/>
-        <source>Domain</source>
-        <translation>Domínio</translation>
-    </message>
-    <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="583"/>
-        <source>Progress</source>
-        <translation>Progresso</translation>
-    </message>
-    <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="584"/>
-        <source>Percent</source>
-        <translation>%</translation>
-    </message>
-    <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="585"/>
-        <source>Size</source>
-        <translation>Tamanho</translation>
-    </message>
-    <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="586"/>
-        <source>Est. time</source>
-        <translation>Tempo restante</translation>
-    </message>
-    <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="587"/>
-        <source>Speed</source>
-        <translation>Velocidade</translation>
-    </message>
-</context>
-<context>
-    <name>DownloadTorrentItem</name>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="136"/>
-        <source>Couldn&apos;t download metadata</source>
-        <translation>Não foi possível baixar os metadados</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="137"/>
-        <source>Couldn&apos;t download, bad .torrent format</source>
-        <translation>Não foi possível baixar, formato de .torrent errado</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="138"/>
-        <source>Couldn&apos;t resolve metadata</source>
-        <translation>Não foi possível interpretar os metadados</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="141"/>
-        <source>Error in file &apos;%0&apos;</source>
-        <translation>Erro no arquivo &apos;%0&apos;</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="142"/>
-        <source>Bad SSL context</source>
-        <translation>Contexto SSL inválido</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="143"/>
-        <source>Bad .torrent metadata</source>
-        <translation>Formato de metadados do .torrent inválido</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="144"/>
-        <source>Bad .torrent access permission</source>
-        <translation>Permissão de acesso ao .torrent negada</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="145"/>
-        <source>Bad part-file</source>
-        <translation>Arquivo parcialmente danificado</translation>
-    </message>
-    <message>
-        <location filename="../core/downloadtorrentitem.cpp" line="148"/>
-        <source>Unknown error</source>
-        <translation>Erro desconhecido</translation>
-    </message>
-</context>
-<context>
     <name>EditionDialog</name>
     <message>
         <location filename="../dialogs/editiondialog.ui" line="102"/>
@@ -1050,32 +773,32 @@ Você também pode usar indicadores de lote para baixar vários arquivos de uma 
 <context>
     <name>FileAccessManager</name>
     <message>
-        <location filename="../core/fileaccessmanager.cpp" line="45"/>
+        <location filename="../core/fileaccessmanager.cpp" line="49"/>
         <source>Existing File</source>
         <translation>Arquivo Existente</translation>
     </message>
     <message>
-        <location filename="../core/fileaccessmanager.cpp" line="47"/>
+        <location filename="../core/fileaccessmanager.cpp" line="51"/>
         <source>The file already exists:</source>
         <translation>O arquivo já existe:</translation>
     </message>
     <message>
-        <location filename="../core/fileaccessmanager.cpp" line="49"/>
+        <location filename="../core/fileaccessmanager.cpp" line="53"/>
         <source>Do you want to Rename, Overwrite or Skip this file?</source>
         <translation>Deseja renomear, substituir ou ignorar este arquivo?</translation>
     </message>
     <message>
-        <location filename="../core/fileaccessmanager.cpp" line="52"/>
+        <location filename="../core/fileaccessmanager.cpp" line="56"/>
         <source>Rename</source>
         <translation>Renomear</translation>
     </message>
     <message>
-        <location filename="../core/fileaccessmanager.cpp" line="53"/>
+        <location filename="../core/fileaccessmanager.cpp" line="57"/>
         <source>Overwrite</source>
         <translation>Substituir</translation>
     </message>
     <message>
-        <location filename="../core/fileaccessmanager.cpp" line="54"/>
+        <location filename="../core/fileaccessmanager.cpp" line="58"/>
         <source>Skip</source>
         <translation>Ignorar</translation>
     </message>
@@ -1083,37 +806,37 @@ Você também pode usar indicadores de lote para baixar vários arquivos de uma 
 <context>
     <name>FileReader</name>
     <message>
-        <location filename="../io/filereader.cpp" line="49"/>
+        <location filename="../io/filereader.cpp" line="51"/>
         <source>Invalid device</source>
         <translation>Dispositivo inválido</translation>
     </message>
     <message>
-        <location filename="../io/filereader.cpp" line="64"/>
+        <location filename="../io/filereader.cpp" line="66"/>
         <source>File not found</source>
         <translation>Arquivo não encontrado</translation>
     </message>
     <message>
-        <location filename="../io/filereader.cpp" line="71"/>
+        <location filename="../io/filereader.cpp" line="73"/>
         <source>Unsupported format</source>
         <translation>Formato não suportado</translation>
     </message>
     <message>
-        <location filename="../io/filereader.cpp" line="92"/>
+        <location filename="../io/filereader.cpp" line="94"/>
         <source>Unable to read data</source>
         <translation>Incapaz de ler os dados</translation>
     </message>
     <message>
-        <location filename="../io/filereader.cpp" line="111"/>
+        <location filename="../io/filereader.cpp" line="113"/>
         <source>Unknown error</source>
         <translation>Erro desconhecido</translation>
     </message>
     <message>
-        <location filename="../io/filereader.cpp" line="160"/>
+        <location filename="../io/filereader.cpp" line="162"/>
         <source>Any file (all types) (%0)</source>
         <translation>Qualquer arquivo (todos os tipos) (%0)</translation>
     </message>
     <message>
-        <location filename="../io/filereader.cpp" line="174"/>
+        <location filename="../io/filereader.cpp" line="176"/>
         <source>All files (%0)</source>
         <translation>Todos os arquivos (%0)</translation>
     </message>
@@ -1381,6 +1104,227 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     </message>
 </context>
 <context>
+    <name>JobFile</name>
+    <message>
+        <location filename="../core/jobfile.cpp" line="218"/>
+        <source>No Error</source>
+        <translation>Sem erro</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="221"/>
+        <source>3xx Redirect connection refused</source>
+        <translation>3xx Conexão de redirecionamento recusada</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="222"/>
+        <source>3xx Redirect remote host closed</source>
+        <translation>3xx Conexão ao servidor de redireciomanento fechada</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="223"/>
+        <source>3xx Redirect host not found</source>
+        <translation>3xx Servidor de redirecionamento não encontrado</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="224"/>
+        <source>3xx Redirect timeout</source>
+        <translation>3xx Tempo de redirecionamento expirado</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="225"/>
+        <source>3xx Redirect operation canceled</source>
+        <translation>3xx Operação de redirecionamento cancelada</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="226"/>
+        <source>3xx Redirect SSL handshake failed</source>
+        <translation>3xx Falha de comunicação handshake SSL com o servidor de redirecionamento</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="227"/>
+        <source>3xx Redirect temporary network failure</source>
+        <translation>3xx Servidor de redirecionamento temporariamente indisponível</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="228"/>
+        <source>3xx Redirect network session failed</source>
+        <translation>3xx Falha ao redirecionar sessão de rede</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="229"/>
+        <source>3xx Redirect background request not allowed</source>
+        <translation>3xx Solicitação de redirecionamento em segundo plano não permitida</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="230"/>
+        <source>3xx Too many redirects</source>
+        <translation>3xx Muitos redirecionamentos</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="231"/>
+        <source>3xx Insecure redirect</source>
+        <translation>3xx Redirecionamento inseguro</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="232"/>
+        <source>3xx Unknown redirect error</source>
+        <translation>3xx Erro de redirecionamento desconhecido</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="235"/>
+        <source>5xx Proxy connection refused</source>
+        <translation>5xx Conexão proxy recusada</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="236"/>
+        <source>5xx Proxy connection closed</source>
+        <translation>5xx Conexão proxy fechada</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="237"/>
+        <source>5xx Proxy not found</source>
+        <translation>5xx Proxy não encontrado</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="238"/>
+        <source>504 Proxy timeout error</source>
+        <translation>504 O tempo de conexão do proxy expirou</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="239"/>
+        <source>407 Proxy authentication required</source>
+        <translation>407 Proxy requer autenticação</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="240"/>
+        <source>5xx Unknown proxy error</source>
+        <translation>5xx Erro de proxy desconhecido</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="243"/>
+        <source>403 Access denied</source>
+        <translation>403 Acesso ao servidor negado</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="244"/>
+        <source>405 Method not allowed</source>
+        <translation>405 Método de solicitação não permitida</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="245"/>
+        <source>404 Not found</source>
+        <translation>404 Conteúdo não encontrado</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="246"/>
+        <source>401 Authorization required</source>
+        <translation>401 Autenticação necessária</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="247"/>
+        <source>4xx Resend error</source>
+        <translation>4xx Erro ao retornar solicitação</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="248"/>
+        <source>409 Conflict</source>
+        <translation>409 Conflito</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="249"/>
+        <source>410 Content no longer available</source>
+        <translation>410 O conteúdo não está mais disponível</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="250"/>
+        <source>4xx Unknown content error</source>
+        <translation>4xx Erro de recurso desconhecido</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="253"/>
+        <source>4xx Unknown protocol error</source>
+        <translation>4xx Erro de protocolo desconhecido</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="254"/>
+        <source>400 Bad request</source>
+        <translation>400x Sintaxe de requisição incorreta</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="255"/>
+        <source>4xx Protocol failure</source>
+        <translation>4xx Falha de protocolo</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="258"/>
+        <source>500 Internal server error</source>
+        <translation>500 Erro interno do servidor</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="259"/>
+        <source>501 Server does not support this functionality</source>
+        <translation>501 Recurso solicitado não suportado pelo servidor</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="260"/>
+        <source>503 Service unavailable</source>
+        <translation>503 Serviço indisponível</translation>
+    </message>
+    <message>
+        <location filename="../core/jobfile.cpp" line="261"/>
+        <source>5xx Unknown server error</source>
+        <translation>5xx Erro de servidor desconhecido</translation>
+    </message>
+</context>
+<context>
+    <name>JobTorrent</name>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="139"/>
+        <source>Couldn&apos;t download metadata</source>
+        <translation>Não foi possível baixar os metadados</translation>
+    </message>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="140"/>
+        <source>Couldn&apos;t download, bad .torrent format</source>
+        <translation>Não foi possível baixar, formato de .torrent errado</translation>
+    </message>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="141"/>
+        <source>Couldn&apos;t resolve metadata</source>
+        <translation>Não foi possível interpretar os metadados</translation>
+    </message>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="144"/>
+        <source>Error in file &apos;%0&apos;</source>
+        <translation>Erro no arquivo &apos;%0&apos;</translation>
+    </message>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="145"/>
+        <source>Bad SSL context</source>
+        <translation>Contexto SSL inválido</translation>
+    </message>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="146"/>
+        <source>Bad .torrent metadata</source>
+        <translation>Formato de metadados do .torrent inválido</translation>
+    </message>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="147"/>
+        <source>Bad .torrent access permission</source>
+        <translation>Permissão de acesso ao .torrent negada</translation>
+    </message>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="148"/>
+        <source>Bad part-file</source>
+        <translation>Arquivo parcialmente danificado</translation>
+    </message>
+    <message>
+        <location filename="../core/jobtorrent.cpp" line="151"/>
+        <source>Unknown error</source>
+        <translation>Erro desconhecido</translation>
+    </message>
+</context>
+<context>
     <name>LinkWidget</name>
     <message>
         <location filename="../widgets/linkwidget.ui" line="79"/>
@@ -1567,7 +1511,7 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     </message>
     <message>
         <location filename="../mainwindow.ui" line="312"/>
-        <location filename="../mainwindow.cpp" line="760"/>
+        <location filename="../mainwindow.cpp" line="745"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
@@ -1690,7 +1634,7 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     <message>
         <location filename="../mainwindow.ui" line="573"/>
         <source>Website</source>
-        <translation type="unfinished"></translation>
+        <translation>Site</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="468"/>
@@ -1783,183 +1727,183 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="322"/>
-        <location filename="../mainwindow.cpp" line="931"/>
+        <location filename="../mainwindow.cpp" line="321"/>
+        <location filename="../mainwindow.cpp" line="896"/>
         <source>About %0</source>
         <translation>Sobre %0</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="326"/>
+        <location filename="../mainwindow.cpp" line="325"/>
         <source>About Qt</source>
         <translation>Sobre Qt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="379"/>
+        <location filename="../mainwindow.cpp" line="377"/>
         <source>Advanced</source>
         <translation>Avançado</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="567"/>
-        <location filename="../mainwindow.cpp" line="614"/>
-        <location filename="../mainwindow.cpp" line="1279"/>
-        <location filename="../mainwindow.cpp" line="1298"/>
+        <location filename="../mainwindow.cpp" line="545"/>
+        <location filename="../mainwindow.cpp" line="600"/>
+        <location filename="../mainwindow.cpp" line="1246"/>
+        <location filename="../mainwindow.cpp" line="1265"/>
         <source>Error</source>
         <translation>Erro</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="593"/>
-        <location filename="../mainwindow.cpp" line="628"/>
+        <location filename="../mainwindow.cpp" line="577"/>
+        <location filename="../mainwindow.cpp" line="613"/>
         <source>Remove Downloads</source>
         <translation>Remover downloads</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="594"/>
-        <location filename="../mainwindow.cpp" line="629"/>
+        <location filename="../mainwindow.cpp" line="578"/>
+        <location filename="../mainwindow.cpp" line="614"/>
         <source>Are you sure to remove %0 downloads?</source>
         <translation>Tem certeza que deseja remover %0 downloads?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="596"/>
+        <location filename="../mainwindow.cpp" line="580"/>
         <source>Delete</source>
         <translation>Apagar</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="569"/>
+        <location filename="../mainwindow.cpp" line="547"/>
         <source>File not found</source>
         <translation>Arquivo não encontrado</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="616"/>
+        <location filename="../mainwindow.cpp" line="602"/>
         <source>Destination directory not found:</source>
         <translation>Pasta de destino não encontrada:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="635"/>
+        <location filename="../mainwindow.cpp" line="620"/>
         <source>Don&apos;t ask again</source>
         <translation>Não perguntar novamente</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="665"/>
+        <location filename="../mainwindow.cpp" line="650"/>
         <source>ALL</source>
         <translation>TODOS</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="658"/>
+        <location filename="../mainwindow.cpp" line="643"/>
         <source>selected</source>
         <translation>selecionados</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="651"/>
+        <location filename="../mainwindow.cpp" line="636"/>
         <source>completed</source>
         <translation>concluídos</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="753"/>
+        <location filename="../mainwindow.cpp" line="738"/>
         <source>Website URL</source>
         <translation>URL do site</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="755"/>
+        <location filename="../mainwindow.cpp" line="740"/>
         <source>URL of the HTML page:</source>
         <translation>URL da página HTML:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="756"/>
+        <location filename="../mainwindow.cpp" line="741"/>
         <source>(ex: %0)</source>
         <translation>(ex:%0)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="982"/>
+        <location filename="../mainwindow.cpp" line="943"/>
         <source>The new name is already used or invalid.</source>
         <translation>O novo nome já está em uso ou é inválido.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="985"/>
+        <location filename="../mainwindow.cpp" line="946"/>
         <source>Can&apos;t rename &quot;%0&quot; as its initial name.</source>
         <translation>Não é possível renomear %0 como nome original.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="992"/>
+        <location filename="../mainwindow.cpp" line="953"/>
         <source>Can&apos;t rename</source>
         <translation>Não é possível renomear</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="992"/>
+        <location filename="../mainwindow.cpp" line="953"/>
         <source>as</source>
         <translation>como</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1278"/>
+        <location filename="../mainwindow.cpp" line="1245"/>
         <source>Can&apos;t save file.</source>
         <translation>Não é possível salvar o arquivo.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1281"/>
+        <location filename="../mainwindow.cpp" line="1248"/>
         <source>Can&apos;t save file %0:</source>
         <translation>Não é possível salvar o arquivo %0:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1297"/>
+        <location filename="../mainwindow.cpp" line="1264"/>
         <source>Can&apos;t load file.</source>
         <translation>Não é possível carregar o arquivo.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1300"/>
+        <location filename="../mainwindow.cpp" line="1267"/>
         <source>Can&apos;t load file %0:</source>
         <translation>Não é possível carregar o arquivo %0:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="759"/>
+        <location filename="../mainwindow.cpp" line="744"/>
         <source>Start!</source>
         <translation>Iniciar!</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="334"/>
+        <location filename="../mainwindow.cpp" line="332"/>
         <source>Go to website</source>
-        <translation type="unfinished"></translation>
+        <translation>Visite o site</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="993"/>
+        <location filename="../mainwindow.cpp" line="954"/>
         <source>File Error</source>
         <translation>Erro no arquivo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1026"/>
+        <location filename="../mainwindow.cpp" line="987"/>
         <source>Done: %0 Running: %1 Total: %2</source>
         <translation>Concluído: %0 Em andamento: %1 Total: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1034"/>
+        <location filename="../mainwindow.cpp" line="995"/>
         <source>%0 of %1 (%2), %3 running  %4 | Torrent: %5</source>
         <translation>%0 de %1 (%2), %3 em andamento %4 | Torrent: %5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1040"/>
+        <location filename="../mainwindow.cpp" line="1001"/>
         <source>active</source>
         <translation>ativo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1040"/>
+        <location filename="../mainwindow.cpp" line="1001"/>
         <source>inactive</source>
         <translation>inativo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1287"/>
+        <location filename="../mainwindow.cpp" line="1254"/>
         <source>File saved</source>
         <translation>Arquivo salvo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1306"/>
+        <location filename="../mainwindow.cpp" line="1273"/>
         <source>File loaded</source>
         <translation>Arquivo carregado</translation>
     </message>
     <message>
-        <location filename="../mainwindow.h" line="169"/>
+        <location filename="../mainwindow.h" line="160"/>
         <source>Save As</source>
         <translation>Salvar como</translation>
     </message>
     <message>
-        <location filename="../mainwindow.h" line="170"/>
+        <location filename="../mainwindow.h" line="161"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
@@ -2846,16 +2790,59 @@ Alguns exemplos são fornecidos a seguir. Clique para colar o exemplo.</translat
     </message>
 </context>
 <context>
-    <name>QueueItem</name>
+    <name>QueueModel</name>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="367"/>
+        <location filename="../core/queuemodel.cpp" line="109"/>
+        <source>Download/Name</source>
+        <translation>Nome do Arquivo</translation>
+    </message>
+    <message>
+        <location filename="../core/queuemodel.cpp" line="110"/>
+        <source>Domain</source>
+        <translation>Domínio</translation>
+    </message>
+    <message>
+        <location filename="../core/queuemodel.cpp" line="111"/>
+        <source>Progress</source>
+        <translation>Progresso</translation>
+    </message>
+    <message>
+        <location filename="../core/queuemodel.cpp" line="112"/>
+        <source>Percent</source>
+        <translation>%</translation>
+    </message>
+    <message>
+        <location filename="../core/queuemodel.cpp" line="113"/>
+        <source>Size</source>
+        <translation>Tamanho</translation>
+    </message>
+    <message>
+        <location filename="../core/queuemodel.cpp" line="114"/>
+        <source>Est. time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../core/queuemodel.cpp" line="115"/>
+        <source>Speed</source>
+        <translation>Velocidade</translation>
+    </message>
+    <message>
+        <location filename="../core/queuemodel.cpp" line="221"/>
         <source>%0 of %1</source>
         <translation>%0 de %1</translation>
     </message>
     <message>
-        <location filename="../widgets/downloadqueueview.cpp" line="371"/>
+        <location filename="../core/queuemodel.cpp" line="225"/>
         <source>Unknown</source>
         <translation>Desconhecido</translation>
+    </message>
+</context>
+<context>
+    <name>QueueView</name>
+    <message>
+        <location filename="../widgets/queueview.cpp" line="354"/>
+        <source>... (%0 others)</source>
+        <translation>... (%0 outros)</translation>
     </message>
 </context>
 <context>
@@ -3445,7 +3432,7 @@ Dica: se você se deparar com um erro, siga essas instruções:
     <message>
         <location filename="../widgets/streamtoolbox.cpp" line="195"/>
         <source>(default)</source>
-        <translation type="unfinished"></translation>
+        <translation>(padrão)</translation>
     </message>
 </context>
 <context>
