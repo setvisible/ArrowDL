@@ -22,6 +22,7 @@
 #include <Core/Session>
 #include <Core/Settings>
 
+#include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <QtCore/QSettings>
 #include <QtCore/QTimer>
@@ -33,18 +34,21 @@ using namespace Qt::Literals::StringLiterals;
 /*!
  * \class Snapshot
  * \brief Ensure Crash Recovery by saving the queue in a physical file periodically.
- *
- * Rem: onSettingsChanged() loads the queue.
- * Once loaded, it is saved every X seconds.
  */
 Snapshot::Snapshot(QObject *parent) : QObject(parent)
+    , m_delayedIOTimer(new QTimer(this))
+    , m_scheduler(static_cast<Scheduler*>(parent))
+    , m_settings(nullptr)
 {
-    m_scheduler = static_cast<Scheduler*>(parent);
-}
+    // Save the queue periodically
+    // Note: the timer optimizes the I/O (file write),
+    // indeed it queues the demand of writes.
+    // It plans one and only one I/O operation a few seconds later.
+    m_delayedIOTimer->setSingleShot(true);
+    connect(m_delayedIOTimer, SIGNAL(timeout()), this, SLOT(onTimeout()));
 
-Snapshot::~Snapshot()
-{
-    saveQueue();
+    // Save the queue on before quitting
+    connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(onTimeout()));
 }
 
 /******************************************************************************
@@ -67,28 +71,26 @@ void Snapshot::setSettings(Settings *settings)
 
 void Snapshot::onSettingsChanged()
 {
-    // reload the queue here
-    if (m_queueFile != m_settings->database()) {
-        m_queueFile = m_settings->database();
-        loadQueue();
+    if (m_queueFile == m_settings->database()) {
+        return;
     }
+    m_queueFile = m_settings->database();
+    loadQueue();
 }
 
 /******************************************************************************
  ******************************************************************************/
-/*!
- * \brief Save the queue periodically, in case of crash.
- */
 void Snapshot::shot()
 {
-    if (!m_dirtyQueueTimer) {
-        m_dirtyQueueTimer = new QTimer(this);
-        m_dirtyQueueTimer->setSingleShot(true);
-        connect(m_dirtyQueueTimer, SIGNAL(timeout()), SLOT(saveQueue()));
+    if (m_delayedIOTimer->isActive()) {
+        return;
     }
-    if (!m_dirtyQueueTimer->isActive()) {
-        m_dirtyQueueTimer->start(MSEC_AUTO_SAVE);
-    }
+    m_delayedIOTimer->start(MSEC_AUTO_SAVE);
+}
+
+void Snapshot::onTimeout()
+{
+    saveQueue();
 }
 
 /******************************************************************************

@@ -162,8 +162,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     readSettings();
 
-    refreshTitleAndStatus();
     refreshMenus();
+    refreshSplitter();
+    refreshTitleAndStatus();
 
     Locale::applyLanguage(m_settings->language());
     Theme::applyTheme(m_settings->theme());
@@ -920,6 +921,7 @@ void MainWindow::onDataChanged()
 {
     refreshMenus();
     refreshTitleAndStatus();
+    m_scheduler->activateSnapshot();
 }
 
 void MainWindow::onJobFinished(AbstractJob *job)

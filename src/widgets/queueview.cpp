@@ -55,6 +55,7 @@ QueueView::QueueView(QWidget *parent) : QTableView(parent)
 
     horizontalHeader()->setVisible(true);
     horizontalHeader()->setStretchLastSection(true);
+    horizontalHeader()->setHighlightSections(false);
 
     verticalHeader()->setVisible(false);
     verticalHeader()->sectionResizeMode(QHeaderView::Fixed);
@@ -97,7 +98,7 @@ void QueueView::setModel(QAbstractItemModel *model)
     connect(model, SIGNAL(rowsRemoved(QModelIndex,int,int)),
             this, SLOT(onRowsRemoved(QModelIndex,int,int)));
     connect(model, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
-            this, SLOT(onRowsRemoved(QModelIndex,int,int,QModelIndex,int)));
+            this, SLOT(onRowsMoved(QModelIndex,int,int,QModelIndex,int)));
     connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex,QList<int>)),
             this, SLOT(onDataChanged(QModelIndex,QModelIndex,QList<int>)));
     connect(model, SIGNAL(modelReset()), this, SLOT(onModelReset()));

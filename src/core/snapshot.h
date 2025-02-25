@@ -32,7 +32,6 @@ class Snapshot : public QObject
 
 public:
     explicit Snapshot(QObject *parent = nullptr);
-    ~Snapshot();
 
     Settings* settings() const;
     void setSettings(Settings *settings);
@@ -41,13 +40,12 @@ public:
 
 private slots:
     void onSettingsChanged();
+    void onTimeout();
 
 private:
+    QTimer *m_delayedIOTimer = nullptr;
     Scheduler *m_scheduler = nullptr;
     Settings *m_settings = nullptr;
-
-    // Crash Recovery
-    QTimer* m_dirtyQueueTimer = nullptr;
     QString m_queueFile = {};
 
     void loadQueue();
