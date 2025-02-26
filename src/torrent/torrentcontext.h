@@ -19,6 +19,8 @@
 
 #include <Torrent/TorrentBaseContext>
 
+#include <Torrent/SettingItem>
+
 #include <QtCore/QObject>
 #include <QtCore/QString>
 #include <QtCore/QVariant>
@@ -28,13 +30,6 @@ class Settings;
 class Torrent;
 class TorrentContextPrivate;
 
-struct TorrentSettingItem
-{
-    QString displayKey;
-    QString key;
-    QVariant value;
-    QVariant defaultValue;
-};
 
 /*!
  * @class TorrentContext
