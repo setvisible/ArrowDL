@@ -19,9 +19,9 @@
 
 #include <Constants>
 #include <Core/Format>
-#include <Core/Torrent>
-#include <Core/TorrentBaseContext>
-#include <Core/TorrentMessage>
+#include <Torrent/Torrent>
+#include <Torrent/TorrentBaseContext>
+#include <Torrent/TorrentMessage>
 #include <Widgets/CustomStyle>
 #include <Widgets/CustomStyleOptionProgressBar>
 #include <Widgets/Globals>

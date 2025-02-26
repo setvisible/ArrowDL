@@ -18,8 +18,8 @@
 #include "ui_mainwindow.h"
 
 #include <Core/Theme>
-#include <Core/Torrent>
-#include <Core/TorrentBaseContext>
+#include <Torrent/Torrent>
+#include <Torrent/TorrentBaseContext>
 #include <Widgets/TorrentWidget>
 
 #include "../../utils/dummytorrentanimator.h"

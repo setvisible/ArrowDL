@@ -16,7 +16,7 @@
 
 #include "torrentbasecontext.h"
 
-#include <Core/Torrent>
+#include <Torrent/Torrent>
 
 const double ONE_THIRD = 0.3334;
 const double TWO_THIRDS = 0.6667;

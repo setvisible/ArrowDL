@@ -14,10 +14,10 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_TORRENT_CONTEXT_H
-#define CORE_TORRENT_CONTEXT_H
+#ifndef TORRENT_CONTEXT_H
+#define TORRENT_CONTEXT_H
 
-#include <Core/TorrentBaseContext>
+#include <Torrent/TorrentBaseContext>
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
@@ -104,4 +104,4 @@ private:
     friend class TorrentContextPrivate;
 };
 
-#endif // CORE_TORRENT_CONTEXT_H
+#endif // TORRENT_CONTEXT_H

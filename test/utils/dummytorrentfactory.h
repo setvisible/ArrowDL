@@ -20,7 +20,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QSharedPointer>
 
-#include <Core/Torrent>
+#include <Torrent/Torrent>
 
 using TorrentPtr = QSharedPointer<Torrent>;
 

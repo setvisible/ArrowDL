@@ -14,42 +14,23 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_JOB_TORRENT_H
-#define CORE_JOB_TORRENT_H
+#ifndef TORRENT_BASE_CONTEXT_H
+#define TORRENT_BASE_CONTEXT_H
 
-#include <Core/AbstractJob>
-#include <Torrent/Torrent>
+#include <Torrent/TorrentMessage>
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
+class Torrent;
 
-
-class JobTorrent : public AbstractJob
+class TorrentBaseContext
 {
-    Q_OBJECT
-
 public:
-    JobTorrent(QObject *parent, ResourceItem *resource);
-    ~JobTorrent();
+    TorrentBaseContext() = default;
+    virtual ~TorrentBaseContext() = default;
 
-    void initWithResource(ResourceItem *resource);
+    virtual void setPriority(Torrent *torrent, int index, TorrentFileInfo::Priority p);
+    virtual void setPriorityByFileOrder(Torrent *torrent, const QList<int> &rows);
 
-    void resume() override;
-    void pause() override;
-    void stop() override;
-
-    void rename(const QString &newName) override;
-
-    Torrent* torrent() const;
-
-private slots:
-    void onTorrentChanged();
-
-private:
-    Torrent *m_torrent = nullptr;
-
-    bool isPreparing() const;
-    bool isSeeding() const;
+    static TorrentFileInfo::Priority computePriority(int row, qsizetype count);
 };
 
-#endif // CORE_JOB_TORRENT_H
+#endif // TORRENT_BASE_CONTEXT_H

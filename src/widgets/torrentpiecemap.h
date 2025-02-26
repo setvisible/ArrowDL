@@ -23,7 +23,7 @@
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QGraphicsItem>
 
-#include <Core/Torrent>
+#include <Torrent/Torrent>
 
 class QGraphicsScene;
 

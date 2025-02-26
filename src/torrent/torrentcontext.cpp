@@ -18,7 +18,7 @@
 
 #include <Core/NetworkManager>
 #include <Core/Settings>
-#include <Core/Torrent>
+#include <Torrent/Torrent>
 
 #include <QtCore/QObject>
 #include <QtCore/QDebug>

@@ -14,8 +14,8 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_TORRENT_MESSAGE_H
-#define CORE_TORRENT_MESSAGE_H
+#ifndef TORRENT_MESSAGE_H
+#define TORRENT_MESSAGE_H
 
 #include <QtCore/QBitArray>
 #include <QtCore/QDateTime>
@@ -575,4 +575,4 @@ Q_DECLARE_METATYPE(TorrentData)
 Q_DECLARE_METATYPE(TorrentStatus)
 
 
-#endif // CORE_TORRENT_MESSAGE_H
+#endif // TORRENT_MESSAGE_H

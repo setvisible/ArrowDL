@@ -14,7 +14,7 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <Core/TorrentBaseContext>
+#include <Torrent/TorrentBaseContext>
 
 #include <QtCore/QDebug>
 #include <QtTest/QtTest>

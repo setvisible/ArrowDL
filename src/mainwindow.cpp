@@ -29,10 +29,10 @@
 #include <Core/Settings>
 #include <Core/StreamManager>
 #include <Core/Theme>
-#include <Core/Torrent>
-#include <Core/TorrentContext>
-#include <Core/TorrentMessage>
 #include <Core/UpdateChecker>
+#include <Torrent/Torrent>
+#include <Torrent/TorrentContext>
+#include <Torrent/TorrentMessage>
 #include <Dialogs/AddBatchDialog>
 #include <Dialogs/AddContentDialog>
 #include <Dialogs/AddStreamDialog>

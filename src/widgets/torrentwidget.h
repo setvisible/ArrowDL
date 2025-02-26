@@ -17,7 +17,7 @@
 #ifndef WIDGETS_TORRENT_WIDGET_H
 #define WIDGETS_TORRENT_WIDGET_H
 
-#include <Core/Torrent>
+#include <Torrent/Torrent>
 
 #include <QtWidgets/QStyledItemDelegate>
 #include <QtWidgets/QWidget>

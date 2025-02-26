@@ -17,7 +17,7 @@
 #include "torrenthandler.h"
 
 #include <Core/AbstractJob>
-#include <Core/TorrentMessage>
+#include <Torrent/TorrentMessage>
 
 #include <QtCore/QDebug>
 #include <QtCore/QFile>

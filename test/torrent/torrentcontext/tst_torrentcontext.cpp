@@ -15,7 +15,7 @@
  */
 
 //#include <Core/TorrentContext>
-#include "../../../src/core/torrentcontext_p.h"
+#include "../../src/torrent/torrentcontext_p.h"
 
 #include "libtorrent/bitfield.hpp"      // lt::typed_bitfield
 

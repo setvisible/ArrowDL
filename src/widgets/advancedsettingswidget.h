@@ -19,7 +19,7 @@
 
 #include <QtWidgets/QWidget>
 
-#include <Core/TorrentContext>
+#include <Torrent/TorrentContext>
 
 class QTreeWidgetItem;
 
