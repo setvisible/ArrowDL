@@ -14,8 +14,8 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_DOWNLOAD_FILE_ITEM_H
-#define CORE_DOWNLOAD_FILE_ITEM_H
+#ifndef CORE_JOB_FILE_H
+#define CORE_JOB_FILE_H
 
 #include <Core/AbstractJob>
 
@@ -58,4 +58,4 @@ private:
     QString statusToHttp(QNetworkReply::NetworkError error);
 };
 
-#endif // CORE_DOWNLOAD_FILE_ITEM_H
+#endif // CORE_JOB_FILE_H
