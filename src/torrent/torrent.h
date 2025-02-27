@@ -27,7 +27,6 @@ class TorrentFileTableModel;
 class TorrentPeerTableModel;
 class TorrentTrackerTableModel;
 
-
 class Torrent : public QObject
 {
     Q_OBJECT

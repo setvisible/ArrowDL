@@ -21,7 +21,6 @@
 
 class DummyTorrentAnimator;
 class Torrent;
-class TorrentBaseContext;
 using TorrentPtr = QSharedPointer<Torrent>;
 
 namespace Ui {
@@ -46,7 +45,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    TorrentBaseContext *m_torrentContext;
     DummyTorrentAnimator *m_animator;
     TorrentPtr m_torrent;
 };

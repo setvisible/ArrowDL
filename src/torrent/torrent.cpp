@@ -28,10 +28,10 @@
 #endif
 
 
-Torrent::Torrent(QObject *parent) : QObject(parent),
-    m_fileModel(new TorrentFileTableModel(this)),
-    m_peerModel(new TorrentPeerTableModel(this)),
-    m_trackerModel(new TorrentTrackerTableModel(this))
+Torrent::Torrent(QObject *parent) : QObject(parent)
+    , m_fileModel(new TorrentFileTableModel(this))
+    , m_peerModel(new TorrentPeerTableModel(this))
+    , m_trackerModel(new TorrentTrackerTableModel(this))
 {
     clear();
 }

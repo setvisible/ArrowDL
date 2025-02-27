@@ -19,8 +19,8 @@
 
 #include <Constants>
 #include <Core/Format>
+#include <Torrent/ITorrentContext>
 #include <Torrent/Torrent>
-#include <Torrent/TorrentBaseContext>
 #include <Torrent/TorrentMessage>
 #include <Widgets/CustomStyle>
 #include <Widgets/CustomStyleOptionProgressBar>
@@ -293,12 +293,12 @@ TorrentWidget::~TorrentWidget()
 
 /******************************************************************************
  ******************************************************************************/
-TorrentBaseContext *TorrentWidget::torrentContext() const
+ITorrentContext *TorrentWidget::torrentContext() const
 {
     return m_torrentContext;
 }
 
-void TorrentWidget::setTorrentContext(TorrentBaseContext *torrentContext)
+void TorrentWidget::setTorrentContext(ITorrentContext *torrentContext)
 {
     m_torrentContext = torrentContext;
 }

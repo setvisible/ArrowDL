@@ -1,2 +1,3 @@
-add_subdirectory(torrentbasecontext)
 add_subdirectory(torrentcontext)
+add_subdirectory(torrentutils)
+add_subdirectory(workerthread)

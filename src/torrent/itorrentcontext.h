@@ -14,23 +14,23 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TORRENT_BASE_CONTEXT_H
-#define TORRENT_BASE_CONTEXT_H
+#ifndef TORRENT_I_TORRENT_CONTEXT_H
+#define TORRENT_I_TORRENT_CONTEXT_H
 
 #include <Torrent/TorrentMessage>
 
+#include <QtCore/QList>
+
 class Torrent;
 
-class TorrentBaseContext
+class ITorrentContext
 {
 public:
-    TorrentBaseContext() = default;
-    virtual ~TorrentBaseContext() = default;
+    ITorrentContext() = default;
+    virtual ~ITorrentContext() noexcept = default; // IMPORTANT: virtual destructor
 
-    virtual void setPriority(Torrent *torrent, int index, TorrentFileInfo::Priority p);
-    virtual void setPriorityByFileOrder(Torrent *torrent, const QList<int> &rows);
-
-    static TorrentFileInfo::Priority computePriority(int row, qsizetype count);
+    virtual void setPriority(Torrent *torrent, int index, TorrentFileInfo::Priority p) = 0;
+    virtual void setPriorityByFileOrder(Torrent *torrent, const QList<int> &rows) = 0;
 };
 
-#endif // TORRENT_BASE_CONTEXT_H
+#endif // TORRENT_I_TORRENT_CONTEXT_H
