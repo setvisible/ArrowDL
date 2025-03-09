@@ -17,7 +17,7 @@
 #include "torrentpiecemap.h"
 #include "ui_torrentpiecemap.h"
 
-#include <Core/Torrent>
+#include <Torrent/Torrent>
 #include <Widgets/Globals>
 
 #include <QtCore/QDebug>

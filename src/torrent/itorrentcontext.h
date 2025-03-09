@@ -14,39 +14,23 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef TORRENT_I_TORRENT_CONTEXT_H
+#define TORRENT_I_TORRENT_CONTEXT_H
 
-#include <QtWidgets/QMainWindow>
+#include <Torrent/TorrentMessage>
 
-class DummyTorrentAnimator;
+#include <QtCore/QList>
+
 class Torrent;
-using TorrentPtr = QSharedPointer<Torrent>;
 
-namespace Ui {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow
+class ITorrentContext
 {
-    Q_OBJECT
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow() override;
+    ITorrentContext() = default;
+    virtual ~ITorrentContext() noexcept = default; // IMPORTANT: virtual destructor
 
-private slots:
-    void onStartClicked();
-    void onZeroPercentClicked();
-    void onCompletedClicked();
-    void onRandomClicked();
-    void onHalfClicked();
-
-    void onAnimatorStarted(bool started);
-
-private:
-    Ui::MainWindow *ui;
-    DummyTorrentAnimator *m_animator;
-    TorrentPtr m_torrent;
+    virtual void setPriority(Torrent *torrent, int index, TorrentFileInfo::Priority p) = 0;
+    virtual void setPriorityByFileOrder(Torrent *torrent, const QList<int> &rows) = 0;
 };
 
-#endif // MAINWINDOW_H
+#endif // TORRENT_I_TORRENT_CONTEXT_H

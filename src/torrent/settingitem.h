@@ -14,39 +14,18 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef TORRENT_SETTING_ITEM_H
+#define TORRENT_SETTING_ITEM_H
 
-#include <QtWidgets/QMainWindow>
+#include <QtCore/QString>
+#include <QtCore/QVariant>
 
-class DummyTorrentAnimator;
-class Torrent;
-using TorrentPtr = QSharedPointer<Torrent>;
-
-namespace Ui {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow
+struct TorrentSettingItem
 {
-    Q_OBJECT
-public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow() override;
-
-private slots:
-    void onStartClicked();
-    void onZeroPercentClicked();
-    void onCompletedClicked();
-    void onRandomClicked();
-    void onHalfClicked();
-
-    void onAnimatorStarted(bool started);
-
-private:
-    Ui::MainWindow *ui;
-    DummyTorrentAnimator *m_animator;
-    TorrentPtr m_torrent;
+    QString displayKey;
+    QString key;
+    QVariant value;
+    QVariant defaultValue;
 };
 
-#endif // MAINWINDOW_H
+#endif // TORRENT_SETTING_ITEM_H

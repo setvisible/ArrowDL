@@ -17,13 +17,13 @@
 #ifndef WIDGETS_TORRENT_WIDGET_H
 #define WIDGETS_TORRENT_WIDGET_H
 
-#include <Core/Torrent>
+#include <Torrent/Torrent>
 
 #include <QtWidgets/QStyledItemDelegate>
 #include <QtWidgets/QWidget>
 
-class TorrentBaseContext;
 class Torrent;
+class ITorrentContext;
 
 class QAction;
 class QLabel;
@@ -40,8 +40,8 @@ public:
     explicit TorrentWidget(QWidget *parent);
     ~TorrentWidget() override;
 
-    TorrentBaseContext* torrentContext() const;
-    void setTorrentContext(TorrentBaseContext *torrentContext);
+    ITorrentContext *torrentContext() const;
+    void setTorrentContext(ITorrentContext *torrentContext);
 
     void clear();
     bool isEmpty() const;
@@ -82,7 +82,7 @@ private slots:
 
 private:
     Ui::TorrentWidget *ui = nullptr;
-    TorrentBaseContext *m_torrentContext = nullptr;
+    ITorrentContext *m_torrentContext = nullptr;
     Torrent *m_torrent = nullptr;
 
     QList<int> m_fileColumnsWidths = {};

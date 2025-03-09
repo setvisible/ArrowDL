@@ -14,12 +14,12 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <Core/TorrentBaseContext>
+#include <Torrent/TorrentContext>
 
 #include <QtCore/QDebug>
 #include <QtTest/QtTest>
 
-class tst_TorrentBaseContext : public QObject
+class tst_TorrentContext : public QObject
 {
     Q_OBJECT
 
@@ -30,7 +30,7 @@ private slots:
 
 /******************************************************************************
 ******************************************************************************/
-void tst_TorrentBaseContext::computePriority_data()
+void tst_TorrentContext::computePriority_data()
 {
     QTest::addColumn<int>("fileIndex");
     QTest::addColumn<int>("fileCount");
@@ -52,7 +52,7 @@ void tst_TorrentBaseContext::computePriority_data()
     QTest::newRow("9 items (item 8)") << 8 << 9 << static_cast<int>(TorrentFileInfo::Low);
 }
 
-void tst_TorrentBaseContext::computePriority()
+void tst_TorrentContext::computePriority()
 {
     // Given
     QFETCH(int, fileIndex);
@@ -60,8 +60,7 @@ void tst_TorrentBaseContext::computePriority()
     QFETCH(int, expected);
 
     // When
-    TorrentBaseContext target;
-    TorrentFileInfo::Priority actual = target.computePriority(fileIndex, fileCount);
+    TorrentFileInfo::Priority actual = TorrentContext::computePriority(fileIndex, fileCount);
 
     // Then
     QCOMPARE(actual, static_cast<TorrentFileInfo::Priority>(expected));
@@ -69,6 +68,6 @@ void tst_TorrentBaseContext::computePriority()
 
 /******************************************************************************
 ******************************************************************************/
-QTEST_APPLESS_MAIN(tst_TorrentBaseContext)
+QTEST_APPLESS_MAIN(tst_TorrentContext)
 
-#include "tst_torrentbasecontext.moc"
+#include "tst_torrentcontext.moc"

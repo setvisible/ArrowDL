@@ -29,10 +29,10 @@
 #include <Core/Settings>
 #include <Core/StreamManager>
 #include <Core/Theme>
-#include <Core/Torrent>
-#include <Core/TorrentContext>
-#include <Core/TorrentMessage>
 #include <Core/UpdateChecker>
+#include <Torrent/Torrent>
+#include <Torrent/TorrentContext>
+#include <Torrent/TorrentMessage>
 #include <Dialogs/AddBatchDialog>
 #include <Dialogs/AddContentDialog>
 #include <Dialogs/AddStreamDialog>
@@ -973,7 +973,8 @@ void MainWindow::refreshTitleAndStatus()
     auto count = m_scheduler->count();
     auto doneCount = completedCount + failedCount;
 
-    auto torrent = TorrentContext::getInstance().isEnabled();
+    TorrentContext& torrentContext = TorrentContext::getInstance();
+    auto isTorrentEnabled = torrentContext.isEnabled();
 
     auto windowTitle = QString("%0 %1/%2 - %3 v%4").arg(
                 totalSpeed,
@@ -998,7 +999,7 @@ void MainWindow::refreshTitleAndStatus()
                 QString::number(count),
                 QString::number(runningCount),
                 totalSpeed,
-                torrent ? tr("active") : tr("inactive"));
+                isTorrentEnabled ? tr("active") : tr("inactive"));
 
     m_statusBarLabel->setText(state);
 

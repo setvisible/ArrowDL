@@ -14,8 +14,7 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-//#include <Core/TorrentContext>
-#include "../../../src/core/torrentcontext_p.h"
+#include <Torrent/Utils>
 
 #include "libtorrent/bitfield.hpp"      // lt::typed_bitfield
 
@@ -24,21 +23,13 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-class tst_TorrentContext : public QObject
+class tst_TorrentUtils : public QObject
 {
     Q_OBJECT
 
 private slots:
     void toBitArray_data();
     void toBitArray();
-    void dump_invalid();
-};
-
-class FriendlyWorkerThread : public WorkerThread
-{
-    friend class tst_TorrentContext;
-public:
-    explicit FriendlyWorkerThread(QObject *parent) : WorkerThread(parent) {}
 };
 
 /******************************************************************************
@@ -60,7 +51,7 @@ static QBitArray QStringToQBitArray(const QString &str)
     return ba;
 }
 
-void tst_TorrentContext::toBitArray_data()
+void tst_TorrentUtils::toBitArray_data()
 {
     QTest::addColumn<QBitArray>("input");
 
@@ -85,7 +76,7 @@ void tst_TorrentContext::toBitArray_data()
     QTest::newRow("data14") << QStringToQBitArray(QString("01000010111"));
 }
 
-void tst_TorrentContext::toBitArray()
+void tst_TorrentUtils::toBitArray()
 {
     // Given
     QFETCH(QBitArray, input);
@@ -106,24 +97,6 @@ void tst_TorrentContext::toBitArray()
 
 /******************************************************************************
  ******************************************************************************/
-void tst_TorrentContext::dump_invalid()
-{
-    // Given
-    auto torrentFile("./data/ill-formed.torrent"_L1);
-    QVERIFY(QFileInfo::exists(torrentFile));
+QTEST_APPLESS_MAIN(tst_TorrentUtils)
 
-    TorrentInitialMetaInfo expected;
-
-    // When
-    FriendlyWorkerThread target(this);
-    TorrentInitialMetaInfo actual = target.dump(torrentFile);
-
-    // Then
-    QCOMPARE(actual, expected);
-}
-
-/******************************************************************************
- ******************************************************************************/
-QTEST_APPLESS_MAIN(tst_TorrentContext)
-
-#include "tst_torrentcontext.moc"
+#include "tst_torrentutils.moc"
