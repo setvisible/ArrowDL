@@ -30,11 +30,11 @@ set(MY_TEST_SOURCES
     ${CMAKE_SOURCE_DIR}/src/core/settings.cpp
     ${CMAKE_SOURCE_DIR}/src/core/snapshot.cpp
     ${CMAKE_SOURCE_DIR}/src/core/stream.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/torrent.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/torrentbasecontext.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/torrentcontext.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/torrentcontext_p.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/torrentmessage.cpp
+    ${CMAKE_SOURCE_DIR}/src/torrent/torrent.cpp
+    ${CMAKE_SOURCE_DIR}/src/torrent/torrentcontext.cpp
+    ${CMAKE_SOURCE_DIR}/src/torrent/torrentmessage.cpp
+    ${CMAKE_SOURCE_DIR}/src/torrent/utils.cpp
+    ${CMAKE_SOURCE_DIR}/src/torrent/workerthread.cpp
 
     ${CMAKE_SOURCE_DIR}/test/utils/fakejob.cpp
 )
@@ -58,11 +58,11 @@ set(MY_TEST_HEADERS
     ${CMAKE_SOURCE_DIR}/src/core/settings.h
     ${CMAKE_SOURCE_DIR}/src/core/snapshot.h
     ${CMAKE_SOURCE_DIR}/src/core/stream.h
-    ${CMAKE_SOURCE_DIR}/src/core/torrent.h
-    ${CMAKE_SOURCE_DIR}/src/core/torrentbasecontext.h
-    ${CMAKE_SOURCE_DIR}/src/core/torrentcontext.h
-    ${CMAKE_SOURCE_DIR}/src/core/torrentcontext_p.h
-    ${CMAKE_SOURCE_DIR}/src/core/torrentmessage.h
+    ${CMAKE_SOURCE_DIR}/src/torrent/torrent.h
+    ${CMAKE_SOURCE_DIR}/src/torrent/torrentcontext.h
+    ${CMAKE_SOURCE_DIR}/src/torrent/torrentmessage.h
+    ${CMAKE_SOURCE_DIR}/src/torrent/utils.h
+    ${CMAKE_SOURCE_DIR}/src/torrent/workerthread.h
 )
 
 add_executable(${MY_TEST_TARGET} WIN32

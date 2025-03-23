@@ -80,6 +80,7 @@ public:
     QAbstractItemModel *model() const;
 
 signals:
+    void metricsChanged();
     void jobFinished(AbstractJob *job);
     void jobRenamed(QString oldName, QString newName, bool success);
 
@@ -93,8 +94,7 @@ private slots:
     void startNext(AbstractJob *job);
 
     void onSettingsChanged();
-
-    void onSpeedTimerTimeout();
+    void onMetricsTimerTimeout();
 
 private:
     QueueModel *m_queueModel = nullptr;
@@ -104,8 +104,9 @@ private:
     NetworkManager *m_networkManager = nullptr;
     Settings *m_settings = nullptr;
 
-    qreal m_previouSpeed = 0;
-    QTimer* m_speedTimer = nullptr;
+    QTimer *m_metricsTimer = nullptr;
+    qreal m_metricsSpeed = 0;
+    int m_metricsLoopCount = 0;
 
     // Pool
     int m_maxSimultaneousDownloads = 4;

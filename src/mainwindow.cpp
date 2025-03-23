@@ -29,10 +29,10 @@
 #include <Core/Settings>
 #include <Core/StreamManager>
 #include <Core/Theme>
-#include <Core/Torrent>
-#include <Core/TorrentContext>
-#include <Core/TorrentMessage>
 #include <Core/UpdateChecker>
+#include <Torrent/Torrent>
+#include <Torrent/TorrentContext>
+#include <Torrent/TorrentMessage>
 #include <Dialogs/AddBatchDialog>
 #include <Dialogs/AddContentDialog>
 #include <Dialogs/AddStreamDialog>
@@ -141,6 +141,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     /* Connect the SceneManager to the MainWindow. */
     /* The SceneManager centralizes the changes. */
+    connect(m_scheduler, SIGNAL(metricsChanged()), this, SLOT(onMetricsChanged()));
     connect(m_scheduler, SIGNAL(jobFinished(AbstractJob*)), this, SLOT(onJobFinished(AbstractJob*)));
     connect(m_scheduler, SIGNAL(jobRenamed(QString,QString,bool)), this, SLOT(onJobRenamed(QString,QString,bool)), Qt::QueuedConnection);
 
@@ -924,6 +925,11 @@ void MainWindow::onDataChanged()
     m_scheduler->activateSnapshot();
 }
 
+void MainWindow::onMetricsChanged()
+{
+    refreshTitleAndStatus();
+}
+
 void MainWindow::onJobFinished(AbstractJob *job)
 {
     refreshMenus();
@@ -973,7 +979,8 @@ void MainWindow::refreshTitleAndStatus()
     auto count = m_scheduler->count();
     auto doneCount = completedCount + failedCount;
 
-    auto torrent = TorrentContext::getInstance().isEnabled();
+    TorrentContext& torrentContext = TorrentContext::getInstance();
+    auto isTorrentEnabled = torrentContext.isEnabled();
 
     auto windowTitle = QString("%0 %1/%2 - %3 v%4").arg(
                 totalSpeed,
@@ -998,7 +1005,7 @@ void MainWindow::refreshTitleAndStatus()
                 QString::number(count),
                 QString::number(runningCount),
                 totalSpeed,
-                torrent ? tr("active") : tr("inactive"));
+                isTorrentEnabled ? tr("active") : tr("inactive"));
 
     m_statusBarLabel->setText(state);
 

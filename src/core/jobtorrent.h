@@ -14,11 +14,11 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_DOWNLOAD_TORRENT_ITEM_H
-#define CORE_DOWNLOAD_TORRENT_ITEM_H
+#ifndef CORE_JOB_TORRENT_H
+#define CORE_JOB_TORRENT_H
 
 #include <Core/AbstractJob>
-#include <Core/Torrent>
+#include <Torrent/Torrent>
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
@@ -52,4 +52,4 @@ private:
     bool isSeeding() const;
 };
 
-#endif // CORE_DOWNLOAD_TORRENT_ITEM_H
+#endif // CORE_JOB_TORRENT_H

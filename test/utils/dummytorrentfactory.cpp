@@ -16,7 +16,7 @@
 
 #include "dummytorrentfactory.h"
 
-#include <Core/Torrent>
+#include <Torrent/Torrent>
 
 #include <QtCore/QtMath>
 

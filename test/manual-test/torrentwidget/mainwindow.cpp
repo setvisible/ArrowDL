@@ -18,8 +18,7 @@
 #include "ui_mainwindow.h"
 
 #include <Core/Theme>
-#include <Core/Torrent>
-#include <Core/TorrentBaseContext>
+#include <Torrent/Torrent>
 #include <Widgets/TorrentWidget>
 
 #include "../../utils/dummytorrentanimator.h"
@@ -32,7 +31,6 @@
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
   , ui(new Ui::MainWindow)
-  , m_torrentContext(new TorrentBaseContext())
   , m_animator(new DummyTorrentAnimator(this))
 {
     ui->setupUi(this);
@@ -49,7 +47,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     connect(ui->halfButton, SIGNAL(released()), this, SLOT(onHalfClicked()));
 
     ui->torrentWidget->setTorrent(m_torrent.data());
-    ui->torrentWidget->setTorrentContext(m_torrentContext);
 
     m_animator->setTorrent(m_torrent.data());
 }

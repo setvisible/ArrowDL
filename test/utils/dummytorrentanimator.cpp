@@ -18,7 +18,7 @@
 
 #include "dummytorrentfactory.h"
 
-#include <Core/Torrent>
+#include <Torrent/Torrent>
 
 #include <QtCore/QDebug>
 #include <QtCore/QRandomGenerator>

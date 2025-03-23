@@ -18,7 +18,7 @@
 #include "ui_advancedsettingswidget.h"
 
 #include <Core/Theme>
-#include <Core/TorrentContext>
+#include <Torrent/TorrentContext>
 
 #include <QtCore/QDebug>
 #include <QtCore/QSignalBlocker>

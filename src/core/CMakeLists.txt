@@ -26,11 +26,6 @@ set(MY_SOURCES ${MY_SOURCES}
     ${CMAKE_SOURCE_DIR}/src/core/stream.cpp
     ${CMAKE_SOURCE_DIR}/src/core/streammanager.cpp
     ${CMAKE_SOURCE_DIR}/src/core/theme.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/torrent.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/torrentbasecontext.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/torrentcontext.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/torrentcontext_p.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/torrentmessage.cpp
     ${CMAKE_SOURCE_DIR}/src/core/updatechecker.cpp
     ${CMAKE_SOURCE_DIR}/src/core/updateinstaller.cpp
     ${CMAKE_SOURCE_DIR}/src/core/utils.cpp

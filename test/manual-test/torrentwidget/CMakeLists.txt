@@ -12,9 +12,8 @@ qt_standard_project_setup()
 set(MY_TEST_SOURCES
     ${CMAKE_SOURCE_DIR}/src/core/format.cpp
     ${CMAKE_SOURCE_DIR}/src/core/theme.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/torrent.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/torrentbasecontext.cpp
-    ${CMAKE_SOURCE_DIR}/src/core/torrentmessage.cpp
+    ${CMAKE_SOURCE_DIR}/src/torrent/torrent.cpp
+    ${CMAKE_SOURCE_DIR}/src/torrent/torrentmessage.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/customstyle.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/customstyleoptionprogressbar.cpp
     ${CMAKE_SOURCE_DIR}/src/widgets/torrentpiecemap.cpp
@@ -25,9 +24,9 @@ set(MY_TEST_SOURCES
 set(MY_TEST_HEADERS
     ${CMAKE_SOURCE_DIR}/src/core/format.h
     ${CMAKE_SOURCE_DIR}/src/core/theme.h
-    ${CMAKE_SOURCE_DIR}/src/core/torrent.h
-    ${CMAKE_SOURCE_DIR}/src/core/torrentbasecontext.h
-    ${CMAKE_SOURCE_DIR}/src/core/torrentmessage.h
+    ${CMAKE_SOURCE_DIR}/src/torrent/itorrentcontext.h
+    ${CMAKE_SOURCE_DIR}/src/torrent/torrent.h
+    ${CMAKE_SOURCE_DIR}/src/torrent/torrentmessage.h
     ${CMAKE_SOURCE_DIR}/src/widgets/customstyle.h
     ${CMAKE_SOURCE_DIR}/src/widgets/customstyleoptionprogressbar.h
     ${CMAKE_SOURCE_DIR}/src/widgets/globals.h

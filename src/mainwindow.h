@@ -17,18 +17,15 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <Core/AbstractJob>
-
 #include <QtWidgets/QMainWindow>
 
+class AbstractJob;
 class Scheduler;
 class StreamManager;
 class FileAccessManager;
 class Settings;
 class UpdateChecker;
 class SystemTray;
-
-using DownloadRange = QList<AbstractJob *>;
 
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -116,6 +113,7 @@ public slots:
 
 private slots:
     void onDataChanged();
+    void onMetricsChanged();
     void onJobFinished(AbstractJob *job);
     void onJobRenamed(const QString &oldName, const QString &newName, bool success);
     void onSelectionChanged();

@@ -19,8 +19,8 @@
 #include <Core/File>
 #include <Core/Format>
 #include <Core/ResourceItem>
-#include <Core/Torrent>
-#include <Core/TorrentContext>
+#include <Torrent/Torrent>
+#include <Torrent/TorrentContext>
 
 
 JobTorrent::JobTorrent(QObject *parent, ResourceItem *resource)
