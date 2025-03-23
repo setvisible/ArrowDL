@@ -49,12 +49,13 @@ Scheduler::Scheduler(QObject *parent) : QObject(parent)
     , m_queueModel(new QueueModel(this))
     , m_networkManager(new NetworkManager(this))
     , m_snapshot(new Snapshot(this))
-    , m_speedTimer(new QTimer(this))
+    , m_metricsTimer(new QTimer(this))
 {
-    connect(this, SIGNAL(jobFinished(AbstractJob*)),
-            this, SLOT(startNext(AbstractJob*)));
+    connect(this, SIGNAL(jobFinished(AbstractJob*)), this, SLOT(startNext(AbstractJob*)));
 
-    connect(m_speedTimer, SIGNAL(timeout()), this, SLOT(onSpeedTimerTimeout()));
+    connect(m_metricsTimer, SIGNAL(timeout()), this, SLOT(onMetricsTimerTimeout()));
+    m_metricsTimer->setSingleShot(false);
+    m_metricsTimer->start(METRICS_TIMEOUT_MSEC);
 }
 
 Scheduler::~Scheduler()
@@ -293,24 +294,34 @@ QList<AbstractJob*> Scheduler::runningJobs() const
 
 /******************************************************************************
  ******************************************************************************/
-void Scheduler::onSpeedTimerTimeout()
+qreal Scheduler::totalSpeed()
 {
-    m_speedTimer->stop();
-    m_previouSpeed = 0;
-    emit onJobChanged();
+    return m_metricsSpeed;
 }
 
-qreal Scheduler::totalSpeed()
+void Scheduler::onMetricsTimerTimeout()
 {
     qreal speed = 0;
     for (auto job : jobs()) {
-        speed += qMax(job->speed(), qreal(0));
+        speed += qMax(job->speed(), qreal(0)); // speed is negative for pending jobs
     }
+
     if (speed > 0) {
-        m_previouSpeed = speed;
-        m_speedTimer->start(MSEC_SPEED_DISPLAY_TIME);
+        m_metricsLoopCount = 0;
+    } else {
+        // When speed is 0 (i.e. all jobs are finished), the metrics aren't updated immediatelty.
+        // Instead, the previous metrics is kept as-is for a couple of seconds,
+        // to let us read the values, then it's updated.
+        if (m_metricsLoopCount < METRICS_LOOP_COUNTER) {
+            m_metricsLoopCount++;
+            return;
+        }
     }
-    return m_previouSpeed;
+
+    if (m_metricsSpeed != speed) {
+        m_metricsSpeed = speed;
+        emit metricsChanged();
+    }
 }
 
 /******************************************************************************
