@@ -141,6 +141,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     /* Connect the SceneManager to the MainWindow. */
     /* The SceneManager centralizes the changes. */
+    connect(m_scheduler, SIGNAL(metricsChanged()), this, SLOT(onMetricsChanged()));
     connect(m_scheduler, SIGNAL(jobFinished(AbstractJob*)), this, SLOT(onJobFinished(AbstractJob*)));
     connect(m_scheduler, SIGNAL(jobRenamed(QString,QString,bool)), this, SLOT(onJobRenamed(QString,QString,bool)), Qt::QueuedConnection);
 
@@ -922,6 +923,11 @@ void MainWindow::onDataChanged()
     refreshMenus();
     refreshTitleAndStatus();
     m_scheduler->activateSnapshot();
+}
+
+void MainWindow::onMetricsChanged()
+{
+    refreshTitleAndStatus();
 }
 
 void MainWindow::onJobFinished(AbstractJob *job)

@@ -39,7 +39,8 @@ const std::chrono::milliseconds TIMEOUT_COUNT_DOWN(1000);
 const std::chrono::milliseconds TIMEOUT_INFO(150);
 
 const int SELECTION_DISPLAY_LIMIT = 10;
-const int MSEC_SPEED_DISPLAY_TIME = 2000;
+const int METRICS_TIMEOUT_MSEC = 500;
+const int METRICS_LOOP_COUNTER = 4; // 2000 msec (4*500) is enough to read values
 
 const int MSEC_AUTO_SAVE = 3000; ///< Autosave the queue every 3 seconds.
 

@@ -113,6 +113,7 @@ public slots:
 
 private slots:
     void onDataChanged();
+    void onMetricsChanged();
     void onJobFinished(AbstractJob *job);
     void onJobRenamed(const QString &oldName, const QString &newName, bool success);
     void onSelectionChanged();

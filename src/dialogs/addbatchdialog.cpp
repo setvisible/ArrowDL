@@ -338,7 +338,7 @@ QList<AbstractJob*> AddBatchDialog::createJobFiles(const QUrl &inputUrl) const
     QList<AbstractJob*> items;
     const QStringList urls = Regex::interpret(inputUrl);
     for (auto url : urls) {
-        items << createJobFiles(url);
+        items << createJobFile(url);
     }
     return items;
 }
