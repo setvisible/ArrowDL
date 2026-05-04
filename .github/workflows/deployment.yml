@@ -240,6 +240,22 @@ jobs:
         path: |
           ${{env.LibtorrentRasterbar_INSTALL_DIR}}
 
+    - name: Install NSIS
+      # Note: Github runners after windows-2022 don't include NSIS. NSIS must be installed manually
+      # Source: https://github.com/NSIS-Dev/ci-examples/blob/main/.github/workflows/windows-latest.yml
+      if: ${{ matrix.os == 'windows-latest' }}
+      uses: repolevedavaj/install-nsis@v1.1.0
+      with:
+        nsis-version: '3.12'
+
+    - name: Print NSIS version
+      if: ${{ matrix.os == 'windows-latest' }}
+      run: makensis -VERSION
+
+    - name: Print NSIS compile flags
+      if: ${{ matrix.os == 'windows-latest' }}
+      run: makensis -HDRINFO
+
     - name: Install Boost
       uses: MarkusJx/install-boost@v2.6.0
       id: install-boost
