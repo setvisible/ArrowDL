@@ -183,6 +183,10 @@ jobs:
                version = my_file.readline()
                version = ''.join(version.split())
            
+           version_major = None
+           version_minor = None
+           version_tiny = None
+           
            with open(r"${{env.LibtorrentRasterbar_VERSION_FILE}}", "rt") as my_file:
                for line in my_file:
                    x = regex_major.search(line)
@@ -319,7 +323,7 @@ jobs:
                openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libcrypto.lib"))
                openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libssl.lib"))
            
-           if "${{ matrix.os }}" == "ubuntu-latest":
+           elif "${{ matrix.os }}" == "ubuntu-latest":
                openssl_dir = os.path.normpath("/usr")
                openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "x86_64-linux-gnu", "libcrypto.a"))
                openssl_ssl_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "x86_64-linux-gnu", "libssl.a"))
@@ -619,9 +623,9 @@ jobs:
 
     - name: Publish
       uses: softprops/action-gh-release@v3
-      #if: startsWith(github.ref, 'refs/tags/') # Limit releases to pushes to tags
+      if: startsWith(github.ref, 'refs/tags/') # Limit releases to pushes to tags
       env:
-        BRANCH_OR_TAG_NAME: ${{ github.head_ref || github.ref_name }}
+        BRANCH_OR_TAG_NAME: ${{ github.ref_name }}
       with:
         tag_name: ${{env.BRANCH_OR_TAG_NAME}}
         name: ArrowDL ${{env.BRANCH_OR_TAG_NAME}}
