@@ -14,7 +14,7 @@ on:
 env:
   # We want to see all warnings for the project, but hide them for Libtorrent:
   CXX_FLAGS_Libtorrent: "-Wall -Wextra -Wpedantic -Wvla -Wno-noexcept-type -Wno-format-zero-length -ftemplate-depth=512 -Wno-attributes -Wno-narrowing -Wno-overflow -Wno-redundant-move -Wno-maybe-uninitialized" # -Wa,-mbig-obj"
-  CXX_FLAGS_Project: "-Wall -Wextra -Wpedantic -Wvla -ftemplate-depth=512" 
+  CXX_FLAGS_Project: "-Wall -Wextra -Wpedantic -Wvla -ftemplate-depth=512"
 
   BUILD_TYPE: "Release" # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BOOST_VERSION: 1.77.0
@@ -118,7 +118,7 @@ jobs:
     - name: Check out repository code
       uses: actions/checkout@v6
 
-#    - name: Clean Environment 
+#    - name: Clean Environment
 #      shell: python # otherwise Windows uses Powershell, Linux uses bash
 #      run: |
 #           import os
@@ -305,7 +305,7 @@ jobs:
       #        ./config
       #        make
       #        make test
-      #        sudo make install_sw 
+      #        sudo make install_sw
       #    Then:
       #    openssl_dir = os.path.normpath(os.path.join(r"${{env.QT_ROOT_DIR}}", "..", "..", "Tools", "OpenSSLv3", "src"))
       #    openssl_lib_eay = os.path.normpath(os.path.join(openssl_dir, "lib", "libcrypto.a"))
@@ -364,7 +364,7 @@ jobs:
           -DBUILD_SHARED_LIBS=OFF
           -Dstatic_runtime=ON
           -Dbuild_tests=${{env.BUILD_TESTS}}
-          -Ddeprecated-functions=${{env.DEPRECATED_FUNCTIONS}}  
+          -Ddeprecated-functions=${{env.DEPRECATED_FUNCTIONS}}
           -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}"
           -DOPENSSL_INCLUDE_DIR="${{env.OPENSSL_INCLUDE_DIR}}"
           -DLIB_EAY="${{env.OpenSSL_LIB_EAY}}"
